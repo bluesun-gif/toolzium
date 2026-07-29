@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Reader - Toolzium</title>
+  <meta name="description" content="Read and decode QR codes from images or using your camera. Free, fast, and secure online QR scanner.">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .qr-container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      text-align: center;
+      font-family: sans-serif;
+    }
+    .tabs {
+      display: flex;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid #ddd;
+    }
+    .tab {
+      flex: 1;
+      padding: 1rem;
+      cursor: pointer;
+      font-weight: bold;
+      color: #666;
+      transition: color 0.3s, border-bottom 0.3s;
+    }
+    .tab.active {
+      color: #007bff;
+      border-bottom: 2px solid #007bff;
+      margin-bottom: -2px;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    
+    .upload-area {
+      border: 2px dashed #007bff;
+      border-radius: 12px;
+      padding: 3rem;
+      background: #f8fbff;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .upload-area:hover {
+      background: #eef5ff;
+    }
+    .upload-area p {
+      margin: 1rem 0;
+      color: #555;
+    }
+    #file-input {
+      display: none;
+    }
+    
+    .camera-area {
+      position: relative;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+      max-width: 100%;
+      height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    #canvas {
+      display: none;
+    }
+    .result-box {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: #f9f9f9;
+      text-align: left;
+      display: none;
+    }
+    .result-box h3 {
+      margin-top: 0;
+      color: #333;
+    }
+    .result-content {
+      word-break: break-all;
+      font-family: monospace;
+      background: #fff;
+      padding: 1rem;
+      border: 1px solid #eee;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+    }
+    .btn {
+      padding: 0.6rem 1.2rem;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 1rem;
+    }
+    .btn:hover {
+      background: #0056b3;
+    }
+    #start-camera {
+      position: absolute;
+      z-index: 10;
+      font-size: 1.2rem;
+      padding: 1rem 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <a href="/" class="logo">Toolzium</a>
+      <nav class="nav-links">
+        <a href="/pdf/">PDF</a>
+        <a href="/image/">Image</a>
+        <a href="/text/">Text</a>
+        <a href="/developer/">Developer</a>
+        <a href="/calculator/">Calculator</a>
+        <a href="/converter/">Converter</a>
+        <a href="/ai/">AI Tools</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="qr-container">
+      <h1>QR Code Reader</h1>
+      <p>Scan a QR code using your camera or upload an image file.</p>
+      
+      <div class="tabs">
+        <div class="tab active" data-target="upload-tab">Upload Image</div>
+        <div class="tab" data-target="camera-tab">Scan with Camera</div>
+      </div>
+      
+      <div id="upload-tab" class="tab-content active">
+        <div class="upload-area" id="drop-area">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+          <p>Click to upload or drag & drop an image here</p>
+          <input type="file" id="file-input" accept="image/*">
+        </div>
+      </div>
+      
+      <div id="camera-tab" class="tab-content">
+        <div class="camera-area">
+          <button id="start-camera" class="btn">Start Camera</button>
+          <video id="video" playsinline hidden></video>
+          <canvas id="canvas"></canvas>
+        </div>
+      </div>
+      
+      <div class="result-box" id="result-box">
+        <h3>Decoded Content:</h3>
+        <div class="result-content" id="result-content"></div>
+        <a href="#" id="result-link" class="btn" target="_blank" style="display: none;">Open Link</a>
+        <button id="copy-btn" class="btn" style="background: #28a745;">Copy Text</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="privacy-badge">🔒 Your data never leaves your device.</div>
+    <div class="footer-links">
+      <a href="/">Home</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a>
+    </div>
+    <p class="copyright">&copy; 2026 Toolzium. All rights reserved.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Tabs logic
+      const tabs = document.querySelectorAll('.tab');
+      const tabContents = document.querySelectorAll('.tab-content');
+      
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          tabContents.forEach(c => c.classList.remove('active'));
+          
+          tab.classList.add('active');
+          document.getElementById(tab.dataset.target).classList.add('active');
+          
+          // Stop camera if switching away
+          if(tab.dataset.target !== 'camera-tab') {
+            stopCamera();
+          }
+        });
+      });
+
+      // Result logic
+      const resultBox = document.getElementById('result-box');
+      const resultContent = document.getElementById('result-content');
+      const resultLink = document.getElementById('result-link');
+      const copyBtn = document.getElementById('copy-btn');
+      
+      function showResult(text) {
+        resultContent.textContent = text;
+        resultBox.style.display = 'block';
+        
+        try {
+          const url = new URL(text);
+          resultLink.href = url.href;
+          resultLink.style.display = 'inline-block';
+        } catch(e) {
+          resultLink.style.display = 'none';
+        }
+      }
+      
+      copyBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(resultContent.textContent).then(() => {
+          const orig = copyBtn.textContent;
+          copyBtn.textContent = 'Copied!';
+          setTimeout(() => copyBtn.textContent = orig, 2000);
+        });
+      });
+
+      // File upload logic
+      const fileInput = document.getElementById('file-input');
+      const dropArea = document.getElementById('drop-area');
+      
+      dropArea.addEventListener('click', () => fileInput.click());
+      
+      dropArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropArea.style.background = '#eef5ff';
+      });
+      
+      dropArea.addEventListener('dragleave', () => {
+        dropArea.style.background = '#f8fbff';
+      });
+      
+      dropArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropArea.style.background = '#f8fbff';
+        if (e.dataTransfer.files.length) {
+          handleFile(e.dataTransfer.files[0]);
+        }
+      });
+      
+      fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length) {
+          handleFile(e.target.files[0]);
+        }
+      });
+      
+      function handleFile(file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const code = jsQR(imageData.data, imageData.width, imageData.height);
+            
+            if (code) {
+              showResult(code.data);
+            } else {
+              alert('No QR code found in this image.');
+            }
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+
+      // Camera logic
+      const video = document.getElementById('video');
+      const canvasElement = document.getElementById('canvas');
+      const canvas = canvasElement.getContext('2d');
+      const startCameraBtn = document.getElementById('start-camera');
+      let stream = null;
+      let scanning = false;
+      
+      startCameraBtn.addEventListener('click', () => {
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function(s) {
+          stream = s;
+          video.srcObject = stream;
+          video.setAttribute("playsinline", true);
+          video.play();
+          video.hidden = false;
+          startCameraBtn.hidden = true;
+          scanning = true;
+          requestAnimationFrame(tick);
+        }).catch(err => {
+          alert('Error accessing camera: ' + err.message);
+        });
+      });
+      
+      function stopCamera() {
+        if(stream) {
+          stream.getTracks().forEach(track => track.stop());
+          stream = null;
+        }
+        scanning = false;
+        video.hidden = true;
+        startCameraBtn.hidden = false;
+      }
+      
+      function tick() {
+        if (!scanning) return;
+        
+        if (video.readyState === video.HAVE_ENOUGH_DATA) {
+          canvasElement.height = video.videoHeight;
+          canvasElement.width = video.videoWidth;
+          canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
+          var imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
+          var code = jsQR(imageData.data, imageData.width, imageData.height, {
+            inversionAttempts: "dontInvert",
+          });
+          
+          if (code) {
+            stopCamera();
+            showResult(code.data);
+          }
+        }
+        
+        if(scanning) {
+          requestAnimationFrame(tick);
+        }
+      }
+    });
+  </script>
+</body>
+</html>

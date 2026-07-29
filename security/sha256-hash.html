@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHA-256 Hash Generator - Secure Online Tool | Toolzium</title>
+    <meta name="description" content="Generate SHA-256 hashes from text instantly using your browser's Web Crypto API. Fast, secure, and privacy-friendly.">
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "SHA-256 Hash Generator",
+      "operatingSystem": "Any",
+      "applicationCategory": "DeveloperApplication",
+      "description": "Generate SHA-256 hashes from text instantly using your browser's Web Crypto API.",
+      "url": "https://toolzium.com/security/sha256-hash.html"
+    }
+    </script>
+    <style>
+        .tool-container { max-width: 800px; margin: 2rem auto; padding: 2rem; background: #fff; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .control-group { margin-bottom: 1.5rem; }
+        .control-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
+        textarea { width: 100%; padding: 1rem; font-family: monospace; font-size: 1rem; border: 1px solid #ccc; border-radius: 4px; resize: vertical; box-sizing: border-box; }
+        .input-area { height: 150px; }
+        .output-area { height: 80px; background: #f8f9fa; }
+        .btn { padding: 0.75rem 1.5rem; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem; font-weight: bold; }
+        .btn-primary { background: #007bff; color: white; }
+        .actions { display: flex; gap: 1rem; margin-top: 1rem; }
+        body { font-family: system-ui, -apple-system, sans-serif; background: #f4f7f6; color: #333; margin: 0; }
+        header .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: #222; color: #fff; }
+        header .logo { font-size: 1.5rem; font-weight: bold; color: #fff; text-decoration: none; }
+        header .nav-links a { color: #ccc; text-decoration: none; margin-left: 1rem; }
+        header .nav-links a:hover { color: #fff; }
+        footer { text-align: center; padding: 2rem; background: #222; color: #ccc; margin-top: 3rem; }
+        footer a { color: #ccc; margin: 0 1rem; text-decoration: none; }
+        footer a:hover { color: #fff; }
+        .privacy-badge { margin-bottom: 1rem; font-weight: bold; color: #28a745; }
+    </style>
+</head>
+<body>
+    <header>
+      <div class="navbar">
+        <a href="/" class="logo">Toolzium</a>
+        <nav class="nav-links">
+          <a href="/pdf/">PDF</a>
+          <a href="/image/">Image</a>
+          <a href="/text/">Text</a>
+          <a href="/developer/">Developer</a>
+          <a href="/calculator/">Calculator</a>
+          <a href="/converter/">Converter</a>
+          <a href="/ai/">AI Tools</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="tool-container">
+        <h1>SHA-256 Hash Generator</h1>
+        <p>Type or paste your text below to securely generate its SHA-256 hash using the Web Crypto API.</p>
+        
+        <div class="control-group">
+            <label for="input-text">Input Text:</label>
+            <textarea id="input-text" class="input-area" placeholder="Enter text here..."></textarea>
+        </div>
+
+        <div class="control-group">
+            <label for="output-hash">SHA-256 Hash:</label>
+            <textarea id="output-hash" class="output-area" readonly></textarea>
+        </div>
+
+        <div class="actions">
+            <button class="btn btn-primary" id="copy-btn">Copy Hash</button>
+        </div>
+    </main>
+
+    <footer>
+      <div class="privacy-badge">🔒 Your data never leaves your device.</div>
+      <div class="footer-links">
+        <a href="/">Home</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a>
+      </div>
+      <p class="copyright">&copy; 2026 Toolzium. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const inputText = document.getElementById('input-text');
+        const outputHash = document.getElementById('output-hash');
+        const copyBtn = document.getElementById('copy-btn');
+
+        async function generateHash() {
+            const text = inputText.value;
+            if (text) {
+                const encoder = new TextEncoder();
+                const data = encoder.encode(text);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+                outputHash.value = hashHex;
+            } else {
+                outputHash.value = '';
+            }
+        }
+
+        inputText.addEventListener('input', generateHash);
+
+        copyBtn.addEventListener('click', () => {
+            if(!outputHash.value) return;
+            outputHash.select();
+            document.execCommand('copy');
+            const originalText = copyBtn.textContent;
+            copyBtn.textContent = 'Copied!';
+            setTimeout(() => copyBtn.textContent = originalText, 2000);
+        });
+    </script>
+</body>
+</html>

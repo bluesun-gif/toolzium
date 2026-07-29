@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Diff Checker - Toolzium</title>
+    <meta name="description" content="Compare two texts side by side to see the differences.">
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Text Diff Checker",
+      "applicationCategory": "UtilitiesApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0"
+      }
+    }
+    </script>
+</head>
+<body>
+    <header>
+      <div class="navbar">
+        <a href="/" class="logo">Toolzium</a>
+        <nav class="nav-links">
+          <a href="/pdf/">PDF</a>
+          <a href="/image/">Image</a>
+          <a href="/text/" class="active">Text</a>
+          <a href="/developer/">Developer</a>
+          <a href="/calculator/">Calculator</a>
+          <a href="/converter/">Converter</a>
+          <a href="/ai/">AI Tools</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="tool-workspace">
+        <div class="tool-container">
+            <h1>Text Diff Checker</h1>
+            
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; margin-bottom:15px;">
+                <div>
+                    <h3>Original Text</h3>
+                    <textarea id="input1" class="tool-input"></textarea>
+                </div>
+                <div>
+                    <h3>Modified Text</h3>
+                    <textarea id="input2" class="tool-input"></textarea>
+                </div>
+            </div>
+            <button class="btn-primary" onclick="compare()">Compare Texts</button>
+            <div id="output" class="output-area" style="background:#222; color:#fff; overflow-y:auto; padding:15px; line-height:1.5;"></div>
+        
+            <div class="ad-placeholder" style="margin-top: 20px; padding: 20px; background: #333; text-align: center; border: 1px dashed #666; min-height: 90px; color: #888;">
+                AdSense Placeholder
+            </div>
+        </div>
+    </main>
+
+    <footer>
+      <div class="privacy-badge">🔒 Your data never leaves your device.</div>
+      <div class="footer-links">
+        <a href="/">Home</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a>
+      </div>
+      <p class="copyright">&copy; 2026 Toolzium. All rights reserved.</p>
+    </footer>
+
+    <script>
+
+            function compare() {
+                const t1 = document.getElementById('input1').value.split('\n');
+                const t2 = document.getElementById('input2').value.split('\n');
+                let html = '';
+                const max = Math.max(t1.length, t2.length);
+                for(let i=0; i<max; i++) {
+                    if(t1[i] !== t2[i]) {
+                        if(t1[i] !== undefined) html += `<div style="background:rgba(220,53,69,0.3); padding:2px 5px; margin-bottom:2px; text-decoration:line-through;">- ${t1[i] || ''}</div>`;
+                        if(t2[i] !== undefined) html += `<div style="background:rgba(40,167,69,0.3); padding:2px 5px; margin-bottom:2px;">+ ${t2[i] || ''}</div>`;
+                    } else {
+                        html += `<div style="color:#aaa; padding:2px 5px; margin-bottom:2px;">  ${t1[i]}</div>`;
+                    }
+                }
+                document.getElementById('output').innerHTML = html || 'No differences found.';
+            }
+        
+    </script>
+</body>
+</html>

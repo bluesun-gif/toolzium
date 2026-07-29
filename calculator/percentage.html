@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Percentage Calculator | Toolzium</title>
+  <meta name="description" content="Free online percentage calculator. Calculate percentages, percentage change, and more easily.">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Percentage Calculator",
+    "description": "Calculate percentages quickly with our free online percentage calculator.",
+    "applicationCategory": "CalculatorApplication",
+    "operatingSystem": "All"
+  }
+  </script>
+  <style>
+    .calculator-container { max-width: 600px; margin: 40px auto; padding: 30px; background: #fff; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); font-family: system-ui, sans-serif; }
+    .calc-section { margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #eee; }
+    .calc-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .calc-section h2 { font-size: 1.2rem; color: #333; margin-bottom: 15px; }
+    .input-group { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
+    .input-group input { padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; width: 100px; flex: 1; min-width: 100px; }
+    .input-group button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 1rem; font-weight: 600; transition: background 0.3s; }
+    .input-group button:hover { background: #0056b3; }
+    .result { font-size: 1.2rem; font-weight: bold; color: #28a745; margin-top: 10px; min-height: 28px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <a href="/" class="logo">Toolzium</a>
+      <nav class="nav-links">
+        <a href="/pdf/">PDF</a>
+        <a href="/image/">Image</a>
+        <a href="/text/">Text</a>
+        <a href="/developer/">Developer</a>
+        <a href="/calculator/">Calculator</a>
+        <a href="/converter/">Converter</a>
+        <a href="/ai/">AI Tools</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="calculator-container">
+      <h1>Percentage Calculator</h1>
+      
+      <div class="calc-section">
+        <h2>1. What is X% of Y?</h2>
+        <div class="input-group">
+          What is <input type="number" id="p1-x" placeholder="X"> % of <input type="number" id="p1-y" placeholder="Y">
+          <button onclick="calc1()">Calculate</button>
+        </div>
+        <div class="result" id="res1"></div>
+      </div>
+
+      <div class="calc-section">
+        <h2>2. X is what % of Y?</h2>
+        <div class="input-group">
+          <input type="number" id="p2-x" placeholder="X"> is what % of <input type="number" id="p2-y" placeholder="Y">
+          <button onclick="calc2()">Calculate</button>
+        </div>
+        <div class="result" id="res2"></div>
+      </div>
+
+      <div class="calc-section">
+        <h2>3. Percentage Increase/Decrease</h2>
+        <div class="input-group">
+          From <input type="number" id="p3-x" placeholder="X"> to <input type="number" id="p3-y" placeholder="Y">
+          <button onclick="calc3()">Calculate</button>
+        </div>
+        <div class="result" id="res3"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="privacy-badge">🔒 Your data never leaves your device.</div>
+    <div class="footer-links">
+      <a href="/">Home</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a>
+    </div>
+    <p class="copyright">&copy; 2026 Toolzium. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function calc1() {
+      const x = parseFloat(document.getElementById('p1-x').value);
+      const y = parseFloat(document.getElementById('p1-y').value);
+      if(!isNaN(x) && !isNaN(y)) {
+        const res = (x / 100) * y;
+        document.getElementById('res1').innerText = `${x}% of ${y} is ${res.toLocaleString()}`;
+      } else {
+        document.getElementById('res1').innerText = 'Please enter valid numbers.';
+      }
+    }
+    function calc2() {
+      const x = parseFloat(document.getElementById('p2-x').value);
+      const y = parseFloat(document.getElementById('p2-y').value);
+      if(!isNaN(x) && !isNaN(y) && y !== 0) {
+        const res = (x / y) * 100;
+        document.getElementById('res2').innerText = `${x} is ${res.toFixed(2)}% of ${y}`;
+      } else {
+        document.getElementById('res2').innerText = 'Please enter valid numbers (Y cannot be 0).';
+      }
+    }
+    function calc3() {
+      const x = parseFloat(document.getElementById('p3-x').value);
+      const y = parseFloat(document.getElementById('p3-y').value);
+      if(!isNaN(x) && !isNaN(y) && x !== 0) {
+        const diff = y - x;
+        const res = (Math.abs(diff) / x) * 100;
+        const type = diff >= 0 ? 'Increase' : 'Decrease';
+        document.getElementById('res3').innerText = `${type} of ${res.toFixed(2)}%`;
+      } else {
+        document.getElementById('res3').innerText = 'Please enter valid numbers (X cannot be 0).';
+      }
+    }
+  </script>
+</body>
+</html>

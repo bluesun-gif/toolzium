@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Generator - Toolzium</title>
+  <meta name="description" content="Generate custom QR codes from text or URLs instantly. Customize size and color. Download your QR code as a PNG. Free online tool.">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .qr-container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      text-align: center;
+      font-family: sans-serif;
+    }
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      text-align: left;
+    }
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .input-group label {
+      font-weight: bold;
+      color: #333;
+    }
+    .input-group input[type="text"] {
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    .options {
+      display: flex;
+      gap: 1rem;
+    }
+    .options > div {
+      flex: 1;
+    }
+    .input-group input[type="color"] {
+      width: 100%;
+      height: 42px;
+      padding: 0;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .input-group select {
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 1rem;
+      width: 100%;
+    }
+    button.primary-btn {
+      padding: 1rem 2rem;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button.primary-btn:hover {
+      background: #0056b3;
+    }
+    button.secondary-btn {
+      padding: 0.8rem 1.5rem;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 1.5rem;
+      display: none;
+    }
+    button.secondary-btn:hover {
+      background: #218838;
+    }
+    #qrcode {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+      min-height: 200px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <a href="/" class="logo">Toolzium</a>
+      <nav class="nav-links">
+        <a href="/pdf/">PDF</a>
+        <a href="/image/">Image</a>
+        <a href="/text/">Text</a>
+        <a href="/developer/">Developer</a>
+        <a href="/calculator/">Calculator</a>
+        <a href="/converter/">Converter</a>
+        <a href="/ai/">AI Tools</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="qr-container">
+      <h1>QR Code Generator</h1>
+      <p>Enter text or a URL to generate a custom QR code.</p>
+      
+      <div class="controls">
+        <div class="input-group">
+          <label for="qr-text">Text or URL</label>
+          <input type="text" id="qr-text" placeholder="https://example.com" value="https://example.com">
+        </div>
+        
+        <div class="options">
+          <div class="input-group">
+            <label for="qr-size">Size</label>
+            <select id="qr-size">
+              <option value="128">128x128</option>
+              <option value="256" selected>256x256</option>
+              <option value="512">512x512</option>
+              <option value="1024">1024x1024</option>
+            </select>
+          </div>
+          
+          <div class="input-group">
+            <label for="qr-color-dark">Foreground Color</label>
+            <input type="color" id="qr-color-dark" value="#000000">
+          </div>
+          
+          <div class="input-group">
+            <label for="qr-color-light">Background Color</label>
+            <input type="color" id="qr-color-light" value="#ffffff">
+          </div>
+        </div>
+        
+        <button class="primary-btn" id="generate-btn">Generate QR Code</button>
+      </div>
+
+      <div id="qrcode"></div>
+      <button class="secondary-btn" id="download-btn">Download PNG</button>
+    </div>
+  </main>
+
+  <footer>
+    <div class="privacy-badge">🔒 Your data never leaves your device.</div>
+    <div class="footer-links">
+      <a href="/">Home</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a>
+    </div>
+    <p class="copyright">&copy; 2026 Toolzium. All rights reserved.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const qrcodeContainer = document.getElementById('qrcode');
+      const textInput = document.getElementById('qr-text');
+      const sizeInput = document.getElementById('qr-size');
+      const colorDarkInput = document.getElementById('qr-color-dark');
+      const colorLightInput = document.getElementById('qr-color-light');
+      const generateBtn = document.getElementById('generate-btn');
+      const downloadBtn = document.getElementById('download-btn');
+      
+      let qrcode = null;
+
+      function generateQR() {
+        const text = textInput.value.trim();
+        if (!text) {
+          alert('Please enter text or URL');
+          return;
+        }
+
+        const size = parseInt(sizeInput.value);
+        const colorDark = colorDarkInput.value;
+        const colorLight = colorLightInput.value;
+
+        // Clear previous QR code
+        qrcodeContainer.innerHTML = '';
+        downloadBtn.style.display = 'none';
+
+        qrcode = new QRCode(qrcodeContainer, {
+          text: text,
+          width: size,
+          height: size,
+          colorDark : colorDark,
+          colorLight : colorLight,
+          correctLevel : QRCode.CorrectLevel.H
+        });
+
+        // Show download button after a short delay to ensure canvas is rendered
+        setTimeout(() => {
+          const canvas = qrcodeContainer.querySelector('canvas');
+          if (canvas) {
+            downloadBtn.style.display = 'inline-block';
+          }
+        }, 100);
+      }
+
+      generateBtn.addEventListener('click', generateQR);
+
+      downloadBtn.addEventListener('click', () => {
+        const canvas = qrcodeContainer.querySelector('canvas');
+        if (canvas) {
+          const url = canvas.toDataURL('image/png');
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'qr-code.png';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        }
+      });
+
+      // Generate initial QR code
+      generateQR();
+    });
+  </script>
+</body>
+</html>

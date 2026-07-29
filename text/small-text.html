@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Small Text Generator - Toolzium</title>
+    <meta name="description" content="Convert text to superscript (ˢᵐᵃˡˡ), subscript, and other small Unicode variants.">
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Small Text Generator",
+      "applicationCategory": "UtilitiesApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0"
+      }
+    }
+    </script>
+</head>
+<body>
+    <header>
+      <div class="navbar">
+        <a href="/" class="logo">Toolzium</a>
+        <nav class="nav-links">
+          <a href="/pdf/">PDF</a>
+          <a href="/image/">Image</a>
+          <a href="/text/" class="active">Text</a>
+          <a href="/developer/">Developer</a>
+          <a href="/calculator/">Calculator</a>
+          <a href="/converter/">Converter</a>
+          <a href="/ai/">AI Tools</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="tool-workspace">
+        <div class="tool-container">
+            <h1>Small Text Generator</h1>
+            
+            <textarea id="input" class="tool-input" placeholder="Type text to convert..."></textarea>
+            <h3>Superscript</h3>
+            <div id="super" class="output-area" style="min-height:50px; background:#222;"></div>
+            <button class="btn-secondary" onclick="navigator.clipboard.writeText(document.getElementById('super').innerText)">Copy Superscript</button>
+            <h3 style="margin-top:20px;">Subscript</h3>
+            <div id="sub" class="output-area" style="min-height:50px; background:#222;"></div>
+            <button class="btn-secondary" onclick="navigator.clipboard.writeText(document.getElementById('sub').innerText)">Copy Subscript</button>
+        
+            <div class="ad-placeholder" style="margin-top: 20px; padding: 20px; background: #333; text-align: center; border: 1px dashed #666; min-height: 90px; color: #888;">
+                AdSense Placeholder
+            </div>
+        </div>
+    </main>
+
+    <footer>
+      <div class="privacy-badge">🔒 Your data never leaves your device.</div>
+      <div class="footer-links">
+        <a href="/">Home</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a>
+      </div>
+      <p class="copyright">&copy; 2026 Toolzium. All rights reserved.</p>
+    </footer>
+
+    <script>
+
+            const supMap = {'a':'ᵃ','b':'ᵇ','c':'ᶜ','d':'ᵈ','e':'ᵉ','f':'ᶠ','g':'ᵍ','h':'ʰ','i':'ⁱ','j':'ʲ','k':'ᵏ','l':'ˡ','m':'ᵐ','n':'ⁿ','o':'ᵒ','p':'ᵖ','q':'ᵠ','r':'ʳ','s':'ˢ','t':'ᵗ','u':'ᵘ','v':'ᵛ','w':'ʷ','x':'ˣ','y':'ʸ','z':'ᶻ', '0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'};
+            const subMap = {'a':'ₐ','e':'ₑ','h':'ₕ','i':'ᵢ','j':'ⱼ','k':'ₖ','l':'ₗ','m':'ₘ','n':'ₙ','o':'ₒ','p':'ₚ','r':'ᵣ','s':'ₛ','t':'ₜ','u':'ᵤ','v':'ᵥ','x':'ₓ', '0':'₀','1':'₁','2':'₂','3':'₃','4':'₄','5':'₅','6':'₆','7':'₇','8':'₈','9':'₉'};
+            document.getElementById('input').addEventListener('input', function() {
+                const t = this.value.toLowerCase();
+                document.getElementById('super').innerText = t.split('').map(c => supMap[c] || c).join('');
+                document.getElementById('sub').innerText = t.split('').map(c => subMap[c] || c).join('');
+            });
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timer & Stopwatch | Toolzium</title>
+  <meta name="description" content="Online countdown timer and stopwatch with audio alert.">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .container { max-width: 600px; margin: 2rem auto; padding: 2rem; background: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; }
+    .tabs { display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; border-bottom: 2px solid #eee; padding-bottom: 1rem; }
+    .tab { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #777; font-weight: bold; }
+    .tab.active { color: #007bff; border-bottom: 2px solid #007bff; padding-bottom: 5px; }
+    .display { font-size: 4rem; font-family: monospace; font-weight: bold; margin: 2rem 0; color: #333; }
+    .inputs { display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; }
+    .inputs input { width: 60px; padding: 0.5rem; font-size: 1.2rem; text-align: center; border: 1px solid #ccc; border-radius: 6px; }
+    .controls { display: flex; justify-content: center; gap: 1rem; }
+    .btn { padding: 0.8rem 2rem; border: none; background: #007bff; color: #fff; border-radius: 6px; font-size: 1.1rem; cursor: pointer; transition: background 0.3s; }
+    .btn:hover { background: #0056b3; }
+    .btn-danger { background: #dc3545; }
+    .btn-danger:hover { background: #c82333; }
+    .btn-secondary { background: #6c757d; }
+    .btn-secondary:hover { background: #5a6268; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <a href="/" class="logo">Toolzium</a>
+      <nav class="nav-links">
+        <a href="/pdf/">PDF</a>
+        <a href="/image/">Image</a>
+        <a href="/text/">Text</a>
+        <a href="/developer/">Developer</a>
+        <a href="/calculator/">Calculator</a>
+        <a href="/converter/">Converter</a>
+        <a href="/ai/">AI Tools</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tabs">
+      <button class="tab active" id="tabTimer" onclick="switchMode('timer')">Countdown Timer</button>
+      <button class="tab" id="tabStopwatch" onclick="switchMode('stopwatch')">Stopwatch</button>
+    </div>
+
+    <!-- Timer Section -->
+    <div id="timerSection">
+      <div class="inputs" id="timerInputs">
+        <input type="number" id="h" min="0" max="99" value="0" placeholder="h"> : 
+        <input type="number" id="m" min="0" max="59" value="5" placeholder="m"> : 
+        <input type="number" id="s" min="0" max="59" value="0" placeholder="s">
+      </div>
+      <div class="display" id="timerDisplay">00:05:00</div>
+      <div class="controls">
+        <button class="btn" id="startTimerBtn" onclick="toggleTimer()">Start</button>
+        <button class="btn btn-secondary" onclick="resetTimer()">Reset</button>
+      </div>
+    </div>
+
+    <!-- Stopwatch Section -->
+    <div id="stopwatchSection" class="hidden">
+      <div class="display" id="stopwatchDisplay">00:00:00.00</div>
+      <div class="controls">
+        <button class="btn" id="startStopwatchBtn" onclick="toggleStopwatch()">Start</button>
+        <button class="btn btn-secondary" onclick="resetStopwatch()">Reset</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="privacy-badge">🔒 Your data never leaves your device.</div>
+    <div class="footer-links">
+      <a href="/">Home</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a>
+    </div>
+    <p class="copyright">&copy; 2026 Toolzium. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Audio context for beep
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playBeep() {
+      const oscillator = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+      oscillator.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+      oscillator.type = 'sine';
+      oscillator.frequency.value = 800;
+      gainNode.gain.setValueAtTime(1, audioCtx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1);
+      oscillator.start(audioCtx.currentTime);
+      oscillator.stop(audioCtx.currentTime + 1);
+    }
+
+    // Timer Logic
+    let timerInterval = null;
+    let timerSeconds = 0;
+    let isTimerRunning = false;
+
+    function formatTime(totalSeconds) {
+      const h = Math.floor(totalSeconds / 3600).toString().padStart(2, '0');
+      const m = Math.floor((totalSeconds % 3600) / 60).toString().padStart(2, '0');
+      const s = (totalSeconds % 60).toString().padStart(2, '0');
+      return `${h}:${m}:${s}`;
+    }
+
+    function updateTimerDisplay() {
+      document.getElementById('timerDisplay').innerText = formatTime(timerSeconds);
+    }
+
+    function toggleTimer() {
+      const btn = document.getElementById('startTimerBtn');
+      if (isTimerRunning) {
+        clearInterval(timerInterval);
+        isTimerRunning = false;
+        btn.innerText = "Resume";
+        btn.classList.remove("btn-danger");
+      } else {
+        if (timerSeconds === 0) {
+          const h = parseInt(document.getElementById('h').value) || 0;
+          const m = parseInt(document.getElementById('m').value) || 0;
+          const s = parseInt(document.getElementById('s').value) || 0;
+          timerSeconds = h * 3600 + m * 60 + s;
+        }
+        if (timerSeconds > 0) {
+          document.getElementById('timerInputs').classList.add('hidden');
+          isTimerRunning = true;
+          btn.innerText = "Pause";
+          btn.classList.add("btn-danger");
+          updateTimerDisplay();
+          
+          timerInterval = setInterval(() => {
+            timerSeconds--;
+            updateTimerDisplay();
+            if (timerSeconds <= 0) {
+              clearInterval(timerInterval);
+              isTimerRunning = false;
+              btn.innerText = "Start";
+              btn.classList.remove("btn-danger");
+              playBeep();
+              alert("Time's up!");
+              resetTimer();
+            }
+          }, 1000);
+        }
+      }
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      isTimerRunning = false;
+      timerSeconds = 0;
+      const btn = document.getElementById('startTimerBtn');
+      btn.innerText = "Start";
+      btn.classList.remove("btn-danger");
+      document.getElementById('timerInputs').classList.remove('hidden');
+      document.getElementById('timerDisplay').innerText = "00:00:00";
+    }
+
+    document.querySelectorAll('#timerInputs input').forEach(input => {
+      input.addEventListener('change', () => {
+        const h = parseInt(document.getElementById('h').value) || 0;
+        const m = parseInt(document.getElementById('m').value) || 0;
+        const s = parseInt(document.getElementById('s').value) || 0;
+        document.getElementById('timerDisplay').innerText = formatTime(h * 3600 + m * 60 + s);
+      });
+    });
+
+    // Stopwatch Logic
+    let swInterval = null;
+    let swStartTime = 0;
+    let swElapsedTime = 0;
+    let isSwRunning = false;
+
+    function formatStopwatch(ms) {
+      const totalSeconds = Math.floor(ms / 1000);
+      const h = Math.floor(totalSeconds / 3600).toString().padStart(2, '0');
+      const m = Math.floor((totalSeconds % 3600) / 60).toString().padStart(2, '0');
+      const s = (totalSeconds % 60).toString().padStart(2, '0');
+      const centi = Math.floor((ms % 1000) / 10).toString().padStart(2, '0');
+      return `${h}:${m}:${s}.${centi}`;
+    }
+
+    function toggleStopwatch() {
+      const btn = document.getElementById('startStopwatchBtn');
+      if (isSwRunning) {
+        clearInterval(swInterval);
+        isSwRunning = false;
+        btn.innerText = "Resume";
+        btn.classList.remove("btn-danger");
+      } else {
+        isSwRunning = true;
+        swStartTime = Date.now() - swElapsedTime;
+        btn.innerText = "Pause";
+        btn.classList.add("btn-danger");
+        
+        swInterval = setInterval(() => {
+          swElapsedTime = Date.now() - swStartTime;
+          document.getElementById('stopwatchDisplay').innerText = formatStopwatch(swElapsedTime);
+        }, 10);
+      }
+    }
+
+    function resetStopwatch() {
+      clearInterval(swInterval);
+      isSwRunning = false;
+      swElapsedTime = 0;
+      const btn = document.getElementById('startStopwatchBtn');
+      btn.innerText = "Start";
+      btn.classList.remove("btn-danger");
+      document.getElementById('stopwatchDisplay').innerText = "00:00:00.00";
+    }
+
+    function switchMode(mode) {
+      document.getElementById('tabTimer').classList.remove('active');
+      document.getElementById('tabStopwatch').classList.remove('active');
+      document.getElementById('timerSection').classList.add('hidden');
+      document.getElementById('stopwatchSection').classList.add('hidden');
+
+      if (mode === 'timer') {
+        document.getElementById('tabTimer').classList.add('active');
+        document.getElementById('timerSection').classList.remove('hidden');
+      } else {
+        document.getElementById('tabStopwatch').classList.add('active');
+        document.getElementById('stopwatchSection').classList.remove('hidden');
+      }
+    }
+  </script>
+</body>
+</html>

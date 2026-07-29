@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coin Flip | Toolzium</title>
+  <meta name="description" content="Flip a virtual coin with animation, track history and statistics.">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .container { max-width: 600px; margin: 2rem auto; padding: 2rem; background: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; }
+    .coin-container { margin: 3rem auto; width: 150px; height: 150px; perspective: 1000px; }
+    .coin { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 3s cubic-bezier(0.4, 0.2, 0.2, 1); cursor: pointer; }
+    .coin div { width: 100%; height: 100%; position: absolute; backface-visibility: hidden; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold; color: white; border: 5px solid #dfa500; }
+    .heads { background: radial-gradient(circle, #fceabb 0%, #f8b500 100%); }
+    .tails { background: radial-gradient(circle, #f8b500 0%, #fceabb 100%); transform: rotateX(180deg); }
+    .btn { padding: 0.8rem 2rem; border: none; background: #007bff; color: #fff; border-radius: 6px; font-size: 1.1rem; cursor: pointer; transition: background 0.3s; margin-top: 1rem; }
+    .btn:hover { background: #0056b3; }
+    .btn:disabled { background: #ccc; cursor: not-allowed; }
+    .stats { display: flex; justify-content: space-around; margin: 2rem 0; padding: 1rem; background: #f8f9fa; border-radius: 8px; }
+    .history { text-align: left; max-height: 200px; overflow-y: auto; padding: 1rem; border: 1px solid #eee; border-radius: 8px; }
+    .history ul { list-style: none; padding: 0; margin: 0; }
+    .history li { padding: 0.5rem; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; }
+    .result-text { font-size: 1.5rem; font-weight: bold; margin: 1rem 0; min-height: 2rem; color: #333; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <a href="/" class="logo">Toolzium</a>
+      <nav class="nav-links">
+        <a href="/pdf/">PDF</a>
+        <a href="/image/">Image</a>
+        <a href="/text/">Text</a>
+        <a href="/developer/">Developer</a>
+        <a href="/calculator/">Calculator</a>
+        <a href="/converter/">Converter</a>
+        <a href="/ai/">AI Tools</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1>Coin Flip</h1>
+    
+    <div class="coin-container">
+      <div class="coin" id="coin" onclick="flipCoin()">
+        <div class="heads">Heads</div>
+        <div class="tails">Tails</div>
+      </div>
+    </div>
+
+    <div class="result-text" id="resultText">Click the coin or button to flip!</div>
+    
+    <button class="btn" id="flipBtn" onclick="flipCoin()">Flip Coin</button>
+
+    <div class="stats">
+      <div>Total Flips: <strong id="totalCount">0</strong></div>
+      <div>Heads: <strong id="headsCount">0</strong></div>
+      <div>Tails: <strong id="tailsCount">0</strong></div>
+    </div>
+
+    <div class="history">
+      <h3>History <button style="float:right; font-size: 0.8rem; border:none; background:none; color:#007bff; cursor:pointer;" onclick="clearHistory()">Clear</button></h3>
+      <ul id="historyList"></ul>
+    </div>
+  </main>
+
+  <footer>
+    <div class="privacy-badge">🔒 Your data never leaves your device.</div>
+    <div class="footer-links">
+      <a href="/">Home</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a>
+    </div>
+    <p class="copyright">&copy; 2026 Toolzium. All rights reserved.</p>
+  </footer>
+
+  <script>
+    let heads = 0;
+    let tails = 0;
+    let total = 0;
+    let isFlipping = false;
+
+    function flipCoin() {
+      if (isFlipping) return;
+      isFlipping = true;
+      
+      const coin = document.getElementById('coin');
+      const btn = document.getElementById('flipBtn');
+      const resultText = document.getElementById('resultText');
+      
+      btn.disabled = true;
+      resultText.innerText = "Flipping...";
+      
+      // Reset transition to snap back to 0 temporarily if needed, 
+      // but continuous spinning looks better by adding to current rotation
+      const currentTransform = coin.style.transform;
+      let currentX = 0;
+      if (currentTransform) {
+        const match = currentTransform.match(/rotateX\(([-\d.]+)deg\)/);
+        if (match) currentX = parseFloat(match[1]);
+      }
+      
+      const result = Math.random() < 0.5 ? 'Heads' : 'Tails';
+      const spins = 5; // 5 full rotations
+      
+      let newX = currentX + (spins * 360);
+      
+      // If we want Tails, ensure the final angle % 360 == 180
+      // If we want Heads, ensure the final angle % 360 == 0
+      const remainder = newX % 360;
+      if (result === 'Heads') {
+        newX += (360 - remainder);
+      } else {
+        newX += (180 - remainder);
+      }
+      
+      coin.style.transform = `rotateX(${newX}deg)`;
+      
+      setTimeout(() => {
+        resultText.innerText = `It's ${result}!`;
+        updateStats(result);
+        isFlipping = false;
+        btn.disabled = false;
+      }, 3000);
+    }
+
+    function updateStats(result) {
+      total++;
+      if (result === 'Heads') heads++;
+      else tails++;
+      
+      document.getElementById('totalCount').innerText = total;
+      document.getElementById('headsCount').innerText = heads;
+      document.getElementById('tailsCount').innerText = tails;
+      
+      const historyList = document.getElementById('historyList');
+      const li = document.createElement('li');
+      li.innerHTML = `<span>Flip #${total}</span> <strong>${result}</strong>`;
+      historyList.prepend(li);
+    }
+
+    function clearHistory() {
+      heads = 0;
+      tails = 0;
+      total = 0;
+      document.getElementById('totalCount').innerText = 0;
+      document.getElementById('headsCount').innerText = 0;
+      document.getElementById('tailsCount').innerText = 0;
+      document.getElementById('historyList').innerHTML = '';
+      document.getElementById('resultText').innerText = 'Click the coin or button to flip!';
+      document.getElementById('coin').style.transform = `rotateX(0deg)`;
+    }
+  </script>
+</body>
+</html>

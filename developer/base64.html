@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Base64 Encoder & Decoder | Toolzium</title>
+  <meta name="description" content="Free online Base64 encoder and decoder. Convert text to Base64 or decode Base64 to text instantly.">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    body { margin: 0; font-family: system-ui, -apple-system, sans-serif; display: flex; flex-direction: column; min-height: 100vh; background: #f8fafc; }
+    .container { max-width: 900px; margin: 0 auto; padding: 2rem; flex: 1; width: 100%; box-sizing: border-box; }
+    .controls { display: flex; gap: 1rem; margin-bottom: 1.5rem; justify-content: center; }
+    .pane { display: flex; flex-direction: column; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin-bottom: 1.5rem; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .pane-header { padding: 0.75rem 1rem; background: #f1f5f9; border-bottom: 1px solid #e2e8f0; font-weight: 600; display: flex; justify-content: space-between; align-items: center; color: #334155; }
+    textarea { width: 100%; height: 200px; border: none; padding: 1rem; font-family: monospace; font-size: 14px; resize: vertical; outline: none; box-sizing: border-box; }
+    .btn { padding: 0.4rem 0.8rem; background: #2563eb; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.875rem; font-weight: 500; }
+    .btn:hover { background: #1d4ed8; }
+    .btn-secondary { background: #64748b; }
+    .btn-secondary:hover { background: #475569; }
+    .toggle { display: flex; border: 1px solid #cbd5e1; border-radius: 6px; overflow: hidden; background: #fff; }
+    .toggle label { padding: 0.6rem 1.5rem; cursor: pointer; border-right: 1px solid #cbd5e1; font-weight: 500; color: #475569; transition: all 0.2s; }
+    .toggle label:last-child { border-right: none; }
+    .toggle input:checked + label { background: #2563eb; color: white; }
+    .toggle input { display: none; }
+    .error { color: #b91c1c; font-size: 0.875rem; padding: 0.75rem 1rem; background: #fef2f2; border-bottom: 1px solid #fecaca; display: none; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <a href="/" class="logo">Toolzium</a>
+      <nav class="nav-links">
+        <a href="/pdf/">PDF</a>
+        <a href="/image/">Image</a>
+        <a href="/text/">Text</a>
+        <a href="/developer/" class="active">Developer</a>
+        <a href="/calculator/">Calculator</a>
+        <a href="/converter/">Converter</a>
+        <a href="/ai/">AI Tools</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1 style="text-align: center; margin-bottom: 0.5rem; color: #0f172a;">Base64 Encoder / Decoder</h1>
+    <p style="text-align: center; margin-bottom: 2rem; color: #64748b;">Convert text to Base64 format or decode Base64 back into readable text.</p>
+    
+    <div class="controls">
+      <div class="toggle">
+        <input type="radio" id="modeEncode" name="mode" value="encode" checked>
+        <label for="modeEncode">Encode to Base64</label>
+        <input type="radio" id="modeDecode" name="mode" value="decode">
+        <label for="modeDecode">Decode from Base64</label>
+      </div>
+    </div>
+
+    <div class="pane">
+      <div class="pane-header">
+        <span id="inputLabel">Text Input</span> 
+        <button class="btn btn-secondary" id="clearBtn">Clear</button>
+      </div>
+      <textarea id="input" placeholder="Type or paste here..."></textarea>
+    </div>
+    
+    <div class="pane">
+      <div class="pane-header">
+        <span id="outputLabel">Base64 Output</span> 
+        <button class="btn" id="copyBtn">Copy Output</button>
+      </div>
+      <div id="errorMsg" class="error"></div>
+      <textarea id="output" readonly></textarea>
+    </div>
+  </main>
+
+  <footer>
+    <div class="privacy-badge">🔒 Your data never leaves your device.</div>
+    <div class="footer-links">
+      <a href="/">Home</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a>
+    </div>
+    <p class="copyright">&copy; 2026 Toolzium. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const input = document.getElementById('input');
+    const output = document.getElementById('output');
+    const modeEncode = document.getElementById('modeEncode');
+    const modeDecode = document.getElementById('modeDecode');
+    const inputLabel = document.getElementById('inputLabel');
+    const outputLabel = document.getElementById('outputLabel');
+    const copyBtn = document.getElementById('copyBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const errorMsg = document.getElementById('errorMsg');
+
+    function updateLabels() {
+      if (modeEncode.checked) {
+        inputLabel.textContent = 'Text Input';
+        outputLabel.textContent = 'Base64 Output';
+      } else {
+        inputLabel.textContent = 'Base64 Input';
+        outputLabel.textContent = 'Text Output';
+      }
+      process();
+    }
+
+    function process() {
+      const val = input.value;
+      errorMsg.style.display = 'none';
+      if (!val) {
+        output.value = '';
+        return;
+      }
+      try {
+        if (modeEncode.checked) {
+          // encodeURIComponent deals with unicode characters
+          output.value = btoa(unescape(encodeURIComponent(val)));
+        } else {
+          output.value = decodeURIComponent(escape(atob(val)));
+        }
+      } catch (e) {
+        output.value = '';
+        errorMsg.textContent = 'Error: Invalid input for decoding. Ensure it is valid Base64.';
+        errorMsg.style.display = 'block';
+      }
+    }
+
+    input.addEventListener('input', process);
+    modeEncode.addEventListener('change', updateLabels);
+    modeDecode.addEventListener('change', updateLabels);
+    
+    clearBtn.addEventListener('click', () => {
+      input.value = '';
+      process();
+    });
+
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(output.value);
+      copyBtn.textContent = 'Copied!';
+      setTimeout(() => copyBtn.textContent = 'Copy Output', 2000);
+    });
+  </script>
+</body>
+</html>

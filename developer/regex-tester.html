@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Regex Tester | Toolzium</title>
+  <meta name="description" content="Free online Regular Expression tester. Test and debug regex patterns instantly.">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    body { margin: 0; font-family: system-ui, -apple-system, sans-serif; display: flex; flex-direction: column; min-height: 100vh; background: #f8fafc; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 2rem; flex: 1; width: 100%; box-sizing: border-box; }
+    .pane { border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin-bottom: 1.5rem; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .pane-header { padding: 0.75rem 1rem; background: #f1f5f9; border-bottom: 1px solid #e2e8f0; font-weight: 600; color: #334155; display: flex; justify-content: space-between; align-items: center; }
+    .regex-group { display: flex; align-items: center; padding: 1rem; background: #fff; gap: 0.5rem; flex-wrap: wrap; }
+    .regex-group input { padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 6px; font-family: monospace; font-size: 1rem; outline: none; }
+    .regex-group input:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+    #regexPattern { flex: 1; min-width: 200px; }
+    #regexFlags { width: 80px; text-align: center; }
+    .regex-label { font-size: 1.25rem; font-weight: bold; color: #64748b; font-family: monospace; }
+    
+    .test-area { display: flex; flex-direction: column; height: 350px; }
+    .test-area textarea, .test-area .highlights { flex: 1; padding: 1rem; font-family: monospace; font-size: 14px; line-height: 1.5; outline: none; border: none; resize: none; width: 100%; box-sizing: border-box; }
+    .test-area textarea { border-bottom: 1px solid #e2e8f0; }
+    .test-area .highlights { background: #fafafa; overflow: auto; white-space: pre-wrap; word-wrap: break-word; color: #334155; }
+    .highlight { background-color: #bbf7d0; border-radius: 2px; }
+    .highlight:nth-child(even) { background-color: #fef08a; }
+    
+    .stats { padding: 0.75rem 1rem; background: #f8fafc; font-size: 0.875rem; color: #475569; border-top: 1px solid #e2e8f0; }
+    .error { color: #b91c1c; padding: 0.75rem 1rem; background: #fef2f2; border-bottom: 1px solid #fecaca; display: none; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <a href="/" class="logo">Toolzium</a>
+      <nav class="nav-links">
+        <a href="/pdf/">PDF</a>
+        <a href="/image/">Image</a>
+        <a href="/text/">Text</a>
+        <a href="/developer/" class="active">Developer</a>
+        <a href="/calculator/">Calculator</a>
+        <a href="/converter/">Converter</a>
+        <a href="/ai/">AI Tools</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1 style="margin-bottom: 0.5rem; color: #0f172a;">Regex Tester</h1>
+    <p style="margin-bottom: 1.5rem; color: #64748b;">Test your regular expressions in real-time with syntax highlighting and match groups.</p>
+    
+    <div class="pane">
+      <div class="pane-header">Regular Expression</div>
+      <div id="errorMsg" class="error"></div>
+      <div class="regex-group">
+        <span class="regex-label">/</span>
+        <input type="text" id="regexPattern" placeholder="pattern, e.g. [a-z]+" value="[a-z]+">
+        <span class="regex-label">/</span>
+        <input type="text" id="regexFlags" placeholder="flags" value="gi">
+      </div>
+    </div>
+
+    <div class="pane">
+      <div class="pane-header">Test String & Results</div>
+      <div class="test-area">
+        <textarea id="testString" placeholder="Enter text to test your regex against...">Hello World! This is a test string to match 123 numbers and Letters.</textarea>
+        <div class="highlights" id="highlights"></div>
+      </div>
+      <div class="stats" id="stats">0 matches</div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="privacy-badge">🔒 Your data never leaves your device.</div>
+    <div class="footer-links">
+      <a href="/">Home</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a>
+    </div>
+    <p class="copyright">&copy; 2026 Toolzium. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const patternInput = document.getElementById('regexPattern');
+    const flagsInput = document.getElementById('regexFlags');
+    const testString = document.getElementById('testString');
+    const highlights = document.getElementById('highlights');
+    const stats = document.getElementById('stats');
+    const errorMsg = document.getElementById('errorMsg');
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.innerText = text;
+      return div.innerHTML;
+    }
+
+    function process() {
+      const pattern = patternInput.value;
+      const flags = flagsInput.value;
+      const text = testString.value;
+      
+      errorMsg.style.display = 'none';
+
+      if (!pattern) {
+        highlights.innerHTML = escapeHtml(text);
+        stats.textContent = '0 matches';
+        return;
+      }
+
+      try {
+        const regex = new RegExp(pattern, flags);
+        
+        if (!regex.global) {
+          // If not global, handle differently to avoid infinite loops
+          const match = regex.exec(text);
+          if (match) {
+            const before = escapeHtml(text.slice(0, match.index));
+            const matched = `<span class="highlight">${escapeHtml(match[0])}</span>`;
+            const after = escapeHtml(text.slice(match.index + match[0].length));
+            highlights.innerHTML = before + matched + after;
+            stats.textContent = '1 match';
+          } else {
+            highlights.innerHTML = escapeHtml(text);
+            stats.textContent = '0 matches';
+          }
+          return;
+        }
+
+        // Global replace logic to build highlighted HTML
+        let count = 0;
+        let lastIndex = 0;
+        let resultHtml = '';
+        let match;
+
+        // Reset regex state
+        regex.lastIndex = 0;
+
+        while ((match = regex.exec(text)) !== null) {
+          if (match[0].length === 0) {
+            regex.lastIndex++; // Prevent infinite loop for zero-width matches
+            continue;
+          }
+          count++;
+          resultHtml += escapeHtml(text.slice(lastIndex, match.index));
+          resultHtml += `<span class="highlight">${escapeHtml(match[0])}</span>`;
+          lastIndex = match.index + match[0].length;
+        }
+        
+        resultHtml += escapeHtml(text.slice(lastIndex));
+        highlights.innerHTML = resultHtml;
+        stats.textContent = `${count} match${count !== 1 ? 'es' : ''}`;
+
+      } catch (e) {
+        highlights.innerHTML = escapeHtml(text);
+        stats.textContent = '0 matches';
+        errorMsg.textContent = 'Invalid Regular Expression: ' + e.message;
+        errorMsg.style.display = 'block';
+      }
+    }
+
+    patternInput.addEventListener('input', process);
+    flagsInput.addEventListener('input', process);
+    testString.addEventListener('input', process);
+    
+    // Initial load
+    process();
+  </script>
+</body>
+</html>

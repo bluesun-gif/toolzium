@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON Formatter & Validator | Toolzium</title>
+  <meta name="description" content="Free online JSON formatter and validator. Beautify, format, and validate JSON data instantly.">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    body { margin: 0; font-family: system-ui, -apple-system, sans-serif; display: flex; flex-direction: column; min-height: 100vh; background: #f8fafc; }
+    .container { max-width: 1400px; margin: 0 auto; padding: 2rem; flex: 1; width: 100%; box-sizing: border-box; }
+    .split-view { display: flex; gap: 1rem; height: 650px; }
+    .pane { flex: 1; display: flex; flex-direction: column; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .pane-header { padding: 0.75rem 1rem; background: #f1f5f9; border-bottom: 1px solid #e2e8f0; font-weight: 600; color: #334155; display: flex; justify-content: space-between; align-items: center; }
+    textarea { flex: 1; border: none; padding: 1rem; font-family: monospace; font-size: 14px; resize: none; outline: none; }
+    pre { flex: 1; margin: 0; padding: 1rem; overflow: auto; background: #fafafa; font-family: monospace; font-size: 14px; }
+    .btn { padding: 0.4rem 0.8rem; background: #2563eb; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.875rem; font-weight: 500; transition: background 0.2s; }
+    .btn:hover { background: #1d4ed8; }
+    .error { color: #b91c1c; padding: 0.75rem 1rem; background: #fef2f2; border-bottom: 1px solid #fecaca; display: none; font-size: 0.875rem; }
+    .key { color: #9333ea; }
+    .string { color: #16a34a; }
+    .number { color: #d97706; }
+    .boolean { color: #2563eb; }
+    .null { color: #64748b; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <a href="/" class="logo">Toolzium</a>
+      <nav class="nav-links">
+        <a href="/pdf/">PDF</a>
+        <a href="/image/">Image</a>
+        <a href="/text/">Text</a>
+        <a href="/developer/" class="active">Developer</a>
+        <a href="/calculator/">Calculator</a>
+        <a href="/converter/">Converter</a>
+        <a href="/ai/">AI Tools</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1 style="margin-bottom: 0.5rem; color: #0f172a;">JSON Formatter & Validator</h1>
+    <p style="margin-bottom: 1.5rem; color: #64748b;">Format, beautify, and validate your JSON data with syntax highlighting.</p>
+    <div class="split-view">
+      <div class="pane">
+        <div class="pane-header">
+          <span>Input JSON</span>
+          <button class="btn" id="formatBtn">Format</button>
+        </div>
+        <textarea id="jsonInput" placeholder='Paste JSON here...'>{"company":"Toolzium","tools":["PDF","Image","Developer"],"isAwesome":true,"version":1.0}</textarea>
+      </div>
+      <div class="pane">
+        <div class="pane-header">
+          <span>Formatted Output</span>
+          <button class="btn" id="copyBtn">Copy Output</button>
+        </div>
+        <div id="errorMsg" class="error"></div>
+        <pre id="jsonOutput"></pre>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="privacy-badge">🔒 Your data never leaves your device.</div>
+    <div class="footer-links">
+      <a href="/">Home</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a>
+    </div>
+    <p class="copyright">&copy; 2026 Toolzium. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const input = document.getElementById('jsonInput');
+    const output = document.getElementById('jsonOutput');
+    const errorMsg = document.getElementById('errorMsg');
+    const formatBtn = document.getElementById('formatBtn');
+    const copyBtn = document.getElementById('copyBtn');
+
+    function syntaxHighlight(json) {
+      json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+        let cls = 'number';
+        if (/^"/.test(match)) {
+          if (/:$/.test(match)) {
+            cls = 'key';
+          } else {
+            cls = 'string';
+          }
+        } else if (/true|false/.test(match)) {
+          cls = 'boolean';
+        } else if (/null/.test(match)) {
+          cls = 'null';
+        }
+        return '<span class="' + cls + '">' + match + '</span>';
+      });
+    }
+
+    function formatJSON() {
+      try {
+        const val = input.value.trim();
+        if (!val) {
+          output.innerHTML = '';
+          errorMsg.style.display = 'none';
+          return;
+        }
+        const parsed = JSON.parse(val);
+        const formatted = JSON.stringify(parsed, null, 2);
+        output.innerHTML = syntaxHighlight(formatted);
+        errorMsg.style.display = 'none';
+      } catch (e) {
+        output.innerHTML = '';
+        errorMsg.textContent = 'Invalid JSON: ' + e.message;
+        errorMsg.style.display = 'block';
+      }
+    }
+
+    formatBtn.addEventListener('click', formatJSON);
+    input.addEventListener('input', formatJSON);
+    
+    copyBtn.addEventListener('click', () => {
+      // Need plain text for clipboard
+      let textToCopy = output.innerText; 
+      navigator.clipboard.writeText(textToCopy);
+      copyBtn.textContent = 'Copied!';
+      setTimeout(() => copyBtn.textContent = 'Copy Output', 2000);
+    });
+
+    formatJSON(); // Initial load
+  </script>
+</body>
+</html>

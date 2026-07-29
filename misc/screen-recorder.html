@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Screen Recorder | Toolzium</title>
+  <meta name="description" content="Free online screen recorder. Record your screen directly from the browser.">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .container { max-width: 800px; margin: 2rem auto; padding: 2rem; background: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; }
+    h1 { margin-bottom: 1rem; }
+    .video-container { width: 100%; max-width: 640px; margin: 0 auto 2rem auto; background: #000; border-radius: 8px; overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; }
+    video { width: 100%; height: 100%; object-fit: contain; }
+    .controls { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+    .btn { padding: 0.8rem 2rem; border: none; background: #007bff; color: #fff; border-radius: 6px; font-size: 1.1rem; cursor: pointer; transition: background 0.3s; display: flex; align-items: center; gap: 0.5rem; }
+    .btn:hover:not(:disabled) { background: #0056b3; }
+    .btn:disabled { background: #ccc; cursor: not-allowed; }
+    .btn-danger { background: #dc3545; }
+    .btn-danger:hover:not(:disabled) { background: #c82333; }
+    .btn-success { background: #28a745; }
+    .btn-success:hover:not(:disabled) { background: #218838; }
+    .timer { font-size: 1.5rem; font-weight: bold; margin: 1rem 0; color: #dc3545; display: none; }
+    .timer.active { display: block; animation: blink 1s infinite; }
+    @keyframes blink { 50% { opacity: 0.5; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <a href="/" class="logo">Toolzium</a>
+      <nav class="nav-links">
+        <a href="/pdf/">PDF</a>
+        <a href="/image/">Image</a>
+        <a href="/text/">Text</a>
+        <a href="/developer/">Developer</a>
+        <a href="/calculator/">Calculator</a>
+        <a href="/converter/">Converter</a>
+        <a href="/ai/">AI Tools</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1>Screen Recorder</h1>
+    <p>Record your screen directly from your browser. No installation required.</p>
+    
+    <div class="video-container">
+      <video id="preview" autoplay muted playsinline></video>
+    </div>
+
+    <div class="timer" id="timerDisplay">🔴 00:00:00</div>
+
+    <div class="controls">
+      <button class="btn" id="startBtn">Choose Screen</button>
+      <button class="btn btn-danger" id="recordBtn" disabled>Start Recording</button>
+      <button class="btn btn-secondary" id="stopBtn" disabled>Stop</button>
+      <button class="btn btn-success" id="downloadBtn" disabled>Download .webm</button>
+    </div>
+  </main>
+
+  <footer>
+    <div class="privacy-badge">🔒 Your data never leaves your device.</div>
+    <div class="footer-links">
+      <a href="/">Home</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a>
+    </div>
+    <p class="copyright">&copy; 2026 Toolzium. All rights reserved.</p>
+  </footer>
+
+  <script>
+    let stream = null;
+    let mediaRecorder = null;
+    let recordedChunks = [];
+    let startTime = 0;
+    let timerInterval = null;
+
+    const preview = document.getElementById('preview');
+    const startBtn = document.getElementById('startBtn');
+    const recordBtn = document.getElementById('recordBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const timerDisplay = document.getElementById('timerDisplay');
+
+    function formatTime(ms) {
+      const totalSeconds = Math.floor(ms / 1000);
+      const h = Math.floor(totalSeconds / 3600).toString().padStart(2, '0');
+      const m = Math.floor((totalSeconds % 3600) / 60).toString().padStart(2, '0');
+      const s = (totalSeconds % 60).toString().padStart(2, '0');
+      return `🔴 ${h}:${m}:${s}`;
+    }
+
+    startBtn.addEventListener('click', async () => {
+      try {
+        stream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
+        preview.srcObject = stream;
+        recordBtn.disabled = false;
+        startBtn.disabled = true;
+
+        stream.getVideoTracks()[0].onended = () => {
+          if (mediaRecorder && mediaRecorder.state === 'recording') {
+            stopRecording();
+          }
+          startBtn.disabled = false;
+          recordBtn.disabled = true;
+        };
+      } catch (err) {
+        console.error("Error accessing display media.", err);
+        alert("Could not access screen for recording.");
+      }
+    });
+
+    recordBtn.addEventListener('click', () => {
+      recordedChunks = [];
+      const options = { mimeType: 'video/webm; codecs=vp9' };
+      
+      try {
+        mediaRecorder = new MediaRecorder(stream, options);
+      } catch (e) {
+        mediaRecorder = new MediaRecorder(stream);
+      }
+
+      mediaRecorder.ondataavailable = (e) => {
+        if (e.data.size > 0) {
+          recordedChunks.push(e.data);
+        }
+      };
+
+      mediaRecorder.onstop = () => {
+        downloadBtn.disabled = false;
+        preview.srcObject = null;
+        const blob = new Blob(recordedChunks, { type: 'video/webm' });
+        preview.src = URL.createObjectURL(blob);
+        preview.controls = true;
+      };
+
+      mediaRecorder.start();
+      
+      recordBtn.disabled = true;
+      stopBtn.disabled = false;
+      
+      startTime = Date.now();
+      timerDisplay.classList.add('active');
+      timerInterval = setInterval(() => {
+        timerDisplay.innerText = formatTime(Date.now() - startTime);
+      }, 1000);
+    });
+
+    function stopRecording() {
+      mediaRecorder.stop();
+      stream.getTracks().forEach(track => track.stop());
+      stopBtn.disabled = true;
+      startBtn.disabled = false;
+      
+      clearInterval(timerInterval);
+      timerDisplay.classList.remove('active');
+      timerDisplay.innerText = "🔴 00:00:00";
+    }
+
+    stopBtn.addEventListener('click', stopRecording);
+
+    downloadBtn.addEventListener('click', () => {
+      const blob = new Blob(recordedChunks, { type: 'video/webm' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.style.display = 'none';
+      a.href = url;
+      a.download = `screen-recording-${new Date().getTime()}.webm`;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      }, 100);
+    });
+  </script>
+</body>
+</html>

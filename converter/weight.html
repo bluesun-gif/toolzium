@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weight Converter - Toolzium</title>
+    <meta name="description" content="Free online weight converter. Convert between kilograms, grams, milligrams, pounds, ounces, and tons instantly.">
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Weight Converter",
+      "url": "https://toolzium.com/converter/weight.html",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "All",
+      "description": "Convert weights instantly across various units like kg, lbs, tons, and grams."
+    }
+    </script>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; background-color: #f9fafb; color: #111827; margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: #ffffff; border-bottom: 1px solid #e5e7eb; }
+        .logo { font-size: 1.5rem; font-weight: bold; text-decoration: none; color: #2563eb; }
+        .nav-links a { margin-left: 1rem; text-decoration: none; color: #4b5563; font-weight: 500; }
+        .nav-links a:hover { color: #2563eb; }
+        footer { padding: 2rem; text-align: center; background: #ffffff; border-top: 1px solid #e5e7eb; margin-top: auto; }
+        .footer-links a { margin: 0 0.5rem; text-decoration: none; color: #6b7280; }
+        .privacy-badge { margin-bottom: 1rem; font-size: 0.875rem; color: #059669; font-weight: 500; background: #ecfdf5; display: inline-block; padding: 0.25rem 0.75rem; border-radius: 9999px; }
+        .copyright { margin-top: 1rem; font-size: 0.875rem; color: #9ca3af; }
+        
+        main { flex: 1; padding: 2rem; }
+        .tool-container { max-width: 600px; margin: 0 auto; background: #ffffff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+        h1 { text-align: center; font-size: 1.875rem; margin-bottom: 1.5rem; color: #1f2937; }
+        .grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 1rem; align-items: center; }
+        .input-group { display: flex; flex-direction: column; gap: 0.5rem; }
+        label { font-weight: 500; font-size: 0.875rem; color: #374151; }
+        input[type="number"], select { padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; font-size: 1rem; outline: none; transition: border-color 0.2s; }
+        input[type="number"]:focus, select:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+        .equals { font-size: 1.5rem; font-weight: bold; color: #9ca3af; margin-top: 1.5rem; }
+    </style>
+</head>
+<body>
+    <header>
+      <div class="navbar">
+        <a href="/" class="logo">Toolzium</a>
+        <nav class="nav-links">
+          <a href="/pdf/">PDF</a>
+          <a href="/image/">Image</a>
+          <a href="/text/">Text</a>
+          <a href="/developer/">Developer</a>
+          <a href="/calculator/">Calculator</a>
+          <a href="/converter/">Converter</a>
+          <a href="/ai/">AI Tools</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+        <div class="tool-container">
+            <h1>Weight Converter</h1>
+            <div class="grid">
+                <div class="input-group">
+                    <label for="input-value">From</label>
+                    <input type="number" id="input-value" value="1" step="any" oninput="convert()">
+                    <select id="input-unit" onchange="convert()">
+                        <option value="kg">Kilograms (kg)</option>
+                        <option value="g">Grams (g)</option>
+                        <option value="mg">Milligrams (mg)</option>
+                        <option value="lbs">Pounds (lbs)</option>
+                        <option value="oz">Ounces (oz)</option>
+                        <option value="t">Metric Tons (t)</option>
+                    </select>
+                </div>
+                <div class="equals">=</div>
+                <div class="input-group">
+                    <label for="output-value">To</label>
+                    <input type="number" id="output-value" step="any" oninput="convert(true)">
+                    <select id="output-unit" onchange="convert()">
+                        <option value="kg">Kilograms (kg)</option>
+                        <option value="g">Grams (g)</option>
+                        <option value="mg">Milligrams (mg)</option>
+                        <option value="lbs" selected>Pounds (lbs)</option>
+                        <option value="oz">Ounces (oz)</option>
+                        <option value="t">Metric Tons (t)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+      <div class="privacy-badge">🔒 Your data never leaves your device.</div>
+      <div class="footer-links">
+        <a href="/">Home</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a>
+      </div>
+      <p class="copyright">&copy; 2026 Toolzium. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Convert to grams as base
+        const rates = {
+            'kg': 1000,
+            'g': 1,
+            'mg': 0.001,
+            'lbs': 453.59237,
+            'oz': 28.349523125,
+            't': 1000000
+        };
+
+        function convert(reverse = false) {
+            const inputVal = document.getElementById('input-value');
+            const outputVal = document.getElementById('output-value');
+            const inputUnit = document.getElementById('input-unit').value;
+            const outputUnit = document.getElementById('output-unit').value;
+
+            if (reverse) {
+                const val = parseFloat(outputVal.value);
+                if (isNaN(val)) {
+                    inputVal.value = '';
+                    return;
+                }
+                const inGrams = val * rates[outputUnit];
+                const result = inGrams / rates[inputUnit];
+                inputVal.value = Number.isInteger(result) ? result : parseFloat(result.toFixed(6));
+            } else {
+                const val = parseFloat(inputVal.value);
+                if (isNaN(val)) {
+                    outputVal.value = '';
+                    return;
+                }
+                const inGrams = val * rates[inputUnit];
+                const result = inGrams / rates[outputUnit];
+                outputVal.value = Number.isInteger(result) ? result : parseFloat(result.toFixed(6));
+            }
+        }
+
+        convert();
+    </script>
+</body>
+</html>

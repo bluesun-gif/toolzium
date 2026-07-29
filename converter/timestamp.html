@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unix Timestamp Converter - Toolzium</title>
+    <meta name="description" content="Free online Unix timestamp converter. Convert between epoch timestamps and human-readable dates. Get the current timestamp.">
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Timestamp Converter",
+      "url": "https://toolzium.com/converter/timestamp.html",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "All",
+      "description": "Convert Unix epoch timestamps to human-readable dates and vice-versa."
+    }
+    </script>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; background-color: #f9fafb; color: #111827; margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: #ffffff; border-bottom: 1px solid #e5e7eb; }
+        .logo { font-size: 1.5rem; font-weight: bold; text-decoration: none; color: #2563eb; }
+        .nav-links a { margin-left: 1rem; text-decoration: none; color: #4b5563; font-weight: 500; }
+        .nav-links a:hover { color: #2563eb; }
+        footer { padding: 2rem; text-align: center; background: #ffffff; border-top: 1px solid #e5e7eb; margin-top: auto; }
+        .footer-links a { margin: 0 0.5rem; text-decoration: none; color: #6b7280; }
+        .privacy-badge { margin-bottom: 1rem; font-size: 0.875rem; color: #059669; font-weight: 500; background: #ecfdf5; display: inline-block; padding: 0.25rem 0.75rem; border-radius: 9999px; }
+        .copyright { margin-top: 1rem; font-size: 0.875rem; color: #9ca3af; }
+        
+        main { flex: 1; padding: 2rem; display: flex; flex-direction: column; align-items: center; gap: 2rem; }
+        .tool-container { width: 100%; max-width: 600px; background: #ffffff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        h1 { text-align: center; font-size: 1.875rem; margin-bottom: 1.5rem; color: #1f2937; }
+        h2 { font-size: 1.25rem; color: #4b5563; margin-bottom: 1rem; margin-top: 0; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.5rem; }
+        
+        .current-time { text-align: center; padding: 1rem; background: #eff6ff; border-radius: 8px; margin-bottom: 2rem; }
+        .current-time .ts { font-size: 2rem; font-weight: bold; color: #2563eb; font-family: monospace; }
+        
+        .input-group { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.25rem; }
+        label { font-weight: 500; font-size: 0.875rem; color: #374151; }
+        input[type="text"], input[type="datetime-local"] { padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; font-size: 1rem; outline: none; transition: border-color 0.2s; }
+        input[type="text"]:focus, input[type="datetime-local"]:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+        
+        .result-box { padding: 1rem; background: #f3f4f6; border-radius: 8px; margin-top: 1rem; min-height: 24px; font-weight: 500; word-break: break-all; }
+        .btn-convert { width: 100%; padding: 0.75rem; background: #2563eb; color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 500; cursor: pointer; transition: background 0.2s; }
+        .btn-convert:hover { background: #1d4ed8; }
+    </style>
+</head>
+<body>
+    <header>
+      <div class="navbar">
+        <a href="/" class="logo">Toolzium</a>
+        <nav class="nav-links">
+          <a href="/pdf/">PDF</a>
+          <a href="/image/">Image</a>
+          <a href="/text/">Text</a>
+          <a href="/developer/">Developer</a>
+          <a href="/calculator/">Calculator</a>
+          <a href="/converter/">Converter</a>
+          <a href="/ai/">AI Tools</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+        <div class="tool-container">
+            <h1>Timestamp Converter</h1>
+            
+            <div class="current-time">
+                <div>Current Unix Timestamp</div>
+                <div class="ts" id="current-ts">...</div>
+            </div>
+
+            <h2>Timestamp to Date</h2>
+            <div class="input-group">
+                <label for="ts-input">Unix Timestamp (Seconds or Milliseconds)</label>
+                <input type="text" id="ts-input" placeholder="e.g. 1722272924">
+            </div>
+            <button class="btn-convert" onclick="convertTsToDate()">Convert to Date</button>
+            <div class="result-box" id="ts-result"></div>
+        </div>
+
+        <div class="tool-container">
+            <h2>Date to Timestamp</h2>
+            <div class="input-group">
+                <label for="date-input">Local Date & Time</label>
+                <input type="datetime-local" id="date-input">
+            </div>
+            <button class="btn-convert" onclick="convertDateToTs()">Convert to Timestamp</button>
+            <div class="result-box" id="date-result"></div>
+        </div>
+    </main>
+
+    <footer>
+      <div class="privacy-badge">🔒 Your data never leaves your device.</div>
+      <div class="footer-links">
+        <a href="/">Home</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a>
+      </div>
+      <p class="copyright">&copy; 2026 Toolzium. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Update current timestamp
+        function updateCurrent() {
+            document.getElementById('current-ts').innerText = Math.floor(Date.now() / 1000);
+        }
+        setInterval(updateCurrent, 1000);
+        updateCurrent();
+
+        // Convert Timestamp to Date
+        function convertTsToDate() {
+            const val = document.getElementById('ts-input').value.trim();
+            if (!val) return;
+            
+            let num = parseInt(val, 10);
+            if (isNaN(num)) {
+                document.getElementById('ts-result').innerText = 'Invalid timestamp';
+                return;
+            }
+            
+            // Auto-detect seconds vs milliseconds (rough heuristic)
+            // If it's less than year 3000 in seconds, we assume seconds
+            if (num < 32503680000) { 
+                num = num * 1000;
+            }
+
+            const date = new Date(num);
+            if (isNaN(date.getTime())) {
+                document.getElementById('ts-result').innerText = 'Invalid timestamp';
+            } else {
+                document.getElementById('ts-result').innerHTML = `
+                    <strong>Local:</strong> ${date.toLocaleString()}<br>
+                    <strong>GMT:</strong> ${date.toUTCString()}
+                `;
+            }
+        }
+
+        // Convert Date to Timestamp
+        function convertDateToTs() {
+            const val = document.getElementById('date-input').value;
+            if (!val) return;
+
+            const date = new Date(val);
+            if (isNaN(date.getTime())) {
+                document.getElementById('date-result').innerText = 'Invalid date';
+            } else {
+                const ms = date.getTime();
+                const sec = Math.floor(ms / 1000);
+                document.getElementById('date-result').innerHTML = `
+                    <strong>Seconds:</strong> ${sec}<br>
+                    <strong>Milliseconds:</strong> ${ms}
+                `;
+            }
+        }
+
+        // Init date input to now
+        const now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        document.getElementById('date-input').value = now.toISOString().slice(0,16);
+    </script>
+</body>
+</html>

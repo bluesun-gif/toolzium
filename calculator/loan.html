@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loan Calculator | Toolzium</title>
+  <meta name="description" content="Calculate EMI, total interest, and total payment for your loan. View full amortization schedule.">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Loan Calculator",
+    "description": "Calculate your loan EMI and amortization schedule.",
+    "applicationCategory": "FinanceApplication"
+  }
+  </script>
+  <style>
+    .calculator-container { max-width: 800px; margin: 40px auto; padding: 30px; background: #fff; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); font-family: system-ui, sans-serif; }
+    h1 { text-align: center; color: #333; margin-bottom: 20px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+    .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #555; }
+    .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; box-sizing: border-box; }
+    button { width: 100%; padding: 14px; background: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 1.1rem; font-weight: bold; transition: background 0.3s; }
+    button:hover { background: #0056b3; }
+    
+    .summary-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 30px; display: none; }
+    .card { background: #f8f9fa; padding: 20px; border-radius: 8px; text-align: center; border: 1px solid #eee; }
+    .card h3 { font-size: 1rem; color: #666; margin-bottom: 10px; font-weight: 600; }
+    .card .val { font-size: 1.5rem; color: #333; font-weight: bold; }
+    .card.highlight .val { color: #007bff; font-size: 1.8rem; }
+
+    .table-container { margin-top: 30px; overflow-x: auto; display: none; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 12px; text-align: right; border-bottom: 1px solid #eee; }
+    th { background: #f8f9fa; font-weight: 600; color: #444; }
+    th:first-child, td:first-child { text-align: center; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <a href="/" class="logo">Toolzium</a>
+      <nav class="nav-links">
+        <a href="/pdf/">PDF</a>
+        <a href="/image/">Image</a>
+        <a href="/text/">Text</a>
+        <a href="/developer/">Developer</a>
+        <a href="/calculator/">Calculator</a>
+        <a href="/converter/">Converter</a>
+        <a href="/ai/">AI Tools</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="calculator-container">
+      <h1>Loan Calculator</h1>
+      
+      <div class="grid-2">
+        <div class="form-group">
+          <label>Loan Amount ($)</label>
+          <input type="number" id="amount" placeholder="e.g. 50000">
+        </div>
+        <div class="form-group">
+          <label>Interest Rate (% per year)</label>
+          <input type="number" id="rate" placeholder="e.g. 5.5" step="0.1">
+        </div>
+        <div class="form-group">
+          <label>Loan Term</label>
+          <div style="display:flex; gap:10px;">
+            <input type="number" id="term" placeholder="e.g. 5" style="flex:1;">
+            <select id="term-type" style="width:100px;">
+              <option value="years">Years</option>
+              <option value="months">Months</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+      <button onclick="calculateLoan()">Calculate</button>
+
+      <div class="summary-cards" id="summary">
+        <div class="card highlight">
+          <h3>Monthly Payment (EMI)</h3>
+          <div class="val" id="emi">$0.00</div>
+        </div>
+        <div class="card">
+          <h3>Total Interest</h3>
+          <div class="val" id="total-interest">$0.00</div>
+        </div>
+        <div class="card">
+          <h3>Total Payment</h3>
+          <div class="val" id="total-payment">$0.00</div>
+        </div>
+      </div>
+
+      <div class="table-container" id="table-container">
+        <h3 style="margin-bottom:15px; color:#333;">Amortization Schedule</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Month</th>
+              <th>Principal</th>
+              <th>Interest</th>
+              <th>Total Payment</th>
+              <th>Balance</th>
+            </tr>
+          </thead>
+          <tbody id="schedule-body">
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="privacy-badge">🔒 Your data never leaves your device.</div>
+    <div class="footer-links">
+      <a href="/">Home</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a>
+    </div>
+    <p class="copyright">&copy; 2026 Toolzium. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function calculateLoan() {
+      const amount = parseFloat(document.getElementById('amount').value);
+      const rate = parseFloat(document.getElementById('rate').value);
+      let term = parseInt(document.getElementById('term').value);
+      const termType = document.getElementById('term-type').value;
+
+      if(!amount || !rate || !term) return alert("Please fill all fields with valid numbers.");
+
+      if(termType === 'years') term = term * 12; // convert to months
+
+      const monthlyRate = (rate / 100) / 12;
+      const emi = (amount * monthlyRate * Math.pow(1 + monthlyRate, term)) / (Math.pow(1 + monthlyRate, term) - 1);
+      
+      const totalPayment = emi * term;
+      const totalInterest = totalPayment - amount;
+
+      document.getElementById('emi').innerText = '$' + emi.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      document.getElementById('total-interest').innerText = '$' + totalInterest.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      document.getElementById('total-payment').innerText = '$' + totalPayment.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+      document.getElementById('summary').style.display = 'grid';
+
+      // Amortization Table
+      let balance = amount;
+      let html = '';
+      for(let i = 1; i <= term; i++) {
+        const interest = balance * monthlyRate;
+        let principal = emi - interest;
+        balance -= principal;
+        if(balance < 0) balance = 0;
+
+        html += `<tr>
+          <td>${i}</td>
+          <td>$${principal.toFixed(2)}</td>
+          <td>$${interest.toFixed(2)}</td>
+          <td>$${emi.toFixed(2)}</td>
+          <td>$${balance.toFixed(2)}</td>
+        </tr>`;
+      }
+      document.getElementById('schedule-body').innerHTML = html;
+      document.getElementById('table-container').style.display = 'block';
+    }
+  </script>
+</body>
+</html>

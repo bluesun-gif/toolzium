@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find and Replace - Toolzium</title>
+    <meta name="description" content="Find and replace text online.">
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Find and Replace",
+      "applicationCategory": "UtilitiesApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0"
+      }
+    }
+    </script>
+</head>
+<body>
+    <header>
+      <div class="navbar">
+        <a href="/" class="logo">Toolzium</a>
+        <nav class="nav-links">
+          <a href="/pdf/">PDF</a>
+          <a href="/image/">Image</a>
+          <a href="/text/" class="active">Text</a>
+          <a href="/developer/">Developer</a>
+          <a href="/calculator/">Calculator</a>
+          <a href="/converter/">Converter</a>
+          <a href="/ai/">AI Tools</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="tool-workspace">
+        <div class="tool-container">
+            <h1>Find and Replace</h1>
+            
+            <textarea id="input" class="tool-input" placeholder="Text to process..."></textarea>
+            <div style="display:flex; gap:15px; margin-bottom:15px; align-items:center;">
+                <input type="text" id="find" class="tool-input" placeholder="Find..." style="min-height:auto; margin:0; flex:1;">
+                <input type="text" id="replace" class="tool-input" placeholder="Replace with..." style="min-height:auto; margin:0; flex:1;">
+            </div>
+            <div style="margin-bottom:15px; display:flex; gap:20px;">
+                <label><input type="checkbox" id="case"> Case sensitive</label>
+                <label><input type="checkbox" id="regex"> Regex</label>
+                <label><input type="checkbox" id="whole"> Whole word</label>
+            </div>
+            <div style="display:flex; gap:20px; align-items:center; margin-bottom:15px;">
+                <button class="btn-primary" onclick="doReplace()" style="margin:0;">Replace All</button>
+                <span style="font-size:18px;">Matches replaced: <b id="count">0</b></span>
+            </div>
+            <textarea id="output" class="output-area" readonly placeholder="Result..."></textarea>
+            <button class="btn-secondary" onclick="navigator.clipboard.writeText(document.getElementById('output').value)">Copy Result</button>
+        
+            <div class="ad-placeholder" style="margin-top: 20px; padding: 20px; background: #333; text-align: center; border: 1px dashed #666; min-height: 90px; color: #888;">
+                AdSense Placeholder
+            </div>
+        </div>
+    </main>
+
+    <footer>
+      <div class="privacy-badge">🔒 Your data never leaves your device.</div>
+      <div class="footer-links">
+        <a href="/">Home</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a>
+      </div>
+      <p class="copyright">&copy; 2026 Toolzium. All rights reserved.</p>
+    </footer>
+
+    <script>
+
+            function doReplace() {
+                const txt = document.getElementById('input').value;
+                let f = document.getElementById('find').value;
+                const r = document.getElementById('replace').value;
+                const cs = document.getElementById('case').checked;
+                const isRe = document.getElementById('regex').checked;
+                const whole = document.getElementById('whole').checked;
+                
+                if(!f) return;
+                
+                let flags = 'g' + (cs ? '' : 'i');
+                let re;
+                if(!isRe) {
+                    f = f.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                }
+                if(whole) {
+                    f = '\\b' + f + '\\b';
+                }
+                try {
+                    re = new RegExp(f, flags);
+                } catch(e) {
+                    alert('Invalid regular expression');
+                    return;
+                }
+                
+                const matches = txt.match(re);
+                document.getElementById('count').innerText = matches ? matches.length : 0;
+                document.getElementById('output').value = txt.replace(re, r);
+            }
+        
+    </script>
+</body>
+</html>

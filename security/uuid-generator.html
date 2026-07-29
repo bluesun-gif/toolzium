@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UUID / GUID Generator (v4) - Online Tool | Toolzium</title>
+    <meta name="description" content="Generate random UUIDs (v4) instantly in your browser. Fast, secure, and privacy-friendly UUID generator.">
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "UUID Generator",
+      "operatingSystem": "Any",
+      "applicationCategory": "DeveloperApplication",
+      "description": "Generate random UUIDs (v4) instantly in your browser.",
+      "url": "https://toolzium.com/security/uuid-generator.html"
+    }
+    </script>
+    <style>
+        .tool-container { max-width: 800px; margin: 2rem auto; padding: 2rem; background: #fff; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .control-group { margin-bottom: 1.5rem; }
+        .control-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
+        textarea { width: 100%; height: 250px; padding: 1rem; font-family: monospace; font-size: 1rem; border: 1px solid #ccc; border-radius: 4px; resize: vertical; box-sizing: border-box; }
+        .btn { padding: 0.75rem 1.5rem; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem; font-weight: bold; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-secondary { background: #6c757d; color: white; }
+        .actions { display: flex; gap: 1rem; margin-top: 1rem; }
+        .flex-row { display: flex; gap: 1rem; align-items: center; }
+        body { font-family: system-ui, -apple-system, sans-serif; background: #f4f7f6; color: #333; margin: 0; }
+        header .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: #222; color: #fff; }
+        header .logo { font-size: 1.5rem; font-weight: bold; color: #fff; text-decoration: none; }
+        header .nav-links a { color: #ccc; text-decoration: none; margin-left: 1rem; }
+        header .nav-links a:hover { color: #fff; }
+        footer { text-align: center; padding: 2rem; background: #222; color: #ccc; margin-top: 3rem; }
+        footer a { color: #ccc; margin: 0 1rem; text-decoration: none; }
+        footer a:hover { color: #fff; }
+        .privacy-badge { margin-bottom: 1rem; font-weight: bold; color: #28a745; }
+    </style>
+</head>
+<body>
+    <header>
+      <div class="navbar">
+        <a href="/" class="logo">Toolzium</a>
+        <nav class="nav-links">
+          <a href="/pdf/">PDF</a>
+          <a href="/image/">Image</a>
+          <a href="/text/">Text</a>
+          <a href="/developer/">Developer</a>
+          <a href="/calculator/">Calculator</a>
+          <a href="/converter/">Converter</a>
+          <a href="/ai/">AI Tools</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="tool-container">
+        <h1>UUID (v4) Generator</h1>
+        
+        <div class="control-group flex-row">
+            <label for="count" style="margin:0;">Number of UUIDs to generate:</label>
+            <input type="number" id="count" min="1" max="500" value="1" style="width: 80px; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+        </div>
+
+        <div class="actions">
+            <button class="btn btn-primary" id="generate-btn">Generate UUIDs</button>
+            <button class="btn btn-secondary" id="copy-btn">Copy to Clipboard</button>
+        </div>
+
+        <div class="control-group" style="margin-top: 2rem;">
+            <label for="output">Generated UUIDs:</label>
+            <textarea id="output" readonly></textarea>
+        </div>
+    </main>
+
+    <footer>
+      <div class="privacy-badge">🔒 Your data never leaves your device.</div>
+      <div class="footer-links">
+        <a href="/">Home</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a>
+      </div>
+      <p class="copyright">&copy; 2026 Toolzium. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const countInput = document.getElementById('count');
+        const output = document.getElementById('output');
+        const generateBtn = document.getElementById('generate-btn');
+        const copyBtn = document.getElementById('copy-btn');
+
+        function generateUUIDs() {
+            let count = parseInt(countInput.value) || 1;
+            if(count > 1000) count = 1000;
+            if(count < 1) count = 1;
+
+            let result = [];
+            for (let i = 0; i < count; i++) {
+                result.push(crypto.randomUUID());
+            }
+
+            output.value = result.join('\n');
+        }
+
+        generateBtn.addEventListener('click', generateUUIDs);
+
+        copyBtn.addEventListener('click', () => {
+            if(!output.value) return;
+            output.select();
+            document.execCommand('copy');
+            const originalText = copyBtn.textContent;
+            copyBtn.textContent = 'Copied!';
+            setTimeout(() => copyBtn.textContent = originalText, 2000);
+        });
+
+        // Generate one on load
+        generateUUIDs();
+    </script>
+</body>
+</html>

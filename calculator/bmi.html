@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BMI Calculator | Toolzium</title>
+  <meta name="description" content="Calculate your Body Mass Index (BMI) and discover your weight category with our visual health bar.">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "BMI Calculator",
+    "description": "Calculate Body Mass Index.",
+    "applicationCategory": "HealthApplication"
+  }
+  </script>
+  <style>
+    .calculator-container { max-width: 500px; margin: 40px auto; padding: 30px; background: #fff; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); font-family: system-ui, sans-serif; }
+    h1 { text-align: center; color: #333; margin-bottom: 20px; }
+    .form-group { margin-bottom: 20px; }
+    label { display: block; margin-bottom: 8px; font-weight: 600; color: #555; }
+    .input-row { display: flex; gap: 10px; }
+    input[type="number"] { flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; width: 100%; box-sizing: border-box; }
+    select { padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; background: #f8f9fa; }
+    button { width: 100%; padding: 14px; background: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 1.1rem; font-weight: bold; transition: background 0.3s; }
+    button:hover { background: #0056b3; }
+    
+    .result-section { margin-top: 30px; text-align: center; display: none; }
+    .bmi-score { font-size: 3rem; font-weight: bold; margin: 10px 0; }
+    .bmi-category { font-size: 1.4rem; font-weight: 600; margin-bottom: 20px; }
+    
+    .health-bar { width: 100%; height: 20px; background: #ddd; border-radius: 10px; overflow: hidden; display: flex; position: relative; margin-top: 10px; }
+    .bar-segment { height: 100%; }
+    .bar-under { width: 18.5%; background: #3498db; }
+    .bar-normal { width: 6.5%; background: #2ecc71; flex-grow: 1; }
+    .bar-over { width: 5%; background: #f1c40f; }
+    .bar-obese { width: 10%; background: #e74c3c; flex-grow: 1; }
+    .indicator { width: 4px; height: 24px; background: #000; position: absolute; top: -2px; transition: left 0.5s ease; border-radius: 2px; }
+    
+    .color-under { color: #3498db; }
+    .color-normal { color: #2ecc71; }
+    .color-over { color: #f1c40f; }
+    .color-obese { color: #e74c3c; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <a href="/" class="logo">Toolzium</a>
+      <nav class="nav-links">
+        <a href="/pdf/">PDF</a>
+        <a href="/image/">Image</a>
+        <a href="/text/">Text</a>
+        <a href="/developer/">Developer</a>
+        <a href="/calculator/">Calculator</a>
+        <a href="/converter/">Converter</a>
+        <a href="/ai/">AI Tools</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="calculator-container">
+      <h1>BMI Calculator</h1>
+      <div class="form-group">
+        <label>Height</label>
+        <div class="input-row">
+          <input type="number" id="height" placeholder="e.g. 175">
+          <select id="height-unit">
+            <option value="cm">cm</option>
+            <option value="in">inches</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Weight</label>
+        <div class="input-row">
+          <input type="number" id="weight" placeholder="e.g. 70">
+          <select id="weight-unit">
+            <option value="kg">kg</option>
+            <option value="lbs">lbs</option>
+          </select>
+        </div>
+      </div>
+      <button onclick="calculateBMI()">Calculate BMI</button>
+
+      <div class="result-section" id="result-section">
+        <p>Your BMI is:</p>
+        <div class="bmi-score" id="bmi-score">22.5</div>
+        <div class="bmi-category" id="bmi-category">Normal</div>
+        
+        <div class="health-bar">
+          <div class="bar-segment bar-under"></div>
+          <div class="bar-segment bar-normal"></div>
+          <div class="bar-segment bar-over"></div>
+          <div class="bar-segment bar-obese"></div>
+          <div class="indicator" id="indicator"></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #777; margin-top: 5px;">
+          <span>15</span>
+          <span>18.5</span>
+          <span>25</span>
+          <span>30</span>
+          <span>40</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="privacy-badge">🔒 Your data never leaves your device.</div>
+    <div class="footer-links">
+      <a href="/">Home</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a>
+    </div>
+    <p class="copyright">&copy; 2026 Toolzium. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function calculateBMI() {
+      let h = parseFloat(document.getElementById('height').value);
+      let w = parseFloat(document.getElementById('weight').value);
+      const hUnit = document.getElementById('height-unit').value;
+      const wUnit = document.getElementById('weight-unit').value;
+
+      if(!h || !w || h <= 0 || w <= 0) {
+        alert("Please enter valid height and weight.");
+        return;
+      }
+
+      if(hUnit === 'in') h = h * 2.54; // convert to cm
+      if(wUnit === 'lbs') w = w * 0.453592; // convert to kg
+
+      const hMeters = h / 100;
+      const bmi = w / (hMeters * hMeters);
+      
+      const scoreEl = document.getElementById('bmi-score');
+      const catEl = document.getElementById('bmi-category');
+      const indEl = document.getElementById('indicator');
+
+      scoreEl.innerText = bmi.toFixed(1);
+
+      let category = "";
+      let colorClass = "";
+      let percent = 0;
+
+      // Mapping BMI to 0-100% of the bar (range roughly 15 to 40)
+      if(bmi < 15) percent = 0;
+      else if(bmi > 40) percent = 100;
+      else percent = ((bmi - 15) / (40 - 15)) * 100;
+
+      if(bmi < 18.5) {
+        category = "Underweight";
+        colorClass = "color-under";
+      } else if(bmi < 25) {
+        category = "Normal weight";
+        colorClass = "color-normal";
+      } else if(bmi < 30) {
+        category = "Overweight";
+        colorClass = "color-over";
+      } else {
+        category = "Obese";
+        colorClass = "color-obese";
+      }
+
+      catEl.innerText = category;
+      catEl.className = "bmi-category " + colorClass;
+      scoreEl.className = "bmi-score " + colorClass;
+      indEl.style.left = `calc(${percent}% - 2px)`;
+
+      document.getElementById('result-section').style.display = 'block';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Typing Speed Test | Toolzium</title>
+  <meta name="description" content="Test your typing speed and accuracy with our real-time WPM typing test.">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .container { max-width: 800px; margin: 2rem auto; padding: 2rem; background: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    .header { text-align: center; margin-bottom: 2rem; }
+    .controls { display: flex; justify-content: center; gap: 1rem; margin-bottom: 1rem; }
+    .btn { padding: 0.5rem 1.5rem; border: none; background: #007bff; color: #fff; border-radius: 6px; cursor: pointer; transition: background 0.3s; }
+    .btn:hover { background: #0056b3; }
+    .btn.active { background: #0056b3; font-weight: bold; }
+    .stats { display: flex; justify-content: space-around; margin-bottom: 2rem; font-size: 1.2rem; font-weight: bold; }
+    .text-display { font-size: 1.5rem; line-height: 1.6; letter-spacing: 1px; color: #555; user-select: none; margin-bottom: 2rem; padding: 1rem; border: 2px solid #eee; border-radius: 8px; min-height: 150px; }
+    .char { transition: color 0.1s; }
+    .char.correct { color: #28a745; }
+    .char.wrong { color: #dc3545; background: #f8d7da; }
+    .char.current { text-decoration: underline; text-decoration-color: #007bff; text-decoration-thickness: 3px; }
+    .input-hidden { opacity: 0; position: absolute; z-index: -1; }
+    .results { text-align: center; display: none; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <a href="/" class="logo">Toolzium</a>
+      <nav class="nav-links">
+        <a href="/pdf/">PDF</a>
+        <a href="/image/">Image</a>
+        <a href="/text/">Text</a>
+        <a href="/developer/">Developer</a>
+        <a href="/calculator/">Calculator</a>
+        <a href="/converter/">Converter</a>
+        <a href="/ai/">AI Tools</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="header">
+      <h1>Typing Speed Test</h1>
+      <p>Find out your WPM and accuracy</p>
+    </div>
+
+    <div class="controls">
+      <button class="btn time-btn active" data-time="30">30s</button>
+      <button class="btn time-btn" data-time="60">60s</button>
+      <button class="btn time-btn" data-time="120">120s</button>
+      <button class="btn" id="restartBtn">Restart</button>
+    </div>
+
+    <div class="stats">
+      <div id="timeLeft">Time: 30s</div>
+      <div id="wpm">WPM: 0</div>
+      <div id="accuracy">Accuracy: 100%</div>
+    </div>
+
+    <div id="textDisplay" class="text-display"></div>
+    <input type="text" id="hiddenInput" class="input-hidden" autofocus autocomplete="off" spellcheck="false">
+
+    <div id="results" class="results">
+      <h2>Test Complete!</h2>
+      <p id="finalWpm">WPM: 0</p>
+      <p id="finalAccuracy">Accuracy: 0%</p>
+      <button class="btn" id="playAgainBtn">Play Again</button>
+    </div>
+  </main>
+
+  <footer>
+    <div class="privacy-badge">🔒 Your data never leaves your device.</div>
+    <div class="footer-links">
+      <a href="/">Home</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a>
+    </div>
+    <p class="copyright">&copy; 2026 Toolzium. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const paragraphs = [
+      "The quick brown fox jumps over the lazy dog. Programming is the art of algorithm design and the craft of debugging errant code.",
+      "Technology is best when it brings people together. We are stuck with technology when what we really want is just stuff that works.",
+      "A journey of a thousand miles begins with a single step. The secret of getting ahead is getting started.",
+      "To be or not to be, that is the question. All the world's a stage, and all the men and women merely players.",
+      "In the middle of difficulty lies opportunity. Success is not final, failure is not fatal: it is the courage to continue that counts."
+    ];
+
+    let timeLimit = 30;
+    let timeLeft = timeLimit;
+    let timer = null;
+    let isPlaying = false;
+    let charIndex = 0;
+    let mistakes = 0;
+    let currentText = "";
+
+    const timeLeftEl = document.getElementById("timeLeft");
+    const wpmEl = document.getElementById("wpm");
+    const accuracyEl = document.getElementById("accuracy");
+    const textDisplay = document.getElementById("textDisplay");
+    const hiddenInput = document.getElementById("hiddenInput");
+    const resultsDiv = document.getElementById("results");
+    const timeBtns = document.querySelectorAll(".time-btn");
+
+    function initTest() {
+      resultsDiv.style.display = "none";
+      textDisplay.style.display = "block";
+      currentText = paragraphs[Math.floor(Math.random() * paragraphs.length)] + " " + paragraphs[Math.floor(Math.random() * paragraphs.length)];
+      textDisplay.innerHTML = "";
+      currentText.split("").forEach(char => {
+        let span = document.createElement("span");
+        span.innerText = char;
+        span.classList.add("char");
+        textDisplay.appendChild(span);
+      });
+      textDisplay.querySelectorAll(".char")[0].classList.add("current");
+      
+      timeLeft = timeLimit;
+      charIndex = 0;
+      mistakes = 0;
+      isPlaying = false;
+      clearInterval(timer);
+      
+      timeLeftEl.innerText = `Time: ${timeLeft}s`;
+      wpmEl.innerText = "WPM: 0";
+      accuracyEl.innerText = "Accuracy: 100%";
+      hiddenInput.value = "";
+      hiddenInput.focus();
+      
+      document.addEventListener('click', () => hiddenInput.focus());
+    }
+
+    function startTimer() {
+      if (!isPlaying) {
+        isPlaying = true;
+        timer = setInterval(() => {
+          if (timeLeft > 0) {
+            timeLeft--;
+            timeLeftEl.innerText = `Time: ${timeLeft}s`;
+            let wpm = Math.round((((charIndex - mistakes) / 5) / (timeLimit - timeLeft)) * 60);
+            wpm = wpm < 0 || !wpm || wpm === Infinity ? 0 : wpm;
+            wpmEl.innerText = `WPM: ${wpm}`;
+          } else {
+            clearInterval(timer);
+            endTest();
+          }
+        }, 1000);
+      }
+    }
+
+    function endTest() {
+      isPlaying = false;
+      hiddenInput.disabled = true;
+      textDisplay.style.display = "none";
+      resultsDiv.style.display = "block";
+      
+      let wpm = Math.round((((charIndex - mistakes) / 5) / timeLimit) * 60);
+      wpm = wpm < 0 || !wpm || wpm === Infinity ? 0 : wpm;
+      let accuracy = charIndex > 0 ? Math.round(((charIndex - mistakes) / charIndex) * 100) : 100;
+      
+      document.getElementById("finalWpm").innerText = `WPM: ${wpm}`;
+      document.getElementById("finalAccuracy").innerText = `Accuracy: ${accuracy}%`;
+    }
+
+    hiddenInput.addEventListener("input", (e) => {
+      let chars = textDisplay.querySelectorAll(".char");
+      let typedChar = hiddenInput.value.split("")[charIndex];
+
+      if (timeLeft > 0 && charIndex < chars.length) {
+        if (!isPlaying) startTimer();
+
+        if (typedChar == null) { // backspace
+          charIndex--;
+          if (chars[charIndex].classList.contains("wrong")) mistakes--;
+          chars[charIndex].classList.remove("correct", "wrong");
+        } else {
+          if (chars[charIndex].innerText === typedChar) {
+            chars[charIndex].classList.add("correct");
+          } else {
+            mistakes++;
+            chars[charIndex].classList.add("wrong");
+          }
+          charIndex++;
+        }
+
+        chars.forEach(span => span.classList.remove("current"));
+        if (charIndex < chars.length) chars[charIndex].classList.add("current");
+        
+        let accuracy = charIndex > 0 ? Math.round(((charIndex - mistakes) / charIndex) * 100) : 100;
+        accuracyEl.innerText = `Accuracy: ${accuracy}%`;
+      }
+    });
+
+    timeBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        timeBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        timeLimit = parseInt(btn.dataset.time);
+        initTest();
+      });
+    });
+
+    document.getElementById("restartBtn").addEventListener("click", initTest);
+    document.getElementById("playAgainBtn").addEventListener("click", () => {
+      hiddenInput.disabled = false;
+      initTest();
+    });
+
+    initTest();
+  </script>
+</body>
+</html>

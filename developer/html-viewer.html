@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live HTML Viewer | Toolzium</title>
+  <meta name="description" content="Free online HTML viewer and editor. Preview HTML code instantly with live rendering.">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    body { margin: 0; font-family: system-ui, -apple-system, sans-serif; display: flex; flex-direction: column; min-height: 100vh; }
+    .container { max-width: 1400px; margin: 0 auto; padding: 2rem; flex: 1; width: 100%; box-sizing: border-box; }
+    .split-view { display: flex; gap: 1rem; height: 650px; }
+    .pane { flex: 1; display: flex; flex-direction: column; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .pane-header { padding: 0.75rem 1rem; background: #f8fafc; border-bottom: 1px solid #e2e8f0; font-weight: 600; color: #334155; }
+    textarea { flex: 1; border: none; padding: 1rem; font-family: monospace; font-size: 14px; resize: none; outline: none; }
+    iframe { flex: 1; border: none; width: 100%; height: 100%; background: white; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <a href="/" class="logo">Toolzium</a>
+      <nav class="nav-links">
+        <a href="/pdf/">PDF</a>
+        <a href="/image/">Image</a>
+        <a href="/text/">Text</a>
+        <a href="/developer/" class="active">Developer</a>
+        <a href="/calculator/">Calculator</a>
+        <a href="/converter/">Converter</a>
+        <a href="/ai/">AI Tools</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1 style="margin-bottom: 0.5rem; color: #0f172a;">Live HTML Viewer</h1>
+    <p style="margin-bottom: 1.5rem; color: #64748b;">Write or paste your HTML code to see a live preview instantly.</p>
+    <div class="split-view">
+      <div class="pane">
+        <div class="pane-header">HTML Code</div>
+        <textarea id="htmlInput" placeholder="Paste your HTML code here..."><h1>Hello World</h1>
+<p>This is a live preview of your HTML.</p>
+<style>
+  h1 { color: #2563eb; font-family: sans-serif; }
+  p { color: #475569; font-family: sans-serif; }
+</style></textarea>
+      </div>
+      <div class="pane">
+        <div class="pane-header">Live Preview</div>
+        <iframe id="previewIframe"></iframe>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="privacy-badge">🔒 Your data never leaves your device.</div>
+    <div class="footer-links">
+      <a href="/">Home</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a>
+    </div>
+    <p class="copyright">&copy; 2026 Toolzium. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const input = document.getElementById('htmlInput');
+    const iframe = document.getElementById('previewIframe');
+
+    function updatePreview() {
+      const doc = iframe.contentWindow.document;
+      doc.open();
+      doc.write(input.value);
+      doc.close();
+    }
+
+    input.addEventListener('input', updatePreview);
+    updatePreview(); // Initial render
+  </script>
+</body>
+</html>

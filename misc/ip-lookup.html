@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What is my IP? | Toolzium</title>
+  <meta name="description" content="Find out your public IP address, location, and ISP details instantly.">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .container { max-width: 600px; margin: 2rem auto; padding: 2rem; background: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; }
+    h1 { margin-bottom: 0.5rem; color: #333; }
+    .subtitle { color: #666; margin-bottom: 2rem; }
+    .ip-display { font-size: 3rem; font-weight: bold; color: #007bff; margin: 1rem 0; word-break: break-all; }
+    .card { background: #f8f9fa; border: 1px solid #eee; border-radius: 8px; padding: 1.5rem; text-align: left; margin-bottom: 2rem; display: none; }
+    .card.visible { display: block; animation: fadeIn 0.5s; }
+    .card-row { display: flex; justify-content: space-between; padding: 0.8rem 0; border-bottom: 1px solid #eaeaea; }
+    .card-row:last-child { border-bottom: none; }
+    .card-label { font-weight: bold; color: #555; }
+    .card-value { color: #222; }
+    .loading { font-size: 1.2rem; color: #777; margin: 2rem 0; }
+    .spinner { display: inline-block; width: 40px; height: 40px; border: 4px solid rgba(0,0,0,0.1); border-radius: 50%; border-top-color: #007bff; animation: spin 1s ease-in-out infinite; margin-bottom: 1rem; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .btn { padding: 0.8rem 2rem; border: none; background: #007bff; color: #fff; border-radius: 6px; font-size: 1.1rem; cursor: pointer; transition: background 0.3s; }
+    .btn:hover { background: #0056b3; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <a href="/" class="logo">Toolzium</a>
+      <nav class="nav-links">
+        <a href="/pdf/">PDF</a>
+        <a href="/image/">Image</a>
+        <a href="/text/">Text</a>
+        <a href="/developer/">Developer</a>
+        <a href="/calculator/">Calculator</a>
+        <a href="/converter/">Converter</a>
+        <a href="/ai/">AI Tools</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1>What is my IP?</h1>
+    <p class="subtitle">Your public IP address and location data</p>
+
+    <div id="loading" class="loading">
+      <div class="spinner"></div>
+      <div>Fetching your IP information...</div>
+    </div>
+
+    <div class="ip-display" id="ipAddress"></div>
+
+    <div class="card" id="detailsCard">
+      <div class="card-row">
+        <span class="card-label">City</span>
+        <span class="card-value" id="city">-</span>
+      </div>
+      <div class="card-row">
+        <span class="card-label">Region</span>
+        <span class="card-value" id="region">-</span>
+      </div>
+      <div class="card-row">
+        <span class="card-label">Country</span>
+        <span class="card-value" id="country">-</span>
+      </div>
+      <div class="card-row">
+        <span class="card-label">ISP</span>
+        <span class="card-value" id="isp">-</span>
+      </div>
+      <div class="card-row">
+        <span class="card-label">Timezone</span>
+        <span class="card-value" id="timezone">-</span>
+      </div>
+    </div>
+
+    <button class="btn" onclick="fetchIP()" id="refreshBtn" style="display: none;">Refresh</button>
+  </main>
+
+  <footer>
+    <div class="privacy-badge">🔒 Your data never leaves your device.</div>
+    <div class="footer-links">
+      <a href="/">Home</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a>
+    </div>
+    <p class="copyright">&copy; 2026 Toolzium. All rights reserved.</p>
+  </footer>
+
+  <script>
+    async function fetchIP() {
+      const loading = document.getElementById('loading');
+      const card = document.getElementById('detailsCard');
+      const ipAddress = document.getElementById('ipAddress');
+      const refreshBtn = document.getElementById('refreshBtn');
+
+      loading.style.display = 'block';
+      card.classList.remove('visible');
+      ipAddress.innerText = '';
+      refreshBtn.style.display = 'none';
+
+      try {
+        const response = await fetch('https://ipapi.co/json/');
+        if (!response.ok) throw new Error("API Limit Reached or Error");
+        const data = await response.json();
+
+        if (data.error) throw new Error(data.reason);
+
+        ipAddress.innerText = data.ip;
+        document.getElementById('city').innerText = data.city || 'N/A';
+        document.getElementById('region').innerText = data.region || 'N/A';
+        document.getElementById('country').innerText = data.country_name || 'N/A';
+        document.getElementById('isp').innerText = data.org || 'N/A';
+        document.getElementById('timezone').innerText = data.timezone || 'N/A';
+
+        loading.style.display = 'none';
+        card.classList.add('visible');
+        refreshBtn.style.display = 'inline-block';
+      } catch (error) {
+        console.error("Error fetching IP:", error);
+        loading.style.display = 'none';
+        ipAddress.innerText = "Error fetching data.";
+        ipAddress.style.fontSize = "1.5rem";
+        ipAddress.style.color = "#dc3545";
+        refreshBtn.style.display = 'inline-block';
+        refreshBtn.innerText = "Try Again";
+      }
+    }
+
+    // Initialize
+    window.addEventListener('load', fetchIP);
+  </script>
+</body>
+</html>

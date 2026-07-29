@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Base Converter - Toolzium</title>
+    <meta name="description" content="Free online number base converter. Convert between Binary, Decimal, Octal, and Hexadecimal numbers.">
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Number Base Converter",
+      "url": "https://toolzium.com/converter/number-base.html",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "All",
+      "description": "Convert numbers across bases: binary, octal, decimal, hexadecimal."
+    }
+    </script>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; background-color: #f9fafb; color: #111827; margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: #ffffff; border-bottom: 1px solid #e5e7eb; }
+        .logo { font-size: 1.5rem; font-weight: bold; text-decoration: none; color: #2563eb; }
+        .nav-links a { margin-left: 1rem; text-decoration: none; color: #4b5563; font-weight: 500; }
+        .nav-links a:hover { color: #2563eb; }
+        footer { padding: 2rem; text-align: center; background: #ffffff; border-top: 1px solid #e5e7eb; margin-top: auto; }
+        .footer-links a { margin: 0 0.5rem; text-decoration: none; color: #6b7280; }
+        .privacy-badge { margin-bottom: 1rem; font-size: 0.875rem; color: #059669; font-weight: 500; background: #ecfdf5; display: inline-block; padding: 0.25rem 0.75rem; border-radius: 9999px; }
+        .copyright { margin-top: 1rem; font-size: 0.875rem; color: #9ca3af; }
+        
+        main { flex: 1; padding: 2rem; display: flex; justify-content: center; }
+        .tool-container { width: 100%; max-width: 600px; background: #ffffff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        h1 { text-align: center; font-size: 1.875rem; margin-bottom: 1.5rem; color: #1f2937; }
+        
+        .input-group { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.25rem; }
+        label { font-weight: 500; font-size: 0.875rem; color: #374151; display: flex; justify-content: space-between; }
+        input[type="text"] { padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; font-size: 1rem; font-family: monospace; outline: none; transition: border-color 0.2s; }
+        input[type="text"]:focus { border-color: #10b981; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1); }
+        .error { color: #ef4444; font-size: 0.75rem; display: none; }
+    </style>
+</head>
+<body>
+    <header>
+      <div class="navbar">
+        <a href="/" class="logo">Toolzium</a>
+        <nav class="nav-links">
+          <a href="/pdf/">PDF</a>
+          <a href="/image/">Image</a>
+          <a href="/text/">Text</a>
+          <a href="/developer/">Developer</a>
+          <a href="/calculator/">Calculator</a>
+          <a href="/converter/">Converter</a>
+          <a href="/ai/">AI Tools</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+        <div class="tool-container">
+            <h1>Number Base Converter</h1>
+            
+            <div class="input-group">
+                <label for="decimal">Decimal (Base 10) <span class="error" id="err-dec">Invalid decimal</span></label>
+                <input type="text" id="decimal" oninput="convertFrom('decimal', 10, /^[0-9]+$/)" placeholder="e.g. 255">
+            </div>
+
+            <div class="input-group">
+                <label for="binary">Binary (Base 2) <span class="error" id="err-bin">Invalid binary</span></label>
+                <input type="text" id="binary" oninput="convertFrom('binary', 2, /^[01]+$/)" placeholder="e.g. 11111111">
+            </div>
+
+            <div class="input-group">
+                <label for="octal">Octal (Base 8) <span class="error" id="err-oct">Invalid octal</span></label>
+                <input type="text" id="octal" oninput="convertFrom('octal', 8, /^[0-7]+$/)" placeholder="e.g. 377">
+            </div>
+
+            <div class="input-group">
+                <label for="hexadecimal">Hexadecimal (Base 16) <span class="error" id="err-hex">Invalid hex</span></label>
+                <input type="text" id="hexadecimal" oninput="convertFrom('hexadecimal', 16, /^[0-9A-Fa-f]+$/)" placeholder="e.g. FF">
+            </div>
+        </div>
+    </main>
+
+    <footer>
+      <div class="privacy-badge">🔒 Your data never leaves your device.</div>
+      <div class="footer-links">
+        <a href="/">Home</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a>
+      </div>
+      <p class="copyright">&copy; 2026 Toolzium. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function convertFrom(sourceId, base, regex) {
+            const inputEl = document.getElementById(sourceId);
+            const val = inputEl.value.trim();
+            const errDec = document.getElementById('err-dec');
+            const errBin = document.getElementById('err-bin');
+            const errOct = document.getElementById('err-oct');
+            const errHex = document.getElementById('err-hex');
+            
+            errDec.style.display = 'none';
+            errBin.style.display = 'none';
+            errOct.style.display = 'none';
+            errHex.style.display = 'none';
+
+            if (val === '') {
+                document.getElementById('decimal').value = '';
+                document.getElementById('binary').value = '';
+                document.getElementById('octal').value = '';
+                document.getElementById('hexadecimal').value = '';
+                return;
+            }
+
+            if (!regex.test(val)) {
+                if (sourceId === 'decimal') errDec.style.display = 'block';
+                if (sourceId === 'binary') errBin.style.display = 'block';
+                if (sourceId === 'octal') errOct.style.display = 'block';
+                if (sourceId === 'hexadecimal') errHex.style.display = 'block';
+                return;
+            }
+
+            const decValue = BigInt('0x' + val); // Using BigInt for larger numbers, wait no, parseInt has base.
+            let decimalNum;
+            try {
+                // For base 2, 8, 10, 16 mapping safely using BigInt to avoid precision loss on large inputs
+                if(base === 10) decimalNum = BigInt(val);
+                else if (base === 2) decimalNum = BigInt('0b' + val);
+                else if (base === 8) decimalNum = BigInt('0o' + val);
+                else if (base === 16) decimalNum = BigInt('0x' + val);
+                
+                if (sourceId !== 'decimal') document.getElementById('decimal').value = decimalNum.toString(10);
+                if (sourceId !== 'binary') document.getElementById('binary').value = decimalNum.toString(2);
+                if (sourceId !== 'octal') document.getElementById('octal').value = decimalNum.toString(8);
+                if (sourceId !== 'hexadecimal') document.getElementById('hexadecimal').value = decimalNum.toString(16).toUpperCase();
+            } catch(e) {
+                // fallback if invalid
+            }
+        }
+    </script>
+</body>
+</html>

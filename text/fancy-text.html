@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fancy Text Generator - Toolzium</title>
+    <meta name="description" content="Convert normal text into fancy Unicode fonts.">
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Fancy Text Generator",
+      "applicationCategory": "UtilitiesApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0"
+      }
+    }
+    </script>
+</head>
+<body>
+    <header>
+      <div class="navbar">
+        <a href="/" class="logo">Toolzium</a>
+        <nav class="nav-links">
+          <a href="/pdf/">PDF</a>
+          <a href="/image/">Image</a>
+          <a href="/text/" class="active">Text</a>
+          <a href="/developer/">Developer</a>
+          <a href="/calculator/">Calculator</a>
+          <a href="/converter/">Converter</a>
+          <a href="/ai/">AI Tools</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="tool-workspace">
+        <div class="tool-container">
+            <h1>Fancy Text Generator</h1>
+            
+            <textarea id="input" class="tool-input" placeholder="Type text to convert..." style="min-height:100px;"></textarea>
+            <div id="output-list" style="display:flex; flex-direction:column; gap:10px;"></div>
+        
+            <div class="ad-placeholder" style="margin-top: 20px; padding: 20px; background: #333; text-align: center; border: 1px dashed #666; min-height: 90px; color: #888;">
+                AdSense Placeholder
+            </div>
+        </div>
+    </main>
+
+    <footer>
+      <div class="privacy-badge">🔒 Your data never leaves your device.</div>
+      <div class="footer-links">
+        <a href="/">Home</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a>
+      </div>
+      <p class="copyright">&copy; 2026 Toolzium. All rights reserved.</p>
+    </footer>
+
+    <script>
+
+            const fonts = [
+                {n: 'Math Bold', base: 0x1D400},
+                {n: 'Math Italic', base: 0x1D434},
+                {n: 'Script', base: 0x1D49C},
+                {n: 'Double Struck', base: 0x1D538},
+                {n: 'Fraktur', base: 0x1D504},
+                {n: 'Sans-Serif', base: 0x1D5A0},
+                {n: 'Monospace', base: 0x1D670}
+            ];
+            document.getElementById('input').addEventListener('input', function() {
+                const text = this.value;
+                let html = '';
+                if(!text) { document.getElementById('output-list').innerHTML = ''; return; }
+                for(let f of fonts) {
+                    let res = '';
+                    for(let c of text) {
+                        let code = c.charCodeAt(0);
+                        if(code >= 65 && code <= 90) res += String.fromCodePoint(f.base + code - 65);
+                        else if(code >= 97 && code <= 122) res += String.fromCodePoint(f.base + 26 + code - 97);
+                        else res += c;
+                    }
+                    html += `
+                        <div style="background:#222; padding:15px; border-radius:4px; display:flex; justify-content:space-between; align-items:center;">
+                            <span style="font-size:18px;">${res}</span>
+                            <button class="btn-secondary" style="margin:0;" onclick="navigator.clipboard.writeText(this.previousElementSibling.innerText)">Copy</button>
+                        </div>
+                    `;
+                }
+                document.getElementById('output-list').innerHTML = html;
+            });
+        
+    </script>
+</body>
+</html>
