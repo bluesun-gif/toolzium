@@ -1,46 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Random Number Generator | Toolzium</title>
-  <meta name="description" content="Generate random numbers easily. Set min/max, generate multiple, allow/disallow duplicates.">
-  <link rel="stylesheet" href="/css/style.css">
-  <style>
-    .container { max-width: 600px; margin: 2rem auto; padding: 2rem; background: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-    h1 { text-align: center; margin-bottom: 2rem; }
-    .form-group { display: flex; flex-direction: column; margin-bottom: 1.5rem; }
-    .form-group label { font-weight: bold; margin-bottom: 0.5rem; }
-    .form-row { display: flex; gap: 1rem; }
-    .form-row .form-group { flex: 1; }
-    input[type="number"] { padding: 0.8rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; }
-    .checkbox-group { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
-    .btn { display: block; width: 100%; padding: 1rem; border: none; background: #007bff; color: #fff; border-radius: 6px; font-size: 1.2rem; cursor: pointer; transition: background 0.3s; margin-top: 1rem; }
-    .btn:hover { background: #0056b3; }
-    .result-box { margin-top: 2rem; padding: 1.5rem; background: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; text-align: center; font-size: 1.5rem; word-break: break-all; min-height: 80px; }
-    .error { color: #dc3545; font-size: 0.9rem; margin-top: 0.5rem; display: none; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Number Generator | Toolzium</title>
+    <meta name="description" content="Generate random numbers easily. Set min/max, generate multiple, allow/disallow duplicates.">
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Random Number Generator",
+      "applicationCategory": "UtilitiesApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0"
+      }
+    }
+    </script>
 </head>
 <body>
-  <header>
-    <div class="navbar">
-      <a href="/" class="logo">Toolzium</a>
-      <nav class="nav-links">
-        <a href="/pdf/">PDF</a>
-        <a href="/image/">Image</a>
-        <a href="/text/">Text</a>
-        <a href="/developer/">Developer</a>
-        <a href="/calculator/">Calculator</a>
-        <a href="/converter/">Converter</a>
-        <a href="/ai/">AI Tools</a>
-      </nav>
-    </div>
-  </header>
+    <!-- ══════ NAVBAR ══════ -->
+    <header class="navbar-wrap">
+      <div class="navbar">
+        <a href="/" class="logo">
+          <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#FF5252"/><path d="M7 8h14v2H7zm3 4h8v2h-8zm2 4h4v2h-4z" fill="#fff"/></svg>
+          Toolzium
+        </a>
+        <nav class="nav-links" id="navLinks">
+          <a href="/index.html#pdf-tools" class="nav-item">PDF Tools</a>
+          <a href="/index.html#text-tools" class="nav-item">Text Tools</a>
+          <a href="/index.html#dev-tools" class="nav-item">Developer</a>
+          <div class="nav-item has-mega">All Tools
+            <div class="mega-dropdown" style="min-width:680px; grid-template-columns: repeat(4, 1fr);">
+              <div>
+                <div class="mega-col-title" style="grid-column:auto">PDF</div>
+                <a href="/pdf/merge.html" class="mega-link"><span class="mega-ic ic-red"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="2" width="10" height="14" rx="2" fill="#fca5a5"/><rect x="10" y="7" width="10" height="14" rx="2" fill="#fee2e2" stroke="#dc2626" stroke-width="1"/></svg></span>Merge PDF</a>
+                <a href="/pdf/split.html" class="mega-link"><span class="mega-ic ic-orange"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="8" height="12" rx="2" fill="#fed7aa"/><rect x="13" y="7" width="8" height="12" rx="2" fill="#fdba74"/></svg></span>Split PDF</a>
+                <a href="/pdf/compress.html" class="mega-link"><span class="mega-ic ic-green"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" fill="#bbf7d0"/><path d="M12 9v6M10 13l2 2 2-2" stroke="#16a34a" stroke-width="1.5"/></svg></span>Compress</a>
+              </div>
+              <div>
+                <div class="mega-col-title" style="grid-column:auto">Text</div>
+                <a href="/text/word-counter.html" class="mega-link"><span class="mega-ic ic-blue"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#dbeafe"/><path d="M7 8h8M7 11h6" stroke="#2563eb" stroke-width="1.5"/></svg></span>Word Counter</a>
+                <a href="/text/case-converter.html" class="mega-link"><span class="mega-ic ic-purple"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#ede9fe"/><text x="6" y="15" font-size="10" font-weight="700" fill="#7c3aed">Aa</text></svg></span>Case Converter</a>
+                <a href="/text/text-diff.html" class="mega-link"><span class="mega-ic ic-amber"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="8" height="16" rx="2" fill="#fef3c7"/><rect x="12" y="3" width="8" height="16" rx="2" fill="#fde68a"/></svg></span>Text Diff</a>
+              </div>
+              <div>
+                <div class="mega-col-title" style="grid-column:auto">Developer</div>
+                <a href="/developer/json-formatter.html" class="mega-link"><span class="mega-ic ic-purple"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#ede9fe"/><path d="M8 7l-3 4 3 4" stroke="#7c3aed" stroke-width="1.5"/></svg></span>JSON Formatter</a>
+                <a href="/developer/html-viewer.html" class="mega-link"><span class="mega-ic ic-orange"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="18" height="16" rx="3" fill="#ffedd5"/><rect x="2" y="3" width="18" height="4" rx="3" fill="#fdba74"/></svg></span>HTML Viewer</a>
+              </div>
+              <div>
+                <div class="mega-col-title" style="grid-column:auto">More</div>
+                <a href="/security/password-generator.html" class="mega-link"><span class="mega-ic ic-green"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="10" width="16" height="10" rx="3" fill="#dcfce7"/><path d="M7 10V7a4 4 0 1 1 8 0v3" stroke="#16a34a" stroke-width="1.5"/></svg></span>Password Gen</a>
+                <a href="/qr/qr-generator.html" class="mega-link"><span class="mega-ic ic-indigo"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#e0e7ff"/><rect x="6" y="6" width="4" height="4" rx="1" fill="#4f46e5"/><rect x="12" y="6" width="4" height="4" rx="1" fill="#4f46e5"/></svg></span>QR Generator</a>
+              </div>
+            </div>
+          </div>
+        </nav>
+        <div class="nav-right">
+          <button class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+          </button>
+        </div>
+      </div>
+    </header>
 
-  <main class="container">
-    <h1>Random Number Generator</h1>
-    
-    <div class="form-row">
+    <!-- ══════ BREADCRUMB ══════ -->
+    <div class="breadcrumb">
+      <a href="/">Home</a> <span>&gt;</span> <a href="/index.html#misc">More Tools</a> <span>&gt;</span> Random Number Generator
+    </div>
+
+    <!-- ══════ MAIN WORKSPACE ══════ -->
+    <main class="tool-page">
+      <div class="tool-hero" style="border-bottom:none; margin-bottom: 20px; padding: 24px 0 12px;">
+        <h1>Random Number Generator <span class="badge">FREE</span></h1>
+        <p>Generate random numbers easily. Set min/max, generate multiple, allow/disallow duplicates.</p>
+      </div>
+
+      <div class="tool-container">
+        <div class="form-row">
       <div class="form-group">
         <label for="minVal">Min</label>
         <input type="number" id="minVal" value="1">
@@ -73,18 +112,64 @@
     <div class="result-box" id="resultBox">
       Click generate to get numbers
     </div>
-  </main>
+      </div>
+    </main>
 
-  <footer>
-    <div class="privacy-badge">🔒 Your data never leaves your device.</div>
-    <div class="footer-links">
-      <a href="/">Home</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a>
+    <!-- ══════ FEATURES ══════ -->
+    <div class="features-row">
+      <div class="feature-item">
+        <div class="f-icon">🔒</div>
+        <h4>100% Private</h4>
+        <p>Processed entirely inside your browser. No files or text data are ever sent to our servers.</p>
+      </div>
+      <div class="feature-item">
+        <div class="f-icon">⚡</div>
+        <h4>Instant Speed</h4>
+        <p>No waiting in upload queues or download queues. Super fast local performance.</p>
+      </div>
+      <div class="feature-item">
+        <div class="f-icon">🆓</div>
+        <h4>Always Free</h4>
+        <p>No registration, no limits, no subscription required. Feel free to use all tools unlimitedly.</p>
+      </div>
     </div>
-    <p class="copyright">&copy; 2026 Toolzium. All rights reserved.</p>
-  </footer>
 
-  <script>
-    function generate() {
+    <!-- ══════ RELATED TOOLS ══════ -->
+    <div class="related-section">
+      <h3 style="text-align:center; font-size:18px;">Other Useful Tools You Might Like</h3>
+      <div class="grid" style="margin-top: 20px;">
+        <a href="/text/word-counter.html" class="card"><div class="ic ic-blue"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#dbeafe"/><path d="M7 8h8M7 11h6" stroke="#2563eb" stroke-width="1.5"/></svg></div><h3>Word Counter</h3><p>Words & reading time</p></a>
+        <a href="/security/password-generator.html" class="card"><div class="ic ic-green"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="10" width="16" height="10" rx="3" fill="#dcfce7"/><path d="M7 10V7a4 4 0 1 1 8 0v3" stroke="#16a34a" stroke-width="1.5"/></svg></div><h3>Password Gen</h3><p>Strong passwords</p></a>
+        <a href="/developer/json-formatter.html" class="card"><div class="ic ic-purple"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#ede9fe"/><path d="M8 7l-3 4 3 4" stroke="#7c3aed" stroke-width="1.5"/></svg></div><h3>JSON Formatter</h3><p>Validate & beautify</p></a>
+      </div>
+    </div>
+
+    <!-- ══════ FOOTER ══════ -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <a href="/" class="logo"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#FF5252"/><path d="M7 8h14v2H7zm3 4h8v2h-8zm2 4h4v2h-4z" fill="#fff"/></svg>Toolzium</a>
+          <p>50+ free browser-based tools. No signup, no uploads — 100% private.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Popular</h4>
+          <a href="/text/word-counter.html">Word Counter</a>
+          <a href="/security/password-generator.html">Password Generator</a>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="/about.html">About</a>
+          <a href="/privacy.html">Privacy</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Toolzium. All rights reserved.</p>
+        <div class="privacy-badge">🔒 Files never leave your browser</div>
+      </div>
+    </footer>
+
+    <script>
+function generate() {
       const min = parseInt(document.getElementById('minVal').value);
       const max = parseInt(document.getElementById('maxVal').value);
       const count = parseInt(document.getElementById('countVal').value);
@@ -140,6 +225,6 @@
       errorMsg.innerText = msg;
       errorMsg.style.display = 'block';
     }
-  </script>
+    </script>
 </body>
 </html>

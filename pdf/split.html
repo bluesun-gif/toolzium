@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Split PDF Online — Separate PDF Pages for Free | Toolzium</title>
+  <meta name="description" content="Split your PDF documents into separate pages or specific ranges instantly online. Safe, easy, and completely free.">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+</head>
+<body>
+
+<header class="navbar-wrap">
+  <div class="navbar">
+    <a href="/" class="logo">
+      <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#FF5252"/><path d="M7 8h14v2H7zm3 4h8v2h-8zm2 4h4v2h-4z" fill="#fff"/></svg>
+      Toolzium
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="/index.html#pdf-tools" class="nav-item">PDF Tools</a>
+      <a href="/index.html#text-tools" class="nav-item">Text Tools</a>
+      <a href="/index.html#dev-tools" class="nav-item">Developer</a>
+      <div class="nav-item has-mega">All Tools
+        <div class="mega-dropdown" style="min-width:680px; grid-template-columns: repeat(4, 1fr);">
+          <div>
+            <div class="mega-col-title">PDF</div>
+            <a href="/pdf/merge.html" class="mega-link"><span class="mega-ic ic-red"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="2" width="10" height="14" rx="2" fill="#fca5a5"/><rect x="10" y="7" width="10" height="14" rx="2" fill="#fee2e2" stroke="#dc2626" stroke-width="1"/></svg></span>Merge PDF</a>
+            <a href="/pdf/split.html" class="mega-link"><span class="mega-ic ic-orange"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="8" height="12" rx="2" fill="#fed7aa"/><rect x="13" y="7" width="8" height="12" rx="2" fill="#fdba74"/></svg></span>Split PDF</a>
+            <a href="/pdf/compress.html" class="mega-link"><span class="mega-ic ic-green"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" fill="#bbf7d0"/><path d="M12 9v6M10 13l2 2 2-2" stroke="#16a34a" stroke-width="1.5"/></svg></span>Compress</a>
+          </div>
+          <div>
+            <div class="mega-col-title">Text</div>
+            <a href="/text/word-counter.html" class="mega-link"><span class="mega-ic ic-blue"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#dbeafe"/><path d="M7 8h8M7 11h6" stroke="#2563eb" stroke-width="1.5"/></svg></span>Word Counter</a>
+            <a href="/text/case-converter.html" class="mega-link"><span class="mega-ic ic-purple"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#ede9fe"/><text x="6" y="15" font-size="10" font-weight="700" fill="#7c3aed">Aa</text></svg></span>Case Converter</a>
+          </div>
+          <div>
+            <div class="mega-col-title">Developer</div>
+            <a href="/developer/json-formatter.html" class="mega-link"><span class="mega-ic ic-purple"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#ede9fe"/><path d="M8 7l-3 4 3 4" stroke="#7c3aed" stroke-width="1.5"/></svg></span>JSON Formatter</a>
+            <a href="/developer/html-viewer.html" class="mega-link"><span class="mega-ic ic-orange"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="18" height="16" rx="3" fill="#ffedd5"/><rect x="2" y="3" width="18" height="4" rx="3" fill="#fdba74"/></svg></span>HTML Viewer</a>
+          </div>
+          <div>
+            <div class="mega-col-title">More</div>
+            <a href="/security/password-generator.html" class="mega-link"><span class="mega-ic ic-green"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="10" width="16" height="10" rx="3" fill="#dcfce7"/><path d="M7 10V7a4 4 0 1 1 8 0v3" stroke="#16a34a" stroke-width="1.5"/></svg></span>Password Gen</a>
+            <a href="/qr/qr-generator.html" class="mega-link"><span class="mega-ic ic-indigo"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#e0e7ff"/><rect x="6" y="6" width="4" height="4" rx="1" fill="#4f46e5"/><rect x="12" y="6" width="4" height="4" rx="1" fill="#4f46e5"/></svg></span>QR Generator</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="nav-right">
+      <button class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="breadcrumb">
+  <a href="/">Home</a> <span>&gt;</span> <a href="/index.html#pdf-tools">PDF</a> <span>&gt;</span> Split PDF
+</div>
+
+<main class="tool-page">
+  <div class="tool-hero">
+    <h1>Split PDF File <span class="badge">FREE</span></h1>
+    <p>Extract specific pages or separate a PDF document into multiple single-page files.</p>
+  </div>
+
+  <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+    <div class="upload-icon">
+      <svg viewBox="0 0 48 48" fill="none">
+        <rect x="8" y="4" width="32" height="40" rx="4" fill="#FFEBE0" stroke="#EA580C" stroke-width="2"/>
+        <path d="M18 20h12M18 26h8M18 32h10" stroke="#EA580C" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <h3>Select PDF file</h3>
+    <p>or drag and drop PDF file here</p>
+    <input type="file" id="fileInput" accept="application/pdf" style="display:none">
+  </div>
+
+  <div class="workspace-layout hidden" id="workspaceLayout">
+    <div class="workspace-main">
+      <div class="file-grid" id="fileList">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+    <div class="workspace-sidebar">
+      <h3>Split Settings</h3>
+      <div class="sidebar-option" id="optionsContainer">
+        <label for="pageRange">Pages to Extract</label>
+        <input type="text" id="pageRange" placeholder="e.g. 1, 3-5, 8" value="">
+        <p style="font-size: 11px; color: var(--text-3); margin-top: 4px;">Leave blank to split all pages as individual files.</p>
+      </div>
+      <button class="btn btn-primary btn-block btn-lg" id="actionBtn" style="margin-top:auto;">
+        Split PDF ➔
+      </button>
+    </div>
+  </div>
+
+  <div class="conversion-loading hidden" id="progressContainer">
+    <div class="circle-loader-spin"></div>
+    <h3 id="progressText">Splitting PDF...</h3>
+    <div class="progress-bar" style="max-width: 300px;">
+      <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+    </div>
+  </div>
+
+  <div class="conversion-success hidden" id="successContainer">
+    <div class="success-icon-wrap">✔</div>
+    <h2>PDF Split Successfully!</h2>
+    <p>Your download should start automatically. If it didn't, click below.</p>
+    <div class="success-buttons">
+      <button class="btn btn-primary" id="downloadBtn">Download PDF</button>
+      <button class="btn btn-secondary" onclick="resetTool()">Split Another File</button>
+    </div>
+  </div>
+</main>
+
+<div class="features-row">
+  <div class="feature-item">
+    <div class="f-icon">🔒</div>
+    <h4>100% Private</h4>
+    <p>All processing is local. Your documents never touch our servers.</p>
+  </div>
+  <div class="feature-item">
+    <div class="f-icon">⚡</div>
+    <h4>Instant Split</h4>
+    <p>No waiting around. Extraction completes in a few clicks.</p>
+  </div>
+  <div class="feature-item">
+    <div class="f-icon">🆓</div>
+    <h4>No Limits</h4>
+    <p>Split as many pages as you want for free without bounds.</p>
+  </div>
+</div>
+
+<div class="howto-section">
+  <h3>How to Split a PDF</h3>
+  <div class="howto-steps">
+    <div class="howto-step">
+      <div class="step-num">1</div>
+      <p>Select your target PDF document.</p>
+    </div>
+    <div class="howto-step">
+      <div class="step-num">2</div>
+      <p>Enter the range of pages to extract (or leave empty to separate all).</p>
+    </div>
+    <div class="howto-step">
+      <div class="step-num">3</div>
+      <p>Click split and save your files instantly.</p>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="/" class="logo"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#FF5252"/><path d="M7 8h14v2H7zm3 4h8v2h-8zm2 4h4v2h-4z" fill="#fff"/></svg>Toolzium</a>
+      <p>50+ free browser-based tools. No signup, no uploads — 100% private.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Popular</h4>
+      <a href="/text/word-counter.html">Word Counter</a>
+      <a href="/security/password-generator.html">Password Generator</a>
+    </div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 Toolzium</p></div>
+</footer>
+
+<script src="/js/app.js"></script>
+<script src="/js/split.js"></script>
+<script>
+let generatedBlob = null;
+
+// Overwrite split.js renderFileList to use premium layout
+const originalRenderFileList = renderFileList;
+renderFileList = function() {
+    const fileList = document.getElementById('fileList');
+    const workspaceLayout = document.getElementById('workspaceLayout');
+    const dropZone = document.getElementById('dropZone');
+    
+    fileList.innerHTML = '';
+    
+    if (currentFile) {
+        dropZone.classList.add('hidden');
+        workspaceLayout.classList.remove('hidden');
+        
+        const div = document.createElement('div');
+        div.className = 'file-card';
+        div.innerHTML = `
+          <div class="file-thumb">📄</div>
+          <div class="file-card-name">${currentFile.name}</div>
+          <button class="file-card-remove" onclick="currentFile=null; renderFileList();">✖</button>
+        `;
+        fileList.appendChild(div);
+        
+        document.getElementById('actionBtn').style.display = 'block';
+        document.getElementById('optionsContainer').style.display = 'block';
+    } else {
+        dropZone.classList.remove('hidden');
+        workspaceLayout.classList.add('hidden');
+    }
+};
+
+// Hook actionBtn to hide workspace during operation
+const originalSplitPdf = splitPdf;
+splitPdf = async function() {
+    if (!currentFile) return;
+    document.getElementById('workspaceLayout').classList.add('hidden');
+    document.getElementById('progressContainer').classList.remove('hidden');
+    
+    // Inject success callback
+    const originalDownload = downloadFile;
+    downloadFile = function(blob, filename) {
+        generatedBlob = blob;
+        originalDownload(blob, filename);
+        document.getElementById('progressContainer').classList.add('hidden');
+        document.getElementById('successContainer').classList.remove('hidden');
+        downloadFile = originalDownload; // Restore
+    };
+    
+    try {
+        await originalSplitPdf();
+    } catch(e) {
+        resetTool();
+    }
+};
+
+document.getElementById('downloadBtn').addEventListener('click', () => {
+    if (generatedBlob) downloadFile(generatedBlob, 'split-document.pdf');
+});
+
+function resetTool() {
+    currentFile = null;
+    generatedBlob = null;
+    document.getElementById('successContainer').classList.add('hidden');
+    document.getElementById('progressContainer').classList.add('hidden');
+    renderFileList();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compress PDF Online — Reduce PDF File Size for Free | Toolzium</title>
+  <meta name="description" content="Reduce the file size of your PDF documents instantly online. Free, safe, and easy to use. No data uploaded.">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+</head>
+<body>
+
+<header class="navbar-wrap">
+  <div class="navbar">
+    <a href="/" class="logo">
+      <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#FF5252"/><path d="M7 8h14v2H7zm3 4h8v2h-8zm2 4h4v2h-4z" fill="#fff"/></svg>
+      Toolzium
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="/index.html#pdf-tools" class="nav-item">PDF Tools</a>
+      <a href="/index.html#text-tools" class="nav-item">Text Tools</a>
+      <a href="/index.html#dev-tools" class="nav-item">Developer</a>
+      <div class="nav-item has-mega">All Tools
+        <div class="mega-dropdown" style="min-width:680px; grid-template-columns: repeat(4, 1fr);">
+          <div>
+            <div class="mega-col-title">PDF</div>
+            <a href="/pdf/merge.html" class="mega-link"><span class="mega-ic ic-red"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="2" width="10" height="14" rx="2" fill="#fca5a5"/><rect x="10" y="7" width="10" height="14" rx="2" fill="#fee2e2" stroke="#dc2626" stroke-width="1"/></svg></span>Merge PDF</a>
+            <a href="/pdf/split.html" class="mega-link"><span class="mega-ic ic-orange"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="8" height="12" rx="2" fill="#fed7aa"/><rect x="13" y="7" width="8" height="12" rx="2" fill="#fdba74"/></svg></span>Split PDF</a>
+            <a href="/pdf/compress.html" class="mega-link"><span class="mega-ic ic-green"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" fill="#bbf7d0"/><path d="M12 9v6M10 13l2 2 2-2" stroke="#16a34a" stroke-width="1.5"/></svg></span>Compress</a>
+          </div>
+          <div>
+            <div class="mega-col-title">Text</div>
+            <a href="/text/word-counter.html" class="mega-link"><span class="mega-ic ic-blue"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#dbeafe"/><path d="M7 8h8M7 11h6" stroke="#2563eb" stroke-width="1.5"/></svg></span>Word Counter</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<div class="breadcrumb">
+  <a href="/">Home</a> <span>&gt;</span> <a href="/index.html#pdf-tools">PDF</a> <span>&gt;</span> Compress PDF
+</div>
+
+<main class="tool-page">
+  <div class="tool-hero">
+    <h1>Compress PDF File <span class="badge">FREE</span></h1>
+    <p>Reduce PDF file size while maintaining maximal quality. 100% offline.</p>
+  </div>
+
+  <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+    <div class="upload-icon">
+      <svg viewBox="0 0 48 48" fill="none">
+        <rect x="8" y="4" width="32" height="40" rx="4" fill="#E8FDF0" stroke="#16A34A" stroke-width="2"/>
+        <path d="M24 12v18M18 24l6 6 6-6" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h3>Select PDF file</h3>
+    <p>or drag and drop PDF file here</p>
+    <input type="file" id="fileInput" accept="application/pdf" style="display:none">
+  </div>
+
+  <div class="workspace-layout hidden" id="workspaceLayout">
+    <div class="workspace-main">
+      <div class="file-grid" id="fileList">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+    <div class="workspace-sidebar">
+      <h3>Compression Options</h3>
+      <div class="sidebar-option" id="optionsContainer">
+        <label>Compression Level</label>
+        <select id="compressLevel">
+          <option value="recommended">Recommended Compression (Good quality & size)</option>
+          <option value="high">Extreme Compression (Less quality, smallest size)</option>
+        </select>
+      </div>
+      <button class="btn btn-primary btn-block btn-lg" id="actionBtn" style="margin-top:auto;">
+        Compress PDF ➔
+      </button>
+    </div>
+  </div>
+
+  <div class="conversion-loading hidden" id="progressContainer">
+    <div class="circle-loader-spin"></div>
+    <h3 id="progressText">Compressing PDF...</h3>
+    <div class="progress-bar" style="max-width: 300px;">
+      <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+    </div>
+  </div>
+
+  <div class="conversion-success hidden" id="successContainer">
+    <div class="success-icon-wrap">✔</div>
+    <h2>PDF Compressed!</h2>
+    <p id="successSizeInfo">Your document is now ready for download.</p>
+    <div class="success-buttons">
+      <button class="btn btn-primary" id="downloadBtn">Download PDF</button>
+      <button class="btn btn-secondary" onclick="resetTool()">Compress Another File</button>
+    </div>
+  </div>
+</main>
+
+<div class="features-row">
+  <div class="feature-item">
+    <div class="f-icon">🔒</div>
+    <h4>Private & Secure</h4>
+    <p>We process documents inside your browser. No files are ever sent to a server.</p>
+  </div>
+  <div class="feature-item">
+    <div class="f-icon">⚡</div>
+    <h4>Local Speed</h4>
+    <p>Instant file compression without upload queues or network latency.</p>
+  </div>
+  <div class="feature-item">
+    <div class="f-icon">🆓</div>
+    <h4>Free Forever</h4>
+    <p>Use all compression features without constraints, watermarks or charges.</p>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="/" class="logo"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#FF5252"/><path d="M7 8h14v2H7zm3 4h8v2h-8zm2 4h4v2h-4z" fill="#fff"/></svg>Toolzium</a>
+      <p>50+ free browser-based tools. No signup, no uploads — 100% private.</p>
+    </div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 Toolzium</p></div>
+</footer>
+
+<script src="/js/app.js"></script>
+<script src="/js/compress.js"></script>
+<script>
+let generatedBlob = null;
+
+// Hook layout render
+const originalRenderFileList = renderFileList;
+renderFileList = function() {
+    const fileList = document.getElementById('fileList');
+    const workspaceLayout = document.getElementById('workspaceLayout');
+    const dropZone = document.getElementById('dropZone');
+    
+    fileList.innerHTML = '';
+    
+    if (currentFile) {
+        dropZone.classList.add('hidden');
+        workspaceLayout.classList.remove('hidden');
+        
+        const div = document.createElement('div');
+        div.className = 'file-card';
+        div.innerHTML = `
+          <div class="file-thumb">📄</div>
+          <div class="file-card-name">${currentFile.name}</div>
+          <button class="file-card-remove" onclick="currentFile=null; renderFileList();">✖</button>
+        `;
+        fileList.appendChild(div);
+        
+        document.getElementById('actionBtn').style.display = 'block';
+        document.getElementById('optionsContainer').style.display = 'block';
+    } else {
+        dropZone.classList.remove('hidden');
+        workspaceLayout.classList.add('hidden');
+    }
+};
+
+// Hook actionBtn
+const originalCompressPdf = compressPdf;
+compressPdf = async function() {
+    if (!currentFile) return;
+    document.getElementById('workspaceLayout').classList.add('hidden');
+    document.getElementById('progressContainer').classList.remove('hidden');
+    
+    const originalDownload = downloadFile;
+    downloadFile = function(blob, filename) {
+        generatedBlob = blob;
+        originalDownload(blob, filename);
+        
+        const origSize = (currentFile.size / 1024 / 1024).toFixed(2);
+        const compSize = (blob.size / 1024 / 1024).toFixed(2);
+        document.getElementById('successSizeInfo').innerText = `Reduced file size from ${origSize}MB to ${compSize}MB.`;
+        
+        document.getElementById('progressContainer').classList.add('hidden');
+        document.getElementById('successContainer').classList.remove('hidden');
+        downloadFile = originalDownload;
+    };
+    
+    try {
+        await originalCompressPdf();
+    } catch(e) {
+        resetTool();
+    }
+};
+
+document.getElementById('downloadBtn').addEventListener('click', () => {
+    if (generatedBlob) downloadFile(generatedBlob, 'compressed-' + currentFile.name);
+});
+
+function resetTool() {
+    currentFile = null;
+    generatedBlob = null;
+    document.getElementById('successContainer').classList.add('hidden');
+    document.getElementById('progressContainer').classList.add('hidden');
+    renderFileList();
+}
+</script>
+</body>
+</html>

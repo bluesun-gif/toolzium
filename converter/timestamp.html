@@ -9,62 +9,78 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "Timestamp Converter",
-      "url": "https://toolzium.com/converter/timestamp.html",
+      "@type": "SoftwareApplication",
+      "name": "Unix Timestamp Converter - Toolzium",
       "applicationCategory": "UtilitiesApplication",
-      "operatingSystem": "All",
-      "description": "Convert Unix epoch timestamps to human-readable dates and vice-versa."
+      "offers": {
+        "@type": "Offer",
+        "price": "0"
+      }
     }
     </script>
-    <style>
-        body { font-family: system-ui, -apple-system, sans-serif; background-color: #f9fafb; color: #111827; margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; }
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: #ffffff; border-bottom: 1px solid #e5e7eb; }
-        .logo { font-size: 1.5rem; font-weight: bold; text-decoration: none; color: #2563eb; }
-        .nav-links a { margin-left: 1rem; text-decoration: none; color: #4b5563; font-weight: 500; }
-        .nav-links a:hover { color: #2563eb; }
-        footer { padding: 2rem; text-align: center; background: #ffffff; border-top: 1px solid #e5e7eb; margin-top: auto; }
-        .footer-links a { margin: 0 0.5rem; text-decoration: none; color: #6b7280; }
-        .privacy-badge { margin-bottom: 1rem; font-size: 0.875rem; color: #059669; font-weight: 500; background: #ecfdf5; display: inline-block; padding: 0.25rem 0.75rem; border-radius: 9999px; }
-        .copyright { margin-top: 1rem; font-size: 0.875rem; color: #9ca3af; }
-        
-        main { flex: 1; padding: 2rem; display: flex; flex-direction: column; align-items: center; gap: 2rem; }
-        .tool-container { width: 100%; max-width: 600px; background: #ffffff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
-        h1 { text-align: center; font-size: 1.875rem; margin-bottom: 1.5rem; color: #1f2937; }
-        h2 { font-size: 1.25rem; color: #4b5563; margin-bottom: 1rem; margin-top: 0; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.5rem; }
-        
-        .current-time { text-align: center; padding: 1rem; background: #eff6ff; border-radius: 8px; margin-bottom: 2rem; }
-        .current-time .ts { font-size: 2rem; font-weight: bold; color: #2563eb; font-family: monospace; }
-        
-        .input-group { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.25rem; }
-        label { font-weight: 500; font-size: 0.875rem; color: #374151; }
-        input[type="text"], input[type="datetime-local"] { padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; font-size: 1rem; outline: none; transition: border-color 0.2s; }
-        input[type="text"]:focus, input[type="datetime-local"]:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
-        
-        .result-box { padding: 1rem; background: #f3f4f6; border-radius: 8px; margin-top: 1rem; min-height: 24px; font-weight: 500; word-break: break-all; }
-        .btn-convert { width: 100%; padding: 0.75rem; background: #2563eb; color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 500; cursor: pointer; transition: background 0.2s; }
-        .btn-convert:hover { background: #1d4ed8; }
-    </style>
 </head>
 <body>
-    <header>
+    <!-- ══════ NAVBAR ══════ -->
+    <header class="navbar-wrap">
       <div class="navbar">
-        <a href="/" class="logo">Toolzium</a>
-        <nav class="nav-links">
-          <a href="/pdf/">PDF</a>
-          <a href="/image/">Image</a>
-          <a href="/text/">Text</a>
-          <a href="/developer/">Developer</a>
-          <a href="/calculator/">Calculator</a>
-          <a href="/converter/">Converter</a>
-          <a href="/ai/">AI Tools</a>
+        <a href="/" class="logo">
+          <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#FF5252"/><path d="M7 8h14v2H7zm3 4h8v2h-8zm2 4h4v2h-4z" fill="#fff"/></svg>
+          Toolzium
+        </a>
+        <nav class="nav-links" id="navLinks">
+          <a href="/index.html#pdf-tools" class="nav-item">PDF Tools</a>
+          <a href="/index.html#text-tools" class="nav-item">Text Tools</a>
+          <a href="/index.html#dev-tools" class="nav-item">Developer</a>
+          <div class="nav-item has-mega">All Tools
+            <div class="mega-dropdown" style="min-width:680px; grid-template-columns: repeat(4, 1fr);">
+              <div>
+                <div class="mega-col-title" style="grid-column:auto">PDF</div>
+                <a href="/pdf/merge.html" class="mega-link"><span class="mega-ic ic-red"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="2" width="10" height="14" rx="2" fill="#fca5a5"/><rect x="10" y="7" width="10" height="14" rx="2" fill="#fee2e2" stroke="#dc2626" stroke-width="1"/></svg></span>Merge PDF</a>
+                <a href="/pdf/split.html" class="mega-link"><span class="mega-ic ic-orange"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="8" height="12" rx="2" fill="#fed7aa"/><rect x="13" y="7" width="8" height="12" rx="2" fill="#fdba74"/></svg></span>Split PDF</a>
+                <a href="/pdf/compress.html" class="mega-link"><span class="mega-ic ic-green"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" fill="#bbf7d0"/><path d="M12 9v6M10 13l2 2 2-2" stroke="#16a34a" stroke-width="1.5"/></svg></span>Compress</a>
+              </div>
+              <div>
+                <div class="mega-col-title" style="grid-column:auto">Text</div>
+                <a href="/text/word-counter.html" class="mega-link"><span class="mega-ic ic-blue"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#dbeafe"/><path d="M7 8h8M7 11h6" stroke="#2563eb" stroke-width="1.5"/></svg></span>Word Counter</a>
+                <a href="/text/case-converter.html" class="mega-link"><span class="mega-ic ic-purple"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#ede9fe"/><text x="6" y="15" font-size="10" font-weight="700" fill="#7c3aed">Aa</text></svg></span>Case Converter</a>
+                <a href="/text/text-diff.html" class="mega-link"><span class="mega-ic ic-amber"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="8" height="16" rx="2" fill="#fef3c7"/><rect x="12" y="3" width="8" height="16" rx="2" fill="#fde68a"/></svg></span>Text Diff</a>
+              </div>
+              <div>
+                <div class="mega-col-title" style="grid-column:auto">Developer</div>
+                <a href="/developer/json-formatter.html" class="mega-link"><span class="mega-ic ic-purple"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#ede9fe"/><path d="M8 7l-3 4 3 4" stroke="#7c3aed" stroke-width="1.5"/></svg></span>JSON Formatter</a>
+                <a href="/developer/html-viewer.html" class="mega-link"><span class="mega-ic ic-orange"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="18" height="16" rx="3" fill="#ffedd5"/><rect x="2" y="3" width="18" height="4" rx="3" fill="#fdba74"/></svg></span>HTML Viewer</a>
+              </div>
+              <div>
+                <div class="mega-col-title" style="grid-column:auto">More</div>
+                <a href="/security/password-generator.html" class="mega-link"><span class="mega-ic ic-green"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="10" width="16" height="10" rx="3" fill="#dcfce7"/><path d="M7 10V7a4 4 0 1 1 8 0v3" stroke="#16a34a" stroke-width="1.5"/></svg></span>Password Gen</a>
+                <a href="/qr/qr-generator.html" class="mega-link"><span class="mega-ic ic-indigo"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#e0e7ff"/><rect x="6" y="6" width="4" height="4" rx="1" fill="#4f46e5"/><rect x="12" y="6" width="4" height="4" rx="1" fill="#4f46e5"/></svg></span>QR Generator</a>
+              </div>
+            </div>
+          </div>
         </nav>
+        <div class="nav-right">
+          <button class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+          </button>
+        </div>
       </div>
     </header>
 
-    <main>
+    <!-- ══════ BREADCRUMB ══════ -->
+    <div class="breadcrumb">
+      <a href="/">Home</a> <span>&gt;</span> <a href="/index.html#conv-tools">Converter Tools</a> <span>&gt;</span> Unix Timestamp Converter - Toolzium
+    </div>
+
+    <!-- ══════ MAIN WORKSPACE ══════ -->
+    <main class="tool-page">
+      <div class="tool-hero" style="border-bottom:none; margin-bottom: 20px; padding: 24px 0 12px;">
+        <h1>Unix Timestamp Converter - Toolzium <span class="badge">FREE</span></h1>
+        <p>Free online Unix timestamp converter. Convert between epoch timestamps and human-readable dates. Get the current timestamp.</p>
+      </div>
+
+      <div class="tool-container">
         <div class="tool-container">
-            <h1>Timestamp Converter</h1>
+            
             
             <div class="current-time">
                 <div>Current Unix Timestamp</div>
@@ -89,74 +105,72 @@
             <button class="btn-convert" onclick="convertDateToTs()">Convert to Timestamp</button>
             <div class="result-box" id="date-result"></div>
         </div>
+      </div>
     </main>
 
-    <footer>
-      <div class="privacy-badge">🔒 Your data never leaves your device.</div>
-      <div class="footer-links">
-        <a href="/">Home</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a>
+    <!-- ══════ FEATURES ══════ -->
+    <div class="features-row">
+      <div class="feature-item">
+        <div class="f-icon">🔒</div>
+        <h4>100% Private</h4>
+        <p>Processed entirely inside your browser. No files or text data are ever sent to our servers.</p>
       </div>
-      <p class="copyright">&copy; 2026 Toolzium. All rights reserved.</p>
+      <div class="feature-item">
+        <div class="f-icon">⚡</div>
+        <h4>Instant Speed</h4>
+        <p>No waiting in upload queues or download queues. Super fast local performance.</p>
+      </div>
+      <div class="feature-item">
+        <div class="f-icon">🆓</div>
+        <h4>Always Free</h4>
+        <p>No registration, no limits, no subscription required. Feel free to use all tools unlimitedly.</p>
+      </div>
+    </div>
+
+    <!-- ══════ RELATED TOOLS ══════ -->
+    <div class="related-section">
+      <h3 style="text-align:center; font-size:18px;">Other Useful Tools You Might Like</h3>
+      <div class="grid" style="margin-top: 20px;">
+        <a href="/text/word-counter.html" class="card"><div class="ic ic-blue"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#dbeafe"/><path d="M7 8h8M7 11h6" stroke="#2563eb" stroke-width="1.5"/></svg></div><h3>Word Counter</h3><p>Words & reading time</p></a>
+        <a href="/security/password-generator.html" class="card"><div class="ic ic-green"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="10" width="16" height="10" rx="3" fill="#dcfce7"/><path d="M7 10V7a4 4 0 1 1 8 0v3" stroke="#16a34a" stroke-width="1.5"/></svg></div><h3>Password Gen</h3><p>Strong passwords</p></a>
+        <a href="/developer/json-formatter.html" class="card"><div class="ic ic-purple"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#ede9fe"/><path d="M8 7l-3 4 3 4" stroke="#7c3aed" stroke-width="1.5"/></svg></div><h3>JSON Formatter</h3><p>Validate & beautify</p></a>
+      </div>
+    </div>
+
+    <!-- ══════ FOOTER ══════ -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <a href="/" class="logo"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#FF5252"/><path d="M7 8h14v2H7zm3 4h8v2h-8zm2 4h4v2h-4z" fill="#fff"/></svg>Toolzium</a>
+          <p>50+ free browser-based tools. No signup, no uploads — 100% private.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Popular</h4>
+          <a href="/text/word-counter.html">Word Counter</a>
+          <a href="/security/password-generator.html">Password Generator</a>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="/about.html">About</a>
+          <a href="/privacy.html">Privacy</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Toolzium. All rights reserved.</p>
+        <div class="privacy-badge">🔒 Files never leave your browser</div>
+      </div>
     </footer>
 
     <script>
-        // Update current timestamp
-        function updateCurrent() {
-            document.getElementById('current-ts').innerText = Math.floor(Date.now() / 1000);
-        }
-        setInterval(updateCurrent, 1000);
-        updateCurrent();
-
-        // Convert Timestamp to Date
-        function convertTsToDate() {
-            const val = document.getElementById('ts-input').value.trim();
-            if (!val) return;
-            
-            let num = parseInt(val, 10);
-            if (isNaN(num)) {
-                document.getElementById('ts-result').innerText = 'Invalid timestamp';
-                return;
-            }
-            
-            // Auto-detect seconds vs milliseconds (rough heuristic)
-            // If it's less than year 3000 in seconds, we assume seconds
-            if (num < 32503680000) { 
-                num = num * 1000;
-            }
-
-            const date = new Date(num);
-            if (isNaN(date.getTime())) {
-                document.getElementById('ts-result').innerText = 'Invalid timestamp';
-            } else {
-                document.getElementById('ts-result').innerHTML = `
-                    <strong>Local:</strong> ${date.toLocaleString()}<br>
-                    <strong>GMT:</strong> ${date.toUTCString()}
-                `;
-            }
-        }
-
-        // Convert Date to Timestamp
-        function convertDateToTs() {
-            const val = document.getElementById('date-input').value;
-            if (!val) return;
-
-            const date = new Date(val);
-            if (isNaN(date.getTime())) {
-                document.getElementById('date-result').innerText = 'Invalid date';
-            } else {
-                const ms = date.getTime();
-                const sec = Math.floor(ms / 1000);
-                document.getElementById('date-result').innerHTML = `
-                    <strong>Seconds:</strong> ${sec}<br>
-                    <strong>Milliseconds:</strong> ${ms}
-                `;
-            }
-        }
-
-        // Init date input to now
-        const now = new Date();
-        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-        document.getElementById('date-input').value = now.toISOString().slice(0,16);
+{
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Timestamp Converter",
+      "url": "https://toolzium.com/converter/timestamp.html",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "All",
+      "description": "Convert Unix epoch timestamps to human-readable dates and vice-versa."
+    }
     </script>
 </body>
 </html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image to PDF Online — Convert JPG/PNG to PDF for Free | Toolzium</title>
+  <meta name="description" content="Convert your JPG or PNG image files to a clean PDF document instantly online for free. Secure local processing.">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+</head>
+<body>
+
+<header class="navbar-wrap">
+  <div class="navbar">
+    <a href="/" class="logo">
+      <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#FF5252"/><path d="M7 8h14v2H7zm3 4h8v2h-8zm2 4h4v2h-4z" fill="#fff"/></svg>
+      Toolzium
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="/index.html#pdf-tools" class="nav-item">PDF Tools</a>
+      <a href="/index.html#text-tools" class="nav-item">Text Tools</a>
+      <a href="/index.html#dev-tools" class="nav-item">Developer</a>
+    </nav>
+  </div>
+</header>
+
+<div class="breadcrumb">
+  <a href="/">Home</a> <span>&gt;</span> <a href="/index.html#pdf-tools">PDF</a> <span>&gt;</span> Image to PDF
+</div>
+
+<main class="tool-page">
+  <div class="tool-hero">
+    <h1>Image to PDF Converter <span class="badge">FREE</span></h1>
+    <p>Convert your photos, JPG, and PNG images into a formatted PDF document locally in seconds.</p>
+  </div>
+
+  <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+    <div class="upload-icon">
+      <svg viewBox="0 0 48 48" fill="none">
+        <rect x="8" y="4" width="32" height="40" rx="4" fill="#E8E8FF" stroke="#4F46E5" stroke-width="2"/>
+        <rect x="12" y="10" width="24" height="18" rx="2" fill="#C7D2FE" stroke="#818CF8" stroke-width="1.5"/>
+        <circle cx="18" cy="15" r="2" fill="#818CF8"/>
+        <path d="M12 24l6-4 4 3 8-7v8H12z" fill="#A5B4FC"/>
+      </svg>
+    </div>
+    <h3>Select Images</h3>
+    <p>or drag and drop JPG/PNG images here</p>
+    <input type="file" id="fileInput" multiple accept="image/jpeg, image/png" style="display:none">
+  </div>
+
+  <div class="workspace-layout hidden" id="workspaceLayout">
+    <div class="workspace-main">
+      <div class="file-grid" id="fileList">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+    <div class="workspace-sidebar">
+      <h3>PDF Settings</h3>
+      <p style="font-size: 13px; color: var(--text-2);">Rearrange your images by removing and re-adding them. They will be formatted in the sequence shown.</p>
+      <button class="btn btn-primary btn-block btn-lg" id="actionBtn" style="margin-top:auto;">
+        Convert to PDF ➔
+      </button>
+    </div>
+  </div>
+
+  <div class="conversion-loading hidden" id="progressContainer">
+    <div class="circle-loader-spin"></div>
+    <h3 id="progressText">Creating PDF...</h3>
+    <div class="progress-bar" style="max-width: 300px;">
+      <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+    </div>
+  </div>
+
+  <div class="conversion-success hidden" id="successContainer">
+    <div class="success-icon-wrap">✔</div>
+    <h2>PDF Created from Images!</h2>
+    <p>Your document is ready. The download should start automatically.</p>
+    <div class="success-buttons">
+      <button class="btn btn-primary" id="downloadBtn">Download PDF</button>
+      <button class="btn btn-secondary" onclick="resetTool()">Convert More Images</button>
+    </div>
+  </div>
+</main>
+
+<div class="features-row">
+  <div class="feature-item">
+    <div class="f-icon">🔒</div>
+    <h4>Private & Offline</h4>
+    <p>Converted locally in your browser. No files are uploaded, guaranteeing privacy.</p>
+  </div>
+  <div class="feature-item">
+    <div class="f-icon">⚡</div>
+    <h4>High Quality</h4>
+    <p>Embeds images into PDF with no compression artifacts or visual loss.</p>
+  </div>
+  <div class="feature-item">
+    <div class="f-icon">🆓</div>
+    <h4>100% Free</h4>
+    <p>Convert unlimited pictures into PDF without any watermark or cost.</p>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="/" class="logo"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#FF5252"/><path d="M7 8h14v2H7zm3 4h8v2h-8zm2 4h4v2h-4z" fill="#fff"/></svg>Toolzium</a>
+      <p>50+ free browser-based tools. No signup, no uploads — 100% private.</p>
+    </div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 Toolzium</p></div>
+</footer>
+
+<script src="/js/app.js"></script>
+<script src="/js/image-to-pdf.js"></script>
+<script>
+let generatedBlob = null;
+
+// Hook layout render
+const originalRenderFileList = renderFileList;
+renderFileList = function() {
+    const fileList = document.getElementById('fileList');
+    const workspaceLayout = document.getElementById('workspaceLayout');
+    const dropZone = document.getElementById('dropZone');
+    
+    fileList.innerHTML = '';
+    
+    if (selectedFiles.length > 0) {
+        dropZone.classList.add('hidden');
+        workspaceLayout.classList.remove('hidden');
+        
+        selectedFiles.forEach((file, index) => {
+            const div = document.createElement('div');
+            div.className = 'file-card';
+            
+            // Create object URL to show image preview!
+            const imgUrl = URL.createObjectURL(file);
+            
+            div.innerHTML = `
+              <div class="file-thumb" style="padding: 0; overflow: hidden; background: #fff;">
+                <img src="${imgUrl}" alt="${file.name}" onload="URL.revokeObjectURL('${imgUrl}')" style="width: 100%; height: 100%; object-fit: cover;">
+              </div>
+              <div class="file-card-name">${file.name}</div>
+              <button class="file-card-remove" onclick="removeFile(${index})">✖</button>
+            `;
+            fileList.appendChild(div);
+        });
+        
+        // Add Files button
+        const addCard = document.createElement('div');
+        addCard.className = 'add-files-btn';
+        addCard.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>Add more images`;
+        addCard.onclick = () => document.getElementById('fileInput').click();
+        fileList.appendChild(addCard);
+        
+        document.getElementById('actionBtn').style.display = 'block';
+    } else {
+        dropZone.classList.remove('hidden');
+        workspaceLayout.classList.add('hidden');
+    }
+};
+
+// Hook actionBtn
+const originalConvertImageToPdf = convertImageToPdf;
+convertImageToPdf = async function() {
+    if (selectedFiles.length === 0) return;
+    document.getElementById('workspaceLayout').classList.add('hidden');
+    document.getElementById('progressContainer').classList.remove('hidden');
+    
+    const originalDownload = downloadFile;
+    downloadFile = function(blob, filename) {
+        generatedBlob = blob;
+        originalDownload(blob, filename);
+        document.getElementById('progressContainer').classList.add('hidden');
+        document.getElementById('successContainer').classList.remove('hidden');
+        downloadFile = originalDownload;
+    };
+    
+    try {
+        await originalConvertImageToPdf();
+    } catch(e) {
+        resetTool();
+    }
+};
+
+document.getElementById('downloadBtn').addEventListener('click', () => {
+    if (generatedBlob) downloadFile(generatedBlob, 'images-converted.pdf');
+});
+
+function resetTool() {
+    selectedFiles = [];
+    generatedBlob = null;
+    document.getElementById('successContainer').classList.add('hidden');
+    document.getElementById('progressContainer').classList.add('hidden');
+    renderFileList();
+}
+</script>
+</body>
+</html>

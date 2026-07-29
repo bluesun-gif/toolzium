@@ -1,52 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Percentage Calculator | Toolzium</title>
-  <meta name="description" content="Free online percentage calculator. Calculate percentages, percentage change, and more easily.">
-  <link rel="stylesheet" href="/css/style.css">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "Percentage Calculator",
-    "description": "Calculate percentages quickly with our free online percentage calculator.",
-    "applicationCategory": "CalculatorApplication",
-    "operatingSystem": "All"
-  }
-  </script>
-  <style>
-    .calculator-container { max-width: 600px; margin: 40px auto; padding: 30px; background: #fff; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); font-family: system-ui, sans-serif; }
-    .calc-section { margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #eee; }
-    .calc-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-    .calc-section h2 { font-size: 1.2rem; color: #333; margin-bottom: 15px; }
-    .input-group { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
-    .input-group input { padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; width: 100px; flex: 1; min-width: 100px; }
-    .input-group button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 1rem; font-weight: 600; transition: background 0.3s; }
-    .input-group button:hover { background: #0056b3; }
-    .result { font-size: 1.2rem; font-weight: bold; color: #28a745; margin-top: 10px; min-height: 28px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Percentage Calculator | Toolzium</title>
+    <meta name="description" content="Free online percentage calculator. Calculate percentages, percentage change, and more easily.">
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Percentage Calculator",
+      "applicationCategory": "UtilitiesApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0"
+      }
+    }
+    </script>
 </head>
 <body>
-  <header>
-    <div class="navbar">
-      <a href="/" class="logo">Toolzium</a>
-      <nav class="nav-links">
-        <a href="/pdf/">PDF</a>
-        <a href="/image/">Image</a>
-        <a href="/text/">Text</a>
-        <a href="/developer/">Developer</a>
-        <a href="/calculator/">Calculator</a>
-        <a href="/converter/">Converter</a>
-        <a href="/ai/">AI Tools</a>
-      </nav>
-    </div>
-  </header>
+    <!-- ══════ NAVBAR ══════ -->
+    <header class="navbar-wrap">
+      <div class="navbar">
+        <a href="/" class="logo">
+          <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#FF5252"/><path d="M7 8h14v2H7zm3 4h8v2h-8zm2 4h4v2h-4z" fill="#fff"/></svg>
+          Toolzium
+        </a>
+        <nav class="nav-links" id="navLinks">
+          <a href="/index.html#pdf-tools" class="nav-item">PDF Tools</a>
+          <a href="/index.html#text-tools" class="nav-item">Text Tools</a>
+          <a href="/index.html#dev-tools" class="nav-item">Developer</a>
+          <div class="nav-item has-mega">All Tools
+            <div class="mega-dropdown" style="min-width:680px; grid-template-columns: repeat(4, 1fr);">
+              <div>
+                <div class="mega-col-title" style="grid-column:auto">PDF</div>
+                <a href="/pdf/merge.html" class="mega-link"><span class="mega-ic ic-red"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="2" width="10" height="14" rx="2" fill="#fca5a5"/><rect x="10" y="7" width="10" height="14" rx="2" fill="#fee2e2" stroke="#dc2626" stroke-width="1"/></svg></span>Merge PDF</a>
+                <a href="/pdf/split.html" class="mega-link"><span class="mega-ic ic-orange"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="8" height="12" rx="2" fill="#fed7aa"/><rect x="13" y="7" width="8" height="12" rx="2" fill="#fdba74"/></svg></span>Split PDF</a>
+                <a href="/pdf/compress.html" class="mega-link"><span class="mega-ic ic-green"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" fill="#bbf7d0"/><path d="M12 9v6M10 13l2 2 2-2" stroke="#16a34a" stroke-width="1.5"/></svg></span>Compress</a>
+              </div>
+              <div>
+                <div class="mega-col-title" style="grid-column:auto">Text</div>
+                <a href="/text/word-counter.html" class="mega-link"><span class="mega-ic ic-blue"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#dbeafe"/><path d="M7 8h8M7 11h6" stroke="#2563eb" stroke-width="1.5"/></svg></span>Word Counter</a>
+                <a href="/text/case-converter.html" class="mega-link"><span class="mega-ic ic-purple"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#ede9fe"/><text x="6" y="15" font-size="10" font-weight="700" fill="#7c3aed">Aa</text></svg></span>Case Converter</a>
+                <a href="/text/text-diff.html" class="mega-link"><span class="mega-ic ic-amber"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="8" height="16" rx="2" fill="#fef3c7"/><rect x="12" y="3" width="8" height="16" rx="2" fill="#fde68a"/></svg></span>Text Diff</a>
+              </div>
+              <div>
+                <div class="mega-col-title" style="grid-column:auto">Developer</div>
+                <a href="/developer/json-formatter.html" class="mega-link"><span class="mega-ic ic-purple"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#ede9fe"/><path d="M8 7l-3 4 3 4" stroke="#7c3aed" stroke-width="1.5"/></svg></span>JSON Formatter</a>
+                <a href="/developer/html-viewer.html" class="mega-link"><span class="mega-ic ic-orange"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="18" height="16" rx="3" fill="#ffedd5"/><rect x="2" y="3" width="18" height="4" rx="3" fill="#fdba74"/></svg></span>HTML Viewer</a>
+              </div>
+              <div>
+                <div class="mega-col-title" style="grid-column:auto">More</div>
+                <a href="/security/password-generator.html" class="mega-link"><span class="mega-ic ic-green"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="10" width="16" height="10" rx="3" fill="#dcfce7"/><path d="M7 10V7a4 4 0 1 1 8 0v3" stroke="#16a34a" stroke-width="1.5"/></svg></span>Password Gen</a>
+                <a href="/qr/qr-generator.html" class="mega-link"><span class="mega-ic ic-indigo"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#e0e7ff"/><rect x="6" y="6" width="4" height="4" rx="1" fill="#4f46e5"/><rect x="12" y="6" width="4" height="4" rx="1" fill="#4f46e5"/></svg></span>QR Generator</a>
+              </div>
+            </div>
+          </div>
+        </nav>
+        <div class="nav-right">
+          <button class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+          </button>
+        </div>
+      </div>
+    </header>
 
-  <main>
-    <div class="calculator-container">
-      <h1>Percentage Calculator</h1>
+    <!-- ══════ BREADCRUMB ══════ -->
+    <div class="breadcrumb">
+      <a href="/">Home</a> <span>&gt;</span> <a href="/index.html#calc-tools">Calculator Tools</a> <span>&gt;</span> Percentage Calculator
+    </div>
+
+    <!-- ══════ MAIN WORKSPACE ══════ -->
+    <main class="tool-page">
+      <div class="tool-hero" style="border-bottom:none; margin-bottom: 20px; padding: 24px 0 12px;">
+        <h1>Percentage Calculator <span class="badge">FREE</span></h1>
+        <p>Free online percentage calculator. Calculate percentages, percentage change, and more easily.</p>
+      </div>
+
+      <div class="tool-container">
+        <div class="calculator-container">
+      
       
       <div class="calc-section">
         <h2>1. What is X% of Y?</h2>
@@ -75,49 +109,71 @@
         <div class="result" id="res3"></div>
       </div>
     </div>
-  </main>
+      </div>
+    </main>
 
-  <footer>
-    <div class="privacy-badge">🔒 Your data never leaves your device.</div>
-    <div class="footer-links">
-      <a href="/">Home</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a>
+    <!-- ══════ FEATURES ══════ -->
+    <div class="features-row">
+      <div class="feature-item">
+        <div class="f-icon">🔒</div>
+        <h4>100% Private</h4>
+        <p>Processed entirely inside your browser. No files or text data are ever sent to our servers.</p>
+      </div>
+      <div class="feature-item">
+        <div class="f-icon">⚡</div>
+        <h4>Instant Speed</h4>
+        <p>No waiting in upload queues or download queues. Super fast local performance.</p>
+      </div>
+      <div class="feature-item">
+        <div class="f-icon">🆓</div>
+        <h4>Always Free</h4>
+        <p>No registration, no limits, no subscription required. Feel free to use all tools unlimitedly.</p>
+      </div>
     </div>
-    <p class="copyright">&copy; 2026 Toolzium. All rights reserved.</p>
-  </footer>
 
-  <script>
-    function calc1() {
-      const x = parseFloat(document.getElementById('p1-x').value);
-      const y = parseFloat(document.getElementById('p1-y').value);
-      if(!isNaN(x) && !isNaN(y)) {
-        const res = (x / 100) * y;
-        document.getElementById('res1').innerText = `${x}% of ${y} is ${res.toLocaleString()}`;
-      } else {
-        document.getElementById('res1').innerText = 'Please enter valid numbers.';
-      }
-    }
-    function calc2() {
-      const x = parseFloat(document.getElementById('p2-x').value);
-      const y = parseFloat(document.getElementById('p2-y').value);
-      if(!isNaN(x) && !isNaN(y) && y !== 0) {
-        const res = (x / y) * 100;
-        document.getElementById('res2').innerText = `${x} is ${res.toFixed(2)}% of ${y}`;
-      } else {
-        document.getElementById('res2').innerText = 'Please enter valid numbers (Y cannot be 0).';
-      }
-    }
-    function calc3() {
-      const x = parseFloat(document.getElementById('p3-x').value);
-      const y = parseFloat(document.getElementById('p3-y').value);
-      if(!isNaN(x) && !isNaN(y) && x !== 0) {
-        const diff = y - x;
-        const res = (Math.abs(diff) / x) * 100;
-        const type = diff >= 0 ? 'Increase' : 'Decrease';
-        document.getElementById('res3').innerText = `${type} of ${res.toFixed(2)}%`;
-      } else {
-        document.getElementById('res3').innerText = 'Please enter valid numbers (X cannot be 0).';
-      }
-    }
-  </script>
+    <!-- ══════ RELATED TOOLS ══════ -->
+    <div class="related-section">
+      <h3 style="text-align:center; font-size:18px;">Other Useful Tools You Might Like</h3>
+      <div class="grid" style="margin-top: 20px;">
+        <a href="/text/word-counter.html" class="card"><div class="ic ic-blue"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#dbeafe"/><path d="M7 8h8M7 11h6" stroke="#2563eb" stroke-width="1.5"/></svg></div><h3>Word Counter</h3><p>Words & reading time</p></a>
+        <a href="/security/password-generator.html" class="card"><div class="ic ic-green"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="10" width="16" height="10" rx="3" fill="#dcfce7"/><path d="M7 10V7a4 4 0 1 1 8 0v3" stroke="#16a34a" stroke-width="1.5"/></svg></div><h3>Password Gen</h3><p>Strong passwords</p></a>
+        <a href="/developer/json-formatter.html" class="card"><div class="ic ic-purple"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#ede9fe"/><path d="M8 7l-3 4 3 4" stroke="#7c3aed" stroke-width="1.5"/></svg></div><h3>JSON Formatter</h3><p>Validate & beautify</p></a>
+      </div>
+    </div>
+
+    <!-- ══════ FOOTER ══════ -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <a href="/" class="logo"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#FF5252"/><path d="M7 8h14v2H7zm3 4h8v2h-8zm2 4h4v2h-4z" fill="#fff"/></svg>Toolzium</a>
+          <p>50+ free browser-based tools. No signup, no uploads — 100% private.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Popular</h4>
+          <a href="/text/word-counter.html">Word Counter</a>
+          <a href="/security/password-generator.html">Password Generator</a>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="/about.html">About</a>
+          <a href="/privacy.html">Privacy</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Toolzium. All rights reserved.</p>
+        <div class="privacy-badge">🔒 Files never leave your browser</div>
+      </div>
+    </footer>
+
+    <script>
+{
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Percentage Calculator",
+    "description": "Calculate percentages quickly with our free online percentage calculator.",
+    "applicationCategory": "CalculatorApplication",
+    "operatingSystem": "All"
+  }
+    </script>
 </body>
 </html>

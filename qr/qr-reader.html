@@ -1,148 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QR Code Reader - Toolzium</title>
-  <meta name="description" content="Read and decode QR codes from images or using your camera. Free, fast, and secure online QR scanner.">
-  <link rel="stylesheet" href="/css/style.css">
-  <style>
-    .qr-container {
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 2rem;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-      text-align: center;
-      font-family: sans-serif;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Reader - Toolzium</title>
+    <meta name="description" content="Read and decode QR codes from images or using your camera. Free, fast, and secure online QR scanner.">
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "QR Code Reader - Toolzium",
+      "applicationCategory": "UtilitiesApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0"
+      }
     }
-    .tabs {
-      display: flex;
-      margin-bottom: 2rem;
-      border-bottom: 2px solid #ddd;
-    }
-    .tab {
-      flex: 1;
-      padding: 1rem;
-      cursor: pointer;
-      font-weight: bold;
-      color: #666;
-      transition: color 0.3s, border-bottom 0.3s;
-    }
-    .tab.active {
-      color: #007bff;
-      border-bottom: 2px solid #007bff;
-      margin-bottom: -2px;
-    }
-    .tab-content {
-      display: none;
-    }
-    .tab-content.active {
-      display: block;
-    }
-    
-    .upload-area {
-      border: 2px dashed #007bff;
-      border-radius: 12px;
-      padding: 3rem;
-      background: #f8fbff;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    .upload-area:hover {
-      background: #eef5ff;
-    }
-    .upload-area p {
-      margin: 1rem 0;
-      color: #555;
-    }
-    #file-input {
-      display: none;
-    }
-    
-    .camera-area {
-      position: relative;
-      background: #000;
-      border-radius: 12px;
-      overflow: hidden;
-      max-width: 100%;
-      height: 400px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    #video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    #canvas {
-      display: none;
-    }
-    .result-box {
-      margin-top: 2rem;
-      padding: 1.5rem;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      background: #f9f9f9;
-      text-align: left;
-      display: none;
-    }
-    .result-box h3 {
-      margin-top: 0;
-      color: #333;
-    }
-    .result-content {
-      word-break: break-all;
-      font-family: monospace;
-      background: #fff;
-      padding: 1rem;
-      border: 1px solid #eee;
-      border-radius: 4px;
-      margin-bottom: 1rem;
-    }
-    .btn {
-      padding: 0.6rem 1.2rem;
-      background: #007bff;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 1rem;
-    }
-    .btn:hover {
-      background: #0056b3;
-    }
-    #start-camera {
-      position: absolute;
-      z-index: 10;
-      font-size: 1.2rem;
-      padding: 1rem 2rem;
-    }
-  </style>
+    </script>
 </head>
 <body>
-  <header>
-    <div class="navbar">
-      <a href="/" class="logo">Toolzium</a>
-      <nav class="nav-links">
-        <a href="/pdf/">PDF</a>
-        <a href="/image/">Image</a>
-        <a href="/text/">Text</a>
-        <a href="/developer/">Developer</a>
-        <a href="/calculator/">Calculator</a>
-        <a href="/converter/">Converter</a>
-        <a href="/ai/">AI Tools</a>
-      </nav>
-    </div>
-  </header>
+    <!-- ══════ NAVBAR ══════ -->
+    <header class="navbar-wrap">
+      <div class="navbar">
+        <a href="/" class="logo">
+          <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#FF5252"/><path d="M7 8h14v2H7zm3 4h8v2h-8zm2 4h4v2h-4z" fill="#fff"/></svg>
+          Toolzium
+        </a>
+        <nav class="nav-links" id="navLinks">
+          <a href="/index.html#pdf-tools" class="nav-item">PDF Tools</a>
+          <a href="/index.html#text-tools" class="nav-item">Text Tools</a>
+          <a href="/index.html#dev-tools" class="nav-item">Developer</a>
+          <div class="nav-item has-mega">All Tools
+            <div class="mega-dropdown" style="min-width:680px; grid-template-columns: repeat(4, 1fr);">
+              <div>
+                <div class="mega-col-title" style="grid-column:auto">PDF</div>
+                <a href="/pdf/merge.html" class="mega-link"><span class="mega-ic ic-red"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="2" width="10" height="14" rx="2" fill="#fca5a5"/><rect x="10" y="7" width="10" height="14" rx="2" fill="#fee2e2" stroke="#dc2626" stroke-width="1"/></svg></span>Merge PDF</a>
+                <a href="/pdf/split.html" class="mega-link"><span class="mega-ic ic-orange"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="8" height="12" rx="2" fill="#fed7aa"/><rect x="13" y="7" width="8" height="12" rx="2" fill="#fdba74"/></svg></span>Split PDF</a>
+                <a href="/pdf/compress.html" class="mega-link"><span class="mega-ic ic-green"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" fill="#bbf7d0"/><path d="M12 9v6M10 13l2 2 2-2" stroke="#16a34a" stroke-width="1.5"/></svg></span>Compress</a>
+              </div>
+              <div>
+                <div class="mega-col-title" style="grid-column:auto">Text</div>
+                <a href="/text/word-counter.html" class="mega-link"><span class="mega-ic ic-blue"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#dbeafe"/><path d="M7 8h8M7 11h6" stroke="#2563eb" stroke-width="1.5"/></svg></span>Word Counter</a>
+                <a href="/text/case-converter.html" class="mega-link"><span class="mega-ic ic-purple"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#ede9fe"/><text x="6" y="15" font-size="10" font-weight="700" fill="#7c3aed">Aa</text></svg></span>Case Converter</a>
+                <a href="/text/text-diff.html" class="mega-link"><span class="mega-ic ic-amber"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="8" height="16" rx="2" fill="#fef3c7"/><rect x="12" y="3" width="8" height="16" rx="2" fill="#fde68a"/></svg></span>Text Diff</a>
+              </div>
+              <div>
+                <div class="mega-col-title" style="grid-column:auto">Developer</div>
+                <a href="/developer/json-formatter.html" class="mega-link"><span class="mega-ic ic-purple"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#ede9fe"/><path d="M8 7l-3 4 3 4" stroke="#7c3aed" stroke-width="1.5"/></svg></span>JSON Formatter</a>
+                <a href="/developer/html-viewer.html" class="mega-link"><span class="mega-ic ic-orange"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="18" height="16" rx="3" fill="#ffedd5"/><rect x="2" y="3" width="18" height="4" rx="3" fill="#fdba74"/></svg></span>HTML Viewer</a>
+              </div>
+              <div>
+                <div class="mega-col-title" style="grid-column:auto">More</div>
+                <a href="/security/password-generator.html" class="mega-link"><span class="mega-ic ic-green"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="10" width="16" height="10" rx="3" fill="#dcfce7"/><path d="M7 10V7a4 4 0 1 1 8 0v3" stroke="#16a34a" stroke-width="1.5"/></svg></span>Password Gen</a>
+                <a href="/qr/qr-generator.html" class="mega-link"><span class="mega-ic ic-indigo"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#e0e7ff"/><rect x="6" y="6" width="4" height="4" rx="1" fill="#4f46e5"/><rect x="12" y="6" width="4" height="4" rx="1" fill="#4f46e5"/></svg></span>QR Generator</a>
+              </div>
+            </div>
+          </div>
+        </nav>
+        <div class="nav-right">
+          <button class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+          </button>
+        </div>
+      </div>
+    </header>
 
-  <main>
-    <div class="qr-container">
-      <h1>QR Code Reader</h1>
+    <!-- ══════ BREADCRUMB ══════ -->
+    <div class="breadcrumb">
+      <a href="/">Home</a> <span>&gt;</span> <a href="/index.html#qr-tools">QR Code Tools</a> <span>&gt;</span> QR Code Reader - Toolzium
+    </div>
+
+    <!-- ══════ MAIN WORKSPACE ══════ -->
+    <main class="tool-page">
+      <div class="tool-hero" style="border-bottom:none; margin-bottom: 20px; padding: 24px 0 12px;">
+        <h1>QR Code Reader - Toolzium <span class="badge">FREE</span></h1>
+        <p>Read and decode QR codes from images or using your camera. Free, fast, and secure online QR scanner.</p>
+      </div>
+
+      <div class="tool-container">
+        <div class="qr-container">
+      
       <p>Scan a QR code using your camera or upload an image file.</p>
       
       <div class="tabs">
@@ -177,174 +115,64 @@
         <button id="copy-btn" class="btn" style="background: #28a745;">Copy Text</button>
       </div>
     </div>
-  </main>
+      </div>
+    </main>
 
-  <footer>
-    <div class="privacy-badge">🔒 Your data never leaves your device.</div>
-    <div class="footer-links">
-      <a href="/">Home</a><a href="/about.html">About</a><a href="/privacy.html">Privacy</a>
+    <!-- ══════ FEATURES ══════ -->
+    <div class="features-row">
+      <div class="feature-item">
+        <div class="f-icon">🔒</div>
+        <h4>100% Private</h4>
+        <p>Processed entirely inside your browser. No files or text data are ever sent to our servers.</p>
+      </div>
+      <div class="feature-item">
+        <div class="f-icon">⚡</div>
+        <h4>Instant Speed</h4>
+        <p>No waiting in upload queues or download queues. Super fast local performance.</p>
+      </div>
+      <div class="feature-item">
+        <div class="f-icon">🆓</div>
+        <h4>Always Free</h4>
+        <p>No registration, no limits, no subscription required. Feel free to use all tools unlimitedly.</p>
+      </div>
     </div>
-    <p class="copyright">&copy; 2026 Toolzium. All rights reserved.</p>
-  </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // Tabs logic
-      const tabs = document.querySelectorAll('.tab');
-      const tabContents = document.querySelectorAll('.tab-content');
-      
-      tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-          tabs.forEach(t => t.classList.remove('active'));
-          tabContents.forEach(c => c.classList.remove('active'));
-          
-          tab.classList.add('active');
-          document.getElementById(tab.dataset.target).classList.add('active');
-          
-          // Stop camera if switching away
-          if(tab.dataset.target !== 'camera-tab') {
-            stopCamera();
-          }
-        });
-      });
+    <!-- ══════ RELATED TOOLS ══════ -->
+    <div class="related-section">
+      <h3 style="text-align:center; font-size:18px;">Other Useful Tools You Might Like</h3>
+      <div class="grid" style="margin-top: 20px;">
+        <a href="/text/word-counter.html" class="card"><div class="ic ic-blue"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#dbeafe"/><path d="M7 8h8M7 11h6" stroke="#2563eb" stroke-width="1.5"/></svg></div><h3>Word Counter</h3><p>Words & reading time</p></a>
+        <a href="/security/password-generator.html" class="card"><div class="ic ic-green"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="10" width="16" height="10" rx="3" fill="#dcfce7"/><path d="M7 10V7a4 4 0 1 1 8 0v3" stroke="#16a34a" stroke-width="1.5"/></svg></div><h3>Password Gen</h3><p>Strong passwords</p></a>
+        <a href="/developer/json-formatter.html" class="card"><div class="ic ic-purple"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#ede9fe"/><path d="M8 7l-3 4 3 4" stroke="#7c3aed" stroke-width="1.5"/></svg></div><h3>JSON Formatter</h3><p>Validate & beautify</p></a>
+      </div>
+    </div>
 
-      // Result logic
-      const resultBox = document.getElementById('result-box');
-      const resultContent = document.getElementById('result-content');
-      const resultLink = document.getElementById('result-link');
-      const copyBtn = document.getElementById('copy-btn');
-      
-      function showResult(text) {
-        resultContent.textContent = text;
-        resultBox.style.display = 'block';
-        
-        try {
-          const url = new URL(text);
-          resultLink.href = url.href;
-          resultLink.style.display = 'inline-block';
-        } catch(e) {
-          resultLink.style.display = 'none';
-        }
-      }
-      
-      copyBtn.addEventListener('click', () => {
-        navigator.clipboard.writeText(resultContent.textContent).then(() => {
-          const orig = copyBtn.textContent;
-          copyBtn.textContent = 'Copied!';
-          setTimeout(() => copyBtn.textContent = orig, 2000);
-        });
-      });
+    <!-- ══════ FOOTER ══════ -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <a href="/" class="logo"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#FF5252"/><path d="M7 8h14v2H7zm3 4h8v2h-8zm2 4h4v2h-4z" fill="#fff"/></svg>Toolzium</a>
+          <p>50+ free browser-based tools. No signup, no uploads — 100% private.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Popular</h4>
+          <a href="/text/word-counter.html">Word Counter</a>
+          <a href="/security/password-generator.html">Password Generator</a>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="/about.html">About</a>
+          <a href="/privacy.html">Privacy</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Toolzium. All rights reserved.</p>
+        <div class="privacy-badge">🔒 Files never leave your browser</div>
+      </div>
+    </footer>
 
-      // File upload logic
-      const fileInput = document.getElementById('file-input');
-      const dropArea = document.getElementById('drop-area');
-      
-      dropArea.addEventListener('click', () => fileInput.click());
-      
-      dropArea.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        dropArea.style.background = '#eef5ff';
-      });
-      
-      dropArea.addEventListener('dragleave', () => {
-        dropArea.style.background = '#f8fbff';
-      });
-      
-      dropArea.addEventListener('drop', (e) => {
-        e.preventDefault();
-        dropArea.style.background = '#f8fbff';
-        if (e.dataTransfer.files.length) {
-          handleFile(e.dataTransfer.files[0]);
-        }
-      });
-      
-      fileInput.addEventListener('change', (e) => {
-        if (e.target.files.length) {
-          handleFile(e.target.files[0]);
-        }
-      });
-      
-      function handleFile(file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const img = new Image();
-          img.onload = () => {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = img.width;
-            canvas.height = img.height;
-            ctx.drawImage(img, 0, 0);
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            const code = jsQR(imageData.data, imageData.width, imageData.height);
-            
-            if (code) {
-              showResult(code.data);
-            } else {
-              alert('No QR code found in this image.');
-            }
-          };
-          img.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-      }
+    <script>
 
-      // Camera logic
-      const video = document.getElementById('video');
-      const canvasElement = document.getElementById('canvas');
-      const canvas = canvasElement.getContext('2d');
-      const startCameraBtn = document.getElementById('start-camera');
-      let stream = null;
-      let scanning = false;
-      
-      startCameraBtn.addEventListener('click', () => {
-        navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function(s) {
-          stream = s;
-          video.srcObject = stream;
-          video.setAttribute("playsinline", true);
-          video.play();
-          video.hidden = false;
-          startCameraBtn.hidden = true;
-          scanning = true;
-          requestAnimationFrame(tick);
-        }).catch(err => {
-          alert('Error accessing camera: ' + err.message);
-        });
-      });
-      
-      function stopCamera() {
-        if(stream) {
-          stream.getTracks().forEach(track => track.stop());
-          stream = null;
-        }
-        scanning = false;
-        video.hidden = true;
-        startCameraBtn.hidden = false;
-      }
-      
-      function tick() {
-        if (!scanning) return;
-        
-        if (video.readyState === video.HAVE_ENOUGH_DATA) {
-          canvasElement.height = video.videoHeight;
-          canvasElement.width = video.videoWidth;
-          canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
-          var imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
-          var code = jsQR(imageData.data, imageData.width, imageData.height, {
-            inversionAttempts: "dontInvert",
-          });
-          
-          if (code) {
-            stopCamera();
-            showResult(code.data);
-          }
-        }
-        
-        if(scanning) {
-          requestAnimationFrame(tick);
-        }
-      }
-    });
-  </script>
+    </script>
 </body>
 </html>

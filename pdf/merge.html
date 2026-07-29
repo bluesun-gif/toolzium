@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Merge PDF Online — Combine PDF Files for Free | Toolzium</title>
+  <meta name="description" content="Combine multiple PDF files into one online for free. No installation or registration required. 100% secure and easy to use.">
+  <link rel="stylesheet" href="/css/style.css">
+  <!-- Load PDF-lib -->
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+</head>
+<body>
+
+<!-- ══════ NAVBAR ══════ -->
+<header class="navbar-wrap">
+  <div class="navbar">
+    <a href="/" class="logo">
+      <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#FF5252"/><path d="M7 8h14v2H7zm3 4h8v2h-8zm2 4h4v2h-4z" fill="#fff"/></svg>
+      Toolzium
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="/index.html#pdf-tools" class="nav-item">PDF Tools</a>
+      <a href="/index.html#text-tools" class="nav-item">Text Tools</a>
+      <a href="/index.html#dev-tools" class="nav-item">Developer</a>
+      <div class="nav-item has-mega">All Tools
+        <div class="mega-dropdown" style="min-width:680px; grid-template-columns: repeat(4, 1fr);">
+          <div>
+            <div class="mega-col-title" style="grid-column:auto">PDF</div>
+            <a href="/pdf/merge.html" class="mega-link"><span class="mega-ic ic-red"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="2" width="10" height="14" rx="2" fill="#fca5a5"/><rect x="10" y="7" width="10" height="14" rx="2" fill="#fee2e2" stroke="#dc2626" stroke-width="1"/></svg></span>Merge PDF</a>
+            <a href="/pdf/split.html" class="mega-link"><span class="mega-ic ic-orange"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="8" height="12" rx="2" fill="#fed7aa"/><rect x="13" y="7" width="8" height="12" rx="2" fill="#fdba74"/></svg></span>Split PDF</a>
+            <a href="/pdf/compress.html" class="mega-link"><span class="mega-ic ic-green"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" fill="#bbf7d0"/><path d="M12 9v6M10 13l2 2 2-2" stroke="#16a34a" stroke-width="1.5"/></svg></span>Compress</a>
+          </div>
+          <div>
+            <div class="mega-col-title" style="grid-column:auto">Text</div>
+            <a href="/text/word-counter.html" class="mega-link"><span class="mega-ic ic-blue"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#dbeafe"/><path d="M7 8h8M7 11h6" stroke="#2563eb" stroke-width="1.5"/></svg></span>Word Counter</a>
+            <a href="/text/case-converter.html" class="mega-link"><span class="mega-ic ic-purple"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#ede9fe"/><text x="6" y="15" font-size="10" font-weight="700" fill="#7c3aed">Aa</text></svg></span>Case Converter</a>
+            <a href="/text/text-diff.html" class="mega-link"><span class="mega-ic ic-amber"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="8" height="16" rx="2" fill="#fef3c7"/><rect x="12" y="3" width="8" height="16" rx="2" fill="#fde68a"/></svg></span>Text Diff</a>
+          </div>
+          <div>
+            <div class="mega-col-title" style="grid-column:auto">Developer</div>
+            <a href="/developer/json-formatter.html" class="mega-link"><span class="mega-ic ic-purple"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#ede9fe"/><path d="M8 7l-3 4 3 4" stroke="#7c3aed" stroke-width="1.5"/></svg></span>JSON Formatter</a>
+            <a href="/developer/html-viewer.html" class="mega-link"><span class="mega-ic ic-orange"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="18" height="16" rx="3" fill="#ffedd5"/><rect x="2" y="3" width="18" height="4" rx="3" fill="#fdba74"/></svg></span>HTML Viewer</a>
+          </div>
+          <div>
+            <div class="mega-col-title" style="grid-column:auto">More</div>
+            <a href="/security/password-generator.html" class="mega-link"><span class="mega-ic ic-green"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="10" width="16" height="10" rx="3" fill="#dcfce7"/><path d="M7 10V7a4 4 0 1 1 8 0v3" stroke="#16a34a" stroke-width="1.5"/></svg></span>Password Gen</a>
+            <a href="/qr/qr-generator.html" class="mega-link"><span class="mega-ic ic-indigo"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#e0e7ff"/><rect x="6" y="6" width="4" height="4" rx="1" fill="#4f46e5"/><rect x="12" y="6" width="4" height="4" rx="1" fill="#4f46e5"/></svg></span>QR Generator</a>
+            <a href="/calculator/percentage.html" class="mega-link"><span class="mega-ic ic-blue"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#dbeafe"/><text x="6" y="15" font-size="12" font-weight="700" fill="#2563eb">%</text></svg></span>Percentage</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="nav-right">
+      <button class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ══════ BREADCRUMB ══════ -->
+<div class="breadcrumb">
+  <a href="/">Home</a> <span>&gt;</span> <a href="/index.html#pdf-tools">PDF</a> <span>&gt;</span> Merge PDF
+</div>
+
+<!-- ══════ MAIN WORKSPACE ══════ -->
+<main class="tool-page">
+  <div class="tool-hero">
+    <h1>Merge PDF Files <span class="badge">FREE</span></h1>
+    <p>Combine multiple PDF documents into a single PDF file quickly and securely.</p>
+  </div>
+
+  <!-- 1. Drop Zone (Upload Stage) -->
+  <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+    <div class="upload-icon">
+      <svg viewBox="0 0 48 48" fill="none">
+        <rect x="8" y="4" width="32" height="40" rx="4" fill="#FEE2E2" stroke="#FF5252" stroke-width="2"/>
+        <path d="M24 16v16M18 22l6-6 6 6" stroke="#FF5252" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h3>Select PDF files</h3>
+    <p>or drag and drop PDF files here</p>
+    <input type="file" id="fileInput" multiple accept="application/pdf" style="display:none">
+  </div>
+
+  <!-- 2. Workspace View (File Selection Stage) -->
+  <div class="workspace-layout hidden" id="workspaceLayout">
+    <div class="workspace-main">
+      <div class="file-grid" id="fileList">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+    <div class="workspace-sidebar">
+      <h3>Merge Options</h3>
+      <p style="font-size: 13px; color: var(--text-2);">Rearrange your files by dragging or removing them to set the order of the merged PDF.</p>
+      <button class="btn btn-primary btn-block btn-lg" id="actionBtn" style="margin-top:auto;">
+        Merge PDF ➔
+      </button>
+    </div>
+  </div>
+
+  <!-- 3. Conversion / Progress Loading -->
+  <div class="conversion-loading hidden" id="progressContainer">
+    <div class="circle-loader-spin"></div>
+    <h3 id="progressText">Converting PDF...</h3>
+    <div class="progress-bar" style="max-width: 300px;">
+      <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+    </div>
+  </div>
+
+  <!-- 4. Success Completion Screen -->
+  <div class="conversion-success hidden" id="successContainer">
+    <div class="success-icon-wrap">✔</div>
+    <h2>PDFs Merged Successfully!</h2>
+    <p>Your download should start automatically. If it didn't, click the button below.</p>
+    <div class="success-buttons">
+      <button class="btn btn-primary" id="downloadBtn">Download PDF</button>
+      <button class="btn btn-secondary" onclick="resetTool()">Merge More Files</button>
+    </div>
+  </div>
+</main>
+
+<!-- ══════ FEATURES ══════ -->
+<div class="features-row">
+  <div class="feature-item">
+    <div class="f-icon">🔒</div>
+    <h4>100% Private</h4>
+    <p>All processing is done inside your browser. Your files are never uploaded to any server.</p>
+  </div>
+  <div class="feature-item">
+    <div class="f-icon">⚡</div>
+    <h4>Ultra Fast</h4>
+    <p>Merge documents in milliseconds using advanced local client-side processing.</p>
+  </div>
+  <div class="feature-item">
+    <div class="f-icon">🆓</div>
+    <h4>Completely Free</h4>
+    <p>Enjoy all features with no file size limits, no watermark, and no registration required.</p>
+  </div>
+</div>
+
+<!-- ══════ HOW TO USE ══════ -->
+<div class="howto-section">
+  <h3>How to Merge PDF Files</h3>
+  <div class="howto-steps">
+    <div class="howto-step">
+      <div class="step-num">1</div>
+      <p>Select or drag and drop your PDF files into the tool.</p>
+    </div>
+    <div class="howto-step">
+      <div class="step-num">2</div>
+      <p>Adjust the file order if needed. Click the Merge button.</p>
+    </div>
+    <div class="howto-step">
+      <div class="step-num">3</div>
+      <p>Download the combined PDF document instantly.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ RELATED TOOLS ══════ -->
+<div class="related-section">
+  <h3>Other PDF Tools You Might Like</h3>
+  <div class="grid" style="margin-top: 20px;">
+    <a href="/pdf/split.html" class="card"><div class="ic ic-orange"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="8" height="12" rx="2" fill="#fed7aa"/><rect x="13" y="7" width="8" height="12" rx="2" fill="#fdba74"/></svg></div><h3>Split PDF</h3><p>Separate pages</p></a>
+    <a href="/pdf/compress.html" class="card"><div class="ic ic-green"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" fill="#bbf7d0"/><path d="M12 9v6M10 13l2 2 2-2" stroke="#16a34a" stroke-width="1.5"/></svg></div><h3>Compress PDF</h3><p>Reduce file size</p></a>
+    <a href="/pdf/pdf-to-image.html" class="card"><div class="ic ic-blue"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#dbeafe"/><path d="M7 8h8" stroke="#2563eb" stroke-width="1.5"/></svg></div><h3>PDF to Image</h3><p>Convert to JPG/PNG</p></a>
+  </div>
+</div>
+
+<!-- ══════ FOOTER ══════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="/" class="logo"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#FF5252"/><path d="M7 8h14v2H7zm3 4h8v2h-8zm2 4h4v2h-4z" fill="#fff"/></svg>Toolzium</a>
+      <p>50+ free browser-based tools. No signup, no uploads — 100% private.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Popular</h4>
+      <a href="/text/word-counter.html">Word Counter</a>
+      <a href="/security/password-generator.html">Password Generator</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="/about.html">About</a>
+      <a href="/privacy.html">Privacy</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Toolzium</p>
+    <div class="privacy-badge">🔒 Files never leave your browser</div>
+  </div>
+</footer>
+
+<script src="/js/app.js"></script>
+<script>
+let selectedFiles = [];
+let generatedBlob = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const actionBtn = document.getElementById('actionBtn');
+    
+    setupDragAndDrop(dropZone, fileInput, handleFiles);
+    
+    actionBtn.addEventListener('click', mergePdfs);
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+        if (generatedBlob) downloadFile(generatedBlob, 'merged-document.pdf');
+    });
+});
+
+function handleFiles(files) {
+    const pdfFiles = files.filter(f => f.type === 'application/pdf');
+    selectedFiles = [...selectedFiles, ...pdfFiles];
+    renderFileList();
+}
+
+function removeFile(index) {
+    selectedFiles.splice(index, 1);
+    renderFileList();
+}
+
+function renderFileList() {
+    const fileList = document.getElementById('fileList');
+    const workspaceLayout = document.getElementById('workspaceLayout');
+    const dropZone = document.getElementById('dropZone');
+    const successContainer = document.getElementById('successContainer');
+    
+    successContainer.classList.add('hidden');
+    fileList.innerHTML = '';
+    
+    if (selectedFiles.length > 0) {
+        dropZone.classList.add('hidden');
+        workspaceLayout.classList.remove('hidden');
+        
+        selectedFiles.forEach((file, index) => {
+            const div = document.createElement('div');
+            div.className = 'file-card';
+            div.innerHTML = `
+              <div class="file-thumb">📄</div>
+              <div class="file-card-name">${file.name}</div>
+              <button class="file-card-remove" onclick="removeFile(${index})">✖</button>
+            `;
+            fileList.appendChild(div);
+        });
+        
+        // Add Files card
+        const addCard = document.createElement('div');
+        addCard.className = 'add-files-btn';
+        addCard.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>Add more files`;
+        addCard.onclick = () => document.getElementById('fileInput').click();
+        fileList.appendChild(addCard);
+        
+        document.getElementById('actionBtn').disabled = selectedFiles.length < 2;
+    } else {
+        dropZone.classList.remove('hidden');
+        workspaceLayout.classList.add('hidden');
+    }
+}
+
+async function mergePdfs() {
+    if (selectedFiles.length < 2) return;
+    
+    const workspaceLayout = document.getElementById('workspaceLayout');
+    const progressContainer = document.getElementById('progressContainer');
+    const actionBtn = document.getElementById('actionBtn');
+    
+    workspaceLayout.classList.add('hidden');
+    progressContainer.classList.remove('hidden');
+    actionBtn.disabled = true;
+    
+    updateProgress(10, 'Preparing files...');
+    
+    try {
+        const { PDFDocument } = PDFLib;
+        const mergedPdf = await PDFDocument.create();
+        
+        for (let i = 0; i < selectedFiles.length; i++) {
+            updateProgress(10 + (80 * (i / selectedFiles.length)), `Processing file ${i + 1} of ${selectedFiles.length}...`);
+            
+            const file = selectedFiles[i];
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await PDFDocument.load(arrayBuffer);
+            const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+            
+            copiedPages.forEach((page) => {
+                mergedPdf.addPage(page);
+            });
+        }
+        
+        updateProgress(95, 'Generating merged PDF...');
+        const mergedPdfFile = await mergedPdf.save();
+        generatedBlob = new Blob([mergedPdfFile], { type: 'application/pdf' });
+        
+        updateProgress(100, 'Complete!');
+        downloadFile(generatedBlob, 'merged-document.pdf');
+        
+        // Show success screen
+        progressContainer.classList.add('hidden');
+        document.getElementById('successContainer').classList.remove('hidden');
+        
+    } catch (error) {
+        console.error('Error merging PDFs:', error);
+        alert('An error occurred while merging the PDFs.');
+        resetTool();
+    } finally {
+        actionBtn.disabled = false;
+    }
+}
+
+function resetTool() {
+    selectedFiles = [];
+    generatedBlob = null;
+    document.getElementById('successContainer').classList.add('hidden');
+    document.getElementById('progressContainer').classList.add('hidden');
+    renderFileList();
+}
+</script>
+</body>
+</html>
