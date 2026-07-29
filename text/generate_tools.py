@@ -37,28 +37,34 @@ header_template = """<!DOCTYPE html>
           <a href="/index.html#text-tools" class="nav-item">Text Tools</a>
           <a href="/index.html#dev-tools" class="nav-item">Developer</a>
           <div class="nav-item has-mega">All Tools
-            <div class="mega-dropdown" style="min-width:680px; grid-template-columns: repeat(4, 1fr);">
+            <div class="mega-dropdown" style="min-width:720px; grid-template-columns: repeat(4, 1fr);">
               <div>
-                <div class="mega-col-title" style="grid-column:auto">PDF</div>
-                <a href="/pdf/merge.html" class="mega-link"><span class="mega-ic ic-red"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="2" width="10" height="14" rx="2" fill="#fca5a5"/><rect x="10" y="7" width="10" height="14" rx="2" fill="#fee2e2" stroke="#dc2626" stroke-width="1"/></svg></span>Merge PDF</a>
-                <a href="/pdf/split.html" class="mega-link"><span class="mega-ic ic-orange"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="8" height="12" rx="2" fill="#fed7aa"/><rect x="13" y="7" width="8" height="12" rx="2" fill="#fdba74"/></svg></span>Split PDF</a>
-                <a href="/pdf/compress.html" class="mega-link"><span class="mega-ic ic-green"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" fill="#bbf7d0"/><path d="M12 9v6M10 13l2 2 2-2" stroke="#16a34a" stroke-width="1.5"/></svg></span>Compress</a>
+                <div class="mega-col-title">PDF Page & Files</div>
+                <a href="/pdf/merge.html" class="mega-link">Merge PDF</a>
+                <a href="/pdf/split.html" class="mega-link">Split PDF</a>
+                <a href="/pdf/compress.html" class="mega-link">Compress PDF</a>
+                <a href="/pdf/rotate.html" class="mega-link">Rotate PDF</a>
               </div>
               <div>
-                <div class="mega-col-title" style="grid-column:auto">Text</div>
-                <a href="/text/word-counter.html" class="mega-link"><span class="mega-ic ic-blue"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#dbeafe"/><path d="M7 8h8M7 11h6" stroke="#2563eb" stroke-width="1.5"/></svg></span>Word Counter</a>
-                <a href="/text/case-converter.html" class="mega-link"><span class="mega-ic ic-purple"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#ede9fe"/><text x="6" y="15" font-size="10" font-weight="700" fill="#7c3aed">Aa</text></svg></span>Case Converter</a>
-                <a href="/text/text-diff.html" class="mega-link"><span class="mega-ic ic-amber"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="8" height="16" rx="2" fill="#fef3c7"/><rect x="12" y="3" width="8" height="16" rx="2" fill="#fde68a"/></svg></span>Text Diff</a>
+                <div class="mega-col-title">Convert to PDF</div>
+                <a href="/pdf/word-to-pdf.html" class="mega-link">Word to PDF</a>
+                <a href="/pdf/excel-to-pdf.html" class="mega-link">Excel to PDF</a>
+                <a href="/pdf/ppt-to-pdf.html" class="mega-link">PowerPoint to PDF</a>
+                <a href="/pdf/image-to-pdf.html" class="mega-link">Image to PDF</a>
               </div>
               <div>
-                <div class="mega-col-title" style="grid-column:auto">Developer</div>
-                <a href="/developer/json-formatter.html" class="mega-link"><span class="mega-ic ic-purple"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#ede9fe"/><path d="M8 7l-3 4 3 4" stroke="#7c3aed" stroke-width="1.5"/></svg></span>JSON Formatter</a>
-                <a href="/developer/html-viewer.html" class="mega-link"><span class="mega-ic ic-orange"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="18" height="16" rx="3" fill="#ffedd5"/><rect x="2" y="3" width="18" height="4" rx="3" fill="#fdba74"/></svg></span>HTML Viewer</a>
+                <div class="mega-col-title">Convert from PDF</div>
+                <a href="/pdf/pdf-to-word.html" class="mega-link">PDF to Word</a>
+                <a href="/pdf/pdf-to-excel.html" class="mega-link">PDF to Excel</a>
+                <a href="/pdf/pdf-to-ppt.html" class="mega-link">PDF to PPT</a>
+                <a href="/pdf/pdf-to-image.html" class="mega-link">PDF to Image</a>
               </div>
               <div>
-                <div class="mega-col-title" style="grid-column:auto">More</div>
-                <a href="/security/password-generator.html" class="mega-link"><span class="mega-ic ic-green"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="10" width="16" height="10" rx="3" fill="#dcfce7"/><path d="M7 10V7a4 4 0 1 1 8 0v3" stroke="#16a34a" stroke-width="1.5"/></svg></span>Password Gen</a>
-                <a href="/qr/qr-generator.html" class="mega-link"><span class="mega-ic ic-indigo"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#e0e7ff"/><rect x="6" y="6" width="4" height="4" rx="1" fill="#4f46e5"/><rect x="12" y="6" width="4" height="4" rx="1" fill="#4f46e5"/></svg></span>QR Generator</a>
+                <div class="mega-col-title">Text & More</div>
+                <a href="/text/word-counter.html" class="mega-link">Word Counter</a>
+                <a href="/text/case-converter.html" class="mega-link">Case Converter</a>
+                <a href="/developer/json-formatter.html" class="mega-link">JSON Formatter</a>
+                <a href="/security/password-generator.html" class="mega-link">Password Gen</a>
               </div>
             </div>
           </div>

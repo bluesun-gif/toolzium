@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Word to PDF Online — Convert DOC to PDF for Free | Toolzium</title>
+  <meta name="description" content="Convert your Microsoft Word document file (.docx) into a high-quality PDF online for free. Secure client-side conversion.">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+</head>
+<body>
+
+<header class="navbar-wrap">
+  <div class="navbar">
+    <a href="/" class="logo">
+      <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#FF5252"/><path d="M7 8h14v2H7zm3 4h8v2h-8zm2 4h4v2h-4z" fill="#fff"/></svg>
+      Toolzium
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="/index.html#pdf-tools" class="nav-item">PDF Tools</a>
+      <a href="/index.html#text-tools" class="nav-item">Text Tools</a>
+      <a href="/index.html#dev-tools" class="nav-item">Developer</a>
+    </nav>
+  </div>
+</header>
+
+<div class="breadcrumb">
+  <a href="/">Home</a> <span>&gt;</span> <a href="/index.html#pdf-tools">PDF</a> <span>&gt;</span> Word to PDF
+</div>
+
+<main class="tool-page">
+  <div class="tool-hero">
+    <h1>Word to PDF Converter <span class="badge">FREE</span></h1>
+    <p>Convert your DOCX, DOC, or TXT document files into a PDF document file locally.</p>
+  </div>
+
+  <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+    <div class="upload-icon">
+      <svg viewBox="0 0 48 48" fill="none">
+        <rect x="6" y="6" width="36" height="36" rx="4" fill="#EBF5FF" stroke="#2563EB" stroke-width="2"/>
+        <path d="M16 16h16M16 24h16M16 32h10" stroke="#2563EB" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <h3>Select Word file</h3>
+    <p>or drag and drop .docx, .doc, or .txt file here</p>
+    <input type="file" id="fileInput" accept=".docx,.doc,.txt" style="display:none">
+  </div>
+
+  <div class="workspace-layout hidden" id="workspaceLayout">
+    <div class="workspace-main">
+      <div class="file-grid" id="fileList"></div>
+    </div>
+    <div class="workspace-sidebar">
+      <h3>PDF Settings</h3>
+      <button class="btn btn-primary btn-block btn-lg" id="actionBtn" style="margin-top:auto;">
+        Convert to PDF ➔
+      </button>
+    </div>
+  </div>
+
+  <div class="conversion-loading hidden" id="progressContainer">
+    <div class="circle-loader-spin"></div>
+    <h3 id="progressText">Typesetting Pages...</h3>
+    <div class="progress-bar" style="max-width: 300px;">
+      <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+    </div>
+  </div>
+
+  <div class="conversion-success hidden" id="successContainer">
+    <div class="success-icon-wrap">✔</div>
+    <h2>Word Converted to PDF!</h2>
+    <p>Your PDF file was compiled and downloaded successfully.</p>
+    <div class="success-buttons">
+      <button class="btn btn-secondary" onclick="resetTool()">Convert Another File</button>
+    </div>
+  </div>
+</main>
+
+<div class="features-row">
+  <div class="feature-item">
+    <div class="f-icon">🔒</div>
+    <h4>Private & Secure</h4>
+    <p>Processed entirely in your browser. None of your documents ever leave your computer.</p>
+  </div>
+  <div class="feature-item">
+    <div class="f-icon">⚡</div>
+    <h4>Instant Export</h4>
+    <p>No waiting in server queues. Fast conversions right on your device.</p>
+  </div>
+  <div class="feature-item">
+    <div class="f-icon">🆓</div>
+    <h4>Free & Unlimited</h4>
+    <p>Export all Word documents to PDF without count or size restrictions.</p>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="/" class="logo"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#FF5252"/><path d="M7 8h14v2H7zm3 4h8v2h-8zm2 4h4v2h-4z" fill="#fff"/></svg>Toolzium</a>
+      <p>50+ free browser-based tools. No signup, no uploads — 100% private.</p>
+    </div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 Toolzium</p></div>
+</footer>
+
+<script src="/js/app.js"></script>
+<script src="/js/word-to-pdf.js"></script>
+<script>
+const originalRenderFileList = renderFileList;
+renderFileList = function() {
+    const fileList = document.getElementById('fileList');
+    const workspaceLayout = document.getElementById('workspaceLayout');
+    const dropZone = document.getElementById('dropZone');
+    
+    fileList.innerHTML = '';
+    
+    if (currentFile) {
+        dropZone.classList.add('hidden');
+        workspaceLayout.classList.remove('hidden');
+        
+        const div = document.createElement('div');
+        div.className = 'file-card';
+        div.innerHTML = `
+          <div class="file-thumb">📄</div>
+          <div class="file-card-name">${currentFile.name}</div>
+          <button class="file-card-remove" onclick="currentFile=null; renderFileList();">✖</button>
+        `;
+        fileList.appendChild(div);
+        document.getElementById('actionBtn').style.display = 'block';
+    } else {
+        dropZone.classList.remove('hidden');
+        workspaceLayout.classList.add('hidden');
+    }
+};
+
+const originalConvertWordToPdf = convertWordToPdf;
+convertWordToPdf = async function() {
+    if (!currentFile) return;
+    document.getElementById('workspaceLayout').classList.add('hidden');
+    document.getElementById('progressContainer').classList.remove('hidden');
+    
+    const originalProgress = updateProgress;
+    updateProgress = function(percent, text) {
+        originalProgress(percent, text);
+        if (percent === 100) {
+            setTimeout(() => {
+                document.getElementById('progressContainer').classList.add('hidden');
+                document.getElementById('successContainer').classList.remove('hidden');
+            }, 1000);
+            updateProgress = originalProgress;
+        }
+    };
+    
+    try {
+        await originalConvertWordToPdf();
+    } catch(e) {
+        resetTool();
+    }
+};
+
+function resetTool() {
+    currentFile = null;
+    document.getElementById('successContainer').classList.add('hidden');
+    document.getElementById('progressContainer').classList.add('hidden');
+    renderFileList();
+}
+</script>
+</body>
+</html>

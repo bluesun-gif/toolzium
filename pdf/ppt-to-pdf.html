@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PPT to PDF Online — Convert PowerPoint to PDF for Free | Toolzium</title>
+  <meta name="description" content="Convert your Microsoft PowerPoint files (.pptx, .ppt) or presentation slides into a unified PDF document online for free. Secure client-side conversion.">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+</head>
+<body>
+
+<header class="navbar-wrap">
+  <div class="navbar">
+    <a href="/" class="logo">
+      <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#FF5252"/><path d="M7 8h14v2H7zm3 4h8v2h-8zm2 4h4v2h-4z" fill="#fff"/></svg>
+      Toolzium
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="/index.html#pdf-tools" class="nav-item">PDF Tools</a>
+      <a href="/index.html#text-tools" class="nav-item">Text Tools</a>
+      <a href="/index.html#dev-tools" class="nav-item">Developer</a>
+    </nav>
+  </div>
+</header>
+
+<div class="breadcrumb">
+  <a href="/">Home</a> <span>&gt;</span> <a href="/index.html#pdf-tools">PDF</a> <span>&gt;</span> PPT to PDF
+</div>
+
+<main class="tool-page">
+  <div class="tool-hero">
+    <h1>PPT to PDF Converter <span class="badge">FREE</span></h1>
+    <p>Convert your PPTX, PPT slides, or images of slides into a single PDF document file locally.</p>
+  </div>
+
+  <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+    <div class="upload-icon">
+      <svg viewBox="0 0 48 48" fill="none">
+        <rect x="6" y="6" width="36" height="36" rx="4" fill="#FFEEDB" stroke="#EA580C" stroke-width="2"/>
+        <path d="M14 20h20M14 28h12M22 14v16" stroke="#EA580C" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <h3>Select PowerPoint / Slide files</h3>
+    <p>or drag and drop .pptx, .ppt, or slide image files here</p>
+    <input type="file" id="fileInput" accept=".pptx,.ppt,image/*" multiple style="display:none">
+  </div>
+
+  <div class="workspace-layout hidden" id="workspaceLayout">
+    <div class="workspace-main">
+      <div class="file-grid" id="fileList"></div>
+    </div>
+    <div class="workspace-sidebar">
+      <h3>PDF Presentation Settings</h3>
+      <button class="btn btn-primary btn-block btn-lg" id="actionBtn" style="margin-top:auto;">
+        Convert to PDF ➔
+      </button>
+    </div>
+  </div>
+
+  <div class="conversion-loading hidden" id="progressContainer">
+    <div class="circle-loader-spin"></div>
+    <h3 id="progressText">Compiling PDF Slides...</h3>
+    <div class="progress-bar" style="max-width: 300px;">
+      <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+    </div>
+  </div>
+
+  <div class="conversion-success hidden" id="successContainer">
+    <div class="success-icon-wrap">✔</div>
+    <h2>PowerPoint Converted to PDF!</h2>
+    <p>Your PDF slide presentation has been compiled and downloaded successfully.</p>
+    <div class="success-buttons">
+      <button class="btn btn-secondary" onclick="resetTool()">Convert Another File</button>
+    </div>
+  </div>
+</main>
+
+<div class="features-row">
+  <div class="feature-item">
+    <div class="f-icon">🔒</div>
+    <h4>Private & Secure</h4>
+    <p>Processed entirely in your browser. None of your documents ever leave your computer.</p>
+  </div>
+  <div class="feature-item">
+    <div class="f-icon">⚡</div>
+    <h4>Instant Export</h4>
+    <p>No waiting in server queues. Fast conversions right on your device.</p>
+  </div>
+  <div class="feature-item">
+    <div class="f-icon">🆓</div>
+    <h4>Free & Unlimited</h4>
+    <p>Export all presentation slides to PDF files without count or size restrictions.</p>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="/" class="logo"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#FF5252"/><path d="M7 8h14v2H7zm3 4h8v2h-8zm2 4h4v2h-4z" fill="#fff"/></svg>Toolzium</a>
+      <p>50+ free browser-based tools. No signup, no uploads — 100% private.</p>
+    </div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 Toolzium</p></div>
+</footer>
+
+<script src="/js/app.js"></script>
+<script src="/js/ppt-to-pdf.js"></script>
+<script>
+// Hook compile event
+const originalConvertPptToPdf = convertPptToPdf;
+convertPptToPdf = async function() {
+    if (selectedFiles.length === 0) return;
+    document.getElementById('workspaceLayout').classList.add('hidden');
+    document.getElementById('progressContainer').classList.remove('hidden');
+    
+    const originalProgress = updateProgress;
+    updateProgress = function(percent, text) {
+        originalProgress(percent, text);
+        if (percent === 100) {
+            setTimeout(() => {
+                document.getElementById('progressContainer').classList.add('hidden');
+                document.getElementById('successContainer').classList.remove('hidden');
+            }, 1000);
+            updateProgress = originalProgress;
+        }
+    };
+    
+    try {
+        await originalConvertPptToPdf();
+    } catch(e) {
+        resetTool();
+    }
+};
+
+function resetTool() {
+    selectedFiles = [];
+    document.getElementById('successContainer').classList.add('hidden');
+    document.getElementById('progressContainer').classList.add('hidden');
+    renderFileList();
+}
+</script>
+</body>
+</html>
