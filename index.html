@@ -3,382 +3,445 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toolzium — 100+ Free Online Tools That Actually Work</title>
-    <meta name="description" content="Free online PDF tools, image editors, text utilities, calculators, converters, AI tools and more. No registration. No uploads. 100% browser-based and secure.">
-    <meta name="keywords" content="free online tools, pdf tools, image tools, text tools, calculators, converters, developer tools, ai tools">
+    <title>Toolzium — 50+ Free Online Tools | PDF, Text, Developer, Calculator, AI Tools</title>
+    <meta name="description" content="Your all-in-one toolkit. 50+ free browser-based tools for PDF, text, development, calculation, conversion, and more. No registration. 100% private.">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="canonical" href="https://toolzium.com/">
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "Toolzium",
-      "url": "https://toolzium.com",
-      "applicationCategory": "Utility",
-      "operatingSystem": "All",
-      "description": "100+ free online tools — PDF, Image, Text, AI, Developer, Calculator, Converter tools. All browser-based, secure, no registration.",
-      "offers": { "@type": "Offer", "price": "0" }
-    }
-    </script>
+    <style>
+      .tool-count-badge { background:var(--bg); border:1px solid var(--border); border-radius:999px; padding:0.15rem 0.5rem; font-size:0.7rem; color:var(--text-muted); font-weight:500; }
+    </style>
 </head>
 <body>
-    <header>
-        <div class="navbar">
-            <a href="/" class="logo">Toolzium</a>
-            <nav class="nav-links">
-                <a href="/pdf/" class="active">PDF</a>
-                <a href="/image/">Image</a>
-                <a href="/text/">Text</a>
-                <a href="/developer/">Developer</a>
-                <a href="/calculator/">Calculator</a>
-                <a href="/converter/">Converter</a>
-                <a href="/ai/">AI Tools</a>
-            </nav>
-        </div>
-    </header>
 
-    <main>
-        <div class="page-header">
-            <h1>Every tool you need. Zero cost. Zero signup.</h1>
-            <p class="subtitle">100+ free online tools — PDF editors, image converters, text utilities, AI writers, calculators, and more. Everything runs in your browser. Your files never leave your device.</p>
-            <div class="badge-row">
-                <span class="badge green">🔒 100% Secure</span>
-                <span class="badge">⚡ Instant Processing</span>
-                <span class="badge">🌐 No Registration</span>
-                <span class="badge">📱 Works on Mobile</span>
-            </div>
-        </div>
+<!-- ═══ NAVBAR ═══ -->
+<header class="navbar-wrap">
+  <div class="navbar">
+    <a href="/" class="logo">
+      <div class="logo-icon">T</div>
+      Toolzium
+    </a>
+    <nav class="nav-center">
+      <a href="#pdf">PDF</a>
+      <a href="#text">Text</a>
+      <a href="#developer">Developer</a>
+      <a href="#calculator">Calculator</a>
+      <a href="#converter">Converter</a>
+      <a href="#security">Security</a>
+      <a href="#more">More</a>
+    </nav>
+    <div class="nav-right">
+      <div class="nav-search">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" placeholder="Search tools..." id="navSearchInput" oninput="filterTools(this.value)">
+      </div>
+    </div>
+  </div>
+</header>
 
-        <!-- Ad Slot -->
-        <div class="ad-slot"><!-- AdSense Code Here --></div>
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <h1>Every tool you need.<br><span class="gradient">Zero cost. Zero signup.</span></h1>
+  <p>50+ powerful browser-based tools for PDF editing, text processing, web development, calculations, and more. Your files never leave your device.</p>
+  <div class="hero-search">
+    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    <input type="text" placeholder="Search for any tool... (e.g. PDF merge, word counter, password)" oninput="filterTools(this.value)">
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num">50+</div><div class="label">Free Tools</div></div>
+    <div class="hero-stat"><div class="num">8</div><div class="label">Categories</div></div>
+    <div class="hero-stat"><div class="num">100%</div><div class="label">Private</div></div>
+  </div>
+</section>
 
-        <!-- PDF TOOLS -->
-        <section class="category-section" id="pdf">
-            <h2 class="category-title">📄 PDF Tools</h2>
-            <div class="tools-grid">
-                <a href="/pdf/merge.html" class="tool-card">
-                    <div class="tool-icon">📚</div>
-                    <h3>Merge PDF</h3>
-                    <p>Combine multiple PDFs into one unified document.</p>
-                </a>
-                <a href="/pdf/split.html" class="tool-card">
-                    <div class="tool-icon">✂️</div>
-                    <h3>Split PDF</h3>
-                    <p>Extract specific pages or separate into multiple files.</p>
-                </a>
-                <a href="/pdf/compress.html" class="tool-card">
-                    <div class="tool-icon">🗜️</div>
-                    <h3>Compress PDF</h3>
-                    <p>Reduce file size while maintaining visual quality.</p>
-                </a>
-                <a href="/pdf/pdf-to-image.html" class="tool-card">
-                    <div class="tool-icon">🖼️</div>
-                    <h3>PDF to Image</h3>
-                    <p>Convert PDF pages to high-quality JPG or PNG.</p>
-                </a>
-                <a href="/pdf/image-to-pdf.html" class="tool-card">
-                    <div class="tool-icon">📄</div>
-                    <h3>Image to PDF</h3>
-                    <p>Convert images (JPG, PNG) into a single PDF.</p>
-                </a>
-                <a href="/pdf/rotate.html" class="tool-card">
-                    <div class="tool-icon">🔄</div>
-                    <h3>Rotate PDF</h3>
-                    <p>Rotate PDF pages exactly the way you need.</p>
-                </a>
-            </div>
-        </section>
+<!-- ═══ CATEGORY FILTER ═══ -->
+<div class="filter-bar" style="margin-bottom:1.5rem;">
+  <button class="filter-tab active" onclick="showCategory('all', this)">All Tools</button>
+  <button class="filter-tab" onclick="showCategory('pdf', this)">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg>
+    PDF
+  </button>
+  <button class="filter-tab" onclick="showCategory('text', this)">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 6.1H3M21 12.1H3M15.1 18H3"/></svg>
+    Text
+  </button>
+  <button class="filter-tab" onclick="showCategory('developer', this)">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+    Developer
+  </button>
+  <button class="filter-tab" onclick="showCategory('calculator', this)">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><line x1="16" x2="16" y1="10" y2="10"/><line x1="12" x2="12" y1="10" y2="10"/><line x1="8" x2="8" y1="10" y2="10"/><line x1="12" x2="12" y1="14" y2="14"/><line x1="8" x2="8" y1="14" y2="14"/><line x1="12" x2="12" y1="18" y2="18"/><line x1="8" x2="8" y1="18" y2="18"/></svg>
+    Calculator
+  </button>
+  <button class="filter-tab" onclick="showCategory('converter', this)">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 6H3M7 12H3M7 18H3M17 12l4-4-4-4M17 22l4-4-4-4"/></svg>
+    Converter
+  </button>
+  <button class="filter-tab" onclick="showCategory('security', this)">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    Security
+  </button>
+  <button class="filter-tab" onclick="showCategory('qr', this)">QR Code</button>
+  <button class="filter-tab" onclick="showCategory('misc', this)">More</button>
+</div>
 
-        <!-- TEXT TOOLS -->
-        <section class="category-section" id="text">
-            <h2 class="category-title">📝 Text Tools</h2>
-            <div class="tools-grid">
-                <a href="/text/word-counter.html" class="tool-card">
-                    <div class="tool-icon">🔢</div>
-                    <h3>Word Counter</h3>
-                    <p>Count words, characters, sentences, and paragraphs instantly.</p>
-                </a>
-                <a href="/text/character-counter.html" class="tool-card">
-                    <div class="tool-icon">🔤</div>
-                    <h3>Character Counter</h3>
-                    <p>Count characters with and without spaces.</p>
-                </a>
-                <a href="/text/case-converter.html" class="tool-card">
-                    <div class="tool-icon">🔠</div>
-                    <h3>Case Converter</h3>
-                    <p>Convert text to UPPER, lower, Title, or Sentence case.</p>
-                </a>
-                <a href="/text/lorem-ipsum.html" class="tool-card">
-                    <div class="tool-icon">📜</div>
-                    <h3>Lorem Ipsum Generator</h3>
-                    <p>Generate placeholder text for your designs.</p>
-                </a>
-                <a href="/text/duplicate-remover.html" class="tool-card">
-                    <div class="tool-icon">🧹</div>
-                    <h3>Duplicate Line Remover</h3>
-                    <p>Remove duplicate lines from your text instantly.</p>
-                </a>
-                <a href="/text/text-diff.html" class="tool-card">
-                    <div class="tool-icon">🔍</div>
-                    <h3>Text Diff Checker</h3>
-                    <p>Compare two texts and find the differences.</p>
-                </a>
-                <a href="/text/fancy-text.html" class="tool-card">
-                    <div class="tool-icon">✨</div>
-                    <h3>Fancy Text Generator</h3>
-                    <p>Generate stylish Unicode text for social media.</p>
-                </a>
-                <a href="/text/find-replace.html" class="tool-card">
-                    <div class="tool-icon">🔎</div>
-                    <h3>Find and Replace</h3>
-                    <p>Find and replace text with regex support.</p>
-                </a>
-                <a href="/text/text-reverser.html" class="tool-card">
-                    <div class="tool-icon">↩️</div>
-                    <h3>Text Reverser</h3>
-                    <p>Reverse your text, words, or sentences.</p>
-                </a>
-                <a href="/text/slug-generator.html" class="tool-card">
-                    <div class="tool-icon">🔗</div>
-                    <h3>URL Slug Generator</h3>
-                    <p>Create clean, SEO-friendly URL slugs.</p>
-                </a>
-                <a href="/text/hashtag-generator.html" class="tool-card">
-                    <div class="tool-icon">#️⃣</div>
-                    <h3>Hashtag Generator</h3>
-                    <p>Generate trending hashtags for your posts.</p>
-                </a>
-                <a href="/text/morse-code.html" class="tool-card">
-                    <div class="tool-icon">📡</div>
-                    <h3>Morse Code Translator</h3>
-                    <p>Convert text to Morse code and back.</p>
-                </a>
-                <a href="/text/text-to-binary.html" class="tool-card">
-                    <div class="tool-icon">💾</div>
-                    <h3>Text to Binary</h3>
-                    <p>Convert text to binary and binary to text.</p>
-                </a>
-                <a href="/text/emoji-picker.html" class="tool-card">
-                    <div class="tool-icon">😀</div>
-                    <h3>Emoji Picker</h3>
-                    <p>Search and copy emojis with one click.</p>
-                </a>
-                <a href="/text/small-text.html" class="tool-card">
-                    <div class="tool-icon">ᵃᵇᶜ</div>
-                    <h3>Small Text Generator</h3>
-                    <p>Generate superscript and subscript text.</p>
-                </a>
-            </div>
-        </section>
+<div class="ad-slot"><!-- AdSense --></div>
 
-        <!-- Ad Slot -->
-        <div class="ad-slot"><!-- AdSense Code Here --></div>
+<!-- ═══ TRENDING / FEATURED ═══ -->
+<section class="section" id="featured">
+  <div class="section-header">
+    <h2 class="section-title"><span class="emoji">🔥</span> Trending Tools</h2>
+  </div>
+  <div class="featured-grid">
+    <a href="/text/word-counter.html" class="featured-card">
+      <div class="tool-icon-wrap icon-blue">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 6.1H3M21 12.1H3M15.1 18H3"/></svg>
+      </div>
+      <div>
+        <h3 style="font-size:0.95rem;font-weight:600;margin-bottom:0.25rem;">Word Counter</h3>
+        <p style="font-size:0.8rem;color:var(--text-muted);">Count words, characters, sentences, paragraphs. Real-time analysis with reading time.</p>
+      </div>
+    </a>
+    <a href="/security/password-generator.html" class="featured-card">
+      <div class="tool-icon-wrap icon-green">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <div>
+        <h3 style="font-size:0.95rem;font-weight:600;margin-bottom:0.25rem;">Password Generator</h3>
+        <p style="font-size:0.8rem;color:var(--text-muted);">Generate strong, secure passwords with customizable length and character types.</p>
+      </div>
+    </a>
+    <a href="/developer/json-formatter.html" class="featured-card">
+      <div class="tool-icon-wrap icon-purple">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      </div>
+      <div>
+        <h3 style="font-size:0.95rem;font-weight:600;margin-bottom:0.25rem;">JSON Formatter</h3>
+        <p style="font-size:0.8rem;color:var(--text-muted);">Format, validate, and beautify JSON data with syntax highlighting.</p>
+      </div>
+    </a>
+    <a href="/qr/qr-generator.html" class="featured-card">
+      <div class="tool-icon-wrap icon-orange">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="6" height="6" x="3" y="3" rx="1"/><rect width="6" height="6" x="15" y="3" rx="1"/><rect width="6" height="6" x="3" y="15" rx="1"/><path d="M15 15h.01M18 15h.01M15 18h.01M18 18h.01M21 15h.01M21 18h.01M15 21h.01M18 21h.01M21 21h.01"/></svg>
+      </div>
+      <div>
+        <h3 style="font-size:0.95rem;font-weight:600;margin-bottom:0.25rem;">QR Code Generator</h3>
+        <p style="font-size:0.8rem;color:var(--text-muted);">Create QR codes for URLs, text, WiFi. Custom colors. Download as PNG.</p>
+      </div>
+    </a>
+  </div>
+</section>
 
-        <!-- DEVELOPER TOOLS -->
-        <section class="category-section" id="developer">
-            <h2 class="category-title">💻 Developer Tools</h2>
-            <div class="tools-grid">
-                <a href="/developer/html-viewer.html" class="tool-card">
-                    <div class="tool-icon">🌐</div>
-                    <h3>HTML Viewer Online</h3>
-                    <p>Paste HTML and see live rendered preview.</p>
-                </a>
-                <a href="/developer/json-formatter.html" class="tool-card">
-                    <div class="tool-icon">{ }</div>
-                    <h3>JSON Formatter</h3>
-                    <p>Format, validate, and beautify JSON data.</p>
-                </a>
-                <a href="/developer/base64.html" class="tool-card">
-                    <div class="tool-icon">🔐</div>
-                    <h3>Base64 Encode/Decode</h3>
-                    <p>Encode or decode Base64 strings instantly.</p>
-                </a>
-                <a href="/developer/url-encoder.html" class="tool-card">
-                    <div class="tool-icon">🔗</div>
-                    <h3>URL Encode/Decode</h3>
-                    <p>Encode or decode URL components.</p>
-                </a>
-                <a href="/developer/regex-tester.html" class="tool-card">
-                    <div class="tool-icon">⚙️</div>
-                    <h3>Regex Tester</h3>
-                    <p>Test regular expressions with live matching.</p>
-                </a>
-                <a href="/developer/markdown-preview.html" class="tool-card">
-                    <div class="tool-icon">📝</div>
-                    <h3>Markdown to HTML</h3>
-                    <p>Convert Markdown to HTML with live preview.</p>
-                </a>
-            </div>
-        </section>
+<!-- ═══ PDF TOOLS ═══ -->
+<section class="section" id="pdf" data-category="pdf">
+  <div class="section-header">
+    <h2 class="section-title">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg>
+      PDF Tools <span class="tool-count-badge">6 tools</span>
+    </h2>
+  </div>
+  <div class="tools-grid">
+    <a href="/pdf/merge.html" class="tool-card" data-name="merge pdf combine">
+      <div class="tool-icon-wrap icon-red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3H5a2 2 0 0 0-2 2v14"/><path d="M8 7h13a1 1 0 0 1 1 1v12a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2V7Z"/></svg></div>
+      <h3>Merge PDF</h3>
+      <p>Combine multiple PDFs into one</p>
+    </a>
+    <a href="/pdf/split.html" class="tool-card" data-name="split pdf separate extract">
+      <div class="tool-icon-wrap icon-orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="m21 3-8.5 8.5"/><path d="M3 3l8.5 8.5"/><path d="M3 16v5h5"/><path d="M16 21h5v-5"/></svg></div>
+      <h3>Split PDF</h3>
+      <p>Extract pages from PDFs</p>
+    </a>
+    <a href="/pdf/compress.html" class="tool-card" data-name="compress pdf reduce size">
+      <div class="tool-icon-wrap icon-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="m9.2 22 3-7"/><path d="m12.8 22-3-7"/></svg></div>
+      <h3>Compress PDF</h3>
+      <p>Reduce file size without quality loss</p>
+    </a>
+    <a href="/pdf/pdf-to-image.html" class="tool-card" data-name="pdf to image jpg png convert">
+      <div class="tool-icon-wrap icon-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg></div>
+      <h3>PDF to Image</h3>
+      <p>Convert PDF pages to JPG/PNG</p>
+    </a>
+    <a href="/pdf/image-to-pdf.html" class="tool-card" data-name="image to pdf convert jpg png">
+      <div class="tool-icon-wrap icon-purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><circle cx="10" cy="13" r="2"/><path d="m20 17-1.09-1.09a2 2 0 0 0-2.82 0L10 22"/></svg></div>
+      <h3>Image to PDF</h3>
+      <p>Convert images into a PDF document</p>
+    </a>
+    <a href="/pdf/rotate.html" class="tool-card" data-name="rotate pdf page orientation">
+      <div class="tool-icon-wrap icon-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg></div>
+      <h3>Rotate PDF</h3>
+      <p>Rotate pages to any angle</p>
+    </a>
+  </div>
+</section>
 
-        <!-- CALCULATOR TOOLS -->
-        <section class="category-section" id="calculator">
-            <h2 class="category-title">📐 Calculator Tools</h2>
-            <div class="tools-grid">
-                <a href="/calculator/percentage.html" class="tool-card">
-                    <div class="tool-icon">%</div>
-                    <h3>Percentage Calculator</h3>
-                    <p>Calculate percentages, increases, and decreases.</p>
-                </a>
-                <a href="/calculator/age.html" class="tool-card">
-                    <div class="tool-icon">🎂</div>
-                    <h3>Age Calculator</h3>
-                    <p>Calculate exact age in years, months, and days.</p>
-                </a>
-                <a href="/calculator/bmi.html" class="tool-card">
-                    <div class="tool-icon">⚖️</div>
-                    <h3>BMI Calculator</h3>
-                    <p>Calculate Body Mass Index with health insights.</p>
-                </a>
-                <a href="/calculator/loan.html" class="tool-card">
-                    <div class="tool-icon">💰</div>
-                    <h3>Loan/EMI Calculator</h3>
-                    <p>Calculate monthly payments and total interest.</p>
-                </a>
-                <a href="/calculator/discount.html" class="tool-card">
-                    <div class="tool-icon">🏷️</div>
-                    <h3>Discount Calculator</h3>
-                    <p>Calculate sale prices and savings instantly.</p>
-                </a>
-                <a href="/calculator/tip.html" class="tool-card">
-                    <div class="tool-icon">💵</div>
-                    <h3>Tip Calculator</h3>
-                    <p>Calculate tips and split bills easily.</p>
-                </a>
-            </div>
-        </section>
+<!-- ═══ TEXT TOOLS ═══ -->
+<section class="section" id="text" data-category="text">
+  <div class="section-header">
+    <h2 class="section-title">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><path d="M17 6.1H3M21 12.1H3M15.1 18H3"/></svg>
+      Text Tools <span class="tool-count-badge">15 tools</span>
+    </h2>
+  </div>
+  <div class="tools-grid">
+    <a href="/text/word-counter.html" class="tool-card" data-name="word counter count words characters">
+      <div class="tool-icon-wrap icon-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg></div>
+      <h3>Word Counter</h3><p>Count words, characters & more</p>
+    </a>
+    <a href="/text/character-counter.html" class="tool-card" data-name="character counter text length">
+      <div class="tool-icon-wrap icon-indigo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg></div>
+      <h3>Character Counter</h3><p>Count with social media limits</p>
+    </a>
+    <a href="/text/case-converter.html" class="tool-card" data-name="case converter uppercase lowercase title">
+      <div class="tool-icon-wrap icon-purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 15 4-8 4 8"/><path d="M4 13h6"/><circle cx="18" cy="12" r="3"/><path d="M21 9v6"/></svg></div>
+      <h3>Case Converter</h3><p>UPPER, lower, Title, camelCase</p>
+    </a>
+    <a href="/text/lorem-ipsum.html" class="tool-card" data-name="lorem ipsum placeholder text generator">
+      <div class="tool-icon-wrap icon-gray"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 6.1H3M21 12.1H3M15.1 18H3"/></svg></div>
+      <h3>Lorem Ipsum</h3><p>Generate placeholder text</p>
+    </a>
+    <a href="/text/duplicate-remover.html" class="tool-card" data-name="duplicate line remover remove duplicates">
+      <div class="tool-icon-wrap icon-red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg></div>
+      <h3>Duplicate Remover</h3><p>Remove duplicate lines</p>
+    </a>
+    <a href="/text/text-diff.html" class="tool-card" data-name="text diff compare difference checker">
+      <div class="tool-icon-wrap icon-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v14"/><path d="M5 10h14"/><path d="M5 21h14"/></svg></div>
+      <h3>Text Diff</h3><p>Compare two texts side by side</p>
+    </a>
+    <a href="/text/fancy-text.html" class="tool-card" data-name="fancy text generator unicode fonts stylish">
+      <div class="tool-icon-wrap icon-pink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg></div>
+      <h3>Fancy Text</h3><p>Stylish Unicode fonts for social</p>
+    </a>
+    <a href="/text/find-replace.html" class="tool-card" data-name="find replace search text regex">
+      <div class="tool-icon-wrap icon-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></div>
+      <h3>Find & Replace</h3><p>With regex support</p>
+    </a>
+    <a href="/text/text-reverser.html" class="tool-card" data-name="text reverser reverse words">
+      <div class="tool-icon-wrap icon-orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></svg></div>
+      <h3>Text Reverser</h3><p>Reverse text, words, sentences</p>
+    </a>
+    <a href="/text/slug-generator.html" class="tool-card" data-name="slug generator url friendly seo">
+      <div class="tool-icon-wrap icon-emerald"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+      <h3>Slug Generator</h3><p>Clean, SEO-friendly URL slugs</p>
+    </a>
+    <a href="/text/hashtag-generator.html" class="tool-card" data-name="hashtag generator instagram tiktok social">
+      <div class="tool-icon-wrap icon-sky"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="9" y2="9"/><line x1="4" x2="20" y1="15" y2="15"/><line x1="10" x2="8" y1="3" y2="21"/><line x1="16" x2="14" y1="3" y2="21"/></svg></div>
+      <h3>Hashtag Generator</h3><p>Generate trending hashtags</p>
+    </a>
+    <a href="/text/morse-code.html" class="tool-card" data-name="morse code translator encoder decoder">
+      <div class="tool-icon-wrap icon-yellow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h6M16 12h6M9 12h.01M14 12h.01"/><circle cx="12" cy="12" r="10"/></svg></div>
+      <h3>Morse Code</h3><p>Text ↔ Morse translator</p>
+    </a>
+    <a href="/text/text-to-binary.html" class="tool-card" data-name="text to binary converter hex octal">
+      <div class="tool-icon-wrap icon-gray"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="4" height="6" rx="2"/><rect x="6" y="4" width="4" height="6" rx="2"/><path d="M6 20h4"/><path d="M14 10h4"/></svg></div>
+      <h3>Text to Binary</h3><p>Convert text ↔ binary/hex</p>
+    </a>
+    <a href="/text/emoji-picker.html" class="tool-card" data-name="emoji picker search copy">
+      <div class="tool-icon-wrap icon-yellow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" x2="9.01" y1="9" y2="9"/><line x1="15" x2="15.01" y1="9" y2="9"/></svg></div>
+      <h3>Emoji Picker</h3><p>Search & copy emojis</p>
+    </a>
+    <a href="/text/small-text.html" class="tool-card" data-name="small text generator superscript subscript tiny">
+      <div class="tool-icon-wrap icon-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 15 4-8 4 8"/><path d="M4 13h6"/><path d="M15 11h4.5a2 2 0 0 1 0 4H15V7h4a2 2 0 0 1 0 4"/></svg></div>
+      <h3>Small Text</h3><p>ˢᵘᵖᵉʳˢᶜʳⁱᵖᵗ text generator</p>
+    </a>
+  </div>
+</section>
 
-        <!-- CONVERTER TOOLS -->
-        <section class="category-section" id="converter">
-            <h2 class="category-title">🔄 Converter Tools</h2>
-            <div class="tools-grid">
-                <a href="/converter/length.html" class="tool-card">
-                    <div class="tool-icon">📏</div>
-                    <h3>Length Converter</h3>
-                    <p>Convert between km, miles, meters, feet, inches.</p>
-                </a>
-                <a href="/converter/weight.html" class="tool-card">
-                    <div class="tool-icon">⚖️</div>
-                    <h3>Weight Converter</h3>
-                    <p>Convert between kg, lbs, ounces, grams.</p>
-                </a>
-                <a href="/converter/temperature.html" class="tool-card">
-                    <div class="tool-icon">🌡️</div>
-                    <h3>Temperature Converter</h3>
-                    <p>Convert between Celsius, Fahrenheit, Kelvin.</p>
-                </a>
-                <a href="/converter/color.html" class="tool-card">
-                    <div class="tool-icon">🎨</div>
-                    <h3>Color Converter</h3>
-                    <p>Convert between HEX, RGB, and HSL colors.</p>
-                </a>
-                <a href="/converter/number-base.html" class="tool-card">
-                    <div class="tool-icon">🔢</div>
-                    <h3>Number Base Converter</h3>
-                    <p>Convert between Binary, Decimal, Octal, Hex.</p>
-                </a>
-                <a href="/converter/timestamp.html" class="tool-card">
-                    <div class="tool-icon">⏰</div>
-                    <h3>Timestamp Converter</h3>
-                    <p>Convert Unix timestamp to human-readable date.</p>
-                </a>
-            </div>
-        </section>
+<div class="ad-slot"><!-- AdSense --></div>
 
-        <!-- SECURITY TOOLS -->
-        <section class="category-section" id="security">
-            <h2 class="category-title">🔒 Security & Encoding Tools</h2>
-            <div class="tools-grid">
-                <a href="/security/password-generator.html" class="tool-card">
-                    <div class="tool-icon">🔑</div>
-                    <h3>Password Generator</h3>
-                    <p>Generate strong, secure passwords instantly.</p>
-                </a>
-                <a href="/security/md5-hash.html" class="tool-card">
-                    <div class="tool-icon">#</div>
-                    <h3>MD5 Hash Generator</h3>
-                    <p>Generate MD5 hash from any text string.</p>
-                </a>
-                <a href="/security/sha256-hash.html" class="tool-card">
-                    <div class="tool-icon">#</div>
-                    <h3>SHA256 Hash Generator</h3>
-                    <p>Generate SHA-256 hash from any text.</p>
-                </a>
-                <a href="/security/uuid-generator.html" class="tool-card">
-                    <div class="tool-icon">🆔</div>
-                    <h3>UUID Generator</h3>
-                    <p>Generate random UUIDs (v4) instantly.</p>
-                </a>
-            </div>
-        </section>
+<!-- ═══ DEVELOPER TOOLS ═══ -->
+<section class="section" id="developer" data-category="developer">
+  <div class="section-header">
+    <h2 class="section-title">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      Developer Tools <span class="tool-count-badge">6 tools</span>
+    </h2>
+  </div>
+  <div class="tools-grid">
+    <a href="/developer/html-viewer.html" class="tool-card" data-name="html viewer online live preview render"><div class="tool-icon-wrap icon-orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div><h3>HTML Viewer</h3><p>Live HTML preview</p></a>
+    <a href="/developer/json-formatter.html" class="tool-card" data-name="json formatter beautify validate"><div class="tool-icon-wrap icon-purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1"/><path d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"/></svg></div><h3>JSON Formatter</h3><p>Format & validate JSON</p></a>
+    <a href="/developer/base64.html" class="tool-card" data-name="base64 encode decode"><div class="tool-icon-wrap icon-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><h3>Base64 Encode/Decode</h3><p>Encode & decode Base64</p></a>
+    <a href="/developer/url-encoder.html" class="tool-card" data-name="url encode decode percent"><div class="tool-icon-wrap icon-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div><h3>URL Encode/Decode</h3><p>Encode URL components</p></a>
+    <a href="/developer/regex-tester.html" class="tool-card" data-name="regex tester regular expression"><div class="tool-icon-wrap icon-pink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 14.14 14.14"/></svg></div><h3>Regex Tester</h3><p>Test regular expressions</p></a>
+    <a href="/developer/markdown-preview.html" class="tool-card" data-name="markdown to html preview render"><div class="tool-icon-wrap icon-gray"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div><h3>Markdown Preview</h3><p>Live Markdown renderer</p></a>
+  </div>
+</section>
 
-        <!-- QR CODE -->
-        <section class="category-section" id="qr">
-            <h2 class="category-title">📊 QR Code & Barcode</h2>
-            <div class="tools-grid">
-                <a href="/qr/qr-generator.html" class="tool-card">
-                    <div class="tool-icon">📱</div>
-                    <h3>QR Code Generator</h3>
-                    <p>Generate QR codes for URLs, text, WiFi, and more.</p>
-                </a>
-                <a href="/qr/qr-reader.html" class="tool-card">
-                    <div class="tool-icon">📷</div>
-                    <h3>QR Code Reader</h3>
-                    <p>Scan QR codes from images or camera.</p>
-                </a>
-            </div>
-        </section>
+<!-- ═══ CALCULATOR TOOLS ═══ -->
+<section class="section" id="calculator" data-category="calculator">
+  <div class="section-header">
+    <h2 class="section-title">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/></svg>
+      Calculator Tools <span class="tool-count-badge">6 tools</span>
+    </h2>
+  </div>
+  <div class="tools-grid">
+    <a href="/calculator/percentage.html" class="tool-card" data-name="percentage calculator percent"><div class="tool-icon-wrap icon-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" x2="5" y1="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg></div><h3>Percentage Calculator</h3><p>All percentage calculations</p></a>
+    <a href="/calculator/age.html" class="tool-card" data-name="age calculator birthday years old"><div class="tool-icon-wrap icon-pink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg></div><h3>Age Calculator</h3><p>Exact age in years, months, days</p></a>
+    <a href="/calculator/bmi.html" class="tool-card" data-name="bmi calculator body mass index health"><div class="tool-icon-wrap icon-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z"/></svg></div><h3>BMI Calculator</h3><p>Health assessment with chart</p></a>
+    <a href="/calculator/loan.html" class="tool-card" data-name="loan emi calculator mortgage interest"><div class="tool-icon-wrap icon-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" x2="12" y1="1" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><h3>Loan/EMI Calculator</h3><p>Monthly payments & amortization</p></a>
+    <a href="/calculator/discount.html" class="tool-card" data-name="discount calculator sale price savings"><div class="tool-icon-wrap icon-red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/></svg></div><h3>Discount Calculator</h3><p>Sale price & savings</p></a>
+    <a href="/calculator/tip.html" class="tool-card" data-name="tip calculator split bill restaurant"><div class="tool-icon-wrap icon-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg></div><h3>Tip Calculator</h3><p>Calculate & split tips</p></a>
+  </div>
+</section>
 
-        <!-- MISC -->
-        <section class="category-section" id="misc">
-            <h2 class="category-title">⚡ More Tools</h2>
-            <div class="tools-grid">
-                <a href="/misc/typing-test.html" class="tool-card">
-                    <div class="tool-icon">⌨️</div>
-                    <h3>Typing Speed Test</h3>
-                    <p>Test your typing speed and accuracy.</p>
-                </a>
-                <a href="/misc/countdown.html" class="tool-card">
-                    <div class="tool-icon">⏳</div>
-                    <h3>Countdown Timer</h3>
-                    <p>Set countdowns and timers with alerts.</p>
-                </a>
-                <a href="/misc/coin-flip.html" class="tool-card">
-                    <div class="tool-icon">🪙</div>
-                    <h3>Coin Flip</h3>
-                    <p>Flip a virtual coin for quick decisions.</p>
-                </a>
-                <a href="/misc/random-number.html" class="tool-card">
-                    <div class="tool-icon">🎲</div>
-                    <h3>Random Number Generator</h3>
-                    <p>Generate random numbers within any range.</p>
-                </a>
-                <a href="/misc/screen-recorder.html" class="tool-card">
-                    <div class="tool-icon">🎥</div>
-                    <h3>Screen Recorder</h3>
-                    <p>Record your screen directly in the browser.</p>
-                </a>
-                <a href="/misc/ip-lookup.html" class="tool-card">
-                    <div class="tool-icon">🌍</div>
-                    <h3>My IP Address</h3>
-                    <p>Find your public IP address and location.</p>
-                </a>
-            </div>
-        </section>
+<!-- ═══ CONVERTER TOOLS ═══ -->
+<section class="section" id="converter" data-category="converter">
+  <div class="section-header">
+    <h2 class="section-title">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2"><path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></svg>
+      Converter Tools <span class="tool-count-badge">6 tools</span>
+    </h2>
+  </div>
+  <div class="tools-grid">
+    <a href="/converter/length.html" class="tool-card" data-name="length converter km miles meters feet"><div class="tool-icon-wrap icon-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"/><path d="m14.5 12.5 2-2"/><path d="m11.5 9.5 2-2"/><path d="m8.5 6.5 2-2"/><path d="m17.5 15.5 2-2"/></svg></div><h3>Length Converter</h3><p>km, miles, meters, feet, inches</p></a>
+    <a href="/converter/weight.html" class="tool-card" data-name="weight converter kg lbs grams ounces"><div class="tool-icon-wrap icon-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="3"/><path d="M6.5 8a2 2 0 0 0-1.905 1.46L2.1 18.23A2 2 0 0 0 4 21h16a2 2 0 0 0 1.925-2.54L19.4 9.46A2 2 0 0 0 17.48 8Z"/></svg></div><h3>Weight Converter</h3><p>kg, lbs, grams, ounces, tons</p></a>
+    <a href="/converter/temperature.html" class="tool-card" data-name="temperature converter celsius fahrenheit kelvin"><div class="tool-icon-wrap icon-red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/></svg></div><h3>Temperature</h3><p>°C ↔ °F ↔ K converter</p></a>
+    <a href="/converter/color.html" class="tool-card" data-name="color converter hex rgb hsl picker"><div class="tool-icon-wrap icon-pink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="0.5" fill="currentColor"/><circle cx="17.5" cy="10.5" r="0.5" fill="currentColor"/><circle cx="8.5" cy="7.5" r="0.5" fill="currentColor"/><circle cx="6.5" cy="12.5" r="0.5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2Z"/></svg></div><h3>Color Converter</h3><p>HEX ↔ RGB ↔ HSL</p></a>
+    <a href="/converter/number-base.html" class="tool-card" data-name="number base binary decimal hex octal"><div class="tool-icon-wrap icon-purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="4" height="6" rx="2"/><rect x="6" y="4" width="4" height="6" rx="2"/><path d="M6 20h4"/><path d="M14 10h4"/></svg></div><h3>Number Base</h3><p>Binary ↔ Decimal ↔ Hex</p></a>
+    <a href="/converter/timestamp.html" class="tool-card" data-name="timestamp unix epoch date converter"><div class="tool-icon-wrap icon-gray"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><h3>Timestamp</h3><p>Unix ↔ human-readable date</p></a>
+  </div>
+</section>
 
-        <!-- Ad Slot -->
-        <div class="ad-slot"><!-- AdSense Code Here --></div>
-    </main>
+<!-- ═══ SECURITY TOOLS ═══ -->
+<section class="section" id="security" data-category="security">
+  <div class="section-header">
+    <h2 class="section-title">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0d9488" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      Security Tools <span class="tool-count-badge">4 tools</span>
+    </h2>
+  </div>
+  <div class="tools-grid">
+    <a href="/security/password-generator.html" class="tool-card" data-name="password generator strong secure"><div class="tool-icon-wrap icon-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg></div><h3>Password Generator</h3><p>Strong, customizable passwords</p></a>
+    <a href="/security/md5-hash.html" class="tool-card" data-name="md5 hash generator checksum"><div class="tool-icon-wrap icon-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></div><h3>MD5 Hash</h3><p>Generate MD5 checksums</p></a>
+    <a href="/security/sha256-hash.html" class="tool-card" data-name="sha256 hash generator sha-256"><div class="tool-icon-wrap icon-purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>SHA-256 Hash</h3><p>Secure hashing with SHA-256</p></a>
+    <a href="/security/uuid-generator.html" class="tool-card" data-name="uuid generator v4 unique id"><div class="tool-icon-wrap icon-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg></div><h3>UUID Generator</h3><p>Generate UUID v4 identifiers</p></a>
+  </div>
+</section>
 
-    <footer>
-        <div class="privacy-badge">🔒 Your files never leave your device. All processing happens in your browser.</div>
-        <div class="footer-links">
-            <a href="/about.html">About</a>
-            <a href="/privacy.html">Privacy Policy</a>
-            <a href="/terms.html">Terms of Service</a>
-            <a href="/contact.html">Contact</a>
-        </div>
-        <p class="copyright">&copy; 2026 Toolzium. All rights reserved.</p>
-    </footer>
+<!-- ═══ QR & MISC ═══ -->
+<section class="section" id="more" data-category="qr">
+  <div class="section-header">
+    <h2 class="section-title">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2"><rect width="6" height="6" x="3" y="3" rx="1"/><rect width="6" height="6" x="15" y="3" rx="1"/><rect width="6" height="6" x="3" y="15" rx="1"/><path d="M15 15h.01M18 18h.01M21 21h.01"/></svg>
+      QR Code Tools <span class="tool-count-badge">2 tools</span>
+    </h2>
+  </div>
+  <div class="tools-grid">
+    <a href="/qr/qr-generator.html" class="tool-card" data-name="qr code generator create"><div class="tool-icon-wrap icon-indigo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="6" height="6" x="3" y="3" rx="1"/><rect width="6" height="6" x="15" y="3" rx="1"/><rect width="6" height="6" x="3" y="15" rx="1"/><path d="M15 15h.01M18 15h.01M15 18h.01M18 18h.01M21 15h.01M21 18h.01M15 21h.01M18 21h.01M21 21h.01"/></svg></div><h3>QR Code Generator</h3><p>Create custom QR codes</p></a>
+    <a href="/qr/qr-reader.html" class="tool-card" data-name="qr code reader scanner decode"><div class="tool-icon-wrap icon-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><line x1="7" x2="17" y1="12" y2="12"/></svg></div><h3>QR Code Reader</h3><p>Scan QR from image or camera</p></a>
+  </div>
+</section>
+
+<section class="section" data-category="misc">
+  <div class="section-header">
+    <h2 class="section-title">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+      More Tools <span class="tool-count-badge">6 tools</span>
+    </h2>
+  </div>
+  <div class="tools-grid">
+    <a href="/misc/typing-test.html" class="tool-card" data-name="typing speed test wpm accuracy"><div class="tool-icon-wrap icon-purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="M6 8h.001M10 8h.001M14 8h.001M18 8h.001M8 12h.001M12 12h.001M16 12h.001M7 16h10"/></svg></div><h3>Typing Speed Test</h3><p>Test WPM & accuracy</p></a>
+    <a href="/misc/countdown.html" class="tool-card" data-name="countdown timer stopwatch alarm"><div class="tool-icon-wrap icon-red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><h3>Countdown Timer</h3><p>Timer & stopwatch</p></a>
+    <a href="/misc/coin-flip.html" class="tool-card" data-name="coin flip heads tails random"><div class="tool-icon-wrap icon-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="14.5" y1="12" y2="10"/></svg></div><h3>Coin Flip</h3><p>Animated heads or tails</p></a>
+    <a href="/misc/random-number.html" class="tool-card" data-name="random number generator range"><div class="tool-icon-wrap icon-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="12" height="12" x="6" y="6" rx="2"/><path d="M12 12h.01"/><path d="M9 9h.01"/><path d="M15 9h.01"/><path d="M9 15h.01"/><path d="M15 15h.01"/></svg></div><h3>Random Number</h3><p>Generate numbers in any range</p></a>
+    <a href="/misc/screen-recorder.html" class="tool-card" data-name="screen recorder capture video browser"><div class="tool-icon-wrap icon-pink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg></div><h3>Screen Recorder</h3><p>Record screen in browser</p><span class="new-badge">NEW</span></a>
+    <a href="/misc/ip-lookup.html" class="tool-card" data-name="ip address lookup location my ip"><div class="tool-icon-wrap icon-sky"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div><h3>My IP Address</h3><p>Find your IP & location</p></a>
+  </div>
+</section>
+
+<div class="ad-slot"><!-- AdSense --></div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="/" class="logo">
+        <div class="logo-icon">T</div> Toolzium
+      </a>
+      <p>Your all-in-one free toolkit. 50+ browser-based tools, 100% private, no registration required. Files never leave your device.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Popular</h4>
+      <a href="/text/word-counter.html">Word Counter</a>
+      <a href="/security/password-generator.html">Password Generator</a>
+      <a href="/developer/json-formatter.html">JSON Formatter</a>
+      <a href="/calculator/percentage.html">Percentage Calculator</a>
+      <a href="/qr/qr-generator.html">QR Generator</a>
+    </div>
+    <div class="footer-col">
+      <h4>Categories</h4>
+      <a href="#pdf">PDF Tools</a>
+      <a href="#text">Text Tools</a>
+      <a href="#developer">Developer</a>
+      <a href="#calculator">Calculator</a>
+      <a href="#converter">Converter</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="/about.html">About Us</a>
+      <a href="/privacy.html">Privacy Policy</a>
+      <a href="/terms.html">Terms of Service</a>
+      <a href="/contact.html">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 Toolzium. All rights reserved.</p>
+    <div class="privacy-badge">🔒 100% Browser-Based &mdash; Your Data Never Leaves Your Device</div>
+  </div>
+</footer>
+
+<script>
+// ═══ SEARCH & FILTER ═══
+function filterTools(query) {
+  query = query.toLowerCase().trim();
+  const cards = document.querySelectorAll('.tool-card');
+  const sections = document.querySelectorAll('.section[data-category]');
+
+  if (!query) {
+    cards.forEach(c => c.style.display = '');
+    sections.forEach(s => s.style.display = '');
+    document.getElementById('featured').style.display = '';
+    return;
+  }
+
+  document.getElementById('featured').style.display = 'none';
+  let anyVisible = false;
+  sections.forEach(sec => {
+    const sectionCards = sec.querySelectorAll('.tool-card');
+    let sectionHasMatch = false;
+    sectionCards.forEach(card => {
+      const name = (card.getAttribute('data-name') || '') + ' ' + card.textContent;
+      if (name.toLowerCase().includes(query)) {
+        card.style.display = '';
+        sectionHasMatch = true;
+        anyVisible = true;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+    sec.style.display = sectionHasMatch ? '' : 'none';
+  });
+}
+
+function showCategory(cat, btn) {
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+
+  const sections = document.querySelectorAll('.section[data-category]');
+  const featured = document.getElementById('featured');
+
+  if (cat === 'all') {
+    sections.forEach(s => s.style.display = '');
+    featured.style.display = '';
+    document.querySelectorAll('.tool-card').forEach(c => c.style.display = '');
+    return;
+  }
+
+  featured.style.display = 'none';
+  sections.forEach(sec => {
+    sec.style.display = sec.getAttribute('data-category') === cat ? '' : 'none';
+  });
+}
+</script>
+
 </body>
 </html>
