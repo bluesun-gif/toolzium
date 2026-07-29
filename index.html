@@ -3,12 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Toolzium — 50+ Free Online Tools | PDF, Text, Developer & More</title>
-  <meta name="description" content="Every tool you need, at your fingertips. 50+ free browser-based tools for PDF, text, development, calculation, and more.">
+  <title>Toolzium — 50+ Free Online Browser-Based Tools</title>
+  <meta name="description" content="50+ free browser-based tools for PDF, Text, Images, Coding, Security, and more. 100% private, client-side execution, files never leave your device.">
   <link rel="stylesheet" href="/css/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Toolzium",
+    "url": "https://toolzium.com",
+    "description": "Free online browser-based utility tools. 100% private.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All"
+  }
+  </script>
 </head>
 <body>
 
+<!-- ══════ NAVBAR ══════ -->
 <header class="navbar-wrap">
   <div class="navbar">
     <a href="/" class="logo">
@@ -20,7 +32,7 @@
       <a href="#text-tools" class="nav-item">Text Tools</a>
       <a href="#dev-tools" class="nav-item">Developer</a>
       <div class="nav-item has-mega">All Tools
-        <div class="mega-dropdown">
+        <div class="mega-dropdown" style="min-width:680px; grid-template-columns: repeat(4, 1fr);">
           <div>
             <div class="mega-col-title">PDF</div>
             <a href="/pdf/merge.html" class="mega-link"><span class="mega-ic ic-red"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="2" width="10" height="14" rx="2" fill="#fca5a5"/><rect x="10" y="7" width="10" height="14" rx="2" fill="#fee2e2" stroke="#dc2626" stroke-width="1"/></svg></span>Merge PDF</a>
@@ -31,18 +43,16 @@
             <div class="mega-col-title">Text</div>
             <a href="/text/word-counter.html" class="mega-link"><span class="mega-ic ic-blue"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#dbeafe"/><path d="M7 8h8M7 11h6" stroke="#2563eb" stroke-width="1.5"/></svg></span>Word Counter</a>
             <a href="/text/case-converter.html" class="mega-link"><span class="mega-ic ic-purple"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#ede9fe"/><text x="6" y="15" font-size="10" font-weight="700" fill="#7c3aed">Aa</text></svg></span>Case Converter</a>
-            <a href="/text/text-diff.html" class="mega-link"><span class="mega-ic ic-amber"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="8" height="16" rx="2" fill="#fef3c7"/><rect x="12" y="3" width="8" height="16" rx="2" fill="#fde68a"/></svg></span>Text Diff</a>
           </div>
           <div>
             <div class="mega-col-title">Developer</div>
-            <a href="/developer/json-formatter.html" class="mega-link"><span class="mega-ic ic-purple"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#ede9fe"/><path d="M8 7l-3 4 3 4M14 7l3 4-3 4" stroke="#7c3aed" stroke-width="1.5"/></svg></span>JSON Formatter</a>
+            <a href="/developer/json-formatter.html" class="mega-link"><span class="mega-ic ic-purple"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#ede9fe"/><path d="M8 7l-3 4 3 4" stroke="#7c3aed" stroke-width="1.5"/></svg></span>JSON Formatter</a>
             <a href="/developer/html-viewer.html" class="mega-link"><span class="mega-ic ic-orange"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="18" height="16" rx="3" fill="#ffedd5"/><rect x="2" y="3" width="18" height="4" rx="3" fill="#fdba74"/></svg></span>HTML Viewer</a>
           </div>
           <div>
             <div class="mega-col-title">More</div>
             <a href="/security/password-generator.html" class="mega-link"><span class="mega-ic ic-green"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="10" width="16" height="10" rx="3" fill="#dcfce7"/><path d="M7 10V7a4 4 0 1 1 8 0v3" stroke="#16a34a" stroke-width="1.5"/></svg></span>Password Gen</a>
             <a href="/qr/qr-generator.html" class="mega-link"><span class="mega-ic ic-indigo"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#e0e7ff"/><rect x="6" y="6" width="4" height="4" rx="1" fill="#4f46e5"/><rect x="12" y="6" width="4" height="4" rx="1" fill="#4f46e5"/></svg></span>QR Generator</a>
-            <a href="/calculator/percentage.html" class="mega-link"><span class="mega-ic ic-blue"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#dbeafe"/><text x="6" y="15" font-size="12" font-weight="700" fill="#2563eb">%</text></svg></span>Percentage</a>
           </div>
         </div>
       </div>
@@ -50,7 +60,7 @@
     <div class="nav-right">
       <div class="nav-search-box">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-        <input type="text" placeholder="Search tools..." oninput="searchTools(this.value)">
+        <input type="text" placeholder="Quick search..." oninput="searchTools(this.value)">
       </div>
       <button class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
@@ -59,241 +69,880 @@
   </div>
 </header>
 
+<!-- ══════ HERO ══════ -->
 <section class="hero">
   <h1>Every tool you need, right here</h1>
-  <p>50+ free tools for PDF, text, code & more. Files never leave your browser.</p>
+  <p>50+ free browser-based tools for PDF, text, code & more. Files never leave your browser.</p>
   <div class="hero-search">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
     <input type="text" placeholder="What tool are you looking for?" oninput="searchTools(this.value)">
   </div>
 </section>
 
-<!-- ══════ PDF TOOLS — 5 per row, BIG icons ══════ -->
+<!-- ══════ PDF TOOLS — 5 columns, visual headers ══════ -->
 <section class="section" id="pdf-tools" data-cat="pdf">
   <div class="section-head reveal"><h2>PDF Tools</h2><span class="count">6 tools</span></div>
   <div class="grid reveal-stagger">
 
     <a href="/pdf/merge.html" class="card" data-search="merge pdf combine join">
-      <div class="ic ic-red">
-        <!-- Two overlapping PDF pages = MERGE -->
-        <svg viewBox="0 0 48 48" fill="none">
-          <rect x="4" y="4" width="22" height="30" rx="3" fill="#F87171"/>
-          <rect x="4" y="4" width="22" height="6" rx="3" fill="#EF4444"/>
-          <path d="M9 14h12M9 18h8M9 22h10" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
-          <rect x="20" y="12" width="22" height="30" rx="3" fill="#FCA5A5" stroke="#DC2626" stroke-width="1.5"/>
-          <path d="M25 20h12M25 24h8M25 28h10" stroke="#DC2626" stroke-width="1.2" stroke-linecap="round"/>
+      <div class="card-thumb" style="background: #FEE2E2;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="25" y="15" width="40" height="50" rx="4" fill="#FCA5A5"/>
+          <rect x="25" y="15" width="40" height="12" rx="4" fill="#EF4444"/>
+          <path d="M35 38h20M35 44h15M35 50h18" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+          <rect x="50" y="22" width="40" height="50" rx="4" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
+          <path d="M60 38h20M60 44h15" stroke="#DC2626" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="95" cy="55" r="10" fill="#EF4444"/>
+          <path d="M91 55h8M95 51v8" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
         </svg>
       </div>
-      <h3>Merge PDF</h3>
-      <p>Combine multiple PDFs into one</p>
+      <div class="card-body">
+        <h3>Merge PDF</h3>
+        <p>Combine multiple PDFs into one</p>
+      </div>
     </a>
 
     <a href="/pdf/split.html" class="card" data-search="split pdf separate pages">
-      <div class="ic ic-orange">
-        <!-- One page splitting into two = SPLIT -->
-        <svg viewBox="0 0 48 48" fill="none">
-          <rect x="4" y="6" width="16" height="26" rx="3" fill="#FB923C"/>
-          <path d="M9 12h6M9 16h4M9 20h5" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/>
-          <rect x="28" y="14" width="16" height="26" rx="3" fill="#FDBA74"/>
-          <path d="M33 20h6M33 24h4M33 28h5" stroke="#EA580C" stroke-width="1.2" stroke-linecap="round"/>
-          <path d="M22 20l4 4-4 4" stroke="#EA580C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <div class="card-thumb" style="background: #FFEDD5;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="20" y="20" width="34" height="46" rx="4" fill="#FDBA74"/>
+          <path d="M28 32h18M28 38h12" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+          <rect x="66" y="20" width="34" height="46" rx="4" fill="#FFEEDB" stroke="#EA580C" stroke-width="2"/>
+          <path d="M74 32h18" stroke="#EA580C" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M54 36l12 6-12 6" stroke="#EA580C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
-      <h3>Split PDF</h3>
-      <p>Separate pages into files</p>
+      <div class="card-body">
+        <h3>Split PDF</h3>
+        <p>Separate pages into files</p>
+      </div>
     </a>
 
     <a href="/pdf/compress.html" class="card" data-search="compress pdf reduce size smaller">
-      <div class="ic ic-green">
-        <!-- File with downward compress arrows = COMPRESS -->
-        <svg viewBox="0 0 48 48" fill="none">
-          <rect x="8" y="4" width="24" height="32" rx="3" fill="#86EFAC"/>
-          <rect x="8" y="4" width="24" height="6" rx="3" fill="#4ADE80"/>
-          <path d="M14 16h12M14 20h8M14 24h10" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
-          <path d="M20 30v10M16 36l4 4 4-4" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <rect x="12" y="38" width="16" height="6" rx="2" fill="#DCFCE7" stroke="#16A34A" stroke-width="1"/>
+      <div class="card-thumb" style="background: #DCFCE7;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="40" y="15" width="40" height="52" rx="4" fill="#86EFAC" stroke="#16A34A" stroke-width="2"/>
+          <path d="M50 28h20M50 34h12" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="60" cy="52" r="12" fill="#16A34A" opacity="0.9"/>
+          <path d="M60 46v12M55 53l5 5 5-5" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
-      <h3>Compress PDF</h3>
-      <p>Reduce file size</p>
+      <div class="card-body">
+        <h3>Compress PDF</h3>
+        <p>Reduce file size locally</p>
+      </div>
     </a>
 
     <a href="/pdf/pdf-to-image.html" class="card" data-search="pdf to image jpg png convert">
-      <div class="ic ic-blue">
-        <!-- PDF page → Image with mountain/sun = PDF to IMAGE -->
-        <svg viewBox="0 0 48 48" fill="none">
-          <rect x="2" y="6" width="18" height="24" rx="3" fill="#93C5FD"/>
-          <rect x="2" y="6" width="18" height="5" rx="3" fill="#60A5FA"/>
-          <path d="M6 16h10M6 20h7" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/>
-          <path d="M23 18l3 3" stroke="#2563EB" stroke-width="2" stroke-linecap="round"/>
-          <rect x="28" y="10" width="18" height="18" rx="3" fill="#BFDBFE" stroke="#2563EB" stroke-width="1.5"/>
-          <circle cx="33" cy="16" r="2.5" fill="#3B82F6"/>
-          <path d="M28 24l5-4 4 3 3-2 6 5v2a3 3 0 0 1-3 3h-12a3 3 0 0 1-3-3v-4z" fill="#60A5FA"/>
+      <div class="card-thumb" style="background: #DBEAFE;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="20" y="20" width="32" height="44" rx="4" fill="#93C5FD"/>
+          <path d="M28 32h16M28 38h10" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+          <path d="M58 38h8M62 34l4 4-4 4" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="72" y="24" width="32" height="32" rx="4" fill="#BFDBFE" stroke="#2563EB" stroke-width="2"/>
+          <circle cx="80" cy="34" r="3" fill="#2563EB"/>
+          <path d="M72 48l8-6 6 4 4-4 6 6" stroke="#2563EB" stroke-width="1.8" fill="none"/>
         </svg>
       </div>
-      <h3>PDF to Image</h3>
-      <p>Convert to JPG or PNG</p>
+      <div class="card-body">
+        <h3>PDF to Image</h3>
+        <p>Convert to JPG or PNG</p>
+      </div>
     </a>
 
     <a href="/pdf/image-to-pdf.html" class="card" data-search="image to pdf convert photo">
-      <div class="ic ic-indigo">
-        <!-- Image → PDF page = IMAGE to PDF -->
-        <svg viewBox="0 0 48 48" fill="none">
-          <rect x="2" y="10" width="18" height="18" rx="3" fill="#C7D2FE" stroke="#6366F1" stroke-width="1"/>
-          <circle cx="8" cy="16" r="2" fill="#818CF8"/>
-          <path d="M2 24l5-4 3 2 3-3 5 5v4a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-4z" fill="#A5B4FC"/>
-          <path d="M23 18l3 3" stroke="#4F46E5" stroke-width="2" stroke-linecap="round"/>
-          <rect x="28" y="6" width="18" height="26" rx="3" fill="#E0E7FF" stroke="#4F46E5" stroke-width="1.5"/>
-          <rect x="28" y="6" width="18" height="5" rx="3" fill="#A5B4FC"/>
-          <path d="M32 16h10M32 20h7M32 24h8" stroke="#4F46E5" stroke-width="1.2" stroke-linecap="round"/>
+      <div class="card-thumb" style="background: #E0E7FF;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="20" y="24" width="32" height="32" rx="4" fill="#C7D2FE" stroke="#6366F1" stroke-width="2"/>
+          <circle cx="28" cy="32" r="3" fill="#6366F1"/>
+          <path d="M20 48l8-6 6 4 10-8" stroke="#6366F1" stroke-width="1.8" fill="none"/>
+          <path d="M58 38h8M62 34l4 4-4 4" stroke="#4F46E5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="72" y="18" width="32" height="44" rx="4" fill="#E0E7FF" stroke="#4F46E5" stroke-width="2"/>
+          <rect x="72" y="18" width="32" height="8" rx="4" fill="#A5B4FC"/>
+          <path d="M78 36h20M78 42h14" stroke="#4F46E5" stroke-width="2" stroke-linecap="round"/>
         </svg>
       </div>
-      <h3>Image to PDF</h3>
-      <p>Convert photos into PDF</p>
+      <div class="card-body">
+        <h3>Image to PDF</h3>
+        <p>Convert photos into PDF</p>
+      </div>
     </a>
 
-    <a href="/pdf/rotate.html" class="card" data-search="rotate pdf page orientation" style="display:none;">
-      <div class="ic ic-teal">
-        <svg viewBox="0 0 48 48" fill="none">
-          <rect x="10" y="6" width="20" height="28" rx="3" fill="#99F6E4"/>
-          <path d="M30 10a12 12 0 0 1 0 20" stroke="#0D9488" stroke-width="2.5" stroke-linecap="round"/>
-          <path d="M32 26l-2 4-3-2" stroke="#0D9488" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <a href="/pdf/rotate.html" class="card" data-search="rotate pdf page orientation">
+      <div class="card-thumb" style="background: #CCFBF1;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="42" y="16" width="36" height="48" rx="4" fill="#99F6E4" stroke="#0D9488" stroke-width="2"/>
+          <path d="M60 30a10 10 0 1 1-6 8" stroke="#0D9488" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M58 34l-4 4-4-4" stroke="#0D9488" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
-      <h3>Rotate PDF</h3>
-      <p>Rotate pages</p>
+      <div class="card-body">
+        <h3>Rotate PDF</h3>
+        <p>Rotate pages permanently</p>
+      </div>
     </a>
+
   </div>
 </section>
 
-<!-- ══════ TEXT TOOLS — 5 per row ══════ -->
+<!-- ══════ TEXT TOOLS ══════ -->
 <section class="section" id="text-tools" data-cat="text">
   <div class="section-head reveal"><h2>Text Tools</h2><span class="count">15 tools</span></div>
   <div class="grid reveal-stagger">
-    <a href="/text/word-counter.html" class="card" data-search="word counter"><div class="ic ic-blue"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="4" width="28" height="34" rx="4" fill="#93C5FD"/><rect x="6" y="4" width="28" height="7" rx="4" fill="#60A5FA"/><path d="M12 17h16M12 22h11M12 27h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="36" cy="34" r="10" fill="#2563EB"/><text x="30" y="38" font-size="11" font-weight="700" fill="#fff">42</text></svg></div><h3>Word Counter</h3><p>Words, chars, reading time</p></a>
 
-    <a href="/text/character-counter.html" class="card" data-search="character counter"><div class="ic ic-indigo"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="28" height="28" rx="4" fill="#C7D2FE"/><path d="M12 14l4 4 6-8" stroke="#4F46E5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 24h16M12 29h10" stroke="#4F46E5" stroke-width="2" stroke-linecap="round"/><rect x="30" y="28" width="14" height="14" rx="3" fill="#4F46E5"/><text x="33" y="38" font-size="9" font-weight="700" fill="#fff">280</text></svg></div><h3>Character Counter</h3><p>Social media limits</p></a>
+    <a href="/text/word-counter.html" class="card" data-search="word counter">
+      <div class="card-thumb" style="background: #DBEAFE;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="35" y="15" width="50" height="50" rx="6" fill="#93C5FD" stroke="#2563EB" stroke-width="2"/>
+          <path d="M45 28h30M45 36h20M45 44h24" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="85" cy="55" r="12" fill="#2563EB"/>
+          <text x="77" y="59" font-family="DM Sans" font-size="12" font-weight="800" fill="#fff">42</text>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Word Counter</h3>
+        <p>Words, chars, reading time</p>
+      </div>
+    </a>
 
-    <a href="/text/case-converter.html" class="card" data-search="case converter upper lower title"><div class="ic ic-purple"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="28" height="28" rx="4" fill="#DDD6FE"/><text x="10" y="28" font-family="DM Sans" font-size="20" font-weight="800" fill="#7C3AED">Aa</text><path d="M36 14l-4 20M36 14l4 20M33 28h6" stroke="#7C3AED" stroke-width="2" stroke-linecap="round"/></svg></div><h3>Case Converter</h3><p>UPPER, lower, Title</p></a>
+    <a href="/text/character-counter.html" class="card" data-search="character counter">
+      <div class="card-thumb" style="background: #E0E7FF;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="35" y="15" width="50" height="50" rx="6" fill="#C7D2FE" stroke="#4F46E5" stroke-width="2"/>
+          <path d="M45 28l6 6 12-12" stroke="#4F46E5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M45 44h30" stroke="#4F46E5" stroke-width="2" stroke-linecap="round"/>
+          <rect x="76" y="44" width="24" height="18" rx="4" fill="#4F46E5"/>
+          <text x="79" y="56" font-family="DM Sans" font-size="9" font-weight="800" fill="#fff">280</text>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Character Counter</h3>
+        <p>Check social media limits</p>
+      </div>
+    </a>
 
-    <a href="/text/lorem-ipsum.html" class="card" data-search="lorem ipsum placeholder"><div class="ic ic-slate"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="28" height="32" rx="4" fill="#E2E8F0"/><path d="M12 14h16M12 19h12M12 24h14M12 29h10M12 34h8" stroke="#64748B" stroke-width="2" stroke-linecap="round"/></svg></div><h3>Lorem Ipsum</h3><p>Placeholder text</p></a>
+    <a href="/text/case-converter.html" class="card" data-search="case converter upper lower title">
+      <div class="card-thumb" style="background: #EDE9FE;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="35" y="15" width="50" height="50" rx="6" fill="#DDD6FE" stroke="#7C3AED" stroke-width="2"/>
+          <text x="44" y="46" font-family="DM Sans" font-size="28" font-weight="900" fill="#7C3AED">Aa</text>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Case Converter</h3>
+        <p>UPPER, lower, Title Case</p>
+      </div>
+    </a>
 
-    <a href="/text/duplicate-remover.html" class="card" data-search="remove duplicate lines"><div class="ic ic-rose"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="28" height="28" rx="4" fill="#FECDD3"/><path d="M14 14h12" stroke="#E11D48" stroke-width="2" stroke-linecap="round"/><path d="M14 20h12" stroke="#FDA4AF" stroke-width="2" stroke-linecap="round"/><path d="M14 26h12" stroke="#E11D48" stroke-width="2" stroke-linecap="round"/><path d="M30 16l8 8M38 16l-8 8" stroke="#E11D48" stroke-width="2.5" stroke-linecap="round"/></svg></div><h3>Duplicate Remover</h3><p>Remove duplicate lines</p></a>
+    <a href="/text/lorem-ipsum.html" class="card" data-search="lorem ipsum placeholder">
+      <div class="card-thumb" style="background: #F1F5F9;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="35" y="15" width="50" height="50" rx="6" fill="#E2E8F0" stroke="#64748B" stroke-width="2"/>
+          <path d="M45 28h30M45 36h24M45 44h28M45 52h20" stroke="#64748B" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Lorem Ipsum</h3>
+        <p>Generate placeholder text</p>
+      </div>
+    </a>
 
-    <a href="/text/text-diff.html" class="card" data-search="text diff compare"><div class="ic ic-amber"><svg viewBox="0 0 48 48" fill="none"><rect x="2" y="6" width="18" height="28" rx="3" fill="#FDE68A"/><path d="M7 14h8M7 19h6M7 24h7" stroke="#D97706" stroke-width="1.5" stroke-linecap="round"/><rect x="28" y="6" width="18" height="28" rx="3" fill="#FEF3C7" stroke="#D97706" stroke-width="1"/><path d="M33 14h8M33 19h6M33 24h7" stroke="#D97706" stroke-width="1.5" stroke-linecap="round"/><path d="M22 20l2 2 2-2M22 22l2 2 2-2" stroke="#D97706" stroke-width="1.5" stroke-linecap="round"/></svg></div><h3>Text Diff</h3><p>Compare two texts</p></a>
+    <a href="/text/duplicate-remover.html" class="card" data-search="remove duplicate lines">
+      <div class="card-thumb" style="background: #FFE4E6;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="35" y="15" width="50" height="50" rx="6" fill="#FECDD3" stroke="#E11D48" stroke-width="2"/>
+          <path d="M45 28h22M45 34h22M45 40h22" stroke="#E11D48" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M72 26l8 8M80 26l-8 8" stroke="#E11D48" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Duplicate Remover</h3>
+        <p>Clean duplicate lines</p>
+      </div>
+    </a>
 
-    <a href="/text/fancy-text.html" class="card" data-search="fancy text unicode stylish"><div class="ic ic-pink"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="28" height="28" rx="4" fill="#FBCFE8"/><text x="10" y="28" font-family="serif" font-size="22" font-weight="700" fill="#DB2777">𝓕</text><text x="28" y="18" font-size="14" fill="#F472B6">✦</text><text x="24" y="32" font-size="10" fill="#EC4899">★</text></svg></div><h3>Fancy Text</h3><p>Stylish unicode fonts</p></a>
+    <a href="/text/text-diff.html" class="card" data-search="text diff compare">
+      <div class="card-thumb" style="background: #FEF3C7;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="22" y="18" width="34" height="44" rx="4" fill="#FDE68A" stroke="#D97706" stroke-width="1.5"/>
+          <path d="M28 28h22M28 34h12" stroke="#D97706" stroke-width="2"/>
+          <rect x="64" y="18" width="34" height="44" rx="4" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
+          <path d="M70 28h22" stroke="#D97706" stroke-width="2"/>
+          <path d="M52 32h16" stroke="#D97706" stroke-width="2" stroke-dasharray="3 3"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Text Diff</h3>
+        <p>Compare two texts side-by-side</p>
+      </div>
+    </a>
 
-    <a href="/text/find-replace.html" class="card" data-search="find replace regex"><div class="ic ic-teal"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="28" height="28" rx="4" fill="#99F6E4"/><circle cx="20" cy="18" r="7" stroke="#0D9488" stroke-width="2.5" fill="none"/><path d="M25 23l8 8" stroke="#0D9488" stroke-width="2.5" stroke-linecap="round"/><path d="M32 36l4-4M36 36l-4-4" stroke="#0D9488" stroke-width="2" stroke-linecap="round"/></svg></div><h3>Find & Replace</h3><p>With regex support</p></a>
+    <a href="/text/fancy-text.html" class="card" data-search="fancy text unicode stylish">
+      <div class="card-thumb" style="background: #FBCFE8;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="35" y="15" width="50" height="50" rx="6" fill="#FBCFE8" stroke="#DB2777" stroke-width="2"/>
+          <text x="46" y="48" font-family="serif" font-size="32" font-weight="bold" fill="#DB2777">𝓕</text>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Fancy Text</h3>
+        <p>Convert to stylish fonts</p>
+      </div>
+    </a>
 
-    <a href="/text/text-reverser.html" class="card" data-search="reverse text"><div class="ic ic-orange"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="28" height="28" rx="4" fill="#FED7AA"/><path d="M12 16h16M28 16l-4-4M28 16l-4 4" stroke="#EA580C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M28 26H12M12 26l4-4M12 26l4 4" stroke="#EA580C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Text Reverser</h3><p>Reverse text or words</p></a>
+    <a href="/text/find-replace.html" class="card" data-search="find replace regex">
+      <div class="card-thumb" style="background: #CCFBF1;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="35" y="15" width="50" height="50" rx="6" fill="#99F6E4" stroke="#0D9488" stroke-width="2"/>
+          <circle cx="55" cy="35" r="10" stroke="#0D9488" stroke-width="2.5" fill="none"/>
+          <path d="M62 42l12 12" stroke="#0D9488" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Find & Replace</h3>
+        <p>Find and substitute strings</p>
+      </div>
+    </a>
 
-    <a href="/text/slug-generator.html" class="card" data-search="slug url seo"><div class="ic ic-green"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="10" width="28" height="20" rx="4" fill="#BBF7D0"/><path d="M15 18a4 4 0 0 1 5.5 0l1 1a4 4 0 0 1 0 5.5M25 24a4 4 0 0 1-5.5 0l-1-1a4 4 0 0 1 0-5.5" stroke="#16A34A" stroke-width="2" stroke-linecap="round"/></svg></div><h3>Slug Generator</h3><p>URL-friendly slugs</p></a>
+    <a href="/text/text-reverser.html" class="card" data-search="reverse text">
+      <div class="card-thumb" style="background: #FED7AA;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="35" y="15" width="50" height="50" rx="6" fill="#FED7AA" stroke="#EA580C" stroke-width="2"/>
+          <path d="M45 32h30M75 32l-6-6M75 32l-6 6" stroke="#EA580C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M75 44H45M45 44l6-6M45 44l6 6" stroke="#EA580C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Text Reverser</h3>
+        <p>Reverse paragraphs or words</p>
+      </div>
+    </a>
 
-    <a href="/text/hashtag-generator.html" class="card" data-search="hashtag generator"><div class="ic ic-cyan"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="28" height="28" rx="4" fill="#A5F3FC"/><text x="11" y="30" font-family="DM Sans" font-size="24" font-weight="800" fill="#0891B2">#</text></svg></div><h3>Hashtag Generator</h3><p>Trending hashtags</p></a>
+    <a href="/text/slug-generator.html" class="card" data-search="slug url seo">
+      <div class="card-thumb" style="background: #BBF7D0;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="30" y="24" width="60" height="32" rx="6" fill="#BBF7D0" stroke="#16A34A" stroke-width="2"/>
+          <path d="M42 40h36" stroke="#16A34A" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="42" cy="40" r="4" fill="#16A34A"/>
+          <circle cx="78" cy="40" r="4" fill="#16A34A"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Slug Generator</h3>
+        <p>Make SEO-friendly URLs</p>
+      </div>
+    </a>
 
-    <a href="/text/morse-code.html" class="card" data-search="morse code translator"><div class="ic ic-amber"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="28" height="28" rx="4" fill="#FDE68A"/><circle cx="14" cy="20" r="3.5" fill="#D97706"/><path d="M22 20h10" stroke="#D97706" stroke-width="3.5" stroke-linecap="round"/><circle cx="14" cy="28" r="2" fill="#B45309"/><circle cx="20" cy="28" r="2" fill="#B45309"/></svg></div><h3>Morse Code</h3><p>Text ↔ Morse</p></a>
+    <a href="/text/hashtag-generator.html" class="card" data-search="hashtag generator">
+      <div class="card-thumb" style="background: #CFFAFE;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="35" y="15" width="50" height="50" rx="6" fill="#A5F3FC" stroke="#0891B2" stroke-width="2"/>
+          <text x="46" y="50" font-family="DM Sans" font-size="34" font-weight="900" fill="#0891B2">#</text>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Hashtag Generator</h3>
+        <p>Generate social media tags</p>
+      </div>
+    </a>
 
-    <a href="/text/text-to-binary.html" class="card" data-search="binary hex convert"><div class="ic ic-slate"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="28" height="28" rx="4" fill="#E2E8F0"/><text x="8" y="22" font-family="monospace" font-size="12" font-weight="700" fill="#475569">01</text><text x="22" y="22" font-family="monospace" font-size="12" font-weight="700" fill="#94A3B8">10</text><text x="8" y="32" font-family="monospace" font-size="12" font-weight="700" fill="#94A3B8">11</text><text x="22" y="32" font-family="monospace" font-size="12" font-weight="700" fill="#475569">00</text></svg></div><h3>Text to Binary</h3><p>Text ↔ Binary/Hex</p></a>
+    <a href="/text/morse-code.html" class="card" data-search="morse code translator">
+      <div class="card-thumb" style="background: #FDE68A;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="35" y="15" width="50" height="50" rx="6" fill="#FDE68A" stroke="#D97706" stroke-width="2"/>
+          <circle cx="48" cy="35" r="4" fill="#D97706"/>
+          <rect x="58" y="32" width="16" height="6" rx="2" fill="#D97706"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Morse Code</h3>
+        <p>Translate text to Morse code</p>
+      </div>
+    </a>
 
-    <a href="/text/emoji-picker.html" class="card" data-search="emoji picker"><div class="ic" style="background:#FEF9C3;font-size:32px;">😀</div><h3>Emoji Picker</h3><p>Search & copy emojis</p></a>
+    <a href="/text/text-to-binary.html" class="card" data-search="binary hex convert">
+      <div class="card-thumb" style="background: #F1F5F9;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="35" y="15" width="50" height="50" rx="6" fill="#E2E8F0" stroke="#475569" stroke-width="2"/>
+          <text x="44" y="38" font-family="monospace" font-size="14" font-weight="800" fill="#475569">01</text>
+          <text x="44" y="52" font-family="monospace" font-size="14" font-weight="800" fill="#94A3B8">10</text>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Text to Binary</h3>
+        <p>Convert to Binary & Hex</p>
+      </div>
+    </a>
 
-    <a href="/text/small-text.html" class="card" data-search="small text superscript"><div class="ic ic-rose"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="28" height="28" rx="4" fill="#FECDD3"/><text x="8" y="30" font-family="DM Sans" font-size="24" font-weight="800" fill="#E11D48">A</text><text x="26" y="20" font-family="DM Sans" font-size="12" font-weight="700" fill="#FB7185">ᵃ</text></svg></div><h3>Small Text</h3><p>ˢᵘᵖᵉʳˢᶜʳⁱᵖᵗ text</p></a>
+    <a href="/text/emoji-picker.html" class="card" data-search="emoji picker">
+      <div class="card-thumb" style="background: #FEF9C3;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="35" y="15" width="50" height="50" rx="6" fill="#FEF08A" stroke="#CA8A04" stroke-width="2"/>
+          <circle cx="60" cy="40" r="14" fill="#CA8A04"/>
+          <circle cx="55" cy="36" r="2" fill="#fff"/>
+          <circle cx="65" cy="36" r="2" fill="#fff"/>
+          <path d="M52 44a8 8 0 0 0 16 0" fill="#fff"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Emoji Picker</h3>
+        <p>Browse and copy emojis</p>
+      </div>
+    </a>
+
+    <a href="/text/small-text.html" class="card" data-search="small text superscript">
+      <div class="card-thumb" style="background: #FFE4E6;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="35" y="15" width="50" height="50" rx="6" fill="#FECDD3" stroke="#E11D48" stroke-width="2"/>
+          <text x="44" y="48" font-family="DM Sans" font-size="28" font-weight="900" fill="#E11D48">A</text>
+          <text x="68" y="32" font-family="DM Sans" font-size="14" font-weight="900" fill="#FB7185">ᵃ</text>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Small Text</h3>
+        <p>Generate superscript text</p>
+      </div>
+    </a>
+
   </div>
 </section>
 
-<!-- ══════ DEVELOPER ══════ -->
+<!-- ══════ DEVELOPER TOOLS ══════ -->
 <section class="section" id="dev-tools" data-cat="dev">
   <div class="section-head reveal"><h2>Developer Tools</h2><span class="count">6 tools</span></div>
   <div class="grid reveal-stagger">
-    <a href="/developer/html-viewer.html" class="card" data-search="html viewer live preview"><div class="ic ic-orange"><svg viewBox="0 0 48 48" fill="none"><rect x="4" y="6" width="32" height="28" rx="4" fill="#FFEDD5"/><rect x="4" y="6" width="32" height="8" rx="4" fill="#FDBA74"/><circle cx="9" cy="10" r="2" fill="#EA580C"/><circle cx="15" cy="10" r="2" fill="#F59E0B"/><circle cx="21" cy="10" r="2" fill="#22C55E"/><path d="M10 20l5 5-5 5M20 25h10" stroke="#EA580C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>HTML Viewer</h3><p>Live preview editor</p></a>
-    <a href="/developer/json-formatter.html" class="card" data-search="json formatter beautify validate"><div class="ic ic-purple"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="28" height="28" rx="4" fill="#DDD6FE"/><path d="M14 14l-6 8 6 8" stroke="#7C3AED" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M26 14l6 8-6 8" stroke="#7C3AED" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>JSON Formatter</h3><p>Format & validate JSON</p></a>
-    <a href="/developer/base64.html" class="card" data-search="base64 encode decode"><div class="ic ic-teal"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="28" height="28" rx="4" fill="#99F6E4"/><text x="8" y="28" font-family="monospace" font-size="14" font-weight="800" fill="#0D9488">B64</text></svg></div><h3>Base64</h3><p>Encode & decode</p></a>
-    <a href="/developer/url-encoder.html" class="card" data-search="url encode decode"><div class="ic ic-blue"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="28" height="28" rx="4" fill="#BFDBFE"/><path d="M16 16a5 5 0 0 1 7 0l2 2a5 5 0 0 1 0 7M24 24a5 5 0 0 1-7 0l-2-2a5 5 0 0 1 0-7" stroke="#2563EB" stroke-width="2.5" stroke-linecap="round"/></svg></div><h3>URL Encode</h3><p>URL components</p></a>
-    <a href="/developer/regex-tester.html" class="card" data-search="regex regular expression"><div class="ic ic-pink"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="28" height="28" rx="4" fill="#FBCFE8"/><text x="7" y="28" font-family="monospace" font-size="12" font-weight="800" fill="#DB2777">/.*$/</text></svg></div><h3>Regex Tester</h3><p>Test regex patterns</p></a>
-    <a href="/developer/markdown-preview.html" class="card" data-search="markdown preview"><div class="ic ic-slate"><svg viewBox="0 0 48 48" fill="none"><rect x="4" y="8" width="32" height="24" rx="4" fill="#E2E8F0" stroke="#475569" stroke-width="1.5"/><path d="M12 26V16l5 5 5-5v10" stroke="#475569" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M30 20l-3.5-4v8" stroke="#475569" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Markdown Preview</h3><p>Live Markdown renderer</p></a>
+
+    <a href="/developer/html-viewer.html" class="card" data-search="html viewer live preview">
+      <div class="card-thumb" style="background: #FFEDD5;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="30" y="18" width="60" height="44" rx="4" fill="#FFEDD5" stroke="#EA580C" stroke-width="2"/>
+          <rect x="30" y="18" width="60" height="10" rx="4" fill="#FDBA74"/>
+          <circle cx="36" cy="23" r="2" fill="#EF4444"/>
+          <circle cx="42" cy="23" r="2" fill="#F59E0B"/>
+          <circle cx="48" cy="23" r="2" fill="#22C55E"/>
+          <path d="M40 38l5 5-5 5M55 48h15" stroke="#EA580C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>HTML Viewer</h3>
+        <p>Live preview editor</p>
+      </div>
+    </a>
+
+    <a href="/developer/json-formatter.html" class="card" data-search="json formatter beautify validate">
+      <div class="card-thumb" style="background: #EDE9FE;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="30" y="18" width="60" height="44" rx="4" fill="#DDD6FE" stroke="#7C3AED" stroke-width="2"/>
+          <path d="M46 32l-6 8 6 8M74 32l6 8-6 8" stroke="#7C3AED" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>JSON Formatter</h3>
+        <p>Format & validate JSON</p>
+      </div>
+    </a>
+
+    <a href="/developer/base64.html" class="card" data-search="base64 encode decode">
+      <div class="card-thumb" style="background: #CCFBF1;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="35" y="15" width="50" height="50" rx="6" fill="#99F6E4" stroke="#0D9488" stroke-width="2"/>
+          <text x="44" y="46" font-family="monospace" font-size="16" font-weight="900" fill="#0D9488">B64</text>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Base64</h3>
+        <p>Encode & decode strings</p>
+      </div>
+    </a>
+
+    <a href="/developer/url-encoder.html" class="card" data-search="url encode decode">
+      <div class="card-thumb" style="background: #DBEAFE;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="30" y="24" width="60" height="32" rx="6" fill="#BFDBFE" stroke="#2563EB" stroke-width="2"/>
+          <path d="M48 40h24" stroke="#2563EB" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>URL Encode</h3>
+        <p>Encode & decode URLs</p>
+      </div>
+    </a>
+
+    <a href="/developer/regex-tester.html" class="card" data-search="regex regular expression">
+      <div class="card-thumb" style="background: #FBCFE8;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="30" y="20" width="60" height="40" rx="6" fill="#FBCFE8" stroke="#DB2777" stroke-width="2"/>
+          <text x="36" y="44" font-family="monospace" font-size="14" font-weight="900" fill="#DB2777">/.*$/</text>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Regex Tester</h3>
+        <p>Test regex patterns</p>
+      </div>
+    </a>
+
+    <a href="/developer/markdown-preview.html" class="card" data-search="markdown preview">
+      <div class="card-thumb" style="background: #F1F5F9;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="30" y="18" width="60" height="44" rx="4" fill="#E2E8F0" stroke="#475569" stroke-width="2"/>
+          <path d="M42 40V28l6 6 6-6v12" stroke="#475569" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M68 34l-4-4v8" stroke="#475569" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Markdown Preview</h3>
+        <p>Live Markdown renderer</p>
+      </div>
+    </a>
+
   </div>
 </section>
 
-<!-- ══════ CALCULATOR ══════ -->
+<!-- ══════ CALCULATOR TOOLS ══════ -->
 <section class="section" id="calc-tools" data-cat="calc">
   <div class="section-head reveal"><h2>Calculator Tools</h2><span class="count">6 tools</span></div>
   <div class="grid reveal-stagger">
-    <a href="/calculator/percentage.html" class="card" data-search="percentage calculator"><div class="ic ic-blue"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="28" height="28" rx="4" fill="#BFDBFE"/><text x="9" y="30" font-family="DM Sans" font-size="24" font-weight="800" fill="#2563EB">%</text></svg></div><h3>Percentage</h3><p>All % calculations</p></a>
-    <a href="/calculator/age.html" class="card" data-search="age calculator birthday"><div class="ic ic-pink"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="10" width="28" height="24" rx="4" fill="#FBCFE8"/><rect x="6" y="10" width="28" height="7" rx="4" fill="#F9A8D4"/><rect x="12" y="7" width="3" height="6" rx="1.5" fill="#DB2777"/><rect x="25" y="7" width="3" height="6" rx="1.5" fill="#DB2777"/><path d="M12 22h5M23 22h5M12 27h3" stroke="#DB2777" stroke-width="2" stroke-linecap="round"/></svg></div><h3>Age Calculator</h3><p>Years, months, days</p></a>
-    <a href="/calculator/bmi.html" class="card" data-search="bmi body mass index"><div class="ic ic-green"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="28" height="28" rx="4" fill="#BBF7D0"/><circle cx="20" cy="20" r="10" stroke="#16A34A" stroke-width="2.5" fill="none"/><path d="M20 12v7l5 3" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round"/></svg></div><h3>BMI Calculator</h3><p>Body Mass Index</p></a>
-    <a href="/calculator/loan.html" class="card" data-search="loan emi mortgage"><div class="ic ic-amber"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="28" height="28" rx="4" fill="#FDE68A"/><text x="12" y="30" font-family="DM Sans" font-size="24" font-weight="800" fill="#D97706">$</text></svg></div><h3>Loan / EMI</h3><p>Monthly payments</p></a>
-    <a href="/calculator/discount.html" class="card" data-search="discount calculator sale"><div class="ic ic-red"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="28" height="28" rx="4" fill="#FECACA"/><path d="M13 13h14l-2 16H15l-2-16z" fill="#FCA5A5"/><line x1="16" y1="18" x2="24" y2="26" stroke="#DC2626" stroke-width="2"/><circle cx="17" cy="19" r="2" fill="#DC2626"/><circle cx="23" cy="25" r="2" fill="#DC2626"/></svg></div><h3>Discount</h3><p>Sale price & savings</p></a>
-    <a href="/calculator/tip.html" class="card" data-search="tip calculator"><div class="ic ic-teal"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="10" width="28" height="22" rx="4" fill="#99F6E4"/><rect x="6" y="10" width="28" height="7" rx="4" fill="#5EEAD4"/><path d="M12 22h8M12 27h12" stroke="#0D9488" stroke-width="2" stroke-linecap="round"/></svg></div><h3>Tip Calculator</h3><p>Calculate & split tips</p></a>
+
+    <a href="/calculator/percentage.html" class="card" data-search="percentage calculator">
+      <div class="card-thumb" style="background: #DBEAFE;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="35" y="15" width="50" height="50" rx="6" fill="#BFDBFE" stroke="#2563EB" stroke-width="2"/>
+          <text x="46" y="50" font-family="DM Sans" font-size="34" font-weight="900" fill="#2563EB">%</text>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Percentage</h3>
+        <p>All percent calculations</p>
+      </div>
+    </a>
+
+    <a href="/calculator/age.html" class="card" data-search="age calculator birthday">
+      <div class="card-thumb" style="background: #FBCFE8;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="35" y="18" width="50" height="46" rx="6" fill="#FBCFE8" stroke="#DB2777" stroke-width="2"/>
+          <rect x="35" y="18" width="50" height="10" rx="6" fill="#F9A8D4"/>
+          <circle cx="45" cy="40" r="3" fill="#DB2777"/>
+          <circle cx="60" cy="40" r="3" fill="#DB2777"/>
+          <circle cx="75" cy="40" r="3" fill="#DB2777"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Age Calculator</h3>
+        <p>Years, months, days count</p>
+      </div>
+    </a>
+
+    <a href="/calculator/bmi.html" class="card" data-search="bmi body mass index">
+      <div class="card-thumb" style="background: #DCFCE7;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="35" y="15" width="50" height="50" rx="6" fill="#BBF7D0" stroke="#16A34A" stroke-width="2"/>
+          <circle cx="60" cy="40" r="14" stroke="#16A34A" stroke-width="3" fill="none"/>
+          <path d="M60 26v14l8 4" stroke="#16A34A" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>BMI Calculator</h3>
+        <p>Calculate body mass index</p>
+      </div>
+    </a>
+
+    <a href="/calculator/loan.html" class="card" data-search="loan emi mortgage">
+      <div class="card-thumb" style="background: #FEF3C7;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="35" y="15" width="50" height="50" rx="6" fill="#FDE68A" stroke="#D97706" stroke-width="2"/>
+          <text x="48" y="50" font-family="DM Sans" font-size="34" font-weight="900" fill="#D97706">$</text>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Loan / EMI</h3>
+        <p>Estimate monthly payments</p>
+      </div>
+    </a>
+
+    <a href="/calculator/discount.html" class="card" data-search="discount calculator sale">
+      <div class="card-thumb" style="background: #FECACA;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="35" y="15" width="50" height="50" rx="6" fill="#FECACA" stroke="#DC2626" stroke-width="2"/>
+          <path d="M45 25h30v30H45z" fill="#FCA5A5"/>
+          <text x="48" y="46" font-family="DM Sans" font-size="18" font-weight="900" fill="#DC2626">%</text>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Discount</h3>
+        <p>Sale price & savings calculator</p>
+      </div>
+    </a>
+
+    <a href="/calculator/tip.html" class="card" data-search="tip calculator">
+      <div class="card-thumb" style="background: #CCFBF1;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="35" y="18" width="50" height="46" rx="6" fill="#99F6E4" stroke="#0D9488" stroke-width="2"/>
+          <path d="M45 32h30M45 40h20" stroke="#0D9488" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Tip Calculator</h3>
+        <p>Calculate and split bill tips</p>
+      </div>
+    </a>
+
   </div>
 </section>
 
-<!-- ══════ CONVERTER ══════ -->
+<!-- ══════ CONVERTER TOOLS ══════ -->
 <section class="section" id="conv-tools" data-cat="conv">
   <div class="section-head reveal"><h2>Converter Tools</h2><span class="count">6 tools</span></div>
   <div class="grid reveal-stagger">
-    <a href="/converter/length.html" class="card" data-search="length converter km miles"><div class="ic ic-blue"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="28" height="28" rx="4" fill="#BFDBFE"/><path d="M10 20h20M10 20l4-4M10 20l4 4M30 20l-4-4M30 20l-4 4" stroke="#2563EB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Length</h3><p>km, miles, meters, feet</p></a>
-    <a href="/converter/weight.html" class="card" data-search="weight converter kg lbs"><div class="ic ic-green"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="28" height="28" rx="4" fill="#BBF7D0"/><circle cx="20" cy="14" r="4" fill="#86EFAC"/><path d="M12 22l-2 10h20l-2-10" fill="#DCFCE7" stroke="#16A34A" stroke-width="2"/></svg></div><h3>Weight</h3><p>kg, lbs, grams, ounces</p></a>
-    <a href="/converter/temperature.html" class="card" data-search="temperature celsius fahrenheit"><div class="ic ic-red"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="28" height="28" rx="4" fill="#FECACA"/><rect x="16" y="10" width="6" height="18" rx="3" fill="#FCA5A5"/><circle cx="19" cy="26" r="4" fill="#DC2626"/><rect x="17.5" y="15" width="3" height="11" fill="#DC2626"/></svg></div><h3>Temperature</h3><p>°C ↔ °F ↔ Kelvin</p></a>
-    <a href="/converter/color.html" class="card" data-search="color converter hex rgb"><div class="ic" style="background:linear-gradient(135deg,#FECACA,#BFDBFE,#BBF7D0);"><svg viewBox="0 0 48 48" fill="none"><circle cx="16" cy="16" r="7" fill="#EF4444" opacity="0.7"/><circle cx="24" cy="16" r="7" fill="#3B82F6" opacity="0.7"/><circle cx="20" cy="24" r="7" fill="#22C55E" opacity="0.7"/></svg></div><h3>Color Converter</h3><p>HEX ↔ RGB ↔ HSL</p></a>
-    <a href="/converter/number-base.html" class="card" data-search="number base binary decimal"><div class="ic ic-purple"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="28" height="28" rx="4" fill="#DDD6FE"/><text x="8" y="20" font-family="monospace" font-size="10" font-weight="700" fill="#7C3AED">DEC</text><text x="8" y="32" font-family="monospace" font-size="10" font-weight="700" fill="#A78BFA">HEX</text></svg></div><h3>Number Base</h3><p>Bin ↔ Dec ↔ Hex</p></a>
-    <a href="/converter/timestamp.html" class="card" data-search="timestamp unix epoch"><div class="ic ic-slate"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="28" height="28" rx="4" fill="#E2E8F0"/><circle cx="20" cy="20" r="8" stroke="#475569" stroke-width="2.5" fill="none"/><path d="M20 14v6l4 3" stroke="#475569" stroke-width="2.5" stroke-linecap="round"/></svg></div><h3>Timestamp</h3><p>Unix ↔ human date</p></a>
+
+    <a href="/converter/length.html" class="card" data-search="length converter km miles">
+      <div class="card-thumb" style="background: #DBEAFE;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="35" y="15" width="50" height="50" rx="6" fill="#BFDBFE" stroke="#2563EB" stroke-width="2"/>
+          <path d="M45 40h30M45 40l8-8M75 40l-8 8" stroke="#2563EB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Length</h3>
+        <p>km, miles, meters, feet</p>
+      </div>
+    </a>
+
+    <a href="/converter/weight.html" class="card" data-search="weight converter kg lbs">
+      <div class="card-thumb" style="background: #BBF7D0;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="35" y="15" width="50" height="50" rx="6" fill="#BBF7D0" stroke="#16A34A" stroke-width="2"/>
+          <circle cx="60" cy="30" r="8" fill="#86EFAC"/>
+          <path d="M45 48l-4 12h38l-4-12" fill="#DCFCE7" stroke="#16A34A" stroke-width="2"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Weight</h3>
+        <p>kg, lbs, grams, ounces</p>
+      </div>
+    </a>
+
+    <a href="/converter/temperature.html" class="card" data-search="temperature celsius fahrenheit">
+      <div class="card-thumb" style="background: #FECACA;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="35" y="15" width="50" height="50" rx="6" fill="#FECACA" stroke="#DC2626" stroke-width="2"/>
+          <rect x="57" y="24" width="6" height="26" rx="3" fill="#FCA5A5"/>
+          <circle cx="60" cy="50" r="7" fill="#DC2626"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Temperature</h3>
+        <p>°C ↔ °F ↔ Kelvin</p>
+      </div>
+    </a>
+
+    <a href="/converter/color.html" class="card" data-search="color converter hex rgb">
+      <div class="card-thumb" style="background: linear-gradient(135deg, #FECACA, #BFDBFE, #BBF7D0);">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <circle cx="50" cy="35" r="14" fill="#EF4444" opacity="0.8"/>
+          <circle cx="70" cy="35" r="14" fill="#3B82F6" opacity="0.8"/>
+          <circle cx="60" cy="49" r="14" fill="#22C55E" opacity="0.8"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Color Converter</h3>
+        <p>HEX ↔ RGB ↔ HSL</p>
+      </div>
+    </a>
+
+    <a href="/converter/number-base.html" class="card" data-search="number base binary decimal">
+      <div class="card-thumb" style="background: #EDE9FE;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="35" y="15" width="50" height="50" rx="6" fill="#DDD6FE" stroke="#7C3AED" stroke-width="2"/>
+          <text x="42" y="38" font-family="monospace" font-size="12" font-weight="800" fill="#7C3AED">DEC</text>
+          <text x="42" y="52" font-family="monospace" font-size="12" font-weight="800" fill="#A78BFA">HEX</text>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Number Base</h3>
+        <p>Bin ↔ Dec ↔ Hex</p>
+      </div>
+    </a>
+
+    <a href="/converter/timestamp.html" class="card" data-search="timestamp unix epoch">
+      <div class="card-thumb" style="background: #F1F5F9;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="35" y="15" width="50" height="50" rx="6" fill="#E2E8F0" stroke="#475569" stroke-width="2"/>
+          <circle cx="60" cy="40" r="16" stroke="#475569" stroke-width="3.5" fill="none"/>
+          <path d="M60 28v12l8 6" stroke="#475569" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Timestamp</h3>
+        <p>Unix Epoch ↔ human date</p>
+      </div>
+    </a>
+
   </div>
 </section>
 
-<!-- ══════ SECURITY ══════ -->
+<!-- ══════ SECURITY TOOLS ══════ -->
 <section class="section" id="sec-tools" data-cat="sec">
   <div class="section-head reveal"><h2>Security Tools</h2><span class="count">4 tools</span></div>
   <div class="grid reveal-stagger">
-    <a href="/security/password-generator.html" class="card" data-search="password generator"><div class="ic ic-green"><svg viewBox="0 0 48 48" fill="none"><rect x="8" y="18" width="24" height="20" rx="4" fill="#BBF7D0"/><path d="M14 18V13a6 6 0 1 1 12 0v5" stroke="#16A34A" stroke-width="3"/><circle cx="20" cy="28" r="3" fill="#16A34A"/><path d="M20 31v4" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round"/></svg></div><h3>Password Generator</h3><p>Strong, secure passwords</p></a>
-    <a href="/security/md5-hash.html" class="card" data-search="md5 hash checksum"><div class="ic ic-blue"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="28" height="28" rx="4" fill="#BFDBFE"/><text x="7" y="28" font-family="monospace" font-size="13" font-weight="800" fill="#2563EB">MD5</text></svg></div><h3>MD5 Hash</h3><p>Generate MD5 checksums</p></a>
-    <a href="/security/sha256-hash.html" class="card" data-search="sha256 hash"><div class="ic ic-indigo"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="28" height="28" rx="4" fill="#C7D2FE"/><path d="M20 8l12 7v10l-12 7-12-7V15l12-7z" fill="#A5B4FC" stroke="#4F46E5" stroke-width="1.5"/></svg></div><h3>SHA-256 Hash</h3><p>Secure hashing</p></a>
-    <a href="/security/uuid-generator.html" class="card" data-search="uuid generator v4"><div class="ic ic-amber"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="28" height="28" rx="4" fill="#FDE68A"/><text x="6" y="26" font-family="monospace" font-size="10" font-weight="800" fill="#D97706">UUID</text></svg></div><h3>UUID Generator</h3><p>Unique identifiers</p></a>
+
+    <a href="/security/password-generator.html" class="card" data-search="password generator">
+      <div class="card-thumb" style="background: #DCFCE7;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="38" y="32" width="44" height="32" rx="4" fill="#BBF7D0" stroke="#16A34A" stroke-width="2"/>
+          <path d="M48 32V24a12 12 0 1 1 24 0v8" stroke="#16A34A" stroke-width="3.5" fill="none"/>
+          <circle cx="60" cy="48" r="4" fill="#16A34A"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Password Generator</h3>
+        <p>Strong, secure passwords</p>
+      </div>
+    </a>
+
+    <a href="/security/md5-hash.html" class="card" data-search="md5 hash checksum">
+      <div class="card-thumb" style="background: #DBEAFE;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="35" y="15" width="50" height="50" rx="6" fill="#BFDBFE" stroke="#2563EB" stroke-width="2"/>
+          <text x="42" y="46" font-family="monospace" font-size="18" font-weight="900" fill="#2563EB">MD5</text>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>MD5 Hash</h3>
+        <p>Generate MD5 checksums</p>
+      </div>
+    </a>
+
+    <a href="/security/sha256-hash.html" class="card" data-search="sha256 hash">
+      <div class="card-thumb" style="background: #E0E7FF;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="35" y="15" width="50" height="50" rx="6" fill="#C7D2FE" stroke="#4F46E5" stroke-width="2"/>
+          <path d="M60 22l14 8v16l-14 8-14-8V30z" fill="#A5B4FC" stroke="#4F46E5" stroke-width="2"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>SHA-256 Hash</h3>
+        <p>Secure SHA-256 encoder</p>
+      </div>
+    </a>
+
+    <a href="/security/uuid-generator.html" class="card" data-search="uuid generator v4">
+      <div class="card-thumb" style="background: #FEF3C7;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="35" y="15" width="50" height="50" rx="6" fill="#FDE68A" stroke="#D97706" stroke-width="2"/>
+          <text x="40" y="46" font-family="monospace" font-size="14" font-weight="900" fill="#D97706">UUID</text>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>UUID Generator</h3>
+        <p>Unique identifier codes</p>
+      </div>
+    </a>
+
   </div>
 </section>
 
-<!-- ══════ QR ══════ -->
+<!-- ══════ QR CODE TOOLS ══════ -->
 <section class="section" id="qr-tools" data-cat="qr">
   <div class="section-head reveal"><h2>QR Code Tools</h2><span class="count">2 tools</span></div>
   <div class="grid reveal-stagger">
-    <a href="/qr/qr-generator.html" class="card" data-search="qr code generator"><div class="ic ic-indigo"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="28" height="28" rx="4" fill="#C7D2FE"/><rect x="10" y="10" width="8" height="8" rx="2" fill="#4F46E5"/><rect x="22" y="10" width="8" height="8" rx="2" fill="#4F46E5"/><rect x="10" y="22" width="8" height="8" rx="2" fill="#4F46E5"/><rect x="24" y="24" width="5" height="5" rx="1" fill="#818CF8"/></svg></div><h3>QR Generator</h3><p>Create custom QR codes</p></a>
-    <a href="/qr/qr-reader.html" class="card" data-search="qr code reader scanner"><div class="ic ic-teal"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="28" height="28" rx="4" fill="#99F6E4"/><path d="M10 10h5M30 10h-5M10 30h5M30 30h-5M10 10v5M30 10v5M10 30v-5M30 30v-5" stroke="#0D9488" stroke-width="3" stroke-linecap="round"/><path d="M15 20h10" stroke="#0D9488" stroke-width="3" stroke-linecap="round"/></svg></div><h3>QR Reader</h3><p>Scan from image</p></a>
+
+    <a href="/qr/qr-generator.html" class="card" data-search="qr code generator">
+      <div class="card-thumb" style="background: #E0E7FF;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="35" y="15" width="50" height="50" rx="6" fill="#C7D2FE" stroke="#4F46E5" stroke-width="2"/>
+          <rect x="43" y="23" width="12" height="12" rx="2" fill="#4F46E5"/>
+          <rect x="65" y="23" width="12" height="12" rx="2" fill="#4F46E5"/>
+          <rect x="43" y="45" width="12" height="12" rx="2" fill="#4F46E5"/>
+          <rect x="67" y="47" width="8" height="8" rx="1.5" fill="#818CF8"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>QR Generator</h3>
+        <p>Create custom QR codes</p>
+      </div>
+    </a>
+
+    <a href="/qr/qr-reader.html" class="card" data-search="qr code reader scanner">
+      <div class="card-thumb" style="background: #CCFBF1;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="35" y="15" width="50" height="50" rx="6" fill="#99F6E4" stroke="#0D9488" stroke-width="2"/>
+          <path d="M43 25h10M67 25h-10M43 55h10M67 55h-10M43 25v10M67 25v10M43 55v-10M67 55v-10" stroke="#0D9488" stroke-width="3" stroke-linecap="round"/>
+          <path d="M45 40h30" stroke="#0D9488" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>QR Reader</h3>
+        <p>Scan QR codes from image</p>
+      </div>
+    </a>
+
   </div>
 </section>
 
-<!-- ══════ MORE ══════ -->
+<!-- ══════ MORE TOOLS ══════ -->
 <section class="section" data-cat="misc">
   <div class="section-head reveal"><h2>More Tools</h2><span class="count">6 tools</span></div>
   <div class="grid reveal-stagger">
-    <a href="/misc/typing-test.html" class="card" data-search="typing speed test wpm"><div class="ic ic-purple"><svg viewBox="0 0 48 48" fill="none"><rect x="3" y="8" width="34" height="24" rx="4" fill="#DDD6FE"/><rect x="7" y="13" width="4" height="4" rx="1" fill="#7C3AED"/><rect x="13" y="13" width="4" height="4" rx="1" fill="#7C3AED"/><rect x="19" y="13" width="4" height="4" rx="1" fill="#7C3AED"/><rect x="25" y="13" width="4" height="4" rx="1" fill="#7C3AED"/><rect x="9" y="20" width="4" height="4" rx="1" fill="#A78BFA"/><rect x="15" y="20" width="4" height="4" rx="1" fill="#A78BFA"/><rect x="21" y="20" width="4" height="4" rx="1" fill="#A78BFA"/><rect x="12" y="27" width="14" height="3" rx="1.5" fill="#C4B5FD"/></svg></div><h3>Typing Test</h3><p>WPM & accuracy</p></a>
-    <a href="/misc/countdown.html" class="card" data-search="countdown timer stopwatch"><div class="ic ic-red"><svg viewBox="0 0 48 48" fill="none"><circle cx="20" cy="24" r="14" fill="#FECACA"/><circle cx="20" cy="24" r="10" stroke="#DC2626" stroke-width="2.5" fill="none"/><path d="M20 17v7l4 3" stroke="#DC2626" stroke-width="2.5" stroke-linecap="round"/><rect x="16" y="7" width="8" height="4" rx="2" fill="#DC2626"/></svg></div><h3>Countdown Timer</h3><p>Timer & stopwatch</p></a>
-    <a href="/misc/coin-flip.html" class="card" data-search="coin flip heads tails"><div class="ic ic-amber"><svg viewBox="0 0 48 48" fill="none"><circle cx="20" cy="20" r="14" fill="#FDE68A" stroke="#D97706" stroke-width="2"/><text x="14" y="26" font-family="DM Sans" font-size="16" font-weight="800" fill="#92400E">$</text></svg></div><h3>Coin Flip</h3><p>Animated coin toss</p></a>
-    <a href="/misc/random-number.html" class="card" data-search="random number generator"><div class="ic ic-green"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="28" height="28" rx="4" fill="#BBF7D0" stroke="#16A34A" stroke-width="1.5"/><circle cx="13" cy="13" r="2.5" fill="#16A34A"/><circle cx="27" cy="13" r="2.5" fill="#16A34A"/><circle cx="20" cy="20" r="2.5" fill="#16A34A"/><circle cx="13" cy="27" r="2.5" fill="#16A34A"/><circle cx="27" cy="27" r="2.5" fill="#16A34A"/></svg></div><h3>Random Number</h3><p>Generate any range</p></a>
-    <a href="/misc/screen-recorder.html" class="card" data-search="screen recorder"><div class="ic ic-pink"><svg viewBox="0 0 48 48" fill="none"><rect x="3" y="8" width="34" height="22" rx="4" fill="#FBCFE8"/><circle cx="20" cy="18" r="5" fill="#DB2777"/><circle cx="20" cy="18" r="2" fill="#FCE7F3"/><rect x="12" y="34" width="16" height="4" rx="2" fill="#F9A8D4"/></svg></div><h3>Screen Recorder</h3><p>Record in browser</p></a>
-    <a href="/misc/ip-lookup.html" class="card" data-search="ip address lookup"><div class="ic ic-cyan"><svg viewBox="0 0 48 48" fill="none"><circle cx="20" cy="20" r="14" fill="#A5F3FC" stroke="#0891B2" stroke-width="1.5"/><ellipse cx="20" cy="20" rx="6" ry="14" stroke="#0891B2" stroke-width="1.2"/><path d="M6 20h28M7 14h26M7 26h26" stroke="#0891B2" stroke-width="1"/></svg></div><h3>My IP Address</h3><p>IP & location info</p></a>
+
+    <a href="/misc/typing-test.html" class="card" data-search="typing speed test wpm">
+      <div class="card-thumb" style="background: #EDE9FE;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="30" y="20" width="60" height="40" rx="4" fill="#DDD6FE" stroke="#7C3AED" stroke-width="2"/>
+          <rect x="38" y="28" width="6" height="6" rx="1.5" fill="#7C3AED"/>
+          <rect x="48" y="28" width="6" height="6" rx="1.5" fill="#7C3AED"/>
+          <rect x="58" y="28" width="6" height="6" rx="1.5" fill="#7C3AED"/>
+          <rect x="68" y="28" width="6" height="6" rx="1.5" fill="#7C3AED"/>
+          <rect x="42" y="38" width="36" height="5" rx="2.5" fill="#C4B5FD"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Typing Test</h3>
+        <p>Check WPM & accuracy</p>
+      </div>
+    </a>
+
+    <a href="/misc/countdown.html" class="card" data-search="countdown timer stopwatch">
+      <div class="card-thumb" style="background: #FECACA;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <circle cx="60" cy="44" r="22" fill="#FECACA"/>
+          <circle cx="60" cy="44" r="16" stroke="#DC2626" stroke-width="3.5" fill="none"/>
+          <path d="M60 34v12l6 4" stroke="#DC2626" stroke-width="3" stroke-linecap="round"/>
+          <rect x="54" y="16" width="12" height="6" rx="2" fill="#DC2626"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Countdown Timer</h3>
+        <p>Online timer & stopwatch</p>
+      </div>
+    </a>
+
+    <a href="/misc/coin-flip.html" class="card" data-search="coin flip heads tails">
+      <div class="card-thumb" style="background: #FEF3C7;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <circle cx="60" cy="40" r="22" fill="#FDE68A" stroke="#D97706" stroke-width="3"/>
+          <text x="52" y="49" font-family="DM Sans" font-size="26" font-weight="900" fill="#92400E">$</text>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Coin Flip</h3>
+        <p>Flipping coin simulator</p>
+      </div>
+    </a>
+
+    <a href="/misc/random-number.html" class="card" data-search="random number generator">
+      <div class="card-thumb" style="background: #DCFCE7;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="35" y="15" width="50" height="50" rx="6" fill="#BBF7D0" stroke="#16A34A" stroke-width="2"/>
+          <circle cx="47" cy="27" r="4" fill="#16A34A"/>
+          <circle cx="73" cy="27" r="4" fill="#16A34A"/>
+          <circle cx="60" cy="40" r="4" fill="#16A34A"/>
+          <circle cx="47" cy="53" r="4" fill="#16A34A"/>
+          <circle cx="73" cy="53" r="4" fill="#16A34A"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Random Number</h3>
+        <p>Generate digits in a range</p>
+      </div>
+    </a>
+
+    <a href="/misc/screen-recorder.html" class="card" data-search="screen recorder">
+      <div class="card-thumb" style="background: #FBCFE8;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <rect x="30" y="18" width="60" height="40" rx="6" fill="#FBCFE8" stroke="#DB2777" stroke-width="2"/>
+          <circle cx="60" cy="38" r="10" fill="#DB2777"/>
+          <circle cx="60" cy="38" r="4" fill="#FCE7F3"/>
+          <rect x="48" y="58" width="24" height="4" rx="2" fill="#F9A8D4"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>Screen Recorder</h3>
+        <p>Record browser or desktop screen</p>
+      </div>
+    </a>
+
+    <a href="/misc/ip-lookup.html" class="card" data-search="ip address lookup">
+      <div class="card-thumb" style="background: #CFFAFE;">
+        <svg viewBox="0 0 120 80" width="100%" height="100%">
+          <circle cx="60" cy="40" r="22" fill="#A5F3FC" stroke="#0891B2" stroke-width="2"/>
+          <ellipse cx="60" cy="40" rx="9" ry="22" stroke="#0891B2" stroke-width="1.5" fill="none"/>
+          <path d="M38 40h44M39 30h42M39 50h42" stroke="#0891B2" stroke-width="1.2"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <h3>My IP Address</h3>
+        <p>Find network IP & location info</p>
+      </div>
+    </a>
+
   </div>
 </section>
 
+<!-- ══════ FOOTER ══════ -->
 <footer class="footer">
   <div class="footer-inner">
     <div class="footer-brand">
       <a href="/" class="logo"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#FF5252"/><path d="M7 8h14v2H7zm3 4h8v2h-8zm2 4h4v2h-4z" fill="#fff"/></svg>Toolzium</a>
       <p>50+ free browser-based tools. No signup, no uploads — 100% private.</p>
     </div>
-    <div class="footer-col"><h4>Popular</h4><a href="/text/word-counter.html">Word Counter</a><a href="/security/password-generator.html">Password Generator</a><a href="/developer/json-formatter.html">JSON Formatter</a><a href="/calculator/percentage.html">Percentage Calc</a></div>
-    <div class="footer-col"><h4>Categories</h4><a href="#pdf-tools">PDF Tools</a><a href="#text-tools">Text Tools</a><a href="#dev-tools">Developer</a><a href="#calc-tools">Calculator</a></div>
-    <div class="footer-col"><h4>Company</h4><a href="/about.html">About</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/contact.html">Contact</a></div>
+    <div class="footer-col">
+      <h4>Popular</h4>
+      <a href="/text/word-counter.html">Word Counter</a>
+      <a href="/security/password-generator.html">Password Generator</a>
+      <a href="/developer/json-formatter.html">JSON Formatter</a>
+      <a href="/calculator/percentage.html">Percentage Calc</a>
+    </div>
+    <div class="footer-col">
+      <h4>Categories</h4>
+      <a href="#pdf-tools">PDF Tools</a>
+      <a href="#text-tools">Text Tools</a>
+      <a href="#dev-tools">Developer</a>
+      <a href="#calc-tools">Calculator</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="/about.html">About</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+      <a href="/contact.html">Contact</a>
+    </div>
   </div>
-  <div class="footer-bottom"><p>© 2026 Toolzium</p><div class="privacy-badge">🔒 Files never leave your browser</div></div>
+  <div class="footer-bottom">
+    <p>© 2026 Toolzium. All rights reserved.</p>
+    <div class="privacy-badge">🔒 Files never leave your browser</div>
+  </div>
 </footer>
 
 <script>
-function searchTools(q){q=q.toLowerCase().trim();const s=document.querySelectorAll('[data-cat]');if(!q){document.querySelectorAll('.card').forEach(c=>c.style.display='');s.forEach(x=>x.style.display='');return;}s.forEach(x=>{let m=false;x.querySelectorAll('.card').forEach(c=>{const ok=((c.dataset.search||'')+' '+c.textContent).toLowerCase().includes(q);c.style.display=ok?'':'none';if(ok)m=true;});x.style.display=m?'':'none';});}
+function searchTools(q){
+  q=q.toLowerCase().trim();
+  const s=document.querySelectorAll('[data-cat]');
+  if(!q){
+    document.querySelectorAll('.card').forEach(c=>c.style.display='');
+    s.forEach(x=>x.style.display='');
+    return;
+  }
+  s.forEach(x=>{
+    let m=false;
+    x.querySelectorAll('.card').forEach(c=>{
+      const ok=((c.dataset.search||'')+' '+c.textContent).toLowerCase().includes(q);
+      c.style.display=ok?'':'none';
+      if(ok)m=true;
+    });
+    x.style.display=m?'':'none';
+  });
+}
 
-const ro=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');});},{threshold:0.1,rootMargin:'0px 0px -30px 0px'});
+const ro=new IntersectionObserver(e=>{
+  e.forEach(x=>{
+    if(x.isIntersecting)x.target.classList.add('visible');
+  });
+},{threshold:0.1,rootMargin:'0px 0px -30px 0px'});
 document.querySelectorAll('.reveal,.reveal-stagger').forEach(el=>ro.observe(el));
 
-window.addEventListener('scroll',()=>{document.querySelector('.navbar-wrap').classList.toggle('scrolled',scrollY>10);},{passive:true});
+window.addEventListener('scroll',()=>{
+  document.querySelector('.navbar-wrap').classList.toggle('scrolled',scrollY>10);
+},{passive:true});
 </script>
 </body>
 </html>
