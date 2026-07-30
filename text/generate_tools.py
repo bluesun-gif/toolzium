@@ -320,7 +320,7 @@ tools = [
                 </div>
             </div>
             <button class="btn-primary" onclick="compare()">Compare Texts</button>
-            <div id="output" class="output-area" style="background:#222; color:#fff; overflow-y:auto; padding:15px; line-height:1.5;"></div>
+            <div id="output" class="output-area" style="background:var(--bg); border:1.5px solid var(--border); border-radius:12px; color:var(--text); min-height:160px; overflow-y:auto; padding:18px; line-height:1.6; font-family:monospace; font-size:13.5px; margin-top:15px;"></div>
         ''',
         'script': '''
             function compare() {
@@ -330,10 +330,10 @@ tools = [
                 const max = Math.max(t1.length, t2.length);
                 for(let i=0; i<max; i++) {
                     if(t1[i] !== t2[i]) {
-                        if(t1[i] !== undefined) html += `<div style="background:rgba(220,53,69,0.3); padding:2px 5px; margin-bottom:2px; text-decoration:line-through;">- ${t1[i] || ''}</div>`;
-                        if(t2[i] !== undefined) html += `<div style="background:rgba(40,167,69,0.3); padding:2px 5px; margin-bottom:2px;">+ ${t2[i] || ''}</div>`;
+                        if(t1[i] !== undefined) html += `<div style="background:rgba(239,68,68,0.12); color:#dc2626; padding:4px 8px; margin-bottom:4px; border-radius:4px; text-decoration:line-through;">- ${t1[i] || ''}</div>`;
+                        if(t2[i] !== undefined) html += `<div style="background:rgba(34,197,94,0.12); color:#16a34a; padding:4px 8px; margin-bottom:4px; border-radius:4px;">+ ${t2[i] || ''}</div>`;
                     } else {
-                        html += `<div style="color:#aaa; padding:2px 5px; margin-bottom:2px;">  ${t1[i]}</div>`;
+                        html += `<div style="color:var(--text-2); padding:4px 8px; margin-bottom:4px;">  ${t1[i] || ''}</div>`;
                     }
                 }
                 document.getElementById('output').innerHTML = html || 'No differences found.';
@@ -371,9 +371,9 @@ tools = [
                         else res += c;
                     }
                     html += `
-                        <div style="background:#222; padding:15px; border-radius:4px; display:flex; justify-content:space-between; align-items:center;">
-                            <span style="font-size:18px;">${res}</span>
-                            <button class="btn-secondary" style="margin:0;" onclick="navigator.clipboard.writeText(this.previousElementSibling.innerText)">Copy</button>
+                        <div style="background:var(--bg); border:1.5px solid var(--border); padding:16px 20px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; gap:12px; transition:0.2s;">
+                            <span style="font-size:18px; font-weight:600; color:var(--text);">${res}</span>
+                            <button class="copy-btn" style="margin:0;" onclick="navigator.clipboard.writeText(this.previousElementSibling.innerText); const b=this; b.innerText='Copied!'; setTimeout(()=>b.innerText='Copy',1200)">Copy</button>
                         </div>
                     `;
                 }
@@ -620,8 +620,8 @@ tools = [
                 <button class="btn-secondary" onclick="render('food')">Food</button>
                 <button class="btn-secondary" onclick="render('')">All</button>
             </div>
-            <div id="grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap:10px; max-height:400px; overflow-y:auto; background:#222; padding:15px; border-radius:4px; font-size:30px; text-align:center;"></div>
-            <div id="msg" style="margin-top:10px; color:#4caf50; font-weight:bold;"></div>
+            <div id="grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(55px, 1fr)); gap:12px; max-height:400px; overflow-y:auto; background:var(--bg); border:1.5px solid var(--border); padding:20px; border-radius:12px; font-size:32px; text-align:center;"></div>
+            <div id="msg" style="margin-top:10px; color:#16a34a; font-weight:bold;"></div>
         ''',
         'script': '''
             const emojis = [
@@ -638,7 +638,8 @@ tools = [
                         const d = document.createElement('div');
                         d.innerText = e.c;
                         d.style.cursor = 'pointer';
-                        d.onmouseover = () => d.style.background = '#444';
+                        d.style.borderRadius = '8px';
+                        d.onmouseover = () => d.style.background = 'var(--border)';
                         d.onmouseout = () => d.style.background = 'transparent';
                         d.onclick = () => {
                             navigator.clipboard.writeText(e.c);
@@ -660,10 +661,10 @@ tools = [
         'content': '''
             <textarea id="input" class="tool-input" placeholder="Type text to convert..."></textarea>
             <h3>Superscript</h3>
-            <div id="super" class="output-area" style="min-height:50px; background:#222;"></div>
+            <div id="super" class="output-area" style="min-height:50px;"></div>
             <button class="btn-secondary" onclick="navigator.clipboard.writeText(document.getElementById('super').innerText)">Copy Superscript</button>
             <h3 style="margin-top:20px;">Subscript</h3>
-            <div id="sub" class="output-area" style="min-height:50px; background:#222;"></div>
+            <div id="sub" class="output-area" style="min-height:50px;"></div>
             <button class="btn-secondary" onclick="navigator.clipboard.writeText(document.getElementById('sub').innerText)">Copy Subscript</button>
         ''',
         'script': '''

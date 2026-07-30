@@ -22,49 +22,55 @@
 <body>
     <!-- ══════ NAVBAR ══════ -->
     <header class="navbar-wrap">
-      <div class="navbar">
-        <a href="/" class="logo">
-          <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#FF5252"/><path d="M7 8h14v2H7zm3 4h8v2h-8zm2 4h4v2h-4z" fill="#fff"/></svg>
-          Toolzium
-        </a>
-        <nav class="nav-links" id="navLinks">
-          <a href="/index.html#pdf-tools" class="nav-item">PDF Tools</a>
-          <a href="/index.html#text-tools" class="nav-item">Text Tools</a>
-          <a href="/index.html#dev-tools" class="nav-item">Developer</a>
-          <div class="nav-item has-mega">All Tools
-            <div class="mega-dropdown" style="min-width:680px; grid-template-columns: repeat(4, 1fr);">
-              <div>
-                <div class="mega-col-title" style="grid-column:auto">PDF</div>
-                <a href="/pdf/merge.html" class="mega-link"><span class="mega-ic ic-red"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="2" width="10" height="14" rx="2" fill="#fca5a5"/><rect x="10" y="7" width="10" height="14" rx="2" fill="#fee2e2" stroke="#dc2626" stroke-width="1"/></svg></span>Merge PDF</a>
-                <a href="/pdf/split.html" class="mega-link"><span class="mega-ic ic-orange"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="8" height="12" rx="2" fill="#fed7aa"/><rect x="13" y="7" width="8" height="12" rx="2" fill="#fdba74"/></svg></span>Split PDF</a>
-                <a href="/pdf/compress.html" class="mega-link"><span class="mega-ic ic-green"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="2" fill="#bbf7d0"/><path d="M12 9v6M10 13l2 2 2-2" stroke="#16a34a" stroke-width="1.5"/></svg></span>Compress</a>
-              </div>
-              <div>
-                <div class="mega-col-title" style="grid-column:auto">Text</div>
-                <a href="/text/word-counter.html" class="mega-link"><span class="mega-ic ic-blue"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#dbeafe"/><path d="M7 8h8M7 11h6" stroke="#2563eb" stroke-width="1.5"/></svg></span>Word Counter</a>
-                <a href="/text/case-converter.html" class="mega-link"><span class="mega-ic ic-purple"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#ede9fe"/><text x="6" y="15" font-size="10" font-weight="700" fill="#7c3aed">Aa</text></svg></span>Case Converter</a>
-                <a href="/text/text-diff.html" class="mega-link"><span class="mega-ic ic-amber"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="8" height="16" rx="2" fill="#fef3c7"/><rect x="12" y="3" width="8" height="16" rx="2" fill="#fde68a"/></svg></span>Text Diff</a>
-              </div>
-              <div>
-                <div class="mega-col-title" style="grid-column:auto">Developer</div>
-                <a href="/developer/json-formatter.html" class="mega-link"><span class="mega-ic ic-purple"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#ede9fe"/><path d="M8 7l-3 4 3 4" stroke="#7c3aed" stroke-width="1.5"/></svg></span>JSON Formatter</a>
-                <a href="/developer/html-viewer.html" class="mega-link"><span class="mega-ic ic-orange"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="18" height="16" rx="3" fill="#ffedd5"/><rect x="2" y="3" width="18" height="4" rx="3" fill="#fdba74"/></svg></span>HTML Viewer</a>
-              </div>
-              <div>
-                <div class="mega-col-title" style="grid-column:auto">More</div>
-                <a href="/security/password-generator.html" class="mega-link"><span class="mega-ic ic-green"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="10" width="16" height="10" rx="3" fill="#dcfce7"/><path d="M7 10V7a4 4 0 1 1 8 0v3" stroke="#16a34a" stroke-width="1.5"/></svg></span>Password Gen</a>
-                <a href="/qr/qr-generator.html" class="mega-link"><span class="mega-ic ic-indigo"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#e0e7ff"/><rect x="6" y="6" width="4" height="4" rx="1" fill="#4f46e5"/><rect x="12" y="6" width="4" height="4" rx="1" fill="#4f46e5"/></svg></span>QR Generator</a>
-              </div>
-            </div>
+  <div class="navbar">
+    <a href="/" class="logo">
+      <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#FF5252"/><path d="M7 8h14v2H7zm3 4h8v2h-8zm2 4h4v2h-4z" fill="#fff"/></svg>
+      Toolzium
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="/index.html#pdf-tools" class="nav-item">PDF Tools</a>
+      <a href="/index.html#text-tools" class="nav-item">Text Tools</a>
+      <a href="/index.html#dev-tools" class="nav-item">Developer</a>
+      <div class="nav-item has-mega">All Tools
+        <div class="mega-dropdown" style="min-width:720px; grid-template-columns: repeat(4, 1fr);">
+          <div>
+            <div class="mega-col-title">PDF Page & Files</div>
+            <a href="/pdf/merge.html" class="mega-link">Merge PDF</a>
+            <a href="/pdf/split.html" class="mega-link">Split PDF</a>
+            <a href="/pdf/compress.html" class="mega-link">Compress PDF</a>
+            <a href="/pdf/rotate.html" class="mega-link">Rotate PDF</a>
           </div>
-        </nav>
-        <div class="nav-right">
-          <button class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-          </button>
+          <div>
+            <div class="mega-col-title">Convert to PDF</div>
+            <a href="/pdf/word-to-pdf.html" class="mega-link">Word to PDF</a>
+            <a href="/pdf/excel-to-pdf.html" class="mega-link">Excel to PDF</a>
+            <a href="/pdf/ppt-to-pdf.html" class="mega-link">PowerPoint to PDF</a>
+            <a href="/pdf/image-to-pdf.html" class="mega-link">Image to PDF</a>
+          </div>
+          <div>
+            <div class="mega-col-title">Convert from PDF</div>
+            <a href="/pdf/pdf-to-word.html" class="mega-link">PDF to Word</a>
+            <a href="/pdf/pdf-to-excel.html" class="mega-link">PDF to Excel</a>
+            <a href="/pdf/pdf-to-ppt.html" class="mega-link">PDF to PPT</a>
+            <a href="/pdf/pdf-to-image.html" class="mega-link">PDF to Image</a>
+          </div>
+          <div>
+            <div class="mega-col-title">Text & More</div>
+            <a href="/text/word-counter.html" class="mega-link">Word Counter</a>
+            <a href="/text/case-converter.html" class="mega-link">Case Converter</a>
+            <a href="/developer/json-formatter.html" class="mega-link">JSON Formatter</a>
+            <a href="/security/password-generator.html" class="mega-link">Password Gen</a>
+          </div>
         </div>
       </div>
-    </header>
+    </nav>
+    <div class="nav-right">
+      <button class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
 
     <!-- ══════ BREADCRUMB ══════ -->
     <div class="breadcrumb">
@@ -114,8 +120,22 @@
 
     <!-- ══════ FEATURES ══════ -->
     <div class="features-row">
-      <div class="feature-item">
-        <div class="f-icon">🔒</div>
+  <div class="feature-item">
+    <div class="f-icon">🔒</div>
+    <h4>100% Private</h4>
+    <p>All processing is done directly inside your browser. No files or texts are ever sent to our servers.</p>
+  </div>
+  <div class="feature-item">
+    <div class="f-icon">⚡</div>
+    <h4>Ultra Fast</h4>
+    <p>Perform conversions and calculations instantly. High performance client-side processing.</p>
+  </div>
+  <div class="feature-item">
+    <div class="f-icon">🆓</div>
+    <h4>Completely Free</h4>
+    <p>Enjoy all features with no file size limits, no watermarks, and no registration required.</p>
+  </div>
+</div>
         <h4>100% Private</h4>
         <p>Processed entirely inside your browser. No files or text data are ever sent to our servers.</p>
       </div>
@@ -133,9 +153,110 @@
 
     <!-- ══════ RELATED TOOLS ══════ -->
     <div class="related-section">
-      <h3 style="text-align:center; font-size:18px;">Other Useful Tools You Might Like</h3>
-      <div class="grid" style="margin-top: 20px;">
-        <a href="/text/word-counter.html" class="card"><div class="ic ic-blue"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#dbeafe"/><path d="M7 8h8M7 11h6" stroke="#2563eb" stroke-width="1.5"/></svg></div><h3>Word Counter</h3><p>Words & reading time</p></a>
+      <h3 style="text-align:center; font-size:18px; margin-bottom: 24px;">Other Calculator Tools You Might Like</h3>
+      <div class="grid">
+        
+        <a href="/calculator/age.html" class="card">
+          <div class="card-thumb" style="background: #FBCFE8;">
+            <svg viewBox="0 0 120 80" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">    <defs>      <filter id="page-shadow" x="-30%" y="-20%" width="160%" height="150%">        <feDropShadow dx="1" dy="3.5" stdDeviation="3" flood-color="#000" flood-opacity="0.09"/>      </filter>    </defs>              <rect x="36" y="16" width="48" height="48" rx="8" fill="#ffffff" stroke="#db2777" stroke-width="2.5" filter="url(#page-shadow)"/>          <rect x="36" y="16" width="48" height="12" rx="8" fill="#f9a8d4"/>          <circle cx="46" cy="22" r="2.5" fill="#fff"/>          <circle cx="74" cy="22" r="2.5" fill="#fff"/>          <text x="60" y="49" font-family="'DM Sans', sans-serif" font-weight="950" font-size="20" fill="#db2777" text-anchor="middle">24</text>        </svg>
+          </div>
+          <div class="card-body">
+            <h3>Age Calculator</h3>
+            <p>Calculate exact age</p>
+          </div>
+        </a>
+
+        <a href="/calculator/bmi.html" class="card">
+          <div class="card-thumb" style="background: #DCFCE7;">
+            <svg viewBox="0 0 120 80" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">    <defs>      <filter id="page-shadow" x="-30%" y="-20%" width="160%" height="150%">        <feDropShadow dx="1" dy="3.5" stdDeviation="3" flood-color="#000" flood-opacity="0.09"/>      </filter>    </defs>              <rect x="35" y="15" width="50" height="50" rx="8" fill="#fff" stroke="#16a34a" stroke-width="2.5" filter="url(#page-shadow)"/>          <circle cx="60" cy="40" r="16" stroke="#16a34a" stroke-width="4.5" fill="none"/>          <path d="M60 24v16l8 4" stroke="#16a34a" stroke-width="4.5" stroke-linecap="round"/>        </svg>
+          </div>
+          <div class="card-body">
+            <h3>BMI Calculator</h3>
+            <p>Body Mass Index</p>
+          </div>
+        </a>
+
+        <a href="/calculator/loan.html" class="card">
+          <div class="card-thumb" style="background: #FEF3C7;">
+            <svg viewBox="0 0 120 80" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">    <defs>      <filter id="page-shadow" x="-30%" y="-20%" width="160%" height="150%">        <feDropShadow dx="1" dy="3.5" stdDeviation="3" flood-color="#000" flood-opacity="0.09"/>      </filter>    </defs>              <rect x="42" y="18" width="36" height="46" rx="4" fill="#ffffff" filter="url(#page-shadow)"/>          <path d="M42 22 A4 4 0 0 1 46 18 L74 18 A4 4 0 0 1 78 22 L78 29 L42 29 Z" fill="#d97706"/>          <rect x="54.9" y="21.5" width="10.2" height="6.5" rx="2" fill="#ffffff"/>          <text x="60.0" y="26.2" font-family="'DM Sans', sans-serif" font-weight="950" font-size="4.5" fill="#d97706" text-anchor="middle">$</text>                        <line x1="48" y1="34" x2="72" y2="34" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="48" y1="40" x2="68" y2="40" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="48" y1="46" x2="72" y2="46" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="48" y1="52" x2="66" y2="52" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>                    </svg>
+          </div>
+          <div class="card-body">
+            <h3>Loan / EMI</h3>
+            <p>Estimate payments</p>
+          </div>
+        </a>
+
+        <a href="/calculator/discount.html" class="card">
+          <div class="card-thumb" style="background: #FECACA;">
+            <svg viewBox="0 0 120 80" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">    <defs>      <filter id="page-shadow" x="-30%" y="-20%" width="160%" height="150%">        <feDropShadow dx="1" dy="3.5" stdDeviation="3" flood-color="#000" flood-opacity="0.09"/>      </filter>    </defs>              <path d="M36 20h28l20 20-20 20H36V20z" fill="#fca5a5" stroke="#dc2626" stroke-width="2.5" filter="url(#page-shadow)"/>          <circle cx="46" cy="40" r="4.5" fill="#fff"/>          <text x="56" y="47" font-family="'DM Sans', sans-serif" font-weight="950" font-size="15" fill="#dc2626">-50%</text>        </svg>
+          </div>
+          <div class="card-body">
+            <h3>Discount</h3>
+            <p>Savings calculator</p>
+          </div>
+        </a>
+
+        <a href="/calculator/tip.html" class="card">
+          <div class="card-thumb" style="background: #CCFBF1;">
+            <svg viewBox="0 0 120 80" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">    <defs>      <filter id="page-shadow" x="-30%" y="-20%" width="160%" height="150%">        <feDropShadow dx="1" dy="3.5" stdDeviation="3" flood-color="#000" flood-opacity="0.09"/>      </filter>    </defs>              <rect x="42" y="18" width="36" height="46" rx="4" fill="#ffffff" filter="url(#page-shadow)"/>          <path d="M42 22 A4 4 0 0 1 46 18 L74 18 A4 4 0 0 1 78 22 L78 29 L42 29 Z" fill="#0d9488"/>          <rect x="47.1" y="21.5" width="25.8" height="6.5" rx="2" fill="#ffffff"/>          <text x="60.0" y="26.2" font-family="'DM Sans', sans-serif" font-weight="950" font-size="4.5" fill="#0d9488" text-anchor="middle">BILL</text>                        <line x1="48" y1="34" x2="72" y2="34" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="48" y1="40" x2="68" y2="40" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="48" y1="46" x2="72" y2="46" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="48" y1="52" x2="66" y2="52" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>                    </svg>
+          </div>
+          <div class="card-body">
+            <h3>Tip Calculator</h3>
+            <p>Split bills & tips</p>
+          </div>
+        </a>
+
+        <a href="/pdf/merge.html" class="card">
+          <div class="card-thumb" style="background: #FEE2E2;">
+            <svg viewBox="0 0 120 80" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">    <defs>      <filter id="page-shadow" x="-30%" y="-20%" width="160%" height="150%">        <feDropShadow dx="1" dy="3.5" stdDeviation="3" flood-color="#000" flood-opacity="0.09"/>      </filter>    </defs>              <rect x="16" y="18" width="32" height="44" rx="4" fill="#ffffff" filter="url(#page-shadow)"/>          <path d="M16 22 A4 4 0 0 1 20 18 L44 18 A4 4 0 0 1 48 22 L48 29 L16 29 Z" fill="#ef4444"/>          <rect x="21.7" y="21.5" width="20.6" height="6.5" rx="2" fill="#ffffff"/>          <text x="32.0" y="26.2" font-family="'DM Sans', sans-serif" font-weight="950" font-size="4.5" fill="#ef4444" text-anchor="middle">PDF</text>                        <line x1="22" y1="34" x2="42" y2="34" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="22" y1="40" x2="38" y2="40" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="22" y1="46" x2="42" y2="46" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="22" y1="52" x2="36" y2="52" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>                              <rect x="26" y="24" width="32" height="44" rx="4" fill="#ffffff" filter="url(#page-shadow)"/>          <path d="M26 28 A4 4 0 0 1 30 24 L54 24 A4 4 0 0 1 58 28 L58 35 L26 35 Z" fill="#ef4444"/>          <rect x="31.7" y="27.5" width="20.6" height="6.5" rx="2" fill="#ffffff"/>          <text x="42.0" y="32.2" font-family="'DM Sans', sans-serif" font-weight="950" font-size="4.5" fill="#ef4444" text-anchor="middle">PDF</text>                        <line x1="32" y1="40" x2="52" y2="40" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="32" y1="46" x2="48" y2="46" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="32" y1="52" x2="52" y2="52" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="32" y1="58" x2="46" y2="58" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>                                      <path d="M64 40h8M68 36l4 4-4 4" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>                            <rect x="78" y="20" width="32" height="44" rx="4" fill="#ffffff" filter="url(#page-shadow)"/>          <path d="M78 24 A4 4 0 0 1 82 20 L106 20 A4 4 0 0 1 110 24 L110 31 L78 31 Z" fill="#ef4444"/>          <rect x="83.7" y="23.5" width="20.6" height="6.5" rx="2" fill="#ffffff"/>          <text x="94.0" y="28.2" font-family="'DM Sans', sans-serif" font-weight="950" font-size="4.5" fill="#ef4444" text-anchor="middle">PDF</text>                        <line x1="84" y1="36" x2="104" y2="36" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="84" y1="42" x2="100" y2="42" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="84" y1="48" x2="104" y2="48" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="84" y1="54" x2="98" y2="54" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>                    </svg>
+          </div>
+          <div class="card-body">
+            <h3>Merge PDF</h3>
+            <p>Combine multiple PDFs</p>
+          </div>
+        </a>
+
+        <a href="/pdf/compress.html" class="card">
+          <div class="card-thumb" style="background: #DCFCE7;">
+            <svg viewBox="0 0 120 80" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">    <defs>      <filter id="page-shadow" x="-30%" y="-20%" width="160%" height="150%">        <feDropShadow dx="1" dy="3.5" stdDeviation="3" flood-color="#000" flood-opacity="0.09"/>      </filter>    </defs>              <rect x="20" y="18" width="34" height="46" rx="4" fill="#ffffff" filter="url(#page-shadow)"/>          <path d="M20 22 A4 4 0 0 1 24 18 L50 18 A4 4 0 0 1 54 22 L54 29 L20 29 Z" fill="#22c55e"/>          <rect x="26.7" y="21.5" width="20.6" height="6.5" rx="2" fill="#ffffff"/>          <text x="37.0" y="26.2" font-family="'DM Sans', sans-serif" font-weight="950" font-size="4.5" fill="#22c55e" text-anchor="middle">PDF</text>                        <line x1="26" y1="34" x2="48" y2="34" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="26" y1="40" x2="44" y2="40" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="26" y1="46" x2="48" y2="46" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="26" y1="52" x2="42" y2="52" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>                                      <path d="M62 30v20M56 36l6-6 6 6M56 44l6 6 6-6" stroke="#16a34a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>                                    <g transform="translate(54, 10) scale(0.72)">                              <rect x="36" y="16" width="34" height="46" rx="4" fill="#ffffff" filter="url(#page-shadow)"/>          <path d="M36 20 A4 4 0 0 1 40 16 L66 16 A4 4 0 0 1 70 20 L70 27 L36 27 Z" fill="#15803d"/>          <rect x="42.7" y="19.5" width="20.6" height="6.5" rx="2" fill="#ffffff"/>          <text x="53.0" y="24.2" font-family="'DM Sans', sans-serif" font-weight="950" font-size="4.5" fill="#15803d" text-anchor="middle">PDF</text>                        <line x1="42" y1="32" x2="64" y2="32" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="42" y1="38" x2="60" y2="38" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="42" y1="44" x2="64" y2="44" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="42" y1="50" x2="58" y2="50" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>                                      </g>                  </svg>
+          </div>
+          <div class="card-body">
+            <h3>Compress PDF</h3>
+            <p>Reduce PDF file size</p>
+          </div>
+        </a>
+
+        <a href="/pdf/pdf-to-word.html" class="card">
+          <div class="card-thumb" style="background: #EBF5FF;">
+            <svg viewBox="0 0 120 80" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">    <defs>      <filter id="page-shadow" x="-30%" y="-20%" width="160%" height="150%">        <feDropShadow dx="1" dy="3.5" stdDeviation="3" flood-color="#000" flood-opacity="0.09"/>      </filter>    </defs>              <rect x="16" y="18" width="32" height="44" rx="4" fill="#ffffff" filter="url(#page-shadow)"/>          <path d="M16 22 A4 4 0 0 1 20 18 L44 18 A4 4 0 0 1 48 22 L48 29 L16 29 Z" fill="#ef4444"/>          <rect x="21.7" y="21.5" width="20.6" height="6.5" rx="2" fill="#ffffff"/>          <text x="32.0" y="26.2" font-family="'DM Sans', sans-serif" font-weight="950" font-size="4.5" fill="#ef4444" text-anchor="middle">PDF</text>                        <line x1="22" y1="34" x2="42" y2="34" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="22" y1="40" x2="38" y2="40" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="22" y1="46" x2="42" y2="46" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="22" y1="52" x2="36" y2="52" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>                          <path d="M54 40h12M60 35l5 5-5 5" stroke="#475569" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>              <rect x="72" y="18" width="32" height="44" rx="4" fill="#ffffff" filter="url(#page-shadow)"/>          <path d="M72 22 A4 4 0 0 1 76 18 L100 18 A4 4 0 0 1 104 22 L104 29 L72 29 Z" fill="#2563eb"/>          <rect x="75.1" y="21.5" width="25.8" height="6.5" rx="2" fill="#ffffff"/>          <text x="88.0" y="26.2" font-family="'DM Sans', sans-serif" font-weight="950" font-size="4.5" fill="#2563eb" text-anchor="middle">DOCX</text>                        <rect x="77" y="32" width="10" height="10" rx="1.5" fill="#2563eb"/>              <text x="82" y="40" font-family="'DM Sans', sans-serif" font-weight="900" font-size="8" fill="#ffffff" text-anchor="middle">W</text>              <line x1="90" y1="34" x2="99" y2="34" stroke="#93c5fd" stroke-width="2" stroke-linecap="round"/>              <line x1="90" y1="39" x2="99" y2="39" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="77" y1="46" x2="99" y2="46" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="77" y1="52" x2="96" y2="52" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>                    </svg>
+          </div>
+          <div class="card-body">
+            <h3>PDF to Word</h3>
+            <p>Convert PDF to Word</p>
+          </div>
+        </a>
+
+        <a href="/text/word-counter.html" class="card">
+          <div class="card-thumb" style="background: #DBEAFE;">
+            <svg viewBox="0 0 120 80" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">    <defs>      <filter id="page-shadow" x="-30%" y="-20%" width="160%" height="150%">        <feDropShadow dx="1" dy="3.5" stdDeviation="3" flood-color="#000" flood-opacity="0.09"/>      </filter>    </defs>              <rect x="22" y="18" width="32" height="44" rx="4" fill="#ffffff" filter="url(#page-shadow)"/>          <path d="M22 22 A4 4 0 0 1 26 18 L50 18 A4 4 0 0 1 54 22 L54 29 L22 29 Z" fill="#2563eb"/>          <rect x="27.7" y="21.5" width="20.6" height="6.5" rx="2" fill="#ffffff"/>          <text x="38.0" y="26.2" font-family="'DM Sans', sans-serif" font-weight="950" font-size="4.5" fill="#2563eb" text-anchor="middle">TXT</text>                        <line x1="28" y1="34" x2="48" y2="34" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="28" y1="40" x2="44" y2="40" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="28" y1="46" x2="48" y2="46" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="28" y1="52" x2="42" y2="52" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>                                      <rect x="62" y="24" width="38" height="38" rx="6" fill="#ffffff" filter="url(#page-shadow)"/>                  <circle cx="81" cy="40" r="10" stroke="#2563eb" stroke-width="3" fill="none"/>                  <text x="81" y="44" font-family="'DM Sans', sans-serif" font-size="9" font-weight="950" fill="#1e3a8a" text-anchor="middle">1.2k</text>                  </svg>
+          </div>
+          <div class="card-body">
+            <h3>Word Counter</h3>
+            <p>Words & characters counter</p>
+          </div>
+        </a>
+
+        <a href="/developer/json-formatter.html" class="card">
+          <div class="card-thumb" style="background: #EDE9FE;">
+            <svg viewBox="0 0 120 80" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">    <defs>      <filter id="page-shadow" x="-30%" y="-20%" width="160%" height="150%">        <feDropShadow dx="1" dy="3.5" stdDeviation="3" flood-color="#000" flood-opacity="0.09"/>      </filter>    </defs>              <rect x="24" y="16" width="72" height="48" rx="6" fill="#1e1e2f" stroke="#7c3aed" stroke-width="2.5" filter="url(#page-shadow)"/>          <text x="32" y="34" font-family="monospace" font-weight="bold" font-size="11" fill="#a78bfa">{</text>          <text x="42" y="45" font-family="monospace" font-weight="bold" font-size="11" fill="#34d399">"ok":true</text>          <text x="32" y="56" font-family="monospace" font-weight="bold" font-size="11" fill="#a78bfa">}</text>        </svg>
+          </div>
+          <div class="card-body">
+            <h3>JSON Formatter</h3>
+            <p>Format & validate JSON</p>
+          </div>
+        </a>
+      </div>
+    </div><h3>Word Counter</h3><p>Words & reading time</p></a>
         <a href="/security/password-generator.html" class="card"><div class="ic ic-green"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="10" width="16" height="10" rx="3" fill="#dcfce7"/><path d="M7 10V7a4 4 0 1 1 8 0v3" stroke="#16a34a" stroke-width="1.5"/></svg></div><h3>Password Gen</h3><p>Strong passwords</p></a>
         <a href="/developer/json-formatter.html" class="card"><div class="ic ic-purple"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#ede9fe"/><path d="M8 7l-3 4 3 4" stroke="#7c3aed" stroke-width="1.5"/></svg></div><h3>JSON Formatter</h3><p>Validate & beautify</p></a>
       </div>
@@ -143,27 +264,37 @@
 
     <!-- ══════ FOOTER ══════ -->
     <footer class="footer">
-      <div class="footer-inner">
-        <div class="footer-brand">
-          <a href="/" class="logo"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#FF5252"/><path d="M7 8h14v2H7zm3 4h8v2h-8zm2 4h4v2h-4z" fill="#fff"/></svg>Toolzium</a>
-          <p>50+ free browser-based tools. No signup, no uploads — 100% private.</p>
-        </div>
-        <div class="footer-col">
-          <h4>Popular</h4>
-          <a href="/text/word-counter.html">Word Counter</a>
-          <a href="/security/password-generator.html">Password Generator</a>
-        </div>
-        <div class="footer-col">
-          <h4>Company</h4>
-          <a href="/about.html">About</a>
-          <a href="/privacy.html">Privacy</a>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>© 2026 Toolzium. All rights reserved.</p>
-        <div class="privacy-badge">🔒 Files never leave your browser</div>
-      </div>
-    </footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="/" class="logo"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#FF5252"/><path d="M7 8h14v2H7zm3 4h8v2h-8zm2 4h4v2h-4z" fill="#fff"/></svg>Toolzium</a>
+      <p>50+ free browser-based tools. No signup, no uploads — 100% private.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Popular</h4>
+      <a href="/text/word-counter.html">Word Counter</a>
+      <a href="/security/password-generator.html">Password Generator</a>
+      <a href="/developer/json-formatter.html">JSON Formatter</a>
+      <a href="/calculator/percentage.html">Percentage Calc</a>
+    </div>
+    <div class="footer-col">
+      <h4>Categories</h4>
+      <a href="/index.html#pdf-tools">PDF Tools</a>
+      <a href="/index.html#text-tools">Text Tools</a>
+      <a href="/index.html#dev-tools">Developer</a>
+      <a href="/index.html#calc-tools">Calculator</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="/about.html">About</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Toolzium. All rights reserved.</p>
+    <div class="privacy-badge">🔒 Files never leave your browser</div>
+  </div>
+</footer>
 
     <script>
 {

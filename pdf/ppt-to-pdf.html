@@ -20,7 +20,44 @@
       <a href="/index.html#pdf-tools" class="nav-item">PDF Tools</a>
       <a href="/index.html#text-tools" class="nav-item">Text Tools</a>
       <a href="/index.html#dev-tools" class="nav-item">Developer</a>
+      <div class="nav-item has-mega">All Tools
+        <div class="mega-dropdown" style="min-width:720px; grid-template-columns: repeat(4, 1fr);">
+          <div>
+            <div class="mega-col-title">PDF Page & Files</div>
+            <a href="/pdf/merge.html" class="mega-link">Merge PDF</a>
+            <a href="/pdf/split.html" class="mega-link">Split PDF</a>
+            <a href="/pdf/compress.html" class="mega-link">Compress PDF</a>
+            <a href="/pdf/rotate.html" class="mega-link">Rotate PDF</a>
+          </div>
+          <div>
+            <div class="mega-col-title">Convert to PDF</div>
+            <a href="/pdf/word-to-pdf.html" class="mega-link">Word to PDF</a>
+            <a href="/pdf/excel-to-pdf.html" class="mega-link">Excel to PDF</a>
+            <a href="/pdf/ppt-to-pdf.html" class="mega-link">PowerPoint to PDF</a>
+            <a href="/pdf/image-to-pdf.html" class="mega-link">Image to PDF</a>
+          </div>
+          <div>
+            <div class="mega-col-title">Convert from PDF</div>
+            <a href="/pdf/pdf-to-word.html" class="mega-link">PDF to Word</a>
+            <a href="/pdf/pdf-to-excel.html" class="mega-link">PDF to Excel</a>
+            <a href="/pdf/pdf-to-ppt.html" class="mega-link">PDF to PPT</a>
+            <a href="/pdf/pdf-to-image.html" class="mega-link">PDF to Image</a>
+          </div>
+          <div>
+            <div class="mega-col-title">Text & More</div>
+            <a href="/text/word-counter.html" class="mega-link">Word Counter</a>
+            <a href="/text/case-converter.html" class="mega-link">Case Converter</a>
+            <a href="/developer/json-formatter.html" class="mega-link">JSON Formatter</a>
+            <a href="/security/password-generator.html" class="mega-link">Password Gen</a>
+          </div>
+        </div>
+      </div>
     </nav>
+    <div class="nav-right">
+      <button class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -79,29 +116,65 @@
 <div class="features-row">
   <div class="feature-item">
     <div class="f-icon">🔒</div>
-    <h4>Private & Secure</h4>
-    <p>Processed entirely in your browser. None of your documents ever leave your computer.</p>
+    <h4>100% Private</h4>
+    <p>All processing is done directly inside your browser. No files or texts are ever sent to our servers.</p>
   </div>
   <div class="feature-item">
     <div class="f-icon">⚡</div>
-    <h4>Instant Export</h4>
-    <p>No waiting in server queues. Fast conversions right on your device.</p>
+    <h4>Ultra Fast</h4>
+    <p>Perform conversions and calculations instantly. High performance client-side processing.</p>
   </div>
   <div class="feature-item">
     <div class="f-icon">🆓</div>
-    <h4>Free & Unlimited</h4>
-    <p>Export all presentation slides to PDF files without count or size restrictions.</p>
+    <h4>Completely Free</h4>
+    <p>Enjoy all features with no file size limits, no watermarks, and no registration required.</p>
   </div>
 </div>
-
+    <h4>100% Private</h4>
+    <p>All processing is done directly inside your browser. No files or texts are ever sent to our servers.</p>
+  </div>
+  <div class="feature-item">
+    <div class="f-icon">⚡</div>
+    <h4>Ultra Fast</h4>
+    <p>Perform conversions and calculations instantly. High performance client-side processing.</p>
+  </div>
+  <div class="feature-item">
+    <div class="f-icon">🆓</div>
+    <h4>Completely Free</h4>
+    <p>Enjoy all features with no file size limits, no watermarks, and no registration required.</p>
+  </div>
+</div>
 <footer class="footer">
   <div class="footer-inner">
     <div class="footer-brand">
       <a href="/" class="logo"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#FF5252"/><path d="M7 8h14v2H7zm3 4h8v2h-8zm2 4h4v2h-4z" fill="#fff"/></svg>Toolzium</a>
       <p>50+ free browser-based tools. No signup, no uploads — 100% private.</p>
     </div>
+    <div class="footer-col">
+      <h4>Popular</h4>
+      <a href="/text/word-counter.html">Word Counter</a>
+      <a href="/security/password-generator.html">Password Generator</a>
+      <a href="/developer/json-formatter.html">JSON Formatter</a>
+      <a href="/calculator/percentage.html">Percentage Calc</a>
+    </div>
+    <div class="footer-col">
+      <h4>Categories</h4>
+      <a href="/index.html#pdf-tools">PDF Tools</a>
+      <a href="/index.html#text-tools">Text Tools</a>
+      <a href="/index.html#dev-tools">Developer</a>
+      <a href="/index.html#calc-tools">Calculator</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="/about.html">About</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+    </div>
   </div>
-  <div class="footer-bottom"><p>© 2026 Toolzium</p></div>
+  <div class="footer-bottom">
+    <p>© 2026 Toolzium. All rights reserved.</p>
+    <div class="privacy-badge">🔒 Files never leave your browser</div>
+  </div>
 </footer>
 
 <script src="/js/app.js"></script>

@@ -419,6 +419,75 @@ textarea {
 .mb-1 { margin-bottom: 8px; } .mb-2 { margin-bottom: 16px; }
 .text-center { text-align: center; }
 
+/* ════════ FEATURES ROW (Tool pages) ════════ */
+.features-row {
+  max-width: 1000px; margin: 56px auto 44px; padding: 0 24px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+}
+.feature-item {
+  background: var(--white); border: 1.5px solid var(--border);
+  border-radius: var(--radius); padding: 28px 24px; text-align: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.02); transition: all 0.25s ease;
+}
+.feature-item:hover {
+  box-shadow: var(--shadow-hover); border-color: transparent; transform: translateY(-3px);
+}
+.f-icon {
+  font-size: 28px; margin-bottom: 14px; display: inline-flex;
+  align-items: center; justify-content: center; width: 58px; height: 58px;
+  background: var(--bg); border-radius: 50%;
+}
+.feature-item h4 {
+  font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 8px;
+}
+.feature-item p {
+  font-size: 13px; color: var(--text-2); line-height: 1.55; margin: 0;
+}
+
+/* ════════ HOW TO USE SECTION ════════ */
+.howto-section {
+  max-width: 860px; margin: 44px auto; padding: 32px;
+  background: var(--white); border: 1.5px solid var(--border);
+  border-radius: var(--radius); text-align: center;
+}
+.howto-section h3 { font-size: 18px; font-weight: 700; margin-bottom: 24px; color: var(--text); }
+.howto-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.howto-step { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.howto-step .step-num {
+  width: 32px; height: 32px; border-radius: 50%; background: var(--brand-light);
+  color: var(--brand); font-weight: 700; font-size: 14px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1.5px solid var(--brand);
+}
+.howto-step p { font-size: 13px; color: var(--text-2); line-height: 1.5; margin: 0; }
+
+/* ════════ OUTPUT AREAS ════════ */
+.output-area {
+  background: #f8fafc !important;
+  color: var(--text) !important;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-family: monospace;
+  font-size: 13.5px;
+  line-height: 1.5;
+  width: 100%;
+  min-height: 80px;
+  box-sizing: border-box;
+  margin-top: 8px;
+  margin-bottom: 12px;
+}
+.output-area:empty::before {
+  content: attr(placeholder);
+  color: var(--text-3);
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .features-row { grid-template-columns: 1fr; gap: 16px; margin: 36px auto 24px; }
+  .howto-steps { grid-template-columns: 1fr; gap: 16px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
   .reveal, .reveal-stagger .card, .reveal-stagger .feat-card { opacity: 1; transform: none; }

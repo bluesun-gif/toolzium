@@ -22,55 +22,55 @@
 <body>
     <!-- ══════ NAVBAR ══════ -->
     <header class="navbar-wrap">
-      <div class="navbar">
-        <a href="/" class="logo">
-          <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#FF5252"/><path d="M7 8h14v2H7zm3 4h8v2h-8zm2 4h4v2h-4z" fill="#fff"/></svg>
-          Toolzium
-        </a>
-        <nav class="nav-links" id="navLinks">
-          <a href="/index.html#pdf-tools" class="nav-item">PDF Tools</a>
-          <a href="/index.html#text-tools" class="nav-item">Text Tools</a>
-          <a href="/index.html#dev-tools" class="nav-item">Developer</a>
-          <div class="nav-item has-mega">All Tools
-            <div class="mega-dropdown" style="min-width:720px; grid-template-columns: repeat(4, 1fr);">
-              <div>
-                <div class="mega-col-title">PDF Page & Files</div>
-                <a href="/pdf/merge.html" class="mega-link">Merge PDF</a>
-                <a href="/pdf/split.html" class="mega-link">Split PDF</a>
-                <a href="/pdf/compress.html" class="mega-link">Compress PDF</a>
-                <a href="/pdf/rotate.html" class="mega-link">Rotate PDF</a>
-              </div>
-              <div>
-                <div class="mega-col-title">Convert to PDF</div>
-                <a href="/pdf/word-to-pdf.html" class="mega-link">Word to PDF</a>
-                <a href="/pdf/excel-to-pdf.html" class="mega-link">Excel to PDF</a>
-                <a href="/pdf/ppt-to-pdf.html" class="mega-link">PowerPoint to PDF</a>
-                <a href="/pdf/image-to-pdf.html" class="mega-link">Image to PDF</a>
-              </div>
-              <div>
-                <div class="mega-col-title">Convert from PDF</div>
-                <a href="/pdf/pdf-to-word.html" class="mega-link">PDF to Word</a>
-                <a href="/pdf/pdf-to-excel.html" class="mega-link">PDF to Excel</a>
-                <a href="/pdf/pdf-to-ppt.html" class="mega-link">PDF to PPT</a>
-                <a href="/pdf/pdf-to-image.html" class="mega-link">PDF to Image</a>
-              </div>
-              <div>
-                <div class="mega-col-title">Text & More</div>
-                <a href="/text/word-counter.html" class="mega-link">Word Counter</a>
-                <a href="/text/case-converter.html" class="mega-link">Case Converter</a>
-                <a href="/developer/json-formatter.html" class="mega-link">JSON Formatter</a>
-                <a href="/security/password-generator.html" class="mega-link">Password Gen</a>
-              </div>
-            </div>
+  <div class="navbar">
+    <a href="/" class="logo">
+      <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#FF5252"/><path d="M7 8h14v2H7zm3 4h8v2h-8zm2 4h4v2h-4z" fill="#fff"/></svg>
+      Toolzium
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="/index.html#pdf-tools" class="nav-item">PDF Tools</a>
+      <a href="/index.html#text-tools" class="nav-item">Text Tools</a>
+      <a href="/index.html#dev-tools" class="nav-item">Developer</a>
+      <div class="nav-item has-mega">All Tools
+        <div class="mega-dropdown" style="min-width:720px; grid-template-columns: repeat(4, 1fr);">
+          <div>
+            <div class="mega-col-title">PDF Page & Files</div>
+            <a href="/pdf/merge.html" class="mega-link">Merge PDF</a>
+            <a href="/pdf/split.html" class="mega-link">Split PDF</a>
+            <a href="/pdf/compress.html" class="mega-link">Compress PDF</a>
+            <a href="/pdf/rotate.html" class="mega-link">Rotate PDF</a>
           </div>
-        </nav>
-        <div class="nav-right">
-          <button class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-          </button>
+          <div>
+            <div class="mega-col-title">Convert to PDF</div>
+            <a href="/pdf/word-to-pdf.html" class="mega-link">Word to PDF</a>
+            <a href="/pdf/excel-to-pdf.html" class="mega-link">Excel to PDF</a>
+            <a href="/pdf/ppt-to-pdf.html" class="mega-link">PowerPoint to PDF</a>
+            <a href="/pdf/image-to-pdf.html" class="mega-link">Image to PDF</a>
+          </div>
+          <div>
+            <div class="mega-col-title">Convert from PDF</div>
+            <a href="/pdf/pdf-to-word.html" class="mega-link">PDF to Word</a>
+            <a href="/pdf/pdf-to-excel.html" class="mega-link">PDF to Excel</a>
+            <a href="/pdf/pdf-to-ppt.html" class="mega-link">PDF to PPT</a>
+            <a href="/pdf/pdf-to-image.html" class="mega-link">PDF to Image</a>
+          </div>
+          <div>
+            <div class="mega-col-title">Text & More</div>
+            <a href="/text/word-counter.html" class="mega-link">Word Counter</a>
+            <a href="/text/case-converter.html" class="mega-link">Case Converter</a>
+            <a href="/developer/json-formatter.html" class="mega-link">JSON Formatter</a>
+            <a href="/security/password-generator.html" class="mega-link">Password Gen</a>
+          </div>
         </div>
       </div>
-    </header>
+    </nav>
+    <div class="nav-right">
+      <button class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
 
     <!-- ══════ BREADCRUMB ══════ -->
     <div class="breadcrumb">
@@ -97,15 +97,29 @@
                 </div>
             </div>
             <button class="btn-primary" onclick="compare()">Compare Texts</button>
-            <div id="output" class="output-area" style="background:#222; color:#fff; overflow-y:auto; padding:15px; line-height:1.5;"></div>
+            <div id="output" class="output-area" style="background:var(--bg); border:1.5px solid var(--border); border-radius:12px; color:var(--text); min-height:160px; overflow-y:auto; padding:18px; line-height:1.6; font-family:monospace; font-size:13.5px; margin-top:15px;"></div>
         
       </div>
     </main>
 
     <!-- ══════ FEATURES ══════ -->
     <div class="features-row">
-      <div class="feature-item">
-        <div class="f-icon">🔒</div>
+  <div class="feature-item">
+    <div class="f-icon">🔒</div>
+    <h4>100% Private</h4>
+    <p>All processing is done directly inside your browser. No files or texts are ever sent to our servers.</p>
+  </div>
+  <div class="feature-item">
+    <div class="f-icon">⚡</div>
+    <h4>Ultra Fast</h4>
+    <p>Perform conversions and calculations instantly. High performance client-side processing.</p>
+  </div>
+  <div class="feature-item">
+    <div class="f-icon">🆓</div>
+    <h4>Completely Free</h4>
+    <p>Enjoy all features with no file size limits, no watermarks, and no registration required.</p>
+  </div>
+</div>
         <h4>100% Private</h4>
         <p>Your content is processed entirely locally inside your browser. No files or texts are sent to our servers.</p>
       </div>
@@ -123,9 +137,150 @@
 
     <!-- ══════ RELATED TOOLS ══════ -->
     <div class="related-section">
-      <h3 style="text-align:center; font-size:18px;">Other Text Tools You Might Like</h3>
-      <div class="grid" style="margin-top: 20px;">
-        <a href="/text/word-counter.html" class="card"><div class="ic ic-blue"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#dbeafe"/><path d="M7 8h8M7 11h6" stroke="#2563eb" stroke-width="1.5"/></svg></div><h3>Word Counter</h3><p>Words & reading time</p></a>
+      <h3 style="text-align:center; font-size:18px; margin-bottom: 24px;">Other Text Tools You Might Like</h3>
+      <div class="grid">
+        
+        <a href="/text/word-counter.html" class="card">
+          <div class="card-thumb" style="background: #DBEAFE;">
+            <svg viewBox="0 0 120 80" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">    <defs>      <filter id="page-shadow" x="-30%" y="-20%" width="160%" height="150%">        <feDropShadow dx="1" dy="3.5" stdDeviation="3" flood-color="#000" flood-opacity="0.09"/>      </filter>    </defs>              <rect x="22" y="18" width="32" height="44" rx="4" fill="#ffffff" filter="url(#page-shadow)"/>          <path d="M22 22 A4 4 0 0 1 26 18 L50 18 A4 4 0 0 1 54 22 L54 29 L22 29 Z" fill="#2563eb"/>          <rect x="27.7" y="21.5" width="20.6" height="6.5" rx="2" fill="#ffffff"/>          <text x="38.0" y="26.2" font-family="'DM Sans', sans-serif" font-weight="950" font-size="4.5" fill="#2563eb" text-anchor="middle">TXT</text>                        <line x1="28" y1="34" x2="48" y2="34" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="28" y1="40" x2="44" y2="40" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="28" y1="46" x2="48" y2="46" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="28" y1="52" x2="42" y2="52" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>                                      <rect x="62" y="24" width="38" height="38" rx="6" fill="#ffffff" filter="url(#page-shadow)"/>                  <circle cx="81" cy="40" r="10" stroke="#2563eb" stroke-width="3" fill="none"/>                  <text x="81" y="44" font-family="'DM Sans', sans-serif" font-size="9" font-weight="950" fill="#1e3a8a" text-anchor="middle">1.2k</text>                  </svg>
+          </div>
+          <div class="card-body">
+            <h3>Word Counter</h3>
+            <p>Words, chars, reading time</p>
+          </div>
+        </a>
+
+        <a href="/text/character-counter.html" class="card">
+          <div class="card-thumb" style="background: #E0E7FF;">
+            <svg viewBox="0 0 120 80" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">    <defs>      <filter id="page-shadow" x="-30%" y="-20%" width="160%" height="150%">        <feDropShadow dx="1" dy="3.5" stdDeviation="3" flood-color="#000" flood-opacity="0.09"/>      </filter>    </defs>              <rect x="22" y="18" width="32" height="44" rx="4" fill="#ffffff" filter="url(#page-shadow)"/>          <path d="M22 22 A4 4 0 0 1 26 18 L50 18 A4 4 0 0 1 54 22 L54 29 L22 29 Z" fill="#6366f1"/>          <rect x="27.7" y="21.5" width="20.6" height="6.5" rx="2" fill="#ffffff"/>          <text x="38.0" y="26.2" font-family="'DM Sans', sans-serif" font-weight="950" font-size="4.5" fill="#6366f1" text-anchor="middle">TXT</text>                        <line x1="28" y1="34" x2="48" y2="34" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="28" y1="40" x2="44" y2="40" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="28" y1="46" x2="48" y2="46" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="28" y1="52" x2="42" y2="52" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>                                      <rect x="62" y="26" width="38" height="34" rx="6" fill="#ffffff" filter="url(#page-shadow)"/>                  <text x="81" y="42" font-family="'DM Sans', sans-serif" font-weight="950" font-size="10" fill="#4f46e5" text-anchor="middle">280</text>                  <line x1="68" y1="50" x2="94" y2="50" stroke="#4f46e5" stroke-width="2.5" stroke-linecap="round"/>                  </svg>
+          </div>
+          <div class="card-body">
+            <h3>Character Counter</h3>
+            <p>Check character limits</p>
+          </div>
+        </a>
+
+        <a href="/text/case-converter.html" class="card">
+          <div class="card-thumb" style="background: #EDE9FE;">
+            <svg viewBox="0 0 120 80" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">    <defs>      <filter id="page-shadow" x="-30%" y="-20%" width="160%" height="150%">        <feDropShadow dx="1" dy="3.5" stdDeviation="3" flood-color="#000" flood-opacity="0.09"/>      </filter>    </defs>              <rect x="16" y="18" width="32" height="44" rx="4" fill="#ffffff" filter="url(#page-shadow)"/>          <path d="M16 22 A4 4 0 0 1 20 18 L44 18 A4 4 0 0 1 48 22 L48 29 L16 29 Z" fill="#7c3aed"/>          <rect x="24.3" y="21.5" width="15.4" height="6.5" rx="2" fill="#ffffff"/>          <text x="32.0" y="26.2" font-family="'DM Sans', sans-serif" font-weight="950" font-size="4.5" fill="#7c3aed" text-anchor="middle">Aa</text>                        <line x1="22" y1="34" x2="42" y2="34" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="22" y1="40" x2="38" y2="40" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="22" y1="46" x2="42" y2="46" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="22" y1="52" x2="36" y2="52" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>                          <path d="M54 40h12M60 35l5 5-5 5" stroke="#475569" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>              <rect x="72" y="18" width="32" height="44" rx="4" fill="#ffffff" filter="url(#page-shadow)"/>          <path d="M72 22 A4 4 0 0 1 76 18 L100 18 A4 4 0 0 1 104 22 L104 29 L72 29 Z" fill="#6d28d9"/>          <rect x="80.3" y="21.5" width="15.4" height="6.5" rx="2" fill="#ffffff"/>          <text x="88.0" y="26.2" font-family="'DM Sans', sans-serif" font-weight="950" font-size="4.5" fill="#6d28d9" text-anchor="middle">AA</text>                        <line x1="78" y1="34" x2="98" y2="34" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="78" y1="40" x2="94" y2="40" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="78" y1="46" x2="98" y2="46" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="78" y1="52" x2="92" y2="52" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>                    </svg>
+          </div>
+          <div class="card-body">
+            <h3>Case Converter</h3>
+            <p>UPPER, lower, Title Case</p>
+          </div>
+        </a>
+
+        <a href="/text/lorem-ipsum.html" class="card">
+          <div class="card-thumb" style="background: #F1F5F9;">
+            <svg viewBox="0 0 120 80" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">    <defs>      <filter id="page-shadow" x="-30%" y="-20%" width="160%" height="150%">        <feDropShadow dx="1" dy="3.5" stdDeviation="3" flood-color="#000" flood-opacity="0.09"/>      </filter>    </defs>              <rect x="42" y="18" width="36" height="46" rx="4" fill="#ffffff" filter="url(#page-shadow)"/>          <path d="M42 22 A4 4 0 0 1 46 18 L74 18 A4 4 0 0 1 78 22 L78 29 L42 29 Z" fill="#64748b"/>          <rect x="44.5" y="21.5" width="31.0" height="6.5" rx="2" fill="#ffffff"/>          <text x="60.0" y="26.2" font-family="'DM Sans', sans-serif" font-weight="950" font-size="4.5" fill="#64748b" text-anchor="middle">LOREM</text>                        <line x1="48" y1="34" x2="72" y2="34" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="48" y1="40" x2="68" y2="40" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="48" y1="46" x2="72" y2="46" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="48" y1="52" x2="66" y2="52" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>                    </svg>
+          </div>
+          <div class="card-body">
+            <h3>Lorem Ipsum</h3>
+            <p>Generate placeholder text</p>
+          </div>
+        </a>
+
+        <a href="/text/duplicate-remover.html" class="card">
+          <div class="card-thumb" style="background: #FFE4E6;">
+            <svg viewBox="0 0 120 80" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">    <defs>      <filter id="page-shadow" x="-30%" y="-20%" width="160%" height="150%">        <feDropShadow dx="1" dy="3.5" stdDeviation="3" flood-color="#000" flood-opacity="0.09"/>      </filter>    </defs>              <rect x="16" y="18" width="32" height="44" rx="4" fill="#ffffff" filter="url(#page-shadow)"/>          <path d="M16 22 A4 4 0 0 1 20 18 L44 18 A4 4 0 0 1 48 22 L48 29 L16 29 Z" fill="#e11d48"/>          <rect x="21.7" y="21.5" width="20.6" height="6.5" rx="2" fill="#ffffff"/>          <text x="32.0" y="26.2" font-family="'DM Sans', sans-serif" font-weight="950" font-size="4.5" fill="#e11d48" text-anchor="middle">DUP</text>                        <line x1="22" y1="34" x2="42" y2="34" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="22" y1="40" x2="38" y2="40" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="22" y1="46" x2="42" y2="46" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="22" y1="52" x2="36" y2="52" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>                                      <path d="M54 40h10M59 36l4 4-4 4" stroke="#e11d48" stroke-width="2.5" stroke-linecap="round"/>                            <rect x="72" y="18" width="32" height="44" rx="4" fill="#ffffff" filter="url(#page-shadow)"/>          <path d="M72 22 A4 4 0 0 1 76 18 L100 18 A4 4 0 0 1 104 22 L104 29 L72 29 Z" fill="#be123c"/>          <rect x="77.7" y="21.5" width="20.6" height="6.5" rx="2" fill="#ffffff"/>          <text x="88.0" y="26.2" font-family="'DM Sans', sans-serif" font-weight="950" font-size="4.5" fill="#be123c" text-anchor="middle">NEW</text>                        <line x1="78" y1="34" x2="98" y2="34" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="78" y1="40" x2="94" y2="40" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="78" y1="46" x2="98" y2="46" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="78" y1="52" x2="92" y2="52" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>                    </svg>
+          </div>
+          <div class="card-body">
+            <h3>Duplicate Remover</h3>
+            <p>Clean duplicate lines</p>
+          </div>
+        </a>
+
+        <a href="/text/fancy-text.html" class="card">
+          <div class="card-thumb" style="background: #FBCFE8;">
+            <svg viewBox="0 0 120 80" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">    <defs>      <filter id="page-shadow" x="-30%" y="-20%" width="160%" height="150%">        <feDropShadow dx="1" dy="3.5" stdDeviation="3" flood-color="#000" flood-opacity="0.09"/>      </filter>    </defs>              <rect x="26" y="18" width="34" height="46" rx="4" fill="#ffffff" filter="url(#page-shadow)"/>          <path d="M26 22 A4 4 0 0 1 30 18 L56 18 A4 4 0 0 1 60 22 L60 29 L26 29 Z" fill="#db2777"/>          <rect x="37.9" y="21.5" width="10.2" height="6.5" rx="2" fill="#ffffff"/>          <text x="43.0" y="26.2" font-family="'DM Sans', sans-serif" font-weight="950" font-size="4.5" fill="#db2777" text-anchor="middle">𝓕</text>                        <line x1="32" y1="34" x2="54" y2="34" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="32" y1="40" x2="50" y2="40" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="32" y1="46" x2="54" y2="46" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="32" y1="52" x2="48" y2="52" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>                                      <path d="M68 20l14 14M72 20a2.5 2.5 0 1 1 5 0M62 42l8-8" stroke="#db2777" stroke-width="2.5" stroke-linecap="round"/>                  </svg>
+          </div>
+          <div class="card-body">
+            <h3>Fancy Text</h3>
+            <p>Convert to stylish fonts</p>
+          </div>
+        </a>
+
+        <a href="/text/find-replace.html" class="card">
+          <div class="card-thumb" style="background: #CCFBF1;">
+            <svg viewBox="0 0 120 80" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">    <defs>      <filter id="page-shadow" x="-30%" y="-20%" width="160%" height="150%">        <feDropShadow dx="1" dy="3.5" stdDeviation="3" flood-color="#000" flood-opacity="0.09"/>      </filter>    </defs>              <rect x="42" y="18" width="34" height="46" rx="4" fill="#ffffff" filter="url(#page-shadow)"/>          <path d="M42 22 A4 4 0 0 1 46 18 L72 18 A4 4 0 0 1 76 22 L76 29 L42 29 Z" fill="#0d9488"/>          <rect x="46.1" y="21.5" width="25.8" height="6.5" rx="2" fill="#ffffff"/>          <text x="59.0" y="26.2" font-family="'DM Sans', sans-serif" font-weight="950" font-size="4.5" fill="#0d9488" text-anchor="middle">FIND</text>                        <line x1="48" y1="34" x2="70" y2="34" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="48" y1="40" x2="66" y2="40" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="48" y1="46" x2="70" y2="46" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="48" y1="52" x2="64" y2="52" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>                                      <circle cx="68" cy="46" r="8" stroke="#0d9488" stroke-width="3" fill="none"/>                  <line x1="74" y1="52" x2="82" y2="60" stroke="#0d9488" stroke-width="3" stroke-linecap="round"/>                  </svg>
+          </div>
+          <div class="card-body">
+            <h3>Find & Replace</h3>
+            <p>Substitute strings</p>
+          </div>
+        </a>
+
+        <a href="/text/text-reverser.html" class="card">
+          <div class="card-thumb" style="background: #FED7AA;">
+            <svg viewBox="0 0 120 80" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">    <defs>      <filter id="page-shadow" x="-30%" y="-20%" width="160%" height="150%">        <feDropShadow dx="1" dy="3.5" stdDeviation="3" flood-color="#000" flood-opacity="0.09"/>      </filter>    </defs>              <rect x="42" y="18" width="34" height="46" rx="4" fill="#ffffff" filter="url(#page-shadow)"/>          <path d="M42 22 A4 4 0 0 1 46 18 L72 18 A4 4 0 0 1 76 22 L76 29 L42 29 Z" fill="#ea580c"/>          <rect x="48.7" y="21.5" width="20.6" height="6.5" rx="2" fill="#ffffff"/>          <text x="59.0" y="26.2" font-family="'DM Sans', sans-serif" font-weight="950" font-size="4.5" fill="#ea580c" text-anchor="middle">TXT</text>                        <line x1="48" y1="34" x2="70" y2="34" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="48" y1="40" x2="66" y2="40" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="48" y1="46" x2="70" y2="46" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="48" y1="52" x2="64" y2="52" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>                                      <path d="M28 40a9 9 0 0 1 9-9" stroke="#ea580c" stroke-width="2.5" fill="none" stroke-linecap="round"/>                  </svg>
+          </div>
+          <div class="card-body">
+            <h3>Text Reverser</h3>
+            <p>Reverse paragraph text</p>
+          </div>
+        </a>
+
+        <a href="/text/slug-generator.html" class="card">
+          <div class="card-thumb" style="background: #BBF7D0;">
+            <svg viewBox="0 0 120 80" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">    <defs>      <filter id="page-shadow" x="-30%" y="-20%" width="160%" height="150%">        <feDropShadow dx="1" dy="3.5" stdDeviation="3" flood-color="#000" flood-opacity="0.09"/>      </filter>    </defs>              <rect x="20" y="24" width="80" height="36" rx="6" fill="#fff" stroke="#16a34a" stroke-width="2" filter="url(#page-shadow)"/>          <rect x="20" y="24" width="80" height="10" rx="6" fill="#bbf7d0"/>          <text x="26" y="47" font-family="monospace" font-weight="bold" font-size="10" fill="#16a34a">toolzium-slug</text>        </svg>
+          </div>
+          <div class="card-body">
+            <h3>Slug Generator</h3>
+            <p>Make SEO URL slug</p>
+          </div>
+        </a>
+
+        <a href="/text/hashtag-generator.html" class="card">
+          <div class="card-thumb" style="background: #CFFAFE;">
+            <svg viewBox="0 0 120 80" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">    <defs>      <filter id="page-shadow" x="-30%" y="-20%" width="160%" height="150%">        <feDropShadow dx="1" dy="3.5" stdDeviation="3" flood-color="#000" flood-opacity="0.09"/>      </filter>    </defs>              <rect x="42" y="18" width="34" height="46" rx="4" fill="#ffffff" filter="url(#page-shadow)"/>          <path d="M42 22 A4 4 0 0 1 46 18 L72 18 A4 4 0 0 1 76 22 L76 29 L42 29 Z" fill="#0891b2"/>          <rect x="46.1" y="21.5" width="25.8" height="6.5" rx="2" fill="#ffffff"/>          <text x="59.0" y="26.2" font-family="'DM Sans', sans-serif" font-weight="950" font-size="4.5" fill="#0891b2" text-anchor="middle">#TAG</text>                        <line x1="48" y1="34" x2="70" y2="34" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="48" y1="40" x2="66" y2="40" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="48" y1="46" x2="70" y2="46" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="48" y1="52" x2="64" y2="52" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>                    </svg>
+          </div>
+          <div class="card-body">
+            <h3>Hashtag Generator</h3>
+            <p>Generate tags</p>
+          </div>
+        </a>
+
+        <a href="/text/morse-code.html" class="card">
+          <div class="card-thumb" style="background: #FDE68A;">
+            <svg viewBox="0 0 120 80" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">    <defs>      <filter id="page-shadow" x="-30%" y="-20%" width="160%" height="150%">        <feDropShadow dx="1" dy="3.5" stdDeviation="3" flood-color="#000" flood-opacity="0.09"/>      </filter>    </defs>              <rect x="22" y="18" width="32" height="44" rx="4" fill="#ffffff" filter="url(#page-shadow)"/>          <path d="M22 22 A4 4 0 0 1 26 18 L50 18 A4 4 0 0 1 54 22 L54 29 L22 29 Z" fill="#d97706"/>          <rect x="25.1" y="21.5" width="25.8" height="6.5" rx="2" fill="#ffffff"/>          <text x="38.0" y="26.2" font-family="'DM Sans', sans-serif" font-weight="950" font-size="4.5" fill="#d97706" text-anchor="middle">CODE</text>                        <line x1="28" y1="34" x2="48" y2="34" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="28" y1="40" x2="44" y2="40" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="28" y1="46" x2="48" y2="46" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="28" y1="52" x2="42" y2="52" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>                                      <circle cx="78" cy="38" r="5" fill="#d97706"/>                  <rect x="68" y="46" width="20" height="5" rx="1.5" fill="#b45309"/>                  </svg>
+          </div>
+          <div class="card-body">
+            <h3>Morse Code</h3>
+            <p>Translate Morse code</p>
+          </div>
+        </a>
+
+        <a href="/text/text-to-binary.html" class="card">
+          <div class="card-thumb" style="background: #F1F5F9;">
+            <svg viewBox="0 0 120 80" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">    <defs>      <filter id="page-shadow" x="-30%" y="-20%" width="160%" height="150%">        <feDropShadow dx="1" dy="3.5" stdDeviation="3" flood-color="#000" flood-opacity="0.09"/>      </filter>    </defs>              <rect x="16" y="18" width="32" height="44" rx="4" fill="#ffffff" filter="url(#page-shadow)"/>          <path d="M16 22 A4 4 0 0 1 20 18 L44 18 A4 4 0 0 1 48 22 L48 29 L16 29 Z" fill="#475569"/>          <rect x="21.7" y="21.5" width="20.6" height="6.5" rx="2" fill="#ffffff"/>          <text x="32.0" y="26.2" font-family="'DM Sans', sans-serif" font-weight="950" font-size="4.5" fill="#475569" text-anchor="middle">TXT</text>                        <line x1="22" y1="34" x2="42" y2="34" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="22" y1="40" x2="38" y2="40" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="22" y1="46" x2="42" y2="46" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="22" y1="52" x2="36" y2="52" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>                          <path d="M54 40h12M60 35l5 5-5 5" stroke="#475569" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>              <rect x="72" y="18" width="32" height="44" rx="4" fill="#ffffff" filter="url(#page-shadow)"/>          <path d="M72 22 A4 4 0 0 1 76 18 L100 18 A4 4 0 0 1 104 22 L104 29 L72 29 Z" fill="#334155"/>          <rect x="75.1" y="21.5" width="25.8" height="6.5" rx="2" fill="#ffffff"/>          <text x="88.0" y="26.2" font-family="'DM Sans', sans-serif" font-weight="950" font-size="4.5" fill="#334155" text-anchor="middle">0101</text>                        <line x1="78" y1="34" x2="98" y2="34" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="78" y1="40" x2="94" y2="40" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="78" y1="46" x2="98" y2="46" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="78" y1="52" x2="92" y2="52" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>                    </svg>
+          </div>
+          <div class="card-body">
+            <h3>Text to Binary</h3>
+            <p>Convert text to Binary</p>
+          </div>
+        </a>
+
+        <a href="/text/emoji-picker.html" class="card">
+          <div class="card-thumb" style="background: #FEF9C3;">
+            <svg viewBox="0 0 120 80" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">    <defs>      <filter id="page-shadow" x="-30%" y="-20%" width="160%" height="150%">        <feDropShadow dx="1" dy="3.5" stdDeviation="3" flood-color="#000" flood-opacity="0.09"/>      </filter>    </defs>              <rect x="35" y="15" width="50" height="50" rx="8" fill="#fff" stroke="#ca8a04" stroke-width="2" filter="url(#page-shadow)"/>          <circle cx="60" cy="40" r="15" fill="#fef08a" stroke="#ca8a04" stroke-width="1.8"/>          <circle cx="54" cy="34" r="2.2" fill="#ca8a04"/>          <circle cx="66" cy="34" r="2.2" fill="#ca8a04"/>          <path d="M51 43a9 9 0 0 0 18 0" fill="#ca8a04"/>        </svg>
+          </div>
+          <div class="card-body">
+            <h3>Emoji Picker</h3>
+            <p>Browse and copy emojis</p>
+          </div>
+        </a>
+
+        <a href="/text/small-text.html" class="card">
+          <div class="card-thumb" style="background: #FFE4E6;">
+            <svg viewBox="0 0 120 80" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">    <defs>      <filter id="page-shadow" x="-30%" y="-20%" width="160%" height="150%">        <feDropShadow dx="1" dy="3.5" stdDeviation="3" flood-color="#000" flood-opacity="0.09"/>      </filter>    </defs>              <rect x="16" y="18" width="32" height="44" rx="4" fill="#ffffff" filter="url(#page-shadow)"/>          <path d="M16 22 A4 4 0 0 1 20 18 L44 18 A4 4 0 0 1 48 22 L48 29 L16 29 Z" fill="#e11d48"/>          <rect x="26.9" y="21.5" width="10.2" height="6.5" rx="2" fill="#ffffff"/>          <text x="32.0" y="26.2" font-family="'DM Sans', sans-serif" font-weight="950" font-size="4.5" fill="#e11d48" text-anchor="middle">A</text>                        <line x1="22" y1="34" x2="42" y2="34" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="22" y1="40" x2="38" y2="40" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="22" y1="46" x2="42" y2="46" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="22" y1="52" x2="36" y2="52" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>                          <path d="M54 40h12M60 35l5 5-5 5" stroke="#475569" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>              <rect x="72" y="18" width="32" height="44" rx="4" fill="#ffffff" filter="url(#page-shadow)"/>          <path d="M72 22 A4 4 0 0 1 76 18 L100 18 A4 4 0 0 1 104 22 L104 29 L72 29 Z" fill="#be123c"/>          <rect x="80.3" y="21.5" width="15.4" height="6.5" rx="2" fill="#ffffff"/>          <text x="88.0" y="26.2" font-family="'DM Sans', sans-serif" font-weight="950" font-size="4.5" fill="#be123c" text-anchor="middle">A²</text>                        <line x1="78" y1="34" x2="98" y2="34" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="78" y1="40" x2="94" y2="40" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="78" y1="46" x2="98" y2="46" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>              <line x1="78" y1="52" x2="92" y2="52" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>                    </svg>
+          </div>
+          <div class="card-body">
+            <h3>Small Text</h3>
+            <p>Generate superscript text</p>
+          </div>
+        </a>
+      </div>
+    </div><h3>Word Counter</h3><p>Words & reading time</p></a>
         <a href="/text/case-converter.html" class="card"><div class="ic ic-purple"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#ede9fe"/><text x="6" y="15" font-size="10" font-weight="700" fill="#7c3aed">Aa</text></svg></div><h3>Case Converter</h3><p>UPPER, lower, Title</p></a>
         <a href="/text/fancy-text.html" class="card"><div class="ic ic-pink"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" fill="#fce7f3"/><text x="6" y="15" font-family="serif" font-size="12" font-weight="700" fill="#db2777">𝓕</text></svg></div><h3>Fancy Text</h3><p>Stylish fonts</p></a>
       </div>
@@ -133,27 +288,37 @@
 
     <!-- ══════ FOOTER ══════ -->
     <footer class="footer">
-      <div class="footer-inner">
-        <div class="footer-brand">
-          <a href="/" class="logo"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#FF5252"/><path d="M7 8h14v2H7zm3 4h8v2h-8zm2 4h4v2h-4z" fill="#fff"/></svg>Toolzium</a>
-          <p>50+ free browser-based tools. No signup, no uploads — 100% private.</p>
-        </div>
-        <div class="footer-col">
-          <h4>Popular</h4>
-          <a href="/text/word-counter.html">Word Counter</a>
-          <a href="/security/password-generator.html">Password Generator</a>
-        </div>
-        <div class="footer-col">
-          <h4>Company</h4>
-          <a href="/about.html">About</a>
-          <a href="/privacy.html">Privacy</a>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>© 2026 Toolzium. All rights reserved.</p>
-        <div class="privacy-badge">🔒 Files never leave your browser</div>
-      </div>
-    </footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="/" class="logo"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#FF5252"/><path d="M7 8h14v2H7zm3 4h8v2h-8zm2 4h4v2h-4z" fill="#fff"/></svg>Toolzium</a>
+      <p>50+ free browser-based tools. No signup, no uploads — 100% private.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Popular</h4>
+      <a href="/text/word-counter.html">Word Counter</a>
+      <a href="/security/password-generator.html">Password Generator</a>
+      <a href="/developer/json-formatter.html">JSON Formatter</a>
+      <a href="/calculator/percentage.html">Percentage Calc</a>
+    </div>
+    <div class="footer-col">
+      <h4>Categories</h4>
+      <a href="/index.html#pdf-tools">PDF Tools</a>
+      <a href="/index.html#text-tools">Text Tools</a>
+      <a href="/index.html#dev-tools">Developer</a>
+      <a href="/index.html#calc-tools">Calculator</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="/about.html">About</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Toolzium. All rights reserved.</p>
+    <div class="privacy-badge">🔒 Files never leave your browser</div>
+  </div>
+</footer>
 
     <script>
 
@@ -164,10 +329,10 @@
                 const max = Math.max(t1.length, t2.length);
                 for(let i=0; i<max; i++) {
                     if(t1[i] !== t2[i]) {
-                        if(t1[i] !== undefined) html += `<div style="background:rgba(220,53,69,0.3); padding:2px 5px; margin-bottom:2px; text-decoration:line-through;">- ${t1[i] || ''}</div>`;
-                        if(t2[i] !== undefined) html += `<div style="background:rgba(40,167,69,0.3); padding:2px 5px; margin-bottom:2px;">+ ${t2[i] || ''}</div>`;
+                        if(t1[i] !== undefined) html += `<div style="background:rgba(239,68,68,0.12); color:#dc2626; padding:4px 8px; margin-bottom:4px; border-radius:4px; text-decoration:line-through;">- ${t1[i] || ''}</div>`;
+                        if(t2[i] !== undefined) html += `<div style="background:rgba(34,197,94,0.12); color:#16a34a; padding:4px 8px; margin-bottom:4px; border-radius:4px;">+ ${t2[i] || ''}</div>`;
                     } else {
-                        html += `<div style="color:#aaa; padding:2px 5px; margin-bottom:2px;">  ${t1[i]}</div>`;
+                        html += `<div style="color:var(--text-2); padding:4px 8px; margin-bottom:4px;">  ${t1[i] || ''}</div>`;
                     }
                 }
                 document.getElementById('output').innerHTML = html || 'No differences found.';
