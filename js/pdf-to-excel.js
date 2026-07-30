@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const actionBtn = document.getElementById('actionBtn');
     
     setupDragAndDrop(dropZone, fileInput, handleFiles);
-    actionBtn.addEventListener('click', convertPdfToExcel);
+    actionBtn.addEventListener('click', () => convertPdfToExcel());
 });
 
 function handleFiles(files) {
@@ -48,7 +48,7 @@ async function convertPdfToExcel() {
         const arrayBuffer = await currentFile.arrayBuffer();
         const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
         const totalPages = pdf.numPages;
-        let csvContent = "";
+        let workbookData = [];
         
         for (let i = 1; i <= totalPages; i++) {
             updateProgress(15 + (75 * (i / totalPages)), `Reading sheet page ${i}...`);
@@ -88,23 +88,33 @@ async function convertPdfToExcel() {
                     rowCells.push(currentCell.trim());
                 }
                 
-                // Format as CSV line
-                const csvLine = rowCells.map(c => {
-                    const clean = c.replace(/"/g, '""');
-                    return `"${clean}"`;
-                }).join(",");
-                
-                csvContent += csvLine + "\n";
+                workbookData.push(rowCells);
             }
             
             if (i < totalPages) {
-                csvContent += "\n--- Page Break ---\n";
+                // Add an empty spacer row to mark page breaks
+                workbookData.push([]);
             }
         }
         
-        updateProgress(95, 'Generating Excel CSV file...');
-        const blob = new Blob([new Uint8Array([0xEF, 0xBB, 0xBF]), csvContent], { type: 'text/csv;charset=utf-8;' });
-        const outName = currentFile.name.replace(/\.[^/.]+$/, "") + '.csv';
+        updateProgress(95, 'Generating Microsoft Excel (.xlsx) file...');
+        
+        // Write real XLSX output using SheetJS
+        const wb = XLSX.utils.book_new();
+        const ws = XLSX.utils.aoa_to_sheet(workbookData);
+        XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+        
+        const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
+        
+        function s2ab(s) {
+            const buf = new ArrayBuffer(s.length);
+            const view = new Uint8Array(buf);
+            for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+            return buf;
+        }
+        
+        const blob = new Blob([s2ab(wbout)], { type: 'application/octet-stream' });
+        const outName = currentFile.name.replace(/\.[^/.]+$/, "") + '.xlsx';
         
         downloadFile(blob, outName);
         updateProgress(100, 'Done!');

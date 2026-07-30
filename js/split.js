@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     setupDragAndDrop(dropZone, fileInput, handleFiles);
     
-    actionBtn.addEventListener('click', splitPdf);
+    actionBtn.addEventListener('click', () => splitPdf());
 });
 
 function handleFiles(files) {

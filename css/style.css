@@ -19,7 +19,7 @@
   --radius: 14px;
   --shadow: 0 2px 8px rgba(0,0,0,0.06);
   --shadow-hover: 0 12px 32px rgba(0,0,0,0.12);
-  --max-w: 1400px;
+  --max-w: 1600px;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -102,7 +102,7 @@ a { text-decoration: none; color: inherit; }
 
 /* ════════ HERO ════════ */
 .hero {
-  text-align: center; padding: 44px 24px 24px;
+  text-align: center; padding: 28px 24px 18px;
   max-width: 600px; margin: 0 auto;
 }
 .hero h1 {
@@ -111,7 +111,7 @@ a { text-decoration: none; color: inherit; }
 }
 .hero p {
   font-size: 15px; color: var(--text-2); line-height: 1.6;
-  max-width: 440px; margin: 0 auto 18px;
+  max-width: 440px; margin: 0 auto 16px;
 }
 .hero-search { position: relative; max-width: 460px; margin: 0 auto; }
 .hero-search input {
@@ -129,7 +129,7 @@ a { text-decoration: none; color: inherit; }
 
 /* ════════ SECTION ════════ */
 .section {
-  max-width: var(--max-w); margin: 0 auto 28px; padding: 0 24px;
+  max-width: var(--max-w); margin: 0 auto 20px; padding: 0 32px;
 }
 .section-head {
   display: flex; align-items: center; gap: 10px; margin-bottom: 14px;

@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     setupDragAndDrop(dropZone, fileInput, handleFiles);
     
-    actionBtn.addEventListener('click', mergePdfs);
+    actionBtn.addEventListener('click', () => mergePdfs());
 });
 
 function handleFiles(files) {

@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const actionBtn = document.getElementById('actionBtn');
     
     setupDragAndDrop(dropZone, fileInput, handleFiles);
-    actionBtn.addEventListener('click', convertExcelToPdf);
+    actionBtn.addEventListener('click', () => convertExcelToPdf());
 });
 
 function handleFiles(files) {
@@ -49,8 +49,21 @@ async function convertExcelToPdf() {
     updateProgress(20, 'Reading spreadsheet content...');
     
     try {
-        const text = await currentFile.text();
-        const rows = parseCSV(text);
+        const arrayBuffer = await currentFile.arrayBuffer();
+        const ext = currentFile.name.substring(currentFile.name.lastIndexOf('.')).toLowerCase();
+        
+        let rows = [];
+        if (ext === '.csv') {
+            const text = new TextDecoder('utf-8').decode(new Uint8Array(arrayBuffer));
+            rows = parseCSV(text);
+        } else {
+            // Use SheetJS to read binary Excel file
+            const data = new Uint8Array(arrayBuffer);
+            const workbook = XLSX.read(data, { type: 'array' });
+            const firstSheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[firstSheetName];
+            rows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+        }
         
         updateProgress(50, 'Building PDF table grid...');
         

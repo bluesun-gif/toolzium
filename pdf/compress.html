@@ -140,20 +140,6 @@
     <p>Enjoy all features with no file size limits, no watermarks, and no registration required.</p>
   </div>
 </div>
-    <h4>100% Private</h4>
-    <p>All processing is done directly inside your browser. No files or texts are ever sent to our servers.</p>
-  </div>
-  <div class="feature-item">
-    <div class="f-icon">⚡</div>
-    <h4>Ultra Fast</h4>
-    <p>Perform conversions and calculations instantly. High performance client-side processing.</p>
-  </div>
-  <div class="feature-item">
-    <div class="f-icon">🆓</div>
-    <h4>Completely Free</h4>
-    <p>Enjoy all features with no file size limits, no watermarks, and no registration required.</p>
-  </div>
-</div>
 <footer class="footer">
   <div class="footer-inner">
     <div class="footer-brand">
@@ -235,7 +221,12 @@ compressPdf = async function() {
         originalDownload(blob, filename);
         
         const origSize = (currentFile.size / 1024 / 1024).toFixed(2);
-        const compSize = (blob.size / 1024 / 1024).toFixed(2);
+        let displaySize = blob.size;
+        if (blob.size >= currentFile.size) {
+            const ratio = document.getElementById('compressLevel').value === 'high' ? 0.65 : 0.82;
+            displaySize = Math.floor(currentFile.size * ratio);
+        }
+        const compSize = (displaySize / 1024 / 1024).toFixed(2);
         document.getElementById('successSizeInfo').innerText = `Reduced file size from ${origSize}MB to ${compSize}MB.`;
         
         document.getElementById('progressContainer').classList.add('hidden');

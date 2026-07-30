@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const actionBtn = document.getElementById('actionBtn');
     
     setupDragAndDrop(dropZone, fileInput, handleFiles);
-    actionBtn.addEventListener('click', convertPdfToWord);
+    actionBtn.addEventListener('click', () => convertPdfToWord());
 });
 
 function handleFiles(files) {

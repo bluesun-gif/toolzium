@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     setupDragAndDrop(dropZone, fileInput, handleFiles);
     
-    actionBtn.addEventListener('click', rotatePdf);
+    actionBtn.addEventListener('click', () => rotatePdf());
 });
 
 function handleFiles(files) {
