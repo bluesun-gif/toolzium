@@ -37,7 +37,7 @@ export const metadata = buildMetadata({
     "copy age result",
     "share age result",
     "export age details",
-    "Tools Cube",
+    "Toolzium",
     "online tools",
     "privacy friendly tools",
     "Bangladesh",
@@ -50,7 +50,7 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Age Calculator — Tools Cube",
+    name: "Age Calculator — Toolzium",
     url: toolUrl,
     applicationCategory: "UtilitiesApplication",
     operatingSystem: "Web",
@@ -74,8 +74,8 @@ export default function Page() {
     ],
     creator: {
       "@type": "Person",
-      name: "Tariqul Islam",
-      url: "https://tariqul.dev",
+      name: "Toolzium",
+      url: "https://toolzium.com",
     },
     potentialAction: {
       "@type": "CalculateAction",

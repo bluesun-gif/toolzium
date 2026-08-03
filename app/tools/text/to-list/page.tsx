@@ -30,7 +30,7 @@ export const metadata = buildMetadata({
     "add numbering",
     "export list CSV",
     "export list TXT",
-    "Tools Cube",
+    "Toolzium",
     "online tools",
     "privacy friendly tools",
     "Bangladesh",
@@ -43,7 +43,7 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Text to List — Tools Cube",
+    name: "Text to List — Toolzium",
     url: toolUrl,
     applicationCategory: "UtilitiesApplication",
     operatingSystem: "Web",
@@ -65,8 +65,8 @@ export default function Page() {
     ],
     creator: {
       "@type": "Person",
-      name: "Tariqul Islam",
-      url: "https://tariqul.dev",
+      name: "Toolzium",
+      url: "https://toolzium.com",
     },
     potentialAction: {
       "@type": "Action",

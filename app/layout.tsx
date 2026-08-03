@@ -9,7 +9,7 @@ import {
 import AuthSessionProvider from "@/components/providers/session-provider";
 import ToasterProvider from "@/components/providers/toaster-provider";
 import JsonLd from "@/components/seo/json-ld";
-import { ToolsData } from "@/data/tools";
+import { ToolsData, TOTAL_TOOLS_COUNT } from "@/data/tools";
 import { siteURL } from "@/lib/constants";
 import { structuredData } from "@/lib/seo-config";
 import {
@@ -50,34 +50,34 @@ const DYNAMIC_KEYWORDS = buildDynamicKeywords(ToolsData);
 const KEYWORDS = mergeKeywords(STATIC_KEYWORDS, DYNAMIC_KEYWORDS);
 
 const description =
-  "Free online tools for developers and professionals: URL shortener, QR code generator, JSON formatter, image converter, Base64 encoder, hash generator, regex tester, calculators, and 70+ utilities. No signup required, privacy-first.";
+  `Free online tools for developers and professionals: URL shortener, QR code generator, JSON formatter, image converter, Base64 encoder, hash generator, regex tester, calculators, and ${TOTAL_TOOLS_COUNT}+ utilities. No signup required, privacy-first.`;
 const smartDescription = description || siteDescriptionFallback(ToolsData);
 
 export const metadata: Metadata = {
   title: {
-    default: "Tools Cube — Fast, Free, Privacy-Friendly Online Tools",
-    template: "%s - Tools Cube",
+    default: `Toolzium — ${TOTAL_TOOLS_COUNT}+ Free Online Tools for Everyone`,
+    template: "%s - Toolzium",
   },
   description: smartDescription,
   metadataBase: new URL(siteURL),
   keywords: KEYWORDS,
-  authors: [{ name: "Tariqul Islam", url: "https://tariqul.dev" }],
-  creator: "Tariqul Islam",
-  publisher: "Tariqul Islam",
+  authors: [{ name: "Toolzium", url: "https://toolzium.com" }],
+  creator: "Toolzium",
+  publisher: "Toolzium",
   category: "UtilitiesApplication",
-  applicationName: "Tools Cube",
+  applicationName: "Toolzium",
   appLinks: {
     web: {
       url: `${siteURL}`,
     },
   },
   openGraph: {
-    title: "Tools Cube — 70+ Free Online Tools for Developers & Professionals",
+    title: `Toolzium — ${TOTAL_TOOLS_COUNT}+ Free Online Tools for Everyone`,
     description:
-      "Free online tools: URL shortener, QR codes, JSON formatter, image converter, calculators, and 70+ utilities. No signup required, privacy-first, open source.",
+      `Free online tools: URL shortener, QR codes, JSON formatter, image converter, calculators, and ${TOTAL_TOOLS_COUNT}+ utilities. No signup required, privacy-first.`,
     type: "website",
     url: `${siteURL}/tools`,
-    siteName: "Tools Cube",
+    siteName: "Toolzium",
     locale: "en_US",
     alternateLocale: ["bn_BD"],
     images: [
@@ -85,15 +85,15 @@ export const metadata: Metadata = {
         url: `${siteURL}/assets/tools-cube.jpg`,
         width: 1200,
         height: 630,
-        alt: "Tools Cube",
+        alt: "Toolzium",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    site: "@toolscube",
-    creator: "@toolscube",
-    title: "Tools Cube — 70+ Free Online Tools",
+    site: "@toolzium",
+    creator: "@toolzium",
+    title: "Toolzium — 100+ Free Online Tools",
     description:
       "URL shortener, QR codes, JSON formatter, image converter, calculators, and more. 100% free, no signup required, privacy-first.",
     images: [`${siteURL}/assets/tools-cube.jpg`],
@@ -115,6 +115,15 @@ export const metadata: Metadata = {
       "en-US": `${siteURL}`,
     },
   },
+  verification: {
+    google: "I6XLZ8QITEB0xy7YfWARBo54DeNXNVZ421M0CqU49UE",
+    // Bing Webmaster Tools — user needs to replace with their actual code
+    // after registering at https://www.bing.com/webmasters
+    other: {
+      "msvalidate.01": "76B2BE5FA7F02209E351BC14BFFC9A34",
+      "yandex-verification": "YANDEX_VERIFICATION_CODE_HERE",
+    },
+  },
   icons: {
     icon: [{ url: "/favicon.ico" }],
   },
@@ -128,9 +137,9 @@ export default function RootLayout({
   const siteLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "Tools Cube",
+    name: "Toolzium",
     url: siteURL,
-    inLanguage: ["en", "bn"],
+    inLanguage: ["en"],
     potentialAction: {
       "@type": "SearchAction",
       target: `${siteURL}/search?q={query}`,
@@ -141,21 +150,18 @@ export default function RootLayout({
   const orgLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "Tools Cube",
+    name: "Toolzium",
     url: siteURL,
     logo: `${siteURL}/assets/logo.png`,
     sameAs: [
-      "https://tariqul.dev",
-      "https://github.com/tariqul420",
-      "https://linkedin.com/tariqul-dev",
-      "https://facebook.com/tariqul2984",
+      "https://toolzium.com",
     ],
   };
 
   const navLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "Tools Cube Categories",
+    name: "Toolzium Categories",
     itemListElement: ToolsData.map((c, i: number) => ({
       "@type": "ListItem",
       position: i + 1,
@@ -168,12 +174,18 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`dark ${inter.variable} ${spaceGrotesk.variable} ${jetbrains.variable} scroll-smooth`}
+      className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrains.variable} scroll-smooth`}
     >
       <head>
         <GoogleTagManager />
       </head>
       <body className="min-h-screen bg-background text-foreground antialiased">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-primary focus:text-primary-foreground focus:px-4 focus:py-2 focus:rounded-md"
+        >
+          Skip to main content
+        </a>
         <GoogleTagManagerNoScript />
         <JsonLd data={siteLd} />
         <JsonLd data={orgLd} />
@@ -182,7 +194,7 @@ export default function RootLayout({
         <JsonLd data={structuredData.organization} />
         <JsonLd data={structuredData.webApplication} />
         <AuthSessionProvider>
-          <main>{children}</main>
+          <div id="main-content">{children}</div>
         </AuthSessionProvider>
         <ToasterProvider />
       </body>

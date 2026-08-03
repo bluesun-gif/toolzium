@@ -41,7 +41,7 @@ export const metadata = buildMetadata({
     "keyboard calculator",
     "calculator with history",
     "calculator with memory",
-    "Tools Cube",
+    "Toolzium",
     "calculators",
     "online tools",
     "Bangladesh",
@@ -54,7 +54,7 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Scientific Calculator — Tools Cube",
+    name: "Scientific Calculator — Toolzium",
     url: toolUrl,
     applicationCategory: "EducationalApplication",
     operatingSystem: "Web",
@@ -79,8 +79,8 @@ export default function Page() {
     ],
     creator: {
       "@type": "Person",
-      name: "Tariqul Islam",
-      url: "https://tariqul.dev",
+      name: "Toolzium",
+      url: "https://toolzium.com",
     },
     potentialAction: {
       "@type": "UseAction",

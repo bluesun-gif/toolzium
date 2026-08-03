@@ -32,7 +32,7 @@ export const metadata = buildMetadata({
     "card large summary",
     "meta charset viewport head",
     "SEO tools",
-    "Tools Cube",
+    "Toolzium",
     "online tools",
     "Bangladesh",
   ],
@@ -44,7 +44,7 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Open Graph Preview — Tools Cube",
+    name: "Open Graph Preview — Toolzium",
     url: toolUrl,
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Web",
@@ -66,8 +66,8 @@ export default function Page() {
     ],
     creator: {
       "@type": "Person",
-      name: "Tariqul Islam",
-      url: "https://tariqul.dev",
+      name: "Toolzium",
+      url: "https://toolzium.com",
     },
     potentialAction: {
       "@type": "CheckAction",

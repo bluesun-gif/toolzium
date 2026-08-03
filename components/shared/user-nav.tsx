@@ -21,16 +21,7 @@ export function UserNav() {
   }
 
   if (!session?.user) {
-    return (
-      <div className="flex gap-2">
-        <Button asChild variant="outline">
-          <Link href="/sign-in">Sign In</Link>
-        </Button>
-        <Button asChild className="hidden md:inline-flex">
-          <Link href="/sign-up">Sign Up</Link>
-        </Button>
-      </div>
-    );
+    return null;
   }
 
   const user = session.user;

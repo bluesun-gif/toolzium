@@ -58,7 +58,7 @@ const LIBRARY: Pattern[] = [
     pattern: String.raw`https?:\/\/[^\s/$.?#].[^\s]*`,
     flags: "gi",
     category: "Web",
-    sample: "Visit https://tariqul.dev or http://example.org?q=1#top",
+    sample: "Visit https://toolzium.com or http://example.org?q=1#top",
   },
   {
     id: "slug",
@@ -228,7 +228,7 @@ const LIBRARY: Pattern[] = [
     pattern: String.raw`#\w+`,
     flags: "g",
     category: "Text",
-    sample: "Loving #ToolsCube and #regex",
+    sample: "Loving #Toolzium and #regex",
   },
   {
     id: "mentions",

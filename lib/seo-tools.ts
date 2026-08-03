@@ -14,7 +14,7 @@ const BASE_KEYWORDS = [
   "productivity tools",
   "all-in-one toolkit",
   "Bangladesh",
-  "Tools Cube",
+  "Toolzium",
 ];
 
 const GENERIC_INTENTS = [

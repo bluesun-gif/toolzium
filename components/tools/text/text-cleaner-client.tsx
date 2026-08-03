@@ -43,7 +43,7 @@ import {
 import { Eraser, FileText, Sparkles, Type } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
-const LS_KEY = "toolscube:text-cleaner-v1";
+const LS_KEY = "Toolzium:text-cleaner-v1";
 
 type CaseMode = "none" | "lower" | "upper" | "sentence" | "title";
 

@@ -32,7 +32,7 @@ export const metadata = buildMetadata({
     "weeks per year",
     "pay conversion tool",
     "finance tools",
-    "Tools Cube",
+    "Toolzium",
     "Bangladesh",
   ],
 });
@@ -43,7 +43,7 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Salary ↔ Hourly Pay Calculator — Tools Cube",
+    name: "Salary ↔ Hourly Pay Calculator — Toolzium",
     url: toolUrl,
     applicationCategory: "FinanceApplication",
     operatingSystem: "Web",
@@ -66,8 +66,8 @@ export default function Page() {
     ],
     creator: {
       "@type": "Person",
-      name: "Tariqul Islam",
-      url: "https://tariqul.dev",
+      name: "Toolzium",
+      url: "https://toolzium.com",
     },
     potentialAction: {
       "@type": "CalculateAction",

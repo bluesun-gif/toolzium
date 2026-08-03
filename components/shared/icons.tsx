@@ -1,7 +1,7 @@
 export const socialIcons = [
   {
     name: "Facebook",
-    href: "https://www.facebook.com/toolscubebd",
+    href: "https://www.facebook.com/toolzium",
     svg: (
       <svg
         className="size-6 transition-transform duration-200 hover:scale-110"
@@ -40,7 +40,7 @@ export const socialIcons = [
   },
   {
     name: "Github",
-    href: "https://github.com/toolscube",
+    href: "https://github.com/Toolzium",
     svg: (
       <svg
         className="size-6 transition-transform duration-200 hover:scale-110"

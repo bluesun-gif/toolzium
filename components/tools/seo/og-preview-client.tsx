@@ -51,7 +51,7 @@ type OgResult = {
 };
 
 const EXAMPLES = [
-  "https://tariqul.dev",
+  "https://toolzium.com",
   "https://github.com",
   "https://nextjs.org",
   "https://youtube.com",

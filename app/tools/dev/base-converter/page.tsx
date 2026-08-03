@@ -21,7 +21,7 @@ export const metadata = buildMetadata({
     "programmer calculator",
     "bitwise number converter",
     "developer tools",
-    "Tools Cube",
+    "Toolzium",
     "Bangladesh",
   ],
 });
@@ -32,7 +32,7 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Number Base Converter — Tools Cube",
+    name: "Number Base Converter — Toolzium",
     url: toolUrl,
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Web",
@@ -53,8 +53,8 @@ export default function Page() {
     ],
     creator: {
       "@type": "Person",
-      name: "Tariqul Islam",
-      url: "https://tariqul.dev",
+      name: "Toolzium",
+      url: "https://toolzium.com",
     },
     potentialAction: {
       "@type": "ConvertAction",

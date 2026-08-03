@@ -3,6 +3,7 @@ export const dynamic = "force-dynamic";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import ToolsHeader from "@/components/ui/tools-header";
 import { ToolsSidebar } from "@/components/ui/tools-sidebar";
+import { ToolPageWrapper } from "@/components/shared/tool-page-wrapper";
 import type { ChildrenProps } from "@/types";
 
 function BackgroundFX() {
@@ -32,10 +33,13 @@ export default function Layout({ children }: ChildrenProps) {
           <ToolsHeader />
 
           <main className="flex-1 py-4">
-            <div className="@container/main min-h-screen w-full px-4">{children}</div>
+            <div className="@container/main min-h-screen w-full px-4">
+              <ToolPageWrapper>{children}</ToolPageWrapper>
+            </div>
           </main>
         </div>
       </div>
     </SidebarProvider>
   );
 }
+

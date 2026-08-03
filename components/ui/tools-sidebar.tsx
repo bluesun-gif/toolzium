@@ -23,10 +23,10 @@ export function ToolsSidebar(props: React.ComponentProps<typeof Sidebar>) {
         <Link
           href="/"
           className="inline-flex items-center gap-2 font-semibold"
-          aria-label="Tools Cube home"
+          aria-label="Toolzium home"
         >
-          <Image src="/assets/logo.png" height={40} width={40} alt="Tools Cube Logo" />
-          {state !== "collapsed" && <span className="truncate">Tools Cube</span>}
+          <Image src="/assets/logo.png" height={40} width={40} alt="Toolzium Logo" />
+          {state !== "collapsed" && <span className="truncate">Toolzium</span>}
         </Link>
       </SidebarHeader>
 

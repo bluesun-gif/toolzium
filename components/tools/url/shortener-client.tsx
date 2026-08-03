@@ -52,7 +52,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 
-const RECENT_KEY = "toolscube:shortener-v1";
+const RECENT_KEY = "Toolzium:shortener-v1";
 
 function loadRecent(): RecentItem[] {
   if (typeof window === "undefined") return [];

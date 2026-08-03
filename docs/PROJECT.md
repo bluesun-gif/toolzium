@@ -2,7 +2,7 @@
 
 ## Overview
 
-Tools Cube is a free, open source platform providing 70+ online utilities.
+QuickTools is a free, open source platform providing 70+ online utilities.
 
 **Stack:** Next.js 15, TypeScript, Prisma, PostgreSQL, Shadcn/ui, Tailwind CSS
 

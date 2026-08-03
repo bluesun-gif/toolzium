@@ -24,7 +24,7 @@ export const metadata = buildMetadata({
     "web design colors",
     "UI design color tool",
     "developer tools",
-    "Tools Cube",
+    "Toolzium",
     "online tools",
     "Bangladesh",
   ],
@@ -36,7 +36,7 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Color Converter — Tools Cube",
+    name: "Color Converter — Toolzium",
     url: toolUrl,
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Web",
@@ -59,8 +59,8 @@ export default function Page() {
     ],
     creator: {
       "@type": "Person",
-      name: "Tariqul Islam",
-      url: "https://tariqul.dev",
+      name: "Toolzium",
+      url: "https://toolzium.com",
     },
     potentialAction: {
       "@type": "ConvertAction",

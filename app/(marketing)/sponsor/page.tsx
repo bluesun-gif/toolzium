@@ -11,9 +11,9 @@ import {
 import Link from "next/link";
 
 export const metadata = generateSEOMetadata({
-  title: "Sponsor Tools Cube - Support Open Source",
+  title: "Sponsor Toolzium - Support Open Source",
   description:
-    "Support Tools Cube open source development and help us keep our tools free for everyone. Sponsor via GitHub Sponsors or direct contribution. Join our community of supporters.",
+    "Support Toolzium open source development and help us keep our tools free for everyone. Sponsor via GitHub Sponsors or direct contribution. Join our community of supporters.",
   path: "/sponsor",
 });
 
@@ -21,17 +21,17 @@ const supportWays = [
   {
     title: "Star on GitHub",
     icon: Star,
-    href: "https://github.com/toolscube/toolscube",
+    href: "https://github.com/toolzium/toolzium",
   },
   {
     title: "Sponsor Development",
     icon: HeartHandshake,
-    href: "https://github.com/sponsors/toolscube",
+    href: "https://github.com/sponsors/toolzium",
   },
   {
     title: "Contribute Code",
     icon: Rocket,
-    href: "https://github.com/toolscube/toolscube/blob/main/CONTRIBUTING.md",
+    href: "https://github.com/toolzium/toolzium/blob/main/CONTRIBUTING.md",
   },
 ] as const;
 
@@ -46,16 +46,16 @@ export default function SponsorPage() {
             Open Source & Free Forever
           </div>
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-            Support Tools Cube
+            Support Toolzium
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-muted-foreground">
-            Tools Cube is free and open source. Help us maintain and improve the
+            Toolzium is free and open source. Help us maintain and improve the
             platform for millions of users worldwide.
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Button size="lg" className="h-12 gap-2 px-8" asChild>
               <Link
-                href="https://github.com/sponsors/toolscube"
+                href="https://github.com/sponsors/toolzium"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -70,7 +70,7 @@ export default function SponsorPage() {
               asChild
             >
               <Link
-                href="https://github.com/toolscube/toolscube"
+                href="https://github.com/toolzium/toolzium"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -148,7 +148,7 @@ export default function SponsorPage() {
           <p className="text-muted-foreground">
             Your name could be here.{" "}
             <Link
-              href="https://github.com/sponsors/toolscube"
+              href="https://github.com/sponsors/toolzium"
               target="_blank"
               rel="noopener noreferrer"
               className="font-medium text-primary hover:underline"
@@ -164,12 +164,12 @@ export default function SponsorPage() {
         <div className="rounded-2xl border bg-primary/5 p-12 text-center">
           <h2 className="text-2xl font-semibold">Ready to Help?</h2>
           <p className="mt-2 text-muted-foreground">
-            Every contribution helps keep Tools Cube free for everyone
+            Every contribution helps keep Toolzium free for everyone
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
             <Button size="lg" asChild>
               <Link
-                href="https://github.com/sponsors/toolscube"
+                href="https://github.com/sponsors/toolzium"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -178,7 +178,7 @@ export default function SponsorPage() {
             </Button>
             <Button size="lg" variant="outline" asChild>
               <Link
-                href="https://github.com/toolscube/toolscube"
+                href="https://github.com/toolzium/toolzium"
                 target="_blank"
                 rel="noopener noreferrer"
               >

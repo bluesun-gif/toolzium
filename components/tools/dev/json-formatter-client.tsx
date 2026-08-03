@@ -57,7 +57,7 @@ export function trackCopyAction(toolName: string, contentLength?: number) {
 
 import { cn } from "@/lib/utils";
 
-const LS_KEY = "toolscube:json-formatter-v1";
+const LS_KEY = "Toolzium:json-formatter-v1";
 
 export default function JsonFormatterClient() {
   const [input, setInput] = useState<string>("");
@@ -710,7 +710,7 @@ export default function JsonFormatterClient() {
 /* Example JSON */
 
 const EXAMPLE_JSON = `{
-  "name": "Tariqul Islam",
+  "name": "Toolzium",
   "title": "Full-Stack Developer",
   "skills": ["NextJS", "Express", "MongoDB", "Postgresql", "TypeScript", "Javascript", "Prisma", "Firebase", "Docker"],
   "hardWorker": true,

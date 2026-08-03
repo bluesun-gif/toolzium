@@ -65,8 +65,8 @@ const DEFAULT_OPTS: OptionsState = {
   batchMode: false,
 };
 
-const PRESET_LS_KEY = "toolscube:utm-builder-presets-v1";
-const HISTORY_LS_KEY = "toolscube:utm-builder-history-v1";
+const PRESET_LS_KEY = "Toolzium:utm-builder-presets-v1";
+const HISTORY_LS_KEY = "Toolzium:utm-builder-history-v1";
 
 /* Helpers */
 export function parseExisting(url: string) {
@@ -272,7 +272,7 @@ export default function UTMBuilderClient() {
             <TextareaField
               id="batch-urls"
               label="Batch URLs (one per line)"
-              placeholder={`https://example.com\nhttps://tariqul.dev/blog/article`}
+              placeholder={`https://example.com\nhttps://toolzium.com/blog/article`}
               value={batchList}
               onValueChange={setBatchList}
               textareaClassName="min-h-[120px] font-mono"

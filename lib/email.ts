@@ -67,15 +67,15 @@ export const sendVerificationEmail = async (email: string, token: string) => {
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Verify Your Email - ToolsCube</title>
+      <title>Verify Your Email - Toolzium</title>
     </head>
     <body style="margin: 0; padding: 0; background-color: #f8fafc; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
       <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
         
         <!-- Header with Logo and Brand -->
         <div style="background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%); padding: 40px 20px; text-align: center;">
-          <img src="${env.auth.url}/assets/logo.png" alt="ToolsCube Logo" style="width: 60px; height: 60px; margin-bottom: 16px; border-radius: 12px;">
-          <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 700;">ToolsCube</h1>
+          <img src="${env.auth.url}/assets/logo.png" alt="Toolzium Logo" style="width: 60px; height: 60px; margin-bottom: 16px; border-radius: 12px;">
+          <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 700;">Toolzium</h1>
           <p style="color: rgba(255, 255, 255, 0.9); margin: 8px 0 0 0; font-size: 16px;">Your All-in-One Tools Platform</p>
         </div>
 
@@ -87,7 +87,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
                 <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="white"/>
               </svg>
             </div>
-            <h2 style="color: #1e293b; margin: 0 0 16px 0; font-size: 24px; font-weight: 600;">Welcome to ToolsCube!</h2>
+            <h2 style="color: #1e293b; margin: 0 0 16px 0; font-size: 24px; font-weight: 600;">Welcome to Toolzium!</h2>
             <p style="color: #64748b; margin: 0; font-size: 16px; line-height: 1.6;">
               Thank you for verifying your email address. Click the button below to activate your account.
             </p>
@@ -122,22 +122,22 @@ export const sendVerificationEmail = async (email: string, token: string) => {
         <!-- Footer -->
         <div style="background-color: #f8fafc; padding: 30px; text-align: center; border-top: 1px solid #e2e8f0;">
           <p style="color: #64748b; margin: 0 0 8px 0; font-size: 14px;">
-            Made with ❤️ by <strong style="color: #8b5cf6;">ToolsCube Team</strong>
+            Made with ❤️ by <strong style="color: #8b5cf6;">Toolzium Team</strong>
           </p>
           <p style="color: #94a3b8; margin: 0; font-size: 12px;">
-            © 2025 ToolsCube. All rights reserved.
+            © 2025 Toolzium. All rights reserved.
           </p>
           <div style="margin-top: 16px;">
-            <a href="https://toolscube.app" style="color: #8b5cf6; text-decoration: none; font-size: 12px; margin: 0 8px;">Website</a>
-            <a href="https://toolscube.app/privacy" style="color: #8b5cf6; text-decoration: none; font-size: 12px; margin: 0 8px;">Privacy</a>
-            <a href="https://toolscube.app/terms" style="color: #8b5cf6; text-decoration: none; font-size: 12px; margin: 0 8px;">Terms</a>
+            <a href="https://toolzium.com" style="color: #8b5cf6; text-decoration: none; font-size: 12px; margin: 0 8px;">Website</a>
+            <a href="https://toolzium.com/privacy" style="color: #8b5cf6; text-decoration: none; font-size: 12px; margin: 0 8px;">Privacy</a>
+            <a href="https://toolzium.com/terms" style="color: #8b5cf6; text-decoration: none; font-size: 12px; margin: 0 8px;">Terms</a>
           </div>
         </div>
       </div>
       
       <!-- Email client compatibility styles -->
       <div style="display: none; max-height: 0; overflow: hidden;">
-        Welcome to ToolsCube! Please verify your email address to get started with our amazing tools platform.
+        Welcome to Toolzium! Please verify your email address to get started with our amazing tools platform.
       </div>
     </body>
     </html>
@@ -145,7 +145,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
 
   return sendEmail({
     to: email,
-    subject: "🚀 Verify Your Email Address - ToolsCube",
+    subject: "🚀 Verify Your Email Address - Toolzium",
     html,
   });
 };
@@ -159,15 +159,15 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Reset Your Password - ToolsCube</title>
+      <title>Reset Your Password - Toolzium</title>
     </head>
     <body style="margin: 0; padding: 0; background-color: #f8fafc; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
       <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
         
         <!-- Header with Logo and Brand -->
         <div style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); padding: 40px 20px; text-align: center;">
-          <img src="${env.auth.url}/assets/logo.png" alt="ToolsCube Logo" style="width: 60px; height: 60px; margin-bottom: 16px; border-radius: 12px;">
-          <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 700;">ToolsCube</h1>
+          <img src="${env.auth.url}/assets/logo.png" alt="Toolzium Logo" style="width: 60px; height: 60px; margin-bottom: 16px; border-radius: 12px;">
+          <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 700;">Toolzium</h1>
           <p style="color: rgba(255, 255, 255, 0.9); margin: 8px 0 0 0; font-size: 16px;">Password Reset Request</p>
         </div>
 
@@ -181,7 +181,7 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
             </div>
             <h2 style="color: #1e293b; margin: 0 0 16px 0; font-size: 24px; font-weight: 600;">Password Reset Request</h2>
             <p style="color: #64748b; margin: 0; font-size: 16px; line-height: 1.6;">
-              You have requested a password reset for your ToolsCube account. Click the button below to set a new password.
+              You have requested a password reset for your Toolzium account. Click the button below to set a new password.
             </p>
           </div>
 
@@ -218,7 +218,7 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
           <!-- Additional Help -->
           <div style="background-color: #f0f9ff; border-radius: 8px; padding: 20px; margin: 24px 0;">
             <p style="color: #0c4a6e; margin: 0; font-size: 14px;">
-              💡 <strong>Need Help?</strong> Contact us at: support@toolscube.app
+              💡 <strong>Need Help?</strong> Contact us at: support@toolzium.com
             </p>
           </div>
         </div>
@@ -226,22 +226,22 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
         <!-- Footer -->
         <div style="background-color: #f8fafc; padding: 30px; text-align: center; border-top: 1px solid #e2e8f0;">
           <p style="color: #64748b; margin: 0 0 8px 0; font-size: 14px;">
-            Made with ❤️ by <strong style="color: #ef4444;">ToolsCube Team</strong>
+            Made with ❤️ by <strong style="color: #ef4444;">Toolzium Team</strong>
           </p>
           <p style="color: #94a3b8; margin: 0; font-size: 12px;">
-            © 2025 ToolsCube. All rights reserved.
+            © 2025 Toolzium. All rights reserved.
           </p>
           <div style="margin-top: 16px;">
-            <a href="https://toolscube.app" style="color: #ef4444; text-decoration: none; font-size: 12px; margin: 0 8px;">Website</a>
-            <a href="https://toolscube.app/privacy" style="color: #ef4444; text-decoration: none; font-size: 12px; margin: 0 8px;">Privacy</a>
-            <a href="https://toolscube.app/terms" style="color: #ef4444; text-decoration: none; font-size: 12px; margin: 0 8px;">Terms</a>
+            <a href="https://toolzium.com" style="color: #ef4444; text-decoration: none; font-size: 12px; margin: 0 8px;">Website</a>
+            <a href="https://toolzium.com/privacy" style="color: #ef4444; text-decoration: none; font-size: 12px; margin: 0 8px;">Privacy</a>
+            <a href="https://toolzium.com/terms" style="color: #ef4444; text-decoration: none; font-size: 12px; margin: 0 8px;">Terms</a>
           </div>
         </div>
       </div>
       
       <!-- Email client compatibility styles -->
       <div style="display: none; max-height: 0; overflow: hidden;">
-        Reset your ToolsCube password securely. Click the link to create a new password for your account.
+        Reset your Toolzium password securely. Click the link to create a new password for your account.
       </div>
     </body>
     </html>
@@ -249,7 +249,7 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
 
   return sendEmail({
     to: email,
-    subject: "🔐 Reset Your Password - ToolsCube",
+    subject: "🔐 Reset Your Password - Toolzium",
     html,
   });
 };

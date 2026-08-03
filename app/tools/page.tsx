@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { GlassCard } from "@/components/ui/glass-card";
 import { Separator } from "@/components/ui/separator";
-import { ToolsData } from "@/data/tools";
+import { ToolsData, TOTAL_TOOLS_COUNT } from "@/data/tools";
 import { siteURL } from "@/lib/constants";
 import {
   buildDynamicKeywords,
@@ -44,7 +44,7 @@ const DYNAMIC_KEYWORDS = buildDynamicKeywords(ToolsData);
 const KEYWORDS = mergeKeywords(STATIC_KEYWORDS, DYNAMIC_KEYWORDS);
 
 const description =
-  "Browse 70+ free online tools for developers and professionals. URL shortener with QR codes, JSON formatter, image converter, Base64 encoder, hash generator, calculators, SEO tools, and more. No signup required, privacy-first.";
+  `Browse ${TOTAL_TOOLS_COUNT}+ free online tools for developers and professionals. URL shortener with QR codes, JSON formatter, image converter, Base64 encoder, hash generator, calculators, SEO tools, and more. No signup required, privacy-first.`;
 const smartDescription = description || siteDescriptionFallback(ToolsData);
 
 export const metadata: Metadata = {
@@ -52,25 +52,25 @@ export const metadata: Metadata = {
   description: smartDescription,
   keywords: KEYWORDS,
   openGraph: {
-    title: "Tools — Tools Cube",
+    title: "Tools — Toolzium",
     description: smartDescription,
     url: `${siteURL}/tools`,
     type: "website",
-    siteName: "Tools Cube",
+    siteName: "Toolzium",
     images: [
       {
         url: `${siteURL}/assets/tools-cube.jpg`,
         width: 1200,
         height: 630,
-        alt: "Tools Cube",
+        alt: "Toolzium",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    site: "@toolscube",
-    creator: "@toolscube",
-    title: "Tools — Tools Cube",
+    site: "@Toolzium",
+    creator: "@Toolzium",
+    title: "Tools — Toolzium",
     description: smartDescription,
     images: [`${siteURL}/assets/tools-cube.jpg`],
   },
@@ -102,7 +102,7 @@ export default function ToolsIndexPage() {
   const navLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "Tools Cube Categories",
+    name: "Toolzium Categories",
     itemListElement: ToolsData.map((c, i: number) => ({
       "@type": "ListItem",
       position: i + 1,
@@ -193,7 +193,7 @@ export default function ToolsIndexPage() {
       <footer className="flex flex-wrap items-center justify-between gap-3 text-sm text-muted-foreground">
         <div>Didn’t find a tool? Request a new one.</div>
         <Button asChild variant="outline">
-          <a href="mailto:contact@toolscube.app">Request a tool</a>
+          <a href="mailto:contact@toolzium.com">Request a tool</a>
         </Button>
       </footer>
     </main>

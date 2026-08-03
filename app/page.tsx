@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/card";
 import { GlassCard } from "@/components/ui/glass-card";
 import { Separator } from "@/components/ui/separator";
-import { ToolsData } from "@/data/tools";
+import { ToolsData, TOTAL_TOOLS_COUNT } from "@/data/tools";
 import { generateSEOMetadata } from "@/lib/seo-config";
 import { cn } from "@/lib/utils";
 import {
@@ -31,15 +31,18 @@ import {
   type LucideIcon,
   MonitorSmartphone,
   Rocket,
+  Shield,
+  Search,
+  Terminal,
 } from "lucide-react";
 import Link from "next/link";
 import { useMemo } from "react";
 
 export const metadata = generateSEOMetadata({
   title:
-    "70+ Free Online Tools - URL Shortener, Image Converter & Developer Tools",
+    `${TOTAL_TOOLS_COUNT}+ Free Online Tools - URL Shortener, Image Converter & Developer Tools`,
   description:
-    "Free online tools for developers and professionals. URL shortener, QR code generator, JSON formatter, image converter, calculators, and 70+ utilities. No signup required, privacy-first, open source.",
+    `Free online tools for developers and professionals. URL shortener, QR code generator, JSON formatter, image converter, calculators, and ${TOTAL_TOOLS_COUNT}+ utilities. No signup required, privacy-first, open source.`,
   path: "/",
 });
 
@@ -90,10 +93,10 @@ export default function HomePage() {
     mainEntity: [
       {
         "@type": "Question",
-        name: "Is Tools Cube free?",
+        name: "Is Toolzium free?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Yes. Most tools are free to use without an account. We offer 70+ online tools completely free with no signup required.",
+          text: `Yes. Most tools are free to use without an account. We offer ${TOTAL_TOOLS_COUNT}+ online tools completely free with no signup required.`,
         },
       },
       {
@@ -143,7 +146,7 @@ export default function HomePage() {
           </div>
         </div>
         <h1 className="max-w-4xl text-balance text-4xl font-bold leading-tight tracking-tight md:text-6xl">
-          70+ Free Online Tools for Developers & Professionals
+          {TOTAL_TOOLS_COUNT}+ Free Online Tools for Developers & Professionals
         </h1>
         <p className="max-w-2xl text-pretty text-muted-foreground md:text-lg">
           URL shortener, QR codes, image converter, JSON formatter, calculators,
@@ -158,7 +161,7 @@ export default function HomePage() {
             </Link>
           </Button>
           <Button variant="outline" asChild size="lg">
-            <Link href="/about" aria-label="Learn more about Tools Cube">
+            <Link href="/about" aria-label="Learn more about Toolzium">
               About
             </Link>
           </Button>
@@ -188,7 +191,6 @@ export default function HomePage() {
           </FeatureCard>
         </div>
       </section>
-
       {/* Categories grid */}
       <section className="mx-auto max-w-7xl px-2 pt-12">
         <SectionHeader
@@ -287,9 +289,9 @@ export default function HomePage() {
         </h2>
         <Accordion type="single" collapsible className="rounded-2xl border p-2">
           <AccordionItem value="a1">
-            <AccordionTrigger>Is Tools Cube free?</AccordionTrigger>
+            <AccordionTrigger>Is Toolzium free?</AccordionTrigger>
             <AccordionContent>
-              Yes. Most tools are free to use without an account. We offer 70+
+              Yes. Most tools are free to use without an account. We offer {TOTAL_TOOLS_COUNT}+
               online tools completely free with no signup required.
             </AccordionContent>
           </AccordionItem>
@@ -343,7 +345,7 @@ export default function HomePage() {
                 Support the project
               </h3>
               <p className="mt-2 max-w-prose text-sm text-muted-foreground">
-                Sponsor to help us ship faster and keep Tools Cube free for
+                Sponsor to help us ship faster and keep Toolzium free for
                 everyone.
               </p>
             </div>
@@ -353,7 +355,7 @@ export default function HomePage() {
               </Button>
               <Button variant="outline" asChild>
                 <Link
-                  href="https://github.com/toolscube"
+                  href="https://github.com/Toolzium"
                   target="_blank"
                   rel="noreferrer"
                 >

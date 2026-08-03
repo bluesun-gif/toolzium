@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import { siteURL } from "./constants";
 
 export const siteConfig = {
-  name: "Tools Cube",
+  name: "Toolzium",
   description:
     "70+ free online tools for developers and professionals. URL shortener, QR code generator, JSON formatter, image converter, calculators, and more. No signup required, privacy-first.",
   url: siteURL,
   ogImage: `${siteURL}/og/tools-cube-og.png`,
-  twitter: "@toolscube",
+  twitter: "@toolzium",
   keywords: [
     "online tools",
     "url shortener",
@@ -31,7 +31,7 @@ export const siteConfig = {
     "markdown editor",
     "css minifier",
     "html formatter",
-    "tools cube",
+    "Toolzium",
     "web utilities",
     "productivity tools",
   ],
@@ -59,9 +59,9 @@ export function generateSEOMetadata({
     title: pageTitle,
     description: pageDescription,
     keywords: siteConfig.keywords.join(", "),
-    authors: [{ name: "Tariqul Islam", url: "https://tariqul.dev" }],
-    creator: "Tariqul Islam",
-    publisher: "Tools Cube",
+    authors: [{ name: "Toolzium", url: "https://toolzium.com" }],
+    creator: "Toolzium",
+    publisher: "Toolzium",
     robots: {
       index: !noIndex,
       follow: !noIndex,
@@ -131,9 +131,9 @@ export const structuredData = {
     description: siteConfig.description,
     foundingDate: "2025",
     sameAs: [
-      "https://tariqul.dev",
-      "https://github.com/tariqul420",
-      "https://linkedin.com/in/tariqul-dev",
+      "https://toolzium.com",
+      "https://github.com/creataflow",
+      "https://linkedin.com/in/creataflow",
     ],
     contactPoint: {
       "@type": "ContactPoint",

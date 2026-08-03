@@ -1,13 +1,17 @@
 import {
+  Activity,
   Braces,
   Calculator,
   ClipboardList,
   Clock,
   Globe,
+  Heart,
   ImageIcon,
+  LayoutDashboard,
   LinkIcon,
   Map as MapIcon,
   Settings2,
+  Shield,
   Type,
   Wallet,
   Wrench,
@@ -60,6 +64,13 @@ export const ToolsData = [
         url: "/tools/url/qr",
         description:
           "Create custom QR codes from URLs, text, contact info, WiFi credentials, and more. Download as PNG, SVG, or PDF. Customize colors, add logos, and generate high-resolution QR codes for free.",
+        popular: true,
+      },
+      {
+        title: "YouTube Thumbnail Downloader",
+        url: "/tools/url/youtube-thumbnail",
+        description:
+          "Download high-resolution YouTube video thumbnails for free online. Support max resolution, standard, and medium qualities. Just paste the YouTube video link and download.",
         popular: true,
       },
     ],
@@ -124,6 +135,62 @@ export const ToolsData = [
         url: "/tools/text/password-strength",
         description:
           "Check password strength and security score. Analyze password entropy, detect weak passwords, and get suggestions for creating strong, secure passwords. Free password strength tester.",
+        popular: false,
+      },
+      {
+        title: "Fancy Text Generator",
+        url: "/tools/text/fancy-text",
+        description:
+          "Generate fancy Unicode text styles — bold, italic, script, fraktur, double-struck, circled, squared, upside-down, strikethrough, underline, and more. Copy stylish text for social media bios, usernames, and posts.",
+        popular: true,
+      },
+      {
+        title: "Text to Speech Reader",
+        url: "/tools/text/text-to-speech",
+        description:
+          "Convert text to clear, natural-sounding audio speech online. Select from multiple languages, voices, adjustments for speed and pitch. Completely free and secure.",
+        popular: true,
+      },
+      {
+        title: "Speech to Text Transcriber",
+        url: "/tools/text/speech-to-text",
+        description:
+          "Convert speech and spoken voice to text in real-time. Free online voice transcriber with language selections, live editor, and text copy/download actions.",
+        popular: true,
+      },
+      {
+        title: "Character Counter",
+        url: "/tools/text/character-counter",
+        description:
+          "Count characters, words, sentences, and paragraphs in real-time. Check social media character limits for Twitter/X, Instagram, LinkedIn, TikTok. Free character counter with keyword density analysis.",
+        popular: true,
+      },
+      {
+        title: "Translate Text",
+        url: "/tools/text/translate",
+        description:
+          "Translate text between 100+ languages online for free. Auto-detect source language, swap languages, and listen to translations with text-to-speech. Fast and accurate translation tool.",
+        popular: true,
+      },
+      {
+        title: "Morse Code Translator",
+        url: "/tools/text/morse-code",
+        description:
+          "Convert text to Morse code and Morse code to text instantly. Listen to Morse code audio beeps with adjustable speed. Supports letters, numbers, and punctuation. Free online Morse code translator.",
+        popular: false,
+      },
+      {
+        title: "Binary/Hex Text Converter",
+        url: "/tools/text/binary-text",
+        description:
+          "Convert text to binary, hexadecimal, octal, and decimal — and back. Supports ASCII and Unicode. Live conversion with configurable separators. Free binary to text converter online.",
+        popular: false,
+      },
+      {
+        title: "ROT13 / Caesar Cipher",
+        url: "/tools/text/rot13",
+        description:
+          "Encode and decode ROT13 text instantly. Apply any Caesar cipher shift from 1 to 25. Brute-force mode shows all possible shifts. Free online ROT13 encoder and decoder.",
         popular: false,
       },
     ],
@@ -202,24 +269,41 @@ export const ToolsData = [
         description: "Resize, crop, or scale images easily",
         popular: false,
       },
-      // {
-      //   title: "EXIF Remove",
-      //   url: "/tools/image/exif-remove",
-      //   description: "Remove sensitive EXIF metadata from images",
-      //   popular: false,
-      // },
-      // {
-      //   title: "Image Compress",
-      //   url: "/tools/image/compress",
-      //   description: "Shrink images for web & social",
-      //   popular: true,
-      // },
-      // {
-      //   title: "Background Remover",
-      //   url: "/tools/image/bg-remove",
-      //   description: "Erase background (client-side)",
-      //   popular: false,
-      // },
+      {
+        title: "Image Compressor",
+        url: "/tools/image/compress",
+        description:
+          "Compress and reduce image file size online for free. Adjust quality, supports JPEG, PNG, WebP formats. Batch compression with before/after size comparison. 100% client-side, images never leave your browser.",
+        popular: true,
+      },
+      {
+        title: "Background Remover",
+        url: "/tools/image/bg-remove",
+        description:
+          "Remove background from images instantly using AI. Get transparent PNG backgrounds for free online. Client-side processing with before/after comparison. No signup, no upload to servers.",
+        popular: true,
+      },
+      {
+        title: "Image to PDF",
+        url: "/tools/image/image-to-pdf",
+        description:
+          "Convert images to PDF online for free. Support JPG, PNG, WebP to PDF conversion. Multiple image upload, drag-and-drop reordering, page size selection, and margin control. Client-side PDF generation.",
+        popular: true,
+      },
+      {
+        title: "EXIF Metadata Viewer",
+        url: "/tools/image/exif-viewer",
+        description:
+          "View and extract EXIF metadata from photos — camera make, model, GPS coordinates, date taken, aperture, shutter speed, ISO, and more. 100% client-side, your images never leave your browser.",
+        popular: true,
+      },
+      {
+        title: "Meme Generator",
+        url: "/tools/image/meme-generator",
+        description:
+          "Create custom memes online for free. Upload your own image or choose a template, customize text position, font size, and color. Download instant memes to share.",
+        popular: true,
+      },
     ],
   },
   {
@@ -338,6 +422,27 @@ export const ToolsData = [
         url: "/tools/dev/base-converter",
         description:
           "Convert numbers between binary, octal, decimal, and hexadecimal bases. Base converter with support for negative numbers and fractional values. Programmer's calculator for number systems.",
+        popular: false,
+      },
+      {
+        title: "Color Palette Generator",
+        url: "/tools/dev/color-palette",
+        description:
+          "Generate beautiful color palettes and schemes online for free. Create complementary, analogous, triadic, and monochromatic palettes. Extract colors from images. Export as CSS variables, HEX, RGB, or HSL.",
+        popular: true,
+      },
+      {
+        title: "Cron Expression Generator",
+        url: "/tools/dev/cron-generator",
+        description:
+          "Build and validate cron expressions visually. Generate cron schedules with a user-friendly UI, see next run times, and get human-readable descriptions. Supports standard 5-field and extended 6-field cron.",
+        popular: false,
+      },
+      {
+        title: "HTML to Markdown Converter",
+        url: "/tools/dev/html-markdown",
+        description:
+          "Convert HTML to Markdown and Markdown to HTML instantly. Supports headings, links, images, lists, tables, code blocks, and more. Bidirectional converter with live preview. Free online tool.",
         popular: false,
       },
     ],
@@ -468,6 +573,20 @@ export const ToolsData = [
           "Calculate discounted prices and savings from original price. Find final price after discount, percentage off, and amount saved. Free discount calculator for shopping and sales.",
         popular: false,
       },
+      {
+        title: "GPA Calculator",
+        url: "/tools/calc/gpa",
+        description:
+          "Calculate your GPA from courses, grades, and credit hours. Supports A-F grade scale with plus/minus. Add courses dynamically, view color-coded results, and export your GPA.",
+        popular: true,
+      },
+      {
+        title: "CGPA Calculator",
+        url: "/tools/calc/cgpa",
+        description:
+          "Calculate Cumulative GPA across multiple semesters. Add semesters with GPA and credits, get CGPA with academic classification. Free CGPA calculator for students.",
+        popular: true,
+      },
     ],
   },
   {
@@ -546,6 +665,48 @@ export const ToolsData = [
         description:
           "Compare unit prices to find the best value. Calculate price per unit, ounce, kilogram, or liter. Smart shopping tool to compare product sizes and save money.",
         popular: false,
+      },
+      {
+        title: "Stopwatch",
+        url: "/tools/util/stopwatch",
+        description:
+          "Online stopwatch with millisecond precision, lap recording, and keyboard shortcuts. Start, stop, reset, and record split times. Free stopwatch timer for workouts, cooking, and productivity.",
+        popular: true,
+      },
+      {
+        title: "Flip a Coin",
+        url: "/tools/util/coin-flip",
+        description:
+          "Flip a virtual coin online with realistic 3D animation. Fair and unbiased heads or tails coin flipper using cryptographic randomness. Track flip history and statistics.",
+        popular: true,
+      },
+      {
+        title: "Roll a Dice",
+        url: "/tools/util/dice-roller",
+        description:
+          "Roll virtual dice online with realistic animations. Support for 1-6 dice, roll history, and statistics. Fair random dice roller for board games, RPGs, and decision making.",
+        popular: true,
+      },
+      {
+        title: "Random Number Generator",
+        url: "/tools/util/random-number",
+        description:
+          "Generate cryptographically secure random numbers with custom range. Bulk generation, no-duplicate mode, sort options, and copy to clipboard. Free random number generator.",
+        popular: true,
+      },
+      {
+        title: "Typing Speed Test",
+        url: "/tools/util/typing-test",
+        description:
+          "Test your typing speed and accuracy with real-time WPM tracking. Multiple difficulty levels, character-by-character highlighting, and detailed results. Free online typing test.",
+        popular: true,
+      },
+      {
+        title: "Screen Recorder",
+        url: "/tools/util/screen-recorder",
+        description:
+          "Record your screen online for free. Capture entire screen, application window, or browser tab with optional microphone audio. Download as WebM video. 100% browser-based, no software to install.",
+        popular: true,
       },
     ],
   },
@@ -627,6 +788,190 @@ export const ToolsData = [
           "Convert annual salary to hourly rate and vice versa. Salary calculator with work hours, overtime, and take-home pay estimation. Compare job offers and negotiate better.",
         popular: false,
       },
+      {
+        title: "Compound Interest Calculator",
+        url: "/tools/finance/compound-interest",
+        description:
+          "Calculate compound interest with monthly contributions. See year-by-year breakdown of principal, interest earned, and total balance. Free compound interest calculator with formula display.",
+        popular: true,
+      },
+    ],
+  },
+  {
+    title: "Fun",
+    url: "/tools/fun",
+    icon: Heart,
+    isActive: true,
+    items: [
+      {
+        title: "Love Calculator",
+        url: "/tools/fun/love-calculator",
+        description:
+          "Calculate your love compatibility percentage! Enter two names and get a fun love score with animated hearts and playful messages. Deterministic — same names always get the same result.",
+        popular: true,
+      },
+      {
+        title: "Random Quote Generator",
+        url: "/tools/fun/quote-generator",
+        description:
+          "Get inspired with random quotes from 50+ curated entries across inspirational, motivational, funny, philosophical, and life categories. Save favorites, copy, and share on Twitter.",
+        popular: false,
+      },
+      {
+        title: "Truth or Dare Generator",
+        url: "/tools/fun/truth-or-dare",
+        description:
+          "Play truth or dare online! 120+ truths and dares with difficulty levels (Easy, Medium, Spicy), family-friendly and adult modes, player names, and history tracking.",
+        popular: true,
+      },
+    ],
+  },
+  {
+    title: "Network & Security",
+    url: "/tools/network",
+    icon: Shield,
+    isActive: true,
+    items: [
+      {
+        title: "What Is My IP",
+        url: "/tools/network/my-ip",
+        description:
+          "Instantly detect your public IPv4 and IPv6 address. See your location, ISP, time zone, and coordinates. Privacy-first — your IP is detected client-side and never stored.",
+        popular: true,
+      },
+      {
+        title: "IP Geolocation Lookup",
+        url: "/tools/network/ip-lookup",
+        description:
+          "Look up any IP address to find its geographic location, ISP, ASN, time zone, currency, and more. Free IP geolocation tool with lookup history.",
+        popular: true,
+      },
+      {
+        title: "WHOIS Domain Lookup",
+        url: "/tools/network/whois",
+        description:
+          "Look up domain registration details using the free RDAP protocol. Find registrar, registration date, expiration date, nameservers, and DNSSEC status for any domain.",
+        popular: true,
+      },
+      {
+        title: "DNS Lookup",
+        url: "/tools/network/dns-lookup",
+        description:
+          "Query DNS records for any domain — A, AAAA, MX, NS, TXT, CNAME, SOA. Uses Google DNS-over-HTTPS for fast, accurate results with resolution time tracking.",
+        popular: true,
+      },
+      {
+        title: "HTTP Header Checker",
+        url: "/tools/network/http-headers",
+        description:
+          "Check HTTP response headers for any URL. Analyze security headers like CSP, HSTS, X-Frame-Options, and get a security score. Find missing security headers.",
+        popular: false,
+      },
+      {
+        title: "SSL Certificate Checker",
+        url: "/tools/network/ssl-checker",
+        description:
+          "Check SSL/TLS certificate details for any domain. See issuer, expiration date, days remaining, and certificate chain. Monitor your SSL certificates.",
+        popular: true,
+      },
+      {
+        title: "Email Header Analyzer",
+        url: "/tools/network/email-headers",
+        description:
+          "Analyze email headers to trace delivery path, check SPF/DKIM/DMARC authentication, and identify spam. Paste raw headers and see the full hop-by-hop route.",
+        popular: false,
+      },
+      {
+        title: "Username Checker",
+        url: "/tools/network/username-check",
+        description:
+          "Check username availability across 20+ social media platforms. Generate direct profile links for GitHub, Twitter, Instagram, YouTube, TikTok, Reddit, and more.",
+        popular: true,
+      },
+      {
+        title: "MAC Address Lookup",
+        url: "/tools/network/mac-lookup",
+        description:
+          "Look up the manufacturer of any network device by its MAC address. Identify vendor, OUI prefix, and MAC type (unicast/multicast). Random MAC generator included.",
+        popular: false,
+      },
+      {
+        title: "Subdomain Finder",
+        url: "/tools/network/subdomain-finder",
+        description:
+          "Find all registered subdomains for any domain using public Certificate Transparency (CT) logs. Fast, 100% free, and legal lookup.",
+        popular: true,
+      },
+      {
+        title: "Web & Security Directory",
+        url: "/tools/network/web-resources",
+        description:
+          "Curated interactive directory of 30+ of the best search engines, threat registries, and threat databases.",
+        popular: true,
+      },
+    ],
+  },
+  {
+    title: "Health",
+    url: "/tools/health",
+    icon: Activity,
+    isActive: true,
+    items: [
+      {
+        title: "Calorie Calculator",
+        url: "/tools/health/calorie-calculator",
+        description:
+          "Calculate your daily calorie needs and TDEE (Total Daily Energy Expenditure) for free. Uses the Mifflin-St Jeor formula with activity level. Get macronutrient breakdown for weight loss, maintenance, or gain goals.",
+        popular: true,
+      },
+      {
+        title: "Sleep Calculator",
+        url: "/tools/health/sleep-calculator",
+        description:
+          "Calculate the best times to sleep and wake up based on 90-minute sleep cycles. Color-coded recommendations help you get optimal rest. Accounts for 15 minutes to fall asleep.",
+        popular: true,
+      },
+      {
+        title: "Water Intake Calculator",
+        url: "/tools/health/water-intake",
+        description:
+          "Calculate your personalized daily water intake based on weight, activity level, and climate. Track daily hydration with an interactive progress ring. Hourly drinking schedule included.",
+        popular: false,
+      },
+    ],
+  },
+  {
+    title: "Productivity",
+    url: "/tools/productivity",
+    icon: LayoutDashboard,
+    isActive: true,
+    items: [
+      {
+        title: "Online Notepad",
+        url: "/tools/productivity/notepad",
+        description:
+          "Free online notepad and text editor. Auto-saves to your browser with multiple tabs, dark mode, word count, and download as .txt. No signup required, works offline. Your notes never leave your device.",
+        popular: true,
+      },
+      {
+        title: "Online Whiteboard",
+        url: "/tools/productivity/whiteboard",
+        description:
+          "Free online whiteboard and drawing tool. Freehand drawing, shapes, colors, brush sizes, undo/redo, and export as PNG. Perfect for brainstorming, diagrams, and quick sketches. Works in your browser.",
+        popular: true,
+      },
+      {
+        title: "Habit Tracker",
+        url: "/tools/productivity/habit-tracker",
+        description:
+          "Build better habits with a visual streak tracker. Add custom habits, track daily completion with a heatmap, view current and best streaks, and see weekly stats. All data saved locally in your browser.",
+        popular: true,
+      },
     ],
   },
 ];
+
+export const TOTAL_TOOLS_COUNT = ToolsData.reduce((acc, category) => {
+  const actualItems = category.items.filter(item => item.url !== "/tools");
+  return acc + actualItems.length;
+}, 0);

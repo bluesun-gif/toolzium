@@ -156,7 +156,7 @@ export default function YamlJsonClient() {
 
   // Samples
   const sampleYaml = `---
-app: ToolsCube
+app: Toolzium
 version: 1.0
 active: true
 tags:

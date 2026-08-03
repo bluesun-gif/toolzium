@@ -33,7 +33,7 @@ export const metadata = buildMetadata({
     "deadline calculator",
     "workdays calculator",
     "school days calculator",
-    "Tools Cube",
+    "Toolzium",
     "calculators",
     "online tools",
     "Bangladesh",
@@ -46,7 +46,7 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Date Difference Calculator — Tools Cube",
+    name: "Date Difference Calculator — Toolzium",
     url: toolUrl,
     applicationCategory: "UtilitiesApplication",
     operatingSystem: "Web",
@@ -69,8 +69,8 @@ export default function Page() {
     ],
     creator: {
       "@type": "Person",
-      name: "Tariqul Islam",
-      url: "https://tariqul.dev",
+      name: "Toolzium",
+      url: "https://toolzium.com",
     },
     potentialAction: {
       "@type": "CalculateAction",

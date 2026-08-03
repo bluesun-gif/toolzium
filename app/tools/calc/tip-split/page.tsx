@@ -27,7 +27,7 @@ export const metadata = buildMetadata({
     "group expense calculator",
     "party bill calculator",
     "meal cost sharing",
-    "Tools Cube",
+    "Toolzium",
     "calculators",
     "finance tools",
     "Bangladesh",
@@ -41,7 +41,7 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Tip Splitter — Tools Cube",
+    name: "Tip Splitter — Toolzium",
     url: toolUrl,
     applicationCategory: "UtilitiesApplication",
     operatingSystem: "Web",
@@ -63,8 +63,8 @@ export default function Page() {
     ],
     creator: {
       "@type": "Person",
-      name: "Tariqul Islam",
-      url: "https://tariqul.dev",
+      name: "Toolzium",
+      url: "https://toolzium.com",
     },
     potentialAction: {
       "@type": "CalculateAction",

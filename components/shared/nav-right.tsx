@@ -26,6 +26,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { GitHubStars } from "./github-stars";
 import { socialIcons } from "./icons";
 import { UserNav } from "./user-nav";
+import { ThemeToggle } from "./theme-toggle";
 
 // Types
 type ToolItem = {
@@ -162,6 +163,8 @@ export default function NavRight() {
           </Tooltip>
         </TooltipProvider>
 
+        <ThemeToggle />
+
         <Button
           variant="outline"
           asChild
@@ -169,7 +172,7 @@ export default function NavRight() {
           className="hidden sm:flex h-9 w-9"
         >
           <Link
-            href="https://www.facebook.com/toolscubebd"
+            href="https://www.facebook.com/toolzium"
             rel="noopener noreferrer"
             target="_blank"
             aria-label="Follow us on Facebook"
@@ -183,7 +186,7 @@ export default function NavRight() {
           className="hidden sm:flex h-9 gap-1.5 px-3"
         >
           <Link
-            href="https://github.com/toolscube/toolscube"
+            href="https://github.com/toolzium/toolzium"
             rel="noopener noreferrer"
             target="_blank"
             className="inline-flex items-center gap-1.5"
@@ -198,7 +201,7 @@ export default function NavRight() {
       {/* Search Modal */}
       <CommandDialog open={open} onOpenChange={setOpen}>
         <CommandInput
-          placeholder="Search any tool (e.g., QR, Base64, Invoice, Regex)…"
+          placeholder="Search Toolzium (e.g., QR, Base64, Invoice, Regex)…"
           value={query}
           onValueChange={setQuery}
         />

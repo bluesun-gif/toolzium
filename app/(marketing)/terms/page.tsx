@@ -4,7 +4,7 @@ import { generateSEOMetadata } from "@/lib/seo-config";
 export const metadata = generateSEOMetadata({
   title: "Terms of Service",
   description:
-    "Terms and acceptable use for Tools Cube. Read our terms of service and acceptable use policy for our online tools platform.",
+    "Terms and acceptable use for Toolzium. Read our terms of service and acceptable use policy for our online tools platform.",
   path: "/terms",
 });
 
@@ -17,7 +17,7 @@ export default function TermsPage() {
           Terms of Service
         </h1>
         <p className="text-lg text-muted-foreground">
-          By using Tools Cube, you agree to these terms.
+          By using Toolzium, you agree to these terms.
         </p>
       </div>
 
@@ -51,10 +51,10 @@ export default function TermsPage() {
             <CardTitle>Open Source</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2 text-sm text-muted-foreground">
-            <p>• Tools Cube is MIT licensed</p>
+            <p>• Toolzium is MIT licensed</p>
             <p>• You can fork, modify, and distribute the code</p>
             <p>• See LICENSE file for full terms</p>
-            <p>• GitHub: github.com/toolscube/tools-cube</p>
+            <p>• GitHub: github.com/Toolzium/tools-cube</p>
           </CardContent>
         </Card>
 
@@ -65,8 +65,8 @@ export default function TermsPage() {
           <CardContent className="space-y-2 text-sm text-muted-foreground">
             <p>
               Questions about these terms? Email us at{" "}
-              <a className="underline" href="mailto:contact@toolscube.app">
-                contact@toolscube.app
+              <a className="underline" href="mailto:contact@toolzium.com">
+                contact@toolzium.com
               </a>
             </p>
           </CardContent>

@@ -31,7 +31,7 @@ export const metadata = buildMetadata({
     "BMI ranges",
     "BMI copy share export",
     "health calculator",
-    "Tools Cube",
+    "Toolzium",
     "online tools",
     "Bangladesh",
   ],
@@ -43,7 +43,7 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "BMI Calculator — Tools Cube",
+    name: "BMI Calculator — Toolzium",
     url: toolUrl,
     applicationCategory: "HealthApplication",
     operatingSystem: "Web",
@@ -65,8 +65,8 @@ export default function Page() {
     ],
     creator: {
       "@type": "Person",
-      name: "Tariqul Islam",
-      url: "https://tariqul.dev",
+      name: "Toolzium",
+      url: "https://toolzium.com",
     },
     potentialAction: {
       "@type": "CalculateAction",

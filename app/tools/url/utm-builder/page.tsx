@@ -30,7 +30,7 @@ export const metadata = buildMetadata({
     "link tracking",
     "analytics tags",
     "privacy friendly UTM builder",
-    "Tools Cube",
+    "Toolzium",
     "Bangladesh",
     "online tools",
   ],
@@ -42,7 +42,7 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "UTM Builder — Tools Cube",
+    name: "UTM Builder — Toolzium",
     url: toolUrl,
     applicationCategory: "UtilitiesApplication",
     operatingSystem: "Web",
@@ -64,8 +64,8 @@ export default function Page() {
     ],
     creator: {
       "@type": "Person",
-      name: "Tariqul Islam",
-      url: "https://tariqul.dev",
+      name: "Toolzium",
+      url: "https://toolzium.com",
     },
     potentialAction: {
       "@type": "CreateAction",

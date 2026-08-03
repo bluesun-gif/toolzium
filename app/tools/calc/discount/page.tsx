@@ -30,7 +30,7 @@ export const metadata = buildMetadata({
     "what percent off",
     "reverse discount",
     "original price from discount",
-    "Tools Cube",
+    "Toolzium",
     "calculators",
     "online tools",
     "Bangladesh",
@@ -43,7 +43,7 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Discount Finder — Tools Cube",
+    name: "Discount Finder — Toolzium",
     url: toolUrl,
     applicationCategory: "FinanceApplication",
     operatingSystem: "Web",
@@ -66,8 +66,8 @@ export default function Page() {
     ],
     creator: {
       "@type": "Person",
-      name: "Tariqul Islam",
-      url: "https://tariqul.dev",
+      name: "Toolzium",
+      url: "https://toolzium.com",
     },
     potentialAction: {
       "@type": "CalculateAction",

@@ -33,7 +33,7 @@ export const metadata = buildMetadata({
     "multi-currency conversion",
     "currency history",
     "cross-currency exchange",
-    "Tools Cube",
+    "Toolzium",
     "calculators",
     "finance tools",
     "Bangladesh",
@@ -47,7 +47,7 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Currency Converter — Tools Cube",
+    name: "Currency Converter — Toolzium",
     url: toolUrl,
     applicationCategory: "FinanceApplication",
     operatingSystem: "Web",
@@ -71,8 +71,8 @@ export default function Page() {
     ],
     creator: {
       "@type": "Person",
-      name: "Tariqul Islam",
-      url: "https://tariqul.dev",
+      name: "Toolzium",
+      url: "https://toolzium.com",
     },
     potentialAction: {
       "@type": "CalculateAction",

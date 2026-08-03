@@ -1,8 +1,8 @@
-# Tools Cube
+# QuickTools
 
 > 70+ free online tools for developers and professionals
 
-**🌐 Live:** [toolscube.app](https://toolscube.app)
+**🌐 Live:** [QuickTools.app](https://QuickTools.app)
 
 Privacy-first online utilities built with Next.js 16, TypeScript, and modern web technologies. No signup required, all free, open source.
 
@@ -18,8 +18,8 @@ Privacy-first online utilities built with Next.js 16, TypeScript, and modern web
 ## Quick Start
 
 ```bash
-git clone https://github.com/toolscube/toolscube.git
-cd toolscube
+git clone https://github.com/QuickTools/QuickTools.git
+cd QuickTools
 npm install
 ```
 
@@ -54,8 +54,8 @@ Contributions are welcome! See [CONTRIBUTING.md](./docs/CONTRIBUTING.md) for gui
 
 ## License
 
-MIT © [Tools Cube](https://toolscube.app)
+MIT © [QuickTools](https://QuickTools.app)
 
 ---
 
-⭐ Star this repo • 🐛 [Report Bug](https://github.com/toolscube/toolscube/issues) • 💙 [Sponsor](https://github.com/sponsors/toolscube)
+⭐ Star this repo • 🐛 [Report Bug](https://github.com/QuickTools/QuickTools/issues) • 💙 [Sponsor](https://github.com/sponsors/QuickTools)

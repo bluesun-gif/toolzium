@@ -36,7 +36,7 @@ export const metadata = buildMetadata({
     "download QR PNG",
     "download QR SVG",
     "copy data URL",
-    "Tools Cube",
+    "Toolzium",
     "Bangladesh",
     "online tools",
     "privacy friendly tools",
@@ -49,7 +49,7 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "QR Code — Tools Cube",
+    name: "QR Code — Toolzium",
     url: toolUrl,
     applicationCategory: "UtilitiesApplication",
     operatingSystem: "Web",
@@ -71,8 +71,8 @@ export default function Page() {
     ],
     creator: {
       "@type": "Person",
-      name: "Tariqul Islam",
-      url: "https://tariqul.dev",
+      name: "Toolzium",
+      url: "https://toolzium.com",
     },
     potentialAction: {
       "@type": "CreateAction",

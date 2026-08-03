@@ -25,7 +25,7 @@ export const metadata = buildMetadata({
     "copy lorem ipsum",
     "export lorem ipsum",
     "developer tools",
-    "Tools Cube",
+    "Toolzium",
     "Bangladesh",
     "online tools",
   ],
@@ -37,7 +37,7 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Lorem Ipsum Generator — Tools Cube",
+    name: "Lorem Ipsum Generator — Toolzium",
     url: toolUrl,
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Web",
@@ -58,8 +58,8 @@ export default function Page() {
     ],
     creator: {
       "@type": "Person",
-      name: "Tariqul Islam",
-      url: "https://tariqul.dev",
+      name: "Toolzium",
+      url: "https://toolzium.com",
     },
     potentialAction: {
       "@type": "CreateAction",

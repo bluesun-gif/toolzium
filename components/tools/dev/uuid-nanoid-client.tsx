@@ -30,7 +30,7 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const STORAGE_KEY = "toolscube:uuid-nanoid-v1";
+const STORAGE_KEY = "Toolzium:uuid-nanoid-v1";
 
 const DEFAULT_NANO_ALPHABET = "_-0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const PRESETS: Record<string, string> = {
@@ -366,7 +366,7 @@ const run = useCallback(() => {
                       )}
                       <InputField
                         label="Name (string)"
-                        placeholder="e.g. https://tariqul.dev"
+                        placeholder="e.g. https://toolzium.com"
                         value={v5Name}
                         onChange={(e) => setV5Name(e.target.value)}
                       />

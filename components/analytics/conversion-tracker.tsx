@@ -41,7 +41,7 @@ export function ConversionTracker({
           item_id: toolName.toLowerCase().replace(/\s+/g, '_'),
           item_name: toolName,
           item_category: category,
-          item_brand: "Tools Cube",
+          item_brand: "Toolzium",
           price: conversionValue,
           quantity: 1,
         }]

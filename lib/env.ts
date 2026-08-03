@@ -70,13 +70,13 @@ export const env = {
       defaultValue: "http://localhost:3000",
     }),
     siteUrl: getEnvVar("NEXT_PUBLIC_SITE_URL", {
-      defaultValue: "https://toolscube.app",
+      defaultValue: "http://localhost:3000",
     }),
   },
 
   db: {
     get url() {
-      return getEnvVar("DATABASE_URL", { required: true, serverOnly: true });
+      return getEnvVar("DATABASE_URL", { required: false, serverOnly: true });
     },
   },
 
@@ -107,7 +107,7 @@ export const env = {
     },
     get from() {
       return getEnvVar("EMAIL_FROM", {
-        defaultValue: "noreply@toolscube.app",
+        defaultValue: "noreply@toolzium.com",
         serverOnly: true,
       });
     },
@@ -116,7 +116,7 @@ export const env = {
   auth: {
     get secret() {
       return getEnvVar("BETTER_AUTH_SECRET", {
-        required: true,
+        required: false,
         serverOnly: true,
       });
     },

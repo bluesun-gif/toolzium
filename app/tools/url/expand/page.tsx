@@ -44,7 +44,7 @@ export const metadata = buildMetadata({
     "link safety preview",
     "no redirect open",
     "privacy-first link expand",
-    "Tools Cube",
+    "Toolzium",
     "Bangladesh",
     "online tools",
     "free tools",
@@ -58,7 +58,7 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Link Expander — Tools Cube",
+    name: "Link Expander — Toolzium",
     alternateName: [
       "URL Unshortener",
       "Redirect Chain Checker",
@@ -83,8 +83,8 @@ export default function Page() {
     ],
     creator: {
       "@type": "Person",
-      name: "Tariqul Islam",
-      url: "https://tariqul.dev",
+      name: "Toolzium",
+      url: "https://toolzium.com",
     },
     potentialAction: {
       "@type": "ViewAction",

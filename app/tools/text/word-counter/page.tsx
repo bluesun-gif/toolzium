@@ -25,7 +25,7 @@ export const metadata = buildMetadata({
     "uppercase lowercase title case",
     "slugify text",
     "copy and export text stats",
-    "Tools Cube",
+    "Toolzium",
     "online tools",
     "privacy friendly tools",
     "Bangladesh",
@@ -38,7 +38,7 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Word Counter — Tools Cube",
+    name: "Word Counter — Toolzium",
     url: toolUrl,
     applicationCategory: "UtilitiesApplication",
     operatingSystem: "Web",
@@ -60,8 +60,8 @@ export default function Page() {
     ],
     creator: {
       "@type": "Person",
-      name: "Tariqul Islam",
-      url: "https://tariqul.dev",
+      name: "Toolzium",
+      url: "https://toolzium.com",
     },
     potentialAction: {
       "@type": "AssessAction",

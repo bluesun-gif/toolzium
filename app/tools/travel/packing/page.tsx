@@ -39,7 +39,7 @@ export const metadata = buildMetadata({
     "share and print packing list",
     "export CSV PDF",
     "offline packing tool",
-    "Tools Cube",
+    "Toolzium",
     "travel tools",
     "online tools",
     "Bangladesh",
@@ -52,7 +52,7 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Packing Checklist — Tools Cube",
+    name: "Packing Checklist — Toolzium",
     url: toolUrl,
     applicationCategory: "TravelApplication",
     operatingSystem: "Web",
@@ -76,8 +76,8 @@ export default function Page() {
     ],
     creator: {
       "@type": "Person",
-      name: "Tariqul Islam",
-      url: "https://tariqul.dev",
+      name: "Toolzium",
+      url: "https://toolzium.com",
     },
     potentialAction: {
       "@type": "CreateAction",

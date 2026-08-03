@@ -11,7 +11,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/about",
     "/privacy",
     "/terms",
-    "/sponsors",
+    "/sponsor",
   ];
 
   const staticEntries: MetadataRoute.Sitemap = staticRoutes.map((route) => ({
@@ -22,12 +22,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   const toolEntries: MetadataRoute.Sitemap = ToolsData.flatMap((section) =>
-    section.items.map((item) => ({
-      url: new URL(item.url, site).toString(),
-      lastModified: new Date(),
-      changeFrequency: "daily" as const,
-      priority: item.popular ? 0.9 : 0.6,
-    }))
+    section.items
+      .filter((item) => !staticRoutes.includes(item.url))
+      .map((item) => ({
+        url: new URL(item.url, site).toString(),
+        lastModified: new Date(),
+        changeFrequency: "daily" as const,
+        priority: item.popular ? 0.9 : 0.6,
+      }))
   );
 
   return [...staticEntries, ...toolEntries];

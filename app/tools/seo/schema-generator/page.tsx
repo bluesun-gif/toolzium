@@ -31,7 +31,7 @@ export const metadata = buildMetadata({
     "import/export JSON",
     "multiple languages",
     "SEO tools",
-    "Tools Cube",
+    "Toolzium",
     "online tools",
     "Bangladesh",
   ],
@@ -43,7 +43,7 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Schema Markup Generator — Tools Cube",
+    name: "Schema Markup Generator — Toolzium",
     url: toolUrl,
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Web",
@@ -66,8 +66,8 @@ export default function Page() {
     ],
     creator: {
       "@type": "Person",
-      name: "Tariqul Islam",
-      url: "https://tariqul.dev",
+      name: "Toolzium",
+      url: "https://toolzium.com",
     },
     potentialAction: {
       "@type": "CreateAction",

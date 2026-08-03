@@ -28,7 +28,7 @@ export const metadata = buildMetadata({
     "raffle draw app",
     "contest winner picker",
     "wheel of names alternative",
-    "Tools Cube",
+    "Toolzium",
     "utilities",
     "online tools",
     "Bangladesh",
@@ -41,7 +41,7 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Random Picker — Tools Cube",
+    name: "Random Picker — Toolzium",
     url: toolUrl,
     applicationCategory: "UtilitiesApplication",
     operatingSystem: "Web",
@@ -66,8 +66,8 @@ export default function Page() {
     ],
     creator: {
       "@type": "Person",
-      name: "Tariqul Islam",
-      url: "https://tariqul.dev",
+      name: "Toolzium",
+      url: "https://toolzium.com",
     },
     potentialAction: {
       "@type": "ChooseAction",

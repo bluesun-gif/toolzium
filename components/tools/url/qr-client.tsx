@@ -80,7 +80,7 @@ export default function QRClient() {
     setForm((s) => ({
       ...s,
       kind: "url",
-      url: "https://tariqul.dev",
+      url: "https://toolzium.com",
       wifiAuth: "WPA",
       wifiHidden: false,
       text: "Scan me",

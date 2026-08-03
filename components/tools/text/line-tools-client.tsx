@@ -35,7 +35,7 @@ import {
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
-const LS_KEY = "toolscube:line-tools-v1";
+const LS_KEY = "Toolzium:line-tools-v1";
 
 /* Utilities */
 function splitLines(s: string) {

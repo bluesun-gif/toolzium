@@ -1,5 +1,5 @@
 {
-  "name": "tools-cube",
+  "name": "toolzium",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -13,6 +13,7 @@
     "@auth/prisma-adapter": "^2.11.0",
     "@better-auth/core": "^1.4.6",
     "@hookform/resolvers": "^5.2.1",
+    "@imgly/background-removal": "^1.7.0",
     "@prisma/adapter-pg": "7.1.0",
     "@prisma/client": "7.1.0",
     "@prisma/extension-accelerate": "^2.0.2",
@@ -42,9 +43,11 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
+    "date-fns": "^4.4.0",
     "dotenv": "^17.2.3",
     "framer-motion": "^12.23.12",
     "js-yaml": "^4.1.0",
+    "jspdf": "^4.2.1",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.542.0",
     "marked": "^16.2.1",

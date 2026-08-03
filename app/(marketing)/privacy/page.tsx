@@ -4,7 +4,7 @@ import { generateSEOMetadata } from "@/lib/seo-config";
 export const metadata = generateSEOMetadata({
   title: "Privacy Policy",
   description:
-    "Our commitment to privacy and data handling practices at Tools Cube. Learn how we protect your data and maintain privacy-first principles.",
+    "Our commitment to privacy and data handling practices at Toolzium. Learn how we protect your data and maintain privacy-first principles.",
   path: "/privacy",
 });
 
@@ -17,7 +17,7 @@ export default function PrivacyPage() {
           Privacy Policy
         </h1>
         <p className="text-lg text-muted-foreground">
-          Tools Cube is privacy-first by design. Most tools run entirely in your
+          Toolzium is privacy-first by design. Most tools run entirely in your
           browser.
         </p>
       </div>
@@ -60,7 +60,7 @@ export default function PrivacyPage() {
             <p>• Use all tools without an account</p>
             <p>• Request data deletion anytime</p>
             <p>• Export your data (for authenticated features)</p>
-            <p>• Contact us: contact@toolscube.app</p>
+            <p>• Contact us: contact@toolzium.com</p>
           </CardContent>
         </Card>
 

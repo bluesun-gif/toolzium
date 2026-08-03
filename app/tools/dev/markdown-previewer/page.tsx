@@ -26,7 +26,7 @@ export const metadata = buildMetadata({
     "download HTML",
     "offline markdown preview",
     "developer tools",
-    "Tools Cube",
+    "Toolzium",
     "Bangladesh",
     "online tools",
     "free markdown preview",
@@ -39,7 +39,7 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Markdown Previewer — Tools Cube",
+    name: "Markdown Previewer — Toolzium",
     url: toolUrl,
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Web",
@@ -62,8 +62,8 @@ export default function Page() {
     ],
     creator: {
       "@type": "Person",
-      name: "Tariqul Islam",
-      url: "https://tariqul.dev",
+      name: "Toolzium",
+      url: "https://toolzium.com",
     },
     potentialAction: {
       "@type": "ConvertAction",

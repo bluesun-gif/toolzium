@@ -30,7 +30,7 @@ export const metadata = buildMetadata({
     "strip markdown clipboard",
     "convert rich text to plain text",
     "export clipboard text",
-    "Tools Cube",
+    "Toolzium",
     "utilities",
     "online tools",
     "Bangladesh",
@@ -43,7 +43,7 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Clipboard Cleaner — Tools Cube",
+    name: "Clipboard Cleaner — Toolzium",
     url: toolUrl,
     applicationCategory: "UtilitiesApplication",
     operatingSystem: "Web",
@@ -67,8 +67,8 @@ export default function Page() {
     ],
     creator: {
       "@type": "Person",
-      name: "Tariqul Islam",
-      url: "https://tariqul.dev",
+      name: "Toolzium",
+      url: "https://toolzium.com",
     },
     potentialAction: {
       "@type": "OrganizeAction",

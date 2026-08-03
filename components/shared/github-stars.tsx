@@ -10,7 +10,7 @@ export function GitHubStars() {
     async function fetchStars() {
       try {
         const res = await fetch(
-          "https://api.github.com/repos/toolscube/toolscube",
+          "https://api.github.com/repos/toolzium/toolzium",
           {
             headers: {
               Accept: "application/vnd.github.v3+json",

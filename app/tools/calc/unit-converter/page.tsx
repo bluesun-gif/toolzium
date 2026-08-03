@@ -45,7 +45,7 @@ export const metadata = buildMetadata({
     "scientific calculator units",
     "quick conversion tool",
     "multi-unit converter",
-    "Tools Cube",
+    "Toolzium",
     "calculators",
     "Bangladesh",
   ],
@@ -57,7 +57,7 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Unit Converter — Tools Cube",
+    name: "Unit Converter — Toolzium",
     url: toolUrl,
     applicationCategory: "UtilitiesApplication",
     operatingSystem: "Web",
@@ -80,8 +80,8 @@ export default function Page() {
     ],
     creator: {
       "@type": "Person",
-      name: "Tariqul Islam",
-      url: "https://tariqul.dev",
+      name: "Toolzium",
+      url: "https://toolzium.com",
     },
     potentialAction: {
       "@type": "CalculateAction",

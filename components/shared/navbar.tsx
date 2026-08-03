@@ -13,6 +13,7 @@ import {
 } from "../ui/sheet";
 import { ActionButton } from "./action-buttons";
 import NavRight from "./nav-right";
+import { ThemeToggle } from "./theme-toggle";
 
 export function Navbar() {
   return (
@@ -24,9 +25,9 @@ export function Navbar() {
               src="/assets/logo.png"
               height={40}
               width={40}
-              alt="Tools Cube Logo"
+              alt="Toolzium Logo"
             />
-            <span>Tools Cube</span>
+            <span>Toolzium</span>
           </Link>
           <nav className="ml-6 hidden items-center gap-6 text-sm md:flex">
             <Link href="/tools" className="hover:opacity-80">
@@ -59,7 +60,7 @@ export function Navbar() {
                   className="inline-flex items-center gap-2 font-semibold"
                 >
                   <LayoutGrid className="h-5 w-5" />
-                  <span>Tools Cube</span>
+                  <span>Toolzium</span>
                 </Link>
               </div>
             </SheetHeader>
@@ -89,6 +90,10 @@ export function Navbar() {
                   Sponsor
                 </Link>
               </SheetClose>
+              <div className="flex items-center justify-between rounded-md p-2">
+                <span className="text-sm text-muted-foreground">Theme</span>
+                <ThemeToggle />
+              </div>
               <div className="pt-4">
                 <Button asChild className="w-full">
                   <Link href="/tools">

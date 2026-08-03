@@ -31,7 +31,7 @@ export const metadata = buildMetadata({
     "week date range",
     "week Monday to Sunday",
     "week start end dates",
-    "Tools Cube",
+    "Toolzium",
     "time tools",
     "utilities",
     "online tools",
@@ -45,7 +45,7 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "ISO Week Number — Tools Cube",
+    name: "ISO Week Number — Toolzium",
     url: toolUrl,
     applicationCategory: "UtilitiesApplication",
     operatingSystem: "Web",
@@ -68,8 +68,8 @@ export default function Page() {
     ],
     creator: {
       "@type": "Person",
-      name: "Tariqul Islam",
-      url: "https://tariqul.dev",
+      name: "Toolzium",
+      url: "https://toolzium.com",
     },
     potentialAction: {
       "@type": "CalculateAction",

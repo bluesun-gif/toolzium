@@ -138,7 +138,7 @@ export function trackToolCompletion(toolName: string, category: string, valueDat
     transaction_id: `${toolName}_${Date.now()}`,
     item_name: toolName,
     item_category: category,
-    item_brand: "Tools Cube",
+    item_brand: "Toolzium",
     value: 1,
     currency: "USD",
     file_size: valueData?.fileSize,

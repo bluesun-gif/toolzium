@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for your interest in contributing to Tools Cube!
+Thanks for your interest in contributing to QuickTools!
 
 ## Getting Started
 

@@ -37,7 +37,7 @@ export const metadata = buildMetadata({
     "product invoice",
     "client billing",
     "office tools",
-    "Tools Cube",
+    "Toolzium",
     "online tools",
     "Bangladesh",
   ],
@@ -49,7 +49,7 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Simple Invoice Generator — Tools Cube",
+    name: "Simple Invoice Generator — Toolzium",
     url: toolUrl,
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
@@ -74,8 +74,8 @@ export default function Page() {
     ],
     creator: {
       "@type": "Person",
-      name: "Tariqul Islam",
-      url: "https://tariqul.dev",
+      name: "Toolzium",
+      url: "https://toolzium.com",
     },
     potentialAction: {
       "@type": "CreateAction",

@@ -2,8 +2,8 @@ import { env } from "@/lib/env";
 import type { Metadata } from "next";
 
 const SITE_URL = env.app.siteUrl;
-const SITE_NAME = "Tools Cube";
-const SITE_TWITTER = "@toolscube";
+const SITE_NAME = "Toolzium";
+const SITE_TWITTER = "@toolzium";
 const DEFAULT_IMAGE = `${SITE_URL}/assets/tools-cube.jpg`;
 
 type BuildMetaInput = {
@@ -83,7 +83,7 @@ export function buildMetadata(input: BuildMetaInput): Metadata {
       apple: "/favicon.ico",
     },
 
-    applicationName: "Tools Cube",
+    applicationName: "Toolzium",
     other: {
       "og:locale": "en_US",
     },

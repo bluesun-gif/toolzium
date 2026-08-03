@@ -71,12 +71,12 @@ type State = {
 };
 
 const DEFAULT: State = {
-  title: "Tools Cube — Fast, Free, Privacy-Friendly Online Tools",
-  siteName: "Tools Cube",
+  title: "Toolzium — Fast, Free, Privacy-Friendly Online Tools",
+  siteName: "Toolzium",
   description:
     "URL shortener, PDF tools, image converters, text utilities, developer helpers, and calculators — all in one place.",
-  author: "Tariqul Islam",
-  canonical: "https://toolscube.app/tools",
+  author: "Toolzium",
+  canonical: "https://toolzium.com/tools",
   robotsIndex: true,
   robotsFollow: true,
   robotsNoSnippet: false,
@@ -92,17 +92,17 @@ const DEFAULT: State = {
 
   useOG: true,
   ogType: "website",
-  ogUrl: "https://toolscube.app/tools",
-  ogImage: "https://toolscube.app/og-image.jpg",
+  ogUrl: "https://toolzium.com/tools",
+  ogImage: "https://toolzium.com/og-image.jpg",
   ogImageAlt: "Open Graph image",
   ogImageWidth: "1200",
   ogImageHeight: "630",
 
   useTwitter: true,
   twitterCard: "summary_large_image",
-  twitterSite: "@toolscube",
+  twitterSite: "@Toolzium",
   twitterCreator: "@tariqul_420",
-  twitterImage: "https://toolscube.app/og-image.jpg",
+  twitterImage: "https://toolzium.com/og-image.jpg",
   twitterImageAlt: "Social image",
 
   viewport: "width=device-width, initial-scale=1, viewport-fit=cover",

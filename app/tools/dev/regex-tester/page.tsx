@@ -44,7 +44,7 @@ export const metadata = buildMetadata({
     "date regex",
     "password regex",
     "custom regex pattern",
-    "Tools Cube",
+    "Toolzium",
     "online tools",
     "privacy friendly tools",
     "Bangladesh",
@@ -57,7 +57,7 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Regex Tester — Tools Cube",
+    name: "Regex Tester — Toolzium",
     url: toolUrl,
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Web",
@@ -81,8 +81,8 @@ export default function Page() {
     ],
     creator: {
       "@type": "Person",
-      name: "Tariqul Islam",
-      url: "https://tariqul.dev",
+      name: "Toolzium",
+      url: "https://toolzium.com",
     },
     potentialAction: {
       "@type": "UseAction",

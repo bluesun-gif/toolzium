@@ -27,7 +27,7 @@ export const metadata = buildMetadata({
     "utf-8 Base64",
     "Base64 validator",
     "mime type detector",
-    "Tools Cube",
+    "Toolzium",
     "online tools",
     "privacy friendly tools",
     "Bangladesh",
@@ -40,7 +40,7 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Base64 Encode/Decode — Tools Cube",
+    name: "Base64 Encode/Decode — Toolzium",
     url: toolUrl,
     applicationCategory: "UtilitiesApplication",
     operatingSystem: "Web",
@@ -61,8 +61,8 @@ export default function Page() {
     ],
     creator: {
       "@type": "Person",
-      name: "Tariqul Islam",
-      url: "https://tariqul.dev",
+      name: "Toolzium",
+      url: "https://toolzium.com",
     },
     potentialAction: {
       "@type": "Action",

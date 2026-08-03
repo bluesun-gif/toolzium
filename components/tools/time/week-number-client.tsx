@@ -146,9 +146,9 @@ function toICSAllDayRange({
   const lines = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//ToolsCube//WeekNumber//EN",
+    "PRODID:-//Toolzium//WeekNumber//EN",
     "BEGIN:VEVENT",
-    `UID:week-${title}-${dt(start)}@toolscube`,
+    `UID:week-${title}-${dt(start)}@Toolzium`,
     `DTSTAMP:${dt(new Date())}T000000Z`,
     `DTSTART;VALUE=DATE:${dt(start)}`,
     `DTEND;VALUE=DATE:${dt(dtEndExclusive)}`,

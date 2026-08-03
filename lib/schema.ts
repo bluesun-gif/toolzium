@@ -22,7 +22,7 @@ export function generateToolSchema(tool: {
     },
     publisher: {
       "@type": "Organization",
-      name: "Tools Cube",
+      name: "Toolzium",
       url: siteURL
     },
     screenshot: `${siteURL}/og/${tool.category}-tools.png`,
@@ -59,7 +59,7 @@ export function generateHowToSchema(tool: {
     "@context": "https://schema.org",
     "@type": "HowTo",
     name: `How to use ${tool.name}`,
-    description: `Step-by-step guide to use ${tool.name} on Tools Cube`,
+    description: `Step-by-step guide to use ${tool.name} on Toolzium`,
     step: tool.steps.map((step, index) => ({
       "@type": "HowToStep",
       position: index + 1,
@@ -73,7 +73,7 @@ export function generateHowToSchema(tool: {
     },
     tool: {
       "@type": "HowToTool", 
-      name: "Tools Cube"
+      name: "Toolzium"
     }
   };
 }
@@ -96,7 +96,7 @@ export function generateFAQSchema(faqs: Array<{ question: string; answer: string
 export const siteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "Tools Cube",
+  name: "Toolzium",
   url: siteURL,
   description: "Fast, free, privacy-friendly online tools for productivity and development",
   inLanguage: "en-US",
@@ -110,9 +110,9 @@ export const siteSchema = {
   },
   publisher: {
     "@type": "Organization",
-    name: "Tools Cube",
+    name: "Toolzium",
     url: siteURL,
     logo: `${siteURL}/assets/logo.png`,
-    sameAs: ["https://github.com/tariqul420", "https://tariqul.dev"],
+    sameAs: ["https://github.com/creataflow", "https://toolzium.com"],
   },
 };

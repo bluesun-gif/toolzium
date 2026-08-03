@@ -37,7 +37,7 @@ export const metadata = buildMetadata({
     "meeting notes generator",
     "productivity tools",
     "office tools",
-    "Tools Cube",
+    "Toolzium",
     "online tools",
     "Bangladesh",
   ],
@@ -49,7 +49,7 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Meeting Notes — Tools Cube",
+    name: "Meeting Notes — Toolzium",
     url: toolUrl,
     applicationCategory: "ProductivityApplication",
     operatingSystem: "Web",
@@ -72,8 +72,8 @@ export default function Page() {
     ],
     creator: {
       "@type": "Person",
-      name: "Tariqul Islam",
-      url: "https://tariqul.dev",
+      name: "Toolzium",
+      url: "https://toolzium.com",
     },
     potentialAction: {
       "@type": "CreateAction",

@@ -31,7 +31,7 @@ export const metadata = buildMetadata({
     "custom units price compare",
     "price per 100g calculator",
     "price per serving calculator",
-    "Tools Cube",
+    "Toolzium",
     "utilities",
     "online tools",
     "Bangladesh",
@@ -44,7 +44,7 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Unit Price Compare — Tools Cube",
+    name: "Unit Price Compare — Toolzium",
     url: toolUrl,
     applicationCategory: "UtilitiesApplication",
     operatingSystem: "Web",
@@ -68,8 +68,8 @@ export default function Page() {
     ],
     creator: {
       "@type": "Person",
-      name: "Tariqul Islam",
-      url: "https://tariqul.dev",
+      name: "Toolzium",
+      url: "https://toolzium.com",
     },
     potentialAction: {
       "@type": "CalculateAction",

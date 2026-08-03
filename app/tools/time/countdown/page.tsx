@@ -29,7 +29,7 @@ export const metadata = buildMetadata({
     "dark mode timer",
     "offline timer app",
     "local storage timer",
-    "Tools Cube",
+    "Toolzium",
     "time tools",
     "utilities",
     "online tools",
@@ -43,7 +43,7 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Countdown & Pomodoro Timer — Tools Cube",
+    name: "Countdown & Pomodoro Timer — Toolzium",
     url: toolUrl,
     applicationCategory: "UtilitiesApplication",
     operatingSystem: "Web",
@@ -68,8 +68,8 @@ export default function Page() {
     ],
     creator: {
       "@type": "Person",
-      name: "Tariqul Islam",
-      url: "https://tariqul.dev",
+      name: "Toolzium",
+      url: "https://toolzium.com",
     },
     potentialAction: {
       "@type": "UseAction",
