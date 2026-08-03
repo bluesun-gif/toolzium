@@ -200,6 +200,13 @@ export const ToolsData = [
           "Estimate reading and speaking time for any text. Shows word count, sentence count, paragraph count, and Flesch-Kincaid readability score. Adjustable WPM for slow, average, and fast readers.",
         popular: true,
       },
+      {
+        title: "Emoji Picker & Search",
+        url: "/tools/text/emoji-picker",
+        description:
+          "Searchable emoji picker with categories: Smileys, People, Animals, Food, Travel, Activities, Objects, Symbols, Flags. Click to copy. Recently used section. Grid layout.",
+        popular: true,
+      },
     ],
   },
   // {
@@ -317,6 +324,13 @@ export const ToolsData = [
         description:
           "Calculate and convert image aspect ratios. Enter width and height to find the ratio, or a ratio and one dimension to get the other. Social media presets for Instagram, YouTube, Twitter, and more.",
         popular: false,
+      },
+      {
+        title: "Image Color Extractor",
+        url: "/tools/image/color-extractor",
+        description:
+          "Upload an image and extract its dominant colors. Shows top 5-8 prominent colors with hex, RGB, and HSL values. Click to copy. Generate CSS color palettes from any image.",
+        popular: true,
       },
     ],
   },
@@ -472,6 +486,13 @@ export const ToolsData = [
         description:
           "Validate JSON data against a JSON Schema. Real-time validation with error paths. Preset schemas for users, APIs, and configs. Checks types, required fields, enums, and constraints.",
         popular: false,
+      },
+      {
+        title: "CSS Gradient Generator",
+        url: "/tools/dev/gradient-generator",
+        description:
+          "Create CSS gradients visually. Linear and radial modes with multiple color stops. Adjustable angle. Live preview. Preset gradients. Copy CSS and Tailwind syntax. Random gradient button.",
+        popular: true,
       },
     ],
   },
@@ -670,6 +691,13 @@ export const ToolsData = [
         url: "/tools/time/birthday-countdown",
         description:
           "Live countdown to your next birthday with days, hours, minutes, seconds. Shows your exact age, zodiac sign, birthstone, birth day of week, and fun facts about your birth year.",
+        popular: true,
+      },
+      {
+        title: "Event Countdown",
+        url: "/tools/time/event-countdown",
+        description:
+          "Create custom event countdowns with live days, hours, minutes, seconds display. Multiple simultaneous countdowns. Preset events: New Year, Christmas, Halloween. Color-coded. Saved locally.",
         popular: true,
       },
     ],
@@ -928,6 +956,20 @@ export const ToolsData = [
           "Compare up to 3 loan offers side by side. See monthly payment, total interest, and total cost for each. Highlights the cheapest option and shows potential savings.",
         popular: false,
       },
+      {
+        title: "Electricity Cost Calculator",
+        url: "/tools/finance/electricity-cost",
+        description:
+          "Calculate electricity cost for appliances. Add devices with wattage and usage hours. Presets for fridge, AC, TV, PC. Monthly and yearly cost. Energy-saving tips included.",
+        popular: false,
+      },
+      {
+        title: "Subscription Tracker",
+        url: "/tools/finance/subscriptions",
+        description:
+          "Track recurring subscriptions by category (streaming, software, gaming, etc.). Monthly and yearly totals. Sort by cost or date. Mark active/paused. Saved locally.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1070,6 +1112,13 @@ export const ToolsData = [
           "Curated interactive directory of 30+ of the best search engines, threat registries, and threat databases.",
         popular: true,
       },
+      {
+        title: "WiFi QR Code Generator",
+        url: "/tools/network/wifi-qr",
+        description:
+          "Generate QR codes for WiFi sharing. Enter SSID, password, and encryption type. Phones scan to auto-connect. Download QR as PNG. Print-friendly layout.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1141,6 +1190,13 @@ export const ToolsData = [
           "Track and analyze daily screen time by device and app category. Daily and weekly totals. 20-20-20 rule reminder. Health tips based on usage level. Visual breakdown charts.",
         popular: false,
       },
+      {
+        title: "Macro Calculator",
+        url: "/tools/health/macro-calculator",
+        description:
+          "Calculate daily macronutrient targets based on TDEE. Protein, carbs, and fat goals for weight loss, maintenance, or muscle gain. Preset splits: balanced, low-carb, high-protein, keto.",
+        popular: false,
+      },
     ],
   },
   {
@@ -1190,6 +1246,13 @@ export const ToolsData = [
         description:
           "Simple kanban board with To Do, In Progress, and Done columns. Add tasks, move between columns, add custom columns, and track progress. All data saved locally.",
         popular: true,
+      },
+      {
+        title: "Priority Matrix",
+        url: "/tools/productivity/priority-matrix",
+        description:
+          "Impact vs Effort priority matrix. Four quadrants: Quick Wins, Major Projects, Fill-Ins, Avoid. Add tasks, assign quadrants, track progress. Color-coded. Saved locally.",
+        popular: false,
       },
     ],
   },
