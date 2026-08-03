@@ -737,6 +737,20 @@ export const ToolsData = [
           "Take structured meeting notes with timestamps and action items. Meeting minutes template for recording discussions, decisions, and next steps. Export notes as text or PDF.",
         popular: false,
       },
+      {
+        title: "Expense Tracker",
+        url: "/tools/office/expense-tracker",
+        description:
+          "Track daily expenses by category with running totals and visual breakdowns. Add expenses with amounts, descriptions, and dates. Monthly summary with category-wise spending analysis. Data saved locally.",
+        popular: true,
+      },
+      {
+        title: "Timesheet Calculator",
+        url: "/tools/office/timesheet",
+        description:
+          "Calculate weekly work hours with start/end times and break durations. Auto-computes daily hours, weekly total, and overtime (over 40h). Optional hourly rate for gross pay estimation.",
+        popular: false,
+      },
     ],
   },
   {
@@ -758,6 +772,13 @@ export const ToolsData = [
         description:
           "Smart packing list generator for trips. Customizable travel checklist based on destination, duration, and season. Never forget essential items when traveling.",
         popular: false,
+      },
+      {
+        title: "Jet Lag Calculator",
+        url: "/tools/travel/jet-lag",
+        description:
+          "Estimate jet lag severity and recovery time based on timezone differences. Get personalized tips for sleep schedule adjustment, light exposure, and meal timing. Covers all major world timezones.",
+        popular: true,
       },
     ],
   },
@@ -795,6 +816,13 @@ export const ToolsData = [
           "Calculate compound interest with monthly contributions. See year-by-year breakdown of principal, interest earned, and total balance. Free compound interest calculator with formula display.",
         popular: true,
       },
+      {
+        title: "Mortgage Calculator",
+        url: "/tools/finance/mortgage",
+        description:
+          "Calculate monthly mortgage payments with down payment, loan term, and interest rate. See total interest paid, total cost, and principal vs interest breakdown. Compare 15, 20, 25, and 30-year terms.",
+        popular: true,
+      },
     ],
   },
   {
@@ -823,6 +851,20 @@ export const ToolsData = [
         description:
           "Play truth or dare online! 120+ truths and dares with difficulty levels (Easy, Medium, Spicy), family-friendly and adult modes, player names, and history tracking.",
         popular: true,
+      },
+      {
+        title: "Would You Rather",
+        url: "/tools/fun/would-you-rather",
+        description:
+          "Play Would You Rather with 50+ dilemmas across funny, philosophical, and impossible categories. Choose between two options, see fun percentage stats, and track your choices.",
+        popular: true,
+      },
+      {
+        title: "Magic 8 Ball",
+        url: "/tools/fun/magic-8-ball",
+        description:
+          "Ask the Magic 8 Ball any yes-or-no question and get a mystical answer! Classic billiard-style 8-ball with 20 authentic responses, shake animation, and question history.",
+        popular: false,
       },
     ],
   },
@@ -936,6 +978,20 @@ export const ToolsData = [
         url: "/tools/health/water-intake",
         description:
           "Calculate your personalized daily water intake based on weight, activity level, and climate. Track daily hydration with an interactive progress ring. Hourly drinking schedule included.",
+        popular: false,
+      },
+      {
+        title: "BMR Calculator",
+        url: "/tools/health/bmr-calculator",
+        description:
+          "Calculate your Basal Metabolic Rate using Harris-Benedict and Mifflin-St Jeor equations. See daily calorie needs for sedentary, light, moderate, active, and very active lifestyles.",
+        popular: true,
+      },
+      {
+        title: "Body Fat Calculator",
+        url: "/tools/health/body-fat",
+        description:
+          "Estimate body fat percentage using the US Navy method. Calculate fat mass, lean mass, and body fat category. Supports both metric and imperial measurements with visual progress indicators.",
         popular: false,
       },
     ],

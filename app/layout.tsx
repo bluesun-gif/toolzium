@@ -11,7 +11,6 @@ import ToasterProvider from "@/components/providers/toaster-provider";
 import JsonLd from "@/components/seo/json-ld";
 import { ToolsData, TOTAL_TOOLS_COUNT } from "@/data/tools";
 import { siteURL } from "@/lib/constants";
-import { structuredData } from "@/lib/seo-config";
 import {
   buildDynamicKeywords,
   mergeKeywords,
@@ -190,9 +189,6 @@ export default function RootLayout({
         <JsonLd data={siteLd} />
         <JsonLd data={orgLd} />
         <JsonLd data={navLd} />
-        <JsonLd data={structuredData.website} />
-        <JsonLd data={structuredData.organization} />
-        <JsonLd data={structuredData.webApplication} />
         <AuthSessionProvider>
           <div id="main-content">{children}</div>
         </AuthSessionProvider>
