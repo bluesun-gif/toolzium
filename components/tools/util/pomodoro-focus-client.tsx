@@ -216,10 +216,21 @@ export default function PomodoroFocusClient() {
   }, []);
 
   // ✅ Fix: simple toggle (no nested setRunning calls)
+  const askedNotifRef = React.useRef(false);
   const toggle = React.useCallback(() => {
     if (running) {
       pause();
     } else {
+      // Request notification permission only on first start, not on page load
+      if (
+        !askedNotifRef.current &&
+        typeof window !== "undefined" &&
+        "Notification" in window &&
+        Notification.permission === "default"
+      ) {
+        Notification.requestPermission().catch(() => {});
+        askedNotifRef.current = true;
+      }
       start();
     }
   }, [running, start, pause]);
@@ -289,20 +300,6 @@ export default function PomodoroFocusClient() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [toggle, resetTimer, skip]);
-
-  // Notifications permission (ask once)
-  const askedRef = React.useRef(false);
-  React.useEffect(() => {
-    const onFirstClick = () => {
-      if (!askedRef.current && "Notification" in window && Notification.permission === "default") {
-        Notification.requestPermission().catch(() => {});
-      }
-      askedRef.current = true;
-      window.removeEventListener("pointerdown", onFirstClick);
-    };
-    window.addEventListener("pointerdown", onFirstClick);
-    return () => window.removeEventListener("pointerdown", onFirstClick);
-  }, []);
 
   /* UI */
   const modeLabel: Record<Mode, string> = {

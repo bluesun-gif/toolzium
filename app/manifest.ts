@@ -7,7 +7,7 @@ export default function manifest(): MetadataRoute.Manifest {
     description:
       "Free online tools for developers and professionals. URL shortener, QR codes, JSON formatter, image converter, calculators, and 100+ utilities.",
     start_url: "/tools",
-    display: "standalone",
+    display: "minimal-ui",
     background_color: "#09090b",
     theme_color: "#6d28d9",
     orientation: "portrait-primary",
