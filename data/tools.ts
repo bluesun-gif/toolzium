@@ -623,6 +623,27 @@ export const ToolsData = [
           "Find ISO week number for any date. Week number calculator with date range display. Useful for project planning and scheduling with week-based calendars.",
         popular: false,
       },
+      {
+        title: "World Clock",
+        url: "/tools/time/world-clock",
+        description:
+          "View current time in multiple cities worldwide. Live-updating world clock with 30+ major timezones, day/night indicators, 12h/24h toggle, and UTC offsets. Save your favorite cities.",
+        popular: true,
+      },
+      {
+        title: "Date Formatter",
+        url: "/tools/time/date-formatter",
+        description:
+          "Convert any date to 15+ formats including ISO 8601, RFC 2822, Unix timestamp, and locale-specific formats (US, UK, Japan). Shows day of week, week number, and day of year.",
+        popular: false,
+      },
+      {
+        title: "Birthday Countdown",
+        url: "/tools/time/birthday-countdown",
+        description:
+          "Live countdown to your next birthday with days, hours, minutes, seconds. Shows your exact age, zodiac sign, birthstone, birth day of week, and fun facts about your birth year.",
+        popular: true,
+      },
     ],
   },
   {
@@ -823,6 +844,20 @@ export const ToolsData = [
           "Calculate monthly mortgage payments with down payment, loan term, and interest rate. See total interest paid, total cost, and principal vs interest breakdown. Compare 15, 20, 25, and 30-year terms.",
         popular: true,
       },
+      {
+        title: "Investment Return Calculator",
+        url: "/tools/finance/investment-return",
+        description:
+          "Calculate investment growth over time with initial investment, monthly contributions, and annual return rate. Year-by-year breakdown table showing balance, contributions, and returns.",
+        popular: true,
+      },
+      {
+        title: "Debt Payoff Calculator",
+        url: "/tools/finance/debt-payoff",
+        description:
+          "Calculate debt payoff timeline and total interest. See how extra payments ($50, $100, $200/mo) accelerate payoff. Yearly amortization schedule with balance tracking.",
+        popular: false,
+      },
     ],
   },
   {
@@ -865,6 +900,13 @@ export const ToolsData = [
         description:
           "Ask the Magic 8 Ball any yes-or-no question and get a mystical answer! Classic billiard-style 8-ball with 20 authentic responses, shake animation, and question history.",
         popular: false,
+      },
+      {
+        title: "Random Name Generator",
+        url: "/tools/fun/name-generator",
+        description:
+          "Generate random names for characters, babies, usernames, and pen names. 200+ first names, fantasy names, and username patterns. Filter by gender, starting letter, and category.",
+        popular: true,
       },
     ],
   },
@@ -1022,6 +1064,20 @@ export const ToolsData = [
         description:
           "Build better habits with a visual streak tracker. Add custom habits, track daily completion with a heatmap, view current and best streaks, and see weekly stats. All data saved locally in your browser.",
         popular: true,
+      },
+      {
+        title: "Eisenhower Matrix",
+        url: "/tools/productivity/eisenhower-matrix",
+        description:
+          "Interactive 2x2 priority matrix for task management. Categorize tasks as Do First, Schedule, Delegate, or Eliminate. Color-coded quadrants with task tracking and localStorage persistence.",
+        popular: true,
+      },
+      {
+        title: "Flashcard Maker",
+        url: "/tools/productivity/flashcards",
+        description:
+          "Create study flashcards with flip animations. Multiple deck management, shuffle mode, progress tracking, and JSON import/export. Perfect for students and self-learners.",
+        popular: false,
       },
     ],
   },
