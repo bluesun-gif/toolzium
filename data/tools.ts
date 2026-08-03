@@ -466,6 +466,13 @@ export const ToolsData = [
           "Simulate how colors appear to people with color blindness. Test hex colors against Protanopia, Deuteranopia, Tritanopia, and Achromatopsia. Essential accessibility tool for designers and developers.",
         popular: true,
       },
+      {
+        title: "JSON Schema Validator",
+        url: "/tools/dev/json-schema",
+        description:
+          "Validate JSON data against a JSON Schema. Real-time validation with error paths. Preset schemas for users, APIs, and configs. Checks types, required fields, enums, and constraints.",
+        popular: false,
+      },
     ],
   },
   {
@@ -750,6 +757,13 @@ export const ToolsData = [
           "Record your screen online for free. Capture entire screen, application window, or browser tab with optional microphone audio. Download as WebM video. 100% browser-based, no software to install.",
         popular: true,
       },
+      {
+        title: "Decision Maker",
+        url: "/tools/util/decision-maker",
+        description:
+          "Can't decide? Simple mode randomly picks from your options with spin animation. Weighted mode scores options by pros, cons, and criteria weights. Decision history saved locally.",
+        popular: true,
+      },
     ],
   },
   {
@@ -793,6 +807,13 @@ export const ToolsData = [
           "Calculate weekly work hours with start/end times and break durations. Auto-computes daily hours, weekly total, and overtime (over 40h). Optional hourly rate for gross pay estimation.",
         popular: false,
       },
+      {
+        title: "Grocery List Manager",
+        url: "/tools/office/grocery-list",
+        description:
+          "Smart grocery list with categories (Produce, Dairy, Meat, etc.). Add items with quantity, unit, and price. Check off while shopping. Total cost tracking. Multiple lists. Share as text.",
+        popular: false,
+      },
     ],
   },
   {
@@ -827,6 +848,13 @@ export const ToolsData = [
         url: "/tools/travel/fuel-cost",
         description:
           "Calculate fuel cost for any trip. Enter distance, fuel efficiency, and fuel price. Compare multiple vehicles, toggle metric/imperial, and calculate round trip costs.",
+        popular: true,
+      },
+      {
+        title: "Travel Budget Planner",
+        url: "/tools/travel/budget",
+        description:
+          "Plan travel budget with expense categories: flights, accommodation, food, transport, activities, and more. Daily and per-person cost breakdown. Visual pie chart. Save and export budgets.",
         popular: true,
       },
     ],
@@ -884,6 +912,20 @@ export const ToolsData = [
         url: "/tools/finance/debt-payoff",
         description:
           "Calculate debt payoff timeline and total interest. See how extra payments ($50, $100, $200/mo) accelerate payoff. Yearly amortization schedule with balance tracking.",
+        popular: false,
+      },
+      {
+        title: "Net Salary Calculator",
+        url: "/tools/finance/net-salary",
+        description:
+          "Calculate take-home pay after taxes. US Federal tax brackets with effective rate calculation. Monthly and yearly net salary. Visual tax vs take-home breakdown. Custom tax rate option.",
+        popular: true,
+      },
+      {
+        title: "Loan Comparison Calculator",
+        url: "/tools/finance/loan-comparison",
+        description:
+          "Compare up to 3 loan offers side by side. See monthly payment, total interest, and total cost for each. Highlights the cheapest option and shows potential savings.",
         popular: false,
       },
     ],
@@ -1083,6 +1125,20 @@ export const ToolsData = [
         url: "/tools/health/due-date",
         description:
           "Estimate your due date from last menstrual period using Naegele's rule. Shows current week, trimester, key milestones timeline, and conception date. For informational purposes only.",
+        popular: false,
+      },
+      {
+        title: "Meditation Timer",
+        url: "/tools/health/meditation-timer",
+        description:
+          "Simple meditation timer with preset durations and breathing guide animation. Gentle bell sounds at start and end. Session counter. Box breathing pattern (4-4-4-4). Calm, focused design.",
+        popular: true,
+      },
+      {
+        title: "Screen Time Calculator",
+        url: "/tools/health/screen-time",
+        description:
+          "Track and analyze daily screen time by device and app category. Daily and weekly totals. 20-20-20 rule reminder. Health tips based on usage level. Visual breakdown charts.",
         popular: false,
       },
     ],
