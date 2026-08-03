@@ -494,6 +494,13 @@ export const ToolsData = [
           "Create CSS gradients visually. Linear and radial modes with multiple color stops. Adjustable angle. Live preview. Preset gradients. Copy CSS and Tailwind syntax. Random gradient button.",
         popular: true,
       },
+      {
+        title: "CSS Box Shadow Generator",
+        url: "/tools/dev/box-shadow",
+        description:
+          "Visual CSS box-shadow editor with sliders for offset, blur, spread, and color. Multiple shadows, inset toggle. Preset shadows: subtle, neon glow, layered. Copy CSS and Tailwind output.",
+        popular: true,
+      },
     ],
   },
   {
@@ -635,6 +642,13 @@ export const ToolsData = [
         description:
           "Calculate Cumulative GPA across multiple semesters. Add semesters with GPA and credits, get CGPA with academic classification. Free CGPA calculator for students.",
         popular: true,
+      },
+      {
+        title: "Video Aspect Ratio Calculator",
+        url: "/tools/calc/video-ratio",
+        description:
+          "Calculate video aspect ratios and resolutions. Presets for 4K, 1080p, 720p, Instagram, TikTok, YouTube Shorts. Scale calculator maintains ratio. Shows pixel count and megapixels.",
+        popular: false,
       },
     ],
   },
@@ -842,6 +856,13 @@ export const ToolsData = [
           "Smart grocery list with categories (Produce, Dairy, Meat, etc.). Add items with quantity, unit, and price. Check off while shopping. Total cost tracking. Multiple lists. Share as text.",
         popular: false,
       },
+      {
+        title: "Meeting Cost Calculator",
+        url: "/tools/office/meeting-cost",
+        description:
+          "Calculate how much meetings cost based on attendees and salaries. Live ticking cost counter. Fun comparisons (X cups of coffee). Tips for efficient meetings.",
+        popular: true,
+      },
     ],
   },
   {
@@ -884,6 +905,13 @@ export const ToolsData = [
         description:
           "Plan travel budget with expense categories: flights, accommodation, food, transport, activities, and more. Daily and per-person cost breakdown. Visual pie chart. Save and export budgets.",
         popular: true,
+      },
+      {
+        title: "Packing Weight Calculator",
+        url: "/tools/travel/packing-weight",
+        description:
+          "Calculate luggage weight before traveling. Categorize items, set airline weight limits. Visual progress bar with over-limit warnings. Toggle kg/lb. Know before you go.",
+        popular: false,
       },
     ],
   },
@@ -970,6 +998,13 @@ export const ToolsData = [
           "Track recurring subscriptions by category (streaming, software, gaming, etc.). Monthly and yearly totals. Sort by cost or date. Mark active/paused. Saved locally.",
         popular: true,
       },
+      {
+        title: "Interest Rate Comparison",
+        url: "/tools/finance/interest-compare",
+        description:
+          "Compare savings growth across up to 4 different interest rates. Daily, monthly, quarterly, annual compounding. Projections over 1-30 years. Highlights best performer.",
+        popular: false,
+      },
     ],
   },
   {
@@ -1025,6 +1060,13 @@ export const ToolsData = [
         url: "/tools/fun/zodiac",
         description:
           "Enter your birth date to find your Western zodiac sign, Chinese zodiac animal, element, ruling planet, compatible signs, personality traits, lucky numbers, and birthstone.",
+        popular: true,
+      },
+      {
+        title: "ASCII Art Generator",
+        url: "/tools/fun/ascii-art",
+        description:
+          "Convert text to ASCII art with multiple font styles: Banner, Block, Standard. Preview in monospace, copy to clipboard. Fun text art for social media, comments, and messages.",
         popular: true,
       },
     ],
@@ -1119,6 +1161,13 @@ export const ToolsData = [
           "Generate QR codes for WiFi sharing. Enter SSID, password, and encryption type. Phones scan to auto-connect. Download QR as PNG. Print-friendly layout.",
         popular: true,
       },
+      {
+        title: "Network Speed Converter",
+        url: "/tools/network/speed-converter",
+        description:
+          "Convert between network speed units (bps to Gbps). Download time estimates for common file sizes. Presets for dial-up, DSL, cable, fiber, and 5G speeds.",
+        popular: false,
+      },
     ],
   },
   {
@@ -1197,6 +1246,13 @@ export const ToolsData = [
           "Calculate daily macronutrient targets based on TDEE. Protein, carbs, and fat goals for weight loss, maintenance, or muscle gain. Preset splits: balanced, low-carb, high-protein, keto.",
         popular: false,
       },
+      {
+        title: "Blood Pressure Tracker",
+        url: "/tools/health/blood-pressure",
+        description:
+          "Track blood pressure readings with systolic, diastolic, and heart rate. Auto-categorize: Normal, Elevated, High Stage 1/2, Crisis. Color-coded. 7-day and 30-day averages.",
+        popular: false,
+      },
     ],
   },
   {
@@ -1253,6 +1309,13 @@ export const ToolsData = [
         description:
           "Impact vs Effort priority matrix. Four quadrants: Quick Wins, Major Projects, Fill-Ins, Avoid. Add tasks, assign quadrants, track progress. Color-coded. Saved locally.",
         popular: false,
+      },
+      {
+        title: "Habit Streak Counter",
+        url: "/tools/productivity/streaks",
+        description:
+          "Track daily habit streaks. Mark habits done, see current and longest streaks. 30-day heatmap calendar. Motivational messages at milestones. Multiple habits support.",
+        popular: true,
       },
     ],
   },
