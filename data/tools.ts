@@ -193,6 +193,13 @@ export const ToolsData = [
           "Encode and decode ROT13 text instantly. Apply any Caesar cipher shift from 1 to 25. Brute-force mode shows all possible shifts. Free online ROT13 encoder and decoder.",
         popular: false,
       },
+      {
+        title: "Reading Time Calculator",
+        url: "/tools/text/reading-time",
+        description:
+          "Estimate reading and speaking time for any text. Shows word count, sentence count, paragraph count, and Flesch-Kincaid readability score. Adjustable WPM for slow, average, and fast readers.",
+        popular: true,
+      },
     ],
   },
   // {
@@ -303,6 +310,13 @@ export const ToolsData = [
         description:
           "Create custom memes online for free. Upload your own image or choose a template, customize text position, font size, and color. Download instant memes to share.",
         popular: true,
+      },
+      {
+        title: "Aspect Ratio Calculator",
+        url: "/tools/image/aspect-ratio",
+        description:
+          "Calculate and convert image aspect ratios. Enter width and height to find the ratio, or a ratio and one dimension to get the other. Social media presets for Instagram, YouTube, Twitter, and more.",
+        popular: false,
       },
     ],
   },
@@ -444,6 +458,13 @@ export const ToolsData = [
         description:
           "Convert HTML to Markdown and Markdown to HTML instantly. Supports headings, links, images, lists, tables, code blocks, and more. Bidirectional converter with live preview. Free online tool.",
         popular: false,
+      },
+      {
+        title: "Color Blindness Simulator",
+        url: "/tools/dev/color-blindness",
+        description:
+          "Simulate how colors appear to people with color blindness. Test hex colors against Protanopia, Deuteranopia, Tritanopia, and Achromatopsia. Essential accessibility tool for designers and developers.",
+        popular: true,
       },
     ],
   },
@@ -801,6 +822,13 @@ export const ToolsData = [
           "Estimate jet lag severity and recovery time based on timezone differences. Get personalized tips for sleep schedule adjustment, light exposure, and meal timing. Covers all major world timezones.",
         popular: true,
       },
+      {
+        title: "Fuel Cost Calculator",
+        url: "/tools/travel/fuel-cost",
+        description:
+          "Calculate fuel cost for any trip. Enter distance, fuel efficiency, and fuel price. Compare multiple vehicles, toggle metric/imperial, and calculate round trip costs.",
+        popular: true,
+      },
     ],
   },
   {
@@ -906,6 +934,13 @@ export const ToolsData = [
         url: "/tools/fun/name-generator",
         description:
           "Generate random names for characters, babies, usernames, and pen names. 200+ first names, fantasy names, and username patterns. Filter by gender, starting letter, and category.",
+        popular: true,
+      },
+      {
+        title: "Zodiac Sign Finder",
+        url: "/tools/fun/zodiac",
+        description:
+          "Enter your birth date to find your Western zodiac sign, Chinese zodiac animal, element, ruling planet, compatible signs, personality traits, lucky numbers, and birthstone.",
         popular: true,
       },
     ],
@@ -1036,6 +1071,20 @@ export const ToolsData = [
           "Estimate body fat percentage using the US Navy method. Calculate fat mass, lean mass, and body fat category. Supports both metric and imperial measurements with visual progress indicators.",
         popular: false,
       },
+      {
+        title: "Heart Rate Zone Calculator",
+        url: "/tools/health/heart-rate-zones",
+        description:
+          "Calculate heart rate training zones based on age and resting heart rate. Standard and Karvonen methods. 5 color-coded zones from Recovery to Maximum with target BPM ranges.",
+        popular: true,
+      },
+      {
+        title: "Pregnancy Due Date Calculator",
+        url: "/tools/health/due-date",
+        description:
+          "Estimate your due date from last menstrual period using Naegele's rule. Shows current week, trimester, key milestones timeline, and conception date. For informational purposes only.",
+        popular: false,
+      },
     ],
   },
   {
@@ -1078,6 +1127,13 @@ export const ToolsData = [
         description:
           "Create study flashcards with flip animations. Multiple deck management, shuffle mode, progress tracking, and JSON import/export. Perfect for students and self-learners.",
         popular: false,
+      },
+      {
+        title: "Kanban Board",
+        url: "/tools/productivity/kanban",
+        description:
+          "Simple kanban board with To Do, In Progress, and Done columns. Add tasks, move between columns, add custom columns, and track progress. All data saved locally.",
+        popular: true,
       },
     ],
   },
