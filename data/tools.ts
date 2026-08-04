@@ -374,6 +374,13 @@ export const ToolsData = [
           "Simple pixel art drawing tool. Grid sizes 8x8 to 32x32. Color picker, pencil, eraser, fill tools. Undo/redo. Download as PNG. Preset color palettes.",
         popular: true,
       },
+      {
+        title: "Color Blind Palette",
+        url: "/tools/image/color-blind-palette",
+        description:
+          "Generate color-blind friendly palettes. Simulate Protanopia, Deuteranopia, Tritanopia. WCAG contrast ratios. Safe color combinations. Copy hex values.",
+        popular: false,
+      },
     ],
   },
   {
@@ -563,6 +570,13 @@ export const ToolsData = [
         description:
           "Escape and unescape strings for HTML, URL, JavaScript, JSON, XML, SQL, CSS, Base64. Bidirectional conversion. Copy output instantly.",
         popular: false,
+      },
+      {
+        title: "API Status Monitor",
+        url: "/tools/dev/api-status",
+        description:
+          "Check if popular APIs and services are reachable. Pre-loaded services: Google, GitHub, AWS, Cloudflare, Vercel, NPM. Custom URL checking. Visual status indicators.",
+        popular: true,
       },
     ],
   },
@@ -757,6 +771,13 @@ export const ToolsData = [
         popular: true,
       },
       {
+        title: "Meeting Planner",
+        url: "/tools/time/meeting-planner",
+        description:
+          "Find the best meeting time across time zones. Visual 24-hour grid with working hours highlighted. Overlap detection. Copy invite text with converted times.",
+        popular: true,
+      },
+      {
         title: "Date Formatter",
         url: "/tools/time/date-formatter",
         description:
@@ -904,6 +925,13 @@ export const ToolsData = [
         description:
           "Manual receipt entry and tracking. Add store, date, amount, category, payment method. Filter and export as CSV. Total spending dashboard.",
         popular: false,
+      },
+      {
+        title: "Resume Analyzer",
+        url: "/tools/office/resume-analyzer",
+        description:
+          "Paste resume text for actionable feedback. Word count check, keyword density, weak word detection, action verb suggestions. ATS optimization tips.",
+        popular: true,
       },
       {
         title: "Expense Tracker",
@@ -1117,6 +1145,13 @@ export const ToolsData = [
           "Split expenses among a group. Add people and expenses. Equal or custom splits. Calculates optimized settlements showing who owes whom.",
         popular: true,
       },
+      {
+        title: "Tax Bracket Calculator",
+        url: "/tools/finance/tax-bracket",
+        description:
+          "Calculate income tax by brackets for US, UK, Canada, Australia, India. Bracket breakdown, effective rate, take-home pay. Visual bar chart.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1200,6 +1235,13 @@ export const ToolsData = [
         url: "/tools/fun/color-memory",
         description:
           "Classic memory card matching game. Flip cards to find matching color pairs. Track moves and time. Easy, Medium, Hard difficulties. Best score saved.",
+        popular: true,
+      },
+      {
+        title: "Reaction Time Test",
+        url: "/tools/fun/reaction-time",
+        description:
+          "Measure your reaction time in milliseconds. Screen turns green at random intervals. Track best score and average. Fun ratings from Superhuman to Slow.",
         popular: true,
       },
     ],
@@ -1315,6 +1357,13 @@ export const ToolsData = [
           "Calculate subnet details from IP and CIDR. Network/broadcast address, usable hosts, wildcard mask, IP class. Binary representation. Common subnet reference table.",
         popular: true,
       },
+      {
+        title: "Port Number Reference",
+        url: "/tools/network/port-reference",
+        description:
+          "Searchable reference of 50+ common network ports. Filter by category: Web, Database, Email, Remote Access. Shows protocol (TCP/UDP). Copy port info.",
+        popular: false,
+      },
     ],
   },
   {
@@ -1421,6 +1470,13 @@ export const ToolsData = [
           "Track allergies and reactions. Log allergen, severity, symptoms, date. Categorize by type. Summary dashboard. Export data. Saved locally.",
         popular: false,
       },
+      {
+        title: "Workout Timer",
+        url: "/tools/health/workout-timer",
+        description:
+          "Interval training timer with audio cues. Set work/rest durations and rounds. Presets for Tabata, HIIT, EMOM. Visual progress bar. Pause/Resume.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1504,6 +1560,13 @@ export const ToolsData = [
         url: "/tools/productivity/reading-list",
         description:
           "Manage books and articles. Track status (To Read, Reading, Completed), rate with stars, add notes. Search, filter, sort. Export list.",
+        popular: true,
+      },
+      {
+        title: "Gratitude Journal",
+        url: "/tools/productivity/gratitude",
+        description:
+          "Daily gratitude entries. Write 3 things you are grateful for. Streak counter, inspirational prompts, monthly calendar view. Saved locally.",
         popular: true,
       },
     ],
