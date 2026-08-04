@@ -228,6 +228,13 @@ export const ToolsData = [
           "Advanced text analysis: word/sentence/paragraph count, avg word length, reading level (Flesch-Kincaid), lexical density, most frequent words, and more. Real-time.",
         popular: false,
       },
+      {
+        title: "Resume Builder",
+        url: "/tools/text/resume-builder",
+        description:
+          "Build a resume in markdown format. Sections for contact, summary, experience, education, skills. Live preview. Copy markdown or download as .md file.",
+        popular: true,
+      },
     ],
   },
   // {
@@ -727,6 +734,13 @@ export const ToolsData = [
           "Calculate video aspect ratios and resolutions. Presets for 4K, 1080p, 720p, Instagram, TikTok, YouTube Shorts. Scale calculator maintains ratio. Shows pixel count and megapixels.",
         popular: false,
       },
+      {
+        title: "Aspect Ratio Calculator",
+        url: "/tools/calc/aspect-ratio",
+        description:
+          "Calculate aspect ratios for any resolution. Lock ratio and compute missing dimension. Common presets: 16:9, 4:3, 21:9, 1:1, 9:16. Scale calculator.",
+        popular: false,
+      },
     ],
   },
   {
@@ -1152,6 +1166,13 @@ export const ToolsData = [
           "Calculate income tax by brackets for US, UK, Canada, Australia, India. Bracket breakdown, effective rate, take-home pay. Visual bar chart.",
         popular: true,
       },
+      {
+        title: "Expense Categorizer",
+        url: "/tools/finance/expense-categories",
+        description:
+          "Categorize expenses with pie chart breakdown. Set monthly budget limits per category. Progress bars and over-budget alerts. Saved locally.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1242,6 +1263,13 @@ export const ToolsData = [
         url: "/tools/fun/reaction-time",
         description:
           "Measure your reaction time in milliseconds. Screen turns green at random intervals. Track best score and average. Fun ratings from Superhuman to Slow.",
+        popular: true,
+      },
+      {
+        title: "Animal Quiz",
+        url: "/tools/fun/animal-quiz",
+        description:
+          "Fun trivia quiz about animals. 30 questions across Mammals, Birds, Sea Life, Insects, Reptiles. 15-second timer. Score tracking with high score.",
         popular: true,
       },
     ],
@@ -1364,6 +1392,13 @@ export const ToolsData = [
           "Searchable reference of 50+ common network ports. Filter by category: Web, Database, Email, Remote Access. Shows protocol (TCP/UDP). Copy port info.",
         popular: false,
       },
+      {
+        title: "DNS Record Generator",
+        url: "/tools/network/dns-generator",
+        description:
+          "Generate DNS records for common setups. A, AAAA, CNAME, MX, TXT, NS, SRV types. Presets for email and website. Output in BIND zone file format.",
+        popular: false,
+      },
     ],
   },
   {
@@ -1476,6 +1511,13 @@ export const ToolsData = [
         description:
           "Interval training timer with audio cues. Set work/rest durations and rounds. Presets for Tabata, HIIT, EMOM. Visual progress bar. Pause/Resume.",
         popular: true,
+      },
+      {
+        title: "Symptom Diary",
+        url: "/tools/health/symptom-diary",
+        description:
+          "Daily symptom tracking with severity (1-10), categories, time of day. Calendar view, trend analysis, export. Consult a healthcare provider.",
+        popular: false,
       },
     ],
   },
