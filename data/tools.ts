@@ -486,6 +486,13 @@ export const ToolsData = [
           "Convert image to high-contrast black & white binary threshold image. Binary B&W, Otsu auto threshold, grayscale, document scan prep.",
         popular: true,
       },
+      {
+        title: "Image to ASCII Art Generator",
+        url: "/tools/image/image-ascii",
+        description:
+          "Convert uploaded images into text-based ASCII art. Custom character palettes, width adjustment, color mode, copy & download text.",
+        popular: true,
+      },
     ],
   },
   {
@@ -781,6 +788,13 @@ export const ToolsData = [
           "Interactive 3D CSS transform generator. Sliders for rotateX, rotateY, rotateZ, scale, skew, translate, perspective. Live 3D preview.",
         popular: true,
       },
+      {
+        title: "CSS Clip-Path Maker",
+        url: "/tools/dev/css-clippath",
+        description:
+          "Interactive CSS clip-path generator. Polygon, circle, ellipse, inset, star, hexagon, arrow. Live handles, CSS output.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1062,6 +1076,13 @@ export const ToolsData = [
         url: "/tools/time/sleep-latency",
         description:
           "Sleep latency and sleep efficiency analyzer. Calculate exact alarm time based on bed time, sleep latency, and sleep cycle target.",
+        popular: true,
+      },
+      {
+        title: "Sleep Efficiency Calculator",
+        url: "/tools/time/sleep-efficiency",
+        description:
+          "Calculate sleep efficiency percentage and quality grade. Bedtime, sleep onset, awakenings, clinical score, sleep hygiene tips.",
         popular: true,
       },
       {
@@ -1347,6 +1368,13 @@ export const ToolsData = [
         popular: true,
       },
       {
+        title: "Proforma Invoice Generator",
+        url: "/tools/office/proforma-invoice",
+        description:
+          "Generate preliminary Proforma Invoices for trade proposals. Seller/buyer info, itemized table, payment terms, print-ready layout.",
+        popular: true,
+      },
+      {
         title: "Expense Tracker",
         url: "/tools/office/expense-tracker",
         description:
@@ -1520,6 +1548,13 @@ export const ToolsData = [
         url: "/tools/travel/baggage-calc",
         description:
           "Calculate total checked bag weight and potential excess baggage fees. Economy/Business class limits, overweight warnings, dimensional weight.",
+        popular: true,
+      },
+      {
+        title: "Currency Exchange Fee Calculator",
+        url: "/tools/travel/exchange-fees",
+        description:
+          "Uncover hidden exchange rate markups and foreign transaction fees. Mid-market vs offered rate comparison, fee breakdown.",
         popular: true,
       },
     ],
@@ -1747,6 +1782,13 @@ export const ToolsData = [
           "Compare financial impact of using emergency savings vs taking a personal loan or credit card advance. Total interest paid vs interest lost.",
         popular: true,
       },
+      {
+        title: "Investment Compound Growth Visualizer",
+        url: "/tools/finance/compound-growth",
+        description:
+          "Compound interest & investment growth projector. Deposit, monthly contribution, return %, frequency, breakdown chart & schedule.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1942,6 +1984,13 @@ export const ToolsData = [
         url: "/tools/fun/sudoku",
         description:
           "Interactive 9x9 Sudoku puzzle generator and automatic solver. Easy, medium, hard levels, backtracking solver algorithm, timer.",
+        popular: true,
+      },
+      {
+        title: "Word Scramble Game",
+        url: "/tools/fun/word-scramble",
+        description:
+          "Unscramble scrambled letters word game. Categories, timer per word, letter hint, score counter, streak tracker, sound effects.",
         popular: true,
       },
     ],
@@ -2310,6 +2359,13 @@ export const ToolsData = [
           "Calculate daily recommended protein intake based on body weight, goal, and activity level. Daily grams, calories, per-meal breakdown.",
         popular: true,
       },
+      {
+        title: "Hydration & Daily Water Tracker",
+        url: "/tools/health/hydration-tracker",
+        description:
+          "Daily water intake goal and drink logger. Weight/climate intake target, animated container fill, history log, reminders.",
+        popular: true,
+      },
     ],
   },
   {
@@ -2491,6 +2547,13 @@ export const ToolsData = [
         url: "/tools/productivity/meal-prep",
         description:
           "Weekly meal prep calendar and consolidated grocery list generator. Plan Mon-Sun meals, auto-extract ingredient checklist.",
+        popular: true,
+      },
+      {
+        title: "Weekly Goals & Milestone Planner",
+        url: "/tools/productivity/weekly-goals",
+        description:
+          "Weekly goal setting and milestone breakdown tool. Primary focus goals, daily sub-task checklists, progress bars, JSON export.",
         popular: true,
       },
     ],
