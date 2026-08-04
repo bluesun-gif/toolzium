@@ -437,6 +437,13 @@ export const ToolsData = [
           "Arrange photos into grid layouts. Upload 2-9 images. Multiple templates. Gap, border, background controls. Download as single PNG.",
         popular: true,
       },
+      {
+        title: "Screenshot Annotator",
+        url: "/tools/image/annotator",
+        description:
+          "Annotate screenshots with rectangles, circles, arrows, freehand. Text labels. Color and line width controls. Undo/redo. Download PNG.",
+        popular: true,
+      },
     ],
   },
   {
@@ -683,6 +690,13 @@ export const ToolsData = [
           "Generate CSS keyframe animations visually. Fade, slide, bounce, pulse, spin, shake. Duration, delay, timing controls. Live preview. Copy CSS.",
         popular: true,
       },
+      {
+        title: "SQL Formatter",
+        url: "/tools/dev/sql-formatter",
+        description:
+          "Format and beautify SQL queries. Uppercase keywords, proper indentation. Handles SELECT, INSERT, UPDATE, DELETE, JOIN. Copy formatted SQL.",
+        popular: true,
+      },
     ],
   },
   {
@@ -925,6 +939,13 @@ export const ToolsData = [
         popular: false,
       },
       {
+        title: "Lunar Calendar",
+        url: "/tools/time/lunar-calendar",
+        description:
+          "Moon phases for any month/year. Synodic period calculation. Moon emojis. Next full/new moon dates. Monthly calendar grid view.",
+        popular: true,
+      },
+      {
         title: "Date Formatter",
         url: "/tools/time/date-formatter",
         description:
@@ -1151,6 +1172,13 @@ export const ToolsData = [
         popular: true,
       },
       {
+        title: "Contract Template",
+        url: "/tools/office/contract-template",
+        description:
+          "Generate basic contract templates. NDA, Service, Freelance, Rental, Employment. Fill in parties and terms. Numbered sections. Copy text.",
+        popular: true,
+      },
+      {
         title: "Expense Tracker",
         url: "/tools/office/expense-tracker",
         description:
@@ -1275,6 +1303,13 @@ export const ToolsData = [
         url: "/tools/travel/documents",
         description:
           "Comprehensive travel document checklist. Domestic, International, Business, Family trips. Check off items. Progress tracking. Custom items.",
+        popular: true,
+      },
+      {
+        title: "Exchange Rate History",
+        url: "/tools/travel/exchange-history",
+        description:
+          "Historical exchange rate trends. 30+ currencies. Line chart over 30-365 days. Min, max, average rates. Best time to exchange indicator.",
         popular: true,
       },
     ],
@@ -1453,6 +1488,13 @@ export const ToolsData = [
           "Compare saving vs spending habits. 50/30/20 rule analysis. Expense categories. Savings rate. Bar chart comparison. Monthly tracking.",
         popular: true,
       },
+      {
+        title: "Invoice Payment Tracker",
+        url: "/tools/finance/invoice-tracker",
+        description:
+          "Track invoices and payment status. Filter by status. Color-coded badges. Outstanding totals. Overdue alerts. Export CSV. Mark as paid.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1599,6 +1641,13 @@ export const ToolsData = [
         url: "/tools/fun/rps",
         description:
           "Play Rock Paper Scissors vs computer. Score tracker. Best of 3/5/7 mode. Win streak counter. Match history. Emoji buttons.",
+        popular: true,
+      },
+      {
+        title: "Simon Says",
+        url: "/tools/fun/simon-says",
+        description:
+          "Classic Simon Says memory game. 4 colored panels with sound. Increasing difficulty. High score tracking. Speed increases every 5 levels.",
         popular: true,
       },
     ],
@@ -1918,6 +1967,13 @@ export const ToolsData = [
           "Simple online vision screening. Snellen-style letter chart. Approximate visual acuity results. Color blindness dot patterns. Not medical advice.",
         popular: true,
       },
+      {
+        title: "Pregnancy Tracker",
+        url: "/tools/health/pregnancy-tracker",
+        description:
+          "Track pregnancy milestones week by week. Due date calculator. Baby size comparisons. Trimester stages. Appointment reminders. Weight log.",
+        popular: true,
+      },
     ],
   },
   {
@@ -2050,6 +2106,13 @@ export const ToolsData = [
         url: "/tools/productivity/bookmarks",
         description:
           "Organize bookmarks with categories. Search, sort, favorites. Export/import JSON. Copy URLs. Custom folders. localStorage persistence.",
+        popular: true,
+      },
+      {
+        title: "Project Timeline",
+        url: "/tools/productivity/timeline",
+        description:
+          "Visual project timeline planner. Add tasks with dates and status. Gantt-like bar chart. Progress tracking. Critical path. Copy summary.",
         popular: true,
       },
     ],

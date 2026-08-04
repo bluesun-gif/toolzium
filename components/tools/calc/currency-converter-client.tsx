@@ -19,7 +19,7 @@ import { trackToolConversion, trackToolUsage } from "@/lib/gtm";
 
 /* Config & Types */
 
-const PROVIDER_LABEL = "exchangerate.host";
+const PROVIDER_LABEL = "open.er-api.com";
 const CACHE_HOURS = 12;
 
 type RatesMap = Record<string, number>;
