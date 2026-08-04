@@ -430,6 +430,13 @@ export const ToolsData = [
           "Extract dominant colors from uploaded images. Hex, RGB, HSL values. Copy palette. Download as PNG swatch strip. CSS color names.",
         popular: true,
       },
+      {
+        title: "Photo Grid Maker",
+        url: "/tools/image/photo-grid",
+        description:
+          "Arrange photos into grid layouts. Upload 2-9 images. Multiple templates. Gap, border, background controls. Download as single PNG.",
+        popular: true,
+      },
     ],
   },
   {
@@ -669,6 +676,13 @@ export const ToolsData = [
           "Complete HTTP status code reference. 1xx-5xx grouped by category. Color-coded. Search by code or name. Quick lookup. Copy entries.",
         popular: true,
       },
+      {
+        title: "CSS Animation Generator",
+        url: "/tools/dev/css-animation",
+        description:
+          "Generate CSS keyframe animations visually. Fade, slide, bounce, pulse, spin, shake. Duration, delay, timing controls. Live preview. Copy CSS.",
+        popular: true,
+      },
     ],
   },
   {
@@ -904,6 +918,13 @@ export const ToolsData = [
         popular: true,
       },
       {
+        title: "Timezone Alarm",
+        url: "/tools/time/tz-alarm",
+        description:
+          "Set alarms across timezones. Audio alerts. Snooze. Multiple alarms. Active/inactive toggle. Color-coded by region.",
+        popular: false,
+      },
+      {
         title: "Date Formatter",
         url: "/tools/time/date-formatter",
         description:
@@ -1123,6 +1144,13 @@ export const ToolsData = [
         popular: true,
       },
       {
+        title: "Letter Template Generator",
+        url: "/tools/office/letter-template",
+        description:
+          "Generate formal letter templates. Resignation, Recommendation, Complaint, Thank You. Auto-format structure. Copy and print-friendly.",
+        popular: true,
+      },
+      {
         title: "Expense Tracker",
         url: "/tools/office/expense-tracker",
         description:
@@ -1240,6 +1268,13 @@ export const ToolsData = [
         url: "/tools/travel/phrasebook",
         description:
           "Common travel phrases in 8 languages. Greetings, Directions, Food, Emergency. Phonetic pronunciation. Audio playback. Bookmark favorites.",
+        popular: true,
+      },
+      {
+        title: "Travel Document Checklist",
+        url: "/tools/travel/documents",
+        description:
+          "Comprehensive travel document checklist. Domestic, International, Business, Family trips. Check off items. Progress tracking. Custom items.",
         popular: true,
       },
     ],
@@ -1411,6 +1446,13 @@ export const ToolsData = [
           "Calculate personal net worth. Track assets and liabilities by category. Pie chart allocation. Save snapshots over time. Growth comparison.",
         popular: true,
       },
+      {
+        title: "Savings vs Spending",
+        url: "/tools/finance/savings-spending",
+        description:
+          "Compare saving vs spending habits. 50/30/20 rule analysis. Expense categories. Savings rate. Bar chart comparison. Monthly tracking.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1550,6 +1592,13 @@ export const ToolsData = [
         url: "/tools/fun/two-truths",
         description:
           "Party game with 50 sets of fun facts. Spot the lie. Score tracking. Timer mode. Categories: Science, History, Animals, Geography, Food.",
+        popular: true,
+      },
+      {
+        title: "Rock Paper Scissors",
+        url: "/tools/fun/rps",
+        description:
+          "Play Rock Paper Scissors vs computer. Score tracker. Best of 3/5/7 mode. Win streak counter. Match history. Emoji buttons.",
         popular: true,
       },
     ],
@@ -1862,6 +1911,13 @@ export const ToolsData = [
           "Log daily steps. Set goals (default 10K). Calculate calories burned and distance. Weekly/monthly totals. Streak counter. Bar chart history.",
         popular: true,
       },
+      {
+        title: "Vision Test",
+        url: "/tools/health/vision-test",
+        description:
+          "Simple online vision screening. Snellen-style letter chart. Approximate visual acuity results. Color blindness dot patterns. Not medical advice.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1987,6 +2043,13 @@ export const ToolsData = [
         url: "/tools/productivity/meeting-agenda",
         description:
           "Build structured meeting agendas. Topics with presenters and time allocation. Auto-calculate totals. Templates included. Copy formatted.",
+        popular: true,
+      },
+      {
+        title: "Bookmark Manager",
+        url: "/tools/productivity/bookmarks",
+        description:
+          "Organize bookmarks with categories. Search, sort, favorites. Export/import JSON. Copy URLs. Custom folders. localStorage persistence.",
         popular: true,
       },
     ],
