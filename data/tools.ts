@@ -634,6 +634,13 @@ export const ToolsData = [
           "Visual CSS Grid layout generator. Set columns, rows, gap. Define grid-template with fr, px, auto. Span cells. Generate and copy CSS.",
         popular: true,
       },
+      {
+        title: "HTML Entity Encoder",
+        url: "/tools/dev/html-entities",
+        description:
+          "Encode and decode HTML entities. Named vs numeric toggle. Common entities reference table. Auto-detect mode. Batch processing.",
+        popular: false,
+      },
     ],
   },
   {
@@ -898,6 +905,13 @@ export const ToolsData = [
         popular: true,
       },
       {
+        title: "Morse Code Flashlight",
+        url: "/tools/util/morse-flashlight",
+        description:
+          "Convert text to Morse code with visual flash and audio beeps. Speed control (WPM). SOS quick button. Reference chart. Play/Pause/Stop.",
+        popular: true,
+      },
+      {
         title: "Random Picker",
         url: "/tools/util/random-picker",
         description:
@@ -1037,6 +1051,13 @@ export const ToolsData = [
         description:
           "Create Standard Operating Procedure documents. Numbered steps with sub-steps, safety warnings. Templates included. Export as markdown.",
         popular: false,
+      },
+      {
+        title: "Cover Letter Builder",
+        url: "/tools/office/cover-letter",
+        description:
+          "Build professional cover letters. Templates: Formal, Modern, Creative. Live preview. Fill in sections. Copy or download as text.",
+        popular: true,
       },
       {
         title: "Expense Tracker",
@@ -1292,6 +1313,20 @@ export const ToolsData = [
           "Generate monthly budget templates. Methods: 50/30/20, Zero-based, Envelope, 60/20/20. Auto-populate categories. Visual pie chart. Export.",
         popular: true,
       },
+      {
+        title: "Currency Slang Dictionary",
+        url: "/tools/finance/currency-slang",
+        description:
+          "100+ money slang terms worldwide. US, UK, Crypto, Historical categories. Search, filter, bookmark. Term of the day feature.",
+        popular: false,
+      },
+      {
+        title: "Interest Rate Converter",
+        url: "/tools/finance/rate-converter",
+        description:
+          "Convert between APR and APY. Nominal to effective rate. All compounding frequencies. Compare rates side by side. Formula display.",
+        popular: false,
+      },
     ],
   },
   {
@@ -1410,6 +1445,13 @@ export const ToolsData = [
         url: "/tools/fun/emoji-story",
         description:
           "Generate random emoji stories by category. Adventure, Romance, Mystery, Comedy, Sci-Fi, Horror. Silly text translations. Rate and share.",
+        popular: true,
+      },
+      {
+        title: "Word Association Game",
+        url: "/tools/fun/word-association",
+        description:
+          "Word association chain game. 200 starting words. Timer mode (60 seconds). Chain history. High score tracking. Share chain as text.",
         popular: true,
       },
     ],
@@ -1694,6 +1736,20 @@ export const ToolsData = [
           "Rate daily habits and get a wellness score out of 100. Categories: Sleep, Nutrition, Exercise, Mental, Social. History and trends.",
         popular: true,
       },
+      {
+        title: "Blood Type Compatibility",
+        url: "/tools/health/blood-type",
+        description:
+          "Blood type compatibility checker. Donation and receiving info. Visual compatibility matrix. Distribution statistics. Medical disclaimer.",
+        popular: true,
+      },
+      {
+        title: "Sleep Quality Analyzer",
+        url: "/tools/health/sleep-quality",
+        description:
+          "Score your sleep quality (0-100). Track bedtime, wake time, interruptions, caffeine. Weekly trends. Tips for better sleep.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1798,6 +1854,13 @@ export const ToolsData = [
         url: "/tools/productivity/weekly-planner",
         description:
           "Plan your week with visual calendar grid. 7-day view with time slots. Add events with colors. Export plan as text. Saved locally.",
+        popular: true,
+      },
+      {
+        title: "Daily Affirmations",
+        url: "/tools/productivity/affirmations",
+        description:
+          "200 positive affirmations across 6 categories. Daily selection based on date. Morning/Evening modes. Custom affirmations. Favorites.",
         popular: true,
       },
     ],
