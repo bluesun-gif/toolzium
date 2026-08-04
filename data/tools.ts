@@ -542,6 +542,13 @@ export const ToolsData = [
         description:
           "Create custom 3 to 10-color design palettes and export as SVG swatch image, CSS Variables, Tailwind CSS config, or JSON.",
         popular: true,
+      },
+      {
+        title: "Color Contrast Ratio Compliance Table",
+        url: "/tools/image/contrast-table",
+        description:
+          "Full WCAG 2.1 accessibility contrast comparison table for design systems. Test up to 6 colors simultaneously with AA/AAA badges.",
+        popular: true,
       },],
   },
   {
@@ -893,6 +900,13 @@ export const ToolsData = [
         description:
           "Visual generator for CSS Glassmorphism effects. Backdrop blur, opacity, saturation, borders, shadows, live card preview.",
         popular: true,
+      },
+      {
+        title: "CSS Keyframe Animation Generator",
+        url: "/tools/dev/css-keyframes",
+        description:
+          "Visual CSS @keyframes animation generator. Custom keyframe steps, pulse, bounce, shake, flip, rotate, and timing controls.",
+        popular: true,
       },],
   },
   {
@@ -1105,6 +1119,13 @@ export const ToolsData = [
         description:
           "Calculate income allocation according to the 50/30/20 budgeting rule (50% Needs, 30% Wants, 20% Savings/Debt Payoff).",
         popular: true,
+      },
+      {
+        title: "Debt-to-Income (DTI) Ratio Calculator",
+        url: "/tools/finance/dti-calculator",
+        description:
+          "Calculate Front-End and Back-End Debt-to-Income (DTI) ratios for mortgage underwriting & loan approval limits.",
+        popular: true,
       },],
   },
   {
@@ -1309,6 +1330,13 @@ export const ToolsData = [
         description:
           "Calculate sleep latency and optimal bedtimes based on 90-minute REM sleep cycles for 4, 5, or 6 full REM sleep cycles.",
         popular: true,
+      },
+      {
+        title: "REM Sleep Cycle & Optimal Bedtime Clock",
+        url: "/tools/time/rem-sleep-clock",
+        description:
+          "Calculate optimal sleep & wake times based on 90-minute REM sleep cycles and 14-minute sleep onset latency.",
+        popular: true,
       },],
   },
   {
@@ -1428,6 +1456,13 @@ export const ToolsData = [
         url: "/tools/util/phonetic-password",
         description:
           "Generate strong passwords with NATO phonetic pronunciation guides (Alpha, Bravo, Charlie) and entropy security scores.",
+        popular: true,
+      },
+      {
+        title: "Password Strength & Entropy Calculator",
+        url: "/tools/util/password-entropy",
+        description:
+          "Analyze password security, information entropy bits, and estimated crack times for online, fast offline, and supercomputer attacks.",
         popular: true,
       },],
   },
@@ -1654,6 +1689,13 @@ export const ToolsData = [
         description:
           "Generate formal Monthly Service Retainer Contracts. Retainer fee, included hours, overage rates, rollover terms, print view.",
         popular: true,
+      },
+      {
+        title: "Master Services Agreement (MSA) Generator",
+        url: "/tools/office/msa-generator",
+        description:
+          "Generate formal Master Services Agreements (MSA) for corporate contracts, invoicing terms, liability caps, and print view.",
+        popular: true,
       },],
   },
   {
@@ -1857,6 +1899,13 @@ export const ToolsData = [
         url: "/tools/travel/travel-daily-budget",
         description:
           "Calculate daily travel expense budgets for domestic or international trips. Accommodation, dining, transport, activities breakdown.",
+        popular: true,
+      },
+      {
+        title: "Currency Trip Budget & Spending Matrix",
+        url: "/tools/travel/trip-budget-matrix",
+        description:
+          "Multi-destination travel budget converter matrix. Converted trip budgets and daily spending limits for 7, 14, 21, and 30 days.",
         popular: true,
       },],
   },
@@ -2343,6 +2392,13 @@ export const ToolsData = [
         description:
           "Interactive 3D memory card matching game. 4x4 & 6x6 grids, Emoji/Developer/Animal themes, move counter, timer, best scores.",
         popular: true,
+      },
+      {
+        title: "Tic-Tac-Toe AI Unbeatable Challenge",
+        url: "/tools/fun/tictactoe-ai",
+        description:
+          "Interactive Tic-Tac-Toe game featuring Minimax AI difficulty levels (Easy, Medium, Unbeatable Minimax) and 2-player mode.",
+        popular: true,
       },],
   },
   {
@@ -2765,6 +2821,13 @@ export const ToolsData = [
         description:
           "Calculate calories burned and mechanical power split pace (/500m) during rowing machine workouts across 4 intensity levels.",
         popular: true,
+      },
+      {
+        title: "Elliptical Cross-Trainer Calorie Calculator",
+        url: "/tools/health/elliptical-calorie",
+        description:
+          "Calculate calories burned during Elliptical Cross-Trainer workouts across 4 resistance levels, incline, and stride distance.",
+        popular: true,
       },],
   },
   {
@@ -3003,6 +3066,13 @@ export const ToolsData = [
         url: "/tools/productivity/eisenhower-board",
         description:
           "Visual 4-quadrant Eisenhower task matrix board. Do First, Schedule, Delegate, and Eliminate quadrants with single-click shifts.",
+        popular: true,
+      },
+      {
+        title: "Eisenhower Urgency Matrix Checklist",
+        url: "/tools/productivity/eisenhower-checklist",
+        description:
+          "Interactive priority checklist categorized into 4 Eisenhower quadrants with due dates, progress bars, and Markdown export.",
         popular: true,
       },],
   },
