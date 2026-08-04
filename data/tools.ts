@@ -235,6 +235,13 @@ export const ToolsData = [
           "Build a resume in markdown format. Sections for contact, summary, experience, education, skills. Live preview. Copy markdown or download as .md file.",
         popular: true,
       },
+      {
+        title: "Pronunciation Guide",
+        url: "/tools/text/pronunciation",
+        description:
+          "200 commonly mispronounced English words with phonetic spelling. Audio playback via Web Speech API. Categories: Food, Names, Places, Science.",
+        popular: true,
+      },
     ],
   },
   // {
@@ -401,6 +408,13 @@ export const ToolsData = [
         description:
           "Find the closest named color for any hex value. 140+ CSS named colors. Color picker, RGB/HSL values. Browse and search all colors.",
         popular: false,
+      },
+      {
+        title: "Photo Collage Layout",
+        url: "/tools/image/collage-layout",
+        description:
+          "Design photo collage layouts. Choose 2-9 photos with pre-designed templates. Upload images, customize gap and background. Download as PNG.",
+        popular: true,
       },
     ],
   },
@@ -611,6 +625,13 @@ export const ToolsData = [
         url: "/tools/dev/flexbox-playground",
         description:
           "Interactive CSS Flexbox layout builder. Visual container with items. Controls for direction, justify, align, wrap, gap. Live CSS output.",
+        popular: true,
+      },
+      {
+        title: "CSS Grid Generator",
+        url: "/tools/dev/css-grid",
+        description:
+          "Visual CSS Grid layout generator. Set columns, rows, gap. Define grid-template with fr, px, auto. Span cells. Generate and copy CSS.",
         popular: true,
       },
     ],
@@ -870,6 +891,13 @@ export const ToolsData = [
         popular: false,
       },
       {
+        title: "Clipboard Manager",
+        url: "/tools/util/clipboard-manager",
+        description:
+          "Save and manage clipboard snippets with categories. One-click copy, search, pin favorites. Import/export as JSON. Saved locally.",
+        popular: true,
+      },
+      {
         title: "Random Picker",
         url: "/tools/util/random-picker",
         description:
@@ -1001,6 +1029,13 @@ export const ToolsData = [
         url: "/tools/office/file-renamer",
         description:
           "Preview file rename patterns. Add prefix/suffix, find and replace, sequential numbering, date prefix, case changes. Copy renamed list.",
+        popular: false,
+      },
+      {
+        title: "SOP Template Builder",
+        url: "/tools/office/sop-builder",
+        description:
+          "Create Standard Operating Procedure documents. Numbered steps with sub-steps, safety warnings. Templates included. Export as markdown.",
         popular: false,
       },
       {
@@ -1250,6 +1285,13 @@ export const ToolsData = [
           "Calculate take-home pay from gross salary. Federal and state tax, Social Security, Medicare. 401k and health insurance deductions.",
         popular: true,
       },
+      {
+        title: "Budget Template Generator",
+        url: "/tools/finance/budget-template",
+        description:
+          "Generate monthly budget templates. Methods: 50/30/20, Zero-based, Envelope, 60/20/20. Auto-populate categories. Visual pie chart. Export.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1361,6 +1403,13 @@ export const ToolsData = [
         url: "/tools/fun/trivia",
         description:
           "100 fun facts across Science, History, Geography, Animals, Food, Space, Sports, Technology. Filter by category. Save favorites.",
+        popular: true,
+      },
+      {
+        title: "Emoji Story Generator",
+        url: "/tools/fun/emoji-story",
+        description:
+          "Generate random emoji stories by category. Adventure, Romance, Mystery, Comedy, Sci-Fi, Horror. Silly text translations. Rate and share.",
         popular: true,
       },
     ],
@@ -1497,6 +1546,13 @@ export const ToolsData = [
           "Generate CORS headers for multiple platforms. Output in HTTP headers, Nginx, Apache, Express.js, Flask formats. Explain each header.",
         popular: true,
       },
+      {
+        title: "Bandwidth Calculator",
+        url: "/tools/network/bandwidth-calc",
+        description:
+          "Calculate download/upload times. Enter file size and speed. Common presets: HD movie, 4K movie, game, OS update. Human-readable results.",
+        popular: false,
+      },
     ],
   },
   {
@@ -1629,6 +1685,13 @@ export const ToolsData = [
         url: "/tools/health/nutrition-label",
         description:
           "Create FDA-style nutrition facts labels. Auto-calculate % Daily Value. Preview styled label. Copy as text. Print-friendly layout.",
+        popular: true,
+      },
+      {
+        title: "Habit Score Calculator",
+        url: "/tools/health/habit-score",
+        description:
+          "Rate daily habits and get a wellness score out of 100. Categories: Sleep, Nutrition, Exercise, Mental, Social. History and trends.",
         popular: true,
       },
     ],

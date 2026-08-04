@@ -1,0 +1,182 @@
+"use client";
+
+import React, { useState, useEffect } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { Download, Clock, Wifi, Calculator } from "lucide-react";
+
+const fileUnits: Record<string, number> = {
+  B: 1,
+  KB: 1024,
+  MB: 1024 ** 2,
+  GB: 1024 ** 3,
+  TB: 1024 ** 4,
+};
+
+const speedUnits: Record<string, number> = {
+  Kbps: 1000,
+  Mbps: 1000 ** 2,
+  Gbps: 1000 ** 3,
+};
+
+const presets = [
+  { name: "Custom", size: 0, unit: "MB" },
+  { name: "HD Movie", size: 4, unit: "GB" },
+  { name: "4K Movie", size: 15, unit: "GB" },
+  { name: "AAA Game", size: 60, unit: "GB" },
+  { name: "OS Update", size: 2, unit: "GB" },
+  { name: "Song (MP3)", size: 5, unit: "MB" },
+  { name: "Photo (Raw)", size: 25, unit: "MB" },
+];
+
+export function BandwidthCalcClient() {
+  const [fileSize, setFileSize] = useState<number>(1);
+  const [fileUnit, setFileUnit] = useState<string>("GB");
+  const [speed, setSpeed] = useState<number>(100);
+  const [speedUnit, setSpeedUnit] = useState<string>("Mbps");
+  const [resultTimeSeconds, setResultTimeSeconds] = useState<number>(0);
+  const [preset, setPreset] = useState<string>("Custom");
+
+  useEffect(() => {
+    if (fileSize > 0 && speed > 0) {
+      // file size in bits
+      const sizeInBits = fileSize * fileUnits[fileUnit] * 8;
+      // speed in bits per second
+      const speedInBps = speed * speedUnits[speedUnit];
+      setResultTimeSeconds(sizeInBits / speedInBps);
+    } else {
+      setResultTimeSeconds(0);
+    }
+  }, [fileSize, fileUnit, speed, speedUnit]);
+
+  const applyPreset = (presetName: string) => {
+    setPreset(presetName);
+    const p = presets.find(x => x.name === presetName);
+    if (p && p.name !== "Custom") {
+      setFileSize(p.size);
+      setFileUnit(p.unit);
+    }
+  };
+
+  const formatTime = (seconds: number) => {
+    if (seconds === 0 || !isFinite(seconds)) return "0 seconds";
+    const d = Math.floor(seconds / (3600 * 24));
+    const h = Math.floor((seconds % (3600 * 24)) / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = Math.floor(seconds % 60);
+
+    const parts = [];
+    if (d > 0) parts.push(`${d} days`);
+    if (h > 0) parts.push(`${h} hours`);
+    if (m > 0) parts.push(`${m} minutes`);
+    if (s > 0 || parts.length === 0) parts.push(`${s} seconds`);
+
+    return parts.join(", ");
+  };
+
+  const getResultText = () => {
+    return `File Size: ${fileSize} ${fileUnit}\nSpeed: ${speed} ${speedUnit}\nEstimated Time: ${formatTime(resultTimeSeconds)}`;
+  };
+
+  return (
+    <div className="space-y-6">
+      <ToolPageHeader
+        icon={Calculator}
+        title="Bandwidth Calculator"
+        description="Calculate download and upload times for file transfers over different network speeds."
+        actions={
+          <>
+            <ResetButton onClick={() => { setFileSize(1); setFileUnit("GB"); setSpeed(100); setSpeedUnit("Mbps"); setPreset("Custom"); }} />
+            <CopyButton getText={getResultText} label="Copy Results" />
+          </>
+        }
+      />
+
+      <div className="grid md:grid-cols-2 gap-6">
+        <GlassCard>
+          <CardHeader>
+            <CardTitle>Transfer Details</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="space-y-2">
+              <Label>Presets</Label>
+              <Select value={preset} onValueChange={applyPreset}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {presets.map(p => (
+                    <SelectItem key={p.name} value={p.name}>{p.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label>File Size</Label>
+              <div className="flex gap-2">
+                <Input
+                  type="number"
+                  min={0}
+                  value={fileSize}
+                  onChange={(e) => { setFileSize(Number(e.target.value) || 0); setPreset("Custom"); }}
+                />
+                <Select value={fileUnit} onValueChange={(v) => { setFileUnit(v); setPreset("Custom"); }}>
+                  <SelectTrigger className="w-24">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {Object.keys(fileUnits).map(u => <SelectItem key={u} value={u}>{u}</SelectItem>)}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label>Connection Speed</Label>
+              <div className="flex gap-2">
+                <Input
+                  type="number"
+                  min={0}
+                  value={speed}
+                  onChange={(e) => setSpeed(Number(e.target.value) || 0)}
+                />
+                <Select value={speedUnit} onValueChange={setSpeedUnit}>
+                  <SelectTrigger className="w-24">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {Object.keys(speedUnits).map(u => <SelectItem key={u} value={u}>{u}</SelectItem>)}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </CardContent>
+        </GlassCard>
+
+        <GlassCard>
+          <CardHeader>
+            <CardTitle>Calculation Result</CardTitle>
+            <CardDescription>Estimated transfer time</CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-col items-center justify-center h-48 text-center space-y-4">
+            <Clock className="w-12 h-12 text-primary" />
+            <div className="text-3xl font-bold text-primary">
+              {formatTime(resultTimeSeconds)}
+            </div>
+            <div className="text-sm text-muted-foreground">
+              Based on continuous, optimal connection speed
+            </div>
+          </CardContent>
+        </GlassCard>
+      </div>
+    </div>
+  );
+}
