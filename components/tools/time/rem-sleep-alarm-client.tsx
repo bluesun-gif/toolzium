@@ -30,7 +30,7 @@ export function RemSleepAlarmClient() {
     
     const cycleLength = 90;
     const fallAsleepTime = 14;
-    const results = [];
+    const results: { cycles: number; timeStr: string; duration: number }[] = [];
     
     [6, 5, 4].forEach(cycles => {
       const targetDate = new Date(baseDate);
