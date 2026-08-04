@@ -451,6 +451,13 @@ export const ToolsData = [
           "Add text or image watermarks to photos. Font size, opacity, rotation, positions, tiling. Download watermarked PNG/JPEG.",
         popular: true,
       },
+      {
+        title: "Image Privacy & EXIF Cleaner",
+        url: "/tools/image/metadata-cleaner",
+        description:
+          "Remove EXIF and metadata from images before sharing online. Detect camera model, GPS, date. One-click clean and download.",
+        popular: true,
+      },
     ],
   },
   {
@@ -711,6 +718,13 @@ export const ToolsData = [
           "Visual CSS flexbox layout generator. Flex direction, justify content, align items, flex wrap, gap. Add/remove items. Copy CSS.",
         popular: true,
       },
+      {
+        title: "Keycode & Event Viewer",
+        url: "/tools/dev/keycode-info",
+        description:
+          "Inspect JavaScript keyboard event properties: key, code, keyCode, location, modifiers. Interactive virtual keyboard. Event history log.",
+        popular: true,
+      },
     ],
   },
   {
@@ -957,6 +971,13 @@ export const ToolsData = [
         url: "/tools/time/shift-scheduler",
         description:
           "Schedule employee work shifts over 7 days. Member shift assignment, weekly hours total, conflict detection, copy schedule.",
+        popular: true,
+      },
+      {
+        title: "Work Hours & Overtime Calculator",
+        url: "/tools/time/work-hours",
+        description:
+          "Calculate daily and weekly work hours with break deductions and overtime. Net hours, overtime threshold, total pay estimation.",
         popular: true,
       },
       {
@@ -1207,6 +1228,13 @@ export const ToolsData = [
         popular: true,
       },
       {
+        title: "Invoice Line Item Calculator",
+        url: "/tools/office/invoice-calc",
+        description:
+          "Quick invoice total and tax breakdown calculator. Line items, quantities, discounts, tax rates (VAT/GST), shipping. Copy summary.",
+        popular: true,
+      },
+      {
         title: "Expense Tracker",
         url: "/tools/office/expense-tracker",
         description:
@@ -1345,6 +1373,13 @@ export const ToolsData = [
         url: "/tools/travel/offline-currency",
         description:
           "Offline travel currency calculator. Set custom exchange rate, cheat sheet lookup table, tipping grid in foreign currency.",
+        popular: true,
+      },
+      {
+        title: "Flight Duration & Time Zone Calculator",
+        url: "/tools/travel/flight-duration",
+        description:
+          "Calculate actual flight duration accounting for time zone shifts. Departure/arrival times, time diff, local arrival vs home time.",
         popular: true,
       },
     ],
@@ -1537,6 +1572,13 @@ export const ToolsData = [
           "Calculate profit/loss from crypto trades. Buy/sell price, fees, ROI %. Popular coin presets. Visual profit cards.",
         popular: true,
       },
+      {
+        title: "Freelance Rate Calculator",
+        url: "/tools/finance/freelance-rate",
+        description:
+          "Calculate required hourly and project rate for freelancers. Income targets, overhead expenses, billable hours, tax rate, profit margin.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1697,6 +1739,13 @@ export const ToolsData = [
         url: "/tools/fun/wordle",
         description:
           "5-letter word guessing game (Wordle-style). 6 attempts, virtual keyboard, color-coded tiles, stats, daily/unlimited modes.",
+        popular: true,
+      },
+      {
+        title: "Memory Match Game",
+        url: "/tools/fun/memory-match",
+        description:
+          "Classic card memory matching game. 16 or 24 cards. Animals, food, sports, flags, tech themes. Move counter, timer, best score tracking.",
         popular: true,
       },
     ],
@@ -2030,6 +2079,13 @@ export const ToolsData = [
           "Track blood glucose readings. Fasting, before/after meals, bedtime. Status indicators, target ranges, averages. Export CSV.",
         popular: true,
       },
+      {
+        title: "Meal Planner & Calorie Target",
+        url: "/tools/health/meal-planner",
+        description:
+          "Weekly meal plan and macro tracker. Weight loss, maintenance, muscle gain targets. Daily calories and macros (protein, carbs, fats).",
+        popular: true,
+      },
     ],
   },
   {
@@ -2176,6 +2232,13 @@ export const ToolsData = [
         url: "/tools/productivity/eisenhower-planner",
         description:
           "Priority matrix productivity tool. 4 quadrants: Do First, Schedule, Delegate, Eliminate. Add/move tasks, export JSON.",
+        popular: true,
+      },
+      {
+        title: "Pomodoro Analytics & Log",
+        url: "/tools/productivity/pomodoro-analytics",
+        description:
+          "Advanced Pomodoro timer with daily productivity logging. Work/break timers, task tagging, session logs, focus minutes, weekly chart.",
         popular: true,
       },
     ],
