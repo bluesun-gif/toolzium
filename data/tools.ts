@@ -388,6 +388,13 @@ export const ToolsData = [
           "Generate color-blind friendly palettes. Simulate Protanopia, Deuteranopia, Tritanopia. WCAG contrast ratios. Safe color combinations. Copy hex values.",
         popular: false,
       },
+      {
+        title: "Font Pairing Suggester",
+        url: "/tools/image/font-pairing",
+        description:
+          "20 curated Google Font pairings for design projects. Categories: Modern, Classic, Playful, Minimal, Bold. Live preview. Copy CSS imports.",
+        popular: true,
+      },
     ],
   },
   {
@@ -585,6 +592,13 @@ export const ToolsData = [
           "Check if popular APIs and services are reachable. Pre-loaded services: Google, GitHub, AWS, Cloudflare, Vercel, NPM. Custom URL checking. Visual status indicators.",
         popular: true,
       },
+      {
+        title: "Code Minifier",
+        url: "/tools/dev/code-minifier",
+        description:
+          "Minify HTML, CSS, and JavaScript code. Shows original vs minified size with savings percentage. Remove comments, whitespace, and newlines.",
+        popular: true,
+      },
     ],
   },
   {
@@ -739,6 +753,13 @@ export const ToolsData = [
         url: "/tools/calc/aspect-ratio",
         description:
           "Calculate aspect ratios for any resolution. Lock ratio and compute missing dimension. Common presets: 16:9, 4:3, 21:9, 1:1, 9:16. Scale calculator.",
+        popular: false,
+      },
+      {
+        title: "Number to Words",
+        url: "/tools/calc/number-words",
+        description:
+          "Convert numbers to words and back. Supports up to 999 billion. Currency mode (USD, EUR, GBP, INR). Ordinal numbers. Copy results.",
         popular: false,
       },
     ],
@@ -948,6 +969,13 @@ export const ToolsData = [
         popular: true,
       },
       {
+        title: "Invoice Number Generator",
+        url: "/tools/office/invoice-number",
+        description:
+          "Generate sequential invoice numbers with custom format. Prefix, separator, date inclusion, padding. Batch generation. Auto-increment counter.",
+        popular: false,
+      },
+      {
         title: "Expense Tracker",
         url: "/tools/office/expense-tracker",
         description:
@@ -1044,6 +1072,13 @@ export const ToolsData = [
         url: "/tools/travel/visa-check",
         description:
           "Check visa requirements between 50+ countries. Shows Visa Free, Visa on Arrival, eVisa, or Visa Required status with max stay duration.",
+        popular: true,
+      },
+      {
+        title: "Flight Time Calculator",
+        url: "/tools/travel/flight-time",
+        description:
+          "Estimate flight duration between 50+ major cities. Great-circle distance, time zones, layover calculator. Round trip total time.",
         popular: true,
       },
     ],
@@ -1272,6 +1307,13 @@ export const ToolsData = [
           "Fun trivia quiz about animals. 30 questions across Mammals, Birds, Sea Life, Insects, Reptiles. 15-second timer. Score tracking with high score.",
         popular: true,
       },
+      {
+        title: "Compound Words Game",
+        url: "/tools/fun/compound-words",
+        description:
+          "Word puzzle: combine two words to make a compound word. 50 word pairs. Timer mode. Easy/Hard difficulty. Streak counter and high score.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1399,6 +1441,13 @@ export const ToolsData = [
           "Generate DNS records for common setups. A, AAAA, CNAME, MX, TXT, NS, SRV types. Presets for email and website. Output in BIND zone file format.",
         popular: false,
       },
+      {
+        title: "CORS Header Generator",
+        url: "/tools/network/cors-headers",
+        description:
+          "Generate CORS headers for multiple platforms. Output in HTTP headers, Nginx, Apache, Express.js, Flask formats. Explain each header.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1519,6 +1568,13 @@ export const ToolsData = [
           "Daily symptom tracking with severity (1-10), categories, time of day. Calendar view, trend analysis, export. Consult a healthcare provider.",
         popular: false,
       },
+      {
+        title: "Calorie Burn Calculator",
+        url: "/tools/health/calorie-burn",
+        description:
+          "Calculate calories burned during 30+ activities using MET values. Enter weight and duration. Compare multiple activities side by side.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1609,6 +1665,13 @@ export const ToolsData = [
         url: "/tools/productivity/gratitude",
         description:
           "Daily gratitude entries. Write 3 things you are grateful for. Streak counter, inspirational prompts, monthly calendar view. Saved locally.",
+        popular: true,
+      },
+      {
+        title: "Goal Tracker",
+        url: "/tools/productivity/goals",
+        description:
+          "Set and track goals with milestones. Categories: Personal, Professional, Health, Financial, Learning. Progress bars and completion tracking.",
         popular: true,
       },
     ],
