@@ -92,9 +92,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@toolzium",
     creator: "@toolzium",
-    title: "Toolzium — 100+ Free Online Tools",
+    title: `Toolzium — ${TOTAL_TOOLS_COUNT}+ Free Online Tools`,
     description:
-      "URL shortener, QR codes, JSON formatter, image converter, calculators, and more. 100% free, no signup required, privacy-first.",
+      `URL shortener, QR codes, JSON formatter, image converter, calculators, and more. ${TOTAL_TOOLS_COUNT}+ utilities. Free, no signup required, privacy-first.`,
     images: [`${siteURL}/assets/tools-cube.jpg`],
   },
   robots: {

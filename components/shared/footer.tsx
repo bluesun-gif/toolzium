@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { socialIcons } from "./icons";
+import { TOTAL_TOOLS_COUNT } from "@/data/tools";
 
 const toolCategories = [
   { name: "Text Tools", href: "/tools#cat-text" },
@@ -39,7 +40,7 @@ function Footer() {
               <h2 className="text-xl font-semibold">Toolzium</h2>
             </div>
             <p className="text-sm text-muted-foreground text-center md:text-left max-w-xs">
-              100+ free online tools for developers, designers, marketers, and
+              {TOTAL_TOOLS_COUNT}+ free online tools for developers, designers, marketers, and
               everyone. No signup required.
             </p>
           </div>
