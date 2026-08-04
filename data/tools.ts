@@ -416,6 +416,13 @@ export const ToolsData = [
           "Design photo collage layouts. Choose 2-9 photos with pre-designed templates. Upload images, customize gap and background. Download as PNG.",
         popular: true,
       },
+      {
+        title: "Image Watermark",
+        url: "/tools/image/watermark",
+        description:
+          "Add text watermarks to images. Control font, color, opacity, position, rotation. Tiled repeat option. Download watermarked image.",
+        popular: true,
+      },
     ],
   },
   {
@@ -641,6 +648,13 @@ export const ToolsData = [
           "Encode and decode HTML entities. Named vs numeric toggle. Common entities reference table. Auto-detect mode. Batch processing.",
         popular: false,
       },
+      {
+        title: "Regex Cheat Sheet",
+        url: "/tools/dev/regex-cheatsheet",
+        description:
+          "Comprehensive regex quick reference. Character classes, anchors, quantifiers, groups. Interactive test area. Common patterns library.",
+        popular: true,
+      },
     ],
   },
   {
@@ -862,6 +876,13 @@ export const ToolsData = [
         popular: true,
       },
       {
+        title: "Holiday Calendar",
+        url: "/tools/time/holidays",
+        description:
+          "Public holidays for 10 countries. Filter by month and year. Countdown to next holiday. Mark favorites. Copy holiday list.",
+        popular: true,
+      },
+      {
         title: "Date Formatter",
         url: "/tools/time/date-formatter",
         description:
@@ -910,6 +931,13 @@ export const ToolsData = [
         description:
           "Convert text to Morse code with visual flash and audio beeps. Speed control (WPM). SOS quick button. Reference chart. Play/Pause/Stop.",
         popular: true,
+      },
+      {
+        title: "Electricity Usage Monitor",
+        url: "/tools/util/electricity-monitor",
+        description:
+          "Track home electricity usage by appliance. Calculate daily/monthly kWh and cost. Preset appliances. Usage pie chart. Saving tips.",
+        popular: false,
       },
       {
         title: "Random Picker",
@@ -1057,6 +1085,13 @@ export const ToolsData = [
         url: "/tools/office/cover-letter",
         description:
           "Build professional cover letters. Templates: Formal, Modern, Creative. Live preview. Fill in sections. Copy or download as text.",
+        popular: true,
+      },
+      {
+        title: "Business Card Generator",
+        url: "/tools/office/business-card",
+        description:
+          "Design digital business cards. Color themes, layouts, templates. Live preview. Download as PNG. QR code for contact info.",
         popular: true,
       },
       {
@@ -1327,6 +1362,13 @@ export const ToolsData = [
           "Convert between APR and APY. Nominal to effective rate. All compounding frequencies. Compare rates side by side. Formula display.",
         popular: false,
       },
+      {
+        title: "Tax Withholding Estimator",
+        url: "/tools/finance/tax-withholding",
+        description:
+          "Estimate US federal tax withholding. Filing status, income, pay frequency. 2024 tax brackets. Effective rate and marginal bracket.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1452,6 +1494,13 @@ export const ToolsData = [
         url: "/tools/fun/word-association",
         description:
           "Word association chain game. 200 starting words. Timer mode (60 seconds). Chain history. High score tracking. Share chain as text.",
+        popular: true,
+      },
+      {
+        title: "Number Guessing Game",
+        url: "/tools/fun/number-guess",
+        description:
+          "Classic number guessing game with Higher/Lower hints. Easy, Medium, Hard difficulty. Timer, best scores, streak counter.",
         popular: true,
       },
     ],
@@ -1750,6 +1799,13 @@ export const ToolsData = [
           "Score your sleep quality (0-100). Track bedtime, wake time, interruptions, caffeine. Weekly trends. Tips for better sleep.",
         popular: true,
       },
+      {
+        title: "Calorie Lookup",
+        url: "/tools/health/calorie-lookup",
+        description:
+          "Look up calories in 150+ common foods. Protein, carbs, fat per serving. Meal planner to total daily intake. Search and sort.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1861,6 +1917,13 @@ export const ToolsData = [
         url: "/tools/productivity/affirmations",
         description:
           "200 positive affirmations across 6 categories. Daily selection based on date. Morning/Evening modes. Custom affirmations. Favorites.",
+        popular: true,
+      },
+      {
+        title: "Daily Standup Generator",
+        url: "/tools/productivity/standup",
+        description:
+          "Generate daily standup reports. Yesterday, Today, Blockers sections. Slack formatting. Save history by date. Quick templates.",
         popular: true,
       },
     ],
