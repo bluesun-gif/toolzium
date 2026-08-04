@@ -147,7 +147,7 @@ export default function NavRight() {
                 type="button"
                 ref={inputProxyRef}
                 onClick={() => setOpen(true)}
-                className="hidden sm:flex items-center gap-2 rounded-md border bg-background/50 px-3 py-2 text-sm text-muted-foreground hover:bg-background/70 ring-1 ring-border/50 shadow-sm transition backdrop-blur supports-backdrop-filter:bg-background/40"
+                className="hidden sm:flex items-center gap-2 rounded-md border bg-background/50 px-3 py-2 text-sm text-muted-foreground hover:bg-background/70 ring-1 ring-border/50 shadow-sm transition backdrop-blur supports-backdrop-filter:bg-background/40 active:scale-95 active:bg-accent"
                 aria-label="Search tools"
               >
                 <Search className="h-4 w-4" />
@@ -162,6 +162,17 @@ export default function NavRight() {
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
+
+        {/* Mobile Search Icon Button */}
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => setOpen(true)}
+          className="flex sm:hidden h-9 w-9 active:scale-95 transition-transform"
+          aria-label="Search tools"
+        >
+          <Search className="size-4" />
+        </Button>
 
         <ThemeToggle />
 
