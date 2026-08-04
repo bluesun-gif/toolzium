@@ -207,6 +207,13 @@ export const ToolsData = [
           "Searchable emoji picker with categories: Smileys, People, Animals, Food, Travel, Activities, Objects, Symbols, Flags. Click to copy. Recently used section. Grid layout.",
         popular: true,
       },
+      {
+        title: "Markdown Table Generator",
+        url: "/tools/text/markdown-table",
+        description:
+          "Create markdown tables visually. Set rows and columns up to 10x10. Edit cells inline. Column alignment options. Live markdown preview. Import from CSV. Copy output.",
+        popular: false,
+      },
     ],
   },
   // {
@@ -330,6 +337,13 @@ export const ToolsData = [
         url: "/tools/image/color-extractor",
         description:
           "Upload an image and extract its dominant colors. Shows top 5-8 prominent colors with hex, RGB, and HSL values. Click to copy. Generate CSS color palettes from any image.",
+        popular: true,
+      },
+      {
+        title: "Favicon Generator",
+        url: "/tools/image/favicon",
+        description:
+          "Generate favicons from text, emoji, or uploaded images. Pick colors and font size. Preview at multiple sizes (16, 32, 48, 180, 192, 512px). Download individual sizes as PNG.",
         popular: true,
       },
     ],
@@ -500,6 +514,13 @@ export const ToolsData = [
         description:
           "Visual CSS box-shadow editor with sliders for offset, blur, spread, and color. Multiple shadows, inset toggle. Preset shadows: subtle, neon glow, layered. Copy CSS and Tailwind output.",
         popular: true,
+      },
+      {
+        title: "Crontab Explainer",
+        url: "/tools/dev/cron-explainer",
+        description:
+          "Paste a cron expression and get a human-readable explanation. Shows next 5 run times. Color-coded fields. Common presets included. Validates syntax.",
+        popular: false,
       },
     ],
   },
@@ -913,6 +934,13 @@ export const ToolsData = [
           "Calculate luggage weight before traveling. Categorize items, set airline weight limits. Visual progress bar with over-limit warnings. Toggle kg/lb. Know before you go.",
         popular: false,
       },
+      {
+        title: "Fuel Efficiency Converter",
+        url: "/tools/travel/fuel-efficiency",
+        description:
+          "Convert between MPG (US/UK), L/100km, and km/L. Vehicle type presets. Efficiency comparison chart. Tips for improving fuel economy.",
+        popular: false,
+      },
     ],
   },
   {
@@ -1005,6 +1033,13 @@ export const ToolsData = [
           "Compare savings growth across up to 4 different interest rates. Daily, monthly, quarterly, annual compounding. Projections over 1-30 years. Highlights best performer.",
         popular: false,
       },
+      {
+        title: "Retirement Calculator",
+        url: "/tools/finance/retirement",
+        description:
+          "Calculate retirement savings projections. Year-by-year growth table. Monthly income using the 4% rule. Inflation-adjusted values. Visual progress tracking.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1068,6 +1103,13 @@ export const ToolsData = [
         description:
           "Convert text to ASCII art with multiple font styles: Banner, Block, Standard. Preview in monospace, copy to clipboard. Fun text art for social media, comments, and messages.",
         popular: true,
+      },
+      {
+        title: "Dice Probability Calculator",
+        url: "/tools/fun/dice-probability",
+        description:
+          "Calculate dice roll probabilities. 1-6 dice with 4/6/8/10/12/20 sides. Exact, at least, at most conditions. Distribution chart. D&D and board game presets.",
+        popular: false,
       },
     ],
   },
@@ -1168,6 +1210,13 @@ export const ToolsData = [
           "Convert between network speed units (bps to Gbps). Download time estimates for common file sizes. Presets for dial-up, DSL, cable, fiber, and 5G speeds.",
         popular: false,
       },
+      {
+        title: "Bandwidth Calculator",
+        url: "/tools/network/bandwidth",
+        description:
+          "Calculate transfer times and bandwidth requirements. Multi-file queue support. Presets for cloud backup, 4K streaming, and video calls. Reverse calculator included.",
+        popular: false,
+      },
     ],
   },
   {
@@ -1253,6 +1302,13 @@ export const ToolsData = [
           "Track blood pressure readings with systolic, diastolic, and heart rate. Auto-categorize: Normal, Elevated, High Stage 1/2, Crisis. Color-coded. 7-day and 30-day averages.",
         popular: false,
       },
+      {
+        title: "Ideal Weight Calculator",
+        url: "/tools/health/ideal-weight",
+        description:
+          "Calculate ideal body weight using Devine, Robinson, Miller, and Hamwi formulas. BMI-based range. Metric and imperial support. Compare with current weight.",
+        popular: false,
+      },
     ],
   },
   {
@@ -1315,6 +1371,13 @@ export const ToolsData = [
         url: "/tools/productivity/streaks",
         description:
           "Track daily habit streaks. Mark habits done, see current and longest streaks. 30-day heatmap calendar. Motivational messages at milestones. Multiple habits support.",
+        popular: true,
+      },
+      {
+        title: "Focus Timer",
+        url: "/tools/productivity/focus-timer",
+        description:
+          "Distraction-free focus timer with Deep Work (90 min), Pomodoro (25 min), and Sprint (15 min) modes. Session counter, break timer, daily stats. Saved locally.",
         popular: true,
       },
     ],
