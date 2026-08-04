@@ -198,16 +198,16 @@ export default function NavRight() {
         <Button
           variant="outline"
           asChild
-          className="hidden sm:flex h-9 gap-1.5 px-3"
+          size="icon"
+          className="hidden sm:flex h-9 w-9"
         >
           <Link
             href="https://github.com/bluesun-gif"
             rel="noopener noreferrer"
             target="_blank"
-            className="inline-flex items-center gap-1.5"
+            aria-label="GitHub Profile"
           >
             {socialIcons.find((icon) => icon.name === "Github")?.svg}
-            <GitHubStars />
           </Link>
         </Button>
         <UserNav />
