@@ -458,6 +458,13 @@ export const ToolsData = [
           "Remove EXIF and metadata from images before sharing online. Detect camera model, GPS, date. One-click clean and download.",
         popular: true,
       },
+      {
+        title: "Image Color Swapper",
+        url: "/tools/image/color-swapper",
+        description:
+          "Swap or replace specific colors in an image. Source and target color picker, tolerance threshold, canvas pixel replacement, download PNG.",
+        popular: true,
+      },
     ],
   },
   {
@@ -725,6 +732,13 @@ export const ToolsData = [
           "Inspect JavaScript keyboard event properties: key, code, keyCode, location, modifiers. Interactive virtual keyboard. Event history log.",
         popular: true,
       },
+      {
+        title: "Regex Visualizer & Explainer",
+        url: "/tools/dev/regex-explainer",
+        description:
+          "Breakdown and explain regular expressions in plain English. Token analysis, match highlights, regex cheatsheet, preset patterns.",
+        popular: true,
+      },
     ],
   },
   {
@@ -978,6 +992,13 @@ export const ToolsData = [
         url: "/tools/time/work-hours",
         description:
           "Calculate daily and weekly work hours with break deductions and overtime. Net hours, overtime threshold, total pay estimation.",
+        popular: true,
+      },
+      {
+        title: "Time Capsule Message",
+        url: "/tools/time/time-capsule",
+        description:
+          "Create digital time capsule messages locked until a future date. Encrypted local storage, live countdown timers, backup JSON.",
         popular: true,
       },
       {
@@ -1235,6 +1256,13 @@ export const ToolsData = [
         popular: true,
       },
       {
+        title: "Purchase Order Generator",
+        url: "/tools/office/po-generator",
+        description:
+          "Generate formal Purchase Orders (PO). Vendor & ship-to details, itemized table, payment terms, tax calculation, print-ready layout.",
+        popular: true,
+      },
+      {
         title: "Expense Tracker",
         url: "/tools/office/expense-tracker",
         description:
@@ -1380,6 +1408,13 @@ export const ToolsData = [
         url: "/tools/travel/flight-duration",
         description:
           "Calculate actual flight duration accounting for time zone shifts. Departure/arrival times, time diff, local arrival vs home time.",
+        popular: true,
+      },
+      {
+        title: "Passport Photo Crop & Grid",
+        url: "/tools/travel/passport-photo",
+        description:
+          "Format photos for passport & visa applications. US, UK, EU, Schengen, India, China standards. Face alignment grid, 4x6 print sheet.",
         popular: true,
       },
     ],
@@ -1579,6 +1614,13 @@ export const ToolsData = [
           "Calculate required hourly and project rate for freelancers. Income targets, overhead expenses, billable hours, tax rate, profit margin.",
         popular: true,
       },
+      {
+        title: "Emergency Fund Calculator",
+        url: "/tools/finance/emergency-fund",
+        description:
+          "Calculate required safety net emergency fund. Essential expenses, 3-12 month buffers, savings gap, months to goal estimate.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1746,6 +1788,13 @@ export const ToolsData = [
         url: "/tools/fun/memory-match",
         description:
           "Classic card memory matching game. 16 or 24 cards. Animals, food, sports, flags, tech themes. Move counter, timer, best score tracking.",
+        popular: true,
+      },
+      {
+        title: "Tic Tac Toe with AI",
+        url: "/tools/fun/tic-tac-toe",
+        description:
+          "Tic Tac Toe game with 2-Player mode & AI opponent (Easy, Medium, Unbeatable Minimax). Win line highlights, audio feedback, score tracking.",
         popular: true,
       },
     ],
@@ -2086,6 +2135,13 @@ export const ToolsData = [
           "Weekly meal plan and macro tracker. Weight loss, maintenance, muscle gain targets. Daily calories and macros (protein, carbs, fats).",
         popular: true,
       },
+      {
+        title: "Intermittent Fasting Tracker",
+        url: "/tools/health/fasting-tracker",
+        description:
+          "Track intermittent fasting protocols (16:8, 18:6, 20:4, 24h, 36h). Circular progress ring, fasting state indicators, history log.",
+        popular: true,
+      },
     ],
   },
   {
@@ -2239,6 +2295,13 @@ export const ToolsData = [
         url: "/tools/productivity/pomodoro-analytics",
         description:
           "Advanced Pomodoro timer with daily productivity logging. Work/break timers, task tagging, session logs, focus minutes, weekly chart.",
+        popular: true,
+      },
+      {
+        title: "Mind Map Builder",
+        url: "/tools/productivity/mind-map",
+        description:
+          "Visual node-based mind map generator. Central topic + subnodes, node colors, visual lines, expand/collapse, text outline export.",
         popular: true,
       },
     ],
