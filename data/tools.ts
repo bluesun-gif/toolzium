@@ -521,6 +521,13 @@ export const ToolsData = [
         description:
           "Check WCAG 2.1 accessibility color contrast ratios between text and background colors with AA/AAA pass/fail badges.",
         popular: true,
+      },
+      {
+        title: "Image Color Palette Contrast Matrix",
+        url: "/tools/image/color-matrix",
+        description:
+          "Test all pairwise WCAG contrast ratios across a 3 to 8-color design system palette. N x N matrix grid with AA/AAA pass/fail.",
+        popular: true,
       },],
   },
   {
@@ -851,6 +858,13 @@ export const ToolsData = [
         description:
           "Visual generator for CSS 2D transforms. Translate, scale, rotate, skew, transform-origin, presets, and live transition preview.",
         popular: true,
+      },
+      {
+        title: "CSS Flexbox Layout Playground",
+        url: "/tools/dev/css-flexbox-builder",
+        description:
+          "Interactive visual CSS Flexbox builder. Flex direction, wrap, justify-content, align-items, gap, item order & shrink, live CSS snippet.",
+        popular: true,
       },],
   },
   {
@@ -1042,6 +1056,13 @@ export const ToolsData = [
         description:
           "Calculate recommended safety net emergency fund size and monthly savings target timeline for 3, 6, 9, or 12-month coverage.",
         popular: true,
+      },
+      {
+        title: "Freelance Tax & Quarterly Estimate Calculator",
+        url: "/tools/finance/freelance-tax-calc",
+        description:
+          "Calculate estimated 1099 self-employment tax, income tax, and recommended quarterly estimated tax payments for contractors.",
+        popular: true,
       },],
   },
   {
@@ -1224,6 +1245,13 @@ export const ToolsData = [
         url: "/tools/time/sleep-efficiency-tracker",
         description:
           "Calculate clinical sleep efficiency percentage, total sleep time, latency, and clinical quality ratings with sleep hygiene tips.",
+        popular: true,
+      },
+      {
+        title: "Circadian Shift Work & Sleep Adjuster",
+        url: "/tools/time/circadian-shift-planner",
+        description:
+          "Calculate optimal sleep schedules and light exposure windows for night shift workers and rotating shifts.",
         popular: true,
       },],
   },
@@ -1542,6 +1570,13 @@ export const ToolsData = [
         description:
           "Generate formal Professional Service Contracts and Independent Contractor Agreements. Scope, fee terms, confidentiality, print view.",
         popular: true,
+      },
+      {
+        title: "Mutual Non-Disclosure Agreement (NDA) Generator",
+        url: "/tools/office/nda-builder",
+        description:
+          "Generate formal Mutual or One-Way Non-Disclosure Agreements (NDA). Disclosing/receiving parties, term length, governing state, print view.",
+        popular: true,
       },],
   },
   {
@@ -1724,6 +1759,13 @@ export const ToolsData = [
         url: "/tools/travel/exchange-trend",
         description:
           "Compare travel currency exchange rates and 30-day trend references for top travel destinations and expense brackets.",
+        popular: true,
+      },
+      {
+        title: "Travel Expense Multi-Unit Price Matrix",
+        url: "/tools/travel/currency-price-matrix",
+        description:
+          "Multi-item travel cost converter and comparison sheet. Convert coffee, meals, taxis, hotels, and trip budgets to foreign currency.",
         popular: true,
       },],
   },
@@ -2189,6 +2231,13 @@ export const ToolsData = [
         description:
           "Play unlimited 5-letter Wordle puzzle games with streak tracking plus built-in hint solver to filter potential solution words.",
         popular: true,
+      },
+      {
+        title: "Sudoku Unlimited Puzzle Generator & Solver",
+        url: "/tools/fun/sudoku-unlimited",
+        description:
+          "Interactive 9x9 Sudoku puzzle generator & solver. Easy, Medium, Hard, Expert, pencil notes, error checking, hints, auto-solve.",
+        popular: true,
       },],
   },
   {
@@ -2590,6 +2639,13 @@ export const ToolsData = [
         description:
           "Calculate calories burned and mechanical power output (Watts) during cycling across 6 intensity levels and terrain gradients.",
         popular: true,
+      },
+      {
+        title: "Hiking & Elevation Gain Calorie Calculator",
+        url: "/tools/health/hiking-calorie",
+        description:
+          "Calculate calories burned hiking based on body weight, backpack weight, distance, elevation gain, and terrain difficulty.",
+        popular: true,
       },],
   },
   {
@@ -2807,6 +2863,13 @@ export const ToolsData = [
         url: "/tools/productivity/priority-matrix-2x2",
         description:
           "Visual 2x2 Impact vs Effort Priority Matrix. Quick Wins, Major Projects, Fill-ins, Thankless Tasks quadrants with sliders.",
+        popular: true,
+      },
+      {
+        title: "OKR Goals & Key Results Planner",
+        url: "/tools/productivity/okr-planner",
+        description:
+          "Structured OKR goal tracking framework. Objectives, key result progress bars, target values, deadlines, Markdown report export.",
         popular: true,
       },],
   },
