@@ -535,6 +535,13 @@ export const ToolsData = [
         description:
           "Test color contrast ratios between text and background colors with real-time UI component previews (buttons, badges, cards).",
         popular: true,
+      },
+      {
+        title: "Color Palette SVG & CSS Swatch Exporter",
+        url: "/tools/image/color-palette-export",
+        description:
+          "Create custom 3 to 10-color design palettes and export as SVG swatch image, CSS Variables, Tailwind CSS config, or JSON.",
+        popular: true,
       },],
   },
   {
@@ -879,6 +886,13 @@ export const ToolsData = [
         description:
           "Interactive visual CSS Grid builder. Grid template columns, rows, gap, item positioning, column/row span, presets, live CSS snippet.",
         popular: true,
+      },
+      {
+        title: "CSS Glassmorphism & Backdrop Filter Generator",
+        url: "/tools/dev/css-glassmorphism",
+        description:
+          "Visual generator for CSS Glassmorphism effects. Backdrop blur, opacity, saturation, borders, shadows, live card preview.",
+        popular: true,
       },],
   },
   {
@@ -1084,6 +1098,13 @@ export const ToolsData = [
         description:
           "Calculate monthly or weekly savings required to reach your emergency savings goal with high-yield APY interest accumulation.",
         popular: true,
+      },
+      {
+        title: "50/30/20 Rule Budget & Income Allocator",
+        url: "/tools/finance/budget-50-30-20",
+        description:
+          "Calculate income allocation according to the 50/30/20 budgeting rule (50% Needs, 30% Wants, 20% Savings/Debt Payoff).",
+        popular: true,
       },],
   },
   {
@@ -1281,6 +1302,13 @@ export const ToolsData = [
         description:
           "Calculate optimal sleep & wake cycles for shift workers (Night shift, Morning shift, Afternoon shift, Split shift) with nap guides.",
         popular: true,
+      },
+      {
+        title: "Sleep Latency & Sleep Onset Calculator",
+        url: "/tools/time/sleep-latency-calc",
+        description:
+          "Calculate sleep latency and optimal bedtimes based on 90-minute REM sleep cycles for 4, 5, or 6 full REM sleep cycles.",
+        popular: true,
       },],
   },
   {
@@ -1394,7 +1422,14 @@ export const ToolsData = [
           "Can't decide? Simple mode randomly picks from your options with spin animation. Weighted mode scores options by pros, cons, and criteria weights. Decision history saved locally.",
         popular: true,
       },
-    ],
+    
+      {
+        title: "Phonetic Pronunciation Password Generator",
+        url: "/tools/util/phonetic-password",
+        description:
+          "Generate strong passwords with NATO phonetic pronunciation guides (Alpha, Bravo, Charlie) and entropy security scores.",
+        popular: true,
+      },],
   },
   {
     title: "Office",
@@ -1612,6 +1647,13 @@ export const ToolsData = [
         description:
           "Generate formal Independent Contractor and Freelance Agreements. Milestones, flat fee/hourly rates, IP ownership, non-compete, print view.",
         popular: true,
+      },
+      {
+        title: "Professional Service Retainer Agreement Generator",
+        url: "/tools/office/retainer-agreement",
+        description:
+          "Generate formal Monthly Service Retainer Contracts. Retainer fee, included hours, overage rates, rollover terms, print view.",
+        popular: true,
       },],
   },
   {
@@ -1808,6 +1850,13 @@ export const ToolsData = [
         url: "/tools/travel/travel-budget-matrix",
         description:
           "Compare travel budgets across multiple destination currencies. Converted budgets, daily spending limits (7-day, 14-day, 30-day trips).",
+        popular: true,
+      },
+      {
+        title: "Travel Daily Expense Budget Calculator",
+        url: "/tools/travel/travel-daily-budget",
+        description:
+          "Calculate daily travel expense budgets for domestic or international trips. Accommodation, dining, transport, activities breakdown.",
         popular: true,
       },],
   },
@@ -2287,6 +2336,13 @@ export const ToolsData = [
         description:
           "Play 6-letter Wordle puzzle challenge game. 6 attempts to guess a secret 6-letter word, streak tracker, statistics, new games.",
         popular: true,
+      },
+      {
+        title: "Memory Card Matching Game",
+        url: "/tools/fun/memory-card-match",
+        description:
+          "Interactive 3D memory card matching game. 4x4 & 6x6 grids, Emoji/Developer/Animal themes, move counter, timer, best scores.",
+        popular: true,
       },],
   },
   {
@@ -2702,6 +2758,13 @@ export const ToolsData = [
         description:
           "Calculate calories burned during jump rope and High-Intensity Interval Training (HIIT). Speed levels, Tabata, circuits, MET comparison.",
         popular: true,
+      },
+      {
+        title: "Rowing Machine & Ergometer Calorie Calculator",
+        url: "/tools/health/rowing-calorie",
+        description:
+          "Calculate calories burned and mechanical power split pace (/500m) during rowing machine workouts across 4 intensity levels.",
+        popular: true,
       },],
   },
   {
@@ -2933,6 +2996,13 @@ export const ToolsData = [
         url: "/tools/productivity/eisenhower-goals",
         description:
           "Action-oriented Eisenhower Matrix goal planner. Map goals to Do Now, Schedule, Delegate, and Delete buckets with completion tracking.",
+        popular: true,
+      },
+      {
+        title: "Eisenhower Matrix Urgency-Importance Board",
+        url: "/tools/productivity/eisenhower-board",
+        description:
+          "Visual 4-quadrant Eisenhower task matrix board. Do First, Schedule, Delegate, and Eliminate quadrants with single-click shifts.",
         popular: true,
       },],
   },
