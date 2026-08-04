@@ -514,6 +514,13 @@ export const ToolsData = [
         description:
           "Generate color harmony palettes based on color theory. Complementary, Analogous, Triadic, Tetradic, Monochromatic.",
         popular: true,
+      },
+      {
+        title: "Image & Palette Color Contrast Checker",
+        url: "/tools/image/color-contrast-checker",
+        description:
+          "Check WCAG 2.1 accessibility color contrast ratios between text and background colors with AA/AAA pass/fail badges.",
+        popular: true,
       },],
   },
   {
@@ -837,6 +844,13 @@ export const ToolsData = [
         description:
           "8-point fancy blob and custom CSS border-radius generator. Organic blobs, pills, badges, leaves, live animation preview.",
         popular: true,
+      },
+      {
+        title: "CSS 2D Transform Matrix Generator",
+        url: "/tools/dev/css-transform-2d",
+        description:
+          "Visual generator for CSS 2D transforms. Translate, scale, rotate, skew, transform-origin, presets, and live transition preview.",
+        popular: true,
       },],
   },
   {
@@ -1021,6 +1035,13 @@ export const ToolsData = [
         description:
           "Calculate net paycheck take-home after itemized federal/state taxes, FICA, pre-tax 401k/HSA, and voluntary deductions.",
         popular: true,
+      },
+      {
+        title: "Emergency Fund Savings Planner",
+        url: "/tools/finance/emergency-fund-planner",
+        description:
+          "Calculate recommended safety net emergency fund size and monthly savings target timeline for 3, 6, 9, or 12-month coverage.",
+        popular: true,
       },],
   },
   {
@@ -1196,6 +1217,13 @@ export const ToolsData = [
         url: "/tools/time/sleep-log",
         description:
           "Log and analyze daily sleep patterns and circadian rhythm. Bedtime, wake time, quality rating, 7-day average, CSV export.",
+        popular: true,
+      },
+      {
+        title: "Sleep Efficiency & Quality Tracker",
+        url: "/tools/time/sleep-efficiency-tracker",
+        description:
+          "Calculate clinical sleep efficiency percentage, total sleep time, latency, and clinical quality ratings with sleep hygiene tips.",
         popular: true,
       },],
   },
@@ -1507,6 +1535,13 @@ export const ToolsData = [
         description:
           "Generate formal Service Level Agreement (SLA) contracts. Uptime targets, P1-P3 support tiers, maintenance windows, print view.",
         popular: true,
+      },
+      {
+        title: "Professional Service Contract Generator",
+        url: "/tools/office/service-contract",
+        description:
+          "Generate formal Professional Service Contracts and Independent Contractor Agreements. Scope, fee terms, confidentiality, print view.",
+        popular: true,
       },],
   },
   {
@@ -1682,6 +1717,13 @@ export const ToolsData = [
         url: "/tools/travel/currency-card",
         description:
           "Pocket-sized printable travel currency conversion cheat card. Select home/destination currencies, 3x5 index card print format.",
+        popular: true,
+      },
+      {
+        title: "Currency Rate Trend Comparison Table",
+        url: "/tools/travel/exchange-trend",
+        description:
+          "Compare travel currency exchange rates and 30-day trend references for top travel destinations and expense brackets.",
         popular: true,
       },],
   },
@@ -2140,6 +2182,13 @@ export const ToolsData = [
         description:
           "Find all possible valid English anagram words from input letters. Length filters, wildcards, Scrabble letter scores.",
         popular: true,
+      },
+      {
+        title: "Wordle Unlimited Game & Solver",
+        url: "/tools/fun/wordle-unlimited",
+        description:
+          "Play unlimited 5-letter Wordle puzzle games with streak tracking plus built-in hint solver to filter potential solution words.",
+        popular: true,
       },],
   },
   {
@@ -2534,6 +2583,13 @@ export const ToolsData = [
         description:
           "Calculate calories burned during swimming & water sports. Freestyle, breaststroke, butterfly, kayaking, water polo.",
         popular: true,
+      },
+      {
+        title: "Cycling & Biking Calorie Calculator",
+        url: "/tools/health/cycling-calorie",
+        description:
+          "Calculate calories burned and mechanical power output (Watts) during cycling across 6 intensity levels and terrain gradients.",
+        popular: true,
       },],
   },
   {
@@ -2744,6 +2800,13 @@ export const ToolsData = [
         url: "/tools/productivity/colored-kanban",
         description:
           "Visual Kanban task board with custom color tags and category badges. To Do, In Progress, Review, Completed columns.",
+        popular: true,
+      },
+      {
+        title: "Priority Matrix 2x2 Task Tracker",
+        url: "/tools/productivity/priority-matrix-2x2",
+        description:
+          "Visual 2x2 Impact vs Effort Priority Matrix. Quick Wins, Major Projects, Fill-ins, Thankless Tasks quadrants with sliders.",
         popular: true,
       },],
   },
