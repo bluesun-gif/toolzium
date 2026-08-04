@@ -370,7 +370,7 @@ export default function PackingChecklistClient() {
                         aria-label={`check ${it.label}`}
                       />
                       <span
-                        className={`text-sm ${it.checked ? "line-through text-muted-foreground" : ""}`}
+                        className={"text-sm " + (it.checked ? "line-through text-muted-foreground" : "")}
                       >
                         {it.label}{" "}
                         {it.must && (

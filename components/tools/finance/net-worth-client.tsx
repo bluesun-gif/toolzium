@@ -134,7 +134,7 @@ export function NetWorthClient() {
       <GlassCard className="bg-gradient-to-br from-primary/10 to-transparent">
         <CardContent className="p-8 text-center">
           <h2 className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">Total Net Worth</h2>
-          <div className={`text-5xl font-bold ${netWorth >= 0 ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"}`}>
+          <div className={"text-5xl font-bold " + (netWorth >= 0 ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400")}>
             {formatCurrency(netWorth)}
           </div>
           <div className="grid grid-cols-2 gap-8 mt-8 max-w-lg mx-auto">
@@ -286,7 +286,7 @@ export function NetWorthClient() {
               {snapshots.map(s => (
                 <div key={s.date} className="flex justify-between p-3 border rounded bg-secondary/10">
                   <span className="font-medium">{s.date}</span>
-                  <span className={`font-bold ${s.netWorth >= 0 ? "text-green-600" : "text-red-600"}`}>
+                  <span className={"font-bold " + (s.netWorth >= 0 ? "text-green-600" : "text-red-600")}>
                     {formatCurrency(s.netWorth)}
                   </span>
                 </div>

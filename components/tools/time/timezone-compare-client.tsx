@@ -124,7 +124,7 @@ export function TimezoneCompareClient() {
               else if (isDark) bgClass = "bg-slate-800/50 text-slate-200 border-slate-700/50";
 
               return (
-                <div key={zone} className={`p-4 rounded-xl border relative flex flex-col items-center justify-center space-y-2 ${bgClass}`}>
+                <div key={zone} className={"p-4 rounded-xl border relative flex flex-col items-center justify-center space-y-2 " + (bgClass)}>
                   <button 
                     onClick={() => removeZone(zone)}
                     className="absolute top-2 right-2 text-muted-foreground hover:text-destructive"

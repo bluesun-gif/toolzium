@@ -221,9 +221,9 @@ function GoalCard({ goal, progress, onDelete, onAddMilestone, onToggleMilestone,
           {goal.milestones.map((ms: any) => (
             <div key={ms.id} className="flex items-center gap-2 group">
               <button onClick={() => onToggleMilestone(ms.id)}>
-                <CheckCircle className={`w-5 h-5 ${ms.completed ? "text-green-500" : "text-muted-foreground"}`} />
+                <CheckCircle className={"w-5 h-5 " + (ms.completed ? "text-green-500" : "text-muted-foreground")} />
               </button>
-              <span className={`flex-1 text-sm ${ms.completed ? "line-through text-muted-foreground" : ""}`}>{ms.title}</span>
+              <span className={"flex-1 text-sm " + (ms.completed ? "line-through text-muted-foreground" : "")}>{ms.title}</span>
               <button className="opacity-0 group-hover:opacity-100 transition-opacity" onClick={() => onDeleteMilestone(ms.id)}>
                 <Trash2 className="w-4 h-4 text-red-500" />
               </button>

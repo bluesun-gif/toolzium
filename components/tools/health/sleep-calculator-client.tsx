@@ -126,17 +126,13 @@ export function SleepCalculatorClient() {
                 <div className="flex bg-muted p-1 rounded-lg">
                   <button
                     onClick={() => setMode("wake")}
-                    className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 text-sm rounded-md transition-colors ${
-                      mode === "wake" ? "bg-background shadow-sm font-medium" : "text-muted-foreground hover:bg-background/50"
-                    }`}
+                    className={"flex-1 flex items-center justify-center gap-2 py-2 px-3 text-sm rounded-md transition-colors " + (mode === "wake" ? "bg-background shadow-sm font-medium" : "text-muted-foreground hover:bg-background/50")}
                   >
                     <Sun className="w-4 h-4" /> Wake up at
                   </button>
                   <button
                     onClick={() => setMode("sleep")}
-                    className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 text-sm rounded-md transition-colors ${
-                      mode === "sleep" ? "bg-background shadow-sm font-medium" : "text-muted-foreground hover:bg-background/50"
-                    }`}
+                    className={"flex-1 flex items-center justify-center gap-2 py-2 px-3 text-sm rounded-md transition-colors " + (mode === "sleep" ? "bg-background shadow-sm font-medium" : "text-muted-foreground hover:bg-background/50")}
                   >
                     <BedDouble className="w-4 h-4" /> Go to bed at
                   </button>
@@ -228,18 +224,18 @@ export function SleepCalculatorClient() {
                   return (
                     <div
                       key={res.cycles}
-                      className={`p-4 rounded-xl border ${bgColor} ${borderColor} flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all`}
+                      className={"p-4 rounded-xl border " + (bgColor) + " " + (borderColor) + " flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all"}
                     >
                       <div>
                         <div className="flex items-center gap-3 mb-1">
                           <h3 className="text-2xl font-bold tracking-tight">
                             {formatTime(res.time)}
                           </h3>
-                          <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${badgeColor}`}>
+                          <span className={"text-xs font-semibold px-2 py-0.5 rounded-full " + (badgeColor)}>
                             {res.cycles} cycle{res.cycles > 1 ? 's' : ''}
                           </span>
                         </div>
-                        <p className={`text-sm font-medium ${textColor}`}>
+                        <p className={"text-sm font-medium " + (textColor)}>
                           {res.category === "optimal" && "Optimal amount of sleep"}
                           {res.category === "okay" && "Okay, but could be better"}
                           {res.category === "insufficient" && "Not enough sleep"}

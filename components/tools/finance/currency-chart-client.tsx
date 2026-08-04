@@ -135,8 +135,8 @@ export function CurrencyChartClient() {
              </div>
              <div className="p-4 bg-muted rounded-lg text-center">
                 <div className="text-sm text-muted-foreground mb-1">Trend</div>
-                <div className={`text-2xl font-bold flex items-center justify-center gap-2 ${isUp ? 'text-green-500' : 'text-red-500'}`}>
-                  <TrendingUp className={`h-5 w-5 ${isUp ? '' : 'rotate-180'}`} />
+                <div className={"text-2xl font-bold flex items-center justify-center gap-2 " + (isUp ? 'text-green-500' : 'text-red-500')}>
+                  <TrendingUp className={"h-5 w-5 " + (isUp ? '' : 'rotate-180')} />
                   {isUp ? '+2.4%' : '-1.8%'}
                 </div>
              </div>

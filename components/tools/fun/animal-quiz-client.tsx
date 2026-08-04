@@ -129,7 +129,7 @@ export function AnimalQuizClient() {
               <CardDescription>Category: {questions[currentIdx].cat}</CardDescription>
             </div>
             <div className="flex items-center gap-2 font-bold text-lg">
-              <Timer className={`w-5 h-5 ${timeLeft <= 5 ? 'text-red-500 animate-pulse' : ''}`} />
+              <Timer className={"w-5 h-5 " + (timeLeft <= 5 ? 'text-red-500 animate-pulse' : '')} />
               <span className={timeLeft <= 5 ? 'text-red-500' : ''}>{timeLeft}s</span>
             </div>
           </CardHeader>

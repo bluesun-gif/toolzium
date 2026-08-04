@@ -194,7 +194,7 @@ export default function GpaCalculatorClient() {
                   <div className="flex items-center gap-4">
                     <div className="text-right">
                       <div className="text-sm text-muted-foreground">Semester GPA</div>
-                      <div className={`text-xl font-bold ${getGpaColor(semesterGpa)}`}>
+                      <div className={"text-xl font-bold " + (getGpaColor(semesterGpa))}>
                         {semesterGpa}
                       </div>
                     </div>
@@ -300,7 +300,7 @@ export default function GpaCalculatorClient() {
             <CardContent className="space-y-6">
               <div className="text-center p-6 bg-muted/50 rounded-lg">
                 <div className="text-sm text-muted-foreground mb-1">Cumulative GPA</div>
-                <div className={`text-6xl font-bold ${getGpaColor(cgpa)}`}>{cgpa}</div>
+                <div className={"text-6xl font-bold " + (getGpaColor(cgpa))}>{cgpa}</div>
                 <div className="text-sm text-muted-foreground mt-2">
                   Total Credits: {totalCredits}
                 </div>

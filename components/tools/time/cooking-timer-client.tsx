@@ -185,7 +185,7 @@ export function CookingTimerClient() {
               No active timers. Add one to begin.
             </div>
           ) : timers.map(t => (
-            <GlassCard key={t.id} className={`relative overflow-hidden ${t.state === "done" ? "animate-pulse border-red-500 bg-red-500/10" : ""}`}>
+            <GlassCard key={t.id} className={"relative overflow-hidden " + (t.state === "done" ? "animate-pulse border-red-500 bg-red-500/10" : "")}>
               <div className="absolute top-0 left-0 w-full h-1" style={{ backgroundColor: t.color }} />
               <CardContent className="p-6">
                 <div className="flex justify-between items-start mb-4">

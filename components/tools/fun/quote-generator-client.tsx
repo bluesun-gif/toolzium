@@ -177,11 +177,9 @@ export function QuoteGeneratorClient() {
           <button
             key={cat.value}
             onClick={() => handleCategoryChange(cat.value)}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-              currentCategory === cat.value
+            className={"px-4 py-2 rounded-full text-sm font-medium transition-colors " + (currentCategory === cat.value
                 ? "bg-primary text-primary-foreground"
-                : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
-            }`}
+                : "bg-secondary text-secondary-foreground hover:bg-secondary/80")}
           >
             {cat.label}
           </button>
@@ -200,7 +198,7 @@ export function QuoteGeneratorClient() {
                     className="p-2 rounded-md hover:bg-muted transition-colors text-muted-foreground"
                     title={isCurrentQuoteFavorited ? "Remove from favorites" : "Add to favorites"}
                   >
-                    <Heart className={`h-5 w-5 ${isCurrentQuoteFavorited ? "fill-red-500 text-red-500" : ""}`} />
+                    <Heart className={"h-5 w-5 " + (isCurrentQuoteFavorited ? "fill-red-500 text-red-500" : "")} />
                   </button>
                   <CopyButton getText={() => quoteText} />
                   <button 
@@ -216,7 +214,7 @@ export function QuoteGeneratorClient() {
             <CardContent className="p-8 min-h-[300px] flex flex-col items-center justify-center relative">
               {quote ? (
                 <div 
-                  className={`max-w-2xl text-center transition-opacity duration-500 ${isAnimating ? "opacity-0" : "opacity-100"}`}
+                  className={"max-w-2xl text-center transition-opacity duration-500 " + (isAnimating ? "opacity-0" : "opacity-100")}
                 >
                   <Quote className="h-12 w-12 text-primary/20 mx-auto mb-6" />
                   <blockquote className="text-2xl md:text-3xl lg:text-4xl font-serif text-foreground leading-relaxed mb-8">

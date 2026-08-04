@@ -184,7 +184,7 @@ export function RateConverterClient() {
                           conv.frequency === "Semi-Annually" ? "2" : "1"
                         );
                         return (
-                          <tr key={idx} className={`border-b last:border-0 ${isSelected ? 'bg-primary/10 font-medium' : ''}`}>
+                          <tr key={idx} className={"border-b last:border-0 " + (isSelected ? 'bg-primary/10 font-medium' : '')}>
                             <td className="px-4 py-3">{conv.frequency} {isSelected && <span className="ml-2 text-xs bg-primary text-primary-foreground px-2 py-0.5 rounded-full">Input</span>}</td>
                             <td className="px-4 py-3">{conv.nominal}%</td>
                             <td className="px-4 py-3">{conv.effective}%</td>

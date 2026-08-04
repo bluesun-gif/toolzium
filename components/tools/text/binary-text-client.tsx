@@ -287,7 +287,7 @@ export function BinaryTextClient() {
               value={output}
               readOnly
               placeholder="Conversion result will appear here..."
-              className={`min-h-[250px] font-mono resize-y ${outputFormat !== "text" ? (separator === "space" ? "mt-0" : "") : "mt-8"}`}
+              className={"min-h-[250px] font-mono resize-y " + (outputFormat !== "text" ? (separator === "space" ? "mt-0" : "") : "mt-8")}
             />
             <div className="flex justify-end gap-2 mt-3">
               <CopyButton getText={() => output} />

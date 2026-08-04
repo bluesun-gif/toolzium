@@ -213,9 +213,7 @@ export default function MemeGeneratorClient() {
                     <button
                       key={idx}
                       onClick={() => setImageSrc(tpl.url)}
-                      className={`relative aspect-video rounded-md overflow-hidden border-2 transition ${
-                        imageSrc === tpl.url ? "border-primary scale-95" : "border-transparent hover:border-muted-foreground"
-                      }`}
+                      className={"relative aspect-video rounded-md overflow-hidden border-2 transition " + (imageSrc === tpl.url ? "border-primary scale-95" : "border-transparent hover:border-muted-foreground")}
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img

@@ -122,7 +122,7 @@ export default function CharacterCounterClient() {
                     </div>
                     <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
                       <div 
-                        className={`h-full ${colorClass} transition-all duration-300`} 
+                        className={"h-full " + (colorClass) + " transition-all duration-300"} 
                         style={{ width: `${percentage}%` }}
                       />
                     </div>

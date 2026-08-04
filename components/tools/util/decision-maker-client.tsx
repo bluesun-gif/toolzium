@@ -185,7 +185,7 @@ export function DecisionMakerClient() {
                 />
                 
                 {simpleResult && (
-                  <div className={`p-6 bg-primary/10 rounded-lg text-center transition-all ${isSpinning ? 'animate-pulse scale-105' : 'scale-100'}`}>
+                  <div className={"p-6 bg-primary/10 rounded-lg text-center transition-all " + (isSpinning ? 'animate-pulse scale-105' : 'scale-100')}>
                     <h3 className="text-2xl font-bold text-primary">{simpleResult}</h3>
                     {!isSpinning && <p className="text-sm text-muted-foreground mt-2 flex items-center justify-center gap-1"><CheckCircle2 className="w-4 h-4"/> Selected randomly</p>}
                   </div>

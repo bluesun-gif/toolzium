@@ -127,7 +127,7 @@ export function CronExplainerClient() {
                 />
               </div>
               
-              <div className={`p-4 rounded-md text-lg font-medium text-center ${explanation.valid ? 'bg-primary/10 text-primary' : 'bg-destructive/10 text-destructive'}`}>
+              <div className={"p-4 rounded-md text-lg font-medium text-center " + (explanation.valid ? 'bg-primary/10 text-primary' : 'bg-destructive/10 text-destructive')}>
                 {explanation.text}
               </div>
               

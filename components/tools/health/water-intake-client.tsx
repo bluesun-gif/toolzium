@@ -166,13 +166,13 @@ export function WaterIntakeClient() {
                   />
                   <div className="flex bg-muted rounded-md p-1">
                     <button
-                      className={`px-3 py-1 rounded-sm text-sm font-medium transition-colors ${unit === "kg" ? "bg-background shadow-sm" : ""}`}
+                      className={"px-3 py-1 rounded-sm text-sm font-medium transition-colors " + (unit === "kg" ? "bg-background shadow-sm" : "")}
                       onClick={() => setUnit("kg")}
                     >
                       kg
                     </button>
                     <button
-                      className={`px-3 py-1 rounded-sm text-sm font-medium transition-colors ${unit === "lbs" ? "bg-background shadow-sm" : ""}`}
+                      className={"px-3 py-1 rounded-sm text-sm font-medium transition-colors " + (unit === "lbs" ? "bg-background shadow-sm" : "")}
                       onClick={() => setUnit("lbs")}
                     >
                       lbs

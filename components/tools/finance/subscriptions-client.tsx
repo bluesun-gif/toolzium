@@ -189,7 +189,7 @@ export function SubscriptionsClient() {
                   <p className="text-center text-muted-foreground py-8">No subscriptions tracked yet.</p>
                 ) : (
                   sortedSubs.map(s => (
-                    <div key={s.id} className={`flex items-center justify-between p-4 border rounded-xl transition-opacity ${!s.active ? 'opacity-50 grayscale' : ''}`}>
+                    <div key={s.id} className={"flex items-center justify-between p-4 border rounded-xl transition-opacity " + (!s.active ? 'opacity-50 grayscale' : '')}>
                       <div className="flex items-center gap-4">
                         <div className="h-10 w-10 bg-primary/10 rounded-full flex items-center justify-center">
                           <Calendar className="w-5 h-5 text-primary" />

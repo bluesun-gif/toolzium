@@ -211,7 +211,7 @@ export function MorseAudioClient() {
                <Label>Morse Output</Label>
                <div className="p-4 bg-muted rounded-md min-h-[100px] font-mono text-xl flex flex-wrap gap-1 leading-loose">
                  {morse.split('').map((char, i) => (
-                   <span key={i} className={`px-[2px] rounded ${activeSymbol === i ? 'bg-primary text-primary-foreground' : ''}`}>
+                   <span key={i} className={"px-[2px] rounded " + (activeSymbol === i ? 'bg-primary text-primary-foreground' : '')}>
                      {char}
                    </span>
                  ))}

@@ -123,21 +123,17 @@ export function Rot13Client() {
                       setShiftAmount(13);
                       setIsBruteForce(false);
                     }}
-                    className={`px-4 py-2 rounded-md border text-sm font-medium transition-colors ${
-                      shiftAmount === 13 && !isBruteForce
+                    className={"px-4 py-2 rounded-md border text-sm font-medium transition-colors " + (shiftAmount === 13 && !isBruteForce
                         ? "bg-primary text-primary-foreground border-primary"
-                        : "bg-background hover:bg-muted"
-                    }`}
+                        : "bg-background hover:bg-muted")}
                   >
                     ROT13
                   </button>
                   <button
                     onClick={() => setIsBruteForce(!isBruteForce)}
-                    className={`px-4 py-2 rounded-md border text-sm font-medium transition-colors ${
-                      isBruteForce
+                    className={"px-4 py-2 rounded-md border text-sm font-medium transition-colors " + (isBruteForce
                         ? "bg-primary text-primary-foreground border-primary"
-                        : "bg-background hover:bg-muted"
-                    }`}
+                        : "bg-background hover:bg-muted")}
                   >
                     Brute Force
                   </button>

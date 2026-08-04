@@ -345,9 +345,7 @@ export default function ExifViewerClient() {
             <CardContent>
               {!imageSrc ? (
                 <div
-                  className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors ${
-                    isDragging ? "border-primary bg-primary/10" : "border-muted-foreground/25 hover:border-primary/50 hover:bg-accent/50"
-                  }`}
+                  className={"border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors " + (isDragging ? "border-primary bg-primary/10" : "border-muted-foreground/25 hover:border-primary/50 hover:bg-accent/50")}
                   onDragOver={onDragOver}
                   onDragLeave={onDragLeave}
                   onDrop={onDrop}

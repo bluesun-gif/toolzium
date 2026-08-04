@@ -16,7 +16,7 @@ export default function TopTable({
         return (
           <div key={r.label} className="space-y-1">
             <div className="flex items-center justify-between text-sm">
-              <span className={`text-foreground/90 ${labelClassName}`} title={r.label}>
+              <span className={"text-foreground/90 " + (labelClassName)} title={r.label}>
                 {r.label}
               </span>
               <span className="tabular-nums text-muted-foreground">{r.value}</span>

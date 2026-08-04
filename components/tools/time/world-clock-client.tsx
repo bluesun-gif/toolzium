@@ -174,7 +174,7 @@ export function WorldClockClient() {
                       {dateString} <span className="text-xs bg-secondary px-1.5 py-0.5 rounded">{offsetString}</span>
                     </p>
                   </div>
-                  <div className={`p-2 rounded-full ${isDay ? 'bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'}`}>
+                  <div className={"p-2 rounded-full " + (isDay ? 'bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400')}>
                     {isDay ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
                   </div>
                 </div>

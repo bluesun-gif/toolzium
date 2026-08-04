@@ -437,18 +437,18 @@ export default function CgpaCalculatorClient() {
         {/* Results Sidebar */}
         <div className="lg:col-span-1">
           <div className="sticky top-6">
-            <Card className={`border-2 transition-colors duration-300 ${cgpaData.totalCredits > 0 ? cgpaData.borderClass : ""}`}>
+            <Card className={"border-2 transition-colors duration-300 " + (cgpaData.totalCredits > 0 ? cgpaData.borderClass : "")}>
               <CardHeader className="text-center pb-2">
                 <CardTitle className="text-xl">Your CGPA</CardTitle>
                 <CardDescription>Based on {cgpaData.totalCredits} total credits</CardDescription>
               </CardHeader>
               <CardContent className="flex flex-col items-center justify-center pt-4 pb-6">
-                <div className={`text-6xl font-bold tracking-tighter mb-4 ${cgpaData.colorClass}`}>
+                <div className={"text-6xl font-bold tracking-tighter mb-4 " + (cgpaData.colorClass)}>
                   {cgpaData.cgpa}
                 </div>
                 
                 {cgpaData.totalCredits > 0 ? (
-                  <div className={`px-4 py-2 rounded-full text-sm font-medium text-center ${cgpaData.bgClass} ${cgpaData.colorClass}`}>
+                  <div className={"px-4 py-2 rounded-full text-sm font-medium text-center " + (cgpaData.bgClass) + " " + (cgpaData.colorClass)}>
                     {cgpaData.classification}
                   </div>
                 ) : (

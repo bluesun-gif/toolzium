@@ -289,7 +289,7 @@ export function HabitTrackerClient() {
                       <div className="font-semibold text-sm text-muted-foreground">Habit</div>
                       <div className="grid grid-cols-14 gap-1">
                         {recentDays.map((day, i) => (
-                          <div key={day.dateStr} className={`text-[10px] text-center ${day.isToday ? 'font-bold text-primary' : 'text-muted-foreground'}`}>
+                          <div key={day.dateStr} className={"text-[10px] text-center " + (day.isToday ? 'font-bold text-primary' : 'text-muted-foreground')}>
                             {day.displayStr.split(' ')[0]}<br/>{day.displayStr.split(' ')[1]}
                           </div>
                         ))}
@@ -325,11 +325,9 @@ export function HabitTrackerClient() {
                                 <button
                                   key={day.dateStr}
                                   onClick={() => toggleHabit(habit.id, day.dateStr)}
-                                  className={`aspect-square rounded flex items-center justify-center transition-all ${
-                                    isCompleted 
+                                  className={"aspect-square rounded flex items-center justify-center transition-all " + (isCompleted 
                                       ? 'bg-green-500/20 text-green-600 hover:bg-green-500/30' 
-                                      : 'bg-muted hover:bg-muted/80 text-muted-foreground/30'
-                                  }`}
+                                      : 'bg-muted hover:bg-muted/80 text-muted-foreground/30')}
                                   title={`${habit.name} on ${day.displayStr}`}
                                 >
                                   {isCompleted ? <CheckCircle2 className="h-4 w-4" /> : <Circle className="h-3 w-3" />}

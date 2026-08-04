@@ -109,7 +109,7 @@ export default function PasswordStrengthClient() {
             </div>
             <div className="h-2 w-full rounded-md bg-muted overflow-hidden">
               <div
-                className={`h-full transition-all duration-500 ${bandColor(band)}`}
+                className={"h-full transition-all duration-500 " + (bandColor(band))}
                 style={{ width: `${meterPct}%` }}
               />
             </div>
@@ -303,7 +303,7 @@ correct horse battery staple"
                   <td className="py-2 pr-4">{r.bits.toFixed(1)}</td>
                   <td className="py-2 pr-4">
                     <span
-                      className={`inline-flex items-center rounded px-2 py-0.5 text-xs text-white ${bandColor(r.band)} `}
+                      className={"inline-flex items-center rounded px-2 py-0.5 text-xs text-white " + (bandColor(r.band)) + " "}
                     >
                       {r.band}
                     </span>

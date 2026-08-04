@@ -107,7 +107,7 @@ export function FontPairingClient() {
               <CopyButton getText={() => getCss(p)} label="Copy CSS" />
             </CardHeader>
             <CardContent>
-              <div className={`p-6 rounded-lg ${darkMode ? 'bg-zinc-900 text-zinc-100' : 'bg-slate-50 text-slate-900'}`}>
+              <div className={"p-6 rounded-lg " + (darkMode ? 'bg-zinc-900 text-zinc-100' : 'bg-slate-50 text-slate-900')}>
                 <h1 style={{ fontFamily: `"${p.heading}", sans-serif`, fontSize: `${headingSize}px`, lineHeight: 1.2, marginBottom: '16px' }}>
                   A Beautiful Story
                 </h1>

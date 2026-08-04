@@ -346,7 +346,7 @@ export default function ColorPaletteClient() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className={`rounded-full h-8 w-8 ${color.locked ? 'bg-black/30 text-white' : 'bg-black/10 text-white/70 hover:bg-black/20 hover:text-white sm:opacity-0 sm:group-hover:opacity-100'}`}
+                        className={"rounded-full h-8 w-8 " + (color.locked ? 'bg-black/30 text-white' : 'bg-black/10 text-white/70 hover:bg-black/20 hover:text-white sm:opacity-0 sm:group-hover:opacity-100')}
                         onClick={() => toggleLock(idx)}
                       >
                         {color.locked ? <Lock className="w-4 h-4" /> : <Unlock className="w-4 h-4" />}

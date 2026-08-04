@@ -154,9 +154,9 @@ export default function CoinFlipClient() {
                   history.map((result, i) => (
                     <Badge 
                       key={i} 
-                      className={`text-sm px-3 py-1 ${result === "Heads" 
+                      className={"text-sm px-3 py-1 " + (result === "Heads" 
                         ? "bg-yellow-500 hover:bg-yellow-600 text-white border-none shadow-sm" 
-                        : "bg-slate-500 hover:bg-slate-600 text-white border-none shadow-sm"}`}
+                        : "bg-slate-500 hover:bg-slate-600 text-white border-none shadow-sm")}
                     >
                       {result === "Heads" ? "H" : "T"}
                     </Badge>

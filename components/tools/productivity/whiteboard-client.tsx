@@ -284,7 +284,7 @@ export default function WhiteboardClient() {
                   {COLORS.map(c => (
                     <button
                       key={c}
-                      className={`w-8 h-8 rounded-full border-2 \${color === c ? 'border-primary ring-2 ring-primary/30' : 'border-transparent hover:scale-110'} transition-all`}
+                      className={"w-8 h-8 rounded-full border-2 \\" + (color === c ? 'border-primary ring-2 ring-primary/30' : 'border-transparent hover:scale-110') + " transition-all"}
                       style={{ backgroundColor: c, border: c === '#ffffff' ? '1px solid #e5e7eb' : '' }}
                       onClick={() => setColor(c)}
                     />

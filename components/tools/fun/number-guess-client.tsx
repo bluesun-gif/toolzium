@@ -221,13 +221,11 @@ export function NumberGuessClient() {
                 {guesses.map((g, i) => (
                   <div
                     key={i}
-                    className={`px-3 py-1 rounded-full text-sm ${
-                      g === target
+                    className={"px-3 py-1 rounded-full text-sm " + (g === target
                         ? "bg-green-500/20 text-green-700"
                         : g > target
                         ? "bg-red-500/20 text-red-700"
-                        : "bg-blue-500/20 text-blue-700"
-                    }`}
+                        : "bg-blue-500/20 text-blue-700")}
                   >
                     {g} {g === target ? "✓" : g > target ? "↓" : "↑"}
                   </div>

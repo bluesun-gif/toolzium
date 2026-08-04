@@ -103,9 +103,9 @@ export function BodyFatClient() {
             <div className="flex items-center justify-between">
               <Label>Unit System</Label>
               <div className="flex items-center gap-2">
-                <span className={`text-sm ${!isMetric ? "font-bold" : "text-muted-foreground"}`}>Imperial (in/lbs)</span>
+                <span className={"text-sm " + (!isMetric ? "font-bold" : "text-muted-foreground")}>Imperial (in/lbs)</span>
                 <Switch checked={isMetric} onCheckedChange={setIsMetric} />
-                <span className={`text-sm ${isMetric ? "font-bold" : "text-muted-foreground"}`}>Metric (cm/kg)</span>
+                <span className={"text-sm " + (isMetric ? "font-bold" : "text-muted-foreground")}>Metric (cm/kg)</span>
               </div>
             </div>
 

@@ -142,7 +142,7 @@ export function StreaksClient() {
           d.setDate(d.getDate() - i);
           const dStr = d.toISOString().split("T")[0];
           days.push(
-              <div key={dStr} className={`w-3 h-3 rounded-sm ${completions.includes(dStr) ? 'bg-green-500' : 'bg-gray-200 dark:bg-gray-700'}`} title={dStr}></div>
+              <div key={dStr} className={"w-3 h-3 rounded-sm " + (completions.includes(dStr) ? 'bg-green-500' : 'bg-gray-200 dark:bg-gray-700')} title={dStr}></div>
           );
       }
       return <div className="flex gap-1 mt-2 flex-wrap">{days}</div>;

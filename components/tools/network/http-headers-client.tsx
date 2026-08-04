@@ -163,7 +163,7 @@ export default function HttpHeadersClient() {
                   </div>
                   <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
                     <div 
-                      className={`h-full ${scoreColor} transition-all duration-500`} 
+                      className={"h-full " + (scoreColor) + " transition-all duration-500"} 
                       style={{ width: `${securityScore}%` }} 
                     />
                   </div>

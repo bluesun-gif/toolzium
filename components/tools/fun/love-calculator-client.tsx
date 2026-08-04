@@ -145,7 +145,7 @@ export default function LoveCalculatorClient() {
             </div>
             
             <div className="flex justify-center py-2">
-              <Heart className={`w-8 h-8 text-pink-400 ${isCalculating ? 'animate-ping' : ''}`} />
+              <Heart className={"w-8 h-8 text-pink-400 " + (isCalculating ? 'animate-ping' : '')} />
             </div>
 
             <div className="space-y-2">
@@ -174,7 +174,7 @@ export default function LoveCalculatorClient() {
             {result !== null && (
               <div className="pt-6 text-center animate-in fade-in slide-in-from-bottom-4 duration-700">
                 <div className="relative inline-flex items-center justify-center">
-                  <div className={`text-6xl font-black ${getColor(result)} tracking-tighter`}>
+                  <div className={"text-6xl font-black " + (getColor(result)) + " tracking-tighter"}>
                     {result}%
                   </div>
                 </div>

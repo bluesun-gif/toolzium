@@ -231,7 +231,7 @@ export function BloodPressureClient() {
                       >
                         <div className="flex items-center gap-4">
                           <div
-                            className={`px-2 py-1 text-xs font-semibold rounded-md ${cat.color} w-24 text-center`}
+                            className={"px-2 py-1 text-xs font-semibold rounded-md " + (cat.color) + " w-24 text-center"}
                           >
                             {cat.label}
                           </div>

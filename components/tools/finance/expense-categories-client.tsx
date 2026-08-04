@@ -189,7 +189,7 @@ export function ExpenseCategoriesClient() {
                 <div className="flex items-center gap-4 text-sm">
                   <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
                     <div 
-                      className={`h-full ${isOver ? 'bg-red-500' : 'bg-primary'}`} 
+                      className={"h-full " + (isOver ? 'bg-red-500' : 'bg-primary')} 
                       style={{ width: `${percentage}%` }} 
                     />
                   </div>

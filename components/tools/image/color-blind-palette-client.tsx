@@ -169,10 +169,10 @@ export function ColorBlindPaletteClient() {
                 </div>
               </div>
               <div className="flex gap-2 text-sm">
-                <div className={`px-2 py-1 rounded flex-1 text-center font-semibold ${contrastRatio >= 4.5 ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'}`}>
+                <div className={"px-2 py-1 rounded flex-1 text-center font-semibold " + (contrastRatio >= 4.5 ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400')}>
                   AA Normal {contrastRatio >= 4.5 ? 'Pass' : 'Fail'}
                 </div>
-                <div className={`px-2 py-1 rounded flex-1 text-center font-semibold ${contrastRatio >= 7 ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'}`}>
+                <div className={"px-2 py-1 rounded flex-1 text-center font-semibold " + (contrastRatio >= 7 ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400')}>
                   AAA Normal {contrastRatio >= 7 ? 'Pass' : 'Fail'}
                 </div>
               </div>

@@ -210,11 +210,9 @@ export default function NotepadClient() {
           {notes.map(note => (
             <div
               key={note.id}
-              className={`group flex items-center min-w-[120px] max-w-[200px] h-10 px-3 cursor-pointer border-r border-t-2 transition-colors \${
-                activeNoteId === note.id 
+              className={"group flex items-center min-w-[120px] max-w-[200px] h-10 px-3 cursor-pointer border-r border-t-2 transition-colors \\" + (activeNoteId === note.id 
                   ? 'bg-white dark:bg-zinc-900 border-t-primary text-foreground' 
-                  : 'bg-transparent border-t-transparent text-muted-foreground hover:bg-zinc-200/50 dark:hover:bg-zinc-800/50'
-              }`}
+                  : 'bg-transparent border-t-transparent text-muted-foreground hover:bg-zinc-200/50 dark:hover:bg-zinc-800/50')}
               onClick={() => setActiveNoteId(note.id)}
             >
               <FileText className="h-3.5 w-3.5 mr-2 opacity-70 shrink-0" />
@@ -247,7 +245,7 @@ export default function NotepadClient() {
         <CardContent className="p-0 flex-1 flex flex-col relative bg-white dark:bg-zinc-900">
           <textarea
             ref={textareaRef}
-            className={`w-full flex-1 p-6 resize-none outline-none bg-transparent \${isMonospace ? 'font-mono' : 'font-sans'}`}
+            className={"w-full flex-1 p-6 resize-none outline-none bg-transparent \\" + (isMonospace ? 'font-mono' : 'font-sans')}
             style={{ fontSize: `\${fontSize}px`, lineHeight: '1.6' }}
             value={activeNote?.content || ""}
             onChange={updateContent}

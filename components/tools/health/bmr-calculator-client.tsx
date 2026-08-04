@@ -80,9 +80,9 @@ export function BmrCalculatorClient() {
             <div className="flex items-center justify-between">
               <Label>Unit System</Label>
               <div className="flex items-center gap-2">
-                <span className={`text-sm ${!isMetric ? "font-bold" : "text-muted-foreground"}`}>Imperial</span>
+                <span className={"text-sm " + (!isMetric ? "font-bold" : "text-muted-foreground")}>Imperial</span>
                 <Switch checked={isMetric} onCheckedChange={setIsMetric} />
-                <span className={`text-sm ${isMetric ? "font-bold" : "text-muted-foreground"}`}>Metric</span>
+                <span className={"text-sm " + (isMetric ? "font-bold" : "text-muted-foreground")}>Metric</span>
               </div>
             </div>
 

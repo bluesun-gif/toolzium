@@ -108,7 +108,7 @@ export function VisaCheckClient() {
             ) : (
               <div className="space-y-6 animate-in fade-in">
                 <div className="text-center p-6 bg-muted/50 rounded-lg">
-                  <h3 className={`text-3xl font-bold mb-2 ${visaInfo.color}`}>
+                  <h3 className={"text-3xl font-bold mb-2 " + (visaInfo.color)}>
                     {visaInfo.status}
                   </h3>
                   {visaInfo.status !== "Same Country" && visaInfo.status !== "Visa Required" && (

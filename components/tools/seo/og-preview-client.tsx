@@ -340,9 +340,7 @@ export default function OGPreviewClient() {
                     data.images.map((img, i) => (
                       <button
                         key={`${img}-${i as number}`}
-                        className={`h-10 w-16 overflow-hidden rounded-md border ${
-                          selectedImg === i ? "ring-2 ring-primary" : ""
-                        }`}
+                        className={"h-10 w-16 overflow-hidden rounded-md border " + (selectedImg === i ? "ring-2 ring-primary" : "")}
                         onClick={() => setSelectedImg(i)}
                         title={img}
                         type="button"

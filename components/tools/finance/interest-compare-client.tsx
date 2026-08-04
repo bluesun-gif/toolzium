@@ -226,7 +226,7 @@ export function InterestCompareClient() {
                         {values.map((val, idx) => (
                           <td
                             key={idx}
-                            className={`px-4 py-3 ${val === maxVal && options.length > 1 ? "text-green-600 font-bold dark:text-green-400" : ""}`}
+                            className={"px-4 py-3 " + (val === maxVal && options.length > 1 ? "text-green-600 font-bold dark:text-green-400" : "")}
                           >
                             $
                             {val.toLocaleString(undefined, {

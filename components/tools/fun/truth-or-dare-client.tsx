@@ -335,9 +335,7 @@ export function TruthOrDareClient() {
 
           <GlassCard className="p-0 overflow-hidden min-h-[300px] flex flex-col justify-center relative">
             <div 
-              className={`p-8 md:p-12 text-center transition-all duration-300 transform ${
-                isRevealing ? "opacity-0 scale-95" : "opacity-100 scale-100"
-              }`}
+              className={"p-8 md:p-12 text-center transition-all duration-300 transform " + (isRevealing ? "opacity-0 scale-95" : "opacity-100 scale-100")}
             >
               {currentPrompt ? (
                 <div className="space-y-6">
@@ -345,9 +343,7 @@ export function TruthOrDareClient() {
                     {currentPrompt.type} • {currentPrompt.difficulty}
                   </div>
                   
-                  <h2 className={`text-3xl md:text-5xl font-bold leading-tight ${
-                    currentPrompt.type === 'truth' ? 'text-blue-500 dark:text-blue-400' : 'text-red-500 dark:text-red-400'
-                  }`}>
+                  <h2 className={"text-3xl md:text-5xl font-bold leading-tight " + (currentPrompt.type === 'truth' ? 'text-blue-500 dark:text-blue-400' : 'text-red-500 dark:text-red-400')}>
                     {formattedPromptText}
                   </h2>
                   
@@ -400,9 +396,7 @@ export function TruthOrDareClient() {
                 history.map((item, index) => (
                   <div key={item.timestamp + index} className="text-sm p-3 rounded-md bg-secondary/30">
                     <div className="flex justify-between items-center mb-1">
-                      <span className={`font-semibold uppercase text-xs ${
-                        item.prompt.type === 'truth' ? 'text-blue-500' : 'text-red-500'
-                      }`}>
+                      <span className={"font-semibold uppercase text-xs " + (item.prompt.type === 'truth' ? 'text-blue-500' : 'text-red-500')}>
                         {item.prompt.type}
                       </span>
                       <span className="text-xs text-muted-foreground">

@@ -156,7 +156,7 @@ export function TravelChecklistClient() {
                    {items.filter(i => i.category === cat).map(item => (
                      <div key={item.id} className="flex items-center gap-2 group p-2 hover:bg-muted/50 rounded-md">
                        <Switch checked={item.checked} onCheckedChange={() => toggleItem(item.id)} id={item.id} />
-                       <Label htmlFor={item.id} className={`flex-1 cursor-pointer ${item.checked ? 'line-through text-muted-foreground' : ''}`}>
+                       <Label htmlFor={item.id} className={"flex-1 cursor-pointer " + (item.checked ? 'line-through text-muted-foreground' : '')}>
                          {item.text}
                        </Label>
                        <Button variant="ghost" size="icon" className="h-6 w-6 opacity-0 group-hover:opacity-100 print:hidden" onClick={() => deleteItem(item.id)}>

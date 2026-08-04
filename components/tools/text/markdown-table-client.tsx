@@ -172,9 +172,7 @@ export function MarkdownTableClient() {
                               type="text"
                               value={cell}
                               onChange={(e) => handleCellChange(r, c, e.target.value)}
-                              className={`w-full p-2 bg-transparent border-0 focus:ring-1 focus:ring-primary outline-none ${
-                                alignments[c] === 'center' ? 'text-center' : alignments[c] === 'right' ? 'text-right' : 'text-left'
-                              } ${r === 0 ? 'font-bold bg-muted/20' : ''}`}
+                              className={"w-full p-2 bg-transparent border-0 focus:ring-1 focus:ring-primary outline-none " + (alignments[c] === 'center' ? 'text-center' : alignments[c] === 'right' ? 'text-right' : 'text-left') + " " + (r === 0 ? 'font-bold bg-muted/20' : '')}
                               placeholder={r === 0 ? `Header ${c+1}` : `Row ${r} Col ${c+1}`}
                             />
                           </td>

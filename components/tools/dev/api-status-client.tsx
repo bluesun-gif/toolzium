@@ -182,7 +182,7 @@ export function ApiStatusClient() {
                       onClick={() => checkService(service.id, service.url)}
                       disabled={service.status === "checking"}
                     >
-                      <RefreshCw className={`h-4 w-4 ${service.status === "checking" ? "animate-spin" : ""}`} />
+                      <RefreshCw className={"h-4 w-4 " + (service.status === "checking" ? "animate-spin" : "")} />
                     </Button>
                   </div>
                 </div>
