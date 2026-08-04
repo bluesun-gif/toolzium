@@ -214,6 +214,13 @@ export const ToolsData = [
           "Create markdown tables visually. Set rows and columns up to 10x10. Edit cells inline. Column alignment options. Live markdown preview. Import from CSV. Copy output.",
         popular: false,
       },
+      {
+        title: "Text Diff Viewer",
+        url: "/tools/text/text-diff",
+        description:
+          "Compare two texts side-by-side with highlighted additions, deletions, and unchanged lines. Line numbers, stats, swap, and unified diff mode. Copy diff output.",
+        popular: true,
+      },
     ],
   },
   // {
@@ -345,6 +352,13 @@ export const ToolsData = [
         description:
           "Generate favicons from text, emoji, or uploaded images. Pick colors and font size. Preview at multiple sizes (16, 32, 48, 180, 192, 512px). Download individual sizes as PNG.",
         popular: true,
+      },
+      {
+        title: "SVG to PNG Converter",
+        url: "/tools/image/svg-to-png",
+        description:
+          "Convert SVG files to PNG images. Upload or paste SVG code. Set dimensions, scale (1x-4x), transparent or custom background. Preview and download as PNG.",
+        popular: false,
       },
     ],
   },
@@ -520,6 +534,13 @@ export const ToolsData = [
         url: "/tools/dev/cron-explainer",
         description:
           "Paste a cron expression and get a human-readable explanation. Shows next 5 run times. Color-coded fields. Common presets included. Validates syntax.",
+        popular: false,
+      },
+      {
+        title: "Env Variables Editor",
+        url: "/tools/dev/env-editor",
+        description:
+          "Visual .env file editor. Paste content or add key-value pairs. Table and raw views. Duplicate key detection. Export as .env or JSON. Syntax validation.",
         popular: false,
       },
     ],
@@ -941,6 +962,13 @@ export const ToolsData = [
           "Convert between MPG (US/UK), L/100km, and km/L. Vehicle type presets. Efficiency comparison chart. Tips for improving fuel economy.",
         popular: false,
       },
+      {
+        title: "Travel Checklist",
+        url: "/tools/travel/checklist",
+        description:
+          "Pre-trip checklist generator. Select trip type: Business, Beach, Adventure, City, Winter. Auto-generate categorized lists. Track packing progress. Print-friendly.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1040,6 +1068,13 @@ export const ToolsData = [
           "Calculate retirement savings projections. Year-by-year growth table. Monthly income using the 4% rule. Inflation-adjusted values. Visual progress tracking.",
         popular: true,
       },
+      {
+        title: "Currency Pair Chart",
+        url: "/tools/finance/currency-chart",
+        description:
+          "Visual currency pair comparison with simulated historical charts. 30-day, 90-day, 1-year views. Rate trends, highs, lows. Swap currencies. 20+ currency pairs.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1110,6 +1145,13 @@ export const ToolsData = [
         description:
           "Calculate dice roll probabilities. 1-6 dice with 4/6/8/10/12/20 sides. Exact, at least, at most conditions. Distribution chart. D&D and board game presets.",
         popular: false,
+      },
+      {
+        title: "Morse Code Audio",
+        url: "/tools/fun/morse-audio",
+        description:
+          "Convert text to Morse code with audio playback via Web Audio API. Adjustable speed (5-20 WPM). Visual indicator. Decode Morse to text. Copy output.",
+        popular: true,
       },
     ],
   },
@@ -1217,6 +1259,13 @@ export const ToolsData = [
           "Calculate transfer times and bandwidth requirements. Multi-file queue support. Presets for cloud backup, 4K streaming, and video calls. Reverse calculator included.",
         popular: false,
       },
+      {
+        title: "Subnet Calculator",
+        url: "/tools/network/subnet",
+        description:
+          "Calculate subnet details from IP and CIDR. Network/broadcast address, usable hosts, wildcard mask, IP class. Binary representation. Common subnet reference table.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1309,6 +1358,13 @@ export const ToolsData = [
           "Calculate ideal body weight using Devine, Robinson, Miller, and Hamwi formulas. BMI-based range. Metric and imperial support. Compare with current weight.",
         popular: false,
       },
+      {
+        title: "Hydration Reminder",
+        url: "/tools/health/hydration",
+        description:
+          "Track daily water intake with visual fill animation. Quick-add buttons for glass, bottle, can. Daily goal tracking. 7-day history. Hydration tips.",
+        popular: false,
+      },
     ],
   },
   {
@@ -1378,6 +1434,13 @@ export const ToolsData = [
         url: "/tools/productivity/focus-timer",
         description:
           "Distraction-free focus timer with Deep Work (90 min), Pomodoro (25 min), and Sprint (15 min) modes. Session counter, break timer, daily stats. Saved locally.",
+        popular: true,
+      },
+      {
+        title: "Daily Journal",
+        url: "/tools/productivity/journal",
+        description:
+          "Simple daily journal with mood tracking (5 levels), tags, calendar view, and search. Word count per entry. Export entries. All saved locally.",
         popular: true,
       },
     ],
