@@ -1,19 +1,19 @@
 import { buildMetadata } from "@/lib/seo";
 import { siteURL } from "@/lib/constants";
 import JsonLd from "@/components/seo/json-ld";
-import CaseConverterClient from "@/components/tools/text/case-converter-client";
+import FaviconGeneratorClient from "@/components/tools/image/favicon-generator-client";
 
-const TITLE = "Case Converter — Uppercase, Lowercase, Title Case & Slugify | Toolzium";
-const DESCRIPTION = "Convert text between UPPERCASE, lowercase, Title Case, Sentence case, camelCase, PascalCase, snake_case, kebab-case, and URL slugs online. Free text case converter tool.";
-const PATH = "/tools/text/case-converter";
+const TITLE = "Favicon & App Icon Generator — Convert Image to Favicon.ico | Toolzium";
+const DESCRIPTION = "Generate website favicons, Apple Touch icons, Android PWA icons, and multi-resolution favicon.ico files online. Download ready-to-use icon zip packages with HTML head code.";
+const PATH = "/tools/image/favicon-generator";
 
 export const metadata = buildMetadata({
   title: TITLE,
   description: DESCRIPTION,
   path: PATH,
   keywords: [
-    "case converter", "uppercase to lowercase", "title case converter", "camelcase converter", 
-    "snake_case", "url slug generator", "slugify text", "capitalize text", "change case online", "Toolzium"
+    "favicon generator", "ico converter", "png to ico", "generate favicon", "make favicon from image", 
+    "app icon generator", "pwa icons", "apple touch icon", "website icon generator", "Toolzium"
   ],
 });
 
@@ -22,10 +22,10 @@ export default function Page() {
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      name: "Case Converter",
+      name: "Favicon & App Icon Generator",
       description: DESCRIPTION,
       url: siteURL + PATH,
-      applicationCategory: "UtilitiesApplication",
+      applicationCategory: "MultimediaApplication",
       operatingSystem: "Any",
       offers: {
         "@type": "Offer",
@@ -46,13 +46,13 @@ export default function Page() {
         {
           "@type": "ListItem",
           position: 2,
-          name: "Text Tools",
-          item: siteURL + "/tools/text",
+          name: "Image Tools",
+          item: siteURL + "/tools/image",
         },
         {
           "@type": "ListItem",
           position: 3,
-          name: "Case Converter",
+          name: "Favicon Generator",
           item: siteURL + PATH,
         },
       ],
@@ -62,7 +62,7 @@ export default function Page() {
   return (
     <>
       <JsonLd data={jsonLd as any} />
-      <CaseConverterClient />
+      <FaviconGeneratorClient />
     </>
   );
 }

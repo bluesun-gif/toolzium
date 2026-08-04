@@ -1,19 +1,20 @@
 import { buildMetadata } from "@/lib/seo";
 import { siteURL } from "@/lib/constants";
 import JsonLd from "@/components/seo/json-ld";
-import CaseConverterClient from "@/components/tools/text/case-converter-client";
+import BoxShadowGeneratorClient from "@/components/tools/dev/box-shadow-generator-client";
 
-const TITLE = "Case Converter — Uppercase, Lowercase, Title Case & Slugify | Toolzium";
-const DESCRIPTION = "Convert text between UPPERCASE, lowercase, Title Case, Sentence case, camelCase, PascalCase, snake_case, kebab-case, and URL slugs online. Free text case converter tool.";
-const PATH = "/tools/text/case-converter";
+const TITLE = "CSS Box Shadow & Glassmorphism Generator — Live CSS Tool | Toolzium";
+const DESCRIPTION = "Create modern CSS box shadows, multi-layered drop shadows, and frosted Glassmorphism cards with real-time UI sliders. Copy production-ready CSS code instantly.";
+const PATH = "/tools/dev/box-shadow-generator";
 
 export const metadata = buildMetadata({
   title: TITLE,
   description: DESCRIPTION,
   path: PATH,
   keywords: [
-    "case converter", "uppercase to lowercase", "title case converter", "camelcase converter", 
-    "snake_case", "url slug generator", "slugify text", "capitalize text", "change case online", "Toolzium"
+    "box shadow generator", "css shadow generator", "css box shadow", "drop shadow css", 
+    "glassmorphism generator", "css glassmorphism", "neumorphism generator", "css shadow maker", 
+    "backdrop filter generator", "Toolzium"
   ],
 });
 
@@ -22,10 +23,10 @@ export default function Page() {
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      name: "Case Converter",
+      name: "CSS Box Shadow & Glassmorphism Generator",
       description: DESCRIPTION,
       url: siteURL + PATH,
-      applicationCategory: "UtilitiesApplication",
+      applicationCategory: "DeveloperApplication",
       operatingSystem: "Any",
       offers: {
         "@type": "Offer",
@@ -46,13 +47,13 @@ export default function Page() {
         {
           "@type": "ListItem",
           position: 2,
-          name: "Text Tools",
-          item: siteURL + "/tools/text",
+          name: "Developer Tools",
+          item: siteURL + "/tools/dev",
         },
         {
           "@type": "ListItem",
           position: 3,
-          name: "Case Converter",
+          name: "Box Shadow Generator",
           item: siteURL + PATH,
         },
       ],
@@ -62,7 +63,7 @@ export default function Page() {
   return (
     <>
       <JsonLd data={jsonLd as any} />
-      <CaseConverterClient />
+      <BoxShadowGeneratorClient />
     </>
   );
 }

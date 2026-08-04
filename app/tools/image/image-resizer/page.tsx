@@ -1,19 +1,20 @@
 import { buildMetadata } from "@/lib/seo";
 import { siteURL } from "@/lib/constants";
 import JsonLd from "@/components/seo/json-ld";
-import CaseConverterClient from "@/components/tools/text/case-converter-client";
+import ImageResizerClient from "@/components/tools/image/image-resizer-client";
 
-const TITLE = "Case Converter — Uppercase, Lowercase, Title Case & Slugify | Toolzium";
-const DESCRIPTION = "Convert text between UPPERCASE, lowercase, Title Case, Sentence case, camelCase, PascalCase, snake_case, kebab-case, and URL slugs online. Free text case converter tool.";
-const PATH = "/tools/text/case-converter";
+const TITLE = "Image Resizer — Resize Images Online in KB / Pixels | Toolzium";
+const DESCRIPTION = "Free online image resizer. Resize single or bulk images by pixels or percentage, maintain aspect ratio, adjust quality, and target file size in KB. Instant 100% browser-based photo resizer.";
+const PATH = "/tools/image/image-resizer";
 
 export const metadata = buildMetadata({
   title: TITLE,
   description: DESCRIPTION,
   path: PATH,
   keywords: [
-    "case converter", "uppercase to lowercase", "title case converter", "camelcase converter", 
-    "snake_case", "url slug generator", "slugify text", "capitalize text", "change case online", "Toolzium"
+    "image resizer", "resize image", "resize photo", "img resizer", "resize png", "resize jpg", 
+    "change image size in kb", "bulk image resizer", "photo resizer", "reduce image size", 
+    "online image resizer", "picture resizer", "Toolzium"
   ],
 });
 
@@ -22,10 +23,10 @@ export default function Page() {
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      name: "Case Converter",
+      name: "Image Resizer",
       description: DESCRIPTION,
       url: siteURL + PATH,
-      applicationCategory: "UtilitiesApplication",
+      applicationCategory: "MultimediaApplication",
       operatingSystem: "Any",
       offers: {
         "@type": "Offer",
@@ -46,13 +47,13 @@ export default function Page() {
         {
           "@type": "ListItem",
           position: 2,
-          name: "Text Tools",
-          item: siteURL + "/tools/text",
+          name: "Image Tools",
+          item: siteURL + "/tools/image",
         },
         {
           "@type": "ListItem",
           position: 3,
-          name: "Case Converter",
+          name: "Image Resizer",
           item: siteURL + PATH,
         },
       ],
@@ -62,7 +63,7 @@ export default function Page() {
   return (
     <>
       <JsonLd data={jsonLd as any} />
-      <CaseConverterClient />
+      <ImageResizerClient />
     </>
   );
 }

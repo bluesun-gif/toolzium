@@ -1,19 +1,19 @@
 import { buildMetadata } from "@/lib/seo";
 import { siteURL } from "@/lib/constants";
 import JsonLd from "@/components/seo/json-ld";
-import CaseConverterClient from "@/components/tools/text/case-converter-client";
+import LoremIpsumClient from "@/components/tools/text/lorem-ipsum-client";
 
-const TITLE = "Case Converter — Uppercase, Lowercase, Title Case & Slugify | Toolzium";
-const DESCRIPTION = "Convert text between UPPERCASE, lowercase, Title Case, Sentence case, camelCase, PascalCase, snake_case, kebab-case, and URL slugs online. Free text case converter tool.";
-const PATH = "/tools/text/case-converter";
+const TITLE = "Lorem Ipsum Generator — Free Placeholder Dummy Text | Toolzium";
+const DESCRIPTION = "Generate custom Lorem Ipsum placeholder text by paragraphs, words, sentences, or lists. Includes HTML markup tag options, copy to clipboard, and instant preview. 100% free.";
+const PATH = "/tools/text/lorem-ipsum";
 
 export const metadata = buildMetadata({
   title: TITLE,
   description: DESCRIPTION,
   path: PATH,
   keywords: [
-    "case converter", "uppercase to lowercase", "title case converter", "camelcase converter", 
-    "snake_case", "url slug generator", "slugify text", "capitalize text", "change case online", "Toolzium"
+    "lorem ipsum generator", "dummy text generator", "placeholder text", "lorem ipsum doler", 
+    "generate lorem ipsum", "latin text generator", "lorem ipsum text maker", "Toolzium"
   ],
 });
 
@@ -22,7 +22,7 @@ export default function Page() {
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      name: "Case Converter",
+      name: "Lorem Ipsum Generator",
       description: DESCRIPTION,
       url: siteURL + PATH,
       applicationCategory: "UtilitiesApplication",
@@ -52,7 +52,7 @@ export default function Page() {
         {
           "@type": "ListItem",
           position: 3,
-          name: "Case Converter",
+          name: "Lorem Ipsum Generator",
           item: siteURL + PATH,
         },
       ],
@@ -62,7 +62,7 @@ export default function Page() {
   return (
     <>
       <JsonLd data={jsonLd as any} />
-      <CaseConverterClient />
+      <LoremIpsumClient />
     </>
   );
 }

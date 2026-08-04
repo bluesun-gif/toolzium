@@ -3,6 +3,7 @@ import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 
 export interface SwitchRowProps {
+  id?: string;
   icon?: LucideIcon;
   label: string;
   checked: boolean;

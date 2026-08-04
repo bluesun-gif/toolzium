@@ -1,222 +1,326 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { toast } from "react-hot-toast";
-import { FileImage, Download, Maximize2, Palette } from "lucide-react";
+import { useState, useRef, useEffect, ChangeEvent } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import { GlassCard } from "@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import InputField from "@/components/shared/form-fields/input-field";
+import TextareaField from "@/components/shared/form-fields/textarea-field";
+import SwitchRow from "@/components/shared/form-fields/switch-row";
+import Stat from "@/components/shared/stat";
+import { ResetButton, ActionButton, CopyButton } from "@/components/shared/action-buttons";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
+import { FileCode, Upload, Download, Copy, Image as ImageIcon } from "lucide-react";
 
-export function SvgToPngClient() {
-  const [svgInput, setSvgInput] = useState("");
-  const [width, setWidth] = useState<string>("800");
-  const [height, setHeight] = useState<string>("800");
-  const [scale, setScale] = useState("1");
-  const [bgColor, setBgColor] = useState("transparent");
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+export default function SvgToPngClient() {
+  const [svgInput, setSvgInput] = useState<string>("");
+  const [scale, setScale] = useState<number>(2);
+  const [width, setWidth] = useState<number>(512);
+  const [height, setHeight] = useState<number>(512);
+  const [useCustomSize, setUseCustomSize] = useState<boolean>(false);
+  const [transparentBg, setTransparentBg] = useState<boolean>(true);
+  const [bgColor, setBgColor] = useState<string>("#ffffff");
+  const [pngDataUrl, setPngDataUrl] = useState<string | null>(null);
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-
-    if (file.type !== "image/svg+xml") {
-      toast.error("Please upload a valid SVG file.");
-      return;
-    }
-
     const reader = new FileReader();
     reader.onload = (event) => {
-      setSvgInput(event.target?.result as string);
+      const content = event.target?.result as string;
+      if (content) setSvgInput(content);
     };
     reader.readAsText(file);
   };
 
-  const updatePreview = () => {
+  useEffect(() => {
     if (!svgInput.trim()) {
-      setPreviewUrl(null);
+      setPngDataUrl(null);
       return;
     }
 
+    setIsProcessing(true);
+    const timer = setTimeout(() => {
+      renderSvgToCanvas();
+    }, 150);
+
+    return () => clearTimeout(timer);
+  }, [svgInput, scale, width, height, useCustomSize, transparentBg, bgColor]);
+
+  const renderSvgToCanvas = () => {
     try {
-      const w = parseInt(width) || 800;
-      const h = parseInt(height) || 800;
-      const s = parseFloat(scale) || 1;
-      
-      const finalWidth = w * s;
-      const finalHeight = h * s;
-
-      const canvas = canvasRef.current;
-      if (!canvas) return;
-      
-      canvas.width = finalWidth;
-      canvas.height = finalHeight;
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return;
-
-      if (bgColor !== "transparent") {
-        ctx.fillStyle = bgColor;
-        ctx.fillRect(0, 0, finalWidth, finalHeight);
-      } else {
-        ctx.clearRect(0, 0, finalWidth, finalHeight);
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(svgInput, "image/svg+xml");
+      const svgEl = doc.querySelector("svg");
+      if (!svgEl) {
+        setPngDataUrl(null);
+        setIsProcessing(false);
+        return;
       }
 
-      const img = new Image();
+      let nativeW = parseFloat(svgEl.getAttribute("width") || "0");
+      let nativeH = parseFloat(svgEl.getAttribute("height") || "0");
+
+      if (!nativeW || !nativeH) {
+        const viewBox = svgEl.getAttribute("viewBox");
+        if (viewBox) {
+          const parts = viewBox.split(/[\s,]+/).map(parseFloat);
+          if (parts.length === 4) {
+            nativeW = parts[2];
+            nativeH = parts[3];
+          }
+        }
+      }
+
+      const baseW = useCustomSize ? width : nativeW || 512;
+      const baseH = useCustomSize ? height : nativeH || 512;
+
+      const finalW = Math.max(1, Math.round(baseW * scale));
+      const finalH = Math.max(1, Math.round(baseH * scale));
+
       const svgBlob = new Blob([svgInput], { type: "image/svg+xml;charset=utf-8" });
       const url = URL.createObjectURL(svgBlob);
 
+      const img = new Image();
+      img.crossOrigin = "anonymous";
       img.onload = () => {
-        ctx.drawImage(img, 0, 0, finalWidth, finalHeight);
-        setPreviewUrl(canvas.toDataURL("image/png"));
+        const canvas = document.createElement("canvas");
+        canvas.width = finalW;
+        canvas.height = finalH;
+        const ctx = canvas.getContext("2d");
+        if (ctx) {
+          if (!transparentBg) {
+            ctx.fillStyle = bgColor;
+            ctx.fillRect(0, 0, finalW, finalH);
+          }
+          ctx.drawImage(img, 0, 0, finalW, finalH);
+          setPngDataUrl(canvas.toDataURL("image/png"));
+        }
         URL.revokeObjectURL(url);
+        setIsProcessing(false);
       };
       img.onerror = () => {
-        toast.error("Invalid SVG code.");
         URL.revokeObjectURL(url);
+        setPngDataUrl(null);
+        setIsProcessing(false);
       };
-
       img.src = url;
-    } catch (err) {
-      toast.error("Failed to parse SVG.");
+    } catch {
+      setPngDataUrl(null);
+      setIsProcessing(false);
     }
   };
-
-  useEffect(() => {
-    updatePreview();
-  }, [svgInput, width, height, scale, bgColor]);
 
   const handleDownload = () => {
-    if (!previewUrl) {
-      toast.error("No preview available to download.");
-      return;
-    }
-
+    if (!pngDataUrl) return;
     const a = document.createElement("a");
-    a.href = previewUrl;
-    a.download = "converted-image.png";
+    a.href = pngDataUrl;
+    a.download = "vector_image.png";
+    document.body.appendChild(a);
     a.click();
-    toast.success("Downloaded successfully!");
+    document.body.removeChild(a);
   };
 
-  const handleClear = () => {
+  const handleReset = () => {
     setSvgInput("");
-    setPreviewUrl(null);
+    setPngDataUrl(null);
   };
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-6xl mx-auto space-y-8">
       <ToolPageHeader
-        icon={FileImage}
         title="SVG to PNG Converter"
-        description="Convert SVG code or files to PNG format with customizable dimensions and backgrounds."
-        actions={
-          <>
-            <ActionButton onClick={handleDownload} icon={Download} label="Download PNG" />
-            <ResetButton onClick={handleClear} />
-          </>
-        }
+        description="Convert SVG code or SVG files to high-resolution PNG images. Export sharp vector graphics at 1x, 2x, 4x, or 8x HD quality with custom transparent background."
+        icon={FileCode}
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <GlassCard>
-          <CardHeader>
-            <CardTitle>Input SVG</CardTitle>
-            <CardDescription>Paste SVG code or upload a file.</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <Label htmlFor="svg-upload">Upload SVG File</Label>
-              <Input id="svg-upload" type="file" accept=".svg" onChange={handleFileUpload} />
-            </div>
-            <div>
-              <Label>Or Paste SVG Code</Label>
-              <textarea
-                className="w-full h-[300px] p-3 rounded-md border bg-background font-mono text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        {/* Left: Input & Options */}
+        <div className="lg:col-span-6 space-y-6">
+          <GlassCard>
+            <CardHeader>
+              <CardTitle>SVG Source</CardTitle>
+              <CardDescription>Upload an SVG file or paste raw SVG code</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <input
+                type="file"
+                ref={fileInputRef}
+                accept=".svg,image/svg+xml"
+                className="hidden"
+                onChange={handleFileChange}
+              />
+              <div
+                className={`border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-colors ${
+                  isDragging ? "border-primary bg-primary/10" : "border-border hover:bg-muted/50"
+                }`}
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  setIsDragging(true);
+                }}
+                onDragLeave={() => setIsDragging(false)}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  setIsDragging(false);
+                  const file = e.dataTransfer.files?.[0];
+                  if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (evt) => {
+                      if (evt.target?.result) setSvgInput(evt.target.result as string);
+                    };
+                    reader.readAsText(file);
+                  }
+                }}
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <Upload className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
+                <p className="text-sm font-medium">Click to upload .SVG file</p>
+                <p className="text-xs text-muted-foreground">or drag and drop here</p>
+              </div>
+
+              <TextareaField
+                label="Raw SVG Markup"
                 value={svgInput}
                 onChange={(e) => setSvgInput(e.target.value)}
-                placeholder="<svg viewBox='0 0 100 100'>...</svg>"
+                placeholder='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">...</svg>'
+                rows={6}
               />
-            </div>
-            
-            <div className="grid grid-cols-2 gap-4">
-               <div>
-                  <Label>Width (px)</Label>
-                  <Input type="number" value={width} onChange={(e) => setWidth(e.target.value)} />
-               </div>
-               <div>
-                  <Label>Height (px)</Label>
-                  <Input type="number" value={height} onChange={(e) => setHeight(e.target.value)} />
-               </div>
-            </div>
+            </CardContent>
+          </GlassCard>
 
-            <div className="grid grid-cols-2 gap-4">
-               <div>
-                  <Label>Scale</Label>
-                  <Select value={scale} onValueChange={setScale}>
-                     <SelectTrigger>
-                        <SelectValue placeholder="Scale" />
-                     </SelectTrigger>
-                     <SelectContent>
-                        <SelectItem value="1">1x</SelectItem>
-                        <SelectItem value="2">2x</SelectItem>
-                        <SelectItem value="3">3x</SelectItem>
-                        <SelectItem value="4">4x</SelectItem>
-                     </SelectContent>
-                  </Select>
-               </div>
-               <div>
-                  <Label>Background Color</Label>
-                  <div className="flex gap-2">
-                    <Input 
-                        type="color" 
-                        value={bgColor === "transparent" ? "#ffffff" : bgColor} 
-                        onChange={(e) => setBgColor(e.target.value)}
-                        disabled={bgColor === "transparent"}
-                        className="w-12 h-10 p-1"
+          <GlassCard>
+            <CardHeader>
+              <CardTitle>Export Settings</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Resolution Multiplier</label>
+                <div className="grid grid-cols-4 gap-2">
+                  {[1, 2, 4, 8].map((s) => (
+                    <Button
+                      key={s}
+                      type="button"
+                      variant={scale === s ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setScale(s)}
+                    >
+                      {s}x {s === 8 ? "Ultra HD" : s === 4 ? "HD" : ""}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+
+              <SwitchRow
+                label="Custom Dimensions"
+                hint="Override native SVG width & height"
+                checked={useCustomSize}
+                onCheckedChange={setUseCustomSize}
+              />
+
+              {useCustomSize && (
+                <div className="grid grid-cols-2 gap-4">
+                  <InputField
+                    label="Width (px)"
+                    type="number"
+                    value={width.toString()}
+                    onChange={(e) => setWidth(Number(e.target.value) || 0)}
+                  />
+                  <InputField
+                    label="Height (px)"
+                    type="number"
+                    value={height.toString()}
+                    onChange={(e) => setHeight(Number(e.target.value) || 0)}
+                  />
+                </div>
+              )}
+
+              <SwitchRow
+                label="Transparent Background"
+                hint="Keep vector transparency or choose background color"
+                checked={transparentBg}
+                onCheckedChange={setTransparentBg}
+              />
+
+              {!transparentBg && (
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Background Color</label>
+                  <div className="flex gap-3 items-center">
+                    <input
+                      type="color"
+                      value={bgColor}
+                      onChange={(e) => setBgColor(e.target.value)}
+                      className="h-10 w-14 rounded-md border border-input cursor-pointer bg-background"
                     />
-                    <Select value={bgColor === "transparent" ? "transparent" : "custom"} onValueChange={(v) => setBgColor(v === "transparent" ? "transparent" : "#ffffff")}>
-                       <SelectTrigger className="flex-1">
-                          <SelectValue placeholder="Background" />
-                       </SelectTrigger>
-                       <SelectContent>
-                          <SelectItem value="transparent">Transparent</SelectItem>
-                          <SelectItem value="custom">Custom Color</SelectItem>
-                       </SelectContent>
-                    </Select>
+                    <InputField
+                      value={bgColor}
+                      onChange={(e) => setBgColor(e.target.value)}
+                      placeholder="#ffffff"
+                    />
                   </div>
-               </div>
-            </div>
+                </div>
+              )}
 
-          </CardContent>
-        </GlassCard>
+              <div className="flex gap-3 pt-2">
+                <ResetButton onClick={handleReset} />
+              </div>
+            </CardContent>
+          </GlassCard>
+        </div>
 
-        <GlassCard>
-          <CardHeader>
-            <CardTitle>Preview</CardTitle>
-            <CardDescription>Live preview of your converted PNG image.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="w-full min-h-[400px] flex items-center justify-center border-2 border-dashed rounded-md bg-muted/20 relative overflow-hidden pattern-checkerboard">
-               {previewUrl ? (
-                  <img src={previewUrl} alt="Preview" className="max-w-full max-h-[600px] object-contain shadow-lg" style={{ backgroundColor: bgColor === "transparent" ? undefined : bgColor }} />
-               ) : (
-                  <div className="text-muted-foreground flex flex-col items-center gap-2">
-                     <FileImage className="w-12 h-12 opacity-20" />
-                     <p>Preview will appear here</p>
+        {/* Right: PNG Render & Download */}
+        <div className="lg:col-span-6 space-y-6">
+          <GlassCard className="h-full flex flex-col">
+            <CardHeader className="flex flex-row items-center justify-between pb-4 border-b">
+              <div>
+                <CardTitle>PNG Output</CardTitle>
+                <CardDescription>High-resolution raster export</CardDescription>
+              </div>
+              {pngDataUrl && (
+                <div className="flex gap-2">
+                  <CopyButton getText={pngDataUrl} label="Copy Data URL" />
+                  <ActionButton
+                    icon={Download}
+                    label="Download PNG"
+                    onClick={handleDownload}
+                    variant="default"
+                  />
+                </div>
+              )}
+            </CardHeader>
+            <CardContent className="flex-1 flex flex-col items-center justify-center p-6 min-h-[400px]">
+              {!pngDataUrl ? (
+                <div className="text-center text-muted-foreground space-y-2">
+                  <ImageIcon className="h-12 w-12 mx-auto opacity-30" />
+                  <p className="text-sm font-medium">
+                    {isProcessing ? "Rendering PNG..." : "Upload or paste SVG code to see preview"}
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-4 w-full text-center">
+                  <div
+                    className="p-6 rounded-xl border flex items-center justify-center max-h-[450px] overflow-auto shadow-inner"
+                    style={{
+                      backgroundImage: transparentBg
+                        ? "radial-gradient(#ccc 1px, transparent 1px)"
+                        : "none",
+                      backgroundColor: transparentBg ? "transparent" : bgColor,
+                      backgroundSize: "16px 16px",
+                    }}
+                  >
+                    <img
+                      src={pngDataUrl}
+                      alt="Rendered PNG"
+                      className="max-w-full max-h-[400px] object-contain shadow-md rounded-md"
+                    />
                   </div>
-               )}
-               {/* Hidden canvas for processing */}
-               <canvas ref={canvasRef} className="hidden" />
-            </div>
-          </CardContent>
-        </GlassCard>
+                </div>
+              )}
+            </CardContent>
+          </GlassCard>
+        </div>
       </div>
     </div>
   );

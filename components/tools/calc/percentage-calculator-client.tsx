@@ -1,286 +1,199 @@
 "use client";
 
-import { Calculator, FunctionSquare, Percent } from "lucide-react";
-import * as React from "react";
-import {
-  ActionButton,
-  CopyButton,
-  ExportCSVButton,
-  LinkButton,
-  ResetButton,
-} from "@/components/shared/action-buttons";
-import InputField from "@/components/shared/form-fields/input-field";
+import { useState } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard, MotionGlassCard } from "@/components/ui/glass-card";
-import { Separator } from "@/components/ui/separator";
-
-/* utils */
-const toNum = (s: string) => {
-  const n = Number(String(s).replace(/,/g, "").trim());
-  return Number.isFinite(n) ? n : NaN;
-};
-const pretty = (n: number, max = 2) =>
-  new Intl.NumberFormat(undefined, { maximumFractionDigits: max }).format(n);
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import InputField from "@/components/shared/form-fields/input-field";
+import Stat from "@/components/shared/stat";
+import { ResetButton, CopyButton } from "@/components/shared/action-buttons";
+import { Percent, ArrowUpRight, ArrowDownRight, Tag } from "lucide-react";
 
 export default function PercentageCalculatorClient() {
-  const [part, setPart] = React.useState("");
-  const [whole, setWhole] = React.useState("");
-  const [percent, setPercent] = React.useState("");
-  const [base, setBase] = React.useState("");
-  const [changePct, setChangePct] = React.useState("");
+  // Calc 1: What is X% of Y?
+  const [c1X, setC1X] = useState<string>("15");
+  const [c1Y, setC1Y] = useState<string>("250");
 
-  // presets for quick taps
-  const pctPresets = React.useMemo(() => [5, 10, 12.5, 15, 18, 20, 25, 30, 40, 50], []);
+  // Calc 2: X is what percent of Y?
+  const [c2X, setC2X] = useState<string>("45");
+  const [c2Y, setC2Y] = useState<string>("300");
 
-  // X is what % of Y?  |  What is R% of Y?
-  const { percentOfWhole, valueOfPercent } = React.useMemo(() => {
-    const p = toNum(part);
-    const w = toNum(whole);
-    const r = toNum(percent);
+  // Calc 3: % Increase / Decrease from X to Y
+  const [c3X, setC3X] = useState<string>("100");
+  const [c3Y, setC3Y] = useState<string>("175");
 
-    const percentOfWhole =
-      Number.isFinite(p) && Number.isFinite(w) && w !== 0 ? (p / w) * 100 : null;
+  // Calc 4: Discount (Original Price & Discount %)
+  const [c4Price, setC4Price] = useState<string>("120");
+  const [c4Discount, setC4Discount] = useState<string>("20");
 
-    const valueOfPercent = Number.isFinite(w) && Number.isFinite(r) ? (w * r) / 100 : null;
+  // Calc 1 Result
+  const num1X = parseFloat(c1X) || 0;
+  const num1Y = parseFloat(c1Y) || 0;
+  const res1 = (num1X / 100) * num1Y;
 
-    return { percentOfWhole, valueOfPercent };
-  }, [part, whole, percent]);
+  // Calc 2 Result
+  const num2X = parseFloat(c2X) || 0;
+  const num2Y = parseFloat(c2Y) || 0;
+  const res2 = num2Y !== 0 ? (num2X / num2Y) * 100 : 0;
 
-  // Increase / Decrease by %
-  const { incVal, decVal } = React.useMemo(() => {
-    const b = toNum(base);
-    const c = toNum(changePct);
-    if (!Number.isFinite(b) || !Number.isFinite(c))
-      return { incVal: null as number | null, decVal: null as number | null };
-    return { incVal: b * (1 + c / 100), decVal: b * (1 - c / 100) };
-  }, [base, changePct]);
+  // Calc 3 Result
+  const num3X = parseFloat(c3X) || 0;
+  const num3Y = parseFloat(c3Y) || 0;
+  const diff3 = num3Y - num3X;
+  const pct3 = num3X !== 0 ? ((num3Y - num3X) / Math.abs(num3X)) * 100 : 0;
 
-  const resetAll = React.useCallback(() => {
-    setPart("");
-    setWhole("");
-    setPercent("");
-    setBase("");
-    setChangePct("");
-  }, []);
-
-  const rowsForCSV = React.useCallback(() => {
-    const rows: (string | number)[][] = [
-      ["Section", "Input A", "Input B", "Result"],
-      [
-        "X is what % of Y?",
-        part || "—",
-        whole || "—",
-        percentOfWhole != null ? `${percentOfWhole.toFixed(4)}%` : "—",
-      ],
-      [
-        "What is R% of Y?",
-        percent || "—",
-        whole || "—",
-        valueOfPercent != null ? valueOfPercent.toFixed(4) : "—",
-      ],
-      ["Increase by %", base || "—", changePct || "—", incVal != null ? incVal.toFixed(4) : "—"],
-      ["Decrease by %", base || "—", changePct || "—", decVal != null ? decVal.toFixed(4) : "—"],
-    ];
-    return rows;
-  }, [part, whole, percent, base, changePct, percentOfWhole, valueOfPercent, incVal, decVal]);
+  // Calc 4 Result
+  const price = parseFloat(c4Price) || 0;
+  const discPct = parseFloat(c4Discount) || 0;
+  const savings = (price * discPct) / 100;
+  const finalPrice = price - savings;
 
   return (
-    <>
+    <div className="max-w-6xl mx-auto space-y-8">
       <ToolPageHeader
-        icon={Percent}
         title="Percentage Calculator"
-        description="Find percentages fast: what percent, percent of, and increase/decrease by %."
-        actions={
-          <>
-            <ResetButton onClick={resetAll} />
-            <ExportCSVButton
-              variant="default"
-              filename="percentage-results.csv"
-              getRows={rowsForCSV}
-            />
-          </>
-        }
+        description="Free online percentage calculator. Solve percentage problems, percent difference, percentage increase/decrease, and discount savings instantly."
+        icon={Percent}
       />
 
-      {/* Quick nav */}
-      <GlassCard className="px-4 py-3">
-        <div className="mb-1 flex flex-wrap gap-2">
-          <LinkButton size="sm" icon={Calculator} label="Standard" href="/tools/calc/standard" />
-          <LinkButton
-            size="sm"
-            icon={FunctionSquare}
-            label="Scientific"
-            href="/tools/calc/scientific"
-          />
-          <LinkButton
-            size="sm"
-            variant="default"
-            icon={Percent}
-            label="Percentage"
-            href="/tools/calc/percentage"
-          />
-        </div>
-      </GlassCard>
-
-      <Separator className="my-4" />
-
-      <MotionGlassCard>
-        <div className="grid gap-6 sm:grid-cols-2">
-          {/* X is what % of Y */}
-          <GlassCard className="p-4">
-            <div className="grid gap-3">
-              <div className="text-sm font-medium">X is what % of Y?</div>
-              <div className="grid gap-2 sm:grid-cols-2">
-                <InputField
-                  label="X"
-                  inputMode="decimal"
-                  value={part}
-                  onChange={(e) => setPart(e.target.value)}
-                />
-                <InputField
-                  label="Y"
-                  inputMode="decimal"
-                  value={whole}
-                  onChange={(e) => setWhole(e.target.value)}
-                />
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="text-sm text-muted-foreground">
-                  Result:&nbsp;
-                  <span className="font-medium">
-                    {percentOfWhole != null ? `${percentOfWhole.toFixed(2)}%` : "—"}
-                  </span>
-                </div>
-                <CopyButton
-                  size="sm"
-                  label="Copy"
-                  disabled={percentOfWhole == null}
-                  getText={() => `${percentOfWhole?.toFixed(4)}%`}
-                />
-              </div>
-            </div>
-          </GlassCard>
-
-          {/* What is R% of Y */}
-          <GlassCard className="p-4">
-            <div className="grid gap-3">
-              <div className="text-sm font-medium">What is R% of Y?</div>
-              <div className="grid gap-2 sm:grid-cols-2">
-                <InputField
-                  label="R %"
-                  inputMode="decimal"
-                  value={percent}
-                  onChange={(e) => setPercent(e.target.value)}
-                />
-                <InputField
-                  label="Y"
-                  inputMode="decimal"
-                  value={whole}
-                  onChange={(e) => setWhole(e.target.value)}
-                />
-              </div>
-
-              {/* quick presets */}
-              <div className="flex flex-wrap gap-2">
-                {pctPresets.map((p) => (
-                  <ActionButton
-                    key={p}
-                    size="sm"
-                    variant={Number(toNum(percent)) === p ? "default" : "outline"}
-                    label={`${p}%`}
-                    onClick={() => setPercent(String(p))}
-                  />
-                ))}
-              </div>
-
-              <div className="flex items-center justify-between">
-                <div className="text-sm text-muted-foreground">
-                  Result:&nbsp;
-                  <span className="font-medium">
-                    {valueOfPercent != null ? pretty(valueOfPercent, 4) : "—"}
-                  </span>
-                </div>
-                <CopyButton
-                  size="sm"
-                  label="Copy"
-                  disabled={valueOfPercent == null}
-                  getText={() => String(valueOfPercent)}
-                />
-              </div>
-            </div>
-          </GlassCard>
-        </div>
-
-        <Separator />
-
-        {/* Increase / Decrease by % */}
-        <GlassCard className="p-4">
-          <div className="grid gap-3">
-            <div className="text-sm font-medium">Increase / Decrease by %</div>
-            <div className="grid gap-2 sm:grid-cols-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Calc 1: What is X% of Y? */}
+        <GlassCard>
+          <CardHeader>
+            <CardTitle>What is X% of Y?</CardTitle>
+            <CardDescription>Calculate the percentage value of any number</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
               <InputField
-                label="Base"
-                inputMode="decimal"
-                value={base}
-                onChange={(e) => setBase(e.target.value)}
+                label="Percentage (X%)"
+                type="number"
+                value={c1X}
+                onChange={(e) => setC1X(e.target.value)}
+                placeholder="e.g. 15"
               />
               <InputField
-                label="Change %"
-                inputMode="decimal"
-                value={changePct}
-                onChange={(e) => setChangePct(e.target.value)}
+                label="Of Value (Y)"
+                type="number"
+                value={c1Y}
+                onChange={(e) => setC1Y(e.target.value)}
+                placeholder="e.g. 250"
               />
             </div>
-
-            {/* quick presets */}
-            <div className="flex flex-wrap gap-2">
-              {pctPresets.map((p) => (
-                <ActionButton
-                  key={`chg-${p}`}
-                  size="sm"
-                  variant={Number(toNum(changePct)) === p ? "default" : "outline"}
-                  label={`${p}%`}
-                  onClick={() => setChangePct(String(p))}
-                />
-              ))}
+            <div className="p-4 border rounded-xl bg-muted/20 flex items-center justify-between">
+              <div>
+                <p className="text-xs text-muted-foreground">Result</p>
+                <p className="text-2xl font-bold text-primary">{res1.toLocaleString()}</p>
+              </div>
+              <CopyButton getText={res1.toString()} size="sm" />
             </div>
-
-            <div className="grid gap-2 sm:grid-cols-2">
-              <ResultBox
-                label="Increase to"
-                value={incVal != null ? pretty(incVal, 4) : "—"}
-                copyText={incVal != null ? String(incVal) : ""}
-              />
-              <ResultBox
-                label="Decrease to"
-                value={decVal != null ? pretty(decVal, 4) : "—"}
-                copyText={decVal != null ? String(decVal) : ""}
-              />
-            </div>
-          </div>
+          </CardContent>
         </GlassCard>
-      </MotionGlassCard>
-    </>
-  );
-}
 
-/* tiny presentational piece */
-function ResultBox({
-  label,
-  value,
-  copyText,
-}: {
-  label: string;
-  value: string;
-  copyText?: string;
-}) {
-  return (
-    <div className="rounded-xl border p-3">
-      <div className="mb-1 flex items-center justify-between">
-        <span className="text-xs text-muted-foreground">{label}</span>
-        <CopyButton size="sm" disabled={!copyText} getText={() => copyText || ""} />
+        {/* Calc 2: X is what % of Y? */}
+        <GlassCard>
+          <CardHeader>
+            <CardTitle>X is what % of Y?</CardTitle>
+            <CardDescription>Find the percentage ratio between two numbers</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <InputField
+                label="Value (X)"
+                type="number"
+                value={c2X}
+                onChange={(e) => setC2X(e.target.value)}
+                placeholder="e.g. 45"
+              />
+              <InputField
+                label="Total (Y)"
+                type="number"
+                value={c2Y}
+                onChange={(e) => setC2Y(e.target.value)}
+                placeholder="e.g. 300"
+              />
+            </div>
+            <div className="p-4 border rounded-xl bg-muted/20 flex items-center justify-between">
+              <div>
+                <p className="text-xs text-muted-foreground">Result</p>
+                <p className="text-2xl font-bold text-primary">{res2.toFixed(2)}%</p>
+              </div>
+              <CopyButton getText={`${res2.toFixed(2)}%`} size="sm" />
+            </div>
+          </CardContent>
+        </GlassCard>
+
+        {/* Calc 3: Percentage Change */}
+        <GlassCard>
+          <CardHeader>
+            <CardTitle>Percentage Increase / Decrease</CardTitle>
+            <CardDescription>Calculate percent change from initial to final value</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <InputField
+                label="From Value (X)"
+                type="number"
+                value={c3X}
+                onChange={(e) => setC3X(e.target.value)}
+                placeholder="e.g. 100"
+              />
+              <InputField
+                label="To Value (Y)"
+                type="number"
+                value={c3Y}
+                onChange={(e) => setC3Y(e.target.value)}
+                placeholder="e.g. 175"
+              />
+            </div>
+            <div className="p-4 border rounded-xl bg-muted/20 flex items-center justify-between">
+              <div>
+                <p className="text-xs text-muted-foreground">Percent Change</p>
+                <p className={`text-2xl font-bold flex items-center gap-1 ${pct3 >= 0 ? "text-emerald-500" : "text-rose-500"}`}>
+                  {pct3 >= 0 ? <ArrowUpRight className="h-5 w-5" /> : <ArrowDownRight className="h-5 w-5" />}
+                  {Math.abs(pct3).toFixed(2)}% {pct3 >= 0 ? "Increase" : "Decrease"}
+                </p>
+              </div>
+              <CopyButton getText={`${pct3 >= 0 ? "+" : ""}${pct3.toFixed(2)}%`} size="sm" />
+            </div>
+          </CardContent>
+        </GlassCard>
+
+        {/* Calc 4: Discount Calculator */}
+        <GlassCard>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Tag className="h-5 w-5 text-primary" /> Discount & Sale Price
+            </CardTitle>
+            <CardDescription>Calculate final price after discount percentage</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <InputField
+                label="Original Price ($)"
+                type="number"
+                value={c4Price}
+                onChange={(e) => setC4Price(e.target.value)}
+                placeholder="e.g. 120"
+              />
+              <InputField
+                label="Discount (% off)"
+                type="number"
+                value={c4Discount}
+                onChange={(e) => setC4Discount(e.target.value)}
+                placeholder="e.g. 20"
+              />
+            </div>
+            <div className="p-4 border rounded-xl bg-muted/20 flex items-center justify-between">
+              <div>
+                <p className="text-xs text-muted-foreground">Final Price (You save ${savings.toFixed(2)})</p>
+                <p className="text-2xl font-bold text-emerald-500">${finalPrice.toFixed(2)}</p>
+              </div>
+              <CopyButton getText={`$${finalPrice.toFixed(2)}`} size="sm" />
+            </div>
+          </CardContent>
+        </GlassCard>
       </div>
-      <div className="text-lg font-semibold tabular-nums">{value}</div>
     </div>
   );
 }

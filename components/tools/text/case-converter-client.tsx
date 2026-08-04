@@ -1,332 +1,148 @@
 "use client";
 
-import { ArrowLeftRight, Eraser, Info, Replace, Type as TypeIcon, Wand2 } from "lucide-react";
-import * as React from "react";
-import {
-  ActionButton,
-  CopyButton,
-  ExportTextButton,
-  PasteButton,
-  ResetButton,
-} from "@/components/shared/action-buttons";
-import InputField from "@/components/shared/form-fields/input-field";
-import SelectField from "@/components/shared/form-fields/select-field";
-import SwitchRow from "@/components/shared/form-fields/switch-row";
-import TextareaField from "@/components/shared/form-fields/textarea-field";
+import { useState } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { Badge } from "@/components/ui/badge";
-import { CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { GlassCard } from "@/components/ui/glass-card";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import { applyCase, runPipeline } from "@/lib/utils/text/case-converter";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import TextareaField from "@/components/shared/form-fields/textarea-field";
+import Stat from "@/components/shared/stat";
+import { ResetButton, CopyButton } from "@/components/shared/action-buttons";
+import { Button } from "@/components/ui/button";
+import { Type, Copy, RefreshCcw } from "lucide-react";
 
 export default function CaseConverterClient() {
-  const [source, setSource] = React.useState<string>("");
-  const [mode, setMode] = React.useState<CaseMode>("title");
-  const [live, setLive] = React.useState<boolean>(true);
+  const [text, setText] = useState<string>(
+    "Toolzium is an high-performance online tool suite designed for developers and creators!"
+  );
 
-  const [toggles, setToggles] = React.useState<Record<PipelineToggle, boolean>>({
-    trim: true,
-    collapseSpaces: true,
-    removePunctuation: false,
-    normalizeQuotes: false,
-    removeDiacritics: false,
-  });
-
-  const [customSep, setCustomSep] = React.useState<string>("");
-
-  const processed = React.useMemo(() => runPipeline(source, toggles), [source, toggles]);
-  const transformed = React.useMemo(() => {
-    const base = applyCase(mode, processed);
-    if (!customSep) return base;
-    return base.replace(/\s+/g, customSep);
-  }, [processed, mode, customSep]);
-
-  const resetAll = () => {
-    setSource("");
-    setMode("title");
-    setLive(true);
-    setToggles({
-      trim: true,
-      collapseSpaces: true,
-      removePunctuation: false,
-      normalizeQuotes: false,
-      removeDiacritics: false,
-    });
-    setCustomSep("");
+  const getWords = (str: string) => {
+    return str
+      .replace(/([a-z])([A-Z])/g, "$1 $2")
+      .replace(/[_\-]+/g, " ")
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
   };
 
-  const presetSlug = () => {
-    setMode("kebab");
-    setToggles({
-      trim: true,
-      collapseSpaces: true,
-      removePunctuation: true,
-      normalizeQuotes: true,
-      removeDiacritics: true,
-    });
-    setCustomSep("");
+  const toUppercase = (str: string) => str.toUpperCase();
+  const toLowercase = (str: string) => str.toLowerCase();
+
+  const toTitleCase = (str: string) => {
+    return str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
   };
-  const presetCode = () => {
-    setMode("snake");
-    setToggles({
-      trim: true,
-      collapseSpaces: true,
-      removePunctuation: true,
-      normalizeQuotes: true,
-      removeDiacritics: true,
-    });
-    setCustomSep("");
+
+  const toSentenceCase = (str: string) => {
+    return str
+      .toLowerCase()
+      .replace(/(^\s*|\.\s*)([a-z])/g, (_, p1, p2) => p1 + p2.toUpperCase());
   };
-  const presetSocial = () => {
-    setMode("title");
-    setToggles({
-      trim: true,
-      collapseSpaces: true,
-      removePunctuation: false,
-      normalizeQuotes: true,
-      removeDiacritics: false,
-    });
-    setCustomSep("");
+
+  const toCamelCase = (str: string) => {
+    const words = getWords(str);
+    if (words.length === 0) return "";
+    return words[0].toLowerCase() + words.slice(1).map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join("");
   };
+
+  const toPascalCase = (str: string) => {
+    const words = getWords(str);
+    return words.map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join("");
+  };
+
+  const toSnakeCase = (str: string) => {
+    const words = getWords(str);
+    return words.map((w) => w.toLowerCase()).join("_");
+  };
+
+  const toKebabCase = (str: string) => {
+    const words = getWords(str);
+    return words.map((w) => w.toLowerCase()).join("-");
+  };
+
+  const toConstantCase = (str: string) => {
+    const words = getWords(str);
+    return words.map((w) => w.toUpperCase()).join("_");
+  };
+
+  const toAlternatingCase = (str: string) => {
+    return str
+      .split("")
+      .map((char, i) => (i % 2 === 0 ? char.toLowerCase() : char.toUpperCase()))
+      .join("");
+  };
+
+  const formats = [
+    { label: "UPPERCASE", value: toUppercase(text) },
+    { label: "lowercase", value: toLowercase(text) },
+    { label: "Title Case", value: toTitleCase(text) },
+    { label: "Sentence case", value: toSentenceCase(text) },
+    { label: "camelCase", value: toCamelCase(text) },
+    { label: "PascalCase", value: toPascalCase(text) },
+    { label: "snake_case", value: toSnakeCase(text) },
+    { label: "kebab-case (URL Slug)", value: toKebabCase(text) },
+    { label: "CONSTANT_CASE", value: toConstantCase(text) },
+    { label: "aLtErNaTiNg cAsE", value: toAlternatingCase(text) },
+  ];
+
+  const handleReset = () => {
+    setText("");
+  };
+
+  const charCount = text.length;
+  const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
+  const lineCount = text ? text.split("\n").length : 0;
 
   return (
-    <>
-      {/* Header */}
+    <div className="max-w-6xl mx-auto space-y-8">
       <ToolPageHeader
-        icon={TypeIcon}
-        title="Case Converter"
-        description="Upper, lower, title, camel/snake/kebab"
-        actions={
-          <>
-            <ResetButton onClick={resetAll} />
-            <CopyButton
-              variant="default"
-              label="Copy converted"
-              getText={() => transformed || ""}
-            />
-          </>
-        }
+        title="Case Converter & URL Slugify"
+        description="Transform text into UPPERCASE, lowercase, Title Case, camelCase, snake_case, kebab-case, and URL slugs instantly. Free online text converter."
+        icon={Type}
       />
 
-      {/* Settings */}
+      {/* Main Input Textarea */}
       <GlassCard>
-        <CardHeader className="pb-2">
-          <CardTitle className="text-base">Settings</CardTitle>
-          <CardDescription>Choose a case style and optional clean-up pipeline.</CardDescription>
-        </CardHeader>
-
-        <CardContent>
-          {/* Case mode */}
-          <div className="grid gap-6 lg:grid-cols-2">
-            <div className="space-y-2">
-              <SelectField
-                label="Case Style"
-                placeholder="Choose case style"
-                value={mode}
-                onValueChange={(v) => setMode((v as CaseMode) ?? "title")}
-                allowClear={false}
-                options={[
-                  { value: "upper", label: "UPPER" },
-                  { value: "lower", label: "lower" },
-                  { value: "title", label: "Title Case" },
-                  { value: "sentence", label: "Sentence case" },
-                  { value: "camel", label: "camelCase" },
-                  { value: "pascal", label: "PascalCase" },
-                  { value: "snake", label: "snake_case" },
-                  { value: "kebab", label: "kebab-case" },
-                  { value: "constant", label: "CONSTANT_CASE" },
-                  { value: "capitalized", label: "Capitalized" },
-                  { value: "alternating", label: "aLtErNaTiNg" },
-                  { value: "invert", label: "iNVERT cASE" },
-                ]}
-                description="How your text should be transformed."
-                triggerClassName="w-full"
-              />
-
-              <div className="flex flex-wrap gap-2 pt-1">
-                {[
-                  { label: "Preset: Slug", onClick: presetSlug },
-                  { label: "Preset: Code", onClick: presetCode },
-                  { label: "Preset: Social", onClick: presetSocial },
-                ].map((preset) => (
-                  <ActionButton
-                    key={preset.label}
-                    size="sm"
-                    icon={Wand2}
-                    label={preset.label}
-                    onClick={preset.onClick}
-                  />
-                ))}
-              </div>
-            </div>
-
-            {/* Extras */}
-            <div className="space-y-3">
-              <SwitchRow
-                label="Live mode"
-                hint="Apply changes as you type."
-                checked={live}
-                onCheckedChange={setLive}
-              />
-
-              <InputField
-                label="Replace whitespace with"
-                id="customSep"
-                placeholder="(Optional) e.g. _ or -"
-                value={customSep}
-                onChange={(e) => setCustomSep(e.target.value)}
-                hint="Useful for custom slugs or tokens after conversion."
-              />
-            </div>
+        <CardHeader className="flex flex-row items-center justify-between">
+          <div>
+            <CardTitle>Input Text</CardTitle>
+            <CardDescription>Type or paste your text to convert instantly</CardDescription>
           </div>
+          <div className="flex gap-2">
+            <CopyButton getText={text} />
+            <ResetButton onClick={handleReset} />
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <TextareaField
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="Type or paste text here..."
+            rows={5}
+          />
 
-          {/* Pipeline toggles */}
-          <div className="space-y-2">
-            <Label className="text-sm">Clean-up Pipeline</Label>
-            <div className="grid sm:grid-cols-2 gap-2 md:grid-cols-3">
-              <SwitchRow
-                label="Trim ends"
-                checked={toggles.trim}
-                onCheckedChange={(v) => setToggles((t) => ({ ...t, trim: v }))}
-              />
-              <SwitchRow
-                label="Collapse spaces/lines"
-                checked={toggles.collapseSpaces}
-                onCheckedChange={(v) => setToggles((t) => ({ ...t, collapseSpaces: v }))}
-              />
-              <SwitchRow
-                label="Remove punctuation"
-                checked={toggles.removePunctuation}
-                onCheckedChange={(v) => setToggles((t) => ({ ...t, removePunctuation: v }))}
-              />
-              <SwitchRow
-                label="Normalize quotes/dashes"
-                checked={toggles.normalizeQuotes}
-                onCheckedChange={(v) => setToggles((t) => ({ ...t, normalizeQuotes: v }))}
-              />
-              <SwitchRow
-                label="Remove diacritics"
-                checked={toggles.removeDiacritics}
-                onCheckedChange={(v) => setToggles((t) => ({ ...t, removeDiacritics: v }))}
-              />
-            </div>
+          <div className="grid grid-cols-3 gap-4 pt-2">
+            <Stat label="Total Characters" value={charCount.toLocaleString()} />
+            <Stat label="Total Words" value={wordCount.toLocaleString()} />
+            <Stat label="Line Count" value={lineCount.toLocaleString()} />
           </div>
         </CardContent>
       </GlassCard>
 
-      <Separator />
-
-      {/* Editor & Preview */}
-      <div className="grid gap-6 md:grid-cols-2">
-        {/* Left: Source */}
-        <GlassCard className="p-5">
-          <div className="flex items-center justify-between gap-2 flex-wrap">
-            <Label className="text-sm font-medium">Original Text</Label>
-            <div className="flex flex-wrap gap-2">
-              <PasteButton
-                variant="outline"
-                size="sm"
-                className="gap-2"
-                label="Paste"
-                pastedLabel="Pasted"
-                smartNewline
-                getExisting={() => source}
-                setValue={setSource}
-              />
-
-              <InputField
-                accept=".txt,text/plain"
-                type="file"
-                onFilesChange={async (files) => {
-                  const f = files?.[0];
-                  if (!f) return;
-                  const text = await f.text();
-                  setSource(text);
-                }}
-              />
-
-              <ExportTextButton
-                filename="original.txt"
-                getText={() => source}
-                label="Export"
-                size="sm"
-                disabled={!source}
-              />
-            </div>
-          </div>
-
-          <TextareaField
-            className="mt-2"
-            textareaClassName="min-h-[260px]"
-            value={source}
-            onValueChange={setSource}
-            placeholder="Type or paste text here…"
-            autoResize
-            showCount
-          />
-
-          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-            <ResetButton icon={Eraser} label="Clear" onClick={() => setSource("")} />
-
-            <CopyButton getText={() => source || ""} />
-
-            {!live && (
-              <ActionButton
-                variant="default"
-                icon={Replace}
-                label="Convert Text"
-                onClick={() => setSource(transformed)}
-              />
-            )}
-          </div>
-        </GlassCard>
-
-        {/* Right: Converted */}
-        <GlassCard className="p-5">
-          <div className="flex items-center justify-between gap-2 flex-wrap">
-            <Label className="text-sm font-medium">Converted Preview</Label>
-            <Badge variant="secondary" className="gap-1">
-              <Info className="h-3.5 w-3.5" />
-              {live ? "Live" : "Manual"}
-            </Badge>
-          </div>
-
-          <TextareaField
-            className="mt-2"
-            textareaClassName="min-h-[270px]"
-            value={
-              live
-                ? transformed
-                : applyCase(mode, runPipeline(source, toggles)).replace(/\s+/g, customSep || "$&")
-            }
-            readOnly
-            placeholder="Converted text will appear here…"
-            autoResize
-          />
-
-          <div className="mt-4 flex flex-wrap gap-2">
-            <CopyButton label="Copy converted" getText={() => transformed || ""} />
-            <ExportTextButton
-              filename="transformed.txt"
-              getText={() => transformed}
-              label="Export"
-              size="sm"
-              disabled={!transformed}
-            />
-
-            {!live && (
-              <ActionButton
-                variant="default"
-                icon={ArrowLeftRight}
-                label="Apply to source"
-                onClick={() => setSource(transformed)}
-              />
-            )}
-          </div>
-        </GlassCard>
+      {/* Transformed Case Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {formats.map((fmt) => (
+          <GlassCard key={fmt.label}>
+            <CardHeader className="flex flex-row items-center justify-between py-3 px-6 border-b">
+              <span className="text-sm font-semibold">{fmt.label}</span>
+              <CopyButton getText={fmt.value} size="sm" />
+            </CardHeader>
+            <CardContent className="p-4">
+              <div className="p-3 border rounded-lg bg-muted/20 font-mono text-xs max-h-32 overflow-y-auto break-all select-all">
+                {fmt.value || <span className="text-muted-foreground italic">Empty string</span>}
+              </div>
+            </CardContent>
+          </GlassCard>
+        ))}
       </div>
-    </>
+    </div>
   );
 }

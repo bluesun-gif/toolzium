@@ -242,6 +242,20 @@ export const ToolsData = [
           "200 commonly mispronounced English words with phonetic spelling. Audio playback via Web Speech API. Categories: Food, Names, Places, Science.",
         popular: true,
       },
+      {
+        title: "Text Repeater",
+        url: "/tools/text/text-repeater",
+        description:
+          "Repeat any text or string multiple times with custom delimiters (new line, space, comma, custom). Copy or download repeated text instantly.",
+        popular: true,
+      },
+      {
+        title: "Whitespace Remover",
+        url: "/tools/text/whitespace-remover",
+        description:
+          "Remove extra spaces, leading/trailing whitespace, duplicate blank lines, and tab characters from text online. Clean up formatting instantly.",
+        popular: true,
+      },
     ],
   },
   // {
@@ -577,7 +591,22 @@ export const ToolsData = [
         description:
           "Comprehensive design system WCAG accessibility color contrast compliance sheet exporter. Test 3 to 8 brand palette colors with SVG download.",
         popular: true,
-      },],
+      },
+      {
+        title: "Placeholder Image Generator",
+        url: "/tools/image/placeholder-generator",
+        description:
+          "Generate custom placeholder images with custom dimensions, colors, text, and format (PNG, SVG, JPG, WEBP). Free online image placeholder tool for mockups.",
+        popular: true,
+      },
+      {
+        title: "Image to Text (OCR)",
+        url: "/tools/image/image-to-text",
+        description:
+          "Extract text from images using OCR. Upload PNG, JPG, or WEBP images and convert to editable text. Browser-based optical character recognition — no upload to server.",
+        popular: true,
+      },
+    ],
   },
   {
     title: "Developer",
@@ -970,7 +999,29 @@ export const ToolsData = [
         description:
           "Visual CSS keyframe animation timing curve builder. Cubic-bezier parameters, easing presets, speed duration, and live ball preview.",
         popular: true,
-      },],
+      },
+      {
+        title: "Color Picker & Palette Generator",
+        url: "/tools/dev/color-picker",
+        description:
+          "Pick any color and get HEX, RGB, HSL codes instantly. Free online color picker with color name detection, complementary colors, and recent color history.",
+        popular: true,
+      },
+      {
+        title: "JSON to CSV Converter",
+        url: "/tools/dev/json-csv",
+        description:
+          "Convert JSON arrays to CSV format instantly. Choose delimiters, flatten nested objects, download CSV files. Free online JSON to CSV converter — no signup.",
+        popular: true,
+      },
+      {
+        title: "Markdown Editor",
+        url: "/tools/dev/markdown-editor",
+        description:
+          "Write and preview Markdown in real time. Free online Markdown editor with live HTML preview, toolbar, word count, and export to .md file. No signup required.",
+        popular: true,
+      },
+    ],
   },
   {
     title: "SEO",
@@ -1604,7 +1655,22 @@ export const ToolsData = [
         description:
           "Generate secure passwords with NATO phonetic spelling guides (Alpha, Bravo, Charlie, Delta), character breakdown, and entropy scores.",
         popular: true,
-      },],
+      },
+      {
+        title: "PDF Merge & Combine",
+        url: "/tools/util/pdf-merge",
+        description:
+          "Merge multiple PDF files into a single document. Reorder pages, drag and drop PDFs, and combine online for free. 100% private client-side processing.",
+        popular: true,
+      },
+      {
+        title: "PDF to Image Converter",
+        url: "/tools/util/pdf-to-image",
+        description:
+          "Convert PDF pages to high-quality PNG or JPG images. Extract individual pages or all pages as zip. Fast, free, browser-based PDF image extractor.",
+        popular: true,
+      },
+    ],
   },
   {
     title: "Office",

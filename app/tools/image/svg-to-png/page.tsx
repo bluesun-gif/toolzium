@@ -1,72 +1,68 @@
-import JsonLd from "@/components/seo/json-ld";
-import { SvgToPngClient } from "@/components/tools/image/svg-to-png-client";
-import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import { siteURL } from "@/lib/constants";
+import JsonLd from "@/components/seo/json-ld";
+import SvgToPngClient from "@/components/tools/image/svg-to-png-client";
+
+const TITLE = "SVG to PNG Converter — Convert SVG Vector to HD PNG | Toolzium";
+const DESCRIPTION = "Convert SVG code or SVG vector files to high-resolution PNG images online. Custom resolution multiplier (1x, 2x, 4x, 8x HD), transparent or solid background, and instant PNG export. 100% free and client-side.";
+const PATH = "/tools/image/svg-to-png";
 
 export const metadata = buildMetadata({
-  title: "SVG to PNG Converter | Toolzium",
-  description: "Convert SVG images or code to high-quality PNG images. Supports custom dimensions, transparent backgrounds, and scaling.",
-  path: "/tools/image/svg-to-png",
-  keywords: ["svg to png", "convert svg", "image converter", "svg to image", "png converter"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH,
+  keywords: [
+    "svg to png", "convert svg to png", "svg2png", "svg to png converter", "export svg as png", 
+    "high res svg to png", "svg vector to png", "svg renderer", "online svg converter", "Toolzium"
+  ],
 });
 
 export default function Page() {
-  const toolUrl = `${siteURL}/tools/image/svg-to-png`;
-  
-  const appLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "SVG to PNG Converter",
-    url: toolUrl,
-    description: "Convert SVG files to PNG images with customizable dimensions and backgrounds.",
-    applicationCategory: "UtilitiesApplication",
-    operatingSystem: "All",
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "USD"
-    }
-  };
-
-  const crumbsLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: siteURL },
-      { "@type": "ListItem", position: 2, name: "Image Tools", item: `${siteURL}/tools#cat-image` },
-      { "@type": "ListItem", position: 3, name: "SVG to PNG", item: toolUrl }
-    ]
-  };
-
-  const faqLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "Can I convert SVG code directly to PNG?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes, you can paste raw SVG code directly into the tool to convert it to a PNG image."
-        }
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      name: "SVG to PNG Converter",
+      description: DESCRIPTION,
+      url: siteURL + PATH,
+      applicationCategory: "MultimediaApplication",
+      operatingSystem: "Any",
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "USD",
       },
-      {
-        "@type": "Question",
-        name: "Does it support transparent backgrounds?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes, by default the generated PNG will have a transparent background, but you can also choose a custom background color."
-        }
-      }
-    ]
-  };
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: siteURL,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Image Tools",
+          item: siteURL + "/tools/image",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "SVG to PNG",
+          item: siteURL + PATH,
+        },
+      ],
+    },
+  ];
 
   return (
-    <div className="space-y-4">
-      <JsonLd data={appLd} />
-      <JsonLd data={crumbsLd} />
-      <JsonLd data={faqLd} />
+    <>
+      <JsonLd data={jsonLd as any} />
       <SvgToPngClient />
-    </div>
+    </>
   );
 }

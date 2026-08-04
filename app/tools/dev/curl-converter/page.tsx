@@ -1,49 +1,68 @@
-import JsonLd from "@/components/seo/json-ld";
-import { CurlConverterClient } from "@/components/tools/dev/curl-converter-client";
-import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import { siteURL } from "@/lib/constants";
+import JsonLd from "@/components/seo/json-ld";
+import CurlConverterClient from "@/components/tools/dev/curl-converter-client";
+
+const TITLE = "cURL to Code Converter — Convert cURL to Fetch, Python & Node.js | Toolzium";
+const DESCRIPTION = "Convert cURL commands to executable code snippets in JavaScript Fetch, Python Requests, Node.js Axios, Go, PHP, and Rust. Instant 100% browser-based cURL parser.";
+const PATH = "/tools/dev/curl-converter";
 
 export const metadata = buildMetadata({
-  title: "cURL Code Converter | Toolzium",
-  description: "Convert cURL commands to JavaScript, Python, Go, PHP, Rust, and more code snippets instantly.",
-  path: "/tools/dev/curl-converter",
-  keywords: ["curl to code", "curl converter", "convert curl to fetch", "convert curl to python requests", "developer tools"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH,
+  keywords: [
+    "curl to fetch", "curl to python", "curl to node js", "curl to javascript", 
+    "curl command to code", "convert curl request", "curl parser", "curl to axios", "curl to go", "Toolzium"
+  ],
 });
 
 export default function Page() {
-  const toolUrl = siteURL + "/tools/dev/curl-converter";
-  const appLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "cURL Code Converter",
-    url: toolUrl,
-    description: "Convert cURL commands to code snippets in various programming languages.",
-    applicationCategory: "DeveloperApplication",
-    operatingSystem: "All",
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }
-  };
-  const crumbsLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: siteURL },
-      { "@type": "ListItem", position: 2, name: "Developer Tools", item: siteURL + "/tools#cat-dev" },
-      { "@type": "ListItem", position: 3, name: "cURL Code Converter", item: toolUrl }
-    ]
-  };
-  const faqLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      { "@type": "Question", name: "What languages are supported?", acceptedAnswer: { "@type": "Answer", text: "We support JavaScript (Fetch, Axios), Node.js, Python (Requests), Go, PHP, and Rust." } }
-    ]
-  };
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      name: "cURL to Code Converter",
+      description: DESCRIPTION,
+      url: siteURL + PATH,
+      applicationCategory: "DeveloperApplication",
+      operatingSystem: "Any",
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "USD",
+      },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: siteURL,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Developer Tools",
+          item: siteURL + "/tools/dev",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "cURL Converter",
+          item: siteURL + PATH,
+        },
+      ],
+    },
+  ];
+
   return (
-    <div className="space-y-4">
-      <JsonLd data={appLd} />
-      <JsonLd data={crumbsLd} />
-      <JsonLd data={faqLd} />
+    <>
+      <JsonLd data={jsonLd as any} />
       <CurlConverterClient />
-    </div>
+    </>
   );
 }
