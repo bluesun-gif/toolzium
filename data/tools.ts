@@ -528,6 +528,13 @@ export const ToolsData = [
         description:
           "Test all pairwise WCAG contrast ratios across a 3 to 8-color design system palette. N x N matrix grid with AA/AAA pass/fail.",
         popular: true,
+      },
+      {
+        title: "Color Contrast Ratio & Accessibility Analyzer",
+        url: "/tools/image/color-contrast-extractor",
+        description:
+          "Test color contrast ratios between text and background colors with real-time UI component previews (buttons, badges, cards).",
+        popular: true,
       },],
   },
   {
@@ -865,6 +872,13 @@ export const ToolsData = [
         description:
           "Interactive visual CSS Flexbox builder. Flex direction, wrap, justify-content, align-items, gap, item order & shrink, live CSS snippet.",
         popular: true,
+      },
+      {
+        title: "CSS Grid Layout Visual Builder",
+        url: "/tools/dev/css-grid-builder",
+        description:
+          "Interactive visual CSS Grid builder. Grid template columns, rows, gap, item positioning, column/row span, presets, live CSS snippet.",
+        popular: true,
       },],
   },
   {
@@ -1063,6 +1077,13 @@ export const ToolsData = [
         description:
           "Calculate estimated 1099 self-employment tax, income tax, and recommended quarterly estimated tax payments for contractors.",
         popular: true,
+      },
+      {
+        title: "Emergency Savings Goal Calculator",
+        url: "/tools/finance/emergency-goal-calc",
+        description:
+          "Calculate monthly or weekly savings required to reach your emergency savings goal with high-yield APY interest accumulation.",
+        popular: true,
       },],
   },
   {
@@ -1252,6 +1273,13 @@ export const ToolsData = [
         url: "/tools/time/circadian-shift-planner",
         description:
           "Calculate optimal sleep schedules and light exposure windows for night shift workers and rotating shifts.",
+        popular: true,
+      },
+      {
+        title: "Shift Work Sleep Schedule Calculator",
+        url: "/tools/time/shift-circadian",
+        description:
+          "Calculate optimal sleep & wake cycles for shift workers (Night shift, Morning shift, Afternoon shift, Split shift) with nap guides.",
         popular: true,
       },],
   },
@@ -1577,6 +1605,13 @@ export const ToolsData = [
         description:
           "Generate formal Mutual or One-Way Non-Disclosure Agreements (NDA). Disclosing/receiving parties, term length, governing state, print view.",
         popular: true,
+      },
+      {
+        title: "Independent Contractor Agreement Builder",
+        url: "/tools/office/contractor-agreement",
+        description:
+          "Generate formal Independent Contractor and Freelance Agreements. Milestones, flat fee/hourly rates, IP ownership, non-compete, print view.",
+        popular: true,
       },],
   },
   {
@@ -1766,6 +1801,13 @@ export const ToolsData = [
         url: "/tools/travel/currency-price-matrix",
         description:
           "Multi-item travel cost converter and comparison sheet. Convert coffee, meals, taxis, hotels, and trip budgets to foreign currency.",
+        popular: true,
+      },
+      {
+        title: "Travel Budget Currency Comparison Matrix",
+        url: "/tools/travel/travel-budget-matrix",
+        description:
+          "Compare travel budgets across multiple destination currencies. Converted budgets, daily spending limits (7-day, 14-day, 30-day trips).",
         popular: true,
       },],
   },
@@ -2238,6 +2280,13 @@ export const ToolsData = [
         description:
           "Interactive 9x9 Sudoku puzzle generator & solver. Easy, Medium, Hard, Expert, pencil notes, error checking, hints, auto-solve.",
         popular: true,
+      },
+      {
+        title: "6-Letter Wordle Challenge Game",
+        url: "/tools/fun/wordle-6letter",
+        description:
+          "Play 6-letter Wordle puzzle challenge game. 6 attempts to guess a secret 6-letter word, streak tracker, statistics, new games.",
+        popular: true,
       },],
   },
   {
@@ -2646,6 +2695,13 @@ export const ToolsData = [
         description:
           "Calculate calories burned hiking based on body weight, backpack weight, distance, elevation gain, and terrain difficulty.",
         popular: true,
+      },
+      {
+        title: "Jump Rope & HIIT Calorie Calculator",
+        url: "/tools/health/jumprope-calorie",
+        description:
+          "Calculate calories burned during jump rope and High-Intensity Interval Training (HIIT). Speed levels, Tabata, circuits, MET comparison.",
+        popular: true,
       },],
   },
   {
@@ -2870,6 +2926,13 @@ export const ToolsData = [
         url: "/tools/productivity/okr-planner",
         description:
           "Structured OKR goal tracking framework. Objectives, key result progress bars, target values, deadlines, Markdown report export.",
+        popular: true,
+      },
+      {
+        title: "Eisenhower Goal & Action Planner",
+        url: "/tools/productivity/eisenhower-goals",
+        description:
+          "Action-oriented Eisenhower Matrix goal planner. Map goals to Do Now, Schedule, Delegate, and Delete buckets with completion tracking.",
         popular: true,
       },],
   },
