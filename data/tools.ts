@@ -549,6 +549,13 @@ export const ToolsData = [
         description:
           "Full WCAG 2.1 accessibility contrast comparison table for design systems. Test up to 6 colors simultaneously with AA/AAA badges.",
         popular: true,
+      },
+      {
+        title: "Color Contrast Matrix Exporter",
+        url: "/tools/image/contrast-matrix-export",
+        description:
+          "Generate and export accessible design system color contrast matrices. 3 to 8 palette colors, WCAG AA/AAA ratings, SVG download.",
+        popular: true,
       },],
   },
   {
@@ -906,6 +913,20 @@ export const ToolsData = [
         url: "/tools/dev/css-keyframes",
         description:
           "Visual CSS @keyframes animation generator. Custom keyframe steps, pulse, bounce, shake, flip, rotate, and timing controls.",
+        popular: true,
+      },
+      {
+        title: "CSS Typography & Text Effect Generator",
+        url: "/tools/dev/css-typography",
+        description:
+          "Visual CSS typography generator. Text shadow 3D, WebKit text-stroke, gradients, uppercase/lowercase, letter spacing, presets.",
+        popular: true,
+      },
+      {
+        title: "CSS 3D Transform & Perspective Generator",
+        url: "/tools/dev/css-transform-3d",
+        description:
+          "Visual generator for 3D CSS transforms and perspective. RotateX/Y/Z, translateZ, perspective origin, 3D card tilt presets.",
         popular: true,
       },],
   },
@@ -1337,6 +1358,13 @@ export const ToolsData = [
         description:
           "Calculate optimal sleep & wake times based on 90-minute REM sleep cycles and 14-minute sleep onset latency.",
         popular: true,
+      },
+      {
+        title: "REM Sleep Cycle & Wakeup Alarm Calculator",
+        url: "/tools/time/rem-sleep-alarm",
+        description:
+          "Calculate optimal bedtime and wake-up alarm times based on 90-minute REM sleep cycles and 14-minute sleep onset latency.",
+        popular: true,
       },],
   },
   {
@@ -1463,6 +1491,13 @@ export const ToolsData = [
         url: "/tools/util/password-entropy",
         description:
           "Analyze password security, information entropy bits, and estimated crack times for online, fast offline, and supercomputer attacks.",
+        popular: true,
+      },
+      {
+        title: "Diceware Wordlist Passphrase Generator",
+        url: "/tools/util/diceware-password",
+        description:
+          "Generate ultra-secure, human-memorable Diceware passphrases (e.g. correct-horse-battery-staple) with entropy bits calculations.",
         popular: true,
       },],
   },
@@ -1696,6 +1731,13 @@ export const ToolsData = [
         description:
           "Generate formal Master Services Agreements (MSA) for corporate contracts, invoicing terms, liability caps, and print view.",
         popular: true,
+      },
+      {
+        title: "Consulting Services Agreement Generator",
+        url: "/tools/office/consulting-agreement",
+        description:
+          "Generate formal Consulting Services and Client Engagement Contracts. Hourly rate/fixed fee/retainer terms, scope, print view.",
+        popular: true,
       },],
   },
   {
@@ -1906,6 +1948,13 @@ export const ToolsData = [
         url: "/tools/travel/trip-budget-matrix",
         description:
           "Multi-destination travel budget converter matrix. Converted trip budgets and daily spending limits for 7, 14, 21, and 30 days.",
+        popular: true,
+      },
+      {
+        title: "Travel Budget Multi-Currency Comparison Sheet",
+        url: "/tools/travel/travel-budget-sheet",
+        description:
+          "Multi-currency travel expense comparison and trip budgeting sheet. Flight, accommodation, food, and activity breakdown.",
         popular: true,
       },],
   },
@@ -2399,6 +2448,13 @@ export const ToolsData = [
         description:
           "Interactive Tic-Tac-Toe game featuring Minimax AI difficulty levels (Easy, Medium, Unbeatable Minimax) and 2-player mode.",
         popular: true,
+      },
+      {
+        title: "Connect 4 AI Challenge Game",
+        url: "/tools/fun/connect4-ai",
+        description:
+          "Interactive 7x6 Connect 4 grid game with AI opponent (Easy, Medium, Minimax Smart AI) and 2-player Pass & Play mode.",
+        popular: true,
       },],
   },
   {
@@ -2828,6 +2884,13 @@ export const ToolsData = [
         description:
           "Calculate calories burned during Elliptical Cross-Trainer workouts across 4 resistance levels, incline, and stride distance.",
         popular: true,
+      },
+      {
+        title: "Stair Climbing & Step Workout Calorie Calculator",
+        url: "/tools/health/stair-climbing-calorie",
+        description:
+          "Calculate calories burned during stair climbing, step-ups, and StairMaster ergometer workouts by flights of stairs or duration.",
+        popular: true,
       },],
   },
   {
@@ -3073,6 +3136,13 @@ export const ToolsData = [
         url: "/tools/productivity/eisenhower-checklist",
         description:
           "Interactive priority checklist categorized into 4 Eisenhower quadrants with due dates, progress bars, and Markdown export.",
+        popular: true,
+      },
+      {
+        title: "Eisenhower Prioritization Matrix Workspace",
+        url: "/tools/productivity/eisenhower-workspace",
+        description:
+          "Interactive Eisenhower task prioritization workspace. Do First, Schedule, Delegate, and Eliminate quadrants with category filters.",
         popular: true,
       },],
   },
