@@ -493,7 +493,28 @@ export const ToolsData = [
           "Convert uploaded images into text-based ASCII art. Custom character palettes, width adjustment, color mode, copy & download text.",
         popular: true,
       },
-    ],
+    
+      {
+        title: "Image Color Swatch Extractor",
+        url: "/tools/image/color-swatch",
+        description:
+          "Extract dominant color swatches & color palette from any uploaded image. HEX, RGB, HSL codes, color percentage distribution.",
+        popular: true,
+      },
+      {
+        title: "Image Aspect Ratio Cropper",
+        url: "/tools/image/aspect-cropper",
+        description:
+          "Crop images to popular aspect ratios for social media & web. 1:1, 16:9, 9:16, 4:5, 3:2, 21:9. Download cropped PNG/JPEG.",
+        popular: true,
+      },
+      {
+        title: "Color Palette Harmonizer & Generator",
+        url: "/tools/image/color-harmony",
+        description:
+          "Generate color harmony palettes based on color theory. Complementary, Analogous, Triadic, Tetradic, Monochromatic.",
+        popular: true,
+      },],
   },
   {
     title: "Developer",
@@ -795,7 +816,28 @@ export const ToolsData = [
           "Interactive CSS clip-path generator. Polygon, circle, ellipse, inset, star, hexagon, arrow. Live handles, CSS output.",
         popular: true,
       },
-    ],
+    
+      {
+        title: "CSS Filter Effects Generator",
+        url: "/tools/dev/css-filters",
+        description:
+          "Visual generator for CSS filter effects. Blur, brightness, contrast, drop-shadow, grayscale, hue-rotate, invert, opacity, saturate, sepia.",
+        popular: true,
+      },
+      {
+        title: "CSS Box & Text Shadow Generator",
+        url: "/tools/dev/css-shadow",
+        description:
+          "Visual generator for CSS box-shadow and text-shadow. Multiple shadow layers, inset toggle, presets (soft glow, neumorphism, material, neon).",
+        popular: true,
+      },
+      {
+        title: "CSS Border-Radius Shape Generator",
+        url: "/tools/dev/css-radius",
+        description:
+          "8-point fancy blob and custom CSS border-radius generator. Organic blobs, pills, badges, leaves, live animation preview.",
+        popular: true,
+      },],
   },
   {
     title: "SEO",
@@ -958,7 +1000,28 @@ export const ToolsData = [
           "Convert numbers to words and back. Supports up to 999 billion. Currency mode (USD, EUR, GBP, INR). Ordinal numbers. Copy results.",
         popular: false,
       },
-    ],
+    
+      {
+        title: "Credit Card Payoff Calculator",
+        url: "/tools/finance/credit-payoff",
+        description:
+          "Calculate credit card payoff timeline and total interest paid. Compare fixed monthly payment vs target debt-free duration.",
+        popular: true,
+      },
+      {
+        title: "Debt Snowball vs Avalanche Calculator",
+        url: "/tools/finance/debt-payoff-planner",
+        description:
+          "Compare Debt Snowball (lowest balance first) vs Debt Avalanche (highest APR first) strategies. Payoff date and interest comparison.",
+        popular: true,
+      },
+      {
+        title: "Paycheck Deductions & Take-Home Calculator",
+        url: "/tools/finance/paycheck-deductions",
+        description:
+          "Calculate net paycheck take-home after itemized federal/state taxes, FICA, pre-tax 401k/HSA, and voluntary deductions.",
+        popular: true,
+      },],
   },
   {
     title: "Date & Time",
@@ -1113,7 +1176,28 @@ export const ToolsData = [
           "Create custom event countdowns with live days, hours, minutes, seconds display. Multiple simultaneous countdowns. Preset events: New Year, Christmas, Halloween. Color-coded. Saved locally.",
         popular: true,
       },
-    ],
+    
+      {
+        title: "Sunrise & Sunset Calculator",
+        url: "/tools/time/sun-calculator",
+        description:
+          "Calculate sunrise, sunset, golden hour, twilight times, and day length for any global city or latitude/longitude coordinates.",
+        popular: true,
+      },
+      {
+        title: "Sleep Debt & Recovery Calculator",
+        url: "/tools/time/sleep-debt",
+        description:
+          "Calculate accumulated sleep debt over a 7-day week and recovery schedule. Sleep deficit severity rating, weekend recovery guide.",
+        popular: true,
+      },
+      {
+        title: "Sleep Log & Circadian Rhythm Tracker",
+        url: "/tools/time/sleep-log",
+        description:
+          "Log and analyze daily sleep patterns and circadian rhythm. Bedtime, wake time, quality rating, 7-day average, CSV export.",
+        popular: true,
+      },],
   },
   {
     title: "Utilities",
@@ -1402,7 +1486,28 @@ export const ToolsData = [
           "Calculate how much meetings cost based on attendees and salaries. Live ticking cost counter. Fun comparisons (X cups of coffee). Tips for efficient meetings.",
         popular: true,
       },
-    ],
+    
+      {
+        title: "Price Quotation & Estimate Generator",
+        url: "/tools/office/quote-generator",
+        description:
+          "Generate professional price quotation estimates and business proposals. Itemized breakdown, tax rates, validity date, print view.",
+        popular: true,
+      },
+      {
+        title: "Work Completion Letter Generator",
+        url: "/tools/office/completion-letter",
+        description:
+          "Generate formal Work Completion Certificates and Project Sign-off Letters. Contractor details, scope summary, deliverables list, print view.",
+        popular: true,
+      },
+      {
+        title: "SLA Document Generator",
+        url: "/tools/office/sla-generator",
+        description:
+          "Generate formal Service Level Agreement (SLA) contracts. Uptime targets, P1-P3 support tiers, maintenance windows, print view.",
+        popular: true,
+      },],
   },
   {
     title: "Travel",
@@ -1557,7 +1662,28 @@ export const ToolsData = [
           "Uncover hidden exchange rate markups and foreign transaction fees. Mid-market vs offered rate comparison, fee breakdown.",
         popular: true,
       },
-    ],
+    
+      {
+        title: "Multi-Currency Exchange Matrix",
+        url: "/tools/travel/currency-matrix",
+        description:
+          "Cross-currency exchange rate matrix grid for 10+ global currencies simultaneously. Live base currency comparison table.",
+        popular: true,
+      },
+      {
+        title: "Currency Exchange Comparison Table",
+        url: "/tools/travel/exchange-table",
+        description:
+          "Quick currency exchange conversion reference table for traveler pockets. 1 to 1000 base currency conversion cheatsheet.",
+        popular: true,
+      },
+      {
+        title: "Currency Quick Reference Card",
+        url: "/tools/travel/currency-card",
+        description:
+          "Pocket-sized printable travel currency conversion cheat card. Select home/destination currencies, 3x5 index card print format.",
+        popular: true,
+      },],
   },
   {
     title: "Finance",
@@ -1993,7 +2119,28 @@ export const ToolsData = [
           "Unscramble scrambled letters word game. Categories, timer per word, letter hint, score counter, streak tracker, sound effects.",
         popular: true,
       },
-    ],
+    
+      {
+        title: "Pattern Memory Game",
+        url: "/tools/fun/pattern-memory",
+        description:
+          "Interactive visual pattern memory sequence game. 3x3 to 5x5 grid, sound effects, high score tracker, level progression.",
+        popular: true,
+      },
+      {
+        title: "Word Search Puzzle Generator",
+        url: "/tools/fun/word-search",
+        description:
+          "Interactive Word Search puzzle grid generator and player. 10x10 to 15x15 grids, coding/animal/planet topics, printable PDF mode.",
+        popular: true,
+      },
+      {
+        title: "Anagram Finder & Solver",
+        url: "/tools/fun/anagram-solver",
+        description:
+          "Find all possible valid English anagram words from input letters. Length filters, wildcards, Scrabble letter scores.",
+        popular: true,
+      },],
   },
   {
     title: "Network & Security",
@@ -2366,7 +2513,28 @@ export const ToolsData = [
           "Daily water intake goal and drink logger. Weight/climate intake target, animated container fill, history log, reminders.",
         popular: true,
       },
-    ],
+    
+      {
+        title: "Calorie Burn by Activity Calculator",
+        url: "/tools/health/calorie-activity",
+        description:
+          "Calculate total calories burned across 30+ physical activities based on body weight and duration. MET values & food equivalents.",
+        popular: true,
+      },
+      {
+        title: "Running vs Walking Pace Calculator",
+        url: "/tools/health/pace-calorie",
+        description:
+          "Compare calories burned running vs walking the same distance or time. MET comparison, time saved running, heart rate zones.",
+        popular: true,
+      },
+      {
+        title: "Swimming & Water Sports Calorie Calculator",
+        url: "/tools/health/swimming-calorie",
+        description:
+          "Calculate calories burned during swimming & water sports. Freestyle, breaststroke, butterfly, kayaking, water polo.",
+        popular: true,
+      },],
   },
   {
     title: "Productivity",
@@ -2556,7 +2724,28 @@ export const ToolsData = [
           "Weekly goal setting and milestone breakdown tool. Primary focus goals, daily sub-task checklists, progress bars, JSON export.",
         popular: true,
       },
-    ],
+    
+      {
+        title: "Priority Kanban Board",
+        url: "/tools/productivity/priority-kanban",
+        description:
+          "Visual Kanban task board with 5 priority columns (Critical, High, Medium, Low, Someday). Drag-and-drop workflow, search filter.",
+        popular: true,
+      },
+      {
+        title: "Priority List & Eisenhower Planner",
+        url: "/tools/productivity/eisenhower-list",
+        description:
+          "Streamlined 4-quadrant task list and priority tracker. Do First, Schedule, Delegate, Eliminate quadrants, Markdown export.",
+        popular: true,
+      },
+      {
+        title: "Color-Coded Category Kanban Board",
+        url: "/tools/productivity/colored-kanban",
+        description:
+          "Visual Kanban task board with custom color tags and category badges. To Do, In Progress, Review, Completed columns.",
+        popular: true,
+      },],
   },
 ];
 
