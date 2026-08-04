@@ -221,6 +221,13 @@ export const ToolsData = [
           "Compare two texts side-by-side with highlighted additions, deletions, and unchanged lines. Line numbers, stats, swap, and unified diff mode. Copy diff output.",
         popular: true,
       },
+      {
+        title: "Text Statistics",
+        url: "/tools/text/text-stats",
+        description:
+          "Advanced text analysis: word/sentence/paragraph count, avg word length, reading level (Flesch-Kincaid), lexical density, most frequent words, and more. Real-time.",
+        popular: false,
+      },
     ],
   },
   // {
@@ -359,6 +366,13 @@ export const ToolsData = [
         description:
           "Convert SVG files to PNG images. Upload or paste SVG code. Set dimensions, scale (1x-4x), transparent or custom background. Preview and download as PNG.",
         popular: false,
+      },
+      {
+        title: "Pixel Art Creator",
+        url: "/tools/image/pixel-art",
+        description:
+          "Simple pixel art drawing tool. Grid sizes 8x8 to 32x32. Color picker, pencil, eraser, fill tools. Undo/redo. Download as PNG. Preset color palettes.",
+        popular: true,
       },
     ],
   },
@@ -541,6 +555,13 @@ export const ToolsData = [
         url: "/tools/dev/env-editor",
         description:
           "Visual .env file editor. Paste content or add key-value pairs. Table and raw views. Duplicate key detection. Export as .env or JSON. Syntax validation.",
+        popular: false,
+      },
+      {
+        title: "String Escape/Unescape",
+        url: "/tools/dev/string-escape",
+        description:
+          "Escape and unescape strings for HTML, URL, JavaScript, JSON, XML, SQL, CSS, Base64. Bidirectional conversion. Copy output instantly.",
         popular: false,
       },
     ],
@@ -878,6 +899,13 @@ export const ToolsData = [
         popular: false,
       },
       {
+        title: "Receipt Scanner",
+        url: "/tools/office/receipt-scanner",
+        description:
+          "Manual receipt entry and tracking. Add store, date, amount, category, payment method. Filter and export as CSV. Total spending dashboard.",
+        popular: false,
+      },
+      {
         title: "Expense Tracker",
         url: "/tools/office/expense-tracker",
         description:
@@ -967,6 +995,13 @@ export const ToolsData = [
         url: "/tools/travel/checklist",
         description:
           "Pre-trip checklist generator. Select trip type: Business, Beach, Adventure, City, Winter. Auto-generate categorized lists. Track packing progress. Print-friendly.",
+        popular: true,
+      },
+      {
+        title: "Visa Requirements Checker",
+        url: "/tools/travel/visa-check",
+        description:
+          "Check visa requirements between 50+ countries. Shows Visa Free, Visa on Arrival, eVisa, or Visa Required status with max stay duration.",
         popular: true,
       },
     ],
@@ -1075,6 +1110,13 @@ export const ToolsData = [
           "Visual currency pair comparison with simulated historical charts. 30-day, 90-day, 1-year views. Rate trends, highs, lows. Swap currencies. 20+ currency pairs.",
         popular: true,
       },
+      {
+        title: "Expense Splitter",
+        url: "/tools/finance/expense-splitter",
+        description:
+          "Split expenses among a group. Add people and expenses. Equal or custom splits. Calculates optimized settlements showing who owes whom.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1151,6 +1193,13 @@ export const ToolsData = [
         url: "/tools/fun/morse-audio",
         description:
           "Convert text to Morse code with audio playback via Web Audio API. Adjustable speed (5-20 WPM). Visual indicator. Decode Morse to text. Copy output.",
+        popular: true,
+      },
+      {
+        title: "Color Memory Game",
+        url: "/tools/fun/color-memory",
+        description:
+          "Classic memory card matching game. Flip cards to find matching color pairs. Track moves and time. Easy, Medium, Hard difficulties. Best score saved.",
         popular: true,
       },
     ],
@@ -1365,6 +1414,13 @@ export const ToolsData = [
           "Track daily water intake with visual fill animation. Quick-add buttons for glass, bottle, can. Daily goal tracking. 7-day history. Hydration tips.",
         popular: false,
       },
+      {
+        title: "Allergy Tracker",
+        url: "/tools/health/allergy-tracker",
+        description:
+          "Track allergies and reactions. Log allergen, severity, symptoms, date. Categorize by type. Summary dashboard. Export data. Saved locally.",
+        popular: false,
+      },
     ],
   },
   {
@@ -1441,6 +1497,13 @@ export const ToolsData = [
         url: "/tools/productivity/journal",
         description:
           "Simple daily journal with mood tracking (5 levels), tags, calendar view, and search. Word count per entry. Export entries. All saved locally.",
+        popular: true,
+      },
+      {
+        title: "Reading List Manager",
+        url: "/tools/productivity/reading-list",
+        description:
+          "Manage books and articles. Track status (To Read, Reading, Completed), rate with stars, add notes. Search, filter, sort. Export list.",
         popular: true,
       },
     ],
