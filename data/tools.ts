@@ -395,6 +395,13 @@ export const ToolsData = [
           "20 curated Google Font pairings for design projects. Categories: Modern, Classic, Playful, Minimal, Bold. Live preview. Copy CSS imports.",
         popular: true,
       },
+      {
+        title: "Color Name Finder",
+        url: "/tools/image/color-name",
+        description:
+          "Find the closest named color for any hex value. 140+ CSS named colors. Color picker, RGB/HSL values. Browse and search all colors.",
+        popular: false,
+      },
     ],
   },
   {
@@ -597,6 +604,13 @@ export const ToolsData = [
         url: "/tools/dev/code-minifier",
         description:
           "Minify HTML, CSS, and JavaScript code. Shows original vs minified size with savings percentage. Remove comments, whitespace, and newlines.",
+        popular: true,
+      },
+      {
+        title: "Flexbox Playground",
+        url: "/tools/dev/flexbox-playground",
+        description:
+          "Interactive CSS Flexbox layout builder. Visual container with items. Controls for direction, justify, align, wrap, gap. Live CSS output.",
         popular: true,
       },
     ],
@@ -813,6 +827,13 @@ export const ToolsData = [
         popular: true,
       },
       {
+        title: "Time Zone Comparison",
+        url: "/tools/time/timezone-compare",
+        description:
+          "Compare time across up to 8 time zones side by side. Slider to pick time. Business hours highlighted. UTC offsets shown.",
+        popular: true,
+      },
+      {
         title: "Date Formatter",
         url: "/tools/time/date-formatter",
         description:
@@ -976,6 +997,13 @@ export const ToolsData = [
         popular: false,
       },
       {
+        title: "Batch File Renamer",
+        url: "/tools/office/file-renamer",
+        description:
+          "Preview file rename patterns. Add prefix/suffix, find and replace, sequential numbering, date prefix, case changes. Copy renamed list.",
+        popular: false,
+      },
+      {
         title: "Expense Tracker",
         url: "/tools/office/expense-tracker",
         description:
@@ -1079,6 +1107,13 @@ export const ToolsData = [
         url: "/tools/travel/flight-time",
         description:
           "Estimate flight duration between 50+ major cities. Great-circle distance, time zones, layover calculator. Round trip total time.",
+        popular: true,
+      },
+      {
+        title: "Travel Expense Tracker",
+        url: "/tools/travel/expenses",
+        description:
+          "Track expenses during trips. Create trips with budget. Categories, multi-currency support. Dashboard with spending breakdown.",
         popular: true,
       },
     ],
@@ -1208,6 +1243,13 @@ export const ToolsData = [
           "Categorize expenses with pie chart breakdown. Set monthly budget limits per category. Progress bars and over-budget alerts. Saved locally.",
         popular: true,
       },
+      {
+        title: "Paycheck Calculator",
+        url: "/tools/finance/paycheck",
+        description:
+          "Calculate take-home pay from gross salary. Federal and state tax, Social Security, Medicare. 401k and health insurance deductions.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1312,6 +1354,13 @@ export const ToolsData = [
         url: "/tools/fun/compound-words",
         description:
           "Word puzzle: combine two words to make a compound word. 50 word pairs. Timer mode. Easy/Hard difficulty. Streak counter and high score.",
+        popular: true,
+      },
+      {
+        title: "Trivia Generator",
+        url: "/tools/fun/trivia",
+        description:
+          "100 fun facts across Science, History, Geography, Animals, Food, Space, Sports, Technology. Filter by category. Save favorites.",
         popular: true,
       },
     ],
@@ -1575,6 +1624,13 @@ export const ToolsData = [
           "Calculate calories burned during 30+ activities using MET values. Enter weight and duration. Compare multiple activities side by side.",
         popular: true,
       },
+      {
+        title: "Nutrition Label Maker",
+        url: "/tools/health/nutrition-label",
+        description:
+          "Create FDA-style nutrition facts labels. Auto-calculate % Daily Value. Preview styled label. Copy as text. Print-friendly layout.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1672,6 +1728,13 @@ export const ToolsData = [
         url: "/tools/productivity/goals",
         description:
           "Set and track goals with milestones. Categories: Personal, Professional, Health, Financial, Learning. Progress bars and completion tracking.",
+        popular: true,
+      },
+      {
+        title: "Weekly Planner",
+        url: "/tools/productivity/weekly-planner",
+        description:
+          "Plan your week with visual calendar grid. 7-day view with time slots. Add events with colors. Export plan as text. Saved locally.",
         popular: true,
       },
     ],
