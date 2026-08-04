@@ -479,6 +479,13 @@ export const ToolsData = [
           "Visual SVG d path string inspector and editor. Explains M, L, C, Q, Z path commands. Interactive SVG preview with grid and zoom.",
         popular: true,
       },
+      {
+        title: "Image Color Threshold & Binarizer",
+        url: "/tools/image/color-threshold",
+        description:
+          "Convert image to high-contrast black & white binary threshold image. Binary B&W, Otsu auto threshold, grayscale, document scan prep.",
+        popular: true,
+      },
     ],
   },
   {
@@ -767,6 +774,13 @@ export const ToolsData = [
           "Parse User-Agent strings. Browser, OS, device type, engine detection. Auto-detect current browser UA. Preset sample UA strings.",
         popular: true,
       },
+      {
+        title: "CSS 3D Transform Generator",
+        url: "/tools/dev/css-transform",
+        description:
+          "Interactive 3D CSS transform generator. Sliders for rotateX, rotateY, rotateZ, scale, skew, translate, perspective. Live 3D preview.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1041,6 +1055,13 @@ export const ToolsData = [
         url: "/tools/time/event-widget",
         description:
           "Create customizable event countdown widgets. Live Days/Hours/Mins/Secs countdown, theme styling, embeddable HTML snippet.",
+        popular: true,
+      },
+      {
+        title: "Sleep Latency & Alarm Clock",
+        url: "/tools/time/sleep-latency",
+        description:
+          "Sleep latency and sleep efficiency analyzer. Calculate exact alarm time based on bed time, sleep latency, and sleep cycle target.",
         popular: true,
       },
       {
@@ -1319,6 +1340,13 @@ export const ToolsData = [
         popular: true,
       },
       {
+        title: "Bill of Lading (BOL) Generator",
+        url: "/tools/office/bol-generator",
+        description:
+          "Generate official Bill of Lading (BOL) shipping documents. Shipper/Consignee info, freight class, itemized handling units, print layout.",
+        popular: true,
+      },
+      {
         title: "Expense Tracker",
         url: "/tools/office/expense-tracker",
         description:
@@ -1485,6 +1513,13 @@ export const ToolsData = [
         url: "/tools/travel/visa-index",
         description:
           "Quick visa requirement & passport power reference tool. Passport vs Destination lookup: Visa Free, VoA, eVisa, Visa Required.",
+        popular: true,
+      },
+      {
+        title: "Airline Baggage Allowance & Fee Calculator",
+        url: "/tools/travel/baggage-calc",
+        description:
+          "Calculate total checked bag weight and potential excess baggage fees. Economy/Business class limits, overweight warnings, dimensional weight.",
         popular: true,
       },
     ],
@@ -1705,6 +1740,13 @@ export const ToolsData = [
           "Detailed loan repayment amortization schedule. Monthly payment, total interest, monthly breakdown table, CSV export.",
         popular: true,
       },
+      {
+        title: "Emergency Loan vs Savings Comparison",
+        url: "/tools/finance/emergency-loan",
+        description:
+          "Compare financial impact of using emergency savings vs taking a personal loan or credit card advance. Total interest paid vs interest lost.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1893,6 +1935,13 @@ export const ToolsData = [
         url: "/tools/fun/typing-challenge",
         description:
           "Interactive speed typing test and WPM meter. 15s-120s tests, general English, code, quotes. Accuracy %, WPM score rating.",
+        popular: true,
+      },
+      {
+        title: "Sudoku Puzzle & Solver",
+        url: "/tools/fun/sudoku",
+        description:
+          "Interactive 9x9 Sudoku puzzle generator and automatic solver. Easy, medium, hard levels, backtracking solver algorithm, timer.",
         popular: true,
       },
     ],
@@ -2254,6 +2303,13 @@ export const ToolsData = [
           "Calculate estimated target date to reach goal weight based on daily calorie deficit. BMR, TDEE, weekly rate, safe limits.",
         popular: true,
       },
+      {
+        title: "Protein Intake & Muscle Target Calculator",
+        url: "/tools/health/protein-calc",
+        description:
+          "Calculate daily recommended protein intake based on body weight, goal, and activity level. Daily grams, calories, per-meal breakdown.",
+        popular: true,
+      },
     ],
   },
   {
@@ -2428,6 +2484,13 @@ export const ToolsData = [
         url: "/tools/productivity/habit-planner",
         description:
           "Weekly habit matrix and routine tracker. Mon-Sun checkbox grid, weekly completion rate %, overall streak tracker.",
+        popular: true,
+      },
+      {
+        title: "Weekly Meal Prep & Grocery Planner",
+        url: "/tools/productivity/meal-prep",
+        description:
+          "Weekly meal prep calendar and consolidated grocery list generator. Plan Mon-Sun meals, auto-extract ingredient checklist.",
         popular: true,
       },
     ],
