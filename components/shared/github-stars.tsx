@@ -9,21 +9,18 @@ export function GitHubStars() {
   useEffect(() => {
     async function fetchStars() {
       try {
-        const res = await fetch(
-          "https://api.github.com/repos/toolzium/toolzium",
-          {
-            headers: {
-              Accept: "application/vnd.github.v3+json",
-            },
-          }
-        );
+        const res = await fetch("https://api.github.com/users/bluesun-gif", {
+          headers: {
+            Accept: "application/vnd.github.v3+json",
+          },
+        });
 
         if (res.ok) {
           const data = await res.json();
-          setStars(data.stargazers_count || 0);
+          setStars(data.public_repos || 0);
         }
       } catch (error) {
-        console.error("Error fetching GitHub stars:", error);
+        console.error("Error fetching GitHub profile:", error);
       } finally {
         setLoading(false);
       }
@@ -32,22 +29,13 @@ export function GitHubStars() {
     fetchStars();
   }, []);
 
-  const formatStars = (count: number) => {
-    if (count >= 1000) {
-      return `${(count / 1000).toFixed(1)}k`;
-    }
-    return count.toString();
-  };
-
   if (loading) {
-    return (
-      <span className="text-xs font-semibold tabular-nums opacity-50">0</span>
-    );
+    return <span className="text-xs font-semibold opacity-50">GitHub</span>;
   }
 
   return (
-    <span className="text-xs font-semibold tabular-nums">
-      {stars > 0 ? formatStars(stars) : "0"}
+    <span className="text-xs font-semibold">
+      {stars > 0 ? `@bluesun-gif` : "GitHub"}
     </span>
   );
 }

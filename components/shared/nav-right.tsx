@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/tooltip";
 import { ToolsData } from "@/data/tools";
 import type { LucideIcon } from "lucide-react";
-import { ArrowRight, Facebook, Link2, Search, Star } from "lucide-react";
+import { ArrowRight, Facebook, Link2, Linkedin, Search, Star } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -183,10 +183,25 @@ export default function NavRight() {
         <Button
           variant="outline"
           asChild
+          size="icon"
+          className="hidden sm:flex h-9 w-9"
+        >
+          <Link
+            href="https://www.linkedin.com/in/tanvirahmadsohan/"
+            rel="noopener noreferrer"
+            target="_blank"
+            aria-label="Connect on LinkedIn"
+          >
+            <Linkedin className="size-4" />
+          </Link>
+        </Button>
+        <Button
+          variant="outline"
+          asChild
           className="hidden sm:flex h-9 gap-1.5 px-3"
         >
           <Link
-            href="https://github.com/toolzium/toolzium"
+            href="https://github.com/bluesun-gif"
             rel="noopener noreferrer"
             target="_blank"
             className="inline-flex items-center gap-1.5"
