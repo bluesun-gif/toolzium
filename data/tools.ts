@@ -465,6 +465,13 @@ export const ToolsData = [
           "Swap or replace specific colors in an image. Source and target color picker, tolerance threshold, canvas pixel replacement, download PNG.",
         popular: true,
       },
+      {
+        title: "Image Area Blur & Anonymizer",
+        url: "/tools/image/blur-image",
+        description:
+          "Blur or pixelate sensitive parts of an image (faces, licenses, credit cards). Adjustable blur strength, click-and-drag selection.",
+        popular: true,
+      },
     ],
   },
   {
@@ -739,6 +746,13 @@ export const ToolsData = [
           "Breakdown and explain regular expressions in plain English. Token analysis, match highlights, regex cheatsheet, preset patterns.",
         popular: true,
       },
+      {
+        title: "cURL Code Converter",
+        url: "/tools/dev/curl-converter",
+        description:
+          "Convert cURL command line requests into JS Fetch, Axios, Node.js, Python requests, Go, PHP, Rust code snippets.",
+        popular: true,
+      },
     ],
   },
   {
@@ -999,6 +1013,13 @@ export const ToolsData = [
         url: "/tools/time/time-capsule",
         description:
           "Create digital time capsule messages locked until a future date. Encrypted local storage, live countdown timers, backup JSON.",
+        popular: true,
+      },
+      {
+        title: "World Clock & Meeting Planner",
+        url: "/tools/time/world-planner",
+        description:
+          "Compare times across multiple world cities to find ideal meeting slots. 24-hour timeline bar highlighting overlapping working hours.",
         popular: true,
       },
       {
@@ -1263,6 +1284,13 @@ export const ToolsData = [
         popular: true,
       },
       {
+        title: "Packing Slip Generator",
+        url: "/tools/office/packing-slip",
+        description:
+          "Generate professional ecommerce / warehouse Packing Slips. Order details, carrier info, SKU itemized table, print-ready layout.",
+        popular: true,
+      },
+      {
         title: "Expense Tracker",
         url: "/tools/office/expense-tracker",
         description:
@@ -1415,6 +1443,13 @@ export const ToolsData = [
         url: "/tools/travel/passport-photo",
         description:
           "Format photos for passport & visa applications. US, UK, EU, Schengen, India, China standards. Face alignment grid, 4x6 print sheet.",
+        popular: true,
+      },
+      {
+        title: "Daily Travel Budget Planner",
+        url: "/tools/travel/daily-budget",
+        description:
+          "Plan and track daily vacation spending. Total budget, daily allowance limits, category breakdown, spent vs remaining progress bar.",
         popular: true,
       },
     ],
@@ -1621,6 +1656,13 @@ export const ToolsData = [
           "Calculate required safety net emergency fund. Essential expenses, 3-12 month buffers, savings gap, months to goal estimate.",
         popular: true,
       },
+      {
+        title: "FIRE Financial Independence Calculator",
+        url: "/tools/finance/fire-calc",
+        description:
+          "Calculate age of Financial Independence & Early Retirement. Required portfolio size, net worth growth projection table, Lean/Fat/Coast FIRE.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1795,6 +1837,13 @@ export const ToolsData = [
         url: "/tools/fun/tic-tac-toe",
         description:
           "Tic Tac Toe game with 2-Player mode & AI opponent (Easy, Medium, Unbeatable Minimax). Win line highlights, audio feedback, score tracking.",
+        popular: true,
+      },
+      {
+        title: "Hangman Word Game",
+        url: "/tools/fun/hangman",
+        description:
+          "Classic Hangman word guessing game. 5 categories, SVG drawing, keyboard support, win streak counter, hinting, localStorage stats.",
         popular: true,
       },
     ],
@@ -2142,6 +2191,13 @@ export const ToolsData = [
           "Track intermittent fasting protocols (16:8, 18:6, 20:4, 24h, 36h). Circular progress ring, fasting state indicators, history log.",
         popular: true,
       },
+      {
+        title: "Sleep Cycle & Bedtime Calculator",
+        url: "/tools/health/sleep-planner",
+        description:
+          "Calculate optimal bedtime or wake-up times based on 90-minute REM sleep cycles. Sleep latency, sleep debt, hygiene tips.",
+        popular: true,
+      },
     ],
   },
   {
@@ -2302,6 +2358,13 @@ export const ToolsData = [
         url: "/tools/productivity/mind-map",
         description:
           "Visual node-based mind map generator. Central topic + subnodes, node colors, visual lines, expand/collapse, text outline export.",
+        popular: true,
+      },
+      {
+        title: "Eisenhower Kanban Board",
+        url: "/tools/productivity/eisenhower-kanban",
+        description:
+          "Hybrid Kanban board organized by priority urgency matrix. 4 columns (Do First, Schedule, Delegate, Eliminate). JSON export.",
         popular: true,
       },
     ],
