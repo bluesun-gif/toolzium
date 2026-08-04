@@ -423,6 +423,13 @@ export const ToolsData = [
           "Add text watermarks to images. Control font, color, opacity, position, rotation. Tiled repeat option. Download watermarked image.",
         popular: true,
       },
+      {
+        title: "Color Palette from Image",
+        url: "/tools/image/palette-extract",
+        description:
+          "Extract dominant colors from uploaded images. Hex, RGB, HSL values. Copy palette. Download as PNG swatch strip. CSS color names.",
+        popular: true,
+      },
     ],
   },
   {
@@ -655,6 +662,13 @@ export const ToolsData = [
           "Comprehensive regex quick reference. Character classes, anchors, quantifiers, groups. Interactive test area. Common patterns library.",
         popular: true,
       },
+      {
+        title: "HTTP Status Codes",
+        url: "/tools/dev/http-status",
+        description:
+          "Complete HTTP status code reference. 1xx-5xx grouped by category. Color-coded. Search by code or name. Quick lookup. Copy entries.",
+        popular: true,
+      },
     ],
   },
   {
@@ -883,6 +897,13 @@ export const ToolsData = [
         popular: true,
       },
       {
+        title: "Cooking Timer",
+        url: "/tools/time/cooking-timer",
+        description:
+          "Multiple simultaneous cooking timers. Presets: Egg, Pasta, Rice, Chicken. Audio alerts. Color-coded. Up to 6 concurrent timers.",
+        popular: true,
+      },
+      {
         title: "Date Formatter",
         url: "/tools/time/date-formatter",
         description:
@@ -1095,6 +1116,13 @@ export const ToolsData = [
         popular: true,
       },
       {
+        title: "Email Signature Generator",
+        url: "/tools/office/email-signature",
+        description:
+          "Generate HTML email signatures. Color themes, layouts, social links. Live preview. Copy HTML or plain text. Professional templates.",
+        popular: true,
+      },
+      {
         title: "Expense Tracker",
         url: "/tools/office/expense-tracker",
         description:
@@ -1205,6 +1233,13 @@ export const ToolsData = [
         url: "/tools/travel/expenses",
         description:
           "Track expenses during trips. Create trips with budget. Categories, multi-currency support. Dashboard with spending breakdown.",
+        popular: true,
+      },
+      {
+        title: "Travel Phrase Book",
+        url: "/tools/travel/phrasebook",
+        description:
+          "Common travel phrases in 8 languages. Greetings, Directions, Food, Emergency. Phonetic pronunciation. Audio playback. Bookmark favorites.",
         popular: true,
       },
     ],
@@ -1369,6 +1404,13 @@ export const ToolsData = [
           "Estimate US federal tax withholding. Filing status, income, pay frequency. 2024 tax brackets. Effective rate and marginal bracket.",
         popular: true,
       },
+      {
+        title: "Net Worth Calculator",
+        url: "/tools/finance/net-worth",
+        description:
+          "Calculate personal net worth. Track assets and liabilities by category. Pie chart allocation. Save snapshots over time. Growth comparison.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1501,6 +1543,13 @@ export const ToolsData = [
         url: "/tools/fun/number-guess",
         description:
           "Classic number guessing game with Higher/Lower hints. Easy, Medium, Hard difficulty. Timer, best scores, streak counter.",
+        popular: true,
+      },
+      {
+        title: "Two Truths and a Lie",
+        url: "/tools/fun/two-truths",
+        description:
+          "Party game with 50 sets of fun facts. Spot the lie. Score tracking. Timer mode. Categories: Science, History, Animals, Geography, Food.",
         popular: true,
       },
     ],
@@ -1806,6 +1855,13 @@ export const ToolsData = [
           "Look up calories in 150+ common foods. Protein, carbs, fat per serving. Meal planner to total daily intake. Search and sort.",
         popular: true,
       },
+      {
+        title: "Step Counter Log",
+        url: "/tools/health/step-counter",
+        description:
+          "Log daily steps. Set goals (default 10K). Calculate calories burned and distance. Weekly/monthly totals. Streak counter. Bar chart history.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1924,6 +1980,13 @@ export const ToolsData = [
         url: "/tools/productivity/standup",
         description:
           "Generate daily standup reports. Yesterday, Today, Blockers sections. Slack formatting. Save history by date. Quick templates.",
+        popular: true,
+      },
+      {
+        title: "Meeting Agenda Builder",
+        url: "/tools/productivity/meeting-agenda",
+        description:
+          "Build structured meeting agendas. Topics with presenters and time allocation. Auto-calculate totals. Templates included. Copy formatted.",
         popular: true,
       },
     ],
