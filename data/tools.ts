@@ -472,6 +472,13 @@ export const ToolsData = [
           "Blur or pixelate sensitive parts of an image (faces, licenses, credit cards). Adjustable blur strength, click-and-drag selection.",
         popular: true,
       },
+      {
+        title: "SVG Path Visualizer & Inspector",
+        url: "/tools/image/svg-path",
+        description:
+          "Visual SVG d path string inspector and editor. Explains M, L, C, Q, Z path commands. Interactive SVG preview with grid and zoom.",
+        popular: true,
+      },
     ],
   },
   {
@@ -753,6 +760,13 @@ export const ToolsData = [
           "Convert cURL command line requests into JS Fetch, Axios, Node.js, Python requests, Go, PHP, Rust code snippets.",
         popular: true,
       },
+      {
+        title: "User Agent Parser & Inspector",
+        url: "/tools/dev/ua-parser",
+        description:
+          "Parse User-Agent strings. Browser, OS, device type, engine detection. Auto-detect current browser UA. Preset sample UA strings.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1020,6 +1034,13 @@ export const ToolsData = [
         url: "/tools/time/world-planner",
         description:
           "Compare times across multiple world cities to find ideal meeting slots. 24-hour timeline bar highlighting overlapping working hours.",
+        popular: true,
+      },
+      {
+        title: "Event Countdown Widget Creator",
+        url: "/tools/time/event-widget",
+        description:
+          "Create customizable event countdown widgets. Live Days/Hours/Mins/Secs countdown, theme styling, embeddable HTML snippet.",
         popular: true,
       },
       {
@@ -1291,6 +1312,13 @@ export const ToolsData = [
         popular: true,
       },
       {
+        title: "Commercial Invoice Generator",
+        url: "/tools/office/commercial-invoice",
+        description:
+          "Generate international trade Commercial Invoices. Exporter/Importer info, Incoterms, HS codes, declared values, print-ready layout.",
+        popular: true,
+      },
+      {
         title: "Expense Tracker",
         url: "/tools/office/expense-tracker",
         description:
@@ -1450,6 +1478,13 @@ export const ToolsData = [
         url: "/tools/travel/daily-budget",
         description:
           "Plan and track daily vacation spending. Total budget, daily allowance limits, category breakdown, spent vs remaining progress bar.",
+        popular: true,
+      },
+      {
+        title: "Travel Visa Requirements Index",
+        url: "/tools/travel/visa-index",
+        description:
+          "Quick visa requirement & passport power reference tool. Passport vs Destination lookup: Visa Free, VoA, eVisa, Visa Required.",
         popular: true,
       },
     ],
@@ -1663,6 +1698,13 @@ export const ToolsData = [
           "Calculate age of Financial Independence & Early Retirement. Required portfolio size, net worth growth projection table, Lean/Fat/Coast FIRE.",
         popular: true,
       },
+      {
+        title: "Loan Amortization Schedule Calculator",
+        url: "/tools/finance/loan-amortization",
+        description:
+          "Detailed loan repayment amortization schedule. Monthly payment, total interest, monthly breakdown table, CSV export.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1844,6 +1886,13 @@ export const ToolsData = [
         url: "/tools/fun/hangman",
         description:
           "Classic Hangman word guessing game. 5 categories, SVG drawing, keyboard support, win streak counter, hinting, localStorage stats.",
+        popular: true,
+      },
+      {
+        title: "Speed Typing Challenge",
+        url: "/tools/fun/typing-challenge",
+        description:
+          "Interactive speed typing test and WPM meter. 15s-120s tests, general English, code, quotes. Accuracy %, WPM score rating.",
         popular: true,
       },
     ],
@@ -2198,6 +2247,13 @@ export const ToolsData = [
           "Calculate optimal bedtime or wake-up times based on 90-minute REM sleep cycles. Sleep latency, sleep debt, hygiene tips.",
         popular: true,
       },
+      {
+        title: "Calorie Deficit & Goal Date Estimator",
+        url: "/tools/health/calorie-deficit",
+        description:
+          "Calculate estimated target date to reach goal weight based on daily calorie deficit. BMR, TDEE, weekly rate, safe limits.",
+        popular: true,
+      },
     ],
   },
   {
@@ -2365,6 +2421,13 @@ export const ToolsData = [
         url: "/tools/productivity/eisenhower-kanban",
         description:
           "Hybrid Kanban board organized by priority urgency matrix. 4 columns (Do First, Schedule, Delegate, Eliminate). JSON export.",
+        popular: true,
+      },
+      {
+        title: "Weekly Habit & Routine Planner",
+        url: "/tools/productivity/habit-planner",
+        description:
+          "Weekly habit matrix and routine tracker. Mon-Sun checkbox grid, weekly completion rate %, overall streak tracker.",
         popular: true,
       },
     ],
