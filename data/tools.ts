@@ -570,6 +570,13 @@ export const ToolsData = [
         description:
           "Generate and export WCAG 2.1 design system color contrast sheets. Pairwise ratios, AA/AAA ratings, SVG graphic download.",
         popular: true,
+      },
+      {
+        title: "Contrast Compliance Color Matrix Sheet Exporter",
+        url: "/tools/image/contrast-matrix-sheet",
+        description:
+          "Comprehensive design system WCAG accessibility color contrast compliance sheet exporter. Test 3 to 8 brand palette colors with SVG download.",
+        popular: true,
       },],
   },
   {
@@ -956,6 +963,13 @@ export const ToolsData = [
         description:
           "Visual CSS keyframe animation timeline builder. Custom keyframes, cubic-bezier timing, property controls, and live element preview.",
         popular: true,
+      },
+      {
+        title: "CSS Keyframe Visual Curve & Speed Builder",
+        url: "/tools/dev/css-keyframes-speed",
+        description:
+          "Visual CSS keyframe animation timing curve builder. Cubic-bezier parameters, easing presets, speed duration, and live ball preview.",
+        popular: true,
       },],
   },
   {
@@ -1189,6 +1203,13 @@ export const ToolsData = [
         description:
           "Calculate Loan-to-Value (LTV), Combined LTV (CLTV), dollar equity, maximum HELOC limits, and PMI risk thresholds.",
         popular: true,
+      },
+      {
+        title: "HELOC (Home Equity Line of Credit) Payment Calculator",
+        url: "/tools/finance/heloc-calculator",
+        description:
+          "Calculate interest-only draw period and principal + interest repayment period monthly payments for Home Equity Lines of Credit.",
+        popular: true,
       },],
   },
   {
@@ -1421,6 +1442,13 @@ export const ToolsData = [
         description:
           "Calculate optimal bedtime and wake-up alarm times based on 90-minute REM sleep cycles and 14-minute sleep onset latency.",
         popular: true,
+      },
+      {
+        title: "REM Sleep Cycle & Onset Latency Bedtime Clock",
+        url: "/tools/time/rem-latency-bedtime-clock",
+        description:
+          "Calculate optimal bedtime and wake-up alarm times based on 90-minute REM sleep cycles and customizable sleep onset latency (5-30 mins).",
+        popular: true,
       },],
   },
   {
@@ -1566,6 +1594,13 @@ export const ToolsData = [
       {
         title: "NATO Phonetic Password Generator & Soundout",
         url: "/tools/util/nato-phonetic-password",
+        description:
+          "Generate secure passwords with NATO phonetic spelling guides (Alpha, Bravo, Charlie, Delta), character breakdown, and entropy scores.",
+        popular: true,
+      },
+      {
+        title: "NATO Password Generator & Phonetic Reader",
+        url: "/tools/util/nato-password-reader",
         description:
           "Generate secure passwords with NATO phonetic spelling guides (Alpha, Bravo, Charlie, Delta), character breakdown, and entropy scores.",
         popular: true,
@@ -1822,6 +1857,13 @@ export const ToolsData = [
         description:
           "Generator for Independent Contractor Statements of Work (SOW). Deliverables list, milestone schedules, acceptance criteria, print view.",
         popular: true,
+      },
+      {
+        title: "Contractor Scope of Work & Deliverables Builder",
+        url: "/tools/office/contractor-sow-builder",
+        description:
+          "Formal Statement of Work (SOW) document generator for independent contractors & freelancers. Deliverables timeline, milestone payments, print view.",
+        popular: true,
       },],
   },
   {
@@ -2053,6 +2095,13 @@ export const ToolsData = [
         url: "/tools/travel/travel-budget-calc-sheet",
         description:
           "Multi-currency travel expense comparison and trip budgeting sheet. Flight, accommodation, food, and activity breakdown.",
+        popular: true,
+      },
+      {
+        title: "Multi-Country Travel Budget & Currency Converter Sheet",
+        url: "/tools/travel/multi-country-budget-sheet",
+        description:
+          "Multi-country travel budget planner & currency converter. Side-by-side trip totals in Home Currency and local destination currencies.",
         popular: true,
       },],
   },
@@ -2567,6 +2616,13 @@ export const ToolsData = [
         description:
           "Interactive memory grid pattern flip challenge game. Recall illuminated tile patterns across 20 increasingly complex levels.",
         popular: true,
+      },
+      {
+        title: "Tile Sequence Pattern Memory Challenge",
+        url: "/tools/fun/pattern-tile-memory",
+        description:
+          "Interactive spatial memory sequence puzzle game. 3x3, 4x4, and 5x5 tile grids, speed settings, streak multipliers, best high scores.",
+        popular: true,
       },],
   },
   {
@@ -3017,6 +3073,13 @@ export const ToolsData = [
         description:
           "Calculate calories burned during recumbent stationary exercise bike workouts across 4 workload levels, RPM cadence, and power.",
         popular: true,
+      },
+      {
+        title: "Stair Stepper & StepMill Calorie Calculator",
+        url: "/tools/health/stair-stepper-calorie",
+        description:
+          "Calculate calories burned on stair steppers, StepMill gym machines, and aerobic step benches with step rates and MET scores.",
+        popular: true,
       },],
   },
   {
@@ -3283,6 +3346,13 @@ export const ToolsData = [
         url: "/tools/productivity/priority-quadrant-board",
         description:
           "Interactive 4-quadrant task board with priority sorting. Do First, Schedule, Delegate, and Eliminate quadrants with Markdown export.",
+        popular: true,
+      },
+      {
+        title: "Daily Priority Task Action Board",
+        url: "/tools/productivity/daily-priority-action-board",
+        description:
+          "Structured daily task action board mapping to 4 Eisenhower priority buckets: Do First, Schedule Later, Delegate, and Eliminate.",
         popular: true,
       },],
   },
