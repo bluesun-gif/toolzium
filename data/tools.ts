@@ -444,6 +444,13 @@ export const ToolsData = [
           "Annotate screenshots with rectangles, circles, arrows, freehand. Text labels. Color and line width controls. Undo/redo. Download PNG.",
         popular: true,
       },
+      {
+        title: "Image Watermark Creator",
+        url: "/tools/image/watermark-creator",
+        description:
+          "Add text or image watermarks to photos. Font size, opacity, rotation, positions, tiling. Download watermarked PNG/JPEG.",
+        popular: true,
+      },
     ],
   },
   {
@@ -697,6 +704,13 @@ export const ToolsData = [
           "Format and beautify SQL queries. Uppercase keywords, proper indentation. Handles SELECT, INSERT, UPDATE, DELETE, JOIN. Copy formatted SQL.",
         popular: true,
       },
+      {
+        title: "CSS Flexbox Generator",
+        url: "/tools/dev/flexbox-generator",
+        description:
+          "Visual CSS flexbox layout generator. Flex direction, justify content, align items, flex wrap, gap. Add/remove items. Copy CSS.",
+        popular: true,
+      },
     ],
   },
   {
@@ -939,6 +953,13 @@ export const ToolsData = [
         popular: false,
       },
       {
+        title: "Work Shift Scheduler",
+        url: "/tools/time/shift-scheduler",
+        description:
+          "Schedule employee work shifts over 7 days. Member shift assignment, weekly hours total, conflict detection, copy schedule.",
+        popular: true,
+      },
+      {
         title: "Lunar Calendar",
         url: "/tools/time/lunar-calendar",
         description:
@@ -1179,6 +1200,13 @@ export const ToolsData = [
         popular: true,
       },
       {
+        title: "NDA Generator",
+        url: "/tools/office/nda-generator",
+        description:
+          "Non-Disclosure Agreement generator. Unilateral or mutual, customizable parties, jurisdiction, duration. Copy formatted NDA.",
+        popular: true,
+      },
+      {
         title: "Expense Tracker",
         url: "/tools/office/expense-tracker",
         description:
@@ -1310,6 +1338,13 @@ export const ToolsData = [
         url: "/tools/travel/exchange-history",
         description:
           "Historical exchange rate trends. 30+ currencies. Line chart over 30-365 days. Min, max, average rates. Best time to exchange indicator.",
+        popular: true,
+      },
+      {
+        title: "Offline Currency Calculator",
+        url: "/tools/travel/offline-currency",
+        description:
+          "Offline travel currency calculator. Set custom exchange rate, cheat sheet lookup table, tipping grid in foreign currency.",
         popular: true,
       },
     ],
@@ -1495,6 +1530,13 @@ export const ToolsData = [
           "Track invoices and payment status. Filter by status. Color-coded badges. Outstanding totals. Overdue alerts. Export CSV. Mark as paid.",
         popular: true,
       },
+      {
+        title: "Crypto Profit Calculator",
+        url: "/tools/finance/crypto-profit",
+        description:
+          "Calculate profit/loss from crypto trades. Buy/sell price, fees, ROI %. Popular coin presets. Visual profit cards.",
+        popular: true,
+      },
     ],
   },
   {
@@ -1648,6 +1690,13 @@ export const ToolsData = [
         url: "/tools/fun/simon-says",
         description:
           "Classic Simon Says memory game. 4 colored panels with sound. Increasing difficulty. High score tracking. Speed increases every 5 levels.",
+        popular: true,
+      },
+      {
+        title: "Word Guess Game",
+        url: "/tools/fun/wordle",
+        description:
+          "5-letter word guessing game (Wordle-style). 6 attempts, virtual keyboard, color-coded tiles, stats, daily/unlimited modes.",
         popular: true,
       },
     ],
@@ -1974,6 +2023,13 @@ export const ToolsData = [
           "Track pregnancy milestones week by week. Due date calculator. Baby size comparisons. Trimester stages. Appointment reminders. Weight log.",
         popular: true,
       },
+      {
+        title: "Blood Sugar Tracker",
+        url: "/tools/health/blood-sugar",
+        description:
+          "Track blood glucose readings. Fasting, before/after meals, bedtime. Status indicators, target ranges, averages. Export CSV.",
+        popular: true,
+      },
     ],
   },
   {
@@ -2113,6 +2169,13 @@ export const ToolsData = [
         url: "/tools/productivity/timeline",
         description:
           "Visual project timeline planner. Add tasks with dates and status. Gantt-like bar chart. Progress tracking. Critical path. Copy summary.",
+        popular: true,
+      },
+      {
+        title: "Eisenhower Matrix Planner",
+        url: "/tools/productivity/eisenhower-planner",
+        description:
+          "Priority matrix productivity tool. 4 quadrants: Do First, Schedule, Delegate, Eliminate. Add/move tasks, export JSON.",
         popular: true,
       },
     ],
