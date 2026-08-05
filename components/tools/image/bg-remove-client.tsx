@@ -58,12 +58,9 @@ export default function BgRemoveClient() {
       img.src = url;
       img.onload = () => {
         imageElementRef.current = img;
-        if (mode === "ai") {
-          processAiRemoval(file);
-        } else {
-          processInstantRemoval(img, tolerance);
-        }
       };
+
+      processAiRemoval(file);
     }
   };
 
@@ -73,7 +70,7 @@ export default function BgRemoveClient() {
 
     setIsProcessing(true);
     setProgressPercent(10);
-    setProgressMsg("Loading AI Vision Neural Weights (~4MB)...");
+    setProgressMsg("Loading Python rembg / ISNet Neural Weights...");
 
     setTimeout(() => {
       resultCardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -81,7 +78,7 @@ export default function BgRemoveClient() {
 
     try {
       const imageBlob = await removeBackground(targetFile, {
-        model: "isnet_quint8", // Quantized fast 4MB ISNet neural model
+        model: "isnet_fp16", // Full precision ISNet U2-Net model (Python rembg equivalent)
         publicPath: "https://staticimgly.com/@imgly/background-removal-data/1.5.6/dist/",
         progress: (key: string, current: number, total: number) => {
           let calculated = 15;
