@@ -5,6 +5,12 @@ import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { normalizeUrl } from "@/lib/normalize-url";
 import { prisma } from "../prisma";
+import {
+  jsonCreateShort,
+  jsonGetAnalytics,
+  jsonGetLink,
+  jsonRecordClick,
+} from "@/lib/storage/json-db";
 
 const ALPHABET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
@@ -60,42 +66,16 @@ export async function createShort({
     });
     return { ok: true as const, existed: false, link };
   } catch (dbError) {
-    console.warn("Database connection failed, using stateless compression fallback:", dbError);
+    console.warn("Prisma DB connection unavailable, using clean JSON store fallback:", dbError);
     
-    // 2. Stateless compression fallback
-    // Strip protocol prefix to save bytes in the URL
-    let cleanUrl = targetUrl;
-    let protocol = "https://";
-    if (cleanUrl.startsWith("http://")) {
-      protocol = "http://";
-      cleanUrl = cleanUrl.substring(7);
-    } else if (cleanUrl.startsWith("https://")) {
-      cleanUrl = cleanUrl.substring(8);
-    }
-    
-    // Compress using zlib deflate
-    const zlib = require("zlib");
-    const compressed = zlib.deflateRawSync(cleanUrl);
-    const b64 = compressed.toString("base64url");
-    
-    // Prefix with "_" (https) or "h_" (http) to distinguish from database slugs
-    const prefix = protocol === "http://" ? "h_" : "_";
-    const short = `${prefix}${b64}`;
-    
-    const link = {
-      id: crypto.randomUUID(),
-      short,
-      targetUrl,
-      createdAt: new Date(),
-      userId: userId ?? null,
-    };
-    
+    // 2. Fall back to JSON database (clean short link + working analytics!)
+    const link = jsonCreateShort(targetUrl, preferredSlug, userId);
     return { ok: true as const, existed: false, link };
   }
 }
 
 export async function getLink(short: string) {
-  // 1. Check if it is a stateless compressed URL
+  // 1. Check if it is a legacy stateless compressed URL
   if (short.startsWith("_") || short.startsWith("h_")) {
     try {
       const prefix = short.startsWith("h_") ? "h_" : "_";
@@ -116,12 +96,16 @@ export async function getLink(short: string) {
     }
   }
 
-  // 2. Fallback to database
+  // 2. Database lookup
   try {
-    return await prisma.link.findUnique({ where: { short } });
+    const link = await prisma.link.findUnique({ where: { short } });
+    if (link) return link;
   } catch (e) {
-    return null;
+    // Ignore and proceed to JSON fallback
   }
+
+  // 3. Fallback to JSON database
+  return jsonGetLink(short);
 }
 
 export type AnalyticsResponse = {
@@ -135,7 +119,7 @@ export type AnalyticsResponse = {
 };
 
 export async function getAnalytics(short: string): Promise<AnalyticsResponse | null> {
-  // 1. Check if it is a stateless compressed URL
+  // 1. Check if it is a legacy stateless compressed URL
   if (short.startsWith("_") || short.startsWith("h_")) {
     const link = await getLink(short);
     if (!link) return null;
@@ -156,36 +140,39 @@ export async function getAnalytics(short: string): Promise<AnalyticsResponse | n
       where: { short },
       include: { clicks: true },
     });
-    if (!link) return null;
+    if (link) {
+      const byDay = new Map<string, number>();
+      for (const c of link.clicks) {
+        const d = new Date(c.ts);
+        const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+        byDay.set(key, (byDay.get(key) ?? 0) + 1);
+      }
 
-    const byDay = new Map<string, number>();
-    for (const c of link.clicks) {
-      const d = new Date(c.ts);
-      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-      byDay.set(key, (byDay.get(key) ?? 0) + 1);
+      const refCounts = new Map<string, number>();
+      const countryCounts = new Map<string, number>();
+      for (const c of link.clicks) {
+        if (c.referrer) refCounts.set(c.referrer, (refCounts.get(c.referrer) ?? 0) + 1);
+        if (c.country) countryCounts.set(c.country, (countryCounts.get(c.country) ?? 0) + 1);
+      }
+
+      const sort = (m: Map<string, number>) => Array.from(m.entries()).sort((a, b) => b[1] - a[1]);
+
+      return {
+        link: { id: link.id, short: link.short, targetUrl: link.targetUrl, createdAt: link.createdAt },
+        total: link.clicks.length,
+        first: link.createdAt,
+        last: link.clicks.length ? link.clicks[link.clicks.length - 1].ts : null,
+        byDay: Array.from(byDay.entries()).sort((a, b) => a[0].localeCompare(b[0])),
+        topReferrers: sort(refCounts).slice(0, 10),
+        topCountries: sort(countryCounts).slice(0, 10),
+      };
     }
-
-    const refCounts = new Map<string, number>();
-    const countryCounts = new Map<string, number>();
-    for (const c of link.clicks) {
-      if (c.referrer) refCounts.set(c.referrer, (refCounts.get(c.referrer) ?? 0) + 1);
-      if (c.country) countryCounts.set(c.country, (countryCounts.get(c.country) ?? 0) + 1);
-    }
-
-    const sort = (m: Map<string, number>) => Array.from(m.entries()).sort((a, b) => b[1] - a[1]);
-
-    return {
-      link: { id: link.id, short: link.short, targetUrl: link.targetUrl, createdAt: link.createdAt },
-      total: link.clicks.length,
-      first: link.createdAt,
-      last: link.clicks.length ? link.clicks[link.clicks.length - 1].ts : null,
-      byDay: Array.from(byDay.entries()).sort((a, b) => a[0].localeCompare(b[0])),
-      topReferrers: sort(refCounts).slice(0, 10),
-      topCountries: sort(countryCounts).slice(0, 10),
-    };
   } catch (e) {
-    return null;
+    // Ignore and fallback to JSON store
   }
+
+  // 3. Fallback to JSON database analytics
+  return jsonGetAnalytics(short);
 }
 
 export async function recordClickAndRedirect(short: string) {
@@ -202,7 +189,7 @@ export async function recordClickAndRedirect(short: string) {
 
   let targetUrl: string | null = null;
 
-  // 1. Check if it is a stateless compressed URL
+  // 1. Check if it is a legacy stateless compressed URL
   if (short.startsWith("_") || short.startsWith("h_")) {
     try {
       const prefix = short.startsWith("h_") ? "h_" : "_";
@@ -216,7 +203,7 @@ export async function recordClickAndRedirect(short: string) {
     }
   }
 
-  // 2. Database lookup fallback
+  // 2. Database lookup
   if (!targetUrl) {
     try {
       const link = await prisma.link.findUnique({ where: { short } });
@@ -233,10 +220,21 @@ export async function recordClickAndRedirect(short: string) {
         });
       }
     } catch (e) {
-      console.warn("Database click tracking failed:", e);
+      console.warn("Database click tracking failed, trying JSON fallback:", e);
     }
+  }
+
+  // 3. JSON Store lookup & click recording
+  if (!targetUrl) {
+    targetUrl = jsonRecordClick(short, {
+      referrer,
+      country,
+      uaHash: sha(ua),
+      ipHash: sha(ip),
+    });
   }
 
   if (!targetUrl) notFound();
   redirect(targetUrl);
 }
+
