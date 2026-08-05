@@ -22,12 +22,19 @@ export function UserNav() {
 
   if (!session?.user) {
     return (
-      <Button asChild size="sm" variant="default" className="gap-1.5 font-medium shadow-xs">
-        <Link href="/sign-in">
-          <LogIn className="h-4 w-4" />
-          Sign In
-        </Link>
-      </Button>
+      <div className="flex items-center gap-2">
+        <Button asChild size="sm" variant="ghost" className="hidden sm:inline-flex font-medium">
+          <Link href="/sign-in">
+            Sign In
+          </Link>
+        </Button>
+        <Button asChild size="sm" variant="default" className="gap-1.5 font-semibold bg-primary text-primary-foreground shadow-xs hover:opacity-90">
+          <Link href="/sign-up">
+            <LogIn className="h-4 w-4" />
+            Sign Up
+          </Link>
+        </Button>
+      </div>
     );
   }
 
