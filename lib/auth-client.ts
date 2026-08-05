@@ -1,10 +1,7 @@
 import { createAuthClient } from "better-auth/react";
 import { env } from "./env";
 
-const baseURL =
-  typeof window !== "undefined"
-    ? env.app.url || window.location.origin
-    : env.app.siteUrl || "http://localhost:3000";
+const baseURL = typeof window !== "undefined" ? window.location.origin : (process.env.NEXT_PUBLIC_SITE_URL || "https://toolzium.com");
 
 export const authClient = createAuthClient({
   baseURL,

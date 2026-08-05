@@ -55,12 +55,12 @@ export const auth = betterAuth({
   },
   socialProviders: {
     google: {
-      clientId: env.auth.google.clientId || "",
-      clientSecret: env.auth.google.clientSecret || "",
-      enabled: !!(env.auth.google.clientId && env.auth.google.clientSecret),
+      clientId: process.env.GOOGLE_CLIENT_ID || env.auth.google.clientId || "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || env.auth.google.clientSecret || "",
+      enabled: true,
     },
   },
-  secret: env.auth.secret,
-  baseURL: env.auth.url,
-  trustedOrigins: [env.app.siteUrl, env.app.url],
+  secret: process.env.BETTER_AUTH_SECRET || env.auth.secret || "any2l-dev-secret-change-in-production-32chars-minimum-ok",
+  baseURL: process.env.BETTER_AUTH_URL || "https://toolzium.com",
+  trustedOrigins: ["https://toolzium.com", "http://localhost:3000"],
 });
