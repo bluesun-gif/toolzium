@@ -8,8 +8,17 @@ export const metadata: Metadata = generateSEOMetadata({
   noIndex: true,
 });
 
-export default async function ShortCatchAll({ params }: { params: { id: string } }) {
+export default async function ShortCatchAll({
+  params,
+  searchParams,
+}: {
+  params: { id: string };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
   const { id } = await params;
-  await recordClickAndRedirect(id);
+  const sParams = await searchParams;
+  const rawSrc = sParams?.src || sParams?.source || sParams?.ref;
+  const customSource = Array.isArray(rawSrc) ? rawSrc[0] : rawSrc;
+  await recordClickAndRedirect(id, customSource);
   return null;
 }

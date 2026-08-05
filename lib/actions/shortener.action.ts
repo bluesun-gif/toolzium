@@ -175,10 +175,20 @@ export async function getAnalytics(short: string): Promise<AnalyticsResponse | n
   return jsonGetAnalytics(short);
 }
 
-export async function recordClickAndRedirect(short: string) {
+export async function recordClickAndRedirect(short: string, customSource?: string) {
   const h = await headers();
 
-  const referrer = h.get("referer") ?? h.get("referrer") ?? undefined;
+  let referrer = h.get("referer") ?? h.get("referrer") ?? undefined;
+  if (customSource === "qr" || customSource === "QR") {
+    referrer = "📱 QR Code Scan";
+  } else if (!referrer) {
+    referrer = "🔗 Direct Link Click";
+  } else {
+    try {
+      referrer = new URL(referrer).hostname;
+    } catch (_) {}
+  }
+
   const country = h.get("x-vercel-ip-country") ?? h.get("cf-ipcountry") ?? undefined;
   const ua = h.get("user-agent") ?? "";
   const ipHeader = h.get("x-forwarded-for") ?? "";

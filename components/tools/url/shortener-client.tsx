@@ -94,6 +94,10 @@ export default function ShortenerClient() {
     () => (slug ? `${origin}/${slug}` : ""),
     [origin, slug]
   );
+  const qrUrl = useMemo(
+    () => (slug ? `${origin}/${slug}?src=qr` : ""),
+    [origin, slug]
+  );
   const interstitialUrl = useMemo(
     () => (slug ? `${origin}/tools/url/shortener/interstitial/${slug}` : ""),
     [origin, slug]
@@ -108,7 +112,7 @@ export default function ShortenerClient() {
   );
 
   const { downloadPNG, downloadSVG } = useQrExport({
-    value: shortUrl || "https://example.com",
+    value: qrUrl || "https://example.com",
     size: qrSize,
     margin: qrMargin,
     ecl: qrECC,
@@ -327,7 +331,7 @@ export default function ShortenerClient() {
           <div className="mt-3 flex flex-col items-center gap-3">
             <div className="rounded-lg border p-3 bg-background/60">
               <QRCodeBox
-                value={shortUrl}
+                value={qrUrl}
                 format="png"
                 size={qrSize}
                 margin={qrMargin}
@@ -490,7 +494,7 @@ export default function ShortenerClient() {
                       <PopoverContent className="w-auto p-4">
                         <div className="flex flex-col items-center gap-2">
                           <QRCodeBox
-                            value={sUrl}
+                            value={`${sUrl}?src=qr`}
                             size={144}
                             margin={1}
                             ecl="M"

@@ -10,6 +10,8 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { getAnalytics } from "@/lib/actions/shortener.action";
 import { generateSEOMetadata } from "@/lib/seo-config";
 
+import FormattedDateTime from "@/components/tools/url/formatted-date-time";
+
 export const metadata: Metadata = generateSEOMetadata({
   title: "Link Analytics Dashboard",
   description: "View detailed analytics for your shortened links including clicks, referrers, countries, and trends over time.",
@@ -23,8 +25,8 @@ export default async function AnalyticsPage({ params }: { params: { id: string }
 
   const { link, total, first, last, byDay, topReferrers, topCountries } = data;
 
-  const createdStr = new Date(first).toLocaleString();
-  const lastStr = last ? new Date(last).toLocaleString() : "—";
+  const firstISO = first ? new Date(first).toISOString() : null;
+  const lastISO = last ? new Date(last).toISOString() : null;
   const shortPath = `/${link.short}`;
 
   return (
@@ -54,8 +56,8 @@ export default async function AnalyticsPage({ params }: { params: { id: string }
       {/* Stats */}
       <div className="grid gap-3 sm:grid-cols-3">
         <Stat label="Total Clicks" value={total.toLocaleString()} />
-        <Stat label="Created" value={createdStr} />
-        <Stat label="Last Click" value={lastStr} />
+        <Stat label="Created" value={<FormattedDateTime dateISO={firstISO} />} />
+        <Stat label="Last Click" value={<FormattedDateTime dateISO={lastISO} />} />
       </div>
 
       {/* Clicks chart + referrers */}

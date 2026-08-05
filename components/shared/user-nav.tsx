@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { signOut, useSession } from "@/lib/auth-client";
-import { LogOut, Settings, User } from "lucide-react";
+import { LogIn, LogOut, Settings, User } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
@@ -21,7 +21,14 @@ export function UserNav() {
   }
 
   if (!session?.user) {
-    return null;
+    return (
+      <Button asChild size="sm" variant="default" className="gap-1.5 font-medium shadow-xs">
+        <Link href="/sign-in">
+          <LogIn className="h-4 w-4" />
+          Sign In
+        </Link>
+      </Button>
+    );
   }
 
   const user = session.user;
