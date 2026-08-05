@@ -153,59 +153,138 @@ export default async function DashboardPage() {
         </Card>
       </div>
 
-      {/* Quick Tools Access Grid */}
-      <div className="space-y-3">
-        <h2 className="text-lg font-semibold tracking-tight">Popular Productivity Tools</h2>
-        <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-4">
+      {/* Account-Connected & History Saving Tools Section */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-lg font-semibold tracking-tight">Tools That Store Your Data & History</h2>
+            <p className="text-xs text-muted-foreground">
+              These tools utilize your account & cloud storage to preserve your customized settings, history, and work.
+            </p>
+          </div>
+          <Badge variant="outline" className="gap-1 font-medium text-xs border-primary/30 text-primary">
+            <Sparkles className="h-3 w-3" /> Auto-Saved to Account
+          </Badge>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <Link
             href="/tools/url/shortener"
-            className="flex items-center gap-3 p-4 rounded-xl border bg-card/40 hover:bg-accent/50 transition group"
+            className="flex flex-col justify-between p-4 rounded-xl border bg-card/60 hover:bg-accent/40 transition group space-y-3"
           >
-            <div className="p-2.5 rounded-lg bg-primary/10 text-primary group-hover:scale-105 transition-transform">
-              <Link2 className="h-5 w-5" />
+            <div className="flex items-start justify-between">
+              <div className="p-2.5 rounded-lg bg-primary/10 text-primary group-hover:scale-105 transition-transform">
+                <Link2 className="h-5 w-5" />
+              </div>
+              <Badge variant="secondary" className="text-[11px]">
+                {links.length} Links Saved
+              </Badge>
             </div>
             <div>
-              <div className="font-semibold text-sm">URL Shortener</div>
-              <div className="text-xs text-muted-foreground">Short links & Analytics</div>
+              <div className="font-semibold text-sm">URL Shortener & Analytics</div>
+              <div className="text-xs text-muted-foreground mt-0.5">
+                Saves custom short links, referrer stats, and QR scan history.
+              </div>
             </div>
           </Link>
 
           <Link
-            href="/tools/url/qr"
-            className="flex items-center gap-3 p-4 rounded-xl border bg-card/40 hover:bg-accent/50 transition group"
+            href="/tools/productivity/kanban"
+            className="flex flex-col justify-between p-4 rounded-xl border bg-card/60 hover:bg-accent/40 transition group space-y-3"
           >
-            <div className="p-2.5 rounded-lg bg-purple-500/10 text-purple-500 group-hover:scale-105 transition-transform">
-              <QrCode className="h-5 w-5" />
+            <div className="flex items-start justify-between">
+              <div className="p-2.5 rounded-lg bg-blue-500/10 text-blue-500 group-hover:scale-105 transition-transform">
+                <Wrench className="h-5 w-5" />
+              </div>
+              <Badge variant="outline" className="text-[11px]">
+                Auto-Synced
+              </Badge>
             </div>
             <div>
-              <div className="font-semibold text-sm">QR Generator</div>
-              <div className="text-xs text-muted-foreground">Custom QR codes</div>
+              <div className="font-semibold text-sm">Kanban & Priority Task Board</div>
+              <div className="text-xs text-muted-foreground mt-0.5">
+                Saves your task columns, priorities, and daily workflows.
+              </div>
             </div>
           </Link>
 
           <Link
-            href="/tools/util/pdf-merge"
-            className="flex items-center gap-3 p-4 rounded-xl border bg-card/40 hover:bg-accent/50 transition group"
+            href="/tools/productivity/notepad"
+            className="flex flex-col justify-between p-4 rounded-xl border bg-card/60 hover:bg-accent/40 transition group space-y-3"
           >
-            <div className="p-2.5 rounded-lg bg-emerald-500/10 text-emerald-500 group-hover:scale-105 transition-transform">
-              <FileText className="h-5 w-5" />
+            <div className="flex items-start justify-between">
+              <div className="p-2.5 rounded-lg bg-amber-500/10 text-amber-500 group-hover:scale-105 transition-transform">
+                <FileText className="h-5 w-5" />
+              </div>
+              <Badge variant="outline" className="text-[11px]">
+                Saved Drafts
+              </Badge>
             </div>
             <div>
-              <div className="font-semibold text-sm">PDF Tools</div>
-              <div className="text-xs text-muted-foreground">Merge, split & convert</div>
+              <div className="font-semibold text-sm">Notes & Markdown Scratchpad</div>
+              <div className="text-xs text-muted-foreground mt-0.5">
+                Preserves your written notes, ideas, and code snippets safely.
+              </div>
             </div>
           </Link>
 
           <Link
-            href="/tools/dev/json-formatter"
-            className="flex items-center gap-3 p-4 rounded-xl border bg-card/40 hover:bg-accent/50 transition group"
+            href="/tools/text/resume-builder"
+            className="flex flex-col justify-between p-4 rounded-xl border bg-card/60 hover:bg-accent/40 transition group space-y-3"
           >
-            <div className="p-2.5 rounded-lg bg-amber-500/10 text-amber-500 group-hover:scale-105 transition-transform">
-              <Code2 className="h-5 w-5" />
+            <div className="flex items-start justify-between">
+              <div className="p-2.5 rounded-lg bg-emerald-500/10 text-emerald-500 group-hover:scale-105 transition-transform">
+                <FileText className="h-5 w-5" />
+              </div>
+              <Badge variant="outline" className="text-[11px]">
+                Career Vault
+              </Badge>
             </div>
             <div>
-              <div className="font-semibold text-sm">Developer Tools</div>
-              <div className="text-xs text-muted-foreground">JSON, Base64 & Regex</div>
+              <div className="font-semibold text-sm">Resume & Cover Letter Builder</div>
+              <div className="text-xs text-muted-foreground mt-0.5">
+                Stores your resume details and cover letter templates.
+              </div>
+            </div>
+          </Link>
+
+          <Link
+            href="/tools/office/invoice"
+            className="flex flex-col justify-between p-4 rounded-xl border bg-card/60 hover:bg-accent/40 transition group space-y-3"
+          >
+            <div className="flex items-start justify-between">
+              <div className="p-2.5 rounded-lg bg-purple-500/10 text-purple-500 group-hover:scale-105 transition-transform">
+                <FileText className="h-5 w-5" />
+              </div>
+              <Badge variant="outline" className="text-[11px]">
+                Business History
+              </Badge>
+            </div>
+            <div>
+              <div className="font-semibold text-sm">Invoice & Receipt Generator</div>
+              <div className="text-xs text-muted-foreground mt-0.5">
+                Remembers client profiles, tax settings, and generated invoices.
+              </div>
+            </div>
+          </Link>
+
+          <Link
+            href="/tools/productivity/habit-tracker"
+            className="flex flex-col justify-between p-4 rounded-xl border bg-card/60 hover:bg-accent/40 transition group space-y-3"
+          >
+            <div className="flex items-start justify-between">
+              <div className="p-2.5 rounded-lg bg-rose-500/10 text-rose-500 group-hover:scale-105 transition-transform">
+                <BarChart3 className="h-5 w-5" />
+              </div>
+              <Badge variant="outline" className="text-[11px]">
+                Streak Logged
+              </Badge>
+            </div>
+            <div>
+              <div className="font-semibold text-sm">Habit & Focus Streak Log</div>
+              <div className="text-xs text-muted-foreground mt-0.5">
+                Tracks daily habits, pomodoro focus sessions, and statistics.
+              </div>
             </div>
           </Link>
         </div>

@@ -68,7 +68,7 @@ export default function NavigationProgressBar() {
 
   return (
     <NextTopLoader
-      color="#FF5252"
+      color="#7C3AED"
       initialPosition={0.08}
       crawlSpeed={150}
       height={4}
@@ -76,7 +76,7 @@ export default function NavigationProgressBar() {
       showSpinner={true}
       easing="ease"
       speed={200}
-      shadow="0 0 12px #FF5252,0 0 6px #FF5252"
+      shadow="0 0 12px #7C3AED,0 0 6px #A78BFA"
     />
   );
 }
