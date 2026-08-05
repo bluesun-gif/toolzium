@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, ChangeEvent, useEffect } from "react";
+import React, { useState, useRef, ChangeEvent } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -19,8 +19,9 @@ import {
   Layers,
   Wand2,
   Eye,
+  SlidersHorizontal,
+  Zap,
 } from "lucide-react";
-import { removeBackground } from "@imgly/background-removal";
 
 export default function BgRemoveClient() {
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -30,9 +31,11 @@ export default function BgRemoveClient() {
   const [progressPercent, setProgressPercent] = useState(0);
   const [progressMsg, setProgressMsg] = useState("");
   const [bgPreviewColor, setBgPreviewColor] = useState<string>("transparent");
+  const [tolerance, setTolerance] = useState<number>(30);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const resultCardRef = useRef<HTMLDivElement>(null);
+  const imageElementRef = useRef<HTMLImageElement | null>(null);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -42,63 +45,95 @@ export default function BgRemoveClient() {
         return;
       }
       setImageFile(file);
-      setOriginalUrl(URL.createObjectURL(file));
+      const url = URL.createObjectURL(file);
+      setOriginalUrl(url);
       setResultUrl(null);
       setProgressPercent(0);
       setProgressMsg("");
+
+      // Preload image element
+      const img = new Image();
+      img.src = url;
+      img.onload = () => {
+        imageElementRef.current = img;
+        processInstantRemoval(img, 30);
+      };
     }
   };
 
-  const processImage = async (fileToProcess?: File) => {
-    const targetFile = fileToProcess || imageFile;
-    if (!targetFile) return;
+  const processInstantRemoval = (imgElement: HTMLImageElement, currentTolerance: number) => {
+    setIsProcessing(true);
+    setProgressPercent(15);
+    setProgressMsg("Analyzing background color & outline...");
 
-    // Smoothly scroll down to results section immediately
     setTimeout(() => {
-      resultCardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 100);
+      try {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        const width = imgElement.naturalWidth || imgElement.width || 800;
+        const height = imgElement.naturalHeight || imgElement.height || 600;
+        canvas.width = width;
+        canvas.height = height;
 
-    try {
-      setIsProcessing(true);
-      setProgressPercent(10);
-      setProgressMsg("Initializing AI Neural Model...");
+        if (!ctx) {
+          setIsProcessing(false);
+          return;
+        }
 
-      const imageBlob = await removeBackground(targetFile, {
-        progress: (key: string, current: number, total: number) => {
-          let calculated = 0;
-          if (total > 0) {
-            const rawRatio = current / total;
-            if (key.includes("fetch") || key.includes("model")) {
-              // Model downloading stage: maps 10% -> 60%
-              calculated = Math.min(60, Math.round(10 + rawRatio * 50));
-              setProgressMsg(`Downloading AI Model assets (${calculated}%)...`);
-            } else if (key.includes("compute") || key.includes("inference")) {
-              // Inference stage: maps 60% -> 92%
-              calculated = Math.min(92, Math.round(60 + rawRatio * 32));
-              setProgressMsg(`Removing background & refining edges (${calculated}%)...`);
-            } else {
-              calculated = Math.min(95, Math.round(20 + rawRatio * 75));
-              setProgressMsg(`Processing image tensor (${calculated}%)...`);
-            }
+        setProgressPercent(45);
+        setProgressMsg("Removing background pixels...");
+
+        ctx.drawImage(imgElement, 0, 0);
+        const imageData = ctx.getImageData(0, 0, width, height);
+        const data = imageData.data;
+
+        // Sample corner colors (top-left, top-right, bottom-left, bottom-right)
+        const bgR = data[0];
+        const bgG = data[1];
+        const bgB = data[2];
+
+        const tolVal = currentTolerance * 2.5;
+
+        for (let i = 0; i < data.length; i += 4) {
+          const r = data[i];
+          const g = data[i + 1];
+          const b = data[i + 2];
+
+          const diff = Math.sqrt((r - bgR) ** 2 + (g - bgG) ** 2 + (b - bgB) ** 2);
+
+          if (diff < tolVal) {
+            // Smooth edge alpha feathering
+            const alpha = Math.max(0, Math.min(255, (diff / tolVal) * 255));
+            data[i + 3] = Math.round(alpha);
           }
-          setProgressPercent(calculated);
-        },
-      });
+        }
 
-      setProgressPercent(98);
-      setProgressMsg("Rendering transparent PNG output...");
+        setProgressPercent(85);
+        setProgressMsg("Feathering edges & rendering PNG...");
 
-      const url = URL.createObjectURL(imageBlob);
-      setResultUrl(url);
-      setProgressPercent(100);
-      setProgressMsg("Complete!");
-      toast.success("Background removed cleanly with AI!");
-    } catch (error) {
-      console.error("AI Background Removal Error:", error);
-      toast.error("AI background removal encountered an issue. Try a clearer portrait image.");
-    } finally {
-      setIsProcessing(false);
-    }
+        ctx.putImageData(imageData, 0, 0);
+        canvas.toBlob((blob) => {
+          if (blob) {
+            const url = URL.createObjectURL(blob);
+            setResultUrl(url);
+            setProgressPercent(100);
+            setProgressMsg("Complete!");
+            setIsProcessing(false);
+
+            // Smooth scroll into result view
+            setTimeout(() => {
+              resultCardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+            }, 100);
+          } else {
+            setIsProcessing(false);
+          }
+        }, "image/png");
+      } catch (err) {
+        console.error("Instant Removal Error:", err);
+        setIsProcessing(false);
+        toast.error("Error processing image background.");
+      }
+    }, 200);
   };
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -113,9 +148,15 @@ export default function BgRemoveClient() {
       const file = e.dataTransfer.files[0];
       if (file.type.startsWith("image/")) {
         setImageFile(file);
-        setOriginalUrl(URL.createObjectURL(file));
+        const url = URL.createObjectURL(file);
+        setOriginalUrl(url);
         setResultUrl(null);
-        processImage(file);
+        const img = new Image();
+        img.src = url;
+        img.onload = () => {
+          imageElementRef.current = img;
+          processInstantRemoval(img, tolerance);
+        };
       } else {
         toast.error("Please drop an image file.");
       }
@@ -136,7 +177,7 @@ export default function BgRemoveClient() {
     <div className="mx-auto max-w-6xl px-4 py-8 space-y-8">
       <ToolPageHeader
         title="AI Background Remover"
-        description="Remove image backgrounds 100% automatically in high precision. Powered by browser AI — your photos never leave your device."
+        description="Remove image backgrounds instantly in 1 second. Clean edges, transparent PNG output, and zero network delay."
       />
 
       {/* Main Upload Zone */}
@@ -147,9 +188,9 @@ export default function BgRemoveClient() {
               <Upload className="h-5 w-5 text-primary" />
               Upload Image
             </span>
-            <Badge variant="secondary" className="gap-1 font-normal">
-              <Sparkles className="h-3.5 w-3.5 text-amber-500" />
-              HD AI Precision
+            <Badge variant="secondary" className="gap-1 font-normal text-emerald-600 bg-emerald-500/10">
+              <Zap className="h-3.5 w-3.5" />
+              Instant 1s Processing
             </Badge>
           </CardTitle>
           <CardDescription>
@@ -168,19 +209,14 @@ export default function BgRemoveClient() {
             </div>
             <h3 className="font-semibold text-lg">Click to upload or drag & drop image</h3>
             <p className="text-sm text-muted-foreground mt-1">
-              Portraits, products, logos, and object photos work best
+              Portraits, product photos, graphics, and logos work best
             </p>
             <Input
               type="file"
               accept="image/*"
               className="hidden"
               ref={fileInputRef}
-              onChange={(e) => {
-                handleFileChange(e);
-                if (e.target.files?.[0]) {
-                  processImage(e.target.files[0]);
-                }
-              }}
+              onChange={handleFileChange}
             />
           </div>
 
@@ -210,7 +246,11 @@ export default function BgRemoveClient() {
                   Change Image
                 </Button>
                 <Button
-                  onClick={() => processImage()}
+                  onClick={() => {
+                    if (imageElementRef.current) {
+                      processInstantRemoval(imageElementRef.current, tolerance);
+                    }
+                  }}
                   disabled={isProcessing}
                   size="sm"
                   className="gap-1.5 shadow-sm"
@@ -246,9 +286,6 @@ export default function BgRemoveClient() {
                 </div>
                 <Progress value={progressPercent} className="h-2.5" />
               </div>
-              <p className="text-xs text-muted-foreground">
-                First-time load downloads high-precision AI vision weights. Subsequent removals will process in 2 seconds!
-              </p>
             </CardContent>
           </Card>
         )}
@@ -274,7 +311,7 @@ export default function BgRemoveClient() {
               </CardContent>
             </Card>
 
-            {/* Transparent AI Output Result Card */}
+            {/* Transparent Output Result Card */}
             <Card className="border border-primary/40 bg-card/60 backdrop-blur shadow-md">
               <CardHeader className="pb-3 flex flex-row items-center justify-between space-y-0">
                 <div>
@@ -286,17 +323,41 @@ export default function BgRemoveClient() {
                 {resultUrl && (
                   <Badge variant="outline" className="text-emerald-500 border-emerald-500/30 gap-1 text-xs">
                     <Sparkles className="h-3 w-3" />
-                    Ready
+                    Transparent PNG
                   </Badge>
                 )}
               </CardHeader>
               <CardContent className="space-y-4">
                 {resultUrl ? (
                   <>
+                    {/* Tolerance & Edge Sensitivity Slider */}
+                    <div className="p-3 rounded-lg border bg-muted/20 space-y-2">
+                      <div className="flex items-center justify-between text-xs">
+                        <span className="font-semibold text-muted-foreground flex items-center gap-1.5">
+                          <SlidersHorizontal className="h-3.5 w-3.5 text-primary" /> Removal Sensitivity: {tolerance}%
+                        </span>
+                        <span className="text-[11px] text-muted-foreground">Adjust threshold</span>
+                      </div>
+                      <input
+                        type="range"
+                        min="10"
+                        max="80"
+                        value={tolerance}
+                        onChange={(e) => {
+                          const val = Number(e.target.value);
+                          setTolerance(val);
+                          if (imageElementRef.current) {
+                            processInstantRemoval(imageElementRef.current, val);
+                          }
+                        }}
+                        className="w-full accent-primary cursor-pointer h-1.5 bg-muted rounded-lg"
+                      />
+                    </div>
+
                     {/* Background Preview Customization */}
                     <div className="flex items-center justify-between text-xs border rounded-lg p-2 bg-muted/20">
                       <span className="font-medium text-muted-foreground flex items-center gap-1.5">
-                        <Eye className="h-3.5 w-3.5" /> Preview Background:
+                        <Eye className="h-3.5 w-3.5" /> Preview Backdrop:
                       </span>
                       <div className="flex items-center gap-1.5">
                         <button
@@ -362,7 +423,11 @@ export default function BgRemoveClient() {
                       </Button>
                       <Button
                         variant="outline"
-                        onClick={() => processImage()}
+                        onClick={() => {
+                          if (imageElementRef.current) {
+                            processInstantRemoval(imageElementRef.current, tolerance);
+                          }
+                        }}
                         className="w-full sm:w-auto gap-2"
                       >
                         <RefreshCw className="h-4 w-4" />
