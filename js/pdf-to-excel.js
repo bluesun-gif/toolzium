@@ -42,67 +42,139 @@ async function convertPdfToExcel() {
     
     const actionBtn = document.getElementById('actionBtn');
     actionBtn.disabled = true;
-    updateProgress(15, 'Scanning PDF text columns...');
+    updateProgress(10, 'Scanning PDF text layout...');
     
     try {
         const arrayBuffer = await currentFile.arrayBuffer();
         const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
         const totalPages = pdf.numPages;
-        let workbookData = [];
+        
+        // Process each page into sheets
+        let allSheetData = [];
         
         for (let i = 1; i <= totalPages; i++) {
-            updateProgress(15 + (75 * (i / totalPages)), `Reading sheet page ${i}...`);
+            updateProgress(10 + (70 * (i / totalPages)), `Analyzing page ${i} of ${totalPages}...`);
             const page = await pdf.getPage(i);
             const textContent = await page.getTextContent();
+            const viewport = page.getViewport({ scale: 1.0 });
             
-            // Group text items by their vertical y coordinate (transform[5])
-            let rows = {};
+            // Group text items by Y coordinate (rows)
+            let rowMap = {};
             for (const item of textContent.items) {
-                // Round coordinate slightly to group items on same line
-                const y = Math.round(item.transform[5] * 10) / 10;
-                if (!rows[y]) rows[y] = [];
-                rows[y].push(item);
+                if (!item.str.trim()) continue;
+                // Round Y to nearest 3 units to group text on same line
+                const y = Math.round(item.transform[5] / 3) * 3;
+                if (!rowMap[y]) rowMap[y] = [];
+                rowMap[y].push({
+                    text: item.str,
+                    x: item.transform[4],
+                    width: item.width || 0,
+                    fontSize: Math.round(item.transform[0])
+                });
             }
             
-            // Sort keys descending (top of page has highest Y coordinate in PDF coordinates)
-            const sortedY = Object.keys(rows).sort((a,b) => parseFloat(b) - parseFloat(a));
+            // Sort rows top to bottom (descending Y in PDF coords)
+            const sortedYKeys = Object.keys(rowMap).sort((a, b) => parseFloat(b) - parseFloat(a));
             
-            for (const y of sortedY) {
-                // Sort items on same row by horizontal x coordinate (transform[4])
-                const lineItems = rows[y].sort((a,b) => a.transform[4] - b.transform[4]);
+            if (sortedYKeys.length === 0) continue;
+            
+            // Detect column boundaries using X-position clustering
+            let allXPositions = [];
+            for (const y of sortedYKeys) {
+                const items = rowMap[y].sort((a, b) => a.x - b.x);
+                for (const item of items) {
+                    allXPositions.push(Math.round(item.x / 5) * 5);
+                }
+            }
+            
+            // Find unique column start positions
+            let colBoundaries = [...new Set(allXPositions)].sort((a, b) => a - b);
+            
+            // Merge boundaries that are too close together (< 20 units)
+            let mergedBoundaries = [colBoundaries[0]];
+            for (let b = 1; b < colBoundaries.length; b++) {
+                if (colBoundaries[b] - mergedBoundaries[mergedBoundaries.length - 1] > 20) {
+                    mergedBoundaries.push(colBoundaries[b]);
+                }
+            }
+            
+            // Build rows using column boundaries
+            let pageRows = [];
+            for (const y of sortedYKeys) {
+                const items = rowMap[y].sort((a, b) => a.x - b.x);
+                let row = new Array(mergedBoundaries.length).fill('');
                 
-                // Construct cells: if items are far apart, they represent separate spreadsheet columns
-                let rowCells = [];
-                let currentCell = "";
-                let lastX = null;
-                
-                for (const item of lineItems) {
-                    if (lastX !== null && (item.transform[4] - lastX > 14)) {
-                        rowCells.push(currentCell.trim());
-                        currentCell = "";
+                for (const item of items) {
+                    // Find which column this item belongs to
+                    let colIdx = 0;
+                    let minDist = Infinity;
+                    for (let c = 0; c < mergedBoundaries.length; c++) {
+                        const dist = Math.abs(item.x - mergedBoundaries[c]);
+                        if (dist < minDist) {
+                            minDist = dist;
+                            colIdx = c;
+                        }
                     }
-                    currentCell += item.str + " ";
-                    lastX = item.transform[4] + (item.width || 0);
-                }
-                if (currentCell) {
-                    rowCells.push(currentCell.trim());
+                    
+                    // Append text to the cell (space separated if multiple items in same cell)
+                    row[colIdx] = row[colIdx] ? row[colIdx] + ' ' + item.text : item.text;
                 }
                 
-                workbookData.push(rowCells);
+                // Skip completely empty rows
+                if (row.some(cell => cell.trim())) {
+                    pageRows.push(row);
+                }
             }
             
-            if (i < totalPages) {
-                // Add an empty spacer row to mark page breaks
-                workbookData.push([]);
+            allSheetData.push({
+                name: totalPages > 1 ? `Page ${i}` : 'Sheet1',
+                rows: pageRows
+            });
+        }
+        
+        updateProgress(85, 'Generating Excel file...');
+        
+        // Build XLSX workbook using SheetJS
+        const wb = XLSX.utils.book_new();
+        
+        if (allSheetData.length === 0) {
+            throw new Error('No text content found in PDF.');
+        }
+        
+        // If single page, just create one sheet
+        if (allSheetData.length === 1) {
+            const ws = XLSX.utils.aoa_to_sheet(allSheetData[0].rows);
+            
+            // Auto-size columns
+            const colWidths = [];
+            for (const row of allSheetData[0].rows) {
+                for (let j = 0; j < row.length; j++) {
+                    const len = String(row[j] || '').length;
+                    colWidths[j] = Math.max(colWidths[j] || 8, Math.min(len + 2, 50));
+                }
+            }
+            ws['!cols'] = colWidths.map(w => ({ wch: w }));
+            
+            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+        } else {
+            // Multiple pages -> separate sheets
+            for (const sheet of allSheetData) {
+                const ws = XLSX.utils.aoa_to_sheet(sheet.rows);
+                
+                const colWidths = [];
+                for (const row of sheet.rows) {
+                    for (let j = 0; j < row.length; j++) {
+                        const len = String(row[j] || '').length;
+                        colWidths[j] = Math.max(colWidths[j] || 8, Math.min(len + 2, 50));
+                    }
+                }
+                ws['!cols'] = colWidths.map(w => ({ wch: w }));
+                
+                XLSX.utils.book_append_sheet(wb, ws, sheet.name.substring(0, 31));
             }
         }
         
-        updateProgress(95, 'Generating Microsoft Excel (.xlsx) file...');
-        
-        // Write real XLSX output using SheetJS
-        const wb = XLSX.utils.book_new();
-        const ws = XLSX.utils.aoa_to_sheet(workbookData);
-        XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+        updateProgress(95, 'Saving .xlsx file...');
         
         const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
         
@@ -113,7 +185,7 @@ async function convertPdfToExcel() {
             return buf;
         }
         
-        const blob = new Blob([s2ab(wbout)], { type: 'application/octet-stream' });
+        const blob = new Blob([s2ab(wbout)], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
         const outName = currentFile.name.replace(/\.[^/.]+$/, "") + '.xlsx';
         
         downloadFile(blob, outName);
@@ -121,7 +193,7 @@ async function convertPdfToExcel() {
         
     } catch (error) {
         console.error('PDF to Excel conversion error:', error);
-        alert('Could not convert PDF to Excel format.');
+        alert('Could not convert PDF to Excel format. ' + (error.message || ''));
     } finally {
         actionBtn.disabled = false;
         setTimeout(hideProgress, 3000);

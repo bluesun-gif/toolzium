@@ -46,101 +46,146 @@ async function convertWordToPdf() {
     
     const actionBtn = document.getElementById('actionBtn');
     actionBtn.disabled = true;
-    updateProgress(15, 'Reading document content...');
+    if (typeof updateProgress === 'function') {
+        updateProgress(15, 'Reading document content...');
+    }
     
     try {
-        let text = '';
+        let blocks = [];
         const ext = currentFile.name.substring(currentFile.name.lastIndexOf('.')).toLowerCase();
         
         if (ext === '.txt' || currentFile.type === 'text/plain') {
-            text = await currentFile.text();
+            const text = await currentFile.text();
+            blocks = text.split('\n').map(line => ({
+                type: 'paragraph',
+                textParts: [{ text: line.replace(/[\r\t]/g, ' ').trim(), isBold: false }]
+            }));
         } else {
-            // For docx, extract XML text fields
             const buffer = await currentFile.arrayBuffer();
-            text = await extractDocxText(buffer);
+            const result = await mammoth.convertToHtml({arrayBuffer: buffer});
+            const html = result.value;
+            
+            const doc = new DOMParser().parseFromString(html, 'text/html');
+            const elements = doc.body.children;
+            
+            for (const el of elements) {
+                const tagName = el.tagName.toLowerCase();
+                let type = 'paragraph';
+                let level = 1;
+                
+                if (tagName.startsWith('h') && tagName.length === 2) {
+                    type = 'heading';
+                    level = parseInt(tagName[1], 10) || 1;
+                }
+                
+                const textParts = [];
+                const walk = (node, isBold) => {
+                    if (node.nodeType === Node.TEXT_NODE) {
+                        if (node.textContent) {
+                            textParts.push({ text: node.textContent, isBold });
+                        }
+                    } else if (node.nodeType === Node.ELEMENT_NODE) {
+                        const isNodeBold = isBold || node.tagName.toLowerCase() === 'strong' || node.tagName.toLowerCase() === 'b';
+                        for (const child of node.childNodes) {
+                            walk(child, isNodeBold);
+                        }
+                    }
+                };
+                walk(el, false);
+                
+                blocks.push({ type, level, textParts });
+            }
         }
         
-        updateProgress(50, 'Generating PDF pages...');
+        if (typeof updateProgress === 'function') {
+            updateProgress(50, 'Generating PDF pages...');
+        }
         
-        // Use PDFLib to compile the document
         const { PDFDocument, rgb, StandardFonts } = PDFLib;
         const pdfDoc = await PDFDocument.create();
-        const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+        const fontReg = await pdfDoc.embedFont(StandardFonts.Helvetica);
+        const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
         
-        // Layout text lines into pages
-        const lines = text.split('\n');
-        let page = pdfDoc.addPage([612, 792]); // Letter size
+        let page = pdfDoc.addPage([612, 792]);
         let y = 740;
+        const marginX = 56;
+        const maxWidth = 612 - marginX * 2;
         
-        for (const line of lines) {
-            const cleanLine = line.replace(/[\r\n\t]/g, ' ').trim();
-            if (!cleanLine) {
-                y -= 14;
+        for (const block of blocks) {
+            let fontSize = 11;
+            let lineHeight = 16;
+            let spacingBefore = 10;
+            let spacingAfter = 10;
+            
+            if (block.type === 'heading') {
+                fontSize = 11 + (6 - block.level) * 2;
+                lineHeight = fontSize * 1.3;
+                spacingBefore = fontSize;
+                spacingAfter = fontSize * 0.5;
+            }
+            
+            const isEmpty = block.textParts.every(p => p.text.trim().length === 0);
+            if (isEmpty) {
+                y -= spacingAfter;
                 continue;
             }
             
-            // Text wrapping
-            const words = cleanLine.split(' ');
-            let currentLine = '';
+            y -= spacingBefore;
+            if (y < 60) {
+                page = pdfDoc.addPage([612, 792]);
+                y = 740;
+            }
             
-            for (const word of words) {
-                const testLine = currentLine ? currentLine + ' ' + word : word;
-                const width = font.widthOfTextAtSize(testLine, 11);
+            let currentX = marginX;
+            
+            for (const part of block.textParts) {
+                const words = part.text.split(/(\s+)/);
+                const font = part.isBold || block.type === 'heading' ? fontBold : fontReg;
                 
-                if (width > 500) {
-                    if (y < 60) {
-                        page = pdfDoc.addPage([612, 792]);
-                        y = 740;
+                for (const word of words) {
+                    if (word === '') continue;
+                    
+                    const wordWidth = font.widthOfTextAtSize(word, fontSize);
+                    
+                    if (currentX + wordWidth > marginX + maxWidth && word.trim().length > 0) {
+                        y -= lineHeight;
+                        currentX = marginX;
+                        if (y < 60) {
+                            page = pdfDoc.addPage([612, 792]);
+                            y = 740;
+                        }
+                        if (word.trim().length === 0) continue; 
                     }
-                    page.drawText(currentLine, { x: 56, y: y, size: 11, font: font, color: rgb(0.1, 0.1, 0.1) });
-                    y -= 16;
-                    currentLine = word;
-                } else {
-                    currentLine = testLine;
+                    
+                    if (word.trim().length > 0 || currentX > marginX) {
+                        page.drawText(word, { x: currentX, y: y, size: fontSize, font: font, color: rgb(0.1, 0.1, 0.1) });
+                        currentX += wordWidth;
+                    }
                 }
             }
-            
-            if (currentLine) {
-                if (y < 60) {
-                    page = pdfDoc.addPage([612, 792]);
-                    y = 740;
-                }
-                page.drawText(currentLine, { x: 56, y: y, size: 11, font: font, color: rgb(0.1, 0.1, 0.1) });
-                y -= 18;
-            }
+            y -= spacingAfter;
         }
         
-        updateProgress(90, 'Saving PDF...');
+        if (typeof updateProgress === 'function') {
+            updateProgress(90, 'Saving PDF...');
+        }
+        
         const pdfBytes = await pdfDoc.save();
         const blob = new Blob([pdfBytes], { type: 'application/pdf' });
         const outName = currentFile.name.replace(/\.[^/.]+$/, "") + '.pdf';
         
         downloadFile(blob, outName);
-        updateProgress(100, 'Done!');
+        if (typeof updateProgress === 'function') {
+            updateProgress(100, 'Done!');
+        }
         
     } catch (error) {
         console.error('Word to PDF conversion error:', error);
         alert('Could not convert Word to PDF. Make sure it contains text.');
     } finally {
         actionBtn.disabled = false;
-        setTimeout(hideProgress, 3000);
-    }
-}
-
-// Simple XML parser for docx text tags
-async function extractDocxText(arrayBuffer) {
-    try {
-        // Docx is a zip file, XML tags contain the actual text: <w:t>text</w:t>
-        // We do a simple string matching of w:t elements inside the zip archive!
-        const decoded = new TextDecoder('utf-8').decode(new Uint8Array(arrayBuffer));
-        const matches = decoded.match(/<w:t[^>]*>(.*?)<\/w:t>/g);
-        if (matches) {
-            return matches.map(val => val.replace(/<w:t[^>]*>/, '').replace('</w:t>', '')).join(' ');
+        if (typeof hideProgress === 'function') {
+            setTimeout(hideProgress, 3000);
         }
-    } catch(e) {
-        console.warn('Docx fast string parsing failed, falling back to basic decode.');
     }
-    // Fallback: decode raw text content removing control chars
-    const raw = new TextDecoder('utf-8').decode(new Uint8Array(arrayBuffer));
-    return raw.replace(/[^\x20-\x7E\n]/g, '').substring(0, 10000);
 }

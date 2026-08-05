@@ -7,6 +7,8 @@
   <meta name="description" content="Reduce the file size of your PDF documents instantly online. Free, safe, and easy to use. No data uploaded.">
   <link rel="stylesheet" href="/css/style.css">
   <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+  <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';</script>
 </head>
 <body>
 
@@ -222,10 +224,6 @@ compressPdf = async function() {
         
         const origSize = (currentFile.size / 1024 / 1024).toFixed(2);
         let displaySize = blob.size;
-        if (blob.size >= currentFile.size) {
-            const ratio = document.getElementById('compressLevel').value === 'high' ? 0.65 : 0.82;
-            displaySize = Math.floor(currentFile.size * ratio);
-        }
         const compSize = (displaySize / 1024 / 1024).toFixed(2);
         document.getElementById('successSizeInfo').innerText = `Reduced file size from ${origSize}MB to ${compSize}MB.`;
         

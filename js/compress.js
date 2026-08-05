@@ -46,35 +46,57 @@ async function compressPdf() {
     
     const actionBtn = document.getElementById('actionBtn');
     actionBtn.disabled = true;
-    updateProgress(20, 'Loading PDF...');
+    updateProgress(10, 'Loading PDF...');
     
     try {
-        const { PDFDocument } = PDFLib;
         const arrayBuffer = await currentFile.arrayBuffer();
         
-        updateProgress(50, 'Optimizing structure...');
-        const pdf = await PDFDocument.load(arrayBuffer);
+        // Load PDF using pdf.js
+        const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+        const pdf = await loadingTask.promise;
+        const numPages = pdf.numPages;
         
-        // Client-side compression uses object stream compression (useObjectStreams: true) 
-        // to pack objects into compressed streams, minifying structural overhead.
-        updateProgress(80, 'Generating compressed PDF...');
-        const newPdfFile = await pdf.save({ useObjectStreams: true });
+        // Create new PDF using pdf-lib
+        const { PDFDocument } = PDFLib;
+        const newPdf = await PDFDocument.create();
         
-        let blob = new Blob([newPdfFile], { type: 'application/pdf' });
+        const level = document.getElementById('compressLevel').value;
+        const quality = level === 'high' ? 0.40 : 0.65;
         
-        // If structural compression didn't yield a smaller file (common on pre-optimized PDFs),
-        // we use the original file to avoid delivering a larger file, but calculate a optimized ratio for UX.
-        let isSimulated = false;
-        let displaySize = blob.size;
-        if (blob.size >= currentFile.size) {
-            blob = new Blob([arrayBuffer], { type: 'application/pdf' }); // Fallback to original
-            const ratio = document.getElementById('compressLevel').value === 'high' ? 0.65 : 0.82;
-            displaySize = Math.floor(currentFile.size * ratio);
-            isSimulated = true;
+        for (let i = 1; i <= numPages; i++) {
+            updateProgress(10 + Math.floor((i / numPages) * 80), `Compressing page ${i} of ${numPages}...`);
+            const page = await pdf.getPage(i);
+            const viewport = page.getViewport({ scale: 1.5 });
+            
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            
+            await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+            
+            // Re-encode as JPEG
+            const imgDataUrl = canvas.toDataURL('image/jpeg', quality);
+            const imgBytes = await fetch(imgDataUrl).then(res => res.arrayBuffer());
+            const image = await newPdf.embedJpg(imgBytes);
+            
+            const newPage = newPdf.addPage([viewport.width, viewport.height]);
+            newPage.drawImage(image, {
+                x: 0,
+                y: 0,
+                width: viewport.width,
+                height: viewport.height
+            });
         }
+        
+        updateProgress(95, 'Generating compressed PDF...');
+        const newPdfBytes = await newPdf.save({ useObjectStreams: true });
+        
+        let blob = new Blob([newPdfBytes], { type: 'application/pdf' });
         
         updateProgress(100, 'Complete!');
         
+        const displaySize = blob.size;
         const compressedSize = (displaySize / 1024 / 1024).toFixed(2);
         const originalSize = (currentFile.size / 1024 / 1024).toFixed(2);
         
