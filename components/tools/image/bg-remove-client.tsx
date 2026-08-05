@@ -21,7 +21,9 @@ import {
   Eye,
   SlidersHorizontal,
   Zap,
+  Cpu,
 } from "lucide-react";
+import { removeBackground } from "@imgly/background-removal";
 
 export default function BgRemoveClient() {
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -32,6 +34,7 @@ export default function BgRemoveClient() {
   const [progressMsg, setProgressMsg] = useState("");
   const [bgPreviewColor, setBgPreviewColor] = useState<string>("transparent");
   const [tolerance, setTolerance] = useState<number>(30);
+  const [mode, setMode] = useState<"ai" | "instant">("ai");
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const resultCardRef = useRef<HTMLDivElement>(null);
@@ -51,20 +54,76 @@ export default function BgRemoveClient() {
       setProgressPercent(0);
       setProgressMsg("");
 
-      // Preload image element
       const img = new Image();
       img.src = url;
       img.onload = () => {
         imageElementRef.current = img;
-        processInstantRemoval(img, 30);
+        if (mode === "ai") {
+          processAiRemoval(file);
+        } else {
+          processInstantRemoval(img, tolerance);
+        }
       };
+    }
+  };
+
+  const processAiRemoval = async (fileToProcess?: File) => {
+    const targetFile = fileToProcess || imageFile;
+    if (!targetFile) return;
+
+    setIsProcessing(true);
+    setProgressPercent(10);
+    setProgressMsg("Loading AI Vision Neural Weights (~4MB)...");
+
+    setTimeout(() => {
+      resultCardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 100);
+
+    try {
+      const imageBlob = await removeBackground(targetFile, {
+        model: "isnet_quint8", // Quantized fast 4MB ISNet neural model
+        publicPath: "https://staticimgly.com/@imgly/background-removal-data/1.5.6/dist/",
+        progress: (key: string, current: number, total: number) => {
+          let calculated = 15;
+          if (total > 0) {
+            const ratio = current / total;
+            if (key.includes("fetch") || key.includes("model")) {
+              calculated = Math.min(65, Math.round(15 + ratio * 50));
+              setProgressMsg(`Downloading AI Vision weights (${calculated}%)...`);
+            } else if (key.includes("compute") || key.includes("inference")) {
+              calculated = Math.min(95, Math.round(65 + ratio * 30));
+              setProgressMsg(`Segmenting portrait & refining hair edges (${calculated}%)...`);
+            } else {
+              calculated = Math.min(90, Math.round(20 + ratio * 70));
+              setProgressMsg(`Processing neural tensor (${calculated}%)...`);
+            }
+          }
+          setProgressPercent(calculated);
+        },
+      });
+
+      setProgressPercent(99);
+      setProgressMsg("Finalizing HD transparent PNG...");
+
+      const url = URL.createObjectURL(imageBlob);
+      setResultUrl(url);
+      setProgressPercent(100);
+      setProgressMsg("Complete!");
+      toast.success("Background removed cleanly with HD AI Precision!");
+    } catch (err) {
+      console.warn("AI Model error, falling back to instant removal:", err);
+      if (imageElementRef.current) {
+        processInstantRemoval(imageElementRef.current, tolerance);
+      }
+    } finally {
+      setIsProcessing(false);
     }
   };
 
   const processInstantRemoval = (imgElement: HTMLImageElement, currentTolerance: number) => {
     setIsProcessing(true);
-    setProgressPercent(15);
-    setProgressMsg("Analyzing background color & outline...");
+    setProgressPercent(20);
+    setProgressMsg("Analyzing background color threshold...");
 
     setTimeout(() => {
       try {
@@ -80,14 +139,10 @@ export default function BgRemoveClient() {
           return;
         }
 
-        setProgressPercent(45);
-        setProgressMsg("Removing background pixels...");
-
         ctx.drawImage(imgElement, 0, 0);
         const imageData = ctx.getImageData(0, 0, width, height);
         const data = imageData.data;
 
-        // Sample corner colors (top-left, top-right, bottom-left, bottom-right)
         const bgR = data[0];
         const bgG = data[1];
         const bgB = data[2];
@@ -102,14 +157,10 @@ export default function BgRemoveClient() {
           const diff = Math.sqrt((r - bgR) ** 2 + (g - bgG) ** 2 + (b - bgB) ** 2);
 
           if (diff < tolVal) {
-            // Smooth edge alpha feathering
             const alpha = Math.max(0, Math.min(255, (diff / tolVal) * 255));
             data[i + 3] = Math.round(alpha);
           }
         }
-
-        setProgressPercent(85);
-        setProgressMsg("Feathering edges & rendering PNG...");
 
         ctx.putImageData(imageData, 0, 0);
         canvas.toBlob((blob) => {
@@ -119,11 +170,6 @@ export default function BgRemoveClient() {
             setProgressPercent(100);
             setProgressMsg("Complete!");
             setIsProcessing(false);
-
-            // Smooth scroll into result view
-            setTimeout(() => {
-              resultCardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-            }, 100);
           } else {
             setIsProcessing(false);
           }
@@ -131,7 +177,6 @@ export default function BgRemoveClient() {
       } catch (err) {
         console.error("Instant Removal Error:", err);
         setIsProcessing(false);
-        toast.error("Error processing image background.");
       }
     }, 200);
   };
@@ -151,12 +196,16 @@ export default function BgRemoveClient() {
         const url = URL.createObjectURL(file);
         setOriginalUrl(url);
         setResultUrl(null);
-        const img = new Image();
-        img.src = url;
-        img.onload = () => {
-          imageElementRef.current = img;
-          processInstantRemoval(img, tolerance);
-        };
+        if (mode === "ai") {
+          processAiRemoval(file);
+        } else {
+          const img = new Image();
+          img.src = url;
+          img.onload = () => {
+            imageElementRef.current = img;
+            processInstantRemoval(img, tolerance);
+          };
+        }
       } else {
         toast.error("Please drop an image file.");
       }
@@ -177,7 +226,7 @@ export default function BgRemoveClient() {
     <div className="mx-auto max-w-6xl px-4 py-8 space-y-8">
       <ToolPageHeader
         title="AI Background Remover"
-        description="Remove image backgrounds instantly in 1 second. Clean edges, transparent PNG output, and zero network delay."
+        description="Remove image backgrounds automatically with HD AI neural segmentation. Perfect cutouts for portraits, products, and graphics."
       />
 
       {/* Main Upload Zone */}
@@ -188,9 +237,9 @@ export default function BgRemoveClient() {
               <Upload className="h-5 w-5 text-primary" />
               Upload Image
             </span>
-            <Badge variant="secondary" className="gap-1 font-normal text-emerald-600 bg-emerald-500/10">
-              <Zap className="h-3.5 w-3.5" />
-              Instant 1s Processing
+            <Badge variant="secondary" className="gap-1 font-normal text-primary bg-primary/10">
+              <Cpu className="h-3.5 w-3.5" />
+              Neural Segmentation AI
             </Badge>
           </CardTitle>
           <CardDescription>
@@ -198,6 +247,37 @@ export default function BgRemoveClient() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
+          {/* Mode Selector */}
+          <div className="flex items-center justify-between p-2 rounded-xl border bg-muted/20">
+            <span className="text-xs font-semibold text-muted-foreground ml-2">Engine Mode:</span>
+            <div className="flex items-center gap-1.5">
+              <button
+                type="button"
+                onClick={() => setMode("ai")}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
+                  mode === "ai"
+                    ? "bg-primary text-primary-foreground shadow-xs"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                <Sparkles className="h-3.5 w-3.5" />
+                HD Neural AI (Portraits & People)
+              </button>
+              <button
+                type="button"
+                onClick={() => setMode("instant")}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
+                  mode === "instant"
+                    ? "bg-primary text-primary-foreground shadow-xs"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                <Zap className="h-3.5 w-3.5" />
+                Instant Color Threshold
+              </button>
+            </div>
+          </div>
+
           <div
             className="border-2 border-dashed border-primary/30 hover:border-primary/60 rounded-2xl p-10 text-center cursor-pointer transition-all duration-200 bg-muted/20 hover:bg-muted/40 group"
             onClick={() => fileInputRef.current?.click()}
@@ -247,7 +327,9 @@ export default function BgRemoveClient() {
                 </Button>
                 <Button
                   onClick={() => {
-                    if (imageElementRef.current) {
+                    if (mode === "ai") {
+                      processAiRemoval();
+                    } else if (imageElementRef.current) {
                       processInstantRemoval(imageElementRef.current, tolerance);
                     }
                   }}
@@ -321,38 +403,39 @@ export default function BgRemoveClient() {
                   </CardTitle>
                 </div>
                 {resultUrl && (
-                  <Badge variant="outline" className="text-emerald-500 border-emerald-500/30 gap-1 text-xs">
+                  <Badge variant="outline" className="text-emerald-500 border-emerald-500/30 gap-1 text-xs font-semibold">
                     <Sparkles className="h-3 w-3" />
-                    Transparent PNG
+                    HD Cutout Ready
                   </Badge>
                 )}
               </CardHeader>
               <CardContent className="space-y-4">
                 {resultUrl ? (
                   <>
-                    {/* Tolerance & Edge Sensitivity Slider */}
-                    <div className="p-3 rounded-lg border bg-muted/20 space-y-2">
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="font-semibold text-muted-foreground flex items-center gap-1.5">
-                          <SlidersHorizontal className="h-3.5 w-3.5 text-primary" /> Removal Sensitivity: {tolerance}%
-                        </span>
-                        <span className="text-[11px] text-muted-foreground">Adjust threshold</span>
+                    {mode === "instant" && (
+                      <div className="p-3 rounded-lg border bg-muted/20 space-y-2">
+                        <div className="flex items-center justify-between text-xs">
+                          <span className="font-semibold text-muted-foreground flex items-center gap-1.5">
+                            <SlidersHorizontal className="h-3.5 w-3.5 text-primary" /> Removal Sensitivity: {tolerance}%
+                          </span>
+                          <span className="text-[11px] text-muted-foreground">Adjust threshold</span>
+                        </div>
+                        <input
+                          type="range"
+                          min="10"
+                          max="80"
+                          value={tolerance}
+                          onChange={(e) => {
+                            const val = Number(e.target.value);
+                            setTolerance(val);
+                            if (imageElementRef.current) {
+                              processInstantRemoval(imageElementRef.current, val);
+                            }
+                          }}
+                          className="w-full accent-primary cursor-pointer h-1.5 bg-muted rounded-lg"
+                        />
                       </div>
-                      <input
-                        type="range"
-                        min="10"
-                        max="80"
-                        value={tolerance}
-                        onChange={(e) => {
-                          const val = Number(e.target.value);
-                          setTolerance(val);
-                          if (imageElementRef.current) {
-                            processInstantRemoval(imageElementRef.current, val);
-                          }
-                        }}
-                        className="w-full accent-primary cursor-pointer h-1.5 bg-muted rounded-lg"
-                      />
-                    </div>
+                    )}
 
                     {/* Background Preview Customization */}
                     <div className="flex items-center justify-between text-xs border rounded-lg p-2 bg-muted/20">
@@ -424,7 +507,9 @@ export default function BgRemoveClient() {
                       <Button
                         variant="outline"
                         onClick={() => {
-                          if (imageElementRef.current) {
+                          if (mode === "ai") {
+                            processAiRemoval();
+                          } else if (imageElementRef.current) {
                             processInstantRemoval(imageElementRef.current, tolerance);
                           }
                         }}
