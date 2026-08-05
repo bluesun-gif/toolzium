@@ -102,6 +102,10 @@ export default function ShortenerClient() {
     () => (slug ? `${origin}/tools/url/shortener/analytics/${slug}` : ""),
     [origin, slug]
   );
+  const isStateless = useMemo(
+    () => slug.startsWith("_") || slug.startsWith("h_"),
+    [slug]
+  );
 
   const { downloadPNG, downloadSVG } = useQrExport({
     value: shortUrl || "https://example.com",
@@ -234,6 +238,12 @@ export default function ShortenerClient() {
               size="sm"
             />
           </div>
+
+          {isStateless && (
+            <div className="mt-3 rounded-lg border border-amber-500/20 bg-amber-500/10 p-3 text-xs text-amber-600 dark:text-amber-400">
+              <span className="font-semibold">⚠️ Database Offline Fallback:</span> This link was generated in offline mode because the database is not connected. It will redirect correctly, but <strong>visitor tracking and click analytics are disabled</strong>. To enable tracking, please configure a database connection string.
+            </div>
+          )}
 
           {!shortUrl && (
             <p className="mt-2 text-xs text-muted-foreground">
