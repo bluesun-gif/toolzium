@@ -34,7 +34,7 @@ export default function BgRemoveClient() {
   const [progressMsg, setProgressMsg] = useState("");
   const [bgPreviewColor, setBgPreviewColor] = useState<string>("transparent");
   const [tolerance, setTolerance] = useState<number>(30);
-  const [mode, setMode] = useState<"ai" | "instant">("ai");
+  const [mode, setMode] = useState<"ai" | "instant">("instant");
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const resultCardRef = useRef<HTMLDivElement>(null);
@@ -58,9 +58,12 @@ export default function BgRemoveClient() {
       img.src = url;
       img.onload = () => {
         imageElementRef.current = img;
+        if (mode === "instant") {
+          processInstantRemoval(img, tolerance);
+        } else {
+          processAiRemoval(file);
+        }
       };
-
-      processAiRemoval(file);
     }
   };
 
@@ -250,6 +253,18 @@ export default function BgRemoveClient() {
             <div className="flex items-center gap-1.5">
               <button
                 type="button"
+                onClick={() => setMode("instant")}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
+                  mode === "instant"
+                    ? "bg-primary text-primary-foreground shadow-xs"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                <Zap className="h-3.5 w-3.5" />
+                Instant Color Threshold (Default)
+              </button>
+              <button
+                type="button"
                 onClick={() => setMode("ai")}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
                   mode === "ai"
@@ -259,18 +274,6 @@ export default function BgRemoveClient() {
               >
                 <Sparkles className="h-3.5 w-3.5" />
                 HD Neural AI (Portraits & People)
-              </button>
-              <button
-                type="button"
-                onClick={() => setMode("instant")}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
-                  mode === "instant"
-                    ? "bg-primary text-primary-foreground shadow-xs"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <Zap className="h-3.5 w-3.5" />
-                Instant Color Threshold
               </button>
             </div>
           </div>
