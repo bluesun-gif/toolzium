@@ -63,6 +63,12 @@ export const ToolsData = [
         description: "Extract bullet summaries, key action points, and get direct answers from long documents, reports, and text.",
         popular: true,
       },
+      {
+        title: "AI Product Description Generator",
+        url: "/tools/ai/product-description",
+        description: "Generate SEO-optimized product titles, feature bullet points, emotional benefit hooks, and meta tags for Shopify, Amazon, and Etsy.",
+        popular: true,
+      },
     ],
   },
   {
