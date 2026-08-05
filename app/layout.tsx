@@ -8,6 +8,7 @@ import {
 } from "@/components/analytics/google-tag-manager";
 import AuthSessionProvider from "@/components/providers/session-provider";
 import ToasterProvider from "@/components/providers/toaster-provider";
+import NavigationProgressBar from "@/components/shared/navigation-progress-bar";
 import JsonLd from "@/components/seo/json-ld";
 import { ToolsData, TOTAL_TOOLS_COUNT } from "@/data/tools";
 import { siteURL } from "@/lib/constants";
@@ -116,8 +117,6 @@ export const metadata: Metadata = {
   },
   verification: {
     google: "I6XLZ8QITEB0xy7YfWARBo54DeNXNVZ421M0CqU49UE",
-    // Bing Webmaster Tools — user needs to replace with their actual code
-    // after registering at https://www.bing.com/webmasters
     other: {
       "msvalidate.01": "76B2BE5FA7F02209E351BC14BFFC9A34",
       "yandex-verification": "YANDEX_VERIFICATION_CODE_HERE",
@@ -179,6 +178,7 @@ export default function RootLayout({
         <GoogleTagManager />
       </head>
       <body className="min-h-screen bg-background text-foreground antialiased">
+        <NavigationProgressBar />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-primary focus:text-primary-foreground focus:px-4 focus:py-2 focus:rounded-md"
