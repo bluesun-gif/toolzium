@@ -141,6 +141,28 @@
   --shadow-lg: 0px 2px 4px 0px hsl(0 0% 0% / 0.1), 0px 4px 6px -1px hsl(0 0% 0% / 0.1);
 }
 
+/* Global Mobile Layout & Element Safety Rules */
+*, ::before, ::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden !important;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+}
+
+button, input, select, textarea {
+  max-width: 100%;
+}
+
+/* Ensure flex & grid items automatically shrink below content width */
+.grid > *, .flex > * {
+  min-width: 0;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -267,4 +289,4 @@ span.click-ripple {
     transform: scale(4);
     opacity: 0;
   }
-}
+}
