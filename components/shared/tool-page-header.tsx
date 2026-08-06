@@ -20,17 +20,25 @@ export default function ToolPageHeader({
 
   return (
     <GlassCard
-      className={`mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between px-6 py-5 ${className}`}
+      className={`mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between p-4 sm:px-6 sm:py-5 max-w-full overflow-hidden ${className}`}
     >
-      <div>
-        <h1 className="flex items-center gap-2 text-2xl font-semibold tracking-tight">
-          <LeftIcon className="h-6 w-6" />
-          {title}
+      <div className="min-w-0 max-w-full space-y-1">
+        <h1 className="flex items-center gap-2 text-xl sm:text-2xl font-bold tracking-tight text-foreground truncate max-w-full">
+          <LeftIcon className="h-5 w-5 sm:h-6 sm:w-6 text-primary shrink-0" />
+          <span className="truncate">{title}</span>
         </h1>
-        {description ? <p className="text-sm text-muted-foreground">{description}</p> : null}
+        {description ? (
+          <p className="text-xs sm:text-sm text-muted-foreground break-words max-w-full">
+            {description}
+          </p>
+        ) : null}
       </div>
 
-      {actions ? <div className="flex flex-wrap gap-2">{actions}</div> : null}
+      {actions ? (
+        <div className="flex flex-wrap items-center gap-2 max-w-full pt-1 sm:pt-0 shrink-0">
+          {actions}
+        </div>
+      ) : null}
     </GlassCard>
   );
 }

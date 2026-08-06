@@ -16,9 +16,6 @@ import {
   ExternalLink,
   BarChart3,
   Wrench,
-  QrCode,
-  FileText,
-  Code2,
   Sparkles,
 } from "lucide-react";
 import FormattedDateTime from "@/components/tools/url/formatted-date-time";
@@ -69,38 +66,39 @@ export default async function DashboardPage() {
     : user.email[0].toUpperCase();
 
   return (
-    <div className="space-y-8">
-      {/* Top Banner & Profile Overview */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 p-6 rounded-2xl border bg-card/60 backdrop-blur shadow-xs">
-        <div className="flex items-center gap-4">
-          <Avatar className="h-16 w-16 border-2 border-primary/20 shadow-sm">
+    <div className="space-y-6 max-w-full overflow-hidden">
+      {/* Top Banner & Profile Overview - 100% Mobile Safe */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 sm:p-6 rounded-2xl border bg-card/60 backdrop-blur shadow-xs max-w-full overflow-hidden">
+        <div className="flex items-center gap-3 sm:gap-4 min-w-0 max-w-full">
+          <Avatar className="h-14 w-14 sm:h-16 sm:w-16 shrink-0 border-2 border-primary/20 shadow-sm">
             <AvatarImage src={user.image || ""} alt={user.name || ""} />
-            <AvatarFallback className="text-xl font-bold bg-primary/10 text-primary">
+            <AvatarFallback className="text-lg sm:text-xl font-bold bg-primary/10 text-primary">
               {userInitials}
             </AvatarFallback>
           </Avatar>
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <h1 className="text-2xl font-bold tracking-tight">
+          <div className="space-y-0.5 min-w-0 flex-1">
+            <div className="flex flex-wrap items-center gap-2">
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight truncate max-w-full">
                 {user.name || "Welcome!"}
               </h1>
-              <Badge variant="secondary" className="gap-1 font-medium text-xs">
+              <Badge variant="secondary" className="gap-1 font-medium text-xs shrink-0">
                 <Sparkles className="h-3 w-3 text-amber-500" />
                 Free Plan
               </Badge>
             </div>
-            <p className="text-sm text-muted-foreground">{user.email}</p>
+            <p className="text-xs sm:text-sm text-muted-foreground truncate max-w-full">{user.email}</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <Button asChild variant="outline" className="gap-2">
+        {/* Buttons Stack Vertically on Mobile so NOTHING ever cuts off */}
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full md:w-auto pt-2 sm:pt-0">
+          <Button asChild variant="outline" size="sm" className="gap-2 h-10 w-full sm:w-auto justify-center">
             <Link href="/dashboard/settings/profile">
               <Settings className="h-4 w-4" />
               Account Settings
             </Link>
           </Button>
-          <Button asChild className="gap-2">
+          <Button asChild size="sm" className="gap-2 h-10 w-full sm:w-auto justify-center">
             <Link href="/tools/url/shortener">
               <Plus className="h-4 w-4" />
               Create Short Link
@@ -110,42 +108,42 @@ export default async function DashboardPage() {
       </div>
 
       {/* Analytics Overview Cards */}
-      <div className="grid gap-4 sm:grid-cols-3">
-        <Card className="bg-card/50">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Short Links</CardTitle>
-            <Link2 className="h-4 w-4 text-primary" />
+      <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-3">
+        <Card className="bg-card/50 p-4">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 p-0 pb-2">
+            <CardTitle className="text-xs sm:text-sm font-medium">Total Short Links</CardTitle>
+            <Link2 className="h-4 w-4 text-primary shrink-0" />
           </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">{links.length}</div>
+          <CardContent className="p-0">
+            <div className="text-2xl sm:text-3xl font-bold">{links.length}</div>
             <p className="text-xs text-muted-foreground mt-1">
               Shortened URLs active in system
             </p>
           </CardContent>
         </Card>
 
-        <Card className="bg-card/50">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Recorded Clicks</CardTitle>
-            <MousePointerClick className="h-4 w-4 text-primary" />
+        <Card className="bg-card/50 p-4">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 p-0 pb-2">
+            <CardTitle className="text-xs sm:text-sm font-medium">Total Recorded Clicks</CardTitle>
+            <MousePointerClick className="h-4 w-4 text-primary shrink-0" />
           </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">{totalClicks.toLocaleString()}</div>
+          <CardContent className="p-0">
+            <div className="text-2xl sm:text-3xl font-bold">{totalClicks.toLocaleString()}</div>
             <p className="text-xs text-muted-foreground mt-1">
               Link redirects & QR code scans
             </p>
           </CardContent>
         </Card>
 
-        <Card className="bg-card/50">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Database Status</CardTitle>
-            <Badge variant="outline" className="text-emerald-500 border-emerald-500/30">
+        <Card className="bg-card/50 p-4">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 p-0 pb-2">
+            <CardTitle className="text-xs sm:text-sm font-medium">Database Status</CardTitle>
+            <Badge variant="outline" className="text-emerald-500 border-emerald-500/30 text-[10px]">
               Connected
             </Badge>
           </CardHeader>
-          <CardContent>
-            <div className="text-lg font-bold">Neon PostgreSQL</div>
+          <CardContent className="p-0">
+            <div className="text-base sm:text-lg font-bold">Neon PostgreSQL</div>
             <p className="text-xs text-muted-foreground mt-1">
               Cloud Database Active
             </p>
@@ -154,23 +152,23 @@ export default async function DashboardPage() {
       </div>
 
       {/* Account-Connected & History Saving Tools Section */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
+      <div className="space-y-4 max-w-full">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <h2 className="text-lg font-semibold tracking-tight">Tools That Store Your Data & History</h2>
+            <h2 className="text-base sm:text-lg font-semibold tracking-tight">Tools That Store Your Data & History</h2>
             <p className="text-xs text-muted-foreground">
               These tools utilize your account & cloud storage to preserve your customized settings, history, and work.
             </p>
           </div>
-          <Badge variant="outline" className="gap-1 font-medium text-xs border-primary/30 text-primary">
+          <Badge variant="outline" className="gap-1 font-medium text-xs border-primary/30 text-primary self-start sm:self-auto shrink-0">
             <Sparkles className="h-3 w-3" /> Auto-Saved to Account
           </Badge>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-full">
           <Link
             href="/tools/url/shortener"
-            className="flex flex-col justify-between p-4 rounded-xl border bg-card/60 hover:bg-accent/40 transition group space-y-3"
+            className="flex flex-col justify-between p-4 rounded-xl border bg-card/60 hover:bg-accent/40 transition group space-y-3 max-w-full overflow-hidden"
           >
             <div className="flex items-start justify-between">
               <div className="p-2.5 rounded-lg bg-primary/10 text-primary group-hover:scale-105 transition-transform">
@@ -182,7 +180,7 @@ export default async function DashboardPage() {
             </div>
             <div>
               <div className="font-semibold text-sm">URL Shortener & Analytics</div>
-              <div className="text-xs text-muted-foreground mt-0.5">
+              <div className="text-xs text-muted-foreground mt-1 break-words">
                 Saves custom short links, referrer stats, and QR scan history.
               </div>
             </div>
@@ -190,7 +188,7 @@ export default async function DashboardPage() {
 
           <Link
             href="/tools/productivity/kanban"
-            className="flex flex-col justify-between p-4 rounded-xl border bg-card/60 hover:bg-accent/40 transition group space-y-3"
+            className="flex flex-col justify-between p-4 rounded-xl border bg-card/60 hover:bg-accent/40 transition group space-y-3 max-w-full overflow-hidden"
           >
             <div className="flex items-start justify-between">
               <div className="p-2.5 rounded-lg bg-blue-500/10 text-blue-500 group-hover:scale-105 transition-transform">
@@ -201,76 +199,16 @@ export default async function DashboardPage() {
               </Badge>
             </div>
             <div>
-              <div className="font-semibold text-sm">Kanban & Priority Task Board</div>
-              <div className="text-xs text-muted-foreground mt-0.5">
-                Saves your task columns, priorities, and daily workflows.
-              </div>
-            </div>
-          </Link>
-
-          <Link
-            href="/tools/productivity/notepad"
-            className="flex flex-col justify-between p-4 rounded-xl border bg-card/60 hover:bg-accent/40 transition group space-y-3"
-          >
-            <div className="flex items-start justify-between">
-              <div className="p-2.5 rounded-lg bg-amber-500/10 text-amber-500 group-hover:scale-105 transition-transform">
-                <FileText className="h-5 w-5" />
-              </div>
-              <Badge variant="outline" className="text-[11px]">
-                Saved Drafts
-              </Badge>
-            </div>
-            <div>
-              <div className="font-semibold text-sm">Notes & Markdown Scratchpad</div>
-              <div className="text-xs text-muted-foreground mt-0.5">
-                Preserves your written notes, ideas, and code snippets safely.
-              </div>
-            </div>
-          </Link>
-
-          <Link
-            href="/tools/text/resume-builder"
-            className="flex flex-col justify-between p-4 rounded-xl border bg-card/60 hover:bg-accent/40 transition group space-y-3"
-          >
-            <div className="flex items-start justify-between">
-              <div className="p-2.5 rounded-lg bg-emerald-500/10 text-emerald-500 group-hover:scale-105 transition-transform">
-                <FileText className="h-5 w-5" />
-              </div>
-              <Badge variant="outline" className="text-[11px]">
-                Career Vault
-              </Badge>
-            </div>
-            <div>
-              <div className="font-semibold text-sm">Resume & Cover Letter Builder</div>
-              <div className="text-xs text-muted-foreground mt-0.5">
-                Stores your resume details and cover letter templates.
-              </div>
-            </div>
-          </Link>
-
-          <Link
-            href="/tools/office/invoice"
-            className="flex flex-col justify-between p-4 rounded-xl border bg-card/60 hover:bg-accent/40 transition group space-y-3"
-          >
-            <div className="flex items-start justify-between">
-              <div className="p-2.5 rounded-lg bg-purple-500/10 text-purple-500 group-hover:scale-105 transition-transform">
-                <FileText className="h-5 w-5" />
-              </div>
-              <Badge variant="outline" className="text-[11px]">
-                Business History
-              </Badge>
-            </div>
-            <div>
-              <div className="font-semibold text-sm">Invoice & Receipt Generator</div>
-              <div className="text-xs text-muted-foreground mt-0.5">
-                Remembers client profiles, tax settings, and generated invoices.
+              <div className="font-semibold text-sm">Task Kanban Workspace</div>
+              <div className="text-xs text-muted-foreground mt-1 break-words">
+                Drag & drop project board, custom labels, and priority trackers.
               </div>
             </div>
           </Link>
 
           <Link
             href="/tools/productivity/habit-tracker"
-            className="flex flex-col justify-between p-4 rounded-xl border bg-card/60 hover:bg-accent/40 transition group space-y-3"
+            className="flex flex-col justify-between p-4 rounded-xl border bg-card/60 hover:bg-accent/40 transition group space-y-3 max-w-full overflow-hidden"
           >
             <div className="flex items-start justify-between">
               <div className="p-2.5 rounded-lg bg-rose-500/10 text-rose-500 group-hover:scale-105 transition-transform">
@@ -282,7 +220,7 @@ export default async function DashboardPage() {
             </div>
             <div>
               <div className="font-semibold text-sm">Habit & Focus Streak Log</div>
-              <div className="text-xs text-muted-foreground mt-0.5">
+              <div className="text-xs text-muted-foreground mt-1 break-words">
                 Tracks daily habits, pomodoro focus sessions, and statistics.
               </div>
             </div>
@@ -290,20 +228,20 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      {/* Short Links & Analytics Management */}
-      <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between">
+      {/* Short Links & Analytics Management - Mobile & Desktop Responsive */}
+      <Card className="max-w-full overflow-hidden">
+        <CardHeader className="p-4 sm:p-6 border-b">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <CardTitle className="flex items-center gap-2 text-xl">
-                <Wrench className="h-5 w-5 text-primary" />
+              <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                <Wrench className="h-5 w-5 text-primary shrink-0" />
                 Short Links & Analytics
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-xs sm:text-sm">
                 View and manage your active short links
               </CardDescription>
             </div>
-            <Button asChild size="sm" variant="outline">
+            <Button asChild size="sm" variant="outline" className="h-9 self-start sm:self-auto">
               <Link href="/tools/url/shortener">
                 <Plus className="mr-1.5 h-4 w-4" />
                 New Short Link
@@ -311,7 +249,7 @@ export default async function DashboardPage() {
             </Button>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-3 sm:p-6">
           {links.length === 0 ? (
             <div className="py-8 text-center text-muted-foreground space-y-3">
               <Link2 className="h-10 w-10 mx-auto text-muted-foreground/50" />
@@ -321,54 +259,97 @@ export default async function DashboardPage() {
               </Button>
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left">
-                <thead className="text-xs text-muted-foreground uppercase border-b bg-muted/30">
-                  <tr>
-                    <th className="px-4 py-3">Short URL</th>
-                    <th className="px-4 py-3">Target Destination</th>
-                    <th className="px-4 py-3">Clicks</th>
-                    <th className="px-4 py-3">Created</th>
-                    <th className="px-4 py-3 text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y">
-                  {links.map((link) => (
-                    <tr key={link.id} className="hover:bg-muted/20 transition-colors">
-                      <td className="px-4 py-3 font-semibold text-primary">
+            <>
+              {/* Mobile View: Clean Card List (Zero Horizontal Cut-off) */}
+              <div className="block sm:hidden space-y-3">
+                {links.map((link) => (
+                  <div
+                    key={link.id}
+                    className="p-3 rounded-xl border bg-muted/20 space-y-2 max-w-full overflow-hidden"
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-semibold text-primary text-sm truncate">
                         /{link.short}
-                      </td>
-                      <td className="px-4 py-3 max-w-[250px] truncate text-muted-foreground">
-                        {link.targetUrl}
-                      </td>
-                      <td className="px-4 py-3 font-medium">
-                        <Badge variant="secondary" className="font-semibold">
-                          {link._count?.clicks || 0}
-                        </Badge>
-                      </td>
-                      <td className="px-4 py-3 text-xs text-muted-foreground">
-                        <FormattedDateTime dateISO={link.createdAt.toISOString()} />
-                      </td>
-                      <td className="px-4 py-3 text-right">
-                        <div className="flex items-center justify-end gap-2">
-                          <Button asChild variant="outline" size="sm" className="h-8 gap-1">
-                            <Link href={`/tools/url/shortener/analytics/${link.short}`}>
-                              <BarChart3 className="h-3.5 w-3.5" />
-                              Analytics
-                            </Link>
-                          </Button>
-                          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
-                            <a href={link.targetUrl} target="_blank" rel="noopener noreferrer">
-                              <ExternalLink className="h-3.5 w-3.5" />
-                            </a>
-                          </Button>
-                        </div>
-                      </td>
+                      </span>
+                      <Badge variant="secondary" className="text-[10px]">
+                        {link._count?.clicks || 0} Clicks
+                      </Badge>
+                    </div>
+
+                    <p className="text-xs text-muted-foreground break-all line-clamp-2">
+                      {link.targetUrl}
+                    </p>
+
+                    <div className="flex items-center justify-between pt-2 border-t text-[11px] text-muted-foreground">
+                      <FormattedDateTime dateISO={link.createdAt.toISOString()} />
+                      <div className="flex items-center gap-2">
+                        <Button asChild variant="outline" size="sm" className="h-7 text-xs px-2 gap-1">
+                          <Link href={`/tools/url/shortener/analytics/${link.short}`}>
+                            <BarChart3 className="h-3 w-3" />
+                            Analytics
+                          </Link>
+                        </Button>
+                        <Button asChild variant="ghost" size="icon" className="h-7 w-7">
+                          <a href={link.targetUrl} target="_blank" rel="noopener noreferrer">
+                            <ExternalLink className="h-3 w-3" />
+                          </a>
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Desktop Table View */}
+              <div className="hidden sm:block overflow-x-auto">
+                <table className="w-full text-sm text-left">
+                  <thead className="text-xs text-muted-foreground uppercase border-b bg-muted/30">
+                    <tr>
+                      <th className="px-4 py-3">Short URL</th>
+                      <th className="px-4 py-3">Target Destination</th>
+                      <th className="px-4 py-3">Clicks</th>
+                      <th className="px-4 py-3">Created</th>
+                      <th className="px-4 py-3 text-right">Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody className="divide-y">
+                    {links.map((link) => (
+                      <tr key={link.id} className="hover:bg-muted/20 transition-colors">
+                        <td className="px-4 py-3 font-semibold text-primary">
+                          /{link.short}
+                        </td>
+                        <td className="px-4 py-3 max-w-[250px] truncate text-muted-foreground">
+                          {link.targetUrl}
+                        </td>
+                        <td className="px-4 py-3 font-medium">
+                          <Badge variant="secondary" className="font-semibold">
+                            {link._count?.clicks || 0}
+                          </Badge>
+                        </td>
+                        <td className="px-4 py-3 text-xs text-muted-foreground">
+                          <FormattedDateTime dateISO={link.createdAt.toISOString()} />
+                        </td>
+                        <td className="px-4 py-3 text-right">
+                          <div className="flex items-center justify-end gap-2">
+                            <Button asChild variant="outline" size="sm" className="h-8 gap-1">
+                              <Link href={`/tools/url/shortener/analytics/${link.short}`}>
+                                <BarChart3 className="h-3.5 w-3.5" />
+                                Analytics
+                              </Link>
+                            </Button>
+                            <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+                              <a href={link.targetUrl} target="_blank" rel="noopener noreferrer">
+                                <ExternalLink className="h-3.5 w-3.5" />
+                              </a>
+                            </Button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
           )}
         </CardContent>
       </Card>

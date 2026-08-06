@@ -36,19 +36,19 @@ export function ToolPageWrapper({ children, title }: ToolPageWrapperProps) {
   const isToolPage = pathname !== "/tools" && pathname.startsWith("/tools/");
 
   return (
-    <>
+    <div className="w-full max-w-full overflow-hidden">
       {children}
 
       {isToolPage && (
-        <>
+        <div className="max-w-full overflow-hidden">
           <Separator className="my-8" />
 
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-6 max-w-full overflow-hidden">
             <ShareTool title={detectedTitle} url={fullUrl} />
             <RelatedTools currentToolUrl={pathname} max={6} />
           </div>
-        </>
+        </div>
       )}
-    </>
+    </div>
   );
 }
