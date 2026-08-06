@@ -24,9 +24,33 @@ import {
   Cpu,
   Split,
   Palette,
-  Maximize2,
+  ArrowRight,
+  User,
+  ShoppingBag,
+  Sparkle,
 } from "lucide-react";
 import { removeBackground } from "@imgly/background-removal";
+
+const SAMPLE_IMAGES = [
+  {
+    name: "Portrait Model",
+    category: "Portrait",
+    url: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80",
+    icon: User,
+  },
+  {
+    name: "Product Sneaker",
+    category: "E-Commerce",
+    url: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80",
+    icon: ShoppingBag,
+  },
+  {
+    name: "Studio Camera",
+    category: "Graphics",
+    url: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&q=80",
+    icon: Sparkle,
+  },
+];
 
 export default function BgRemoveClient() {
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -48,6 +72,41 @@ export default function BgRemoveClient() {
   const resultCardRef = useRef<HTMLDivElement>(null);
   const imageElementRef = useRef<HTMLImageElement | null>(null);
   const splitContainerRef = useRef<HTMLDivElement>(null);
+
+  const loadSampleImage = async (sampleUrl: string, sampleName: string) => {
+    setIsProcessing(true);
+    setProgressPercent(10);
+    setProgressMsg(`Loading ${sampleName}...`);
+    setOriginalUrl(sampleUrl);
+    setResultUrl(null);
+
+    try {
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.src = sampleUrl;
+      img.onload = () => {
+        imageElementRef.current = img;
+        if (mode === "instant") {
+          processInstantRemoval(img, tolerance);
+        } else {
+          // Convert sample URL to blob for AI mode
+          fetch(sampleUrl)
+            .then((res) => res.blob())
+            .then((blob) => {
+              const file = new File([blob], `${sampleName.toLowerCase().replace(/\s+/g, "-")}.jpg`, { type: "image/jpeg" });
+              setImageFile(file);
+              processAiRemoval(file);
+            })
+            .catch(() => {
+              processInstantRemoval(img, tolerance);
+            });
+        }
+      };
+    } catch (err) {
+      console.error("Failed to load sample:", err);
+      setIsProcessing(false);
+    }
+  };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -101,7 +160,7 @@ export default function BgRemoveClient() {
               setProgressMsg(`Downloading AI Vision weights (${calculated}%)...`);
             } else if (key.includes("compute") || key.includes("inference")) {
               calculated = Math.min(95, Math.round(65 + ratio * 30));
-              setProgressMsg(`Refine hair & portrait edges (${calculated}%)...`);
+              setProgressMsg(`Refining hair & portrait edges (${calculated}%)...`);
             } else {
               calculated = Math.min(90, Math.round(20 + ratio * 70));
               setProgressMsg(`Processing neural tensor (${calculated}%)...`);
@@ -244,7 +303,7 @@ export default function BgRemoveClient() {
     <div className="mx-auto max-w-6xl px-4 py-8 space-y-8">
       <ToolPageHeader
         title="AI Background Remover Studio"
-        description="Remove backgrounds with instant local canvas thresholding or HD Neural AI segmentation. Complete with interactive comparison slider and studio backdrop presets."
+        description="Remove image backgrounds instantly with high-precision thresholding or HD Neural AI segmentation. Complete with interactive comparison slider and studio backdrop presets."
       />
 
       {/* Main Studio Upload Container */}
@@ -309,6 +368,44 @@ export default function BgRemoveClient() {
             />
           </div>
 
+          {/* 1-Click Sample Image Demo Section (High Taste Empty State) */}
+          <div className="pt-2 border-t space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
+                <Sparkles className="h-3.5 w-3.5 text-primary" /> Or Test Instant Demo Samples (1-Click):
+              </span>
+              <span className="text-[11px] text-muted-foreground">No file upload required</span>
+            </div>
+
+            <div className="grid grid-cols-3 gap-3">
+              {SAMPLE_IMAGES.map((sample) => {
+                const IconComp = sample.icon;
+                return (
+                  <button
+                    key={sample.name}
+                    type="button"
+                    onClick={() => loadSampleImage(sample.url, sample.name)}
+                    disabled={isProcessing}
+                    className="group relative rounded-xl border bg-card hover:border-primary/50 overflow-hidden p-2 text-left transition-all duration-200 hover:shadow-md flex items-center gap-3"
+                  >
+                    <img
+                      src={sample.url}
+                      alt={sample.name}
+                      className="h-12 w-12 rounded-lg object-cover border group-hover:scale-105 transition-transform"
+                    />
+                    <div className="min-w-0 flex-1 hidden sm:block">
+                      <p className="text-xs font-semibold truncate group-hover:text-primary transition-colors">
+                        {sample.name}
+                      </p>
+                      <p className="text-[10px] text-muted-foreground">{sample.category}</p>
+                    </div>
+                    <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all ml-auto shrink-0" />
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
           {originalUrl && (
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-xl border bg-card/90 shadow-sm">
               <div className="flex items-center gap-3 min-w-0">
@@ -318,9 +415,9 @@ export default function BgRemoveClient() {
                   className="h-14 w-14 rounded-lg object-cover border shadow-xs"
                 />
                 <div className="min-w-0">
-                  <p className="font-medium truncate text-sm">{imageFile?.name}</p>
+                  <p className="font-medium truncate text-sm">{imageFile?.name || "Sample Image"}</p>
                   <p className="text-xs text-muted-foreground">
-                    {(imageFile?.size ? (imageFile.size / 1024 / 1024).toFixed(2) : 0)} MB
+                    {imageFile?.size ? (imageFile.size / 1024 / 1024).toFixed(2) + " MB" : "HD Preset"}
                   </p>
                 </div>
               </div>
