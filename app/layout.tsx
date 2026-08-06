@@ -1,5 +1,5 @@
 import "leaflet/dist/leaflet.css";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 import {
@@ -52,6 +52,19 @@ const KEYWORDS = mergeKeywords(STATIC_KEYWORDS, DYNAMIC_KEYWORDS);
 const description =
   `Free online tools for developers and professionals: URL shortener, QR code generator, JSON formatter, image converter, Base64 encoder, hash generator, regex tester, calculators, and ${TOTAL_TOOLS_COUNT}+ utilities. No signup required, privacy-first.`;
 const smartDescription = description || siteDescriptionFallback(ToolsData);
+
+// Viewport configuration for mobile native app feel & zero side-zooming
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: "cover",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#090d16" },
+  ],
+};
 
 export const metadata: Metadata = {
   title: {
@@ -172,12 +185,12 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrains.variable} scroll-smooth`}
+      className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrains.variable} scroll-smooth overflow-x-hidden`}
     >
       <head>
         <GoogleTagManager />
       </head>
-      <body className="min-h-screen bg-background text-foreground antialiased">
+      <body className="min-h-screen bg-background text-foreground antialiased overflow-x-hidden pb-16 md:pb-0">
         <NavigationProgressBar />
         <a
           href="#main-content"
@@ -190,7 +203,7 @@ export default function RootLayout({
         <JsonLd data={orgLd} />
         <JsonLd data={navLd} />
         <AuthSessionProvider>
-          <div id="main-content">{children}</div>
+          <div id="main-content" className="overflow-x-hidden w-full max-w-full">{children}</div>
         </AuthSessionProvider>
         <ToasterProvider />
       </body>
