@@ -24,21 +24,21 @@ export default function ContinueForm({
   }, [left]);
 
   return (
-    <GlassCard className="p-4">
+    <GlassCard className="p-4 max-w-full overflow-hidden">
       <form
         action={action}
-        className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
+        className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between max-w-full"
       >
-        <div className="text-sm text-muted-foreground">
-          You’re about to continue to <span className="font-medium text-foreground">{host}</span>.
+        <div className="text-sm text-muted-foreground break-all max-w-full">
+          You’re about to continue to <span className="font-medium text-foreground break-all">{host}</span>.
         </div>
 
-        <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-center">
+        <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-center w-full sm:w-auto">
           <Label className="inline-flex items-center gap-2 text-xs" htmlFor="agree">
             <Checkbox id="agree" checked={agree} onCheckedChange={() => setAgree(!agree)} />
             <span>I trust this site</span>
           </Label>
-          <ActionButton variant="default" type="submit" disabled={!canSubmit} label="Continue" />
+          <ActionButton variant="default" type="submit" disabled={!canSubmit} label="Continue" className="w-full sm:w-auto" />
         </div>
       </form>
     </GlassCard>
