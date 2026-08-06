@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import pdfParse from "pdf-parse";
+const pdfParse = require("pdf-parse");
 
 export async function POST(req: NextRequest) {
   try {
@@ -15,9 +15,9 @@ export async function POST(req: NextRequest) {
 
     // High-Precision Server PDF Parsing
     const data = await pdfParse(buffer);
-    
+
     // Clean and sanitize extracted text (strip control characters and fix line endings)
-    const cleanText = data.text
+    const cleanText = (data.text || "")
       .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/g, "") // remove non-printable control chars
       .replace(/\r\n/g, "\n")
       .replace(/\n{3,}/g, "\n\n")
@@ -26,8 +26,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       success: true,
       text: cleanText,
-      pages: data.numpages,
-      info: data.info,
+      pages: data.numpages || 1,
+      info: data.info || {},
     });
   } catch (error: any) {
     console.error("PDF Parsing Error:", error);
