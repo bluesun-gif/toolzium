@@ -1,41 +1,51 @@
 import { Metadata } from "next";
 import CodeExplainerClient from "@/components/tools/ai/code-explainer-client";
-import { generateSEOMetadata } from "@/lib/seo-config";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import JsonLd from "@/components/seo/json-ld";
 
-export const metadata: Metadata = generateSEOMetadata({
-  title: "AI Code Explainer & Multi-Language Converter — Free Developer Tool",
-  description: "Understand complex code snippets instantly with plain-English breakdowns and translate code seamlessly across Python, TypeScript, Rust, Go, and C++.",
-  path: "/tools/ai/code-explainer",
+const TITLE = "AI Code Explainer & Multi-Language Converter — Free Developer Tool | Toolzium";
+const DESCRIPTION =
+  "Understand complex code snippets instantly with plain-English breakdowns and translate code seamlessly across Python, TypeScript, Rust, Go, and C++.";
+const PATH = "/tools/ai/code-explainer";
+
+export const metadata: Metadata = buildMetadata({
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH,
+  keywords: [
+    "AI code explainer",
+    "code translator",
+    "convert Python to TypeScript",
+    "Rust code converter",
+    "understand code online",
+    "free developer tools",
+  ],
 });
 
 export default function CodeExplainerPage() {
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
+  const jsonLdData = buildToolJsonLd({
+    name: "AI Code Explainer & Converter",
+    description: DESCRIPTION,
+    path: PATH,
+    categoryName: "AI Tools",
+    categoryPath: "/tools/ai",
+    faqs: [
       {
-        "@type": "Question",
-        name: "How does the AI Code Explainer work?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "It analyzes your input code syntax and structure to generate a clear, line-by-line plain-English summary of what the code accomplishes.",
-        },
+        question: "How does the AI Code Explainer work?",
+        answer:
+          "It analyzes your input code syntax and structure to generate a clear, line-by-line plain-English summary of what the code accomplishes.",
       },
       {
-        "@type": "Question",
-        name: "Which programming languages are supported for conversion?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "You can translate code seamlessly across Python, TypeScript, JavaScript, Rust, Go, and C++.",
-        },
+        question: "Which programming languages are supported for conversion?",
+        answer:
+          "You can translate code seamlessly across Python, TypeScript, JavaScript, Rust, Go, and C++.",
       },
     ],
-  };
+  });
 
   return (
     <>
-      <JsonLd data={faqSchema} />
+      <JsonLd data={jsonLdData as any} />
       <CodeExplainerClient />
     </>
   );

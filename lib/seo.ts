@@ -1,7 +1,7 @@
 import { env } from "@/lib/env";
 import type { Metadata } from "next";
 
-const SITE_URL = env.app.siteUrl;
+const SITE_URL = env.app.siteUrl || "https://toolzium.com";
 const SITE_NAME = "Toolzium";
 const SITE_TWITTER = "@toolzium";
 const DEFAULT_IMAGE = `${SITE_URL}/assets/tools-cube.jpg`;
@@ -88,4 +88,82 @@ export function buildMetadata(input: BuildMetaInput): Metadata {
       "og:locale": "en_US",
     },
   };
+}
+
+export type FAQItem = {
+  question: string;
+  answer: string;
+};
+
+export function buildToolJsonLd(opts: {
+  name: string;
+  description: string;
+  path: string;
+  categoryName?: string;
+  categoryPath?: string;
+  faqs?: FAQItem[];
+}) {
+  const url = `${SITE_URL}${opts.path}`;
+  const catName = opts.categoryName ?? "Tools";
+  const catUrl = `${SITE_URL}${opts.categoryPath ?? "/tools"}`;
+
+  const schemas: Record<string, unknown>[] = [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      name: `${opts.name} — ${SITE_NAME}`,
+      url,
+      description: opts.description,
+      applicationCategory: "UtilitiesApplication",
+      operatingSystem: "Any",
+      isAccessibleForFree: true,
+      inLanguage: "en",
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "USD",
+      },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: SITE_URL,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: catName,
+          item: catUrl,
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: opts.name,
+          item: url,
+        },
+      ],
+    },
+  ];
+
+  if (opts.faqs && opts.faqs.length > 0) {
+    schemas.push({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: opts.faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: faq.answer,
+        },
+      })),
+    });
+  }
+
+  return schemas;
 }
