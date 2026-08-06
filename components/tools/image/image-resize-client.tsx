@@ -1,44 +1,32 @@
 "use client";
 
-import React, { useState, useRef, ChangeEvent, useEffect } from "react";
+import React, { useState, useRef, ChangeEvent } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
 import toast from "react-hot-toast";
 import {
   Upload,
   Download,
   Loader2,
   Sparkles,
-  RefreshCw,
   Image as ImageIcon,
-  CheckCircle2,
-  Zap,
   Split,
-  Palette,
   ArrowLeft,
   Maximize2,
   Instagram,
   Facebook,
   Linkedin,
   Youtube,
-  Sliders,
-  Check,
-  Eye,
-  EyeOff,
 } from "lucide-react";
 import {
   canvasEncode,
   drawWithAnchor,
   type FitMode,
-  formatBytes,
   type OutFormat,
-  suggestName,
-  triggerDownload,
 } from "@/lib/canvas";
 
 const SOCIAL_PRESETS = [
@@ -116,7 +104,6 @@ export default function ImageResizeClient() {
 
   const [w, setW] = useState<number>(1080);
   const [h, setH] = useState<number>(1350);
-  const [locked, setLocked] = useState<boolean>(false);
   const [fit, setFit] = useState<FitMode>("stretch"); // 4-corner stretch default!
   const [fmt, setFmt] = useState<OutFormat>("webp");
   const [quality, setQuality] = useState<number>(100);
@@ -125,7 +112,6 @@ export default function ImageResizeClient() {
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [sliderPos, setSliderPos] = useState<number>(50);
   const [isDraggingSlider, setIsDraggingSlider] = useState<boolean>(false);
-  const [viewMode, setViewMode] = useState<"split" | "side">("split");
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const splitContainerRef = useRef<HTMLDivElement>(null);
@@ -223,33 +209,33 @@ export default function ImageResizeClient() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-6 space-y-6">
+    <div className="mx-auto max-w-6xl px-2 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-6 max-w-full overflow-hidden">
       <ToolPageHeader
         title="Social Media Photo Resizer & Aspect Ratio Studio"
         description="Resize photos instantly for Instagram, Facebook, LinkedIn, and YouTube with 1-click social media aspect ratio presets, 4-corner stretch, and live split comparison."
       />
 
       {/* SINGLE VIEWPORT STUDIO WORKSPACE */}
-      <Card className="border border-border/80 shadow-xl bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden min-h-[520px] flex flex-col">
+      <Card className="border border-border/80 shadow-xl bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden min-h-[500px] flex flex-col max-w-full">
         {!originalUrl ? (
           <>
-            <CardHeader className="border-b border-border/40 bg-muted/20 pb-4">
-              <CardTitle className="text-lg font-semibold flex items-center gap-2 tracking-tight">
-                <Maximize2 className="h-5 w-5 text-primary" />
+            <CardHeader className="border-b border-border/40 bg-muted/20 p-4">
+              <CardTitle className="text-base sm:text-lg font-semibold flex items-center gap-2 tracking-tight">
+                <Maximize2 className="h-5 w-5 text-primary shrink-0" />
                 Upload Photo Studio
               </CardTitle>
             </CardHeader>
 
-            <CardContent className="p-6 flex-1 flex flex-col justify-between space-y-6">
+            <CardContent className="p-4 sm:p-6 flex-1 flex flex-col justify-between space-y-6 max-w-full">
               <div
-                className="border-2 border-dashed border-primary/30 hover:border-primary/60 rounded-2xl p-10 text-center cursor-pointer transition-all duration-200 bg-muted/10 hover:bg-muted/30 group flex-1 flex flex-col items-center justify-center"
+                className="border-2 border-dashed border-primary/30 hover:border-primary/60 rounded-2xl p-6 sm:p-10 text-center cursor-pointer transition-all duration-200 bg-muted/10 hover:bg-muted/30 group flex-1 flex flex-col items-center justify-center max-w-full"
                 onClick={() => fileInputRef.current?.click()}
               >
-                <div className="p-4 rounded-full bg-primary/10 text-primary w-fit mx-auto mb-4 group-hover:scale-110 transition-transform">
-                  <Upload className="h-8 w-8" />
+                <div className="p-3 sm:p-4 rounded-full bg-primary/10 text-primary w-fit mx-auto mb-3 sm:mb-4 group-hover:scale-110 transition-transform">
+                  <Upload className="h-7 w-7 sm:h-8 sm:w-8" />
                 </div>
-                <h3 className="font-semibold text-lg tracking-tight">Click to upload or drag & drop photo</h3>
-                <p className="text-sm text-muted-foreground mt-1">
+                <h3 className="font-semibold text-base sm:text-lg tracking-tight">Click to upload or drag & drop photo</h3>
+                <p className="text-xs sm:text-sm text-muted-foreground mt-1">
                   Supports PNG, JPG, WebP up to 25MB (Full HD 100% Quality Export)
                 </p>
                 <Input
@@ -262,24 +248,24 @@ export default function ImageResizeClient() {
               </div>
 
               {/* Demo Sample Cards */}
-              <div className="pt-4 border-t space-y-3">
+              <div className="pt-4 border-t space-y-3 max-w-full">
                 <span className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
-                  <Sparkles className="h-3.5 w-3.5 text-primary" /> Test 1-Click Social Resize Samples:
+                  <Sparkles className="h-3.5 w-3.5 text-primary shrink-0" /> Test 1-Click Social Resize Samples:
                 </span>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 max-w-full">
                   {DEMO_IMAGES.map((sample) => (
                     <button
                       key={sample.name}
                       type="button"
                       onClick={() => loadDemoImage(sample.url, sample.name)}
-                      className="group relative rounded-xl border bg-card hover:border-primary/50 overflow-hidden p-2 text-left transition-all duration-200 hover:shadow-md flex items-center gap-3"
+                      className="group relative rounded-xl border bg-card hover:border-primary/50 overflow-hidden p-2 text-left transition-all duration-200 hover:shadow-md flex items-center gap-3 w-full"
                     >
                       <img
                         src={sample.url}
                         alt={sample.name}
-                        className="h-12 w-12 rounded-lg object-cover border group-hover:scale-105 transition-transform"
+                        className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg object-cover border group-hover:scale-105 transition-transform shrink-0"
                       />
-                      <div className="min-w-0 flex-1 hidden sm:block">
+                      <div className="min-w-0 flex-1">
                         <p className="text-xs font-semibold truncate group-hover:text-primary transition-colors">
                           {sample.name}
                         </p>
@@ -293,10 +279,10 @@ export default function ImageResizeClient() {
           </>
         ) : (
           <>
-            {/* Studio Header Bar */}
-            <CardHeader className="border-b border-border/40 bg-muted/20 pb-3">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
+            {/* Studio Header Bar - 100% Responsive */}
+            <CardHeader className="border-b border-border/40 bg-muted/20 p-3 sm:p-4 space-y-3 max-w-full overflow-hidden">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 max-w-full">
+                <div className="flex items-center justify-between sm:justify-start gap-2 w-full sm:w-auto">
                   <Button
                     variant="ghost"
                     size="sm"
@@ -309,63 +295,64 @@ export default function ImageResizeClient() {
                     <ArrowLeft className="h-4 w-4" />
                     Upload New
                   </Button>
-                  <div className="h-4 w-px bg-border hidden md:block" />
-                  <div className="flex items-center gap-2 text-xs font-semibold">
-                    <Badge variant="outline" className="text-primary border-primary/30">
+                  <div className="flex items-center gap-2 text-xs font-semibold shrink-0">
+                    <Badge variant="outline" className="text-primary border-primary/30 text-[11px]">
                       {w} × {h} px
                     </Badge>
-                    <span className="text-muted-foreground">Fit: {fit}</span>
+                    <span className="text-muted-foreground text-[11px]">Fit: {fit}</span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 flex-wrap">
-                  {/* Social Ratio Presets */}
-                  <div className="flex items-center gap-1 p-1 rounded-xl border bg-background text-xs shadow-inner">
-                    {SOCIAL_PRESETS.map((preset) => (
-                      <button
-                        key={preset.name}
-                        type="button"
-                        onClick={() => applyPreset(preset.name, preset.w, preset.h)}
-                        className={`px-2.5 py-1 rounded-lg font-medium transition flex items-center gap-1 ${
-                          activePreset === preset.name
-                            ? "bg-primary text-primary-foreground shadow-xs"
-                            : "text-muted-foreground hover:text-foreground"
-                        }`}
-                      >
-                        <preset.icon className="h-3 w-3" />
-                        {preset.platform} ({preset.ratio})
-                      </button>
-                    ))}
-                  </div>
+                <Button onClick={handleDownload} size="sm" className="gap-1.5 shadow-sm font-semibold h-9 w-full sm:w-auto justify-center">
+                  <Download className="h-4 w-4" />
+                  Download Photo
+                </Button>
+              </div>
 
-                  <Button onClick={handleDownload} size="sm" className="gap-1.5 shadow-sm font-semibold">
-                    <Download className="h-4 w-4" />
-                    Download Photo
-                  </Button>
-                </div>
+              {/* Social Ratio Presets - Horizontally Scrollable Bar (Zero Text Cut-off) */}
+              <div className="flex items-center gap-1.5 p-1.5 rounded-xl border bg-background text-xs shadow-inner overflow-x-auto max-w-full scrollbar-thin">
+                {SOCIAL_PRESETS.map((preset) => {
+                  const Icon = preset.icon;
+                  const isActive = activePreset === preset.name;
+                  return (
+                    <button
+                      key={preset.name}
+                      type="button"
+                      onClick={() => applyPreset(preset.name, preset.w, preset.h)}
+                      className={`px-3 py-1.5 rounded-lg font-medium transition flex items-center gap-1.5 shrink-0 whitespace-nowrap text-xs ${
+                        isActive
+                          ? "bg-primary text-primary-foreground shadow-xs font-semibold"
+                          : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                      }`}
+                    >
+                      <Icon className="h-3.5 w-3.5 shrink-0" />
+                      <span>{preset.platform} ({preset.ratio})</span>
+                    </button>
+                  );
+                })}
               </div>
             </CardHeader>
 
             {/* Studio Interactive Viewport */}
-            <CardContent className="p-4 flex-1 flex flex-col justify-between space-y-4">
+            <CardContent className="p-3 sm:p-4 flex-1 flex flex-col justify-between space-y-3 max-w-full overflow-hidden">
               {isProcessing ? (
-                <div className="py-20 text-center space-y-3 my-auto">
-                  <Loader2 className="h-10 w-10 animate-spin text-primary mx-auto" />
-                  <p className="text-sm font-semibold text-muted-foreground">Resizing 4 corners with high smoothing...</p>
+                <div className="py-16 text-center space-y-3 my-auto">
+                  <Loader2 className="h-9 w-9 animate-spin text-primary mx-auto" />
+                  <p className="text-xs sm:text-sm font-semibold text-muted-foreground">Resizing 4 corners with high smoothing...</p>
                 </div>
               ) : (
-                <div className="relative flex-1 flex flex-col min-h-[360px] max-h-[460px]">
-                  <div className="flex items-center justify-between text-xs font-semibold text-muted-foreground mb-1.5 px-1">
-                    <span>Original ({origW}×{origH})</span>
-                    <span className="text-primary flex items-center gap-1">
-                      <Split className="h-3.5 w-3.5" /> Drag Split Line to Compare Resized
+                <div className="relative flex-1 flex flex-col min-h-[320px] max-h-[440px] max-w-full">
+                  <div className="flex items-center justify-between text-[11px] sm:text-xs font-semibold text-muted-foreground mb-1.5 px-1 min-w-0 max-w-full">
+                    <span className="shrink-0">Original ({origW}×{origH})</span>
+                    <span className="text-primary flex items-center gap-1 truncate max-w-[50%]">
+                      <Split className="h-3.5 w-3.5 shrink-0" /> <span className="hidden sm:inline">Drag Split Line to Compare</span>
                     </span>
-                    <span>Resized ({w}×{h})</span>
+                    <span className="shrink-0">Resized ({w}×{h})</span>
                   </div>
 
                   <div
                     ref={splitContainerRef}
-                    className="relative flex-1 rounded-2xl overflow-hidden border min-h-[340px] flex items-center justify-center select-none cursor-ew-resize touch-none shadow-inner bg-slate-950/40"
+                    className="relative flex-1 rounded-2xl overflow-hidden border min-h-[300px] flex items-center justify-center select-none cursor-ew-resize touch-none shadow-inner bg-slate-950/40 max-w-full"
                     onMouseDown={(e) => {
                       setIsDraggingSlider(true);
                       handleSplitMove(e.clientX);
@@ -375,6 +362,9 @@ export default function ImageResizeClient() {
                     }}
                     onMouseUp={() => setIsDraggingSlider(false)}
                     onMouseLeave={() => setIsDraggingSlider(false)}
+                    onTouchMove={(e) => {
+                      if (e.touches[0]) handleSplitMove(e.touches[0].clientX);
+                    }}
                   >
                     {/* Resized Result Layer */}
                     {resizedUrl && (
@@ -403,8 +393,8 @@ export default function ImageResizeClient() {
                       className="absolute top-0 bottom-0 z-30 w-1 bg-primary cursor-ew-resize flex items-center justify-center shadow-lg"
                       style={{ left: `${sliderPos}%` }}
                     >
-                      <div className="h-9 w-9 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-md border-2 border-background">
-                        <Split className="h-4 w-4" />
+                      <div className="h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-md border-2 border-background">
+                        <Split className="h-3.5 w-3.5" />
                       </div>
                     </div>
                   </div>
@@ -412,21 +402,21 @@ export default function ImageResizeClient() {
               )}
 
               {/* Bottom Quick Fit & Quality Bar */}
-              <div className="pt-2 border-t flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+              <div className="pt-2 border-t flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 text-xs max-w-full">
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-muted-foreground">Fit Mode:</span>
-                  <div className="flex items-center gap-1 p-1 rounded-lg border bg-background">
+                  <span className="font-semibold text-muted-foreground shrink-0 text-[11px]">Fit:</span>
+                  <div className="flex items-center gap-1 p-1 rounded-lg border bg-background w-full sm:w-auto">
                     <button
                       type="button"
                       onClick={() => {
                         setFit("stretch");
                         if (originalUrl && origW && origH) renderResizedImage(originalUrl, origW, origH, w, h, "stretch", fmt, quality);
                       }}
-                      className={`px-2 py-0.5 rounded-md font-medium transition ${
-                        fit === "stretch" ? "bg-primary text-primary-foreground" : "text-muted-foreground"
+                      className={`flex-1 sm:flex-initial px-2.5 py-1 rounded-md font-medium transition text-[11px] ${
+                        fit === "stretch" ? "bg-primary text-primary-foreground shadow-xs font-semibold" : "text-muted-foreground"
                       }`}
                     >
-                      4-Corner Stretch (No White Bars)
+                      4-Corner Stretch
                     </button>
                     <button
                       type="button"
@@ -434,8 +424,8 @@ export default function ImageResizeClient() {
                         setFit("cover");
                         if (originalUrl && origW && origH) renderResizedImage(originalUrl, origW, origH, w, h, "cover", fmt, quality);
                       }}
-                      className={`px-2 py-0.5 rounded-md font-medium transition ${
-                        fit === "cover" ? "bg-primary text-primary-foreground" : "text-muted-foreground"
+                      className={`flex-1 sm:flex-initial px-2.5 py-1 rounded-md font-medium transition text-[11px] ${
+                        fit === "cover" ? "bg-primary text-primary-foreground shadow-xs font-semibold" : "text-muted-foreground"
                       }`}
                     >
                       Smart Crop
@@ -444,22 +434,24 @@ export default function ImageResizeClient() {
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-muted-foreground">Export Format:</span>
-                  {["webp", "png", "jpeg"].map((format) => (
-                    <button
-                      key={format}
-                      type="button"
-                      onClick={() => {
-                        setFmt(format as OutFormat);
-                        if (originalUrl && origW && origH) renderResizedImage(originalUrl, origW, origH, w, h, fit, format as OutFormat, quality);
-                      }}
-                      className={`px-2.5 py-1 rounded-lg border text-xs font-semibold uppercase transition ${
-                        fmt === format ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground"
-                      }`}
-                    >
-                      {format}
-                    </button>
-                  ))}
+                  <span className="font-semibold text-muted-foreground shrink-0 text-[11px]">Format:</span>
+                  <div className="flex items-center gap-1">
+                    {["webp", "png", "jpeg"].map((format) => (
+                      <button
+                        key={format}
+                        type="button"
+                        onClick={() => {
+                          setFmt(format as OutFormat);
+                          if (originalUrl && origW && origH) renderResizedImage(originalUrl, origW, origH, w, h, fit, format as OutFormat, quality);
+                        }}
+                        className={`px-2.5 py-1 rounded-lg border text-[11px] font-semibold uppercase transition ${
+                          fmt === format ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground"
+                        }`}
+                      >
+                        {format}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
             </CardContent>

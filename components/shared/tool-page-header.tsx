@@ -23,12 +23,12 @@ export default function ToolPageHeader({
       className={`mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between p-4 sm:px-6 sm:py-5 max-w-full overflow-hidden ${className}`}
     >
       <div className="min-w-0 max-w-full space-y-1">
-        <h1 className="flex items-center gap-2 text-xl sm:text-2xl font-bold tracking-tight text-foreground truncate max-w-full">
-          <LeftIcon className="h-5 w-5 sm:h-6 sm:w-6 text-primary shrink-0" />
-          <span className="truncate">{title}</span>
+        <h1 className="flex items-start sm:items-center gap-2 text-lg sm:text-2xl font-bold tracking-tight text-foreground break-words max-w-full leading-tight">
+          <LeftIcon className="h-5 w-5 sm:h-6 sm:w-6 text-primary shrink-0 mt-0.5 sm:mt-0" />
+          <span className="break-words max-w-full">{title}</span>
         </h1>
         {description ? (
-          <p className="text-xs sm:text-sm text-muted-foreground break-words max-w-full">
+          <p className="text-xs sm:text-sm text-muted-foreground break-words max-w-full leading-relaxed">
             {description}
           </p>
         ) : null}

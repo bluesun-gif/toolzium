@@ -2,25 +2,21 @@
 
 import React, { useState } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import toast from "react-hot-toast";
 import {
   Code2,
-  ArrowRightLeft,
   Sparkles,
   Copy,
   Check,
   RefreshCw,
   Zap,
   FileCode,
-  CheckCircle2,
   Terminal,
   BookOpen,
-  ArrowRight,
-  Layers,
 } from "lucide-react";
 
 const CODE_SAMPLES = [
@@ -59,7 +55,6 @@ export default function CodeExplainerClient() {
     setIsAnalyzing(true);
 
     setTimeout(() => {
-      // Intelligent Code Analysis Engine
       let exp = "### 🔍 Code Structure & Logic Breakdown\n\n";
       exp += "1. **Core Purpose**: Accepts parameters and computes values through type safety and conditional branching.\n";
       exp += "2. **Control Flow**: Evaluates edge cases early and falls back gracefully to default return paths.\n";
@@ -70,7 +65,6 @@ export default function CodeExplainerClient() {
 
       setExplanation(exp);
 
-      // Multi-Language Code Translation Engine
       let converted = "";
       if (targetLang === "Python") {
         converted = `def calculate_discount(price: float, user_type: str) -> float:\n    """Calculates discounted price based on user membership tier."""\n    if user_type == "VIP":\n        return price * 0.8\n    elif user_type == "MEMBER":\n        return price * 0.9\n    return price`;
@@ -100,49 +94,49 @@ export default function CodeExplainerClient() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-6 space-y-6">
+    <div className="mx-auto max-w-6xl px-2 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-6 max-w-full overflow-hidden">
       <ToolPageHeader
         title="AI Code Explainer & Multi-Language Converter"
         description="Understand complex code snippets instantly with plain-English breakdowns and translate code seamlessly across programming languages."
       />
 
       {/* SINGLE VIEWPORT IDE STUDIO WORKSPACE */}
-      <div className="grid gap-6 lg:grid-cols-12 min-h-[500px]">
+      <div className="grid gap-4 sm:gap-6 lg:grid-cols-12 min-h-[500px] max-w-full">
         {/* Left Pane: Source Editor & Target Pills (6 Cols) */}
-        <div className="lg:col-span-6 flex flex-col">
-          <Card className="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl flex-1 flex flex-col justify-between overflow-hidden">
-            <CardHeader className="border-b border-border/40 bg-muted/20 pb-3">
+        <div className="lg:col-span-6 flex flex-col max-w-full">
+          <Card className="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl flex-1 flex flex-col justify-between overflow-hidden max-w-full">
+            <CardHeader className="border-b border-border/40 bg-muted/20 p-3 sm:p-4">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-sm font-semibold flex items-center gap-2 tracking-tight">
-                  <Code2 className="h-4 w-4 text-primary" />
+                <CardTitle className="text-xs sm:text-sm font-semibold flex items-center gap-2 tracking-tight">
+                  <Code2 className="h-4 w-4 text-primary shrink-0" />
                   Source Code Editor
                 </CardTitle>
-                <Badge variant="outline" className="text-xs font-normal gap-1 text-amber-500 border-amber-500/30">
-                  <Zap className="h-3 w-3" /> Auto-Detect Language
+                <Badge variant="outline" className="text-[10px] sm:text-xs font-normal gap-1 text-amber-500 border-amber-500/30 shrink-0">
+                  <Zap className="h-3 w-3" /> Auto-Detect
                 </Badge>
               </div>
             </CardHeader>
 
-            <CardContent className="p-4 space-y-4 flex-1 flex flex-col justify-between">
+            <CardContent className="p-3 sm:p-4 space-y-3 flex-1 flex flex-col justify-between max-w-full">
               <Textarea
                 value={sourceCode}
                 onChange={(e) => setSourceCode(e.target.value)}
                 placeholder="Paste your source code snippet here..."
-                className="font-mono text-xs flex-1 min-h-[220px] bg-slate-950/90 text-slate-100 border-border/70 p-3.5 rounded-xl leading-relaxed resize-none"
+                className="font-mono text-xs flex-1 min-h-[200px] bg-slate-950/90 text-slate-100 border-border/70 p-3 rounded-xl leading-relaxed resize-none max-w-full"
               />
 
               {/* Quick Sample Snippet Buttons */}
-              <div className="space-y-2">
+              <div className="space-y-1.5 max-w-full">
                 <span className="text-[11px] font-semibold text-muted-foreground">
                   Try 1-Click Code Presets:
                 </span>
-                <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-thin pb-1 max-w-full">
                   {CODE_SAMPLES.map((sample) => (
                     <button
                       key={sample.name}
                       type="button"
                       onClick={() => setSourceCode(sample.code)}
-                      className="px-2.5 py-1 rounded-lg border text-xs font-medium bg-background/80 hover:bg-background hover:border-primary/40 transition text-muted-foreground hover:text-foreground"
+                      className="px-2.5 py-1 rounded-lg border text-xs font-medium bg-background/80 hover:bg-background hover:border-primary/40 transition text-muted-foreground hover:text-foreground shrink-0 whitespace-nowrap"
                     >
                       {sample.name}
                     </button>
@@ -151,18 +145,18 @@ export default function CodeExplainerClient() {
               </div>
 
               {/* Target Language & Primary Action Button */}
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2 border-t">
-                <div className="flex items-center gap-2 w-full sm:w-auto">
-                  <span className="text-xs font-medium text-muted-foreground whitespace-nowrap">Translate To:</span>
-                  <div className="flex items-center gap-1 p-1 rounded-xl border bg-background shadow-xs">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 pt-2 border-t max-w-full">
+                <div className="flex items-center gap-1.5 w-full sm:w-auto min-w-0">
+                  <span className="text-[11px] font-medium text-muted-foreground shrink-0">Translate To:</span>
+                  <div className="flex items-center gap-1 p-1 rounded-xl border bg-background shadow-xs overflow-x-auto scrollbar-thin max-w-full">
                     {["Python", "TypeScript", "Rust", "Go", "C++"].map((lang) => (
                       <button
                         key={lang}
                         type="button"
                         onClick={() => setTargetLang(lang)}
-                        className={`px-2.5 py-1 rounded-lg text-xs font-medium transition ${
+                        className={`px-2.5 py-1 rounded-lg text-xs font-medium transition shrink-0 whitespace-nowrap ${
                           targetLang === lang
-                            ? "bg-primary text-primary-foreground shadow-xs"
+                            ? "bg-primary text-primary-foreground shadow-xs font-semibold"
                             : "text-muted-foreground hover:text-foreground"
                         }`}
                       >
@@ -175,7 +169,7 @@ export default function CodeExplainerClient() {
                 <Button
                   onClick={handleAnalyzeAndConvert}
                   disabled={isAnalyzing || !sourceCode.trim()}
-                  className="w-full sm:w-auto gap-2 shadow-md rounded-xl font-semibold"
+                  className="w-full sm:w-auto gap-2 shadow-md rounded-xl font-semibold h-9 justify-center"
                 >
                   {isAnalyzing ? (
                     <>
@@ -195,17 +189,17 @@ export default function CodeExplainerClient() {
         </div>
 
         {/* Right Pane: AI Output Explanation & Translation IDE (6 Cols) */}
-        <div className="lg:col-span-6 flex flex-col">
-          <Card className="border border-primary/30 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl flex-1 flex flex-col justify-between overflow-hidden">
-            <CardHeader className="border-b border-border/40 bg-muted/20 pb-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1 p-1 rounded-xl border bg-background shadow-inner">
+        <div className="lg:col-span-6 flex flex-col max-w-full">
+          <Card className="border border-primary/30 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl flex-1 flex flex-col justify-between overflow-hidden max-w-full">
+            <CardHeader className="border-b border-border/40 bg-muted/20 p-3 sm:p-4">
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-1 p-1 rounded-xl border bg-background shadow-inner max-w-full">
                   <button
                     type="button"
                     onClick={() => setActiveTab("code")}
-                    className={`px-3 py-1 rounded-lg text-xs font-medium transition flex items-center gap-1.5 ${
+                    className={`px-2.5 py-1 rounded-lg text-xs font-medium transition flex items-center gap-1.5 shrink-0 ${
                       activeTab === "code"
-                        ? "bg-primary text-primary-foreground shadow-xs"
+                        ? "bg-primary text-primary-foreground shadow-xs font-semibold"
                         : "text-muted-foreground hover:text-foreground"
                     }`}
                   >
@@ -215,9 +209,9 @@ export default function CodeExplainerClient() {
                   <button
                     type="button"
                     onClick={() => setActiveTab("explanation")}
-                    className={`px-3 py-1 rounded-lg text-xs font-medium transition flex items-center gap-1.5 ${
+                    className={`px-2.5 py-1 rounded-lg text-xs font-medium transition flex items-center gap-1.5 shrink-0 ${
                       activeTab === "explanation"
-                        ? "bg-primary text-primary-foreground shadow-xs"
+                        ? "bg-primary text-primary-foreground shadow-xs font-semibold"
                         : "text-muted-foreground hover:text-foreground"
                     }`}
                   >
@@ -231,7 +225,7 @@ export default function CodeExplainerClient() {
                     size="sm"
                     variant="outline"
                     onClick={() => handleCopy(convertedCode)}
-                    className="h-8 gap-1.5 text-xs rounded-lg"
+                    className="h-8 gap-1.5 text-xs rounded-lg shrink-0"
                   >
                     {copied ? <Check className="h-3.5 w-3.5 text-emerald-500" /> : <Copy className="h-3.5 w-3.5" />}
                     {copied ? "Copied" : "Copy Code"}
@@ -240,9 +234,9 @@ export default function CodeExplainerClient() {
               </div>
             </CardHeader>
 
-            <CardContent className="p-4 flex-1 flex flex-col justify-between">
+            <CardContent className="p-3 sm:p-4 flex-1 flex flex-col justify-between max-w-full overflow-hidden">
               {!convertedCode && !isAnalyzing && (
-                <div className="flex-1 rounded-xl border border-dashed flex flex-col items-center justify-center text-center p-6 text-muted-foreground bg-muted/10 space-y-3 min-h-[280px]">
+                <div className="flex-1 rounded-xl border border-dashed flex flex-col items-center justify-center text-center p-6 text-muted-foreground bg-muted/10 space-y-3 min-h-[260px] max-w-full">
                   <FileCode className="h-8 w-8 opacity-40 text-primary" />
                   <p className="text-sm font-semibold text-foreground">Click &quot;Explain & Convert&quot; to Translate</p>
                   <p className="text-xs text-muted-foreground max-w-xs">
@@ -251,34 +245,19 @@ export default function CodeExplainerClient() {
                 </div>
               )}
 
-              {isAnalyzing && (
-                <div className="flex-1 rounded-xl border flex flex-col items-center justify-center text-center p-6 text-muted-foreground bg-muted/20 space-y-3 min-h-[280px]">
-                  <RefreshCw className="h-8 w-8 animate-spin text-primary" />
-                  <p className="text-sm font-semibold text-foreground">Building AST & Analyzing Control Flow...</p>
-                  <p className="text-xs text-muted-foreground">Translating to {targetLang} with type safety checks</p>
-                </div>
-              )}
-
-              {convertedCode && !isAnalyzing && (
-                <div className="flex-1 flex flex-col justify-between space-y-3">
+              {convertedCode && (
+                <div className="flex-1 flex flex-col space-y-3 max-w-full overflow-hidden">
                   {activeTab === "code" ? (
-                    <div className="flex-1 flex flex-col min-h-[260px]">
-                      <div className="flex items-center justify-between text-xs font-medium text-muted-foreground mb-1.5">
-                        <span className="flex items-center gap-1 text-primary">
-                          <CheckCircle2 className="h-3.5 w-3.5" /> Ready for Production
-                        </span>
-                        <span>{targetLang} Output</span>
-                      </div>
-                      <pre className="flex-1 p-4 rounded-xl border bg-slate-950 text-emerald-400 font-mono text-xs overflow-x-auto leading-relaxed">
-                        <code>{convertedCode}</code>
-                      </pre>
+                    <div className="relative flex-1 rounded-xl border bg-slate-950 p-3 font-mono text-xs text-slate-100 overflow-x-auto max-w-full">
+                      <pre className="leading-relaxed whitespace-pre-wrap break-all">{convertedCode}</pre>
                     </div>
                   ) : (
-                    <div className="flex-1 p-4 rounded-xl border bg-muted/20 text-xs space-y-3 leading-relaxed min-h-[260px] overflow-y-auto">
-                      <div className="font-semibold text-sm text-foreground flex items-center gap-1.5">
-                        <Sparkles className="h-4 w-4 text-amber-500" /> Plain-English Line Breakdown:
+                    <div className="flex-1 rounded-xl border bg-muted/20 p-3.5 text-xs space-y-2 overflow-y-auto max-w-full">
+                      <div className="prose prose-invert prose-xs max-w-full break-words">
+                        {explanation.split("\n").map((line, idx) => (
+                          <p key={idx} className="leading-relaxed">{line}</p>
+                        ))}
                       </div>
-                      <div className="whitespace-pre-line text-muted-foreground font-sans">{explanation}</div>
                     </div>
                   )}
                 </div>

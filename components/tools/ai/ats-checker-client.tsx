@@ -18,9 +18,6 @@ import {
   Award,
   Zap,
   Check,
-  X,
-  FileCheck,
-  User,
 } from "lucide-react";
 
 const SAMPLE_RESUMES = [
@@ -71,7 +68,6 @@ export default function AtsCheckerClient() {
     setIsAnalyzing(true);
 
     setTimeout(() => {
-      // Dynamic Keyword Matcher Engine
       const resumeLower = resumeText.toLowerCase();
       const jobLower = jobDescription.toLowerCase();
 
@@ -99,36 +95,36 @@ export default function AtsCheckerClient() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-6 space-y-6">
+    <div className="mx-auto max-w-6xl px-2 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-6 max-w-full overflow-hidden">
       <ToolPageHeader
         title="AI Resume & ATS Compatibility Checker Studio"
         description="Calculate your ATS match score against target job descriptions, find missing keywords, and optimize your resume to land top interviews."
       />
 
       {/* SINGLE VIEWPORT ATS STUDIO WORKSPACE */}
-      <div className="grid gap-6 lg:grid-cols-12 min-h-[500px]">
+      <div className="grid gap-4 sm:gap-6 lg:grid-cols-12 min-h-[500px] max-w-full">
         {/* Left Column: Input Resume & Target Job (6 Cols) */}
-        <div className="lg:col-span-6 flex flex-col">
-          <Card className="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl flex-1 flex flex-col justify-between overflow-hidden">
-            <CardHeader className="border-b border-border/40 bg-muted/20 pb-3">
+        <div className="lg:col-span-6 flex flex-col max-w-full">
+          <Card className="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl flex-1 flex flex-col justify-between overflow-hidden max-w-full">
+            <CardHeader className="border-b border-border/40 bg-muted/20 p-3 sm:p-4">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-sm font-semibold flex items-center gap-2 tracking-tight">
-                  <FileText className="h-4 w-4 text-primary" />
+                <CardTitle className="text-xs sm:text-sm font-semibold flex items-center gap-2 tracking-tight">
+                  <FileText className="h-4 w-4 text-primary shrink-0" />
                   Resume & Job Posting Input
                 </CardTitle>
-                <Badge variant="outline" className="text-xs font-normal gap-1 text-emerald-500 border-emerald-500/30">
+                <Badge variant="outline" className="text-[10px] sm:text-xs font-normal gap-1 text-emerald-500 border-emerald-500/30 shrink-0">
                   <Zap className="h-3 w-3" /> Live ATS Parser
                 </Badge>
               </div>
             </CardHeader>
 
-            <CardContent className="p-4 flex-1 flex flex-col justify-between space-y-3">
+            <CardContent className="p-3 sm:p-4 flex-1 flex flex-col justify-between space-y-3 max-w-full">
               {/* Presets */}
-              <div className="space-y-1">
+              <div className="space-y-1 max-w-full">
                 <span className="text-[11px] font-semibold text-muted-foreground">
                   Try 1-Click Sample Resumes:
                 </span>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-thin pb-1 max-w-full">
                   {SAMPLE_RESUMES.map((sample) => (
                     <button
                       key={sample.name}
@@ -137,7 +133,7 @@ export default function AtsCheckerClient() {
                         setResumeText(sample.resume);
                         setJobDescription(sample.job);
                       }}
-                      className="px-2.5 py-1 rounded-lg border text-xs font-medium bg-background hover:bg-muted transition text-muted-foreground hover:text-foreground"
+                      className="px-2.5 py-1 rounded-lg border text-xs font-medium bg-background hover:bg-muted transition text-muted-foreground hover:text-foreground shrink-0 whitespace-nowrap"
                     >
                       {sample.name}
                     </button>
@@ -147,32 +143,32 @@ export default function AtsCheckerClient() {
 
               <div className="space-y-1 flex-1 flex flex-col">
                 <label className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
-                  <FileText className="h-3.5 w-3.5 text-primary" /> Resume Text:
+                  <FileText className="h-3.5 w-3.5 text-primary shrink-0" /> Resume Text:
                 </label>
                 <Textarea
                   value={resumeText}
                   onChange={(e) => setResumeText(e.target.value)}
                   placeholder="Paste your resume content here..."
-                  className="text-xs min-h-[110px] bg-muted/20 resize-none p-3 rounded-xl"
+                  className="text-xs min-h-[100px] bg-muted/20 resize-none p-3 rounded-xl max-w-full"
                 />
               </div>
 
               <div className="space-y-1 flex-1 flex flex-col">
                 <label className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
-                  <Briefcase className="h-3.5 w-3.5 text-purple-500" /> Target Job Description:
+                  <Briefcase className="h-3.5 w-3.5 text-purple-500 shrink-0" /> Target Job Description:
                 </label>
                 <Textarea
                   value={jobDescription}
                   onChange={(e) => setJobDescription(e.target.value)}
                   placeholder="Paste job posting details here..."
-                  className="text-xs min-h-[110px] bg-muted/20 resize-none p-3 rounded-xl"
+                  className="text-xs min-h-[100px] bg-muted/20 resize-none p-3 rounded-xl max-w-full"
                 />
               </div>
 
               <Button
                 onClick={handleScanResume}
                 disabled={isAnalyzing || !resumeText.trim() || !jobDescription.trim()}
-                className="w-full gap-2 shadow-md rounded-xl font-semibold"
+                className="w-full gap-2 shadow-md rounded-xl font-semibold h-10 justify-center mt-1"
               >
                 {isAnalyzing ? (
                   <>
@@ -191,43 +187,43 @@ export default function AtsCheckerClient() {
         </div>
 
         {/* Right Column: ATS Match Score & Keyword Audit (6 Cols) */}
-        <div className="lg:col-span-6 flex flex-col">
-          <Card className="border border-primary/30 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl flex-1 flex flex-col justify-between overflow-hidden">
-            <CardHeader className="border-b border-border/40 bg-muted/20 pb-3">
-              <CardTitle className="text-sm font-semibold flex items-center gap-2 text-primary tracking-tight">
-                <Award className="h-4 w-4" />
+        <div className="lg:col-span-6 flex flex-col max-w-full">
+          <Card className="border border-primary/30 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl flex-1 flex flex-col justify-between overflow-hidden max-w-full">
+            <CardHeader className="border-b border-border/40 bg-muted/20 p-3 sm:p-4">
+              <CardTitle className="text-xs sm:text-sm font-semibold flex items-center gap-2 text-primary tracking-tight">
+                <Award className="h-4 w-4 shrink-0" />
                 ATS Match Results & Recommendation Audit
               </CardTitle>
             </CardHeader>
 
-            <CardContent className="p-4 flex-1 flex flex-col justify-between space-y-4">
+            <CardContent className="p-3 sm:p-4 flex-1 flex flex-col justify-between space-y-3 max-w-full overflow-hidden">
               {isAnalyzing ? (
-                <div className="flex-1 rounded-xl border flex flex-col items-center justify-center text-center p-6 text-muted-foreground bg-muted/20 space-y-3 min-h-[300px]">
+                <div className="flex-1 rounded-xl border flex flex-col items-center justify-center text-center p-6 text-muted-foreground bg-muted/20 space-y-3 min-h-[280px]">
                   <RefreshCw className="h-8 w-8 animate-spin text-primary" />
                   <p className="text-sm font-semibold text-foreground">Extracting keywords & calculating ATS match index...</p>
                 </div>
               ) : (
-                <div className="space-y-4 flex-1 flex flex-col justify-between">
+                <div className="space-y-3 flex-1 flex flex-col justify-between max-w-full">
                   {/* Score Meter */}
-                  <div className="flex items-center gap-5 p-4 rounded-xl border bg-emerald-500/10 border-emerald-500/30">
-                    <div className="relative flex items-center justify-center h-16 w-16 rounded-full border-4 border-emerald-500 bg-background text-emerald-500 font-bold text-xl shrink-0 shadow-sm">
+                  <div className="flex items-center gap-3 sm:gap-4 p-3.5 rounded-xl border bg-emerald-500/10 border-emerald-500/30 max-w-full">
+                    <div className="relative flex items-center justify-center h-14 w-14 sm:h-16 sm:w-16 rounded-full border-4 border-emerald-500 bg-background text-emerald-500 font-bold text-lg sm:text-xl shrink-0 shadow-sm">
                       {matchScore}%
                     </div>
-                    <div>
-                      <div className="font-bold text-sm text-emerald-500 flex items-center gap-1">
-                        <CheckCircle2 className="h-4 w-4" /> Strong ATS Match
+                    <div className="min-w-0">
+                      <div className="font-bold text-xs sm:text-sm text-emerald-500 flex items-center gap-1">
+                        <CheckCircle2 className="h-4 w-4 shrink-0" /> Strong ATS Match
                       </div>
-                      <p className="text-xs text-muted-foreground mt-0.5">
+                      <p className="text-xs text-muted-foreground mt-0.5 break-words">
                         Your resume contains key skills required for this job role.
                       </p>
                     </div>
                   </div>
 
                   {/* Matched vs Missing Keywords */}
-                  <div className="grid grid-cols-2 gap-3 text-xs">
-                    <div className="p-3 rounded-xl border bg-emerald-500/5 border-emerald-500/20 space-y-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs max-w-full">
+                    <div className="p-3 rounded-xl border bg-emerald-500/5 border-emerald-500/20 space-y-1.5 max-w-full">
                       <span className="font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
-                        <Check className="h-3.5 w-3.5" /> Found Keywords:
+                        <Check className="h-3.5 w-3.5 shrink-0" /> Found Keywords:
                       </span>
                       <div className="flex flex-wrap gap-1">
                         {matchedKeywords.map((kw) => (
@@ -238,9 +234,9 @@ export default function AtsCheckerClient() {
                       </div>
                     </div>
 
-                    <div className="p-3 rounded-xl border bg-amber-500/5 border-amber-500/20 space-y-2">
+                    <div className="p-3 rounded-xl border bg-amber-500/5 border-amber-500/20 space-y-1.5 max-w-full">
                       <span className="font-semibold text-amber-600 dark:text-amber-400 flex items-center gap-1">
-                        <AlertCircle className="h-3.5 w-3.5" /> Missing Keywords:
+                        <AlertCircle className="h-3.5 w-3.5 shrink-0" /> Missing Keywords:
                       </span>
                       <div className="flex flex-wrap gap-1">
                         {missingKeywords.map((kw) => (
@@ -253,11 +249,11 @@ export default function AtsCheckerClient() {
                   </div>
 
                   {/* High Impact Recommendations */}
-                  <div className="p-3 rounded-xl border bg-muted/20 space-y-2 text-xs">
+                  <div className="p-3 rounded-xl border bg-muted/20 space-y-1.5 text-xs max-w-full">
                     <span className="font-semibold text-foreground flex items-center gap-1.5">
-                      <TrendingUp className="h-3.5 w-3.5 text-primary" /> Key Recommendations:
+                      <TrendingUp className="h-3.5 w-3.5 text-primary shrink-0" /> Key Recommendations:
                     </span>
-                    <ul className="space-y-1 text-muted-foreground list-disc pl-4 leading-relaxed">
+                    <ul className="space-y-1 text-muted-foreground list-disc pl-4 leading-relaxed break-words">
                       {recommendations.map((rec, i) => (
                         <li key={i}>{rec}</li>
                       ))}

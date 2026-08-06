@@ -76,34 +76,34 @@ export default function SqlRegexBuilderClient() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-6 space-y-6">
+    <div className="mx-auto max-w-6xl px-2 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-6 max-w-full overflow-hidden">
       <ToolPageHeader
         title="AI Natural Language to SQL & Regex Studio"
         description="Convert plain English requirements into production-ready SQL queries and Regex patterns with instant explanations."
       />
 
       {/* SINGLE VIEWPORT IDE STUDIO WORKSPACE */}
-      <div className="grid gap-6 lg:grid-cols-12 min-h-[500px]">
+      <div className="grid gap-4 sm:gap-6 lg:grid-cols-12 min-h-[500px] max-w-full">
         {/* Left Column: Prompt Input & Mode Pills (6 Cols) */}
-        <div className="lg:col-span-6 flex flex-col">
-          <Card className="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl flex-1 flex flex-col justify-between overflow-hidden">
-            <CardHeader className="border-b border-border/40 bg-muted/20 pb-3">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-sm font-semibold flex items-center gap-2 tracking-tight">
-                  {outputType === "sql" ? <Database className="h-4 w-4 text-primary" /> : <Regex className="h-4 w-4 text-purple-500" />}
+        <div className="lg:col-span-6 flex flex-col max-w-full">
+          <Card className="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl flex-1 flex flex-col justify-between overflow-hidden max-w-full">
+            <CardHeader className="border-b border-border/40 bg-muted/20 p-3 sm:p-4">
+              <div className="flex items-center justify-between gap-2">
+                <CardTitle className="text-xs sm:text-sm font-semibold flex items-center gap-2 tracking-tight truncate">
+                  {outputType === "sql" ? <Database className="h-4 w-4 text-primary shrink-0" /> : <Regex className="h-4 w-4 text-purple-500 shrink-0" />}
                   Prompt Requirement
                 </CardTitle>
 
                 {/* Output Mode Switcher */}
-                <div className="flex items-center gap-1 bg-background/80 p-1 rounded-xl border text-xs shadow-inner">
+                <div className="flex items-center gap-1 bg-background/80 p-1 rounded-xl border text-xs shadow-inner shrink-0">
                   <button
                     type="button"
                     onClick={() => {
                       setOutputType("sql");
                       setPromptInput(presets[0].prompt);
                     }}
-                    className={`px-2.5 py-1 rounded-lg font-medium transition ${
-                      outputType === "sql" ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground"
+                    className={`px-2.5 py-1 rounded-lg font-medium transition text-xs ${
+                      outputType === "sql" ? "bg-primary text-primary-foreground shadow-xs font-semibold" : "text-muted-foreground"
                     }`}
                   >
                     SQL Query
@@ -114,8 +114,8 @@ export default function SqlRegexBuilderClient() {
                       setOutputType("regex");
                       setPromptInput(presets[1].prompt);
                     }}
-                    className={`px-2.5 py-1 rounded-lg font-medium transition ${
-                      outputType === "regex" ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground"
+                    className={`px-2.5 py-1 rounded-lg font-medium transition text-xs ${
+                      outputType === "regex" ? "bg-primary text-primary-foreground shadow-xs font-semibold" : "text-muted-foreground"
                     }`}
                   >
                     Regex Pattern
@@ -124,85 +124,90 @@ export default function SqlRegexBuilderClient() {
               </div>
             </CardHeader>
 
-            <CardContent className="p-4 flex-1 flex flex-col justify-between space-y-3">
+            <CardContent className="p-3 sm:p-4 space-y-3 flex-1 flex flex-col justify-between max-w-full">
               {/* Presets */}
-              <div className="space-y-1">
+              <div className="space-y-1 max-w-full">
                 <span className="text-[11px] font-semibold text-muted-foreground">
-                  Try 1-Click Prompt Presets:
+                  Try 1-Click Requirements:
                 </span>
-                <div className="flex items-center gap-1.5 flex-wrap">
-                  {presets.map((p) => (
+                <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-thin pb-1 max-w-full">
+                  {presets.map((preset) => (
                     <button
-                      key={p.name}
+                      key={preset.name}
                       type="button"
                       onClick={() => {
-                        setOutputType(p.type);
-                        setPromptInput(p.prompt);
+                        setOutputType(preset.type);
+                        setPromptInput(preset.prompt);
                       }}
-                      className="px-2.5 py-1 rounded-lg border text-xs font-medium bg-background hover:bg-muted transition text-muted-foreground hover:text-foreground"
+                      className="px-2.5 py-1 rounded-lg border text-xs font-medium bg-background hover:bg-muted transition text-muted-foreground hover:text-foreground shrink-0 whitespace-nowrap"
                     >
-                      {p.name}
+                      {preset.name}
                     </button>
                   ))}
                 </div>
               </div>
 
               <div className="space-y-1 flex-1 flex flex-col">
-                <label className="text-xs font-semibold text-muted-foreground">Plain English Goal:</label>
+                <label className="text-xs font-semibold text-muted-foreground">
+                  Describe what data or pattern you need:
+                </label>
                 <Textarea
                   value={promptInput}
                   onChange={(e) => setPromptInput(e.target.value)}
-                  placeholder="Describe your query or matching goal..."
-                  className="text-xs flex-1 min-h-[180px] bg-muted/20 resize-none p-3 rounded-xl"
+                  placeholder="e.g. Find all users who ordered in the last 7 days..."
+                  className="text-xs min-h-[140px] bg-muted/20 resize-none p-3 rounded-xl max-w-full"
                 />
               </div>
 
-              <div className="flex items-center justify-between gap-3 pt-2 border-t">
-                {outputType === "sql" && (
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-semibold text-muted-foreground">Dialect:</span>
-                    <select
-                      value={sqlDialect}
-                      onChange={(e) => setSqlDialect(e.target.value)}
-                      className="text-xs bg-background border rounded-lg px-2.5 py-1 font-medium"
-                    >
-                      <option value="PostgreSQL">PostgreSQL</option>
-                      <option value="MySQL">MySQL</option>
-                      <option value="SQLite">SQLite</option>
-                    </select>
+              {outputType === "sql" && (
+                <div className="flex items-center gap-2 text-xs pt-1">
+                  <span className="font-semibold text-muted-foreground shrink-0">Dialect:</span>
+                  <div className="flex items-center gap-1 overflow-x-auto scrollbar-thin max-w-full">
+                    {["PostgreSQL", "MySQL", "SQLite", "SQL Server"].map((dialect) => (
+                      <button
+                        key={dialect}
+                        type="button"
+                        onClick={() => setSqlDialect(dialect)}
+                        className={`px-2.5 py-0.5 rounded-md border text-[11px] font-medium transition shrink-0 whitespace-nowrap ${
+                          sqlDialect === dialect ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground"
+                        }`}
+                      >
+                        {dialect}
+                      </button>
+                    ))}
                   </div>
-                )}
+                </div>
+              )}
 
-                <Button
-                  onClick={handleGenerate}
-                  disabled={isGenerating || !promptInput.trim()}
-                  className="ml-auto gap-2 shadow-md rounded-xl font-semibold"
-                >
-                  {isGenerating ? (
-                    <>
-                      <RefreshCw className="h-4 w-4 animate-spin" />
-                      Generating...
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="h-4 w-4" />
-                      Generate {outputType.toUpperCase()}
-                    </>
-                  )}
-                </Button>
-              </div>
+              <Button
+                onClick={handleGenerate}
+                disabled={isGenerating || !promptInput.trim()}
+                className="w-full gap-2 shadow-md rounded-xl font-semibold h-10 justify-center mt-2"
+              >
+                {isGenerating ? (
+                  <>
+                    <RefreshCw className="h-4 w-4 animate-spin" />
+                    Generating {outputType.toUpperCase()}...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="h-4 w-4" />
+                    Generate {outputType === "sql" ? "SQL Query" : "Regex Pattern"}
+                  </>
+                )}
+              </Button>
             </CardContent>
           </Card>
         </div>
 
-        {/* Right Column: Generated Code IDE Output (6 Cols) */}
-        <div className="lg:col-span-6 flex flex-col">
-          <Card className="border border-primary/30 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl flex-1 flex flex-col justify-between overflow-hidden">
-            <CardHeader className="border-b border-border/40 bg-muted/20 pb-3">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-sm font-semibold flex items-center gap-2 text-primary tracking-tight">
-                  <Terminal className="h-4 w-4" />
-                  Generated {outputType.toUpperCase()} Output
+        {/* Right Column: IDE Output & Explanation (6 Cols) */}
+        <div className="lg:col-span-6 flex flex-col max-w-full">
+          <Card className="border border-primary/30 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl flex-1 flex flex-col justify-between overflow-hidden max-w-full">
+            <CardHeader className="border-b border-border/40 bg-muted/20 p-3 sm:p-4">
+              <div className="flex items-center justify-between gap-2">
+                <CardTitle className="text-xs sm:text-sm font-semibold flex items-center gap-2 text-primary tracking-tight">
+                  <Terminal className="h-4 w-4 shrink-0" />
+                  Generated Output & Explanation
                 </CardTitle>
 
                 {generatedResult && (
@@ -210,41 +215,35 @@ export default function SqlRegexBuilderClient() {
                     size="sm"
                     variant="outline"
                     onClick={handleCopy}
-                    className="h-8 gap-1.5 text-xs rounded-lg"
+                    className="h-8 gap-1.5 text-xs rounded-lg shrink-0"
                   >
                     {copied ? <Check className="h-3.5 w-3.5 text-emerald-500" /> : <Copy className="h-3.5 w-3.5" />}
-                    {copied ? "Copied" : "Copy Query"}
+                    {copied ? "Copied" : "Copy Output"}
                   </Button>
                 )}
               </div>
             </CardHeader>
 
-            <CardContent className="p-4 flex-1 flex flex-col justify-between space-y-4">
-              {isGenerating ? (
-                <div className="flex-1 rounded-xl border flex flex-col items-center justify-center text-center p-6 text-muted-foreground bg-muted/20 space-y-3 min-h-[300px]">
-                  <RefreshCw className="h-8 w-8 animate-spin text-primary" />
-                  <p className="text-sm font-semibold text-foreground">Translating natural language to {outputType.toUpperCase()}...</p>
-                </div>
-              ) : (
-                <div className="flex-1 flex flex-col justify-between space-y-4">
-                  <div className="flex-1 flex flex-col min-h-[200px]">
-                    <div className="flex items-center justify-between text-xs font-medium text-muted-foreground mb-1.5">
-                      <span className="flex items-center gap-1 text-emerald-500 font-semibold">
-                        <CheckCircle2 className="h-3.5 w-3.5" /> Production Ready
-                      </span>
-                      <span>{outputType === "sql" ? sqlDialect : "Regex Engine"}</span>
-                    </div>
-                    <pre className="flex-1 p-4 rounded-xl border bg-slate-950 text-emerald-400 font-mono text-xs overflow-x-auto leading-relaxed">
-                      <code>{generatedResult}</code>
-                    </pre>
+            <CardContent className="p-3 sm:p-4 flex-1 flex flex-col justify-between space-y-3 max-w-full overflow-hidden">
+              {generatedResult ? (
+                <div className="space-y-3 flex-1 flex flex-col max-w-full overflow-hidden">
+                  <div className="p-3.5 rounded-xl border bg-slate-950 font-mono text-xs text-slate-100 overflow-x-auto max-w-full">
+                    <pre className="whitespace-pre-wrap break-all leading-relaxed">{generatedResult}</pre>
                   </div>
 
-                  <div className="p-3.5 rounded-xl border bg-muted/20 text-xs space-y-1.5">
-                    <span className="font-semibold text-foreground flex items-center gap-1">
-                      <Sparkles className="h-3.5 w-3.5 text-amber-500" /> Query Logic Breakdown:
+                  <div className="p-3 rounded-xl border bg-muted/20 space-y-1.5 text-xs max-w-full">
+                    <span className="font-semibold text-foreground flex items-center gap-1.5">
+                      <Sparkles className="h-3.5 w-3.5 text-primary shrink-0" /> Logic Breakdown:
                     </span>
-                    <div className="whitespace-pre-line text-muted-foreground font-sans leading-relaxed">{explanation}</div>
+                    <div className="text-muted-foreground leading-relaxed break-words whitespace-pre-wrap">
+                      {explanation}
+                    </div>
                   </div>
+                </div>
+              ) : (
+                <div className="flex-1 rounded-xl border border-dashed flex flex-col items-center justify-center text-center p-6 text-muted-foreground bg-muted/10 space-y-3 min-h-[260px] max-w-full">
+                  <Terminal className="h-8 w-8 opacity-40 text-primary" />
+                  <p className="text-sm font-semibold text-foreground">Describe your query to generate</p>
                 </div>
               )}
             </CardContent>
