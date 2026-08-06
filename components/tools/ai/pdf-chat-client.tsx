@@ -23,6 +23,10 @@ import {
   AlertTriangle,
   X,
   FileCheck,
+  Search,
+  Briefcase,
+  GraduationCap,
+  Wrench,
 } from "lucide-react";
 
 interface ChatMessage {
@@ -37,17 +41,15 @@ export default function PdfChatClient() {
   const [file, setFile] = useState<File | null>(null);
   const [fileName, setFileName] = useState<string>("");
   const [fileSize, setFileSize] = useState<string>("");
-  const [extractedText, setExtractedText] = useState<string>(
-    `Toolzium is a privacy-first web application offering 450+ online developer and productivity tools. All computations run directly in client browsers or secure edge environments. Key features include URL shortening with real-time analytics, AI background removal, code translation, and PDF processing. Users can sign in with Google to sync their settings and history across devices.`
-  );
-  const [wordCount, setWordCount] = useState<number>(45);
+  const [extractedText, setExtractedText] = useState<string>("");
+  const [wordCount, setWordCount] = useState<number>(0);
 
   const [inputQuestion, setInputQuestion] = useState<string>("");
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: "welcome-1",
       sender: "ai",
-      text: "👋 Hi! Upload any PDF, Word document, or text file, or paste your text on the left. Ask me anything about your document!",
+      text: "👋 Hi! Upload any PDF, Resume/CV, Word document, or text file. I will read, parse, and understand your entire document so you can ask me anything about it!",
       timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
     },
   ]);
@@ -68,41 +70,79 @@ export default function PdfChatClient() {
     }
   };
 
+  // High-Precision Browser PDF & Document Text Extractor
+  const extractPdfText = async (uploadedFile: File): Promise<string> => {
+    try {
+      const pdfjsLib = await import("pdfjs-dist");
+      pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
+
+      const arrayBuffer = await uploadedFile.arrayBuffer();
+      const loadingTask = pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) });
+      const pdf = await loadingTask.promise;
+      let fullText = "";
+
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const textContent = await page.getTextContent();
+        const pageStrings = textContent.items
+          .map((item: any) => item.str)
+          .filter(Boolean);
+        fullText += pageStrings.join(" ") + "\n\n";
+      }
+
+      const cleanResult = fullText.trim();
+      if (cleanResult.length > 20) {
+        return cleanResult;
+      }
+    } catch (err) {
+      console.warn("pdfjs extraction failed, falling back to text token parser:", err);
+    }
+
+    // Fallback PDF Text Tokenizer (Strips PDF binary streams & returns human readable words)
+    try {
+      const rawText = await uploadedFile.text();
+      // Match PDF parenthesized text tokens e.g. (Tanvir Ahmed Sohan)
+      const textTokens = rawText.match(/\(([^()]+)\)/g);
+      if (textTokens && textTokens.length > 5) {
+        const parsedTokens = textTokens
+          .map((t) => t.slice(1, -1))
+          .filter((t) => t.length > 1 && !t.startsWith("/") && !t.includes("obj") && !t.includes("endobj"))
+          .join(" ");
+        if (parsedTokens.length > 30) return parsedTokens;
+      }
+
+      // Sanitized plaintext fallback
+      return rawText.replace(/[^\x20-\x7E\n\r\t]/g, " ").replace(/\s+/g, " ").trim();
+    } catch {
+      return `Document Content for ${uploadedFile.name}`;
+    }
+  };
+
   const processSelectedFile = async (uploadedFile: File) => {
     setFile(uploadedFile);
     setFileName(uploadedFile.name);
     setFileSize((uploadedFile.size / 1024 / 1024).toFixed(2) + " MB");
 
     setIsProcessing(true);
-    toast.loading("Reading document content...", { id: "doc-read" });
+    toast.loading("Extracting and understanding document contents...", { id: "doc-read" });
 
     try {
-      if (
-        uploadedFile.type.startsWith("text/") ||
-        uploadedFile.name.endsWith(".txt") ||
-        uploadedFile.name.endsWith(".md") ||
-        uploadedFile.name.endsWith(".json") ||
-        uploadedFile.name.endsWith(".csv")
-      ) {
-        const text = await uploadedFile.text();
-        setExtractedText(text);
-        const count = text.trim().split(/\s+/).filter(Boolean).length;
-        setWordCount(count);
-        toast.success(`Loaded ${uploadedFile.name} (${count} words)!`, { id: "doc-read" });
-        generateInitialSummary(uploadedFile.name, text);
+      let text = "";
+      if (uploadedFile.name.endsWith(".pdf")) {
+        text = await extractPdfText(uploadedFile);
       } else {
-        const text = await uploadedFile.text();
-        const cleanText = text.replace(/[^\x20-\x7E\n\r\t]/g, " ").replace(/\s+/g, " ");
-        const usableText = cleanText.length > 50 ? cleanText : `[Extracted Document: ${uploadedFile.name}]\nDocument contains formatted data and tables.`;
-        setExtractedText(usableText);
-        const count = usableText.trim().split(/\s+/).filter(Boolean).length;
-        setWordCount(count);
-        toast.success(`Loaded ${uploadedFile.name}! Ready to chat.`, { id: "doc-read" });
-        generateInitialSummary(uploadedFile.name, usableText);
+        text = await uploadedFile.text();
       }
+
+      setExtractedText(text);
+      const count = text.trim().split(/\s+/).filter(Boolean).length;
+      setWordCount(count);
+
+      toast.success(`Loaded ${uploadedFile.name} (${count} words extracted)!`, { id: "doc-read" });
+      generateInitialSummary(uploadedFile.name, text);
     } catch (err) {
       console.error("File Read Error:", err);
-      toast.error("Failed to read file. Try pasting text.", { id: "doc-read" });
+      toast.error("Failed to read document. Please check file format.", { id: "doc-read" });
     } finally {
       setIsProcessing(false);
     }
@@ -110,12 +150,23 @@ export default function PdfChatClient() {
 
   const generateInitialSummary = (name: string, content: string) => {
     const timeStr = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-    const firstParagraph = content.slice(0, 300);
+
+    // Intelligent Overview Parsing
+    const lines = content.split("\n").map((l) => l.trim()).filter(Boolean);
+    const titleHeader = lines[0] || name;
+    const isCV = name.toLowerCase().includes("cv") || name.toLowerCase().includes("resume") || content.toLowerCase().includes("experience") || content.toLowerCase().includes("skills");
+
+    let summaryText = "";
+    if (isCV) {
+      summaryText = `📄 **Document Loaded: ${name}**\n\n🎯 **CV & Resume Overview**:\n• **Name / Header**: ${titleHeader}\n• **Total Word Count**: ${wordCount} words\n• **Document Type**: Professional Resume / Curriculum Vitae\n\n💬 Ask me anything about **${name}** (e.g. *"What are his top skills?"*, *"Summarize work experience"*, *"Where did he study?"*) or click a quick action below!`;
+    } else {
+      summaryText = `📄 **Document Loaded: ${name}**\n\n📌 **Executive Overview**:\n• **Header**: ${titleHeader}\n• **Word Count**: ${wordCount} words\n• **Snippet**: ${content.slice(0, 200)}...\n\n💬 Ask me any question about **${name}** or click a quick action below!`;
+    }
 
     const summaryMessage: ChatMessage = {
       id: "summary-" + Date.now(),
       sender: "ai",
-      text: `📄 **Document Loaded: ${name}**\n\n📌 **Executive Summary**:\n• **Scope**: ${content.length} characters of structured text.\n• **Key Topic**: ${firstParagraph}...\n\n💬 Ask me any question or click a quick action below!`,
+      text: summaryText,
       timestamp: timeStr,
     };
 
@@ -123,6 +174,7 @@ export default function PdfChatClient() {
     scrollToBottom();
   };
 
+  // High-Intelligence Context Answering Engine
   const handleAskQuestion = (questionText?: string) => {
     const q = (questionText || inputQuestion).trim();
     if (!q) return;
@@ -148,18 +200,94 @@ export default function PdfChatClient() {
     setTimeout(() => {
       let responseText = "";
       const lowerQ = q.toLowerCase();
-      const contentExcerpt = extractedText.slice(0, 400);
+      const content = extractedText;
+      const lowerContent = content.toLowerCase();
+
+      // Split into clean sentences & lines for context search
+      const sentences = content.split(/(?<=[.!?])\s+/).filter((s) => s.trim().length > 5);
 
       if (lowerQ.includes("summary") || lowerQ.includes("summarize") || lowerQ.includes("overview")) {
-        responseText = `📌 **Executive Summary of Document**:\n\n• **Core Purpose**: ${contentExcerpt.slice(0, 180)}...\n• **Key Takeaways**: Computations and processing details are specified in the text.\n• **Status**: Verified privacy-first document analysis.`;
-      } else if (lowerQ.includes("action") || lowerQ.includes("key takeaway") || lowerQ.includes("point")) {
-        responseText = `🎯 **Key Action Points & Takeaways**:\n\n1. Review the primary specifications outlined in the text.\n2. Ensure cross-device synchronization and settings are configured.\n3. Verify all inputs and data processing steps.`;
-      } else if (lowerQ.includes("faq") || lowerQ.includes("question")) {
-        responseText = `❓ **Frequently Asked Questions Extracted**:\n\n• **Q: What is the main subject?**\nA: ${contentExcerpt.slice(0, 100)}...\n• **Q: Is data encrypted/local?**\nA: Yes, processing occurs in client browser or secure edge environments.`;
-      } else if (lowerQ.includes("risk") || lowerQ.includes("deadline") || lowerQ.includes("obligation")) {
-        responseText = `⚠️ **Risks & Compliance Obligations**:\n\n• No critical high-risk flags detected in document scope.\n• All operations adhere to standard privacy and data integrity guidelines.`;
+        const topSentences = sentences.slice(0, 6).join("\n• ");
+        responseText = `📌 **Document Summary (${fileName || "Document"})**:\n\n• ${topSentences}\n\n💡 *Extracted from ${wordCount} total words.*`;
+      } else if (lowerQ.includes("skill") || lowerQ.includes("tech") || lowerQ.includes("stack") || lowerQ.includes("expertise")) {
+        // Find skill lines or sentences
+        const skillMatches = sentences.filter((s) => 
+          s.toLowerCase().includes("skill") || 
+          s.toLowerCase().includes("developer") || 
+          s.toLowerCase().includes("technol") ||
+          s.toLowerCase().includes("proficien") ||
+          s.toLowerCase().includes("tool")
+        );
+        if (skillMatches.length > 0) {
+          responseText = `🛠️ **Key Skills & Expertise Found in Document**:\n\n• ${skillMatches.slice(0, 5).join("\n• ")}`;
+        } else {
+          // Extract tech keywords from full text
+          const keywords = ["javascript", "typescript", "react", "next.js", "python", "node.js", "sql", "postgresql", "css", "html", "git", "aws", "docker", "c++", "rust", "go", "java"];
+          const found = keywords.filter((k) => lowerContent.includes(k));
+          if (found.length > 0) {
+            responseText = `🛠️ **Skills & Technical Stack Mentioned**:\n\n${found.map((k) => `• **${k.toUpperCase()}**`).join("\n")}`;
+          } else {
+            responseText = `🛠️ **Document Text Excerpt on Skills**:\n\n"${content.slice(0, 300)}..."`;
+          }
+        }
+      } else if (lowerQ.includes("experience") || lowerQ.includes("work") || lowerQ.includes("job") || lowerQ.includes("history") || lowerQ.includes("company") || lowerQ.includes("role")) {
+        const expMatches = sentences.filter((s) => 
+          s.toLowerCase().includes("experience") || 
+          s.toLowerCase().includes("work") || 
+          s.toLowerCase().includes("developer") ||
+          s.toLowerCase().includes("engineer") ||
+          s.toLowerCase().includes("lead") ||
+          s.toLowerCase().includes("manager") ||
+          s.toLowerCase().includes("inc") ||
+          s.toLowerCase().includes("ltd")
+        );
+        if (expMatches.length > 0) {
+          responseText = `💼 **Work Experience Details Found**:\n\n• ${expMatches.slice(0, 6).join("\n• ")}`;
+        } else {
+          responseText = `💼 **Document Section on Experience**:\n\n"${content.slice(0, 350)}..."`;
+        }
+      } else if (lowerQ.includes("education") || lowerQ.includes("university") || lowerQ.includes("degree") || lowerQ.includes("college") || lowerQ.includes("study") || lowerQ.includes("school")) {
+        const eduMatches = sentences.filter((s) => 
+          s.toLowerCase().includes("university") || 
+          s.toLowerCase().includes("degree") || 
+          s.toLowerCase().includes("b.s") ||
+          s.toLowerCase().includes("m.s") ||
+          s.toLowerCase().includes("bachelor") ||
+          s.toLowerCase().includes("master") ||
+          s.toLowerCase().includes("education") ||
+          s.toLowerCase().includes("gpa")
+        );
+        if (eduMatches.length > 0) {
+          responseText = `🎓 **Education Details Found**:\n\n• ${eduMatches.join("\n• ")}`;
+        } else {
+          responseText = `🎓 No specific education section was explicitly detected in **${fileName}**. Direct document excerpt:\n\n"${content.slice(0, 250)}..."`;
+        }
+      } else if (lowerQ.includes("contact") || lowerQ.includes("email") || lowerQ.includes("phone") || lowerQ.includes("link") || lowerQ.includes("github") || lowerQ.includes("linkedin")) {
+        const emails = content.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g);
+        const phones = content.match(/(\+\d{1,3}[- ]?)?\d{10,12}/g);
+        const links = content.match(/https?:\/\/[^\s]+/g);
+
+        let contactStr = "📧 **Contact Details Found in Document**:\n\n";
+        if (emails) contactStr += `• **Email**: ${Array.from(new Set(emails)).join(", ")}\n`;
+        if (phones) contactStr += `• **Phone**: ${Array.from(new Set(phones)).join(", ")}\n`;
+        if (links) contactStr += `• **Links**: ${Array.from(new Set(links)).join("\n• ")}\n`;
+        if (!emails && !phones && !links) {
+          contactStr += `"${content.slice(0, 200)}..."`;
+        }
+        responseText = contactStr;
       } else {
-        responseText = `💡 **Direct Answer regarding "${q}"**:\n\nBased on your document content:\n> "${contentExcerpt.slice(0, 200)}..."\n\nThe document highlights that key operations run smoothly with full privacy and real-time responsiveness.`;
+        // Exact Keyword Match Search across Document Sentences
+        const queryTerms = lowerQ.replace(/[^\w\s]/g, "").split(/\s+/).filter((t) => t.length > 2);
+        const matchingSentences = sentences.filter((s) => {
+          const lowerS = s.toLowerCase();
+          return queryTerms.some((term) => lowerS.includes(term));
+        });
+
+        if (matchingSentences.length > 0) {
+          responseText = `💡 **Direct Details regarding "${q}"**:\n\n• ${matchingSentences.slice(0, 5).join("\n• ")}`;
+        } else {
+          responseText = `💡 **Document Extract regarding "${q}"**:\n\nBased on your document **${fileName}**:\n> "${content.slice(0, 300)}..."\n\n*(If you are looking for a specific topic, try asking about skills, experience, or summary!)*`;
+        }
       }
 
       const aiTime = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
@@ -173,7 +301,7 @@ export default function PdfChatClient() {
       setMessages((prev) => [...prev, aiMsg]);
       setIsProcessing(false);
       scrollToBottom();
-    }, 600);
+    }, 500);
   };
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -244,7 +372,7 @@ export default function PdfChatClient() {
                     <div className="p-3 rounded-full bg-primary/10 text-primary w-fit mx-auto mb-3 group-hover:scale-110 transition-transform">
                       <Upload className="h-6 w-6" />
                     </div>
-                    <h4 className="font-semibold text-sm tracking-tight">Upload PDF, Word, or Text Document</h4>
+                    <h4 className="font-semibold text-sm tracking-tight">Upload PDF, Resume, or Word File</h4>
                     <p className="text-xs text-muted-foreground mt-1">
                       Supports .pdf, .docx, .txt, .md, .json, .csv (Up to 25MB)
                     </p>
@@ -264,7 +392,7 @@ export default function PdfChatClient() {
                         <div className="min-w-0">
                           <p className="font-semibold truncate">{fileName}</p>
                           <p className="text-[11px] text-muted-foreground">
-                            {fileSize} • {wordCount} words
+                            {fileSize} • {wordCount} words parsed
                           </p>
                         </div>
                       </div>
@@ -320,28 +448,28 @@ export default function PdfChatClient() {
                     variant="outline"
                     size="sm"
                     className="text-[11px] h-8 justify-start gap-1.5 rounded-lg"
-                    onClick={() => handleAskQuestion("Extract top key takeaways & action items")}
+                    onClick={() => handleAskQuestion("What are the key skills and technical expertise?")}
                   >
-                    <Sparkles className="h-3 w-3 text-emerald-500" />
-                    Action Items
+                    <Wrench className="h-3 w-3 text-emerald-500" />
+                    Extract Skills
                   </Button>
                   <Button
                     variant="outline"
                     size="sm"
                     className="text-[11px] h-8 justify-start gap-1.5 rounded-lg"
-                    onClick={() => handleAskQuestion("Generate top 5 FAQs from this text")}
+                    onClick={() => handleAskQuestion("Summarize work experience and career history")}
                   >
-                    <HelpCircle className="h-3 w-3 text-purple-500" />
-                    Generate FAQs
+                    <Briefcase className="h-3 w-3 text-purple-500" />
+                    Work Experience
                   </Button>
                   <Button
                     variant="outline"
                     size="sm"
                     className="text-[11px] h-8 justify-start gap-1.5 rounded-lg"
-                    onClick={() => handleAskQuestion("Identify any risks, obligations, or deadlines")}
+                    onClick={() => handleAskQuestion("What is the education and academic background?")}
                   >
-                    <AlertTriangle className="h-3 w-3 text-amber-500" />
-                    Find Risks
+                    <GraduationCap className="h-3 w-3 text-amber-500" />
+                    Education Info
                   </Button>
                 </div>
               </div>
@@ -407,7 +535,7 @@ export default function PdfChatClient() {
                     <RefreshCw className="h-3.5 w-3.5 animate-spin" />
                   </div>
                   <div className="bg-muted/40 border rounded-2xl rounded-tl-none px-4 py-2.5 text-muted-foreground italic flex items-center gap-2">
-                    Thinking & querying document context...
+                    Parsing & searching document sentences...
                   </div>
                 </div>
               )}
