@@ -7,10 +7,24 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from "@/component
 import InputField from "@/components/shared/form-fields/input-field";
 import SwitchRow from "@/components/shared/form-fields/switch-row";
 import Stat from "@/components/shared/stat";
-import { ResetButton, ActionButton } from "@/components/shared/action-buttons";
 import { Button } from "@/components/ui/button";
-import { Scaling, Upload, Download, RefreshCw, Trash2, Image as ImageIcon } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import {
+  Scaling,
+  Upload,
+  Download,
+  RefreshCw,
+  Trash2,
+  Image as ImageIcon,
+  Sparkles,
+  Crop,
+  Maximize2,
+  CheckCircle2,
+  Zap,
+} from "lucide-react";
 import JSZip from "jszip";
+import { drawToCanvas, canvasEncode, FitMode, formatBytes, mimeFromFormat } from "@/lib/canvas";
+import toast from "react-hot-toast";
 
 interface ImageItem {
   id: string;
@@ -26,17 +40,53 @@ interface ImageItem {
   resizedSize: number;
 }
 
+interface SocialPreset {
+  platform: "Facebook" | "Instagram" | "LinkedIn" | "Twitter" | "Pinterest" | "YouTube";
+  label: string;
+  w: number;
+  h: number;
+  ratio: string;
+  badgeColor: string;
+}
+
+const SOCIAL_PRESETS: SocialPreset[] = [
+  // Facebook
+  { platform: "Facebook", label: "Facebook Portrait Post", w: 1080, h: 1350, ratio: "4:5", badgeColor: "bg-blue-600/10 text-blue-600 border-blue-600/30" },
+  { platform: "Facebook", label: "Facebook Square Post", w: 1080, h: 1080, ratio: "1:1", badgeColor: "bg-blue-600/10 text-blue-600 border-blue-600/30" },
+  { platform: "Facebook", label: "Facebook Cover Banner", w: 1640, h: 924, ratio: "16:9", badgeColor: "bg-blue-600/10 text-blue-600 border-blue-600/30" },
+  { platform: "Facebook", label: "Facebook Story / Reel", w: 1080, h: 1920, ratio: "9:16", badgeColor: "bg-blue-600/10 text-blue-600 border-blue-600/30" },
+  // Instagram
+  { platform: "Instagram", label: "Instagram Portrait Post", w: 1080, h: 1350, ratio: "4:5", badgeColor: "bg-pink-600/10 text-pink-600 border-pink-600/30" },
+  { platform: "Instagram", label: "Instagram Square Post", w: 1080, h: 1080, ratio: "1:1", badgeColor: "bg-pink-600/10 text-pink-600 border-pink-600/30" },
+  { platform: "Instagram", label: "Instagram Story / Reel", w: 1080, h: 1920, ratio: "9:16", badgeColor: "bg-pink-600/10 text-pink-600 border-pink-600/30" },
+  { platform: "Instagram", label: "Instagram Landscape", w: 1080, h: 566, ratio: "1.91:1", badgeColor: "bg-pink-600/10 text-pink-600 border-pink-600/30" },
+  // LinkedIn
+  { platform: "LinkedIn", label: "LinkedIn Portrait Post", w: 1080, h: 1350, ratio: "4:5", badgeColor: "bg-sky-700/10 text-sky-700 border-sky-700/30" },
+  { platform: "LinkedIn", label: "LinkedIn Square Post", w: 1200, h: 1200, ratio: "1:1", badgeColor: "bg-sky-700/10 text-sky-700 border-sky-700/30" },
+  { platform: "LinkedIn", label: "LinkedIn Cover Banner", w: 1584, h: 396, ratio: "4:1", badgeColor: "bg-sky-700/10 text-sky-700 border-sky-700/30" },
+  // X / Twitter
+  { platform: "Twitter", label: "X (Twitter) Post", w: 1200, h: 675, ratio: "16:9", badgeColor: "bg-slate-700/10 text-slate-700 dark:text-slate-300 border-slate-700/30" },
+  { platform: "Twitter", label: "X Header Banner", w: 1500, h: 500, ratio: "3:1", badgeColor: "bg-slate-700/10 text-slate-700 dark:text-slate-300 border-slate-700/30" },
+  // Pinterest & YouTube
+  { platform: "Pinterest", label: "Pinterest Pin", w: 1000, h: 1500, ratio: "2:3", badgeColor: "bg-red-600/10 text-red-600 border-red-600/30" },
+  { platform: "YouTube", label: "YouTube Thumbnail", w: 1280, h: 720, ratio: "16:9", badgeColor: "bg-red-700/10 text-red-700 border-red-700/30" },
+];
+
 export default function ImageResizerClient() {
   const [images, setImages] = useState<ImageItem[]>([]);
   const [resizeMode, setResizeMode] = useState<"pixel" | "percent">("pixel");
-  const [targetWidth, setTargetWidth] = useState<number>(800);
-  const [targetHeight, setTargetHeight] = useState<number>(600);
-  const [percentage, setPercentage] = useState<number>(50);
-  const [keepAspectRatio, setKeepAspectRatio] = useState<boolean>(true);
-  const [format, setFormat] = useState<"original" | "image/jpeg" | "image/png" | "image/webp">("original");
-  const [quality, setQuality] = useState<number>(85);
+  const [targetWidth, setTargetWidth] = useState<number>(1080);
+  const [targetHeight, setTargetHeight] = useState<number>(1350);
+  const [fitMode, setFitMode] = useState<FitMode>("stretch"); // Default to Stretch 4 corners per user request!
+  const [percentage, setPercentage] = useState<number>(100);
+  const [keepAspectRatio, setKeepAspectRatio] = useState<boolean>(false);
+  const [format, setFormat] = useState<"original" | "image/jpeg" | "image/png" | "image/webp">("image/png");
+  const [quality, setQuality] = useState<number>(100); // Default to 100% max quality
+  const [bgColor, setBgColor] = useState<string>("#ffffff");
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [activePlatformFilter, setActivePlatformFilter] = useState<string>("All");
+
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFiles = (fileList: FileList | File[]) => {
@@ -48,7 +98,7 @@ export default function ImageResizerClient() {
       const img = new Image();
       img.onload = () => {
         const newItem: ImageItem = {
-          id: Math.random().toString(36).substr(2, 9),
+          id: Math.random().toString(36).substring(2, 9),
           file,
           name: file.name,
           originalWidth: img.width,
@@ -56,18 +106,21 @@ export default function ImageResizerClient() {
           originalSize: file.size,
           originalUrl: url,
           resizedUrl: null,
-          resizedWidth: img.width,
-          resizedHeight: img.height,
+          resizedWidth: targetWidth,
+          resizedHeight: targetHeight,
           resizedSize: file.size,
         };
         setImages((prev) => [...prev, newItem]);
-        if (images.length === 0) {
-          setTargetWidth(img.width);
-          setTargetHeight(img.height);
-        }
       };
       img.src = url;
     });
+  };
+
+  const applyPreset = (preset: SocialPreset) => {
+    setTargetWidth(preset.w);
+    setTargetHeight(preset.h);
+    setKeepAspectRatio(false);
+    toast.success(`Applied preset: ${preset.label} (${preset.w} × ${preset.h} px - ${preset.ratio})!`);
   };
 
   const handleWidthChange = (val: number) => {
@@ -93,352 +146,399 @@ export default function ImageResizerClient() {
     const updatedImages = await Promise.all(
       images.map(async (item) => {
         return new Promise<ImageItem>((resolve) => {
-          const img = new Image();
-          img.onload = () => {
-            let outW = targetWidth;
-            let outH = targetHeight;
+          let outW = targetWidth;
+          let outH = targetHeight;
 
-            if (resizeMode === "percent") {
-              outW = Math.max(1, Math.round((item.originalWidth * percentage) / 100));
-              outH = Math.max(1, Math.round((item.originalHeight * percentage) / 100));
-            } else if (keepAspectRatio) {
-              const ratio = Math.min(targetWidth / item.originalWidth, targetHeight / item.originalHeight);
-              outW = Math.max(1, Math.round(item.originalWidth * ratio));
-              outH = Math.max(1, Math.round(item.originalHeight * ratio));
-            }
+          if (resizeMode === "percent") {
+            outW = Math.max(1, Math.round((item.originalWidth * percentage) / 100));
+            outH = Math.max(1, Math.round((item.originalHeight * percentage) / 100));
+          }
 
-            const canvas = document.createElement("canvas");
-            canvas.width = outW;
-            canvas.height = outH;
-            const ctx = canvas.getContext("2d");
-            if (!ctx) {
+          const fmtChoice =
+            format === "original"
+              ? item.file.type.includes("png")
+                ? "png"
+                : item.file.type.includes("webp")
+                ? "webp"
+                : "jpeg"
+              : format.includes("png")
+              ? "png"
+              : format.includes("webp")
+              ? "webp"
+              : "jpeg";
+
+          drawToCanvas({
+            srcUrl: item.originalUrl,
+            srcW: item.originalWidth,
+            srcH: item.originalHeight,
+            outW,
+            outH,
+            fit: fitMode,
+            background: fitMode === "contain" ? bgColor : undefined,
+          })
+            .then((canvas) => canvasEncode(canvas, fmtChoice, quality))
+            .then((blob) => {
+              const url = URL.createObjectURL(blob);
+              resolve({
+                ...item,
+                resizedUrl: url,
+                resizedWidth: outW,
+                resizedHeight: outH,
+                resizedSize: blob.size,
+              });
+            })
+            .catch((err) => {
+              console.error("Resize Error:", err);
               resolve(item);
-              return;
-            }
-
-            ctx.imageSmoothingEnabled = true;
-            ctx.imageSmoothingQuality = "high";
-            ctx.drawImage(img, 0, 0, outW, outH);
-
-            const mimeType = format === "original" ? item.file.type || "image/png" : format;
-            const qVal = mimeType === "image/png" ? 1 : quality / 100;
-
-            canvas.toBlob(
-              (blob) => {
-                if (!blob) {
-                  resolve(item);
-                  return;
-                }
-                const resizedUrl = URL.createObjectURL(blob);
-                resolve({
-                  ...item,
-                  resizedUrl,
-                  resizedWidth: outW,
-                  resizedHeight: outH,
-                  resizedSize: blob.size,
-                });
-              },
-              mimeType,
-              qVal
-            );
-          };
-          img.src = item.originalUrl;
+            });
         });
       })
     );
 
     setImages(updatedImages);
     setIsProcessing(false);
+    toast.success("Images resized cleanly in Ultra-HD 100% quality!");
   };
 
-  const handleDownloadSingle = (item: ImageItem) => {
+  const downloadSingle = (item: ImageItem) => {
     if (!item.resizedUrl) return;
     const a = document.createElement("a");
     a.href = item.resizedUrl;
-    const ext = format === "image/jpeg" ? "jpg" : format === "image/webp" ? "webp" : format === "image/png" ? "png" : item.name.split(".").pop() || "png";
-    const baseName = item.name.substring(0, item.name.lastIndexOf(".")) || item.name;
-    a.download = `${baseName}_resized.${ext}`;
+    const ext = format === "original" ? item.name.split(".").pop() || "png" : format.split("/")[1];
+    a.download = `${item.name.replace(/\.[^/.]+$/, "")}-${targetWidth}x${targetHeight}.${ext}`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
   };
 
-  const handleDownloadAllZip = async () => {
-    const resizedItems = images.filter((img) => img.resizedUrl);
+  const downloadAllZip = async () => {
+    const resizedItems = images.filter((i) => i.resizedUrl);
     if (resizedItems.length === 0) return;
 
     const zip = new JSZip();
-    await Promise.all(
-      resizedItems.map(async (item) => {
-        const res = await fetch(item.resizedUrl!);
-        const blob = await res.blob();
-        const ext = format === "image/jpeg" ? "jpg" : format === "image/webp" ? "webp" : format === "image/png" ? "png" : item.name.split(".").pop() || "png";
-        const baseName = item.name.substring(0, item.name.lastIndexOf(".")) || item.name;
-        zip.file(`${baseName}_resized.${ext}`, blob);
-      })
-    );
+    for (let i = 0; i < resizedItems.length; i++) {
+      const item = resizedItems[i];
+      if (item.resizedUrl) {
+        const response = await fetch(item.resizedUrl);
+        const blob = await response.blob();
+        const ext = format === "original" ? item.name.split(".").pop() || "png" : format.split("/")[1];
+        zip.file(`${item.name.replace(/\.[^/.]+$/, "")}-${item.resizedWidth}x${item.resizedHeight}.${ext}`, blob);
+      }
+    }
 
     const zipBlob = await zip.generateAsync({ type: "blob" });
     const url = URL.createObjectURL(zipBlob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "resized_images.zip";
+    a.download = `toolzium-social-resized-photos.zip`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    URL.revokeObjectURL(url);
   };
 
-  const handleReset = () => {
-    images.forEach((item) => {
-      URL.revokeObjectURL(item.originalUrl);
-      if (item.resizedUrl) URL.revokeObjectURL(item.resizedUrl);
-    });
-    setImages([]);
-  };
-
-  const formatKB = (bytes: number) => {
-    if (bytes < 1024) return `${bytes} B`;
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-    return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
-  };
+  const filteredPresets =
+    activePlatformFilter === "All"
+      ? SOCIAL_PRESETS
+      : SOCIAL_PRESETS.filter((p) => p.platform === activePlatformFilter);
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
+    <div className="mx-auto max-w-6xl px-4 py-8 space-y-8">
       <ToolPageHeader
-        title="Image Resizer"
-        description="Resize images online by pixels or percentage. Batch resize PNG, JPG, and WEBP photos instantly in your browser with zero server uploads."
-        icon={Scaling}
+        title="Social Media Image Resizer & Aspect Ratio Tool"
+        description="Resize images for Facebook, Instagram, LinkedIn, X, and Pinterest in 1-click. High-precision 4-corner stretch, smart crop cover, or padded fit with zero quality loss."
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Left Column: Controls & Upload */}
-        <div className="lg:col-span-5 space-y-6">
-          <GlassCard>
-            <CardHeader>
-              <CardTitle>Upload Images</CardTitle>
-              <CardDescription>Select one or multiple images to resize</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <input
-                type="file"
-                ref={fileInputRef}
-                multiple
-                accept="image/*"
-                className="hidden"
-                onChange={(e) => e.target.files && handleFiles(e.target.files)}
-              />
-              <div
-                className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors ${
-                  isDragging ? "border-primary bg-primary/10" : "border-border hover:bg-muted/50"
+      {/* Social Media 1-Click Preset Bar */}
+      <GlassCard className="p-5 space-y-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b pb-3">
+          <div className="flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-primary" />
+            <h3 className="font-semibold text-base">Social Media 1-Click Presets</h3>
+          </div>
+
+          {/* Platform Filter Buttons */}
+          <div className="flex flex-wrap items-center gap-1">
+            {["All", "Facebook", "Instagram", "LinkedIn", "Twitter", "Pinterest", "YouTube"].map((plat) => (
+              <button
+                key={plat}
+                type="button"
+                onClick={() => setActivePlatformFilter(plat)}
+                className={`px-2.5 py-1 rounded-md text-xs font-semibold transition ${
+                  activePlatformFilter === plat
+                    ? "bg-primary text-primary-foreground shadow-xs"
+                    : "bg-muted/40 text-muted-foreground hover:text-foreground"
                 }`}
-                onDragOver={(e) => {
-                  e.preventDefault();
-                  setIsDragging(true);
-                }}
-                onDragLeave={() => setIsDragging(false)}
-                onDrop={(e) => {
-                  e.preventDefault();
-                  setIsDragging(false);
-                  if (e.dataTransfer.files) handleFiles(e.dataTransfer.files);
-                }}
-                onClick={() => fileInputRef.current?.click()}
               >
-                <Upload className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
-                <p className="text-sm font-medium mb-1">Drag and drop images here</p>
-                <p className="text-xs text-muted-foreground">or click to browse from device (Bulk supported)</p>
-              </div>
-            </CardContent>
-          </GlassCard>
-
-          <GlassCard>
-            <CardHeader>
-              <CardTitle>Resize Dimensions</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-5">
-              <div className="flex gap-2">
-                <Button
-                  type="button"
-                  variant={resizeMode === "pixel" ? "default" : "outline"}
-                  size="sm"
-                  className="flex-1"
-                  onClick={() => setResizeMode("pixel")}
-                >
-                  By Pixels
-                </Button>
-                <Button
-                  type="button"
-                  variant={resizeMode === "percent" ? "default" : "outline"}
-                  size="sm"
-                  className="flex-1"
-                  onClick={() => setResizeMode("percent")}
-                >
-                  By Percentage
-                </Button>
-              </div>
-
-              {resizeMode === "pixel" ? (
-                <div className="grid grid-cols-2 gap-4">
-                  <InputField
-                    label="Width (px)"
-                    type="number"
-                    value={targetWidth.toString()}
-                    onChange={(e) => handleWidthChange(Number(e.target.value) || 0)}
-                  />
-                  <InputField
-                    label="Height (px)"
-                    type="number"
-                    value={targetHeight.toString()}
-                    onChange={(e) => handleHeightChange(Number(e.target.value) || 0)}
-                  />
-                </div>
-              ) : (
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm font-medium">
-                    <span>Scale Percentage</span>
-                    <span>{percentage}%</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="1"
-                    max="200"
-                    value={percentage}
-                    onChange={(e) => setPercentage(Number(e.target.value))}
-                    className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
-                  />
-                </div>
-              )}
-
-              {resizeMode === "pixel" && (
-                <SwitchRow
-                  label="Lock Aspect Ratio"
-                  hint="Automatically adjust height/width proportionally"
-                  checked={keepAspectRatio}
-                  onCheckedChange={setKeepAspectRatio}
-                />
-              )}
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Output Format</label>
-                <select
-                  value={format}
-                  onChange={(e) => setFormat(e.target.value as any)}
-                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-                >
-                  <option value="original">Original Format</option>
-                  <option value="image/png">PNG</option>
-                  <option value="image/jpeg">JPEG / JPG</option>
-                  <option value="image/webp">WEBP</option>
-                </select>
-              </div>
-
-              {format !== "image/png" && (
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm font-medium">
-                    <span>Quality</span>
-                    <span>{quality}%</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="10"
-                    max="100"
-                    value={quality}
-                    onChange={(e) => setQuality(Number(e.target.value))}
-                    className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
-                  />
-                </div>
-              )}
-
-              <div className="flex gap-3 pt-2">
-                <ActionButton
-                  icon={Scaling}
-                  label={isProcessing ? "Resizing..." : "Resize Images"}
-                  onClick={processImages}
-                  disabled={images.length === 0 || isProcessing}
-                  variant="default"
-                  className="flex-1"
-                />
-                <ResetButton onClick={handleReset} />
-              </div>
-            </CardContent>
-          </GlassCard>
+                {plat}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* Right Column: Preview & Results */}
-        <div className="lg:col-span-7 space-y-6">
-          <GlassCard className="min-h-[400px]">
-            <CardHeader className="flex flex-row items-center justify-between pb-4 border-b">
+        {/* Preset Cards Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2.5">
+          {filteredPresets.map((p, idx) => (
+            <button
+              key={idx}
+              type="button"
+              onClick={() => applyPreset(p)}
+              className={`p-3 rounded-xl border text-left transition-all hover:scale-[1.02] flex flex-col justify-between space-y-2 group bg-card/80 hover:border-primary/60 hover:shadow-sm ${
+                targetWidth === p.w && targetHeight === p.h ? "border-primary ring-1 ring-primary bg-primary/5" : "border-border/70"
+              }`}
+            >
               <div>
-                <CardTitle>Image Queue ({images.length})</CardTitle>
-                <CardDescription>Preview original vs resized images</CardDescription>
+                <span className="text-[11px] font-bold text-muted-foreground block truncate">{p.platform}</span>
+                <span className="font-semibold text-xs text-foreground group-hover:text-primary transition-colors block line-clamp-1">
+                  {p.label.replace(p.platform, "").trim()}
+                </span>
               </div>
-              {images.some((img) => img.resizedUrl) && (
-                <ActionButton
-                  icon={Download}
-                  label="Download All ZIP"
-                  onClick={handleDownloadAllZip}
-                  variant="outline"
-                  size="sm"
-                />
-              )}
-            </CardHeader>
-            <CardContent className="pt-6">
-              {images.length === 0 ? (
-                <div className="flex flex-col items-center justify-center min-h-[300px] text-center text-muted-foreground">
-                  <ImageIcon className="h-12 w-12 mb-3 opacity-30" />
-                  <p className="text-sm font-medium">No images uploaded yet</p>
-                  <p className="text-xs">Upload images to customize width, height, and format</p>
+              <div className="flex items-center justify-between pt-1">
+                <span className="text-[11px] font-mono text-muted-foreground">
+                  {p.w} × {p.h}
+                </span>
+                <Badge variant="outline" className={`text-[10px] px-1.5 py-0 ${p.badgeColor}`}>
+                  {p.ratio}
+                </Badge>
+              </div>
+            </button>
+          ))}
+        </div>
+      </GlassCard>
+
+      {/* Main Upload & Controls Layout */}
+      <div className="grid gap-6 lg:grid-cols-12">
+        {/* Upload Zone & Previews (7 Cols) */}
+        <div className="lg:col-span-7 space-y-6">
+          <GlassCard className="p-6">
+            <div
+              className={`border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all duration-200 ${
+                isDragging ? "border-primary bg-primary/10 scale-[0.99]" : "border-primary/30 hover:border-primary/60 bg-muted/20"
+              }`}
+              onClick={() => fileInputRef.current?.click()}
+              onDragOver={(e) => {
+                e.preventDefault();
+                setIsDragging(true);
+              }}
+              onDragLeave={() => setIsDragging(false)}
+              onDrop={(e) => {
+                e.preventDefault();
+                setIsDragging(false);
+                if (e.dataTransfer.files) handleFiles(e.dataTransfer.files);
+              }}
+            >
+              <div className="p-3 rounded-full bg-primary/10 text-primary w-fit mx-auto mb-3">
+                <Upload className="h-6 w-6" />
+              </div>
+              <h3 className="font-semibold text-base">Drop photos here or click to upload</h3>
+              <p className="text-xs text-muted-foreground mt-1">
+                Supports JPG, PNG, WebP, GIF, and AVIF up to 50MB
+              </p>
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                className="hidden"
+                ref={fileInputRef}
+                onChange={(e) => e.target.files && handleFiles(e.target.files)}
+              />
+            </div>
+
+            {images.length > 0 && (
+              <div className="mt-6 space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
+                    <ImageIcon className="h-4 w-4 text-primary" /> Uploaded Photos ({images.length})
+                  </span>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 text-xs text-destructive hover:bg-destructive/10 gap-1"
+                    onClick={() => setImages([])}
+                  >
+                    <Trash2 className="h-3.5 w-3.5" /> Clear All
+                  </Button>
                 </div>
-              ) : (
-                <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2">
+
+                <div className="grid gap-3 max-h-[380px] overflow-y-auto pr-1">
                   {images.map((item) => (
                     <div
                       key={item.id}
-                      className="p-4 border rounded-xl bg-muted/20 flex flex-col sm:flex-row items-center justify-between gap-4"
+                      className="p-3 rounded-xl border bg-muted/20 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs"
                     >
-                      <div className="flex items-center gap-4 w-full sm:w-auto">
+                      <div className="flex items-center gap-3 min-w-0 w-full sm:w-auto">
                         <img
                           src={item.resizedUrl || item.originalUrl}
                           alt={item.name}
-                          className="h-16 w-16 object-contain rounded-lg border bg-background shrink-0"
+                          className="h-14 w-14 rounded-lg object-contain border bg-background"
                         />
-                        <div className="space-y-1 min-w-0">
-                          <p className="text-sm font-medium truncate max-w-[200px]">{item.name}</p>
-                          <div className="text-xs text-muted-foreground flex flex-wrap gap-2">
-                            <span>
-                              Original: {item.originalWidth}x{item.originalHeight} ({formatKB(item.originalSize)})
-                            </span>
-                          </div>
+                        <div className="min-w-0">
+                          <p className="font-medium truncate max-w-[180px] text-foreground">{item.name}</p>
+                          <p className="text-[11px] text-muted-foreground">
+                            Original: {item.originalWidth} × {item.originalHeight} px ({formatBytes(item.originalSize)})
+                          </p>
                           {item.resizedUrl && (
-                            <div className="text-xs font-semibold text-emerald-500">
-                              Resized: {item.resizedWidth}x{item.resizedHeight} ({formatKB(item.resizedSize)})
-                            </div>
+                            <p className="text-[11px] font-semibold text-emerald-600 flex items-center gap-1">
+                              <CheckCircle2 className="h-3 w-3" /> Resized: {item.resizedWidth} × {item.resizedHeight} px ({formatBytes(item.resizedSize)})
+                            </p>
                           )}
                         </div>
                       </div>
 
-                      <div className="flex gap-2 shrink-0 w-full sm:w-auto justify-end">
-                        {item.resizedUrl && (
-                          <ActionButton
-                            icon={Download}
-                            label="Download"
-                            onClick={() => handleDownloadSingle(item)}
-                            size="sm"
-                          />
-                        )}
+                      {item.resizedUrl && (
                         <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => setImages((prev) => prev.filter((i) => i.id !== item.id))}
+                          size="sm"
+                          variant="outline"
+                          className="w-full sm:w-auto text-xs gap-1.5 shadow-xs"
+                          onClick={() => downloadSingle(item)}
                         >
-                          <Trash2 className="h-4 w-4 text-destructive" />
+                          <Download className="h-3.5 w-3.5" /> Download
                         </Button>
-                      </div>
+                      )}
                     </div>
                   ))}
                 </div>
+              </div>
+            )}
+          </GlassCard>
+        </div>
+
+        {/* Resizing Configuration Controls (5 Cols) */}
+        <div className="lg:col-span-5 space-y-6">
+          <GlassCard className="p-6 space-y-5">
+            <div className="border-b pb-3 flex items-center justify-between">
+              <h3 className="font-semibold text-base flex items-center gap-2">
+                <Scaling className="h-4 w-4 text-primary" /> Resize & Fit Settings
+              </h3>
+              <Badge variant="outline" className="text-xs font-normal text-emerald-500 border-emerald-500/30 gap-1">
+                <Zap className="h-3 w-3" />
+                100% Ultra HD Quality
+              </Badge>
+            </div>
+
+            {/* Fit & Border Eliminator Mode Selector */}
+            <div className="space-y-2">
+              <label className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
+                <Maximize2 className="h-3.5 w-3.5 text-primary" /> Canvas Fit Mode (Eliminate White Bars):
+              </label>
+              <div className="grid grid-cols-3 gap-1.5 p-1 rounded-xl border bg-muted/20">
+                <button
+                  type="button"
+                  onClick={() => setFitMode("stretch")}
+                  className={`p-2 rounded-lg text-center transition ${
+                    fitMode === "stretch" ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  <span className="font-bold text-xs block">Stretch 4 Corners</span>
+                  <span className="text-[10px] opacity-80 block">No White Bars</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setFitMode("cover")}
+                  className={`p-2 rounded-lg text-center transition ${
+                    fitMode === "cover" ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  <span className="font-bold text-xs block">Smart Crop Cover</span>
+                  <span className="text-[10px] opacity-80 block">Fill & Crop</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setFitMode("contain")}
+                  className={`p-2 rounded-lg text-center transition ${
+                    fitMode === "contain" ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  <span className="font-bold text-xs block">Fit & Pad</span>
+                  <span className="text-[10px] opacity-80 block">With Background</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Dimensions Input */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-muted-foreground">Width (px):</label>
+                <input
+                  type="number"
+                  value={targetWidth}
+                  onChange={(e) => handleWidthChange(Number(e.target.value))}
+                  className="w-full h-9 rounded-md border border-input bg-muted/20 px-3 text-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring font-mono font-semibold"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-muted-foreground">Height (px):</label>
+                <input
+                  type="number"
+                  value={targetHeight}
+                  onChange={(e) => handleHeightChange(Number(e.target.value))}
+                  className="w-full h-9 rounded-md border border-input bg-muted/20 px-3 text-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring font-mono font-semibold"
+                />
+              </div>
+            </div>
+
+            {/* Format & Export Quality */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-muted-foreground">Export Format:</label>
+                <select
+                  value={format}
+                  onChange={(e) => setFormat(e.target.value as any)}
+                  className="w-full h-9 rounded-md border border-input bg-muted/20 px-3 text-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                >
+                  <option value="original">Original Format</option>
+                  <option value="image/png">PNG (Lossless)</option>
+                  <option value="image/jpeg">JPG / JPEG</option>
+                  <option value="image/webp">WebP (Compressed)</option>
+                </select>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-muted-foreground">Quality ({quality}%):</label>
+                <input
+                  type="range"
+                  min="50"
+                  max="100"
+                  value={quality}
+                  onChange={(e) => setQuality(Number(e.target.value))}
+                  className="w-full accent-primary cursor-pointer h-2 bg-muted rounded-lg mt-2"
+                />
+              </div>
+            </div>
+
+            {/* Processing & Action Buttons */}
+            <div className="space-y-3 pt-2">
+              <Button
+                onClick={processImages}
+                disabled={isProcessing || images.length === 0}
+                className="w-full h-10 gap-2 shadow-md font-semibold text-xs"
+              >
+                {isProcessing ? (
+                  <>
+                    <RefreshCw className="h-4 w-4 animate-spin" />
+                    Resizing Photos...
+                  </>
+                ) : (
+                  <>
+                    <Scaling className="h-4 w-4" />
+                    Resize All Photos ({images.length})
+                  </>
+                )}
+              </Button>
+
+              {images.some((i) => i.resizedUrl) && (
+                <Button
+                  variant="outline"
+                  onClick={downloadAllZip}
+                  className="w-full gap-2 text-xs"
+                >
+                  <Download className="h-4 w-4 text-emerald-500" />
+                  Download All Resized (ZIP)
+                </Button>
               )}
-            </CardContent>
+            </div>
           </GlassCard>
         </div>
       </div>

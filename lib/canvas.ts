@@ -1,4 +1,4 @@
-export type FitMode = "contain" | "cover";
+export type FitMode = "cover" | "stretch" | "contain";
 export type OutFormat = "webp" | "jpeg" | "png" | "avif";
 type Anchor =
   | "center"
@@ -127,6 +127,8 @@ export async function drawToCanvas(opts: {
     const dx = Math.round((targetW - drawW) / 2);
     const dy = Math.round((targetH - drawH) / 2);
     ctx.drawImage(img, 0, 0, srcW, srcH, dx, dy, drawW, drawH);
+  } else if (fit === "stretch") {
+    ctx.drawImage(img, 0, 0, srcW, srcH, 0, 0, targetW, targetH);
   } else {
     const scale = Math.max(targetW / srcW, targetH / srcH);
     const sw = Math.round(targetW / scale);
@@ -276,6 +278,15 @@ export async function drawWithAnchor(opts: {
       dx = Math.round((targetW - dw) / 2);
       dy = Math.round((targetH - dh) / 2);
     }
+  } else if (fit === "stretch") {
+    sx = 0;
+    sy = 0;
+    sw = srcW;
+    sh = srcH;
+    dx = 0;
+    dy = 0;
+    dw = targetW;
+    dh = targetH;
   } else {
     const scale = Math.max(targetW / srcW, targetH / srcH);
     const needW = Math.round(targetW / scale);

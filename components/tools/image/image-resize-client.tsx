@@ -41,12 +41,12 @@ import {
 
 export default function ImageResizeClient() {
   const [locked, setLocked] = React.useState(true);
-  const [fit, setFit] = React.useState<FitMode>("contain");
+  const [fit, setFit] = React.useState<FitMode>("stretch");
   const [anchor, setAnchor] = React.useState<Anchor>("center");
 
   const [fmt, setFmt] = React.useState<OutFormat>("webp");
   const [bg, setBg] = React.useState("#ffffff");
-  const [quality, setQuality] = React.useState(90);
+  const [quality, setQuality] = React.useState(100);
 
   const [scale, setScale] = React.useState<number | "">("");
   const [w, setW] = React.useState<number | "">("");
@@ -337,8 +337,9 @@ export default function ImageResizeClient() {
                 placeholder="Select fit"
                 description="Contain keeps all content; Cover fills the frame (may be cropped)."
                 options={[
-                  { value: "contain", label: "Contain" },
-                  { value: "cover", label: "Cover" },
+                  { value: "stretch", label: "Stretch 4 Corners (No White Bars)" },
+                  { value: "cover", label: "Smart Crop Cover" },
+                  { value: "contain", label: "Contain (With Padding)" },
                 ]}
               />
 
