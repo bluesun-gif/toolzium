@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-const pdfParse = require("pdf-parse");
+// @ts-ignore
+import PDFParser from "pdf2json";
+
+export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
   try {
@@ -13,21 +16,38 @@ export async function POST(req: NextRequest) {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    // High-Precision Server PDF Parsing
-    const data = await pdfParse(buffer);
+    const pdfParser = new PDFParser(null, true);
 
-    // Clean and sanitize extracted text (strip control characters and fix line endings)
-    const cleanText = (data.text || "")
-      .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/g, "") // remove non-printable control chars
+    const cleanText = await new Promise<string>((resolve, reject) => {
+      pdfParser.on("pdfParser_dataError", (errData: any) => reject(errData.parserError || errData));
+      pdfParser.on("pdfParser_dataReady", () => {
+        try {
+          const rawText = pdfParser.getRawTextContent();
+          resolve(rawText);
+        } catch (e) {
+          reject(e);
+        }
+      });
+      pdfParser.parseBuffer(buffer);
+    });
+
+    let decoded = cleanText;
+    try {
+      decoded = decodeURIComponent(cleanText);
+    } catch {
+      decoded = cleanText;
+    }
+
+    const sanitized = decoded
+      .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/g, "")
+      .replace(/----------------Page \(\d+\) Break----------------/gi, "\n")
       .replace(/\r\n/g, "\n")
       .replace(/\n{3,}/g, "\n\n")
       .trim();
 
     return NextResponse.json({
       success: true,
-      text: cleanText,
-      pages: data.numpages || 1,
-      info: data.info || {},
+      text: sanitized,
     });
   } catch (error: any) {
     console.error("PDF Parsing Error:", error);
