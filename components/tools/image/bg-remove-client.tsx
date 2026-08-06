@@ -18,16 +18,15 @@ import {
   CheckCircle2,
   Layers,
   Wand2,
-  Eye,
   SlidersHorizontal,
   Zap,
-  Cpu,
   Split,
   Palette,
   ArrowRight,
   User,
   ShoppingBag,
   Sparkle,
+  ArrowLeft,
 } from "lucide-react";
 import { removeBackground } from "@imgly/background-removal";
 
@@ -62,14 +61,13 @@ export default function BgRemoveClient() {
   const [bgPreviewColor, setBgPreviewColor] = useState<string>("transparent");
   const [tolerance, setTolerance] = useState<number>(30);
   const [mode, setMode] = useState<"ai" | "instant">("instant");
-  
+
   // High-taste interactive features
   const [sliderPos, setSliderPos] = useState<number>(50);
   const [isDraggingSlider, setIsDraggingSlider] = useState(false);
   const [viewMode, setViewMode] = useState<"split" | "side">("split");
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const resultCardRef = useRef<HTMLDivElement>(null);
   const imageElementRef = useRef<HTMLImageElement | null>(null);
   const splitContainerRef = useRef<HTMLDivElement>(null);
 
@@ -89,7 +87,6 @@ export default function BgRemoveClient() {
         if (mode === "instant") {
           processInstantRemoval(img, tolerance);
         } else {
-          // Convert sample URL to blob for AI mode
           fetch(sampleUrl)
             .then((res) => res.blob())
             .then((blob) => {
@@ -142,10 +139,6 @@ export default function BgRemoveClient() {
     setIsProcessing(true);
     setProgressPercent(10);
     setProgressMsg("Initializing Neural ISNet U2-Net Model...");
-
-    setTimeout(() => {
-      resultCardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 100);
 
     try {
       const imageBlob = await removeBackground(targetFile, {
@@ -290,7 +283,6 @@ export default function BgRemoveClient() {
     document.body.removeChild(a);
   };
 
-  // Interactive Split Slider Mouse/Touch Handler
   const handleSplitMove = (clientX: number) => {
     if (!splitContainerRef.current) return;
     const rect = splitContainerRef.current.getBoundingClientRect();
@@ -299,439 +291,383 @@ export default function BgRemoveClient() {
     setSliderPos(percentage);
   };
 
+  const resetToUpload = () => {
+    setImageFile(null);
+    setOriginalUrl(null);
+    setResultUrl(null);
+    setIsProcessing(false);
+  };
+
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 space-y-8">
+    <div className="mx-auto max-w-6xl px-4 py-6 space-y-6">
       <ToolPageHeader
         title="AI Background Remover Studio"
         description="Remove image backgrounds instantly with high-precision thresholding or HD Neural AI segmentation. Complete with interactive comparison slider and studio backdrop presets."
       />
 
-      {/* Main Studio Upload Container */}
-      <Card className="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden">
-        <CardHeader className="border-b border-border/40 bg-muted/20 pb-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <CardTitle className="text-lg font-semibold flex items-center gap-2 tracking-tight">
-              <Upload className="h-5 w-5 text-primary" />
-              Upload Image Studio
-            </CardTitle>
-
-            {/* Engine Selector Pills */}
-            <div className="flex items-center gap-1.5 p-1 rounded-xl border bg-background/80 shadow-inner">
-              <button
-                type="button"
-                onClick={() => setMode("instant")}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-1.5 ${
-                  mode === "instant"
-                    ? "bg-primary text-primary-foreground shadow-xs"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <Zap className="h-3.5 w-3.5" />
-                Instant Color Threshold
-              </button>
-              <button
-                type="button"
-                onClick={() => setMode("ai")}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-1.5 ${
-                  mode === "ai"
-                    ? "bg-primary text-primary-foreground shadow-xs"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <Sparkles className="h-3.5 w-3.5" />
-                HD Neural AI
-              </button>
-            </div>
-          </div>
-        </CardHeader>
-
-        <CardContent className="p-6 space-y-6">
-          <div
-            className="border-2 border-dashed border-primary/30 hover:border-primary/60 rounded-2xl p-10 text-center cursor-pointer transition-all duration-200 bg-muted/10 hover:bg-muted/30 group"
-            onClick={() => fileInputRef.current?.click()}
-            onDragOver={handleDragOver}
-            onDrop={handleDrop}
-          >
-            <div className="p-4 rounded-full bg-primary/10 text-primary w-fit mx-auto mb-4 group-hover:scale-110 transition-transform">
-              <Upload className="h-8 w-8" />
-            </div>
-            <h3 className="font-semibold text-lg tracking-tight">Click to upload or drag & drop image</h3>
-            <p className="text-sm text-muted-foreground mt-1">
-              Supports PNG, JPG, and WebP up to 25MB (Portraits, Products, Logos)
-            </p>
-            <Input
-              type="file"
-              accept="image/*"
-              className="hidden"
-              ref={fileInputRef}
-              onChange={handleFileChange}
-            />
-          </div>
-
-          {/* 1-Click Sample Image Demo Section (High Taste Empty State) */}
-          <div className="pt-2 border-t space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
-                <Sparkles className="h-3.5 w-3.5 text-primary" /> Or Test Instant Demo Samples (1-Click):
-              </span>
-              <span className="text-[11px] text-muted-foreground">No file upload required</span>
-            </div>
-
-            <div className="grid grid-cols-3 gap-3">
-              {SAMPLE_IMAGES.map((sample) => {
-                const IconComp = sample.icon;
-                return (
-                  <button
-                    key={sample.name}
-                    type="button"
-                    onClick={() => loadSampleImage(sample.url, sample.name)}
-                    disabled={isProcessing}
-                    className="group relative rounded-xl border bg-card hover:border-primary/50 overflow-hidden p-2 text-left transition-all duration-200 hover:shadow-md flex items-center gap-3"
-                  >
-                    <img
-                      src={sample.url}
-                      alt={sample.name}
-                      className="h-12 w-12 rounded-lg object-cover border group-hover:scale-105 transition-transform"
-                    />
-                    <div className="min-w-0 flex-1 hidden sm:block">
-                      <p className="text-xs font-semibold truncate group-hover:text-primary transition-colors">
-                        {sample.name}
-                      </p>
-                      <p className="text-[10px] text-muted-foreground">{sample.category}</p>
-                    </div>
-                    <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all ml-auto shrink-0" />
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {originalUrl && (
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-xl border bg-card/90 shadow-sm">
-              <div className="flex items-center gap-3 min-w-0">
-                <img
-                  src={originalUrl}
-                  alt="Original preview"
-                  className="h-14 w-14 rounded-lg object-cover border shadow-xs"
-                />
-                <div className="min-w-0">
-                  <p className="font-medium truncate text-sm">{imageFile?.name || "Sample Image"}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {imageFile?.size ? (imageFile.size / 1024 / 1024).toFixed(2) + " MB" : "HD Preset"}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2 w-full sm:w-auto">
-                <Button
-                  variant="outline"
-                  onClick={() => fileInputRef.current?.click()}
-                  disabled={isProcessing}
-                  size="sm"
-                >
-                  Change Image
-                </Button>
-                <Button
-                  onClick={() => {
-                    if (mode === "ai") {
-                      processAiRemoval();
-                    } else if (imageElementRef.current) {
-                      processInstantRemoval(imageElementRef.current, tolerance);
-                    }
-                  }}
-                  disabled={isProcessing}
-                  size="sm"
-                  className="gap-1.5 shadow-sm"
-                >
-                  {isProcessing ? (
-                    <>
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                      Processing...
-                    </>
-                  ) : (
-                    <>
-                      <Wand2 className="h-4 w-4" />
-                      Remove Background
-                    </>
-                  )}
-                </Button>
-              </div>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Results & Interactive Studio Showcase */}
-      <div ref={resultCardRef} className="space-y-6">
-        {isProcessing && (
-          <Card className="border border-primary/30 bg-card/70 backdrop-blur-md shadow-md rounded-2xl">
-            <CardContent className="py-12 text-center space-y-4">
-              <Loader2 className="h-10 w-10 animate-spin text-primary mx-auto" />
-              <div className="space-y-2 max-w-md mx-auto">
-                <div className="flex items-center justify-between text-xs font-semibold">
-                  <span className="text-muted-foreground">{progressMsg || "Processing image..."}</span>
-                  <span className="text-primary">{progressPercent}%</span>
-                </div>
-                <Progress value={progressPercent} className="h-2.5" />
-              </div>
-            </CardContent>
-          </Card>
-        )}
-
-        {(resultUrl || originalUrl) && !isProcessing && (
-          <Card className="border border-primary/30 bg-card/70 backdrop-blur-md shadow-xl rounded-2xl overflow-hidden">
+      {/* SINGLE VIEWPORT WORKSPACE CARD */}
+      <Card className="border border-border/80 shadow-xl bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden min-h-[520px] flex flex-col">
+        {/* State A: Image Upload Box & Sample Cards (When no image is loaded) */}
+        {!originalUrl && (
+          <>
             <CardHeader className="border-b border-border/40 bg-muted/20 pb-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div className="flex items-center gap-2">
-                  <CardTitle className="text-base font-semibold flex items-center gap-2 text-primary tracking-tight">
-                    <CheckCircle2 className="h-4 w-4" />
-                    Background Removal Studio
-                  </CardTitle>
-                  <Badge variant="outline" className="text-emerald-500 border-emerald-500/30 gap-1 text-xs font-medium">
-                    <Sparkles className="h-3 w-3" />
-                    HD Cutout Ready
-                  </Badge>
-                </div>
+                <CardTitle className="text-lg font-semibold flex items-center gap-2 tracking-tight">
+                  <Upload className="h-5 w-5 text-primary" />
+                  Upload Image Studio
+                </CardTitle>
 
-                {/* View Mode Switcher (Split Comparison vs Side-by-Side) */}
+                {/* Engine Selector Pills */}
                 <div className="flex items-center gap-1.5 p-1 rounded-xl border bg-background/80 shadow-inner">
                   <button
                     type="button"
-                    onClick={() => setViewMode("split")}
-                    className={`px-3 py-1 rounded-lg text-xs font-medium transition flex items-center gap-1.5 ${
-                      viewMode === "split"
+                    onClick={() => setMode("instant")}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-1.5 ${
+                      mode === "instant"
                         ? "bg-primary text-primary-foreground shadow-xs"
                         : "text-muted-foreground hover:text-foreground"
                     }`}
                   >
-                    <Split className="h-3.5 w-3.5" />
-                    Interactive Split Slider
+                    <Zap className="h-3.5 w-3.5" />
+                    Instant Color Threshold
                   </button>
                   <button
                     type="button"
-                    onClick={() => setViewMode("side")}
-                    className={`px-3 py-1 rounded-lg text-xs font-medium transition flex items-center gap-1.5 ${
-                      viewMode === "side"
+                    onClick={() => setMode("ai")}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-1.5 ${
+                      mode === "ai"
                         ? "bg-primary text-primary-foreground shadow-xs"
                         : "text-muted-foreground hover:text-foreground"
                     }`}
                   >
-                    <Layers className="h-3.5 w-3.5" />
-                    Side-by-Side
+                    <Sparkles className="h-3.5 w-3.5" />
+                    HD Neural AI
                   </button>
                 </div>
               </div>
             </CardHeader>
 
-            <CardContent className="p-6 space-y-6">
-              {/* Studio Controls Bar */}
-              <div className="grid gap-4 md:grid-cols-2">
-                {/* Instant Mode Sensitivity Slider */}
-                {mode === "instant" && (
-                  <div className="p-3.5 rounded-xl border bg-muted/20 space-y-2">
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="font-semibold text-muted-foreground flex items-center gap-1.5">
-                        <SlidersHorizontal className="h-3.5 w-3.5 text-primary" /> Removal Sensitivity: {tolerance}%
-                      </span>
-                      <span className="text-[11px] text-muted-foreground">Adjust threshold</span>
-                    </div>
-                    <input
-                      type="range"
-                      min="10"
-                      max="80"
-                      value={tolerance}
-                      onChange={(e) => {
-                        const val = Number(e.target.value);
-                        setTolerance(val);
-                        if (imageElementRef.current) {
-                          processInstantRemoval(imageElementRef.current, val);
-                        }
-                      }}
-                      className="w-full accent-primary cursor-pointer h-1.5 bg-muted rounded-lg"
-                    />
-                  </div>
-                )}
-
-                {/* Studio Backdrop Palette Switcher */}
-                <div className={`p-3.5 rounded-xl border bg-muted/20 space-y-2 ${mode !== "instant" ? "md:col-span-2" : ""}`}>
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-semibold text-muted-foreground flex items-center gap-1.5">
-                      <Palette className="h-3.5 w-3.5 text-primary" /> Backdrop Studio Preset:
-                    </span>
-                    <span className="text-[11px] text-muted-foreground uppercase">{bgPreviewColor}</span>
-                  </div>
-                  <div className="flex items-center gap-2 flex-wrap">
-                    {[
-                      { name: "Transparent Grid", color: "transparent" },
-                      { name: "Studio White", color: "#ffffff" },
-                      { name: "Sleek Dark", color: "#0f172a" },
-                      { name: "Soft Emerald", color: "#ecfdf5" },
-                      { name: "Ocean Blue", color: "#eff6ff" },
-                      { name: "Rose Pink", color: "#fff1f2" },
-                    ].map((preset) => (
-                      <button
-                        key={preset.name}
-                        type="button"
-                        onClick={() => setBgPreviewColor(preset.color)}
-                        className={`px-2.5 py-1 rounded-lg text-xs font-medium border transition-all flex items-center gap-1.5 ${
-                          bgPreviewColor === preset.color
-                            ? "border-primary bg-primary/10 text-primary shadow-xs"
-                            : "border-transparent bg-background/60 hover:bg-background text-muted-foreground"
-                        }`}
-                      >
-                        <span
-                          className="h-3 w-3 rounded-full border shadow-xs"
-                          style={{
-                            backgroundColor: preset.color === "transparent" ? "#ffffff" : preset.color,
-                            backgroundImage: preset.color === "transparent" ? "linear-gradient(45deg, #ccc 25%, transparent 25%), linear-gradient(-45deg, #ccc 25%, transparent 25%)" : "none",
-                            backgroundSize: "6px 6px"
-                          }}
-                        />
-                        {preset.name}
-                      </button>
-                    ))}
-                  </div>
+            <CardContent className="p-6 flex-1 flex flex-col justify-between space-y-6">
+              <div
+                className="border-2 border-dashed border-primary/30 hover:border-primary/60 rounded-2xl p-10 text-center cursor-pointer transition-all duration-200 bg-muted/10 hover:bg-muted/30 group flex-1 flex flex-col items-center justify-center"
+                onClick={() => fileInputRef.current?.click()}
+                onDragOver={handleDragOver}
+                onDrop={handleDrop}
+              >
+                <div className="p-4 rounded-full bg-primary/10 text-primary w-fit mx-auto mb-4 group-hover:scale-110 transition-transform">
+                  <Upload className="h-8 w-8" />
                 </div>
+                <h3 className="font-semibold text-lg tracking-tight">Click to upload or drag & drop image</h3>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Supports PNG, JPG, and WebP up to 25MB (Portraits, Products, Logos)
+                </p>
+                <Input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                />
               </div>
 
-              {/* View Mode 1: Interactive Split Comparison Slider */}
-              {viewMode === "split" && resultUrl && originalUrl && (
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between text-xs font-medium text-muted-foreground px-1">
-                    <span>Original</span>
-                    <span className="text-primary font-semibold">Drag slider to compare cutout</span>
-                    <span>Transparent Output</span>
-                  </div>
-                  <div
-                    ref={splitContainerRef}
-                    className="relative rounded-2xl overflow-hidden border min-h-[380px] max-h-[500px] flex items-center justify-center select-none cursor-ew-resize touch-none shadow-inner"
-                    style={{
-                      backgroundColor: bgPreviewColor === "transparent" ? "transparent" : bgPreviewColor,
-                    }}
-                    onMouseDown={(e) => {
-                      setIsDraggingSlider(true);
-                      handleSplitMove(e.clientX);
-                    }}
-                    onMouseMove={(e) => {
-                      if (isDraggingSlider) handleSplitMove(e.clientX);
-                    }}
-                    onMouseUp={() => setIsDraggingSlider(false)}
-                    onMouseLeave={() => setIsDraggingSlider(false)}
-                    onTouchMove={(e) => handleSplitMove(e.touches[0].clientX)}
-                  >
-                    {bgPreviewColor === "transparent" && (
-                      <div className="absolute inset-0 pointer-events-none custom-checkerboard" />
-                    )}
+              {/* 1-Click Sample Test Cards */}
+              <div className="pt-4 border-t space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
+                    <Sparkles className="h-3.5 w-3.5 text-primary" /> Test 1-Click Interactive Studio Samples:
+                  </span>
+                  <span className="text-[11px] text-muted-foreground">Click any card to try instantly</span>
+                </div>
 
-                    {/* Result (Transparent) Image */}
-                    <img
-                      src={resultUrl}
-                      alt="Cutout result"
-                      className="absolute inset-0 h-full w-full object-contain p-4 select-none pointer-events-none z-10"
-                    />
-
-                    {/* Original Image Clipped Layer */}
-                    <div
-                      className="absolute inset-0 overflow-hidden z-20 pointer-events-none border-r-2 border-primary"
-                      style={{ width: `${sliderPos}%` }}
+                <div className="grid grid-cols-3 gap-3">
+                  {SAMPLE_IMAGES.map((sample) => (
+                    <button
+                      key={sample.name}
+                      type="button"
+                      onClick={() => loadSampleImage(sample.url, sample.name)}
+                      disabled={isProcessing}
+                      className="group relative rounded-xl border bg-card hover:border-primary/50 overflow-hidden p-2 text-left transition-all duration-200 hover:shadow-md flex items-center gap-3"
                     >
                       <img
-                        src={originalUrl}
-                        alt="Original image"
-                        className="absolute inset-0 h-full w-full object-contain p-4 select-none max-w-none"
-                        style={{ width: splitContainerRef.current?.clientWidth || "100%" }}
+                        src={sample.url}
+                        alt={sample.name}
+                        className="h-12 w-12 rounded-lg object-cover border group-hover:scale-105 transition-transform"
                       />
-                    </div>
-
-                    {/* Drag Handle Divider */}
-                    <div
-                      className="absolute top-0 bottom-0 z-30 w-1 bg-primary cursor-ew-resize flex items-center justify-center shadow-lg"
-                      style={{ left: `${sliderPos}%` }}
-                    >
-                      <div className="h-9 w-9 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-md border-2 border-background">
-                        <Split className="h-4 w-4" />
+                      <div className="min-w-0 flex-1 hidden sm:block">
+                        <p className="text-xs font-semibold truncate group-hover:text-primary transition-colors">
+                          {sample.name}
+                        </p>
+                        <p className="text-[10px] text-muted-foreground">{sample.category}</p>
                       </div>
-                    </div>
-                  </div>
+                      <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all ml-auto shrink-0" />
+                    </button>
+                  ))}
                 </div>
-              )}
-
-              {/* View Mode 2: Side-by-Side Comparison */}
-              {viewMode === "side" && (
-                <div className="grid gap-6 md:grid-cols-2">
-                  <div className="space-y-2">
-                    <p className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
-                      <ImageIcon className="h-3.5 w-3.5" /> Original Image
-                    </p>
-                    <div className="relative rounded-xl overflow-hidden border bg-black/5 dark:bg-white/5 min-h-[280px] flex items-center justify-center">
-                      <img
-                        src={originalUrl!}
-                        alt="Original"
-                        className="max-h-[360px] w-full object-contain p-2"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <p className="text-xs font-semibold text-primary flex items-center gap-1.5">
-                      <CheckCircle2 className="h-3.5 w-3.5" /> Transparent Result
-                    </p>
-                    <div
-                      className="relative rounded-xl overflow-hidden border min-h-[280px] flex items-center justify-center transition-colors"
-                      style={{
-                        backgroundColor: bgPreviewColor === "transparent" ? "transparent" : bgPreviewColor,
-                      }}
-                    >
-                      {bgPreviewColor === "transparent" && (
-                        <div className="absolute inset-0 pointer-events-none custom-checkerboard" />
-                      )}
-                      <img
-                        src={resultUrl!}
-                        alt="Transparent result"
-                        className="max-h-[360px] w-full object-contain p-2 relative z-10"
-                      />
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              <style dangerouslySetInnerHTML={{__html: `
-                .custom-checkerboard {
-                  background-image: linear-gradient(45deg, rgba(0,0,0,0.06) 25%, transparent 25%),
-                    linear-gradient(-45deg, rgba(0,0,0,0.06) 25%, transparent 25%),
-                    linear-gradient(45deg, transparent 75%, rgba(0,0,0,0.06) 75%),
-                    linear-gradient(-45deg, transparent 75%, rgba(0,0,0,0.06) 75%);
-                  background-size: 20px 20px;
-                  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
-                }
-              `}} />
-
-              {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
-                <Button onClick={handleDownload} size="lg" className="w-full sm:flex-1 gap-2 shadow-md rounded-xl font-semibold">
-                  <Download className="h-5 w-5" />
-                  Download Transparent PNG
-                </Button>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  onClick={() => {
-                    if (mode === "ai") {
-                      processAiRemoval();
-                    } else if (imageElementRef.current) {
-                      processInstantRemoval(imageElementRef.current, tolerance);
-                    }
-                  }}
-                  className="w-full sm:w-auto gap-2 rounded-xl"
-                >
-                  <RefreshCw className="h-4 w-4" />
-                  Re-process Cutout
-                </Button>
               </div>
             </CardContent>
-          </Card>
+          </>
         )}
-      </div>
+
+        {/* State B: Single-Viewport Live Studio (Replaces upload box in-place when image is loaded!) */}
+        {originalUrl && (
+          <>
+            {/* Studio Header Bar */}
+            <CardHeader className="border-b border-border/40 bg-muted/20 pb-3">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={resetToUpload}
+                    className="gap-1 text-xs text-muted-foreground hover:text-foreground p-1.5 h-8"
+                  >
+                    <ArrowLeft className="h-4 w-4" />
+                    Upload New
+                  </Button>
+                  <div className="h-4 w-px bg-border hidden md:block" />
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                    <span className="font-semibold text-sm truncate max-w-[200px]">
+                      {imageFile?.name || "Sample Image"}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 flex-wrap">
+                  {/* View Mode Pills */}
+                  <div className="flex items-center gap-1 p-1 rounded-lg border bg-background/80 text-xs">
+                    <button
+                      type="button"
+                      onClick={() => setViewMode("split")}
+                      className={`px-2.5 py-1 rounded-md font-medium transition flex items-center gap-1 ${
+                        viewMode === "split"
+                          ? "bg-primary text-primary-foreground shadow-xs"
+                          : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      <Split className="h-3 w-3" />
+                      Split Compare
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setViewMode("side")}
+                      className={`px-2.5 py-1 rounded-md font-medium transition flex items-center gap-1 ${
+                        viewMode === "side"
+                          ? "bg-primary text-primary-foreground shadow-xs"
+                          : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      <Layers className="h-3 w-3" />
+                      Side-by-Side
+                    </button>
+                  </div>
+
+                  {/* Primary Download Button Right in Header */}
+                  {resultUrl && (
+                    <Button onClick={handleDownload} size="sm" className="gap-1.5 shadow-sm font-semibold">
+                      <Download className="h-4 w-4" />
+                      Download PNG
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </CardHeader>
+
+            {/* Studio Main Focal Viewport (No scrolling required!) */}
+            <CardContent className="p-4 flex-1 flex flex-col justify-between space-y-4">
+              {isProcessing ? (
+                <div className="py-20 text-center space-y-4 my-auto">
+                  <Loader2 className="h-10 w-10 animate-spin text-primary mx-auto" />
+                  <div className="space-y-2 max-w-md mx-auto">
+                    <div className="flex items-center justify-between text-xs font-semibold">
+                      <span className="text-muted-foreground">{progressMsg || "Processing image..."}</span>
+                      <span className="text-primary">{progressPercent}%</span>
+                    </div>
+                    <Progress value={progressPercent} className="h-2.5" />
+                  </div>
+                </div>
+              ) : (
+                <>
+                  {/* View Mode 1: Interactive Split Comparison Slider (Main Screen Focal Point) */}
+                  {viewMode === "split" && resultUrl && (
+                    <div className="relative flex-1 flex flex-col min-h-[360px] max-h-[460px]">
+                      <div className="flex items-center justify-between text-xs font-semibold text-muted-foreground mb-1.5 px-1">
+                        <span>Original Image</span>
+                        <span className="text-primary flex items-center gap-1">
+                          <Split className="h-3.5 w-3.5" /> Drag Split Line to Compare Cutout
+                        </span>
+                        <span>Transparent Cutout</span>
+                      </div>
+
+                      <div
+                        ref={splitContainerRef}
+                        className="relative flex-1 rounded-2xl overflow-hidden border min-h-[340px] flex items-center justify-center select-none cursor-ew-resize touch-none shadow-inner"
+                        style={{
+                          backgroundColor: bgPreviewColor === "transparent" ? "transparent" : bgPreviewColor,
+                        }}
+                        onMouseDown={(e) => {
+                          setIsDraggingSlider(true);
+                          handleSplitMove(e.clientX);
+                        }}
+                        onMouseMove={(e) => {
+                          if (isDraggingSlider) handleSplitMove(e.clientX);
+                        }}
+                        onMouseUp={() => setIsDraggingSlider(false)}
+                        onMouseLeave={() => setIsDraggingSlider(false)}
+                        onTouchMove={(e) => handleSplitMove(e.touches[0].clientX)}
+                      >
+                        {bgPreviewColor === "transparent" && (
+                          <div className="absolute inset-0 pointer-events-none custom-checkerboard" />
+                        )}
+
+                        {/* Result (Transparent) Layer */}
+                        <img
+                          src={resultUrl}
+                          alt="Cutout result"
+                          className="absolute inset-0 h-full w-full object-contain p-3 select-none pointer-events-none z-10"
+                        />
+
+                        {/* Original Image Clipped Layer */}
+                        <div
+                          className="absolute inset-0 overflow-hidden z-20 pointer-events-none border-r-2 border-primary"
+                          style={{ width: `${sliderPos}%` }}
+                        >
+                          <img
+                            src={originalUrl}
+                            alt="Original image"
+                            className="absolute inset-0 h-full w-full object-contain p-3 select-none max-w-none"
+                            style={{ width: splitContainerRef.current?.clientWidth || "100%" }}
+                          />
+                        </div>
+
+                        {/* Drag Handle Divider */}
+                        <div
+                          className="absolute top-0 bottom-0 z-30 w-1 bg-primary cursor-ew-resize flex items-center justify-center shadow-lg"
+                          style={{ left: `${sliderPos}%` }}
+                        >
+                          <div className="h-9 w-9 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-md border-2 border-background">
+                            <Split className="h-4 w-4" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* View Mode 2: Side-by-Side View */}
+                  {viewMode === "side" && resultUrl && (
+                    <div className="grid gap-4 md:grid-cols-2 flex-1 min-h-[340px]">
+                      <div className="space-y-1.5 flex flex-col">
+                        <p className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
+                          <ImageIcon className="h-3.5 w-3.5" /> Original Image
+                        </p>
+                        <div className="relative flex-1 rounded-xl overflow-hidden border bg-black/5 dark:bg-white/5 flex items-center justify-center">
+                          <img
+                            src={originalUrl}
+                            alt="Original"
+                            className="max-h-[340px] w-full object-contain p-2"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="space-y-1.5 flex flex-col">
+                        <p className="text-xs font-semibold text-primary flex items-center gap-1.5">
+                          <CheckCircle2 className="h-3.5 w-3.5" /> Transparent Result
+                        </p>
+                        <div
+                          className="relative flex-1 rounded-xl overflow-hidden border flex items-center justify-center transition-colors"
+                          style={{
+                            backgroundColor: bgPreviewColor === "transparent" ? "transparent" : bgPreviewColor,
+                          }}
+                        >
+                          {bgPreviewColor === "transparent" && (
+                            <div className="absolute inset-0 pointer-events-none custom-checkerboard" />
+                          )}
+                          <img
+                            src={resultUrl}
+                            alt="Transparent result"
+                            className="max-h-[340px] w-full object-contain p-2 relative z-10"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Bottom Studio Palette & Sensitivity Bar */}
+                  <div className="pt-2 border-t flex flex-col md:flex-row items-center justify-between gap-3">
+                    {/* Backdrop Presets */}
+                    <div className="flex items-center gap-2 flex-wrap text-xs">
+                      <span className="font-semibold text-muted-foreground flex items-center gap-1 shrink-0">
+                        <Palette className="h-3.5 w-3.5 text-primary" /> Backdrop:
+                      </span>
+                      {[
+                        { name: "Grid", color: "transparent" },
+                        { name: "White", color: "#ffffff" },
+                        { name: "Dark", color: "#0f172a" },
+                        { name: "Emerald", color: "#ecfdf5" },
+                        { name: "Blue", color: "#eff6ff" },
+                        { name: "Rose", color: "#fff1f2" },
+                      ].map((preset) => (
+                        <button
+                          key={preset.name}
+                          type="button"
+                          onClick={() => setBgPreviewColor(preset.color)}
+                          className={`px-2 py-1 rounded-lg text-xs font-medium border transition-all flex items-center gap-1.5 ${
+                            bgPreviewColor === preset.color
+                              ? "border-primary bg-primary/10 text-primary shadow-xs"
+                              : "border-transparent bg-background/60 hover:bg-background text-muted-foreground"
+                          }`}
+                        >
+                          <span
+                            className="h-2.5 w-2.5 rounded-full border shadow-xs"
+                            style={{
+                              backgroundColor: preset.color === "transparent" ? "#ffffff" : preset.color,
+                              backgroundImage: preset.color === "transparent" ? "linear-gradient(45deg, #ccc 25%, transparent 25%), linear-gradient(-45deg, #ccc 25%, transparent 25%)" : "none",
+                              backgroundSize: "6px 6px"
+                            }}
+                          />
+                          {preset.name}
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* Instant Mode Sensitivity Slider (Inline) */}
+                    {mode === "instant" && (
+                      <div className="flex items-center gap-2 text-xs border rounded-lg px-3 py-1 bg-muted/20 w-full md:w-auto">
+                        <span className="text-muted-foreground font-semibold shrink-0">Tolerance: {tolerance}%</span>
+                        <input
+                          type="range"
+                          min="10"
+                          max="80"
+                          value={tolerance}
+                          onChange={(e) => {
+                            const val = Number(e.target.value);
+                            setTolerance(val);
+                            if (imageElementRef.current) {
+                              processInstantRemoval(imageElementRef.current, val);
+                            }
+                          }}
+                          className="w-24 accent-primary cursor-pointer h-1.5 bg-muted rounded-lg"
+                        />
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
+            </CardContent>
+          </>
+        )}
+      </Card>
+
+      <style dangerouslySetInnerHTML={{__html: `
+        .custom-checkerboard {
+          background-image: linear-gradient(45deg, rgba(0,0,0,0.06) 25%, transparent 25%),
+            linear-gradient(-45deg, rgba(0,0,0,0.06) 25%, transparent 25%),
+            linear-gradient(45deg, transparent 75%, rgba(0,0,0,0.06) 75%),
+            linear-gradient(-45deg, transparent 75%, rgba(0,0,0,0.06) 75%);
+          background-size: 20px 20px;
+          background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        }
+      `}} />
     </div>
   );
 }
