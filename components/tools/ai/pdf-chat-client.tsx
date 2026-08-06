@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, ChangeEvent } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
@@ -12,14 +12,12 @@ import {
   FileText,
   Sparkles,
   RefreshCw,
-  CheckCircle2,
   MessageSquare,
   ListChecks,
   Upload,
   Bot,
   User,
   Send,
-  FileCode,
   Zap,
   HelpCircle,
   AlertTriangle,
@@ -32,7 +30,6 @@ interface ChatMessage {
   sender: "user" | "ai";
   text: string;
   timestamp: string;
-  sources?: string[];
 }
 
 export default function PdfChatClient() {
@@ -92,11 +89,8 @@ export default function PdfChatClient() {
         const count = text.trim().split(/\s+/).filter(Boolean).length;
         setWordCount(count);
         toast.success(`Loaded ${uploadedFile.name} (${count} words)!`, { id: "doc-read" });
-
-        // Add auto summary message to chat
         generateInitialSummary(uploadedFile.name, text);
       } else {
-        // PDF or DOCX file
         const text = await uploadedFile.text();
         const cleanText = text.replace(/[^\x20-\x7E\n\r\t]/g, " ").replace(/\s+/g, " ");
         const usableText = cleanText.length > 50 ? cleanText : `[Extracted Document: ${uploadedFile.name}]\nDocument contains formatted data and tables.`;
@@ -104,7 +98,6 @@ export default function PdfChatClient() {
         const count = usableText.trim().split(/\s+/).filter(Boolean).length;
         setWordCount(count);
         toast.success(`Loaded ${uploadedFile.name}! Ready to chat.`, { id: "doc-read" });
-
         generateInitialSummary(uploadedFile.name, usableText);
       }
     } catch (err) {
@@ -122,7 +115,7 @@ export default function PdfChatClient() {
     const summaryMessage: ChatMessage = {
       id: "summary-" + Date.now(),
       sender: "ai",
-      text: `📄 **Document Loaded: ${name}**\n\n📌 **Executive Summary**:\n• **Primary Scope**: Contains approximately ${content.length} characters of structured document text.\n• **Key Topic**: ${firstParagraph}...\n\n💬 Ask me any question about **${name}** or click a quick action below!`,
+      text: `📄 **Document Loaded: ${name}**\n\n📌 **Executive Summary**:\n• **Scope**: ${content.length} characters of structured text.\n• **Key Topic**: ${firstParagraph}...\n\n💬 Ask me any question or click a quick action below!`,
       timestamp: timeStr,
     };
 
@@ -158,7 +151,7 @@ export default function PdfChatClient() {
       const contentExcerpt = extractedText.slice(0, 400);
 
       if (lowerQ.includes("summary") || lowerQ.includes("summarize") || lowerQ.includes("overview")) {
-        responseText = `📌 **Executive Summary of Document**:\n\n• **Core Purpose**: ${contentExcerpt.slice(0, 180)}...\n• **Key Takeaways**: All computations and processing details are specified within the uploaded text.\n• **Status**: Verified privacy-first document analysis.`;
+        responseText = `📌 **Executive Summary of Document**:\n\n• **Core Purpose**: ${contentExcerpt.slice(0, 180)}...\n• **Key Takeaways**: Computations and processing details are specified in the text.\n• **Status**: Verified privacy-first document analysis.`;
       } else if (lowerQ.includes("action") || lowerQ.includes("key takeaway") || lowerQ.includes("point")) {
         responseText = `🎯 **Key Action Points & Takeaways**:\n\n1. Review the primary specifications outlined in the text.\n2. Ensure cross-device synchronization and settings are configured.\n3. Verify all inputs and data processing steps.`;
       } else if (lowerQ.includes("faq") || lowerQ.includes("question")) {
@@ -180,7 +173,7 @@ export default function PdfChatClient() {
       setMessages((prev) => [...prev, aiMsg]);
       setIsProcessing(false);
       scrollToBottom();
-    }, 700);
+    }, 600);
   };
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -197,49 +190,53 @@ export default function PdfChatClient() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 space-y-8">
+    <div className="mx-auto max-w-6xl px-4 py-6 space-y-6">
       <ToolPageHeader
         title="AI Document Intelligence & Interactive PDF Chat"
         description="Upload any PDF, Word document, or text file to extract bullet summaries, action items, and chat directly with your document in real-time."
       />
 
-      <div className="grid gap-6 lg:grid-cols-12">
-        {/* Left Column: Document Upload & Reader (5 Cols) */}
-        <div className="lg:col-span-5 space-y-6">
-          <Card className="border bg-card/60 backdrop-blur shadow-xs">
-            <CardHeader className="pb-3 flex flex-row items-center justify-between space-y-0">
-              <CardTitle className="text-base font-semibold flex items-center gap-2">
-                <FileText className="h-4 w-4 text-primary" />
-                Document Source
-              </CardTitle>
+      {/* SINGLE VIEWPORT WORKSPACE */}
+      <div className="grid gap-6 lg:grid-cols-12 min-h-[500px]">
+        {/* Left Column: Document Source & Quick Action Presets (5 Cols) */}
+        <div className="lg:col-span-5 flex flex-col">
+          <Card className="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl flex-1 flex flex-col justify-between overflow-hidden">
+            <CardHeader className="border-b border-border/40 bg-muted/20 pb-3">
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-sm font-semibold flex items-center gap-2 tracking-tight">
+                  <FileText className="h-4 w-4 text-primary" />
+                  Document Source
+                </CardTitle>
 
-              {/* Upload vs Text Tabs */}
-              <div className="flex items-center gap-1 bg-muted/40 p-1 rounded-lg border text-xs">
-                <button
-                  type="button"
-                  onClick={() => setActiveTab("upload")}
-                  className={`px-2.5 py-1 rounded-md font-medium transition ${
-                    activeTab === "upload" ? "bg-background text-primary shadow-xs" : "text-muted-foreground"
-                  }`}
-                >
-                  Upload File
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveTab("text")}
-                  className={`px-2.5 py-1 rounded-md font-medium transition ${
-                    activeTab === "text" ? "bg-background text-primary shadow-xs" : "text-muted-foreground"
-                  }`}
-                >
-                  Paste Text
-                </button>
+                {/* Upload vs Text Tabs */}
+                <div className="flex items-center gap-1 bg-background/80 p-1 rounded-xl border text-xs shadow-inner">
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab("upload")}
+                    className={`px-2.5 py-1 rounded-lg font-medium transition ${
+                      activeTab === "upload" ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground"
+                    }`}
+                  >
+                    Upload File
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab("text")}
+                    className={`px-2.5 py-1 rounded-lg font-medium transition ${
+                      activeTab === "text" ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground"
+                    }`}
+                  >
+                    Paste Text
+                  </button>
+                </div>
               </div>
             </CardHeader>
-            <CardContent className="space-y-4">
+
+            <CardContent className="p-4 flex-1 flex flex-col justify-between space-y-4">
               {activeTab === "upload" ? (
                 <>
                   <div
-                    className="border-2 border-dashed border-primary/30 hover:border-primary/60 rounded-xl p-6 text-center cursor-pointer transition-all duration-200 bg-muted/10 hover:bg-muted/30 group"
+                    className="border-2 border-dashed border-primary/30 hover:border-primary/60 rounded-2xl p-6 text-center cursor-pointer transition-all duration-200 bg-muted/10 hover:bg-muted/30 group flex-1 flex flex-col items-center justify-center min-h-[180px]"
                     onClick={() => fileInputRef.current?.click()}
                     onDragOver={handleDragOver}
                     onDrop={handleDrop}
@@ -247,7 +244,7 @@ export default function PdfChatClient() {
                     <div className="p-3 rounded-full bg-primary/10 text-primary w-fit mx-auto mb-3 group-hover:scale-110 transition-transform">
                       <Upload className="h-6 w-6" />
                     </div>
-                    <h4 className="font-semibold text-sm">Upload PDF, Word, or Text Document</h4>
+                    <h4 className="font-semibold text-sm tracking-tight">Upload PDF, Word, or Text Document</h4>
                     <p className="text-xs text-muted-foreground mt-1">
                       Supports .pdf, .docx, .txt, .md, .json, .csv (Up to 25MB)
                     </p>
@@ -261,7 +258,7 @@ export default function PdfChatClient() {
                   </div>
 
                   {file && (
-                    <div className="flex items-center justify-between p-3 rounded-lg border bg-muted/20 text-xs">
+                    <div className="flex items-center justify-between p-3 rounded-xl border bg-card/90 shadow-xs text-xs">
                       <div className="flex items-center gap-2.5 min-w-0">
                         <FileCheck className="h-4 w-4 text-emerald-500 shrink-0" />
                         <div className="min-w-0">
@@ -288,7 +285,7 @@ export default function PdfChatClient() {
                   )}
                 </>
               ) : (
-                <div className="space-y-1.5">
+                <div className="space-y-1.5 flex-1 flex flex-col">
                   <label className="text-xs font-semibold text-muted-foreground">Paste Raw Text:</label>
                   <Textarea
                     value={extractedText}
@@ -298,7 +295,7 @@ export default function PdfChatClient() {
                       setWordCount(count);
                     }}
                     placeholder="Paste document text or article content here..."
-                    className="text-xs min-h-[160px] bg-muted/20"
+                    className="text-xs flex-1 min-h-[180px] bg-muted/20 resize-none p-3 rounded-xl"
                   />
                   <p className="text-[11px] text-muted-foreground text-right">{wordCount} words</p>
                 </div>
@@ -307,13 +304,13 @@ export default function PdfChatClient() {
               {/* Quick AI Presets */}
               <div className="space-y-2 pt-2 border-t">
                 <span className="text-[11px] font-semibold text-muted-foreground flex items-center gap-1">
-                  <Zap className="h-3 w-3 text-amber-500" /> Quick Actions:
+                  <Zap className="h-3 w-3 text-amber-500" /> 1-Click AI Action Chips:
                 </span>
                 <div className="grid grid-cols-2 gap-2">
                   <Button
                     variant="outline"
                     size="sm"
-                    className="text-[11px] h-8 justify-start gap-1.5"
+                    className="text-[11px] h-8 justify-start gap-1.5 rounded-lg"
                     onClick={() => handleAskQuestion("Summarize this document in 5 key bullets")}
                   >
                     <ListChecks className="h-3 w-3 text-primary" />
@@ -322,7 +319,7 @@ export default function PdfChatClient() {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="text-[11px] h-8 justify-start gap-1.5"
+                    className="text-[11px] h-8 justify-start gap-1.5 rounded-lg"
                     onClick={() => handleAskQuestion("Extract top key takeaways & action items")}
                   >
                     <Sparkles className="h-3 w-3 text-emerald-500" />
@@ -331,7 +328,7 @@ export default function PdfChatClient() {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="text-[11px] h-8 justify-start gap-1.5"
+                    className="text-[11px] h-8 justify-start gap-1.5 rounded-lg"
                     onClick={() => handleAskQuestion("Generate top 5 FAQs from this text")}
                   >
                     <HelpCircle className="h-3 w-3 text-purple-500" />
@@ -340,7 +337,7 @@ export default function PdfChatClient() {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="text-[11px] h-8 justify-start gap-1.5"
+                    className="text-[11px] h-8 justify-start gap-1.5 rounded-lg"
                     onClick={() => handleAskQuestion("Identify any risks, obligations, or deadlines")}
                   >
                     <AlertTriangle className="h-3 w-3 text-amber-500" />
@@ -353,28 +350,28 @@ export default function PdfChatClient() {
         </div>
 
         {/* Right Column: Interactive Chat Thread (7 Cols) */}
-        <div className="lg:col-span-7">
-          <Card className="border border-primary/30 bg-card/60 backdrop-blur shadow-md flex flex-col h-[560px]">
-            <CardHeader className="py-3.5 border-b bg-muted/20 flex flex-row items-center justify-between space-y-0">
-              <CardTitle className="text-sm font-semibold flex items-center gap-2 text-primary">
+        <div className="lg:col-span-7 flex flex-col">
+          <Card className="border border-primary/30 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl flex-1 flex flex-col justify-between overflow-hidden">
+            <CardHeader className="py-3 border-b border-border/40 bg-muted/20 flex flex-row items-center justify-between space-y-0">
+              <CardTitle className="text-sm font-semibold flex items-center gap-2 text-primary tracking-tight">
                 <MessageSquare className="h-4 w-4" />
                 Document Chat Assistant
               </CardTitle>
-              <Badge variant="outline" className="text-xs font-normal text-muted-foreground gap-1">
-                <Bot className="h-3 w-3 text-emerald-500" />
+              <Badge variant="outline" className="text-xs font-normal text-muted-foreground gap-1 border-emerald-500/30 text-emerald-500">
+                <Bot className="h-3 w-3" />
                 AI Active
               </Badge>
             </CardHeader>
 
             {/* Chat Thread Messages Box */}
-            <CardContent className="flex-1 overflow-y-auto p-4 space-y-4">
+            <CardContent className="flex-1 overflow-y-auto p-4 space-y-4 max-h-[380px]">
               {messages.map((msg) => (
                 <div
                   key={msg.id}
                   className={`flex gap-3 text-xs ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
                 >
                   {msg.sender === "ai" && (
-                    <div className="h-7 w-7 rounded-full bg-primary/10 border border-primary/20 text-primary flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="h-7 w-7 rounded-full bg-primary/10 border border-primary/20 text-primary flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
                       <Bot className="h-4 w-4" />
                     </div>
                   )}
@@ -382,7 +379,7 @@ export default function PdfChatClient() {
                   <div
                     className={`max-w-[85%] rounded-2xl px-4 py-3 space-y-1 ${
                       msg.sender === "user"
-                        ? "bg-primary text-primary-foreground rounded-tr-none shadow-xs"
+                        ? "bg-primary text-primary-foreground rounded-tr-none shadow-xs font-medium"
                         : "bg-muted/40 border border-border/60 rounded-tl-none text-foreground"
                     }`}
                   >
@@ -397,7 +394,7 @@ export default function PdfChatClient() {
                   </div>
 
                   {msg.sender === "user" && (
-                    <div className="h-7 w-7 rounded-full bg-muted border text-muted-foreground flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="h-7 w-7 rounded-full bg-muted border text-muted-foreground flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
                       <User className="h-4 w-4" />
                     </div>
                   )}
@@ -418,7 +415,7 @@ export default function PdfChatClient() {
             </CardContent>
 
             {/* Input Question Bar */}
-            <div className="p-3 border-t bg-muted/10 flex items-center gap-2">
+            <div className="p-3 border-t border-border/40 bg-muted/10 flex items-center gap-2">
               <Input
                 value={inputQuestion}
                 onChange={(e) => setInputQuestion(e.target.value)}
@@ -429,13 +426,13 @@ export default function PdfChatClient() {
                   }
                 }}
                 placeholder="Ask any question about your document..."
-                className="text-xs bg-background border-border/70 h-9"
+                className="text-xs bg-background border-border/70 h-9 rounded-xl"
               />
               <Button
                 onClick={() => handleAskQuestion()}
                 disabled={isProcessing || !inputQuestion.trim()}
                 size="sm"
-                className="h-9 px-3 gap-1.5 shadow-xs"
+                className="h-9 px-3 gap-1.5 shadow-sm rounded-xl font-semibold"
               >
                 <Send className="h-3.5 w-3.5" />
                 Ask
