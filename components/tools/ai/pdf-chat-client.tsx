@@ -24,9 +24,9 @@ import {
   X,
   FileCheck,
   Search,
-  Briefcase,
-  GraduationCap,
-  Wrench,
+  Copy,
+  Check,
+  BookOpen,
 } from "lucide-react";
 
 interface ChatMessage {
@@ -43,17 +43,19 @@ export default function PdfChatClient() {
   const [fileSize, setFileSize] = useState<string>("");
   const [extractedText, setExtractedText] = useState<string>("");
   const [wordCount, setWordCount] = useState<number>(0);
+  const [pageCount, setPageCount] = useState<number>(0);
 
   const [inputQuestion, setInputQuestion] = useState<string>("");
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: "welcome-1",
       sender: "ai",
-      text: "👋 Hi! Upload any PDF, Resume/CV, Word document, or text file. I will read, parse, and understand your entire document so you can ask me anything about it!",
+      text: "👋 Welcome to Document Intelligence! Upload any PDF, Resume, Business Report, Legal Contract, Invoice, or Text file. I will read, extract, and understand the document so you can ask me anything about it!",
       timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
     },
   ]);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
@@ -70,103 +72,65 @@ export default function PdfChatClient() {
     }
   };
 
-  // High-Precision Browser PDF & Document Text Extractor
-  const extractPdfText = async (uploadedFile: File): Promise<string> => {
-    try {
-      const pdfjsLib = await import("pdfjs-dist");
-      pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
-
-      const arrayBuffer = await uploadedFile.arrayBuffer();
-      const loadingTask = pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) });
-      const pdf = await loadingTask.promise;
-      let fullText = "";
-
-      for (let i = 1; i <= pdf.numPages; i++) {
-        const page = await pdf.getPage(i);
-        const textContent = await page.getTextContent();
-        const pageStrings = textContent.items
-          .map((item: any) => item.str)
-          .filter(Boolean);
-        fullText += pageStrings.join(" ") + "\n\n";
-      }
-
-      const cleanResult = fullText.trim();
-      if (cleanResult.length > 20) {
-        return cleanResult;
-      }
-    } catch (err) {
-      console.warn("pdfjs extraction failed, falling back to text token parser:", err);
-    }
-
-    // Fallback PDF Text Tokenizer (Strips PDF binary streams & returns human readable words)
-    try {
-      const rawText = await uploadedFile.text();
-      // Match PDF parenthesized text tokens e.g. (Tanvir Ahmed Sohan)
-      const textTokens = rawText.match(/\(([^()]+)\)/g);
-      if (textTokens && textTokens.length > 5) {
-        const parsedTokens = textTokens
-          .map((t) => t.slice(1, -1))
-          .filter((t) => t.length > 1 && !t.startsWith("/") && !t.includes("obj") && !t.includes("endobj"))
-          .join(" ");
-        if (parsedTokens.length > 30) return parsedTokens;
-      }
-
-      // Sanitized plaintext fallback
-      return rawText.replace(/[^\x20-\x7E\n\r\t]/g, " ").replace(/\s+/g, " ").trim();
-    } catch {
-      return `Document Content for ${uploadedFile.name}`;
-    }
-  };
-
   const processSelectedFile = async (uploadedFile: File) => {
     setFile(uploadedFile);
     setFileName(uploadedFile.name);
     setFileSize((uploadedFile.size / 1024 / 1024).toFixed(2) + " MB");
 
     setIsProcessing(true);
-    toast.loading("Extracting and understanding document contents...", { id: "doc-read" });
+    toast.loading(`Parsing & extracting ${uploadedFile.name}...`, { id: "doc-read" });
 
     try {
       let text = "";
-      if (uploadedFile.name.endsWith(".pdf")) {
-        text = await extractPdfText(uploadedFile);
+      let pages = 1;
+
+      if (uploadedFile.name.toLowerCase().endsWith(".pdf")) {
+        // High-Precision Server Extraction via pdf-parse API
+        const formData = new FormData();
+        formData.append("file", uploadedFile);
+
+        const res = await fetch("/api/tools/pdf-text", {
+          method: "POST",
+          body: formData,
+        });
+
+        const data = await res.json();
+        if (data.success && data.text) {
+          text = data.text;
+          pages = data.pages || 1;
+        } else {
+          throw new Error(data.error || "Failed to parse PDF");
+        }
       } else {
         text = await uploadedFile.text();
+        // Clean text of unprintable control characters
+        text = text.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/g, "").trim();
       }
 
       setExtractedText(text);
+      setPageCount(pages);
       const count = text.trim().split(/\s+/).filter(Boolean).length;
       setWordCount(count);
 
-      toast.success(`Loaded ${uploadedFile.name} (${count} words extracted)!`, { id: "doc-read" });
-      generateInitialSummary(uploadedFile.name, text);
-    } catch (err) {
-      console.error("File Read Error:", err);
-      toast.error("Failed to read document. Please check file format.", { id: "doc-read" });
+      toast.success(`Successfully read ${uploadedFile.name} (${count} words, ${pages} page${pages > 1 ? "s" : ""})!`, { id: "doc-read" });
+      generateInitialSummary(uploadedFile.name, text, pages);
+    } catch (err: any) {
+      console.error("File Extraction Error:", err);
+      toast.error("Failed to read document text. Try pasting raw text.", { id: "doc-read" });
     } finally {
       setIsProcessing(false);
     }
   };
 
-  const generateInitialSummary = (name: string, content: string) => {
+  const generateInitialSummary = (name: string, content: string, pages: number) => {
     const timeStr = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-
-    // Intelligent Overview Parsing
     const lines = content.split("\n").map((l) => l.trim()).filter(Boolean);
-    const titleHeader = lines[0] || name;
-    const isCV = name.toLowerCase().includes("cv") || name.toLowerCase().includes("resume") || content.toLowerCase().includes("experience") || content.toLowerCase().includes("skills");
-
-    let summaryText = "";
-    if (isCV) {
-      summaryText = `📄 **Document Loaded: ${name}**\n\n🎯 **CV & Resume Overview**:\n• **Name / Header**: ${titleHeader}\n• **Total Word Count**: ${wordCount} words\n• **Document Type**: Professional Resume / Curriculum Vitae\n\n💬 Ask me anything about **${name}** (e.g. *"What are his top skills?"*, *"Summarize work experience"*, *"Where did he study?"*) or click a quick action below!`;
-    } else {
-      summaryText = `📄 **Document Loaded: ${name}**\n\n📌 **Executive Overview**:\n• **Header**: ${titleHeader}\n• **Word Count**: ${wordCount} words\n• **Snippet**: ${content.slice(0, 200)}...\n\n💬 Ask me any question about **${name}** or click a quick action below!`;
-    }
+    const mainTitle = lines[0] || name;
 
     const summaryMessage: ChatMessage = {
       id: "summary-" + Date.now(),
       sender: "ai",
-      text: summaryText,
+      text: `📄 **Document Loaded & Analyzed**: **${name}**\n\n📌 **Overview Summary**:\n• **Title / Document Header**: ${mainTitle}\n• **Total Pages**: ${pages} page${pages > 1 ? "s" : ""}\n• **Total Word Count**: ${wordCount} words\n• **First Paragraph Snippet**:\n> "${content.slice(0, 260).replace(/\n/g, " ")}..."\n\n💬 Ask me any question about **${name}** or click a quick action below!`,
       timestamp: timeStr,
     };
 
@@ -174,7 +138,7 @@ export default function PdfChatClient() {
     scrollToBottom();
   };
 
-  // High-Intelligence Context Answering Engine
+  // High-Intelligence Universal Document Engine
   const handleAskQuestion = (questionText?: string) => {
     const q = (questionText || inputQuestion).trim();
     if (!q) return;
@@ -201,82 +165,40 @@ export default function PdfChatClient() {
       let responseText = "";
       const lowerQ = q.toLowerCase();
       const content = extractedText;
-      const lowerContent = content.toLowerCase();
 
-      // Split into clean sentences & lines for context search
-      const sentences = content.split(/(?<=[.!?])\s+/).filter((s) => s.trim().length > 5);
+      // Extract clean sentences and paragraphs
+      const paragraphs = content.split(/\n\s*\n/).map((p) => p.trim()).filter((p) => p.length > 10);
+      const sentences = content.split(/(?<=[.!?])\s+/).map((s) => s.trim()).filter((s) => s.length > 5);
 
-      if (lowerQ.includes("summary") || lowerQ.includes("summarize") || lowerQ.includes("overview")) {
-        const topSentences = sentences.slice(0, 6).join("\n• ");
-        responseText = `📌 **Document Summary (${fileName || "Document"})**:\n\n• ${topSentences}\n\n💡 *Extracted from ${wordCount} total words.*`;
-      } else if (lowerQ.includes("skill") || lowerQ.includes("tech") || lowerQ.includes("stack") || lowerQ.includes("expertise")) {
-        // Find skill lines or sentences
-        const skillMatches = sentences.filter((s) => 
-          s.toLowerCase().includes("skill") || 
-          s.toLowerCase().includes("developer") || 
-          s.toLowerCase().includes("technol") ||
-          s.toLowerCase().includes("proficien") ||
-          s.toLowerCase().includes("tool")
-        );
-        if (skillMatches.length > 0) {
-          responseText = `🛠️ **Key Skills & Expertise Found in Document**:\n\n• ${skillMatches.slice(0, 5).join("\n• ")}`;
-        } else {
-          // Extract tech keywords from full text
-          const keywords = ["javascript", "typescript", "react", "next.js", "python", "node.js", "sql", "postgresql", "css", "html", "git", "aws", "docker", "c++", "rust", "go", "java"];
-          const found = keywords.filter((k) => lowerContent.includes(k));
-          if (found.length > 0) {
-            responseText = `🛠️ **Skills & Technical Stack Mentioned**:\n\n${found.map((k) => `• **${k.toUpperCase()}**`).join("\n")}`;
-          } else {
-            responseText = `🛠️ **Document Text Excerpt on Skills**:\n\n"${content.slice(0, 300)}..."`;
-          }
-        }
-      } else if (lowerQ.includes("experience") || lowerQ.includes("work") || lowerQ.includes("job") || lowerQ.includes("history") || lowerQ.includes("company") || lowerQ.includes("role")) {
-        const expMatches = sentences.filter((s) => 
-          s.toLowerCase().includes("experience") || 
-          s.toLowerCase().includes("work") || 
-          s.toLowerCase().includes("developer") ||
-          s.toLowerCase().includes("engineer") ||
-          s.toLowerCase().includes("lead") ||
-          s.toLowerCase().includes("manager") ||
-          s.toLowerCase().includes("inc") ||
-          s.toLowerCase().includes("ltd")
-        );
-        if (expMatches.length > 0) {
-          responseText = `💼 **Work Experience Details Found**:\n\n• ${expMatches.slice(0, 6).join("\n• ")}`;
-        } else {
-          responseText = `💼 **Document Section on Experience**:\n\n"${content.slice(0, 350)}..."`;
-        }
-      } else if (lowerQ.includes("education") || lowerQ.includes("university") || lowerQ.includes("degree") || lowerQ.includes("college") || lowerQ.includes("study") || lowerQ.includes("school")) {
-        const eduMatches = sentences.filter((s) => 
-          s.toLowerCase().includes("university") || 
-          s.toLowerCase().includes("degree") || 
-          s.toLowerCase().includes("b.s") ||
-          s.toLowerCase().includes("m.s") ||
-          s.toLowerCase().includes("bachelor") ||
-          s.toLowerCase().includes("master") ||
-          s.toLowerCase().includes("education") ||
-          s.toLowerCase().includes("gpa")
-        );
-        if (eduMatches.length > 0) {
-          responseText = `🎓 **Education Details Found**:\n\n• ${eduMatches.join("\n• ")}`;
-        } else {
-          responseText = `🎓 No specific education section was explicitly detected in **${fileName}**. Direct document excerpt:\n\n"${content.slice(0, 250)}..."`;
-        }
-      } else if (lowerQ.includes("contact") || lowerQ.includes("email") || lowerQ.includes("phone") || lowerQ.includes("link") || lowerQ.includes("github") || lowerQ.includes("linkedin")) {
-        const emails = content.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g);
-        const phones = content.match(/(\+\d{1,3}[- ]?)?\d{10,12}/g);
-        const links = content.match(/https?:\/\/[^\s]+/g);
+      if (lowerQ.includes("summarize") || lowerQ.includes("summary") || lowerQ.includes("overview")) {
+        const topParas = paragraphs.slice(0, 4).map((p, idx) => `${idx + 1}. ${p}`).join("\n\n");
+        responseText = `📌 **Executive Document Summary (${fileName || "Document"})**:\n\n${topParas}\n\n💡 *Extracted from ${wordCount} total words across ${pageCount || 1} page(s).*`;
+      } else if (lowerQ.includes("action") || lowerQ.includes("key takeaway") || lowerQ.includes("point")) {
+        const actionItems = sentences.slice(0, 6).map((s, i) => `• **Item ${i + 1}**: ${s}`).join("\n");
+        responseText = `🎯 **Key Takeaways & Action Points**:\n\n${actionItems}`;
+      } else if (lowerQ.includes("faq") || lowerQ.includes("question")) {
+        const q1 = sentences[0] || "What is the document about?";
+        const q2 = sentences[Math.floor(sentences.length / 3)] || "What are the main details?";
+        const q3 = sentences[Math.floor((sentences.length * 2) / 3)] || "What is the conclusion?";
 
-        let contactStr = "📧 **Contact Details Found in Document**:\n\n";
-        if (emails) contactStr += `• **Email**: ${Array.from(new Set(emails)).join(", ")}\n`;
-        if (phones) contactStr += `• **Phone**: ${Array.from(new Set(phones)).join(", ")}\n`;
-        if (links) contactStr += `• **Links**: ${Array.from(new Set(links)).join("\n• ")}\n`;
-        if (!emails && !phones && !links) {
-          contactStr += `"${content.slice(0, 200)}..."`;
+        responseText = `❓ **Extracted Questions & Answers**:\n\n**Q1: What is the main subject outlined in this document?**\n*A1*: ${q1}\n\n**Q2: What key specifications or terms are stated?**\n*A2*: ${q2}\n\n**Q3: What key outcome or conclusion is described?**\n*A3*: ${q3}`;
+      } else if (lowerQ.includes("risk") || lowerQ.includes("obligation") || lowerQ.includes("deadline") || lowerQ.includes("clause")) {
+        const riskSentences = sentences.filter((s) => 
+          s.toLowerCase().includes("risk") || 
+          s.toLowerCase().includes("must") || 
+          s.toLowerCase().includes("require") ||
+          s.toLowerCase().includes("deadline") ||
+          s.toLowerCase().includes("clause") ||
+          s.toLowerCase().includes("shall") ||
+          s.toLowerCase().includes("obligation")
+        );
+        if (riskSentences.length > 0) {
+          responseText = `⚠️ **Detected Key Clauses & Directives**:\n\n• ${riskSentences.slice(0, 5).join("\n• ")}`;
+        } else {
+          responseText = `⚠️ **Important Excerpts from Document**:\n\n• ${sentences.slice(0, 4).join("\n• ")}`;
         }
-        responseText = contactStr;
       } else {
-        // Exact Keyword Match Search across Document Sentences
+        // Universal Smart Keyword Search
         const queryTerms = lowerQ.replace(/[^\w\s]/g, "").split(/\s+/).filter((t) => t.length > 2);
         const matchingSentences = sentences.filter((s) => {
           const lowerS = s.toLowerCase();
@@ -284,9 +206,10 @@ export default function PdfChatClient() {
         });
 
         if (matchingSentences.length > 0) {
-          responseText = `💡 **Direct Details regarding "${q}"**:\n\n• ${matchingSentences.slice(0, 5).join("\n• ")}`;
+          responseText = `💡 **Information Found regarding "${q}"**:\n\n• ${matchingSentences.slice(0, 5).join("\n\n• ")}`;
         } else {
-          responseText = `💡 **Document Extract regarding "${q}"**:\n\nBased on your document **${fileName}**:\n> "${content.slice(0, 300)}..."\n\n*(If you are looking for a specific topic, try asking about skills, experience, or summary!)*`;
+          const fallbackSnippet = paragraphs[0] || content.slice(0, 350);
+          responseText = `💡 **Relevant Excerpt regarding "${q}"**:\n\nFrom **${fileName || "Document"}**:\n\n"${fallbackSnippet}"\n\n*(You can ask to summarize, extract action points, or query any specific term in your file!)*`;
         }
       }
 
@@ -301,7 +224,14 @@ export default function PdfChatClient() {
       setMessages((prev) => [...prev, aiMsg]);
       setIsProcessing(false);
       scrollToBottom();
-    }, 500);
+    }, 450);
+  };
+
+  const handleCopyMessage = (msgId: string, text: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedId(msgId);
+    toast.success("Copied answer to clipboard!");
+    setTimeout(() => setCopiedId(null), 2000);
   };
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -321,7 +251,7 @@ export default function PdfChatClient() {
     <div className="mx-auto max-w-6xl px-4 py-6 space-y-6">
       <ToolPageHeader
         title="AI Document Intelligence & Interactive PDF Chat"
-        description="Upload any PDF, Word document, or text file to extract bullet summaries, action items, and chat directly with your document in real-time."
+        description="Upload any PDF, Word document, or text file to extract clean summaries, key takeaways, and chat directly with your document in real-time."
       />
 
       {/* SINGLE VIEWPORT WORKSPACE */}
@@ -372,7 +302,7 @@ export default function PdfChatClient() {
                     <div className="p-3 rounded-full bg-primary/10 text-primary w-fit mx-auto mb-3 group-hover:scale-110 transition-transform">
                       <Upload className="h-6 w-6" />
                     </div>
-                    <h4 className="font-semibold text-sm tracking-tight">Upload PDF, Resume, or Word File</h4>
+                    <h4 className="font-semibold text-sm tracking-tight">Upload PDF, Resume, or Document</h4>
                     <p className="text-xs text-muted-foreground mt-1">
                       Supports .pdf, .docx, .txt, .md, .json, .csv (Up to 25MB)
                     </p>
@@ -392,7 +322,7 @@ export default function PdfChatClient() {
                         <div className="min-w-0">
                           <p className="font-semibold truncate">{fileName}</p>
                           <p className="text-[11px] text-muted-foreground">
-                            {fileSize} • {wordCount} words parsed
+                            {fileSize} • {wordCount} words extracted
                           </p>
                         </div>
                       </div>
@@ -429,7 +359,7 @@ export default function PdfChatClient() {
                 </div>
               )}
 
-              {/* Quick AI Presets */}
+              {/* Universal AI Action Chips */}
               <div className="space-y-2 pt-2 border-t">
                 <span className="text-[11px] font-semibold text-muted-foreground flex items-center gap-1">
                   <Zap className="h-3 w-3 text-amber-500" /> 1-Click AI Action Chips:
@@ -439,37 +369,37 @@ export default function PdfChatClient() {
                     variant="outline"
                     size="sm"
                     className="text-[11px] h-8 justify-start gap-1.5 rounded-lg"
-                    onClick={() => handleAskQuestion("Summarize this document in 5 key bullets")}
+                    onClick={() => handleAskQuestion("Summarize this document in clean bullet points")}
                   >
                     <ListChecks className="h-3 w-3 text-primary" />
-                    Summarize Bullets
+                    Summarize Document
                   </Button>
                   <Button
                     variant="outline"
                     size="sm"
                     className="text-[11px] h-8 justify-start gap-1.5 rounded-lg"
-                    onClick={() => handleAskQuestion("What are the key skills and technical expertise?")}
+                    onClick={() => handleAskQuestion("Extract key action items and takeaways")}
                   >
-                    <Wrench className="h-3 w-3 text-emerald-500" />
-                    Extract Skills
+                    <Sparkles className="h-3 w-3 text-emerald-500" />
+                    Action Items
                   </Button>
                   <Button
                     variant="outline"
                     size="sm"
                     className="text-[11px] h-8 justify-start gap-1.5 rounded-lg"
-                    onClick={() => handleAskQuestion("Summarize work experience and career history")}
+                    onClick={() => handleAskQuestion("Generate FAQs from this document")}
                   >
-                    <Briefcase className="h-3 w-3 text-purple-500" />
-                    Work Experience
+                    <HelpCircle className="h-3 w-3 text-purple-500" />
+                    Generate FAQs
                   </Button>
                   <Button
                     variant="outline"
                     size="sm"
                     className="text-[11px] h-8 justify-start gap-1.5 rounded-lg"
-                    onClick={() => handleAskQuestion("What is the education and academic background?")}
+                    onClick={() => handleAskQuestion("Extract important clauses, requirements, or risks")}
                   >
-                    <GraduationCap className="h-3 w-3 text-amber-500" />
-                    Education Info
+                    <AlertTriangle className="h-3 w-3 text-amber-500" />
+                    Key Directives
                   </Button>
                 </div>
               </div>
@@ -505,20 +435,34 @@ export default function PdfChatClient() {
                   )}
 
                   <div
-                    className={`max-w-[85%] rounded-2xl px-4 py-3 space-y-1 ${
+                    className={`group relative max-w-[85%] rounded-2xl px-4 py-3 space-y-1.5 ${
                       msg.sender === "user"
                         ? "bg-primary text-primary-foreground rounded-tr-none shadow-xs font-medium"
                         : "bg-muted/40 border border-border/60 rounded-tl-none text-foreground"
                     }`}
                   >
-                    <div className="whitespace-pre-line leading-relaxed font-sans">{msg.text}</div>
-                    <p
-                      className={`text-[10px] text-right ${
-                        msg.sender === "user" ? "text-primary-foreground/70" : "text-muted-foreground"
-                      }`}
-                    >
-                      {msg.timestamp}
-                    </p>
+                    <div className="whitespace-pre-line leading-relaxed font-sans select-text">{msg.text}</div>
+                    
+                    <div className="flex items-center justify-between pt-1 text-[10px] text-muted-foreground border-t border-border/20">
+                      <span>{msg.timestamp}</span>
+                      {msg.sender === "ai" && (
+                        <button
+                          type="button"
+                          onClick={() => handleCopyMessage(msg.id, msg.text)}
+                          className="opacity-70 hover:opacity-100 transition flex items-center gap-1 text-primary"
+                        >
+                          {copiedId === msg.id ? (
+                            <>
+                              <Check className="h-3 w-3 text-emerald-500" /> Copied!
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="h-3 w-3" /> Copy Answer
+                            </>
+                          )}
+                        </button>
+                      )}
+                    </div>
                   </div>
 
                   {msg.sender === "user" && (
@@ -535,7 +479,7 @@ export default function PdfChatClient() {
                     <RefreshCw className="h-3.5 w-3.5 animate-spin" />
                   </div>
                   <div className="bg-muted/40 border rounded-2xl rounded-tl-none px-4 py-2.5 text-muted-foreground italic flex items-center gap-2">
-                    Parsing & searching document sentences...
+                    Reading & analyzing document contents...
                   </div>
                 </div>
               )}
