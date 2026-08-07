@@ -686,6 +686,20 @@ export const ToolsData = [
         popular: true,
       },
       {
+        title: "JSON to TypeScript Type & Interface Converter",
+        url: "/tools/dev/json-to-typescript",
+        description:
+          "Convert raw JSON objects instantly into clean, nested TypeScript interfaces and type definitions.",
+        popular: true,
+      },
+      {
+        title: "SQL Table to Prisma Schema Converter Studio",
+        url: "/tools/dev/sql-to-prisma",
+        description:
+          "Translate raw SQL CREATE TABLE statements into clean Prisma ORM models and schema definitions.",
+        popular: true,
+      },
+      {
         title: "JWT Decoder",
         url: "/tools/dev/jwt-decode",
         description:
@@ -2428,6 +2442,20 @@ export const ToolsData = [
         url: "/tools/finance/crypto-profit",
         description:
           "Calculate profit/loss from crypto trades. Buy/sell price, fees, ROI %. Popular coin presets. Visual profit cards.",
+        popular: true,
+      },
+      {
+        title: "Crypto Dollar-Cost-Averaging (DCA) & Profit Calculator",
+        url: "/tools/finance/crypto-dca-calc",
+        description:
+          "Calculate compound returns and projected portfolio value when dollar-cost-averaging into Bitcoin, Ethereum, and Solana.",
+        popular: true,
+      },
+      {
+        title: "SaaS Monthly Recurring Revenue (MRR) & Churn Rate Calculator",
+        url: "/tools/finance/mrr-churn-calc",
+        description:
+          "Calculate SaaS metrics: Net MRR Growth, ARR, Churn Rate %, ARPU, and LTV metrics.",
         popular: true,
       },
       {

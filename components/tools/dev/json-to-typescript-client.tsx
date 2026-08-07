@@ -2,181 +2,128 @@
 
 import React, { useState } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { GlassCard } from "@/components/ui/glass-card";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import { ActionButton, CopyButton } from "@/components/shared/action-buttons";
+import { Code2, Sparkles, Copy, Check } from "lucide-react";
 import toast from "react-hot-toast";
-import { Code2, Sparkles, Copy, Check, RefreshCw, Zap, Terminal, FileCode } from "lucide-react";
 
-const SAMPLE_JSON = `{\n  "id": 101,\n  "name": "Jane Doe",\n  "email": "jane@example.com",\n  "isActive": true,\n  "role": "admin",\n  "skills": ["React", "TypeScript", "Node.js"],\n  "metadata": {\n    "loginCount": 42,\n    "lastLogin": "2026-08-07T05:00:00Z"\n  }\n}`;
+const SAMPLE_JSON = `{
+  "id": 101,
+  "name": "Alex Rivera",
+  "email": "alex@toolzium.com",
+  "role": "admin",
+  "preferences": {
+    "theme": "dark",
+    "notifications": true,
+    "languages": ["en", "es"]
+  },
+  "stats": {
+    "loginCount": 42,
+    "lastActive": "2026-08-08T00:00:00Z"
+  }
+}`;
 
 export default function JsonToTypescriptClient() {
-  const [jsonInput, setJsonInput] = useState<string>(SAMPLE_JSON);
-  const [tsInterface, setTsInterface] = useState<string>(
-    `export interface RootObject {\n  id: number;\n  name: string;\n  email: string;\n  isActive: boolean;\n  role: string;\n  skills: string[];\n  metadata: {\n    loginCount: number;\n    lastLogin: string;\n  };\n}`
-  );
-  const [zodSchema, setZodSchema] = useState<string>(
-    `import { z } from "zod";\n\nexport const RootObjectSchema = z.object({\n  id: z.number(),\n  name: z.string(),\n  email: z.string().email(),\n  isActive: z.boolean(),\n  role: z.string(),\n  skills: z.array(z.string()),\n  metadata: z.object({\n    loginCount: z.number(),\n    lastLogin: z.string(),\n  }),\n});`
-  );
-  const [isConverting, setIsConverting] = useState<boolean>(false);
-  const [copiedSection, setCopiedSection] = useState<string | null>(null);
+  const [jsonInput, setJsonInput] = useState(SAMPLE_JSON);
+  const [tsOutput, setTsOutput] = useState("");
+  const [interfaceName, setInterfaceName] = useState("RootObject");
 
-  const handleConvertJson = () => {
-    if (!jsonInput.trim()) {
-      toast.error("Please paste valid JSON.");
-      return;
-    }
+  const convertJsonToTs = () => {
+    try {
+      const parsed = JSON.parse(jsonInput);
 
-    setIsConverting(true);
+      function generateType(obj: any, name: string): string {
+        if (typeof obj !== "object" || obj === null) return typeof obj;
+        if (Array.isArray(obj)) {
+          if (obj.length === 0) return "any[]";
+          const elemType = typeof obj[0] === "object" ? "any" : typeof obj[0];
+          return `${elemType}[]`;
+        }
 
-    setTimeout(() => {
-      try {
-        const parsed = JSON.parse(jsonInput);
-        let ts = "export interface RootObject {\n";
-        let zod = 'import { z } from "zod";\n\nexport const RootObjectSchema = z.object({\n';
+        let result = `export interface ${name} {\n`;
+        let subInterfaces = "";
 
-        Object.keys(parsed).forEach((key) => {
-          const val = parsed[key];
-          const valType = typeof val;
-
-          if (val === null) {
-            ts += `  ${key}: any;\n`;
-            zod += `  ${key}: z.any(),\n`;
+        for (const [key, val] of Object.entries(obj)) {
+          if (val !== null && typeof val === "object" && !Array.isArray(val)) {
+            const subName = key.charAt(0).toUpperCase() + key.slice(1);
+            subInterfaces += generateType(val, subName) + "\n\n";
+            result += `  ${key}: ${subName};\n`;
           } else if (Array.isArray(val)) {
-            const elemType = val.length > 0 ? typeof val[0] : "any";
-            ts += `  ${key}: ${elemType}[];\n`;
-            zod += `  ${key}: z.array(z.${elemType}()),\n`;
-          } else if (valType === "object") {
-            ts += `  ${key}: Record<string, any>;\n`;
-            zod += `  ${key}: z.record(z.any()),\n`;
+            if (val.length > 0 && typeof val[0] === "object") {
+              const subName = key.charAt(0).toUpperCase() + key.slice(1) + "Item";
+              subInterfaces += generateType(val[0], subName) + "\n\n";
+              result += `  ${key}: ${subName}[];\n`;
+            } else {
+              const elemType = val.length > 0 ? typeof val[0] : "any";
+              result += `  ${key}: ${elemType}[];\n`;
+            }
           } else {
-            ts += `  ${key}: ${valType};\n`;
-            zod += `  ${key}: z.${valType}(),\n`;
+            result += `  ${key}: ${typeof val};\n`;
           }
-        });
+        }
 
-        ts += "}";
-        zod += "});";
-
-        setTsInterface(ts);
-        setZodSchema(zod);
-        setIsConverting(false);
-        toast.success("Converted JSON to TypeScript & Zod Schema!");
-      } catch {
-        setIsConverting(false);
-        toast.error("Invalid JSON input. Please check your syntax.");
+        result += "}";
+        return subInterfaces + result;
       }
-    }, 400);
+
+      const generated = generateType(parsed, interfaceName || "RootObject");
+      setTsOutput(generated);
+      toast.success("Converted JSON to TypeScript Interfaces!");
+    } catch (err: any) {
+      toast.error("Invalid JSON input. Please check your syntax.");
+    }
   };
 
-  const handleCopy = (text: string, label: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedSection(label);
-    toast.success(`Copied ${label} to clipboard!`);
-    setTimeout(() => setCopiedSection(null), 2000);
-  };
+  React.useEffect(() => {
+    convertJsonToTs();
+  }, [jsonInput, interfaceName]);
 
   return (
-    <div className="mx-auto max-w-6xl px-2 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-6 max-w-full overflow-hidden">
+    <div className="space-y-6 max-w-5xl mx-auto px-4">
       <ToolPageHeader
-        title="JSON to TypeScript Interface & Zod Schema Studio"
-        description="Convert raw JSON objects into strict TypeScript interfaces, type aliases, and Zod validation schemas instantly."
+        icon={Code2}
+        title="JSON to TypeScript Type & Interface Converter Studio"
+        description="Convert raw JSON objects instantly into clean, nested TypeScript interfaces and type definitions."
       />
 
-      {/* SINGLE VIEWPORT JSON STUDIO WORKSPACE */}
-      <div className="grid gap-4 sm:gap-6 lg:grid-cols-12 min-h-[500px] max-w-full">
-        {/* Left Column: Raw JSON Input (5 Cols) */}
-        <div className="lg:col-span-5 flex flex-col max-w-full min-w-0">
-          <Card className="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl flex-1 flex flex-col justify-between overflow-hidden max-w-full min-w-0">
-            <CardHeader className="border-b border-border/40 bg-muted/20 p-3 sm:p-4">
-              <CardTitle className="text-xs sm:text-sm font-semibold flex items-center gap-2 tracking-tight">
-                <Code2 className="h-4 w-4 text-primary shrink-0" />
-                Raw JSON Input
-              </CardTitle>
-            </CardHeader>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Input Card */}
+        <GlassCard className="p-5 space-y-3">
+          <div className="flex items-center justify-between border-b pb-2">
+            <h2 className="text-sm font-bold text-foreground">JSON Input</h2>
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-muted-foreground font-medium">Root Name:</span>
+              <input
+                type="text"
+                value={interfaceName}
+                onChange={(e) => setInterfaceName(e.target.value)}
+                className="h-7 w-28 px-2 text-xs rounded border bg-background font-mono"
+              />
+            </div>
+          </div>
 
-            <CardContent className="p-3 sm:p-4 space-y-3 flex-1 flex flex-col justify-between max-w-full min-w-0">
-              <div className="space-y-1 flex-1 flex flex-col max-w-full min-w-0">
-                <label className="text-xs font-semibold text-muted-foreground">Paste JSON Object:</label>
-                <Textarea
-                  value={jsonInput}
-                  onChange={(e) => setJsonInput(e.target.value)}
-                  placeholder="{...}"
-                  className="font-mono text-xs min-h-[220px] bg-muted/20 resize-none p-3 rounded-xl max-w-full min-w-0"
-                />
-              </div>
+          <textarea
+            value={jsonInput}
+            onChange={(e) => setJsonInput(e.target.value)}
+            rows={14}
+            className="w-full p-3 font-mono text-xs bg-slate-950 text-slate-100 rounded-xl border focus:outline-hidden focus:ring-1 focus:ring-primary"
+            placeholder="Paste your JSON here..."
+          />
+        </GlassCard>
 
-              <Button
-                onClick={handleConvertJson}
-                disabled={isConverting || !jsonInput.trim()}
-                className="w-full gap-2 shadow-md rounded-xl font-semibold h-10 justify-center text-xs sm:text-sm mt-2 max-w-full min-w-0"
-              >
-                {isConverting ? (
-                  <>
-                    <RefreshCw className="h-4 w-4 animate-spin shrink-0" />
-                    <span>Inferring Types...</span>
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="h-4 w-4 shrink-0" />
-                    <span>Generate TypeScript & Zod Types</span>
-                  </>
-                )}
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
+        {/* Output Card */}
+        <GlassCard className="p-5 space-y-3">
+          <div className="flex items-center justify-between border-b pb-2">
+            <h2 className="text-sm font-bold text-foreground">TypeScript Output</h2>
+            <CopyButton getText={() => tsOutput} label="Copy TS Code" />
+          </div>
 
-        {/* Right Column: Generated TS & Zod (7 Cols) */}
-        <div className="lg:col-span-7 flex flex-col max-w-full min-w-0">
-          <Card className="border border-primary/30 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl flex-1 flex flex-col justify-between overflow-hidden max-w-full min-w-0">
-            <CardHeader className="border-b border-border/40 bg-muted/20 p-3 sm:p-4">
-              <CardTitle className="text-xs sm:text-sm font-semibold flex items-center gap-2 text-primary tracking-tight truncate min-w-0">
-                <Terminal className="h-4 w-4 shrink-0" />
-                <span>Generated TypeScript & Zod Output</span>
-              </CardTitle>
-            </CardHeader>
-
-            <CardContent className="p-3 sm:p-4 flex-1 flex flex-col justify-between max-w-full min-w-0 overflow-hidden space-y-3">
-              {/* TypeScript Interface */}
-              <div className="space-y-1 max-w-full min-w-0">
-                <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-semibold text-muted-foreground">TypeScript Interface:</span>
-                  <button
-                    type="button"
-                    onClick={() => handleCopy(tsInterface, "TS Interface")}
-                    className="text-[11px] text-primary hover:underline flex items-center gap-1 font-medium"
-                  >
-                    {copiedSection === "TS Interface" ? <Check className="h-3 w-3 text-emerald-500" /> : <Copy className="h-3 w-3" />}
-                    {copiedSection === "TS Interface" ? "Copied" : "Copy TS"}
-                  </button>
-                </div>
-                <div className="p-3 rounded-xl border bg-[#0f172a] text-[#f8fafc] font-mono text-[11px] text-blue-300 max-w-full min-w-0 overflow-x-auto max-h-[140px]">
-                  <pre className="whitespace-pre-wrap break-all">{tsInterface}</pre>
-                </div>
-              </div>
-
-              {/* Zod Schema */}
-              <div className="space-y-1 max-w-full min-w-0">
-                <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-semibold text-muted-foreground">Zod Validation Schema:</span>
-                  <button
-                    type="button"
-                    onClick={() => handleCopy(zodSchema, "Zod Schema")}
-                    className="text-[11px] text-primary hover:underline flex items-center gap-1 font-medium"
-                  >
-                    {copiedSection === "Zod Schema" ? <Check className="h-3 w-3 text-emerald-500" /> : <Copy className="h-3 w-3" />}
-                    {copiedSection === "Zod Schema" ? "Copied" : "Copy Zod"}
-                  </button>
-                </div>
-                <div className="p-3 rounded-xl border bg-[#0f172a] text-[#f8fafc] font-mono text-[11px] text-purple-300 max-w-full min-w-0 overflow-x-auto max-h-[140px]">
-                  <pre className="whitespace-pre-wrap break-all">{zodSchema}</pre>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+          <pre className="p-4 font-mono text-xs bg-slate-950 text-emerald-400 rounded-xl border overflow-x-auto h-80 leading-relaxed">
+            {tsOutput || "// TypeScript interfaces will appear here..."}
+          </pre>
+        </GlassCard>
       </div>
     </div>
   );
