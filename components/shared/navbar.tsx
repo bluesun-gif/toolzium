@@ -16,6 +16,7 @@ import { ActionButton } from "./action-buttons";
 import NavRight from "./nav-right";
 import { ThemeToggle } from "./theme-toggle";
 import MobileAppBar from "./mobile-app-bar";
+import IsometricCubeLogo from "./isometric-cube-logo";
 
 export function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -25,18 +26,7 @@ export function Navbar() {
       <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
         <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-3">
           <div className="flex items-center gap-3">
-            <Link href="/" className="inline-flex items-center gap-2 font-bold tracking-tight group">
-              <Image
-                src="/assets/logo.png"
-                height={36}
-                width={36}
-                alt="Toolzium Logo"
-                className="logo-orbit-spin rounded-lg shadow-xs"
-              />
-              <span className="text-base font-bold bg-gradient-to-r from-foreground via-foreground/90 to-primary bg-clip-text">
-                Toolzium
-              </span>
-            </Link>
+            <IsometricCubeLogo size={32} />
             <nav className="ml-4 hidden items-center gap-4 text-sm md:flex">
               <Link href="/tools" className="hover:opacity-80">
                 <ActionButton icon={Wrench} label="All Tools" variant="ghost" />

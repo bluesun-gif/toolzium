@@ -321,3 +321,26 @@ span.click-ripple {
 .logo-orbit-spin:hover {
   animation-duration: 2.2s;
 }
+
+/* 3D Isometric Cube Orbit Loop Animation */
+@keyframes isometricOrbit {
+  0% {
+    transform: rotateX(-22deg) rotateY(0deg) rotateZ(0deg);
+  }
+  50% {
+    transform: rotateX(-22deg) rotateY(180deg) rotateZ(8deg);
+  }
+  100% {
+    transform: rotateX(-22deg) rotateY(360deg) rotateZ(0deg);
+  }
+}
+
+.animate-isometric-orbit {
+  animation: isometricOrbit 6s linear infinite;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
