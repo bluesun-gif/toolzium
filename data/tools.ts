@@ -3078,6 +3078,34 @@ export const ToolsData = [
     isActive: true,
     items: [
       {
+        title: "AI BMR & TDEE Metabolism Calculator Studio",
+        url: "/tools/health/ai-bmr-calculator",
+        description:
+          "Calculate Basal Metabolic Rate (BMR) and Total Daily Energy Expenditure (TDEE) with Mifflin-St Jeor equation and AI metabolic optimization.",
+        popular: true,
+      },
+      {
+        title: "AI Calorie Deficit & Weight Loss Target Calculator",
+        url: "/tools/health/ai-calorie-deficit",
+        description:
+          "Calculate daily caloric deficit targets, estimated target weight goal dates, and generate personalized fat loss plans with live AI.",
+        popular: true,
+      },
+      {
+        title: "AI Personal Workout Routine & Training Split Generator",
+        url: "/tools/health/ai-workout-generator",
+        description:
+          "Generate custom 3, 4, 5, or 6-day workout splits (Push-Pull-Legs, Upper-Lower, Full Body) with rep ranges and progressive overload rules using live AI.",
+        popular: true,
+      },
+      {
+        title: "AI Daily Meal Plan & Macro Targets Generator",
+        url: "/tools/health/ai-meal-planner",
+        description:
+          "Custom 1-day meal plans mapped to your exact target calories, diet style (High Protein, Keto, Vegan), and dietary restrictions powered by live AI.",
+        popular: true,
+      },
+      {
         title: "Calorie Calculator",
         url: "/tools/health/calorie-calculator",
         description:
