@@ -105,8 +105,9 @@ export default function AdminDashboardClient() {
   };
 
   useEffect(() => {
-    const authStatus = sessionStorage.getItem("toolzium_admin_authorized");
-    if (authStatus === "true") {
+    const sessionAuth = sessionStorage.getItem("toolzium_admin_authorized");
+    const localAuth = localStorage.getItem("toolzium_admin_authenticated");
+    if (sessionAuth === "true" || localAuth === "true") {
       setIsAuthorized(true);
       fetchLiveDatabaseStats();
     }
@@ -125,8 +126,9 @@ export default function AdminDashboardClient() {
       });
 
       const data = await res.json();
-      if (res.ok && data.success) {
+      if (res.ok && (data.ok || data.success)) {
         sessionStorage.setItem("toolzium_admin_authorized", "true");
+        localStorage.setItem("toolzium_admin_authenticated", "true");
         setIsAuthorized(true);
         toast.success("Master Passcode verified. Welcome, Owner!");
         fetchLiveDatabaseStats();
@@ -142,6 +144,7 @@ export default function AdminDashboardClient() {
 
   const handleLogout = () => {
     sessionStorage.removeItem("toolzium_admin_authorized");
+    localStorage.removeItem("toolzium_admin_authenticated");
     setIsAuthorized(false);
     toast.success("Locked Owner Admin Portal");
   };

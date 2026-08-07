@@ -13,7 +13,7 @@ export async function POST(req: Request) {
 
     if (passcode === ADMIN_PASSCODE) {
       // Set secure HTTP-only cookie or session token
-      const response = NextResponse.json({ ok: true, message: "Access Granted" });
+      const response = NextResponse.json({ ok: true, success: true, message: "Access Granted" });
       response.cookies.set("toolzium_admin_session", "authenticated_owner_789", {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
