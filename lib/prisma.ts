@@ -5,7 +5,12 @@ import { Pool } from "pg";
 
 const connectionString = env.db.url;
 
-const pool = new Pool({ connectionString });
+const pool = new Pool({
+  connectionString,
+  max: 10,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 5000, // 5s connection timeout prevents database stalls
+});
 const adapter = new PrismaPg(pool);
 
 const create = () => new PrismaClient({ adapter });

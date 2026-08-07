@@ -13,6 +13,7 @@ export default function SignInWithGoogle() {
 
   const handleGoogleLogin = async () => {
     setIsGoogleLoading(true);
+    toast.loading("Connecting to Google authentication...", { id: "google-auth" });
     try {
       await signIn.social({
         provider: "google",
@@ -20,8 +21,7 @@ export default function SignInWithGoogle() {
       });
     } catch (error) {
       logger.error({ error }, "Google sign in error");
-      toast.error("Failed to sign in with Google");
-    } finally {
+      toast.error("Failed to sign in with Google", { id: "google-auth" });
       setIsGoogleLoading(false);
     }
   };
@@ -31,14 +31,14 @@ export default function SignInWithGoogle() {
       variant="outline"
       onClick={handleGoogleLogin}
       disabled={isGoogleLoading}
-      className="w-full"
+      className="w-full h-10 gap-2 font-medium"
     >
       {isGoogleLoading ? (
-        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+        <Loader2 className="h-4 w-4 animate-spin shrink-0 text-primary" />
       ) : (
-        <Image src="/assets/google.png" alt="Google" width={20} height={20} />
+        <Image src="/assets/google.png" alt="Google" width={18} height={18} className="shrink-0" />
       )}
-      Continue with Google
+      {isGoogleLoading ? "Connecting with Google..." : "Continue with Google"}
     </Button>
   );
 }
