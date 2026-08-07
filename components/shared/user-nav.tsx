@@ -69,12 +69,6 @@ export function UserNav() {
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href="/admin" className="font-semibold text-primary">
-            <ShieldCheck className="mr-2 h-4 w-4 text-primary" />
-            Owner Admin Panel
-          </Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
           <Link href="/dashboard">
             <User className="mr-2 h-4 w-4" />
             User Dashboard
