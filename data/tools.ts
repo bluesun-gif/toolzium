@@ -1157,6 +1157,34 @@ export const ToolsData = [
         popular: false,
       },
       {
+        title: "AI High-CTR SEO Title & Meta Description Generator",
+        url: "/tools/seo/ai-meta-generator",
+        description:
+          "Generate search-optimized HTML title tags and meta descriptions tailored for maximum organic Google click-through rates with live AI.",
+        popular: true,
+      },
+      {
+        title: "AI Schema.org JSON-LD Structured Data Generator",
+        url: "/tools/seo/ai-schema-generator",
+        description:
+          "Generate Google Rich Snippet JSON-LD structured data for Products, Local Businesses, Software, and FAQs with live AI.",
+        popular: true,
+      },
+      {
+        title: "AI Cold Email & B2B Sales Outreach Sequence Generator",
+        url: "/tools/marketing/cold-email-generator",
+        description:
+          "Craft high-reply B2B cold email campaigns, personalized sales pitches, and follow-up templates powered by live AI.",
+        popular: true,
+      },
+      {
+        title: "AI Product Slogan & Brand Tagline Generator",
+        url: "/tools/marketing/slogan-generator",
+        description:
+          "Brainstorm memorable brand slogans, catchy product taglines, and marketing motto ideas with live AI inference.",
+        popular: true,
+      },
+      {
         title: "Meta Tags Generator",
         url: "/tools/seo/meta-generator",
         description:
