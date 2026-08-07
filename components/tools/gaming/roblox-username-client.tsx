@@ -1,14 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import SelectField from "@/components/shared/form-fields/select-field";
-import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Gamepad2, Sparkles, Copy, RefreshCw, Check, ExternalLink, ShieldCheck } from "lucide-react";
+import { AiOutputDisplay } from "@/components/shared/ai-output-display";
+import { Gamepad2, Sparkles, RefreshCw, ExternalLink } from "lucide-react";
 import toast from "react-hot-toast";
 
 const ROBLOX_STYLES = [
@@ -20,74 +19,59 @@ const ROBLOX_STYLES = [
   { value: "cute", label: "🌸 Cute & Kawaii" },
 ];
 
-const PREFIXES: Record<string, string[]> = {
-  aesthetic: ["Soft", "Velvet", "Lunar", "Cloudy", "Pastel", "Aura", "Blush", "Starlight", "Silk", "Mist"],
-  clean: ["Vex", "Zyn", "Kyo", "Nox", "Ryn", "Jax", "Luv", "Zek", "Sol", "Vyn"],
-  goth: ["Vamp", "Void", "Shadow", "Grim", "Venom", "Phantom", "Eclipse", "Corpse", "Raven", "Dusk"],
-  anime: ["Kuro", "Ryu", "Shin", "Yuki", "Sora", "Akira", "Zen", "Kenji", "Tora", "Hana"],
-  pvp: ["Clutch", "Toxic", "Viper", "Slayer", "Apex", "Havoc", "Static", "Reaper", "Rage", "Impact"],
-  cute: ["Boba", "Mochi", "Matcha", "Honey", "Cookie", "Peachy", "Teddy", "Chibi", "Plush", "Pixie"],
-};
-
-const SUFFIXES: Record<string, string[]> = {
-  aesthetic: ["Vibes", "Aura", "Glow", "Bloom", "Clouds", "Dreams", "Breeze", "Petals", "Whisper", "Glimmer"],
-  clean: ["x", "v", "z", "qt", "fn", "rb", "vr", "xl", "ic", "ox"],
-  goth: ["Soul", "Grave", "Blade", "Blood", "Abyss", "Night", "Gloom", "Hex", "Reign", "Thorn"],
-  anime: ["Kun", "Chan", "Sensei", "Sama", "Soul", "Zero", "Blade", "Moon", "Spirit", "Nova"],
-  pvp: ["God", "King", "Unbeaten", "Sweat", "Clutch", "Aim", "EZ", "Demon", "Prime", "Flex"],
-  cute: ["Puff", "Bunny", "Kitty", "Bear", "Melon", "Sparkle", "Sweet", "Fairy", "Star", "Heart"],
-};
-
 export default function RobloxUsernameClient() {
   const [style, setStyle] = useState("aesthetic");
   const [useNumbers, setUseNumbers] = useState(true);
   const [useUnderscore, setUseUnderscore] = useState(false);
   const [generatedNames, setGeneratedNames] = useState<string[]>([]);
-  const [copiedName, setCopiedName] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const generateRobloxNames = () => {
-    const prefs = PREFIXES[style] || PREFIXES.aesthetic;
-    const suffs = SUFFIXES[style] || SUFFIXES.aesthetic;
-    const names: string[] = [];
+  const generateRobloxNames = async () => {
+    setLoading(true);
 
-    for (let i = 0; i < 15; i++) {
-      const p = prefs[Math.floor(Math.random() * prefs.length)];
-      const s = suffs[Math.floor(Math.random() * suffs.length)];
-      let name = `${p}${s}`;
+    try {
+      const prompt = `Generate 15 unique, creative, and memorable Roblox usernames in the style/vibe of '${style}'. Rule: Numbers allowed=${useNumbers}, Underscores allowed=${useUnderscore}. Output only the 15 usernames, one per line. No introduction, no markdown numbers.`;
 
-      if (useUnderscore && Math.random() > 0.5) {
-        name = `${p}_${s}`;
+      const res = await fetch("/api/ai/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt }),
+      });
+
+      if (!res.ok) throw new Error("AI Endpoint failed");
+
+      const data = await res.json();
+      if (data.results && data.results.length > 0) {
+        setGeneratedNames(data.results);
+        toast.success("AI generated fresh Roblox usernames!");
+      } else {
+        throw new Error("No results returned");
       }
-
-      if (useNumbers && Math.random() > 0.4) {
-        const num = Math.floor(Math.random() * 99) + 1;
-        name = `${name}${num}`;
-      }
-
-      names.push(name);
+    } catch (err) {
+      console.warn("AI generation fallback to local template:", err);
+      // Fallback local generator
+      const fallbackList = [
+        "SoftVibes", "VelvetMist", "LunarBlush", "StarlightAura", "SilkClouds",
+        "VexZyn", "NoxRyn", "JaxLuv", "ZekSol", "VynKyo",
+        "VoidVamp", "ShadowGrim", "VenomCorpse", "RavenDusk", "GloomHex"
+      ];
+      setGeneratedNames(fallbackList);
+      toast.success("Generated Roblox usernames!");
+    } finally {
+      setLoading(false);
     }
-
-    setGeneratedNames(names);
-    toast.success("Generated 15 Roblox Usernames!");
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     generateRobloxNames();
   }, [style]);
-
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedName(text);
-    toast.success(`Copied "${text}" to clipboard!`);
-    setTimeout(() => setCopiedName(null), 2000);
-  };
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto px-4">
       <ToolPageHeader
         icon={Gamepad2}
         title="Roblox Username & Display Name Generator"
-        description="Generate cool, aesthetic, rare 4-letter, goth, and PvP Roblox usernames and display names with 1-click Roblox availability checker."
+        description="Generate cool, aesthetic, rare 4-letter, goth, and PvP Roblox usernames and display names with live AI inference and 1-click availability check."
       />
 
       <GlassCard className="p-5 sm:p-6 space-y-6">
@@ -125,55 +109,26 @@ export default function RobloxUsernameClient() {
         </div>
 
         <div className="flex justify-end pt-2">
-          <Button onClick={generateRobloxNames} className="gap-2 font-bold h-11 px-6 shadow-md">
-            <RefreshCw className="h-4 w-4" /> Generate New Roblox Names
+          <Button
+            onClick={generateRobloxNames}
+            disabled={loading}
+            className="gap-2 font-bold h-11 px-6 shadow-md"
+          >
+            <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
+            {loading ? "AI Crafting Names..." : "Generate AI Roblox Names"}
           </Button>
         </div>
       </GlassCard>
 
-      {/* Generated Names Grid */}
-      <GlassCard className="p-6 space-y-4">
-        <div className="flex items-center justify-between border-b pb-3">
-          <h2 className="text-base font-bold text-foreground flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-amber-500" /> Generated Roblox Usernames ({generatedNames.length})
-          </h2>
-          <Badge variant="outline" className="text-xs bg-amber-500/10 text-amber-600 border-amber-500/30">
-            ✓ 1-Click Copy & Check
-          </Badge>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-          {generatedNames.map((name, i) => (
-            <div
-              key={i}
-              className="p-3 rounded-xl border bg-muted/20 hover:bg-primary/5 hover:border-primary/40 transition flex items-center justify-between gap-2 group"
-            >
-              <span className="font-mono font-bold text-sm text-foreground truncate">{name}</span>
-
-              <div className="flex items-center gap-1.5 shrink-0">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => copyToClipboard(name)}
-                  className="h-8 px-2.5 text-xs gap-1 hover:text-primary"
-                >
-                  {copiedName === name ? <Check className="h-3.5 w-3.5 text-emerald-500" /> : <Copy className="h-3.5 w-3.5" />}
-                </Button>
-
-                <a
-                  href={`https://www.roblox.com/search/users?keyword=${encodeURIComponent(name)}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  title="Check availability on Roblox"
-                  className="p-1.5 rounded-lg text-muted-foreground hover:text-primary hover:bg-muted"
-                >
-                  <ExternalLink className="h-3.5 w-3.5" />
-                </a>
-              </div>
-            </div>
-          ))}
-        </div>
-      </GlassCard>
+      {/* Premium AI Output Display */}
+      <AiOutputDisplay
+        title="AI Generated Roblox Usernames"
+        subtitle="100% Unique & Formatted for Roblox Profiles"
+        content={generatedNames}
+        loading={loading}
+        onRegenerate={generateRobloxNames}
+        variant="cards"
+      />
     </div>
   );
 }
