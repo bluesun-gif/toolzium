@@ -3521,6 +3521,34 @@ export const ToolsData = [
           "Generate cool Free Fire nicknames, Boss style symbols, V.I.P tags, and invisible space characters for Garena Free Fire.",
         popular: true,
       },
+      {
+        title: "Valorant Pro Crosshair Generator & Code Converter",
+        url: "/tools/gaming/valorant-crosshair",
+        description:
+          "Browse pro player Valorant crosshair codes (TenZ, Tarik, Demon1, Aspas) with 1-click Valorant import string copying.",
+        popular: true,
+      },
+      {
+        title: "GTA V License Plate & Crew Name Studio",
+        url: "/tools/gaming/gta-name-generator",
+        description:
+          "Generate badass GTA Online crew names, NoPixel RP gang tags, and custom vanity license plates with live AI inference.",
+        popular: true,
+      },
+      {
+        title: "Steam Profile Bio & Layout Decorator",
+        url: "/tools/gaming/steam-bio-generator",
+        description:
+          "Generate aesthetic Steam profile bios, hardware spec boxes, CS2/Dota 2 rank tags, and custom artwork spacers.",
+        popular: true,
+      },
+      {
+        title: "Minecraft Seed & World Name Generator",
+        url: "/tools/gaming/minecraft-seed-namer",
+        description:
+          "Generate fantasy Minecraft world titles, 100 Days Hardcore SMP names, and cottagecore village ideas.",
+        popular: true,
+      },
     ],
   },
   {
@@ -3562,6 +3590,34 @@ export const ToolsData = [
         url: "/tools/social/tiktok-caption-generator",
         description:
           "Generate high-converting TikTok captions, viral opening hooks, storytime openers, and trending hashtag clusters.",
+        popular: true,
+      },
+      {
+        title: "YouTube Video Tag & High-SEO Keyword Extractor",
+        url: "/tools/social/youtube-tag-extractor",
+        description:
+          "Extract and generate high-ranking, SEO-optimized tags and viral keywords for YouTube videos with live AI inference.",
+        popular: true,
+      },
+      {
+        title: "TikTok Engagement & Creator Fund Calculator",
+        url: "/tools/social/tiktok-engagement-calc",
+        description:
+          "Calculate your TikTok engagement rate, estimated Creator Fund payouts, and sponsored post value.",
+        popular: true,
+      },
+      {
+        title: "Instagram Reel Hook & Viral Caption Generator",
+        url: "/tools/social/instagram-reel-hooks",
+        description:
+          "Generate 3-second high-curiosity opening hooks and viral captions for Instagram Reels with live AI inference.",
+        popular: true,
+      },
+      {
+        title: "LinkedIn Viral Post & Headline Hook Generator",
+        url: "/tools/social/linkedin-headline-generator",
+        description:
+          "Generate high-converting LinkedIn profile headlines, B2B hooks, and viral storytelling formats with live AI inference.",
         popular: true,
       },
     ],
