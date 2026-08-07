@@ -8,7 +8,6 @@ import {
 } from "@/components/analytics/google-tag-manager";
 import AuthSessionProvider from "@/components/providers/session-provider";
 import ToasterProvider from "@/components/providers/toaster-provider";
-import SecretAdminTrigger from "@/components/admin/secret-admin-trigger";
 import NavigationProgressBar from "@/components/shared/navigation-progress-bar";
 import JsonLd from "@/components/seo/json-ld";
 import { ToolsData, TOTAL_TOOLS_COUNT } from "@/data/tools";
@@ -205,7 +204,6 @@ export default function RootLayout({
           <div id="main-content" className="overflow-x-hidden w-full max-w-full">{children}</div>
         </AuthSessionProvider>
         <ToasterProvider />
-        <SecretAdminTrigger />
       </body>
     </html>
   );
