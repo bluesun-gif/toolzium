@@ -4,6 +4,7 @@ import {
   Calculator,
   ClipboardList,
   Clock,
+  Gamepad2,
   Globe,
   Heart,
   ImageIcon,
@@ -3490,7 +3491,52 @@ export const ToolsData = [
         description:
           "Structured daily task action board mapping to 4 Eisenhower priority buckets: Do First, Schedule Later, Delegate, and Eliminate.",
         popular: true,
-      },],
+      },
+    ],
+  },
+  {
+    title: "Gaming & Brand Tools",
+    url: "/tools/gaming",
+    icon: Gamepad2,
+    isActive: true,
+    items: [
+      {
+        title: "Roblox Username & Display Name Generator",
+        url: "/tools/gaming/roblox-username-generator",
+        description:
+          "Generate cool, aesthetic, 4-letter rare, goth, and PvP Roblox usernames and display names with 1-click availability check.",
+        popular: true,
+      },
+      {
+        title: "Mobile Legends (MLBB) Fancy Name & Symbol Generator",
+        url: "/tools/gaming/mlbb-name-generator",
+        description:
+          "Generate cool, aesthetic Japanese Kanji, Gothic symbols, squad tags, and fancy font nicknames for Mobile Legends Bang Bang.",
+        popular: true,
+      },
+    ],
+  },
+  {
+    title: "Social Media & Community Studios",
+    url: "/tools/social",
+    icon: Globe,
+    isActive: true,
+    items: [
+      {
+        title: "Instagram Bio & Aesthetic Caption Generator",
+        url: "/tools/social/instagram-bio-generator",
+        description:
+          "Generate aesthetic, line-break formatted Instagram bios, content creator profile copy, and brand layout templates.",
+        popular: true,
+      },
+      {
+        title: "Discord Server Name & Channel Layout Studio",
+        url: "/tools/social/discord-name-generator",
+        description:
+          "Generate aesthetic Discord server names, channel symbols (│・welcome), category headers, and role layouts.",
+        popular: true,
+      },
+    ],
   },
 ];
 
