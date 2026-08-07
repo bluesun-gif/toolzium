@@ -2550,6 +2550,34 @@ export const ToolsData = [
         popular: true,
       },
       {
+        title: "Shopify & Amazon Product Listing AI Copy Generator",
+        url: "/tools/marketing/ecommerce-copy-generator",
+        description:
+          "Generate high-converting Amazon product bullet points, Shopify descriptions, and high-search SEO product titles with live AI.",
+        popular: true,
+      },
+      {
+        title: "AI SaaS Pricing Strategy & Tier Matrix Calculator",
+        url: "/tools/finance/saas-pricing-calculator",
+        description:
+          "Design optimal 3-tier SaaS pricing models (Starter, Pro, Enterprise), value metric limits, and expansion revenue strategies powered by live AI.",
+        popular: true,
+      },
+      {
+        title: "AI Real Estate Cap Rate & Cash-on-Cash Investment Auditor",
+        url: "/tools/finance/cap-rate-calculator",
+        description:
+          "Calculate capitalization rate (Cap Rate), Net Operating Income (NOI), and audit rental property return quality with live AI.",
+        popular: true,
+      },
+      {
+        title: "AI Startup Runway & Net Burn Rate Calculator",
+        url: "/tools/finance/startup-runway-calc",
+        description:
+          "Calculate startup cash runway months, net burn rate, fundraising urgency timelines, and audit Default Alive vs Default Dead status with live AI.",
+        popular: true,
+      },
+      {
         title: "SaaS Monthly Recurring Revenue (MRR) & Churn Rate Calculator",
         url: "/tools/finance/mrr-churn-calc",
         description:
