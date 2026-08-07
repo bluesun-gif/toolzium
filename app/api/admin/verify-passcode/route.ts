@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const ADMIN_PASSCODE = process.env.ADMIN_PASSCODE || "ToolziumOwner2026!";
+const ADMIN_PASSCODE = process.env.ADMIN_PASSCODE || "Pass2580#";
 
 export async function POST(req: Request) {
   try {
