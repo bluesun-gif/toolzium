@@ -40,6 +40,30 @@ export const ToolsData = [
     isActive: true,
     items: [
       {
+        title: "AI Prompt Engineering & Optimizer Studio",
+        url: "/tools/ai/prompt-optimizer",
+        description: "Transform simple ideas into master-grade prompts for ChatGPT, Claude 3.5, Gemini, and Midjourney with 1-click persona framing.",
+        popular: true,
+      },
+      {
+        title: "AI YouTube Video Script & High-CTR Hook Generator",
+        url: "/tools/ai/youtube-script",
+        description: "Generate viral YouTube video titles, 15-second opening hooks, video section outlines, and teleprompter-ready scripts.",
+        popular: true,
+      },
+      {
+        title: "AI Startup & Business Name Generator Studio",
+        url: "/tools/ai/startup-name",
+        description: "Generate brandable startup names, available domain ideas (.ai, .com, .io), taglines, and elevator pitches.",
+        popular: true,
+      },
+      {
+        title: "AI Social Media Bio & Creator Profile Generator",
+        url: "/tools/ai/social-bio",
+        description: "Generate high-converting, aesthetic bios for Instagram, TikTok, Twitter/X, and LinkedIn with 1-click vibe controls.",
+        popular: true,
+      },
+      {
         title: "AI Code Explainer & Converter",
         url: "/tools/ai/code-explainer",
         description: "Understand complex code snippets with plain-English breakdowns and translate code across Python, TypeScript, Rust, Go, and C++.",

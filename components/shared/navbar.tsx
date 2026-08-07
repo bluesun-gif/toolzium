@@ -76,7 +76,7 @@ export function Navbar() {
                   <SheetClose asChild>
                     <Link href="/tools" className="rounded-xl p-3 hover:bg-muted flex items-center gap-2">
                       <Wrench className="h-4 w-4 text-primary" />
-                      Explore All 450+ Tools
+                      Explore All 470+ Tools
                     </Link>
                   </SheetClose>
                   <SheetClose asChild>
