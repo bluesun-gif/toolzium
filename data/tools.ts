@@ -3514,6 +3514,13 @@ export const ToolsData = [
           "Generate cool, aesthetic Japanese Kanji, Gothic symbols, squad tags, and fancy font nicknames for Mobile Legends Bang Bang.",
         popular: true,
       },
+      {
+        title: "Free Fire (FF) Nickname & Boss Squad Tag Studio",
+        url: "/tools/gaming/free-fire-name-generator",
+        description:
+          "Generate cool Free Fire nicknames, Boss style symbols, V.I.P tags, and invisible space characters for Garena Free Fire.",
+        popular: true,
+      },
     ],
   },
   {
@@ -3534,6 +3541,27 @@ export const ToolsData = [
         url: "/tools/social/discord-name-generator",
         description:
           "Generate aesthetic Discord server names, channel symbols (│・welcome), category headers, and role layouts.",
+        popular: true,
+      },
+      {
+        title: "Twitch Stream Title & High-CTR Hook Generator",
+        url: "/tools/social/twitch-title-generator",
+        description:
+          "Generate high-converting Twitch stream titles, viewer engagement hooks, and command tags for Valorant, GTA V, Minecraft, and Just Chatting.",
+        popular: true,
+      },
+      {
+        title: "Spotify Playlist Title & Aesthetic Description Studio",
+        url: "/tools/social/spotify-playlist-generator",
+        description:
+          "Generate aesthetic Spotify playlist titles, mood descriptions, and lofi/indie/gym cover text.",
+        popular: true,
+      },
+      {
+        title: "TikTok Viral Caption & Hashtag Hook Studio",
+        url: "/tools/social/tiktok-caption-generator",
+        description:
+          "Generate high-converting TikTok captions, viral opening hooks, storytime openers, and trending hashtag clusters.",
         popular: true,
       },
     ],
