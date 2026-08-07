@@ -167,6 +167,27 @@ export const ToolsData = [
         popular: false,
       },
       {
+        title: "AI Blog Post Intro & Opening Hook Generator",
+        url: "/tools/writing/blog-intro-generator",
+        description:
+          "Generate captivating opening paragraphs and high-retention hooks for articles, Medium posts, and tech blogs with live AI.",
+        popular: true,
+      },
+      {
+        title: "AI High Open-Rate Email Subject Line Generator",
+        url: "/tools/writing/email-subject-generator",
+        description:
+          "Generate irresistible email subject lines for newsletter campaigns, sales outreach, and promotional announcements powered by live AI.",
+        popular: true,
+      },
+      {
+        title: "AI Executive Resume Summary & Bullet Point Generator",
+        url: "/tools/writing/resume-summary-generator",
+        description:
+          "Craft high-impact resume professional summaries, experience bullet points, and ATS-friendly keywords powered by live AI.",
+        popular: true,
+      },
+      {
         title: "Word Counter",
         url: "/tools/text/word-counter",
         description:
@@ -1812,6 +1833,13 @@ export const ToolsData = [
     icon: ClipboardList,
     isActive: true,
     items: [
+      {
+        title: "AI Executive Meeting Notes & Action Item Summarizer",
+        url: "/tools/productivity/ai-meeting-summarizer",
+        description:
+          "Transform raw meeting transcripts, Zoom notes, and Slack huddle logs into executive summaries and action items with live AI.",
+        popular: true,
+      },
       {
         title: "Invoice Generator",
         url: "/tools/office/invoice",
