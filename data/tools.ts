@@ -1764,6 +1764,20 @@ export const ToolsData = [
         popular: true,
       },
       {
+        title: "AI Essay Outline & Thesis Statement Generator",
+        url: "/tools/academic/thesis-generator",
+        description:
+          "Generate strong, academic-grade thesis statements and structured 3-part essay outlines for research papers with live AI inference.",
+        popular: true,
+      },
+      {
+        title: "APA / MLA / Chicago Citation & Bibliography Generator",
+        url: "/tools/academic/citation-generator",
+        description:
+          "Generate formatted APA 7th, MLA 9th, and Chicago style citations and bibliography entries for academic papers.",
+        popular: true,
+      },
+      {
         title: "To-Do List (Offline)",
         url: "/tools/office/todo",
         description:
@@ -2456,6 +2470,20 @@ export const ToolsData = [
         url: "/tools/finance/mrr-churn-calc",
         description:
           "Calculate SaaS metrics: Net MRR Growth, ARR, Churn Rate %, ARPU, and LTV metrics.",
+        popular: true,
+      },
+      {
+        title: "Shopify & Amazon Profit Margin & Ad Spend (ROAS) Calculator",
+        url: "/tools/finance/roas-calculator",
+        description:
+          "Calculate return on ad spend (ROAS), net profit margins, and breakeven ROAS for e-commerce stores.",
+        popular: true,
+      },
+      {
+        title: "Freelance Hourly Rate & Project Pricing Calculator",
+        url: "/tools/finance/freelance-rate-calc",
+        description:
+          "Calculate your minimum required hourly rate, day rate, and project pricing based on target annual income, taxes, and overhead.",
         popular: true,
       },
       {
