@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 import toast from "react-hot-toast";
 
 const COLORS = [
-  { name: "Slate", bg: "bg-slate-900", text: "text-slate-100", accent: "text-slate-400" },
+  { name: "Slate", bg: "bg-[#0f172a] text-[#f8fafc]", text: "text-slate-100", accent: "text-slate-400" },
   { name: "Blue", bg: "bg-blue-900", text: "text-blue-100", accent: "text-blue-300" },
   { name: "Emerald", bg: "bg-emerald-900", text: "text-emerald-100", accent: "text-emerald-300" },
   { name: "Rose", bg: "bg-rose-900", text: "text-rose-100", accent: "text-rose-300" },

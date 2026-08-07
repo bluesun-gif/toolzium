@@ -18,7 +18,6 @@ import {
   Wand2,
   Terminal,
   Layers,
-  ArrowRight,
 } from "lucide-react";
 
 interface OptimizedPromptResult {
@@ -150,7 +149,7 @@ export default function PromptOptimizerClient() {
             </CardHeader>
 
             <CardContent className="p-3 sm:p-4 space-y-3 flex-1 flex flex-col justify-between max-w-full min-w-0">
-              {/* Presets - Wraps on Mobile */}
+              {/* Presets */}
               <div className="space-y-1 max-w-full min-w-0">
                 <span className="text-[11px] font-semibold text-muted-foreground">
                   Try Sample Prompts:
@@ -294,11 +293,11 @@ export default function PromptOptimizerClient() {
                   </div>
 
                   {/* Main Enhanced Prompt */}
-                  <div className="p-3.5 rounded-xl border bg-slate-950 font-mono text-xs text-slate-100 space-y-1.5 max-w-full min-w-0">
+                  <div className="p-3.5 rounded-xl border border-slate-800 bg-[#0f172a] font-mono text-xs text-[#f8fafc] space-y-1.5 max-w-full min-w-0">
                     <span className="text-[10px] font-sans font-semibold uppercase tracking-wider text-slate-400">
                       Master Prompt:
                     </span>
-                    <pre className="whitespace-pre-wrap break-all leading-relaxed text-slate-100">{result.enhancedPrompt}</pre>
+                    <pre className="whitespace-pre-wrap break-all leading-relaxed text-[#f8fafc] bg-transparent p-0 m-0">{result.enhancedPrompt}</pre>
                   </div>
 
                   {/* Negative Prompt (if image generation) */}

@@ -249,7 +249,7 @@ export default function CurlConverterClient() {
                 value={generatedCode}
                 readOnly
                 rows={14}
-                className="font-mono text-xs bg-slate-950 text-slate-100 flex-1 dark:bg-slate-950"
+                className="font-mono text-xs bg-[#0f172a] text-[#f8fafc] text-slate-100 flex-1 dark:bg-[#0f172a] text-[#f8fafc]"
               />
             </CardContent>
           </GlassCard>

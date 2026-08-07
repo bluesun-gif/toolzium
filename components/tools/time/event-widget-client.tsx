@@ -63,7 +63,7 @@ export function EventWidgetClient() {
   };
 
   const widgetStyles = {
-    dark: "bg-slate-900 text-white",
+    dark: "bg-[#0f172a] text-[#f8fafc] text-white",
     light: "bg-slate-100 text-slate-900",
     blue: "bg-blue-900 text-white",
     purple: "bg-purple-900 text-white"

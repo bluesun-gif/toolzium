@@ -152,7 +152,7 @@ export default function JsonToTypescriptClient() {
                     {copiedSection === "TS Interface" ? "Copied" : "Copy TS"}
                   </button>
                 </div>
-                <div className="p-3 rounded-xl border bg-slate-950 font-mono text-[11px] text-blue-300 max-w-full min-w-0 overflow-x-auto max-h-[140px]">
+                <div className="p-3 rounded-xl border bg-[#0f172a] text-[#f8fafc] font-mono text-[11px] text-blue-300 max-w-full min-w-0 overflow-x-auto max-h-[140px]">
                   <pre className="whitespace-pre-wrap break-all">{tsInterface}</pre>
                 </div>
               </div>
@@ -170,7 +170,7 @@ export default function JsonToTypescriptClient() {
                     {copiedSection === "Zod Schema" ? "Copied" : "Copy Zod"}
                   </button>
                 </div>
-                <div className="p-3 rounded-xl border bg-slate-950 font-mono text-[11px] text-purple-300 max-w-full min-w-0 overflow-x-auto max-h-[140px]">
+                <div className="p-3 rounded-xl border bg-[#0f172a] text-[#f8fafc] font-mono text-[11px] text-purple-300 max-w-full min-w-0 overflow-x-auto max-h-[140px]">
                   <pre className="whitespace-pre-wrap break-all">{zodSchema}</pre>
                 </div>
               </div>

@@ -175,7 +175,7 @@ export default function MeshGradientClient() {
                 style={gradientStyle}
               />
 
-              <div className="p-3 rounded-xl border bg-slate-950 font-mono text-xs text-slate-100 max-w-full min-w-0 overflow-x-auto max-h-[140px]">
+              <div className="p-3 rounded-xl border bg-[#0f172a] text-[#f8fafc] font-mono text-xs text-slate-100 max-w-full min-w-0 overflow-x-auto max-h-[140px]">
                 <pre className="whitespace-pre-wrap break-all leading-relaxed text-slate-100">{cssCode}</pre>
               </div>
             </CardContent>

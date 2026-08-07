@@ -122,7 +122,7 @@ export default function CodeExplainerClient() {
                 value={sourceCode}
                 onChange={(e) => setSourceCode(e.target.value)}
                 placeholder="Paste your source code snippet here..."
-                className="font-mono text-xs flex-1 min-h-[200px] bg-slate-950/90 text-slate-100 border-border/70 p-3 rounded-xl leading-relaxed resize-none max-w-full"
+                className="font-mono text-xs flex-1 min-h-[200px] bg-[#0f172a] text-[#f8fafc]/90 text-slate-100 border-border/70 p-3 rounded-xl leading-relaxed resize-none max-w-full"
               />
 
               {/* Quick Sample Snippet Buttons */}
@@ -248,7 +248,7 @@ export default function CodeExplainerClient() {
               {convertedCode && (
                 <div className="flex-1 flex flex-col space-y-3 max-w-full overflow-hidden">
                   {activeTab === "code" ? (
-                    <div className="relative flex-1 rounded-xl border bg-slate-950 p-3 font-mono text-xs text-slate-100 overflow-x-auto max-w-full">
+                    <div className="relative flex-1 rounded-xl border bg-[#0f172a] text-[#f8fafc] p-3 font-mono text-xs text-slate-100 overflow-x-auto max-w-full">
                       <pre className="leading-relaxed whitespace-pre-wrap break-all">{convertedCode}</pre>
                     </div>
                   ) : (

@@ -191,7 +191,7 @@ export function CssTransform3dClient() {
               <CardDescription>Live 3D transform visualizer</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="h-64 sm:h-80 w-full bg-slate-900/50 rounded-xl flex items-center justify-center overflow-hidden border"
+              <div className="h-64 sm:h-80 w-full bg-[#0f172a] text-[#f8fafc]/50 rounded-xl flex items-center justify-center overflow-hidden border"
                    style={{
                      perspective: perspective + "px",
                      perspectiveOrigin: perspectiveOriginX + "% " + perspectiveOriginY + "%"

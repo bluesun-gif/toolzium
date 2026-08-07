@@ -227,7 +227,7 @@ export default function SqlRegexBuilderClient() {
             <CardContent className="p-3 sm:p-4 flex-1 flex flex-col justify-between space-y-3 max-w-full overflow-hidden">
               {generatedResult ? (
                 <div className="space-y-3 flex-1 flex flex-col max-w-full overflow-hidden">
-                  <div className="p-3.5 rounded-xl border bg-slate-950 font-mono text-xs text-slate-100 overflow-x-auto max-w-full">
+                  <div className="p-3.5 rounded-xl border bg-[#0f172a] text-[#f8fafc] font-mono text-xs text-slate-100 overflow-x-auto max-w-full">
                     <pre className="whitespace-pre-wrap break-all leading-relaxed">{generatedResult}</pre>
                   </div>
 

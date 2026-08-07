@@ -174,7 +174,7 @@ export function SimonSaysClient() {
             </CardDescription>
           </CardHeader>
           <CardContent className="flex justify-center">
-            <div className="grid grid-cols-2 gap-4 w-full max-w-sm aspect-square p-4 bg-slate-900 rounded-full sm:rounded-3xl shadow-2xl">
+            <div className="grid grid-cols-2 gap-4 w-full max-w-sm aspect-square p-4 bg-[#0f172a] text-[#f8fafc] rounded-full sm:rounded-3xl shadow-2xl">
               <div 
                 className={cn(getColorClasses("green"), "rounded-tl-full")} 
                 onClick={() => handleColorClick("green")}

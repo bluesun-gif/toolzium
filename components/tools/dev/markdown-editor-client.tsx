@@ -183,7 +183,7 @@ export default function MarkdownEditorClient() {
   const chars = markdown.length;
   const readingTime = Math.ceil(words / 200); // 200 WPM
 
-  const editorBgClass = darkTheme ? "bg-slate-950 text-slate-100" : "bg-white text-slate-900";
+  const editorBgClass = darkTheme ? "bg-[#0f172a] text-[#f8fafc] text-slate-100" : "bg-white text-slate-900";
   const wrapClass = wordWrap ? "whitespace-pre-wrap" : "whitespace-pre";
 
   return (
@@ -279,7 +279,7 @@ export default function MarkdownEditorClient() {
                 <span>PREVIEW</span>
               </div>
               <div 
-                className={"flex-1 p-4 overflow-y-auto prose dark:prose-invert max-w-none text-sm " + (darkTheme ? "bg-slate-950 text-slate-100" : "bg-white text-slate-900")}
+                className={"flex-1 p-4 overflow-y-auto prose dark:prose-invert max-w-none text-sm " + (darkTheme ? "bg-[#0f172a] text-[#f8fafc] text-slate-100" : "bg-white text-slate-900")}
                 dangerouslySetInnerHTML={{ __html: htmlPreview }}
               />
             </GlassCard>

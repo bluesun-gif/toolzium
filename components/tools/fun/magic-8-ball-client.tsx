@@ -120,7 +120,7 @@ export function Magic8BallClient() {
               
               {/* The Answer Window */}
               <div className={cn(
-                "w-28 h-28 rounded-full bg-slate-900 shadow-[inset_0_0_20px_rgba(0,0,0,1)] flex items-center justify-center relative overflow-hidden transition-opacity duration-1000",
+                "w-28 h-28 rounded-full bg-[#0f172a] text-[#f8fafc] shadow-[inset_0_0_20px_rgba(0,0,0,1)] flex items-center justify-center relative overflow-hidden transition-opacity duration-1000",
                 (!answer && !isShaking) ? "opacity-0" : "opacity-100"
               )}>
                 {answer && (

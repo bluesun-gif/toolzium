@@ -352,7 +352,7 @@ export default function ImageResizeClient() {
 
                   <div
                     ref={splitContainerRef}
-                    className="relative flex-1 rounded-2xl overflow-hidden border min-h-[300px] flex items-center justify-center select-none cursor-ew-resize touch-none shadow-inner bg-slate-950/40 max-w-full"
+                    className="relative flex-1 rounded-2xl overflow-hidden border min-h-[300px] flex items-center justify-center select-none cursor-ew-resize touch-none shadow-inner bg-[#0f172a] text-[#f8fafc]/40 max-w-full"
                     onMouseDown={(e) => {
                       setIsDraggingSlider(true);
                       handleSplitMove(e.clientX);

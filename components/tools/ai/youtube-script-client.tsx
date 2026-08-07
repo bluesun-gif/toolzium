@@ -211,7 +211,7 @@ export default function YoutubeScriptClient() {
                   </div>
 
                   {/* Full Script */}
-                  <div className="p-3.5 rounded-xl border bg-slate-950 font-mono text-xs text-slate-100 space-y-1 max-w-full min-w-0">
+                  <div className="p-3.5 rounded-xl border bg-[#0f172a] text-[#f8fafc] font-mono text-xs text-slate-100 space-y-1 max-w-full min-w-0">
                     <span className="text-[10px] font-sans font-semibold uppercase tracking-wider text-slate-400">
                       Script Body:
                     </span>
