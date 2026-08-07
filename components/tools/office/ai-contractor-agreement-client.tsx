@@ -1,0 +1,144 @@
+"use client";
+
+import React, { useState } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { AiOutputDisplay } from "@/components/shared/ai-output-display";
+import { ShieldCheck, RefreshCw } from "lucide-react";
+import toast from "react-hot-toast";
+
+export default function AiContractorAgreementClient() {
+  const [clientName, setClientName] = useState("Acme Technologies Inc.");
+  const [contractorName, setContractorName] = useState("Nexus Digital LLC");
+  const [services, setServices] = useState("Full-Stack Web Development & Cloud Infrastructure Maintenance");
+  const [paymentTerms, setPaymentTerms] = useState("$75/hr billed bi-weekly, Net 15 payment terms");
+  const [jurisdiction, setJurisdiction] = useState("State of California, USA");
+  const [results, setResults] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const generateAgreement = async () => {
+    if (!clientName.trim() || !contractorName.trim()) return;
+
+    setLoading(true);
+
+    try {
+      const prompt = `Draft a standard Independent Contractor Agreement clause structure: Client: '${clientName}', Contractor: '${contractorName}', Services: '${services}', Payment Terms: '${paymentTerms}', Jurisdiction: '${jurisdiction}'. Structure into 4 core contract clauses: Clause 1: Scope of Services & Deliverables, Clause 2: Payment Structure & Invoicing Rules, Clause 3: Intellectual Property (IP) Work-for-Hire Assignment, Clause 4: Non-Disclosure (NDA) & Termination Notice. Format as 4 distinct agreement clause cards. Disclaimer: Educational draft template. No markdown asterisks.`;
+
+      const res = await fetch("/api/ai/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt, type: "cards" }),
+      });
+
+      if (!res.ok) throw new Error("AI API failed");
+
+      const data = await res.json();
+      if (data.results && data.results.length > 0) {
+        setResults(data.results);
+        toast.success("AI Contractor Agreement drafted!");
+      } else {
+        throw new Error("No results");
+      }
+    } catch (err) {
+      toast.error("AI drafting failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="space-y-6 max-w-4xl mx-auto px-4">
+      <ToolPageHeader
+        icon={ShieldCheck}
+        title="AI Independent Contractor Agreement Studio"
+        description="Draft custom contractor agreements, IP work-for-hire clauses, payment terms, and confidentiality terms powered by live AI."
+      />
+
+      <GlassCard className="p-6 space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <label className="text-xs font-bold text-foreground block">Client Company Name:</label>
+            <Input
+              type="text"
+              value={clientName}
+              onChange={(e) => setClientName(e.target.value)}
+              placeholder="e.g. Apex Software Inc."
+              className="h-11 font-medium"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-xs font-bold text-foreground block">Contractor / Freelancer Name:</label>
+            <Input
+              type="text"
+              value={contractorName}
+              onChange={(e) => setContractorName(e.target.value)}
+              placeholder="e.g. John Doe Consulting"
+              className="h-11 font-medium"
+            />
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-xs font-bold text-foreground block">Services & Work Description:</label>
+          <Textarea
+            value={services}
+            onChange={(e) => setServices(e.target.value)}
+            placeholder="Describe contractor duties, milestones, and deliverables..."
+            className="min-h-[90px]"
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <label className="text-xs font-bold text-foreground block">Payment Rate & Terms:</label>
+            <Input
+              type="text"
+              value={paymentTerms}
+              onChange={(e) => setPaymentTerms(e.target.value)}
+              placeholder="e.g. $5,000 fixed milestone, Net 30"
+              className="h-11"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-xs font-bold text-foreground block">Governing Jurisdiction / State:</label>
+            <Input
+              type="text"
+              value={jurisdiction}
+              onChange={(e) => setJurisdiction(e.target.value)}
+              placeholder="e.g. State of Delaware, USA"
+              className="h-11"
+            />
+          </div>
+        </div>
+
+        <div className="flex justify-end pt-2">
+          <Button
+            onClick={generateAgreement}
+            disabled={loading || !clientName.trim() || !contractorName.trim()}
+            className="gap-2 font-bold h-11 px-6 shadow-md"
+          >
+            <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
+            {loading ? "AI Drafting Agreement..." : "AI Draft Contractor Agreement"}
+          </Button>
+        </div>
+      </GlassCard>
+
+      {/* Output */}
+      {results.length > 0 && (
+        <AiOutputDisplay
+          title="Generated Contractor Agreement Draft Clauses"
+          subtitle="Scope of work, IP ownership, payment terms, and non-disclosure clauses"
+          content={results}
+          loading={loading}
+          onRegenerate={generateAgreement}
+          variant="cards"
+        />
+      )}
+    </div>
+  );
+}

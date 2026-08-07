@@ -1960,6 +1960,27 @@ export const ToolsData = [
         popular: true,
       },
       {
+        title: "AI Independent Contractor Agreement Studio",
+        url: "/tools/office/ai-contractor-agreement",
+        description:
+          "Draft custom contractor agreements, IP work-for-hire clauses, payment terms, and confidentiality terms powered by live AI.",
+        popular: true,
+      },
+      {
+        title: "AI Statement of Work (SOW) Deliverables Generator",
+        url: "/tools/office/ai-sow-generator",
+        description:
+          "Generate professional client Statement of Work (SOW) documents with phased milestone deliverables, acceptance criteria, and out-of-scope boundaries using live AI.",
+        popular: true,
+      },
+      {
+        title: "AI Client Retainer & Scope Proposal Generator",
+        url: "/tools/office/ai-retainer-generator",
+        description:
+          "Craft recurring monthly client retainer proposals, service allocation tiers, SLA guarantees, and overage terms with live AI.",
+        popular: true,
+      },
+      {
         title: "Contract Template",
         url: "/tools/office/contract-template",
         description:
