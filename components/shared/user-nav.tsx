@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { signOut, useSession } from "@/lib/auth-client";
-import { LogIn, LogOut, Settings, User } from "lucide-react";
+import { LogIn, LogOut, Settings, User, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
@@ -69,9 +69,15 @@ export function UserNav() {
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
+          <Link href="/admin" className="font-semibold text-primary">
+            <ShieldCheck className="mr-2 h-4 w-4 text-primary" />
+            Owner Admin Panel
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
           <Link href="/dashboard">
             <User className="mr-2 h-4 w-4" />
-            Dashboard
+            User Dashboard
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
