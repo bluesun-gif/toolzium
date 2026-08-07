@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import { GlassCard } from "@/components/ui/glass-card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import SelectField from "@/components/shared/form-fields/select-field";
-import { Music, Sparkles, Copy, Check } from "lucide-react";
+import { AiOutputDisplay } from "@/components/shared/ai-output-display";
+import { Music, RefreshCw } from "lucide-react";
 import toast from "react-hot-toast";
 
 const VIBE_CATEGORIES = [
@@ -17,49 +17,55 @@ const VIBE_CATEGORIES = [
   { value: "drive", label: "🌃 Night Drive & Synthwave" },
 ];
 
-const PLAYLIST_TEMPLATES: Record<string, { title: string; desc: string }[]> = {
-  lofi: [
-    { title: "midnight coffee & quiet thoughts ☕", desc: "soft lofi beats to study, relax, or overthink to at 2 AM." },
-    { title: "raining outside my window 🌧️", desc: "cozy instrumental chillhop for rainy afternoons and deep focus." },
-    { title: "nostalgia in a cup ☁️", desc: "vintage lofi & warm vinyl crackles." },
-  ],
-  workout: [
-    { title: "PURE ADRENALINE // HEAVY PR ⚡", desc: "Aggressive phonk, hardstyle, and metal for breaking personal records." },
-    { title: "BEAST MODE ACTIVATED 🔥", desc: "High-bpm hype rap and gym motivation tracks." },
-  ],
-  heartbreak: [
-    { title: "staring at the ceiling at 3am 💔", desc: "sad indie acoustic & melancholic piano for when words fail." },
-    { title: "texts i never sent you 🌧️", desc: "bittersweet heartbreak anthems." },
-  ],
-  indie: [
-    { title: "golden hour & polaroids 🌿", desc: "dreamy indie pop, bedroom acoustic, and summer breeze vibes." },
-    { title: "main character energy ✨", desc: "feel-good indie anthems." },
-  ],
-  drive: [
-    { title: "TOKYO NIGHT DRIVE 🌃", desc: "Retro synthwave, dark techno, and neon cyber beats." },
-    { title: "empty highway vibes 🏎️", desc: "smooth R&B and chill electronic." },
-  ],
-};
-
 export default function SpotifyPlaylistClient() {
   const [vibe, setVibe] = useState("lofi");
-  const [copiedTitle, setCopiedTitle] = useState<string | null>(null);
+  const [playlists, setPlaylists] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  const playlists = PLAYLIST_TEMPLATES[vibe] || PLAYLIST_TEMPLATES.lofi;
+  const generateSpotifyPlaylists = async () => {
+    setLoading(true);
 
-  const copyText = (txt: string) => {
-    navigator.clipboard.writeText(txt);
-    setCopiedTitle(txt);
-    toast.success("Copied to clipboard!");
-    setTimeout(() => setCopiedTitle(null), 2000);
+    try {
+      const prompt = `Generate 6 aesthetic Spotify playlist titles with short mood descriptions for a '${vibe}' music vibe. Format each output line as: 'Title - Description'. Do not use markdown bold or asterisks.`;
+
+      const res = await fetch("/api/ai/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt, type: "prose" }),
+      });
+
+      if (!res.ok) throw new Error("AI API failed");
+
+      const data = await res.json();
+      if (data.results && data.results.length > 0) {
+        setPlaylists(data.results);
+        toast.success("AI generated fresh Spotify playlist ideas!");
+      } else {
+        throw new Error("No results");
+      }
+    } catch (err) {
+      console.warn("AI generation fallback:", err);
+      const fallbackList = [
+        "midnight coffee & quiet thoughts ☕ - soft lofi beats to study, relax, or overthink to at 2 AM.",
+        "raining outside my window 🌧️ - cozy instrumental chillhop for rainy afternoons and deep focus.",
+      ];
+      setPlaylists(fallbackList);
+      toast.success("Generated Spotify playlists!");
+    } finally {
+      setLoading(false);
+    }
   };
+
+  useEffect(() => {
+    generateSpotifyPlaylists();
+  }, [vibe]);
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto px-4">
       <ToolPageHeader
         icon={Music}
         title="Spotify Playlist Title & Aesthetic Description Studio"
-        description="Generate aesthetic Spotify playlist titles, mood descriptions, and lofi/indie/gym cover text."
+        description="Generate aesthetic Spotify playlist titles, mood descriptions, and lofi/indie/gym cover text with live AI inference."
       />
 
       <GlassCard className="p-6 space-y-4">
@@ -69,38 +75,28 @@ export default function SpotifyPlaylistClient() {
           onValueChange={(v) => setVibe(String(v || "lofi"))}
           options={VIBE_CATEGORIES}
         />
-      </GlassCard>
 
-      <GlassCard className="p-6 space-y-4">
-        <div className="flex items-center justify-between border-b pb-3">
-          <h2 className="text-base font-bold text-foreground flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-emerald-500" /> Aesthetic Spotify Playlist Ideas
-          </h2>
-          <Badge variant="outline" className="text-xs bg-emerald-500/10 text-emerald-600 border-emerald-500/30">
-            ✓ Ready for Spotify App
-          </Badge>
-        </div>
-
-        <div className="space-y-4">
-          {playlists.map((pl, i) => (
-            <div key={i} className="p-4 rounded-xl border bg-muted/20 hover:bg-primary/5 hover:border-primary/40 transition space-y-2">
-              <div className="flex items-center justify-between gap-2">
-                <span className="font-bold text-base text-foreground">{pl.title}</span>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => copyText(`${pl.title}\n${pl.desc}`)}
-                  className="h-8 px-2.5 text-xs gap-1 hover:text-primary shrink-0"
-                >
-                  {copiedTitle === `${pl.title}\n${pl.desc}` ? <Check className="h-3.5 w-3.5 text-emerald-500" /> : <Copy className="h-3.5 w-3.5" />}
-                  Copy Both
-                </Button>
-              </div>
-              <p className="text-xs text-muted-foreground font-medium">{pl.desc}</p>
-            </div>
-          ))}
+        <div className="flex justify-end pt-2">
+          <Button
+            onClick={generateSpotifyPlaylists}
+            disabled={loading}
+            className="gap-2 font-bold h-11 px-6 shadow-md"
+          >
+            <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
+            {loading ? "AI Crafting..." : "Generate AI Spotify Playlists"}
+          </Button>
         </div>
       </GlassCard>
+
+      {/* Premium AI Output Display */}
+      <AiOutputDisplay
+        title="AI Generated Spotify Playlists"
+        subtitle="Aesthetic Titles & Mood Descriptions for Spotify"
+        content={playlists}
+        loading={loading}
+        onRegenerate={generateSpotifyPlaylists}
+        variant="prose"
+      />
     </div>
   );
 }

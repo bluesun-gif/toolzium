@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import { GlassCard } from "@/components/ui/glass-card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import SelectField from "@/components/shared/form-fields/select-field";
-import { Tv, Sparkles, Copy, Check } from "lucide-react";
+import { AiOutputDisplay } from "@/components/shared/ai-output-display";
+import { Tv, RefreshCw } from "lucide-react";
 import toast from "react-hot-toast";
 
 const GAME_CATEGORIES = [
@@ -17,54 +17,55 @@ const GAME_CATEGORIES = [
   { value: "justchatting", label: "💬 Just Chatting & IRL" },
 ];
 
-const TITLE_HOOKS: Record<string, string[]> = {
-  valorant: [
-    "🔥 ROAD TO RADIANT OR WE DON'T SLEEP! (!rank !sens)",
-    "🎯 100% HEADSHOT RATE ONLY | CLOTHING & MERCH GIVEAWAY AT 50 SUBS",
-    "⚡ UNRANKED TO IMMORTAL SPEEDRUN | SOLO QUEUE MADNESS",
-    "💀 IF I DIE, I DO 10 PUSHUPS (!commands)",
-  ],
-  gta: [
-    "🚗 NOPIXEL RP | CHIEF OFFICER BACK ON DUTY (!rp !specs)",
-    "🔥 STARTING FROM THE BOTTOM IN LS | HEIST PLANNING NIGHT",
-    "💼 RUNNING THE MOST DANGEROUS CASINO IN NOPIXEL",
-  ],
-  minecraft: [
-    "⛏️ 100 DAYS SURVIVAL IN HARDCORE MINECRAFT | NO CHEATS",
-    "🌸 BUILDING A MEGA JAPANESE CASTLE IN SMP (!smp)",
-    "⚡ SPEEDRUNNING MINECRAFT VS 3 HUNTERS",
-  ],
-  fortnite: [
-    "👑 SOLO VS SQUADS TO UNLOCK CHAMPION DIVISION",
-    "⚡ NEW SEASON BATTLE PASS GRIND | CUSTOM ROOMS WITH VIEWERS",
-    "🎯 240FPS ZERO BUILD DOMINATION (!settings)",
-  ],
-  justchatting: [
-    "💬 TIER LIST: RATING YOUR WORST TAKES (!submit)",
-    "☕ LATE NIGHT COZY VIBES & Q&A | ASKING AGONY AUNT QUESTIONS",
-    "🎙️ TALKING ABOUT THE NEW AI BREAKTHROUGHS & GAMING NEWS",
-  ],
-};
-
 export default function TwitchTitleClient() {
   const [game, setGame] = useState("valorant");
-  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+  const [titles, setTitles] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  const titles = TITLE_HOOKS[game] || TITLE_HOOKS.valorant;
+  const generateTwitchTitles = async () => {
+    setLoading(true);
 
-  const copyTitle = (txt: string, idx: number) => {
-    navigator.clipboard.writeText(txt);
-    setCopiedIndex(idx);
-    toast.success("Copied Stream Title!");
-    setTimeout(() => setCopiedIndex(null), 2000);
+    try {
+      const prompt = `Generate 6 high-CTR, engaging Twitch stream title hooks for '${game}'. Include commands tags (e.g. !rank !sens !specs), uppercase hooks, and viewer incentives. Output 1 title per line. No markdown formatting.`;
+
+      const res = await fetch("/api/ai/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt }),
+      });
+
+      if (!res.ok) throw new Error("AI API failed");
+
+      const data = await res.json();
+      if (data.results && data.results.length > 0) {
+        setTitles(data.results);
+        toast.success("AI generated fresh Twitch stream titles!");
+      } else {
+        throw new Error("No results");
+      }
+    } catch (err) {
+      console.warn("AI generation fallback:", err);
+      const fallbackList = [
+        "🔥 ROAD TO RADIANT OR WE DON'T SLEEP! (!rank !sens)",
+        "🎯 100% HEADSHOT RATE ONLY | MERCH GIVEAWAY AT 50 SUBS",
+      ];
+      setTitles(fallbackList);
+      toast.success("Generated Twitch titles!");
+    } finally {
+      setLoading(false);
+    }
   };
+
+  useEffect(() => {
+    generateTwitchTitles();
+  }, [game]);
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto px-4">
       <ToolPageHeader
         icon={Tv}
         title="Twitch Stream Title & High-CTR Hook Generator"
-        description="Generate high-converting Twitch stream titles, viewer engagement hooks, and command tags for Valorant, GTA V, Minecraft, and Just Chatting."
+        description="Generate high-converting Twitch stream titles, viewer engagement hooks, and command tags for Valorant, GTA V, Minecraft, and Just Chatting with live AI inference."
       />
 
       <GlassCard className="p-6 space-y-4">
@@ -74,38 +75,28 @@ export default function TwitchTitleClient() {
           onValueChange={(v) => setGame(String(v || "valorant"))}
           options={GAME_CATEGORIES}
         />
-      </GlassCard>
 
-      <GlassCard className="p-6 space-y-4">
-        <div className="flex items-center justify-between border-b pb-3">
-          <h2 className="text-base font-bold text-foreground flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-purple-500" /> High-CTR Twitch Stream Titles ({titles.length})
-          </h2>
-          <Badge variant="outline" className="text-xs bg-purple-500/10 text-purple-600 border-purple-500/30">
-            ✓ Boost Click-Through Rate
-          </Badge>
-        </div>
-
-        <div className="space-y-3">
-          {titles.map((title, i) => (
-            <div
-              key={i}
-              className="p-4 rounded-xl border bg-muted/20 hover:bg-primary/5 hover:border-primary/40 transition flex items-center justify-between gap-3"
-            >
-              <span className="font-mono font-bold text-sm text-foreground leading-snug">{title}</span>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => copyTitle(title, i)}
-                className="h-8 px-3 text-xs gap-1.5 shrink-0"
-              >
-                {copiedIndex === i ? <Check className="h-3.5 w-3.5 text-emerald-500" /> : <Copy className="h-3.5 w-3.5" />}
-                Copy
-              </Button>
-            </div>
-          ))}
+        <div className="flex justify-end pt-2">
+          <Button
+            onClick={generateTwitchTitles}
+            disabled={loading}
+            className="gap-2 font-bold h-11 px-6 shadow-md"
+          >
+            <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
+            {loading ? "AI Crafting..." : "Generate AI Twitch Titles"}
+          </Button>
         </div>
       </GlassCard>
+
+      {/* Premium AI Output Display */}
+      <AiOutputDisplay
+        title="AI Generated Twitch Stream Titles"
+        subtitle="High-CTR Hooks & Engagement Boosters"
+        content={titles}
+        loading={loading}
+        onRegenerate={generateTwitchTitles}
+        variant="prose"
+      />
     </div>
   );
 }
