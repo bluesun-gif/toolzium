@@ -1,6 +1,6 @@
 "use client";
 
-import { AlignLeft, BarChart2, Clock4, FileText, Info, Mic, Type as TypeIcon } from "lucide-react";
+import { AlignLeft, BarChart2, Clock4, FileText, Info, Mic, Type as TypeIcon, Sparkles, RefreshCw } from "lucide-react";
 import * as React from "react";
 import {
   ActionButton,
@@ -14,10 +14,12 @@ import SwitchRow from "@/components/shared/form-fields/switch-row";
 import TextareaField from "@/components/shared/form-fields/textarea-field";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { GlassCard } from "@/components/ui/glass-card";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { AiOutputDisplay } from "@/components/shared/ai-output-display";
 import { trackToolUsage } from "@/lib/gtm";
 import { countWords } from "@/lib/utils";
 import { toTitleCase } from "@/lib/utils/text/case-converter";
@@ -34,12 +36,15 @@ import {
   squeezeSpaces,
 } from "@/lib/utils/text/word-counter";
 import StatItem from "./stat-item";
+import toast from "react-hot-toast";
 
 export default function WordCounterClient() {
   const [text, setText] = React.useState<string>("");
 
   const [liveClean, setLiveClean] = React.useState<boolean>(false);
   const [excludeStopwords, setExcludeStopwords] = React.useState<boolean>(true);
+  const [aiAnalysis, setAiAnalysis] = React.useState<string[]>([]);
+  const [aiLoading, setAiLoading] = React.useState<boolean>(false);
 
   const displayText = React.useMemo(
     () => (liveClean ? squeezeSpaces(normalizeText(text)) : normalizeText(text)),
@@ -66,10 +71,44 @@ export default function WordCounterClient() {
     [displayText, excludeStopwords],
   );
 
+  const analyzeWithAi = async () => {
+    if (!displayText.trim()) {
+      toast.error("Please enter some text first!");
+      return;
+    }
+
+    setAiLoading(true);
+
+    try {
+      const prompt = `Analyze this text for writing tone, sentiment, readability, grade level, and 3 key suggestions to improve engagement:\n\n"${displayText.slice(0, 1000)}"\n\nOutput 4 bullet points. No markdown asterisks.`;
+
+      const res = await fetch("/api/ai/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt, type: "prose" }),
+      });
+
+      if (!res.ok) throw new Error("AI API failed");
+
+      const data = await res.json();
+      if (data.results && data.results.length > 0) {
+        setAiAnalysis(data.results);
+        toast.success("AI writing analysis complete!");
+      } else {
+        throw new Error("No results");
+      }
+    } catch (err) {
+      toast.error("AI analysis failed. Please try again.");
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
   const resetAll = () => {
     setText("");
     setLiveClean(false);
     setExcludeStopwords(true);
+    setAiAnalysis([]);
   };
 
   const toUpper = () => {
@@ -93,7 +132,7 @@ export default function WordCounterClient() {
     setText(squeezeSpaces(displayText));
   };
 
-  const actions: Action[] = [
+  const actions = [
     { key: "upper", label: "UPPERCASE", run: toUpper },
     { key: "lower", label: "lowercase", run: toLower },
     { key: "title", label: "Title Case", run: toTitle },
@@ -106,8 +145,8 @@ export default function WordCounterClient() {
       {/* Header */}
       <ToolPageHeader
         icon={TypeIcon}
-        title="Word Counter"
-        description="Count words, characters, sentences, paragraphs, and lines. Get reading/speaking time and keyword density."
+        title="Word Counter & AI Writing Tone Analyzer"
+        description="Count words, characters, sentences, paragraphs, and lines. Get reading/speaking time, keyword density, and live AI writing analysis."
         actions={
           <>
             <ResetButton onClick={resetAll} />
@@ -190,6 +229,17 @@ export default function WordCounterClient() {
               <ActionButton key={a.key} icon={AlignLeft} label={a.label} onClick={a.run} />
             ))}
           </div>
+
+          <div className="pt-3 flex justify-end">
+            <Button
+              onClick={analyzeWithAi}
+              disabled={aiLoading || !displayText}
+              className="gap-2 font-bold shadow-md"
+            >
+              <RefreshCw className={`h-4 w-4 ${aiLoading ? "animate-spin" : ""}`} />
+              {aiLoading ? "AI Analyzing Text..." : "AI Writing Tone & Quality Analysis"}
+            </Button>
+          </div>
         </GlassCard>
 
         {/* Stats */}
@@ -222,6 +272,18 @@ export default function WordCounterClient() {
           </div>
         </GlassCard>
       </section>
+
+      {/* AI Analysis Display */}
+      {aiAnalysis.length > 0 && (
+        <AiOutputDisplay
+          title="AI Writing Tone & Readability Analysis"
+          subtitle="Real-time LLM feedback on tone, sentiment, and improvements"
+          content={aiAnalysis}
+          loading={aiLoading}
+          onRegenerate={analyzeWithAi}
+          variant="prose"
+        />
+      )}
 
       {/* Density table */}
       <section>
