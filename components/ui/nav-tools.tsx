@@ -60,8 +60,8 @@ export function NavMain({
                     return (
                       <SidebarMenuSubItem key={subItem.title}>
                         <SidebarMenuSubButton asChild isActive={active}>
-                          <Link href={subItem.url}>
-                            <span>{subItem.title}</span>
+                          <Link href={subItem.url} className="w-full min-w-0 flex items-center">
+                            <span className="truncate w-full min-w-0 block">{subItem.title}</span>
                           </Link>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>
