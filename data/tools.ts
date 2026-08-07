@@ -3754,6 +3754,34 @@ export const ToolsData = [
     isActive: true,
     items: [
       {
+        title: "AI YouTube Video Script & Outline Generator",
+        url: "/tools/social/youtube-script-generator",
+        description:
+          "Generate high-retention 5-second opening hooks, B-roll cues, step-by-step value scripts, and high-CTR calls to action using live AI.",
+        popular: true,
+      },
+      {
+        title: "AI X / Twitter Viral Thread Generator",
+        url: "/tools/social/twitter-thread-generator",
+        description:
+          "Generate high-converting 1st-tweet opening hooks, actionable storytelling tweets, and viral CTA tweets powered by live AI.",
+        popular: true,
+      },
+      {
+        title: "AI Facebook & Instagram Ad Copy Studio",
+        url: "/tools/social/ad-copy-generator",
+        description:
+          "Generate high-converting Meta primary text, headlines, and call-to-action variants using PAS, AIDA, and Social Proof frameworks.",
+        popular: true,
+      },
+      {
+        title: "AI Podcast Episode Script & Show Notes Studio",
+        url: "/tools/social/podcast-script-generator",
+        description:
+          "Generate episode intro scripts, guest interview question frameworks, sponsor reads, and publishing show notes using live AI.",
+        popular: true,
+      },
+      {
         title: "Instagram Bio & Aesthetic Caption Generator",
         url: "/tools/social/instagram-bio-generator",
         description:
