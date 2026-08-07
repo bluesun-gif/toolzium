@@ -2241,6 +2241,13 @@ export const ToolsData = [
     isActive: true,
     items: [
       {
+        title: "Real-Time Gold & Metals Price Tracker",
+        url: "/tools/finance/gold-price-tracker",
+        description:
+          "Track real-time spot gold, silver, and platinum prices per Oz, Gram, Tola, and Kilo in USD, BDT, EUR, GBP, INR, AED, and SAR with instant live weight calculator.",
+        popular: true,
+      },
+      {
         title: "Savings Goal Calculator",
         url: "/tools/finance/savings-goal",
         description:

@@ -1,51 +1,50 @@
 import { NextResponse } from "next/server";
 
 const PRIMARY = "https://open.er-api.com/v6/latest/";
-const FALLBACK = "https://api.frankfurter.app/latest";
+const FALLBACK = "https://api.exchangerate-api.com/v4/latest/";
 
 // GET /api/rates?base=USD
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
-  const base = searchParams.get("base") || "USD";
+  const base = (searchParams.get("base") || "USD").toUpperCase();
 
-  // Primary: open.er-api.com (Free exchange rates API with 160+ currencies including BDT)
+  // Primary: open.er-api.com (Real-time live exchange rates with 160+ fiat currencies)
   try {
     const res = await fetch(`${PRIMARY}${encodeURIComponent(base)}`, {
-      next: { revalidate: 3600 },
+      cache: "no-store",
     });
     if (!res.ok) throw new Error("open.er-api.com failed");
     const data = await res.json();
     if (data?.result !== "success" || !data?.rates) throw new Error("open.er-api.com invalid");
 
-    const date: string | undefined = data.time_last_update_utc;
-    return NextResponse.json({ base, rates: data.rates, provider: "open.er-api.com", date });
+    const date: string = data.time_last_update_utc || new Date().toUTCString();
+    return NextResponse.json({
+      base,
+      rates: data.rates,
+      provider: "open.er-api.com (Live)",
+      date,
+    });
   } catch {
-    // Fallback: frankfurter.app (always EUR base; convert if needed)
+    // Fallback: exchangerate-api.com
     try {
-      const fbRes = await fetch(`${FALLBACK}?from=EUR`, { next: { revalidate: 3600 } });
-      if (!fbRes.ok) throw new Error("frankfurter failed");
+      const fbRes = await fetch(`${FALLBACK}${encodeURIComponent(base)}`, {
+        cache: "no-store",
+      });
+      if (!fbRes.ok) throw new Error("exchangerate-api failed");
       const fbData = await fbRes.json();
-      const eurRates = fbData?.rates as Record<string, number> | undefined;
-      const date: string | undefined = fbData?.date;
-      if (!eurRates) throw new Error("frankfurter invalid");
+      if (!fbData?.rates) throw new Error("exchangerate-api invalid");
 
-      // frankfurter base is EUR. Convert to requested base:
-      // rate(base->X) = rate(EUR->X) / rate(EUR->base)
-      let normalized: Record<string, number> = {};
-      if (base === "EUR") {
-        normalized = { ...eurRates, EUR: 1 };
-      } else {
-        const baseRate = eurRates[base];
-        if (!baseRate) throw new Error("base not available in fallback");
-        for (const [code, eurToX] of Object.entries(eurRates)) {
-          normalized[code] = eurToX / baseRate;
-        }
-        normalized[base] = 1;
-      }
-
-      return NextResponse.json({ base, rates: normalized, provider: "frankfurter", date });
+      return NextResponse.json({
+        base,
+        rates: fbData.rates,
+        provider: "exchangerate-api.com (Live)",
+        date: fbData.date || new Date().toUTCString(),
+      });
     } catch {
-      return NextResponse.json({ base, rates: null, provider: "none" }, { status: 502 });
+      return NextResponse.json(
+        { base, rates: null, provider: "none", error: "Real-time rates unavailable" },
+        { status: 502 }
+      );
     }
   }
 }

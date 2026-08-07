@@ -26,13 +26,31 @@ export function CurrencyCardClient() {
   ];
 
   useEffect(() => {
-    const savedHome = localStorage.getItem("currency-card-home");
-    const savedDest = localStorage.getItem("currency-card-dest");
-    const savedRate = localStorage.getItem("currency-card-rate");
-    if (savedHome) setHomeCurrency(savedHome);
-    if (savedDest) setDestCurrency(savedDest);
-    if (savedRate) setExchangeRate(savedRate);
+    const savedHome = localStorage.getItem("currency-card-home") || "USD";
+    const savedDest = localStorage.getItem("currency-card-dest") || "EUR";
+    setHomeCurrency(savedHome);
+    setDestCurrency(savedDest);
   }, []);
+
+  // Fetch real-time live exchange rate when currencies change
+  useEffect(() => {
+    async function fetchLiveRate() {
+      try {
+        const res = await fetch(`/api/rates?base=${encodeURIComponent(homeCurrency)}`, { cache: "no-store" });
+        if (res.ok) {
+          const data = await res.json();
+          if (data?.rates && data.rates[destCurrency]) {
+            const liveRate = data.rates[destCurrency].toFixed(4);
+            setExchangeRate(liveRate);
+            localStorage.setItem("currency-card-rate", liveRate);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch live rate", err);
+      }
+    }
+    fetchLiveRate();
+  }, [homeCurrency, destCurrency]);
 
   const saveSettings = (h: string, d: string, r: string) => {
     localStorage.setItem("currency-card-home", h);

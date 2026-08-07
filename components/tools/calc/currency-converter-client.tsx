@@ -19,8 +19,8 @@ import { trackToolConversion, trackToolUsage } from "@/lib/gtm";
 
 /* Config & Types */
 
-const PROVIDER_LABEL = "open.er-api.com";
-const CACHE_HOURS = 12;
+const PROVIDER_LABEL = "open.er-api.com (Live API)";
+const CACHE_HOURS = 0.05; // 3 minutes max cache for real-time rates
 
 type RatesMap = Record<string, number>;
 type Favorite = { from: string; to: string };
