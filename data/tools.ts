@@ -167,6 +167,27 @@ export const ToolsData = [
         popular: false,
       },
       {
+        title: "AI Essay Conclusion & Summary Generator",
+        url: "/tools/academic/essay-conclusion-generator",
+        description:
+          "Synthesize main arguments, restate thesis statements powerfully, and craft memorable closing paragraphs for academic papers with live AI.",
+        popular: true,
+      },
+      {
+        title: "AI Study Flashcard & Quiz Creator Studio",
+        url: "/tools/academic/flashcard-creator",
+        description:
+          "Convert lecture notes, textbook passages, and articles into instant Q&A flashcards and revision study cards using live AI.",
+        popular: true,
+      },
+      {
+        title: "AI Literature Review & Academic Paper Summarizer",
+        url: "/tools/academic/literature-summarizer",
+        description:
+          "Extract core research objectives, methodologies, sample sizes, empirical findings, and limitations from academic papers with live AI.",
+        popular: true,
+      },
+      {
         title: "AI Blog Post Intro & Opening Hook Generator",
         url: "/tools/writing/blog-intro-generator",
         description:
