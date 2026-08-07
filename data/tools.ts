@@ -700,6 +700,34 @@ export const ToolsData = [
         popular: true,
       },
       {
+        title: "JWT Security Audit & Payload Inspector Studio",
+        url: "/tools/dev/jwt-inspector",
+        description:
+          "Decode JSON Web Tokens (JWT) locally and run live AI security risk audits for algorithm vulnerabilities and payload data leaks.",
+        popular: true,
+      },
+      {
+        title: "Regex Tester & AI Natural Language Explainer",
+        url: "/tools/dev/regex-explainer",
+        description:
+          "Test regular expressions against live sample strings and generate plain-English breakdowns of regex syntax with live AI inference.",
+        popular: true,
+      },
+      {
+        title: "Env Variables Security Risk & Secret Leak Scanner",
+        url: "/tools/dev/env-scanner",
+        description:
+          "Audit .env files for leaked production API keys, hardcoded database credentials, and NEXT_PUBLIC prefix vulnerabilities with live AI inference.",
+        popular: true,
+      },
+      {
+        title: "AI Code Refactoring & Security Vulnerability Auditor",
+        url: "/tools/dev/code-auditor",
+        description:
+          "Audit JavaScript, TypeScript, Python, and SQL code for security vulnerabilities, memory leaks, and performance refactoring with live AI inference.",
+        popular: true,
+      },
+      {
         title: "JWT Decoder",
         url: "/tools/dev/jwt-decode",
         description:

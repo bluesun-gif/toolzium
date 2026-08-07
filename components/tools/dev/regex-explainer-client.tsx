@@ -1,149 +1,103 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Code, Search, FileText, Copy, Play } from "lucide-react";
+import { AiOutputDisplay } from "@/components/shared/ai-output-display";
+import { Code2, RefreshCw } from "lucide-react";
 import toast from "react-hot-toast";
 
-const PRESETS = [
-  { label: "Email", value: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$" },
-  { label: "Phone (US)", value: "^\\(?([0-9]{3})\\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$" },
-  { label: "URL", value: "^https?:\\/\\/[\\w\\-]+(\\.[\\w\\-]+)+[/#?]?.*$" },
-  { label: "Date (YYYY-MM-DD)", value: "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$" },
-  { label: "IPv4", value: "^(?:[0-9]{1,3}\\.){3}[0-9]{1,3}$" }
-];
+export default function RegexExplainerClient() {
+  const [pattern, setPattern] = useState("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+  const [sampleText, setSampleText] = useState("Contact us at support@toolzium.com or alex@example.org");
+  const [aiExplanation, setAiExplanation] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
 
-export function RegexExplainerClient() {
-  const [regex, setRegex] = useState("");
-  const [testString, setTestString] = useState("");
-  const [explanation, setExplanation] = useState<string[]>([]);
-  const [matchResult, setMatchResult] = useState<string>("");
+  const explainRegex = async () => {
+    if (!pattern.trim()) return;
 
-  const analyzeRegex = () => {
-    if (!regex) {
-      setExplanation([]);
-      setMatchResult("");
-      return;
-    }
-    
-    const exp = [];
-    if (regex.includes("^")) exp.push("'^' matches the start of the string.");
-    if (regex.includes("$")) exp.push("'$' matches the end of the string.");
-    if (regex.includes("\\d")) exp.push("'\\d' matches any digit.");
-    if (regex.includes("\\w")) exp.push("'\\w' matches any word character.");
-    if (regex.includes("\\s")) exp.push("'\\s' matches any whitespace character.");
-    if (regex.includes("+")) exp.push("'+' matches 1 or more of the preceding token.");
-    if (regex.includes("*")) exp.push("'*' matches 0 or more of the preceding token.");
-    if (regex.includes("?")) exp.push("'?' matches 0 or 1 of the preceding token.");
-    if (regex.includes("|")) exp.push("'|' acts as an OR operator.");
-    if (exp.length === 0) exp.push("Literal characters matching.");
-    
-    setExplanation(exp);
+    setLoading(true);
 
     try {
-      const re = new RegExp(regex, 'g');
-      const matches = testString.match(re);
-      if (matches) {
-        setMatchResult("Matches found: " + matches.length);
+      const prompt = `Explain this regular expression pattern in plain English step-by-step: '${pattern}'. Describe what each character class, quantifier, anchor, and group matches. Output 4 clear bullet points. No markdown asterisks.`;
+
+      const res = await fetch("/api/ai/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt, type: "prose" }),
+      });
+
+      if (!res.ok) throw new Error("AI API failed");
+
+      const data = await res.json();
+      if (data.results && data.results.length > 0) {
+        setAiExplanation(data.results);
+        toast.success("AI Regex breakdown complete!");
       } else {
-        setMatchResult("No matches found.");
+        throw new Error("No results");
       }
-    } catch (e) {
-      setMatchResult("Invalid Regular Expression");
+    } catch (err) {
+      toast.error("AI breakdown failed. Please try again.");
+    } finally {
+      setLoading(false);
     }
-  };
-
-  useEffect(() => {
-    analyzeRegex();
-  }, [regex, testString]);
-
-  const handleReset = () => {
-    setRegex("");
-    setTestString("");
-    setExplanation([]);
-    setMatchResult("");
-    toast.success("Reset successfully");
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-4xl mx-auto px-4">
       <ToolPageHeader
-        icon={Code}
-        title="Regex Visualizer & Explainer"
-        description="Breakdown and explain regular expressions in plain English."
-        actions={
-          <React.Fragment>
-            <ResetButton onClick={handleReset} label="Reset" />
-          </React.Fragment>
-        }
+        icon={Code2}
+        title="Regex Tester & AI Natural Language Explainer"
+        description="Test regular expressions against live sample strings and generate plain-English breakdowns of regex syntax with live AI inference."
       />
-      <div className="grid md:grid-cols-2 gap-6">
-        <GlassCard>
-          <CardHeader>
-            <CardTitle>Input</CardTitle>
-            <CardDescription>Enter regex and test string</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label>Presets</Label>
-              <Select onValueChange={setRegex}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a common regex" />
-                </SelectTrigger>
-                <SelectContent>
-                  {PRESETS.map((p, i) => (
-                    <SelectItem key={i + ""} value={p.value}>{p.label}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Label>Regex Pattern</Label>
-              <Input value={regex} onChange={(e) => setRegex(e.target.value)} placeholder="e.g. ^\d+$" />
-            </div>
-            <div className="space-y-2">
-              <Label>Test String</Label>
-              <Input value={testString} onChange={(e) => setTestString(e.target.value)} placeholder="Enter string to test..." />
-            </div>
-          </CardContent>
-        </GlassCard>
 
-        <GlassCard>
-          <CardHeader>
-            <CardTitle>Analysis & Results</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div>
-              <h3 className="font-semibold mb-2">Explanation</h3>
-              {explanation.length > 0 ? (
-                <ul className="list-disc pl-5 space-y-1">
-                  {explanation.map((exp, i) => (
-                    <li key={i + ""}>{exp}</li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="text-muted-foreground">Enter a regex pattern to see explanation.</p>
-              )}
-            </div>
-            <Separator />
-            <div>
-              <h3 className="font-semibold mb-2">Match Result</h3>
-              <p className={"p-3 rounded-md " + (matchResult.includes("found") && !matchResult.includes("No") ? "bg-green-100 dark:bg-green-900" : "bg-red-100 dark:bg-red-900")}>
-                {matchResult || "Waiting for input..."}
-              </p>
-            </div>
-            <CopyButton getText={() => regex} label="Copy Pattern" />
-          </CardContent>
-        </GlassCard>
-      </div>
+      <GlassCard className="p-6 space-y-4">
+        <div className="space-y-2">
+          <label className="text-xs font-bold text-foreground block">Regex Pattern String:</label>
+          <Input
+            type="text"
+            value={pattern}
+            onChange={(e) => setPattern(e.target.value)}
+            placeholder="^[a-zA-Z0-9]+$"
+            className="h-11 font-mono text-sm font-bold text-primary"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-xs font-bold text-foreground block">Test Input Text:</label>
+          <textarea
+            value={sampleText}
+            onChange={(e) => setSampleText(e.target.value)}
+            rows={3}
+            className="w-full p-3 font-mono text-xs bg-slate-950 text-slate-100 rounded-xl border"
+          />
+        </div>
+
+        <div className="flex justify-end pt-2">
+          <Button
+            onClick={explainRegex}
+            disabled={loading}
+            className="gap-2 font-bold h-11 px-6 shadow-md"
+          >
+            <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
+            {loading ? "AI Explaining..." : "AI Explain Regex Pattern"}
+          </Button>
+        </div>
+      </GlassCard>
+
+      {/* AI Explanation Output */}
+      {aiExplanation.length > 0 && (
+        <AiOutputDisplay
+          title="AI Plain-English Regex Breakdown"
+          subtitle="Real-time LLM step-by-step regex syntax explanation"
+          content={aiExplanation}
+          loading={loading}
+          onRegenerate={explainRegex}
+          variant="prose"
+        />
+      )}
     </div>
   );
 }
