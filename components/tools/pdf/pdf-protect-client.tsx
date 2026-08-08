@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Lock, Upload, Download } from "lucide-react";
 import { PDFDocument } from "pdf-lib";
+import { encryptPDF } from "@pdfsmaller/pdf-encrypt";
 import toast from "react-hot-toast";
 
 export default function PdfProtectClient() {
@@ -35,11 +36,15 @@ export default function PdfProtectClient() {
 
     try {
       const buffer = await file.arrayBuffer();
+      
+      // Load standard PDF bytes using pdf-lib (to verify/optimize the document structure)
       const pdfDoc = await PDFDocument.load(buffer);
-
-      // Save PDF bytes
       const pdfBytes = await pdfDoc.save();
-      const blob = new Blob([new Uint8Array(pdfBytes)], { type: "application/pdf" });
+
+      // Now encrypt the PDF bytes with user password (AES-256)
+      const encryptedBytes = await encryptPDF(new Uint8Array(pdfBytes), password);
+
+      const blob = new Blob([encryptedBytes as any], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);
 
       const a = document.createElement("a");
@@ -53,7 +58,7 @@ export default function PdfProtectClient() {
       toast.success("PDF password protection applied & downloaded!");
     } catch (err) {
       console.error(err);
-      toast.error("Error protecting PDF file.");
+      toast.error("Error protecting PDF file. Make sure it is not already encrypted.");
     } finally {
       setProtecting(false);
     }
