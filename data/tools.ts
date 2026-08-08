@@ -188,6 +188,27 @@ export const ToolsData = [
         popular: true,
       },
       {
+        title: "AI Content Paraphraser & Tone Transformer Studio",
+        url: "/tools/writing/ai-paraphraser",
+        description:
+          "Rewrite sentences, paragraphs, and articles into professional, concise, or creative tones with live AI.",
+        popular: true,
+      },
+      {
+        title: "AI Grammar & Style Polish Studio",
+        url: "/tools/writing/ai-grammar-polish",
+        description:
+          "Audit grammar errors, fix spelling mistakes, and polish style tone for emails, essays, and reports with live AI.",
+        popular: true,
+      },
+      {
+        title: "AI Elevator Pitch & Value Proposition Studio",
+        url: "/tools/writing/ai-elevator-pitch",
+        description:
+          "Craft compelling 15 to 30-second elevator pitches and value propositions for investors, clients, and landing pages with live AI.",
+        popular: true,
+      },
+      {
         title: "AI Blog Post Intro & Opening Hook Generator",
         url: "/tools/writing/blog-intro-generator",
         description:
