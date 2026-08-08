@@ -12,7 +12,16 @@ import {
   Loader2,
   Palette,
   SlidersHorizontal,
+  Zap,
+  ShieldCheck,
+  FileImage,
+  RefreshCw,
+  Layers,
 } from "lucide-react";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 import * as React from "react";
 import { ImageDropzone } from "@/components/image/image-dropzone";
 import { ImagePreview, InfoPill } from "@/components/image/image-preview-meta";
@@ -191,7 +200,7 @@ export default function ImageConvertClient() {
   const lossy = fmt !== "png";
 
   return (
-    <>
+    <div className="max-w-6xl mx-auto space-y-8">
       <ToolPageHeader
         icon={Images}
         title="Image Converter"
@@ -483,6 +492,131 @@ export default function ImageConvertClient() {
 
         <ProcessLog value={log} onClear={() => setLog("")} />
       </div>
-    </>
+
+      {/* ─── How It Works ─── */}
+      <ToolHowItWorks
+        steps={[
+          { step: "1", title: "Upload Your Image", description: "Drag and drop any JPG, PNG, WebP, or AVIF image. The tool detects the format automatically and pre-selects sensible defaults." },
+          { step: "2", title: "Choose Format & Options", description: "Pick your output format, adjust quality (1–100%), enable resize, and optionally apply brightness, contrast, or saturation filters." },
+          { step: "3", title: "Convert & Download", description: "Click Convert to process the image in your browser, preview the result live, and download — or batch-export multiple files as a ZIP." },
+        ]}
+        badges={[
+          "100% Client-Side",
+          "No Upload",
+          "No Watermark",
+          "Free Forever",
+        ]}
+      />
+
+      {/* ─── Feature Guides + SEO Content ─── */}
+      <ToolFeatureGuides
+        features={[
+          { icon: FileImage, title: "JPG, PNG, WebP, AVIF", description: "Convert between all major formats. Supports lossless PNG output and lossy JPEG/WebP/AVIF at adjustable quality levels." },
+          { icon: Layers, title: "Resize While Converting", description: "Enter exact pixel dimensions with optional aspect-ratio lock. Fit modes (contain/cover/stretch) handle any dimension mismatch." },
+          { icon: SlidersHorizontal, title: "Image Filters", description: "Apply brightness, contrast, and saturation adjustments to the image before conversion — processed entirely via CSS filter + canvas." },
+          { icon: Zap, title: "Live Preview", description: "See the converted image and its exact file size in real time before downloading, letting you tune quality vs. size precisely." },
+          { icon: ShieldCheck, title: "Private by Design", description: "Conversions run entirely in your browser using the HTML5 Canvas API. No image data is transmitted to any server at any point." },
+          { icon: RefreshCw, title: "AVIF Browser Support", description: "AVIF is detected automatically. If your browser doesn't support AVIF encoding, the tool falls back gracefully to WebP or JPEG." },
+        ]}
+      >
+        <div className="space-y-5 text-sm leading-relaxed text-muted-foreground">
+          <h3 className="text-xl font-semibold text-foreground">Image Format Comparison: JPG vs PNG vs WebP vs AVIF</h3>
+          <p>
+            Choosing the right image format is one of the most impactful decisions in web performance and digital asset management. Each format involves a different tradeoff between file size, quality, compatibility, and feature support. Understanding these differences helps you make the right choice for every use case.
+          </p>
+
+          <table className="w-full border-collapse text-xs border border-border rounded-lg overflow-hidden">
+            <thead className="bg-muted text-foreground">
+              <tr>
+                <th className="border border-border p-2 text-left">Format</th>
+                <th className="border border-border p-2 text-left">Compression</th>
+                <th className="border border-border p-2 text-left">Transparency</th>
+                <th className="border border-border p-2 text-left">Best For</th>
+                <th className="border border-border p-2 text-left">Browser Support</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="border border-border p-2 font-medium">JPEG</td>
+                <td className="border border-border p-2">Lossy</td>
+                <td className="border border-border p-2 text-red-500">No</td>
+                <td className="border border-border p-2">Photos, social media</td>
+                <td className="border border-border p-2 text-green-600">Universal</td>
+              </tr>
+              <tr>
+                <td className="border border-border p-2 font-medium">PNG</td>
+                <td className="border border-border p-2">Lossless</td>
+                <td className="border border-border p-2 text-green-600">Yes (alpha)</td>
+                <td className="border border-border p-2">Logos, screenshots, UI</td>
+                <td className="border border-border p-2 text-green-600">Universal</td>
+              </tr>
+              <tr>
+                <td className="border border-border p-2 font-medium">WebP</td>
+                <td className="border border-border p-2">Lossy &amp; Lossless</td>
+                <td className="border border-border p-2 text-green-600">Yes</td>
+                <td className="border border-border p-2">Web images, thumbnails</td>
+                <td className="border border-border p-2 text-green-600">All modern browsers</td>
+              </tr>
+              <tr>
+                <td className="border border-border p-2 font-medium">AVIF</td>
+                <td className="border border-border p-2">Lossy &amp; Lossless</td>
+                <td className="border border-border p-2 text-green-600">Yes</td>
+                <td className="border border-border p-2">Next-gen web, HDR</td>
+                <td className="border border-border p-2 text-yellow-600">Chrome, Firefox (Safari limited)</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3 className="text-xl font-semibold text-foreground">When to Convert: Common Conversion Scenarios</h3>
+          <ul className="list-disc pl-5 space-y-2">
+            <li><strong>PNG to JPG</strong> — When you need a smaller file from a screenshot or design asset and transparency is not required. JPG files are typically 3–5× smaller than lossless PNG at equivalent quality.</li>
+            <li><strong>JPG to PNG</strong> — When you need to overlay the image on a different background, or when you&apos;re preparing assets for design tools like Figma, which work better with lossless PNG.</li>
+            <li><strong>Any format to WebP</strong> — When optimizing images for your website. WebP is 25–35% smaller than JPEG at equivalent visual quality and is supported by 97%+ of browsers as of 2024.</li>
+            <li><strong>Any format to AVIF</strong> — For next-generation web performance. AVIF is 50% smaller than JPEG and 20% smaller than WebP, but encoding is slower and browser support is still maturing.</li>
+          </ul>
+
+          <h3 className="text-xl font-semibold text-foreground">How Quality and File Size Relate</h3>
+          <p>
+            The quality slider (1–100%) controls the <strong>quantization level</strong> of lossy codecs like JPEG and WebP. At quality 90%, most images are visually indistinguishable from the original but are significantly smaller. The relationship between quality and file size is not linear — dropping from 100% to 90% quality typically reduces JPEG file size by 40–60%, while dropping from 80% to 70% saves only 10–15%. This is why quality values between <strong>75–85% are the sweet spot</strong> for most web images: they achieve excellent visual quality with maximum compression efficiency.
+          </p>
+          <p>
+            PNG uses lossless compression, so the quality slider has no effect on PNG output — every pixel is stored exactly. For PNG, file size is determined primarily by image dimensions and color complexity. If you need a smaller PNG, reduce the dimensions or convert to a lossy format.
+          </p>
+
+          <h3 className="text-xl font-semibold text-foreground">EXIF Metadata and Privacy</h3>
+          <p>
+            JPEG files store <strong>EXIF metadata</strong> — hidden data that may include the GPS coordinates where the photo was taken, the camera model, lens settings, and the date and time of capture. This is a serious privacy concern when sharing photos publicly. This tool uses the HTML5 Canvas API for conversion, which <strong>strips all EXIF data by default</strong> — producing clean output images with no embedded location data or device information. This makes it a useful privacy tool as well as a format converter.
+          </p>
+        </div>
+      </ToolFeatureGuides>
+
+      {/* ─── FAQ ─── */}
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "Which image formats are supported for input and output?",
+            answer: "Input: JPG, PNG, WebP, and AVIF (browser-dependent). Output: JPG, PNG, WebP, and AVIF. Some browsers may also decode HEIC/HEIF from Apple devices. AVIF encoding requires Chrome or Firefox — the tool detects support automatically.",
+          },
+          {
+            question: "Is there a file size or image dimension limit?",
+            answer: "There is no strict enforced limit. The practical limit is determined by your browser and device memory. Most browsers handle images up to 50MB and 16384×16384 pixels. Very large images may cause slow processing or browser memory warnings.",
+          },
+          {
+            question: "Does converting to JPEG remove transparency?",
+            answer: "Yes. JPEG does not support transparency. If your source image has transparent areas (like a PNG with alpha channel), those areas will be filled with the background color you set (default: white). If you need to preserve transparency, convert to PNG, WebP, or AVIF instead.",
+          },
+          {
+            question: "Will conversion affect image quality?",
+            answer: "Lossless formats (PNG) are never degraded. Lossy formats (JPG, WebP, AVIF) discard some information at lower quality settings. Use quality 85–95% for excellent results. The live preview shows you exactly what the converted image looks like before you download.",
+          },
+          {
+            question: "Are my images uploaded to a server?",
+            answer: "No. Conversion happens entirely in your browser using the HTML5 Canvas API. Images are never uploaded or stored anywhere. This also means EXIF metadata (including GPS location) is stripped from the output — useful for privacy.",
+          },
+        ]}
+      />
+
+      <RelatedTools currentToolUrl="/tools/image/convert" max={6} />
+    </div>
   );
 }

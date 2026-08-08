@@ -8,6 +8,10 @@ import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import toast from "react-hot-toast";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 import {
   Upload,
   Download,
@@ -27,6 +31,9 @@ import {
   ShoppingBag,
   Sparkle,
   ArrowLeft,
+  ShieldCheck,
+  Cpu,
+  Eye,
 } from "lucide-react";
 import { removeBackground } from "@imgly/background-removal";
 
@@ -668,6 +675,137 @@ export default function BgRemoveClient() {
           background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
         }
       `}} />
+
+      {/* ─── How It Works ─── */}
+      <ToolHowItWorks
+        steps={[
+          { step: "1", title: "Upload Your Image", description: "Drag and drop or click to upload any JPG, PNG, or WebP image. Sample images load instantly for a quick demo." },
+          { step: "2", title: "AI Removes the Background", description: "Our on-device AI model analyzes every pixel, isolates the subject, and removes the background in seconds — no upload to any server." },
+          { step: "3", title: "Download Transparent PNG", description: "Preview your result with any backdrop color. Download a crisp transparent PNG ready for design, e-commerce, or presentations." },
+        ]}
+        badges={[
+          "100% Client-Side",
+          "No Upload",
+          "No Signup",
+          "Free Forever",
+        ]}
+      />
+
+      {/* ─── Feature Guides + SEO Content ─── */}
+      <ToolFeatureGuides
+        features={[
+          { icon: Cpu, title: "On-Device AI", description: "The entire AI model runs locally in your browser using WebAssembly. No cloud processing, no API keys, no cost per image." },
+          { icon: ShieldCheck, title: "100% Private", description: "Your images never leave your device. Unlike remove.bg and other services, there is no upload, no data collection, no storage." },
+          { icon: Zap, title: "Instant Mode", description: "Flood-fill based removal for simple solid backgrounds. Processes in under a second — perfect for product photos on white." },
+          { icon: Sparkles, title: "AI Precision Mode", description: "Deep learning model trained on millions of images handles complex scenes: hair, fur, transparent objects, and intricate edges." },
+          { icon: Palette, title: "Backdrop Preview", description: "Preview your cutout on any background color — white, dark, gradient, or a custom hex — before downloading." },
+          { icon: Eye, title: "Split Comparison", description: "Drag the split slider to compare original and background-removed images side by side with pixel-perfect precision." },
+        ]}
+      >
+        <div className="space-y-5 text-sm leading-relaxed text-muted-foreground">
+          <h3 className="text-xl font-semibold text-foreground">How AI Background Removal Works</h3>
+          <p>
+            Background removal has evolved from crude manual selection tools to neural networks that rival professional photo editors. At the core of modern AI background removal is a model architecture called a <strong>convolutional neural network (CNN)</strong> — specifically, a segmentation variant trained to classify each pixel in an image as either &quot;subject&quot; or &quot;background.&quot; The result is a <strong>segmentation mask</strong>: a black-and-white map where white pixels represent the subject and black represents what gets removed.
+          </p>
+          <p>
+            The model used in this tool runs entirely via <strong>WebAssembly (WASM)</strong> — a binary instruction format that executes near-native speed in every modern browser. This means the AI model is downloaded once to your device and runs locally, with <strong>zero network requests per image</strong>. Your photos never touch a server.
+          </p>
+
+          <h3 className="text-xl font-semibold text-foreground">Background Removal: Use Cases &amp; File Format Guide</h3>
+          <table className="w-full border-collapse text-xs border border-border rounded-lg overflow-hidden">
+            <thead className="bg-muted text-foreground">
+              <tr>
+                <th className="border border-border p-2 text-left">Use Case</th>
+                <th className="border border-border p-2 text-left">Best Mode</th>
+                <th className="border border-border p-2 text-left">Output Format</th>
+                <th className="border border-border p-2 text-left">Typical Savings</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="border border-border p-2">E-commerce product photo</td>
+                <td className="border border-border p-2">Instant (white BG)</td>
+                <td className="border border-border p-2">PNG (transparent)</td>
+                <td className="border border-border p-2">$5–$25/image vs agency</td>
+              </tr>
+              <tr>
+                <td className="border border-border p-2">Portrait / headshot</td>
+                <td className="border border-border p-2">AI Precision</td>
+                <td className="border border-border p-2">PNG (transparent)</td>
+                <td className="border border-border p-2">30 min vs Photoshop</td>
+              </tr>
+              <tr>
+                <td className="border border-border p-2">Logo with complex edges</td>
+                <td className="border border-border p-2">AI Precision</td>
+                <td className="border border-border p-2">PNG (transparent)</td>
+                <td className="border border-border p-2">No quality loss</td>
+              </tr>
+              <tr>
+                <td className="border border-border p-2">Social media content</td>
+                <td className="border border-border p-2">Either</td>
+                <td className="border border-border p-2">PNG or JPG with BG</td>
+                <td className="border border-border p-2">Instant creation</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3 className="text-xl font-semibold text-foreground">AI Mode vs Instant Mode: Which Should You Use?</h3>
+          <p>
+            This tool offers two removal strategies. Understanding which to use saves time and produces better results:
+          </p>
+          <ul className="list-disc pl-5 space-y-2">
+            <li><strong>Instant Mode (Flood Fill)</strong> — Best for images with a solid, uniform background such as product photos on white, cream, or gray studio backdrops. Processing completes in under a second. The <code>tolerance</code> slider controls how aggressively similar colors are removed — increase it if you see leftover fringing around your subject.</li>
+            <li><strong>AI Precision Mode</strong> — Uses the full neural network. Best for portraits, animals, hair, transparent objects, and images with complex or busy backgrounds. Takes 5–15 seconds depending on image size and device speed, but delivers superior edge quality especially around hair and fur.</li>
+          </ul>
+
+          <h3 className="text-xl font-semibold text-foreground">PNG Transparency: The Professional Standard</h3>
+          <p>
+            The output of background removal is always a <strong>Transparent PNG</strong>. PNG uses lossless compression, which means every pixel is stored exactly as rendered. The transparency is stored in the <strong>alpha channel</strong> — a 4th color channel alongside Red, Green, and Blue. Each pixel&apos;s alpha value ranges from 0 (fully transparent) to 255 (fully opaque), allowing for <strong>anti-aliased semi-transparent edges</strong> that blend naturally on any background.
+          </p>
+          <p>
+            JPEG does not support transparency. If you need a background-removed image for print, web overlay, or design composition, always save as PNG. For web performance, consider converting the transparent PNG to <strong>WebP</strong> (which also supports transparency at 30% smaller file size) using our Image Converter tool.
+          </p>
+
+          <h3 className="text-xl font-semibold text-foreground">Privacy: Why Client-Side Processing Matters</h3>
+          <p>
+            Services like remove.bg, Adobe Express, and Canva upload your images to their servers for processing. This means your photos — which may include people, sensitive documents, or proprietary product designs — are stored on third-party infrastructure, subject to their privacy policies and data retention rules. This tool uses a different architecture: the AI model is <strong>compiled to WebAssembly and executed locally</strong>, so image data never leaves your machine. This is particularly important for:
+          </p>
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Photos of children or family members</li>
+            <li>Corporate product images before public release</li>
+            <li>ID photos, passports, and official documents</li>
+            <li>Medical or legal photographs</li>
+          </ul>
+        </div>
+      </ToolFeatureGuides>
+
+      {/* ─── FAQ ─── */}
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "Does this tool upload my images to a server?",
+            answer: "No. The entire AI model runs locally in your browser using WebAssembly. Your images are processed on your device and never sent to any server. This is different from services like remove.bg which upload your files to their cloud.",
+          },
+          {
+            question: "What is the difference between AI Mode and Instant Mode?",
+            answer: "Instant Mode uses a flood-fill algorithm — perfect for solid-color backgrounds like white product photo backdrops. It processes in under a second. AI Precision Mode uses a neural network for complex scenes involving hair, fur, transparent objects, or detailed backgrounds. AI Mode takes 5–15 seconds but produces much cleaner edges.",
+          },
+          {
+            question: "What output format does the tool produce?",
+            answer: "The tool always downloads a transparent PNG file. PNG is the only widely-supported format that preserves alpha-channel transparency. If you need a smaller file for the web, you can convert the PNG to WebP using the Image Converter tool — WebP also supports transparency at roughly 30% smaller file sizes.",
+          },
+          {
+            question: "Why does AI Mode take longer than other background removers?",
+            answer: "Commercial tools like remove.bg run their models on powerful GPU servers in the cloud. Our tool runs the same quality AI model directly in your browser on your CPU, which is slower but means your images stay private. Processing time depends on your device speed — modern laptops typically process a photo in 5–15 seconds.",
+          },
+          {
+            question: "What image sizes and formats are supported?",
+            answer: "You can upload JPG, PNG, WebP, and most common image formats. There is no strict file size limit, but very large images (above 10MB) may take longer in AI Mode due to the pixel count. For best results, use images up to 4000×4000 pixels.",
+          },
+        ]}
+      />
+
+      <RelatedTools currentToolUrl="/tools/image/bg-remove" max={6} />
     </div>
   );
 }

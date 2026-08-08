@@ -1738,12 +1738,13 @@ export const ToolsData = [
         popular: false,
       },
       {
-        title: "Receipt Scanner",
+        title: "Receipt Tracker",
         url: "/tools/office/receipt-scanner",
         description:
           "Manual receipt entry and tracking. Add store, date, amount, category, payment method. Filter and export as CSV. Total spending dashboard.",
         popular: false,
       },
+
       {
         title: "Resume Analyzer",
         url: "/tools/office/resume-analyzer",
