@@ -173,10 +173,7 @@ export default function PasswordGeneratorClient() {
           <>
             <ResetButton onClick={resetAll} />
             <CopyButton
-              getText={() => {
-                toast.success("Copied all passwords!");
-                return allText;
-              }}
+              getText={() => allText}
               disabled={!allText}
               label="Copy All"
             />
@@ -307,10 +304,7 @@ export default function PasswordGeneratorClient() {
                   </span>
                   <CopyButton
                     size="sm"
-                    getText={() => {
-                      toast.success("Password copied!");
-                      return pwd;
-                    }}
+                    getText={() => pwd}
                   />
                 </div>
               ))}
@@ -333,55 +327,104 @@ export default function PasswordGeneratorClient() {
 
       {/* SECTION 4: FEATURE HIGHLIGHTS & DEEP SEO GUIDE */}
       <ToolFeatureGuides features={features}>
-        <div className="space-y-4">
+        <div className="space-y-4 text-sm sm:text-base leading-relaxed">
           <h3 className="text-lg font-bold text-foreground">
-            Complete Password Security & Entropy Benchmark Guide
+            Complete Guide: Why Strong Passwords Matter & How to Create Them
           </h3>
           <p>
-            With cyberattacks and automated GPU brute-force attacks escalating, relying on simple passwords like "Password123" or birthday dates puts your accounts at extreme risk. Toolzium’s Password Generator utilizes your browser's native cryptographic hardware entropy source to output random, zero-bias passwords that withstand modern cracking algorithms.
+            In today's digital landscape, compromised credentials are the leading cause of data breaches globally. Relying on simple passwords, dictionary words, or variations of the same password across multiple platforms leaves your accounts vulnerable to automated attacks. Cybercriminals routinely deploy credential stuffing attacks—where leaked usernames and passwords from one breach are automatically tested against thousands of other sites. 
+          </p>
+          <p>
+            If you reuse passwords, a single breach on a low-security website can instantly compromise your email, banking, and social media accounts. Toolzium's Password Generator is engineered to mitigate these risks by generating high-entropy, zero-bias passwords that withstand modern cracking algorithms.
           </p>
 
-          <h4 className="text-base font-semibold text-foreground pt-2">Password Entropy Strength Benchmarks:</h4>
+          <h4 className="text-base font-semibold text-foreground pt-2">What Makes a Password Strong?</h4>
+          <p>
+            A strong password is defined by two primary factors: <strong>length</strong> and <strong>complexity</strong>. While complexity (using a mix of uppercase, lowercase, numbers, and symbols) expands the pool of potential characters, length is the most critical factor in determining mathematical strength, known as entropy. 
+          </p>
+          <p>
+            <strong>Entropy</strong> is a measure of unpredictability, calculated in bits. The higher the entropy, the more difficult a password is to guess. According to NIST (National Institute of Standards and Technology) 2024 guidelines, passwords should be long, randomly generated, and completely unique to each service. They no longer recommend arbitrary expiration dates, provided the password is sufficiently strong and uncompromised.
+          </p>
+
+          <h4 className="text-base font-semibold text-foreground pt-2">Password Entropy Reference Table</h4>
+          <p>
+            The table below illustrates how entropy bits correlate to password strength and the estimated time required for a modern GPU cluster to crack the password via brute-force attack:
+          </p>
           <div className="overflow-x-auto rounded-lg border my-2">
-            <table className="w-full text-xs">
+            <table className="w-full text-xs sm:text-sm text-left">
               <thead className="bg-muted/60">
-                <tr className="[&>th]:px-3 [&>th]:py-2 text-left font-semibold">
-                  <th>Entropy (Bits)</th>
+                <tr className="[&>th]:px-3 [&>th]:py-2 font-semibold">
+                  <th>Entropy (bits)</th>
                   <th>Strength Rating</th>
-                  <th>Estimated Time to Crack (Brute Force)</th>
+                  <th>Time to Crack (GPU)</th>
+                  <th>Example</th>
                 </tr>
               </thead>
               <tbody>
                 <tr className="border-t">
-                  <td className="px-3 py-2 font-mono text-red-500 font-bold">&lt; 40 bits</td>
+                  <td className="px-3 py-2 font-mono text-red-500 font-bold">&lt; 28</td>
                   <td className="px-3 py-2">Very Weak</td>
-                  <td className="px-3 py-2">Instantaneous (Under 1 second)</td>
+                  <td className="px-3 py-2">Instantaneous</td>
+                  <td className="px-3 py-2 font-mono">password123</td>
                 </tr>
                 <tr className="border-t">
-                  <td className="px-3 py-2 font-mono text-amber-500 font-bold">40 – 60 bits</td>
-                  <td className="px-3 py-2">Moderate</td>
-                  <td className="px-3 py-2">Few minutes to several days</td>
+                  <td className="px-3 py-2 font-mono text-orange-500 font-bold">28 - 35</td>
+                  <td className="px-3 py-2">Weak</td>
+                  <td className="px-3 py-2">Minutes to hours</td>
+                  <td className="px-3 py-2 font-mono">Monkey99</td>
                 </tr>
                 <tr className="border-t">
-                  <td className="px-3 py-2 font-mono text-emerald-500 font-bold">60 – 80 bits</td>
+                  <td className="px-3 py-2 font-mono text-yellow-500 font-bold">36 - 59</td>
+                  <td className="px-3 py-2">Reasonable</td>
+                  <td className="px-3 py-2">Days to months</td>
+                  <td className="px-3 py-2 font-mono">Tig3r!Woods</td>
+                </tr>
+                <tr className="border-t">
+                  <td className="px-3 py-2 font-mono text-emerald-500 font-bold">60 - 127</td>
                   <td className="px-3 py-2">Strong</td>
-                  <td className="px-3 py-2">Several years to decades</td>
+                  <td className="px-3 py-2">Centuries</td>
+                  <td className="px-3 py-2 font-mono">k7$vP9@zQw#2</td>
                 </tr>
                 <tr className="border-t">
-                  <td className="px-3 py-2 font-mono text-primary font-bold">80+ bits</td>
-                  <td className="px-3 py-2">Unbreakable</td>
-                  <td className="px-3 py-2">Trillions of years (Impossible with current tech)</td>
+                  <td className="px-3 py-2 font-mono text-primary font-bold">128+</td>
+                  <td className="px-3 py-2">Very Strong</td>
+                  <td className="px-3 py-2">Trillions of years</td>
+                  <td className="px-3 py-2 font-mono">mQ8!pW2$vN5^kL9@xR4*jT7</td>
                 </tr>
               </tbody>
             </table>
           </div>
 
-          <h4 className="text-base font-semibold text-foreground pt-2">Best Practices for Password Hygiene:</h4>
-          <ul className="list-disc pl-5 space-y-1.5 text-xs sm:text-sm">
-            <li><strong>Never Reuse Passwords:</strong> Use a unique, generated 16+ character password for every website and service.</li>
-            <li><strong>Use a Password Manager:</strong> Store your generated passwords in an encrypted vault like Bitwarden, 1Password, or KeePass.</li>
-            <li><strong>Enable Multi-Factor Authentication (2FA):</strong> Combine strong passwords with hardware security keys (YubiKey) or authenticator apps (TOTP).</li>
+          <h4 className="text-base font-semibold text-foreground pt-2">CSPRNG vs Math.random()</h4>
+          <p>
+            Not all random password generators are created equal. Many poorly designed tools rely on standard programming functions like <code>Math.random()</code> in JavaScript. These functions are <strong>pseudo-random</strong> and can be predictable if an attacker observes enough outputs, making them highly unsuitable for cryptographic security.
+          </p>
+          <p>
+            To guarantee true unpredictability, Toolzium's generator utilizes <code>window.crypto.getRandomValues()</code>. This is a Cryptographically Secure Pseudorandom Number Generator (CSPRNG). It taps into your device's operating system to gather true entropy (such as mouse movements or hardware noise) ensuring that the generated passwords cannot be mathematically reverse-engineered.
+          </p>
+
+          <h4 className="text-base font-semibold text-foreground pt-2">Common Password Mistakes to Avoid</h4>
+          <ul className="list-disc pl-5 space-y-1.5">
+            <li><strong>Dictionary Words & Phrases:</strong> Attackers use "dictionary attacks" that try millions of common words and phrases per second. A password like "PurpleElephant" is much weaker than a truly random string.</li>
+            <li><strong>Personal Information:</strong> Never include names, birthdays, pet names, or sports teams. This information is easily scraped from social media for targeted attacks.</li>
+            <li><strong>Predictable Patterns & Padding:</strong> Using keyboard walks like "qwerty" or "123456", or padding a weak password with a capital letter and an exclamation mark at the end (e.g., "Password123!") defeats the purpose of true randomness.</li>
           </ul>
+
+          <h4 className="text-base font-semibold text-foreground pt-2">Password Manager Best Practices</h4>
+          <p>
+            Remembering dozens of highly complex, 16-character passwords is impossible for a human. This is why adopting a password manager is essential for modern digital hygiene. 
+          </p>
+          <p>
+            We recommend the following workflow for ultimate security:
+          </p>
+          <ul className="list-disc pl-5 space-y-1.5">
+            <li><strong>Generate:</strong> Use our tool to generate a unique, high-entropy password for a specific account.</li>
+            <li><strong>Store:</strong> Save this new credential immediately into a reputable, encrypted password vault (such as Bitwarden or 1Password).</li>
+            <li><strong>Autofill:</strong> Rely on the password manager's browser extension to autofill credentials, which also protects you from phishing sites that try to steal your login info.</li>
+          </ul>
+          <p>
+            Finally, secure your password manager itself with a formidable <strong>Master Password</strong>. This should be a long, memorable passphrase (like 4-5 random words generated by a diceware method) and backed by robust Multi-Factor Authentication (MFA). Since your master password is the key to your entire digital life, its entropy should be incredibly high.
+          </p>
         </div>
       </ToolFeatureGuides>
 

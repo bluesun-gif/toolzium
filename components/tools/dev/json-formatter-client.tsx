@@ -16,19 +16,13 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
-import {
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { CardTitle } from "@/components/ui/card";
 import { GlassCard } from "@/components/ui/glass-card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AiOutputDisplay } from "@/components/shared/ai-output-display";
 import {
-  AlignLeft,
   Braces,
   Download,
   FileJson,
@@ -40,7 +34,7 @@ import {
   Code2,
   CheckCircle2,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 
 type IndentOpt = "2" | "4" | "tab";
@@ -150,7 +144,7 @@ export default function JsonFormatterClient() {
         throw new Error("No results");
       }
     } catch (err) {
-      toast.error("AI JSON analysis failed. Please check JSON syntax.");
+      toast.error("AI analysis failed. Please try again.");
     } finally {
       setAiLoading(false);
     }
@@ -336,10 +330,13 @@ export default function JsonFormatterClient() {
                   if (autoOnPaste && val.trim()) {
                     try {
                       const json = parseSafe(val);
-                      const pretty = JSON.stringify(json, null, getIndentValue());
+                      const value = sortKeys ? sortObjectDeep(json) : json;
+                      const pretty = JSON.stringify(value, null, getIndentValue());
                       setOutput(pretty);
                       setError("");
-                    } catch {}
+                    } catch {
+                      toast.error("Pasted text is not valid JSON");
+                    }
                   }
                 }}
               />
@@ -440,23 +437,102 @@ export default function JsonFormatterClient() {
       <ToolFeatureGuides features={features}>
         <div className="space-y-4">
           <h3 className="text-lg font-bold text-foreground">
-            Complete Developer Guide to JSON Formatting & Syntax Validation
+            What Is JSON?
           </h3>
           <p>
-            JSON (JavaScript Object Notation) is the universal lightweight data-interchange format used across modern web APIs, microservices, databases (PostgreSQL, MongoDB), and software configuration files. Toolzium’s free JSON Formatter & Validator delivers instantaneous client-side pretty-printing, minification, key sorting, and schema inspection.
+            JSON (JavaScript Object Notation) is a lightweight, language-independent data-interchange format that is easy for humans to read and write and easy for machines to parse and generate. Formally defined by the RFC 8259 standard, it has become the de facto format for modern web APIs, microservices, databases like PostgreSQL and MongoDB, and numerous software configuration files. Despite its origins in JavaScript, JSON is now universally supported across virtually all programming languages, making it a critical skill for any developer or data engineer.
           </p>
 
-          <h4 className="text-base font-semibold text-foreground pt-2">JSON Standard Syntax Rules (RFC 8259):</h4>
+          <h3 className="text-lg font-bold text-foreground pt-4">
+            JSON vs XML vs YAML vs CSV
+          </h3>
+          <p>
+            When choosing a data format, developers frequently compare JSON with XML, YAML, and CSV. Each format serves distinct purposes and offers unique advantages depending on the specific use case, from human readability to data complexity and file size efficiency.
+          </p>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm text-left border-collapse border border-slate-200 dark:border-slate-800">
+              <thead className="bg-slate-50 dark:bg-slate-900/50">
+                <tr>
+                  <th className="px-4 py-3 border border-slate-200 dark:border-slate-800 font-semibold">Format</th>
+                  <th className="px-4 py-3 border border-slate-200 dark:border-slate-800 font-semibold">Human Readable</th>
+                  <th className="px-4 py-3 border border-slate-200 dark:border-slate-800 font-semibold">Supports Nesting</th>
+                  <th className="px-4 py-3 border border-slate-200 dark:border-slate-800 font-semibold">File Size</th>
+                  <th className="px-4 py-3 border border-slate-200 dark:border-slate-800 font-semibold">Common Use</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="px-4 py-2 border border-slate-200 dark:border-slate-800 font-medium">JSON</td>
+                  <td className="px-4 py-2 border border-slate-200 dark:border-slate-800">High</td>
+                  <td className="px-4 py-2 border border-slate-200 dark:border-slate-800">Yes</td>
+                  <td className="px-4 py-2 border border-slate-200 dark:border-slate-800">Medium</td>
+                  <td className="px-4 py-2 border border-slate-200 dark:border-slate-800">REST APIs, Configs</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-2 border border-slate-200 dark:border-slate-800 font-medium">XML</td>
+                  <td className="px-4 py-2 border border-slate-200 dark:border-slate-800">Medium</td>
+                  <td className="px-4 py-2 border border-slate-200 dark:border-slate-800">Yes</td>
+                  <td className="px-4 py-2 border border-slate-200 dark:border-slate-800">Large</td>
+                  <td className="px-4 py-2 border border-slate-200 dark:border-slate-800">SOAP APIs, RSS, Enterprise</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-2 border border-slate-200 dark:border-slate-800 font-medium">YAML</td>
+                  <td className="px-4 py-2 border border-slate-200 dark:border-slate-800">Very High</td>
+                  <td className="px-4 py-2 border border-slate-200 dark:border-slate-800">Yes</td>
+                  <td className="px-4 py-2 border border-slate-200 dark:border-slate-800">Small to Medium</td>
+                  <td className="px-4 py-2 border border-slate-200 dark:border-slate-800">CI/CD, Kubernetes, Configs</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-2 border border-slate-200 dark:border-slate-800 font-medium">CSV</td>
+                  <td className="px-4 py-2 border border-slate-200 dark:border-slate-800">High (for tabular)</td>
+                  <td className="px-4 py-2 border border-slate-200 dark:border-slate-800">No</td>
+                  <td className="px-4 py-2 border border-slate-200 dark:border-slate-800">Small</td>
+                  <td className="px-4 py-2 border border-slate-200 dark:border-slate-800">Spreadsheets, Data Export</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 className="text-lg font-bold text-foreground pt-4">JSON Syntax Rules (RFC 8259)</h3>
+          <p>
+            While JSON is remarkably simple, it is also highly strict. A single misplaced comma or quote can render an entire payload invalid. Here are the core rules:
+          </p>
           <ul className="list-disc pl-5 space-y-1.5 text-xs sm:text-sm">
-            <li><strong>Double Quotes Mandatory:</strong> All strings and object keys must be enclosed in double quotes (<code>"key": "value"</code>). Single quotes are invalid.</li>
-            <li><strong>No Trailing Commas:</strong> Commas are strictly separating elements. A comma after the final key or array item (e.g. <code>{`{"a": 1,}`}</code>) causes a syntax error.</li>
+            <li><strong>Double Quotes Mandatory:</strong> All strings and object keys must be enclosed in double quotes (<code>{`"key": "value"`}</code>). Single quotes are invalid.</li>
+            <li><strong>No Trailing Commas:</strong> Commas are strictly for separating elements. A comma after the final key or array item (e.g., <code>{`{"a": 1,}`}</code>) causes a syntax error.</li>
             <li><strong>Allowed Primitive Types:</strong> String, Number, Boolean (<code>true</code>/<code>false</code>), <code>null</code>, Object, and Array. Functions and undefined values are not permitted in strict JSON.</li>
+            <li><strong>No Comments Allowed:</strong> Standard JSON does not support inline comments (like <code>//</code> or <code>/* */</code>). Although some parsers forgive them, strict validators will fail.</li>
+            <li><strong>Unicode Escape Sequences:</strong> Characters can be escaped using backslash (e.g., <code>\n</code> for newline) or Unicode code points (e.g., <code>\u00A9</code> for the copyright symbol).</li>
+            <li><strong>Number Format Restrictions:</strong> Numbers cannot have leading zeros (e.g., <code>012</code> is invalid) and hexadecimal formats (e.g., <code>0x1A</code>) are strictly forbidden.</li>
           </ul>
 
-          <h4 className="text-base font-semibold text-foreground pt-2">Why Minify JSON for Production?</h4>
+          <h3 className="text-lg font-bold text-foreground pt-4">Why Format JSON?</h3>
           <p>
-            Minifying JSON strips non-essential whitespace, line breaks, and indentation. On large payloads, minification can reduce bandwidth transfer sizes by 30% to 50%, improving API response latency and mobile data performance.
+            Working with raw, unformatted JSON (often called "minified" JSON) is incredibly difficult for humans. Formatting, or "pretty-printing," transforms a dense block of text into a structured, readable hierarchy. Developers format JSON primarily for:
           </p>
+          <ul className="list-disc pl-5 space-y-1.5 text-xs sm:text-sm">
+            <li><strong>Debugging API Responses:</strong> Quickly identify missing keys, incorrect data types, or unexpected nested structures in network payloads.</li>
+            <li><strong>Reviewing Config Files:</strong> Ensure settings in <code>package.json</code>, <code>tsconfig.json</code>, or VS Code settings are accurate and error-free.</li>
+            <li><strong>Code Reviews:</strong> Formatted code is essential for pull requests, allowing peers to accurately review changes to localized strings, mocks, and schemas.</li>
+            <li><strong>Documentation:</strong> Clear, indented JSON examples make API documentation far more approachable and understandable for end-users.</li>
+          </ul>
+
+          <h3 className="text-lg font-bold text-foreground pt-4">Minification for Production</h3>
+          <p>
+            While formatted JSON is essential for development, minified JSON is preferred for production environments. Minifying JSON strips all non-essential whitespace, line breaks, and indentation. On large payloads, this minification can reduce bandwidth transfer sizes by 30% to 50%. When combined with gzip or Brotli compression at the server level, minified JSON ensures optimal API response latency and mobile data performance by drastically reducing the network footprint.
+          </p>
+
+          <h3 className="text-lg font-bold text-foreground pt-4">JSON Schema Validation</h3>
+          <p>
+            Beyond basic syntax validation, JSON Schema provides a powerful vocabulary to annotate and validate JSON documents. It allows you to define exactly what keys are required, what data types they must hold, and any constraints on those values (such as string length or number ranges). JSON Schema matters because it enforces strict API contracts between client and server, preventing bad data from entering your systems. A basic schema example might define a <code>user</code> object where the <code>id</code> must be an integer, the <code>email</code> must be a valid email string, and the <code>isActive</code> field must be a boolean.
+          </p>
+
+          <h3 className="text-lg font-bold text-foreground pt-4">Pro Tips for Developers</h3>
+          <ul className="list-disc pl-5 space-y-1.5 text-xs sm:text-sm">
+            <li><strong>Use Sorted Keys:</strong> Alphabetically sorting object keys ensures deterministic output, which is crucial for producing clean, readable <code>git diffs</code> when reviewing configuration changes.</li>
+            <li><strong>Validate Before Deploying:</strong> Always run your JSON through a validator before deploying configuration changes to prevent fatal runtime errors that can take down your application.</li>
+            <li><strong>Leverage JSON Path:</strong> For massive, deeply nested JSON structures, learn to use JSON Path expressions to query and extract specific pieces of data without writing complex parsing logic.</li>
+          </ul>
         </div>
       </ToolFeatureGuides>
 

@@ -42,8 +42,8 @@ export function buildPayload(f: FormState): string {
     }
     case "sms": {
       const to = (f.smsTo || "").trim();
-      const body = encodeURIComponent(f.smsBody || "");
-      return `sms:${to}${body ? `?body=${body}` : ""}`;
+      const body = (f.smsBody || "").trim();
+      return `SMSTO:${to}${body ? `:${body}` : ""}`;
     }
     case "whatsapp": {
       const to = (f.waTo || "").replace(/[^\d]/g, "");

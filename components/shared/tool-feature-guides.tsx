@@ -13,8 +13,6 @@ type ToolFeatureGuidesProps = {
   title?: string;
   subtitle?: string;
   features: FeatureCard[];
-  contentTitle?: string;
-  contentHtml?: string; // HTML string or paragraphs
   children?: React.ReactNode;
   className?: string;
 };
@@ -46,7 +44,7 @@ export default function ToolFeatureGuides({
                 <GlassCard key={idx} className="p-5 space-y-2">
                   <div className="flex items-center gap-2 text-primary font-semibold text-sm">
                     <Icon className="h-4 w-4 shrink-0" />
-                    <h4>{feat.title}</h4>
+                    <h3>{feat.title}</h3>
                   </div>
                   <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                     {feat.description}

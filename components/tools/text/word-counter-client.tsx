@@ -13,7 +13,6 @@ import {
   Zap,
   ShieldCheck,
   Download,
-  Copy,
   BookOpen,
 } from "lucide-react";
 import * as React from "react";
@@ -34,10 +33,8 @@ import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { GlassCard } from "@/components/ui/glass-card";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
 import { AiOutputDisplay } from "@/components/shared/ai-output-display";
 import { trackToolUsage } from "@/lib/gtm";
 import { countWords } from "@/lib/utils";
@@ -60,14 +57,13 @@ import toast from "react-hot-toast";
 export default function WordCounterClient() {
   const [text, setText] = React.useState<string>("");
 
-  const [liveClean, setLiveClean] = React.useState<boolean>(false);
   const [excludeStopwords, setExcludeStopwords] = React.useState<boolean>(true);
   const [aiAnalysis, setAiAnalysis] = React.useState<string[]>([]);
   const [aiLoading, setAiLoading] = React.useState<boolean>(false);
 
   const displayText = React.useMemo(
-    () => (liveClean ? squeezeSpaces(normalizeText(text)) : normalizeText(text)),
-    [text, liveClean],
+    () => normalizeText(text),
+    [text],
   );
 
   const stats = React.useMemo(() => {
@@ -125,7 +121,6 @@ export default function WordCounterClient() {
 
   const resetAll = () => {
     setText("");
-    setLiveClean(false);
     setExcludeStopwords(true);
     setAiAnalysis([]);
     toast.success("Editor reset");
@@ -430,28 +425,94 @@ export default function WordCounterClient() {
 
       {/* SECTION 4: FEATURE HIGHLIGHTS & DEEP SEO GUIDE */}
       <ToolFeatureGuides features={features}>
-        <div className="space-y-4">
-          <h3 className="text-lg font-bold text-foreground">
-            Complete Character Limit Guide for Writers & Marketers
+        <div className="space-y-4 text-sm leading-relaxed">
+          <h3 className="text-xl font-bold text-foreground">
+            What Is a Word Counter?
           </h3>
           <p>
-            Whether you are writing an academic essay, drafting a viral social media post, or optimizing blog posts for search engines, monitoring your word count and character count is essential. Toolzium’s free Word Counter provides real-time counts for words, characters (with and without spaces), sentences, lines, and paragraphs.
+            A word counter is a digital utility that instantly calculates the total number of words, characters, sentences, and paragraphs in a body of text. While it sounds simple, a robust word counter is an essential tool for a wide variety of professionals. <strong>Writers</strong> use it to hit publisher targets, <strong>students</strong> use it to ensure their academic essays meet strict assignment criteria, <strong>SEO professionals</strong> rely on it to optimize blog post lengths for search engines, and <strong>social media managers</strong> use it to ensure their captions and tweets fit within platform-specific character limits.
           </p>
 
-          <h4 className="text-base font-semibold text-foreground pt-2">Popular Social Media Character Limits (2026):</h4>
-          <ul className="list-disc pl-5 space-y-1.5 text-xs sm:text-sm">
-            <li><strong>Twitter / X:</strong> 280 characters per tweet (25,000 for Premium subscribers).</li>
-            <li><strong>Instagram Bio:</strong> 150 characters. <strong>Caption:</strong> 2,200 characters.</li>
-            <li><strong>LinkedIn Post:</strong> 3,000 characters. <strong>Article Title:</strong> 100 characters.</li>
-            <li><strong>TikTok Bio:</strong> 80 characters. <strong>Video Description:</strong> 4,000 characters.</li>
-            <li><strong>Meta Title (SEO):</strong> 50–60 characters (approx. 580 pixels).</li>
-            <li><strong>Meta Description (SEO):</strong> 150–160 characters (approx. 990 pixels).</li>
-          </ul>
-
-          <h4 className="text-base font-semibold text-foreground pt-2">How Reading and Speaking Time are Calculated:</h4>
+          <h3 className="text-xl font-bold text-foreground pt-2">
+            Why Word Count Matters
+          </h3>
           <p>
-            Standard reading time estimates are calculated using an average reading speed of <strong>200 words per minute (WPM)</strong>. For speechwriting, podcasts, YouTube scripts, and teleprompters, speaking speed is calculated at <strong>130 WPM</strong>. This helps presenters time their delivery accurately before stepping on stage or recording.
+            Word count is more than just an arbitrary number; it dictates the rhythm, depth, and platform suitability of your content. In academic settings, essays often come with strict minimum and maximum word count requirements to ensure a topic is covered with adequate depth without unnecessary filler. For SEO professionals, long-form content often performs better in search engine rankings; comprehensive blog posts typically range between 1,500 and 2,500 words, allowing for thorough topic coverage and natural keyword inclusion. Meanwhile, social media demands brevity and precision, where exceeding a character limit by even one letter can prevent a post from being published.
           </p>
+
+          <h3 className="text-xl font-bold text-foreground pt-2">
+            How Reading Time Is Calculated
+          </h3>
+          <p>
+            Have you ever wondered how blogging platforms estimate reading time? The calculation is based on the average adult reading speed. Research indicates that the average adult reads at a pace of roughly 200 to 238 words per minute (WPM). Toolzium&apos;s word counter uses a conservative baseline of 200 WPM to calculate reading time, ensuring your audience has ample time to digest the material. Similarly, speaking speed for speeches, presentations, and voiceovers is calculated at a slower pace of 130 WPM, which is the industry standard for teleprompters and clear vocal delivery.
+          </p>
+
+          <h3 className="text-xl font-bold text-foreground pt-2">
+            Social Media Character Limits Reference Table
+          </h3>
+          <p>
+            Navigating the ever-changing landscape of social media character limits can be challenging. Use this quick reference table to ensure your next post is perfectly sized for your target platform:
+          </p>
+          <div className="overflow-x-auto rounded-lg border">
+            <table className="w-full text-sm text-left">
+              <thead className="bg-muted/60">
+                <tr className="[&>th]:px-4 [&>th]:py-2 font-semibold">
+                  <th>Platform</th>
+                  <th>Character Limit</th>
+                  <th>Best Practice Length</th>
+                </tr>
+              </thead>
+              <tbody className="[&>tr]:border-t">
+                <tr className="hover:bg-muted/20">
+                  <td className="px-4 py-2 font-medium">Twitter / X</td>
+                  <td className="px-4 py-2">280</td>
+                  <td className="px-4 py-2">71-100 characters for high engagement</td>
+                </tr>
+                <tr className="hover:bg-muted/20">
+                  <td className="px-4 py-2 font-medium">Instagram Caption</td>
+                  <td className="px-4 py-2">2,200</td>
+                  <td className="px-4 py-2">138-150 characters (before the &quot;more&quot; cutoff)</td>
+                </tr>
+                <tr className="hover:bg-muted/20">
+                  <td className="px-4 py-2 font-medium">LinkedIn Post</td>
+                  <td className="px-4 py-2">3,000</td>
+                  <td className="px-4 py-2">50-100 characters for B2B updates</td>
+                </tr>
+                <tr className="hover:bg-muted/20">
+                  <td className="px-4 py-2 font-medium">TikTok Caption</td>
+                  <td className="px-4 py-2">2,200</td>
+                  <td className="px-4 py-2">Keep it brief and include engaging hashtags</td>
+                </tr>
+                <tr className="hover:bg-muted/20">
+                  <td className="px-4 py-2 font-medium">YouTube Description</td>
+                  <td className="px-4 py-2">5,000</td>
+                  <td className="px-4 py-2">Front-load crucial information in the first 200 characters</td>
+                </tr>
+                <tr className="hover:bg-muted/20">
+                  <td className="px-4 py-2 font-medium">Facebook Post</td>
+                  <td className="px-4 py-2">63,206</td>
+                  <td className="px-4 py-2">40-80 characters for optimal click-through rates</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 className="text-xl font-bold text-foreground pt-2">
+            Keyword Density Best Practices
+          </h3>
+          <p>
+            Keyword density represents the percentage of times a keyword or phrase appears compared to the total number of words on a page. While there is no magic number, most SEO experts recommend an ideal keyword density of 1% to 3%. Over-optimization, or keyword stuffing, occurs when keywords are forced into content unnaturally, which can lead to search engine penalties and a poor reader experience. Use our built-in density table to monitor your top keywords naturally and ensure you are targeting your desired topics without crossing the line into spam.
+          </p>
+
+          <h3 className="text-xl font-bold text-foreground pt-2">
+            Pro Tips for Writers
+          </h3>
+          <ul className="list-disc pl-6 space-y-2">
+            <li><strong>Embrace the Hemingway Principle:</strong> Keep your sentences bold, direct, and concise. Use our sentence and paragraph counters to break up walls of text and improve readability.</li>
+            <li><strong>Target Specific Word Counts:</strong> Before writing, know your goal. Whether it is a 500-word newsletter or a 2,000-word cornerstone guide, use the live counter to pace your writing and hit your target organically.</li>
+            <li><strong>Check Your Reading Level:</strong> Leverage our AI Tone Analysis to evaluate the grade level of your content. Ensure your vocabulary matches your target audience—academic for researchers, and accessible for general readers.</li>
+            <li><strong>Trim the Fat:</strong> If your word count is too high, use the <code>Remove extra spaces</code> tool and hunt for filler words. Strong writing is tight writing.</li>
+          </ul>
         </div>
       </ToolFeatureGuides>
 

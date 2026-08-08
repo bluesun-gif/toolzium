@@ -47,18 +47,27 @@ export default function ToolFaqAccordion({
             <GlassCard key={idx} className="overflow-hidden transition-all duration-200">
               <button
                 type="button"
+                id={`faq-btn-${idx}`}
+                aria-expanded={isOpen}
+                aria-controls={`faq-panel-${idx}`}
                 onClick={() => toggle(idx)}
-                className="w-full p-4 sm:px-5 flex items-center justify-between text-left font-medium text-sm sm:text-base text-foreground gap-4 hover:text-primary transition-colors focus:outline-none"
+                className="w-full p-4 sm:px-5 flex items-center justify-between text-left font-medium text-sm sm:text-base text-foreground gap-4 hover:text-primary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               >
                 <span>{faq.question}</span>
                 <ChevronDown
+                  aria-hidden="true"
                   className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 ${
                     isOpen ? "rotate-180 text-primary" : ""
                   }`}
                 />
               </button>
               {isOpen && (
-                <div className="px-4 pb-4 sm:px-5 sm:pb-5 text-xs sm:text-sm text-muted-foreground leading-relaxed border-t border-border/40 pt-3">
+                <div
+                  id={`faq-panel-${idx}`}
+                  role="region"
+                  aria-labelledby={`faq-btn-${idx}`}
+                  className="px-4 pb-4 sm:px-5 sm:pb-5 text-xs sm:text-sm text-muted-foreground leading-relaxed border-t border-border/40 pt-3"
+                >
                   {faq.answer}
                 </div>
               )}

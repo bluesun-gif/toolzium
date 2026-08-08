@@ -319,6 +319,7 @@ export default function QRClient() {
                   <Label htmlFor="logo-upload" className="text-xs">Upload Logo (PNG/SVG/JPG)</Label>
                   <div className="flex gap-2">
                     <InputField
+                      id="logo-upload"
                       accept="image/*"
                       type="file"
                       onFilesChange={async (files) => {
@@ -462,32 +463,136 @@ export default function QRClient() {
 
       {/* SECTION 4: FEATURE HIGHLIGHTS & DEEP SEO GUIDE */}
       <ToolFeatureGuides features={features}>
-        <div className="space-y-4">
-          <h3 className="text-lg font-bold text-foreground">
-            Complete Guide to Creating Custom QR Codes
-          </h3>
-          <p>
-            Quick Response (QR) codes have become an indispensable tool for business marketing, restaurant menus, Wi-Fi sharing, event check-ins, and digital business cards. Toolzium’s free QR Code Generator allows you to create static QR codes for multiple data formats with total privacy and instant high-resolution downloads.
-          </p>
+        <div className="space-y-6">
+          <div>
+            <h3 className="text-xl font-bold text-foreground mb-2">
+              What Is a QR Code?
+            </h3>
+            <p className="mb-4">
+              A Quick Response (QR) code is a two-dimensional matrix barcode invented in 1994 by Masahiro Hara at the Japanese company Denso Wave. Initially designed to track vehicles during manufacturing, QR codes quickly gained global popularity due to their rapid readability and significantly larger storage capacity compared to standard UPC barcodes. While traditional linear barcodes hold information horizontally, QR codes encode data both vertically and horizontally, allowing them to store up to 7,089 numeric characters or 4,296 alphanumeric characters.
+            </p>
+            <p className="mb-4">
+              When a smartphone camera or scanner reads a QR code, it uses the three large squares at the corners (positioning markers) to determine the orientation and scale of the code. The device then analyzes the binary grid of black and white modules to decode the underlying information. This data can be instantly translated into actionable tasks on your device, such as opening a website, joining a Wi-Fi network, saving a contact, or sending a pre-filled text message.
+            </p>
+          </div>
 
-          <h4 className="text-base font-semibold text-foreground pt-2">Understanding QR Error Correction Levels:</h4>
-          <p>
-            QR codes use Reed-Solomon error correction to restore data if the code is scratched, dirty, or covered by a logo:
-          </p>
-          <ul className="list-disc pl-5 space-y-1.5 text-xs sm:text-sm">
-            <li><strong>Level L (Low):</strong> 7% data recovery. Best for clean, small codes without logos.</li>
-            <li><strong>Level M (Medium):</strong> 15% data recovery. Standard default for general website URLs.</li>
-            <li><strong>Level Q (Quality):</strong> 25% data recovery. Recommended when embedding medium-sized center logos.</li>
-            <li><strong>Level H (High):</strong> 30% data recovery. Highest reliability for print banners and large custom logo overlays.</li>
-          </ul>
+          <div>
+            <h3 className="text-xl font-bold text-foreground mb-2">
+              QR Code Types & Use Cases
+            </h3>
+            <p className="mb-4">
+              Not all QR codes are used for the same purpose. Depending on the data format you select, the scanning device will trigger a different native application. Here are the most common formats and when to use them:
+            </p>
+            <ul className="list-disc pl-5 space-y-2 mb-4 text-sm sm:text-base">
+              <li>
+                <strong>Website URL:</strong> The most common type. Encodes an <code>http://</code> or <code>https://</code> link. Use this to direct customers to your homepage, landing page, social media profile, or promotional campaign.
+              </li>
+              <li>
+                <strong>Wi-Fi Auto-Connect:</strong> Encodes your network SSID, encryption type, and password. When scanned, the smartphone will prompt the user to join the network immediately, eliminating the need to type complex passwords. Ideal for cafes, hotels, and guest networks.
+              </li>
+              <li>
+                <strong>vCard Contact Info:</strong> Stores comprehensive contact details (name, organization, title, phone, email, website) in a standard format. When scanned, it prompts the user to add you directly to their phone's address book. Perfect for digital and printed business cards.
+              </li>
+              <li>
+                <strong>SMS Message:</strong> Pre-populates a destination phone number and a message body. Use this for opt-in marketing, customer support requests, or quick feedback channels. The user only needs to hit <code>send</code> after scanning.
+              </li>
+              <li>
+                <strong>Email Address:</strong> Pre-fills the destination email, subject line, and body text. Excellent for initiating customer support tickets, RSVPs, or specialized inquiries.
+              </li>
+              <li>
+                <strong>WhatsApp Direct:</strong> Creates a <code>wa.me</code> link that opens the WhatsApp application with a specific phone number and pre-written message ready to send. A powerful tool for international customer service and conversational marketing.
+              </li>
+            </ul>
+          </div>
 
-          <h4 className="text-base font-semibold text-foreground pt-2">Supported Content Formats:</h4>
-          <ul className="list-disc pl-5 space-y-1.5 text-xs sm:text-sm">
-            <li><strong>Website URL:</strong> Direct users to any landing page, store, or social profile.</li>
-            <li><strong>Wi-Fi Auto-Connect:</strong> Generate a QR code containing SSID and password so guests can scan to join your network without typing.</li>
-            <li><strong>vCard Business Contact:</strong> Store full contact cards (Name, Phone, Email, Company, Title, Website) that save directly to phone address books upon scanning.</li>
-            <li><strong>WhatsApp & SMS:</strong> Pre-populate a destination phone number and initial chat message.</li>
-          </ul>
+          <div>
+            <h3 className="text-xl font-bold text-foreground mb-2">
+              Error Correction Levels Explained
+            </h3>
+            <p className="mb-4">
+              One of the most robust features of QR codes is the Reed-Solomon error correction algorithm, which allows the code to be read even if it is partially obscured, damaged, or poorly printed. The algorithm adds backup data to the QR matrix, meaning you can literally cover up parts of the code and it will still scan perfectly. However, higher error correction means a denser, more complex code grid.
+            </p>
+            <div className="overflow-x-auto mb-4">
+              <table className="min-w-full text-sm border-collapse border border-muted">
+                <thead>
+                  <tr className="bg-muted/50">
+                    <th className="border border-muted p-2 text-left">Level</th>
+                    <th className="border border-muted p-2 text-left">Recovery Rate</th>
+                    <th className="border border-muted p-2 text-left">Best Used For</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="border border-muted p-2 font-semibold">L (Low)</td>
+                    <td className="border border-muted p-2">Up to 7%</td>
+                    <td className="border border-muted p-2">Clean, minimal codes on screens. Allows for the simplest, least dense grid. Do not use if adding a logo.</td>
+                  </tr>
+                  <tr>
+                    <td className="border border-muted p-2 font-semibold">M (Medium)</td>
+                    <td className="border border-muted p-2">Up to 15%</td>
+                    <td className="border border-muted p-2">Standard default. Good for most general use cases like simple URL links on printed materials.</td>
+                  </tr>
+                  <tr>
+                    <td className="border border-muted p-2 font-semibold">Q (Quality)</td>
+                    <td className="border border-muted p-2">Up to 25%</td>
+                    <td className="border border-muted p-2">Recommended when adding a medium-sized center logo or placing codes in environments where slight damage might occur.</td>
+                  </tr>
+                  <tr>
+                    <td className="border border-muted p-2 font-semibold">H (High)</td>
+                    <td className="border border-muted p-2">Up to 30%</td>
+                    <td className="border border-muted p-2">Essential when embedding large custom logo overlays or printing on rough surfaces (like fabric or corrugated cardboard).</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-bold text-foreground mb-2">
+              Best Practices for QR Codes
+            </h3>
+            <p className="mb-4">
+              To ensure your audience actually scans your code and has a seamless experience, follow these fundamental design and deployment guidelines:
+            </p>
+            <ul className="list-disc pl-5 space-y-2 mb-4 text-sm sm:text-base">
+              <li>
+                <strong>Minimum Size Requirements:</strong> For printed materials, a QR code should generally be no smaller than 2cm x 2cm (0.8 x 0.8 inches). If placed on a billboard or poster, calculate the size by dividing the scanning distance by 10. For example, a code meant to be scanned from 10 meters away should be at least 1 meter wide.
+              </li>
+              <li>
+                <strong>High Contrast is Crucial:</strong> Always maintain high contrast between the foreground (the dark modules) and the background. A black code on a white background is the gold standard. While custom colors are great for branding, avoid light colors (like yellow or pastel blue) for the foreground, and never invert the code (white modules on a black background), as many older barcode scanners cannot read inverted matrices.
+              </li>
+              <li>
+                <strong>Preserve the Quiet Zone:</strong> The "Quiet Zone" is the empty margin surrounding the QR code. This space tells the scanner where the code begins and ends. Never let text, graphics, or borders overlap this safe padding area, or the code will fail to scan.
+              </li>
+              <li>
+                <strong>Always Test Before Printing:</strong> Before sending a design to a professional printer, print a sample on a standard office printer at the exact final size. Test it using multiple devices (iOS and Android native cameras, plus third-party scanner apps) under various lighting conditions.
+              </li>
+              <li>
+                <strong>Add a Clear Call to Action (CTA):</strong> Don't leave your users guessing. Place a brief instruction near the code, such as &quot;Scan to see our menu,&quot; &quot;Scan to connect to Wi-Fi,&quot; or &quot;Scan to RSVP.&quot; A clear CTA significantly increases scan rates.
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-bold text-foreground mb-2">
+              QR Codes for Business
+            </h3>
+            <p className="mb-4">
+              Integrating QR technology into your business operations can streamline customer interactions and bridge the gap between offline physical spaces and online digital assets.
+            </p>
+            <p className="mb-4">
+              <strong>Restaurant Menus & Ordering:</strong> Replace printed menus with a QR code placed on each table. This reduces printing costs, allows for instant menu updates, and offers a more hygienic, contactless experience. Advanced integrations can even allow users to order and pay directly from their phones.
+            </p>
+            <p className="mb-4">
+              <strong>Event Tickets & Check-in:</strong> Generate unique QR codes for event attendees to accelerate the door check-in process. Scanning a digital ticket on a smartphone is exponentially faster than cross-referencing physical guest lists.
+            </p>
+            <p className="mb-4">
+              <strong>Product Packaging & Manuals:</strong> Space on physical packaging is often limited. Use a QR code to link customers to comprehensive digital user manuals, assembly video tutorials, warranty registration forms, or sustainability and sourcing information.
+            </p>
+            <p className="mb-4">
+              <strong>Marketing Campaigns & Analytics:</strong> By using trackable URL parameters (like UTM codes) within the QR payload, marketers can measure exactly how many offline interactions converted to online traffic, allowing for precise ROI calculations on print advertising, direct mail, and out-of-home campaigns.
+            </p>
+          </div>
         </div>
       </ToolFeatureGuides>
 
@@ -664,6 +769,31 @@ function DynamicFields({
           placeholder="Pre-populated message body..."
           value={form.emailBody}
           onValueChange={(v) => setForm((s) => ({ ...s, emailBody: v }))}
+          rows={3}
+          autoResize
+          showCount
+          maxLength={1000}
+        />
+      </div>
+    );
+  }
+
+  if (form.kind === "sms") {
+    return (
+      <div className="grid gap-4 sm:grid-cols-2">
+        <InputField
+          id="smsto"
+          label="Phone Number"
+          placeholder="+1234567890"
+          value={form.smsTo}
+          onChange={(e) => setForm((s) => ({ ...s, smsTo: e.target.value }))}
+        />
+        <TextareaField
+          id="smsbody"
+          label="Message Body"
+          placeholder="Enter your message..."
+          value={form.smsBody}
+          onValueChange={(v) => setForm((s) => ({ ...s, smsBody: v }))}
           rows={3}
           autoResize
           showCount
