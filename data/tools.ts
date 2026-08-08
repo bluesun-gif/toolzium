@@ -664,63 +664,14 @@ export const ToolsData = [
           "Check WCAG 2.1 accessibility color contrast ratios between text and background colors with AA/AAA pass/fail badges.",
         popular: true,
       },
-      {
-        title: "Image Color Palette Contrast Matrix",
-        url: "/tools/image/color-matrix",
-        description:
-          "Test all pairwise WCAG contrast ratios across a 3 to 8-color design system palette. N x N matrix grid with AA/AAA pass/fail.",
-        popular: true,
-      },
-      {
-        title: "Color Contrast Ratio & Accessibility Analyzer",
-        url: "/tools/image/color-contrast-extractor",
-        description:
-          "Test color contrast ratios between text and background colors with real-time UI component previews (buttons, badges, cards).",
-        popular: true,
-      },
-      {
+                  {
         title: "Color Palette SVG & CSS Swatch Exporter",
         url: "/tools/image/color-palette-export",
         description:
           "Create custom 3 to 10-color design palettes and export as SVG swatch image, CSS Variables, Tailwind CSS config, or JSON.",
         popular: true,
       },
-      {
-        title: "Color Contrast Ratio Compliance Table",
-        url: "/tools/image/contrast-table",
-        description:
-          "Full WCAG 2.1 accessibility contrast comparison table for design systems. Test up to 6 colors simultaneously with AA/AAA badges.",
-        popular: true,
-      },
-      {
-        title: "Color Contrast Matrix Exporter",
-        url: "/tools/image/contrast-matrix-export",
-        description:
-          "Generate and export accessible design system color contrast matrices. 3 to 8 palette colors, WCAG AA/AAA ratings, SVG download.",
-        popular: true,
-      },
-      {
-        title: "Color Contrast Ratio Compliance Sheet",
-        url: "/tools/image/contrast-compliance-sheet",
-        description:
-          "Design system WCAG accessibility contrast compliance test sheet. Generates matrix for 14px, 18px text, and UI icons.",
-        popular: true,
-      },
-      {
-        title: "Color Palette Contrast Sheet Exporter",
-        url: "/tools/image/contrast-sheet-exporter",
-        description:
-          "Generate and export WCAG 2.1 design system color contrast sheets. Pairwise ratios, AA/AAA ratings, SVG graphic download.",
-        popular: true,
-      },
-      {
-        title: "Contrast Compliance Color Matrix Sheet Exporter",
-        url: "/tools/image/contrast-matrix-sheet",
-        description:
-          "Comprehensive design system WCAG accessibility color contrast compliance sheet exporter. Test 3 to 8 brand palette colors with SVG download.",
-        popular: true,
-      },
-      {
+                                    {
         title: "Placeholder Image Generator",
         url: "/tools/image/placeholder-generator",
         description:
@@ -1544,14 +1495,7 @@ export const ToolsData = [
           "Calculate daily and weekly work hours with break deductions and overtime. Net hours, overtime threshold, total pay estimation.",
         popular: true,
       },
-      {
-        title: "Time Capsule Message",
-        url: "/tools/time/time-capsule",
-        description:
-          "Create digital time capsule messages locked until a future date. Encrypted local storage, live countdown timers, backup JSON.",
-        popular: true,
-      },
-      {
+            {
         title: "World Clock & Meeting Planner",
         url: "/tools/time/world-planner",
         description:
@@ -1565,21 +1509,7 @@ export const ToolsData = [
           "Create customizable event countdown widgets. Live Days/Hours/Mins/Secs countdown, theme styling, embeddable HTML snippet.",
         popular: true,
       },
-      {
-        title: "Sleep Latency & Alarm Clock",
-        url: "/tools/time/sleep-latency",
-        description:
-          "Sleep latency and sleep efficiency analyzer. Calculate exact alarm time based on bed time, sleep latency, and sleep cycle target.",
-        popular: true,
-      },
-      {
-        title: "Sleep Efficiency Calculator",
-        url: "/tools/time/sleep-efficiency",
-        description:
-          "Calculate sleep efficiency percentage and quality grade. Bedtime, sleep onset, awakenings, clinical score, sleep hygiene tips.",
-        popular: true,
-      },
-      {
+                  {
         title: "Lunar Calendar",
         url: "/tools/time/lunar-calendar",
         description:
@@ -1615,83 +1545,7 @@ export const ToolsData = [
           "Calculate sunrise, sunset, golden hour, twilight times, and day length for any global city or latitude/longitude coordinates.",
         popular: true,
       },
-      {
-        title: "Sleep Debt & Recovery Calculator",
-        url: "/tools/time/sleep-debt",
-        description:
-          "Calculate accumulated sleep debt over a 7-day week and recovery schedule. Sleep deficit severity rating, weekend recovery guide.",
-        popular: true,
-      },
-      {
-        title: "Sleep Log & Circadian Rhythm Tracker",
-        url: "/tools/time/sleep-log",
-        description:
-          "Log and analyze daily sleep patterns and circadian rhythm. Bedtime, wake time, quality rating, 7-day average, CSV export.",
-        popular: true,
-      },
-      {
-        title: "Sleep Efficiency & Quality Tracker",
-        url: "/tools/time/sleep-efficiency-tracker",
-        description:
-          "Calculate clinical sleep efficiency percentage, total sleep time, latency, and clinical quality ratings with sleep hygiene tips.",
-        popular: true,
-      },
-      {
-        title: "Circadian Shift Work & Sleep Adjuster",
-        url: "/tools/time/circadian-shift-planner",
-        description:
-          "Calculate optimal sleep schedules and light exposure windows for night shift workers and rotating shifts.",
-        popular: true,
-      },
-      {
-        title: "Shift Work Sleep Schedule Calculator",
-        url: "/tools/time/shift-circadian",
-        description:
-          "Calculate optimal sleep & wake cycles for shift workers (Night shift, Morning shift, Afternoon shift, Split shift) with nap guides.",
-        popular: true,
-      },
-      {
-        title: "Sleep Latency & Sleep Onset Calculator",
-        url: "/tools/time/sleep-latency-calc",
-        description:
-          "Calculate sleep latency and optimal bedtimes based on 90-minute REM sleep cycles for 4, 5, or 6 full REM sleep cycles.",
-        popular: true,
-      },
-      {
-        title: "REM Sleep Cycle & Optimal Bedtime Clock",
-        url: "/tools/time/rem-sleep-clock",
-        description:
-          "Calculate optimal sleep & wake times based on 90-minute REM sleep cycles and 14-minute sleep onset latency.",
-        popular: true,
-      },
-      {
-        title: "REM Sleep Cycle & Wakeup Alarm Calculator",
-        url: "/tools/time/rem-sleep-alarm",
-        description:
-          "Calculate optimal bedtime and wake-up alarm times based on 90-minute REM sleep cycles and 14-minute sleep onset latency.",
-        popular: true,
-      },
-      {
-        title: "Sleep Onset Latency & Bedtime Clock",
-        url: "/tools/time/sleep-onset-clock",
-        description:
-          "Calculate optimal bedtime and wake-up times accounting for personal sleep latency (5 to 30 mins) and 90-minute REM sleep cycles.",
-        popular: true,
-      },
-      {
-        title: "REM Sleep Cycle & Bedtime Alarm Clock",
-        url: "/tools/time/rem-bedtime-clock",
-        description:
-          "Calculate optimal bedtime and wake-up alarm times based on 90-minute REM sleep cycles and 14-minute sleep onset latency.",
-        popular: true,
-      },
-      {
-        title: "REM Sleep Cycle & Onset Latency Bedtime Clock",
-        url: "/tools/time/rem-latency-bedtime-clock",
-        description:
-          "Calculate optimal bedtime and wake-up alarm times based on 90-minute REM sleep cycles and customizable sleep onset latency (5-30 mins).",
-        popular: true,
-      },],
+                                                                  ],
   },
   {
     title: "Utilities",
@@ -1713,14 +1567,7 @@ export const ToolsData = [
           "Save and manage clipboard snippets with categories. One-click copy, search, pin favorites. Import/export as JSON. Saved locally.",
         popular: true,
       },
-      {
-        title: "Morse Code Flashlight",
-        url: "/tools/util/morse-flashlight",
-        description:
-          "Convert text to Morse code with visual flash and audio beeps. Speed control (WPM). SOS quick button. Reference chart. Play/Pause/Stop.",
-        popular: true,
-      },
-      {
+            {
         title: "Electricity Usage Monitor",
         url: "/tools/util/electricity-monitor",
         description:
@@ -1826,28 +1673,7 @@ export const ToolsData = [
           "Generate ultra-secure, human-memorable Diceware passphrases (e.g. correct-horse-battery-staple) with entropy bits calculations.",
         popular: true,
       },
-      {
-        title: "Phonetic Password Generator with NATO Guide",
-        url: "/tools/util/phonetic-password-nato",
-        description:
-          "Generate secure passwords with NATO phonetic spelling guides (Alpha, Bravo, Charlie, Delta), character breakdown, and entropy scores.",
-        popular: true,
-      },
-      {
-        title: "NATO Phonetic Password Generator & Soundout",
-        url: "/tools/util/nato-phonetic-password",
-        description:
-          "Generate secure passwords with NATO phonetic spelling guides (Alpha, Bravo, Charlie, Delta), character breakdown, and entropy scores.",
-        popular: true,
-      },
-      {
-        title: "NATO Password Generator & Phonetic Reader",
-        url: "/tools/util/nato-password-reader",
-        description:
-          "Generate secure passwords with NATO phonetic spelling guides (Alpha, Bravo, Charlie, Delta), character breakdown, and entropy scores.",
-        popular: true,
-      },
-      {
+                        {
         title: "PDF Merge & Combine",
         url: "/tools/util/pdf-merge",
         description:
@@ -2319,90 +2145,21 @@ export const ToolsData = [
         popular: true,
       },
     
-      {
-        title: "Multi-Currency Exchange Matrix",
-        url: "/tools/travel/currency-matrix",
-        description:
-          "Cross-currency exchange rate matrix grid for 10+ global currencies simultaneously. Live base currency comparison table.",
-        popular: true,
-      },
-      {
-        title: "Currency Exchange Comparison Table",
-        url: "/tools/travel/exchange-table",
-        description:
-          "Quick currency exchange conversion reference table for traveler pockets. 1 to 1000 base currency conversion cheatsheet.",
-        popular: true,
-      },
-      {
-        title: "Currency Quick Reference Card",
-        url: "/tools/travel/currency-card",
-        description:
-          "Pocket-sized printable travel currency conversion cheat card. Select home/destination currencies, 3x5 index card print format.",
-        popular: true,
-      },
-      {
-        title: "Currency Rate Trend Comparison Table",
-        url: "/tools/travel/exchange-trend",
-        description:
-          "Compare travel currency exchange rates and 30-day trend references for top travel destinations and expense brackets.",
-        popular: true,
-      },
-      {
-        title: "Travel Expense Multi-Unit Price Matrix",
-        url: "/tools/travel/currency-price-matrix",
-        description:
-          "Multi-item travel cost converter and comparison sheet. Convert coffee, meals, taxis, hotels, and trip budgets to foreign currency.",
-        popular: true,
-      },
-      {
-        title: "Travel Budget Currency Comparison Matrix",
-        url: "/tools/travel/travel-budget-matrix",
-        description:
-          "Compare travel budgets across multiple destination currencies. Converted budgets, daily spending limits (7-day, 14-day, 30-day trips).",
-        popular: true,
-      },
-      {
+                                          {
         title: "Travel Daily Expense Budget Calculator",
         url: "/tools/travel/travel-daily-budget",
         description:
           "Calculate daily travel expense budgets for domestic or international trips. Accommodation, dining, transport, activities breakdown.",
         popular: true,
       },
-      {
-        title: "Currency Trip Budget & Spending Matrix",
-        url: "/tools/travel/trip-budget-matrix",
-        description:
-          "Multi-destination travel budget converter matrix. Converted trip budgets and daily spending limits for 7, 14, 21, and 30 days.",
-        popular: true,
-      },
-      {
-        title: "Travel Budget Multi-Currency Comparison Sheet",
-        url: "/tools/travel/travel-budget-sheet",
-        description:
-          "Multi-currency travel expense comparison and trip budgeting sheet. Flight, accommodation, food, and activity breakdown.",
-        popular: true,
-      },
-      {
+                  {
         title: "Travel Multi-Currency Budget Planner",
         url: "/tools/travel/travel-budget-planner",
         description:
           "Multi-country travel budget planner. Select up to 4 destination countries & currencies, daily allowances, flight/hotel breakdown.",
         popular: true,
       },
-      {
-        title: "Multi-Currency Travel Budget Calculator Sheet",
-        url: "/tools/travel/travel-budget-calc-sheet",
-        description:
-          "Multi-currency travel expense comparison and trip budgeting sheet. Flight, accommodation, food, and activity breakdown.",
-        popular: true,
-      },
-      {
-        title: "Multi-Country Travel Budget & Currency Converter Sheet",
-        url: "/tools/travel/multi-country-budget-sheet",
-        description:
-          "Multi-country travel budget planner & currency converter. Side-by-side trip totals in Home Currency and local destination currencies.",
-        popular: true,
-      },],
+            ],
   },
   {
     title: "Finance",
@@ -2550,14 +2307,7 @@ export const ToolsData = [
           "Generate monthly budget templates. Methods: 50/30/20, Zero-based, Envelope, 60/20/20. Auto-populate categories. Visual pie chart. Export.",
         popular: true,
       },
-      {
-        title: "Currency Slang Dictionary",
-        url: "/tools/finance/currency-slang",
-        description:
-          "100+ money slang terms worldwide. US, UK, Crypto, Historical categories. Search, filter, bookmark. Term of the day feature.",
-        popular: false,
-      },
-      {
+            {
         title: "Interest Rate Converter",
         url: "/tools/finance/rate-converter",
         description:
@@ -2705,14 +2455,7 @@ export const ToolsData = [
     icon: Heart,
     isActive: true,
     items: [
-      {
-        title: "Love Calculator",
-        url: "/tools/fun/love-calculator",
-        description:
-          "Calculate your love compatibility percentage! Enter two names and get a fun love score with animated hearts and playful messages. Deterministic — same names always get the same result.",
-        popular: true,
-      },
-      {
+            {
         title: "Random Quote Generator",
         url: "/tools/fun/quote-generator",
         description:
@@ -2768,14 +2511,7 @@ export const ToolsData = [
           "Calculate dice roll probabilities. 1-6 dice with 4/6/8/10/12/20 sides. Exact, at least, at most conditions. Distribution chart. D&D and board game presets.",
         popular: false,
       },
-      {
-        title: "Morse Code Audio",
-        url: "/tools/fun/morse-audio",
-        description:
-          "Convert text to Morse code with audio playback via Web Audio API. Adjustable speed (5-20 WPM). Visual indicator. Decode Morse to text. Copy output.",
-        popular: true,
-      },
-      {
+            {
         title: "Color Memory Game",
         url: "/tools/fun/color-memory",
         description:
@@ -2789,21 +2525,7 @@ export const ToolsData = [
           "Measure your reaction time in milliseconds. Screen turns green at random intervals. Track best score and average. Fun ratings from Superhuman to Slow.",
         popular: true,
       },
-      {
-        title: "Animal Quiz",
-        url: "/tools/fun/animal-quiz",
-        description:
-          "Fun trivia quiz about animals. 30 questions across Mammals, Birds, Sea Life, Insects, Reptiles. 15-second timer. Score tracking with high score.",
-        popular: true,
-      },
-      {
-        title: "Compound Words Game",
-        url: "/tools/fun/compound-words",
-        description:
-          "Word puzzle: combine two words to make a compound word. 50 word pairs. Timer mode. Easy/Hard difficulty. Streak counter and high score.",
-        popular: true,
-      },
-      {
+                  {
         title: "Trivia Generator",
         url: "/tools/fun/trivia",
         description:
@@ -3295,14 +3017,7 @@ export const ToolsData = [
           "Blood type compatibility checker. Donation and receiving info. Visual compatibility matrix. Distribution statistics. Medical disclaimer.",
         popular: true,
       },
-      {
-        title: "Sleep Quality Analyzer",
-        url: "/tools/health/sleep-quality",
-        description:
-          "Score your sleep quality (0-100). Track bedtime, wake time, interruptions, caffeine. Weekly trends. Tips for better sleep.",
-        popular: true,
-      },
-      {
+            {
         title: "Calorie Lookup",
         url: "/tools/health/calorie-lookup",
         description:
@@ -3351,14 +3066,7 @@ export const ToolsData = [
           "Track intermittent fasting protocols (16:8, 18:6, 20:4, 24h, 36h). Circular progress ring, fasting state indicators, history log.",
         popular: true,
       },
-      {
-        title: "Sleep Cycle & Bedtime Calculator",
-        url: "/tools/health/sleep-planner",
-        description:
-          "Calculate optimal bedtime or wake-up times based on 90-minute REM sleep cycles. Sleep latency, sleep debt, hygiene tips.",
-        popular: true,
-      },
-      {
+            {
         title: "Calorie Deficit & Goal Date Estimator",
         url: "/tools/health/calorie-deficit",
         description:
@@ -3387,83 +3095,7 @@ export const ToolsData = [
           "Calculate total calories burned across 30+ physical activities based on body weight and duration. MET values & food equivalents.",
         popular: true,
       },
-      {
-        title: "Running vs Walking Pace Calculator",
-        url: "/tools/health/pace-calorie",
-        description:
-          "Compare calories burned running vs walking the same distance or time. MET comparison, time saved running, heart rate zones.",
-        popular: true,
-      },
-      {
-        title: "Swimming & Water Sports Calorie Calculator",
-        url: "/tools/health/swimming-calorie",
-        description:
-          "Calculate calories burned during swimming & water sports. Freestyle, breaststroke, butterfly, kayaking, water polo.",
-        popular: true,
-      },
-      {
-        title: "Cycling & Biking Calorie Calculator",
-        url: "/tools/health/cycling-calorie",
-        description:
-          "Calculate calories burned and mechanical power output (Watts) during cycling across 6 intensity levels and terrain gradients.",
-        popular: true,
-      },
-      {
-        title: "Hiking & Elevation Gain Calorie Calculator",
-        url: "/tools/health/hiking-calorie",
-        description:
-          "Calculate calories burned hiking based on body weight, backpack weight, distance, elevation gain, and terrain difficulty.",
-        popular: true,
-      },
-      {
-        title: "Jump Rope & HIIT Calorie Calculator",
-        url: "/tools/health/jumprope-calorie",
-        description:
-          "Calculate calories burned during jump rope and High-Intensity Interval Training (HIIT). Speed levels, Tabata, circuits, MET comparison.",
-        popular: true,
-      },
-      {
-        title: "Rowing Machine & Ergometer Calorie Calculator",
-        url: "/tools/health/rowing-calorie",
-        description:
-          "Calculate calories burned and mechanical power split pace (/500m) during rowing machine workouts across 4 intensity levels.",
-        popular: true,
-      },
-      {
-        title: "Elliptical Cross-Trainer Calorie Calculator",
-        url: "/tools/health/elliptical-calorie",
-        description:
-          "Calculate calories burned during Elliptical Cross-Trainer workouts across 4 resistance levels, incline, and stride distance.",
-        popular: true,
-      },
-      {
-        title: "Stair Climbing & Step Workout Calorie Calculator",
-        url: "/tools/health/stair-climbing-calorie",
-        description:
-          "Calculate calories burned during stair climbing, step-ups, and StairMaster ergometer workouts by flights of stairs or duration.",
-        popular: true,
-      },
-      {
-        title: "Indoor Cycling & Spin Bike Calorie Calculator",
-        url: "/tools/health/indoor-cycling-calorie",
-        description:
-          "Calculate calories burned during stationary spin bike and indoor cycling workouts with resistance, RPM, and power output (Watts).",
-        popular: true,
-      },
-      {
-        title: "Recumbent Exercise Bike Calorie Calculator",
-        url: "/tools/health/recumbent-bike-calorie",
-        description:
-          "Calculate calories burned during recumbent stationary exercise bike workouts across 4 workload levels, RPM cadence, and power.",
-        popular: true,
-      },
-      {
-        title: "Stair Stepper & StepMill Calorie Calculator",
-        url: "/tools/health/stair-stepper-calorie",
-        description:
-          "Calculate calories burned on stair steppers, StepMill gym machines, and aerobic step benches with step rates and MET scores.",
-        popular: true,
-      },],
+                                                                  ],
   },
   {
     title: "Productivity",
@@ -3534,14 +3166,7 @@ export const ToolsData = [
           "Simple kanban board with To Do, In Progress, and Done columns. Add tasks, move between columns, add custom columns, and track progress. All data saved locally.",
         popular: true,
       },
-      {
-        title: "Priority Matrix",
-        url: "/tools/productivity/priority-matrix",
-        description:
-          "Impact vs Effort priority matrix. Four quadrants: Quick Wins, Major Projects, Fill-Ins, Avoid. Add tasks, assign quadrants, track progress. Color-coded. Saved locally.",
-        popular: false,
-      },
-      {
+            {
         title: "Habit Streak Counter",
         url: "/tools/productivity/streaks",
         description:
@@ -3625,14 +3250,7 @@ export const ToolsData = [
           "Visual project timeline planner. Add tasks with dates and status. Gantt-like bar chart. Progress tracking. Critical path. Copy summary.",
         popular: true,
       },
-      {
-        title: "Eisenhower Matrix Planner",
-        url: "/tools/productivity/eisenhower-planner",
-        description:
-          "Priority matrix productivity tool. 4 quadrants: Do First, Schedule, Delegate, Eliminate. Add/move tasks, export JSON.",
-        popular: true,
-      },
-      {
+            {
         title: "Pomodoro Analytics & Log",
         url: "/tools/productivity/pomodoro-analytics",
         description:
@@ -3646,14 +3264,7 @@ export const ToolsData = [
           "Visual node-based mind map generator. Central topic + subnodes, node colors, visual lines, expand/collapse, text outline export.",
         popular: true,
       },
-      {
-        title: "Eisenhower Kanban Board",
-        url: "/tools/productivity/eisenhower-kanban",
-        description:
-          "Hybrid Kanban board organized by priority urgency matrix. 4 columns (Do First, Schedule, Delegate, Eliminate). JSON export.",
-        popular: true,
-      },
-      {
+            {
         title: "Weekly Habit & Routine Planner",
         url: "/tools/productivity/habit-planner",
         description:
@@ -3675,91 +3286,21 @@ export const ToolsData = [
         popular: true,
       },
     
-      {
-        title: "Priority Kanban Board",
-        url: "/tools/productivity/priority-kanban",
-        description:
-          "Visual Kanban task board with 5 priority columns (Critical, High, Medium, Low, Someday). Drag-and-drop workflow, search filter.",
-        popular: true,
-      },
-      {
-        title: "Priority List & Eisenhower Planner",
-        url: "/tools/productivity/eisenhower-list",
-        description:
-          "Streamlined 4-quadrant task list and priority tracker. Do First, Schedule, Delegate, Eliminate quadrants, Markdown export.",
-        popular: true,
-      },
-      {
+                  {
         title: "Color-Coded Category Kanban Board",
         url: "/tools/productivity/colored-kanban",
         description:
           "Visual Kanban task board with custom color tags and category badges. To Do, In Progress, Review, Completed columns.",
         popular: true,
       },
-      {
-        title: "Priority Matrix 2x2 Task Tracker",
-        url: "/tools/productivity/priority-matrix-2x2",
-        description:
-          "Visual 2x2 Impact vs Effort Priority Matrix. Quick Wins, Major Projects, Fill-ins, Thankless Tasks quadrants with sliders.",
-        popular: true,
-      },
-      {
+            {
         title: "OKR Goals & Key Results Planner",
         url: "/tools/productivity/okr-planner",
         description:
           "Structured OKR goal tracking framework. Objectives, key result progress bars, target values, deadlines, Markdown report export.",
         popular: true,
       },
-      {
-        title: "Eisenhower Goal & Action Planner",
-        url: "/tools/productivity/eisenhower-goals",
-        description:
-          "Action-oriented Eisenhower Matrix goal planner. Map goals to Do Now, Schedule, Delegate, and Delete buckets with completion tracking.",
-        popular: true,
-      },
-      {
-        title: "Eisenhower Matrix Urgency-Importance Board",
-        url: "/tools/productivity/eisenhower-board",
-        description:
-          "Visual 4-quadrant Eisenhower task matrix board. Do First, Schedule, Delegate, and Eliminate quadrants with single-click shifts.",
-        popular: true,
-      },
-      {
-        title: "Eisenhower Urgency Matrix Checklist",
-        url: "/tools/productivity/eisenhower-checklist",
-        description:
-          "Interactive priority checklist categorized into 4 Eisenhower quadrants with due dates, progress bars, and Markdown export.",
-        popular: true,
-      },
-      {
-        title: "Eisenhower Prioritization Matrix Workspace",
-        url: "/tools/productivity/eisenhower-workspace",
-        description:
-          "Interactive Eisenhower task prioritization workspace. Do First, Schedule, Delegate, and Eliminate quadrants with category filters.",
-        popular: true,
-      },
-      {
-        title: "Priority Matrix Action Planner",
-        url: "/tools/productivity/priority-action-planner",
-        description:
-          "Eisenhower Priority Matrix action planner for daily workflows. Map tasks to Do Today, Schedule, Delegate, and Eliminate boxes.",
-        popular: true,
-      },
-      {
-        title: "Priority Quadrant Action Board",
-        url: "/tools/productivity/priority-quadrant-board",
-        description:
-          "Interactive 4-quadrant task board with priority sorting. Do First, Schedule, Delegate, and Eliminate quadrants with Markdown export.",
-        popular: true,
-      },
-      {
-        title: "Daily Priority Task Action Board",
-        url: "/tools/productivity/daily-priority-action-board",
-        description:
-          "Structured daily task action board mapping to 4 Eisenhower priority buckets: Do First, Schedule Later, Delegate, and Eliminate.",
-        popular: true,
-      },
-    ],
+                                              ],
   },
   {
     title: "Gaming & Brand Tools",
