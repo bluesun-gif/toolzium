@@ -4,6 +4,7 @@ import {
   Calculator,
   ClipboardList,
   Clock,
+  FileText,
   Gamepad2,
   Globe,
   Heart,
@@ -385,62 +386,62 @@ export const ToolsData = [
       },
     ],
   },
-  // {
-  //   title: "PDF",
-  //   url: "/tools/pdf",
-  //   icon: FileText,
-  //   isActive: true,
-  //   items: [
-  //     {
-  //       title: "PDF Merge",
-  //       url: "/tools/pdf/merge",
-  //       description: "Combine multiple PDF files into one",
-  //       popular: true,
-  //     },
-  //     {
-  //       title: "PDF Split",
-  //       url: "/tools/pdf/split",
-  //       description: "Split PDFs into individual pages",
-  //       popular: false,
-  //     },
-  //     {
-  //       title: "PDF Compress",
-  //       url: "/tools/pdf/compress",
-  //       description: "Reduce PDF file size while keeping quality",
-  //       popular: true,
-  //     },
-  //     {
-  //       title: "PDF to Word",
-  //       url: "/tools/pdf/pdf-to-word",
-  //       description: "Convert PDF documents into editable Word",
-  //       popular: false,
-  //     },
-  //     {
-  //       title: "Image To PDF",
-  //       url: "/tools/pdf/image-pdf",
-  //       description: "Images to PDF and PDF pages to images",
-  //       popular: false,
-  //     },
-  //     {
-  //       title: "Protect / Unlock",
-  //       url: "/tools/pdf/protect",
-  //       description: "Add/remove password & permissions",
-  //       popular: false,
-  //     },
-  //     {
-  //       title: "Sign & Fill",
-  //       url: "/tools/pdf/sign-fill",
-  //       description: "Fill forms and add signatures",
-  //       popular: false,
-  //     },
-  //     {
-  //       title: "PDF Rotate",
-  //       url: "/tools/pdf/rotate",
-  //       description: "Rotate selected pages & save",
-  //       popular: false,
-  //     },
-  //   ],
-  // },
+  {
+    title: "PDF",
+    url: "/tools/pdf",
+    icon: FileText,
+    isActive: true,
+    items: [
+      {
+        title: "PDF Merge",
+        url: "/tools/pdf/merge",
+        description: "Combine multiple PDF files into one online for free.",
+        popular: true,
+      },
+      {
+        title: "PDF Split",
+        url: "/tools/pdf/split",
+        description: "Split PDFs into individual pages or page ranges.",
+        popular: false,
+      },
+      {
+        title: "PDF Compress",
+        url: "/tools/pdf/compress",
+        description: "Reduce PDF file size while maintaining document quality.",
+        popular: true,
+      },
+      {
+        title: "PDF to Word",
+        url: "/tools/pdf/pdf-to-word",
+        description: "Convert PDF documents into editable Word text files.",
+        popular: false,
+      },
+      {
+        title: "Image to PDF",
+        url: "/tools/pdf/image-pdf",
+        description: "Convert images to PDF and PDF pages to PNG images.",
+        popular: false,
+      },
+      {
+        title: "Protect & Lock PDF",
+        url: "/tools/pdf/protect",
+        description: "Add password protection and permissions to PDF documents.",
+        popular: false,
+      },
+      {
+        title: "Sign & Fill PDF",
+        url: "/tools/pdf/sign-fill",
+        description: "Fill forms and add digital signatures to PDF files.",
+        popular: false,
+      },
+      {
+        title: "PDF Page Rotate",
+        url: "/tools/pdf/rotate",
+        description: "Rotate selected PDF pages clockwise or counter-clockwise.",
+        popular: false,
+      },
+    ],
+  },
   {
     title: "Image",
     url: "/tools/image",
@@ -1040,13 +1041,6 @@ export const ToolsData = [
         url: "/tools/dev/keycode-info",
         description:
           "Inspect JavaScript keyboard event properties: key, code, keyCode, location, modifiers. Interactive virtual keyboard. Event history log.",
-        popular: true,
-      },
-      {
-        title: "Regex Visualizer & Explainer",
-        url: "/tools/dev/regex-explainer",
-        description:
-          "Breakdown and explain regular expressions in plain English. Token analysis, match highlights, regex cheatsheet, preset patterns.",
         popular: true,
       },
       {
@@ -3124,13 +3118,6 @@ export const ToolsData = [
         description:
           "Generate CORS headers for multiple platforms. Output in HTTP headers, Nginx, Apache, Express.js, Flask formats. Explain each header.",
         popular: true,
-      },
-      {
-        title: "Bandwidth Calculator",
-        url: "/tools/network/bandwidth-calc",
-        description:
-          "Calculate download/upload times. Enter file size and speed. Common presets: HD movie, 4K movie, game, OS update. Human-readable results.",
-        popular: false,
       },
     ],
   },

@@ -12,8 +12,18 @@ const OPENROUTER_KEYS = (process.env.OPENROUTER_API_KEYS || process.env.OPENROUT
   .map((k) => k.trim())
   .filter(Boolean);
 
+const GEMINI_KEYS = [
+  ... (process.env.GEMINI_API_KEYS || process.env.GEMINI_API_KEY || "").split(","),
+  ... Object.keys(process.env)
+    .filter((k) => k.startsWith("GEMINI_API_KEY"))
+    .map((k) => process.env[k] || "")
+]
+  .map((k) => k.trim())
+  .filter(Boolean);
+
 let groqIndex = 0;
 let openRouterIndex = 0;
+let geminiIndex = 0;
 
 function cleanAiOutput(text: string): string[] {
   return text
@@ -93,6 +103,39 @@ async function callOpenRouter(prompt: string, key: string) {
   return data.choices?.[0]?.message?.content || "";
 }
 
+async function callGemini(prompt: string, key: string) {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`;
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      contents: [
+        {
+          parts: [
+            {
+              text: "System: You are a creative naming & content generation AI engine. Return only the generated list of items, one per line. Do not include introductory conversational text or markdown formatting.\nUser: " + prompt,
+            },
+          ],
+        },
+      ],
+      generationConfig: {
+        temperature: 0.85,
+        maxOutputTokens: 600,
+      },
+    }),
+  });
+
+  if (!res.ok) {
+    const errText = await res.text();
+    throw new Error(`Gemini HTTP ${res.status}: ${errText}`);
+  }
+
+  const data = await res.json();
+  return data.candidates?.[0]?.content?.parts?.[0]?.text || "";
+}
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -132,6 +175,22 @@ export async function POST(req: Request) {
           if (rawOutput) break;
         } catch (err: any) {
           console.warn(`OpenRouter key attempt ${attempt + 1} failed:`, err.message);
+          lastError = err;
+        }
+      }
+    }
+
+    // 3. Fallback to Gemini Key Pool if Groq and OpenRouter fail
+    if (!rawOutput && GEMINI_KEYS.length > 0) {
+      for (let attempt = 0; attempt < Math.min(GEMINI_KEYS.length, 5); attempt++) {
+        const key = GEMINI_KEYS[geminiIndex % GEMINI_KEYS.length];
+        geminiIndex++;
+
+        try {
+          rawOutput = await callGemini(prompt, key);
+          if (rawOutput) break;
+        } catch (err: any) {
+          console.warn(`Gemini key attempt ${attempt + 1} failed:`, err.message);
           lastError = err;
         }
       }
