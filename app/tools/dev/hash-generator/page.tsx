@@ -108,34 +108,42 @@ export default function Page() {
     mainEntity: [
       {
         "@type": "Question",
-        name: "What is a hash generator?",
+        name: "What is a cryptographic hash?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "A hash generator computes fixed-length cryptographic digests (like MD5, SHA256) from text or files. Hashes are commonly used for integrity checks and secure storage.",
+          text: "A cryptographic hash is a one-way mathematical function that converts input data of any size into a fixed-size string of characters, usually represented in hexadecimal or Base64.",
         },
       },
       {
         "@type": "Question",
-        name: "Can I use this to verify file downloads?",
+        name: "Is hashing the same as encryption?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Yes. Upload the file and compare the computed hash with the expected checksum provided by the source to confirm integrity.",
+          text: "No. Hashing is a one-way process designed to be irreversible, whereas encryption is a two-way process designed to be decrypted using a secret key.",
         },
       },
       {
         "@type": "Question",
-        name: "Does this tool store my data?",
+        name: "What is an HMAC?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "No. All hashing is done locally in your browser for privacy. Files and text never leave your device.",
+          text: "An HMAC (Hash-based Message Authentication Code) is a specific type of message authentication code involving a cryptographic hash function and a secret cryptographic key, ensuring both data integrity and authenticity.",
         },
       },
       {
         "@type": "Question",
-        name: "Does it support HMAC?",
+        name: "How does salting work?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Yes. You can provide a secret key to generate HMACs using supported hash algorithms like SHA256 and SHA512.",
+          text: "Salting involves adding a random string of characters (a salt) to an input before hashing it. This prevents attackers from using precomputed rainbow tables to crack the hash.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Are MD5 and SHA-1 secure?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "No. Both MD5 and SHA-1 have known cryptographic vulnerabilities and collisions, making them unsafe for security-critical applications like password hashing or digital signatures. Use SHA-256 or SHA-512 instead.",
         },
       },
     ],

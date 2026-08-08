@@ -13,15 +13,27 @@ import Stat from "@/components/shared/stat";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import {
   Check,
+  Code2,
   DownloadCloud,
+  Globe,
   Hash,
   Lock,
+  RefreshCw,
   RotateCcw,
+  ShieldCheck,
+  Sparkles,
   TimerReset as Timer,
   Upload,
+  Zap,
 } from "lucide-react";
 import type React from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import toast from "react-hot-toast";
+
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import { RelatedTools } from "@/components/shared/related-tools";
 
 import { Badge } from "@/components/ui/badge";
 import {
@@ -153,7 +165,85 @@ export default function HashGeneratorClient() {
     setResults([]);
     setPerf(null);
     setError(null);
+    toast.success("Reset successfully!");
   }
+
+  const steps = [
+    {
+      step: "Step 1",
+      title: "Input Data",
+      description: "Enter your text or upload a file you want to hash.",
+      icon: Code2,
+    },
+    {
+      step: "Step 2",
+      title: "Select Algorithms",
+      description: "Choose one or more hash algorithms like MD5, SHA-256, or SHA-512.",
+      icon: ShieldCheck,
+    },
+    {
+      step: "Step 3",
+      title: "Generate Hash",
+      description: "Instantly generate and copy your hashes in Hex or Base64 format.",
+      icon: Sparkles,
+    },
+  ];
+
+  const features = [
+    {
+      title: "Multiple Algorithms",
+      description: "Supports MD5, SHA-1, SHA-256, SHA-384, and SHA-512 simultaneously.",
+      icon: ShieldCheck,
+    },
+    {
+      title: "Text & File Hashing",
+      description: "Easily hash short text strings or verify large files locally.",
+      icon: Code2,
+    },
+    {
+      title: "HMAC Support",
+      description: "Compute Hash-based Message Authentication Codes with a secret key.",
+      icon: Lock,
+    },
+    {
+      title: "Custom Salting",
+      description: "Add a custom salt (prefix or suffix) to protect against rainbow tables.",
+      icon: Zap,
+    },
+    {
+      title: "Local Processing",
+      description: "All hashing is done entirely in your browser for maximum privacy.",
+      icon: Globe,
+    },
+    {
+      title: "Instant Export",
+      description: "Export all computed hashes in JSON format instantly.",
+      icon: RefreshCw,
+    },
+  ];
+
+  const faqs = [
+    {
+      question: "What is a cryptographic hash?",
+      answer: "A cryptographic hash is a one-way mathematical function that converts input data of any size into a fixed-size string of characters, usually represented in hexadecimal or Base64.",
+    },
+    {
+      question: "Is hashing the same as encryption?",
+      answer: "No. Hashing is a one-way process designed to be irreversible, whereas encryption is a two-way process designed to be decrypted using a secret key.",
+    },
+    {
+      question: "What is an HMAC?",
+      answer: "An HMAC (Hash-based Message Authentication Code) is a specific type of message authentication code involving a cryptographic hash function and a secret cryptographic key, ensuring both data integrity and authenticity.",
+    },
+    {
+      question: "How does salting work?",
+      answer: "Salting involves adding a random string of characters (a salt) to an input before hashing it. This prevents attackers from using precomputed rainbow tables to crack the hash.",
+    },
+    {
+      question: "Are MD5 and SHA-1 secure?",
+      answer: "No. Both MD5 and SHA-1 have known cryptographic vulnerabilities and collisions, making them unsafe for security-critical applications like password hashing or digital signatures. Use SHA-256 or SHA-512 instead.",
+    },
+  ];
 
   return (
     <>
@@ -334,7 +424,14 @@ export default function HashGeneratorClient() {
             )}
           </CardContent>
           <CardFooter className="flex gap-2">
-            <ActionButton label="Hash" onClick={() => void run()} icon={Hash} />
+            <ActionButton
+              label="Hash"
+              onClick={() => {
+                void run();
+                toast.success("Hashed successfully!");
+              }}
+              icon={Hash}
+            />
             <ActionButton
               label="Reset"
               variant="outline"
@@ -433,6 +530,106 @@ export default function HashGeneratorClient() {
           </CardContent>
         </GlassCard>
       </div>
+
+      <ToolHowItWorks
+        title="How It Works"
+        subtitle="Generate cryptographic hashes in three simple steps"
+        steps={steps}
+      />
+
+      <ToolFeatureGuides
+        title="Hash Generator Features"
+        subtitle="Advanced cryptographic capabilities running securely in your browser"
+        features={features}
+      >
+        <div className="prose prose-sm md:prose-base dark:prose-invert max-w-none mt-8">
+          <h3>What Is a Cryptographic Hash?</h3>
+          <p>
+            A cryptographic hash function is a one-way deterministic algorithm that takes input data of any size and produces a fixed-length string of characters, typically representing a sequence of bytes. A core property of a robust hash function is the <strong>avalanche effect</strong>: changing even a single bit in the input completely changes the resulting hash output. Because hashing is a one-way process, it is mathematically infeasible to reverse-engineer the original input from the hash alone.
+          </p>
+
+          <h3>Hashing vs Encryption vs Encoding</h3>
+          <p>
+            These three concepts are commonly confused, but they serve entirely different purposes:
+          </p>
+          <ul>
+            <li><strong>Hashing:</strong> A one-way, irreversible process. Used for validating data integrity and securely storing passwords.</li>
+            <li><strong>Encryption:</strong> A two-way process. Data is scrambled using a cryptographic key and can be decrypted back to its original form using the corresponding key. Used for confidentiality.</li>
+            <li><strong>Encoding:</strong> A reversible data representation process (like Base64 or URL encoding) that requires no secret key. Used to ensure data can be safely transmitted across different systems, not for security.</li>
+          </ul>
+
+          <h3>Comparison Table of Hash Algorithms</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse border border-border">
+              <thead>
+                <tr className="bg-muted">
+                  <th className="p-2 border border-border">Algorithm</th>
+                  <th className="p-2 border border-border">Output Length</th>
+                  <th className="p-2 border border-border">Speed</th>
+                  <th className="p-2 border border-border">Security Level</th>
+                  <th className="p-2 border border-border">Common Use Case</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="p-2 border border-border"><strong>MD5</strong></td>
+                  <td className="p-2 border border-border">128-bit</td>
+                  <td className="p-2 border border-border">Very Fast</td>
+                  <td className="p-2 border border-border text-destructive">Broken</td>
+                  <td className="p-2 border border-border">Legacy file checksums, fast non-cryptographic hashing.</td>
+                </tr>
+                <tr>
+                  <td className="p-2 border border-border"><strong>SHA-1</strong></td>
+                  <td className="p-2 border border-border">160-bit</td>
+                  <td className="p-2 border border-border">Fast</td>
+                  <td className="p-2 border border-border text-destructive">Weak</td>
+                  <td className="p-2 border border-border">Git commits, legacy systems.</td>
+                </tr>
+                <tr>
+                  <td className="p-2 border border-border"><strong>SHA-256</strong></td>
+                  <td className="p-2 border border-border">256-bit</td>
+                  <td className="p-2 border border-border">Moderate</td>
+                  <td className="p-2 border border-border text-primary">Strong</td>
+                  <td className="p-2 border border-border">SSL certificates, blockchain, modern data integrity.</td>
+                </tr>
+                <tr>
+                  <td className="p-2 border border-border"><strong>SHA-512</strong></td>
+                  <td className="p-2 border border-border">512-bit</td>
+                  <td className="p-2 border border-border">Moderate</td>
+                  <td className="p-2 border border-border text-primary">Strong</td>
+                  <td className="p-2 border border-border">High-security applications, systems with 64-bit architectures.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>HMAC Explained</h3>
+          <p>
+            An <strong>HMAC</strong> (Hash-based Message Authentication Code) is a mechanism that combines a cryptographic hash function with a secret cryptographic key. It is used to verify both the <em>data integrity</em> and the <em>authenticity</em> of a message. Even if an attacker intercepts and alters a message, they cannot generate a valid HMAC without the secret key, ensuring the tampering is detected.
+          </p>
+
+          <h3>Salt and Key Stretching</h3>
+          <p>
+            When storing user passwords, simply hashing them with MD5 or SHA-256 is highly insecure. Attackers can use precomputed databases called <strong>rainbow tables</strong> to instantly look up the original password for a given hash. 
+          </p>
+          <p>
+            To prevent this, a unique random string called a <strong>salt</strong> is appended to each password before hashing. This ensures that even if two users have the same password, their hashes will be different. For modern password storage, specialized key-stretching algorithms like <code>bcrypt</code>, <code>Argon2</code>, or <code>PBKDF2</code> are preferred because they intentionally slow down the hashing process, making brute-force attacks economically infeasible.
+          </p>
+
+          <h3>File Integrity Checks</h3>
+          <p>
+            Hashing is widely used to verify that a file has not been corrupted or tampered with during transmission. When you download a large file, such as a Linux ISO, the provider often publishes an MD5 or SHA-256 checksum. By hashing the downloaded file locally and comparing the output to the published checksum, you can guarantee the file&apos;s integrity.
+          </p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion
+        title="Frequently Asked Questions"
+        subtitle="Learn more about cryptographic hashing and how to use this tool"
+        faqs={faqs}
+      />
+
+      <RelatedTools currentToolUrl="/tools/dev/hash-generator" max={6} />
     </>
   );
 }

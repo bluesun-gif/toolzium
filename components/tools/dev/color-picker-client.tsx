@@ -7,7 +7,12 @@ import { CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import InputField from "@/components/shared/form-fields/input-field";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Pipette } from "lucide-react";
+import { Pipette, Palette, Eye, Sun, History, Hash, MonitorSmartphone, SlidersHorizontal, Copy } from "lucide-react";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import toast from "react-hot-toast";
 
 // CSS Colors List (a representative subset)
 const cssColors = [
@@ -209,6 +214,7 @@ export default function ColorPickerClient() {
   const handleReset = () => {
     updateColorFromHex("#3B82F6", false);
     setHistory([]);
+    toast.success("Color Picker reset!");
   };
 
   const handleNativePicker = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -299,6 +305,29 @@ export default function ColorPickerClient() {
   const rgbString = "rgb(" + rgb.r + ", " + rgb.g + ", " + rgb.b + ")";
   const hslString = "hsl(" + hsl.h + ", " + hsl.s + "%, " + hsl.l + "%)";
   const hsvString = "hsv(" + hsv.h + ", " + hsv.s + "%, " + hsv.v + "%)";
+
+  const steps = [
+    { step: "1", title: "Pick a Color", description: "Use the visual picker, hue slider, or native color input to find your perfect color." },
+    { step: "2", title: "Adjust Values", description: "Fine-tune the exact HEX, RGB, or HSL values using the input fields.", icon: SlidersHorizontal },
+    { step: "3", title: "Copy & Use", description: "Click the copy button next to your preferred color format to use it in your project.", icon: Copy }
+  ];
+
+  const features = [
+    { title: "Multiple Formats", description: "Get instant conversions between HEX, RGB, HSL, and HSV color formats.", icon: Hash },
+    { title: "Visual Color Picker", description: "Intuitive hue and saturation/value adjustment areas for precise picking.", icon: Palette },
+    { title: "Complementary Colors", description: "Automatically generate the perfect complementary color for your selection.", icon: Eye },
+    { title: "Color Name Detection", description: "Automatically identifies the closest standard CSS color name.", icon: Sun },
+    { title: "Recent History", description: "Keeps track of your last 12 selected colors so you never lose a shade.", icon: History },
+    { title: "Fully Local", description: "All conversions run completely in your browser. No data is sent to a server.", icon: MonitorSmartphone }
+  ];
+
+  const faqs = [
+    { question: "What is the difference between HEX and HSL?", answer: "HEX is a hexadecimal representation of Red, Green, and Blue values, commonly used in web development. HSL represents Hue, Saturation, and Lightness, making it much easier for designers to adjust color intensity or brightness intuitively." },
+    { question: "What are complementary colors?", answer: "Complementary colors are pairs of colors that, when combined or placed next to each other, create the highest contrast. They sit opposite each other on the color wheel (e.g., blue and orange)." },
+    { question: "What color formats does this tool support?", answer: "The tool supports HEX, RGB, HSL, and HSV color formats, offering real-time conversions between them." },
+    { question: "What is a safe contrast ratio for web accessibility?", answer: "According to WCAG 2.1 guidelines, standard text requires a minimum contrast ratio of 4.5:1 (Level AA) against its background, while large text requires a 3:1 ratio. Enhanced contrast (Level AAA) requires a 7:1 ratio." },
+    { question: "Is this color picker private?", answer: "Yes. All color generation, picking, and conversions are calculated locally in your browser. No data is sent to a server." }
+  ];
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -497,6 +526,105 @@ export default function ColorPickerClient() {
           </div>
         </CardContent>
       </GlassCard>
+
+      <ToolHowItWorks 
+        title="How to Use the Color Picker" 
+        steps={steps} 
+      />
+
+      <ToolFeatureGuides 
+        title="Color Theory & Best Practices" 
+        features={features}
+      >
+        <div className="space-y-8 mt-8 text-foreground/80">
+          <section>
+            <h3 className="text-xl font-semibold text-foreground mb-4">Understanding Color Formats</h3>
+            <p className="mb-4">
+              When designing interfaces or writing CSS, you&apos;ll encounter multiple ways to define a single color. Knowing which format to choose can speed up your workflow and improve your code&apos;s readability.
+            </p>
+            <div className="overflow-x-auto mb-4">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-border">
+                    <th className="py-2 px-4 font-semibold">Format</th>
+                    <th className="py-2 px-4 font-semibold">Syntax Example</th>
+                    <th className="py-2 px-4 font-semibold">Best Use Case</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b border-border/50">
+                    <td className="py-2 px-4"><strong>HEX</strong></td>
+                    <td className="py-2 px-4"><code>#3B82F6</code></td>
+                    <td className="py-2 px-4">Standard web development, copy-pasting, brand guidelines.</td>
+                  </tr>
+                  <tr className="border-b border-border/50">
+                    <td className="py-2 px-4"><strong>RGB</strong></td>
+                    <td className="py-2 px-4"><code>rgb(59, 130, 246)</code></td>
+                    <td className="py-2 px-4">Adding opacity (via RGBA), direct hardware/screen manipulation.</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 px-4"><strong>HSL</strong></td>
+                    <td className="py-2 px-4"><code>hsl(217, 90%, 60%)</code></td>
+                    <td className="py-2 px-4">Intuitive design adjustments, generating palettes programmatically.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>
+              While developers often prefer <strong>HEX</strong> for its brevity, <strong>HSL</strong> (Hue, Saturation, Lightness) is vastly superior for design work. If you have a base color and want to make it 20% darker on hover, HSL lets you simply decrease the Lightness value, whereas adjusting HEX requires a complex calculation.
+            </p>
+          </section>
+
+          <section>
+            <h3 className="text-xl font-semibold text-foreground mb-4">Color Accessibility (WCAG 2.1)</h3>
+            <p className="mb-4">
+              Accessibility should never be an afterthought. The Web Content Accessibility Guidelines (WCAG) define specific contrast ratios to ensure text remains readable for users with visual impairments.
+            </p>
+            <ul className="list-disc pl-6 space-y-2 mb-4">
+              <li><strong>Level AA:</strong> Standard text requires a contrast ratio of at least <strong>4.5:1</strong>. Large text (18pt or 14pt bold) requires <strong>3:1</strong>.</li>
+              <li><strong>Level AAA:</strong> The strictest standard, requiring a <strong>7:1</strong> ratio for normal text and <strong>4.5:1</strong> for large text.</li>
+            </ul>
+            <p>
+              When selecting background and foreground colors in our picker, keep these ratios in mind to ensure your application is inclusive to everyone.
+            </p>
+          </section>
+
+          <section>
+            <h3 className="text-xl font-semibold text-foreground mb-4">Modern CSS Color Functions</h3>
+            <p className="mb-4">
+              CSS color specifications have evolved significantly. Modern browsers now support advanced functions that make color manipulation easier than ever:
+            </p>
+            <ul className="list-disc pl-6 space-y-2 mb-4">
+              <li><code>color-mix()</code>: Mix two colors together in any color space (e.g., <code>color-mix(in srgb, #3B82F6 80%, white)</code>).</li>
+              <li><code>oklch()</code>: A perceptual color space that ensures uniform lightness across different hues, solving the issue where &quot;yellow&quot; appears much brighter than &quot;blue&quot; even if they have the same HSL lightness.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3 className="text-xl font-semibold text-foreground mb-4">Color Psychology in Web Design</h3>
+            <p className="mb-4">
+              Colors carry inherent emotional weight. Selecting the right primary and semantic colors is crucial for UX:
+            </p>
+            <ul className="list-disc pl-6 space-y-2 mb-4">
+              <li><strong>Blue:</strong> Trust, security, and professionalism. Widely used in banking and enterprise software.</li>
+              <li><strong>Red:</strong> Urgency, passion, or danger. Reserved for destructive actions (like deleting an account) or critical errors.</li>
+              <li><strong>Green:</strong> Success, growth, and positivity. Ideal for confirmation messages or environmental themes.</li>
+              <li><strong>Yellow/Orange:</strong> Energy, warning, and attention. Perfect for cautionary alerts or prominent call-to-action buttons.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3 className="text-xl font-semibold text-foreground mb-4">Design Token Best Practices</h3>
+            <p>
+              When implementing colors in a codebase, avoid naming variables after the color itself (e.g., <code>--color-blue-500</code>). Instead, use semantic design tokens like <code>--color-primary</code> or <code>--bg-surface-active</code>. This abstraction makes it infinitely easier to implement dark mode or rebrand an application without rewriting hundreds of CSS rules.
+            </p>
+          </section>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion faqs={faqs} />
+      
+      <RelatedTools currentToolUrl="/tools/dev/color-picker" max={6} />
     </div>
   );
 }

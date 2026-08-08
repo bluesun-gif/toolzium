@@ -45,10 +45,10 @@ export default function Page() {
     mainEntity: [
       {
         "@type": "Question",
-        name: "How many PDFs can I merge?",
+        name: "How many PDF files can I merge?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "There is no hard limit. You can merge as many PDF files as your browser can handle.",
+          text: "There is no hard limit on the number of PDF files you can merge. However, the performance and limit depend on your computer's RAM and browser memory since all processing runs client-side.",
         },
       },
       {
@@ -56,23 +56,31 @@ export default function Page() {
         name: "Are my files uploaded to a server?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "No, all merging happens in your browser. Your files never leave your device.",
+          text: "No. All PDF merging is executed locally in your browser using JavaScript. Your documents never leave your device, ensuring complete privacy.",
         },
       },
       {
         "@type": "Question",
-        name: "Can I reorder the PDFs?",
+        name: "Can I reorder the pages or files?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Yes, use the up/down arrows to change the merge order.",
+          text: "Yes, you can easily change the order of the uploaded PDF files using the up and down arrow buttons next to each file name before clicking the Merge button.",
         },
       },
       {
         "@type": "Question",
-        name: "Is there a file size limit?",
+        name: "Does merging PDFs lose document quality?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "It depends on your browser's memory, but most files up to 100MB work fine.",
+          text: "No. The merging process copies the vector graphics, text formatting, layout, and images from the source PDFs directly, retaining 100% of the original document quality.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What should I do if my PDF fails to merge?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Ensure the files are not password-protected, encrypted, or corrupted. Protected PDFs must be decrypted before they can be merged. Try uploading them again.",
         },
       },
     ],
@@ -80,12 +88,19 @@ export default function Page() {
 
   const toolSchema = {
     "@context": "https://schema.org",
-    "@type": "UtilitiesApplication",
+    "@type": "WebApplication",
     name: "PDF Merge",
     description,
     url,
     applicationCategory: "UtilitiesApplication",
     operatingSystem: "Any",
+    isAccessibleForFree: true,
+    featureList: [
+      "Merge multiple PDF files locally",
+      "Client-side processing for privacy",
+      "No file size limitations",
+      "Reorder PDF files before merging"
+    ],
     offers: {
       "@type": "Offer",
       price: "0",

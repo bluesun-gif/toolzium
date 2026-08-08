@@ -1,13 +1,18 @@
 "use client";
 
 import React, { useState, useRef, useCallback } from "react";
-import { Merge, Upload, Trash2, ArrowUp, ArrowDown, FileText, AlertCircle } from "lucide-react";
+import { Merge, Upload, Trash2, ArrowUp, ArrowDown, FileText, AlertCircle, Shield, Zap, FileOutput, MousePointer2, Settings, Lock } from "lucide-react";
 import { PDFDocument } from "pdf-lib";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import { GlassCard } from "@/components/ui/glass-card";
 import { CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import toast from "react-hot-toast";
 
 interface PdfFile {
   id: string;
@@ -108,6 +113,7 @@ export default function PdfMergeClient() {
   const resetAll = () => {
     setFiles([]);
     setError(null);
+    toast.success("PDF Merge reset!");
   };
 
   const mergePdfs = async () => {
@@ -143,13 +149,90 @@ export default function PdfMergeClient() {
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
+      toast.success("PDFs merged successfully! Downloading...");
     } catch (err) {
       console.error(err);
-      setError("An error occurred while merging the PDFs. Some files might be encrypted or corrupted.");
+      const errorMsg = "An error occurred while merging the PDFs. Some files might be encrypted or corrupted.";
+      setError(errorMsg);
+      toast.error(errorMsg);
     } finally {
       setIsMerging(false);
     }
   };
+
+  const steps = [
+    {
+      step: "Step 1",
+      title: "Upload PDFs",
+      description: "Drag and drop or browse to select the PDF files you want to merge.",
+    },
+    {
+      step: "Step 2",
+      title: "Arrange Order",
+      description: "Use the up and down arrows to rearrange the files in your desired order.",
+    },
+    {
+      step: "Step 3",
+      title: "Merge & Download",
+      description: "Click the Merge PDFs button to combine them and download the result instantly.",
+    },
+  ];
+
+  const features = [
+    {
+      title: "100% Client-Side Processing",
+      description: "All processing happens in your browser. Your files never leave your device.",
+      icon: Shield,
+    },
+    {
+      title: "Fast & Efficient",
+      description: "Instant merging using advanced web technologies without server roundtrips.",
+      icon: Zap,
+    },
+    {
+      title: "Preserves Quality",
+      description: "Retains the original document layout, images, and vector graphics.",
+      icon: FileOutput,
+    },
+    {
+      title: "Easy Reordering",
+      description: "Simple drag and drop or click interface to reorder your documents.",
+      icon: MousePointer2,
+    },
+    {
+      title: "No Limitations",
+      description: "Merge as many PDF files as your device memory can handle.",
+      icon: Settings,
+    },
+    {
+      title: "Secure & Private",
+      description: "No data is uploaded, stored, or analyzed on our servers.",
+      icon: Lock,
+    },
+  ];
+
+  const faqs = [
+    {
+      question: "How many PDF files can I merge?",
+      answer: "There is no hard limit on the number of PDF files you can merge. However, the performance and limit depend on your computer's RAM and browser memory since all processing runs client-side.",
+    },
+    {
+      question: "Are my files uploaded to a server?",
+      answer: "No. All PDF merging is executed locally in your browser using JavaScript. Your documents never leave your device, ensuring complete privacy.",
+    },
+    {
+      question: "Can I reorder the pages or files?",
+      answer: "Yes, you can easily change the order of the uploaded PDF files using the up and down arrow buttons next to each file name before clicking the Merge button.",
+    },
+    {
+      question: "Does merging PDFs lose document quality?",
+      answer: "No. The merging process copies the vector graphics, text formatting, layout, and images from the source PDFs directly, retaining 100% of the original document quality.",
+    },
+    {
+      question: "What should I do if my PDF fails to merge?",
+      answer: "Ensure the files are not password-protected, encrypted, or corrupted. Protected PDFs must be decrypted before they can be merged. Try uploading them again.",
+    },
+  ];
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
@@ -264,6 +347,96 @@ export default function PdfMergeClient() {
           )}
         </CardContent>
       </GlassCard>
+
+      <ToolHowItWorks steps={steps} />
+
+      <ToolFeatureGuides features={features}>
+        <div className="space-y-6 text-muted-foreground">
+          <div>
+            <h3 className="text-xl font-semibold text-foreground mb-2">What Is a PDF?</h3>
+            <p className="mb-4">
+              The <strong>Portable Document Format (PDF)</strong>, created by Adobe in 1993 and later standardized as ISO 32000, is the universal standard for document distribution. It preserves layouts, fonts, images, and vector graphics consistently across all devices, operating systems, and screen sizes.
+            </p>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-semibold text-foreground mb-2">Client-Side vs Server-Side PDF Processing</h3>
+            <p className="mb-4">
+              Toolzium processes your PDFs entirely <strong>client-side</strong> using <code>pdf-lib</code> in JavaScript within your browser. This offers critical privacy advantages: your files are <strong>never uploaded to a remote server</strong>, completely eliminating data leak risks and reducing wait times for file transfers.
+            </p>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-semibold text-foreground mb-2">When Do You Need to Merge PDFs?</h3>
+            <ul className="list-disc pl-6 space-y-2 mb-4">
+              <li><strong>Business Reports:</strong> Combining monthly reports from different departments into a master document.</li>
+              <li><strong>Tax Files:</strong> Assembling various tax receipts, W-2s, and forms into a single submission file.</li>
+              <li><strong>Scanned Documents:</strong> Merging multiple single-page scans into one continuous digital book.</li>
+              <li><strong>Digital Portfolios:</strong> Consolidating art, design, or writing samples into one easily shareable file.</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-semibold text-foreground mb-2">Reference Table: PDF Tools & Operations</h3>
+            <div className="overflow-x-auto mb-4">
+              <table className="w-full text-sm text-left border-collapse border border-border">
+                <thead className="bg-muted text-foreground">
+                  <tr>
+                    <th className="border border-border p-2">Operation</th>
+                    <th className="border border-border p-2">Use Case</th>
+                    <th className="border border-border p-2">Privacy Level</th>
+                    <th className="border border-border p-2">Processing Speed</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="border border-border p-2 font-medium">Merge</td>
+                    <td className="border border-border p-2">Combine multiple files into one</td>
+                    <td className="border border-border p-2 text-green-600">High (Client-side)</td>
+                    <td className="border border-border p-2">Very Fast</td>
+                  </tr>
+                  <tr>
+                    <td className="border border-border p-2 font-medium">Split</td>
+                    <td className="border border-border p-2">Extract specific pages</td>
+                    <td className="border border-border p-2 text-green-600">High (Client-side)</td>
+                    <td className="border border-border p-2">Very Fast</td>
+                  </tr>
+                  <tr>
+                    <td className="border border-border p-2 font-medium">Compress</td>
+                    <td className="border border-border p-2">Reduce file size for email</td>
+                    <td className="border border-border p-2 text-yellow-600">Medium (Often Server-side)</td>
+                    <td className="border border-border p-2">Moderate</td>
+                  </tr>
+                  <tr>
+                    <td className="border border-border p-2 font-medium">To-Image</td>
+                    <td className="border border-border p-2">Convert PDF to JPG/PNG</td>
+                    <td className="border border-border p-2 text-green-600">High (Client-side)</td>
+                    <td className="border border-border p-2">Fast</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-semibold text-foreground mb-2">PDF Compression & Optimization</h3>
+            <p className="mb-4">
+              Text in a PDF takes up very little space because it uses embedded fonts and vector graphics. However, high-resolution images can dramatically increase file size. When you merge multiple PDFs that contain large images, the resulting file will be a combination of all their sizes. For massive files, you may need a separate compression tool to optimize the images.
+            </p>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-semibold text-foreground mb-2">PDF Accessibility Standards</h3>
+            <p>
+              When creating or merging PDFs, it is important to consider accessibility. <strong>Tagged PDFs</strong> include hidden structured data (like headings, lists, and alt text for images) that allow screen readers to accurately read the document for visually impaired users. Retaining these tags during merging is crucial for maintaining compliance with accessibility standards like WCAG.
+            </p>
+          </div>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion faqs={faqs} />
+      
+      <RelatedTools currentToolUrl="/tools/util/pdf-merge" max={6} />
     </div>
   );
 }
