@@ -3485,6 +3485,27 @@ export const ToolsData = [
     isActive: true,
     items: [
       {
+        title: "AI Meeting Action Items Extractor Studio",
+        url: "/tools/productivity/ai-action-items",
+        description:
+          "Convert raw meeting transcripts and notes into clear owner assignments, deadlines, and task cards using live AI.",
+        popular: true,
+      },
+      {
+        title: "AI Project Risk & Assumption Matrix Auditor",
+        url: "/tools/productivity/ai-risk-matrix",
+        description:
+          "Identify hidden project risks, technical debt, timeline bottlenecks, and mitigation plans with live AI.",
+        popular: true,
+      },
+      {
+        title: "AI Executive Weekly Status Report Generator",
+        url: "/tools/productivity/ai-status-report",
+        description:
+          "Convert weekly task notes, completed tickets, and blockers into structured executive status reports for stakeholders with live AI.",
+        popular: true,
+      },
+      {
         title: "Online Notepad",
         url: "/tools/productivity/notepad",
         description:
