@@ -2,12 +2,24 @@
 
 import {
   ArrowLeftRight,
+  Code2,
   File as FileIcon,
   FileText,
+  Globe,
   Image as ImageIcon,
+  Lock,
+  RefreshCw,
+  ShieldCheck,
+  Sparkles,
   UploadCloud,
+  Zap,
 } from "lucide-react";
 import * as React from "react";
+import toast from "react-hot-toast";
+import { RelatedTools } from "@/components/shared/related-tools";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import {
   ActionButton,
   CopyButton,
@@ -105,6 +117,7 @@ export default function Base64Client() {
       URL.revokeObjectURL(outBlobUrl);
       setOutBlobUrl("");
     }
+    toast.success("Reset!");
   };
 
   const encodeFile = async () => {
@@ -130,6 +143,7 @@ export default function Base64Client() {
     } else {
       setPreviewText("");
     }
+    toast.success("File encoded successfully!");
   };
 
   const decodeFile = async () => {
@@ -172,6 +186,7 @@ export default function Base64Client() {
       } else {
         setPreviewText("");
       }
+      toast.success("File decoded successfully!");
     } catch {
       if (outBlobUrl) {
         URL.revokeObjectURL(outBlobUrl);
@@ -183,6 +198,7 @@ export default function Base64Client() {
         type: "text/plain",
       });
       setPreviewText("");
+      toast.error("Decode failed. Check your input.");
     }
   };
 
@@ -199,8 +215,85 @@ export default function Base64Client() {
     }
   };
 
+  const steps = [
+    {
+      step: "Step 1",
+      title: "Input Data",
+      description: "Paste your text or drop a file into the tool.",
+      icon: FileIcon,
+    },
+    {
+      step: "Step 2",
+      title: "Select Options",
+      description: "Choose to encode or decode, and configure URL-safe or no padding options.",
+      icon: RefreshCw,
+    },
+    {
+      step: "Step 3",
+      title: "Get Result",
+      description: "Copy your output text or download the decoded/encoded file instantly.",
+      icon: Sparkles,
+    },
+  ];
+
+  const features = [
+    {
+      title: "Text & File Support",
+      description: "Encode text snippets or complete files including images and PDFs seamlessly.",
+      icon: FileText,
+    },
+    {
+      title: "URL-Safe Encoding",
+      description: "Generate URL-safe Base64 strings for use in web applications and APIs.",
+      icon: Globe,
+    },
+    {
+      title: "Lightning Fast",
+      description: "All processing happens locally in your browser for instant results.",
+      icon: Zap,
+    },
+    {
+      title: "Privacy First",
+      description: "No data is sent to our servers. Your files remain on your device.",
+      icon: ShieldCheck,
+    },
+    {
+      title: "Developer Tools",
+      description: "Perfect for decoding JWTs or generating Data URIs for embedded assets.",
+      icon: Code2,
+    },
+    {
+      title: "Not Encryption",
+      description: "Remember, Base64 is encoding, not encryption. Do not use for passwords.",
+      icon: Lock,
+    },
+  ];
+
+  const faqs = [
+    {
+      question: "What is Base64 encoding used for?",
+      answer: "Base64 encodes binary data (like images and files) into ASCII text. It is commonly used in data URIs, email MIME attachments, JWT tokens, and HTTP Basic Authentication headers.",
+    },
+    {
+      question: "Can I encode files and images to Base64?",
+      answer: "Yes. Switch to the File tab, upload any file, and click Encode. The tool generates the full Base64 string with automatic MIME type detection and optional data URL output.",
+    },
+    {
+      question: "Is Base64 encoding secure?",
+      answer: "No. Base64 is an encoding scheme, not encryption. It is fully reversible and provides zero confidentiality. Never use Base64 to hide passwords or sensitive data.",
+    },
+    {
+      question: "What is the difference between Base64 and Base64URL?",
+      answer: "Standard Base64 uses + and / characters, which conflict with URLs. Base64URL replaces them with - and _, and optionally omits the = padding, making it safe for URLs, filenames, and JWT tokens.",
+    },
+    {
+      question: "Does Base64 increase file size?",
+      answer: "Yes. Base64 encoding increases data size by approximately 33% because it represents every 3 bytes of binary data as 4 ASCII characters.",
+    },
+  ];
+
   return (
-    <>
+    <div className="max-w-6xl mx-auto space-y-8">
       {/* Header */}
       <ToolPageHeader
         icon={ArrowLeftRight}
@@ -425,6 +518,116 @@ export default function Base64Client() {
           </div>
         </TabsContent>
       </Tabs>
-    </>
+
+      <ToolHowItWorks title="How Base64 Encoding Works" steps={steps} />
+
+      <ToolFeatureGuides title="Comprehensive Guide to Base64 Encoding" features={features}>
+        <div className="space-y-6 text-muted-foreground mt-8">
+          <div className="space-y-4">
+            <h3 className="text-xl font-semibold text-foreground">What Is Base64 Encoding?</h3>
+            <p>
+              Base64 is a widely used binary-to-text encoding scheme that translates arbitrary binary data into an ASCII string format. The alphabet consists of 64 characters: <code>A-Z</code>, <code>a-z</code>, <code>0-9</code>, plus <code>+</code> and <code>/</code>, with <code>=</code> acting as a padding character.
+            </p>
+            <p>
+              Under the hood, Base64 works by breaking binary data into 6-bit groups. Since each 6-bit group can represent 64 different values, it maps perfectly to the 64 characters of the Base64 alphabet.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            <h3 className="text-xl font-semibold text-foreground">Why Base64 Exists</h3>
+            <p>Base64 bridges the gap between binary data and text-based protocols. Key use cases include:</p>
+            <ul className="list-disc pl-5 space-y-2">
+              <li><strong>Email Attachments:</strong> Protocols like SMTP were originally designed to handle text. Base64 (via MIME) safely encodes binary attachments (like images or PDFs).</li>
+              <li><strong>Data URIs in Web Development:</strong> Base64 allows embedding small images or fonts directly inside HTML and CSS files, reducing HTTP requests.</li>
+              <li><strong>JWT Tokens:</strong> JSON Web Tokens heavily rely on Base64URL to securely encode JSON payloads in a compact, URL-safe manner.</li>
+              <li><strong>API Authentication:</strong> HTTP Basic Auth passes credentials encoded in Base64 (e.g., <code>Authorization: Basic dXNlcjpwYXNz</code>).</li>
+            </ul>
+          </div>
+
+          <div className="space-y-4">
+            <h3 className="text-xl font-semibold text-foreground">Base64 vs Base64URL</h3>
+            <p>
+              Standard Base64 works perfectly for most applications, but the <code>+</code> and <code>/</code> characters have special meaning in URLs. Base64URL was created to solve this conflict.
+            </p>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm text-left">
+                <thead className="bg-muted text-foreground">
+                  <tr>
+                    <th className="px-4 py-2 border">Feature</th>
+                    <th className="px-4 py-2 border">Standard Base64</th>
+                    <th className="px-4 py-2 border">Base64URL</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="px-4 py-2 border font-medium">Characters</td>
+                    <td className="px-4 py-2 border"><code>A-Z, a-z, 0-9, +, /</code></td>
+                    <td className="px-4 py-2 border"><code>A-Z, a-z, 0-9, -, _</code></td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-2 border font-medium">Padding</td>
+                    <td className="px-4 py-2 border">Required (<code>=</code>)</td>
+                    <td className="px-4 py-2 border">Optional (often omitted)</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-2 border font-medium">URL Safe</td>
+                    <td className="px-4 py-2 border">No (conflicts in URLs)</td>
+                    <td className="px-4 py-2 border">Yes</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-2 border font-medium">Used In</td>
+                    <td className="px-4 py-2 border">Email, data URIs</td>
+                    <td className="px-4 py-2 border">JWT, URL params</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <h3 className="text-xl font-semibold text-foreground">Size Overhead</h3>
+            <p>
+              A significant drawback of Base64 is that it increases data size. Because 3 bytes (24 bits) of binary data are represented as 4 characters (24 bits = four 6-bit groups), the payload increases by approximately <strong>33%</strong>.
+            </p>
+            <p>
+              For this reason, embedding large images via Base64 in CSS files is often discouraged. If you must send large Base64 payloads over a network, always ensure gzip or Brotli compression is applied at the transport layer to offset the bloat.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            <h3 className="text-xl font-semibold text-foreground">Base64 Is NOT Encryption</h3>
+            <div className="p-4 bg-muted border-l-4 border-primary rounded-r-md">
+              <p className="font-semibold text-foreground mb-2">Critical Security Clarification</p>
+              <p>Base64 provides zero confidentiality. It is fully and easily reversible. Never use Base64 to &quot;hide&quot; or secure passwords, API keys, or sensitive PII.</p>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <h3 className="text-xl font-semibold text-foreground">Common Mistakes to Avoid</h3>
+            <ul className="list-disc pl-5 space-y-2">
+              <li><strong>Encoding Passwords:</strong> Passwords should always be securely hashed using algorithms like bcrypt or Argon2, not encoded in Base64.</li>
+              <li><strong>Double-Encoding:</strong> Sometimes developers mistakenly Base64-encode data that is already encoded, unnecessarily inflating file sizes and complicating decoding.</li>
+              <li><strong>Missing MIME Types:</strong> When building a Data URI, explicitly declare the MIME type to ensure the browser processes it correctly.</li>
+            </ul>
+          </div>
+
+          <div className="space-y-4">
+            <h3 className="text-xl font-semibold text-foreground">Data URI Syntax</h3>
+            <p>To embed an image in a browser, use the standard data URI scheme:</p>
+            <pre className="bg-muted p-3 rounded-md overflow-x-auto text-sm">
+              <code>data:[&lt;mediatype&gt;][;base64],&lt;data&gt;</code>
+            </pre>
+            <p>Example for a PNG image:</p>
+            <pre className="bg-muted p-3 rounded-md overflow-x-auto text-sm">
+              <code>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...</code>
+            </pre>
+          </div>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion faqs={faqs} />
+      
+      <RelatedTools currentToolUrl="/tools/text/base64" max={6} />
+    </div>
   );
 }

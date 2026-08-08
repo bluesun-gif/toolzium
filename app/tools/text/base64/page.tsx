@@ -87,26 +87,42 @@ export default function Page() {
     mainEntity: [
       {
         "@type": "Question",
-        name: "What is Base64 used for?",
+        name: "What is Base64 encoding used for?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Base64 encodes binary data into ASCII text, commonly used in data URLs, email MIME, and safely transporting binary through text-based protocols.",
+          text: "Base64 encodes binary data (like images and files) into ASCII text. It is commonly used in data URIs, email MIME attachments, JWT tokens, and HTTP Basic Authentication headers.",
         },
       },
       {
         "@type": "Question",
-        name: "Can I convert images and files to Base64?",
+        name: "Can I encode files and images to Base64?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Yes. Upload any supported file to convert it to Base64. For images, a preview and data URL are also provided.",
+          text: "Yes. Switch to the File tab, upload any file, and click Encode. The tool generates the full Base64 string with automatic MIME type detection and optional data URL output.",
         },
       },
       {
         "@type": "Question",
-        name: "Is this tool privacy-friendly?",
+        name: "Is Base64 encoding secure?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Yes. Conversions run locally in your browser, so your content is not uploaded to a server.",
+          text: "No. Base64 is an encoding scheme, not encryption. It is fully reversible and provides zero confidentiality. Never use Base64 to hide passwords or sensitive data.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What is the difference between Base64 and Base64URL?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Standard Base64 uses + and / characters, which conflict with URLs. Base64URL replaces them with - and _, and optionally omits the = padding, making it safe for URLs, filenames, and JWT tokens.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Does Base64 increase file size?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes. Base64 encoding increases data size by approximately 33% because it represents every 3 bytes of binary data as 4 ASCII characters.",
         },
       },
     ],
