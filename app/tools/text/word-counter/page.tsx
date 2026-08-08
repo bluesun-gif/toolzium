@@ -4,31 +4,22 @@ import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Word Counter",
+  title: "Free Word Counter & Character Count Tool | Toolzium",
   description:
-    "Count words, characters, sentences, paragraphs, and lines. Estimate reading/speaking time, analyze keyword density, and apply quick text transforms—free and privacy-friendly.",
+    "Count words, characters with/without spaces, sentences, and paragraphs. Estimate reading time, calculate keyword density, and analyze tone for free.",
   path: "/tools/text/word-counter",
   keywords: [
     "word counter",
     "character counter",
+    "character count online",
     "count words",
     "count characters",
-    "sentence counter",
-    "paragraph counter",
-    "line counter",
     "reading time calculator",
     "speaking time estimator",
     "keyword density analyzer",
-    "unique words count",
-    "stopwords toggle",
-    "quick text transforms",
-    "uppercase lowercase title case",
-    "slugify text",
-    "copy and export text stats",
+    "character count for twitter",
+    "character count for instagram",
     "Toolzium",
-    "online tools",
-    "privacy friendly tools",
-    "Bangladesh",
   ],
 });
 
@@ -38,35 +29,27 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Word Counter — Toolzium",
+    name: "Free Word Counter & Character Count Tool — Toolzium",
     url: toolUrl,
     applicationCategory: "UtilitiesApplication",
     operatingSystem: "Web",
     isAccessibleForFree: true,
-    inLanguage: ["en", "bn"],
     description:
-      "Count words, characters, sentences, paragraphs, and lines. Get reading/speaking time and keyword density with stopwords control. Runs locally in your browser.",
+      "Count words, characters, sentences, paragraphs, reading speed, and keyword density in real-time. 100% free and client-side private.",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     featureList: [
       "Word & character counts (with/without spaces)",
       "Sentences, lines, and paragraphs",
       "Estimated reading and speaking time",
-      "Keyword density with stopwords toggle",
-      "Unique words and top keywords summary",
-      "Quick transforms: UPPERCASE, lowercase, Title Case, slugify",
-      "Copy stats and export results (CSV/TXT)",
-      "Privacy-first: all processing in your browser",
-      "Fast, mobile-friendly UI",
+      "Keyword density analyzer",
+      "AI tone & writing quality analysis",
+      "1-click UPPERCASE, lowercase, Title Case, and slugify",
+      "Privacy-first: 100% in-browser processing",
     ],
     creator: {
-      "@type": "Person",
+      "@type": "Organization",
       name: "Toolzium",
       url: "https://toolzium.com",
-    },
-    potentialAction: {
-      "@type": "AssessAction",
-      target: toolUrl,
-      name: "Analyze text word and character counts",
     },
   };
 
@@ -74,8 +57,8 @@ export default function Page() {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Tools", item: `${siteURL}/tools` },
-      { "@type": "ListItem", position: 2, name: "URL", item: `${siteURL}/tools#cat-text` },
+      { "@type": "ListItem", position: 1, name: "Home", item: `${siteURL}` },
+      { "@type": "ListItem", position: 2, name: "Tools", item: `${siteURL}/tools` },
       { "@type": "ListItem", position: 3, name: "Word Counter", item: toolUrl },
     ],
   };
@@ -89,23 +72,39 @@ export default function Page() {
         name: "Do you count characters with and without spaces?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Yes. The tool shows both counts so you can meet specific platform limits and formatting requirements.",
+          text: "Yes! Our word counter displays both total character count (including spaces) and character count excluding spaces, allowing you to easily match social media character limits for Twitter/X, Instagram, and LinkedIn.",
         },
       },
       {
         "@type": "Question",
-        name: "How is reading and speaking time estimated?",
+        name: "How is reading and speaking time calculated?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Reading time is based on an average of ~200–250 words per minute, while speaking time uses ~120–160 words per minute. You can adjust presets in the UI if supported.",
+          text: "Reading time is calculated using an average reading pace of 200 words per minute (WPM). Speaking time is calculated at 130 WPM, which represents standard presentation and teleprompter speeds.",
         },
       },
       {
         "@type": "Question",
-        name: "Is my text uploaded or stored?",
+        name: "Is my text uploaded or stored on any server?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "No. All analysis runs locally in your browser. We do not upload, log, or store your content.",
+          text: "No. Toolzium operates 100% client-side in your web browser. Your text is processed locally and is never sent to, stored on, or analyzed by external servers.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What are common social media character limits?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Twitter/X posts: 280 characters. Instagram bios: 150 characters; captions: 2,200 characters. LinkedIn posts: 3,000 characters. TikTok bios: 80 characters.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What is keyword density and why does it matter?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Keyword density measures how frequently a word appears relative to total word count. It helps writers and SEO specialists avoid keyword stuffing while ensuring key topics are covered effectively.",
         },
       },
     ],

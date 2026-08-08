@@ -5,32 +5,20 @@ import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "JSON Formatter & Validator",
+  title: "Free JSON Formatter, Prettifier & Validator | Toolzium",
   description:
-    "Pretty print, validate, and minify JSON data online. Detect errors, format for readability, and copy/download results instantly. Works fully in your browser.",
+    "Pretty print, validate, and minify JSON data online. Sort object keys, detect syntax errors, generate TypeScript interfaces, and audit schemas.",
   path: "/tools/dev/json-formatter",
   keywords: [
     "JSON formatter",
-    "format JSON",
     "pretty print JSON",
-    "validate JSON",
+    "validate JSON online",
     "JSON validator",
     "minify JSON",
     "beautify JSON",
-    "parse JSON",
-    "JSON lint",
-    "JSON viewer",
-    "syntax highlight JSON",
-    "tree view JSON",
-    "collapse expand JSON",
-    "convert JSON",
-    "JSON editor online",
-    "copy JSON",
-    "download JSON",
-    "developer tools",
+    "sort JSON keys",
+    "JSON syntax checker",
     "Toolzium",
-    "online tools",
-    "Bangladesh",
   ],
 });
 
@@ -40,55 +28,35 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "JSON Formatter & Validator — Toolzium",
+    name: "Free JSON Formatter, Prettifier & Validator — Toolzium",
     url: toolUrl,
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Web",
     isAccessibleForFree: true,
-    inLanguage: ["en", "bn"],
     description:
-      "Free online JSON formatter and validator. Pretty-print JSON with syntax highlighting, detect errors, minify, and export results instantly.",
+      "Format, validate, and minify JSON data online with syntax highlighting, key sorting, and live AI schema auditing.",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     featureList: [
-      "Pretty print JSON with syntax highlighting",
-      "Validate JSON syntax and detect errors",
-      "Minify JSON for compact storage",
-      "Tree view with expand/collapse nodes",
-      "Line numbers & auto-indent formatting",
-      "Copy to clipboard or download as .json",
-      "Paste or upload JSON files",
-      "Large JSON support (MBs of data)",
-      "Autosave to local storage",
-      "Dark mode, responsive, mobile-friendly",
-      "Privacy-first: runs fully in your browser",
+      "Pretty print JSON with 2-space, 4-space, or tab indents",
+      "Real-time syntax validation with line error detection",
+      "Minify JSON for compact API payload storage",
+      "Sort object keys recursively for clean git diffs",
+      "AI Schema audit & TypeScript interface inference",
+      "100% Client-Side Privacy: zero server logging",
     ],
     creator: {
-      "@type": "Person",
+      "@type": "Organization",
       name: "Toolzium",
       url: "https://toolzium.com",
     },
-    potentialAction: {
-      "@type": "EditAction",
-      target: toolUrl,
-      name: "Format and validate JSON data",
-    },
-    additionalProperty: [
-      { "@type": "PropertyValue", name: "Input", value: "Raw JSON text or file" },
-      { "@type": "PropertyValue", name: "Output", value: "Formatted, validated, minified JSON" },
-    ],
   };
 
   const crumbsLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Tools", item: `${siteURL}/tools` },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Developer",
-        item: `${siteURL}/tools#cat-developer`,
-      },
+      { "@type": "ListItem", position: 1, name: "Home", item: `${siteURL}` },
+      { "@type": "ListItem", position: 2, name: "Tools", item: `${siteURL}/tools` },
       { "@type": "ListItem", position: 3, name: "JSON Formatter", item: toolUrl },
     ],
   };
@@ -99,34 +67,42 @@ export default function Page() {
     mainEntity: [
       {
         "@type": "Question",
-        name: "What is a JSON formatter?",
+        name: "What is a JSON Formatter and why do I need one?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "A JSON formatter makes raw JSON data human-readable by adding indentation, spacing, and syntax highlighting.",
+          text: "A JSON Formatter takes raw, minified, or unformatted JSON strings and structures them with proper indentation, line breaks, and spacing. This makes API responses and configuration files human-readable and easy to debug.",
         },
       },
       {
         "@type": "Question",
-        name: "How do I validate JSON?",
+        name: "What are the most common JSON syntax errors?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Paste or upload your JSON into the tool, and it will automatically check for syntax errors and highlight problems.",
+          text: "Common JSON syntax errors include: 1) Trailing commas after the last item in objects or arrays. 2) Using single quotes ('key') instead of mandatory double quotes (\"key\"). 3) Unquoted keys. 4) Missing closing brackets } or ].",
         },
       },
       {
         "@type": "Question",
-        name: "Can I minify JSON for storage?",
+        name: "What is the difference between Prettifying and Minifying JSON?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Yes. The tool includes a minify option to remove unnecessary spaces and line breaks for compact JSON.",
+          text: "Prettifying adds spaces, indentation, and newlines to make JSON human-readable. Minifying removes all extra spaces and line breaks to minimize file size and reduce network payload transfer times.",
         },
       },
       {
         "@type": "Question",
-        name: "Does the tool save my JSON online?",
+        name: "Is my JSON payload or API data uploaded to a server?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "No. Everything runs locally in your browser for privacy. Your JSON is never uploaded to a server.",
+          text: "No. Toolzium processes all JSON in your browser using JavaScript's native JSON.parse() and JSON.stringify(). Your data never leaves your computer.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How large of a JSON payload can I format?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Since processing happens locally, Toolzium can handle multi-megabyte JSON files limited only by your computer's available memory.",
         },
       },
     ],

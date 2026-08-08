@@ -4,36 +4,19 @@ import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "BMI Calculator",
+  title: "Free BMI Calculator & Healthy Weight Range | Toolzium",
   description:
-    "Free online BMI Calculator. Calculate your Body Mass Index instantly using height and weight. Supports metric/imperial units, shows BMI categories, and provides healthy weight ranges.",
+    "Calculate your Body Mass Index (BMI) instantly. Supports metric (cm/kg) & imperial (in/lb) units with WHO health risk categories and target weight ranges.",
   path: "/tools/calc/bmi",
   keywords: [
     "BMI calculator",
     "body mass index calculator",
-    "BMI chart",
-    "BMI categories",
     "calculate BMI online",
-    "BMI healthy weight",
-    "BMI formula",
-    "underweight BMI",
-    "normal BMI",
-    "overweight BMI",
-    "obesity BMI",
-    "adult BMI calculator",
-    "child BMI calculator",
-    "WHO BMI standard",
-    "BMI health risk",
-    "BMI metric calculator",
-    "BMI imperial calculator",
-    "height weight calculator",
-    "BMI percentile",
-    "BMI ranges",
-    "BMI copy share export",
-    "health calculator",
+    "healthy weight range calculator",
+    "BMI chart WHO",
+    "metric BMI calculator",
+    "imperial BMI calculator",
     "Toolzium",
-    "online tools",
-    "Bangladesh",
   ],
 });
 
@@ -43,35 +26,25 @@ export default function Page() {
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "BMI Calculator — Toolzium",
+    name: "Free BMI Calculator & Healthy Weight Range — Toolzium",
     url: toolUrl,
     applicationCategory: "HealthApplication",
     operatingSystem: "Web",
     isAccessibleForFree: true,
-    inLanguage: ["en", "bn"],
     description:
-      "Calculate your Body Mass Index (BMI) instantly using height and weight. Supports metric and imperial units, shows BMI categories, and provides health ranges.",
+      "Calculate Body Mass Index (BMI) using height and weight. Features metric/imperial units, WHO health categories, and healthy weight targets.",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     featureList: [
-      "Enter height and weight to calculate BMI instantly",
-      "Supports both metric (cm/kg) and imperial (ft/in, lbs) units",
-      "BMI categories: Underweight, Normal, Overweight, Obese",
-      "Shows healthy weight range for given height",
-      "Highlights BMI risk category (color-coded)",
-      "Copy/share results easily",
-      "Export results to CSV/JSON",
-      "Responsive design — works on mobile and desktop",
-      "Privacy-first: runs entirely in your browser",
+      "Instant BMI score calculation",
+      "Metric (cm/kg) & Imperial (in/lb) units",
+      "WHO weight categories: Underweight, Healthy, Overweight, Obese",
+      "Optimal healthy weight range calculation for height",
+      "100% Client-Side Privacy: zero server logging",
     ],
     creator: {
-      "@type": "Person",
+      "@type": "Organization",
       name: "Toolzium",
       url: "https://toolzium.com",
-    },
-    potentialAction: {
-      "@type": "CalculateAction",
-      target: toolUrl,
-      name: "Calculate BMI from height and weight",
     },
   };
 
@@ -79,13 +52,8 @@ export default function Page() {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Tools", item: `${siteURL}/tools` },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Calculators",
-        item: `${siteURL}/tools#cat-calculators`,
-      },
+      { "@type": "ListItem", position: 1, name: "Home", item: `${siteURL}` },
+      { "@type": "ListItem", position: 2, name: "Tools", item: `${siteURL}/tools` },
       { "@type": "ListItem", position: 3, name: "BMI Calculator", item: toolUrl },
     ],
   };
@@ -96,34 +64,42 @@ export default function Page() {
     mainEntity: [
       {
         "@type": "Question",
-        name: "What is BMI?",
+        name: "What is Body Mass Index (BMI)?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "BMI stands for Body Mass Index. It is a simple calculation using height and weight to determine whether a person is underweight, normal, overweight, or obese.",
+          text: "Body Mass Index (BMI) is a medical calculation that uses your height and weight to estimate overall body mass. It classifies weight into four general categories: Underweight, Healthy Weight, Overweight, and Obese.",
         },
       },
       {
         "@type": "Question",
-        name: "Is BMI accurate?",
+        name: "What are the standard WHO BMI categories?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "BMI is a useful screening tool for weight categories but does not measure body fat directly. Factors like muscle mass can affect accuracy.",
+          text: "Underweight: BMI under 18.5. Healthy Weight: BMI 18.5 – 24.9. Overweight: BMI 25.0 – 29.9. Obese: BMI 30.0 or higher.",
         },
       },
       {
         "@type": "Question",
-        name: "Does this calculator support metric and imperial units?",
+        name: "Is BMI accurate for athletes and bodybuilders?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Yes. You can input your height and weight in metric (cm/kg) or imperial (ft/in, lbs) units.",
+          text: "BMI does not distinguish between muscle mass and fat mass. Trained athletes or bodybuilders with high muscle mass may be classified as 'Overweight' despite having low body fat.",
         },
       },
       {
         "@type": "Question",
-        name: "What are the BMI categories?",
+        name: "How is the Healthy Weight Range calculated?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "The World Health Organization defines BMI categories as: Underweight (<18.5), Normal (18.5–24.9), Overweight (25–29.9), and Obese (30 or higher).",
+          text: "The healthy weight range calculates the minimum and maximum weight in kilograms or pounds that corresponds to a healthy BMI between 18.5 and 24.9 for your height.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Is my personal health data stored?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "No. Toolzium calculates all health metrics locally in your web browser. We do not store, log, or track your weight or height inputs.",
         },
       },
     ],
