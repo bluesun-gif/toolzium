@@ -4,9 +4,9 @@ import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Simple Invoice Generator",
+  title: "Simple Invoice Generator — Create & Download Free PDFs",
   description:
-    "Create professional invoices instantly. Add line items, tax, discounts, shipping, and paid status. Export invoices to PDF, CSV, or JSON. Free and privacy-friendly.",
+    "Create professional invoices instantly online. Add items, compute taxes, discounts, shipping fees, and track balance due. Export print-ready invoices to PDF or CSV.",
   path: "/tools/office/invoice",
   keywords: [
     "invoice generator",
@@ -16,30 +16,14 @@ export const metadata = buildMetadata({
     "invoice maker online",
     "invoice PDF generator",
     "invoice CSV export",
-    "invoice JSON export",
     "online billing tool",
-    "add line items",
     "tax and discount invoice",
     "shipping costs invoice",
-    "mark invoice as paid",
-    "balance due invoice",
     "multi-currency invoice",
-    "proforma invoice",
-    "receipt generator",
-    "download invoice PDF",
-    "print invoice online",
     "autosave invoice",
     "freelancer invoice",
-    "small business invoice",
-    "startup billing tool",
-    "consultant invoice generator",
-    "service invoice",
-    "product invoice",
-    "client billing",
-    "office tools",
     "Toolzium",
     "online tools",
-    "Bangladesh",
   ],
 });
 
@@ -54,33 +38,24 @@ export default function Page() {
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
     isAccessibleForFree: true,
-    inLanguage: ["en", "bn"],
+    inLanguage: ["en"],
     description:
-      "Quickly create and download invoices with line items, discounts, taxes, shipping, and payment status. Export to PDF, CSV, or JSON.",
+      "Quickly create and download invoices with line items, discounts, taxes, shipping, and payment status. Export to PDF or CSV.",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     featureList: [
       "Add, edit, clone, or remove unlimited line items",
-      "Apply discounts (flat or percentage) and multiple tax rates",
+      "Apply discounts and multiple tax rates",
       "Add shipping and handling charges",
       "Mark invoices as paid and calculate balance due",
-      "Customizable invoice number, date, and due date",
-      "Client and vendor details with address fields",
-      "Multi-currency support with formatting",
-      "Export invoices to PDF, CSV, or JSON; import JSON later",
+      "Customizable invoice number and dates",
       "Print-friendly layout for physical copies",
-      "Autosave drafts to local storage (no signup required)",
-      "Lightweight, mobile-friendly UI",
+      "Autosave drafts to local storage",
       "Privacy-first: runs locally in your browser",
     ],
     creator: {
-      "@type": "Person",
+      "@type": "Organization",
       name: "Toolzium",
       url: "https://toolzium.com",
-    },
-    potentialAction: {
-      "@type": "CreateAction",
-      target: toolUrl,
-      name: "Generate an invoice",
     },
   };
 
@@ -100,34 +75,42 @@ export default function Page() {
     mainEntity: [
       {
         "@type": "Question",
-        name: "Can I export my invoice as PDF?",
+        name: "How do I download my invoice as a PDF?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Yes. You can export invoices to PDF with a clean layout suitable for clients and record-keeping.",
+          text: "Fill out all required sender, client, and item details. Once completed, click the 'Print / PDF' button at the top. In your system's print preview dialog, select 'Save as PDF' as the destination and click Save.",
         },
       },
       {
         "@type": "Question",
-        name: "Does it support multiple currencies?",
+        name: "Is my financial and business data secure?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Yes. You can choose different currencies and the tool will format amounts accordingly.",
+          text: "Yes. Toolzium values your privacy. All invoice calculations, details, and exports are processed locally on your device within your browser. No data is sent to our servers or stored in any remote database.",
         },
       },
       {
         "@type": "Question",
-        name: "Is my invoice data saved online?",
+        name: "How does local autosave work?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "No. All invoices are generated in your browser. Data is stored locally unless you export it manually.",
+          text: "The tool automatically caches your progress to your browser's local storage as you type. If you close the tab or refresh the page, your invoice draft will be restored automatically.",
         },
       },
       {
         "@type": "Question",
-        name: "Who can use this invoice tool?",
+        name: "Can I customize the currency symbol?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Freelancers, small businesses, startups, and consultants can all use this tool to quickly generate professional invoices.",
+          text: "Yes. You can toggle between 'ISO Code' (e.g., USD, BDT, EUR) and 'Symbol' (e.g., $, ৳, €) mode under the details panel. You can also type in custom three-character codes or symbols.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What is the difference between an invoice and a receipt?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "An invoice is a billing document issued by a vendor to a client requesting payment for services or goods rendered, usually containing payment terms. A receipt is an acknowledgment document issued after the payment has been successfully completed, showing the balance paid.",
         },
       },
     ],
@@ -138,7 +121,6 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
-
       <SimpleInvoiceClient />
     </div>
   );
