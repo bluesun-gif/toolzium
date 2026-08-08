@@ -1,10 +1,10 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { RelatedTools } from "@/components/shared/related-tools";
 import { ShareTool } from "@/components/shared/share-tool";
 import { ToolsData } from "@/data/tools";
 import { Separator } from "@/components/ui/separator";
+import { AdSlot } from "@/components/shared/ad-slot";
 
 type ToolPageWrapperProps = {
   children: React.ReactNode;
@@ -14,8 +14,9 @@ type ToolPageWrapperProps = {
 
 /**
  * Wrap any tool page's client component with this to automatically
- * add Share buttons + Related Tools section at the bottom.
+ * add AdSlot + Share buttons at the bottom.
  * Auto-detects the current tool from the URL.
+ * AdSlot is hidden for premium users automatically.
  */
 export function ToolPageWrapper({ children, title }: ToolPageWrapperProps) {
   const pathname = usePathname();
@@ -44,8 +45,10 @@ export function ToolPageWrapper({ children, title }: ToolPageWrapperProps) {
           <Separator className="my-8" />
 
           <div className="flex flex-col gap-6 max-w-full overflow-hidden">
+            {/* Ad Slot — auto-hidden for premium users */}
+            <AdSlot />
+
             <ShareTool title={detectedTitle} url={fullUrl} />
-            <RelatedTools currentToolUrl={pathname} max={6} />
           </div>
         </div>
       )}

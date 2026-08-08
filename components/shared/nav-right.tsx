@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/tooltip";
 import { ToolsData } from "@/data/tools";
 import type { LucideIcon } from "lucide-react";
-import { ArrowRight, Facebook, Link2, Linkedin, Search, Star } from "lucide-react";
+import { ArrowRight, Crown, Facebook, Link2, Linkedin, Search, Star } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -27,6 +27,8 @@ import { GitHubStars } from "./github-stars";
 import { socialIcons } from "./icons";
 import { UserNav } from "./user-nav";
 import { ThemeToggle } from "./theme-toggle";
+import { PremiumModal } from "./premium-modal";
+import { usePremium } from "@/components/providers/premium-provider";
 
 // Types
 type ToolItem = {
@@ -87,11 +89,13 @@ function getRecent(): FlatItem[] {
 export default function NavRight() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
+  const [premiumOpen, setPremiumOpen] = useState(false);
   const [recent, setRecent] = useState<FlatItem[]>([]);
   const [query, setQuery] = useState("");
   const all = useMemo(() => flattenTools(ToolsData), []);
   const popular = useMemo(() => all.filter((i) => i.popular), [all]);
   const inputProxyRef = useRef<HTMLButtonElement | null>(null);
+  const { isPremium } = usePremium();
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
@@ -110,6 +114,15 @@ export default function NavRight() {
     }
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
+  }, []);
+
+  // Listen for ad-slot's "Go Premium" custom event
+  useEffect(() => {
+    function handleOpenPremium() {
+      setPremiumOpen(true);
+    }
+    window.addEventListener("toolzium:open-premium-modal", handleOpenPremium);
+    return () => window.removeEventListener("toolzium:open-premium-modal", handleOpenPremium);
   }, []);
 
   useEffect(() => {
@@ -175,6 +188,30 @@ export default function NavRight() {
         </Button>
 
         <ThemeToggle />
+
+        {/* Premium Crown Button */}
+        <TooltipProvider delayDuration={150}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => setPremiumOpen(true)}
+                className={`h-9 w-9 transition-all active:scale-95 ${
+                  isPremium
+                    ? "border-yellow-400/60 bg-yellow-400/10 text-yellow-500 hover:bg-yellow-400/20"
+                    : "hover:border-primary/60 hover:bg-primary/10"
+                }`}
+                aria-label={isPremium ? "Premium Active" : "Upgrade to Premium"}
+              >
+                <Crown className={`size-4 ${isPremium ? "fill-yellow-400 text-yellow-500" : ""}`} />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="bottom">
+              {isPremium ? "Premium Active 👑" : "Go Ad-Free — Upgrade to Premium"}
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
 
         <Button
           variant="outline"
@@ -324,6 +361,9 @@ export default function NavRight() {
           ))}
         </CommandList>
       </CommandDialog>
+
+      {/* Premium Subscription Modal */}
+      <PremiumModal open={premiumOpen} onOpenChange={setPremiumOpen} />
     </>
   );
 }

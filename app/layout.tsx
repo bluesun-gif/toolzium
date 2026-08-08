@@ -7,6 +7,7 @@ import {
   GoogleTagManagerNoScript,
 } from "@/components/analytics/google-tag-manager";
 import AuthSessionProvider from "@/components/providers/session-provider";
+import { PremiumProvider } from "@/components/providers/premium-provider";
 import ToasterProvider from "@/components/providers/toaster-provider";
 import NavigationProgressBar from "@/components/shared/navigation-progress-bar";
 import JsonLd from "@/components/seo/json-ld";
@@ -201,7 +202,9 @@ export default function RootLayout({
         <GoogleTagManagerNoScript />
 
         <AuthSessionProvider>
-          <div id="main-content" className="overflow-x-hidden w-full max-w-full">{children}</div>
+          <PremiumProvider>
+            <div id="main-content" className="overflow-x-hidden w-full max-w-full">{children}</div>
+          </PremiumProvider>
         </AuthSessionProvider>
         <ToasterProvider />
       </body>
