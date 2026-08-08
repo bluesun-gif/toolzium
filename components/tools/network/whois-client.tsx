@@ -11,7 +11,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Search, Copy, Clock, Globe, Shield, Server, AlertCircle, History, Trash2, ChevronDown, ChevronUp } from "lucide-react";
+import { Search, Copy, Clock, Globe, Shield, Server, AlertCircle, History, Trash2, ChevronDown, ChevronUp, ShieldCheck, Cpu, Layers, Zap, FileText } from "lucide-react";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 
 interface WhoisData {
   domainName: string;
@@ -364,6 +368,145 @@ DNSSEC: ${result.dnssec ? "Enabled" : "Disabled"}`;
           </Card>
         </div>
       </div>
+
+      {/* ─── How It Works ─── */}
+      <ToolHowItWorks
+        steps={[
+          { step: "1", title: "Enter Domain Name", description: "Type any root domain (like google.com or github.com) into the lookup bar. Subdomains and protocol parts are automatically stripped." },
+          { step: "2", title: "Query RDAP WHOIS API", description: "Click the Search icon. The tool contacts standard RDAP directories to fetch registration JSON details directly." },
+          { step: "3", title: "Review Registration Info", description: "Read registrar name, creation date, expiry status, and name servers. View the complete, raw RDAP response for advanced troubleshooting." },
+        ]}
+        badges={[
+          "ICANN Standard",
+          "RDAP Query",
+          "Instant Results",
+          "Free & Private",
+        ]}
+      />
+
+      {/* ─── Feature Guides + SEO Content ─── */}
+      <ToolFeatureGuides
+        features={[
+          { icon: Globe, title: "Real-Time Queries", description: "Bypasses slow third-party scrapers to query live domain registry nodes directly using the latest RDAP protocol standards." },
+          { icon: Clock, title: "Domain Expiry Checker", description: "Check precisely when a domain registration expires, helping you track domain lifecycles or catch dropping names." },
+          { icon: ShieldCheck, title: "GDPR Redaction Info", description: "Highlights domain privacy protections, identifying proxy servers or redacted contact records transparently." },
+          { icon: Server, title: "Name Servers & DNS", description: "Retrieves active authoritative name servers and DNSSEC validation flags associated with the domain registry." },
+          { icon: History, title: "Cached History Log", description: "Keeps a local history list of your 10 most recent domain searches, allowing for one-click re-evaluation." },
+          { icon: FileText, title: "Raw JSON Response", description: "Access the entire unstructured JSON payload returned by RDAP nodes, essential for developers and systems engineers." },
+        ]}
+      >
+        <div className="space-y-5 text-sm leading-relaxed text-muted-foreground">
+          <h3 className="text-xl font-semibold text-foreground">Understanding WHOIS and RDAP Databases</h3>
+          <p>
+            WHOIS is a database containing registration records for every domain name in existence. When a domain is registered, the owner (registrant) must provide contact details, name servers, and registrar information. Historically, the Port 43 WHOIS protocol returned unformatted plain text. Modern lookups utilize the <strong>Registration Data Access Protocol (RDAP)</strong>, which delivers structured JSON documents, enabling standardized field mapping and improved security.
+          </p>
+
+          <h3 className="text-xl font-semibold text-foreground">WHOIS Data Fields Reference</h3>
+          <p>
+            When performing a domain lookup, you will encounter standard registry attributes. Here is what they represent:
+          </p>
+          <table className="w-full border-collapse text-xs border border-border rounded-lg overflow-hidden">
+            <thead className="bg-muted text-foreground">
+              <tr>
+                <th className="border border-border p-2 text-left">WHOIS Field Name</th>
+                <th className="border border-border p-2 text-left">Database Equivalent</th>
+                <th className="border border-border p-2 text-left">Primary Purpose</th>
+                <th className="border border-border p-2 text-left">Common Example Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="border border-border p-2 font-medium">Registrar</td>
+                <td className="border border-border p-2">Sponsoring Registrar</td>
+                <td className="border border-border p-2">The entity where the domain was purchased</td>
+                <td className="border border-border p-2">Namecheap, GoDaddy, Cloudflare</td>
+              </tr>
+              <tr>
+                <td className="border border-border p-2 font-medium">Creation Date</td>
+                <td className="border border-border p-2">Registration Event: registration</td>
+                <td className="border border-border p-2">The timestamp when the domain was first registered</td>
+                <td className="border border-border p-2">1997-09-15T04:00:00Z (google.com)</td>
+              </tr>
+              <tr>
+                <td className="border border-border p-2 font-medium">Expiration Date</td>
+                <td className="border border-border p-2">Registration Event: expiration</td>
+                <td className="border border-border p-2">The deadline to renew domain lease</td>
+                <td className="border border-border p-2">2028-09-14T04:00:00Z</td>
+              </tr>
+              <tr>
+                <td className="border border-border p-2 font-medium">Domain Status</td>
+                <td className="border border-border p-2">status / statusCodes</td>
+                <td className="border border-border p-2">Flags controlling transfers, updates, or deletions</td>
+                <td className="border border-border p-2">clientTransferProhibited</td>
+              </tr>
+              <tr>
+                <td className="border border-border p-2 font-medium">Name Servers</td>
+                <td className="border border-border p-2">nameservers</td>
+                <td className="border border-border p-2">Authoritative servers pointing to the domain&apos;s DNS host</td>
+                <td className="border border-border p-2">ns1.cloudflare.com</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3 className="text-xl font-semibold text-foreground">Domain Privacy, GDPR, and Redacted WHOIS Records</h3>
+          <p>
+            Historically, WHOIS lookups exposed domain owners&apos; personal names, physical addresses, email addresses, and phone numbers. This led to bulk email harvesting, spam, and telemarketing abuse. Since the enforcement of the <strong>General Data Protection Regulation (GDPR)</strong> in Europe (2018), registries and registrars are legally required to redact personal identifying information (PII) from public queries unless the registrant gives explicit consent.
+          </p>
+          <p>
+            Consequently, contact queries now show placeholder labels such as <code>&quot;Redacted for Privacy&quot;</code> or point to the registrar&apos;s default proxy services (like WhoisGuard or Contact Privacy). To contact a domain owner safely, look for a registrar-provided contact form URL listed in the raw RDAP JSON.
+          </p>
+
+          <h3 className="text-xl font-semibold text-foreground">How to Read Domain Expiration and the Grace Period</h3>
+          <p>
+            When a domain expiration date passes without a renewal, it does not immediately become available for purchase. Instead, it enters a structured deletion lifecycle:
+          </p>
+          <ul className="list-disc pl-5 space-y-2">
+            <li><strong>Auto-Renew Grace Period</strong> — Lasts 0 to 45 days. The domain expires and website services stop, but the original owner can still renew it at standard rates.</li>
+            <li><strong>Redemption Grace Period</strong> — Lasts 30 days. The domain is deleted from active DNS, but the owner can retrieve it for a steep redemption fee (often $100+).</li>
+            <li><strong>Pending Delete</strong> — Lasts 5 days. The domain registry lock cannot be removed, and the domain cannot be recovered. It will drop and return to public availability at the end of this phase.</li>
+          </ul>
+
+          <h3 className="text-xl font-semibold text-foreground">Registrars vs. Registries</h3>
+          <p>
+            A common point of confusion is the distinction between a **registry** and a **registrar**:
+          </p>
+          <p>
+            A **Registry** manages the database of all domain registrations for a specific top-level domain extension (TLD). For example, Verisign is the registry for .com and .net domains, while PIR manages .org. The registry sets the backend rules, technical parameters, and database structures.
+          </p>
+          <p>
+            A **Registrar** is a commercial entity certified by ICANN (Internet Corporation for Assigned Names and Numbers) to sell domain leases directly to public consumers. The registrar acts as an intermediary, writing records to the registry&apos;s database when you buy a domain.
+          </p>
+        </div>
+      </ToolFeatureGuides>
+
+      {/* ─── FAQ ─── */}
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "What is WHOIS and how does it work?",
+            answer: "WHOIS is a query and response protocol widely used for querying databases that store the registered users or assignees of an Internet resource, such as a domain name. This tool queries the newer RDAP (Registration Data Access Protocol) standard, which delivers structured JSON WHOIS data.",
+          },
+          {
+            question: "Why is domain owner contact info redacted?",
+            answer: "Due to modern privacy regulations like GDPR and CCPA, registrars now redact personal contact details (names, emails, phones) from public WHOIS records by default. They often use proxy services or show 'Redacted for Privacy'.",
+          },
+          {
+            question: "How do I check when a domain expires?",
+            answer: "Perform a WHOIS query on the domain name. The output will display an 'Expiration Date' or 'events' list with an action type 'expiry' which tells you exactly when the domain registration terminates.",
+          },
+          {
+            question: "What is the difference between a registrar and registry?",
+            answer: "A registry is the organization that manages the top-level domain (TLD) database (like Verisign for .com). A registrar is a commercial entity (like Namecheap or GoDaddy) authorized to sell domain registrations to end-users (registrants).",
+          },
+          {
+            question: "Why does WHOIS show different results for different TLDs?",
+            answer: "Different registries enforce varying privacy rules, data formats, and query limits. For example, country-code TLDs (ccTLDs like .uk or .de) often have stricter lookup limitations and redact more data compared to generic TLDs like .com.",
+          },
+        ]}
+      />
+
+      <RelatedTools currentToolUrl="/tools/network/whois" max={6} />
     </div>
   );
 }
+
