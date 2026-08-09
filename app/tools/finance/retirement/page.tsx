@@ -17,7 +17,7 @@ export default function Page() {
   const faqLd = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: [{ "@type": "Question", name: "How much do I need to retire?", acceptedAnswer: { "@type": "Answer", text: "Use this calculator to find out based on the 4% rule and your projected savings." } }] };
   
   return (
-    <div className="space-y-4">
+    <div className="max-w-6xl mx-auto space-y-8">
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />

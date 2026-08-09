@@ -7,7 +7,7 @@ import { CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import InputField from "@/components/shared/form-fields/input-field";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Pipette, Palette, Eye, Sun, History, Hash, MonitorSmartphone, SlidersHorizontal, Copy } from "lucide-react";
+import { Pipette, Palette, Eye, Sun, History, Hash, MonitorSmartphone, SlidersHorizontal, Copy, BookOpen, Shield, Globe, Zap, Code2 } from "lucide-react";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
@@ -306,31 +306,8 @@ export default function ColorPickerClient() {
   const hslString = "hsl(" + hsl.h + ", " + hsl.s + "%, " + hsl.l + "%)";
   const hsvString = "hsv(" + hsv.h + ", " + hsv.s + "%, " + hsv.v + "%)";
 
-  const steps = [
-    { step: "1", title: "Pick a Color", description: "Use the visual picker, hue slider, or native color input to find your perfect color." },
-    { step: "2", title: "Adjust Values", description: "Fine-tune the exact HEX, RGB, or HSL values using the input fields.", icon: SlidersHorizontal },
-    { step: "3", title: "Copy & Use", description: "Click the copy button next to your preferred color format to use it in your project.", icon: Copy }
-  ];
-
-  const features = [
-    { title: "Multiple Formats", description: "Get instant conversions between HEX, RGB, HSL, and HSV color formats.", icon: Hash },
-    { title: "Visual Color Picker", description: "Intuitive hue and saturation/value adjustment areas for precise picking.", icon: Palette },
-    { title: "Complementary Colors", description: "Automatically generate the perfect complementary color for your selection.", icon: Eye },
-    { title: "Color Name Detection", description: "Automatically identifies the closest standard CSS color name.", icon: Sun },
-    { title: "Recent History", description: "Keeps track of your last 12 selected colors so you never lose a shade.", icon: History },
-    { title: "Fully Local", description: "All conversions run completely in your browser. No data is sent to a server.", icon: MonitorSmartphone }
-  ];
-
-  const faqs = [
-    { question: "What is the difference between HEX and HSL?", answer: "HEX is a hexadecimal representation of Red, Green, and Blue values, commonly used in web development. HSL represents Hue, Saturation, and Lightness, making it much easier for designers to adjust color intensity or brightness intuitively." },
-    { question: "What are complementary colors?", answer: "Complementary colors are pairs of colors that, when combined or placed next to each other, create the highest contrast. They sit opposite each other on the color wheel (e.g., blue and orange)." },
-    { question: "What color formats does this tool support?", answer: "The tool supports HEX, RGB, HSL, and HSV color formats, offering real-time conversions between them." },
-    { question: "What is a safe contrast ratio for web accessibility?", answer: "According to WCAG 2.1 guidelines, standard text requires a minimum contrast ratio of 4.5:1 (Level AA) against its background, while large text requires a 3:1 ratio. Enhanced contrast (Level AAA) requires a 7:1 ratio." },
-    { question: "Is this color picker private?", answer: "Yes. All color generation, picking, and conversions are calculated locally in your browser. No data is sent to a server." }
-  ];
-
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-6xl mx-auto space-y-8">
       <ToolPageHeader
         title="Color Picker"
         description="Pick any color and get HEX, RGB, HSL codes instantly. Free online color picker with color name detection, complementary colors, and recent color history."
@@ -527,103 +504,175 @@ export default function ColorPickerClient() {
         </CardContent>
       </GlassCard>
 
-      <ToolHowItWorks 
-        title="How to Use the Color Picker" 
-        steps={steps} 
+      {/* SECTION 3: HOW IT WORKS */}
+      <ToolHowItWorks
+        steps={[
+          {
+            step: "01",
+            title: "Pick or Enter a Color",
+            description: "Use the visual color picker to select any color, or directly type a HEX, RGB, HSL, or HSV value. All formats update each other instantly.",
+            icon: Pipette,
+          },
+          {
+            step: "02",
+            title: "See All Color Formats",
+            description: "Instantly see the color in all formats: HEX (#RRGGBB), RGB (r, g, b), HSL (h, s%, l%), HSV (h, s%, v%), and CSS color string — ready to copy.",
+            icon: Palette,
+          },
+          {
+            step: "03",
+            title: "Copy & Use",
+            description: "Click any format to copy it to clipboard. Use the output directly in CSS, Tailwind, Figma, design systems, or any code that accepts color values.",
+            icon: Copy,
+          },
+        ]}
+        badges={[
+          "HEX, RGB, HSL support",
+          "Instant conversion",
+          "CSS-ready output",
+        ]}
       />
 
-      <ToolFeatureGuides 
-        title="Color Theory & Best Practices" 
-        features={features}
+      {/* SECTION 4: FEATURE GUIDES */}
+      <ToolFeatureGuides
+        features={[
+          {
+            icon: Palette,
+            title: "Multi-Format Conversion",
+            description: "Converts between HEX, RGB, RGBA, HSL, HSLA, HSV, and named CSS colors simultaneously. Change any format and all others update instantly.",
+          },
+          {
+            icon: Pipette,
+            title: "Visual Color Picker",
+            description: "Full-spectrum color picker with hue slider and saturation/lightness canvas. See exactly what color you're selecting before copying the value.",
+          },
+          {
+            icon: Eye,
+            title: "Contrast Checker",
+            description: "Check if your color combination meets WCAG accessibility standards for text contrast. Essential for ensuring readable text on colored backgrounds.",
+          },
+          {
+            icon: Code2,
+            title: "CSS-Ready Output",
+            description: "Output is formatted exactly as CSS expects: #RRGGBB for HEX, rgb(r, g, b) for RGB, hsl(h, s%, l%) for HSL — paste directly into stylesheets.",
+          },
+          {
+            icon: Globe,
+            title: "Named CSS Colors",
+            description: "Enter any CSS named color (red, coral, steelblue, rebeccapurple) and see its HEX and RGB equivalents. All 148 CSS named colors are supported.",
+          },
+          {
+            icon: Shield,
+            title: "Client-Side & Private",
+            description: "All color calculations run in your browser. No data is sent to any server — works fully offline once loaded.",
+          },
+        ]}
       >
-        <div className="space-y-8 mt-8 text-foreground/80">
-          <section>
-            <h3 className="text-xl font-semibold text-foreground mb-4">Understanding Color Formats</h3>
-            <p className="mb-4">
-              When designing interfaces or writing CSS, you&apos;ll encounter multiple ways to define a single color. Knowing which format to choose can speed up your workflow and improve your code&apos;s readability.
-            </p>
-            <div className="overflow-x-auto mb-4">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="border-b border-border">
-                    <th className="py-2 px-4 font-semibold">Format</th>
-                    <th className="py-2 px-4 font-semibold">Syntax Example</th>
-                    <th className="py-2 px-4 font-semibold">Best Use Case</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="border-b border-border/50">
-                    <td className="py-2 px-4"><strong>HEX</strong></td>
-                    <td className="py-2 px-4"><code>#3B82F6</code></td>
-                    <td className="py-2 px-4">Standard web development, copy-pasting, brand guidelines.</td>
-                  </tr>
-                  <tr className="border-b border-border/50">
-                    <td className="py-2 px-4"><strong>RGB</strong></td>
-                    <td className="py-2 px-4"><code>rgb(59, 130, 246)</code></td>
-                    <td className="py-2 px-4">Adding opacity (via RGBA), direct hardware/screen manipulation.</td>
-                  </tr>
-                  <tr>
-                    <td className="py-2 px-4"><strong>HSL</strong></td>
-                    <td className="py-2 px-4"><code>hsl(217, 90%, 60%)</code></td>
-                    <td className="py-2 px-4">Intuitive design adjustments, generating palettes programmatically.</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <p>
-              While developers often prefer <strong>HEX</strong> for its brevity, <strong>HSL</strong> (Hue, Saturation, Lightness) is vastly superior for design work. If you have a base color and want to make it 20% darker on hover, HSL lets you simply decrease the Lightness value, whereas adjusting HEX requires a complex calculation.
-            </p>
-          </section>
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <h3 className="text-lg font-semibold">Color Formats Guide — HEX, RGB, HSL, and When to Use Each</h3>
+          <p>
+            Modern web development and design use several color formats, each suited to different
+            contexts. Understanding the differences helps you choose the right format for CSS,
+            design tools, and accessibility work.
+          </p>
 
-          <section>
-            <h3 className="text-xl font-semibold text-foreground mb-4">Color Accessibility (WCAG 2.1)</h3>
-            <p className="mb-4">
-              Accessibility should never be an afterthought. The Web Content Accessibility Guidelines (WCAG) define specific contrast ratios to ensure text remains readable for users with visual impairments.
-            </p>
-            <ul className="list-disc pl-6 space-y-2 mb-4">
-              <li><strong>Level AA:</strong> Standard text requires a contrast ratio of at least <strong>4.5:1</strong>. Large text (18pt or 14pt bold) requires <strong>3:1</strong>.</li>
-              <li><strong>Level AAA:</strong> The strictest standard, requiring a <strong>7:1</strong> ratio for normal text and <strong>4.5:1</strong> for large text.</li>
-            </ul>
-            <p>
-              When selecting background and foreground colors in our picker, keep these ratios in mind to ensure your application is inclusive to everyone.
-            </p>
-          </section>
+          <h4 className="font-semibold">Color Format Comparison</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Format</th>
+                  <th className="border p-2 text-left">Example</th>
+                  <th className="border p-2 text-left">Best For</th>
+                  <th className="border p-2 text-left">Alpha Support</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["HEX", "#3B82F6", "CSS, design tools, copy-paste", "#RRGGBBAA (8-digit)"],
+                  ["RGB", "rgb(59, 130, 246)", "CSS, dynamic color with JS", "rgba(r, g, b, a)"],
+                  ["HSL", "hsl(217, 91%, 60%)", "Theming, color manipulation", "hsla(h, s%, l%, a)"],
+                  ["HSV/HSB", "hsv(217, 76%, 96%)", "Photoshop, design apps", "Not in CSS"],
+                  ["Named", "cornflowerblue", "Quick prototyping only", "No"],
+                  ["OKLCH", "oklch(64% 0.18 259)", "CSS Color Level 4, modern", "oklch(l c h / a)"],
+                ].map(([fmt, ex, best, alpha]) => (
+                  <tr key={fmt} className="odd:bg-muted/20">
+                    <td className="border p-2 font-mono text-primary text-xs">{fmt}</td>
+                    <td className="border p-2 font-mono text-xs">{ex}</td>
+                    <td className="border p-2 text-xs">{best}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{alpha}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-          <section>
-            <h3 className="text-xl font-semibold text-foreground mb-4">Modern CSS Color Functions</h3>
-            <p className="mb-4">
-              CSS color specifications have evolved significantly. Modern browsers now support advanced functions that make color manipulation easier than ever:
-            </p>
-            <ul className="list-disc pl-6 space-y-2 mb-4">
-              <li><code>color-mix()</code>: Mix two colors together in any color space (e.g., <code>color-mix(in srgb, #3B82F6 80%, white)</code>).</li>
-              <li><code>oklch()</code>: A perceptual color space that ensures uniform lightness across different hues, solving the issue where &quot;yellow&quot; appears much brighter than &quot;blue&quot; even if they have the same HSL lightness.</li>
-            </ul>
-          </section>
+          <h4 className="font-semibold">WCAG Color Contrast Requirements</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Level</th>
+                  <th className="border p-2 text-left">Normal Text</th>
+                  <th className="border p-2 text-left">Large Text (18pt+)</th>
+                  <th className="border p-2 text-left">Use Case</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["WCAG AA", "4.5:1 ratio", "3:1 ratio", "Required for most websites"],
+                  ["WCAG AAA", "7:1 ratio", "4.5:1 ratio", "Enhanced accessibility"],
+                  ["Fail", "< 4.5:1", "< 3:1", "Not accessible"],
+                ].map(([level, normal, large, use]) => (
+                  <tr key={level} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{level}</td>
+                    <td className="border p-2 text-xs">{normal}</td>
+                    <td className="border p-2 text-xs">{large}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{use}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-          <section>
-            <h3 className="text-xl font-semibold text-foreground mb-4">Color Psychology in Web Design</h3>
-            <p className="mb-4">
-              Colors carry inherent emotional weight. Selecting the right primary and semantic colors is crucial for UX:
-            </p>
-            <ul className="list-disc pl-6 space-y-2 mb-4">
-              <li><strong>Blue:</strong> Trust, security, and professionalism. Widely used in banking and enterprise software.</li>
-              <li><strong>Red:</strong> Urgency, passion, or danger. Reserved for destructive actions (like deleting an account) or critical errors.</li>
-              <li><strong>Green:</strong> Success, growth, and positivity. Ideal for confirmation messages or environmental themes.</li>
-              <li><strong>Yellow/Orange:</strong> Energy, warning, and attention. Perfect for cautionary alerts or prominent call-to-action buttons.</li>
-            </ul>
-          </section>
-
-          <section>
-            <h3 className="text-xl font-semibold text-foreground mb-4">Design Token Best Practices</h3>
-            <p>
-              When implementing colors in a codebase, avoid naming variables after the color itself (e.g., <code>--color-blue-500</code>). Instead, use semantic design tokens like <code>--color-primary</code> or <code>--bg-surface-active</code>. This abstraction makes it infinitely easier to implement dark mode or rebrand an application without rewriting hundreds of CSS rules.
-            </p>
-          </section>
+          <h4 className="font-semibold">Why HSL is Best for Design Systems</h4>
+          <p>
+            HSL (Hue, Saturation, Lightness) is the most intuitive format for creating design systems
+            and color scales. You can create a full palette by keeping the hue constant and varying
+            lightness: <code>hsl(217, 91%, 95%)</code> for a very light shade,
+            <code>hsl(217, 91%, 60%)</code> for the base color,
+            <code>hsl(217, 91%, 30%)</code> for a dark shade. This is how Tailwind CSS generates its
+            color scales. HEX values are opaque — you cannot easily derive lighter/darker variants
+            without a tool.
+          </p>
         </div>
       </ToolFeatureGuides>
 
-      <ToolFaqAccordion faqs={faqs} />
-      
+      {/* SECTION 5: FAQ + RELATED TOOLS */}
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "What is the difference between HEX and RGB colors?",
+            answer: "HEX (#3B82F6) and RGB (rgb(59, 130, 246)) represent the same color in different notations. HEX uses base-16 (hexadecimal) notation for each channel; RGB uses decimal 0-255. HEX is more compact and commonly used in design tools. RGB is useful when you need to manipulate color channels programmatically in JavaScript.",
+          },
+          {
+            question: "When should I use HSL instead of HEX?",
+            answer: "Use HSL when building design systems, creating color scales, or generating variations of a color. HSL makes it trivial to create lighter/darker shades (change L%), more/less saturated variants (change S%), or complementary colors (add 180 to H). HEX values are opaque — you can't easily derive related colors without conversion.",
+          },
+          {
+            question: "How do I add transparency to a color?",
+            answer: "Use RGBA or HSLA: rgba(59, 130, 246, 0.5) for 50% transparent blue. In CSS, you can also use HEX with alpha: #3B82F680 (last two digits are the alpha in hex, 80 = 128/255 ≈ 50%). Modern CSS also supports color-mix() and the / alpha syntax in hsl(217 91% 60% / 50%).",
+          },
+          {
+            question: "What is WCAG color contrast and why does it matter?",
+            answer: "WCAG (Web Content Accessibility Guidelines) requires a minimum contrast ratio between text and background colors to ensure readability for people with visual impairments. Normal text needs at least 4.5:1 contrast ratio (AA level). Failing contrast requirements can exclude users and create legal accessibility liability.",
+          },
+          {
+            question: "What are named CSS colors?",
+            answer: "CSS includes 148 named colors like 'red', 'coral', 'steelblue', 'rebeccapurple'. They're convenient for prototyping but not recommended for production — named colors are imprecise and their appearance varies slightly. Use HEX or HSL for consistent, controllable color in production code.",
+          },
+        ]}
+      />
       <RelatedTools currentToolUrl="/tools/dev/color-picker" max={6} />
     </div>
   );
