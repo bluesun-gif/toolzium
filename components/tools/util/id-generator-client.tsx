@@ -1,6 +1,10 @@
 "use client";
 
-import { Hash, Play, Shuffle } from "lucide-react";
+import { Hash, Play, Shuffle, BookOpen, Shield, Key, Copy, Code2, Zap, Settings2, Database } from "lucide-react";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 import { useMemo, useState } from "react";
 import {
   ActionButton,
@@ -220,7 +224,7 @@ export default function IdGeneratorClient() {
   const isSeparator = (v: unknown) => v === "newline" || v === "comma" || v === "space";
 
   return (
-    <>
+    <div className="max-w-6xl mx-auto space-y-8">
       <ToolPageHeader
         icon={Hash}
         title="GUID / Order ID"
@@ -418,6 +422,170 @@ export default function IdGeneratorClient() {
           )}
         </CardContent>
       </GlassCard>
-    </>
+
+      {/* SECTION 3: HOW IT WORKS */}
+      <ToolHowItWorks
+        steps={[
+          {
+            step: "01",
+            title: "Choose ID Format",
+            description: "Select UUID v4 (random), UUID v1 (timestamp-based), CUID, ULID, NanoID, or custom format with your own character set and length.",
+            icon: Settings2,
+          },
+          {
+            step: "02",
+            title: "Set Quantity",
+            description: "Generate 1 to 1,000 unique IDs at once. Bulk generation is useful for database seeding, test data creation, and migration scripts.",
+            icon: Hash,
+          },
+          {
+            step: "03",
+            title: "Copy & Use",
+            description: "Copy all IDs to clipboard or download as a text file. Use directly in code, SQL INSERT statements, API payloads, or configuration files.",
+            icon: Copy,
+          },
+        ]}
+        badges={[
+          "UUID v4 & v1",
+          "ULID & NanoID",
+          "Bulk generation",
+        ]}
+      />
+
+      {/* SECTION 4: FEATURE GUIDES */}
+      <ToolFeatureGuides
+        features={[
+          {
+            icon: Key,
+            title: "UUID v4 (Random)",
+            description: "128-bit random UUID with 5.3×10³⁶ possible values. The most widely used ID format — supported by all major databases, languages, and frameworks as a primary key type.",
+          },
+          {
+            icon: Hash,
+            title: "UUID v1 (Timestamp)",
+            description: "UUID that encodes the current timestamp, MAC address, and random bits. Sortable by creation time but exposes system information — use v4 for privacy-sensitive contexts.",
+          },
+          {
+            icon: Database,
+            title: "ULID (Sortable UUID)",
+            description: "Universally Unique Lexicographically Sortable Identifier. 128-bit, URL-safe, and monotonically sortable. Better than UUID v4 for database indexes.",
+          },
+          {
+            icon: Code2,
+            title: "NanoID (URL-Safe Short ID)",
+            description: "URL-safe, compact alternative to UUID. Default 21 characters with a collision probability lower than UUID v4. Widely used in web apps for user-facing IDs.",
+          },
+          {
+            icon: Settings2,
+            title: "Custom Format",
+            description: "Define your own character set (alphanumeric, hex, numeric) and length. Generate sequential IDs, prefix-based IDs, or any custom format for your specific use case.",
+          },
+          {
+            icon: Shield,
+            title: "Cryptographically Secure",
+            description: "All ID generation uses crypto.getRandomValues() — the same API used by browsers for cryptographic operations. No server call needed; works fully offline.",
+          },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <h3 className="text-lg font-semibold">ID Format Guide — UUID, ULID, NanoID, CUID Compared</h3>
+          <p>
+            Choosing the right ID format for your application affects database performance, URL
+            readability, sortability, and collision probability. Here's a comparison of the most
+            popular unique ID formats used in modern software development.
+          </p>
+
+          <h4 className="font-semibold">ID Format Comparison</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Format</th>
+                  <th className="border p-2 text-left">Length</th>
+                  <th className="border p-2 text-left">Sortable?</th>
+                  <th className="border p-2 text-left">URL Safe?</th>
+                  <th className="border p-2 text-left">Best For</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["UUID v4", "36 chars", "No", "No (has hyphens)", "Database PKs, most use cases"],
+                  ["UUID v1", "36 chars", "Yes (time-based)", "No", "Time-ordered records"],
+                  ["ULID", "26 chars", "Yes (monotonic)", "Yes", "DB indexes, event logs"],
+                  ["NanoID", "21 chars", "No", "Yes", "URL slugs, user-facing IDs"],
+                  ["CUID", "25+ chars", "Yes (time-prefix)", "Yes", "Distributed systems"],
+                  ["CUID2", "24 chars", "No", "Yes", "Secure distributed IDs"],
+                  ["ObjectID (MongoDB)", "24 hex chars", "Yes", "Yes", "MongoDB primary keys"],
+                ].map(([fmt, len, sort, url, best]) => (
+                  <tr key={fmt} className="odd:bg-muted/20">
+                    <td className="border p-2 font-mono text-primary text-xs">{fmt}</td>
+                    <td className="border p-2 text-xs">{len}</td>
+                    <td className="border p-2 text-xs">{sort}</td>
+                    <td className="border p-2 text-xs">{url}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{best}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h4 className="font-semibold">UUID v4 vs Auto-Increment — When to Use Each</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Property</th>
+                  <th className="border p-2 text-left">Auto-Increment (1, 2, 3...)</th>
+                  <th className="border p-2 text-left">UUID v4</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["Uniqueness", "Unique within one table", "Globally unique across systems"],
+                  ["Sortability", "Naturally sortable", "Not sortable by insertion time"],
+                  ["Security", "Enumerable (predictable)", "Non-enumerable (unpredictable)"],
+                  ["Distributed systems", "Requires central counter", "Generated client-side"],
+                  ["Database size", "4 bytes (int)", "16 bytes"],
+                  ["URL exposure", "Reveals record count", "No information exposed"],
+                ].map(([prop, auto, uuid]) => (
+                  <tr key={prop} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{prop}</td>
+                    <td className="border p-2 text-xs">{auto}</td>
+                    <td className="border p-2 text-primary text-xs">{uuid}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </ToolFeatureGuides>
+
+      {/* SECTION 5: FAQ + RELATED TOOLS */}
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "What is a UUID?",
+            answer: "UUID (Universally Unique Identifier) is a 128-bit label used to uniquely identify information in computer systems. Formatted as 8-4-4-4-12 hexadecimal digits (e.g., 550e8400-e29b-41d4-a716-446655440000). UUID v4 is randomly generated with 5.3×10³⁶ possible values — practically impossible to generate two identical UUIDs.",
+          },
+          {
+            question: "What is the difference between UUID v1 and UUID v4?",
+            answer: "UUID v1 uses the current timestamp, machine MAC address, and random bits. It's time-sortable but exposes your MAC address (a privacy concern). UUID v4 is entirely random with no timing or location information. For most applications, UUID v4 is preferred for its simplicity, privacy, and unpredictability.",
+          },
+          {
+            question: "What is ULID and when should I use it?",
+            answer: "ULID (Universally Unique Lexicographically Sortable Identifier) is a 128-bit ID that encodes the current timestamp in the first 10 characters, then 16 random characters. It's URL-safe, sortable by creation time, and has better database index performance than random UUIDs. Use ULID when you need both global uniqueness and time-ordering.",
+          },
+          {
+            question: "Can two UUIDs ever be the same?",
+            answer: "Theoretically yes, but practically impossible. UUID v4 has 2¹²² possible values (≈5.3×10³⁶). To have a 50% chance of collision, you'd need to generate approximately 2.7×10¹⁸ UUIDs — that's 2.7 quintillion. At 1 billion UUIDs per second, this would take 85 years. UUID collision in practice is effectively impossible.",
+          },
+          {
+            question: "Should I use UUID or auto-increment for database primary keys?",
+            answer: "Auto-increment: simpler, smaller storage, better index performance, naturally ordered. Use for single-database apps. UUID: globally unique without central coordination, non-enumerable (doesn't expose record counts), better for distributed systems and APIs. Use for multi-database systems, APIs where IDs are public, or when you generate IDs client-side before insert.",
+          },
+        ]}
+      />
+      <RelatedTools currentToolUrl="/tools/util/id-generator" max={6} />
+    </div>
   );
 }

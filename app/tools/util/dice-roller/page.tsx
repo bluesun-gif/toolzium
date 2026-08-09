@@ -36,7 +36,7 @@ export default function Page() {
     ],
   };
   return (
-    <div className="space-y-4">
+    <div className="max-w-6xl mx-auto space-y-8">
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <DiceRollerClient />
