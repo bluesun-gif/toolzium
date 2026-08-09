@@ -11,6 +11,10 @@ import SwitchRow from "@/components/shared/form-fields/switch-row";
 import TextareaField from "@/components/shared/form-fields/textarea-field";
 import Stat from "@/components/shared/stat";
 import ToolPageHeader from "@/components/shared/tool-page-header";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 import {
   CardContent,
   CardDescription,
@@ -21,7 +25,7 @@ import {
 import { GlassCard } from "@/components/ui/glass-card";
 import { Separator } from "@/components/ui/separator";
 import { generateParagraph, mulberry32 } from "@/lib/utils/dev/lorem-ipsum";
-import { AlignLeft } from "lucide-react";
+import { AlignLeft, BookOpen, Shield, FileText, Type, Layers, Code2, Zap, Globe } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 export default function LoremIpsumClient() {
@@ -82,7 +86,7 @@ export default function LoremIpsumClient() {
   }, [outputText, output.length]);
 
   return (
-    <>
+    <div className="max-w-6xl mx-auto space-y-8">
       <ToolPageHeader
         icon={AlignLeft}
         title="Lorem Ipsum Generator"
@@ -238,6 +242,182 @@ export default function LoremIpsumClient() {
           </CardContent>
         </GlassCard>
       </div>
-    </>
+
+      {/* SECTION 3: HOW IT WORKS */}
+      <ToolHowItWorks
+        steps={[
+          {
+            step: "01",
+            title: "Choose Output Type",
+            description: "Select whether you want paragraphs, sentences, words, or characters. Each mode gives you exactly the amount of placeholder text you need.",
+            icon: FileText,
+          },
+          {
+            step: "02",
+            title: "Set the Count",
+            description: "Enter how many paragraphs, sentences, or words to generate. Toggle HTML output to get properly wrapped <p> tags ready to paste into your markup.",
+            icon: Type,
+          },
+          {
+            step: "03",
+            title: "Copy & Use",
+            description: "Click Copy to grab the generated text. Paste directly into Figma, your CMS, HTML templates, or anywhere you need realistic-looking placeholder content.",
+            icon: BookOpen,
+          },
+        ]}
+        badges={[
+          "Paragraphs, words & chars",
+          "HTML output mode",
+          "Instant generation",
+        ]}
+      />
+
+      {/* SECTION 4: FEATURE GUIDES */}
+      <ToolFeatureGuides
+        features={[
+          {
+            icon: FileText,
+            title: "Paragraph Generator",
+            description: "Generate 1–100 paragraphs of Lorem Ipsum. Each paragraph is 3–8 sentences of realistic length — ideal for testing typographic layouts and text-heavy UI designs.",
+          },
+          {
+            icon: AlignLeft,
+            title: "Sentence & Word Mode",
+            description: "Generate a precise number of sentences or words when you need exact content volume — useful for testing character limits, tooltip copy, or button labels.",
+          },
+          {
+            icon: Code2,
+            title: "HTML Output",
+            description: "Toggle HTML mode to wrap paragraphs in <p> tags. Copy directly into your HTML template, React JSX, CMS editor, or email template.",
+          },
+          {
+            icon: Layers,
+            title: "Starts with Classic Intro",
+            description: "The first paragraph always begins with the classic \"Lorem ipsum dolor sit amet...\" for visual authenticity in design mockups and client presentations.",
+          },
+          {
+            icon: Zap,
+            title: "Instant & Offline",
+            description: "Text is generated instantly in your browser using a precompiled Lorem Ipsum word pool. No API calls, no latency, works fully offline.",
+          },
+          {
+            icon: Shield,
+            title: "Completely Private",
+            description: "Nothing is sent to any server. Pure client-side generation using JavaScript — your preferences and generated text stay entirely in your browser.",
+          },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <h3 className="text-lg font-semibold">Lorem Ipsum — A History of the World's Most Famous Placeholder Text</h3>
+          <p>
+            <strong>Lorem ipsum</strong> is the de facto standard placeholder text used by designers, developers,
+            and publishers worldwide. It has been used since the 1500s when an unknown printer scrambled a passage
+            of Latin to create a type specimen book. It was popularised in the 1960s with Letraset sheets and
+            later adopted by desktop publishing software like Aldus PageMaker.
+          </p>
+
+          <h4 className="font-semibold">Where Does "Lorem Ipsum" Come From?</h4>
+          <p>
+            The text originates from sections 1.10.32 and 1.10.33 of
+            <em>"de Finibus Bonorum et Malorum"</em> (On the Ends of Good and Evil) by Marcus Tullius Cicero,
+            written in 45 BC. The Lorem Ipsum passage is a scrambled excerpt beginning:
+            <em>"Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet..."</em>
+            ("There is no one who loves pain itself, who seeks after it and wants to have it simply because it is pain...")
+          </p>
+
+          <h4 className="font-semibold">Lorem Ipsum Use Cases by Design Tool</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Tool / Context</th>
+                  <th className="border p-2 text-left">Best Format</th>
+                  <th className="border p-2 text-left">Typical Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["Figma / Sketch mockups", "Plain text paragraphs", "1–3 paragraphs"],
+                  ["HTML/CSS templates", "HTML output (<p> tags)", "3–5 paragraphs"],
+                  ["Email templates", "Plain text or HTML", "2–4 paragraphs"],
+                  ["CMS editors (WordPress)", "Plain text paragraphs", "3–5 paragraphs"],
+                  ["Button/label copy", "Words mode: 2–6 words", "N/A"],
+                  ["Card/tooltip copy", "Sentences mode: 1–2 sentences", "N/A"],
+                  ["Performance testing", "Character mode", "Exact byte count needed"],
+                ].map(([tool, format, amount]) => (
+                  <tr key={tool} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{tool}</td>
+                    <td className="border p-2 text-xs">{format}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{amount}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h4 className="font-semibold">Lorem Ipsum vs Alternatives</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Type</th>
+                  <th className="border p-2 text-left">Example</th>
+                  <th className="border p-2 text-left">When to Use</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["Lorem Ipsum", "Lorem ipsum dolor sit amet...", "UI prototypes, design mockups — neutral, internationally recognized"],
+                  ["Real content", "Actual article or product copy", "Final design reviews, client presentations, usability testing"],
+                  ["Blind text", "Foo bar baz qux...", "Technical testing where content is irrelevant"],
+                  ["Repeated text", "Content content content...", "Quick layout tests; avoid in final mockups"],
+                ].map(([type, ex, when]) => (
+                  <tr key={type} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{type}</td>
+                    <td className="border p-2 font-mono text-xs text-muted-foreground">{ex}</td>
+                    <td className="border p-2 text-xs">{when}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h4 className="font-semibold">Why Designers Prefer Lorem Ipsum Over Real Text</h4>
+          <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
+            <li><strong>Focus on layout:</strong> Reviewers focus on design decisions rather than reading and critiquing the content.</li>
+            <li><strong>Neutral meaning:</strong> Unlike repeated real words, Lorem Ipsum looks like natural text without distracting meaning.</li>
+            <li><strong>Realistic line breaks:</strong> The varied word lengths create natural typography with realistic widows, orphans, and line breaks.</li>
+            <li><strong>Client expectations:</strong> Using real content in early mockups can mislead clients into approving layout based on content they recognize.</li>
+          </ul>
+        </div>
+      </ToolFeatureGuides>
+
+      {/* SECTION 5: FAQ + RELATED TOOLS */}
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "What is Lorem Ipsum and why is it used?",
+            answer: "Lorem ipsum is scrambled Latin placeholder text used by designers and developers since the 1500s. It is used because its natural-looking word length variation creates realistic text layouts, while being meaningless enough that reviewers focus on design rather than content.",
+          },
+          {
+            question: "Is Lorem Ipsum actual Latin?",
+            answer: "Not exactly. It is derived from Cicero's 45 BC philosophical work de Finibus Bonorum et Malorum, but the text has been deliberately scrambled and is not coherent Latin. The passage starting \"Lorem ipsum dolor sit amet...\" has no meaningful translation.",
+          },
+          {
+            question: "How many words is a standard Lorem Ipsum paragraph?",
+            answer: "A typical Lorem ipsum paragraph contains 50–100 words, or about 3–8 sentences. This generator creates paragraphs in this natural range. You can also use word mode to generate exactly the number of words you need.",
+          },
+          {
+            question: "When should I use HTML output mode?",
+            answer: "Use HTML output mode when you need the text wrapped in <p> tags — for pasting into HTML templates, React/JSX components, email builders, or CMS editors that accept HTML. Plain text mode is better for Figma, design tools, or anywhere HTML tags would be visible.",
+          },
+          {
+            question: "Can I use Lorem Ipsum in production?",
+            answer: "No. Lorem ipsum is strictly for design mockups and development placeholders. Always replace it with real, meaningful content before publishing. Leaving placeholder text in production looks unprofessional and can harm SEO.",
+          },
+        ]}
+      />
+      <RelatedTools currentToolUrl="/tools/dev/lorem-ipsum" max={6} />
+    </div>
   );
 }
