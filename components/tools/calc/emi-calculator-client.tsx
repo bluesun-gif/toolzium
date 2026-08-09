@@ -23,7 +23,20 @@ import {
   Calendar as CalendarIcon,
   Download,
   History,
+  BookOpen,
+  PieChart,
+  TrendingDown,
+  Shield,
+  Zap,
+  Globe,
+  DollarSign,
+  BarChart3,
+  Info
 } from "lucide-react";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 import { useEffect, useMemo, useState } from "react";
 
 // Types
@@ -250,7 +263,7 @@ export default function EmiCalculatorClient() {
   }, [schedule]);
 
   return (
-    <>
+    <div className="max-w-6xl mx-auto space-y-8">
       {/* Header */}
       <ToolPageHeader
         icon={Calculator}
@@ -510,6 +523,192 @@ export default function EmiCalculatorClient() {
           )}
         </CardContent>
       </GlassCard>
-    </>
+
+      {/* SECTION 3: HOW IT WORKS */}
+      <ToolHowItWorks
+        steps={[
+          {
+            step: "01",
+            title: "Enter Loan Details",
+            description: "Input your principal loan amount, annual interest rate, and loan tenure in months or years. Add optional processing fees for a more accurate estimate.",
+            icon: Calculator,
+          },
+          {
+            step: "02",
+            title: "Get Instant EMI Breakdown",
+            description: "See your monthly EMI, total interest payable, total payment amount, and an amortization schedule showing every payment over the loan term.",
+            icon: PieChart,
+          },
+          {
+            step: "03",
+            title: "Export Your Schedule",
+            description: "Download the full amortization table as CSV for your records, or copy the EMI amount directly for use in budget planning.",
+            icon: BookOpen,
+          },
+        ]}
+        badges={[
+          "100% free — no signup",
+          "Instant calculation",
+          "Export to CSV",
+        ]}
+      />
+
+      {/* SECTION 4: FEATURE GUIDES */}
+      <ToolFeatureGuides
+        features={[
+          {
+            icon: Calculator,
+            title: "Accurate EMI Formula",
+            description: "Uses the standard EMI formula: EMI = P × r × (1+r)^n / ((1+r)^n - 1). Handles monthly compounding exactly as banks calculate it.",
+          },
+          {
+            icon: PieChart,
+            title: "Full Amortization Table",
+            description: "See month-by-month breakdown of principal vs interest for every payment — so you know exactly how much of each EMI goes to the bank.",
+          },
+          {
+            icon: TrendingDown,
+            title: "Total Interest Cost",
+            description: "Instantly see total interest payable over the loan life — a critical number that reveals the true cost of borrowing beyond just the monthly payment.",
+          },
+          {
+            icon: DollarSign,
+            title: "Multi-Currency Support",
+            description: "Supports BDT (৳), USD ($), EUR (€), GBP (£), INR (₹), and more — with correct currency symbol display throughout the table.",
+          },
+          {
+            icon: BarChart3,
+            title: "Processing Fee Support",
+            description: "Add one-time bank processing fees to see the effective loan amount and total cost including all charges — not just the stated interest rate.",
+          },
+          {
+            icon: Shield,
+            title: "Privacy-First Calculation",
+            description: "All calculations run entirely in your browser. No loan details are sent to any server — your financial data stays completely private.",
+          },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <h3 className="text-lg font-semibold">Understanding EMI — A Complete Borrower's Guide</h3>
+          <p>
+            An <strong>Equated Monthly Installment (EMI)</strong> is the fixed amount you pay to a lender every month
+            until your loan is fully repaid. It combines a portion of the principal (the original loan amount) and
+            the interest charged by the bank. Understanding how EMI is calculated helps you compare loan offers,
+            negotiate better terms, and plan your finances more accurately.
+          </p>
+
+          <h4 className="font-semibold">The EMI Formula Explained</h4>
+          <p>
+            Banks use the <strong>reducing balance method</strong> to calculate EMI:
+          </p>
+          <div className="bg-muted/40 rounded-lg p-4 font-mono text-sm text-center">
+            EMI = P × r × (1+r)ⁿ ÷ ((1+r)ⁿ − 1)
+          </div>
+          <p className="text-sm text-muted-foreground">
+            Where: <strong>P</strong> = Principal loan amount | <strong>r</strong> = Monthly interest rate (annual rate ÷ 12 ÷ 100) | <strong>n</strong> = Number of monthly installments
+          </p>
+
+          <h4 className="font-semibold">Loan Type Comparison — EMI Rates at a Glance</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Loan Type</th>
+                  <th className="border p-2 text-left">Typical Rate</th>
+                  <th className="border p-2 text-left">Typical Tenure</th>
+                  <th className="border p-2 text-left">Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["Home Loan", "8.5–10% p.a.", "10–30 years", "Lowest rates; property as collateral"],
+                  ["Car Loan", "9–12% p.a.", "1–7 years", "Vehicle as collateral; depreciating asset"],
+                  ["Personal Loan", "12–24% p.a.", "1–5 years", "Unsecured; higher rates, faster approval"],
+                  ["Education Loan", "8–14% p.a.", "5–15 years", "Moratorium during study period"],
+                  ["Business Loan", "14–22% p.a.", "1–5 years", "Varies by creditworthiness and collateral"],
+                ].map(([type, rate, tenure, notes]) => (
+                  <tr key={type} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{type}</td>
+                    <td className="border p-2 text-primary font-mono text-xs">{rate}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{tenure}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{notes}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h4 className="font-semibold">How Tenure Affects Your EMI</h4>
+          <p>
+            Longer tenure means <strong>lower EMI</strong> but <strong>higher total interest paid</strong>.
+            Shorter tenure means <strong>higher EMI</strong> but <strong>significantly less interest</strong>.
+            For example, on a ৳10,00,000 loan at 10% p.a.:
+          </p>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Tenure</th>
+                  <th className="border p-2 text-left">Monthly EMI</th>
+                  <th className="border p-2 text-left">Total Interest</th>
+                  <th className="border p-2 text-left">Total Payment</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["2 years", "৳ 46,145", "৳ 1,07,480", "৳ 11,07,480"],
+                  ["5 years", "৳ 21,247", "৳ 2,74,820", "৳ 12,74,820"],
+                  ["10 years", "৳ 13,215", "৳ 5,85,800", "৳ 15,85,800"],
+                  ["20 years", "৳ 9,650", "৳ 13,16,000", "৳ 23,16,000"],
+                ].map(([tenure, emi, interest, total]) => (
+                  <tr key={tenure} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{tenure}</td>
+                    <td className="border p-2 text-primary font-mono text-xs">{emi}</td>
+                    <td className="border p-2 text-destructive font-mono text-xs">{interest}</td>
+                    <td className="border p-2 text-muted-foreground font-mono text-xs">{total}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h4 className="font-semibold">Smart EMI Tips for Borrowers</h4>
+          <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
+            <li><strong>Pre-pay when possible:</strong> Even one extra EMI per year can cut years off your loan tenure and save substantial interest.</li>
+            <li><strong>Compare effective rates:</strong> Always ask for the APR (Annual Percentage Rate) including processing fees — the stated interest rate alone is misleading.</li>
+            <li><strong>CIBIL score matters:</strong> A score above 750 can get you 0.5–2% lower interest rate, saving tens of thousands over a loan term.</li>
+            <li><strong>EMI-to-income ratio:</strong> Keep total monthly EMIs below 40% of net income to maintain financial health and qualify for future loans.</li>
+            <li><strong>Fixed vs floating rate:</strong> Fixed rates give predictability; floating rates may save money when benchmark rates fall.</li>
+          </ul>
+        </div>
+      </ToolFeatureGuides>
+
+      {/* SECTION 5: FAQ + RELATED TOOLS */}
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "What is EMI and how is it calculated?",
+            answer: "EMI (Equated Monthly Installment) is a fixed monthly payment made to repay a loan. It is calculated using the formula: EMI = P × r × (1+r)^n / ((1+r)^n - 1), where P is the principal, r is the monthly interest rate, and n is the number of installments.",
+          },
+          {
+            question: "Does a longer loan tenure reduce the EMI?",
+            answer: "Yes. A longer tenure reduces the monthly EMI amount, but significantly increases the total interest paid over the life of the loan. A shorter tenure means higher EMI but far less total interest paid.",
+          },
+          {
+            question: "What is a good EMI-to-income ratio?",
+            answer: "Financial advisors generally recommend keeping all EMI obligations below 40% of your net monthly income. This ensures you have enough cash flow for living expenses and savings while servicing debt.",
+          },
+          {
+            question: "How does a processing fee affect my loan?",
+            answer: "A processing fee is a one-time charge deducted upfront from the loan disbursement. It increases your effective cost of borrowing. Always calculate the total payment including fees to compare loan offers accurately.",
+          },
+          {
+            question: "Can I use this for home, car, and personal loans?",
+            answer: "Yes. The EMI formula is the same for all loan types. Simply enter the principal amount, the annual interest rate quoted by your lender, and the tenure. The calculator works for home loans, car loans, personal loans, education loans, and business loans.",
+          },
+        ]}
+      />
+      <RelatedTools currentToolUrl="/tools/calc/emi" max={6} />
+    </div>
   );
 }
