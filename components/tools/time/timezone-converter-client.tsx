@@ -39,8 +39,18 @@ import {
   Plus,
   Replace,
   Trash2,
+  BookOpen,
+  Shield,
+  ArrowLeftRight,
+  Calendar,
+  Zap,
+  Users
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 
 // Utils
 
@@ -438,7 +448,7 @@ export default function TimezoneConverterClient() {
   };
 
   return (
-    <>
+    <div className="max-w-6xl mx-auto space-y-8">
       {/* HEADER */}
       <ToolPageHeader
         icon={Globe}
@@ -617,6 +627,171 @@ export default function TimezoneConverterClient() {
           ))}
         </CardContent>
       </GlassCard>
-    </>
+      {/* SECTION 3: HOW IT WORKS */}
+      <ToolHowItWorks
+        steps={[
+          {
+            step: "01",
+            title: "Select Your Timezones",
+            description: "Choose your source timezone and target timezone from the dropdown list of all global IANA timezones. The tool knows your local timezone automatically.",
+            icon: Globe,
+          },
+          {
+            step: "02",
+            title: "Enter the Time",
+            description: "Select the date and time to convert. Defaults to the current time. The converted time updates instantly as you adjust the input.",
+            icon: Clock,
+          },
+          {
+            step: "03",
+            title: "See the Converted Time",
+            description: "Get the exact time in the target timezone, including the UTC offset, daylight saving time status, and whether the date changes (next/previous day).",
+            icon: ArrowLeftRight,
+          },
+        ]}
+        badges={[
+          "All global timezones",
+          "DST-aware",
+          "UTC offset shown",
+        ]}
+      />
+
+      {/* SECTION 4: FEATURE GUIDES */}
+      <ToolFeatureGuides
+        features={[
+          {
+            icon: Globe,
+            title: "All IANA Timezones",
+            description: "Covers all 600+ IANA timezone identifiers (America/New_York, Europe/London, Asia/Dhaka, etc.) for accurate conversions including DST transitions.",
+          },
+          {
+            icon: Clock,
+            title: "Daylight Saving Time Aware",
+            description: "Automatically applies DST rules for each timezone. Shows whether DST is currently active and the UTC offset changes that apply at transition dates.",
+          },
+          {
+            icon: ArrowLeftRight,
+            title: "Bidirectional Conversion",
+            description: "Convert in any direction. Swap source and target with one click. Add multiple timezones to compare across teams in different cities.",
+          },
+          {
+            icon: Calendar,
+            title: "Date Change Detection",
+            description: "Shows clearly when conversion results in a different date (e.g., 11 PM Monday in New York = Tuesday morning in London) — preventing scheduling errors.",
+          },
+          {
+            icon: Users,
+            title: "Meeting Time Planner",
+            description: "Find the best meeting time across multiple timezones. See business hours overlap for teams in different continents — essential for remote team scheduling.",
+          },
+          {
+            icon: Shield,
+            title: "Client-Side & Accurate",
+            description: "Uses the browser's built-in Intl.DateTimeFormat API with IANA timezone data for accurate conversions. No server call needed.",
+          },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <h3 className="text-lg font-semibold">Timezone Guide — UTC Offsets, DST, and Global Time Zones</h3>
+          <p>
+            The world is divided into 24+ standard time zones based on longitude, each offset from
+            Coordinated Universal Time (UTC). In practice, political and geographic factors create
+            over 40 distinct UTC offsets. Understanding time zones is essential for international
+            business, software development, travel, and scheduling across borders.
+          </p>
+
+          <h4 className="font-semibold">Major City Timezone Reference</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">City</th>
+                  <th className="border p-2 text-left">Timezone</th>
+                  <th className="border p-2 text-left">UTC Offset (STD)</th>
+                  <th className="border p-2 text-left">DST?</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["New York", "America/New_York", "UTC-5", "Yes (UTC-4 in DST)"],
+                  ["Los Angeles", "America/Los_Angeles", "UTC-8", "Yes (UTC-7 in DST)"],
+                  ["London", "Europe/London", "UTC+0", "Yes (UTC+1 in BST)"],
+                  ["Paris / Berlin", "Europe/Paris", "UTC+1", "Yes (UTC+2 in CEST)"],
+                  ["Dubai", "Asia/Dubai", "UTC+4", "No"],
+                  ["Dhaka", "Asia/Dhaka", "UTC+6", "No"],
+                  ["Singapore", "Asia/Singapore", "UTC+8", "No"],
+                  ["Tokyo", "Asia/Tokyo", "UTC+9", "No"],
+                  ["Sydney", "Australia/Sydney", "UTC+10", "Yes (UTC+11 in AEDT)"],
+                  ["Auckland", "Pacific/Auckland", "UTC+12", "Yes (UTC+13 in NZDT)"],
+                ].map(([city, tz, offset, dst]) => (
+                  <tr key={city} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{city}</td>
+                    <td className="border p-2 font-mono text-primary text-xs">{tz}</td>
+                    <td className="border p-2 text-xs">{offset}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{dst}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h4 className="font-semibold">Daylight Saving Time (DST) Schedule</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Region</th>
+                  <th className="border p-2 text-left">DST Starts</th>
+                  <th className="border p-2 text-left">DST Ends</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["United States", "2nd Sunday in March", "1st Sunday in November"],
+                  ["Europe (EU)", "Last Sunday in March", "Last Sunday in October"],
+                  ["Australia (SE)", "1st Sunday in October", "1st Sunday in April"],
+                  ["New Zealand", "Last Sunday in September", "1st Sunday in April"],
+                  ["Brazil", "1st Sunday in November", "3rd Sunday in February"],
+                  ["Asia / Africa", "Most regions do not observe DST", "—"],
+                ].map(([region, start, end]) => (
+                  <tr key={region} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{region}</td>
+                    <td className="border p-2 text-xs">{start}</td>
+                    <td className="border p-2 text-xs">{end}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </ToolFeatureGuides>
+
+      {/* SECTION 5: FAQ + RELATED TOOLS */}
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "What is UTC and how does it relate to timezones?",
+            answer: "UTC (Coordinated Universal Time) is the primary time standard by which the world regulates clocks. All timezones are expressed as offsets from UTC: UTC+0 (London in winter), UTC-5 (New York in winter), UTC+6 (Dhaka), UTC+9 (Tokyo). UTC replaced GMT (Greenwich Mean Time) as the global standard in 1972.",
+          },
+          {
+            question: "What is Daylight Saving Time (DST)?",
+            answer: "DST is the practice of advancing clocks by 1 hour in spring (\"spring forward\") and reverting in autumn (\"fall back\") to make better use of daylight. Not all countries observe DST — most of Asia and Africa don't. The US, EU, Australia, and parts of South America do, but on different dates, making cross-timezone scheduling complex around DST transitions.",
+          },
+          {
+            question: "How do I find the time difference between two cities?",
+            answer: "Subtract the UTC offset of one city from another. New York (UTC-5) to London (UTC+0) = 5 hours difference in winter. In summer with DST: New York (UTC-4) to London (UTC+1) = 5 hours. The converter handles these automatically — just select the two cities and it shows the current time difference.",
+          },
+          {
+            question: "Why do some timezones have 30 or 45 minute offsets?",
+            answer: "Most timezones are whole-hour offsets from UTC, but some use 30 or 45 minutes: India (UTC+5:30), Iran (UTC+3:30), Afghanistan (UTC+4:30), Myanmar (UTC+6:30), and Nepal (UTC+5:45). These unusual offsets reflect political or geographic decisions made when those regions adopted standard time.",
+          },
+          {
+            question: "What is the best time for international meetings?",
+            answer: "The 'golden window' for global meetings is rare. For US-Europe overlap: 3-5 PM London = 10 AM-12 PM New York = 9 AM-11 AM Chicago. For US-Asia: very difficult — US morning = Asia evening (or vice versa). For Europe-Asia: European afternoon = Asian morning. Tools like this converter help identify the least-inconvenient time for all participants.",
+          },
+        ]}
+      />
+      <RelatedTools currentToolUrl="/tools/time/timezone" max={6} />
+    </div>
   );
 }

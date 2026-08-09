@@ -43,7 +43,21 @@ import {
   RotateCcw,
   Share2,
   Trash2,
+  BookOpen,
+  Shield,
+  Link,
+  BarChart3,
+  Globe,
+  Tag,
+  Copy,
+  Zap,
+  Target
 } from "lucide-react";
+
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 import { useEffect, useMemo, useState } from "react";
 
 /* Constants */
@@ -209,7 +223,7 @@ export default function UTMBuilderClient() {
   }
 
   return (
-    <>
+    <div className="max-w-6xl mx-auto space-y-8">
       {/* Header */}
       <ToolPageHeader
         icon={Link2}
@@ -605,7 +619,199 @@ export default function UTMBuilderClient() {
           </div>
         </CardContent>
       </GlassCard>
-    </>
+
+      {/* SECTION 3: HOW IT WORKS */}
+      <ToolHowItWorks
+        steps={[
+          {
+            step: "01",
+            title: "Enter Your URL",
+            description: "Paste the destination URL for your campaign. This is the page users will land on after clicking your link — a product page, landing page, or blog post.",
+            icon: Link,
+          },
+          {
+            step: "02",
+            title: "Fill in UTM Parameters",
+            description: "Add utm_source (where traffic comes from), utm_medium (the channel type), utm_campaign (the campaign name), and optional utm_term and utm_content for more granular tracking.",
+            icon: Tag,
+          },
+          {
+            step: "03",
+            title: "Copy & Deploy",
+            description: "Copy the complete UTM URL and use it in your email, ads, social posts, or any other marketing channel. Google Analytics will track every click automatically.",
+            icon: Copy,
+          },
+        ]}
+        badges={[
+          "Google Analytics ready",
+          "5 UTM parameters",
+          "Instant URL builder",
+        ]}
+      />
+
+      {/* SECTION 4: FEATURE GUIDES */}
+      <ToolFeatureGuides
+        features={[
+          {
+            icon: Tag,
+            title: "All 5 UTM Parameters",
+            description: "Build URLs with all standard parameters: utm_source, utm_medium, utm_campaign, utm_term (paid keyword), and utm_content (A/B variant or link position tracking).",
+          },
+          {
+            icon: BarChart3,
+            title: "Google Analytics 4 Compatible",
+            description: "Generated URLs work with Google Analytics 4 (GA4), Universal Analytics (UA), and any analytics platform that reads UTM parameters from the URL query string.",
+          },
+          {
+            icon: Globe,
+            title: "URL Encoding",
+            description: "Automatically URL-encodes special characters and spaces in parameter values. Spaces become %20, ensuring the URL works correctly in all browsers and tracking systems.",
+          },
+          {
+            icon: Copy,
+            title: "One-Click Copy",
+            description: "Copy the complete UTM URL with a single click. The tool shows a preview of the full URL with all parameters appended so you can verify before deploying.",
+          },
+          {
+            icon: Target,
+            title: "Campaign Naming Conventions",
+            description: "Enforces lowercase values (configurable) to prevent data fragmentation in analytics. 'Email' and 'email' would appear as separate sources in GA4 without consistent casing.",
+          },
+          {
+            icon: Shield,
+            title: "Private & Client-Side",
+            description: "All UTM URL generation happens in your browser. Your URLs, campaign names, and marketing strategy data are never sent to any server.",
+          },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <h3 className="text-lg font-semibold">UTM Parameters Guide — Track Every Marketing Campaign Accurately</h3>
+          <p>
+            UTM parameters (Urchin Tracking Modules) are tags appended to URLs that tell analytics
+            platforms where your traffic came from. Developed by Urchin Software (acquired by Google
+            in 2005), UTM tracking is now the universal standard for campaign attribution. Without
+            UTM parameters, all link traffic appears as &quot;direct&quot; in analytics — even clicks from
+            email newsletters, social posts, and paid ads.
+          </p>
+
+          <h4 className="font-semibold">UTM Parameter Reference</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Parameter</th>
+                  <th className="border p-2 text-left">Required?</th>
+                  <th className="border p-2 text-left">Description</th>
+                  <th className="border p-2 text-left">Example</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["utm_source", "Yes", "Where traffic originates", "google, facebook, newsletter"],
+                  ["utm_medium", "Yes", "Marketing channel type", "cpc, email, social, organic"],
+                  ["utm_campaign", "Yes", "Campaign or promotion name", "black-friday-2024, product-launch"],
+                  ["utm_term", "Optional", "Paid search keyword", "buy+running+shoes"],
+                  ["utm_content", "Optional", "A/B test variant or link ID", "hero-cta, sidebar-link"],
+                ].map(([param, req, desc, ex]) => (
+                  <tr key={param} className="odd:bg-muted/20">
+                    <td className="border p-2 font-mono text-primary text-xs">{param}</td>
+                    <td className="border p-2 text-xs">{req}</td>
+                    <td className="border p-2 text-xs">{desc}</td>
+                    <td className="border p-2 font-mono text-muted-foreground text-xs">{ex}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h4 className="font-semibold">UTM Naming Convention Best Practices</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Rule</th>
+                  <th className="border p-2 text-left">Good</th>
+                  <th className="border p-2 text-left">Bad</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["Always lowercase", "utm_source=google", "utm_source=Google"],
+                  ["Use hyphens", "utm_campaign=spring-sale", "utm_campaign=spring sale"],
+                  ["Be specific", "utm_medium=email", "utm_medium=digital"],
+                  ["Consistent naming", "utm_source=facebook", "utm_source=fb or Facebook"],
+                  ["No PII in UTMs", "utm_content=hero-cta", "utm_content=user@email.com"],
+                ].map(([rule, good, bad]) => (
+                  <tr key={rule} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{rule}</td>
+                    <td className="border p-2 font-mono text-emerald-600 text-xs">{good}</td>
+                    <td className="border p-2 font-mono text-red-500 text-xs">{bad}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h4 className="font-semibold">Standard UTM Values by Channel</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Channel</th>
+                  <th className="border p-2 text-left">utm_source</th>
+                  <th className="border p-2 text-left">utm_medium</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["Google Ads", "google", "cpc"],
+                  ["Facebook/Meta Ads", "facebook", "cpc" ],
+                  ["Email Newsletter", "mailchimp", "email"],
+                  ["Twitter/X", "twitter", "social"],
+                  ["LinkedIn", "linkedin", "social"],
+                  ["YouTube", "youtube", "video"],
+                  ["Affiliate links", "partner-name", "affiliate"],
+                  ["QR code", "qr-code", "print"],
+                ].map(([channel, source, medium]) => (
+                  <tr key={channel} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{channel}</td>
+                    <td className="border p-2 font-mono text-primary text-xs">{source}</td>
+                    <td className="border p-2 font-mono text-xs">{medium}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </ToolFeatureGuides>
+
+      {/* SECTION 5: FAQ + RELATED TOOLS */}
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "What are UTM parameters?",
+            answer: "UTM parameters are query string tags appended to URLs that analytics platforms use to identify traffic sources. When a user clicks a UTM-tagged link, Google Analytics reads the parameters and records the source, medium, and campaign. Without UTM tags, most marketing traffic incorrectly appears as 'direct' traffic.",
+          },
+          {
+            question: "Which UTM parameters are required?",
+            answer: "utm_source and utm_medium are the minimum required parameters — they tell analytics where traffic came from and the channel type. utm_campaign is strongly recommended for any intentional marketing activity. utm_term and utm_content are optional and used for paid keyword and A/B variant tracking respectively.",
+          },
+          {
+            question: "Why should I always use lowercase in UTM parameters?",
+            answer: "Analytics platforms are case-sensitive. 'Email' and 'email' are treated as two different sources in GA4. This data fragmentation makes reports harder to read and means your actual campaign numbers appear split across multiple rows. Always use lowercase and establish a naming convention document for your team.",
+          },
+          {
+            question: "Do UTM parameters affect SEO?",
+            answer: "UTM parameters don't directly affect your SEO rankings, but they can cause duplicate content issues if Google indexes UTM-tagged URLs. Prevent this by setting canonical tags pointing to the clean URL, or by filtering UTM parameters in Google Search Console. Also, never use UTM parameters on internal links — they reset attribution and inflate 'direct' traffic data.",
+          },
+          {
+            question: "Can I use UTM parameters in QR codes?",
+            answer: "Yes! UTM-tagged URLs in QR codes are a common practice for tracking print and offline marketing. Set utm_source to the location (e.g., 'business-card', 'brochure', 'storefront-sign'), utm_medium to 'qr-code', and utm_campaign to the specific campaign. This lets you see exactly which physical materials drive web traffic.",
+          },
+        ]}
+      />
+      <RelatedTools currentToolUrl="/tools/url/utm-builder" max={6} />
+    </div>
   );
 }
 

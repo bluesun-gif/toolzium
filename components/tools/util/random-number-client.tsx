@@ -8,9 +8,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Copy, RefreshCw, Trash2 } from "lucide-react";
+import { Copy, RefreshCw, Trash2, BookOpen, Shield, Shuffle, Hash, BarChart3, List, Zap, Settings2, Code2 } from "lucide-react";
 import toast from "react-hot-toast";
 import { cn } from "@/lib/utils";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 
 export default function RandomNumberClient() {
   const [min, setMin] = useState<number>(1);
@@ -115,7 +119,7 @@ export default function RandomNumberClient() {
   };
 
   return (
-    <>
+    <div className="max-w-6xl mx-auto space-y-8">
       <ToolPageHeader 
         title="Random Number Generator" 
         description="Generate cryptographically secure random numbers within a specified range." 
@@ -288,6 +292,166 @@ export default function RandomNumberClient() {
           </Card>
         </div>
       </div>
-    </>
+      {/* SECTION 3: HOW IT WORKS */}
+      <ToolHowItWorks
+        steps={[
+          {
+            step: "01",
+            title: "Set Your Range",
+            description: "Enter the minimum and maximum values for your random number. Supports any integer range — from 1-6 for dice, 1-100 for percentages, or custom ranges for any purpose.",
+            icon: Settings2,
+          },
+          {
+            step: "02",
+            title: "Choose Options",
+            description: "Select how many numbers to generate (1 to 1000), whether to allow duplicates, and whether to sort the results. Customize for your exact use case.",
+            icon: Hash,
+          },
+          {
+            step: "03",
+            title: "Generate & Copy",
+            description: "Click Generate to instantly get your random numbers. Copy all results to clipboard or download as a text file for use in spreadsheets, code, or research.",
+            icon: Shuffle,
+          },
+        ]}
+        badges={[
+          "Any range",
+          "Bulk generation",
+          "No duplicates option",
+        ]}
+      />
+
+      {/* SECTION 4: FEATURE GUIDES */}
+      <ToolFeatureGuides
+        features={[
+          {
+            icon: Shuffle,
+            title: "True Random Generation",
+            description: "Uses the Web Crypto API (crypto.getRandomValues) for cryptographically secure random number generation — more unpredictable than Math.random() for sensitive applications.",
+          },
+          {
+            icon: List,
+            title: "Bulk Number Generation",
+            description: "Generate up to 1,000 random numbers in a single click. Results are displayed in a scrollable list and can be copied or downloaded as a text file.",
+          },
+          {
+            icon: Hash,
+            title: "No Duplicates Mode",
+            description: "Enable 'no duplicates' to ensure each generated number appears only once in the results — essential for lottery draws, random sampling, and unique ID generation.",
+          },
+          {
+            icon: BarChart3,
+            title: "Distribution Statistics",
+            description: "Shows basic statistics on the generated set: min, max, average, and count — useful for verifying the distribution of generated numbers.",
+          },
+          {
+            icon: Code2,
+            title: "Float & Integer Support",
+            description: "Generate integers for dice rolls, lottery numbers, and sampling. Or switch to decimal (float) mode for probability simulations and statistical sampling.",
+          },
+          {
+            icon: Shield,
+            title: "Cryptographically Secure",
+            description: "Uses crypto.getRandomValues() for generation. This API is suitable for security-sensitive applications like generating OTPs, tokens, and keys.",
+          },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <h3 className="text-lg font-semibold">Random Number Generation Guide — True vs Pseudo-Random</h3>
+          <p>
+            Not all random number generators are equal. The difference between
+            <strong>pseudo-random number generators (PRNG)</strong> and
+            <strong>cryptographically secure random number generators (CSPRNG)</strong> matters
+            enormously for security applications. Understanding the distinction helps you choose
+            the right tool for each use case.
+          </p>
+
+          <h4 className="font-semibold">PRNG vs CSPRNG Comparison</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Property</th>
+                  <th className="border p-2 text-left">PRNG (Math.random)</th>
+                  <th className="border p-2 text-left">CSPRNG (crypto.getRandomValues)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["Speed", "Very fast", "Fast"],
+                  ["Unpredictability", "Predictable from seed", "Unpredictable"],
+                  ["Security", "Not secure", "Cryptographically secure"],
+                  ["Use case", "Games, simulations, UI effects", "Passwords, tokens, keys, OTPs"],
+                  ["Reproducible?", "Yes (with same seed)", "No"],
+                  ["Available in browser", "Math.random()", "crypto.getRandomValues()"],
+                ].map(([prop, prng, csprng]) => (
+                  <tr key={prop} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{prop}</td>
+                    <td className="border p-2 text-xs">{prng}</td>
+                    <td className="border p-2 text-primary text-xs">{csprng}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h4 className="font-semibold">Common Use Cases by Range</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Range</th>
+                  <th className="border p-2 text-left">Common Use</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["1 - 2", "Coin flip (1=heads, 2=tails)"],
+                  ["1 - 6", "Standard dice roll"],
+                  ["1 - 10", "Rating scale, priority"],
+                  ["1 - 100", "Percentile, probability"],
+                  ["1 - 49 (6 draws)", "Lottery number picker"],
+                  ["0 - 255", "RGB color channel"],
+                  ["1000 - 9999", "4-digit PIN"],
+                  ["1 - 1000000", "Random ID or ticket number"],
+                ].map(([range, use]) => (
+                  <tr key={range} className="odd:bg-muted/20">
+                    <td className="border p-2 font-mono text-primary text-xs">{range}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{use}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </ToolFeatureGuides>
+
+      {/* SECTION 5: FAQ + RELATED TOOLS */}
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "Is this random number generator truly random?",
+            answer: "This tool uses the browser's Web Crypto API (crypto.getRandomValues()), which is a cryptographically secure pseudo-random number generator (CSPRNG). It draws entropy from system hardware events and is suitable for security-sensitive applications like password generation and OTP tokens. It is not a 'true' hardware random generator (TRNG) but is far more unpredictable than Math.random().",
+          },
+          {
+            question: "What's the difference between Math.random() and crypto.getRandomValues()?",
+            answer: "Math.random() is a pseudo-random number generator that produces a deterministic sequence from an internal seed — it can be predicted if the seed is known. crypto.getRandomValues() uses operating system entropy (hardware events, timing jitter) and is cryptographically unpredictable. Use Math.random() for games and animations; use crypto.getRandomValues() for passwords, tokens, and any security-critical randomness.",
+          },
+          {
+            question: "How do I use a random number generator for a lottery?",
+            answer: "Set the range to 1-49 (or your lottery's number range), enable 'no duplicates', and set count to 6 (or however many numbers your lottery requires). Each generated set is a unique combination of numbers. Note: lottery outcomes are equally random regardless of which numbers you choose — no combination is statistically more likely than another.",
+          },
+          {
+            question: "Can I generate random numbers in a spreadsheet?",
+            answer: "Yes. In Excel: RANDBETWEEN(1, 100) for integers, RAND() for 0-1 decimals. In Google Sheets: same functions work. These use PRNGs and regenerate every time the sheet recalculates. For static random numbers that don't change, copy-paste the results from this tool as values into your spreadsheet.",
+          },
+          {
+            question: "What does 'no duplicates' mean in random number generation?",
+            answer: "'No duplicates' (also called sampling without replacement) ensures each number appears at most once in the output. This is equivalent to drawing balls from a lottery machine — once drawn, the ball isn't returned. With duplicates allowed (sampling with replacement), the same number can appear multiple times — like rolling a die multiple times.",
+          },
+        ]}
+      />
+      <RelatedTools currentToolUrl="/tools/util/random-number" max={6} />
+    </div>
   );
 }
