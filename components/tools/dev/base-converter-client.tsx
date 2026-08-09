@@ -1,7 +1,25 @@
 "use client";
 
-import { Calculator, Download, Hash, Info, RefreshCw, Settings2 } from "lucide-react";
+import {
+  Calculator,
+  Download,
+  Hash,
+  Info,
+  RefreshCw,
+  Settings2,
+  BookOpen,
+  Shield,
+  Binary,
+  Code2,
+  ArrowLeftRight,
+  Globe,
+  Cpu,
+} from "lucide-react";
 import React from "react";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 import {
   ActionButton,
   CopyButton,
@@ -330,7 +348,7 @@ export default function BaseConverterClient() {
   };
 
   return (
-    <>
+    <div className="max-w-6xl mx-auto space-y-8">
       <ToolPageHeader
         title="Number Base Converter"
         description="Convert between binary, octal, decimal, hex — plus any base 2–36. Fractions supported."
@@ -641,7 +659,170 @@ export default function BaseConverterClient() {
           </div>
         </CardContent>
       </GlassCard>
-    </>
+
+      {/* SECTION 3: HOW IT WORKS */}
+      <ToolHowItWorks
+        steps={[
+          {
+            step: "01",
+            title: "Enter a Number",
+            description: "Type a number in any base: decimal (base 10), binary (base 2), hexadecimal (base 16), or octal (base 8). The tool detects the input format automatically.",
+            icon: Calculator,
+          },
+          {
+            step: "02",
+            title: "See All Conversions Instantly",
+            description: "All four bases update simultaneously: binary, octal, decimal, and hexadecimal. No need to convert twice — see all representations at once.",
+            icon: ArrowLeftRight,
+          },
+          {
+            step: "03",
+            title: "Copy Any Format",
+            description: "Click to copy any representation — binary for bit manipulation, hex for color codes and memory addresses, decimal for human-readable values.",
+            icon: BookOpen,
+          },
+        ]}
+        badges={[
+          "Binary, Octal, Decimal, Hex",
+          "Instant conversion",
+          "Works offline",
+        ]}
+      />
+
+      {/* SECTION 4: FEATURE GUIDES */}
+      <ToolFeatureGuides
+        features={[
+          {
+            icon: Binary,
+            title: "Binary (Base 2)",
+            description: "Uses only 0 and 1. The fundamental language of computers — every number, letter, and pixel is ultimately stored as binary in digital memory and processors.",
+          },
+          {
+            icon: Hash,
+            title: "Hexadecimal (Base 16)",
+            description: "Uses digits 0-9 and letters A-F. Compact representation of binary data — each hex digit represents exactly 4 binary bits. Used in color codes (#FF5733), memory addresses, and bytecode.",
+          },
+          {
+            icon: Code2,
+            title: "Octal (Base 8)",
+            description: "Uses digits 0-7. Used in Unix/Linux file permissions (chmod 755), older computer systems, and some low-level programming contexts.",
+          },
+          {
+            icon: Cpu,
+            title: "Decimal (Base 10)",
+            description: "The standard human number system using digits 0-9. All other bases convert to/from decimal as the universal reference point.",
+          },
+          {
+            icon: ArrowLeftRight,
+            title: "All-Direction Conversion",
+            description: "Convert in any direction: binary to hex, octal to decimal, hex to binary, and more. All four bases are shown simultaneously for any input.",
+          },
+          {
+            icon: Shield,
+            title: "Client-Side & Accurate",
+            description: "All conversions use JavaScript's native Number and parseInt functions for accuracy up to 53-bit integers. Larger numbers are handled with BigInt for arbitrary precision.",
+          },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <h3 className="text-lg font-semibold">Number Bases Explained — Binary, Octal, Decimal, Hexadecimal</h3>
+          <p>
+            Computers store and process all information as binary (base 2) — sequences of 0s and 1s.
+            Other number bases are used as convenient shorthand: hexadecimal compresses binary data
+            into compact notation, octal was common in older systems, and decimal is the human-readable
+            format. Understanding all four bases is fundamental to low-level programming, networking,
+            and computer science.
+          </p>
+
+          <h4 className="font-semibold">Number Base Comparison Reference</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Decimal</th>
+                  <th className="border p-2 text-left">Binary (Base 2)</th>
+                  <th className="border p-2 text-left">Octal (Base 8)</th>
+                  <th className="border p-2 text-left">Hex (Base 16)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["0", "0000", "0", "0"],
+                  ["1", "0001", "1", "1"],
+                  ["5", "0101", "5", "5"],
+                  ["8", "1000", "10", "8"],
+                  ["10", "1010", "12", "A"],
+                  ["15", "1111", "17", "F"],
+                  ["16", "10000", "20", "10"],
+                  ["255", "11111111", "377", "FF"],
+                  ["256", "100000000", "400", "100"],
+                  ["1024", "10000000000", "2000", "400"],
+                ].map(([dec, bin, oct, hex]) => (
+                  <tr key={dec} className="odd:bg-muted/20">
+                    <td className="border p-2 font-mono text-xs">{dec}</td>
+                    <td className="border p-2 font-mono text-primary text-xs">{bin}</td>
+                    <td className="border p-2 font-mono text-xs">{oct}</td>
+                    <td className="border p-2 font-mono text-emerald-500 text-xs">{hex}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h4 className="font-semibold">Real-World Use Cases by Base</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Base</th>
+                  <th className="border p-2 text-left">Common Use Cases</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["Binary (2)", "Bit flags, bitwise operations, networking masks, CPU registers, low-level protocols"],
+                  ["Octal (8)", "Linux file permissions (chmod 755), older C/Unix systems, some escape sequences"],
+                  ["Decimal (10)", "All human-readable numbers, user interfaces, business logic"],
+                  ["Hex (16)", "CSS/HTML colors (#FF5733), memory addresses, MAC addresses, SHA/MD5 hashes, bytecode"],
+                ].map(([base, uses]) => (
+                  <tr key={base} className="odd:bg-muted/20">
+                    <td className="border p-2 font-mono text-primary font-medium text-xs">{base}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{uses}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </ToolFeatureGuides>
+
+      {/* SECTION 5: FAQ + RELATED TOOLS */}
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "How do I convert binary to decimal?",
+            answer: "Multiply each binary digit by its positional power of 2 and sum the results. Example: 1011 = (1×2³) + (0×2²) + (1×2¹) + (1×2⁰) = 8 + 0 + 2 + 1 = 11. Or use this tool to convert instantly without manual calculation.",
+          },
+          {
+            question: "Why do programmers use hexadecimal?",
+            answer: "Hexadecimal provides a compact representation of binary data. Each hex digit represents exactly 4 binary bits, so a byte (8 bits) is always two hex digits (0x00 to 0xFF). This makes hex ideal for memory addresses, color codes, hash values, and bytecode — all situations where binary would be too long to read.",
+          },
+          {
+            question: "What does 0x mean in hexadecimal?",
+            answer: "The '0x' prefix is a programming convention that indicates the following number is in hexadecimal. For example, 0xFF = 255 in decimal, 0x1A = 26 in decimal. It's used in C, C++, JavaScript, Python, and most programming languages. In CSS color codes, # serves the same purpose (#FF5733).",
+          },
+          {
+            question: "What is binary used for in real programming?",
+            answer: "Binary is used for: bitwise operations (AND, OR, XOR, NOT, bit shifts) in systems programming; network subnet masks (255.255.255.0 = 11111111.11111111.11111111.00000000); bit flags to store multiple booleans in one integer; low-level hardware and embedded system programming; and understanding CPU registers and memory layout.",
+          },
+          {
+            question: "Why is hexadecimal used for colors?",
+            answer: "CSS colors use 6-digit hex (#RRGGBB) because each color channel (Red, Green, Blue) has 256 possible values (0-255), which maps perfectly to two hex digits (00-FF). So #FF0000 = rgb(255, 0, 0) = pure red. Hex is more compact than decimal RGB and more readable than binary, making it the universal standard for web colors.",
+          },
+        ]}
+      />
+      <RelatedTools currentToolUrl="/tools/dev/base-converter" max={6} />
+    </div>
   );
 }
 

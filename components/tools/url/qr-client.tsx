@@ -12,6 +12,13 @@ import {
   ShieldCheck,
   Download,
   Paintbrush,
+  BookOpen,
+  Shield,
+  Link,
+  Smartphone,
+  Globe,
+  Zap,
+  Settings2,
 } from "lucide-react";
 import * as React from "react";
 import { useForm, useWatch } from "react-hook-form";
@@ -194,7 +201,7 @@ export default function QRClient() {
   ];
 
   return (
-    <>
+    <div className="max-w-6xl mx-auto space-y-8">
       {/* SECTION 1: HEADER */}
       <ToolPageHeader
         title="Free QR Code Generator & Logo Customizer"
@@ -456,151 +463,173 @@ export default function QRClient() {
 
       {/* SECTION 3: HOW IT WORKS */}
       <ToolHowItWorks
-        title="How to Generate a Custom QR Code"
-        subtitle="Create professional, branded QR codes for print and web in 3 simple steps."
-        steps={steps}
+        steps={[
+          {
+            step: "01",
+            title: "Enter Your Content",
+            description: "Type or paste a URL, text, phone number, email, WiFi credentials, vCard, or any text. The QR code generates instantly as you type.",
+            icon: Link,
+          },
+          {
+            step: "02",
+            title: "Customize Style",
+            description: "Adjust the QR code size, foreground color, background color, and error correction level. Preview updates in real-time.",
+            icon: Settings2,
+          },
+          {
+            step: "03",
+            title: "Download & Share",
+            description: "Download your QR code as PNG or SVG. Use it in print materials, business cards, menus, product packaging, or digital marketing.",
+            icon: Download,
+          },
+        ]}
+        badges={[
+          "PNG & SVG export",
+          "Custom colors",
+          "Instant generation",
+        ]}
       />
 
-      {/* SECTION 4: FEATURE HIGHLIGHTS & DEEP SEO GUIDE */}
-      <ToolFeatureGuides features={features}>
-        <div className="space-y-6">
-          <div>
-            <h3 className="text-xl font-bold text-foreground mb-2">
-              What Is a QR Code?
-            </h3>
-            <p className="mb-4">
-              A Quick Response (QR) code is a two-dimensional matrix barcode invented in 1994 by Masahiro Hara at the Japanese company Denso Wave. Initially designed to track vehicles during manufacturing, QR codes quickly gained global popularity due to their rapid readability and significantly larger storage capacity compared to standard UPC barcodes. While traditional linear barcodes hold information horizontally, QR codes encode data both vertically and horizontally, allowing them to store up to 7,089 numeric characters or 4,296 alphanumeric characters.
-            </p>
-            <p className="mb-4">
-              When a smartphone camera or scanner reads a QR code, it uses the three large squares at the corners (positioning markers) to determine the orientation and scale of the code. The device then analyzes the binary grid of black and white modules to decode the underlying information. This data can be instantly translated into actionable tasks on your device, such as opening a website, joining a Wi-Fi network, saving a contact, or sending a pre-filled text message.
-            </p>
+      {/* SECTION 4: FEATURE GUIDES */}
+      <ToolFeatureGuides
+        features={[
+          {
+            icon: QrCode,
+            title: "Any Content Type",
+            description: "Generate QR codes for URLs, plain text, phone numbers (tel:), email addresses (mailto:), SMS, WiFi networks (WIFI:), vCards, and geographic coordinates.",
+          },
+          {
+            icon: Download,
+            title: "PNG & SVG Export",
+            description: "Download as high-resolution PNG for digital use, or scalable SVG for print materials. SVG QR codes stay crisp at any size — ideal for business cards and posters.",
+          },
+          {
+            icon: Settings2,
+            title: "Error Correction Levels",
+            description: "Choose error correction: L (7%), M (15%), Q (25%), H (30%). Higher levels allow the QR to be scanned even if partially damaged or covered — essential for branded QR codes with logos.",
+          },
+          {
+            icon: Smartphone,
+            title: "Mobile Scannable",
+            description: "Generated QR codes are tested to be scannable by all major QR scanner apps on iOS and Android. Size recommendations ensure reliable scanning in real-world conditions.",
+          },
+          {
+            icon: Globe,
+            title: "Custom Colors",
+            description: "Change foreground (module) and background colors to match your brand. Ensure sufficient contrast (dark modules on light background) for reliable scanning.",
+          },
+          {
+            icon: Shield,
+            title: "Client-Side & Private",
+            description: "All QR code generation runs in your browser. Your URLs and data are never sent to any server — safe for internal links, private content, and sensitive data.",
+          },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <h3 className="text-lg font-semibold">QR Code Guide — Formats, Sizes, and Best Practices</h3>
+          <p>
+            <strong>QR codes (Quick Response codes)</strong> were invented by Denso Wave in 1994 for
+            tracking automotive parts. Today they are one of the most versatile tools for connecting
+            physical and digital worlds — appearing on restaurant menus, product packaging, business
+            cards, event tickets, and marketing materials worldwide.
+          </p>
+
+          <h4 className="font-semibold">QR Code Content Types Reference</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Content Type</th>
+                  <th className="border p-2 text-left">Format</th>
+                  <th className="border p-2 text-left">Use Case</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["Website URL", "https://example.com", "Link to any web page"],
+                  ["Phone number", "tel:+1234567890", "Tap to call button"],
+                  ["Email", "mailto:user@example.com", "Open email client"],
+                  ["SMS", "sms:+1234567890?body=Hello", "Pre-filled text message"],
+                  ["WiFi", "WIFI:T:WPA;S:NetworkName;P:Password;;", "Connect to WiFi automatically"],
+                  ["vCard", "BEGIN:VCARD...END:VCARD", "Save contact to phone"],
+                  ["Plain text", "Any text content", "Notes, codes, instructions"],
+                  ["Geo location", "geo:48.8566,2.3522", "Open in maps app"],
+                ].map(([type, format, use]) => (
+                  <tr key={type} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{type}</td>
+                    <td className="border p-2 font-mono text-primary text-xs">{format}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{use}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
 
-          <div>
-            <h3 className="text-xl font-bold text-foreground mb-2">
-              QR Code Types & Use Cases
-            </h3>
-            <p className="mb-4">
-              Not all QR codes are used for the same purpose. Depending on the data format you select, the scanning device will trigger a different native application. Here are the most common formats and when to use them:
-            </p>
-            <ul className="list-disc pl-5 space-y-2 mb-4 text-sm sm:text-base">
-              <li>
-                <strong>Website URL:</strong> The most common type. Encodes an <code>http://</code> or <code>https://</code> link. Use this to direct customers to your homepage, landing page, social media profile, or promotional campaign.
-              </li>
-              <li>
-                <strong>Wi-Fi Auto-Connect:</strong> Encodes your network SSID, encryption type, and password. When scanned, the smartphone will prompt the user to join the network immediately, eliminating the need to type complex passwords. Ideal for cafes, hotels, and guest networks.
-              </li>
-              <li>
-                <strong>vCard Contact Info:</strong> Stores comprehensive contact details (name, organization, title, phone, email, website) in a standard format. When scanned, it prompts the user to add you directly to their phone's address book. Perfect for digital and printed business cards.
-              </li>
-              <li>
-                <strong>SMS Message:</strong> Pre-populates a destination phone number and a message body. Use this for opt-in marketing, customer support requests, or quick feedback channels. The user only needs to hit <code>send</code> after scanning.
-              </li>
-              <li>
-                <strong>Email Address:</strong> Pre-fills the destination email, subject line, and body text. Excellent for initiating customer support tickets, RSVPs, or specialized inquiries.
-              </li>
-              <li>
-                <strong>WhatsApp Direct:</strong> Creates a <code>wa.me</code> link that opens the WhatsApp application with a specific phone number and pre-written message ready to send. A powerful tool for international customer service and conversational marketing.
-              </li>
-            </ul>
+          <h4 className="font-semibold">QR Code Size Guide for Print</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Print Use</th>
+                  <th className="border p-2 text-left">Min Size</th>
+                  <th className="border p-2 text-left">Scan Distance</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["Business card", "2 × 2 cm (0.8\")", "Up to 20 cm (8\")"],
+                  ["Brochure / flyer", "3 × 3 cm (1.2\")", "Up to 30 cm (12\")"],
+                  ["Magazine / poster A4", "4 × 4 cm (1.6\")", "Up to 40 cm (16\")"],
+                  ["Poster A1 (large)", "6 × 6 cm (2.4\")", "Up to 60 cm (24\")"],
+                  ["Billboard / outdoor", "20 × 20 cm+", "From meters away"],
+                ].map(([use, size, dist]) => (
+                  <tr key={use} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{use}</td>
+                    <td className="border p-2 text-primary text-xs">{size}</td>
+                    <td className="border p-2 text-xs">{dist}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
 
-          <div>
-            <h3 className="text-xl font-bold text-foreground mb-2">
-              Error Correction Levels Explained
-            </h3>
-            <p className="mb-4">
-              One of the most robust features of QR codes is the Reed-Solomon error correction algorithm, which allows the code to be read even if it is partially obscured, damaged, or poorly printed. The algorithm adds backup data to the QR matrix, meaning you can literally cover up parts of the code and it will still scan perfectly. However, higher error correction means a denser, more complex code grid.
-            </p>
-            <div className="overflow-x-auto mb-4">
-              <table className="min-w-full text-sm border-collapse border border-muted">
-                <thead>
-                  <tr className="bg-muted/50">
-                    <th className="border border-muted p-2 text-left">Level</th>
-                    <th className="border border-muted p-2 text-left">Recovery Rate</th>
-                    <th className="border border-muted p-2 text-left">Best Used For</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td className="border border-muted p-2 font-semibold">L (Low)</td>
-                    <td className="border border-muted p-2">Up to 7%</td>
-                    <td className="border border-muted p-2">Clean, minimal codes on screens. Allows for the simplest, least dense grid. Do not use if adding a logo.</td>
-                  </tr>
-                  <tr>
-                    <td className="border border-muted p-2 font-semibold">M (Medium)</td>
-                    <td className="border border-muted p-2">Up to 15%</td>
-                    <td className="border border-muted p-2">Standard default. Good for most general use cases like simple URL links on printed materials.</td>
-                  </tr>
-                  <tr>
-                    <td className="border border-muted p-2 font-semibold">Q (Quality)</td>
-                    <td className="border border-muted p-2">Up to 25%</td>
-                    <td className="border border-muted p-2">Recommended when adding a medium-sized center logo or placing codes in environments where slight damage might occur.</td>
-                  </tr>
-                  <tr>
-                    <td className="border border-muted p-2 font-semibold">H (High)</td>
-                    <td className="border border-muted p-2">Up to 30%</td>
-                    <td className="border border-muted p-2">Essential when embedding large custom logo overlays or printing on rough surfaces (like fabric or corrugated cardboard).</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div>
-            <h3 className="text-xl font-bold text-foreground mb-2">
-              Best Practices for QR Codes
-            </h3>
-            <p className="mb-4">
-              To ensure your audience actually scans your code and has a seamless experience, follow these fundamental design and deployment guidelines:
-            </p>
-            <ul className="list-disc pl-5 space-y-2 mb-4 text-sm sm:text-base">
-              <li>
-                <strong>Minimum Size Requirements:</strong> For printed materials, a QR code should generally be no smaller than 2cm x 2cm (0.8 x 0.8 inches). If placed on a billboard or poster, calculate the size by dividing the scanning distance by 10. For example, a code meant to be scanned from 10 meters away should be at least 1 meter wide.
-              </li>
-              <li>
-                <strong>High Contrast is Crucial:</strong> Always maintain high contrast between the foreground (the dark modules) and the background. A black code on a white background is the gold standard. While custom colors are great for branding, avoid light colors (like yellow or pastel blue) for the foreground, and never invert the code (white modules on a black background), as many older barcode scanners cannot read inverted matrices.
-              </li>
-              <li>
-                <strong>Preserve the Quiet Zone:</strong> The "Quiet Zone" is the empty margin surrounding the QR code. This space tells the scanner where the code begins and ends. Never let text, graphics, or borders overlap this safe padding area, or the code will fail to scan.
-              </li>
-              <li>
-                <strong>Always Test Before Printing:</strong> Before sending a design to a professional printer, print a sample on a standard office printer at the exact final size. Test it using multiple devices (iOS and Android native cameras, plus third-party scanner apps) under various lighting conditions.
-              </li>
-              <li>
-                <strong>Add a Clear Call to Action (CTA):</strong> Don't leave your users guessing. Place a brief instruction near the code, such as &quot;Scan to see our menu,&quot; &quot;Scan to connect to Wi-Fi,&quot; or &quot;Scan to RSVP.&quot; A clear CTA significantly increases scan rates.
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-xl font-bold text-foreground mb-2">
-              QR Codes for Business
-            </h3>
-            <p className="mb-4">
-              Integrating QR technology into your business operations can streamline customer interactions and bridge the gap between offline physical spaces and online digital assets.
-            </p>
-            <p className="mb-4">
-              <strong>Restaurant Menus & Ordering:</strong> Replace printed menus with a QR code placed on each table. This reduces printing costs, allows for instant menu updates, and offers a more hygienic, contactless experience. Advanced integrations can even allow users to order and pay directly from their phones.
-            </p>
-            <p className="mb-4">
-              <strong>Event Tickets & Check-in:</strong> Generate unique QR codes for event attendees to accelerate the door check-in process. Scanning a digital ticket on a smartphone is exponentially faster than cross-referencing physical guest lists.
-            </p>
-            <p className="mb-4">
-              <strong>Product Packaging & Manuals:</strong> Space on physical packaging is often limited. Use a QR code to link customers to comprehensive digital user manuals, assembly video tutorials, warranty registration forms, or sustainability and sourcing information.
-            </p>
-            <p className="mb-4">
-              <strong>Marketing Campaigns & Analytics:</strong> By using trackable URL parameters (like UTM codes) within the QR payload, marketers can measure exactly how many offline interactions converted to online traffic, allowing for precise ROI calculations on print advertising, direct mail, and out-of-home campaigns.
-            </p>
-          </div>
+          <h4 className="font-semibold">Error Correction Levels Explained</h4>
+          <p>
+            QR codes have built-in error correction that allows them to be read even when partially
+            damaged or obscured. Higher correction levels create more complex (denser) QR codes but
+            enable more damage tolerance. Use <strong>H (High, 30%)</strong> when placing a logo
+            in the center of the QR code.
+          </p>
         </div>
       </ToolFeatureGuides>
 
-      {/* SECTION 5: FAQ & RELATED TOOLS */}
-      <ToolFaqAccordion faqs={faqs} />
-
+      {/* SECTION 5: FAQ + RELATED TOOLS */}
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "What types of content can a QR code contain?",
+            answer: "QR codes can encode URLs, plain text, phone numbers (tel:), email addresses (mailto:), SMS messages, WiFi credentials (WIFI: format), vCard contacts, and geographic coordinates. The most common use is URL linking, but any text up to ~3,000 characters can be encoded.",
+          },
+          {
+            question: "What is the best QR code size for print?",
+            answer: "The minimum recommended size is 2 × 2 cm (0.8 inches) for a business card scanned from 20 cm. For reliable scanning, use at least 3 × 3 cm for brochures. The rule of thumb: minimum size = 1/10 of the expected scanning distance. A QR code on a billboard 10 meters away needs to be at least 1 meter wide.",
+          },
+          {
+            question: "What is error correction in QR codes?",
+            answer: "Error correction allows QR codes to be scanned even when partially damaged, dirty, or covered. Four levels: L (7% damage tolerance), M (15%), Q (25%), H (30%). Use H level when adding a logo to the center of the QR code — the logo can cover up to 30% of the code and it will still scan.",
+          },
+          {
+            question: "Do QR codes expire?",
+            answer: "Static QR codes (like those generated here) never expire — they encode content directly and work forever. Dynamic QR codes (from paid services like Bitly or QR Tiger) redirect through a URL that can be changed or can expire. For permanent links like website URLs, static QR codes are completely reliable.",
+          },
+          {
+            question: "Can I customize the color of a QR code?",
+            answer: "Yes, but with constraints. Always use a dark color for modules (dots) on a light background. Avoid red modules on white or green modules on red — phones cameras struggle with low-contrast QR codes. A safe rule: the foreground should be at least 4:1 contrast ratio against the background.",
+          },
+        ]}
+      />
       <RelatedTools currentToolUrl="/tools/url/qr" max={6} />
-    </>
+    </div>
   );
 }
 
