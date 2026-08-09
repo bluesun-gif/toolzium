@@ -14,7 +14,7 @@ export const metadata = buildMetadata({
 
 export default function Page() {
     return (
-        <div className="container mx-auto px-4 py-8 max-w-6xl">
+        <div className="max-w-6xl mx-auto space-y-8 px-4 py-8">
             <ToolPageHeader
                 title="Text Repeater"
                 description="Duplicate your text multiple times with custom separators and line numbers."

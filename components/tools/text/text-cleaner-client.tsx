@@ -10,6 +10,10 @@ import SelectField from "@/components/shared/form-fields/select-field";
 import SwitchRow from "@/components/shared/form-fields/switch-row";
 import TextareaField from "@/components/shared/form-fields/textarea-field";
 import ToolPageHeader from "@/components/shared/tool-page-header";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 import { Badge } from "@/components/ui/badge";
 import {
   CardContent,
@@ -40,7 +44,7 @@ import {
   stripHtmlTags,
   trimEachLine,
 } from "@/lib/utils/text/text-cleaner";
-import { Eraser, FileText, Sparkles, Type } from "lucide-react";
+import { Eraser, FileText, Sparkles, Type, Settings2, Copy, Shield } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 const LS_KEY = "Toolzium:text-cleaner-v1";
@@ -189,7 +193,7 @@ export default function TextCleanerClient() {
   ];
 
   return (
-    <>
+    <div className="max-w-6xl mx-auto space-y-8">
       <ToolPageHeader
         icon={Sparkles}
         title="Text Cleaner"
@@ -391,6 +395,51 @@ export default function TextCleanerClient() {
           </div>
         </CardContent>
       </GlassCard>
-    </>
+
+      <ToolHowItWorks
+        steps={[
+          { step: "01", title: "Paste Your Text", description: "Paste any messy text that needs cleaning - from Word documents, PDFs, emails, web pages, or CMS exports. Common problems include smart quotes, special characters, and formatting artifacts.", icon: FileText },
+          { step: "02", title: "Select Cleaning Options", description: "Choose what to clean: remove HTML tags, fix smart quotes, strip special characters, normalize punctuation, remove duplicate lines, fix encoding artifacts, and more.", icon: Settings2 },
+          { step: "03", title: "Copy Clean Output", description: "See the cleaned text instantly. Copy with one click or download. See before/after statistics showing how many characters or issues were removed.", icon: Copy },
+        ]}
+        badges={["HTML tag removal", "Smart quote fix", "Encoding cleanup"]}
+      />
+      <ToolFeatureGuides
+        features={[
+          { icon: Eraser, title: "HTML Tag Removal", description: "Strips all HTML tags from text, leaving only the plain text content. Essential for processing web-scraped data or HTML email content." },
+          { icon: Type, title: "Smart Quote Normalization", description: "Converts Word/Mac smart (curly) quotes to standard straight quotes. Fixes encoding issues when text is processed by systems that do not support Unicode." },
+          { icon: Sparkles, title: "Special Character Removal", description: "Removes or replaces unwanted special characters, non-printable characters, zero-width spaces, and Unicode artifacts that cause problems in databases and code." },
+          { icon: Settings2, title: "Duplicate Line Removal", description: "Finds and removes duplicate lines from the text, keeping only the first occurrence. Useful for cleaning up lists and deduplicating data." },
+          { icon: FileText, title: "Encoding Fix", description: "Fixes common encoding artifacts from UTF-8/Latin-1 mismatches, producing garbled characters like garbled apostrophes and accents." },
+          { icon: Shield, title: "Client-Side and Private", description: "All text processing happens in your browser. Your content is never sent to any server." },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <h3 className="text-lg font-semibold">Text Cleaning Guide - Common Problems and Solutions</h3>
+          <p>When text moves between systems - from Word to email, PDF to database, HTML to plain text - it accumulates formatting artifacts, encoding errors, and invisible characters. A text cleaner normalizes this chaos into clean, processable text.</p>
+          <h4 className="font-semibold">Common Text Problems and Solutions</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead><tr className="bg-muted/50"><th className="border p-2 text-left">Problem</th><th className="border p-2 text-left">Fix</th></tr></thead>
+              <tbody>
+                {[["Smart quotes","Replace with straight quotes"],["HTML tags","Strip all HTML tags"],["Encoding artifact","Fix UTF-8/Latin-1 mojibake"],["Non-breaking space","Replace with regular space"],["Duplicate lines","Remove duplicate lines"],["Windows line endings","Convert CRLF to LF"]].map(([prob, fix]) => (
+                  <tr key={prob} className="odd:bg-muted/20"><td className="border p-2 font-medium text-xs">{prob}</td><td className="border p-2 text-primary text-xs">{fix}</td></tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </ToolFeatureGuides>
+      <ToolFaqAccordion
+        faqs={[
+          { question: "What is text cleaning?", answer: "Text cleaning is the process of removing or fixing formatting artifacts, encoding errors, HTML tags, special characters, and other issues that make text hard to process. It is a critical first step in data pipelines, NLP, and content publishing workflows." },
+          { question: "How do I remove HTML tags from text?", answer: "Paste your HTML-containing text and enable the Remove HTML tags option. All tags are stripped, leaving only the text content. Useful for processing web-scraped data, HTML emails, or CMS-exported content." },
+          { question: "What are smart quotes and how do I fix them?", answer: "Smart quotes (curly quotes) are typographically correct but cause issues in code and systems that expect straight ASCII quotes. Word, Pages, and macOS auto-replace straight quotes with smart quotes as you type. Use the normalize quotes option to convert all smart quotes to straight ASCII equivalents." },
+          { question: "What causes garbled text like encoding artifacts?", answer: "This is called mojibake - a character encoding mismatch. It occurs when UTF-8 text is incorrectly read as Latin-1 or Windows-1252. The multi-byte sequence is misinterpreted, producing garbled characters. The text cleaner detects and fixes common mojibake patterns." },
+          { question: "Can I remove all special characters and keep only letters and numbers?", answer: "Yes. Enable the Remove special characters option and set it to alphanumeric only mode. This strips everything except A-Z, a-z, 0-9, and optionally spaces. Useful for preparing text for systems that cannot handle special characters." },
+        ]}
+      />
+      <RelatedTools currentToolUrl="/tools/text/cleaner" max={6} />
+    </div>
   );
 }

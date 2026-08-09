@@ -1,7 +1,11 @@
 "use client";
 
-import { History, ListChecks, Wand2 } from "lucide-react";
+import { History, ListChecks, Wand2, List, AlignLeft, Settings2, Copy, FileText, LayoutList, Shield } from "lucide-react";
 import * as React from "react";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 import {
   ActionButton,
   CopyButton,
@@ -146,7 +150,7 @@ export default function TextToListClient() {
   }
 
   return (
-    <>
+    <div className="max-w-6xl mx-auto space-y-8">
       {/* Header */}
       <ToolPageHeader
         icon={ListChecks}
@@ -401,6 +405,50 @@ pear`}
           </div>
         </CardContent>
       </GlassCard>
-    </>
+      <ToolHowItWorks
+        steps={[
+          { step: "01", title: "Paste Your Text", description: "Paste a block of text containing items separated by commas, semicolons, newlines, pipes, or any custom delimiter. Works with messy exports from spreadsheets, databases, and documents.", icon: FileText },
+          { step: "02", title: "Set List Options", description: "Choose the input delimiter, list format (bullet, numbered, alphabetical), sorting preference, and whether to remove duplicates or trim whitespace from each item.", icon: Settings2 },
+          { step: "03", title: "Copy the List", description: "The formatted list appears instantly. Copy as plain text, as Markdown, as HTML, or as a JSON array. One-click copy for immediate use in documents or code.", icon: Copy },
+        ]}
+        badges={["Multiple delimiters", "Markdown and HTML output", "Sort and deduplicate"]}
+      />
+      <ToolFeatureGuides
+        features={[
+          { icon: List, title: "Multiple Input Delimiters", description: "Splits text by comma, semicolon, newline, tab, pipe, or any custom delimiter. Handles mixed delimiters and trims whitespace from each extracted item." },
+          { icon: LayoutList, title: "Multiple Output Formats", description: "Output as bullet points, numbered list, Markdown list, HTML list, or JSON array. Choose the format that matches your target system." },
+          { icon: AlignLeft, title: "Sort and Deduplicate", description: "Sort list items alphabetically or numerically. Remove duplicate items to get a unique list. Optionally ignore case when deduplicating." },
+          { icon: Settings2, title: "Trim and Clean Items", description: "Automatically trims leading and trailing whitespace from each item. Optionally removes empty items that result from consecutive delimiters." },
+          { icon: Copy, title: "Multiple Copy Formats", description: "Copy as plain text for word processors, Markdown for GitHub/Notion, HTML for web, or JSON array for code. Each format is one click away." },
+          { icon: Shield, title: "Client-Side and Private", description: "All list conversion happens in your browser. Your text is never sent to any server." },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <h3 className="text-lg font-semibold">Text to List Conversion Guide</h3>
+          <p>Converting delimited text to a structured list is a common task in data processing, content creation, and development. Whether converting a CSV column to a bullet list or raw text to a JSON array, this tool handles the conversion in one step.</p>
+          <h4 className="font-semibold">Common Delimiter Patterns</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead><tr className="bg-muted/50"><th className="border p-2 text-left">Source</th><th className="border p-2 text-left">Delimiter</th></tr></thead>
+              <tbody>
+                {[["CSV column","Comma"],["TSV column","Tab"],["Email list","Semicolon"],["Excel paste","Newline"],["Pipe-delimited","Pipe"]].map(([source, delim]) => (
+                  <tr key={source} className="odd:bg-muted/20"><td className="border p-2 font-medium text-xs">{source}</td><td className="border p-2 font-mono text-primary text-xs">{delim}</td></tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </ToolFeatureGuides>
+      <ToolFaqAccordion
+        faqs={[
+          { question: "How do I convert a comma-separated list to bullet points?", answer: "Paste your comma-separated text, select Comma as the delimiter, choose Bullet as the output format, and click Convert. Each item between commas becomes a separate bullet point." },
+          { question: "Can I convert text to a JSON array?", answer: "Yes. Select your delimiter, choose JSON Array as the output format, and the tool generates a properly formatted JSON array with each item as a quoted string. Useful for populating config files, test fixtures, and API payloads." },
+          { question: "How do I remove duplicate items from a list?", answer: "Enable the Remove duplicates option before converting. The tool processes your text, splits it into items, removes exact duplicates keeping the first occurrence, then formats the result." },
+          { question: "Can I sort the list alphabetically?", answer: "Yes. Enable sorting (A-Z or Z-A) in the options. The tool splits your text into items, sorts them alphabetically using locale-aware comparison, then formats the sorted items in your chosen output format." },
+          { question: "What if my list has mixed delimiters?", answer: "For text with mixed delimiters, use the Custom delimiter option and enter a pattern to split on multiple separators. Alternatively, normalize all delimiters to one type in a text editor first, then use this tool." },
+        ]}
+      />
+      <RelatedTools currentToolUrl="/tools/text/to-list" max={6} />
+    </div>
   );
 }
