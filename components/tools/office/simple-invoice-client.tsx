@@ -26,6 +26,12 @@ import {
   FileSpreadsheet,
   Settings,
   Download,
+  BookOpen,
+  Shield,
+  Receipt,
+  Globe,
+  Calculator,
+  Building
 } from "lucide-react";
 import * as React from "react";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -938,167 +944,162 @@ export default function SimpleInvoiceClient() {
         steps={[
           {
             step: "01",
-            title: "Input Billing Details",
-            description: "Fill out vendor details, client information, invoice ID, and payment deadlines.",
-            icon: Building2,
+            title: "Enter Business & Client Details",
+            description: "Fill in your business name, address, and logo, then add your client's details. Set invoice number, date, due date, and payment terms.",
+            icon: Building,
           },
           {
             step: "02",
-            title: "Add Products & Services",
-            description: "Add line items with description, quantity, and rates. The totals update automatically.",
-            icon: Plus,
+            title: "Add Line Items",
+            description: "Add services or products with description, quantity, unit price, and optional tax rate. The subtotal, tax, and total calculate automatically.",
+            icon: Calculator,
           },
           {
             step: "03",
-            title: "Export Print PDF",
-            description: "Apply discount, tax, or shipping and click 'Print' to save a clean PDF document.",
-            icon: Printer,
+            title: "Download as PDF",
+            description: "Generate a professional PDF invoice instantly. No watermarks, no account required. Download, print, or email directly to your client.",
+            icon: Download,
           },
         ]}
-        badges={["PDF Friendly", "Autosaved Drafts", "Local-Only Calculations", "Free & Secure"]}
+        badges={[
+          "PDF download",
+          "No signup needed",
+          "Professional format",
+        ]}
       />
 
-      {/* SECTION 4: FEATURE HIGHLIGHTS & DEEP SEO GUIDE */}
+      {/* SECTION 4: FEATURE GUIDES */}
       <ToolFeatureGuides
         features={[
           {
-            title: "Flexible Line Items",
-            description: "Add, edit, clone, or delete items seamlessly. Real-time subtotal calculations.",
-            icon: Plus,
+            icon: FileText,
+            title: "Professional Invoice Format",
+            description: "Generates invoices in a clean, professional format accepted by businesses worldwide. Includes all required fields: invoice number, dates, itemized list, taxes, and totals.",
           },
           {
-            title: "Custom Currencies",
-            description: "Choose from major ISO codes, common symbols, or type in a custom currency representation.",
+            icon: Calculator,
+            title: "Automatic Tax Calculation",
+            description: "Set a tax rate (VAT, GST, sales tax) per line item or globally. Subtotal, tax amount, and grand total are calculated automatically and shown clearly.",
+          },
+          {
+            icon: Download,
+            title: "Instant PDF Export",
+            description: "Download a print-ready PDF with one click. No watermarks, no premium plan needed. The PDF is generated client-side — your data never touches a server.",
+          },
+          {
             icon: DollarSign,
+            title: "Multi-Currency Support",
+            description: "Select your currency (USD, EUR, GBP, BDT, INR, AUD, CAD, and more) for correct symbol display throughout the invoice.",
           },
           {
-            title: "Adjustments & Tax",
-            description: "Calculate percentage discounts, regional sales taxes, shipping, and amount paid.",
-            icon: Settings,
+            icon: Receipt,
+            title: "Payment Terms & Notes",
+            description: "Add payment terms (Net 30, Net 60, Due on Receipt), bank account details, and custom notes or thank-you messages at the bottom of the invoice.",
           },
           {
-            title: "Print & Save PDF",
-            description: "Print stylesheets hide buttons and navigation to export clean invoices directly to PDF.",
-            icon: Printer,
-          },
-          {
-            title: "Offline Local Autosave",
-            description: "Automatically caches data in your browser's local storage so drafts are preserved.",
-            icon: ShieldCheck,
-          },
-          {
-            title: "Zero Server Storage",
-            description: "100% on-device processing. No financial details ever touch our servers.",
-            icon: ShieldCheck,
+            icon: Shield,
+            title: "Private — No Data Stored",
+            description: "Invoice data is processed entirely in your browser. Nothing is saved to any server or database — your client details and pricing remain completely private.",
           },
         ]}
       >
-        <div className="space-y-5 text-sm leading-relaxed text-muted-foreground">
-          <h3 className="text-xl font-semibold text-foreground">A Guide to Professional and Compliant Business Invoicing</h3>
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <h3 className="text-lg font-semibold">Invoice Guide — What Every Professional Invoice Must Include</h3>
           <p>
-            An <strong>invoice</strong> is a commercial document issued by a seller to a buyer, representing an official request for payment. In modern freelance and business operations, sending professional invoices promptly is the single most critical factor for maintaining steady cash flow. An unformatted, vague, or incomplete invoice can delay payments by weeks. Utilizing a clean, standardized layout ensures clients understand the charges and process payments quickly.
+            A professional invoice is a legal document requesting payment for goods or services provided.
+            It establishes a paper trail for accounting, enables clients to process payment, and is
+            required for tax purposes. A poorly structured invoice can delay payment or cause disputes.
+            Here is what every invoice must include.
           </p>
 
-          <h3 className="text-xl font-semibold text-foreground">Standard Elements of a Business Invoice</h3>
-          <p>
-            For tax compliance and record-keeping, every business invoice must contain specific information:
-          </p>
-          <table className="w-full border-collapse text-xs border border-border rounded-lg overflow-hidden my-4">
-            <thead className="bg-muted text-foreground">
-              <tr>
-                <th className="border border-border p-2 text-left">Invoice Section</th>
-                <th className="border border-border p-2 text-left">Key Data Fields</th>
-                <th className="border border-border p-2 text-left">Why It Matters</th>
-                <th className="border border-border p-2 text-left">Legal Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className="border border-border p-2 font-medium">Header Meta</td>
-                <td className="border border-border p-2">Invoice Number, Date, Due Date</td>
-                <td className="border border-border p-2">Establishes tracking sequence and credit limits</td>
-                <td className="border border-border p-2">Mandatory</td>
-              </tr>
-              <tr>
-                <td className="border border-border p-2 font-medium">Sender Details</td>
-                <td className="border border-border p-2">Business name, email, phone, physical address</td>
-                <td className="border border-border p-2">Identifies who is asking for payment</td>
-                <td className="border border-border p-2">Mandatory</td>
-              </tr>
-              <tr>
-                <td className="border border-border p-2 font-medium">Recipient Info</td>
-                <td className="border border-border p-2">Client name, email, billing address</td>
-                <td className="border border-border p-2">Identifies who is responsible for paying</td>
-                <td className="border border-border p-2">Mandatory</td>
-              </tr>
-              <tr>
-                <td className="border border-border p-2 font-medium">Line Items</td>
-                <td className="border border-border p-2">Product/service description, quantity, unit rate</td>
-                <td className="border border-border p-2">Itemizes what the client is paying for</td>
-                <td className="border border-border p-2">Mandatory</td>
-              </tr>
-              <tr>
-                <td className="border border-border p-2 font-medium">Financial Summary</td>
-                <td className="border border-border p-2">Subtotal, discount, tax (VAT/GST), shipping, balance</td>
-                <td className="border border-border p-2">Provides final cost breakdowns</td>
-                <td className="border border-border p-2">Mandatory</td>
-              </tr>
-            </tbody>
-          </table>
+          <h4 className="font-semibold">Required Invoice Fields</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Field</th>
+                  <th className="border p-2 text-left">Required?</th>
+                  <th className="border p-2 text-left">Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["Invoice number", "Yes", "Sequential; used for tracking and accounting"],
+                  ["Invoice date", "Yes", "Date the invoice was issued"],
+                  ["Due date", "Yes", "When payment is expected (e.g., Net 30)"],
+                  ["Seller name & address", "Yes", "Your business details"],
+                  ["Client name & address", "Yes", "Bill-to details"],
+                  ["Line items with description", "Yes", "What was delivered/performed"],
+                  ["Quantity & unit price", "Yes", "Per item pricing"],
+                  ["Subtotal", "Yes", "Before tax"],
+                  ["Tax rate & amount", "If applicable", "VAT/GST number if VAT-registered"],
+                  ["Total amount due", "Yes", "The final amount to be paid"],
+                  ["Payment instructions", "Recommended", "Bank details, PayPal, Stripe link"],
+                  ["Terms & conditions", "Recommended", "Late payment fees, ownership terms"],
+                ].map(([field, req, notes]) => (
+                  <tr key={field} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{field}</td>
+                    <td className="border p-2 text-xs">{req}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{notes}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-          <h3 className="text-xl font-semibold text-foreground">Invoice Numbering Best Practices</h3>
-          <p>
-            Choosing a structured numbering system is essential for organizing accounting records. Standard numbering formats include:
-          </p>
-          <ul className="list-disc pl-5 space-y-2">
-            <li>
-              <strong>Sequential (e.g., <code>001, 002, 003</code>)</strong>: Best for small businesses with low transaction volumes. It is simple but reveals your total invoice count to clients.
-            </li>
-            <li>
-              <strong>Date-Based Prefix (e.g., <code>INV-2026-08-001</code>)</strong>: Highly recommended. It embeds the year and month directly into the identifier, making annual tax preparation much simpler.
-            </li>
-            <li>
-              <strong>Client-Based Code (e.g., <code>CL-001-0024</code>)</strong>: Incorporates a unique identifier for each client. This helps accounts payable teams search and cross-reference payments.
-            </li>
-          </ul>
-
-          <h3 className="text-xl font-semibold text-foreground">Understanding Payment Terms: Net-30 and Beyond</h3>
-          <p>
-            Payment terms define when a client is legally required to settle the balance. The most common shorthand notation is <code>Net X</code>, where <code>X</code> represents the number of days after the invoice issue date. For example, <strong>Net-30</strong> means payment must be processed within 30 calendar days. 
-          </p>
-          <p>
-            Choosing payment terms involves a trade-off. Shorter terms (like Net-15) improve your cash flow, while longer terms (like Net-60) are often demanded by large enterprise clients with slow accounting cycles. Offering a small incentive (e.g., "2/10 Net 30" - a 2% discount if paid within 10 days) is a common strategy to accelerate collections.
-          </p>
-
-          <h3 className="text-xl font-semibold text-foreground">Tax Compliance: VAT, GST, and Sales Tax</h3>
-          <p>
-            Depending on your jurisdiction, you may be required by law to display tax breakdowns on your invoice. For example, in the European Union and the United Kingdom, value-added tax (<strong>VAT</strong>) requires registration details. In Canada, Australia, and India, Goods and Services Tax (<strong>GST</strong>) applies. Always calculate the tax rate based on the pre-tax total (Subtotal minus Discount) plus any shipping or handling costs to ensure proper math alignment.
-          </p>
+          <h4 className="font-semibold">Common Payment Terms Reference</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Term</th>
+                  <th className="border p-2 text-left">Meaning</th>
+                  <th className="border p-2 text-left">Best For</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["Due on Receipt", "Pay immediately upon receiving invoice", "Small freelance jobs, new clients"],
+                  ["Net 7", "Payment due within 7 days", "Short-term project deliveries"],
+                  ["Net 15", "Payment due within 15 days", "Regular clients, smaller amounts"],
+                  ["Net 30", "Payment due within 30 days", "Standard B2B invoicing"],
+                  ["Net 60", "Payment due within 60 days", "Large enterprise clients"],
+                  ["2/10 Net 30", "2% discount if paid within 10 days, else Net 30", "Incentivizing early payment"],
+                ].map(([term, meaning, best]) => (
+                  <tr key={term} className="odd:bg-muted/20">
+                    <td className="border p-2 font-mono text-primary text-xs">{term}</td>
+                    <td className="border p-2 text-xs">{meaning}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{best}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </ToolFeatureGuides>
 
-      {/* SECTION 5: FAQ & RELATED TOOLS */}
+      {/* SECTION 5: FAQ + RELATED TOOLS */}
       <ToolFaqAccordion
         faqs={[
           {
-            question: "How do I download my invoice as a PDF?",
-            answer: "Fill out all required sender, client, and item details. Once completed, click the 'Print / PDF' button at the top. In your system's print preview dialog, select 'Save as PDF' as the destination and click Save.",
+            question: "Is this invoice generator free?",
+            answer: "Yes, completely free. There is no signup, no account, no watermarks, and no limits. Generate as many professional PDF invoices as you need.",
           },
           {
-            question: "Is my financial and business data secure?",
-            answer: "Yes. Toolzium values your privacy. All invoice calculations, details, and exports are processed locally on your device within your browser. No data is sent to our servers or stored in any remote database.",
+            question: "What should I include on a professional invoice?",
+            answer: "A complete invoice should include: your business name and address, client name and address, unique invoice number, invoice date, due date, itemized list of services/products, subtotal, tax amount and rate, total due, and payment instructions. Optional but recommended: your VAT/tax registration number and late payment terms.",
           },
           {
-            question: "How does local autosave work?",
-            answer: "The tool automatically caches your progress to your browser's local storage as you type. If you close the tab or refresh the page, your invoice draft will be restored automatically.",
+            question: "What are Net 30 payment terms?",
+            answer: "Net 30 means the client has 30 days from the invoice date to make payment. Net 15 gives 15 days, Net 60 gives 60 days. 'Due on Receipt' means immediate payment is expected. For freelancers, Net 15 or Due on Receipt is common for project deliverables; Net 30 is standard for B2B recurring services.",
           },
           {
-            question: "Can I customize the currency symbol?",
-            answer: "Yes. You can toggle between 'ISO Code' (e.g., USD, BDT, EUR) and 'Symbol' (e.g., $, ৳, €) mode under the details panel. You can also type in custom three-character codes or symbols.",
+            question: "Do I need to include tax on my invoice?",
+            answer: "It depends on your jurisdiction and registration status. If you're VAT/GST registered, you must charge and show VAT on applicable invoices, including your VAT number. If you're under the VAT registration threshold, you don't charge VAT. Consult a local accountant to understand your specific obligations.",
           },
           {
-            question: "What is the difference between an invoice and a receipt?",
-            answer: "An invoice is a billing document issued by a vendor to a client requesting payment for services or goods rendered, usually containing payment terms. A receipt is an acknowledgment document issued after the payment has been successfully completed, showing the balance paid.",
+            question: "Is my invoice data saved or stored?",
+            answer: "No. All invoice generation runs in your browser. Your business details, client information, and pricing data are never sent to any server or stored in any database. Each session is completely private.",
           },
         ]}
       />

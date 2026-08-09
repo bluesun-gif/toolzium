@@ -25,6 +25,12 @@ import {
   TimerReset as Timer,
   Upload,
   Zap,
+  BookOpen,
+  Shield,
+  Key,
+  Copy,
+  AlertTriangle,
+  CheckCircle,
 } from "lucide-react";
 import type React from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -168,85 +174,8 @@ export default function HashGeneratorClient() {
     toast.success("Reset successfully!");
   }
 
-  const steps = [
-    {
-      step: "Step 1",
-      title: "Input Data",
-      description: "Enter your text or upload a file you want to hash.",
-      icon: Code2,
-    },
-    {
-      step: "Step 2",
-      title: "Select Algorithms",
-      description: "Choose one or more hash algorithms like MD5, SHA-256, or SHA-512.",
-      icon: ShieldCheck,
-    },
-    {
-      step: "Step 3",
-      title: "Generate Hash",
-      description: "Instantly generate and copy your hashes in Hex or Base64 format.",
-      icon: Sparkles,
-    },
-  ];
-
-  const features = [
-    {
-      title: "Multiple Algorithms",
-      description: "Supports MD5, SHA-1, SHA-256, SHA-384, and SHA-512 simultaneously.",
-      icon: ShieldCheck,
-    },
-    {
-      title: "Text & File Hashing",
-      description: "Easily hash short text strings or verify large files locally.",
-      icon: Code2,
-    },
-    {
-      title: "HMAC Support",
-      description: "Compute Hash-based Message Authentication Codes with a secret key.",
-      icon: Lock,
-    },
-    {
-      title: "Custom Salting",
-      description: "Add a custom salt (prefix or suffix) to protect against rainbow tables.",
-      icon: Zap,
-    },
-    {
-      title: "Local Processing",
-      description: "All hashing is done entirely in your browser for maximum privacy.",
-      icon: Globe,
-    },
-    {
-      title: "Instant Export",
-      description: "Export all computed hashes in JSON format instantly.",
-      icon: RefreshCw,
-    },
-  ];
-
-  const faqs = [
-    {
-      question: "What is a cryptographic hash?",
-      answer: "A cryptographic hash is a one-way mathematical function that converts input data of any size into a fixed-size string of characters, usually represented in hexadecimal or Base64.",
-    },
-    {
-      question: "Is hashing the same as encryption?",
-      answer: "No. Hashing is a one-way process designed to be irreversible, whereas encryption is a two-way process designed to be decrypted using a secret key.",
-    },
-    {
-      question: "What is an HMAC?",
-      answer: "An HMAC (Hash-based Message Authentication Code) is a specific type of message authentication code involving a cryptographic hash function and a secret cryptographic key, ensuring both data integrity and authenticity.",
-    },
-    {
-      question: "How does salting work?",
-      answer: "Salting involves adding a random string of characters (a salt) to an input before hashing it. This prevents attackers from using precomputed rainbow tables to crack the hash.",
-    },
-    {
-      question: "Are MD5 and SHA-1 secure?",
-      answer: "No. Both MD5 and SHA-1 have known cryptographic vulnerabilities and collisions, making them unsafe for security-critical applications like password hashing or digital signatures. Use SHA-256 or SHA-512 instead.",
-    },
-  ];
-
   return (
-    <>
+    <div className="max-w-6xl mx-auto space-y-8">
       <ToolPageHeader
         icon={Hash}
         title="Hash Generator"
@@ -531,105 +460,177 @@ export default function HashGeneratorClient() {
         </GlassCard>
       </div>
 
+      {/* SECTION 3: HOW IT WORKS */}
       <ToolHowItWorks
-        title="How It Works"
-        subtitle="Generate cryptographic hashes in three simple steps"
-        steps={steps}
+        steps={[
+          {
+            step: "01",
+            title: "Enter Text or Data",
+            description: "Type or paste any text, password, file content, or data you want to hash. The hash updates instantly as you type for real-time feedback.",
+            icon: Hash,
+          },
+          {
+            step: "02",
+            title: "Choose Hash Algorithm",
+            description: "Select from MD5, SHA-1, SHA-256, SHA-384, SHA-512, or SHA-3. Each produces a fixed-length fingerprint unique to the input — impossible to reverse.",
+            icon: Lock,
+          },
+          {
+            step: "03",
+            title: "Copy & Verify",
+            description: "Copy the hash output for use in checksums, data integrity verification, API authentication, or password storage systems.",
+            icon: BookOpen,
+          },
+        ]}
+        badges={[
+          "MD5, SHA-256, SHA-512",
+          "Client-side only",
+          "Instant hashing",
+        ]}
       />
 
+      {/* SECTION 4: FEATURE GUIDES */}
       <ToolFeatureGuides
-        title="Hash Generator Features"
-        subtitle="Advanced cryptographic capabilities running securely in your browser"
-        features={features}
+        features={[
+          {
+            icon: Hash,
+            title: "Multiple Hash Algorithms",
+            description: "Supports MD5, SHA-1, SHA-256, SHA-384, SHA-512, and SHA-3 — covering legacy checksum verification (MD5) through modern cryptographic hashing (SHA-256+).",
+          },
+          {
+            icon: Lock,
+            title: "One-Way Function",
+            description: "Hash functions are one-way: given a hash, you cannot recover the original input. Even a single character change produces a completely different hash (avalanche effect).",
+          },
+          {
+            icon: CheckCircle,
+            title: "File Checksum Verification",
+            description: "Verify downloaded files haven't been tampered with by comparing their SHA-256 hash against the publisher's expected hash. A mismatch means the file is corrupted or modified.",
+          },
+          {
+            icon: Key,
+            title: "HMAC Support",
+            description: "Generate HMAC (Hash-based Message Authentication Code) by combining a secret key with your message — producing a hash that proves both authenticity and integrity.",
+          },
+          {
+            icon: AlertTriangle,
+            title: "MD5 & SHA-1 Deprecation Warning",
+            description: "MD5 and SHA-1 are cryptographically broken and should not be used for security-sensitive purposes. They're shown for legacy compatibility only. Use SHA-256 or higher for security.",
+          },
+          {
+            icon: Shield,
+            title: "100% Client-Side",
+            description: "All hashing runs in your browser using the Web Crypto API. Your text and data never leave your device — safe for hashing sensitive content.",
+          },
+        ]}
       >
-        <div className="prose prose-sm md:prose-base dark:prose-invert max-w-none mt-8">
-          <h3>What Is a Cryptographic Hash?</h3>
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <h3 className="text-lg font-semibold">Hash Functions Explained — A Security Developer's Guide</h3>
           <p>
-            A cryptographic hash function is a one-way deterministic algorithm that takes input data of any size and produces a fixed-length string of characters, typically representing a sequence of bytes. A core property of a robust hash function is the <strong>avalanche effect</strong>: changing even a single bit in the input completely changes the resulting hash output. Because hashing is a one-way process, it is mathematically infeasible to reverse-engineer the original input from the hash alone.
+            A <strong>cryptographic hash function</strong> takes any input and produces a fixed-length
+            output (the hash or digest) with these properties: deterministic (same input always produces
+            same output), one-way (cannot reverse the hash to get the input), and avalanche effect
+            (tiny input changes produce completely different hashes). These properties make hash
+            functions essential for data integrity, password storage, and digital signatures.
           </p>
 
-          <h3>Hashing vs Encryption vs Encoding</h3>
-          <p>
-            These three concepts are commonly confused, but they serve entirely different purposes:
-          </p>
-          <ul>
-            <li><strong>Hashing:</strong> A one-way, irreversible process. Used for validating data integrity and securely storing passwords.</li>
-            <li><strong>Encryption:</strong> A two-way process. Data is scrambled using a cryptographic key and can be decrypted back to its original form using the corresponding key. Used for confidentiality.</li>
-            <li><strong>Encoding:</strong> A reversible data representation process (like Base64 or URL encoding) that requires no secret key. Used to ensure data can be safely transmitted across different systems, not for security.</li>
-          </ul>
-
-          <h3>Comparison Table of Hash Algorithms</h3>
+          <h4 className="font-semibold">Hash Algorithm Comparison</h4>
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse border border-border">
+            <table className="w-full border-collapse text-sm">
               <thead>
-                <tr className="bg-muted">
-                  <th className="p-2 border border-border">Algorithm</th>
-                  <th className="p-2 border border-border">Output Length</th>
-                  <th className="p-2 border border-border">Speed</th>
-                  <th className="p-2 border border-border">Security Level</th>
-                  <th className="p-2 border border-border">Common Use Case</th>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Algorithm</th>
+                  <th className="border p-2 text-left">Output Length</th>
+                  <th className="border p-2 text-left">Security Status</th>
+                  <th className="border p-2 text-left">Use Case</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td className="p-2 border border-border"><strong>MD5</strong></td>
-                  <td className="p-2 border border-border">128-bit</td>
-                  <td className="p-2 border border-border">Very Fast</td>
-                  <td className="p-2 border border-border text-destructive">Broken</td>
-                  <td className="p-2 border border-border">Legacy file checksums, fast non-cryptographic hashing.</td>
-                </tr>
-                <tr>
-                  <td className="p-2 border border-border"><strong>SHA-1</strong></td>
-                  <td className="p-2 border border-border">160-bit</td>
-                  <td className="p-2 border border-border">Fast</td>
-                  <td className="p-2 border border-border text-destructive">Weak</td>
-                  <td className="p-2 border border-border">Git commits, legacy systems.</td>
-                </tr>
-                <tr>
-                  <td className="p-2 border border-border"><strong>SHA-256</strong></td>
-                  <td className="p-2 border border-border">256-bit</td>
-                  <td className="p-2 border border-border">Moderate</td>
-                  <td className="p-2 border border-border text-primary">Strong</td>
-                  <td className="p-2 border border-border">SSL certificates, blockchain, modern data integrity.</td>
-                </tr>
-                <tr>
-                  <td className="p-2 border border-border"><strong>SHA-512</strong></td>
-                  <td className="p-2 border border-border">512-bit</td>
-                  <td className="p-2 border border-border">Moderate</td>
-                  <td className="p-2 border border-border text-primary">Strong</td>
-                  <td className="p-2 border border-border">High-security applications, systems with 64-bit architectures.</td>
-                </tr>
+                {[
+                  ["MD5", "128 bits (32 hex)", "⚠️ Broken", "Legacy checksums only"],
+                  ["SHA-1", "160 bits (40 hex)", "⚠️ Deprecated", "Legacy Git commits, avoid for security"],
+                  ["SHA-256", "256 bits (64 hex)", "✅ Secure", "TLS, Bitcoin, code signing, passwords"],
+                  ["SHA-384", "384 bits (96 hex)", "✅ Secure", "High-security TLS certificates"],
+                  ["SHA-512", "512 bits (128 hex)", "✅ Secure", "Maximum security, slower than SHA-256"],
+                  ["SHA-3-256", "256 bits (64 hex)", "✅ Secure", "Future-proof, quantum-resistant design"],
+                ].map(([algo, output, status, use]) => (
+                  <tr key={algo} className="odd:bg-muted/20">
+                    <td className="border p-2 font-mono text-primary text-xs">{algo}</td>
+                    <td className="border p-2 text-xs">{output}</td>
+                    <td className="border p-2 text-xs">{status}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{use}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
 
-          <h3>HMAC Explained</h3>
-          <p>
-            An <strong>HMAC</strong> (Hash-based Message Authentication Code) is a mechanism that combines a cryptographic hash function with a secret cryptographic key. It is used to verify both the <em>data integrity</em> and the <em>authenticity</em> of a message. Even if an attacker intercepts and alters a message, they cannot generate a valid HMAC without the secret key, ensuring the tampering is detected.
-          </p>
+          <h4 className="font-semibold">Common Use Cases for Hash Functions</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Use Case</th>
+                  <th className="border p-2 text-left">Algorithm</th>
+                  <th className="border p-2 text-left">How It Works</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["File integrity check", "SHA-256", "Publisher shares SHA-256; you verify download matches"],
+                  ["Password storage", "bcrypt / Argon2", "Hash + salt stored; never store plain passwords"],
+                  ["Digital signatures", "SHA-256 + RSA/ECDSA", "Hash the document, sign the hash"],
+                  ["Git commits", "SHA-1 (legacy) / SHA-256", "Each commit is identified by hash of content"],
+                  ["API request signing", "HMAC-SHA256", "Hash message + secret key to prove authenticity"],
+                  ["Blockchain", "SHA-256 (Bitcoin)", "Each block contains hash of previous block"],
+                ].map(([use, algo, how]) => (
+                  <tr key={use} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{use}</td>
+                    <td className="border p-2 font-mono text-primary text-xs">{algo}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{how}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-          <h3>Salt and Key Stretching</h3>
+          <h4 className="font-semibold">Why You Should Never Use MD5 for Passwords</h4>
           <p>
-            When storing user passwords, simply hashing them with MD5 or SHA-256 is highly insecure. Attackers can use precomputed databases called <strong>rainbow tables</strong> to instantly look up the original password for a given hash. 
-          </p>
-          <p>
-            To prevent this, a unique random string called a <strong>salt</strong> is appended to each password before hashing. This ensures that even if two users have the same password, their hashes will be different. For modern password storage, specialized key-stretching algorithms like <code>bcrypt</code>, <code>Argon2</code>, or <code>PBKDF2</code> are preferred because they intentionally slow down the hashing process, making brute-force attacks economically infeasible.
-          </p>
-
-          <h3>File Integrity Checks</h3>
-          <p>
-            Hashing is widely used to verify that a file has not been corrupted or tampered with during transmission. When you download a large file, such as a Linux ISO, the provider often publishes an MD5 or SHA-256 checksum. By hashing the downloaded file locally and comparing the output to the published checksum, you can guarantee the file&apos;s integrity.
+            MD5 was designed for speed — it can compute billions of hashes per second on modern GPUs.
+            This makes it trivial to brute-force: all 6-character passwords can be cracked in under a
+            second. For password storage, use <strong>bcrypt</strong>, <strong>Argon2</strong>, or
+            <strong>scrypt</strong> — these are deliberately slow algorithms designed to be computationally
+            expensive, making brute-force attacks impractical even with modern hardware.
           </p>
         </div>
       </ToolFeatureGuides>
 
+      {/* SECTION 5: FAQ + RELATED TOOLS */}
       <ToolFaqAccordion
-        title="Frequently Asked Questions"
-        subtitle="Learn more about cryptographic hashing and how to use this tool"
-        faqs={faqs}
+        faqs={[
+          {
+            question: "What is a hash function?",
+            answer: "A hash function takes any input (text, file, data) and produces a fixed-length output called a hash or digest. The same input always produces the same hash, but the hash cannot be reversed to recover the original input. Even a single character change in the input produces a completely different hash (the avalanche effect).",
+          },
+          {
+            question: "What is the difference between MD5, SHA-1, and SHA-256?",
+            answer: "MD5 (128-bit) and SHA-1 (160-bit) are cryptographically broken — collision attacks have been demonstrated, meaning two different inputs can produce the same hash. SHA-256 (256-bit) is part of the SHA-2 family and remains cryptographically secure. Use SHA-256 or SHA-512 for any security-sensitive application.",
+          },
+          {
+            question: "Can a hash be reversed or decrypted?",
+            answer: "No. Hash functions are one-way by design — it is computationally infeasible to reverse a proper cryptographic hash. What appears to be 'decryption' of MD5 hashes online works through rainbow tables (precomputed hash databases for common passwords), not actual reversal. This is why salting passwords before hashing defeats rainbow table attacks.",
+          },
+          {
+            question: "What is SHA-256 used for?",
+            answer: "SHA-256 is used extensively: TLS/HTTPS certificate signatures, Bitcoin mining and transaction verification, code signing certificates, file integrity verification (checksums), HMAC-based API authentication, and as the basis for many cryptographic protocols.",
+          },
+          {
+            question: "Is it safe to hash passwords with SHA-256?",
+            answer: "No. SHA-256 is too fast for password hashing — attackers can compute billions per second. Use bcrypt, Argon2id, or scrypt instead. These are purpose-built password hashing functions with configurable cost factors that make brute-force attacks impractically slow, even with modern GPU hardware.",
+          },
+        ]}
       />
-
       <RelatedTools currentToolUrl="/tools/dev/hash-generator" max={6} />
-    </>
+    </div>
   );
 }

@@ -3,17 +3,23 @@
 import {
   AlignLeft,
   BarChart2,
+  BarChart3,
+  BookOpen,
+  Clock,
   Clock4,
+  Download,
   FileText,
+  Globe,
+  Hash,
   Info,
   Mic,
-  Type as TypeIcon,
-  Sparkles,
   RefreshCw,
-  Zap,
+  Shield,
   ShieldCheck,
-  Download,
-  BookOpen,
+  Sparkles,
+  Type,
+  Type as TypeIcon,
+  Zap,
 } from "lucide-react";
 import * as React from "react";
 import {
@@ -245,7 +251,7 @@ export default function WordCounterClient() {
   ];
 
   return (
-    <>
+    <div className="max-w-6xl mx-auto space-y-8">
       {/* SECTION 1: HEADER */}
       <ToolPageHeader
         icon={TypeIcon}
@@ -418,108 +424,168 @@ export default function WordCounterClient() {
 
       {/* SECTION 3: HOW IT WORKS */}
       <ToolHowItWorks
-        title="How to Use the Free Word Counter"
-        subtitle="Analyze document length, character limits, and reading speed in 3 simple steps."
-        steps={steps}
+        steps={[
+          {
+            step: "01",
+            title: "Paste or Type Text",
+            description: "Paste your article, essay, email, social post, or any text. The word count and all statistics update in real time as you type — no button to press.",
+            icon: FileText,
+          },
+          {
+            step: "02",
+            title: "See All Counts",
+            description: "Instantly see word count, character count (with and without spaces), sentence count, paragraph count, and estimated reading time — all calculated live.",
+            icon: BarChart3,
+          },
+          {
+            step: "03",
+            title: "Use for Any Platform",
+            description: "Compare your count against social media limits (Twitter 280, Instagram 2200), academic minimums, or SEO targets. Paste in and check before you publish.",
+            icon: Globe,
+          },
+        ]}
+        badges={[
+          "Live word count",
+          "Character count",
+          "Reading time",
+        ]}
       />
 
-      {/* SECTION 4: FEATURE HIGHLIGHTS & DEEP SEO GUIDE */}
-      <ToolFeatureGuides features={features}>
-        <div className="space-y-4 text-sm leading-relaxed">
-          <h3 className="text-xl font-bold text-foreground">
-            What Is a Word Counter?
-          </h3>
+      {/* SECTION 4: FEATURE GUIDES */}
+      <ToolFeatureGuides
+        features={[
+          {
+            icon: FileText,
+            title: "Accurate Word Count",
+            description: "Counts words by splitting on whitespace and punctuation boundaries. Handles hyphenated words, contractions, numbers, and URLs correctly.",
+          },
+          {
+            icon: Hash,
+            title: "Character Count",
+            description: "Shows both total characters (including spaces) and characters without spaces. Social platforms count spaces — use the 'with spaces' number for character limit checks.",
+          },
+          {
+            icon: AlignLeft,
+            title: "Sentence & Paragraph Count",
+            description: "Counts sentences by detecting sentence-ending punctuation and paragraphs by blank line separation. Use average sentence length to assess writing complexity.",
+          },
+          {
+            icon: Clock,
+            title: "Reading Time",
+            description: "Estimates reading time at 238 words per minute (average adult reading speed) and speaking time at 130 WPM. Displayed in minutes and seconds.",
+          },
+          {
+            icon: Type,
+            title: "Unique Word Count",
+            description: "Counts distinct vocabulary words used in your text. A high ratio of unique words to total words indicates vocabulary diversity and writing quality.",
+          },
+          {
+            icon: Shield,
+            title: "Private & Offline",
+            description: "All counting happens in your browser. Your text — which may be a draft, confidential document, or private note — never leaves your device.",
+          },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <h3 className="text-lg font-semibold">Word Count Guide — Targets for Every Content Type</h3>
           <p>
-            A word counter is a digital utility that instantly calculates the total number of words, characters, sentences, and paragraphs in a body of text. While it sounds simple, a robust word counter is an essential tool for a wide variety of professionals. <strong>Writers</strong> use it to hit publisher targets, <strong>students</strong> use it to ensure their academic essays meet strict assignment criteria, <strong>SEO professionals</strong> rely on it to optimize blog post lengths for search engines, and <strong>social media managers</strong> use it to ensure their captions and tweets fit within platform-specific character limits.
+            Word count requirements vary dramatically by content type and platform. Whether you're
+            writing for SEO, social media, academic requirements, or professional communication,
+            knowing the right target length helps you hit your goals efficiently.
           </p>
 
-          <h3 className="text-xl font-bold text-foreground pt-2">
-            Why Word Count Matters
-          </h3>
-          <p>
-            Word count is more than just an arbitrary number; it dictates the rhythm, depth, and platform suitability of your content. In academic settings, essays often come with strict minimum and maximum word count requirements to ensure a topic is covered with adequate depth without unnecessary filler. For SEO professionals, long-form content often performs better in search engine rankings; comprehensive blog posts typically range between 1,500 and 2,500 words, allowing for thorough topic coverage and natural keyword inclusion. Meanwhile, social media demands brevity and precision, where exceeding a character limit by even one letter can prevent a post from being published.
-          </p>
-
-          <h3 className="text-xl font-bold text-foreground pt-2">
-            How Reading Time Is Calculated
-          </h3>
-          <p>
-            Have you ever wondered how blogging platforms estimate reading time? The calculation is based on the average adult reading speed. Research indicates that the average adult reads at a pace of roughly 200 to 238 words per minute (WPM). Toolzium&apos;s word counter uses a conservative baseline of 200 WPM to calculate reading time, ensuring your audience has ample time to digest the material. Similarly, speaking speed for speeches, presentations, and voiceovers is calculated at a slower pace of 130 WPM, which is the industry standard for teleprompters and clear vocal delivery.
-          </p>
-
-          <h3 className="text-xl font-bold text-foreground pt-2">
-            Social Media Character Limits Reference Table
-          </h3>
-          <p>
-            Navigating the ever-changing landscape of social media character limits can be challenging. Use this quick reference table to ensure your next post is perfectly sized for your target platform:
-          </p>
-          <div className="overflow-x-auto rounded-lg border">
-            <table className="w-full text-sm text-left">
-              <thead className="bg-muted/60">
-                <tr className="[&>th]:px-4 [&>th]:py-2 font-semibold">
-                  <th>Platform</th>
-                  <th>Character Limit</th>
-                  <th>Best Practice Length</th>
+          <h4 className="font-semibold">Content Length Reference by Type</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Content Type</th>
+                  <th className="border p-2 text-left">Word Count</th>
+                  <th className="border p-2 text-left">Read Time</th>
+                  <th className="border p-2 text-left">Notes</th>
                 </tr>
               </thead>
-              <tbody className="[&>tr]:border-t">
-                <tr className="hover:bg-muted/20">
-                  <td className="px-4 py-2 font-medium">Twitter / X</td>
-                  <td className="px-4 py-2">280</td>
-                  <td className="px-4 py-2">71-100 characters for high engagement</td>
-                </tr>
-                <tr className="hover:bg-muted/20">
-                  <td className="px-4 py-2 font-medium">Instagram Caption</td>
-                  <td className="px-4 py-2">2,200</td>
-                  <td className="px-4 py-2">138-150 characters (before the &quot;more&quot; cutoff)</td>
-                </tr>
-                <tr className="hover:bg-muted/20">
-                  <td className="px-4 py-2 font-medium">LinkedIn Post</td>
-                  <td className="px-4 py-2">3,000</td>
-                  <td className="px-4 py-2">50-100 characters for B2B updates</td>
-                </tr>
-                <tr className="hover:bg-muted/20">
-                  <td className="px-4 py-2 font-medium">TikTok Caption</td>
-                  <td className="px-4 py-2">2,200</td>
-                  <td className="px-4 py-2">Keep it brief and include engaging hashtags</td>
-                </tr>
-                <tr className="hover:bg-muted/20">
-                  <td className="px-4 py-2 font-medium">YouTube Description</td>
-                  <td className="px-4 py-2">5,000</td>
-                  <td className="px-4 py-2">Front-load crucial information in the first 200 characters</td>
-                </tr>
-                <tr className="hover:bg-muted/20">
-                  <td className="px-4 py-2 font-medium">Facebook Post</td>
-                  <td className="px-4 py-2">63,206</td>
-                  <td className="px-4 py-2">40-80 characters for optimal click-through rates</td>
-                </tr>
+              <tbody>
+                {[
+                  ["Tweet/X post", "< 40 words", "< 15 sec", "280 character limit"],
+                  ["Email subject line", "6-10 words", "< 5 sec", "Preview cut-off at ~60 chars"],
+                  ["Email body", "75-150 words", "< 1 min", "Ideal for response rate"],
+                  ["Instagram caption", "< 300 words", "< 2 min", "2,200 char limit; first 125 shown"],
+                  ["Short blog post", "500-800 words", "2-3 min", "News, quick tips"],
+                  ["Standard article", "1,000-2,000 words", "4-8 min", "Most blog posts"],
+                  ["Long-form SEO content", "2,000-4,000 words", "8-17 min", "Competitive keywords"],
+                  ["Academic essay", "1,500-5,000 words", "6-21 min", "Varies by assignment"],
+                  ["10-min speech", "~1,300 words", "10 min", "At 130 WPM"],
+                  ["Novel chapter", "2,000-5,000 words", "8-21 min", "Industry standard"],
+                ].map(([type, count, time, notes]) => (
+                  <tr key={type} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{type}</td>
+                    <td className="border p-2 text-primary text-xs">{count}</td>
+                    <td className="border p-2 text-xs">{time}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{notes}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
 
-          <h3 className="text-xl font-bold text-foreground pt-2">
-            Keyword Density Best Practices
-          </h3>
-          <p>
-            Keyword density represents the percentage of times a keyword or phrase appears compared to the total number of words on a page. While there is no magic number, most SEO experts recommend an ideal keyword density of 1% to 3%. Over-optimization, or keyword stuffing, occurs when keywords are forced into content unnaturally, which can lead to search engine penalties and a poor reader experience. Use our built-in density table to monitor your top keywords naturally and ensure you are targeting your desired topics without crossing the line into spam.
-          </p>
-
-          <h3 className="text-xl font-bold text-foreground pt-2">
-            Pro Tips for Writers
-          </h3>
-          <ul className="list-disc pl-6 space-y-2">
-            <li><strong>Embrace the Hemingway Principle:</strong> Keep your sentences bold, direct, and concise. Use our sentence and paragraph counters to break up walls of text and improve readability.</li>
-            <li><strong>Target Specific Word Counts:</strong> Before writing, know your goal. Whether it is a 500-word newsletter or a 2,000-word cornerstone guide, use the live counter to pace your writing and hit your target organically.</li>
-            <li><strong>Check Your Reading Level:</strong> Leverage our AI Tone Analysis to evaluate the grade level of your content. Ensure your vocabulary matches your target audience—academic for researchers, and accessible for general readers.</li>
-            <li><strong>Trim the Fat:</strong> If your word count is too high, use the <code>Remove extra spaces</code> tool and hunt for filler words. Strong writing is tight writing.</li>
-          </ul>
+          <h4 className="font-semibold">Social Media Character Limits</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Platform</th>
+                  <th className="border p-2 text-left">Post Limit</th>
+                  <th className="border p-2 text-left">Bio Limit</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["X (Twitter)", "280 characters", "160 characters"],
+                  ["Instagram", "2,200 characters", "150 characters"],
+                  ["Facebook", "63,206 characters", "101 characters"],
+                  ["LinkedIn", "3,000 characters", "2,600 characters"],
+                  ["TikTok", "2,200 characters", "80 characters"],
+                  ["YouTube", "5,000 characters", "1,000 characters"],
+                ].map(([platform, post, bio]) => (
+                  <tr key={platform} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{platform}</td>
+                    <td className="border p-2 text-primary text-xs">{post}</td>
+                    <td className="border p-2 text-xs">{bio}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </ToolFeatureGuides>
 
-      {/* SECTION 5: FAQ & RELATED TOOLS */}
-      <ToolFaqAccordion faqs={faqs} />
-
+      {/* SECTION 5: FAQ + RELATED TOOLS */}
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "How does word count work?",
+            answer: "Words are counted by splitting text on whitespace boundaries. Most counters count sequences of non-whitespace characters as words — so 'hello-world' counts as 1 word (or sometimes 2, depending on the tool). Numbers, URLs, and hyphenated terms all count as single words. This tool uses the same method as Microsoft Word.",
+          },
+          {
+            question: "What is the difference between character count with and without spaces?",
+            answer: "Character count with spaces counts every character including spaces, tabs, and newlines. Without spaces counts only visible characters. For social media limits (Twitter, Instagram), use the 'with spaces' count since those platforms count spaces. For SMS or text limits, check which counting method the platform uses.",
+          },
+          {
+            question: "How many words should a blog post be for SEO?",
+            answer: "For competitive keywords, aim for 1,500-3,000 words. For informational queries with less competition, 800-1,200 words can rank well. Quality matters more than quantity — cover the topic comprehensively, answer user intent completely, and avoid padding with filler content just to hit a word count target.",
+          },
+          {
+            question: "How many words per minute do people read?",
+            answer: "The average adult reads approximately 238 words per minute silently (based on a 2019 meta-analysis of 190 studies). College students average ~300 WPM. Speed readers reach 400-600 WPM with reduced comprehension. For speech, the average conversational pace is 130-150 WPM; presentations are typically 100-120 WPM.",
+          },
+          {
+            question: "Is my text stored or sent anywhere?",
+            answer: "No. All word counting runs entirely in your browser using JavaScript. Your text is processed locally and never sent to any server. This makes the tool safe for drafts, confidential documents, private writing, and sensitive content.",
+          },
+        ]}
+      />
       <RelatedTools currentToolUrl="/tools/text/word-counter" max={6} />
-    </>
+    </div>
   );
 }
