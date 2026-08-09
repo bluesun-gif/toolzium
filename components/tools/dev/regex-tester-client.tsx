@@ -1,6 +1,6 @@
 "use client";
 
-import { Copy, Filter, Info, ListChecks, Regex, Save, Scissors, Timer } from "lucide-react";
+import { Copy, Filter, Info, ListChecks, Regex, Save, Scissors, Timer, BookOpen, Shield, Zap, Code2, FlaskConical, Globe } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ActionButton,
@@ -13,6 +13,10 @@ import InputField from "@/components/shared/form-fields/input-field";
 import SwitchRow from "@/components/shared/form-fields/switch-row";
 import TextareaField from "@/components/shared/form-fields/textarea-field";
 import ToolPageHeader from "@/components/shared/tool-page-header";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 import { Badge } from "@/components/ui/badge";
 import {
   CardContent,
@@ -228,7 +232,7 @@ for (const m of matches) {
   }, [hash]);
 
   return (
-    <>
+    <div className="max-w-6xl mx-auto space-y-8">
       <ToolPageHeader
         icon={Regex}
         title="Regex Tester"
@@ -644,6 +648,207 @@ for (const m of matches) {
           </CardFooter>
         </GlassCard>
       </div>
-    </>
+
+      {/* SECTION 3: HOW IT WORKS */}
+      <ToolHowItWorks
+        steps={[
+          {
+            step: "01",
+            title: "Write Your Pattern",
+            description: "Enter your regular expression in the pattern field. Toggle flags (g, i, m, s, u, y) as needed and select from built-in presets.",
+            icon: Code2,
+          },
+          {
+            step: "02",
+            title: "Paste Test Text",
+            description: "Add your test string in the Test Text panel. Matches are highlighted in real time as you type, with group details shown.",
+            icon: FlaskConical,
+          },
+          {
+            step: "03",
+            title: "Inspect, Replace & Export",
+            description: "View the Replace tab to preview substitutions, use the Snippet tab for a ready-made JS snippet, and export match results as CSV or JSON.",
+            icon: BookOpen,
+          },
+        ]}
+        badges={[
+          "Privacy First — runs locally",
+          "Real-time matching",
+          "No server uploads",
+        ]}
+      />
+
+      {/* SECTION 4: FEATURE GUIDES */}
+      <ToolFeatureGuides
+        features={[
+          {
+            icon: Regex,
+            title: "All 6 Regex Flags Supported",
+            description: "Toggle global (g), case-insensitive (i), multiline (m), dotAll (s), unicode (u), and sticky (y) flags independently.",
+          },
+          {
+            icon: ListChecks,
+            title: "Built-in Preset Library",
+            description: "Jump-start testing with common patterns: email, URL, phone, date, IPv4, hex color, and more — all editable.",
+          },
+          {
+            icon: Scissors,
+            title: "Search & Replace Mode",
+            description: "Preview regex-powered replacements with capture group references ($1, $2) before applying them in production code.",
+          },
+          {
+            icon: Timer,
+            title: "Performance Timeout Control",
+            description: "Set a custom execution timeout to guard against catastrophic backtracking (ReDoS) on complex patterns.",
+          },
+          {
+            icon: Filter,
+            title: "Line Filter Mode",
+            description: "Filter multiline input to keep only matching lines (grep-style) or exclude matching lines — perfect for log analysis.",
+          },
+          {
+            icon: Save,
+            title: "Save & Share Patterns",
+            description: "Save custom presets locally and share patterns via a shareable URL hash that encodes your full test state.",
+          },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <h3 className="text-lg font-semibold">How Regular Expressions Work — A Developer&apos;s Guide</h3>
+          <p>
+            A <strong>regular expression</strong> (regex) is a sequence of characters that defines a search pattern. The
+            JavaScript regex engine (<code>RegExp</code>) reads your pattern character by character and tries to match it
+            against the input string using a process called <em>backtracking</em>. Understanding backtracking is key:
+            the engine tries every possible path before declaring no match, which is why poorly written patterns
+            can cause catastrophic slowdowns (ReDoS).
+          </p>
+
+          <h4 className="font-semibold">Regex Flag Reference</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Flag</th>
+                  <th className="border p-2 text-left">Name</th>
+                  <th className="border p-2 text-left">Effect</th>
+                  <th className="border p-2 text-left">Common Use</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[["/g", "Global", "Find all matches (not just the first)", "grep-style search, string.replaceAll"],
+                  ["/i", "Case-insensitive", "Match [a-z] and [A-Z] equally", "Username, email parsing"],
+                  ["/m", "Multiline", "^ and $ match line start/end", "Log parsing, line-by-line extraction"],
+                  ["/s", "DotAll", ". matches newlines too", "Multi-line HTML tag matching"],
+                  ["/u", "Unicode", "Full Unicode code point matching", "Emoji, CJK, Bengali text matching"],
+                  ["/y", "Sticky", "Match only at lastIndex", "Tokenizers, streaming parsers"],
+                ].map(([flag, name, effect, use]) => (
+                  <tr key={flag} className="odd:bg-muted/20">
+                    <td className="border p-2 font-mono text-primary">{flag}</td>
+                    <td className="border p-2 font-medium">{name}</td>
+                    <td className="border p-2 text-muted-foreground">{effect}</td>
+                    <td className="border p-2 text-muted-foreground">{use}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h4 className="font-semibold">Essential Regex Syntax Cheat Sheet</h4>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+            {[["." , "Any character except newline"],
+              ["\\d / \\D", "Digit / non-digit"],
+              ["\\w / \\W", "Word char [a-zA-Z0-9_] / non-word"],
+              ["\\s / \\S", "Whitespace / non-whitespace"],
+              ["^ / $", "Start / end of string (or line with /m)"],
+              ["* / + / ?", "0+ / 1+ / 0-or-1 of previous token"],
+              ["{n,m}", "Between n and m repetitions"],
+              ["(a|b)", "Alternation — match a or b"],
+              ["(group)", "Capture group — referenced as $1 in replace"],
+              ["(?:group)", "Non-capturing group — for grouping without capture"],
+              ["(?=...)", "Positive lookahead — match if followed by..."],
+              ["(?<!...)", "Negative lookbehind — match if NOT preceded by..."],
+            ].map(([syntax, desc]) => (
+              <div key={syntax} className="flex gap-2 rounded-md border bg-muted/30 p-2">
+                <code className="shrink-0 font-mono text-primary text-xs">{syntax}</code>
+                <span className="text-muted-foreground text-xs">{desc}</span>
+              </div>
+            ))}
+          </div>
+
+          <h4 className="font-semibold">JavaScript Regex Flavour vs. PCRE</h4>
+          <p>
+            The Toolzium Regex Tester uses JavaScript&apos;s native <code>RegExp</code> engine. JavaScript regex
+            is close to PCRE (used by PHP, Python, Ruby) but has some important differences:
+          </p>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Feature</th>
+                  <th className="border p-2 text-left">JavaScript</th>
+                  <th className="border p-2 text-left">PCRE / Python</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[["Named groups", "(?<name>...) — ES2018+", "(?P<name>...)"],
+                  ["Lookbehind", "Fixed-length only (ES2018+)", "Variable-length OK"],
+                  ["Unicode props", "\\p{L} with /u (ES2018+)", "\\p{L} natively"],
+                  ["Atomic groups", "Not supported", "(?>...) supported"],
+                  ["Flags", "g i m s u y d v", "i m s x (different set)"],
+                ].map(([feat, js, pcre]) => (
+                  <tr key={feat} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium">{feat}</td>
+                    <td className="border p-2 font-mono text-xs">{js}</td>
+                    <td className="border p-2 font-mono text-xs">{pcre}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h4 className="font-semibold">Avoiding ReDoS (Catastrophic Backtracking)</h4>
+          <p>
+            Patterns like <code>{`(a+)+`}</code> or <code>{`(a|aa)+`}</code> cause exponential backtracking on
+            long strings. Use the <strong>Timeout Control</strong> feature to catch these early. Safe patterns use
+            possessive quantifiers (via atomic groups in PCRE) or rewrite overlapping alternatives.
+          </p>
+
+          <h4 className="font-semibold">Pro Tips for Regex Testing</h4>
+          <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
+            <li>Use the <strong>Snippet tab</strong> to get a ready-made JavaScript code block — copy and paste directly into your code.</li>
+            <li>The <strong>Line Filter mode</strong> mimics grep: keep matching lines or discard them from multiline logs.</li>
+            <li>Share your regex test state via the URL — the full pattern, flags, and test text are encoded in the hash.</li>
+            <li>The global flag (<code>/g</code>) is required for <code>matchAll()</code> — always enable it when iterating all matches.</li>
+          </ul>
+        </div>
+      </ToolFeatureGuides>
+
+      {/* SECTION 5: FAQ + RELATED TOOLS */}
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "What regex flavors does this tester support?",
+            answer: "It uses JavaScript's native RegExp engine (ECMAScript standard). Most patterns are also compatible with PCRE, Python, PHP, Java, and C# — though some advanced features like variable-length lookbehinds are PCRE-only.",
+          },
+          {
+            question: "How do I use capture groups in replacements?",
+            answer: "In the Replace tab, reference capture groups as $1, $2, etc. (or $<name> for named groups). For example, pattern (\\w+)\\s(\\w+) with replacement $2 $1 swaps two words.",
+          },
+          {
+            question: "Why does my regex hang or time out?",
+            answer: "This is usually catastrophic backtracking — a ReDoS vulnerability. Patterns like (a+)+ on long input can take exponential time. Increase the timeout limit to detect it, then rewrite the pattern to eliminate ambiguous alternatives.",
+          },
+          {
+            question: "Can I test regex for languages other than JavaScript?",
+            answer: "The engine is JavaScript-based, but most JS patterns work identically in Python (re module), PHP (preg_match), Java (Pattern), and C# (Regex). Check the JS vs PCRE table above for the key differences.",
+          },
+          {
+            question: "Is my test text or regex pattern saved anywhere?",
+            answer: "No. Everything runs entirely in your browser. Custom presets are saved to localStorage, and shared links encode data in the URL hash — nothing is sent to a server.",
+          },
+        ]}
+      />
+      <RelatedTools currentToolUrl="/tools/dev/regex-tester" max={6} />
+    </div>
   );
 }

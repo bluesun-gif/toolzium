@@ -10,6 +10,12 @@ import {
   KeyRound,
   ShieldAlert,
   ShieldCheck,
+  BookOpen,
+  Code2,
+  Globe,
+  Lock,
+  Shield,
+  Zap,
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -24,6 +30,10 @@ import SwitchRow from "@/components/shared/form-fields/switch-row";
 import TextareaField from "@/components/shared/form-fields/textarea-field";
 import Stat from "@/components/shared/stat";
 import ToolPageHeader from "@/components/shared/tool-page-header";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
@@ -197,7 +207,8 @@ export default function JwtDecoderClient() {
   }
 
   return (
-    <TooltipProvider>
+    <div className="max-w-6xl mx-auto space-y-8">
+      <TooltipProvider>
       <ToolPageHeader
         icon={FileJson}
         title="JWT Decoder & Verifier"
@@ -515,6 +526,185 @@ export default function JwtDecoderClient() {
         </CardContent>
       </GlassCard>
     </TooltipProvider>
+
+      {/* SECTION 3: HOW IT WORKS */}
+      <ToolHowItWorks
+        steps={[
+          {
+            step: "01",
+            title: "Paste Your JWT",
+            description: "Paste a JSON Web Token into the input. The tool auto-decodes the Base64URL-encoded header and payload segments instantly.",
+            icon: FileJson,
+          },
+          {
+            step: "02",
+            title: "Inspect Claims",
+            description: "View exp, iat, nbf timestamps in human-readable format. Check aud, iss, sub, scope, roles and all custom claims with syntax highlighting.",
+            icon: BookOpen,
+          },
+          {
+            step: "03",
+            title: "Verify Signature (Optional)",
+            description: "Supply an HMAC secret, RSA/ECDSA PEM public key, or JWKS URL to cryptographically verify the token signature.",
+            icon: KeyRound,
+          },
+        ]}
+        badges={[
+          "Offline by default",
+          "No server uploads",
+          "JWKS opt-in only",
+        ]}
+      />
+
+      {/* SECTION 4: FEATURE GUIDES */}
+      <ToolFeatureGuides
+        features={[
+          {
+            icon: FileJson,
+            title: "Instant Base64URL Decode",
+            description: "The header and payload are Base64URL-decoded and pretty-printed with syntax highlighting as soon as you paste a token.",
+          },
+          {
+            icon: Clock,
+            title: "Timestamp Validation",
+            description: "exp, iat, and nbf are checked against current time and displayed in human-readable format with relative time (e.g., '2h 30m from now').",
+          },
+          {
+            icon: KeyRound,
+            title: "Multi-Algorithm Signature Verify",
+            description: "Supports HS256/384/512 (HMAC secret), RS256/384/512 (RSA PEM), ES256/384/512 (ECDSA PEM), PS256/384/512 (RSA-PSS PEM), and JWKS URL.",
+          },
+          {
+            icon: ShieldCheck,
+            title: "JWKS Endpoint Support",
+            description: "Provide a JWKS URL to fetch public keys by kid. The tool handles kid-aware key selection and optional caching — only fetches if you opt in.",
+          },
+          {
+            icon: Code2,
+            title: "Export & Copy",
+            description: "Copy the decoded header, payload, or full token. Export the raw JWT or decoded JSON for documentation or debugging workflows.",
+          },
+          {
+            icon: Zap,
+            title: "Auto-Paste & URL Params",
+            description: "Enable auto-decode on paste to skip the button click. Pass ?token=... in the URL to pre-load a token for shareable debug links.",
+          },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <h3 className="text-lg font-semibold">Understanding JWT Structure — A Developer&apos;s Reference</h3>
+          <p>
+            A <strong>JSON Web Token (JWT)</strong> is a compact, URL-safe way to represent claims between parties.
+            Every JWT has three segments separated by dots: <code>header.payload.signature</code>. The header and
+            payload are Base64URL-encoded JSON objects; the signature proves the token was issued by a trusted party.
+          </p>
+
+          <h4 className="font-semibold">Standard JWT Claims Reference</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Claim</th>
+                  <th className="border p-2 text-left">Full Name</th>
+                  <th className="border p-2 text-left">Type</th>
+                  <th className="border p-2 text-left">Purpose</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[["iss", "Issuer", "String", "Who created and signed the token (e.g., auth server URL)"],
+                  ["sub", "Subject", "String", "Whom the token refers to (usually user ID)"],
+                  ["aud", "Audience", "String | Array", "Who the token is intended for (e.g., your API)"],
+                  ["exp", "Expiration", "Unix timestamp", "When the token expires — reject after this time"],
+                  ["iat", "Issued At", "Unix timestamp", "When the token was issued"],
+                  ["nbf", "Not Before", "Unix timestamp", "Token is not valid before this time"],
+                  ["jti", "JWT ID", "String", "Unique identifier — prevents replay attacks"],
+                  ["kid", "Key ID", "String (header)", "Identifies which key to use for verification"],
+                ].map(([claim, name, type, purpose]) => (
+                  <tr key={claim} className="odd:bg-muted/20">
+                    <td className="border p-2 font-mono text-primary text-xs">{claim}</td>
+                    <td className="border p-2 font-medium text-xs">{name}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{type}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{purpose}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h4 className="font-semibold">Signing Algorithms Comparison</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Algorithm</th>
+                  <th className="border p-2 text-left">Type</th>
+                  <th className="border p-2 text-left">Key Required</th>
+                  <th className="border p-2 text-left">Use Case</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[["HS256 / HS512", "HMAC (symmetric)", "Shared secret", "Internal services, same-trust-domain"],
+                  ["RS256 / RS512", "RSA (asymmetric)", "Public/private key pair", "Distributed systems, third-party verify"],
+                  ["ES256 / ES512", "ECDSA (asymmetric)", "EC public/private key", "Mobile, IoT — smaller key size than RSA"],
+                  ["PS256 / PS512", "RSA-PSS (asymmetric)", "RSA public/private key", "FIPS compliance, higher security margin"],
+                ].map(([alg, type, key, use]) => (
+                  <tr key={alg} className="odd:bg-muted/20">
+                    <td className="border p-2 font-mono text-primary text-xs">{alg}</td>
+                    <td className="border p-2 text-xs">{type}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{key}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{use}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h4 className="font-semibold">Decode vs. Verify — Know the Difference</h4>
+          <p>
+            <strong>Decoding</strong> only reads the payload — anyone can do it by Base64URL-decoding the middle segment.
+            It does <em>not</em> prove the token is legitimate. <strong>Verification</strong> cryptographically checks
+            the signature using the issuer&apos;s secret or public key. Always verify JWTs server-side before trusting
+            any claims.
+          </p>
+
+          <h4 className="font-semibold">Security Best Practices</h4>
+          <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
+            <li>Always check <code>exp</code> on every request — never trust an expired token.</li>
+            <li>Validate <code>aud</code> and <code>iss</code> to prevent token substitution attacks.</li>
+            <li>Prefer asymmetric algorithms (RS256, ES256) for distributed systems — no secret sharing needed.</li>
+            <li>Store tokens in <code>httpOnly</code> cookies, not <code>localStorage</code>, to prevent XSS theft.</li>
+            <li>Use short expiry times and implement refresh token rotation.</li>
+          </ul>
+        </div>
+      </ToolFeatureGuides>
+
+      {/* SECTION 5: FAQ + RELATED TOOLS */}
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "Is decoding the same as verifying a JWT?",
+            answer: "No. Decoding only reveals the Base64URL-decoded header and payload. Anyone can decode a JWT without a secret. Verification checks the cryptographic signature to confirm the token was issued by a trusted party and has not been tampered with.",
+          },
+          {
+            question: "Which signing algorithms does this tool support?",
+            answer: "HS256/384/512 (HMAC shared secret), RS256/384/512 (RSA PEM), ES256/384/512 (ECDSA PEM), PS256/384/512 (RSA-PSS PEM), and JWKS URL for key discovery. All verification runs locally in your browser.",
+          },
+          {
+            question: "Does it support JWKS endpoints?",
+            answer: "Yes. Provide a JWKS URL to fetch public keys by kid. This network request is only made when you enable JWKS mode — by default the tool is fully offline.",
+          },
+          {
+            question: "Can it decode encrypted JWTs (JWE)?",
+            answer: "Encrypted JWEs require the decryption key and cannot be Base64URL-decoded like signed JWTs (JWS). This tool focuses on inspecting and verifying signed tokens (JWS).",
+          },
+          {
+            question: "Is my token uploaded to a server?",
+            answer: "No. All decoding and verification runs entirely in your browser using the Web Crypto API. JWKS fetching is the only network operation, and only happens if you explicitly enable it.",
+          },
+        ]}
+      />
+      <RelatedTools currentToolUrl="/tools/dev/jwt-decode" max={6} />
+    </div>
   );
 }
 

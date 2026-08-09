@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeftRight, Globe, Sparkles, TrendingUp } from "lucide-react";
+import { ArrowLeftRight, Globe, Sparkles, TrendingUp, BookOpen, Calculator, Clock, DollarSign, Shield, Zap } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ActionButton,
@@ -11,6 +11,10 @@ import {
 import InputField from "@/components/shared/form-fields/input-field";
 import SelectField from "@/components/shared/form-fields/select-field";
 import ToolPageHeader from "@/components/shared/tool-page-header";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 import { Badge } from "@/components/ui/badge";
 import { CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -260,7 +264,7 @@ export default function CurrencyConverterClient() {
   );
 
   return (
-    <>
+    <div className="max-w-6xl mx-auto space-y-8">
       {/* Header */}
       <ToolPageHeader
         icon={Globe}
@@ -499,6 +503,171 @@ export default function CurrencyConverterClient() {
           )}
         </div>
       )}
-    </>
+
+      {/* SECTION 3: HOW IT WORKS */}
+      <ToolHowItWorks
+        steps={[
+          {
+            step: "01",
+            title: "Enter Amount & Currencies",
+            description: "Type an amount and choose your From and To currencies from 150+ options. The tool fetches live exchange rates automatically.",
+            icon: Calculator,
+          },
+          {
+            step: "02",
+            title: "Get Instant Result",
+            description: "See the converted amount, inverse rate, and multi-currency comparison in real time. One-click swap reverses the conversion.",
+            icon: TrendingUp,
+          },
+          {
+            step: "03",
+            title: "Save & Export History",
+            description: "Converted pairs are logged in the History tab. Export your conversion history as CSV for expense tracking or financial reports.",
+            icon: BookOpen,
+          },
+        ]}
+        badges={[
+          "Privacy-first",
+          "150+ world currencies",
+          "Live rates, 3-min cache",
+        ]}
+      />
+
+      {/* SECTION 4: FEATURE GUIDES */}
+      <ToolFeatureGuides
+        features={[
+          {
+            icon: Globe,
+            title: "150+ World Currencies",
+            description: "Supports all major currencies: USD, EUR, GBP, INR, BDT, JPY, CNY, AED, SAR and 140+ more — updated with live forex market data.",
+          },
+          {
+            icon: ArrowLeftRight,
+            title: "One-Click Swap",
+            description: "Instantly swap From and To currencies with a single click. The converted amount updates immediately without re-entering the value.",
+          },
+          {
+            icon: Sparkles,
+            title: "Multi-Currency Comparison",
+            description: "See how your amount converts across a basket of popular currencies simultaneously — great for international price comparisons.",
+          },
+          {
+            icon: TrendingUp,
+            title: "Conversion History & Export",
+            description: "Every conversion is logged with timestamp, pair, amount, rate, and result. Export the full history as CSV for accounting or analysis.",
+          },
+          {
+            icon: Clock,
+            title: "Offline Fallback Mode",
+            description: "If the network is unavailable, the tool uses the last cached exchange rates so you can still convert currencies offline.",
+          },
+          {
+            icon: DollarSign,
+            title: "Favorite Currency Pairs",
+            description: "Save up to 15 frequently used currency pairs as favorites for instant one-click access to your most common conversions.",
+          },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <h3 className="text-lg font-semibold">How Currency Exchange Rates Work — A Finance Primer</h3>
+          <p>
+            Currency exchange rates represent the value of one currency in terms of another. They are determined
+            by supply and demand in the global <strong>foreign exchange (forex) market</strong> — the world&apos;s
+            largest financial market, trading over $7.5 trillion per day. Rates fluctuate constantly based on
+            inflation, interest rates, geopolitical events, and market sentiment.
+          </p>
+
+          <h4 className="font-semibold">Types of Exchange Rates</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Rate Type</th>
+                  <th className="border p-2 text-left">Description</th>
+                  <th className="border p-2 text-left">Used By</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["Spot Rate", "Current market price for immediate exchange", "Online converters, interbank market"],
+                  ["Bid/Ask Rate", "Buy/sell price offered by banks and brokers", "Forex brokers, money changers"],
+                  ["Forward Rate", "Agreed rate for exchange at a future date", "Importers, exporters, hedge funds"],
+                  ["Cross Rate", "Rate between two non-USD currencies (via USD)", "International wire transfers"],
+                  ["Official Rate", "Central bank–set rate (some countries)", "Government, regulated transactions"],
+                ].map(([type, desc, usedBy]) => (
+                  <tr key={type} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{type}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{desc}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{usedBy}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h4 className="font-semibold">Major Currency Pairs at a Glance</h4>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+            {[
+              ["EUR/USD", "Euro / US Dollar", "Most traded pair — ~23% of global FX volume"],
+              ["USD/JPY", "US Dollar / Japanese Yen", "Key carry trade pair; influenced by BOJ policy"],
+              ["GBP/USD", "British Pound / USD (Cable)", "Highly volatile; affected by UK economic data"],
+              ["USD/BDT", "US Dollar / Bangladeshi Taka", "Pegged/managed float; relevant for Bangladesh"],
+              ["USD/INR", "US Dollar / Indian Rupee", "Emerging market pair; tracked for South Asia trade"],
+              ["USD/CNY", "US Dollar / Chinese Yuan", "Managed by PBOC; critical for global trade pricing"],
+            ].map(([pair, name, note]) => (
+              <div key={pair} className="flex flex-col gap-1 rounded-md border bg-muted/30 p-2">
+                <span className="font-mono text-primary text-xs font-semibold">{pair}</span>
+                <span className="font-medium text-xs">{name}</span>
+                <span className="text-muted-foreground text-xs">{note}</span>
+              </div>
+            ))}
+          </div>
+
+          <h4 className="font-semibold">Factors That Move Exchange Rates</h4>
+          <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
+            <li><strong>Interest rates:</strong> Higher rates attract foreign capital, strengthening a currency. Central bank decisions (Fed, ECB, BOE) move markets significantly.</li>
+            <li><strong>Inflation:</strong> Lower inflation in a country generally strengthens its currency relative to high-inflation economies.</li>
+            <li><strong>Trade balance:</strong> Countries with trade surpluses (export more than import) tend to have stronger currencies.</li>
+            <li><strong>Political stability:</strong> Countries with stable governance attract foreign investment, boosting currency demand.</li>
+            <li><strong>Market speculation:</strong> Short-term speculation by traders can cause sudden rate movements regardless of fundamentals.</li>
+          </ul>
+
+          <h4 className="font-semibold">Understanding the Spread</h4>
+          <p>
+            The <strong>spread</strong> is the difference between the buy (bid) and sell (ask) price. When you exchange
+            currency at a bank or airport kiosk, you lose money to the spread. Online converters show the mid-market rate
+            (the midpoint between bid and ask) — this is the fairest comparison rate but not what you&apos;ll get at a
+            retail counter. Use the mid-market rate as a benchmark, then expect 1–5% worse at actual exchange points.
+          </p>
+        </div>
+      </ToolFeatureGuides>
+
+      {/* SECTION 5: FAQ + RELATED TOOLS */}
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "How accurate are the currency conversion rates?",
+            answer: "The tool uses live exchange rates from the open.er-api.com API, updated frequently. Rates are the mid-market rate — accurate for reference but may differ from bank or money exchange rates by 1–5% due to spreads and fees.",
+          },
+          {
+            question: "Can I use it offline?",
+            answer: "Yes. The converter stores the last available exchange rates in your browser's localStorage. If the network is unavailable, it falls back to cached rates and shows a notification.",
+          },
+          {
+            question: "How many currencies are supported?",
+            answer: "Over 150 world currencies are supported, including all major fiat currencies (USD, EUR, GBP, JPY, CNY, INR, BDT, AED, SAR and many more).",
+          },
+          {
+            question: "What is the multi-currency comparison feature?",
+            answer: "Multi-currency mode shows how your entered amount converts across a basket of popular currencies simultaneously, making it easy to compare prices across multiple countries at once.",
+          },
+          {
+            question: "Is this currency converter free to use?",
+            answer: "Yes. The tool is completely free, privacy-friendly, and requires no account or signup. Conversion history is stored only in your browser.",
+          },
+        ]}
+      />
+      <RelatedTools currentToolUrl="/tools/calc/currency" max={6} />
+    </div>
   );
 }

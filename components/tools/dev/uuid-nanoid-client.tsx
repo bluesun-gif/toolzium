@@ -12,6 +12,10 @@ import SwitchRow from "@/components/shared/form-fields/switch-row";
 import TextareaField from "@/components/shared/form-fields/textarea-field";
 import Stat from "@/components/shared/stat";
 import ToolPageHeader from "@/components/shared/tool-page-header";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 import {
   Hash,
   Key,
@@ -20,6 +24,12 @@ import {
   Type as TypeIcon,
   Upload,
   Wand2,
+  BookOpen,
+  Code2,
+  Database,
+  Globe,
+  Shield,
+  Zap,
 } from "lucide-react";
 import { customAlphabet, nanoid as nanoidFn } from "nanoid";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -290,7 +300,7 @@ const run = useCallback(() => {
   }, [validationInput, nanoAlphabet, nanoSize]);
 
   return (
-    <>
+    <div className="max-w-6xl mx-auto space-y-8">
       <ToolPageHeader
         icon={Hash}
         title="UUID & NanoID Generator"
@@ -588,7 +598,199 @@ const run = useCallback(() => {
           </CardContent>
         </GlassCard>
       </div>
-    </>
+
+      {/* SECTION 3: HOW IT WORKS */}
+      <ToolHowItWorks
+        steps={[
+          {
+            step: "01",
+            title: "Choose ID Type",
+            description: "Select UUID (v1, v4, v5) or NanoID from the tabs. Configure format options like uppercase, hyphens, braces, or a custom NanoID alphabet.",
+            icon: Key,
+          },
+          {
+            step: "02",
+            title: "Set Batch Size & Options",
+            description: "Set how many IDs to generate (1–10,000), add a prefix/suffix, choose a delimiter, and toggle uniqueness filtering.",
+            icon: ListChecks,
+          },
+          {
+            step: "03",
+            title: "Copy or Export",
+            description: "Copy all IDs to clipboard or export as TXT, CSV, or JSON. Use the Validate tab to check any existing ID string.",
+            icon: BookOpen,
+          },
+        ]}
+        badges={[
+          "Cryptographically secure",
+          "No server uploads",
+          "Generate up to 10,000 IDs",
+        ]}
+      />
+
+      {/* SECTION 4: FEATURE GUIDES */}
+      <ToolFeatureGuides
+        features={[
+          {
+            icon: Key,
+            title: "UUID v1, v4, and v5",
+            description: "v1 is time-based (includes MAC address), v4 is fully random, v5 is name-based (deterministic SHA-1 hash from a namespace + name).",
+          },
+          {
+            icon: Hash,
+            title: "Custom NanoID Alphabet",
+            description: "Generate short, URL-safe IDs with a fully configurable alphabet and length. Use presets (alphanumeric, hex, numbers) or enter your own character set.",
+          },
+          {
+            icon: Shuffle,
+            title: "Batch Generation",
+            description: "Generate up to 10,000 unique IDs in one click. Toggle uniqueness-only mode to eliminate duplicates from large batches.",
+          },
+          {
+            icon: Upload,
+            title: "Export in Multiple Formats",
+            description: "Export your generated IDs as plain TXT (one per line), CSV (with index column), or JSON array — ready for seeding databases or test fixtures.",
+          },
+          {
+            icon: Wand2,
+            title: "Prefix, Suffix & Delimiter",
+            description: "Add a custom prefix (e.g., user_, order_) or suffix to every generated ID. Control the output delimiter for multi-line or single-line output.",
+          },
+          {
+            icon: TypeIcon,
+            title: "UUID Validator",
+            description: "Paste any string to validate whether it is a well-formed UUID, detect its version (v1–v5), and see its variant field decoded.",
+          },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <h3 className="text-lg font-semibold">UUID vs. NanoID — A Developer&apos;s Guide</h3>
+          <p>
+            Choosing the right unique identifier format depends on your use case. Here is a comprehensive breakdown
+            of UUID versions and how NanoID compares, so you can make an informed decision.
+          </p>
+
+          <h4 className="font-semibold">UUID Version Comparison</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Version</th>
+                  <th className="border p-2 text-left">Algorithm</th>
+                  <th className="border p-2 text-left">Sortable?</th>
+                  <th className="border p-2 text-left">Best For</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["v1", "Time + MAC address", "Yes (time-ordered)", "Distributed systems, event logs"],
+                  ["v4", "Random (CSPRNG)", "No", "General purpose, user IDs, session tokens"],
+                  ["v5", "SHA-1 hash of namespace + name", "Deterministic", "Reproducible IDs from known inputs"],
+                  ["v7 (IETF draft)", "Unix timestamp + random", "Yes (time-ordered)", "Modern DBs — sortable + random"],
+                ].map(([ver, alg, sort, use]) => (
+                  <tr key={ver} className="odd:bg-muted/20">
+                    <td className="border p-2 font-mono text-primary text-xs">{ver}</td>
+                    <td className="border p-2 text-xs">{alg}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{sort}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{use}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h4 className="font-semibold">UUID vs. NanoID at a Glance</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Property</th>
+                  <th className="border p-2 text-left">UUID v4</th>
+                  <th className="border p-2 text-left">NanoID (default)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["Length", "36 chars (with hyphens)", "21 chars (configurable)"],
+                  ["Entropy", "122 bits", "~126 bits (21 × log₂(64))"],
+                  ["Charset", "hex + hyphens", "URL-safe alphanumeric"],
+                  ["URL-safe", "No (contains hyphens)", "Yes (default alphabet)"],
+                  ["Standard", "RFC 4122 / ISO/IEC 9834-8", "de facto (no formal RFC)"],
+                  ["Collision probability", "1 in 2^122", "~1 in 10^36 (default)"],
+                  ["DB index performance", "Moderate (random insertion)", "Moderate (random insertion)"],
+                ].map(([prop, uuidV, nano]) => (
+                  <tr key={prop} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{prop}</td>
+                    <td className="border p-2 font-mono text-xs">{uuidV}</td>
+                    <td className="border p-2 font-mono text-xs">{nano}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h4 className="font-semibold">Collision Probability — How Safe Are These IDs?</h4>
+          <p>
+            For UUID v4, generating <strong>1 billion UUIDs per second</strong> for 100 years gives a collision
+            probability of only 50%. In practice, your app will never generate enough IDs for collision to matter.
+            NanoID at 21 characters with the default 64-character alphabet has similar entropy (~126 bits) —
+            effectively collision-proof at any realistic scale.
+          </p>
+
+          <h4 className="font-semibold">Which ID Format Should You Use?</h4>
+          <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
+            <li><strong>UUID v4</strong>: Use when you need a universally recognized standard (e.g., for external APIs, compliance, or interoperability with other systems).</li>
+            <li><strong>NanoID</strong>: Use when you need a shorter, URL-safe ID for URLs, tokens, or display purposes. Great for REST APIs and frontend-generated IDs.</li>
+            <li><strong>UUID v5</strong>: Use when you need deterministic IDs from known inputs — e.g., generating the same ID for a given email address every time.</li>
+            <li><strong>ULID / UUID v7</strong>: Use when you need sortable time-ordered IDs for database primary keys (better B-tree performance than random UUIDs).</li>
+          </ul>
+
+          <h4 className="font-semibold">Database Integration Tips</h4>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+            {[
+              ["PostgreSQL", "Use uuid type natively; gen_random_uuid() for v4"],
+              ["MySQL / MariaDB", "Store as CHAR(36) or BINARY(16) for efficiency"],
+              ["MongoDB", "ObjectId is preferred, but UUID works as _id"],
+              ["SQLite", "TEXT column; no native UUID type"],
+              ["Prisma", "@default(uuid()) or @default(cuid())"],
+              ["Drizzle ORM", "$defaultFn(() => uuidV4()) in schema definition"],
+            ].map(([db, tip]) => (
+              <div key={db} className="flex flex-col gap-1 rounded-md border bg-muted/30 p-2">
+                <span className="font-mono text-primary text-xs font-medium">{db}</span>
+                <span className="text-muted-foreground text-xs">{tip}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </ToolFeatureGuides>
+
+      {/* SECTION 5: FAQ + RELATED TOOLS */}
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "What is the difference between UUID and NanoID?",
+            answer: "UUIDs are standardized 128-bit identifiers defined in RFC 4122, formatted as 36-character hex strings with hyphens. NanoIDs are shorter (default 21 chars), URL-safe, and customizable. Both have similar entropy and are collision-resistant for practical use.",
+          },
+          {
+            question: "Is UUID v4 generation cryptographically secure?",
+            answer: "Yes. Both UUID v4 and NanoID use the browser's crypto.getRandomValues() — a cryptographically secure pseudorandom number generator (CSPRNG). The IDs are unpredictable and safe to use as tokens.",
+          },
+          {
+            question: "Can I generate multiple IDs at once?",
+            answer: "Yes. Set the Count field to any number from 1 to 10,000. Enable uniqueness-only mode to remove any duplicates from the batch.",
+          },
+          {
+            question: "What is UUID v5 used for?",
+            answer: "UUID v5 generates a deterministic UUID from a namespace and a name string using SHA-1 hashing. Given the same namespace and name, it always produces the same UUID — useful for reproducible IDs from known data like email addresses or URLs.",
+          },
+          {
+            question: "Are generated IDs uploaded to a server?",
+            answer: "No. All ID generation runs entirely in your browser using the Web Crypto API. Nothing is sent to a server.",
+          },
+        ]}
+      />
+      <RelatedTools currentToolUrl="/tools/dev/uuid-nanoid" max={6} />
+    </div>
   );
 }
 

@@ -142,11 +142,19 @@ export default function Page() {
           text: "No. Everything runs locally in your browser, ensuring your test text and regex patterns remain private.",
         },
       },
+      {
+        "@type": "Question",
+        name: "Can I share my regex test with others?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes. The tool encodes your full regex state (pattern, flags, test text, and active tab) into a shareable URL hash. Just copy and share the link — no account required.",
+        },
+      },
     ],
   };
 
   return (
-    <div className="space-y-4">
+    <div className="max-w-6xl mx-auto space-y-8">
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
