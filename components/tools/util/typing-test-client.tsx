@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { RotateCcw, Timer, Activity, Zap, Keyboard, ShieldCheck, Target, Cpu, Clock as ClockIcon } from "lucide-react";
+import { RotateCcw, Timer, Activity, Zap, Keyboard, ShieldCheck, Target, Cpu, Clock as ClockIcon, BookOpen, Shield, BarChart3, Award, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
@@ -158,83 +158,6 @@ export default function TypingTestClient() {
     });
   };
 
-  const steps = [
-    {
-      step: "01",
-      title: "Select Difficulty",
-      description: "Choose between easy sentences, medium paragraphs, or hard developer code snippets.",
-      icon: Cpu,
-    },
-    {
-      step: "02",
-      title: "Start Typing",
-      description: "Focus the input window and start typing. The clock starts on your first keypress.",
-      icon: Keyboard,
-    },
-    {
-      step: "03",
-      title: "Analyze Speed",
-      description: "Once complete, review WPM, CPM, typing accuracy, and total time elapsed.",
-      icon: Activity,
-    },
-  ];
-
-  const features = [
-    {
-      title: "WPM Speed Tracker",
-      description: "Computes Net WPM and Characters Per Minute (CPM) in real time using the standard formula.",
-      icon: Activity,
-    },
-    {
-      title: "Coding Mode (Hard)",
-      description: "Test typing layout structures with standard HTML, JavaScript, Python, and SQL snippets.",
-      icon: Keyboard,
-    },
-    {
-      title: "Precision Accuracy",
-      description: "Tracks wrong characters and displays correct vs. incorrect character ratios.",
-      icon: Target,
-    },
-    {
-      title: "Visual Highlighting",
-      description: "Color-coded font overlays dynamically highlight correct, skipped, and typo keys.",
-      icon: Keyboard,
-    },
-    {
-      title: "Time Benchmarks",
-      description: "Tracks precise elapsed time in seconds to measure pacing and speed progression.",
-      icon: ClockIcon,
-    },
-    {
-      title: "Instant Re-runs",
-      description: "Click reset to fetch a new randomized block of text and start again instantly.",
-      icon: RotateCcw,
-    },
-  ];
-
-  const faqs = [
-    {
-      question: "How is typing speed (WPM) calculated?",
-      answer: "Words Per Minute (WPM) is calculated using the standard formula: (Total Characters typed / 5) / Time taken in minutes. A 'word' is defined as exactly 5 characters, including spaces, numbers, and punctuation.",
-    },
-    {
-      question: "What is a good typing speed?",
-      answer: "The average typing speed is around 40 WPM. Professional typists, copywriters, and developers generally range from 60 to 80 WPM, while competitive typists can reach speeds exceeding 120 WPM with practice.",
-    },
-    {
-      question: "Why does accuracy matter in a typing test?",
-      answer: "Accuracy reflects your overall efficiency. While raw speed is interesting, Net WPM subtracts errors from your total, which is more representative of real-world productivity where correcting mistakes consumes extra time.",
-    },
-    {
-      question: "Can I test my coding typing speed?",
-      answer: "Yes. Our tool offers a 'Hard' difficulty mode loaded with real-world programming code snippets (HTML, CSS, JS, Python, SQL). This is perfect for developers who want to practice typing complex brackets, colons, and syntax.",
-    },
-    {
-      question: "How can I improve my typing speed?",
-      answer: "Practice touch typing by placing your fingers on the 'home row' (ASDF for left hand, JKL; for right hand). Focus entirely on accuracy first, as speed will naturally develop as your muscle memory improves.",
-    },
-  ];
-
   return (
     <div className="max-w-6xl mx-auto space-y-8">
       <ToolPageHeader title="Typing Speed Test" description="Test and improve your typing speed and accuracy." />
@@ -362,96 +285,147 @@ export default function TypingTestClient() {
       </div>
 
       {/* SECTION 3: HOW IT WORKS */}
-      <ToolHowItWorks steps={steps} />
+      <ToolHowItWorks
+        steps={[
+          {
+            step: "01",
+            title: "Read the Prompt",
+            description: "A text passage appears on screen. Read it carefully before you begin — understanding the content helps you type more accurately and at a comfortable speed.",
+            icon: BookOpen,
+          },
+          {
+            step: "02",
+            title: "Type the Text",
+            description: "Start typing the passage. The timer begins automatically with your first keystroke. Correctly typed characters turn green; errors turn red. The test tracks every mistake.",
+            icon: Keyboard,
+          },
+          {
+            step: "03",
+            title: "See Your Results",
+            description: "When you finish, see your WPM (words per minute), accuracy percentage, number of errors, and time taken. Compare your score to industry benchmarks.",
+            icon: BarChart3,
+          },
+        ]}
+        badges={[
+          "WPM measurement",
+          "Accuracy tracking",
+          "Multiple difficulty levels",
+        ]}
+      />
 
-      {/* SECTION 4: FEATURE HIGHLIGHTS & DEEP SEO GUIDE */}
-      <ToolFeatureGuides features={features}>
-        <div className="space-y-5 text-sm leading-relaxed text-muted-foreground">
-          <h3 className="text-xl font-semibold text-foreground">How Words Per Minute (WPM) is Calculated</h3>
+      {/* SECTION 4: FEATURE GUIDES */}
+      <ToolFeatureGuides
+        features={[
+          {
+            icon: Zap,
+            title: "Real-Time WPM Counter",
+            description: "Shows your words per minute in real time as you type — so you can see your speed fluctuate and identify where you slow down or make errors.",
+          },
+          {
+            icon: Target,
+            title: "Accuracy Measurement",
+            description: "Tracks every error and calculates accuracy as a percentage. A high WPM with low accuracy is counterproductive — the goal is high speed AND high accuracy (95%+).",
+          },
+          {
+            icon: Timer,
+            title: "Timed & Word Count Modes",
+            description: "Choose a fixed time (1 min, 2 min, 5 min) to measure WPM, or a fixed word count (50, 100, 200 words) to measure completion speed with full accuracy.",
+          },
+          {
+            icon: Keyboard,
+            title: "Multiple Text Passages",
+            description: "Tests use a variety of passages: common English words for beginners, longer sentences for intermediate, programming keywords for developers, and random text for challenge.",
+          },
+          {
+            icon: Award,
+            title: "Score Benchmarking",
+            description: "Results are compared against average typing speeds for different professions — general users, office workers, programmers, and professional typists.",
+          },
+          {
+            icon: TrendingUp,
+            title: "Progress Tracking",
+            description: "Take multiple tests and track your WPM improvement over time. Regular 10-minute practice sessions can increase typing speed by 10-20 WPM within weeks.",
+          },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <h3 className="text-lg font-semibold">Typing Speed Guide — WPM Benchmarks and How to Improve</h3>
           <p>
-            The standard metric for measuring typing speed is <strong>Words Per Minute (WPM)</strong>. In typing standards, a &quot;word&quot; is not defined by spaces or individual vocabulary length, as words vary from short links like <code>it</code> to complex terminology like <code>autobiography</code>. Instead, a standardized word is defined as exactly <strong>5 characters</strong> (including letters, spaces, numbers, and punctuation).
-          </p>
-          <p>
-            The typing speed formula is:
-            <code className="block p-3 bg-muted rounded-md text-center font-mono my-2">
-              Gross WPM = (Total Typed Characters / 5) / Time in Minutes
-            </code>
-            This provides an objective baseline speed regardless of the complexity of the sentences typed.
-          </p>
-
-          <h3 className="text-xl font-semibold text-foreground">Understanding Gross WPM vs. Net WPM</h3>
-          <p>
-            While Gross WPM shows your raw movement speed across the keyboard, it does not account for spelling mistakes. In professional environments and employment testing, <strong>Net WPM</strong> is the default standard. Net WPM subtracts the number of uncorrected errors from your score:
-            <code className="block p-3 bg-muted rounded-md text-center font-mono my-2">
-              Net WPM = Gross WPM - (Uncorrected Errors / Time in Minutes)
-            </code>
-            This enforces speed discipline, as typing fast but leaving multiple typos represents low-quality work that requires correction time later.
-          </p>
-
-          <h3 className="text-xl font-semibold text-foreground">Typing Speed Classification and Occupations</h3>
-          <p>
-            Different careers demand varying typing speed capabilities. Review this bracket reference to assess your performance:
-          </p>
-          <table className="w-full border-collapse text-xs border border-border rounded-lg overflow-hidden my-4">
-            <thead className="bg-muted text-foreground">
-              <tr>
-                <th className="border border-border p-2 text-left">Speed Class</th>
-                <th className="border border-border p-2 text-left">WPM Range</th>
-                <th className="border border-border p-2 text-left">Skill Level Description</th>
-                <th className="border border-border p-2 text-left">Target Career Fields</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className="border border-border p-2 font-medium">Slow / Beginner</td>
-                <td className="border border-border p-2">Under 30 WPM</td>
-                <td className="border border-border p-2">Hunt-and-peck typists using visual search</td>
-                <td className="border border-border p-2">Basic desktop navigation, student training</td>
-              </tr>
-              <tr>
-                <td className="border border-border p-2 font-medium">Average</td>
-                <td className="border border-border p-2">30 - 50 WPM</td>
-                <td className="border border-border p-2">Typical computer user speed with moderate touch proficiency</td>
-                <td className="border border-border p-2">General office workers, managers, salespeople</td>
-              </tr>
-              <tr>
-                <td className="border border-border p-2 font-medium">Productive</td>
-                <td className="border border-border p-2">50 - 70 WPM</td>
-                <td className="border border-border p-2">Comfortable touch-typists using muscle memory</td>
-                <td className="border border-border p-2">Writers, journalists, software developers</td>
-              </tr>
-              <tr>
-                <td className="border border-border p-2 font-medium">Fast / Professional</td>
-                <td className="border border-border p-2">70 - 95 WPM</td>
-                <td className="border border-border p-2">Highly fluid keyboard traversal with high accuracy</td>
-                <td className="border border-border p-2">Executive assistants, court reporters, data transcribers</td>
-              </tr>
-              <tr>
-                <td className="border border-border p-2 font-medium">Elite</td>
-                <td className="border border-border p-2">95+ WPM</td>
-                <td className="border border-border p-2">Flawless touch typing and reflex-level speed</td>
-                <td className="border border-border p-2">Competitive typists, advanced stenographers</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <h3 className="text-xl font-semibold text-foreground">Touch Typing Ergonomics and Posture</h3>
-          <p>
-            To reach professional speeds, you must learn <strong>touch typing</strong>—the ability to type without looking down at the keyboard. This relies on the home row keys (<code>A, S, D, F</code> for your left hand, and <code>J, K, L, ;</code> for your right hand). Notice the physical tactile bumps on the <code>F</code> and <code>J</code> keys; these guide your index fingers back to position without visual confirmation.
-          </p>
-          <p>
-            Ergonomics are vital to avoid repetitive strain injuries (RSI) like Carpal Tunnel Syndrome. Maintain straight wrist alignment, keep your elbows at a 90-degree angle, and sit with straight spinal posture. Make sure you press keys with light, light taps rather than pounding keys.
+            Typing speed is measured in <strong>WPM (Words Per Minute)</strong>, where a "word" is
+            standardized as 5 keystrokes (including spaces). A score of 40 WPM with 95% accuracy is
+            considered the baseline for office work. Top typists reach 100-150+ WPM. The global
+            average for adults is approximately 40 WPM.
           </p>
 
-          <h3 className="text-xl font-semibold text-foreground">Keyboard Layouts: QWERTY vs. Dvorak and Colemak</h3>
-          <p>
-            While the **QWERTY** layout is standard, it was designed in 1873 for mechanical typewriters to deliberately separate common letter pairs, preventing physical type hammers from jamming. Alternative layouts like **Dvorak** (patented in 1936) place all vowels on the home row to reduce finger movement by up to 60%. **Colemak** is a newer, popular alternative that modifies only 17 keys from QWERTY, easing the learning curve while optimizing key rolls for maximum speed.
-          </p>
+          <h4 className="font-semibold">Typing Speed Benchmarks by Level</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Level</th>
+                  <th className="border p-2 text-left">WPM Range</th>
+                  <th className="border p-2 text-left">Accuracy</th>
+                  <th className="border p-2 text-left">Context</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["Beginner", "10-30 WPM", "< 90%", "Two-finger hunt & peck"],
+                  ["Below average", "30-40 WPM", "90%+", "Developing typist"],
+                  ["Average adult", "40-55 WPM", "92%+", "General computer user"],
+                  ["Good typist", "55-80 WPM", "95%+", "Office worker"],
+                  ["Fast typist", "80-100 WPM", "97%+", "Professional, programmer"],
+                  ["Expert typist", "100-130 WPM", "98%+", "Secretary, transcriptionist"],
+                  ["World-class", "130-200+ WPM", "99%+", "Competitive typist"],
+                ].map(([level, wpm, acc, context]) => (
+                  <tr key={level} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{level}</td>
+                    <td className="border p-2 text-primary font-mono text-xs">{wpm}</td>
+                    <td className="border p-2 text-xs">{acc}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{context}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h4 className="font-semibold">Top Tips to Increase Typing Speed</h4>
+          <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
+            <li><strong>Use all 10 fingers:</strong> Touch typing using the home row (ASDF JKL;) is the fastest method. Each finger is responsible for specific keys.</li>
+            <li><strong>Don't look at the keyboard:</strong> Force yourself to look at the screen only. Place a cover over the keyboard if needed. This is the hardest but most important habit.</li>
+            <li><strong>Prioritize accuracy over speed:</strong> Speed will come naturally as muscle memory develops. Focus on 95%+ accuracy first.</li>
+            <li><strong>Practice daily:</strong> 10-15 minutes of deliberate practice daily is more effective than 2 hours weekly. Consistency builds muscle memory.</li>
+            <li><strong>Use typing practice apps:</strong> Typing.com, Keybr, and Monkeytype are popular free tools for structured improvement.</li>
+            <li><strong>Learn keyboard shortcuts:</strong> Ctrl+C, Ctrl+V, Ctrl+Z, and others reduce hand movement and increase effective productivity speed beyond raw WPM.</li>
+          </ul>
         </div>
       </ToolFeatureGuides>
 
-      {/* SECTION 5: FAQ & RELATED TOOLS */}
-      <ToolFaqAccordion faqs={faqs} />
+      {/* SECTION 5: FAQ + RELATED TOOLS */}
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "What is a good typing speed in WPM?",
+            answer: "40-55 WPM is considered average for adults. 60-80 WPM is good and sufficient for most office work. 80-100 WPM is fast and will make you noticeably more productive. Above 100 WPM is expert-level. Accuracy matters as much as speed — aim for 95%+ accuracy at whatever speed you're currently at.",
+          },
+          {
+            question: "How is WPM calculated?",
+            answer: "WPM (Words Per Minute) = (total characters typed / 5) / minutes elapsed. A 'word' is standardized as 5 characters (including spaces) to normalize for different word lengths. Only correctly typed characters count. Errors reduce your effective WPM score.",
+          },
+          {
+            question: "How long does it take to improve typing speed?",
+            answer: "With consistent daily practice (10-15 min/day), most people can gain 10-15 WPM in 4-6 weeks. Going from 40 to 60 WPM typically takes 2-3 months. From 60 to 80+ WPM takes 3-6 months of deliberate practice. The key is focusing on touch typing (all 10 fingers, not looking at keys) rather than just typing faster.",
+          },
+          {
+            question: "What is touch typing?",
+            answer: "Touch typing is typing without looking at the keyboard, using a systematic finger placement system. Each finger is assigned specific keys based on the QWERTY layout. The 8 'home row' keys (ASDF JKL;) are the starting positions. Expert touch typists can reach 100+ WPM because their fingers move by muscle memory, not conscious thought.",
+          },
+          {
+            question: "What typing speed do programming jobs require?",
+            answer: "There's no strict minimum for programming, but 60+ WPM makes a meaningful difference in productivity. More importantly, programmers benefit from fast keyboard shortcut usage (IDE shortcuts, terminal commands) and accurate symbol typing (brackets, semicolons, underscores). Speed on special characters matters more for programmers than raw WPM.",
+          },
+        ]}
+      />
       <RelatedTools currentToolUrl="/tools/util/typing-test" max={6} />
     </div>
   );

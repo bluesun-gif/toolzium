@@ -3,6 +3,10 @@
 import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
 import InputField from "@/components/shared/form-fields/input-field";
 import SwitchRow from "@/components/shared/form-fields/switch-row";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import { RelatedTools } from "@/components/shared/related-tools";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -24,6 +28,11 @@ import {
   Plus,
   Trash2,
   Zap,
+  BookOpen,
+  Shield,
+  Timer,
+  Bell,
+  Settings2,
 } from "lucide-react";
 import type * as React from "react";
 import { useEffect, useMemo, useState } from "react";
@@ -383,7 +392,7 @@ export default function CountdownTimerClient() {
   ];
 
   return (
-    <>
+    <div className="max-w-6xl mx-auto space-y-8">
       {/* Header */}
       <ToolPageHeader
         icon={AlarmClock}
@@ -599,7 +608,168 @@ export default function CountdownTimerClient() {
           ))}
         </CardContent>
       </GlassCard>
-    </>
+      {/* SECTION 3: HOW IT WORKS */}
+      <ToolHowItWorks
+        steps={[
+          {
+            step: "01",
+            title: "Set Your Time",
+            description: "Enter hours, minutes, and seconds for your countdown. Choose from presets (5 min, 10 min, 25 min Pomodoro, 1 hour) or enter any custom duration.",
+            icon: Settings2,
+          },
+          {
+            step: "02",
+            title: "Start the Timer",
+            description: "Click Start and the timer counts down in real time. The browser tab title updates with the remaining time so you can track it while working in other windows.",
+            icon: Play,
+          },
+          {
+            step: "03",
+            title: "Get Alerted",
+            description: "When time's up, an audio alert plays and a browser notification fires. Pause and resume anytime, or reset to start again with the same or a new duration.",
+            icon: Bell,
+          },
+        ]}
+        badges={[
+          "Browser tab countdown",
+          "Audio alert",
+          "Pause & resume",
+        ]}
+      />
+
+      {/* SECTION 4: FEATURE GUIDES */}
+      <ToolFeatureGuides
+        features={[
+          {
+            icon: Timer,
+            title: "Precise Countdown",
+            description: "Counts down to the millisecond using the browser's high-precision timing API. Accounts for tab visibility changes to maintain accuracy even in background tabs.",
+          },
+          {
+            icon: Bell,
+            title: "Audio & Browser Alerts",
+            description: "Plays an audio tone when the countdown ends and sends a browser notification (with permission) so you're alerted even if the tab is in the background.",
+          },
+          {
+            icon: AlarmClock,
+            title: "Preset Durations",
+            description: "One-click presets for common durations: 1 min, 5 min, 10 min, 15 min, 25 min (Pomodoro), 30 min, 45 min, 1 hour. Or enter any custom hours:minutes:seconds.",
+          },
+          {
+            icon: Settings2,
+            title: "Pause & Resume",
+            description: "Pause the countdown at any point and resume exactly where you left off. Reset to restart with the same duration without re-entering it.",
+          },
+          {
+            icon: Clock,
+            title: "Tab Title Timer",
+            description: "The browser tab title shows the remaining time (e.g., '4:32 - Countdown Timer') so you can monitor it without switching tabs.",
+          },
+          {
+            icon: Shield,
+            title: "No Signup, Works Offline",
+            description: "Fully client-side timer that works without any account or internet connection after initial load. Your usage is never tracked.",
+          },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <h3 className="text-lg font-semibold">Countdown Timer Use Cases — Productivity, Cooking, Presentations & More</h3>
+          <p>
+            A countdown timer is one of the most versatile productivity tools available. Whether
+            you're timing a presentation, managing a cooking interval, running a Pomodoro focus
+            session, or timing a sports drill, a precise countdown with an audible alert keeps
+            you on track without constant clock-watching.
+          </p>
+
+          <h4 className="font-semibold">Recommended Timer Durations by Use Case</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Use Case</th>
+                  <th className="border p-2 text-left">Duration</th>
+                  <th className="border p-2 text-left">Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["Pomodoro work session", "25 minutes", "Focus work interval"],
+                  ["Pomodoro short break", "5 minutes", "Rest between sessions"],
+                  ["Pomodoro long break", "15-30 minutes", "After 4 Pomodoros"],
+                  ["Tea / coffee steeping", "3-5 minutes", "Depends on tea type"],
+                  ["Pasta / noodles", "8-12 minutes", "Check package instructions"],
+                  ["Presentation slot", "10-20 minutes", "Conference/meeting talk"],
+                  ["Meeting time-box", "25-50 minutes", "Timeboxed agenda items"],
+                  ["Stretch break", "2 minutes", "Ergonomic hourly break"],
+                  ["Speed interview", "5-10 minutes", "Rotating interview format"],
+                  ["Sports drill interval", "30-60 seconds", "HIIT / circuit training"],
+                ].map(([use, duration, notes]) => (
+                  <tr key={use} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{use}</td>
+                    <td className="border p-2 text-primary font-mono text-xs">{duration}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{notes}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h4 className="font-semibold">Countdown Timer vs Stopwatch — When to Use Each</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Timer Type</th>
+                  <th className="border p-2 text-left">Counts</th>
+                  <th className="border p-2 text-left">Best For</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["Countdown Timer", "Down from set time to zero", "Cooking, Pomodoro, presentations, deadlines"],
+                  ["Stopwatch", "Up from zero", "Measuring duration, sports timing, performance benchmarks"],
+                  ["Interval Timer", "Alternating work/rest cycles", "HIIT, circuit training, language study"],
+                  ["Event Countdown", "Days/hours until a date", "Product launches, birthdays, exam dates"],
+                ].map(([type, counts, best]) => (
+                  <tr key={type} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{type}</td>
+                    <td className="border p-2 text-xs">{counts}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{best}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </ToolFeatureGuides>
+
+      {/* SECTION 5: FAQ + RELATED TOOLS */}
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "Can I use this timer in the background?",
+            answer: "Yes. The timer continues running even when you switch to other tabs or applications. The browser tab title updates with the remaining time so you can monitor it without switching back. When the timer ends, a browser notification will alert you (you need to allow browser notifications for this feature).",
+          },
+          {
+            question: "What is a Pomodoro timer?",
+            answer: "The Pomodoro Technique uses a 25-minute work timer followed by a 5-minute break timer. After 4 Pomodoros, take a longer 15-30 minute break. This structured approach helps maintain focus and prevents burnout. Set the timer to 25 minutes for a Pomodoro work session, then 5 minutes for the break.",
+          },
+          {
+            question: "Does the timer work when my computer is locked?",
+            answer: "The timer runs in the browser tab. If your computer sleeps or the browser is closed, the timer will stop. Keep the browser tab open for the timer to continue running. For unattended long-duration timers, use a dedicated app or smart speaker instead.",
+          },
+          {
+            question: "Can I set a timer for more than 1 hour?",
+            answer: "Yes. Enter the hours, minutes, and seconds directly. You can set timers for up to 99:59:59 (almost 100 hours). For very long timers, consider whether a calendar reminder or a dedicated scheduling tool would be more reliable than a browser-based timer.",
+          },
+          {
+            question: "Why didn't I hear the alarm?",
+            answer: "Check that your browser tab has permission to play audio (look for the speaker icon in the tab bar). Some browsers mute autoplay audio — interact with the page first (click the start button) to enable audio. Also check that your system volume is not muted and that you've granted browser notification permissions for alerts when the tab is in the background.",
+          },
+        ]}
+      />
+      <RelatedTools currentToolUrl="/tools/time/countdown-timer" max={6} />
+    </div>
   );
 }
 
