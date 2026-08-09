@@ -3451,6 +3451,13 @@ export const ToolsData = [
         popular: true,
       },
       {
+        title: "Social Video Downloader",
+        url: "/tools/social/video-downloader",
+        description:
+          "Download videos from YouTube (4K), TikTok (no watermark), Instagram Reels, Twitter, Facebook, Reddit, Vimeo, Pinterest, and 15+ platforms. Free, no signup.",
+        popular: true,
+      },
+      {
         title: "LinkedIn Viral Post & Headline Hook Generator",
         url: "/tools/social/linkedin-headline-generator",
         description:
