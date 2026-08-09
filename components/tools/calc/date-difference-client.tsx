@@ -1,7 +1,11 @@
 "use client";
 
-import { Calendar, CalendarDays, CalendarRange, Info, RefreshCcw } from "lucide-react";
+import { Calendar, CalendarDays, CalendarRange, Info, RefreshCcw, BookOpen, Shield, Clock, Timer, Layers, Globe, Calculator, AlignLeft } from "lucide-react";
 import { useMemo, useState } from "react";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
 import InputField from "@/components/shared/form-fields/input-field";
 import SwitchRow from "@/components/shared/form-fields/switch-row";
@@ -214,7 +218,7 @@ export default function DateDifferenceClient() {
   }, [parsed]);
 
   return (
-    <>
+    <div className="max-w-6xl mx-auto space-y-8">
       {/* Header */}
       <ToolPageHeader
         icon={CalendarRange}
@@ -334,6 +338,181 @@ export default function DateDifferenceClient() {
           </div>
         </CardContent>
       </GlassCard>
-    </>
+
+      {/* SECTION 3: HOW IT WORKS */}
+      <ToolHowItWorks
+        steps={[
+          {
+            step: "01",
+            title: "Select Two Dates",
+            description: "Pick a start date and end date using the date pickers. You can enter past or future dates. The calculation is bidirectional.",
+            icon: Calendar,
+          },
+          {
+            step: "02",
+            title: "See the Difference",
+            description: "Instantly see the difference expressed in years, months, weeks, days, hours, minutes, and seconds. All units are shown simultaneously.",
+            icon: Clock,
+          },
+          {
+            step: "03",
+            title: "Copy or Use",
+            description: "Copy any result for use in reports, legal documents, project timelines, age calculations, or countdown planning.",
+            icon: BookOpen,
+          },
+        ]}
+        badges={[
+          "Years, months & days",
+          "Instant calculation",
+          "Works offline",
+        ]}
+      />
+
+      {/* SECTION 4: FEATURE GUIDES */}
+      <ToolFeatureGuides
+        features={[
+          {
+            icon: Calendar,
+            title: "Multi-Unit Output",
+            description: "Shows the difference in years, months, weeks, days, hours, minutes, and seconds — all at once. No need to recalculate for each unit.",
+          },
+          {
+            icon: Clock,
+            title: "Age Calculator",
+            description: "Use it as an age calculator by setting the start date to a birthdate and end date to today. Get exact age in years, months, and days.",
+          },
+          {
+            icon: Timer,
+            title: "Project Duration",
+            description: "Calculate how many working days, weeks, or months a project lasted. Useful for timesheets, invoicing, and project retrospectives.",
+          },
+          {
+            icon: Globe,
+            title: "Past & Future Dates",
+            description: "Works with any date range — past or future. Calculate days until an event, deadline countdown, or days since a historical date.",
+          },
+          {
+            icon: Layers,
+            title: "Inclusive/Exclusive Counting",
+            description: "Understand the difference between inclusive counting (counting both start and end date) vs exclusive (counting only the gap) — important for legal and contractual calculations.",
+          },
+          {
+            icon: Shield,
+            title: "Client-Side & Private",
+            description: "All calculations run entirely in your browser using JavaScript's Date API. No data is sent to any server.",
+          },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <h3 className="text-lg font-semibold">Date Difference Calculations — A Practical Reference</h3>
+          <p>
+            Calculating the difference between two dates is a surprisingly complex problem due to varying
+            month lengths, leap years, and daylight saving time transitions. This tool handles all edge cases
+            correctly using JavaScript's Date API, giving you accurate results across any date range.
+          </p>
+
+          <h4 className="font-semibold">Date Difference Use Cases</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Use Case</th>
+                  <th className="border p-2 text-left">Start Date</th>
+                  <th className="border p-2 text-left">End Date</th>
+                  <th className="border p-2 text-left">Useful Unit</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["Age calculation", "Date of birth", "Today", "Years + months + days"],
+                  ["Project duration", "Project start", "Project end", "Days or weeks"],
+                  ["Loan tenure", "Loan disbursement", "Final payment", "Months"],
+                  ["Event countdown", "Today", "Event date", "Days"],
+                  ["Contract duration", "Signing date", "Expiry date", "Months or years"],
+                  ["Subscription renewal", "Start date", "Renewal date", "Days"],
+                ].map(([useCase, start, end, unit]) => (
+                  <tr key={useCase} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{useCase}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{start}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{end}</td>
+                    <td className="border p-2 text-primary text-xs">{unit}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h4 className="font-semibold">Days in Each Month (Leap Year Reference)</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Month</th>
+                  <th className="border p-2 text-left">Normal Year</th>
+                  <th className="border p-2 text-left">Leap Year</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["January", "31", "31"],
+                  ["February", "28", "29"],
+                  ["March", "31", "31"],
+                  ["April", "30", "30"],
+                  ["May", "31", "31"],
+                  ["June", "30", "30"],
+                  ["July", "31", "31"],
+                  ["August", "31", "31"],
+                  ["September", "30", "30"],
+                  ["October", "31", "31"],
+                  ["November", "30", "30"],
+                  ["December", "31", "31"],
+                ].map(([month, normal, leap]) => (
+                  <tr key={month} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{month}</td>
+                    <td className="border p-2 text-center text-xs">{normal}</td>
+                    <td className="border p-2 text-center text-xs font-medium" style={{ color: month === 'February' ? 'var(--primary)' : undefined }}>{leap}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h4 className="font-semibold">Leap Year Rules</h4>
+          <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
+            <li>A year is a leap year if it is divisible by <strong>4</strong>.</li>
+            <li>Exception: years divisible by <strong>100</strong> are NOT leap years.</li>
+            <li>Exception to the exception: years divisible by <strong>400</strong> ARE leap years.</li>
+            <li>So: 2000 → leap year. 1900 → not a leap year. 2024 → leap year. 2100 → not a leap year.</li>
+          </ul>
+        </div>
+      </ToolFeatureGuides>
+
+      {/* SECTION 5: FAQ + RELATED TOOLS */}
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "How is the date difference calculated?",
+            answer: "The tool subtracts the start date from the end date using JavaScript's Date API, which handles varying month lengths, leap years, and DST transitions automatically. The result is then expressed in years, months, weeks, days, hours, minutes, and seconds.",
+          },
+          {
+            question: "Can I use this as an age calculator?",
+            answer: "Yes. Set the start date to your birth date and the end date to today. The result shows your exact age in years, months, and days — accounting for leap years and varying month lengths.",
+          },
+          {
+            question: "What is the difference between inclusive and exclusive day counting?",
+            answer: "Exclusive counting (the default): counts only the days between the dates (e.g., Jan 1 to Jan 3 = 2 days). Inclusive counting: counts both the start and end date (Jan 1 to Jan 3 = 3 days). Legal contracts often use inclusive counting — always clarify which method applies.",
+          },
+          {
+            question: "How do leap years affect the calculation?",
+            answer: "Leap years add an extra day (Feb 29) to the year. If your date range spans a February 29th, the tool counts it correctly as an extra day. A full calendar year from Jan 1 to Dec 31 in a leap year is 366 days, not 365.",
+          },
+          {
+            question: "Can I calculate working days excluding weekends?",
+            answer: "This tool calculates the total calendar day difference including weekends. For working day calculations (excluding weekends and holidays), use a dedicated business day calculator. Working days = Total days - (number of Saturdays + Sundays in the range) - public holidays.",
+          },
+        ]}
+      />
+      <RelatedTools currentToolUrl="/tools/calc/date-diff" max={6} />
+    </div>
   );
 }

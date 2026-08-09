@@ -1,16 +1,27 @@
 "use client";
 
 import {
+  BookOpen,
   Calculator,
   Check,
   Copy,
+  DollarSign,
   Download,
+  Globe,
   Minus,
+  Percent,
   Plus,
+  Shield,
+  Star,
   Users,
   UtensilsCrossed,
+  Zap,
 } from "lucide-react";
 import * as React from "react";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 import {
   ActionButton,
   CopyButton,
@@ -285,7 +296,7 @@ export default function TipSplitterClient() {
   );
 
   return (
-    <>
+    <div className="max-w-6xl mx-auto space-y-8">
       {/* Header */}
       <ToolPageHeader
         icon={UtensilsCrossed}
@@ -616,6 +627,178 @@ export default function TipSplitterClient() {
           </CardContent>
         </GlassCard>
       )}
-    </>
+
+      {/* SECTION 3: HOW IT WORKS */}
+      <ToolHowItWorks
+        steps={[
+          {
+            step: "01",
+            title: "Enter the Bill Amount",
+            description: "Type the total bill amount before tip. Add tax if it's already included or needs to be added separately.",
+            icon: DollarSign,
+          },
+          {
+            step: "02",
+            title: "Set Tip % and Party Size",
+            description: "Choose a tip percentage (or enter a custom amount) and the number of people splitting the bill.",
+            icon: Users,
+          },
+          {
+            step: "03",
+            title: "See Per-Person Amount",
+            description: "Instantly see the tip amount, total bill with tip, and how much each person owes — split evenly.",
+            icon: Calculator,
+          },
+        ]}
+        badges={[
+          "Instant calculation",
+          "Custom tip %",
+          "Split any party size",
+        ]}
+      />
+
+      {/* SECTION 4: FEATURE GUIDES */}
+      <ToolFeatureGuides
+        features={[
+          {
+            icon: Percent,
+            title: "Flexible Tip Percentage",
+            description: "Quick-select common tip percentages (10%, 15%, 18%, 20%, 25%) or enter any custom percentage. Standard preset buttons speed up the common case.",
+          },
+          {
+            icon: Users,
+            title: "Multi-Person Bill Splitting",
+            description: "Split equally among any number of people — from 2 to 20+. Shows each person's share of both the tip and the total bill.",
+          },
+          {
+            icon: DollarSign,
+            title: "Tax-Inclusive Mode",
+            description: "Choose whether to tip on the pre-tax or post-tax subtotal. In the US, tipping on pre-tax is conventional; post-tax tipping is also common.",
+          },
+          {
+            icon: Calculator,
+            title: "Round-Up Option",
+            description: "Round each person's share up to the nearest dollar for easy cash payment — automatically adjusts the effective tip percentage shown.",
+          },
+          {
+            icon: Star,
+            title: "Service Quality Presets",
+            description: "Labeled presets (Poor/Fair/Good/Great/Exceptional) help you quickly match your tip to the service quality without manually entering percentages.",
+          },
+          {
+            icon: Shield,
+            title: "Private & Offline",
+            description: "All calculations run in your browser. No bill data is sent anywhere — works fully offline at any restaurant.",
+          },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <h3 className="text-lg font-semibold">Tipping Guide — How Much to Tip in Different Situations</h3>
+          <p>
+            Tipping customs vary significantly by country, culture, and service type. In some countries (US,
+            Canada), tipping is culturally expected and servers rely on tips as a significant part of their income.
+            In others (Japan, South Korea), tipping can be considered rude. This guide covers global norms and
+            helps you calculate the right tip for any situation.
+          </p>
+
+          <h4 className="font-semibold">Standard Tip Percentages by Service Type</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Service</th>
+                  <th className="border p-2 text-left">Poor</th>
+                  <th className="border p-2 text-left">Standard</th>
+                  <th className="border p-2 text-left">Excellent</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["Restaurant (sit-down)", "10%", "15–18%", "20–25%"],
+                  ["Bar / Bartender", "—", "$1–2/drink or 15%", "20%+"],
+                  ["Food delivery", "10%", "15–18%", "20%+"],
+                  ["Taxi / Rideshare", "10%", "15%", "20%"],
+                  ["Hotel housekeeping", "—", "$2–5/night", "$5–10/night"],
+                  ["Hair salon", "10%", "15–20%", "25%+"],
+                  ["Spa / Massage", "10%", "15–20%", "25%+"],
+                  ["Pizza delivery", "—", "$2–5 or 15%", "20%+"],
+                ].map(([service, poor, standard, excellent]) => (
+                  <tr key={service} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{service}</td>
+                    <td className="border p-2 text-xs text-muted-foreground">{poor}</td>
+                    <td className="border p-2 text-primary text-xs font-medium">{standard}</td>
+                    <td className="border p-2 text-xs text-emerald-500">{excellent}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h4 className="font-semibold">Tipping Customs Around the World</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Country/Region</th>
+                  <th className="border p-2 text-left">Tipping Culture</th>
+                  <th className="border p-2 text-left">Typical Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["USA / Canada", "Expected, part of income", "15–20% at restaurants"],
+                  ["UK / Australia", "Appreciated, not required", "10–15% for good service"],
+                  ["Continental Europe", "Optional, round up", "Round up or 5–10%"],
+                  ["Japan / South Korea", "Not customary; can offend", "No tip expected"],
+                  ["Middle East", "Appreciated", "10–15%"],
+                  ["Bangladesh/India", "Appreciated in restaurants", "10% or round up"],
+                ].map(([country, culture, amount]) => (
+                  <tr key={country} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{country}</td>
+                    <td className="border p-2 text-xs">{culture}</td>
+                    <td className="border p-2 text-primary text-xs">{amount}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h4 className="font-semibold">Quick Mental Math for Tips</h4>
+          <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
+            <li><strong>10% tip:</strong> Move the decimal point one place left. For a $45 bill, 10% = $4.50.</li>
+            <li><strong>15% tip:</strong> Find 10%, then add half of that. $45 → $4.50 + $2.25 = $6.75.</li>
+            <li><strong>20% tip:</strong> Double the 10%. $45 → $4.50 × 2 = $9.00.</li>
+            <li><strong>Split tip rule:</strong> Calculate the full tip first, then divide by the number of people — not the other way around.</li>
+          </ul>
+        </div>
+      </ToolFeatureGuides>
+
+      {/* SECTION 5: FAQ + RELATED TOOLS */}
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "Should I tip on the pre-tax or post-tax amount?",
+            answer: "In the US, tipping on the pre-tax subtotal is the traditional approach. However, tipping on the post-tax total (the full bill) is increasingly common and acceptable. The difference is small — on a $100 meal with 10% tax, tipping 20% pre-tax = $20 vs post-tax = $22.",
+          },
+          {
+            question: "How do I split a bill unequally?",
+            answer: "This calculator splits the bill equally among all people. For unequal splits (where some people ordered more expensive items), calculate each person's item subtotal separately, then add their proportional share of the tip: (their subtotal / total bill) x tip amount.",
+          },
+          {
+            question: "What is a good tip for delivery?",
+            answer: "For food delivery, 15–18% is standard, with $5 as a minimum for short orders. For large orders, bad weather, or long distances, 20%+ is appropriate. Delivery apps often suggest 15–20% as their default.",
+          },
+          {
+            question: "Is it rude not to tip in all countries?",
+            answer: "No. Tipping customs are highly cultural. In Japan, South Korea, China, and much of Southeast Asia, tipping is not customary and can be considered rude or confusing. In the US, Canada, and some other countries, it is culturally expected in service industries.",
+          },
+          {
+            question: "How is the tip calculated mathematically?",
+            answer: "Tip Amount = Bill Total × (Tip Percentage / 100). Total with Tip = Bill Total + Tip Amount. Per Person = Total with Tip / Number of People. For example: $80 bill, 18% tip, 4 people → Tip = $14.40, Total = $94.40, Per person = $23.60.",
+          },
+        ]}
+      />
+      <RelatedTools currentToolUrl="/tools/calc/tip-split" max={6} />
+    </div>
   );
 }
