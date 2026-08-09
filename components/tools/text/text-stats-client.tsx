@@ -6,8 +6,12 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { BarChart3, Type, FileText, Copy } from "lucide-react";
+import { BarChart3, Type, FileText, Copy, BookOpen, Shield, AlignLeft, Globe, Zap, Hash } from "lucide-react";
 import toast from "react-hot-toast";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 
 export function TextStatsClient() {
   const [text, setText] = useState("");
@@ -89,7 +93,7 @@ export function TextStatsClient() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-6xl mx-auto space-y-8">
       <ToolPageHeader
         icon={BarChart3}
         title="Advanced Text Statistics"
@@ -199,6 +203,201 @@ export function TextStatsClient() {
           </GlassCard>
         </div>
       </div>
+
+      {/* SECTION 3: HOW IT WORKS */}
+      <ToolHowItWorks
+        steps={[
+          {
+            step: "01",
+            title: "Paste or Type Your Text",
+            description: "Paste an article, essay, code, or any text into the editor. The analysis starts instantly as you type — no button to click.",
+            icon: FileText,
+          },
+          {
+            step: "02",
+            title: "View Instant Statistics",
+            description: "See word count, character count (with/without spaces), sentence count, paragraph count, reading time, and speaking time — all updated live.",
+            icon: BarChart3,
+          },
+          {
+            step: "03",
+            title: "Analyze Word Frequency",
+            description: "The word frequency table ranks every word by occurrence, filtering out stop words. Useful for identifying overused terms in your writing.",
+            icon: Hash,
+          },
+        ]}
+        badges={[
+          "Live statistics",
+          "Reading time estimate",
+          "Word frequency",
+        ]}
+      />
+
+      {/* SECTION 4: FEATURE GUIDES */}
+      <ToolFeatureGuides
+        features={[
+          {
+            icon: BarChart3,
+            title: "Complete Text Statistics",
+            description: "Words, characters (with/without spaces), sentences, paragraphs, lines, unique words, and average words per sentence — all calculated instantly.",
+          },
+          {
+            icon: AlignLeft,
+            title: "Reading & Speaking Time",
+            description: "Estimates reading time at 238 words per minute (average adult reading speed) and speaking time at 130 WPM (conversational speech). Essential for speech and content planning.",
+          },
+          {
+            icon: Hash,
+            title: "Word Frequency Analysis",
+            description: "Counts and ranks every word by occurrence. Filter stop words (the, is, and) to surface meaningful content words. Identify overused terms and writing tics.",
+          },
+          {
+            icon: Type,
+            title: "Character Counting",
+            description: "Counts total characters and characters without spaces separately. Critical for social media posts (Twitter 280, Instagram 2200, LinkedIn 3000 character limits).",
+          },
+          {
+            icon: Globe,
+            title: "Readability Metrics",
+            description: "Calculates average sentence length and word complexity indicators. Shorter sentences and simpler words improve readability scores (Flesch-Kincaid, etc.).",
+          },
+          {
+            icon: Shield,
+            title: "Private & Offline",
+            description: "All analysis runs in your browser. Your text — which may be a draft article, confidential document, or private note — never leaves your device.",
+          },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <h3 className="text-lg font-semibold">Text Analysis Guide — Understanding Your Writing Statistics</h3>
+          <p>
+            Understanding your text's statistics helps you write more effectively for any medium.
+            Whether you're writing a blog post, academic essay, social media caption, or business email,
+            knowing your word count, reading time, and sentence complexity helps you hit your targets
+            and communicate clearly.
+          </p>
+
+          <h4 className="font-semibold">Social Media Character Limits Reference</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Platform</th>
+                  <th className="border p-2 text-left">Post/Caption Limit</th>
+                  <th className="border p-2 text-left">Bio Limit</th>
+                  <th className="border p-2 text-left">Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["X (Twitter)", "280 characters", "160 characters", "URLs count as 23 chars"],
+                  ["Instagram", "2,200 characters", "150 characters", "Hashtags count toward limit"],
+                  ["Facebook", "63,206 characters", "101 characters", "Posts truncated at ~477 chars"],
+                  ["LinkedIn", "3,000 characters", "2,600 characters", "Articles: 125,000 chars"],
+                  ["TikTok", "2,200 characters", "80 characters", "Hashtags count toward limit"],
+                  ["YouTube", "5,000 characters", "1,000 characters", "First 157 chars shown before \"more\""],
+                  ["WhatsApp", "65,536 characters", "N/A", "Status: 700 characters"],
+                ].map(([platform, post, bio, notes]) => (
+                  <tr key={platform} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{platform}</td>
+                    <td className="border p-2 text-primary text-xs">{post}</td>
+                    <td className="border p-2 text-xs">{bio}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{notes}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h4 className="font-semibold">Reading Speed Reference</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Reader Type</th>
+                  <th className="border p-2 text-left">WPM</th>
+                  <th className="border p-2 text-left">Time for 1000 words</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["3rd grade student", "~150 WPM", "~6.7 minutes"],
+                  ["Average adult", "~238 WPM", "~4.2 minutes"],
+                  ["College student", "~300 WPM", "~3.3 minutes"],
+                  ["Speed reader", "~500 WPM", "~2 minutes"],
+                  ["Audiobook narration", "~150–160 WPM", "~6.5 minutes"],
+                  ["Conversational speech", "~130 WPM", "~7.7 minutes"],
+                  ["Presentation/speech", "~100–110 WPM", "~9–10 minutes"],
+                ].map(([reader, wpm, time]) => (
+                  <tr key={reader} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{reader}</td>
+                    <td className="border p-2 text-primary font-mono text-xs">{wpm}</td>
+                    <td className="border p-2 text-xs">{time}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h4 className="font-semibold">Content Length Guide by Format</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Content Type</th>
+                  <th className="border p-2 text-left">Ideal Word Count</th>
+                  <th className="border p-2 text-left">Read Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["Tweet/social caption", "20–40 words", "< 15 sec"],
+                  ["Email subject line", "6–10 words", "< 5 sec"],
+                  ["Blog intro paragraph", "50–100 words", "< 30 sec"],
+                  ["Short blog post", "500–800 words", "2–4 min"],
+                  ["Standard blog post", "1,000–2,000 words", "4–8 min"],
+                  ["In-depth article/guide", "2,000–5,000 words", "8–20 min"],
+                  ["10-min conference talk", "~1,300 words", "10 min"],
+                  ["Academic abstract", "150–250 words", "< 1 min"],
+                ].map(([content, count, time]) => (
+                  <tr key={content} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{content}</td>
+                    <td className="border p-2 text-primary text-xs">{count}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{time}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </ToolFeatureGuides>
+
+      {/* SECTION 5: FAQ + RELATED TOOLS */}
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "How is reading time calculated?",
+            answer: "Reading time is calculated by dividing the word count by 238 words per minute — the scientifically measured average adult silent reading speed. This is the same method used by Medium and most publishing platforms. Skimming is faster (~700 WPM); technical reading is slower (~100–150 WPM).",
+          },
+          {
+            question: "What is the difference between character count with and without spaces?",
+            answer: "Character count with spaces counts every character including whitespace. Character count without spaces counts only visible characters (letters, numbers, punctuation). Most social media platforms (Twitter, Instagram) count spaces — so \"hello world\" is 11 characters, not 10.",
+          },
+          {
+            question: "What is word frequency analysis?",
+            answer: "Word frequency analysis counts how many times each word appears in your text, then ranks them from most to least common. It helps identify overused words, verify keyword density for SEO, or analyze the vocabulary in any document.",
+          },
+          {
+            question: "How many words should a blog post have for SEO?",
+            answer: "For competitive keywords, 1,500–3,000 words performs best in search rankings. For less competitive topics, 800–1,200 words can rank well. The most important factor is covering the topic comprehensively — don't pad with filler content. Google rewards depth and E-E-A-T, not raw word count.",
+          },
+          {
+            question: "How is sentence count determined?",
+            answer: "Sentences are counted by splitting on sentence-ending punctuation (periods, exclamation marks, question marks) followed by whitespace. Abbreviations (e.g., Dr., U.S.A.) are excluded from the count. Average sentence length is calculated as total words / sentence count.",
+          },
+        ]}
+      />
+      <RelatedTools currentToolUrl="/tools/text/text-stats" max={6} />
     </div>
   );
 }

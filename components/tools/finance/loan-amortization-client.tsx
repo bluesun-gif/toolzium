@@ -8,8 +8,12 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { DollarSign, Calculator, Calendar, Copy } from "lucide-react";
+import { DollarSign, Calculator, Calendar, Copy, BookOpen, Shield, PieChart, TrendingDown, BarChart3, Table2, Download } from "lucide-react";
 import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 
 export function LoanAmortizationClient() {
   const [loanAmount, setLoanAmount] = useState("250000");
@@ -104,7 +108,7 @@ export function LoanAmortizationClient() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-6xl mx-auto space-y-8">
       <ToolPageHeader
         icon={Calculator}
         title="Loan Amortization Schedule"
@@ -288,6 +292,176 @@ export function LoanAmortizationClient() {
           </GlassCard>
         </div>
       </div>
+
+      {/* SECTION 3: HOW IT WORKS */}
+      <ToolHowItWorks
+        steps={[
+          {
+            step: "01",
+            title: "Enter Loan Details",
+            description: "Input the loan principal, annual interest rate, and loan term in years or months. Optionally add extra monthly payments to see how they reduce your total interest.",
+            icon: Calculator,
+          },
+          {
+            step: "02",
+            title: "View Full Amortization Table",
+            description: "Get a complete month-by-month amortization schedule showing payment number, principal paid, interest paid, and remaining balance for every installment.",
+            icon: Table2,
+          },
+          {
+            step: "03",
+            title: "Export & Plan",
+            description: "Download the full amortization schedule as CSV. Use it for tax records, financial planning, or to track your actual loan payoff progress against the schedule.",
+            icon: Download,
+          },
+        ]}
+        badges={[
+          "Full amortization table",
+          "Extra payment calculator",
+          "Export to CSV",
+        ]}
+      />
+
+      {/* SECTION 4: FEATURE GUIDES */}
+      <ToolFeatureGuides
+        features={[
+          {
+            icon: Table2,
+            title: "Complete Amortization Schedule",
+            description: "Month-by-month breakdown of every payment showing: payment number, amount paid, principal portion, interest portion, and remaining balance. See exactly how your debt decreases.",
+          },
+          {
+            icon: PieChart,
+            title: "Interest vs Principal Breakdown",
+            description: "Visual breakdown of total principal vs total interest paid over the loan life. Reveals the true cost of borrowing — often 40–70% of total payments go to interest.",
+          },
+          {
+            icon: TrendingDown,
+            title: "Extra Payment Impact",
+            description: "Add extra monthly principal payments to see how many months you save and how much interest you avoid. Even $100 extra/month can save thousands over a 30-year mortgage.",
+          },
+          {
+            icon: DollarSign,
+            title: "Total Cost Summary",
+            description: "Instantly see monthly payment, total amount paid, total interest paid, and effective loan cost — the complete picture of what this loan really costs you.",
+          },
+          {
+            icon: BarChart3,
+            title: "Loan Comparison Ready",
+            description: "Run the calculator with different rates or terms to compare loan offers. Even a 0.5% rate difference on a 30-year mortgage can mean $30,000+ in total interest savings.",
+          },
+          {
+            icon: Shield,
+            title: "Client-Side & Private",
+            description: "All calculations run in your browser. Your financial details are never transmitted to any server.",
+          },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <h3 className="text-lg font-semibold">Loan Amortization Explained — How Your Payments Are Split</h3>
+          <p>
+            <strong>Loan amortization</strong> is the process of paying off a loan through regular scheduled
+            payments that cover both principal and interest. In the early months, most of each payment goes
+            to interest. Over time, the interest portion shrinks and the principal portion grows — this is
+            the defining characteristic of an amortizing loan.
+          </p>
+
+          <h4 className="font-semibold">The Amortization Formula</h4>
+          <div className="bg-muted/40 rounded-lg p-4 font-mono text-sm text-center">
+            M = P × [r(1+r)^n] / [(1+r)^n − 1]
+          </div>
+          <p className="text-xs text-muted-foreground text-center">
+            M = Monthly payment | P = Principal | r = Monthly interest rate (annual ÷ 12 ÷ 100) | n = Total months
+          </p>
+
+          <h4 className="font-semibold">Loan Type Comparison</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Loan Type</th>
+                  <th className="border p-2 text-left">Typical Rate (US 2024)</th>
+                  <th className="border p-2 text-left">Typical Term</th>
+                  <th className="border p-2 text-left">Amortized?</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["30-year mortgage", "6.5–7.5%", "30 years", "Yes"],
+                  ["15-year mortgage", "5.8–6.8%", "15 years", "Yes"],
+                  ["Auto loan", "6–10%", "36–72 months", "Yes"],
+                  ["Personal loan", "8–24%", "12–60 months", "Yes"],
+                  ["Student loan", "5–8%", "10–25 years", "Yes"],
+                  ["Interest-only loan", "Variable", "5–10 yrs IO", "No (then switches)"],
+                ].map(([type, rate, term, amort]) => (
+                  <tr key={type} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{type}</td>
+                    <td className="border p-2 text-xs">{rate}</td>
+                    <td className="border p-2 text-xs">{term}</td>
+                    <td className="border p-2 text-xs">{amort}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h4 className="font-semibold">The Impact of Extra Payments — 30-Year Mortgage Example</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Extra Payment/Month</th>
+                  <th className="border p-2 text-left">Years Saved</th>
+                  <th className="border p-2 text-left">Interest Saved</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["$0 (standard)", "0 years", "$0"],
+                  ["+$100/month", "~4 years", "~$30,000"],
+                  ["+$200/month", "~7 years", "~$55,000"],
+                  ["+$500/month", "~12 years", "~$100,000"],
+                  ["One extra payment/year", "~4–5 years", "~$25,000"],
+                ].map(([extra, years, interest]) => (
+                  <tr key={extra} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{extra}</td>
+                    <td className="border p-2 text-primary text-xs">{years}</td>
+                    <td className="border p-2 text-emerald-500 text-xs">{interest}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="text-xs text-muted-foreground">Based on a $300,000 loan at 7% interest. Actual savings vary by loan amount and rate.</p>
+        </div>
+      </ToolFeatureGuides>
+
+      {/* SECTION 5: FAQ + RELATED TOOLS */}
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "What is an amortization schedule?",
+            answer: "An amortization schedule is a complete table of all loan payments, showing the date, payment amount, how much goes to principal, how much goes to interest, and the remaining balance after each payment. It shows exactly how your debt decreases over the life of the loan.",
+          },
+          {
+            question: "Why do I pay more interest at the beginning of a loan?",
+            answer: "Because interest is calculated on the outstanding balance. At the start, your balance is highest, so more of your payment goes to interest. As the principal decreases, less interest accrues each month, so more of each payment goes to principal. This is why extra payments early in a loan have the biggest impact.",
+          },
+          {
+            question: "How much interest will I save with extra payments?",
+            answer: "It depends on your loan size, rate, and term. For a $300,000 mortgage at 7% over 30 years, paying an extra $200/month saves roughly $55,000 in interest and pays off the loan 7 years early. Use the calculator with the extra payment field to see your specific savings.",
+          },
+          {
+            question: "What is the difference between EMI and amortization?",
+            answer: "They are the same concept with different names. EMI (Equated Monthly Installment) is the common South Asian term for the fixed monthly payment on an amortizing loan. An amortization schedule shows how each EMI is split between principal and interest over the loan term.",
+          },
+          {
+            question: "Can I use this for any loan type?",
+            answer: "Yes. This calculator works for any standard amortizing loan: mortgages, auto loans, personal loans, student loans, or business loans. It uses the standard amortization formula that all banks use. It does not handle interest-only loans, balloon payments, or variable-rate loans (use the fixed rate for estimates).",
+          },
+        ]}
+      />
+      <RelatedTools currentToolUrl="/tools/finance/loan-amortization" max={6} />
     </div>
   );
 }

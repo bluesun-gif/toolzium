@@ -1,6 +1,9 @@
 "use client";
 
-import { Braces, Code2, Download, Info, Settings2 } from "lucide-react";
+import { 
+  Braces, Code2, Download, Info, Settings2, 
+  BookOpen, Shield, FileJson, Layers, ArrowLeftRight, Globe, Zap, AlignLeft 
+} from "lucide-react";
 import React from "react";
 import {
   ActionButton,
@@ -12,6 +15,10 @@ import InputField from "@/components/shared/form-fields/input-field";
 import SelectField from "@/components/shared/form-fields/select-field";
 import SwitchRow from "@/components/shared/form-fields/switch-row";
 import TextareaField from "@/components/shared/form-fields/textarea-field";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -247,7 +254,7 @@ endpoints:
   };
 
   return (
-    <>
+    <div className="max-w-6xl mx-auto space-y-8">
       <ToolPageHeader
         title="YAML ⇄ JSON"
         description="Convert YAML to JSON and back. Multi-doc YAML, pretty/minified JSON, sorting, and YAML flow style."
@@ -437,6 +444,178 @@ endpoints:
           />
         </CardContent>
       </GlassCard>
-    </>
+
+      {/* SECTION 3: HOW IT WORKS */}
+      <ToolHowItWorks
+        steps={[
+          {
+            step: "01",
+            title: "Paste YAML or JSON",
+            description: "Paste your YAML configuration file or JSON data into the input panel. The tool auto-detects the format based on the input structure.",
+            icon: Code2,
+          },
+          {
+            step: "02",
+            title: "Convert Instantly",
+            description: "Click YAML→JSON to get formatted JSON output, or JSON→YAML to get clean YAML. Both directions support nested objects, arrays, and all data types.",
+            icon: ArrowLeftRight,
+          },
+          {
+            step: "03",
+            title: "Copy & Use",
+            description: "Copy the converted output. Use YAML in config files and CI/CD pipelines; use JSON for APIs, databases, and JavaScript applications.",
+            icon: BookOpen,
+          },
+        ]}
+        badges={[
+          "Bidirectional conversion",
+          "Nested structure support",
+          "Works offline",
+        ]}
+      />
+
+      {/* SECTION 4: FEATURE GUIDES */}
+      <ToolFeatureGuides
+        features={[
+          {
+            icon: ArrowLeftRight,
+            title: "YAML ↔ JSON Both Directions",
+            description: "Convert YAML to JSON and JSON to YAML with equal accuracy. Switch between the two most popular data serialization formats without losing any structure or data types.",
+          },
+          {
+            icon: Layers,
+            title: "Nested Structure Support",
+            description: "Handles deeply nested objects, arrays, mixed types, null values, multi-line strings (block scalars), and YAML anchors & aliases. Complex configs convert faithfully.",
+          },
+          {
+            icon: Code2,
+            title: "Syntax Validation",
+            description: "Invalid YAML or JSON produces a clear error message pointing to the problem. Catches indentation errors (the most common YAML mistake) before they reach production.",
+          },
+          {
+            icon: FileJson,
+            title: "Pretty Printed Output",
+            description: "JSON output is formatted with 2-space indentation for readability. YAML output uses proper block style with clean indentation — not the inline/flow style.",
+          },
+          {
+            icon: AlignLeft,
+            title: "All Data Types Preserved",
+            description: "Strings, numbers, booleans, nulls, arrays, and nested objects all convert correctly. No type coercion or data loss between formats.",
+          },
+          {
+            icon: Shield,
+            title: "Client-Side & Private",
+            description: "All conversion runs in your browser. Your configuration files and data never leave your device — safe for sensitive environment configs and secrets.",
+          },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <h3 className="text-lg font-semibold">YAML vs JSON — Complete Format Comparison</h3>
+          <p>
+            Both <strong>YAML</strong> (YAML Ain't Markup Language) and <strong>JSON</strong> (JavaScript Object
+            Notation) are human-readable data serialization formats widely used in software development.
+            YAML is a superset of JSON, meaning valid JSON is also valid YAML. They excel in different
+            contexts and understanding when to use each is key to efficient development workflows.
+          </p>
+
+          <h4 className="font-semibold">YAML vs JSON — Feature Comparison</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Feature</th>
+                  <th className="border p-2 text-left">YAML</th>
+                  <th className="border p-2 text-left">JSON</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["Comments", "Yes (# syntax)", "No"],
+                  ["Readability", "Very high — indentation-based", "Medium — bracket-based"],
+                  ["Verbosity", "Less verbose", "More verbose (quotes required)"],
+                  ["Multi-line strings", "Yes (block scalars | and >)", "Requires \\n escaping"],
+                  ["Data types", "Auto-detected (123, true, null)", "Explicit (\"true\" vs true)"],
+                  ["Parsing speed", "Slower (complex grammar)", "Faster (simpler grammar)"],
+                  ["Browser support", "Requires library", "Built-in (JSON.parse)"],
+                  ["Error-prone", "Yes (indentation errors)", "Less (brackets delimit)"],
+                ].map(([feat, yaml, json]) => (
+                  <tr key={feat} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{feat}</td>
+                    <td className="border p-2 text-xs">{yaml}</td>
+                    <td className="border p-2 text-xs">{json}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h4 className="font-semibold">When to Use YAML vs JSON</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Use Case</th>
+                  <th className="border p-2 text-left">Prefer</th>
+                  <th className="border p-2 text-left">Reason</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["GitHub Actions, GitLab CI", "YAML", "Human-written, comments needed"],
+                  ["Kubernetes manifests", "YAML", "Industry standard, readable"],
+                  ["Docker Compose", "YAML", "Official format"],
+                  ["REST API responses", "JSON", "Browser-native parsing"],
+                  ["Package.json / config files", "JSON", "No comments needed, strict"],
+                  ["Ansible playbooks", "YAML", "Official format"],
+                  ["Swagger/OpenAPI spec", "YAML or JSON", "Both supported equally"],
+                  ["Database storage", "JSON", "Native JSONB support in PostgreSQL"],
+                ].map(([useCase, prefer, reason]) => (
+                  <tr key={useCase} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{useCase}</td>
+                    <td className="border p-2 text-primary font-medium text-xs">{prefer}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{reason}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h4 className="font-semibold">Common YAML Pitfalls to Avoid</h4>
+          <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
+            <li><strong>Tabs vs spaces:</strong> YAML forbids tab characters for indentation — use spaces only. Mixing causes ParseError.</li>
+            <li><strong>Implicit type coercion:</strong> YAML auto-converts values — <code>true</code>, <code>yes</code>, <code>on</code> all become boolean true. Quote strings to prevent: <code>'true'</code>.</li>
+            <li><strong>Norway problem:</strong> Country code <code>NO</code> becomes boolean false in YAML 1.1 parsers. Always quote country codes and similar values.</li>
+            <li><strong>Duplicate keys:</strong> YAML allows duplicate keys (last wins) but JSON does not. Validate YAML carefully before converting.</li>
+          </ul>
+        </div>
+      </ToolFeatureGuides>
+
+      {/* SECTION 5: FAQ + RELATED TOOLS */}
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "What is the difference between YAML and JSON?",
+            answer: "Both are data serialization formats, but YAML is more human-friendly for configuration files — it supports comments, multi-line strings, and requires less punctuation. JSON is better for APIs and data exchange — it's faster to parse and has native browser support (JSON.parse). Valid JSON is also valid YAML since YAML is a superset of JSON.",
+          },
+          {
+            question: "Why does YAML use indentation instead of brackets?",
+            answer: "YAML uses indentation (like Python) to define structure, making it very readable for humans writing configuration files. This eliminates the need for braces {} and square brackets [], reducing visual noise. The downside is that indentation errors (tabs vs spaces, wrong indent level) are a common source of YAML bugs.",
+          },
+          {
+            question: "Can YAML handle all JSON data types?",
+            answer: "Yes. YAML supports all JSON types: strings, numbers (integers and floats), booleans, null, arrays, and objects. YAML also adds extra types not in JSON: dates (2024-01-15), multi-line strings (block scalars), binary data, and anchors/aliases for reuse.",
+          },
+          {
+            question: "Why is my YAML giving type errors after conversion?",
+            answer: "YAML auto-detects types — values like true, false, yes, no, null, 123, 1.5 are automatically converted to their native types. If you want a string, quote it: \"true\", \"123\", \"null\". This is especially important for values like version numbers (\"1.0\"), port numbers, and boolean-looking strings.",
+          },
+          {
+            question: "Is this converter safe for sensitive config files?",
+            answer: "Yes. All conversion runs entirely in your browser using a JavaScript YAML parser. Your configuration files, environment variables, secrets, or API keys never leave your device — nothing is sent to any server.",
+          },
+        ]}
+      />
+      <RelatedTools currentToolUrl="/tools/dev/yaml-json" max={6} />
+    </div>
   );
 }

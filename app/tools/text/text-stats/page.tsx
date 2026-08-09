@@ -16,7 +16,7 @@ export default function Page() {
   const crumbsLd = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: siteURL }, { "@type": "ListItem", position: 2, name: "Text Tools", item: `${siteURL}/tools#cat-text` }, { "@type": "ListItem", position: 3, name: "Text Statistics", item: toolUrl }] };
   
   return (
-    <div className="space-y-4">
+    <div className="max-w-6xl mx-auto space-y-8">
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <TextStatsClient />
