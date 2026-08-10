@@ -1,7 +1,11 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { Binary, Play, Square, Settings2 } from "lucide-react";
+import { Binary, Play, Square, Settings2, Radio, Volume2, Copy, Shield, Zap, BookOpen, Type } from "lucide-react";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { GlassCard } from "@/components/ui/glass-card";
 import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
@@ -180,7 +184,7 @@ export function MorseCodeClient() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-6xl mx-auto space-y-8">
       <ToolPageHeader
         title="Morse Code Translator"
         description="Translate text to morse code and vice-versa. Includes audio playback and adjustable speeds."
@@ -247,6 +251,75 @@ export function MorseCodeClient() {
           </CardContent>
         </GlassCard>
       </div>
+
+      {/* SECTION 3: HOW IT WORKS */}
+      <ToolHowItWorks
+        steps={[
+          { step: "01", title: "Enter Text or Morse", description: "Type plain text to convert to Morse code, or type Morse code (dots and dashes) to decode back to text. The translator auto-detects which direction to convert.", icon: Type },
+          { step: "02", title: "Hear the Signal", description: "Click Play to hear the Morse code as audio beeps using the Web Audio API. Adjust speed (WPM) and frequency (Hz) to match your practice or communication needs.", icon: Volume2 },
+          { step: "03", title: "Copy or Share", description: "Copy the Morse code output with one click. Use it for educational purposes, creative projects, communication practice, or decorative encoding.", icon: Copy },
+        ]}
+        badges={["ITU standard", "Audio playback", "Bidirectional"]}
+      />
+
+      {/* SECTION 4: FEATURE GUIDES */}
+      <ToolFeatureGuides
+        features={[
+          { icon: Radio, title: "Bidirectional Translation", description: "Convert text to Morse code and Morse code back to text. Supports all 26 letters, digits 0-9, and common punctuation following the ITU International Morse Code standard." },
+          { icon: Volume2, title: "Audio Playback", description: "Hear the Morse code played as real audio beeps using the Web Audio API. Adjustable WPM (words per minute) speed from 5 to 40 WPM and frequency from 400-900 Hz." },
+          { icon: Settings2, title: "Speed and Tone Control", description: "Adjust transmission speed in WPM (standard: 20 WPM) and tone frequency in Hz (standard: 600 Hz). Higher WPM for proficiency testing, lower for learning." },
+          { icon: Zap, title: "Real-Time Conversion", description: "Conversion happens instantly as you type with no delay. Both the Morse output and character-by-character breakdown update in real time." },
+          { icon: BookOpen, title: "Character Reference", description: "Built-in Morse code reference chart showing the dot-dash pattern for every letter, number, and punctuation mark. Essential for learning the code." },
+          { icon: Shield, title: "Client-Side and Private", description: "All translation and audio generation happens in your browser using the Web Audio API. No text is sent to any server." },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <h3 className="text-lg font-semibold">Morse Code Reference Chart</h3>
+          <p>International Morse Code (ITU) uses dots (dit) and dashes (dah) to represent characters. A dash is 3x the length of a dot. Space between parts of same letter: 1 dot. Space between letters: 3 dots. Space between words: 7 dots.</p>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead><tr className="bg-muted/50"><th className="border p-2 text-left">Char</th><th className="border p-2 text-left">Morse</th><th className="border p-2 text-left">Char</th><th className="border p-2 text-left">Morse</th><th className="border p-2 text-left">Char</th><th className="border p-2 text-left">Morse</th></tr></thead>
+              <tbody>
+                {[[["A",".-"],["B","-..."],["C","-.-."]],[["D","-.."],["E","."],["F","..-."]],[["G","--."],["H","...."],["I",".."]],[["J",".---"],["K","-.-"],["L",".-.."]],[["M","--"],["N","-. "],["O","---"]],[["P",".--."],["Q","--.-"],["R",".-."]],[["S","..."],["T","-"],["U","..-"]],[["V","...-"],["W",".--"],["X","-..-"]],[["Y","-.--"],["Z","--.."],["",""]],[["0","-----"],["1",".----"],["2","..---"]],[["3","...--"],["4","....-"],["5","....."]],[["6","-...."],["7","--..."],["8","---.."]],[["9","----."],["",""],["",""]]].map((row, i) => (
+                  <tr key={i} className="odd:bg-muted/20">
+                    {row.map(([ch, code], j) => (
+                      <React.Fragment key={j}>
+                        <td className="border p-2 font-bold text-xs text-center">{ch}</td>
+                        <td className="border p-2 font-mono text-primary text-xs">{code}</td>
+                      </React.Fragment>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <h3 className="text-lg font-semibold">Timing and Speed Reference</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead><tr className="bg-muted/50"><th className="border p-2 text-left">Speed (WPM)</th><th className="border p-2 text-left">Level</th><th className="border p-2 text-left">Dot Duration</th><th className="border p-2 text-left">Use Case</th></tr></thead>
+              <tbody>
+                {[["5 WPM","Beginner","240ms","Learning Morse code"],["10 WPM","Novice","120ms","Basic practice"],["13 WPM","Tech License","92ms","Former US amateur radio requirement"],["20 WPM","Intermediate","60ms","Comfortable conversation speed"],["25 WPM","Advanced","48ms","Contest and DX operating"],["35+ WPM","Expert","34ms","High-speed competition"]].map(([speed, level, dot, use]) => (
+                  <tr key={speed} className="odd:bg-muted/20"><td className="border p-2 font-mono text-primary text-xs">{speed}</td><td className="border p-2 font-medium text-xs">{level}</td><td className="border p-2 text-xs">{dot}</td><td className="border p-2 text-muted-foreground text-xs">{use}</td></tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <h3 className="text-lg font-semibold">Morse Code History and Uses Today</h3>
+          <p>Invented by Samuel Morse in 1837 for the electric telegraph, Morse code was the first form of long-distance digital communication. The most famous Morse sequence is SOS (... --- ...), the international distress signal adopted in 1906. While telegraph networks are gone, Morse code survives in: amateur (ham) radio communication, aviation navigational beacons (VOR/NDB transmit their callsign in Morse), military training, accessibility technology (ALS patients communicate using blink-to-Morse systems), and popular culture.</p>
+        </div>
+      </ToolFeatureGuides>
+
+      {/* SECTION 5: FAQ + RELATED TOOLS */}
+      <ToolFaqAccordion
+        faqs={[
+          { question: "How do I type Morse code for decoding?", answer: "Use dots (.) and dashes (-) with a single space between letters and three spaces (or a slash /) between words. Example: .... . .-.. .-.. --- / .-- --- .-. .-.. -.. decodes to HELLO WORLD. The translator accepts both dot-dash notation and the slash word separator." },
+          { question: "What is the SOS signal in Morse code?", answer: "SOS in Morse code is ... --- ... (three dots, three dashes, three dots). It was chosen as the international distress signal in 1906 because it is easy to recognize and transmit even by untrained operators. Contrary to popular belief, SOS does not stand for Save Our Ship or Save Our Souls - it was chosen purely for its simplicity." },
+          { question: "What does WPM mean in Morse code?", answer: "WPM stands for Words Per Minute. In Morse code, the standard test word is PARIS (.--.  .-  .-. ..  ...), which contains exactly 50 timing units. Sending PARIS once per minute equals 1 WPM. Amateur radio licensing exams traditionally required 5 WPM (Novice) or 13 WPM (Tech) proficiency, though the US eliminated the Morse requirement in 2007." },
+          { question: "Is Morse code still used today?", answer: "Yes. Amateur (ham) radio operators worldwide use Morse code for long-distance communication, especially in low-signal conditions where voice transmission fails. Aviation still uses Morse: VOR and NDB navigational beacons transmit their 2-3 letter callsign in Morse code. Military services train operators in Morse. Accessibility technology uses Morse code to enable communication for people with severe motor disabilities, including ALS patients who control computers via eye blinks converted to Morse." },
+          { question: "What is the difference between dots and dashes in Morse code?", answer: "A dot (dit) is the basic timing unit. A dash (dah) is exactly 3 dots in duration. The space between parts of the same letter is 1 dot. The space between letters is 3 dots. The space between words is 7 dots. This proportional timing system means Morse code can be sent at any speed while maintaining correct relative durations between elements." },
+        ]}
+      />
+      <RelatedTools currentToolUrl="/tools/text/morse-code" max={6} />
     </div>
   );
 }

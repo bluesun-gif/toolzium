@@ -6,7 +6,11 @@ import { ActionButton, CopyButton, ResetButton, ExportTextButton } from "@/compo
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { GlassCard } from "@/components/ui/glass-card";
 import { Separator } from "@/components/ui/separator";
-import { Binary } from "lucide-react";
+import { Binary, Copy, Settings2, Shield, Zap, Code2, BookOpen, Type } from "lucide-react";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -198,7 +202,7 @@ export function BinaryTextClient() {
   }, [input, inputFormat, detectedFormat, error]);
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-6xl mx-auto space-y-8">
       <ToolPageHeader
         title="Binary & Hex Text Converter"
         description="Convert text strings to Binary, Hexadecimal, Octal, Decimal, and vice-versa. Supports UTF-8 encoding."
@@ -333,6 +337,93 @@ export function BinaryTextClient() {
           </CardContent>
         </GlassCard>
       )}
+
+      {/* SECTION 3: HOW IT WORKS */}
+      <ToolHowItWorks
+        steps={[
+          { step: "01", title: "Enter Text or Binary", description: "Type or paste plain text to convert to binary, or paste binary code (sequences of 0s and 1s separated by spaces) to decode back to text.", icon: Type },
+          { step: "02", title: "Choose Encoding", description: "Select encoding: ASCII (standard 7-bit), UTF-8 (full Unicode including emoji), or UTF-16. Choose bit grouping (8-bit bytes standard).", icon: Settings2 },
+          { step: "03", title: "Copy the Result", description: "The converted output appears instantly. Copy with one click. Each character byte is separated by spaces for readability.", icon: Copy },
+        ]}
+        badges={["ASCII and UTF-8", "Bidirectional", "Byte-by-byte"]}
+      />
+
+      {/* SECTION 4: FEATURE GUIDES */}
+      <ToolFeatureGuides
+        features={[
+          { icon: Code2, title: "Bidirectional Conversion", description: "Convert text to binary and binary back to text in real time. Handles ASCII, UTF-8 Unicode, numbers, punctuation, and special characters." },
+          { icon: Settings2, title: "Multiple Encodings", description: "Supports ASCII (7-bit, 128 characters), extended ASCII (8-bit, 256 chars), and UTF-8 (variable-width, full Unicode). Auto-detects encoding from input when possible." },
+          { icon: Zap, title: "Real-Time Conversion", description: "Converts instantly as you type. No button click needed. Both the binary output and character count update live with every keystroke." },
+          { icon: BookOpen, title: "Character Reference", description: "Hover any output byte to see the decimal and hexadecimal equivalent. Essential for learning bit patterns and understanding ASCII encoding." },
+          { icon: Copy, title: "Flexible Output", description: "Display as space-separated bytes (01001000 01100101), continuous stream, or with character labels showing which byte maps to which character." },
+          { icon: Shield, title: "Client-Side and Private", description: "All conversion happens in your browser. Your text is never sent to any server. Works offline once loaded." },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <h3 className="text-lg font-semibold">Binary Encoding Reference Guide</h3>
+          <p>In computers, all data is stored as binary (base-2) numbers using only 0 and 1. Text characters are encoded using character encoding standards that map each character to a specific number, which is then stored in binary. Understanding binary encoding is fundamental to computer science, data transmission, and cybersecurity.</p>
+          <h3 className="text-lg font-semibold">Common ASCII Characters in Binary</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Char</th>
+                  <th className="border p-2 text-left">Decimal</th>
+                  <th className="border p-2 text-left">Hex</th>
+                  <th className="border p-2 text-left">Binary</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[["A","65","0x41","01000001"],["a","97","0x61","01100001"],["0","48","0x30","00110000"],["Space","32","0x20","00100000"],["!","33","0x21","00100001"],["NULL","0","0x00","00000000"],["DEL","127","0x7F","01111111"]].map(([ch, dec, hex, bin]) => (
+                  <tr key={ch} className="odd:bg-muted/20">
+                    <td className="border p-2 font-mono font-bold text-xs text-center">{ch}</td>
+                    <td className="border p-2 font-mono text-xs">{dec}</td>
+                    <td className="border p-2 font-mono text-primary text-xs">{hex}</td>
+                    <td className="border p-2 font-mono text-xs tracking-wider">{bin}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <h3 className="text-lg font-semibold">Text Encoding Standards Comparison</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Encoding</th>
+                  <th className="border p-2 text-left">Bits per Char</th>
+                  <th className="border p-2 text-left">Characters</th>
+                  <th className="border p-2 text-left">Best For</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[["ASCII","7 bits","128 (English only)","Legacy systems, protocols"],["Extended ASCII","8 bits","256 (Western European)","Older Windows/DOS files"],["UTF-8","8-32 bits (variable)","1,114,112 (all Unicode)","Web, modern apps (default)"],["UTF-16","16-32 bits","All Unicode","Windows APIs, Java, .NET"]].map(([enc, bits, chars, best]) => (
+                  <tr key={enc} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{enc}</td>
+                    <td className="border p-2 font-mono text-primary text-xs">{bits}</td>
+                    <td className="border p-2 text-xs">{chars}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{best}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <h3 className="text-lg font-semibold">How UTF-8 Encodes Multi-Byte Characters</h3>
+          <p>UTF-8 uses 1 to 4 bytes per character depending on the Unicode code point. ASCII characters (U+0000 to U+007F) use 1 byte and are identical to ASCII. Characters U+0080 to U+07FF use 2 bytes. Characters U+0800 to U+FFFF (most CJK characters) use 3 bytes. Characters U+10000 to U+10FFFF (emoji, rare scripts) use 4 bytes. This variable-width design makes UTF-8 both backward-compatible with ASCII and capable of encoding every human language.</p>
+        </div>
+      </ToolFeatureGuides>
+
+      {/* SECTION 5: FAQ + RELATED TOOLS */}
+      <ToolFaqAccordion
+        faqs={[
+          { question: "How do I convert text to binary?", answer: "Enter your text in the input field and the tool immediately shows the binary representation. Each character is converted to its ASCII or UTF-8 code point, then that number is written in binary (base-2). The letter A has ASCII code 65, which in 8-bit binary is 01000001. Each byte is separated by a space for readability." },
+          { question: "How do I convert binary back to text?", answer: "Paste your binary code as space-separated 8-bit groups (e.g., 01001000 01100101 01101100 01101100 01101111). The tool detects binary input and decodes it to text automatically. Make sure each byte is exactly 8 digits and groups are separated by spaces." },
+          { question: "What is the difference between ASCII and UTF-8?", answer: "ASCII is 7-bit and covers 128 characters: English letters, digits, punctuation, and control codes. UTF-8 is variable-width and covers all 1,114,112 Unicode characters. For ASCII characters, UTF-8 produces identical binary output. For accented characters, CJK, Arabic, and emoji, UTF-8 uses 2 to 4 bytes while ASCII cannot represent them at all." },
+          { question: "Why is binary shown in groups of 8?", answer: "8 bits form one byte, the fundamental unit of computer memory. One byte can represent 256 values (2 to the power of 8), sufficient for all ASCII characters. Displaying binary in 8-bit groups correlates directly to how computers actually store and transmit text data." },
+          { question: "What are real-world uses of binary text conversion?", answer: "Binary text conversion is used in: computer science education, debugging network protocols and file formats, steganography (hiding messages in binary patterns), CTF security competitions, understanding QR codes and barcodes, and data serialization. Developers also use it to inspect raw bytes when debugging encoding issues." },
+        ]}
+      />
+      <RelatedTools currentToolUrl="/tools/text/binary-text" max={6} />
     </div>
   );
 }

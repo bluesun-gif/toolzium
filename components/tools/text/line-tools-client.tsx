@@ -11,6 +11,10 @@ import SelectField from "@/components/shared/form-fields/select-field";
 import SwitchRow from "@/components/shared/form-fields/switch-row";
 import TextareaField from "@/components/shared/form-fields/textarea-field";
 import ToolPageHeader from "@/components/shared/tool-page-header";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 import { Badge } from "@/components/ui/badge";
 import {
   CardContent,
@@ -22,6 +26,8 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { Separator } from "@/components/ui/separator";
 import { normalizeEOL } from "@/lib/utils";
 import {
+  AlignLeft,
+  Copy,
   Filter,
   Hash,
   List,
@@ -29,9 +35,12 @@ import {
   Replace,
   Scissors,
   Search,
+  Settings2,
+  Shield,
   Shuffle,
   SortAsc,
   SortDesc,
+  Zap,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
@@ -258,7 +267,7 @@ export default function LineToolsClient() {
   ];
 
   return (
-    <>
+    <div className="max-w-6xl mx-auto space-y-8">
       {/* Header */}
       <ToolPageHeader
         icon={List}
@@ -541,6 +550,103 @@ export default function LineToolsClient() {
           </div>
         </CardContent>
       </GlassCard>
-    </>
+
+      <ToolHowItWorks
+        steps={[
+          { step: "01", title: "Paste Your Lines", description: "Paste any multi-line text: a list, log output, CSV column, code lines, or any text where each line needs individual processing.", icon: AlignLeft },
+          { step: "02", title: "Choose an Operation", description: "Select from: Sort A-Z, Sort Z-A, Sort by length, Reverse order, Remove duplicates, Remove empty lines, Shuffle randomly, Number lines, Add prefix or suffix, Trim whitespace.", icon: Settings2 },
+          { step: "03", title: "Copy the Result", description: "The processed output appears instantly. Copy all lines with one click or download as a text file. Your original text is preserved in the input.", icon: Copy },
+        ]}
+        badges={["10+ operations", "Instant processing", "Non-destructive"]}
+      />
+
+      <ToolFeatureGuides
+        features={[
+          { icon: SortAsc, title: "Sort Lines", description: "Sort lines alphabetically (A-Z or Z-A), numerically, by line length (shortest or longest first), or by word count. Case-sensitive or case-insensitive sorting available." },
+          { icon: Filter, title: "Remove Duplicates", description: "Remove duplicate lines keeping the first occurrence. Case-sensitive or case-insensitive deduplication. See the count of removed duplicates after processing." },
+          { icon: Shuffle, title: "Shuffle and Reverse", description: "Randomly shuffle lines using a Fisher-Yates algorithm for true randomness. Or reverse the line order (last line first). Both operations run instantly in your browser." },
+          { icon: AlignLeft, title: "Clean and Trim", description: "Remove empty lines, trim leading and trailing whitespace from each line, collapse multiple consecutive blank lines, and normalize line endings from CRLF to LF." },
+          { icon: Settings2, title: "Add Prefix or Suffix", description: "Add custom text before or after every line. Add sequential line numbers, bullet points, or any string. Useful for formatting Markdown lists and preparing SQL INSERT values." },
+          { icon: Shield, title: "Client-Side and Private", description: "All operations run in your browser. No text is sent to any server. Safe for logs containing sensitive data, passwords, or confidential information." },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <h3 className="text-lg font-semibold">Line Tools Operations Reference</h3>
+          <p>Line-by-line text processing is one of the most common tasks in software development, data analysis, and content management. Whether deduplicating a mailing list, sorting log entries, or preparing data for import, these operations handle the task instantly without requiring a spreadsheet or command-line tools.</p>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Operation</th>
+                  <th className="border p-2 text-left">Description</th>
+                  <th className="border p-2 text-left">Common Use Case</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["Sort A-Z", "Alphabetical ascending sort", "Sort a list of names, words, or items"],
+                  ["Sort Z-A", "Alphabetical descending sort", "Reverse-alphabetical ordering"],
+                  ["Sort by Length", "Shortest to longest line", "Find shortest or longest entries"],
+                  ["Reverse Order", "Last line becomes first", "Reverse log output, reverse list"],
+                  ["Remove Duplicates", "Keep unique lines only", "Deduplicate email lists, keywords"],
+                  ["Remove Empty Lines", "Delete blank lines", "Clean up pasted text or log output"],
+                  ["Shuffle Lines", "Random order (Fisher-Yates)", "Randomize quiz questions, test data"],
+                  ["Number Lines", "Add 1. 2. 3. prefix", "Create numbered lists from plain text"],
+                  ["Trim Whitespace", "Strip leading and trailing spaces", "Clean up CSV data or pasted content"],
+                  ["Add Prefix or Suffix", "Add text to start or end of each line", "Format SQL VALUES, create arrays"],
+                ].map(([op, desc, use]) => (
+                  <tr key={op} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{op}</td>
+                    <td className="border p-2 text-xs">{desc}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{use}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <h3 className="text-lg font-semibold">Command-Line Equivalents for Developers</h3>
+          <p>For developers who prefer the command line, here are the Unix equivalents of each line tool operation:</p>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Operation</th>
+                  <th className="border p-2 text-left">Unix Command</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["Sort A-Z", "sort file.txt"],
+                  ["Sort and dedupe", "sort -u file.txt"],
+                  ["Remove duplicates", "awk '!seen[$0]++' file.txt"],
+                  ["Reverse order", "tac file.txt"],
+                  ["Remove empty lines", "grep -v '^$' file.txt"],
+                  ["Shuffle lines", "shuf file.txt"],
+                  ["Number lines", "nl file.txt"],
+                  ["Trim whitespace", "sed 's/^[ \\t]*//;s/[ \\t]*$//' file.txt"],
+                ].map(([op, cmd]) => (
+                  <tr key={op} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{op}</td>
+                    <td className="border p-2 font-mono text-primary text-xs">{cmd}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion
+        faqs={[
+          { question: "How do I remove duplicate lines from text?", answer: "Paste your text into the input, select the Remove Duplicates operation, and click Process. The tool keeps the first occurrence of each unique line and removes all subsequent duplicates. Enable case-insensitive mode to treat Apple and apple as duplicates. The output shows the count of removed lines." },
+          { question: "Can I sort lines that contain numbers correctly?", answer: "Yes. Select Sort Numerically to sort lines that start with numbers in numeric order so that 2 comes before 10, unlike alphabetical sort where 10 comes before 2. Alphabetical sort treats each character individually, which incorrectly orders: 1, 10, 2, 20, 3. Numeric sort correctly orders: 1, 2, 3, 10, 20." },
+          { question: "How do I add bullet points to every line?", answer: "Use the Add Prefix operation and type your prefix: a bullet symbol, hyphen, or asterisk. Every line will have the prefix prepended. For Markdown lists use a hyphen and space as prefix. For numbered lists use the Number Lines operation instead." },
+          { question: "What is the difference between Remove Duplicates and Remove Empty Lines?", answer: "Remove Duplicates finds lines with identical content and removes all but the first occurrence. Remove Empty Lines removes lines that contain no characters or only whitespace. These are independent operations you can apply separately or chain together." },
+          { question: "Can I process very large text files?", answer: "Yes. The tool processes text entirely in your browser using JavaScript array operations and handles tens of thousands of lines without performance issues. For extremely large files with millions of lines, command-line tools like sort, uniq, and awk will be faster. For files over 50MB, the browser memory limit may apply." },
+        ]}
+      />
+
+      <RelatedTools currentToolUrl="/tools/text/line-tools" max={6} />
+    </div>
   );
 }
