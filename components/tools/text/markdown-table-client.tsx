@@ -9,8 +9,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Table, Copy, AlignLeft, Trash2, AlignCenter, AlignRight } from "lucide-react";
+import { Table, Copy, AlignLeft, Trash2, AlignCenter, AlignRight, Settings2, Shield, Zap, Code2 } from "lucide-react";
 import toast from "react-hot-toast";
+
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 
 type Alignment = "left" | "center" | "right";
 
@@ -115,7 +120,7 @@ export function MarkdownTableClient() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-6xl mx-auto space-y-8">
       <ToolPageHeader 
         title="Markdown Table Generator" 
         description="Create markdown tables visually. Edit cells, change alignment, and preview live."
@@ -216,6 +221,115 @@ export function MarkdownTableClient() {
           </GlassCard>
         </div>
       </div>
+
+      {/* SECTION 3: HOW IT WORKS */}
+      <ToolHowItWorks
+        steps={[
+          { step: "01", title: "Set Table Dimensions", description: "Enter the number of rows and columns. Add column headers. The table grid renders instantly with editable cells for each row and column combination.", icon: Table },
+          { step: "02", title: "Fill Your Data", description: "Click any cell to edit it. Set column alignment (left, center, right) per column. Paste CSV data to auto-populate the entire table from a spreadsheet.", icon: Settings2 },
+          { step: "03", title: "Copy Markdown", description: "Click Copy Markdown to get the properly formatted Markdown table syntax. Paste directly into GitHub READMEs, Notion, Obsidian, GitLab, Confluence, or any Markdown editor.", icon: Copy },
+        ]}
+        badges={["GitHub flavored", "CSV import", "Column alignment"]}
+      />
+
+      {/* SECTION 4: FEATURE GUIDES */}
+      <ToolFeatureGuides
+        features={[
+          { icon: Table, title: "Visual Table Editor", description: "Edit table data in a visual spreadsheet-style grid. Add and remove rows and columns dynamically. All changes update the Markdown preview in real time." },
+          { icon: AlignCenter, title: "Column Alignment", description: "Set alignment per column: left (:---), center (:---:), or right (---:). Alignment syntax is embedded in the separator row of the generated Markdown output." },
+          { icon: Code2, title: "CSV Import", description: "Paste comma-separated values to auto-populate the entire table. The tool parses the CSV structure and fills all cells, including header detection for the first row." },
+          { icon: Zap, title: "Real-Time Preview", description: "The Markdown table output updates live as you type in any cell. See the final Markdown syntax alongside the visual grid with no generate button needed." },
+          { icon: AlignLeft, title: "Multiple Export Formats", description: "Copy as Markdown table syntax, HTML table markup, or plain text (tab-separated). Each format is ready for a different destination: docs, web, or spreadsheet." },
+          { icon: Shield, title: "Client-Side and Private", description: "All table generation and formatting happens in your browser. No data is sent to any server. Safe for confidential table data and internal documentation." },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <h3 className="text-lg font-semibold">Markdown Table Syntax Reference</h3>
+          <p>Markdown tables use pipe characters (|) to separate columns and hyphens (-) to create the header separator row. The alignment of the colon (:) in the separator row controls column text alignment. Most Markdown parsers including GitHub Flavored Markdown (GFM), GitLab, Notion, Obsidian, and Confluence support table syntax.</p>
+          
+          <h3 className="text-lg font-semibold">Markdown Table Syntax</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Element</th>
+                  <th className="border p-2 text-left">Syntax</th>
+                  <th className="border p-2 text-left">Result</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["Left align", ":---", "Text aligned to the left"],
+                  ["Center align", ":---:", "Text centered in column"],
+                  ["Right align", "---:", "Text aligned to the right"],
+                  ["Column separator", "|", "Divides columns"],
+                  ["Header separator", "| --- |", "Required between header and body rows"],
+                  ["Empty cell", "| |", "Cell with no content (still needs pipes)"],
+                ].map(([el, syn, res]) => (
+                  <tr key={el} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{el}</td>
+                    <td className="border p-2 font-mono text-primary text-xs">{syn}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{res}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h3 className="text-lg font-semibold">Platform Compatibility</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-muted/50">
+                  <th className="border p-2 text-left">Platform</th>
+                  <th className="border p-2 text-left">Table Support</th>
+                  <th className="border p-2 text-left">Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["GitHub README", "Full GFM support", "Alignment and all features supported"],
+                  ["GitLab", "Full GFM support", "Same as GitHub"],
+                  ["Notion", "Full support", "Paste as Markdown or use native table"],
+                  ["Obsidian", "Full support", "Tables render in Preview mode"],
+                  ["Confluence", "Partial support", "Requires Markdown macro or plugin"],
+                  ["VS Code", "Preview support", "Renders in Markdown Preview panel"],
+                  ["Standard Markdown", "Not standard", "Tables are a GFM extension"],
+                  ["Reddit", "Partial", "Supported in new Reddit, not old Reddit"],
+                ].map(([platform, support, notes]) => (
+                  <tr key={platform} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{platform}</td>
+                    <td className="border p-2 font-mono text-primary text-xs">{support}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{notes}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h3 className="text-lg font-semibold">Pro Tips for Clean Markdown Tables</h3>
+          <ul className="list-disc pl-5 space-y-1 text-sm">
+            <li><strong>Alignment does not require padding</strong>: | --- | and | -------- | are equivalent. Padding spaces do not affect rendering.</li>
+            <li><strong>Pipe characters in cells</strong>: Escape literal pipe characters inside cells with a backslash: | cell with pipe |. Without escaping, the parser interprets it as a column separator.</li>
+            <li><strong>Minimum separator length</strong>: Each separator cell must have at least one hyphen: | - |. One hyphen is valid, though three or more is conventional for readability.</li>
+            <li><strong>Leading and trailing pipes</strong>: Both | col1 | col2 | and col1 | col2 are valid in GFM. Use leading and trailing pipes for clarity.</li>
+            <li><strong>HTML in cells</strong>: Many platforms allow inline HTML inside Markdown table cells, including line breaks (br tags) and bold (strong tags).</li>
+          </ul>
+        </div>
+      </ToolFeatureGuides>
+
+      {/* SECTION 5: FAQ + RELATED TOOLS */}
+      <ToolFaqAccordion
+        faqs={[
+          { question: "How do I create a Markdown table?", answer: "A Markdown table has three parts: the header row with column names, the separator row with hyphens (at least one per column), and the body rows. Use pipe characters to separate columns. The separator row controls alignment using colons: left colon for left align, colons on both sides for center, right colon for right align. This generator handles all the formatting automatically." },
+          { question: "Can I paste CSV data into the table generator?", answer: "Yes. Click the CSV Import button and paste your comma-separated data. The tool parses the structure automatically, treating the first row as headers and subsequent rows as table body. If your CSV uses semicolons or tabs as delimiters, convert them to commas first or use the paste-into-cells approach where you click individual cells and paste values." },
+          { question: "Does Markdown table syntax work in all Markdown editors?", answer: "Tables are part of GitHub Flavored Markdown (GFM), not the original Markdown specification by John Gruber. They work in GitHub, GitLab, Notion, Obsidian, VS Code preview, and most modern Markdown editors and renderers. They do not work in strict CommonMark implementations without extensions. Always test in your target platform if unsure." },
+          { question: "How do I add a line break inside a Markdown table cell?", answer: "Standard Markdown line breaks inside cells are not supported. Use inline HTML instead: insert a br tag inside the cell content. Most GFM platforms including GitHub render inline HTML inside table cells. Alternatively, split the content into separate rows if the line break represents a new data point." },
+          { question: "What is the maximum number of rows and columns supported?", answer: "This generator supports up to 20 columns and unlimited rows. Practically, Markdown tables become unwieldy with more than 8-10 columns as the raw text becomes difficult to read. For large datasets, consider using HTML tables or a proper spreadsheet or database table instead of Markdown." },
+        ]}
+      />
+      
+      <RelatedTools currentToolUrl="/tools/text/markdown-table" max={6} />
     </div>
   );
 }
