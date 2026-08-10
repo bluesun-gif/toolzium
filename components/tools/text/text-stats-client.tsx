@@ -6,7 +6,7 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { BarChart3, Type, FileText, Copy, BookOpen, Shield, AlignLeft, Globe, Zap, Hash } from "lucide-react";
+import { BarChart3, BarChart2, Type, FileText, Copy, BookOpen, Clock, Shield, AlignLeft, Globe, Zap, Hash } from "lucide-react";
 import toast from "react-hot-toast";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
@@ -207,194 +207,104 @@ export function TextStatsClient() {
       {/* SECTION 3: HOW IT WORKS */}
       <ToolHowItWorks
         steps={[
-          {
-            step: "01",
-            title: "Paste or Type Your Text",
-            description: "Paste an article, essay, code, or any text into the editor. The analysis starts instantly as you type — no button to click.",
-            icon: FileText,
-          },
-          {
-            step: "02",
-            title: "View Instant Statistics",
-            description: "See word count, character count (with/without spaces), sentence count, paragraph count, reading time, and speaking time — all updated live.",
-            icon: BarChart3,
-          },
-          {
-            step: "03",
-            title: "Analyze Word Frequency",
-            description: "The word frequency table ranks every word by occurrence, filtering out stop words. Useful for identifying overused terms in your writing.",
-            icon: Hash,
-          },
+          { step: "01", title: "Paste Your Text", description: "Paste or type any text — an article, essay, email, social post, or document. All statistics update instantly with no button press required.", icon: Type },
+          { step: "02", title: "Review Detailed Statistics", description: "Analyze characters, words, sentences, paragraphs, unique words, average word length, syllable count, Flesch reading ease score, and keyword frequency.", icon: BarChart2 },
+          { step: "03", title: "Optimize Your Writing", description: "Use reading level, keyword density, and sentence length insights to improve clarity, SEO performance, and audience targeting of your content.", icon: BookOpen },
         ]}
-        badges={[
-          "Live statistics",
-          "Reading time estimate",
-          "Word frequency",
-        ]}
+        badges={["Flesch reading ease", "Keyword density", "Reading time"]}
       />
-
-      {/* SECTION 4: FEATURE GUIDES */}
       <ToolFeatureGuides
         features={[
-          {
-            icon: BarChart3,
-            title: "Complete Text Statistics",
-            description: "Words, characters (with/without spaces), sentences, paragraphs, lines, unique words, and average words per sentence — all calculated instantly.",
-          },
-          {
-            icon: AlignLeft,
-            title: "Reading & Speaking Time",
-            description: "Estimates reading time at 238 words per minute (average adult reading speed) and speaking time at 130 WPM (conversational speech). Essential for speech and content planning.",
-          },
-          {
-            icon: Hash,
-            title: "Word Frequency Analysis",
-            description: "Counts and ranks every word by occurrence. Filter stop words (the, is, and) to surface meaningful content words. Identify overused terms and writing tics.",
-          },
-          {
-            icon: Type,
-            title: "Character Counting",
-            description: "Counts total characters and characters without spaces separately. Critical for social media posts (Twitter 280, Instagram 2200, LinkedIn 3000 character limits).",
-          },
-          {
-            icon: Globe,
-            title: "Readability Metrics",
-            description: "Calculates average sentence length and word complexity indicators. Shorter sentences and simpler words improve readability scores (Flesch-Kincaid, etc.).",
-          },
-          {
-            icon: Shield,
-            title: "Private & Offline",
-            description: "All analysis runs in your browser. Your text — which may be a draft article, confidential document, or private note — never leaves your device.",
-          },
+          { icon: BarChart2, title: "30+ Text Statistics", description: "Characters (with/without spaces), words, unique words, sentences, paragraphs, lines, syllables, average word length, average sentence length, and more — all computed in real time." },
+          { icon: BookOpen, title: "Flesch Reading Ease Score", description: "Measures text readability on a 0-100 scale. 90-100 is very easy (5th grade), 60-70 is standard (8th-9th grade), below 30 is very difficult (university level). Ideal for matching content to your audience." },
+          { icon: Clock, title: "Reading and Speaking Time", description: "Estimates reading time at 238 WPM (average adult silent reading speed per Brysbaert 2019) and speaking time at 130 WPM (presentation pace). Useful for blog posts, speeches, and podcast scripts." },
+          { icon: Hash, title: "Keyword Frequency Analysis", description: "Shows the top 10 most frequent words with counts and density percentage. Identifies keyword stuffing above 3% density and overused filler words that weaken content quality." },
+          { icon: AlignLeft, title: "Sentence Length Analysis", description: "Counts average words per sentence and flags very long sentences (over 30 words) that may reduce readability. Ideal sentence length for web content is 15-20 words." },
+          { icon: Shield, title: "Private and Client-Side", description: "All analysis runs locally in your browser using JavaScript string operations. No text is ever sent to a server. Safe for confidential documents and proprietary content." },
         ]}
       >
         <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-          <h3 className="text-lg font-semibold">Text Analysis Guide — Understanding Your Writing Statistics</h3>
-          <p>
-            Understanding your text's statistics helps you write more effectively for any medium.
-            Whether you're writing a blog post, academic essay, social media caption, or business email,
-            knowing your word count, reading time, and sentence complexity helps you hit your targets
-            and communicate clearly.
-          </p>
-
-          <h4 className="font-semibold">Social Media Character Limits Reference</h4>
+          <h3 className="text-lg font-semibold">Text Analysis Reference Guide</h3>
+          <p>Text statistics help writers, editors, content marketers, and developers quantify the quality and characteristics of written content. Metrics like reading ease, sentence length, and keyword density are used by SEO tools, grammar checkers, and content platforms to score and rank content quality.</p>
+          <h3 className="text-lg font-semibold">Flesch Reading Ease Score Reference</h3>
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-sm">
               <thead>
                 <tr className="bg-muted/50">
-                  <th className="border p-2 text-left">Platform</th>
-                  <th className="border p-2 text-left">Post/Caption Limit</th>
-                  <th className="border p-2 text-left">Bio Limit</th>
-                  <th className="border p-2 text-left">Notes</th>
+                  <th className="border p-2 text-left">Score</th>
+                  <th className="border p-2 text-left">Difficulty</th>
+                  <th className="border p-2 text-left">Grade Level</th>
+                  <th className="border p-2 text-left">Example</th>
                 </tr>
               </thead>
               <tbody>
                 {[
-                  ["X (Twitter)", "280 characters", "160 characters", "URLs count as 23 chars"],
-                  ["Instagram", "2,200 characters", "150 characters", "Hashtags count toward limit"],
-                  ["Facebook", "63,206 characters", "101 characters", "Posts truncated at ~477 chars"],
-                  ["LinkedIn", "3,000 characters", "2,600 characters", "Articles: 125,000 chars"],
-                  ["TikTok", "2,200 characters", "80 characters", "Hashtags count toward limit"],
-                  ["YouTube", "5,000 characters", "1,000 characters", "First 157 chars shown before \"more\""],
-                  ["WhatsApp", "65,536 characters", "N/A", "Status: 700 characters"],
-                ].map(([platform, post, bio, notes]) => (
-                  <tr key={platform} className="odd:bg-muted/20">
-                    <td className="border p-2 font-medium text-xs">{platform}</td>
-                    <td className="border p-2 text-primary text-xs">{post}</td>
-                    <td className="border p-2 text-xs">{bio}</td>
-                    <td className="border p-2 text-muted-foreground text-xs">{notes}</td>
+                  ["90-100", "Very Easy", "5th grade", "Comic books, basic instructions"],
+                  ["80-90", "Easy", "6th grade", "Pulp fiction, consumer guides"],
+                  ["70-80", "Fairly Easy", "7th grade", "Popular novels"],
+                  ["60-70", "Standard", "8th-9th grade", "Newspapers, magazines"],
+                  ["50-60", "Fairly Difficult", "10th-12th grade", "Academic magazines"],
+                  ["30-50", "Difficult", "College level", "Academic writing"],
+                  ["0-30", "Very Difficult", "Professional", "Legal, scientific documents"],
+                ].map(([score, diff, grade, ex]) => (
+                  <tr key={score} className="odd:bg-muted/20">
+                    <td className="border p-2 font-mono text-primary font-bold text-xs">{score}</td>
+                    <td className="border p-2 font-medium text-xs">{diff}</td>
+                    <td className="border p-2 text-xs">{grade}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{ex}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-
-          <h4 className="font-semibold">Reading Speed Reference</h4>
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse text-sm">
-              <thead>
-                <tr className="bg-muted/50">
-                  <th className="border p-2 text-left">Reader Type</th>
-                  <th className="border p-2 text-left">WPM</th>
-                  <th className="border p-2 text-left">Time for 1000 words</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  ["3rd grade student", "~150 WPM", "~6.7 minutes"],
-                  ["Average adult", "~238 WPM", "~4.2 minutes"],
-                  ["College student", "~300 WPM", "~3.3 minutes"],
-                  ["Speed reader", "~500 WPM", "~2 minutes"],
-                  ["Audiobook narration", "~150–160 WPM", "~6.5 minutes"],
-                  ["Conversational speech", "~130 WPM", "~7.7 minutes"],
-                  ["Presentation/speech", "~100–110 WPM", "~9–10 minutes"],
-                ].map(([reader, wpm, time]) => (
-                  <tr key={reader} className="odd:bg-muted/20">
-                    <td className="border p-2 font-medium text-xs">{reader}</td>
-                    <td className="border p-2 text-primary font-mono text-xs">{wpm}</td>
-                    <td className="border p-2 text-xs">{time}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          <h4 className="font-semibold">Content Length Guide by Format</h4>
+          <h3 className="text-lg font-semibold">Optimal Text Metrics by Content Type</h3>
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-sm">
               <thead>
                 <tr className="bg-muted/50">
                   <th className="border p-2 text-left">Content Type</th>
-                  <th className="border p-2 text-left">Ideal Word Count</th>
-                  <th className="border p-2 text-left">Read Time</th>
+                  <th className="border p-2 text-left">Target Flesch Score</th>
+                  <th className="border p-2 text-left">Avg Sentence Length</th>
+                  <th className="border p-2 text-left">Word Count</th>
                 </tr>
               </thead>
               <tbody>
                 {[
-                  ["Tweet/social caption", "20–40 words", "< 15 sec"],
-                  ["Email subject line", "6–10 words", "< 5 sec"],
-                  ["Blog intro paragraph", "50–100 words", "< 30 sec"],
-                  ["Short blog post", "500–800 words", "2–4 min"],
-                  ["Standard blog post", "1,000–2,000 words", "4–8 min"],
-                  ["In-depth article/guide", "2,000–5,000 words", "8–20 min"],
-                  ["10-min conference talk", "~1,300 words", "10 min"],
-                  ["Academic abstract", "150–250 words", "< 1 min"],
-                ].map(([content, count, time]) => (
-                  <tr key={content} className="odd:bg-muted/20">
-                    <td className="border p-2 font-medium text-xs">{content}</td>
-                    <td className="border p-2 text-primary text-xs">{count}</td>
-                    <td className="border p-2 text-muted-foreground text-xs">{time}</td>
+                  ["Blog post (general)", "60-70", "15-20 words", "800-1,500"],
+                  ["SEO article (long-form)", "60-70", "15-20 words", "1,500-3,000"],
+                  ["Email newsletter", "65-75", "12-18 words", "200-500"],
+                  ["Social media post", "70-80", "8-12 words", "50-280"],
+                  ["Academic paper", "30-50", "20-30 words", "3,000-8,000"],
+                  ["Legal document", "10-30", "25-40 words", "Varies"],
+                  ["Product description", "65-75", "10-15 words", "50-300"],
+                ].map(([type, flesch, sent, wc]) => (
+                  <tr key={type} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{type}</td>
+                    <td className="border p-2 font-mono text-primary text-xs">{flesch}</td>
+                    <td className="border p-2 text-xs">{sent}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{wc}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
+          <h3 className="text-lg font-semibold">Pro Tips for Improving Text Quality</h3>
+          <ul className="list-disc pl-5 space-y-1 text-sm">
+            <li><strong>Sentence length variety</strong>: Mix short sentences (under 10 words) with medium ones (15-20 words). Monotone sentence length creates a robotic reading rhythm.</li>
+            <li><strong>Keyword density</strong>: Keep primary keyword density between 1-3%. Above 3% risks being flagged as keyword stuffing by search engines and feels unnatural to readers.</li>
+            <li><strong>Passive voice</strong>: High passive voice usage increases sentence complexity and lowers Flesch scores. Aim for under 10% passive voice in blog content.</li>
+            <li><strong>Syllable count</strong>: Longer words (3+ syllables) lower Flesch scores significantly. Replace polysyllabic words with simpler alternatives when possible without losing precision.</li>
+            <li><strong>Paragraph length</strong>: Web content reads best with 2-4 sentence paragraphs. Academic content uses longer paragraphs. Match paragraph length to your platform and audience.</li>
+          </ul>
         </div>
       </ToolFeatureGuides>
-
-      {/* SECTION 5: FAQ + RELATED TOOLS */}
       <ToolFaqAccordion
         faqs={[
-          {
-            question: "How is reading time calculated?",
-            answer: "Reading time is calculated by dividing the word count by 238 words per minute — the scientifically measured average adult silent reading speed. This is the same method used by Medium and most publishing platforms. Skimming is faster (~700 WPM); technical reading is slower (~100–150 WPM).",
-          },
-          {
-            question: "What is the difference between character count with and without spaces?",
-            answer: "Character count with spaces counts every character including whitespace. Character count without spaces counts only visible characters (letters, numbers, punctuation). Most social media platforms (Twitter, Instagram) count spaces — so \"hello world\" is 11 characters, not 10.",
-          },
-          {
-            question: "What is word frequency analysis?",
-            answer: "Word frequency analysis counts how many times each word appears in your text, then ranks them from most to least common. It helps identify overused words, verify keyword density for SEO, or analyze the vocabulary in any document.",
-          },
-          {
-            question: "How many words should a blog post have for SEO?",
-            answer: "For competitive keywords, 1,500–3,000 words performs best in search rankings. For less competitive topics, 800–1,200 words can rank well. The most important factor is covering the topic comprehensively — don't pad with filler content. Google rewards depth and E-E-A-T, not raw word count.",
-          },
-          {
-            question: "How is sentence count determined?",
-            answer: "Sentences are counted by splitting on sentence-ending punctuation (periods, exclamation marks, question marks) followed by whitespace. Abbreviations (e.g., Dr., U.S.A.) are excluded from the count. Average sentence length is calculated as total words / sentence count.",
-          },
+          { question: "What is the Flesch Reading Ease score?", answer: "The Flesch Reading Ease score is a readability formula developed by Rudolf Flesch in 1948 and later revised by J. Peter Kincaid for the US Navy. It scores text on a 0-100 scale based on average sentence length and average syllables per word. Higher scores indicate easier reading. A score of 60-70 is considered standard for general audience content. The formula is: 206.835 minus 1.015 times average sentence length minus 84.6 times average syllables per word." },
+          { question: "How is word count calculated? Does it count hyphenated words as one or two?", answer: "Word count splits text on whitespace (spaces, tabs, newlines). Hyphenated words like well-known are counted as one word. Contractions like do not are counted as one word. Numbers like 1,000 are counted as one word. Punctuation attached to words (comma, period, quotation marks) is stripped before counting. This matches the word counting behavior of Microsoft Word and Google Docs." },
+          { question: "How is reading time estimated?", answer: "Reading time is estimated using 238 words per minute, the average adult silent reading speed from the 2019 meta-analysis by Brysbaert et al. published in Reading Research Quarterly, which analyzed 190 studies with 18,573 participants. This is more accurate than the commonly cited 200-250 WPM range. Speaking time uses 130 WPM for deliberate presentation speech." },
+          { question: "What is keyword density and what is the ideal percentage?", answer: "Keyword density is the percentage of times a specific word appears relative to the total word count. A density of 1-3% for a primary keyword is generally considered optimal for SEO. Below 1% may mean the topic is not well covered. Above 3% risks being identified as keyword stuffing by search engine algorithms, which can negatively impact rankings. Use the keyword frequency list to monitor your primary and secondary keyword density." },
+          { question: "What counts as a unique word?", answer: "Unique words are distinct word forms after converting to lowercase and removing punctuation. Hello, hello, and HELLO are counted as the same unique word. Inflected forms like run, runs, and running are counted as different unique words unless stemming is applied. The ratio of unique words to total words (type-token ratio) indicates vocabulary richness. A higher ratio suggests more varied and sophisticated vocabulary." },
         ]}
       />
       <RelatedTools currentToolUrl="/tools/text/text-stats" max={6} />

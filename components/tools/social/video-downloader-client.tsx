@@ -44,9 +44,11 @@ type PickerItem = {
   thumb?: string;
 };
 
-type CobaltResponse =
-  | { status: "redirect" | "tunnel"; url: string; filename?: string }
-  | { status: "picker"; picker: PickerItem[]; audio?: string }
+type QualityOption = { itag: number; label: string; url: string };
+
+type DownloadResult =
+  | { status: "redirect" | "tunnel" | "stream"; url: string; filename?: string; title?: string; thumbnail?: string; duration?: string; platform?: string; quality?: string; availableQualities?: QualityOption[] }
+  | { status: "picker"; picker: PickerItem[]; audio?: string; title?: string; thumbnail?: string }
   | { status: "error"; error: { code: string } };
 
 const SUPPORTED_PLATFORMS = [
@@ -88,7 +90,7 @@ export default function VideoDownloaderClient() {
   const [audioFormat, setAudioFormat] = useState<AudioFormat>("mp3");
   const [tiktokNoWatermark, setTiktokNoWatermark] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<CobaltResponse | null>(null);
+  const [result, setResult] = useState<DownloadResult | null>(null);
   const [error, setError] = useState("");
 
   const detectedPlatform = detectPlatform(url);
@@ -112,8 +114,8 @@ export default function VideoDownloaderClient() {
         audioFormat,
       };
 
-      if (isTikTok && tiktokNoWatermark) {
-        payload.tiktokFullAudio = true;
+      if (isTikTok) {
+        payload.tiktokWatermark = !tiktokNoWatermark;
       }
 
       const res = await fetch("/api/video-downloader", {
@@ -122,9 +124,15 @@ export default function VideoDownloaderClient() {
         body: JSON.stringify(payload),
       });
 
-      const data: CobaltResponse = await res.json();
+      const data: DownloadResult = await res.json();
 
-      if (!res.ok || data.status === "error") {
+      if (!res.ok) {
+        const errMsg = (data as { error?: string }).error ?? "Download failed. Please check the URL and try again.";
+        setError(errMsg);
+        return;
+      }
+
+      if (data.status === "error") {
         const errData = data as { status: "error"; error: { code: string } };
         setError(errData?.error?.code ?? "Download failed. Please check the URL and try again.");
         return;
@@ -339,11 +347,39 @@ export default function VideoDownloaderClient() {
               <span className="font-semibold">Download link ready!</span>
             </div>
 
-            {/* Redirect / Tunnel */}
-            {(result.status === "redirect" || result.status === "tunnel") && (
+            {/* Video metadata card */}
+            {"title" in result && result.title && (
+              <div className="flex gap-3 p-3 rounded-lg bg-background/80 border">
+                {"thumbnail" in result && result.thumbnail && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={result.thumbnail}
+                    alt={result.title}
+                    className="w-24 h-16 object-cover rounded-md shrink-0"
+                  />
+                )}
+                <div className="min-w-0 space-y-1">
+                  <p className="font-medium text-sm line-clamp-2">{result.title}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {"platform" in result && result.platform && (
+                      <Badge variant="outline" className="text-xs">{result.platform}</Badge>
+                    )}
+                    {"quality" in result && result.quality && (
+                      <Badge variant="secondary" className="text-xs">{result.quality}</Badge>
+                    )}
+                    {"duration" in result && result.duration && (
+                      <Badge variant="secondary" className="text-xs">⏱ {result.duration}</Badge>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Stream / Redirect / Tunnel download buttons */}
+            {(result.status === "redirect" || result.status === "tunnel" || result.status === "stream") && (
               <div className="space-y-3">
-                {result.filename && (
-                  <p className="text-sm text-muted-foreground font-mono truncate">
+                {"filename" in result && result.filename && (
+                  <p className="text-xs text-muted-foreground font-mono truncate">
                     📁 {result.filename}
                   </p>
                 )}
@@ -363,10 +399,31 @@ export default function VideoDownloaderClient() {
                   <Button
                     variant="outline"
                     onClick={() => window.open((result as { url: string }).url, "_blank")}
+                    title="Open in new tab"
                   >
                     <ExternalLink className="w-4 h-4" />
                   </Button>
                 </div>
+
+                {/* Alternative quality options for YouTube */}
+                {"availableQualities" in result && result.availableQualities && result.availableQualities.length > 1 && (
+                  <div className="space-y-1">
+                    <p className="text-xs text-muted-foreground font-medium">Other available qualities:</p>
+                    <div className="flex flex-wrap gap-2">
+                      {result.availableQualities.map((q) => (
+                        <Button
+                          key={q.itag}
+                          variant="outline"
+                          size="sm"
+                          className="text-xs h-7"
+                          onClick={() => handleDirectDownload(q.url, result.filename?.replace(/\.[^.]+$/, `.mp4`) ?? `video_${q.label}.mp4`)}
+                        >
+                          {q.label}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
@@ -407,6 +464,10 @@ export default function VideoDownloaderClient() {
                 )}
               </div>
             )}
+
+            <p className="text-xs text-muted-foreground">
+              💡 If the download opens in the browser instead of saving, right-click the video and choose &quot;Save video as&quot;
+            </p>
           </div>
         )}
 

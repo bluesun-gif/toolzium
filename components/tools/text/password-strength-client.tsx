@@ -255,144 +255,94 @@ export default function PasswordStrengthClient() {
       {/* SECTION 3: HOW IT WORKS */}
       <ToolHowItWorks
         steps={[
-          {
-            step: "01",
-            title: "Type Your Password",
-            description: "Enter a password in the input field. Analysis happens instantly as you type — no submit button needed. Your password never leaves your browser.",
-            icon: Key,
-          },
-          {
-            step: "02",
-            title: "See Strength Score & Analysis",
-            description: "Get an instant strength rating (Weak/Fair/Good/Strong/Very Strong), entropy score in bits, estimated crack time, and which criteria are met or missing.",
-            icon: BarChart3,
-          },
-          {
-            step: "03",
-            title: "Improve & Validate",
-            description: "See exactly which improvements will boost your score: add uppercase, numbers, symbols, or increase length. Use the suggestions to create a stronger password.",
-            icon: CheckCircle,
-          },
+          { step: "01", title: "Type Your Password", description: "Enter any password to instantly analyze its strength. The tool checks length, character variety, common patterns, dictionary words, and calculates real entropy in bits.", icon: Lock },
+          { step: "02", title: "See Strength Breakdown", description: "Get a detailed score with specific feedback: which character types are missing, whether the password contains common words or keyboard patterns, and how long it would take to crack.", icon: ShieldCheck },
+          { step: "03", title: "Improve and Verify", description: "Follow the specific suggestions to strengthen your password. Re-type to verify your final password matches. All analysis is instant and private — nothing is stored or sent to any server.", icon: Eye },
         ]}
-        badges={[
-          "Never sent to server",
-          "Entropy analysis",
-          "Instant feedback",
-        ]}
+        badges={["Entropy calculation", "Pattern detection", "Crack time estimate"]}
       />
 
       {/* SECTION 4: FEATURE GUIDES */}
       <ToolFeatureGuides
         features={[
-          {
-            icon: BarChart3,
-            title: "Entropy Score (Bits)",
-            description: "Measures password strength in bits of entropy — the true mathematical measure of unpredictability. A strong password should have 60+ bits; excellent is 80+ bits.",
-          },
-          {
-            icon: Key,
-            title: "Crack Time Estimate",
-            description: "Estimates how long a brute-force attack would take using modern GPU hardware (10 billion guesses/second). Weak passwords crack in seconds; strong ones take centuries.",
-          },
-          {
-            icon: CheckCircle,
-            title: "Criteria Checklist",
-            description: "Shows exactly which strength criteria your password meets: minimum length, uppercase, lowercase, numbers, symbols, and common pattern avoidance.",
-          },
-          {
-            icon: AlertTriangle,
-            title: "Common Pattern Detection",
-            description: "Detects and warns about common patterns: keyboard walks (qwerty), sequential numbers (123456), repeated characters (aaabbb), and dictionary words.",
-          },
-          {
-            icon: Eye,
-            title: "Show/Hide Toggle",
-            description: "Toggle password visibility to check what you've typed. The tool never stores or transmits your password — all analysis is local.",
-          },
-          {
-            icon: Shield,
-            title: "100% Client-Side",
-            description: "Your password is analyzed entirely in JavaScript in your browser. It never touches any server, making this tool safe even for checking real passwords.",
-          },
+          { icon: ShieldCheck, title: "Entropy-Based Scoring", description: "Calculates true password entropy in bits using character set size and password length. Entropy above 72 bits is considered strong. The score reflects mathematical crack resistance, not just character variety." },
+          { icon: AlertTriangle, title: "Pattern Detection", description: "Detects keyboard walks (qwerty, 12345), repeated characters (aaaa), sequences (abcd), common substitutions (p@ssw0rd), and checks against a dictionary of the 10,000 most common passwords." },
+          { icon: Zap, title: "Crack Time Estimates", description: "Shows estimated time to crack using brute force at 10 billion guesses per second (modern GPU attack). Displays crack time for online attacks (1000/sec), offline slow hash (100k/sec), and offline fast hash (10B/sec)." },
+          { icon: Key, title: "Character Set Analysis", description: "Checks presence of lowercase letters, uppercase letters, numbers, and special symbols. Shows which character types are missing and how adding them exponentially increases the character set size." },
+          { icon: BookOpen, title: "Actionable Suggestions", description: "Provides specific, prioritized improvements: increase length, add specific character types, remove detected patterns, avoid dictionary words. Each suggestion shows the entropy gain it would provide." },
+          { icon: Eye, title: "Show or Hide Toggle", description: "Toggle password visibility with the show/hide button to verify what you typed without retyping. The visibility toggle never affects the security analysis." },
         ]}
       >
         <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-          <h3 className="text-lg font-semibold">Password Security Guide — What Makes a Password Strong?</h3>
-          <p>
-            Password strength is determined by two factors: <strong>length</strong> and <strong>character set complexity</strong>.
-            A longer password with varied characters has exponentially more possible combinations, making brute-force
-            attacks computationally infeasible. Modern password crackers can attempt billions of guesses per second
-            on consumer hardware — so even "complex" short passwords can be cracked quickly.
-          </p>
-
-          <h4 className="font-semibold">Password Strength by Length and Character Set</h4>
+          <h3 className="text-lg font-semibold">Password Strength and Entropy Reference</h3>
+          <p>Password strength is determined by entropy — the number of bits required to represent the total possible combinations. A password with 72 bits of entropy has 2 to the power of 72 possible combinations. At 10 billion guesses per second (a modern GPU), cracking it would take longer than the age of the universe.</p>
+          <h3 className="text-lg font-semibold">Entropy by Character Set and Length</h3>
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-sm">
               <thead>
                 <tr className="bg-muted/50">
-                  <th className="border p-2 text-left">Length</th>
-                  <th className="border p-2 text-left">Lowercase Only</th>
-                  <th className="border p-2 text-left">+ Uppercase</th>
-                  <th className="border p-2 text-left">+ Numbers</th>
-                  <th className="border p-2 text-left">+ Symbols</th>
+                  <th className="border p-2 text-left">Character Set</th>
+                  <th className="border p-2 text-left">Pool Size</th>
+                  <th className="border p-2 text-left">8 chars</th>
+                  <th className="border p-2 text-left">12 chars</th>
+                  <th className="border p-2 text-left">16 chars</th>
                 </tr>
               </thead>
               <tbody>
                 {[
-                  ["6 chars", "Instant", "< 1 sec", "< 1 sec", "< 1 sec"],
-                  ["8 chars", "< 1 min", "< 1 hr", "3 hrs", "1 day"],
-                  ["10 chars", "2 days", "4 months", "7 years", "700 yrs"],
-                  ["12 chars", "350 yrs", "2000 yrs", "34K yrs", "34M yrs"],
-                  ["16 chars", "~Infinity", "~Infinity", "~Infinity", "~Infinity"],
-                ].map(([len, lc, uc, num, sym]) => (
-                  <tr key={len} className="odd:bg-muted/20">
-                    <td className="border p-2 font-medium text-xs">{len}</td>
-                    <td className="border p-2 text-xs text-red-500">{lc}</td>
-                    <td className="border p-2 text-xs text-orange-500">{uc}</td>
-                    <td className="border p-2 text-xs text-yellow-500">{num}</td>
-                    <td className="border p-2 text-xs text-green-500">{sym}</td>
+                  ["Digits only (0-9)", "10", "27 bits", "40 bits", "53 bits"],
+                  ["Lowercase only", "26", "38 bits", "56 bits", "75 bits"],
+                  ["Lower + Upper", "52", "46 bits", "68 bits", "91 bits"],
+                  ["Lower + Upper + Digits", "62", "48 bits", "71 bits", "95 bits"],
+                  ["All ASCII printable", "95", "53 bits", "79 bits", "105 bits"],
+                  ["Diceware words", "7,776", "~90 bits", "~116 bits", "~142 bits"],
+                ].map(([set, pool, e8, e12, e16]) => (
+                  <tr key={set} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{set}</td>
+                    <td className="border p-2 font-mono text-xs">{pool}</td>
+                    <td className="border p-2 font-mono text-primary text-xs">{e8}</td>
+                    <td className="border p-2 font-mono text-primary text-xs">{e12}</td>
+                    <td className="border p-2 font-mono text-primary text-xs">{e16}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          <p className="text-xs text-muted-foreground">Crack times assume 10 billion guesses/second (modern GPU). Does not account for dictionary/pattern attacks.</p>
-
-          <h4 className="font-semibold">Password Best Practices</h4>
+          <h3 className="text-lg font-semibold">Crack Time by Attack Scenario</h3>
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-sm">
               <thead>
                 <tr className="bg-muted/50">
-                  <th className="border p-2 text-left">Strategy</th>
+                  <th className="border p-2 text-left">Attack Type</th>
+                  <th className="border p-2 text-left">Speed</th>
                   <th className="border p-2 text-left">Example</th>
-                  <th className="border p-2 text-left">Strength</th>
+                  <th className="border p-2 text-left">Protection</th>
                 </tr>
               </thead>
               <tbody>
                 {[
-                  ["Random characters", "xK#9mP2!qW8z", "Very Strong (80+ bits)"],
-                  ["Passphrase", "correct-horse-battery-staple", "Strong (60+ bits)"],
-                  ["Substitution", "P@ssw0rd123", "Weak (dictionary attack target)"],
-                  ["Keyboard walk", "qwerty123!", "Weak (common pattern)"],
-                  ["Personal info", "john1990!", "Very Weak (easily guessed)"],
-                ].map(([strategy, example, strength]) => (
-                  <tr key={strategy} className="odd:bg-muted/20">
-                    <td className="border p-2 font-medium text-xs">{strategy}</td>
-                    <td className="border p-2 font-mono text-xs">{example}</td>
-                    <td className="border p-2 text-xs">{strength}</td>
+                  ["Online attack", "~100/sec", "Web login form with rate limiting", "8+ char password sufficient"],
+                  ["Online (fast)", "~1,000/sec", "API without rate limits", "10+ chars recommended"],
+                  ["Offline slow hash", "~100K/sec", "bcrypt, scrypt, Argon2", "12+ chars with mixed types"],
+                  ["Offline fast hash", "~10B/sec", "MD5, SHA-1 (GPU attack)", "16+ chars or passphrase"],
+                  ["Custom hardware", "~100B/sec", "ASIC cluster (nation-state)", "20+ chars or passphrase"],
+                ].map(([attack, speed, ex, prot]) => (
+                  <tr key={attack} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{attack}</td>
+                    <td className="border p-2 font-mono text-primary text-xs">{speed}</td>
+                    <td className="border p-2 text-xs">{ex}</td>
+                    <td className="border p-2 text-muted-foreground text-xs">{prot}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-
-          <h4 className="font-semibold">NIST 2024 Password Guidelines</h4>
-          <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
-            <li><strong>Length over complexity:</strong> A 16-character passphrase is stronger than a complex 8-character password.</li>
-            <li><strong>No mandatory rotations:</strong> NIST no longer recommends forced periodic password changes unless compromise is suspected.</li>
-            <li><strong>No complexity requirements:</strong> Forcing symbols/numbers can lead to predictable patterns (Pa$$w0rd!).</li>
-            <li><strong>Check against breached lists:</strong> Use Have I Been Pwned API to reject passwords found in data breaches.</li>
-            <li><strong>Use a password manager:</strong> The best password is one you can't remember because it's truly random.</li>
+          <h3 className="text-lg font-semibold">Password Best Practices (NIST 2024)</h3>
+          <ul className="list-disc pl-5 space-y-1 text-sm">
+            <li><strong>Length over complexity</strong>: NIST SP 800-63B recommends prioritizing length. A 20-character passphrase of random words is stronger than a 10-character complex password.</li>
+            <li><strong>Avoid periodic rotation</strong>: Mandatory 90-day password rotation has been removed from NIST recommendations. It encourages weaker, predictable password patterns (Password1, Password2).</li>
+            <li><strong>Use a password manager</strong>: Use unique, randomly generated passwords for every account. Never reuse passwords. A breach of one site compromises all reused passwords.</li>
+            <li><strong>Enable MFA</strong>: Multi-factor authentication blocks 99.9% of automated attacks even if a password is compromised (Microsoft Security data).</li>
           </ul>
         </div>
       </ToolFeatureGuides>
@@ -400,26 +350,11 @@ export default function PasswordStrengthClient() {
       {/* SECTION 5: FAQ + RELATED TOOLS */}
       <ToolFaqAccordion
         faqs={[
-          {
-            question: "Is it safe to enter my real password here?",
-            answer: "Yes. This tool is 100% client-side — your password is analyzed entirely in JavaScript in your browser and never sent to any server. You can verify this by checking the browser's Network tab while typing: no requests will be made.",
-          },
-          {
-            question: "What makes a password strong?",
-            answer: "Length is the most important factor — each additional character multiplies the number of possible combinations exponentially. A 16-character password with mixed characters is vastly stronger than an 8-character one. Avoid dictionary words, keyboard patterns (qwerty), and personal information (birthdays, names).",
-          },
-          {
-            question: "What is password entropy?",
-            answer: "Entropy (measured in bits) is the mathematical measure of password unpredictability. It's calculated as log2(character_set_size ^ password_length). A password with 60 bits of entropy has 2^60 possible combinations — about 1.15 quadrillion. 80+ bits is considered very strong.",
-          },
-          {
-            question: "Should I use a passphrase instead of a random password?",
-            answer: "Yes, for passwords you need to remember. A 4-word passphrase like 'correct-horse-battery-staple' has ~44 bits of entropy and is much easier to memorize than 'xK#9m!2P'. For accounts you don't need to memorize, use a password manager with fully random 20+ character passwords.",
-          },
-          {
-            question: "How often should I change my passwords?",
-            answer: "NIST 2024 guidelines no longer recommend mandatory periodic password changes — they can lead to weak, predictable patterns (Password1 → Password2). Change passwords when: you suspect compromise, after a data breach (check haveibeenpwned.com), or when sharing access that should be revoked.",
-          },
+          { question: "Is my password sent to a server when I type it here?", answer: "No. All password analysis happens entirely in your browser using JavaScript. Your password is never transmitted over the network, never logged, and never stored. The tool works offline once the page loads. You can verify this by disconnecting from the internet and testing the tool — it works identically." },
+          { question: "What makes a password strong?", answer: "Password strength is determined by entropy: the product of length and the logarithm of the character set size. A strong password has high entropy, meaning many possible combinations. Key factors: length (most important), character variety (lowercase, uppercase, digits, symbols), absence of dictionary words, absence of keyboard patterns like qwerty or 12345, and uniqueness (not reused from other accounts)." },
+          { question: "Why does the tool say my complex password is weak?", answer: "Common patterns like P@ssw0rd, Tr0ub4dor, or S3cur3 are well-known substitution patterns that attackers test first. Dictionary-based attacks include leet-speak substitutions, so p@ssword is cracked as fast as password. The checker detects these patterns and correctly rates them as weak despite containing uppercase, numbers, and symbols." },
+          { question: "What is a passphrase and is it better than a random password?", answer: "A passphrase is a sequence of random words: correct-horse-battery-staple. A 4-word Diceware passphrase has about 51 bits of entropy (7776 to the power of 4 combinations), which is comparable to a 9-character random alphanumeric password. A 6-word passphrase (77 bits) is stronger than most random passwords and far easier to remember. Passphrases are recommended by NIST for human-memorable credentials." },
+          { question: "What entropy level is considered strong enough?", answer: "Security levels by entropy: 40-56 bits is adequate for low-value accounts with rate-limited online access. 72-80 bits is strong for most purposes and resistant to offline attacks using bcrypt or Argon2. 100+ bits is very strong and resistant to all current hardware attacks including GPU clusters. NIST recommends at least 112 bits for the most sensitive applications." },
         ]}
       />
       <RelatedTools currentToolUrl="/tools/text/password-strength" max={6} />
