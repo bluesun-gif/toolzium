@@ -1,6 +1,6 @@
 "use client";
 
-import { AlignLeft, BookOpen, Code2, Eraser, Globe, Hash, Info, Link, List, Shield, Type, Zap, Wand2 as Wand } from "lucide-react";
+import { AlignLeft, BookOpen, Code2, Eraser, Globe, Hash, Info, Link, List, Shield, Type, Zap, Wand2 as Wand, Link2, Settings2, Copy, FileText } from "lucide-react";
 import * as React from "react";
 import toast from "react-hot-toast";
 import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
@@ -395,171 +395,180 @@ export default function SlugifyClient() {
         </TabsContent>
       </Tabs>
 
-      {/* SECTION 3: HOW IT WORKS */}
+      {/* HOW IT WORKS */}
       <ToolHowItWorks
         steps={[
           {
             step: "01",
-            title: "Type or Paste Your Text",
-            description: "Enter any title, heading, product name, or article name. Works with text in any language — accented characters (é, ü, ñ) are transliterated to ASCII equivalents.",
-            icon: Type,
+            title: "Enter Your Title or Text",
+            description: "Type or paste any title, headline, product name, or article heading. The tool processes Unicode, diacritics, special characters, and symbols from any language.",
+            icon: FileText,
           },
           {
             step: "02",
-            title: "Get URL-Safe Slug",
-            description: "Instantly see the URL slug: lowercase, spaces replaced with hyphens, special characters removed, multiple hyphens collapsed. Updated live as you type.",
-            icon: Link,
+            title: "Configure Slug Options",
+            description: "Choose separator (hyphen, underscore, dot), case (lowercase, uppercase), max length, and whether to strip stop words. Preview updates live as you type.",
+            icon: Settings2,
           },
           {
             step: "03",
-            title: "Copy & Use",
-            description: "Copy the slug directly for use as a URL path, CMS permalink, file name, Git branch name, database key, or any other identifier needing a URL-safe string.",
-            icon: BookOpen,
+            title: "Copy and Use",
+            description: "Copy the generated slug with one click. Use it in your CMS URL field, file system, API route, or database key. The slug is already URL-safe and ready to use.",
+            icon: Copy,
           },
         ]}
-        badges={[
-          "Unicode & accent support",
-          "Instant generation",
-          "SEO-friendly output",
-        ]}
+        badges={["Unicode support", "Real-time preview", "CMS-ready output"]}
       />
 
-      {/* SECTION 4: FEATURE GUIDES */}
+      {/* FEATURE GUIDES */}
       <ToolFeatureGuides
         features={[
           {
-            icon: Link,
+            icon: Link2,
             title: "URL-Safe Output",
-            description: "Produces slugs that are safe for all URLs: lowercase only, hyphens instead of spaces, no special characters, no leading/trailing hyphens. Ready for direct use in routes.",
+            description: "Every generated slug uses only characters safe in URLs without encoding: a-z, 0-9, and the chosen separator (- _ .). No percent-encoding needed, no broken links.",
           },
           {
             icon: Globe,
-            title: "Unicode & Accent Handling",
-            description: "Automatically transliterates accented and special characters: é→e, ü→u, ñ→n, ø→o, ß→ss. Supports Latin, Cyrillic-to-Latin, and other common transliterations.",
+            title: "Unicode & Diacritics",
+            description: "Converts accented characters to ASCII equivalents: é→e, ñ→n, ü→u, ø→o, ß→ss. Handles Arabic, Chinese, Japanese via transliteration. Works with emoji removal.",
           },
           {
-            icon: Hash,
-            title: "Separator Options",
-            description: "Choose hyphens (-) for URLs and SEO (recommended by Google), underscores (_) for file names and Python variables, or other custom separators for specific use cases.",
+            icon: Settings2,
+            title: "Configurable Separator",
+            description: "Choose hyphen (-), underscore (_), or dot (.) as word separator. Hyphens are standard for URLs (Google recommends). Underscores are conventional for file names and Python variables.",
           },
           {
             icon: Code2,
-            title: "Multi-Platform Compatible",
-            description: "Generated slugs work as WordPress permalinks, Next.js routes, GitHub branch names, file system paths, database slugs, and npm package names.",
+            title: "Stop Word Removal",
+            description: "Optionally strips common English stop words (a, an, the, and, or, but, in, on, at, to, for) to produce shorter, more keyword-dense slugs for better SEO.",
           },
           {
-            icon: AlignLeft,
-            title: "Smart Truncation",
-            description: "Optionally set a maximum slug length. Long titles are truncated at a word boundary — never cutting a word in the middle — keeping slugs readable and SEO-friendly.",
+            icon: Zap,
+            title: "Max Length Control",
+            description: "Set a maximum character limit (commonly 60-75 chars for SEO). Slug is truncated at a word boundary, never mid-word, ensuring readable and complete output.",
           },
           {
             icon: Shield,
-            title: "Private & Client-Side",
-            description: "All slug generation runs in your browser. No text is sent to any server — safe for sensitive product names, internal document titles, or confidential content.",
+            title: "Client-Side Processing",
+            description: "All slugification happens instantly in your browser. Your content is never sent to any server — safe for confidential titles, internal product names, and draft content.",
           },
         ]}
       >
         <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-          <h3 className="text-lg font-semibold">URL Slugs — Best Practices for SEO & Web Development</h3>
+          <h3 className="text-lg font-semibold">Slug Generator — Complete Technical Guide</h3>
           <p>
-            A <strong>URL slug</strong> is the part of a URL that identifies a specific page in a
-            human-readable form. For example, in <code>example.com/blog/how-to-use-react-hooks</code>,
-            the slug is <code>how-to-use-react-hooks</code>. Well-crafted slugs improve SEO, make URLs
-            shareable, and help users understand the page content before clicking.
+            A <strong>URL slug</strong> is the human-readable part of a URL that identifies a specific page.
+            In <code>https://example.com/blog/how-to-make-coffee</code>, the slug is
+            <code>how-to-make-coffee</code>. Slugs are critical for SEO, user experience, and
+            system interoperability. A well-formed slug is lowercase, uses hyphens as word separators,
+            contains only ASCII alphanumeric characters, and is concise (under 75 characters).
           </p>
 
-          <h4 className="font-semibold">Slug Transformation Rules</h4>
+          <h3 className="text-lg font-semibold">Slug Format Standards by Platform</h3>
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-sm">
               <thead>
                 <tr className="bg-muted/50">
-                  <th className="border p-2 text-left">Input</th>
-                  <th className="border p-2 text-left">Rule Applied</th>
-                  <th className="border p-2 text-left">Output</th>
+                  <th className="border p-2 text-left">Platform</th>
+                  <th className="border p-2 text-left">Separator</th>
+                  <th className="border p-2 text-left">Case</th>
+                  <th className="border p-2 text-left">Max Length</th>
+                  <th className="border p-2 text-left">Example</th>
                 </tr>
               </thead>
               <tbody>
                 {[
-                  ["Hello World!", "Lowercase + remove punctuation", "hello-world"],
-                  ["React & TypeScript", "Replace & with 'and', hyphenate", "react-and-typescript"],
-                  ["Crème Brûlée", "Transliterate accents", "creme-brulee"],
-                  ["  extra   spaces  ", "Trim + collapse whitespace", "extra-spaces"],
-                  ["100% Free!", "Remove %, !", "100-free"],
-                  ["/path/to/file.html", "Remove slashes and extension", "path-to-file-html"],
-                  ["what is SEO?", "Lowercase + remove ?", "what-is-seo"],
-                ].map(([input, rule, output]) => (
-                  <tr key={input} className="odd:bg-muted/20">
-                    <td className="border p-2 font-mono text-xs">{input}</td>
-                    <td className="border p-2 text-muted-foreground text-xs">{rule}</td>
-                    <td className="border p-2 font-mono text-primary text-xs">{output}</td>
+                  ["WordPress", "Hyphen (-)", "Lowercase", "~200 chars", "my-post-title"],
+                  ["Shopify", "Hyphen (-)", "Lowercase", "255 chars", "blue-running-shoes"],
+                  ["GitHub repos", "Hyphen (-)", "Lowercase", "100 chars", "my-awesome-project"],
+                  ["Python files", "Underscore (_)", "Lowercase", "No limit", "my_module_name"],
+                  ["Django URLs", "Hyphen (-)", "Lowercase", "~50 chars", "article-detail"],
+                  ["Next.js routes", "Hyphen (-)", "Lowercase", "No limit", "blog-post-slug"],
+                  ["AWS S3 keys", "Hyphen (-)", "Any", "1024 bytes", "uploads/user-avatar"],
+                  ["PostgreSQL cols", "Underscore (_)", "Lowercase", "63 chars", "created_at"],
+                ].map(([platform, sep, cas, len, ex]) => (
+                  <tr key={platform} className="odd:bg-muted/20">
+                    <td className="border p-2 font-medium text-xs">{platform}</td>
+                    <td className="border p-2 font-mono text-primary text-xs">{sep}</td>
+                    <td className="border p-2 text-xs">{cas}</td>
+                    <td className="border p-2 text-xs">{len}</td>
+                    <td className="border p-2 font-mono text-muted-foreground text-xs">{ex}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
 
-          <h4 className="font-semibold">Slug Best Practices for SEO</h4>
+          <h3 className="text-lg font-semibold">Google's Official Slug Recommendations</h3>
+          <p>
+            Google's John Mueller and the Search Central documentation explicitly recommend:
+          </p>
+          <ul className="list-disc pl-5 space-y-1 text-sm">
+            <li><strong>Use hyphens, not underscores</strong> — Google treats hyphens as word separators, underscores as word joiners. <code>word-count</code> ranks for "word count"; <code>word_count</code> only ranks for "word_count".</li>
+            <li><strong>Keep slugs short and descriptive</strong> — Include your target keyword, drop filler words (a, the, and, for).</li>
+            <li><strong>Avoid keyword stuffing</strong> — <code>best-seo-tips-seo-guide-seo-2025</code> is worse than <code>seo-tips-2025</code>.</li>
+            <li><strong>Use 301 redirects when changing slugs</strong> — Changing a slug without redirecting loses all backlink equity built to the old URL.</li>
+            <li><strong>Avoid dates in slugs</strong> for evergreen content — <code>/best-laptops</code> ages better than <code>/best-laptops-2024</code>.</li>
+          </ul>
+
+          <h3 className="text-lg font-semibold">Unicode Transliteration Reference</h3>
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-sm">
               <thead>
                 <tr className="bg-muted/50">
-                  <th className="border p-2 text-left">Practice</th>
-                  <th className="border p-2 text-left">Good Example</th>
-                  <th className="border p-2 text-left">Bad Example</th>
+                  <th className="border p-2 text-left">Character</th>
+                  <th className="border p-2 text-left">Language</th>
+                  <th className="border p-2 text-left">Slug Output</th>
                 </tr>
               </thead>
               <tbody>
                 {[
-                  ["Use hyphens", "/best-react-hooks", "/best_react_hooks"],
-                  ["Lowercase only", "/javascript-tips", "/JavaScript-Tips"],
-                  ["Include keywords", "/how-to-bake-bread", "/post-1234"],
-                  ["Keep it short", "/react-hooks-guide", "/ultimate-complete-guide-to-react-hooks-2024"],
-                  ["No stop words", "/react-hooks", "/a-guide-to-the-react-hooks"],
-                  ["No special chars", "/creme-brulee", "/crème-brûlée"],
-                ].map(([practice, good, bad]) => (
-                  <tr key={practice} className="odd:bg-muted/20">
-                    <td className="border p-2 font-medium text-xs">{practice}</td>
-                    <td className="border p-2 font-mono text-emerald-600 text-xs">{good}</td>
-                    <td className="border p-2 font-mono text-red-500 text-xs">{bad}</td>
+                  ["é, è, ê, ë", "French", "e"],
+                  ["ñ", "Spanish", "n"],
+                  ["ü, ö, ä", "German", "u, o, a"],
+                  ["ß", "German", "ss"],
+                  ["ø, å", "Danish/Norwegian", "o, a"],
+                  ["ç", "French/Turkish", "c"],
+                  ["ğ, ş, ı", "Turkish", "g, s, i"],
+                  ["ą, ę, ó, ś", "Polish", "a, e, o, s"],
+                  ["č, š, ž", "Czech/Slovak", "c, s, z"],
+                  ["中文 (Chinese)", "Chinese", "zhong-wen (pinyin)"],
+                ].map(([char, lang, out]) => (
+                  <tr key={char} className="odd:bg-muted/20">
+                    <td className="border p-2 font-mono text-primary text-xs">{char}</td>
+                    <td className="border p-2 text-xs">{lang}</td>
+                    <td className="border p-2 font-mono text-xs">{out}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-
-          <h4 className="font-semibold">Hyphens vs Underscores — Google's Official Guidance</h4>
-          <p>
-            Google's John Mueller has confirmed that <strong>hyphens are preferred over underscores</strong>
-            for URL slugs. Google treats hyphens as word separators (so <code>react-hooks</code> = two words:
-            "react" and "hooks"), but treats underscores as word joiners (so <code>react_hooks</code> = one
-            word: "reacthooks"). Use hyphens for all public-facing URLs. Use underscores for file names,
-            Python variables, and database column names where convention dictates.
-          </p>
         </div>
       </ToolFeatureGuides>
 
-      {/* SECTION 5: FAQ + RELATED TOOLS */}
+      {/* FAQ */}
       <ToolFaqAccordion
         faqs={[
           {
-            question: "What is a URL slug?",
-            answer: "A URL slug is the part of a URL that identifies a page in human-readable form. In 'example.com/blog/my-first-post', the slug is 'my-first-post'. Slugs should be lowercase, use hyphens as separators, contain no special characters, and ideally include relevant keywords for SEO.",
-          },
-          {
-            question: "Should I use hyphens or underscores in slugs?",
-            answer: "Use hyphens for URLs. Google officially recommends hyphens as word separators in URLs — they are treated as spaces in search indexing. Underscores are treated as word joiners, potentially hurting keyword matching. Use underscores only in file names, Python variables, or database column names where it's the convention.",
+            question: "Should I use hyphens or underscores in URL slugs?",
+            answer: "Use hyphens for URL slugs. Google explicitly recommends hyphens over underscores because Google's crawlers treat hyphens as word separators (so 'word-count' ranks for the query 'word count') but treat underscores as word joiners (so 'word_count' only matches the exact string 'word_count'). Use underscores only for file names, Python variables, and database column names where that convention is standard.",
           },
           {
             question: "How long should a URL slug be?",
-            answer: "Keep slugs under 60-75 characters. Shorter slugs are more readable and shareable. Remove stop words (the, a, an, of, in, to) to keep it concise while retaining meaning. Focus on 2-5 key words that describe the page content — both for readability and SEO.",
+            answer: "Aim for 3-5 words (roughly 20-60 characters) for optimal SEO. Google can handle longer URLs but shorter slugs are easier to share, remember, and fit in search result snippets without truncation. Include your primary keyword near the beginning of the slug. Avoid keyword stuffing — 'best-seo-tips-2025' is better than 'best-top-ultimate-seo-tips-guide-strategies-2025'.",
           },
           {
-            question: "What happens to accented characters in slugs?",
-            answer: "Accented characters (é, ü, ñ, ø, etc.) should be transliterated to their ASCII equivalents (e, u, n, o) for maximum URL compatibility. While modern browsers and servers handle UTF-8 URLs, percent-encoded URLs (crème becomes cr%C3%A8me) are ugly and hard to share. Transliteration keeps slugs clean.",
+            question: "Does changing a URL slug affect SEO?",
+            answer: "Yes — changing a slug changes the URL, which means any existing backlinks, social shares, and indexed pages for the old URL will lead to a 404 unless you set up a 301 redirect. Always implement a 301 redirect from the old URL to the new one when changing slugs. This passes ~90-99% of link equity to the new URL. Without a redirect, you lose all accumulated SEO authority.",
           },
           {
-            question: "What is the difference between a slug and a URL parameter?",
-            answer: "A slug is a clean path segment: /blog/my-article. A URL parameter is a query string: /blog?id=123. Slugs are better for SEO because they contain readable keywords and are indexed more favorably. URL parameters are used for dynamic content like search results, filters, and pagination.",
+            question: "How does the slug generator handle special characters and accents?",
+            answer: "The slug generator transliterates accented and special characters to their ASCII equivalents: é→e, ñ→n, ü→u, ß→ss, ç→c. Chinese, Japanese, and Arabic text is transliterated using standard romanization (pinyin for Chinese). Emoji, symbols, and characters with no ASCII equivalent are removed. This ensures the slug is valid in all browsers and server environments without URL encoding.",
+          },
+          {
+            question: "What are stop words and should I remove them from slugs?",
+            answer: "Stop words are common English words (a, an, the, and, or, but, in, on, at, to, for, of, with) that carry little keyword value. Removing them makes slugs shorter and more keyword-dense: 'the-best-way-to-make-coffee' → 'best-way-make-coffee'. Whether to remove stop words depends on your use case — for blog posts and articles, removal is generally recommended for SEO. For product names or proper nouns where the stop word is part of the name, keep it.",
           },
         ]}
       />
