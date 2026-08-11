@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useMemo } from "react";
 import { ToolsData } from "@/data/tools";
 import { GlassCard } from "@/components/ui/glass-card";
 import { ArrowRight } from "lucide-react";
@@ -14,53 +15,54 @@ type RelatedToolsProps = {
 
 /**
  * Shows related tools from the same category as the current tool.
- * Falls back to popular tools from other categories if the category is too small.
+ * Deterministic and safe against React hydration errors.
  */
 export function RelatedTools({ currentToolUrl, max = 6 }: RelatedToolsProps) {
-  // Find which category the current tool belongs to
-  const currentCategory = ToolsData.find((cat) =>
-    cat.items.some((item) => item.url === currentToolUrl)
-  );
-
-  if (!currentCategory) return null;
-
-  // Get sibling tools (same category, excluding current + "All Tools")
-  let related = currentCategory.items.filter(
-    (item) => item.url !== currentToolUrl && item.url !== "/tools"
-  );
-
-  // If not enough siblings, pull popular tools from other categories
-  if (related.length < max) {
-    const otherPopular = ToolsData.flatMap((cat) =>
-      cat === currentCategory
-        ? []
-        : cat.items.filter(
-            (item) =>
-              item.popular && item.url !== "/tools" && item.url !== currentToolUrl
-          )
+  const displayedTools = useMemo(() => {
+    // Find which category the current tool belongs to
+    const currentCategory = ToolsData.find((cat) =>
+      cat.items.some((item) => item.url === currentToolUrl)
     );
-    related = [...related, ...otherPopular];
-  }
 
-  // Shuffle for variety, then take `max`
-  const shuffled = related.sort(() => Math.random() - 0.5).slice(0, max);
+    if (!currentCategory) return [];
 
-  if (shuffled.length === 0) return null;
+    // Get sibling tools (same category, excluding current + "All Tools")
+    let related = currentCategory.items.filter(
+      (item) => item.url !== currentToolUrl && item.url !== "/tools"
+    );
+
+    // If not enough siblings, pull popular tools from other categories
+    if (related.length < max) {
+      const otherPopular = ToolsData.flatMap((cat) =>
+        cat === currentCategory
+          ? []
+          : cat.items.filter(
+              (item) =>
+                item.popular && item.url !== "/tools" && item.url !== currentToolUrl
+            )
+      );
+      related = [...related, ...otherPopular];
+    }
+
+    return related.slice(0, max);
+  }, [currentToolUrl, max]);
+
+  if (!displayedTools || displayedTools.length === 0) return null;
 
   return (
     <section className="mt-10" aria-label="Related Tools">
-      <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-        <ArrowRight className="h-5 w-5 text-primary" />
+      <h2 className="text-lg font-semibold mb-4 flex items-center gap-2 text-slate-900 dark:text-slate-100">
+        <ArrowRight className="h-5 w-5 text-purple-600" />
         Related Tools You Might Like
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {shuffled.map((tool) => (
+        {displayedTools.map((tool) => (
           <Link key={tool.url} href={tool.url} className="group">
             <GlassCard className="p-4 h-full transition-all duration-300 group-hover:scale-[1.02] group-hover:shadow-lg">
-              <h3 className="font-medium text-sm group-hover:text-primary transition-colors">
+              <h3 className="font-medium text-sm group-hover:text-purple-600 transition-colors text-slate-900 dark:text-slate-100">
                 {tool.title}
               </h3>
-              <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
                 {tool.description?.slice(0, 100)}
                 {(tool.description?.length ?? 0) > 100 ? "…" : ""}
               </p>
@@ -71,3 +73,5 @@ export function RelatedTools({ currentToolUrl, max = 6 }: RelatedToolsProps) {
     </section>
   );
 }
+
+export default RelatedTools;
