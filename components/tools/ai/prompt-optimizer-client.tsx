@@ -11,7 +11,7 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Sparkles, Copy, Sliders, CheckCircle2, Terminal, Code2, Zap, ArrowRight } from "lucide-react";
+import { Sparkles, Copy, Sliders, CheckCircle2, Terminal, Code2, Zap, Cpu } from "lucide-react";
 import toast from "react-hot-toast";
 
 interface OptimizedResult {
@@ -74,25 +74,33 @@ export function PromptOptimizerClient() {
 
   return (
     <div className="max-w-6xl mx-auto space-y-8 p-4">
-      <ToolPageHeader
-        icon={Sparkles}
-        title="AI Prompt Optimizer & Meta-Prompt Builder"
-        description="Transform vague prompts into structured, high-yield system instructions for ChatGPT, Claude 3.5, Midjourney v6, and DeepSeek."
-      />
+      {/* 3D Colorful Icon Header Box */}
+      <div className="flex items-center gap-4 bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-md shadow-slate-200/50">
+        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-lg shadow-purple-500/30 flex items-center justify-center shrink-0">
+          <Sparkles className="w-7 h-7" />
+        </div>
+        <div>
+          <div className="flex items-center gap-2">
+            <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-slate-100">AI Prompt Optimizer & Meta-Prompt Builder</h1>
+            <span className="text-[10px] font-bold uppercase tracking-wider bg-purple-100 dark:bg-purple-950/50 text-purple-700 dark:text-purple-300 px-2.5 py-0.5 rounded-full border border-purple-200">POPULAR</span>
+          </div>
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Transform vague draft prompts into structured, high-yield system instructions for ChatGPT, Claude 3.5, Midjourney, and DeepSeek.</p>
+        </div>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <GlassCard className="p-0">
-          <CardHeader className="border-b border-border/40 bg-muted/20 p-4">
-            <CardTitle className="text-sm font-semibold flex items-center gap-2">
-              <Terminal className="w-4 h-4 text-primary" />
-              Raw Input Prompt
+          <CardHeader className="border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 p-4">
+            <CardTitle className="text-sm font-semibold flex items-center gap-2 text-slate-900 dark:text-slate-100">
+              <Terminal className="w-4 h-4 text-purple-600" />
+              Raw Input Draft Prompt
             </CardTitle>
           </CardHeader>
           <CardContent className="p-4 sm:p-6 space-y-4">
             <div>
-              <Label className="text-xs mb-1 block">Your Draft / Raw Prompt</Label>
+              <Label className="text-xs mb-1 block text-slate-700 dark:text-slate-300 font-medium">Your Draft / Raw Prompt</Label>
               <textarea
-                className="w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50 min-h-[130px] font-mono"
+                className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3 text-sm outline-none focus:ring-2 focus:ring-purple-500 min-h-[130px] font-mono text-slate-900 dark:text-slate-100"
                 placeholder="e.g. Write a Python script to scrape product prices from a web page and save to CSV"
                 value={rawPrompt}
                 onChange={(e) => setRawPrompt(e.target.value)}
@@ -101,9 +109,9 @@ export function PromptOptimizerClient() {
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <Label className="text-xs mb-1 block">Target AI Engine</Label>
+                <Label className="text-xs mb-1 block text-slate-700 dark:text-slate-300 font-medium">Target AI Engine</Label>
                 <select
-                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-xs"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-2 text-xs text-slate-900 dark:text-slate-100 font-medium"
                   value={targetModel}
                   onChange={(e) => setTargetModel(e.target.value as any)}
                 >
@@ -115,9 +123,9 @@ export function PromptOptimizerClient() {
               </div>
 
               <div>
-                <Label className="text-xs mb-1 block">Domain Persona</Label>
+                <Label className="text-xs mb-1 block text-slate-700 dark:text-slate-300 font-medium">Domain Persona</Label>
                 <select
-                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-xs"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-2 text-xs text-slate-900 dark:text-slate-100 font-medium"
                   value={domain}
                   onChange={(e) => setDomain(e.target.value)}
                 >
@@ -129,7 +137,7 @@ export function PromptOptimizerClient() {
               </div>
             </div>
 
-            <Button onClick={handleOptimize} disabled={isOptimizing || !rawPrompt.trim()} className="w-full gap-2 mt-2">
+            <Button onClick={handleOptimize} disabled={isOptimizing || !rawPrompt.trim()} className="w-full gap-2 mt-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold shadow-md shadow-purple-500/20 rounded-xl h-11">
               <Sparkles className="w-4 h-4" />
               {isOptimizing ? "Refining Prompt Engineering..." : "Optimize Prompt"}
             </Button>
@@ -140,39 +148,39 @@ export function PromptOptimizerClient() {
           {result ? (
             <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
               <GlassCard className="p-4 space-y-3">
-                <div className="flex justify-between items-center border-b border-border/40 pb-2">
-                  <span className="text-xs font-bold text-primary uppercase tracking-wider flex items-center gap-1.5">
+                <div className="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-2">
+                  <span className="text-xs font-extrabold text-purple-600 uppercase tracking-wider flex items-center gap-1.5">
                     <Code2 className="w-3.5 h-3.5" /> Structured System Persona
                   </span>
-                  <Button variant="ghost" size="sm" onClick={() => handleCopy(result.rolePrompt, "System persona prompt")} className="h-7 text-xs gap-1">
+                  <Button variant="outline" size="sm" onClick={() => handleCopy(result.rolePrompt, "System persona prompt")} className="h-7 text-xs gap-1 border-slate-200">
                     <Copy className="w-3.5 h-3.5" /> Copy
                   </Button>
                 </div>
-                <pre className="text-xs font-mono bg-muted/30 p-3 rounded-lg border border-border/40 whitespace-pre-wrap leading-relaxed">{result.rolePrompt}</pre>
+                <pre className="text-xs font-mono bg-slate-50 dark:bg-slate-800/50 p-3 rounded-xl border border-slate-200/60 dark:border-slate-800 whitespace-pre-wrap leading-relaxed text-slate-800 dark:text-slate-200">{result.rolePrompt}</pre>
               </GlassCard>
 
               <GlassCard className="p-4 space-y-3">
-                <div className="flex justify-between items-center border-b border-border/40 pb-2">
-                  <span className="text-xs font-bold text-primary uppercase tracking-wider flex items-center gap-1.5">
+                <div className="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-2">
+                  <span className="text-xs font-extrabold text-indigo-600 uppercase tracking-wider flex items-center gap-1.5">
                     <Zap className="w-3.5 h-3.5" /> Chain-of-Thought (Reasoning Trigger)
                   </span>
-                  <Button variant="ghost" size="sm" onClick={() => handleCopy(result.chainOfThoughtPrompt, "Chain-of-thought prompt")} className="h-7 text-xs gap-1">
+                  <Button variant="outline" size="sm" onClick={() => handleCopy(result.chainOfThoughtPrompt, "Chain-of-thought prompt")} className="h-7 text-xs gap-1 border-slate-200">
                     <Copy className="w-3.5 h-3.5" /> Copy
                   </Button>
                 </div>
-                <pre className="text-xs font-mono bg-muted/30 p-3 rounded-lg border border-border/40 whitespace-pre-wrap leading-relaxed">{result.chainOfThoughtPrompt}</pre>
+                <pre className="text-xs font-mono bg-slate-50 dark:bg-slate-800/50 p-3 rounded-xl border border-slate-200/60 dark:border-slate-800 whitespace-pre-wrap leading-relaxed text-slate-800 dark:text-slate-200">{result.chainOfThoughtPrompt}</pre>
               </GlassCard>
 
               <GlassCard className="p-4 space-y-2">
-                <span className="text-xs font-semibold text-muted-foreground">Engineering Enhancements Applied:</span>
-                <p className="text-xs text-muted-foreground">{result.systemInstructions}</p>
+                <span className="text-xs font-semibold text-slate-500">Engineering Enhancements Applied:</span>
+                <p className="text-xs text-slate-700 dark:text-slate-300">{result.systemInstructions}</p>
               </GlassCard>
             </motion.div>
           ) : (
-            <GlassCard className="p-8 h-[380px] flex flex-col items-center justify-center text-center text-muted-foreground border-dashed">
-              <Sparkles className="w-12 h-12 mb-3 text-muted-foreground/30" />
-              <p className="text-sm font-medium">No Prompt Optimized Yet</p>
-              <p className="text-xs max-w-xs mt-1">Enter your initial draft prompt on the left and select your target model to generate role-framed, chain-of-thought prompts.</p>
+            <GlassCard className="p-8 h-[380px] flex flex-col items-center justify-center text-center text-slate-400 border-dashed border-2 border-slate-200 dark:border-slate-800">
+              <Sparkles className="w-12 h-12 mb-3 text-slate-300 dark:text-slate-700" />
+              <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">No Prompt Optimized Yet</p>
+              <p className="text-xs max-w-xs mt-1 text-slate-500">Enter your initial draft prompt on the left and select your target model to generate role-framed, chain-of-thought prompts.</p>
             </GlassCard>
           )}
         </div>

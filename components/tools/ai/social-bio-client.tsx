@@ -12,7 +12,7 @@ import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { UserCheck, Sparkles, Copy, CheckCircle2, Sliders, RefreshCcw, Twitter, Linkedin, Instagram, Share2, Eye } from "lucide-react";
+import { UserCheck, Sparkles, Copy, CheckCircle2, Sliders, RefreshCcw, Twitter, Linkedin, Instagram, Share2 } from "lucide-react";
 import toast from "react-hot-toast";
 
 interface BioVariations {
@@ -58,153 +58,167 @@ export function SocialBioClient() {
         min = `${n} — ${p}. ${skills[0] || "Innovator"}.`;
       } else if (vibe === "founder") {
         tw = `Building the next generation of digital products. ${p} | Ex-tech | Scaling ${skills[0] || "ideas"}. Join the journey 🚀 ${cta}`;
-        li = `Founder & ${p}. Helping businesses scale through ${skills.join(", ") || "technology"}. Featured on TechCrunch & ProductHunt. Open for advisory & investment opportunities. 📩 ${cta}`;
-        ig = `🚀 Building in public\n👨‍💻 ${p}\n📈 ${skills.slice(0, 2).join(" & ") || "Growth"}\n👇 Official Links\n${cta}`;
-        min = `${n} // ${p} & Builder.`;
-      } else if (vibe === "minimalist") {
-        tw = `${p}. ${skills.join(" · ") || "Creator"}. ${cta}`;
-        li = `${p} focused on ${skills.join(", ") || "design & technology"}. ${cta}`;
-        ig = `• ${p}\n• ${skills.join("\n• ") || "Creator"}\n🔗 ${cta}`;
-        min = `${n} | ${p}`;
+        li = `Founder & ${p}. Building high-growth tools and scaling teams. Specialized in ${skills.join(", ") || "product design"}. Always open to connecting with fellow builders and founders. ${cta}`;
+        ig = `🚀 Founder @ Startup\n🛠️ ${p}\n📈 ${skills[0] || "Growth & Tech"}\n👇 Check out our latest launch\n${cta}`;
+        min = `${n} | Founder & ${p}`;
       } else {
-        tw = `${p} specializing in ${skills.join(", ") || "digital solutions"}. Passionate about high impact & growth. Connect: ${cta}`;
-        li = `Results-driven ${p} with proven expertise in ${skills.join(", ") || "strategic execution"}. Dedicated to delivering value and fostering collaborative innovation. 👇 ${cta}`;
-        ig = `💼 ${p}\n🛠️ ${skills.join(" | ") || "Expertise"}\n📩 Open for collaborations\n👇 ${cta}`;
-        min = `${n} — ${p} | ${skills[0] || "Professional"}`;
+        tw = `${p} specializing in ${skills.join(" & ") || "digital strategy"}. Passionate about building impactful solutions. 👇 ${cta}`;
+        li = `${p} with a proven track record in ${skills.join(", ") || "strategic development"}. Focused on delivering measurable results and fostering innovation. Portfolio: ${cta}`;
+        ig = `💼 ${p}\n🛠️ ${skills.join(" • ") || "Strategy"}\n📍 Global\n👇 Explore my work\n${cta}`;
+        min = `${n} · ${p} · ${skills[0] || "Strategist"}`;
       }
 
-      setBios({ twitter: tw, linkedin: li, instagram: ig, minimalist: min });
+      setBios({
+        twitter: tw,
+        linkedin: li,
+        instagram: ig,
+        minimalist: min
+      });
+
       setIsGenerating(false);
-      toast.success("Social bios generated across 4 platform formats!");
-    }, 400);
+      toast.success("Generated tailored social media bios!");
+    }, 450);
   }, [name, profession, keySkills, callToAction, vibe]);
 
-  const handleCopy = (text: string, platform: string) => {
+  const handleCopy = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
-    toast.success(`${platform} bio copied!`);
+    toast.success(`${label} copied to clipboard!`);
   };
 
   return (
     <div className="max-w-6xl mx-auto space-y-8 p-4">
-      <ToolPageHeader
-        icon={UserCheck}
-        title="AI Social Media Bio Generator"
-        description="Craft optimized, high-converting bios tailored for X (Twitter), LinkedIn, Instagram, and TikTok profiles in seconds."
-      />
+      {/* 3D Pink Social Profile Icon Header Box */}
+      <div className="flex items-center gap-4 bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-md shadow-slate-200/50">
+        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-600 text-white shadow-lg shadow-pink-500/30 flex items-center justify-center shrink-0">
+          <UserCheck className="w-7 h-7" />
+        </div>
+        <div>
+          <div className="flex items-center gap-2">
+            <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-slate-100">AI Social Media Bio & Headline Writer</h1>
+            <span className="text-[10px] font-bold uppercase tracking-wider bg-pink-100 dark:bg-pink-950/50 text-pink-700 dark:text-pink-300 px-2.5 py-0.5 rounded-full border border-pink-200">POPULAR</span>
+          </div>
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Craft punchy, high-converting social media bios for X (Twitter), LinkedIn, Instagram, and TikTok with live character counters.</p>
+        </div>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <GlassCard className="p-0">
-          <CardHeader className="border-b border-border/40 bg-muted/20 p-4">
-            <CardTitle className="text-sm font-semibold flex items-center gap-2">
-              <UserCheck className="w-4 h-4 text-primary" />
-              Profile Input Details
+          <CardHeader className="border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 p-4">
+            <CardTitle className="text-sm font-semibold flex items-center gap-2 text-slate-900 dark:text-slate-100">
+              <Share2 className="w-4 h-4 text-pink-600" />
+              Profile Details Input
             </CardTitle>
           </CardHeader>
           <CardContent className="p-4 sm:p-6 space-y-4">
-            <div>
-              <Label className="text-xs mb-1 block">Your Name / Handle</Label>
-              <Input
-                placeholder="e.g. Alex Morgan"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <Label className="text-xs mb-1 block text-slate-700 dark:text-slate-300 font-medium">Your Name / Handle</Label>
+                <Input
+                  placeholder="e.g. Alex Morgan"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800"
+                />
+              </div>
+
+              <div>
+                <Label className="text-xs mb-1 block text-slate-700 dark:text-slate-300 font-medium">Profession / Role</Label>
+                <Input
+                  placeholder="e.g. Senior Frontend Engineer"
+                  value={profession}
+                  onChange={(e) => setProfession(e.target.value)}
+                  className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800"
+                />
+              </div>
             </div>
 
             <div>
-              <Label className="text-xs mb-1 block">Primary Profession / Role</Label>
+              <Label className="text-xs mb-1 block text-slate-700 dark:text-slate-300 font-medium">Key Skills / Focus (Comma separated)</Label>
               <Input
-                placeholder="e.g. Senior Full-Stack Engineer & AI Researcher"
-                value={profession}
-                onChange={(e) => setProfession(e.target.value)}
-              />
-            </div>
-
-            <div>
-              <Label className="text-xs mb-1 block">Key Skills / Interests (Comma separated)</Label>
-              <Input
-                placeholder="e.g. Next.js, Product Design, Open Source, Fitness"
+                placeholder="e.g. Next.js, UI Design, Open Source"
                 value={keySkills}
                 onChange={(e) => setKeySkills(e.target.value)}
+                className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <Label className="text-xs mb-1 block">Bio Tone / Vibe</Label>
+                <Label className="text-xs mb-1 block text-slate-700 dark:text-slate-300 font-medium">Target Vibe</Label>
                 <select
-                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-xs"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-2 text-xs text-slate-900 dark:text-slate-100 font-medium"
                   value={vibe}
                   onChange={(e) => setVibe(e.target.value as any)}
                 >
-                  <option value="professional">Professional & Authoritative</option>
-                  <option value="founder">Founder & Entrepreneur</option>
-                  <option value="witty">Witty & Creative</option>
-                  <option value="minimalist">Minimalist & Sleek</option>
+                  <option value="professional">Professional & Corporate</option>
+                  <option value="witty">Witty & Casual</option>
+                  <option value="founder">Founder & Creator</option>
+                  <option value="minimalist">Ultra-Minimalist</option>
                 </select>
               </div>
 
               <div>
-                <Label className="text-xs mb-1 block">Call To Action / Link</Label>
+                <Label className="text-xs mb-1 block text-slate-700 dark:text-slate-300 font-medium">Call To Action (CTA)</Label>
                 <Input
-                  placeholder="e.g. toolzium.com or linktr.ee/alex"
+                  placeholder="e.g. alexmorgan.dev"
                   value={callToAction}
                   onChange={(e) => setCallToAction(e.target.value)}
+                  className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800"
                 />
               </div>
             </div>
 
-            <Button onClick={generateBios} disabled={isGenerating || !name.trim() || !profession.trim()} className="w-full gap-2 mt-2">
+            <Button onClick={generateBios} disabled={isGenerating || !name.trim() || !profession.trim()} className="w-full gap-2 mt-2 bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 text-white font-semibold shadow-md shadow-pink-500/20 rounded-xl h-11">
               {isGenerating ? <RefreshCcw className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-              {isGenerating ? "Crafting Bios..." : "Generate Social Bios"}
+              {isGenerating ? "Crafting Bio Variations..." : "Generate Social Bios"}
             </Button>
           </CardContent>
         </GlassCard>
 
         <div className="space-y-4">
           {bios ? (
-            <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
-              <GlassCard className="p-4 space-y-3">
-                <div className="flex justify-between items-center border-b border-border/40 pb-2">
-                  <span className="text-xs font-bold text-sky-500 flex items-center gap-1.5 uppercase">
-                    <Twitter className="w-3.5 h-3.5" /> X / Twitter Bio (160 Chars max)
+            <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
+              <GlassCard className="p-4 space-y-2 border-l-4 border-l-sky-500">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-extrabold text-sky-600 uppercase tracking-wider flex items-center gap-1.5 font-mono">
+                    <Twitter className="w-3.5 h-3.5" /> X (Twitter) Bio ({bios.twitter.length}/160)
                   </span>
-                  <Button variant="ghost" size="sm" onClick={() => handleCopy(bios.twitter, "X/Twitter")} className="h-7 text-xs gap-1">
-                    <Copy className="w-3.5 h-3.5" /> Copy
+                  <Button variant="outline" size="sm" onClick={() => handleCopy(bios.twitter, "Twitter bio")} className="h-7 text-xs gap-1 border-slate-200">
+                    <Copy className="w-3 h-3" /> Copy
                   </Button>
                 </div>
-                <p className="text-sm font-sans bg-muted/20 p-3 rounded-lg border border-border/40">{bios.twitter}</p>
-                <span className="text-[10px] text-muted-foreground block text-right">{bios.twitter.length} / 160 characters</span>
+                <p className="text-xs leading-relaxed font-sans text-slate-800 dark:text-slate-200">{bios.twitter}</p>
               </GlassCard>
 
-              <GlassCard className="p-4 space-y-3">
-                <div className="flex justify-between items-center border-b border-border/40 pb-2">
-                  <span className="text-xs font-bold text-blue-600 flex items-center gap-1.5 uppercase">
-                    <Linkedin className="w-3.5 h-3.5" /> LinkedIn About / Headline
+              <GlassCard className="p-4 space-y-2 border-l-4 border-l-blue-600">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-extrabold text-blue-600 uppercase tracking-wider flex items-center gap-1.5 font-mono">
+                    <Linkedin className="w-3.5 h-3.5" /> LinkedIn About Section
                   </span>
-                  <Button variant="ghost" size="sm" onClick={() => handleCopy(bios.linkedin, "LinkedIn")} className="h-7 text-xs gap-1">
-                    <Copy className="w-3.5 h-3.5" /> Copy
+                  <Button variant="outline" size="sm" onClick={() => handleCopy(bios.linkedin, "LinkedIn bio")} className="h-7 text-xs gap-1 border-slate-200">
+                    <Copy className="w-3 h-3" /> Copy
                   </Button>
                 </div>
-                <p className="text-sm leading-relaxed bg-muted/20 p-3 rounded-lg border border-border/40">{bios.linkedin}</p>
+                <p className="text-xs leading-relaxed font-sans text-slate-800 dark:text-slate-200">{bios.linkedin}</p>
               </GlassCard>
 
-              <GlassCard className="p-4 space-y-3">
-                <div className="flex justify-between items-center border-b border-border/40 pb-2">
-                  <span className="text-xs font-bold text-pink-500 flex items-center gap-1.5 uppercase">
-                    <Instagram className="w-3.5 h-3.5" /> Instagram / TikTok Bio
+              <GlassCard className="p-4 space-y-2 border-l-4 border-l-pink-500">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-extrabold text-pink-600 uppercase tracking-wider flex items-center gap-1.5 font-mono">
+                    <Instagram className="w-3.5 h-3.5" /> Instagram Bio
                   </span>
-                  <Button variant="ghost" size="sm" onClick={() => handleCopy(bios.instagram, "Instagram")} className="h-7 text-xs gap-1">
-                    <Copy className="w-3.5 h-3.5" /> Copy
+                  <Button variant="outline" size="sm" onClick={() => handleCopy(bios.instagram, "Instagram bio")} className="h-7 text-xs gap-1 border-slate-200">
+                    <Copy className="w-3 h-3" /> Copy
                   </Button>
                 </div>
-                <pre className="text-xs font-sans bg-muted/20 p-3 rounded-lg border border-border/40 whitespace-pre-wrap">{bios.instagram}</pre>
+                <pre className="text-xs leading-relaxed font-sans whitespace-pre-wrap text-slate-800 dark:text-slate-200">{bios.instagram}</pre>
               </GlassCard>
             </motion.div>
           ) : (
-            <GlassCard className="p-8 h-[380px] flex flex-col items-center justify-center text-center text-muted-foreground border-dashed">
-              <UserCheck className="w-12 h-12 mb-3 text-muted-foreground/30" />
-              <p className="text-sm font-medium">No Bios Generated Yet</p>
-              <p className="text-xs max-w-xs mt-1">Enter your name and role on the left to instantly craft tailored bios for X, LinkedIn, Instagram, and GitHub.</p>
+            <GlassCard className="p-8 h-[380px] flex flex-col items-center justify-center text-center text-slate-400 border-dashed border-2 border-slate-200 dark:border-slate-800">
+              <UserCheck className="w-12 h-12 mb-3 text-slate-300 dark:text-slate-700" />
+              <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">No Bios Generated Yet</p>
+              <p className="text-xs max-w-xs mt-1 text-slate-500">Fill in your name and role on the left to generate formatted bios for X (Twitter), LinkedIn, and Instagram.</p>
             </GlassCard>
           )}
         </div>
@@ -212,33 +226,32 @@ export function SocialBioClient() {
 
       <ToolHowItWorks
         steps={[
-          { step: "01", title: "Fill Profile Info", description: "Enter your name, primary title, skills, and target link.", icon: UserCheck },
-          { step: "02", title: "Select Tone", description: "Choose between Professional, Founder, Witty, or Minimalist.", icon: Sliders },
-          { step: "03", title: "Copy & Paste", description: "Copy platform-optimized bios directly into Twitter, LinkedIn, or Instagram.", icon: CheckCircle2 }
+          { step: "01", title: "Enter Role & Skills", description: "Input your target title, primary skills, and persona vibe.", icon: UserCheck },
+          { step: "02", title: "Select Platform Vibe", description: "Choose between Professional, Witty, Founder, or Minimalist.", icon: Sliders },
+          { step: "03", title: "Copy Platform Bios", description: "Export pre-formatted bios with character count checks.", icon: CheckCircle2 }
         ]}
-        badges={["100% Free", "Character Count Guard", "Instant Copy"]}
+        badges={["100% Free", "Character Limit Enforced", "Multi-Platform Ready"]}
       />
 
       <ToolFeatureGuides
         features={[
-          { icon: Twitter, title: "X/Twitter 160-Character Limit", description: "Strictly enforces character count bounds so your bio never gets truncated." },
-          { icon: Linkedin, title: "LinkedIn SEO Optimization", description: "Includes industry keywords to rank higher in recruiter and connection search results." },
-          { icon: Instagram, title: "Line-Break & Emoji Formatting", description: "Formatted with clean line breaks and emojis designed for mobile layout aesthetic." },
-          { icon: CheckCircle2, title: "Private Processing", description: "Generates profile text entirely inside your local browser instance." }
+          { icon: Twitter, title: "X / Twitter 160-Char Limit Check", description: "Ensures generated bios fit strictly within Twitter's 160-character bio boundary." },
+          { icon: Linkedin, title: "LinkedIn Executive Summary", description: "Crafts professional multi-line about sections designed for recruiter visibility." },
+          { icon: Instagram, title: "Instagram Bulleted Bios", description: "Uses clean emoji spacing for high visual appeal on mobile screens." }
         ]}
       >
         <div className="prose dark:prose-invert max-w-none">
-          <h3>The Strategic Value of a Optimized Social Bio</h3>
+          <h3>Optimizing Social Profiles for Authority</h3>
           <p>
-            Your social media bio is often the first touchpoint potential followers, clients, or employers have with your personal brand. A well-constructed bio immediately answers three core questions: Who are you, what value do you build, and where can people find your work?
+            Your social media bio is your digital elevator pitch. A clear, well-structured bio instantly communicates your domain authority, key achievements, and call to action to incoming profile visitors.
           </p>
         </div>
       </ToolFeatureGuides>
 
       <ToolFaqAccordion
         faqs={[
-          { question: "Are character limits automatically respected?", answer: "Yes! Twitter bios are generated within the 160-character limit, while Instagram bios adhere to the 150-character limit." },
-          { question: "Can I use this for company profiles?", answer: "Absolutely. Simply enter your company name under Name and your main product value proposition under Profession." }
+          { question: "What is the character limit for Twitter bios?", answer: "Twitter / X bios allow a maximum of 160 characters." },
+          { question: "Can I use emojis in LinkedIn bios?", answer: "Yes, subtle professional emojis (such as 💼, 📍, 💡) increase readability on desktop and mobile feeds." }
         ]}
       />
 

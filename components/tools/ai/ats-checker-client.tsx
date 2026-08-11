@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -11,7 +11,7 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { FileSearch, Sparkles, Copy, CheckCircle2, Sliders, RefreshCcw, AlertTriangle, Search, Award, FileText } from "lucide-react";
+import { FileSearch, Sparkles, CheckCircle2, Sliders, RefreshCcw, Award, FileText } from "lucide-react";
 import toast from "react-hot-toast";
 
 interface AtsResult {
@@ -97,25 +97,33 @@ export function AtsCheckerClient() {
 
   return (
     <div className="max-w-6xl mx-auto space-y-8 p-4">
-      <ToolPageHeader
-        icon={FileSearch}
-        title="AI Resume ATS Keyword & Format Scanner"
-        description="Calculate your resume's ATS match score against target job descriptions, discover missing keywords, and optimize for hiring screeners."
-      />
+      {/* 3D Green Resume Search Icon Header Box */}
+      <div className="flex items-center gap-4 bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-md shadow-slate-200/50">
+        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-green-600 text-white shadow-lg shadow-emerald-500/30 flex items-center justify-center shrink-0">
+          <FileSearch className="w-7 h-7" />
+        </div>
+        <div>
+          <div className="flex items-center gap-2">
+            <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-slate-100">AI Resume ATS Keyword & Format Scanner</h1>
+            <span className="text-[10px] font-bold uppercase tracking-wider bg-emerald-100 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 px-2.5 py-0.5 rounded-full border border-emerald-200">POPULAR</span>
+          </div>
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Calculate your resume's ATS match score against target job descriptions, discover missing keywords, and optimize for hiring screeners.</p>
+        </div>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <GlassCard className="p-0">
-          <CardHeader className="border-b border-border/40 bg-muted/20 p-4">
-            <CardTitle className="text-sm font-semibold flex items-center gap-2">
-              <FileText className="w-4 h-4 text-primary" />
+          <CardHeader className="border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 p-4">
+            <CardTitle className="text-sm font-semibold flex items-center gap-2 text-slate-900 dark:text-slate-100">
+              <FileText className="w-4 h-4 text-emerald-600" />
               Resume & Job Description Input
             </CardTitle>
           </CardHeader>
           <CardContent className="p-4 sm:p-6 space-y-4">
             <div>
-              <Label className="text-xs mb-1 block">Paste Your Resume Text</Label>
+              <Label className="text-xs mb-1 block text-slate-700 dark:text-slate-300 font-medium">Paste Your Resume Text</Label>
               <textarea
-                className="w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50 min-h-[140px] font-sans"
+                className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3 text-sm outline-none focus:ring-2 focus:ring-emerald-500 min-h-[140px] font-sans text-slate-900 dark:text-slate-100"
                 placeholder="Paste full text of your resume here..."
                 value={resumeText}
                 onChange={(e) => setResumeText(e.target.value)}
@@ -123,16 +131,16 @@ export function AtsCheckerClient() {
             </div>
 
             <div>
-              <Label className="text-xs mb-1 block">Target Job Description (Optional)</Label>
+              <Label className="text-xs mb-1 block text-slate-700 dark:text-slate-300 font-medium">Target Job Description (Optional)</Label>
               <textarea
-                className="w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50 min-h-[100px] font-sans"
+                className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3 text-sm outline-none focus:ring-2 focus:ring-emerald-500 min-h-[100px] font-sans text-slate-900 dark:text-slate-100"
                 placeholder="Paste target job posting requirements..."
                 value={jobDescription}
                 onChange={(e) => setJobDescription(e.target.value)}
               />
             </div>
 
-            <Button onClick={analyzeResume} disabled={isAnalyzing || !resumeText.trim()} className="w-full gap-2 mt-2">
+            <Button onClick={analyzeResume} disabled={isAnalyzing || !resumeText.trim()} className="w-full gap-2 mt-2 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white font-semibold shadow-md shadow-emerald-500/20 rounded-xl h-11">
               {isAnalyzing ? <RefreshCcw className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
               {isAnalyzing ? "Scanning ATS Match..." : "Scan Resume ATS Score"}
             </Button>
@@ -143,24 +151,24 @@ export function AtsCheckerClient() {
           {result ? (
             <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
               <GlassCard className="p-6 flex flex-col items-center justify-center text-center space-y-3">
-                <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">ATS Match Score</span>
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-500">ATS Match Score</span>
                 <div className={`text-4xl font-extrabold px-6 py-3 rounded-2xl border font-mono ${
-                  result.score >= 80 ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/30" :
-                  result.score >= 60 ? "bg-amber-500/10 text-amber-500 border-amber-500/30" :
-                  "bg-red-500/10 text-red-500 border-red-500/30"
+                  result.score >= 80 ? "bg-emerald-50 text-emerald-700 border-emerald-200" :
+                  result.score >= 60 ? "bg-amber-50 text-amber-700 border-amber-200" :
+                  "bg-red-50 text-red-700 border-red-200"
                 }`}>
                   {result.score} / 100
                 </div>
-                <p className="text-xs text-muted-foreground max-w-xs">
+                <p className="text-xs text-slate-500 max-w-xs">
                   {result.score >= 80 ? "Excellent ATS match! Your resume contains primary keyword density." : "Needs keyword optimization to pass automated recruiter filters."}
                 </p>
               </GlassCard>
 
               <GlassCard className="p-4 space-y-2">
-                <span className="text-xs font-bold text-emerald-500 uppercase tracking-wider block">Matched Keywords ({result.matchedKeywords.length})</span>
+                <span className="text-xs font-extrabold text-emerald-600 uppercase tracking-wider block">Matched Keywords ({result.matchedKeywords.length})</span>
                 <div className="flex flex-wrap gap-1.5 pt-1">
                   {result.matchedKeywords.map((kw, i) => (
-                    <span key={i} className="text-xs bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 px-2 py-0.5 rounded font-mono">
+                    <span key={i} className="text-xs bg-emerald-50 text-emerald-700 border border-emerald-200 px-2.5 py-1 rounded-lg font-mono font-medium">
                       ✓ {kw}
                     </span>
                   ))}
@@ -169,10 +177,10 @@ export function AtsCheckerClient() {
 
               {result.missingKeywords.length > 0 && (
                 <GlassCard className="p-4 space-y-2">
-                  <span className="text-xs font-bold text-amber-500 uppercase tracking-wider block">Missing High-Priority Keywords</span>
+                  <span className="text-xs font-extrabold text-amber-600 uppercase tracking-wider block">Missing High-Priority Keywords</span>
                   <div className="flex flex-wrap gap-1.5 pt-1">
                     {result.missingKeywords.slice(0, 10).map((kw, i) => (
-                      <span key={i} className="text-xs bg-amber-500/10 text-amber-500 border border-amber-500/20 px-2 py-0.5 rounded font-mono">
+                      <span key={i} className="text-xs bg-amber-50 text-amber-700 border border-amber-200 px-2.5 py-1 rounded-lg font-mono font-medium">
                         + {kw}
                       </span>
                     ))}
@@ -181,10 +189,10 @@ export function AtsCheckerClient() {
               )}
             </motion.div>
           ) : (
-            <GlassCard className="p-8 h-[380px] flex flex-col items-center justify-center text-center text-muted-foreground border-dashed">
-              <FileSearch className="w-12 h-12 mb-3 text-muted-foreground/30" />
-              <p className="text-sm font-medium">No Resume Scanned Yet</p>
-              <p className="text-xs max-w-xs mt-1">Paste your resume text on the left to calculate your ATS match percentage and identify missing keywords.</p>
+            <GlassCard className="p-8 h-[380px] flex flex-col items-center justify-center text-center text-slate-400 border-dashed border-2 border-slate-200 dark:border-slate-800">
+              <FileSearch className="w-12 h-12 mb-3 text-slate-300 dark:text-slate-700" />
+              <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">No Resume Scanned Yet</p>
+              <p className="text-xs max-w-xs mt-1 text-slate-500">Paste your resume text on the left to calculate your ATS match percentage and identify missing keywords.</p>
             </GlassCard>
           )}
         </div>

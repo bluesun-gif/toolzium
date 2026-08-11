@@ -12,7 +12,7 @@ import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { MessageSquare, Sparkles, Send, FileText, CheckCircle2, Sliders, RefreshCcw, Upload, Bot, User } from "lucide-react";
+import { MessageSquare, Sparkles, Send, FileText, CheckCircle2, Sliders, RefreshCcw, Bot } from "lucide-react";
 import toast from "react-hot-toast";
 
 interface Message {
@@ -80,33 +80,41 @@ export function PdfChatClient() {
 
   return (
     <div className="max-w-6xl mx-auto space-y-8 p-4">
-      <ToolPageHeader
-        icon={MessageSquare}
-        title="AI PDF & Document Chat Reader"
-        description="Interact with PDF documents, research papers, and legal contracts through an instant conversational AI assistant."
-      />
+      {/* 3D Blue Document Icon Header Box */}
+      <div className="flex items-center gap-4 bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-md shadow-slate-200/50">
+        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-500/30 flex items-center justify-center shrink-0">
+          <MessageSquare className="w-7 h-7" />
+        </div>
+        <div>
+          <div className="flex items-center gap-2">
+            <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-slate-100">AI PDF & Document Chat Reader</h1>
+            <span className="text-[10px] font-bold uppercase tracking-wider bg-blue-100 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 px-2.5 py-0.5 rounded-full border border-blue-200">NEW</span>
+          </div>
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Interact with PDF documents, research papers, and legal contracts through an instant conversational AI assistant.</p>
+        </div>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <GlassCard className="p-0">
-          <CardHeader className="border-b border-border/40 bg-muted/20 p-4">
+          <CardHeader className="border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 p-4">
             <div className="flex justify-between items-center">
-              <CardTitle className="text-sm font-semibold flex items-center gap-2">
-                <FileText className="w-4 h-4 text-primary" />
+              <CardTitle className="text-sm font-semibold flex items-center gap-2 text-slate-900 dark:text-slate-100">
+                <FileText className="w-4 h-4 text-blue-600" />
                 Document Context & Reader
               </CardTitle>
-              {fileName && <span className="text-xs font-mono text-primary bg-primary/10 px-2 py-0.5 rounded">{fileName}</span>}
+              {fileName && <span className="text-xs font-mono text-blue-600 bg-blue-50 dark:bg-blue-950/50 px-2 py-0.5 rounded">{fileName}</span>}
             </div>
           </CardHeader>
           <CardContent className="p-4 sm:p-6 space-y-4">
             <div>
-              <Label className="text-xs mb-1.5 block">Upload Document File (.txt, .md)</Label>
-              <Input type="file" accept=".txt,.md,.text" onChange={handleFileUpload} className="text-xs cursor-pointer" />
+              <Label className="text-xs mb-1.5 block text-slate-700 dark:text-slate-300 font-medium">Upload Document File (.txt, .md)</Label>
+              <Input type="file" accept=".txt,.md,.text" onChange={handleFileUpload} className="text-xs cursor-pointer bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800" />
             </div>
 
             <div>
-              <Label className="text-xs mb-1.5 block">Or Paste Document Text Directly</Label>
+              <Label className="text-xs mb-1.5 block text-slate-700 dark:text-slate-300 font-medium">Or Paste Document Text Directly</Label>
               <textarea
-                className="w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50 min-h-[220px] font-sans"
+                className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3 text-sm outline-none focus:ring-2 focus:ring-blue-500 min-h-[220px] font-sans text-slate-900 dark:text-slate-100"
                 placeholder="Paste the full text of your PDF, article, or legal contract here..."
                 value={pdfText}
                 onChange={(e) => setPdfText(e.target.value)}
@@ -117,9 +125,9 @@ export function PdfChatClient() {
 
         {/* Interactive Chat Panel */}
         <GlassCard className="p-0 flex flex-col h-[460px]">
-          <CardHeader className="border-b border-border/40 bg-muted/20 p-4">
-            <CardTitle className="text-sm font-semibold flex items-center gap-2">
-              <Bot className="w-4 h-4 text-primary" />
+          <CardHeader className="border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 p-4">
+            <CardTitle className="text-sm font-semibold flex items-center gap-2 text-slate-900 dark:text-slate-100">
+              <Bot className="w-4 h-4 text-blue-600" />
               Document Assistant Q&A
             </CardTitle>
           </CardHeader>
@@ -133,12 +141,12 @@ export function PdfChatClient() {
                 className={`flex gap-2.5 text-xs ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
               >
                 {msg.sender === "bot" && (
-                  <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
-                    <Bot className="w-3.5 h-3.5 text-primary" />
+                  <div className="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+                    <Bot className="w-3.5 h-3.5" />
                   </div>
                 )}
-                <div className={`p-3 rounded-xl max-w-[85%] leading-relaxed ${
-                  msg.sender === "user" ? "bg-primary text-primary-foreground font-medium" : "bg-muted/30 border border-border/40 text-foreground"
+                <div className={`p-3 rounded-2xl max-w-[85%] leading-relaxed ${
+                  msg.sender === "user" ? "bg-blue-600 text-white font-medium shadow-md shadow-blue-500/20" : "bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-800 text-slate-800 dark:text-slate-200"
                 }`}>
                   {msg.text}
                 </div>
@@ -146,15 +154,15 @@ export function PdfChatClient() {
             ))}
           </CardContent>
 
-          <div className="p-3 border-t border-border/40 bg-muted/20 flex gap-2">
+          <div className="p-3 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 flex gap-2">
             <Input
               placeholder="Ask a question about your document..."
               value={inputQuery}
               onChange={(e) => setInputQuery(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSendQuery()}
-              className="text-xs"
+              className="text-xs bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800"
             />
-            <Button onClick={handleSendQuery} disabled={isProcessing || !inputQuery.trim()} size="sm" className="gap-1 text-xs">
+            <Button onClick={handleSendQuery} disabled={isProcessing || !inputQuery.trim()} size="sm" className="gap-1 text-xs bg-blue-600 text-white font-semibold rounded-xl">
               <Send className="w-3.5 h-3.5" />
             </Button>
           </div>

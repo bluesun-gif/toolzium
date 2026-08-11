@@ -12,7 +12,7 @@ import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Database, Code2, Copy, CheckCircle2, Sparkles, Sliders, Play, Terminal, Layers } from "lucide-react";
+import { Database, Code2, Copy, CheckCircle2, Sparkles, Sliders, RefreshCcw, Terminal } from "lucide-react";
 import toast from "react-hot-toast";
 
 interface SqlRegexResult {
@@ -59,16 +59,12 @@ export function SqlRegexBuilderClient() {
         exp = "Matches E.164 international phone number format.";
       } else if (desc.includes("ip") || desc.includes("ipv4")) {
         pattern = "^(?:[0-9]{1,3}\\.){3}[0-9]{1,3}$";
-        matches = ["192.168.1.1", "10.0.0.255", "127.0.0.1"];
-        exp = "Matches IPv4 dot-decimal IP addresses.";
-      } else if (desc.includes("uuid") || desc.includes("guid")) {
-        pattern = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$";
-        matches = ["123e4567-e89b-12d3-a456-426614174000", "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"];
-        exp = "Matches standard 36-character hyphenated UUID strings.";
+        matches = ["192.168.1.1", "10.0.0.254", "172.16.254.1"];
+        exp = "Matches standard IPv4 addresses in dot-decimal notation.";
       } else {
-        pattern = `^[A-Za-z0-9_-]{3,20}$`;
-        matches = ["Admin_123", "User2026", "dev-team"];
-        exp = "Matches alphanumeric strings between 3 and 20 characters in length.";
+        pattern = `^[A-Za-z0-9_-]+$`;
+        matches = ["alphanumeric_123", "User-Name-01", "valid_slug"];
+        exp = `Matches alphanumeric strings containing underscores or hyphens related to '${description}'.`;
       }
 
       if (dialect === "postgres") {
@@ -76,14 +72,20 @@ export function SqlRegexBuilderClient() {
       } else if (dialect === "mysql") {
         sql = `SELECT * FROM ${tbl}\nWHERE ${col} REGEXP '${pattern}';`;
       } else if (dialect === "bigquery") {
-        sql = `SELECT * FROM \`${tbl}\` \nWHERE REGEXP_CONTAINS(${col}, r'${pattern}');`;
+        sql = `SELECT * FROM \`${tbl}\`\nWHERE REGEXP_CONTAINS(${col}, r'${pattern}');`;
       } else {
         sql = `SELECT * FROM ${tbl}\nWHERE ${col} REGEXP '${pattern}';`;
       }
 
-      setResult({ sqlQuery: sql, regexPattern: pattern, explanation: exp, testMatches: matches });
+      setResult({
+        sqlQuery: sql,
+        regexPattern: pattern,
+        explanation: exp,
+        testMatches: matches
+      });
+
       setIsBuilding(false);
-      toast.success("SQL query and RegEx pattern generated!");
+      toast.success("SQL regex query generated!");
     }, 400);
   }, [description, dialect, targetColumn, tableName]);
 
@@ -94,36 +96,44 @@ export function SqlRegexBuilderClient() {
 
   return (
     <div className="max-w-6xl mx-auto space-y-8 p-4">
-      <ToolPageHeader
-        icon={Database}
-        title="AI SQL & RegEx Pattern Builder"
-        description="Convert plain English specifications into optimized SQL queries with regular expression pattern matching for PostgreSQL, MySQL, SQLite, and BigQuery."
-      />
+      {/* 3D Emerald Database Icon Header Box */}
+      <div className="flex items-center gap-4 bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-md shadow-slate-200/50">
+        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-lg shadow-emerald-500/30 flex items-center justify-center shrink-0">
+          <Database className="w-7 h-7" />
+        </div>
+        <div>
+          <div className="flex items-center gap-2">
+            <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-slate-100">AI SQL Regex Query Builder</h1>
+            <span className="text-[10px] font-bold uppercase tracking-wider bg-emerald-100 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 px-2.5 py-0.5 rounded-full border border-emerald-200">FAST</span>
+          </div>
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Convert plain-English pattern requirements into SQL regular expressions for PostgreSQL, MySQL, BigQuery, and SQLite.</p>
+        </div>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <GlassCard className="p-0">
-          <CardHeader className="border-b border-border/40 bg-muted/20 p-4">
-            <CardTitle className="text-sm font-semibold flex items-center gap-2">
-              <Database className="w-4 h-4 text-primary" />
-              SQL Specification Input
+          <CardHeader className="border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 p-4">
+            <CardTitle className="text-sm font-semibold flex items-center gap-2 text-slate-900 dark:text-slate-100">
+              <Terminal className="w-4 h-4 text-emerald-600" />
+              Pattern Requirements Input
             </CardTitle>
           </CardHeader>
           <CardContent className="p-4 sm:p-6 space-y-4">
             <div>
-              <Label className="text-xs mb-1 block">What do you want to match / filter?</Label>
-              <textarea
-                className="w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50 min-h-[100px]"
-                placeholder="e.g. Find all users whose email column contains a valid corporate email address"
+              <Label className="text-xs mb-1 block text-slate-700 dark:text-slate-300 font-medium">Matching Description</Label>
+              <Input
+                placeholder="e.g. Find all rows where email contains valid domain extensions or phone numbers starting with +1"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
+                className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800"
               />
             </div>
 
             <div className="grid grid-cols-3 gap-3">
               <div>
-                <Label className="text-xs mb-1 block">SQL Dialect</Label>
+                <Label className="text-xs mb-1 block text-slate-700 dark:text-slate-300 font-medium">SQL Dialect</Label>
                 <select
-                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-xs"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-2 text-xs text-slate-900 dark:text-slate-100 font-medium"
                   value={dialect}
                   onChange={(e) => setDialect(e.target.value as any)}
                 >
@@ -135,27 +145,27 @@ export function SqlRegexBuilderClient() {
               </div>
 
               <div>
-                <Label className="text-xs mb-1 block">Table Name</Label>
+                <Label className="text-xs mb-1 block text-slate-700 dark:text-slate-300 font-medium">Target Column</Label>
                 <Input
-                  placeholder="e.g. users"
-                  value={tableName}
-                  onChange={(e) => setTableName(e.target.value)}
+                  value={targetColumn}
+                  onChange={(e) => setTargetColumn(e.target.value)}
+                  className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-xs"
                 />
               </div>
 
               <div>
-                <Label className="text-xs mb-1 block">Column Name</Label>
+                <Label className="text-xs mb-1 block text-slate-700 dark:text-slate-300 font-medium">Table Name</Label>
                 <Input
-                  placeholder="e.g. email"
-                  value={targetColumn}
-                  onChange={(e) => setTargetColumn(e.target.value)}
+                  value={tableName}
+                  onChange={(e) => setTableName(e.target.value)}
+                  className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-xs"
                 />
               </div>
             </div>
 
-            <Button onClick={handleBuild} disabled={isBuilding || !description.trim()} className="w-full gap-2 mt-2">
-              <Sparkles className="w-4 h-4" />
-              {isBuilding ? "Building Query..." : "Build SQL RegEx Query"}
+            <Button onClick={handleBuild} disabled={isBuilding || !description.trim()} className="w-full gap-2 mt-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-semibold shadow-md shadow-emerald-500/20 rounded-xl h-11">
+              {isBuilding ? <RefreshCcw className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+              {isBuilding ? "Building SQL Pattern..." : "Build SQL Regex Query"}
             </Button>
           </CardContent>
         </GlassCard>
@@ -163,47 +173,46 @@ export function SqlRegexBuilderClient() {
         <div className="space-y-4">
           {result ? (
             <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
-              <GlassCard className="p-4 space-y-3">
-                <div className="flex justify-between items-center border-b border-border/40 pb-2">
-                  <span className="text-xs font-bold text-primary uppercase tracking-wider flex items-center gap-1.5">
-                    <Code2 className="w-3.5 h-3.5" /> Generated SQL Query ({dialect.toUpperCase()})
+              <GlassCard className="p-4 space-y-3 border-l-4 border-l-emerald-500">
+                <div className="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-2">
+                  <span className="text-xs font-extrabold text-emerald-600 uppercase tracking-wider flex items-center gap-1.5 font-mono">
+                    <Code2 className="w-3.5 h-3.5" /> Executable SQL Query
                   </span>
-                  <Button variant="ghost" size="sm" onClick={() => handleCopy(result.sqlQuery, "SQL Query")} className="h-7 text-xs gap-1">
-                    <Copy className="w-3.5 h-3.5" /> Copy SQL
+                  <Button variant="outline" size="sm" onClick={() => handleCopy(result.sqlQuery, "SQL query")} className="h-7 text-xs gap-1 border-slate-200">
+                    <Copy className="w-3 h-3" /> Copy
                   </Button>
                 </div>
-                <pre className="text-xs font-mono bg-muted/40 p-3 rounded-lg border border-border/50 text-emerald-400 whitespace-pre-wrap">{result.sqlQuery}</pre>
+                <pre className="text-xs font-mono bg-slate-50 dark:bg-slate-800/40 p-3 rounded-xl border border-slate-200/60 dark:border-slate-800 text-emerald-700 dark:text-emerald-400 font-bold whitespace-pre-wrap">{result.sqlQuery}</pre>
               </GlassCard>
 
               <GlassCard className="p-4 space-y-3">
-                <div className="flex justify-between items-center border-b border-border/40 pb-2">
-                  <span className="text-xs font-bold text-primary uppercase tracking-wider flex items-center gap-1.5">
-                    <Terminal className="w-3.5 h-3.5" /> Raw RegEx Pattern
+                <div className="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-2">
+                  <span className="text-xs font-extrabold text-slate-800 dark:text-slate-200 uppercase tracking-wider font-mono">
+                    Raw Regex Pattern
                   </span>
-                  <Button variant="ghost" size="sm" onClick={() => handleCopy(result.regexPattern, "RegEx Pattern")} className="h-7 text-xs gap-1">
-                    <Copy className="w-3.5 h-3.5" /> Copy Pattern
+                  <Button variant="outline" size="sm" onClick={() => handleCopy(result.regexPattern, "Regex pattern")} className="h-7 text-xs gap-1 border-slate-200">
+                    <Copy className="w-3 h-3" /> Copy
                   </Button>
                 </div>
-                <code className="text-xs font-mono bg-muted/30 p-2.5 rounded border border-border/40 block text-foreground">{result.regexPattern}</code>
+                <p className="text-xs font-mono bg-slate-50 dark:bg-slate-800/40 p-2.5 rounded-lg border border-slate-200/60 dark:border-slate-800 text-slate-800 dark:text-slate-200 truncate">{result.regexPattern}</p>
               </GlassCard>
 
               <GlassCard className="p-4 space-y-2">
-                <span className="text-xs font-semibold text-muted-foreground">Sample Matching String Tests:</span>
-                <div className="flex flex-wrap gap-2 pt-1">
-                  {result.testMatches.map((m, i) => (
-                    <span key={i} className="text-xs font-mono bg-emerald-500/10 text-emerald-500 border border-emerald-500/30 px-2 py-1 rounded">
+                <span className="text-xs font-bold text-slate-700 dark:text-slate-300 block">Sample Matches:</span>
+                <div className="flex flex-wrap gap-1.5 pt-1">
+                  {result.testMatches.map((m, idx) => (
+                    <span key={idx} className="text-xs bg-emerald-50 text-emerald-700 border border-emerald-200 px-2.5 py-1 rounded-lg font-mono font-medium">
                       ✓ {m}
                     </span>
                   ))}
                 </div>
-                <p className="text-xs text-muted-foreground pt-1">{result.explanation}</p>
               </GlassCard>
             </motion.div>
           ) : (
-            <GlassCard className="p-8 h-[380px] flex flex-col items-center justify-center text-center text-muted-foreground border-dashed">
-              <Database className="w-12 h-12 mb-3 text-muted-foreground/30" />
-              <p className="text-sm font-medium">No SQL Query Built Yet</p>
-              <p className="text-xs max-w-xs mt-1">Describe what string pattern you want to query on the left to generate dialect-specific SQL statements.</p>
+            <GlassCard className="p-8 h-[380px] flex flex-col items-center justify-center text-center text-slate-400 border-dashed border-2 border-slate-200 dark:border-slate-800">
+              <Database className="w-12 h-12 mb-3 text-slate-300 dark:text-slate-700" />
+              <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">No SQL Query Built Yet</p>
+              <p className="text-xs max-w-xs mt-1 text-slate-500">Describe your matching requirements on the left to construct database regular expressions.</p>
             </GlassCard>
           )}
         </div>
@@ -211,32 +220,32 @@ export function SqlRegexBuilderClient() {
 
       <ToolHowItWorks
         steps={[
-          { step: "01", title: "Describe Search Requirement", description: "Explain in plain text what data pattern you need to query in your database.", icon: Database },
-          { step: "02", title: "Select SQL Engine", description: "Choose PostgreSQL, MySQL, BigQuery, or SQLite syntax standards.", icon: Sliders },
-          { step: "03", title: "Copy Ready Query", description: "Copy production-ready SQL SELECT statements and regex patterns instantly.", icon: CheckCircle2 }
+          { step: "01", title: "Describe Pattern", description: "Describe target strings like emails, phone numbers, or IP addresses.", icon: Database },
+          { step: "02", title: "Select SQL Dialect", description: "Choose PostgreSQL, MySQL, BigQuery, or SQLite regex operators.", icon: Sliders },
+          { step: "03", title: "Copy Query", description: "Export production SQL queries ready for database execution.", icon: CheckCircle2 }
         ]}
-        badges={["100% Free", "Dialect Accurate", "Zero Server Load"]}
+        badges={["100% Free", "PostgreSQL & MySQL", "Regex Validator"]}
       />
 
       <ToolFeatureGuides
         features={[
-          { icon: Database, title: "Multi-Dialect Support", description: "Adapts regular expression operators for PostgreSQL (~*), MySQL (REGEXP), and BigQuery (REGEXP_CONTAINS)." },
-          { icon: Code2, title: "Syntax Highlighting & Validation", description: "Generates clean, properly escaped regex strings ready for production migration scripts." },
-          { icon: CheckCircle2, title: "Sample Match Testing", description: "Displays verified test cases to prove regex pattern accuracy before execution." }
+          { icon: Database, title: "Multi-Dialect SQL Syntax", description: "Generates correct regex operators (`~*`, `REGEXP`, `REGEXP_CONTAINS`) for your target database." },
+          { icon: Code2, title: "Raw Regex Pattern Export", description: "Extracts standalone regular expressions for backend validation scripts." },
+          { icon: CheckCircle2, title: "Sample Match Telemetry", description: "Provides instant sample string matches for verification." }
         ]}
       >
         <div className="prose dark:prose-invert max-w-none">
-          <h3>PostgreSQL vs MySQL RegEx Syntax Differences</h3>
+          <h3>The Power of Database Regular Expressions</h3>
           <p>
-            Database engines handle regular expression matching through different operators. PostgreSQL uses POSIX regular expressions with operators such as <code>~</code> (case-sensitive) and <code>~*</code> (case-insensitive). MySQL uses the <code>REGEXP</code> or <code>RLIKE</code> keywords. BigQuery encapsulates regex matching within scalar functions like <code>REGEXP_CONTAINS(col, pattern)</code>.
+            Filtering database tables using regular expressions simplifies complex string matching queries. Differing SQL dialects use unique syntax rules (such as PostgreSQL's `~*` case-insensitive operator vs MySQL's `REGEXP`), making automated query generators essential for database administrators.
           </p>
         </div>
       </ToolFeatureGuides>
 
       <ToolFaqAccordion
         faqs={[
-          { question: "Is regex matching slow in SQL databases?", answer: "Sequential regex scans require full table scans unless backed by specialized trigram indexes (such as PostgreSQL pg_trgm GIN indexes)." },
-          { question: "Can I use this query in Prisma or Drizzle ORM?", answer: "Yes! You can copy the raw regex string into Prisma's raw query builder or Drizzle's sql template tag." }
+          { question: "What is the difference between PostgreSQL ~ and ~*?", answer: "In PostgreSQL, `~` performs a case-sensitive regular expression match, whereas `~*` performs a case-insensitive match." },
+          { question: "Is REGEXP supported in SQLite?", answer: "SQLite supports the REGEXP operator if user-defined regular expression functions are enabled in your sqlite3 database driver." }
         ]}
       />
 

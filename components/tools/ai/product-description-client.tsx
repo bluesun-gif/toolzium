@@ -1,18 +1,18 @@
 "use client";
 
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
-import { GlassCard, MotionGlassCard } from "@/components/ui/glass-card";
+import { GlassCard } from "@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ShoppingBag, Sparkles, Copy, CheckCircle2, Sliders, RefreshCcw, Tag, Star, Layers, Mail, Share2 } from "lucide-react";
+import { ShoppingBag, Sparkles, Copy, CheckCircle2, Sliders, RefreshCcw, Tag } from "lucide-react";
 import toast from "react-hot-toast";
 
 interface DescriptionResult {
@@ -58,38 +58,26 @@ export function ProductDescriptionClient() {
         shortDesc = `Meticulously crafted for ${audience}, the ${name} redefines luxury with premium materials and flawless execution.`;
         longDesc = `Immerse yourself in sophistication. The ${name} is engineered for those who demand excellence in every detail. Built around ${rawFeatures.slice(0, 2).join(" and ")}, it delivers an uncompromised experience that elevates your lifestyle.`;
         seoMeta = `Discover the ${name}. Premium ${category.toLowerCase()} crafted for ${audience}. Features include ${rawFeatures[0] || "unmatched performance"}.`;
-        socialCaption = `Elevate your aesthetic with the all-new ${name}. 💎 Designed exclusively for ${audience}. #LuxuryLiving #${category.replace(/\s+/g, "")}`;
-      } else if (tone === "technical") {
-        headline = `Precision Engineered: The ${name} Technical Specification`;
-        shortDesc = `High-performance ${category.toLowerCase()} solution optimized for ${audience}. Integrates ${rawFeatures[0] || "advanced architecture"}.`;
-        longDesc = `Designed for high reliability and efficiency, the ${name} combines ${rawFeatures.join(", ")}. It eliminates processing bottlenecks and provides seamless integration for ${audience}.`;
-        seoMeta = `Explore technical specs of the ${name}. Optimized ${category.toLowerCase()} featuring ${rawFeatures.slice(0, 3).join(", ")}.`;
-        socialCaption = `Upgrade your stack with ${name}. Built for ${audience} who demand precision. ⚡ #${category.replace(/\s+/g, "")} #Engineering`;
-      } else if (tone === "playful") {
-        headline = `Say Hello to Your New Favorite: ${name}! 🎉`;
-        shortDesc = `Meet the ${name}—the ultimate fun-packed ${category.toLowerCase()} built just for ${audience}!`;
-        longDesc = `Why settle for boring when you can have the ${name}? Packed with awesome features like ${rawFeatures.join(" and ")}, it's guaranteed to bring a smile to your face every single day.`;
-        seoMeta = `Get ready for ${name}! The fun, easy-to-use ${category.toLowerCase()} for ${audience}.`;
-        socialCaption = `Obsessed with the new ${name}! 😍 Perfect for ${audience}. Grab yours today! 🚀 #${name.replace(/\s+/g, "")} #MustHave`;
+        socialCaption = `Elegance meets innovation. Introducing the all-new ${name}. ✨ Designed for ${audience}. #LuxuryLiving #${category.replace(/\s+/g, "")}`;
       } else {
-        headline = `Transform Your Daily Workflow with ${name}`;
-        shortDesc = `The smarter way to achieve more. Designed for ${audience}, the ${name} delivers performance, style, and value.`;
-        longDesc = `Upgrade your daily routine with the ${name}. Specifically engineered to solve your core challenges, it brings together ${rawFeatures.join(", ")}. Whether at home or on the go, it is built to deliver consistent results.`;
-        seoMeta = `Buy ${name} online. Top-rated ${category.toLowerCase()} for ${audience} featuring ${rawFeatures[0] || "innovative design"}. Free shipping available.`;
-        socialCaption = `Ready to upgrade? The ${name} is finally here! Designed for ${audience}. Check out the link to order now. 🛒✨`;
+        headline = `Supercharge Your Daily Routine with ${name}`;
+        shortDesc = `The ultimate ${category.toLowerCase()} solution built for ${audience}. Features ${rawFeatures[0] || "top-tier performance"}.`;
+        longDesc = `Upgrade your experience with the ${name}. Designed specifically for ${audience}, this innovative product brings together ${rawFeatures.join(", ")} into one seamless package.`;
+        seoMeta = `Buy the ${name} online. Top-rated ${category.toLowerCase()} featuring ${rawFeatures.slice(0, 3).join(", ")}. Fast shipping available.`;
+        socialCaption = `Meet the ${name}! 🚀 The perfect upgrade for ${audience}. Tap the link in bio to shop now! #ShopNow #${category.replace(/\s+/g, "")}`;
       }
 
       setResult({
         headline,
         shortDesc,
         longDesc,
-        features: rawFeatures.length > 0 ? rawFeatures : ["High Quality", "Ergonomic Design", "Long-lasting"],
+        features: rawFeatures,
         seoMeta,
         socialCaption
       });
 
       setIsGenerating(false);
-      toast.success("Product descriptions generated!");
+      toast.success("High-converting product descriptions generated!");
     }, 450);
   }, [productName, category, featuresInput, targetAudience, tone]);
 
@@ -100,142 +88,132 @@ export function ProductDescriptionClient() {
 
   return (
     <div className="max-w-6xl mx-auto space-y-8 p-4">
-      <ToolPageHeader
-        icon={ShoppingBag}
-        title="AI Product Description Generator"
-        description="Craft high-converting ecommerce product descriptions, Amazon bullet points, SEO meta tags, and social captions in seconds."
-      />
+      {/* 3D Yellow Shopping Icon Header Box */}
+      <div className="flex items-center gap-4 bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-md shadow-slate-200/50">
+        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-500 to-yellow-600 text-white shadow-lg shadow-amber-500/30 flex items-center justify-center shrink-0">
+          <ShoppingBag className="w-7 h-7" />
+        </div>
+        <div>
+          <div className="flex items-center gap-2">
+            <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-slate-100">AI E-Commerce Product Description Generator</h1>
+            <span className="text-[10px] font-bold uppercase tracking-wider bg-amber-100 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 px-2.5 py-0.5 rounded-full border border-amber-200">POPULAR</span>
+          </div>
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Generate high-converting e-commerce product listings, bullet points, SEO meta tags, and social captions for Shopify and Amazon.</p>
+        </div>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <GlassCard className="p-0">
-          <CardHeader className="border-b border-border/40 bg-muted/20 p-4">
-            <CardTitle className="text-sm font-semibold flex items-center gap-2">
-              <Tag className="w-4 h-4 text-primary" />
-              Product Specification Input
+          <CardHeader className="border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 p-4">
+            <CardTitle className="text-sm font-semibold flex items-center gap-2 text-slate-900 dark:text-slate-100">
+              <Tag className="w-4 h-4 text-amber-600" />
+              Product Details Input
             </CardTitle>
           </CardHeader>
           <CardContent className="p-4 sm:p-6 space-y-4">
-            <div>
-              <Label className="text-xs mb-1 block">Product Name</Label>
-              <Input
-                placeholder="e.g. Lumina Pro Noise-Cancelling Headphones"
-                value={productName}
-                onChange={(e) => setProductName(e.target.value)}
-              />
-            </div>
-
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <Label className="text-xs mb-1 block">Category</Label>
-                <select
-                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-xs"
+                <Label className="text-xs mb-1 block text-slate-700 dark:text-slate-300 font-medium">Product Name</Label>
+                <Input
+                  placeholder="e.g. UltraFit Wireless Earbuds"
+                  value={productName}
+                  onChange={(e) => setProductName(e.target.value)}
+                  className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800"
+                />
+              </div>
+
+              <div>
+                <Label className="text-xs mb-1 block text-slate-700 dark:text-slate-300 font-medium">Category</Label>
+                <Input
+                  placeholder="e.g. Consumer Electronics"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                >
-                  <option value="Electronics">Electronics & Tech</option>
-                  <option value="Apparel">Fashion & Apparel</option>
-                  <option value="Home & Living">Home & Living</option>
-                  <option value="Beauty">Beauty & Personal Care</option>
-                  <option value="Fitness">Sports & Fitness</option>
-                </select>
-              </div>
-              <div>
-                <Label className="text-xs mb-1 block">Brand Tone</Label>
-                <select
-                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-xs"
-                  value={tone}
-                  onChange={(e) => setTone(e.target.value as any)}
-                >
-                  <option value="persuasive">Persuasive (High Conversion)</option>
-                  <option value="luxury">Luxury & Premium</option>
-                  <option value="technical">Technical & Detailed</option>
-                  <option value="playful">Playful & Casual</option>
-                </select>
+                  className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800"
+                />
               </div>
             </div>
 
             <div>
-              <Label className="text-xs mb-1 block">Key Features / Specs (Comma or line separated)</Label>
+              <Label className="text-xs mb-1 block text-slate-700 dark:text-slate-300 font-medium">Key Features & Specs (One per line)</Label>
               <textarea
-                className="w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50 min-h-[100px]"
-                placeholder="e.g. 40hr Battery, Active Noise Cancellation, Bluetooth 5.3, Memory Foam Earcups"
+                className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3 text-sm outline-none focus:ring-2 focus:ring-amber-500 min-h-[100px] font-sans text-slate-900 dark:text-slate-100"
+                placeholder={`Active Noise Cancellation (ANC)\n30-Hour Battery Life\nIPX7 Waterproofing`}
                 value={featuresInput}
                 onChange={(e) => setFeaturesInput(e.target.value)}
               />
             </div>
 
-            <div>
-              <Label className="text-xs mb-1 block">Target Audience (Optional)</Label>
-              <Input
-                placeholder="e.g. Remote workers, frequent flyers, music enthusiasts"
-                value={targetAudience}
-                onChange={(e) => setTargetAudience(e.target.value)}
-              />
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <Label className="text-xs mb-1 block text-slate-700 dark:text-slate-300 font-medium">Target Audience</Label>
+                <Input
+                  placeholder="e.g. Fitness enthusiasts & commuters"
+                  value={targetAudience}
+                  onChange={(e) => setTargetAudience(e.target.value)}
+                  className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800"
+                />
+              </div>
+
+              <div>
+                <Label className="text-xs mb-1 block text-slate-700 dark:text-slate-300 font-medium">Copywriting Tone</Label>
+                <select
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-2 text-xs text-slate-900 dark:text-slate-100 font-medium"
+                  value={tone}
+                  onChange={(e) => setTone(e.target.value as any)}
+                >
+                  <option value="persuasive">Persuasive (High Conversion)</option>
+                  <option value="luxury">Luxury & Premium</option>
+                  <option value="technical">Technical Specs</option>
+                  <option value="playful">Playful & Fun</option>
+                </select>
+              </div>
             </div>
 
-            <Button onClick={generateDescriptions} disabled={isGenerating || !productName.trim()} className="w-full gap-2 mt-2">
+            <Button onClick={generateDescriptions} disabled={isGenerating || !productName.trim() || !featuresInput.trim()} className="w-full gap-2 mt-2 bg-gradient-to-r from-amber-600 to-yellow-600 hover:from-amber-700 hover:to-yellow-700 text-white font-semibold shadow-md shadow-amber-500/20 rounded-xl h-11">
               {isGenerating ? <RefreshCcw className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-              {isGenerating ? "Crafting Copy..." : "Generate Ecommerce Copy"}
+              {isGenerating ? "Generating Copy..." : "Generate Product Description"}
             </Button>
           </CardContent>
         </GlassCard>
 
         <div className="space-y-4">
           {result ? (
-            <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
-              <GlassCard className="p-4 space-y-3">
-                <div className="flex justify-between items-center border-b border-border/40 pb-2">
-                  <span className="text-xs font-bold text-primary uppercase tracking-wider">Catchy Headline</span>
-                  <Button variant="ghost" size="sm" onClick={() => handleCopy(result.headline, "Headline")} className="h-7 text-xs gap-1">
-                    <Copy className="w-3.5 h-3.5" /> Copy
+            <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
+              <GlassCard className="p-4 space-y-2 border-l-4 border-l-amber-500">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-extrabold text-amber-600 uppercase tracking-wider font-mono">Product Headline</span>
+                  <Button variant="outline" size="sm" onClick={() => handleCopy(result.headline, "Headline")} className="h-7 text-xs gap-1 border-slate-200">
+                    <Copy className="w-3 h-3" /> Copy
                   </Button>
                 </div>
-                <h3 className="text-base font-bold leading-snug text-foreground">{result.headline}</h3>
+                <h3 className="text-sm font-extrabold text-slate-900 dark:text-slate-100">{result.headline}</h3>
               </GlassCard>
 
-              <GlassCard className="p-4 space-y-3">
-                <div className="flex justify-between items-center border-b border-border/40 pb-2">
-                  <span className="text-xs font-bold text-primary uppercase tracking-wider">Short Description (Cards / Shopify)</span>
-                  <Button variant="ghost" size="sm" onClick={() => handleCopy(result.shortDesc, "Short description")} className="h-7 text-xs gap-1">
-                    <Copy className="w-3.5 h-3.5" /> Copy
+              <GlassCard className="p-4 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-extrabold text-slate-800 dark:text-slate-200 uppercase tracking-wider font-mono">Main Product Description</span>
+                  <Button variant="outline" size="sm" onClick={() => handleCopy(result.longDesc, "Product description")} className="h-7 text-xs gap-1 border-slate-200">
+                    <Copy className="w-3 h-3" /> Copy
                   </Button>
                 </div>
-                <p className="text-sm leading-relaxed">{result.shortDesc}</p>
+                <p className="text-xs leading-relaxed text-slate-800 dark:text-slate-200">{result.longDesc}</p>
               </GlassCard>
 
-              <GlassCard className="p-4 space-y-3">
-                <div className="flex justify-between items-center border-b border-border/40 pb-2">
-                  <span className="text-xs font-bold text-primary uppercase tracking-wider">Full Body Copy & Specs</span>
-                  <Button variant="ghost" size="sm" onClick={() => handleCopy(result.longDesc, "Long copy")} className="h-7 text-xs gap-1">
-                    <Copy className="w-3.5 h-3.5" /> Copy
+              <GlassCard className="p-4 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-extrabold text-emerald-600 uppercase tracking-wider font-mono">SEO Meta Description</span>
+                  <Button variant="outline" size="sm" onClick={() => handleCopy(result.seoMeta, "SEO Meta")} className="h-7 text-xs gap-1 border-slate-200">
+                    <Copy className="w-3 h-3" /> Copy
                   </Button>
                 </div>
-                <p className="text-sm leading-relaxed whitespace-pre-wrap">{result.longDesc}</p>
-                <div className="pt-2">
-                  <span className="text-xs font-semibold text-muted-foreground block mb-1">Key Benefit Bullets:</span>
-                  <ul className="list-disc pl-4 text-xs space-y-1 text-muted-foreground">
-                    {result.features.map((feat, i) => (
-                      <li key={i}>{feat}</li>
-                    ))}
-                  </ul>
-                </div>
-              </GlassCard>
-
-              <GlassCard className="p-4 space-y-3">
-                <div className="flex justify-between items-center border-b border-border/40 pb-2">
-                  <span className="text-xs font-bold text-primary uppercase tracking-wider">SEO Meta Description & Social</span>
-                  <Button variant="ghost" size="sm" onClick={() => handleCopy(result.seoMeta, "SEO Meta")} className="h-7 text-xs gap-1">
-                    <Copy className="w-3.5 h-3.5" /> Copy SEO
-                  </Button>
-                </div>
-                <p className="text-xs font-mono bg-muted/40 p-2.5 rounded border border-border/50">{result.seoMeta}</p>
+                <p className="text-xs font-mono bg-slate-50 dark:bg-slate-800/40 p-2.5 rounded-lg border border-slate-200/60 dark:border-slate-800 text-slate-800 dark:text-slate-200">{result.seoMeta}</p>
               </GlassCard>
             </motion.div>
           ) : (
-            <GlassCard className="p-8 h-[420px] flex flex-col items-center justify-center text-center text-muted-foreground border-dashed">
-              <ShoppingBag className="w-12 h-12 mb-3 text-muted-foreground/30" />
-              <p className="text-sm font-medium">No Product Copy Generated Yet</p>
-              <p className="text-xs max-w-xs mt-1">Enter your product details and features on the left to generate headlines, long-form copy, and SEO meta tags.</p>
+            <GlassCard className="p-8 h-[380px] flex flex-col items-center justify-center text-center text-slate-400 border-dashed border-2 border-slate-200 dark:border-slate-800">
+              <ShoppingBag className="w-12 h-12 mb-3 text-slate-300 dark:text-slate-700" />
+              <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">No Copy Generated Yet</p>
+              <p className="text-xs max-w-xs mt-1 text-slate-500">Fill in product details and features on the left to generate e-commerce copy and SEO meta tags.</p>
             </GlassCard>
           )}
         </div>
@@ -243,37 +221,32 @@ export function ProductDescriptionClient() {
 
       <ToolHowItWorks
         steps={[
-          { step: "01", title: "Input Specs & Audience", description: "Enter your product name, category, target audience, and key feature bullets.", icon: Tag },
-          { step: "02", title: "Select Brand Tone", description: "Choose between Persuasive, Luxury, Technical, or Playful copywriting formulas.", icon: Sliders },
-          { step: "03", title: "Copy & Convert", description: "Instantly copy headlines, full page copy, Amazon bullet points, and SEO meta descriptions.", icon: CheckCircle2 }
+          { step: "01", title: "Enter Product Specs", description: "Input product title, category, and bullet point features.", icon: ShoppingBag },
+          { step: "02", title: "Select Copywriting Tone", description: "Choose between Persuasive, Luxury, Technical, or Playful.", icon: Sliders },
+          { step: "03", title: "Copy E-Commerce Copy", description: "Export formatted product listings and SEO meta tags.", icon: CheckCircle2 }
         ]}
-        badges={["100% Free", "Conversion Focused", "SEO Ready"]}
+        badges={["100% Free", "Shopify & Amazon Ready", "SEO Meta Tags"]}
       />
 
       <ToolFeatureGuides
         features={[
-          { icon: ShoppingBag, title: "Multi-Format Output", description: "Generates card summaries, long-form sales pages, Amazon feature bullets, and Instagram captions simultaneously." },
-          { icon: Sliders, title: "AIDA & PAS Frameworks", description: "Employs Attention-Interest-Desire-Action psychology to maximize store conversion rates." },
-          { icon: Sparkles, title: "SEO Meta Integration", description: "Automatically formats meta descriptions to ideal 150-160 character limits for Google SERP visibility." },
-          { icon: CheckCircle2, title: "Privacy Guaranteed", description: "All product specifications are processed locally in your browser without data retention." }
+          { icon: ShoppingBag, title: "AIDA Framework Copywriting", description: "Structures product descriptions using Attention, Interest, Desire, and Action principles." },
+          { icon: Tag, title: "SEO Meta Description Generator", description: "Creates search-engine-optimized meta descriptions tailored for Google Shopping rankings." },
+          { icon: CheckCircle2, title: "Social Ad Captions", description: "Generates accompanying social captions for Instagram and TikTok product ads." }
         ]}
       >
         <div className="prose dark:prose-invert max-w-none">
-          <h3>The Importance of High-Converting Product Copy</h3>
+          <h3>Boosting E-Commerce Conversion Rates</h3>
           <p>
-            In online retail, your product description serves as your digital salesperson. Well-crafted copy does more than list features—it paints a picture of how the product solves a customer's specific problem. By applying proven sales frameworks like AIDA (Attention, Interest, Desire, Action), our <strong>AI Product Description Generator</strong> transforms basic technical specifications into compelling, persuasive narratives.
-          </p>
-          <h3>SEO Meta Optimization for E-Commerce</h3>
-          <p>
-            To drive organic search traffic from Google, product pages require optimized page titles and meta descriptions that adhere strictly to search engine character limits (typically 155 characters). Our generator creates click-worthy meta tags designed to boost your Click-Through Rate (CTR) on search engine result pages.
+            Well-written product descriptions address customer pain points, highlight key features, and instill purchasing confidence. Combining benefit-driven copy with SEO keyword density improves store search rankings and increases checkout conversion rates.
           </p>
         </div>
       </ToolFeatureGuides>
 
       <ToolFaqAccordion
         faqs={[
-          { question: "Can I use these descriptions on Shopify and Amazon?", answer: "Yes! The generated short summaries, feature bullets, and full copy are pre-formatted for seamless pasting into Shopify, Amazon FBA, WooCommerce, and eBay listings." },
-          { question: "How does the tone setting affect output?", answer: "The tone setting shifts vocabulary and sentence structure—for instance, 'Luxury' emphasizes craftsmanship and exclusivity, while 'Technical' highlights performance metrics and engineering specifications." }
+          { question: "Can I use these descriptions for Shopify and Amazon?", answer: "Yes! The output includes short bullet descriptions ideal for Amazon listings and full descriptions for Shopify storefronts." },
+          { question: "How long should a product description be?", answer: "Ideal product descriptions range from 150 to 300 words, focusing on benefits rather than purely technical specs." }
         ]}
       />
 
