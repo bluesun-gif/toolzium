@@ -70,6 +70,7 @@ interface SavedHistoryItem {
 }
 
 export function PromptOptimizerClient() {
+  const [mounted, setMounted] = useState(false);
   const [rawPrompt, setRawPrompt] = useState("");
   const [targetModel, setTargetModel] = useState<"gpt4" | "claude" | "midjourney" | "deepseek" | "gemini">("gpt4");
   const [domain, setDomain] = useState("general");
@@ -118,12 +119,15 @@ export function PromptOptimizerClient() {
     { label: "🎨 Cyberpunk Vector Logo", text: "Design a futuristic neon vector logo for a tech brand" }
   ];
 
-  // Load history from LocalStorage
+  // Load history from LocalStorage safely after mount
   useEffect(() => {
+    setMounted(true);
     try {
-      const saved = localStorage.getItem("toolzium_prompt_optimizer_history");
-      if (saved) {
-        setHistory(JSON.parse(saved));
+      if (typeof window !== "undefined") {
+        const saved = localStorage.getItem("toolzium_prompt_optimizer_history");
+        if (saved) {
+          setHistory(JSON.parse(saved));
+        }
       }
     } catch (e) {
       console.error("Failed to load prompt history:", e);
@@ -321,10 +325,21 @@ export function PromptOptimizerClient() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `optimized_prompt_${targetModel}_${Date.now()}.json`;
     a.click();
     toast.success("Downloaded JSON prompt export!");
   };
+
+  if (!mounted) {
+    return (
+      <div className="max-w-6xl mx-auto space-y-8 p-4">
+        <div className="h-28 bg-slate-100 dark:bg-slate-800 rounded-3xl animate-pulse" />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="h-96 bg-slate-100 dark:bg-slate-800 rounded-3xl animate-pulse" />
+          <div className="h-96 bg-slate-100 dark:bg-slate-800 rounded-3xl animate-pulse" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-6xl mx-auto space-y-8 p-4">
