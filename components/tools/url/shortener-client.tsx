@@ -13,8 +13,8 @@ import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { createShort } from "@/lib/actions/shortener.action";
-import { Link2, Copy, Download, QrCode, Scissors, RefreshCcw, ExternalLink, CheckCircle2, History, Sliders } from "lucide-react";
+import { createShort, getAnalytics, type AnalyticsResponse } from "@/lib/actions/shortener.action";
+import { Link2, Copy, Download, QrCode, Scissors, RefreshCcw, ExternalLink, CheckCircle2, History, BarChart3, Globe, MousePointer, Smartphone } from "lucide-react";
 import toast from "react-hot-toast";
 
 interface ShortenedLink {
@@ -35,7 +35,12 @@ export function ShortenerClient() {
   const [isShortening, setIsShortening] = useState(false);
   const [activeResults, setActiveResults] = useState<ShortenedLink[]>([]);
   const [history, setHistory] = useState<ShortenedLink[]>([]);
+  
+  // Modals
   const [qrModalUrl, setQrModalUrl] = useState<string | null>(null);
+  const [analyticsSlug, setAnalyticsSlug] = useState<string | null>(null);
+  const [analyticsData, setAnalyticsData] = useState<AnalyticsResponse | null>(null);
+  const [isLoadingAnalytics, setIsLoadingAnalytics] = useState(false);
 
   useEffect(() => {
     try {
@@ -83,8 +88,9 @@ export function ShortenerClient() {
           const origin = typeof window !== "undefined" ? window.location.origin : "https://toolzium.com";
           const shortUrl = `${origin}/${slug}`;
 
-          // Generate real QR code for shortened link
-          const qrDataUrl = await QRCode.toDataURL(shortUrl, { width: 250, margin: 2 });
+          // Generate real QR code encoding link with source tag
+          const qrTargetUrl = `${shortUrl}?src=qr`;
+          const qrDataUrl = await QRCode.toDataURL(qrTargetUrl, { width: 250, margin: 2 });
 
           newLinks.push({
             id: res.link.id || `slug-${Date.now()}-${i}`,
@@ -120,6 +126,20 @@ export function ShortenerClient() {
     }
   }, [longUrl, customAlias, batchInput, isBatchMode]);
 
+  const fetchAnalytics = async (slug: string) => {
+    setAnalyticsSlug(slug);
+    setIsLoadingAnalytics(true);
+    try {
+      const data = await getAnalytics(slug);
+      setAnalyticsData(data);
+    } catch (err) {
+      console.error("Analytics fetch error:", err);
+      toast.error("Could not load analytics for this link");
+    } finally {
+      setIsLoadingAnalytics(false);
+    }
+  };
+
   const handleCopy = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
     toast.success(`${label} copied to clipboard!`);
@@ -135,8 +155,8 @@ export function ShortenerClient() {
     <div className="max-w-6xl mx-auto space-y-8 p-4">
       <ToolPageHeader
         icon={Scissors}
-        title="URL Shortener & QR Link Manager"
-        description="Transform long, ugly URLs into clean, trackable short links with instant real QR code generation and custom alias support."
+        title="URL Shortener & Click Analytics Manager"
+        description="Transform long URLs into short, trackable links with real QR code generation, custom slugs, and audience click analytics."
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -217,9 +237,12 @@ export function ShortenerClient() {
                       <Button variant="ghost" size="sm" onClick={() => handleCopy(item.shortUrl, "Short URL")} className="h-8 text-xs gap-1">
                         <Copy className="w-3.5 h-3.5" /> Copy
                       </Button>
+                      <Button variant="ghost" size="sm" onClick={() => fetchAnalytics(item.slug)} className="h-8 text-xs gap-1 text-sky-500">
+                        <BarChart3 className="w-3.5 h-3.5" /> Analytics
+                      </Button>
                       {item.qrDataUrl && (
                         <Button variant="ghost" size="sm" onClick={() => setQrModalUrl(item.qrDataUrl || null)} className="h-8 text-xs gap-1">
-                          <QrCode className="w-3.5 h-3.5" /> QR Code
+                          <QrCode className="w-3.5 h-3.5" /> QR
                         </Button>
                       )}
                     </div>
@@ -235,7 +258,7 @@ export function ShortenerClient() {
             <GlassCard className="p-8 h-[380px] flex flex-col items-center justify-center text-center text-muted-foreground border-dashed">
               <Scissors className="w-12 h-12 mb-3 text-muted-foreground/30" />
               <p className="text-sm font-medium">No Short Links Created Yet</p>
-              <p className="text-xs max-w-xs mt-1">Paste your long destination URL on the left to generate clean short links and scannable QR codes.</p>
+              <p className="text-xs max-w-xs mt-1">Paste your long destination URL on the left to generate clean short links, scannable QR codes, and click analytics.</p>
             </GlassCard>
           )}
         </div>
@@ -246,7 +269,7 @@ export function ShortenerClient() {
         <GlassCard className="p-4 space-y-3">
           <div className="flex justify-between items-center border-b border-border/40 pb-2">
             <span className="text-xs font-bold text-primary uppercase tracking-wider flex items-center gap-1.5">
-              <History className="w-3.5 h-3.5" /> Your Shortened Links History ({history.length})
+              <History className="w-3.5 h-3.5" /> Your Shortened Links & Analytics ({history.length})
             </span>
             <Button variant="ghost" size="sm" onClick={handleClearHistory} className="h-7 text-xs text-red-500 hover:text-red-600">
               Clear History
@@ -263,7 +286,9 @@ export function ShortenerClient() {
                   <p className="text-[11px] text-muted-foreground truncate">{item.original}</p>
                 </div>
                 <div className="flex items-center gap-2 self-end sm:self-auto">
-                  <span className="text-[10px] text-muted-foreground font-mono">{item.createdAt}</span>
+                  <Button variant="ghost" size="sm" onClick={() => fetchAnalytics(item.slug)} className="h-7 px-2 text-xs text-sky-500 gap-1">
+                    <BarChart3 className="w-3.5 h-3.5" /> Stats
+                  </Button>
                   <Button variant="ghost" size="sm" onClick={() => handleCopy(item.shortUrl, "Short link")} className="h-7 px-2 text-xs">
                     <Copy className="w-3 h-3" />
                   </Button>
@@ -272,6 +297,69 @@ export function ShortenerClient() {
             ))}
           </div>
         </GlassCard>
+      )}
+
+      {/* Analytics Report Modal */}
+      {analyticsSlug && (
+        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex items-center justify-center p-4">
+          <GlassCard className="p-6 max-w-lg w-full space-y-4">
+            <div className="flex justify-between items-center border-b border-border/40 pb-3">
+              <div>
+                <span className="text-[10px] font-bold text-primary uppercase tracking-wider">Link Performance Report</span>
+                <h3 className="text-base font-extrabold text-foreground font-mono">/{analyticsSlug}</h3>
+              </div>
+              <Button variant="outline" size="sm" onClick={() => { setAnalyticsSlug(null); setAnalyticsData(null); }} className="h-7 text-xs">
+                Close
+              </Button>
+            </div>
+
+            {isLoadingAnalytics ? (
+              <div className="py-12 flex flex-col items-center justify-center text-muted-foreground gap-2">
+                <RefreshCcw className="w-6 h-6 animate-spin text-primary" />
+                <span className="text-xs">Fetching click telemetry...</span>
+              </div>
+            ) : analyticsData ? (
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="bg-primary/10 border border-primary/20 p-3 rounded-lg text-center">
+                    <span className="text-xs text-muted-foreground block">Total Click Volume</span>
+                    <span className="text-2xl font-extrabold text-primary font-mono">{analyticsData.total}</span>
+                  </div>
+                  <div className="bg-sky-500/10 border border-sky-500/20 p-3 rounded-lg text-center">
+                    <span className="text-xs text-muted-foreground block">First Created</span>
+                    <span className="text-xs font-bold text-sky-500 font-mono mt-1 block">
+                      {new Date(analyticsData.first).toLocaleDateString()}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Referral Sources & QR Scans */}
+                <div className="space-y-2">
+                  <span className="text-xs font-semibold text-muted-foreground block flex items-center gap-1">
+                    <MousePointer className="w-3.5 h-3.5 text-primary" /> Traffic Referral & QR Scans
+                  </span>
+                  <div className="bg-muted/30 p-3 rounded-lg border border-border/40 space-y-1.5 text-xs">
+                    {analyticsData.topReferrers.length > 0 ? (
+                      analyticsData.topReferrers.map(([source, count], i) => (
+                        <div key={i} className="flex justify-between items-center">
+                          <span className="font-mono flex items-center gap-1.5">
+                            {source.includes("QR") ? <Smartphone className="w-3 h-3 text-emerald-500" /> : <Globe className="w-3 h-3 text-sky-500" />}
+                            {source}
+                          </span>
+                          <span className="font-bold text-primary font-mono">{count} clicks</span>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-muted-foreground text-center text-xs py-2">No click referrers recorded yet.</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <p className="text-xs text-muted-foreground text-center py-6">No analytics recorded for this short link yet.</p>
+            )}
+          </GlassCard>
+        </div>
       )}
 
       {/* QR Code Modal */}
@@ -300,30 +388,30 @@ export function ShortenerClient() {
         steps={[
           { step: "01", title: "Paste Destination Link", description: "Input long URL and optional custom alias slug.", icon: Link2 },
           { step: "02", title: "Instant Link Creation", description: "Generates clean redirect slug saved to database and local storage.", icon: Scissors },
-          { step: "03", title: "Copy & QR Download", description: "Copy short URL or download matching high-resolution QR code.", icon: CheckCircle2 }
+          { step: "03", title: "View Analytics & Stats", description: "Click Analytics to view total click volume, QR code scan breakdown, and referrers.", icon: BarChart3 }
         ]}
-        badges={["100% Free", "Real QR Code Included", "Bulk URL Support"]}
+        badges={["100% Free", "Click Analytics Included", "QR Scan Tracking"]}
       />
 
       <ToolFeatureGuides
         features={[
-          { icon: Link2, title: "High-Performance Redirects", description: "Redirects users instantly with minimal latency." },
-          { icon: QrCode, title: "Automated QR Code Generation", description: "Every short link automatically builds a scannable QR code." },
+          { icon: BarChart3, title: "Real-Time Click Telemetry", description: "Tracks total click volume, geographic country origin, and referral channels." },
+          { icon: Smartphone, title: "QR Scan vs Direct Click Split", description: "Differentiates traffic coming from scanned physical QR codes vs direct web links." },
           { icon: History, title: "Local Browser History", description: "Persists your shortened links securely inside local storage." }
         ]}
       >
         <div className="prose dark:prose-invert max-w-none">
-          <h3>The Advantages of Short URLs</h3>
+          <h3>Understanding Short Link Click Analytics</h3>
           <p>
-            Short links make long URLs readable, clean for social sharing, and easy to print. Combined with automated QR code rendering, short links streamline user access across marketing campaigns, print materials, and mobile messaging.
+            Tracking campaign link performance allows marketers and creators to evaluate channel ROI. Our <strong>URL Shortener Analytics Engine</strong> measures total click volume, distinguishes physical QR code scans from online link clicks, and aggregates top referral sources without collecting personal user data.
           </p>
         </div>
       </ToolFeatureGuides>
 
       <ToolFaqAccordion
         faqs={[
-          { question: "Do these short links expire?", answer: "No! All created short links remain active indefinitely." },
-          { question: "Can I choose my own custom alias?", answer: "Yes! Enter your desired alias in the Custom Alias box before clicking Shorten." }
+          { question: "How do I check analytics for my shortened link?", answer: "Click the 'Analytics' or 'Stats' button on any shortened link card to view live click metrics." },
+          { question: "Can I track QR code scans separately from direct link clicks?", answer: "Yes! Scanned QR codes are automatically tagged as '📱 QR Code Scan' in your link's analytics report." }
         ]}
       />
 
