@@ -17,6 +17,10 @@ const nextConfig: NextConfig = {
   },
     async redirects() {
     return [
+      { source: "/tools/ai/prompt%20optimizer", destination: "/tools/ai/prompt-optimizer", permanent: true },
+      { source: "/tools/ai/prompt_optimizer", destination: "/tools/ai/prompt-optimizer", permanent: true },
+      { source: "/tools/ai/promptoptimizer", destination: "/tools/ai/prompt-optimizer", permanent: true },
+      { source: "/tools/ai/prompt-engineering", destination: "/tools/ai/prompt-optimizer", permanent: true },
       { source: "/tools/time/sleep-latency", destination: "/tools/health/sleep-calculator", permanent: true },
       { source: "/tools/time/sleep-efficiency", destination: "/tools/health/sleep-calculator", permanent: true },
       { source: "/tools/time/sleep-debt", destination: "/tools/health/sleep-calculator", permanent: true },
