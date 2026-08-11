@@ -2,9 +2,13 @@
 
 import React, { useState } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 import { GlassCard } from "@/components/ui/glass-card";
 import { Button } from "@/components/ui/button";
-import { FileText, Upload, Download } from "lucide-react";
+import { FileText, Upload, Download, Settings, Image, Shield, FileArchive } from "lucide-react";
 import toast from "react-hot-toast";
 
 const QUALITY_PRESETS = [
@@ -116,7 +120,7 @@ export default function PdfCompressClient() {
   const { label: presetLabel } = QUALITY_PRESETS[preset];
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto px-4">
+    <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
       <ToolPageHeader
         icon={FileText}
         title="PDF Compress Studio"
@@ -198,6 +202,42 @@ export default function PdfCompressClient() {
           </div>
         )}
       </GlassCard>
+
+      <ToolHowItWorks
+        steps={[
+          { step: "1", title: "Upload PDF", description: "Select the PDF file you want to compress from your device.", icon: Upload },
+          { step: "2", title: "Select Compression Level", description: "Choose a preset quality level to balance size reduction and image clarity.", icon: Settings },
+          { step: "3", title: "Compress & Download", description: "Process the file entirely in your browser and download the optimized PDF.", icon: Download },
+        ]}
+        badges={["100% Free", "Client-Side", "Up to 90% Smaller"]}
+      />
+
+      <ToolFeatureGuides
+        features={[
+          { title: "Adjustable Compression Levels", description: "Choose from maximum quality to smallest file size to fit your needs.", icon: FileArchive },
+          { title: "Intelligent Image Optimization", description: "Re-renders pages as optimized JPEGs to significantly reduce file bloat.", icon: Image },
+          { title: "Removes Hidden Metadata", description: "Strips out unnecessary embedded fonts and metadata during the re-rendering process.", icon: FileText },
+          { title: "Absolute Privacy", description: "All processing happens locally in your browser. Your confidential PDFs are never uploaded to any server.", icon: Shield },
+        ]}
+      >
+        <p>
+          Bloated PDF files are a common nuisance when trying to send email attachments or upload documents to web portals with strict file size limitations. Our PDF Compress Studio solves this problem by intelligently reducing the size of your documents without requiring you to install any bulky software.
+        </p>
+        <p>
+          By re-rendering the pages at optimized resolutions and converting them into highly efficient JPEG formats, we can often shrink files by up to 90%. Best of all, because the compression happens entirely within your web browser, your sensitive documents remain completely private and secure. They never leave your device.
+        </p>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion
+        faqs={[
+          { question: "Will I lose quality when compressing my PDF?", answer: "Compression inherently involves some loss of quality, especially for images. However, you can select the compression level that best balances file size and visual clarity for your specific needs." },
+          { question: "Is there a maximum file size limit?", answer: "Since the compression happens entirely in your browser, the maximum file size depends on your device's available memory. Most modern devices can easily handle PDFs up to 50MB." },
+          { question: "What kind of compression ratio can I expect?", answer: "The compression ratio varies depending on the original file. Image-heavy or scanned PDFs often see the most significant reductions, sometimes up to 90%. Text-heavy PDFs that are already optimized may see less reduction." },
+          { question: "Will this help me email large PDFs?", answer: "Yes! Many email providers limit attachments to 20MB or 25MB. By compressing your PDF, you can easily fit within these limits and ensure your document reaches its destination." },
+        ]}
+      />
+
+      <RelatedTools currentToolUrl="/tools/pdf/pdf-compress" />
     </div>
   );
 }

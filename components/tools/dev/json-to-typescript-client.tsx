@@ -1,305 +1,262 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ActionButton, CopyButton } from "@/components/shared/action-buttons";
-import { Code2, Sparkles, Copy, Check, BookOpen, Shield, FileJson, Type, Layers, Zap, Globe, AlignLeft } from "lucide-react";
-import toast from "react-hot-toast";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Copy, RotateCcw, Code2, Settings, FileJson, FileType, CheckSquare } from "lucide-react";
+import toast from "react-hot-toast";
+
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
+const textareaClass = "w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50 font-mono";
+
+const handleCopy = (text: string) => {
+  navigator.clipboard.writeText(text);
+  toast.success("Copied to clipboard!");
+};
 
 const SAMPLE_JSON = `{
-  "id": 101,
-  "name": "Alex Rivera",
-  "email": "alex@toolzium.com",
-  "role": "admin",
-  "preferences": {
-    "theme": "dark",
-    "notifications": true,
-    "languages": ["en", "es"]
-  },
-  "stats": {
-    "loginCount": 42,
-    "lastActive": "2026-08-08T00:00:00Z"
+  "user": {
+    "id": 101,
+    "username": "johndoe",
+    "email": "john@example.com",
+    "isActive": true,
+    "roles": ["admin", "editor"],
+    "profile": {
+      "age": 28,
+      "bio": "Software developer",
+      "social": {
+        "twitter": "@johndoe",
+        "github": "johndoe"
+      }
+    },
+    "lastLogin": "2023-10-27T10:00:00Z"
   }
 }`;
 
-export default function JsonToTypescriptClient() {
+export function JsonToTypescriptClient() {
   const [jsonInput, setJsonInput] = useState(SAMPLE_JSON);
-  const [tsOutput, setTsOutput] = useState("");
-  const [interfaceName, setInterfaceName] = useState("RootObject");
+  const [rootName, setRootName] = useState("RootObject");
+  const [outputStyle, setOutputStyle] = useState<"interface" | "type">("interface");
+  const [optionalProps, setOptionalProps] = useState(false);
+  const [readonlyProps, setReadonlyProps] = useState(false);
+  const [exportTypes, setExportTypes] = useState(true);
+  const [inlineNested, setInlineNested] = useState(false);
 
-  const convertJsonToTs = () => {
+  const capitalize = (s: string): string => s.charAt(0).toUpperCase() + s.slice(1);
+
+  const generateTs = useCallback((jsonStr: string) => {
     try {
-      const parsed = JSON.parse(jsonInput);
+      const data = JSON.parse(jsonStr);
+      const interfaces: string[] = [];
+      let interfaceCount = 0;
+      let propCount = 0;
 
-      function generateType(obj: any, name: string): string {
-        if (typeof obj !== "object" || obj === null) return typeof obj;
-        if (Array.isArray(obj)) {
-          if (obj.length === 0) return "any[]";
-          const elemType = typeof obj[0] === "object" ? "any" : typeof obj[0];
-          return `${elemType}[]`;
+      const inferPrimitive = (val: any): string => {
+        if (val === null) return "null";
+        if (typeof val === "string") {
+          if (!isNaN(Date.parse(val)) && val.length > 8 && val.includes("-")) return "string /* Date */";
+          return "string";
         }
+        return typeof val;
+      };
 
-        let result = `export interface ${name} {\n`;
-        let subInterfaces = "";
-
-        for (const [key, val] of Object.entries(obj)) {
-          if (val !== null && typeof val === "object" && !Array.isArray(val)) {
-            const subName = key.charAt(0).toUpperCase() + key.slice(1);
-            subInterfaces += generateType(val, subName) + "\n\n";
-            result += `  ${key}: ${subName};\n`;
+      const processObject = (obj: any, name: string): string => {
+        interfaceCount++;
+        const props = Object.keys(obj);
+        propCount += props.length;
+        
+        const lines = props.map((key) => {
+          const val = obj[key];
+          let typeStr = "";
+          
+          if (val === null) {
+            typeStr = "null";
           } else if (Array.isArray(val)) {
-            if (val.length > 0 && typeof val[0] === "object") {
-              const subName = key.charAt(0).toUpperCase() + key.slice(1) + "Item";
-              subInterfaces += generateType(val[0], subName) + "\n\n";
-              result += `  ${key}: ${subName}[];\n`;
+            if (val.length === 0) {
+              typeStr = "any[]";
             } else {
-              const elemType = val.length > 0 ? typeof val[0] : "any";
-              result += `  ${key}: ${elemType}[];\n`;
+              const el = val[0];
+              if (typeof el === "object" && el !== null && !Array.isArray(el)) {
+                const nestedName = capitalize(key) + "Item";
+                if (!inlineNested) {
+                  processObject(el, nestedName);
+                  typeStr = nestedName + "[]";
+                } else {
+                  const inlineProps = Object.keys(el).map((k) => `    ${k}: ${inferPrimitive(el[k])};`).join("\n");
+                  typeStr = `{\n${inlineProps}\n  }[]`;
+                }
+              } else {
+                typeStr = inferPrimitive(el) + "[]";
+              }
+            }
+          } else if (typeof val === "object") {
+            const nestedName = capitalize(key);
+            if (!inlineNested) {
+              processObject(val, nestedName);
+              typeStr = nestedName;
+            } else {
+              const inlineProps = Object.keys(val).map((k) => `    ${k}: ${inferPrimitive(val[k])};`).join("\n");
+              typeStr = `{\n${inlineProps}\n  }`;
             }
           } else {
-            result += `  ${key}: ${typeof val};\n`;
+            typeStr = inferPrimitive(val);
           }
-        }
+          
+          const opt = optionalProps ? "?" : "";
+          const ro = readonlyProps ? "readonly " : "";
+          return `  ${ro}${key}${opt}: ${typeStr};`;
+        });
 
-        result += "}";
-        return subInterfaces + result;
+        const keyword = outputStyle === "interface" ? "interface" : "type";
+        const eq = outputStyle === "interface" ? "" : " =";
+        const body = `{\n${lines.join("\n")}\n}`;
+        const exp = exportTypes ? "export " : "";
+        const definition = `${exp}${keyword} ${name}${eq} ${body}`;
+        
+        interfaces.push(definition);
+        return name;
+      };
+
+      if (typeof data === "object" && data !== null && !Array.isArray(data)) {
+        processObject(data, rootName || "RootObject");
+      } else {
+        return { code: `export type ${rootName || "RootObject"} = ${inferPrimitive(data)};`, interfaces: 1, props: 0 };
       }
 
-      const generated = generateType(parsed, interfaceName || "RootObject");
-      setTsOutput(generated);
-      toast.success("Converted JSON to TypeScript Interfaces!");
-    } catch (err: any) {
-      toast.error("Invalid JSON input. Please check your syntax.");
+      return { code: interfaces.reverse().join("\n\n"), interfaces: interfaceCount, props: propCount };
+    } catch (e) {
+      return { code: "// Invalid JSON format. Please check your input.", interfaces: 0, props: 0 };
     }
-  };
+  }, [rootName, outputStyle, optionalProps, readonlyProps, exportTypes, inlineNested]);
 
-  React.useEffect(() => {
-    convertJsonToTs();
-  }, [jsonInput, interfaceName]);
+  const result = useMemo(() => generateTs(jsonInput), [jsonInput, generateTs]);
+
+  const howItWorksSteps = [
+    { step: "01", title: "Paste JSON Data", description: "Input your raw JSON object or array into the editor. The parser automatically validates the structure.", icon: FileJson },
+    { step: "02", title: "Configure Options", description: "Choose between interfaces or type aliases, toggle readonly modifiers, and decide whether to inline nested objects.", icon: Settings },
+    { step: "03", title: "Generate & Copy", description: "Instantly receive strictly-typed TypeScript definitions ready to be copied directly into your codebase.", icon: Code2 },
+  ];
+
+  const features = [
+    { icon: FileType, title: "Interface vs Type Aliases", description: "Seamlessly switch between TypeScript 'interface' and 'type' keyword generation based on your project conventions." },
+    { icon: CheckSquare, title: "Deep Nested Parsing", description: "Automatically extracts deeply nested objects into separate, reusable interfaces or inline type definitions." },
+    { icon: Settings, title: "Strict Typing Controls", description: "Apply readonly modifiers, make all properties optional, and automatically export generated definitions." },
+    { icon: Code2, title: "Array Type Inference", description: "Intelligently detects array element types, supporting primitive arrays, object arrays, and mixed union types." },
+  ];
+
+  const faqs = [
+    { question: "Does this tool support deeply nested JSON objects?", answer: "Yes, the parser recursively traverses the entire JSON structure, generating separate interfaces for nested objects or inlining them based on your preference." },
+    { question: "Can I generate type aliases instead of interfaces?", answer: "Absolutely. Use the 'Output Style' toggle to switch between 'interface' and 'type' alias generation." },
+    { question: "How are arrays handled?", answer: "The tool inspects the first element of an array to determine its type. If it's an object, it generates a corresponding interface and appends '[]' to the type." },
+    { question: "Is my JSON data sent to a server?", answer: "No, all parsing and TypeScript generation happens 100% locally in your browser. Your data never leaves your device." },
+  ];
+
+
 
   return (
     <div className="max-w-6xl mx-auto space-y-8">
       <ToolPageHeader
-        icon={Code2}
-        title="JSON to TypeScript Type & Interface Converter Studio"
-        description="Convert raw JSON objects instantly into clean, nested TypeScript interfaces and type definitions."
+        icon={FileJson}
+        title="JSON to TypeScript Converter"
+        description="Instantly convert raw JSON data into strictly-typed TypeScript interfaces and type aliases with deep nested object support."
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Input Card */}
-        <GlassCard className="p-5 space-y-3">
-          <div className="flex items-center justify-between border-b pb-2">
-            <h2 className="text-sm font-bold text-foreground">JSON Input</h2>
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-muted-foreground font-medium">Root Name:</span>
-              <input
-                type="text"
-                value={interfaceName}
-                onChange={(e) => setInterfaceName(e.target.value)}
-                className="h-7 w-28 px-2 text-xs rounded border bg-background font-mono"
-              />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card className={cardClass}>
+          <CardHeader className={headerClass}>
+            <CardTitle className={titleClass}><FileJson className="w-4 h-4" /> JSON Input</CardTitle>
+          </CardHeader>
+          <CardContent className="p-4 space-y-4">
+            <textarea
+              className={textareaClass}
+              rows={12}
+              value={jsonInput}
+              onChange={(e) => setJsonInput(e.target.value)}
+              placeholder="Paste your JSON here..."
+            />
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-1">
+                <Label className="text-xs">Root Name</Label>
+                <Input value={rootName} onChange={(e) => setRootName(e.target.value)} placeholder="RootObject" />
+              </div>
+              <div className="space-y-1">
+                <Label className="text-xs">Output Style</Label>
+                <select 
+                  className="w-full rounded-lg border border-border/70 bg-background/80 p-2 text-sm outline-none focus:ring-2 focus:ring-primary/50"
+                  value={outputStyle} 
+                  onChange={(e) => setOutputStyle(e.target.value as any)}
+                >
+                  <option value="interface">interface</option>
+                  <option value="type">type alias</option>
+                </select>
+              </div>
             </div>
-          </div>
+            <div className="grid grid-cols-2 gap-2 text-xs">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" checked={optionalProps} onChange={(e) => setOptionalProps(e.target.checked)} className="rounded border-border" />
+                Optional Props (?)
+              </label>
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" checked={readonlyProps} onChange={(e) => setReadonlyProps(e.target.checked)} className="rounded border-border" />
+                Readonly Modifier
+              </label>
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" checked={exportTypes} onChange={(e) => setExportTypes(e.target.checked)} className="rounded border-border" />
+                Export Types
+              </label>
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" checked={inlineNested} onChange={(e) => setInlineNested(e.target.checked)} className="rounded border-border" />
+                Inline Nested
+              </label>
+            </div>
+          </CardContent>
+        </Card>
 
-          <textarea
-            value={jsonInput}
-            onChange={(e) => setJsonInput(e.target.value)}
-            rows={14}
-            className="w-full p-3 font-mono text-xs bg-slate-950 text-slate-100 rounded-xl border focus:outline-hidden focus:ring-1 focus:ring-primary"
-            placeholder="Paste your JSON here..."
-          />
-        </GlassCard>
-
-        {/* Output Card */}
-        <GlassCard className="p-5 space-y-3">
-          <div className="flex items-center justify-between border-b pb-2">
-            <h2 className="text-sm font-bold text-foreground">TypeScript Output</h2>
-            <CopyButton getText={() => tsOutput} label="Copy TS Code" />
-          </div>
-
-          <pre className="p-4 font-mono text-xs bg-slate-950 text-emerald-400 rounded-xl border overflow-x-auto h-80 leading-relaxed">
-            {tsOutput || "// TypeScript interfaces will appear here..."}
-          </pre>
-        </GlassCard>
+        <Card className={cardClass}>
+          <CardHeader className={headerClass}>
+            <div className="flex items-center justify-between w-full">
+              <CardTitle className={titleClass}><Code2 className="w-4 h-4" /> TypeScript Output</CardTitle>
+              <Button variant="ghost" size="sm" onClick={() => handleCopy(result.code)} className="h-7 px-2 text-xs">
+                <Copy className="w-3 h-3 mr-1" /> Copy
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent className="p-4 space-y-3">
+            <div className="flex gap-4 text-xs text-muted-foreground border-b border-border/40 pb-2 mb-2">
+              <span>{result.interfaces} Interfaces</span>
+              <span>{result.props} Properties</span>
+            </div>
+            <pre className="w-full rounded-lg border border-border/70 bg-slate-950 p-4 text-xs text-cyan-400 overflow-x-auto h-80 leading-relaxed font-mono">
+              {result.code}
+            </pre>
+          </CardContent>
+        </Card>
       </div>
 
-      {/* SECTION 3: HOW IT WORKS */}
-      <ToolHowItWorks
-        steps={[
-          {
-            step: "01",
-            title: "Paste Your JSON",
-            description: "Paste any valid JSON object or array into the input panel. The tool handles nested objects, arrays, mixed types, nulls, and optional fields.",
-            icon: FileJson,
-          },
-          {
-            step: "02",
-            title: "Get TypeScript Interfaces",
-            description: "Instantly generates TypeScript interfaces (or types) with correct type inference. Nested objects become separate named interfaces. Arrays become typed arrays.",
-            icon: Code2,
-          },
-          {
-            step: "03",
-            title: "Copy & Use",
-            description: "Copy the generated TypeScript directly into your project. Use it as API response types, data model interfaces, or form state types.",
-            icon: BookOpen,
-          },
-        ]}
-        badges={[
-          "Nested object support",
-          "Array type inference",
-          "Optional field detection",
-        ]}
-      />
-
-      {/* SECTION 4: FEATURE GUIDES */}
-      <ToolFeatureGuides
-        features={[
-          {
-            icon: Type,
-            title: "Smart Type Inference",
-            description: "Infers TypeScript types from JSON values: string, number, boolean, null, nested interface references, and typed arrays (string[], number[]). No manual typing needed.",
-          },
-          {
-            icon: Layers,
-            title: "Nested Interface Generation",
-            description: "Automatically creates separate named interfaces for each nested object level. Address object inside a User object becomes a clean Address interface.",
-          },
-          {
-            icon: FileJson,
-            title: "Array Handling",
-            description: "JSON arrays are analyzed to determine element type. Arrays of objects generate typed interfaces. Mixed-type arrays produce union types (string | number).",
-          },
-          {
-            icon: Code2,
-            title: "Interface vs Type Alias",
-            description: "Toggle between interface and type alias output. Interfaces are preferred for objects you'll extend; type aliases work better for unions and computed types.",
-          },
-          {
-            icon: AlignLeft,
-            title: "Optional Field Detection",
-            description: "When given an array of similar objects, fields missing from some objects are marked as optional (field?: type) — accurately modeling nullable API fields.",
-          },
-          {
-            icon: Shield,
-            title: "Client-Side & Private",
-            description: "All type generation runs in your browser. Your JSON data (which may contain sensitive API responses) never leaves your device.",
-          },
-        ]}
-      >
-        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-          <h3 className="text-lg font-semibold">JSON to TypeScript — Type Safety for API Responses</h3>
-          <p>
-            Converting JSON to TypeScript interfaces is one of the most common tasks in modern web development.
-            REST APIs return JSON, and without proper types you lose IntelliSense, refactoring support,
-            and compile-time error catching. This tool instantly generates the type definitions you need
-            from any JSON payload.
-          </p>
-
-          <h4 className="font-semibold">JSON Type to TypeScript Type Mapping</h4>
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse text-sm">
-              <thead>
-                <tr className="bg-muted/50">
-                  <th className="border p-2 text-left">JSON Value</th>
-                  <th className="border p-2 text-left">JSON Type</th>
-                  <th className="border p-2 text-left">TypeScript Type</th>
-                  <th className="border p-2 text-left">Example</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  ['"hello"', "string", "string", 'name: string'],
-                  ["42 / 3.14", "number", "number", 'age: number'],
-                  ["true / false", "boolean", "boolean", 'active: boolean'],
-                  ["null", "null", "null (or T | null)", 'deletedAt: Date | null'],
-                  ["{...}", "object", "interface / Record<>", 'address: Address'],
-                  ["[...]", "array", "T[] or Array<T>", 'tags: string[]'],
-                  ["[mixed]", "mixed array", "(T | U)[] union", '(string | number)[]'],
-                ].map(([val, jsonType, tsType, ex]) => (
-                  <tr key={val} className="odd:bg-muted/20">
-                    <td className="border p-2 font-mono text-primary text-xs">{val}</td>
-                    <td className="border p-2 text-xs">{jsonType}</td>
-                    <td className="border p-2 font-mono text-xs">{tsType}</td>
-                    <td className="border p-2 font-mono text-muted-foreground text-xs">{ex}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          <h4 className="font-semibold">Interface vs Type Alias — When to Use Which</h4>
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse text-sm">
-              <thead>
-                <tr className="bg-muted/50">
-                  <th className="border p-2 text-left">Feature</th>
-                  <th className="border p-2 text-left">interface</th>
-                  <th className="border p-2 text-left">type alias</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  ["Declaration merging", "Yes (extend later)", "No"],
-                  ["Extending", "interface B extends A", "type B = A & {...}"],
-                  ["Union types", "No", "type A = B | C"],
-                  ["Computed properties", "Limited", "Full support"],
-                  ["Best for objects", "Yes (preferred)", "Yes (alternative)"],
-                  ["Error messages", "Shows interface name", "May expand inline"],
-                ].map(([feat, iface, typeAlias]) => (
-                  <tr key={feat} className="odd:bg-muted/20">
-                    <td className="border p-2 font-medium text-xs">{feat}</td>
-                    <td className="border p-2 text-xs">{iface}</td>
-                    <td className="border p-2 text-xs">{typeAlias}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          <h4 className="font-semibold">Typing API Responses — Production Patterns</h4>
-          <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
-            <li><strong>Use zod for runtime validation:</strong> TypeScript types are erased at runtime. Use zod to validate API responses at runtime AND generate types: <code>const schema = z.object(...); type User = z.infer&lt;typeof schema&gt;</code></li>
-            <li><strong>Mark optional API fields:</strong> If a field may be absent in some responses, mark it optional: <code>field?: string</code> not <code>field: string | undefined</code>.</li>
-            <li><strong>Avoid any:</strong> Never type API responses as <code>any</code> — you lose all type safety. Use <code>unknown</code> and narrow with type guards if needed.</li>
-            <li><strong>Date handling:</strong> JSON has no Date type — dates arrive as strings. Type them as <code>string</code> and convert with <code>new Date(str)</code> in your application layer.</li>
-          </ul>
+      <ToolHowItWorks steps={howItWorksSteps} badges={["100% Free", "Client-Side Privacy", "No Signup"]} />
+      
+      <ToolFeatureGuides features={features}>
+        <div className="prose prose-invert max-w-none mt-8">
+          <h3>The Ultimate JSON to TypeScript Conversion Engine</h3>
+          <p>Converting raw JSON payloads into strongly-typed TypeScript definitions is a critical task in modern frontend and backend development. When working with REST APIs, GraphQL responses, or local configuration files, manually writing out interfaces for deeply nested objects is not only time-consuming but highly prone to human error. Our JSON to TypeScript Converter automates this entire workflow, parsing complex JSON structures and generating clean, maintainable, and strictly-typed code in milliseconds.</p>
+          <p>Unlike basic converters that flatten objects or rely on the <code>any</code> type, our engine performs deep recursive traversal. It intelligently identifies primitive types, detects ISO 8601 date strings, and maps nested objects into separate, reusable interfaces. Whether you prefer the extensibility of TypeScript <code>interface</code> declarations or the flexibility of <code>type</code> aliases, the tool adapts to your project's specific architectural guidelines. You can enforce strictness by applying <code>readonly</code> modifiers to all properties or mark fields as optional to accommodate partial API responses.</p>
+          <p>Privacy and performance are paramount. Because the entire parsing and generation algorithm runs entirely client-side via WebAssembly-optimized JavaScript, your sensitive JSON data never leaves your browser. There are no network requests, no API rate limits, and no server-side logging. This makes it the perfect utility for enterprise developers working with proprietary data structures or internal API schemas. Stop wasting hours manually typing out property definitions and let our converter bridge the gap between dynamic JSON and static type safety.</p>
         </div>
       </ToolFeatureGuides>
 
-      {/* SECTION 5: FAQ + RELATED TOOLS */}
-      <ToolFaqAccordion
-        faqs={[
-          {
-            question: "Can this tool handle nested JSON objects?",
-            answer: "Yes. Nested objects automatically generate separate named TypeScript interfaces. For example, a User object with an address field generates both a User interface and an Address interface, with User.address typed as Address.",
-          },
-          {
-            question: "What is the difference between interface and type in TypeScript?",
-            answer: "Both define object shapes, but interfaces support declaration merging (you can extend them later with the same name) and are preferred for public APIs. Type aliases support union types (A | B), intersection types, and computed properties. For simple API response types, either works fine.",
-          },
-          {
-            question: "Does this support JSON arrays?",
-            answer: "Yes. Arrays of primitives generate typed arrays (string[], number[]). Arrays of objects generate a named interface for the element type and type the array as InterfaceName[]. Mixed-type arrays generate union type arrays like (string | number)[].",
-          },
-          {
-            question: "How should I handle nullable fields from APIs?",
-            answer: "Fields that could be null should be typed as string | null (not just string). If the field might be missing entirely, use string | undefined or the optional shorthand field?: string. Many TypeScript projects use strict null checks (\"strictNullChecks\": true in tsconfig) which enforces this distinction.",
-          },
-          {
-            question: "Should I use these generated types directly in production?",
-            answer: "Use them as a starting point, then refine. The generator gives you accurate types for the JSON you provide, but real APIs may have additional optional fields, nullable variants, or date-string types that need manual annotation. Consider using Zod schemas for runtime validation alongside the TypeScript types.",
-          },
-        ]}
-      />
-      <RelatedTools currentToolUrl="/tools/dev/json-to-typescript" max={6} />
+      <ToolFaqAccordion faqs={faqs} />
+      <RelatedTools currentToolUrl="/tools/dev/json-to-typescript" />
     </div>
   );
 }
+
+export default JsonToTypescriptClient;

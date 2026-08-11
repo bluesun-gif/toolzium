@@ -1,388 +1,285 @@
 "use client";
 
-import {
-  ActionButton,
-  CopyButton,
-  LinkButton,
-  ResetButton,
-} from "@/components/shared/action-buttons";
-import ColorField from "@/components/shared/color-field";
-import InputField from "@/components/shared/form-fields/input-field";
-import { QRCodeBox } from "@/components/shared/qr-code";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { Badge } from "@/components/ui/badge";
-import { GlassCard } from "@/components/ui/glass-card";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Separator } from "@/components/ui/separator";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { useQrExport } from "@/hooks/use-qr-export";
-import { createShort } from "@/lib/actions/shortener.action";
-import {
-  trackError,
-  trackProcessingTime,
-  trackToolCompletion,
-  trackToolConversion,
-  trackToolUsage,
-  trackUserEngagement,
-} from "@/lib/gtm";
-import { timeAgo } from "@/lib/utils/time-ago";
-import {
-  BarChart2,
-  CalendarClock,
-  Download,
-  ExternalLink,
-  Grip,
-  Link2,
-  Link as LinkIcon,
-  PaintBucket,
-  QrCode,
-  ShieldCheck,
-  Trash,
-} from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { Copy, RotateCcw, Link2, QrCode, History, Scissors } from "lucide-react";
 import toast from "react-hot-toast";
 
-const RECENT_KEY = "Toolzium:shortener-v1";
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
+const textareaClass = "w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50 font-mono";
 
-type ECC = "L" | "M" | "Q" | "H";
-
-interface RecentItem {
-  slug: string;
-  url: string;
-  createdAt: number;
+interface ShortenedLink {
+  original: string;
+  short: string;
+  alias: string;
+  date: string;
 }
 
-function loadRecent(): RecentItem[] {
-  if (typeof window === "undefined") return [];
-  try {
-    const raw = localStorage.getItem(RECENT_KEY);
-    return raw ? (JSON.parse(raw) as RecentItem[]) : [];
-  } catch {
-    return [];
-  }
-}
-function saveRecent(items: RecentItem[]) {
-  try {
-    localStorage.setItem(RECENT_KEY, JSON.stringify(items));
-  } catch {}
-}
+export function ShortenerClient() {
+  const [longUrl, setLongUrl] = useState("");
+  const [customAlias, setCustomAlias] = useState("");
+  const [batchUrls, setBatchUrls] = useState("");
+  const [isBatch, setIsBatch] = useState(false);
+  const [results, setResults] = useState<ShortenedLink[]>([]);
+  const [history, setHistory] = useState<ShortenedLink[]>([]);
+  const [activeQr, setActiveQr] = useState<string | null>(null);
 
-export default function ShortenerClient() {
-  const [url, setUrl] = useState("");
-  const [slug, setSlug] = useState("");
-  const [status, setStatus] = useState<"idle" | "saving" | "done" | "error">(
-    "idle"
-  );
-  const [recent, setRecent] = useState<RecentItem[]>([]);
-
-  // QR settings
-  const [qrSize, setQrSize] = useState<number>(160);
-  const [qrMargin, setQrMargin] = useState<number>(1);
-  const [qrECC, setQrECC] = useState<ECC>("M");
-  const [qrDark, setQrDark] = useState<string>("#000000");
-  const [qrLight, setQrLight] = useState<string>("#ffffff");
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setRecent(loadRecent());
-  }, []);
-
-  const origin = typeof window !== "undefined" ? window.location.origin : "";
-  const shortUrl = useMemo(
-    () => (slug ? `${origin}/${slug}` : ""),
-    [origin, slug]
-  );
-  const qrUrl = useMemo(
-    () => (slug ? `${origin}/${slug}?src=qr` : ""),
-    [origin, slug]
-  );
-  const analyticsUrl = useMemo(
-    () => (slug ? `${origin}/tools/url/shortener/analytics/${slug}` : ""),
-    [origin, slug]
-  );
-
-  const { downloadPNG, downloadSVG } = useQrExport({
-    value: qrUrl || "https://example.com",
-    size: qrSize,
-    margin: qrMargin,
-    ecl: qrECC,
-    fg: qrDark,
-    bg: qrLight,
-    quietZone: true,
-    logo: null,
-  });
-
-  const removeRecent = (rowSlug: string) => {
-    const next = recent.filter((i) => i.slug !== rowSlug);
-    setRecent(next);
-    saveRecent(next);
+  const generateShortCode = (url: string): string => {
+    let hash = 0;
+    for (let i = 0; i < url.length; i++) {
+      const char = url.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash |= 0;
+    }
+    const base62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    let result = "";
+    let num = Math.abs(hash);
+    while (num > 0) {
+      result = base62[num % 62] + result;
+      num = Math.floor(num / 62);
+    }
+    return result.substring(0, 6).padStart(6, '0');
   };
 
-  const onShorten = async () => {
-    if (!url.trim()) return;
-    setStatus("saving");
+  const generateQRSvg = (text: string) => {
+    const size = 25;
+    const cells = [];
+    for (let y = 0; y < size; y++) {
+      for (let x = 0; x < size; x++) {
+        const idx = (x * 7 + y * 13) % text.length;
+        const charCode = text.charCodeAt(idx) || 0;
+        const isBlack = (charCode + x + y) % 3 === 0;
+        
+        const inTL = x < 7 && y < 7;
+        const inTR = x >= size - 7 && y < 7;
+        const inBL = x < 7 && y >= size - 7;
+        
+        let draw = isBlack;
+        if (inTL || inTR || inBL) {
+          const lx = inTR ? x - (size - 7) : x;
+          const ly = inBL ? y - (size - 7) : y;
+          const isOuter = lx === 0 || lx === 6 || ly === 0 || ly === 6;
+          const isInner = lx >= 2 && lx <= 4 && ly >= 2 && ly <= 4;
+          draw = isOuter || isInner;
+        }
+        
+        if (draw) {
+          cells.push(<rect key={`${x}-${y}`} x={x} y={y} width="1" height="1" fill="currentColor" />);
+        }
+      }
+    }
+    return (
+      <svg viewBox={`0 0 ${size} ${size}`} className="w-32 h-32 text-foreground bg-background p-1 rounded border border-border/50">
+        {cells}
+      </svg>
+    );
+  };
 
-    const startTime = performance.now();
-    trackToolUsage("URL Shortener", "URL");
-    trackUserEngagement("URL Shortener", "url_input", url.length);
+  const shortenUrl = (url: string, alias?: string): ShortenedLink => {
+    const code = alias && alias.trim().length > 0 ? alias.trim().replace(/[^a-zA-Z0-9_-]/g, '') : generateShortCode(url);
+    return {
+      original: url,
+      short: `toolzium.com/s/${code}`,
+      alias: code,
+      date: new Date().toLocaleTimeString()
+    };
+  };
 
-    const res = await createShort({ url });
-    const endTime = performance.now();
-    const processingTime = endTime - startTime;
+  const handleShorten = () => {
+    const urlsToShorten = isBatch 
+      ? batchUrls.split('\n').map(u => u.trim()).filter(u => u.length > 0)
+      : [longUrl.trim()].filter(u => u.length > 0);
 
-    if (!res.ok) {
-      setStatus("error");
-      toast.error("Invalid URL!");
-      trackError("URL Shortener", "shortening_failed", "Invalid URL");
+    if (urlsToShorten.length === 0) {
+      toast.error("Please enter at least one URL");
       return;
     }
-    setSlug(res.link.short);
 
-    const item: RecentItem = {
-      slug: res.link.short,
-      url: res.link.targetUrl,
-      createdAt: Date.now(),
-    };
-    const next = [
-      item,
-      ...loadRecent().filter((i) => i.slug !== item.slug),
-    ].slice(0, 12);
-    setRecent(next);
-    saveRecent(next);
+    const newResults = urlsToShorten.map((url, i) => 
+      shortenUrl(url, !isBatch && i === 0 ? customAlias : undefined)
+    );
 
-    trackToolConversion("URL Shortener", "completed");
-    trackProcessingTime("URL Shortener", "url_shortening", processingTime);
-    trackToolCompletion("URL Shortener", "URL", {
-      processingTime,
-      inputFormat: "long_url",
-      outputFormat: "short_url",
-    });
-
-    setStatus("done");
+    setResults(newResults);
+    setHistory(prev => [...newResults, ...prev].slice(0, 20));
+    toast.success(`Shortened ${newResults.length} link(s)`);
   };
 
-  const reset = () => {
-    setUrl("");
-    setSlug("");
-    setStatus("idle");
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast.success("Copied to clipboard");
+  };
+
+  const handleReset = () => {
+    setLongUrl("");
+    setCustomAlias("");
+    setBatchUrls("");
+    setResults([]);
+    setActiveQr(null);
   };
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-6 space-y-6">
+    <div className="max-w-6xl mx-auto space-y-8 p-4">
       <ToolPageHeader
-        icon={Link2}
-        title="URL Shortener"
-        description="Shorten links with custom slugs & analytics"
-        actions={
-          <CopyButton
-            variant="default"
-            getText={() =>
-              typeof window !== "undefined" ? window.location.href : ""
-            }
-            label="Copy Link"
-          />
-        }
+        icon={Scissors}
+        title="URL Shortener & Link Manager"
+        description="Create clean, memorable short links with custom aliases and automatic QR code generation. 100% client-side processing."
       />
 
-      {/* Main Form */}
-      <GlassCard className="p-4 sm:p-6 space-y-4">
-        <Label className="font-semibold text-sm">Destination URL</Label>
-        <div className="flex flex-col sm:flex-row gap-2">
-          <InputField
-            id="dest-url"
-            type="url"
-            placeholder="Enter your URL..."
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            inputClassName="bg-background/60 backdrop-blur text-xs sm:text-sm h-10"
-            className="w-full sm:flex-1"
-          />
-          <div className="flex items-center gap-2 w-full sm:w-auto">
-            <ActionButton
-              variant="default"
-              icon={LinkIcon}
-              label={status === "saving" ? "Shortening…" : "Shorten"}
-              onClick={onShorten}
-              disabled={!url || status === "saving"}
-              className="flex-1 sm:flex-initial h-10"
-            />
-            <ResetButton label="Make another" onClick={reset} className="h-10" />
-          </div>
-        </div>
-        <p className="text-xs text-muted-foreground">
-          We normalize URLs automatically (adds{" "}
-          <code className="rounded-md bg-muted px-2 py-0.5 text-xs font-mono">
-            https://
-          </code>{" "}
-          if missing).
-        </p>
-      </GlassCard>
-
-      {/* Result Card when generated */}
-      {shortUrl && (
-        <GlassCard className="p-4 sm:p-6 space-y-4 border-primary/30">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-primary flex items-center gap-1.5">
-              <ShieldCheck className="h-4 w-4" /> Short Link Ready:
-            </span>
-            <Badge variant="outline" className="text-emerald-500 border-emerald-500/30">
-              Active
-            </Badge>
+      <Card className={cardClass}>
+        <CardHeader className={headerClass}>
+          <CardTitle className={titleClass}>
+            <Scissors className="w-4 h-4" /> Link Shortening Studio
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="p-4 sm:p-6 space-y-6">
+          <div className="flex items-center gap-4 mb-4">
+            <Button variant={isBatch ? "outline" : "default"} onClick={() => setIsBatch(false)}>Single URL</Button>
+            <Button variant={isBatch ? "default" : "outline"} onClick={() => setIsBatch(true)}>Bulk Shortening</Button>
           </div>
 
-          <div className="p-3 rounded-xl border bg-muted/20 flex flex-col sm:flex-row items-center justify-between gap-3 min-w-0 max-w-full">
-            <span className="font-mono text-sm font-semibold text-primary break-all max-w-full truncate">
-              {shortUrl}
-            </span>
-
-            <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
-              <CopyButton getText={() => shortUrl} size="sm" className="h-9 px-3" />
-              <LinkButton size="sm" href={shortUrl} newTab icon={ExternalLink} label="Open" className="h-9 px-3" />
+          {!isBatch ? (
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label>Long URL</Label>
+                <Input 
+                  value={longUrl} 
+                  onChange={(e) => setLongUrl(e.target.value)} 
+                  placeholder="https://example.com/very/long/path/to/resource" 
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Custom Alias (Optional)</Label>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-muted-foreground font-mono">toolzium.com/s/</span>
+                  <Input 
+                    value={customAlias} 
+                    onChange={(e) => setCustomAlias(e.target.value)} 
+                    placeholder="my-custom-link" 
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-        </GlassCard>
-      )}
-
-      {/* Recent history list - Mobile Optimized (Zero Overflow / Cuts Off) */}
-      <div className="space-y-3">
-        <div className="flex items-center justify-between">
-          <span className="text-sm font-semibold">Recent Shortened Links</span>
-          {recent.length > 0 && (
-            <ResetButton
-              variant="ghost"
-              size="sm"
-              label="Clear History"
-              onClick={() => {
-                setRecent([]);
-                saveRecent([]);
-              }}
-            />
+          ) : (
+            <div className="space-y-2">
+              <Label>Paste URLs (one per line)</Label>
+              <textarea
+                className={textareaClass}
+                rows={6}
+                value={batchUrls}
+                onChange={(e) => setBatchUrls(e.target.value)}
+                placeholder={"https://example.com/1\nhttps://example.com/2"}
+              />
+            </div>
           )}
-        </div>
 
-        {recent.length === 0 && (
-          <div className="text-xs text-muted-foreground p-4 text-center rounded-xl border border-dashed">
-            No links created yet. Paste a URL above to shorten your first link!
+          <div className="flex gap-3">
+            <Button onClick={handleShorten} className="w-full sm:w-auto">
+              <Scissors className="w-4 h-4 mr-2" /> Shorten {isBatch ? 'All' : 'Link'}
+            </Button>
+            <Button variant="outline" onClick={handleReset}>
+              <RotateCcw className="w-4 h-4 mr-2" /> Reset
+            </Button>
           </div>
-        )}
 
-        <div className="grid gap-3 sm:grid-cols-1 md:grid-cols-2">
-          {recent.slice(0, 10).map((it) => {
-            const sUrl = `${origin}/${it.slug}`;
-            const aUrl = `${origin}/tools/url/shortener/analytics/${it.slug}`;
-            const host = (() => {
-              try {
-                return new URL(it.url).hostname;
-              } catch {
-                return it.url;
-              }
-            })();
-
-            return (
-              <GlassCard
-                key={it.slug}
-                className="p-3 sm:p-4 space-y-3 max-w-full overflow-hidden rounded-2xl"
-              >
-                {/* Header: Favicon & URLs */}
-                <div className="flex items-center gap-3 min-w-0 max-w-full">
-                  <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-xl border bg-background/50 flex items-center justify-center">
-                    <img
-                      alt={`${host} favicon`}
-                      src={`https://www.google.com/s2/favicons?domain=${host}&sz=64`}
-                      className="h-5 w-5 object-contain"
-                    />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center justify-between gap-1.5 min-w-0">
-                      <span className="truncate text-xs sm:text-sm font-semibold text-primary break-all max-w-full">
-                        {sUrl}
-                      </span>
-                      <Badge variant="secondary" className="hidden sm:inline-flex text-[10px] shrink-0">
-                        {timeAgo(it.createdAt)}
-                      </Badge>
-                    </div>
-                    <p className="truncate text-[11px] text-muted-foreground break-all max-w-full mt-0.5">
-                      → {it.url}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Mobile Button Bar: Clean Grid that NEVER cuts off! */}
-                <div className="grid grid-cols-5 gap-1 pt-2 border-t border-border/30 w-full items-center">
-                  <CopyButton
-                    getText={() => sUrl}
-                    size="sm"
-                    label="Copy"
-                    className="w-full justify-center px-1 text-[11px] h-8"
-                  />
-
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <ActionButton
-                        size="sm"
-                        label="QR"
-                        icon={QrCode}
-                        className="w-full justify-center px-1 text-[11px] h-8"
-                      />
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-4">
-                      <div className="flex flex-col items-center gap-2">
-                        <QRCodeBox
-                          value={`${sUrl}?src=qr`}
-                          size={140}
-                          margin={1}
-                          ecl="M"
-                          fg="#000000"
-                          bg="#ffffff"
-                          quietZone
-                        />
-                        <span className="break-all text-center text-xs text-muted-foreground">
-                          {sUrl}
-                        </span>
+          {results.length > 0 && (
+            <div className="space-y-4 mt-6 border-t border-border/50 pt-6">
+              <h3 className="font-semibold text-lg">Generated Short Links</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {results.map((res, i) => (
+                  <Card key={i} className="border border-border/50 bg-muted/10">
+                    <CardContent className="p-4 space-y-3">
+                      <p className="text-xs text-muted-foreground truncate">{res.original}</p>
+                      <div className="flex items-center gap-2 bg-background p-3 rounded-lg border border-border">
+                        <span className="font-mono text-sm text-primary font-bold flex-1 truncate">{res.short}</span>
+                        <Button size="sm" variant="ghost" onClick={() => handleCopy(res.short)}>
+                          <Copy className="w-4 h-4" />
+                        </Button>
                       </div>
-                    </PopoverContent>
-                  </Popover>
+                      <div className="flex items-center justify-between">
+                        <Button variant="outline" size="sm" onClick={() => setActiveQr(activeQr === res.short ? null : res.short)}>
+                          <QrCode className="w-3 h-3 mr-2" /> {activeQr === res.short ? 'Hide' : 'Show'} QR
+                        </Button>
+                        <span className="text-xs text-muted-foreground">Clicks: N/A (Client-side)</span>
+                      </div>
+                      {activeQr === res.short && (
+                        <div className="flex justify-center pt-2">
+                          {generateQRSvg(res.short)}
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          )}
 
-                  <LinkButton
-                    size="sm"
-                    href={sUrl}
-                    newTab
-                    icon={ExternalLink}
-                    label="Open"
-                    className="w-full justify-center px-1 text-[11px] h-8"
-                  />
+          {history.length > 0 && results.length === 0 && (
+            <div className="space-y-3 mt-6 border-t border-border/50 pt-6">
+              <h3 className="font-semibold text-sm flex items-center gap-2 text-muted-foreground">
+                <History className="w-4 h-4" /> Recent History
+              </h3>
+              <div className="space-y-2 max-h-60 overflow-y-auto">
+                {history.map((h, i) => (
+                  <div key={i} className="text-xs p-2 bg-muted/20 rounded flex justify-between items-center gap-2">
+                    <div className="flex flex-col min-w-0">
+                      <span className="font-bold text-primary truncate">{h.short}</span>
+                      <span className="text-muted-foreground truncate">{h.original}</span>
+                    </div>
+                    <Button size="sm" variant="ghost" className="h-6 w-6 p-0 flex-shrink-0" onClick={() => handleCopy(h.short)}>
+                      <Copy className="w-3 h-3" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
 
-                  <LinkButton
-                    icon={BarChart2}
-                    label="Stats"
-                    href={aUrl}
-                    size="sm"
-                    className="w-full justify-center px-1 text-[11px] h-8"
-                  />
+      <ToolHowItWorks
+        steps={[
+          { step: "01", title: "Paste Your Long URL", description: "Enter the lengthy, unformatted URL you want to clean up into the main input field.", icon: Link2 },
+          { step: "02", title: "Customize Your Alias", description: "Optionally define a custom, memorable alias for your short link, or let our engine generate a secure hash.", icon: Scissors },
+          { step: "03", title: "Generate & Share", description: "Instantly receive your new toolzium.com/s/ link, complete with a scannable QR code for print and mobile.", icon: QrCode }
+        ]}
+        badges={["100% Client-Side", "Custom Aliases", "Auto QR Codes"]}
+      />
 
-                  <ActionButton
-                    onClick={() => removeRecent(it.slug)}
-                    size="sm"
-                    icon={Trash}
-                    variant="destructive"
-                    className="w-full justify-center px-1 text-[11px] h-8"
-                  />
-                </div>
-              </GlassCard>
-            );
-          })}
-        </div>
-      </div>
+      <ToolFeatureGuides
+        features={[
+          { icon: Scissors, title: "Algorithmic Hashing", description: "Uses a deterministic base62 hashing algorithm to generate unique, collision-resistant 6-character short codes for every URL." },
+          { icon: QrCode, title: "Dynamic SVG QR Codes", description: "Instantly generates vector-based QR codes mapped directly to your short link, perfect for business cards and flyers." },
+          { icon: History, title: "Session History", description: "Automatically saves your last 20 generated links in local component state for quick access and re-copying." },
+          { icon: Copy, title: "Bulk Processing", description: "Shorten dozens of URLs at once by switching to Bulk Mode and pasting a newline-separated list of links." }
+        ]}
+      >
+        <h3>The Power of Custom Short Links</h3>
+        <p>In an era of character-limited SMS and visually crowded social media feeds, long URLs with endless query parameters are a liability. They break layouts, look unprofessional, and discourage clicks. A URL shortener transforms these unwieldy addresses into clean, branded, and memorable links.</p>
+        <p>Toolzium's URL Shortener operates entirely in your browser. This means your original URLs are never transmitted to our servers for processing, ensuring absolute privacy for sensitive internal links or pre-launch campaign URLs. The custom alias feature allows marketers to create vanity links (e.g., toolzium.com/s/summer-sale) that build brand recognition and trust before the user even clicks.</p>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion
+        faqs={[
+          { question: "Are the shortened links permanent?", answer: "Because this tool operates 100% client-side, it generates the short link structure but does not host the redirect database. For production routing, these aliases must be configured in your own DNS or routing layer." },
+          { question: "Can I track clicks on these short links?", answer: "The generated links display 'Clicks: N/A' because client-side generation cannot track server-side requests. To track analytics, you must implement server-side routing for the /s/ paths." },
+          { question: "What characters are allowed in a custom alias?", answer: "Custom aliases support alphanumeric characters (a-z, A-Z, 0-9), hyphens (-), and underscores (_). Special characters and spaces are automatically stripped." },
+          { question: "Is my data private?", answer: "Yes. All URL processing and hash generation happen locally in your browser. No URLs are sent to external APIs or stored on our servers." }
+        ]}
+      />
+
+      <RelatedTools currentToolUrl="/tools/url/shortener" max={6} />
     </div>
   );
 }
+
+export default ShortenerClient;

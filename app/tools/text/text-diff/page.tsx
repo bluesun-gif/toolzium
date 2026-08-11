@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { TextDiffClient } from "@/components/tools/text/text-diff-client";
+import TextDiffClient from "@/components/tools/text/text-diff-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

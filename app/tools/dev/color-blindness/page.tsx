@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { ColorBlindnessClient } from "@/components/tools/dev/color-blindness-client";
+import ColorBlindnessClient from "@/components/tools/dev/color-blindness-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

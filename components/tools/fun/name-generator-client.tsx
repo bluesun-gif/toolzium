@@ -2,190 +2,157 @@
 
 import React, { useState } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { User, Shuffle, Sparkles } from "lucide-react";
-import { toast } from "react-hot-toast";
+import { CopyButton } from "@/components/shared/action-buttons";
+import { User, Shuffle } from "lucide-react";
 
-const firstNamesM = ["James", "John", "Robert", "Michael", "William", "David", "Richard", "Joseph", "Thomas", "Charles", "Christopher", "Daniel", "Matthew", "Anthony", "Mark", "Donald", "Steven", "Paul", "Andrew", "Joshua", "Kenneth", "Kevin", "Brian", "George", "Edward", "Ronald", "Timothy", "Jason", "Jeffrey", "Ryan", "Jacob", "Gary", "Nicholas", "Eric", "Jonathan", "Stephen", "Larry", "Justin", "Scott", "Brandon", "Benjamin", "Samuel", "Gregory", "Frank", "Alexander", "Raymond", "Patrick", "Jack", "Dennis", "Jerry"];
-const firstNamesF = ["Mary", "Patricia", "Linda", "Barbara", "Elizabeth", "Jennifer", "Maria", "Susan", "Margaret", "Dorothy", "Lisa", "Nancy", "Karen", "Betty", "Helen", "Sandra", "Donna", "Carol", "Ruth", "Sharon", "Michelle", "Laura", "Sarah", "Kimberly", "Deborah", "Jessica", "Shirley", "Cynthia", "Angela", "Melissa", "Brenda", "Amy", "Anna", "Rebecca", "Virginia", "Kathleen", "Pamela", "Martha", "Debra", "Amanda", "Stephanie", "Carolyn", "Christine", "Marie", "Janet", "Catherine", "Frances", "Ann", "Joyce", "Diane"];
-const firstNamesN = ["Riley", "Avery", "Jordan", "Peyton", "Cameron", "Taylor", "Morgan", "Quinn", "Casey", "Dakota", "Reese", "Rowan", "Skyler", "Finley", "Emerson", "Sawyer", "Hayden", "Eden", "Harley", "Rory", "Parker", "Phoenix", "River", "Charlie", "Kendall", "Logan", "Alexis", "Dylan", "Micah", "Blake", "Sidney", "Robin", "Shawn", "Jody", "Jamie", "Drew", "Kelly", "Jesse", "Ellis", "Frankie", "Sam", "Alex", "Tyler", "Jude", "Asher", "Sage", "Ariel", "Noel", "Hunter", "Tanner"];
-const lastNames = ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez", "Hernandez", "Lopez", "Gonzalez", "Wilson", "Anderson", "Thomas", "Taylor", "Moore", "Jackson", "Martin", "Lee", "Perez", "Thompson", "White", "Harris", "Sanchez", "Clark", "Ramirez", "Lewis", "Robinson", "Walker", "Young", "Allen", "King", "Wright", "Scott", "Torres", "Nguyen", "Hill", "Flores", "Green", "Adams", "Nelson", "Baker", "Hall", "Rivera", "Campbell", "Mitchell", "Carter", "Roberts"];
-const fantasyPrefixes = ["Ael", "Aer", "Af", "Ah", "Al", "Am", "Ama", "An", "Ang", "Anir", "Ar", "Arav", "Ari", "Arn", "Art", "Ash", "Asl", "At", "Atr", "Aur", "Av", "Az", "Bae", "Bal", "Bam", "Ban", "Bar", "Bat", "Bel", "Ben", "Ber", "Bha", "Bho", "Bi", "Bli", "Bo", "Bor", "Bra", "Bri", "Bro", "Bru", "Bry", "Bu", "By"];
-const fantasySuffixes = ["a", "ac", "ai", "al", "am", "an", "ar", "as", "at", "au", "av", "ay", "az", "ba", "da", "di", "do", "du", "ea", "eb", "ec", "ed", "ef", "eg", "eh", "ei", "ek", "el", "em", "en", "er", "es", "et", "eu", "ev", "ey", "ez", "fa", "fi", "fo", "fu", "ga", "gi", "go"];
-const usernamePrefixes = ["Cyber", "Ninja", "Shadow", "Ghost", "Sniper", "Dragon", "Phoenix", "Wolf", "Gamer", "Pro", "Star", "Dark", "Light", "King", "Queen", "Lord", "Lady", "Master", "Epic", "Magic", "Storm", "Fire", "Ice", "Thunder", "Lightning", "Speed"];
-const teamPrefixes = ["The", "Alpha", "Beta", "Omega", "Red", "Blue", "Black", "White", "Golden", "Silver", "Iron", "Steel", "Savage", "Silent", "Hidden", "Fierce", "Brave", "Elite", "Prime", "Royal", "Dark", "Light", "Shadow", "Phantom", "Ghost"];
-const teamSuffixes = ["Tigers", "Lions", "Bears", "Wolves", "Eagles", "Hawks", "Dragons", "Knights", "Warriors", "Kings", "Queens", "Lords", "Legends", "Heroes", "Champions", "Stars", "Squad", "Team", "Crew", "Force", "Alliance", "Syndicate", "Cartel", "Legion", "Empire"];
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
 
-type Category = "first_m" | "first_f" | "first_n" | "full" | "fantasy" | "username" | "team";
+type Category = "Fantasy" | "Sci-Fi" | "Modern" | "Medieval";
+type Gender = "Male" | "Female" | "Neutral";
 
-export function NameGeneratorClient() {
-  const [category, setCategory] = useState<Category>("full");
-  const [count, setCount] = useState<number>(5);
-  const [startingLetter, setStartingLetter] = useState<string>("");
-  const [names, setNames] = useState<string[]>([]);
+const names: Record<Category, Record<Gender, string[]>> = {
+  Fantasy: {
+    Male: ["Aragon", "Thorin", "Elrond", "Legolas", "Gandalf", "Boromir", "Faramir", "Theoden", "Eomer", "Haldir"],
+    Female: ["Arwen", "Galadriel", "Eowyn", "Tauriel", "Luthien", "Idril", "Melian", "Varda", "Yavanna", "Nessa"],
+    Neutral: ["Shadowfax", "Gollum", "Smaug", "Balrog", "Ent", "Eagle", "Warg", "Huorn", "Maiar", "Valar"]
+  },
+  "Sci-Fi": {
+    Male: ["Zane", "Kael", "Jax", "Orion", "Vex", "Kaelen", "Rion", "Thal", "Xen", "Zanth"],
+    Female: ["Nova", "Lyra", "Zyra", "Vora", "Cora", "Nyx", "Sira", "Ayla", "Elara", "Kira"],
+    Neutral: ["Unit-734", "Cypher", "Nexus", "Proxy", "Echo", "Glitch", "Pixel", "Vector", "Zenith", "Quasar"]
+  },
+  Modern: {
+    Male: ["James", "John", "Robert", "Michael", "William", "David", "Richard", "Joseph", "Thomas", "Charles"],
+    Female: ["Mary", "Patricia", "Jennifer", "Linda", "Elizabeth", "Barbara", "Susan", "Jessica", "Sarah", "Karen"],
+    Neutral: ["Jordan", "Taylor", "Morgan", "Casey", "Riley", "Avery", "Quinn", "Cameron", "Dakota", "Reese"]
+  },
+  Medieval: {
+    Male: ["Arthur", "Lancelot", "Galahad", "Percival", "Tristan", "Merlin", "Uther", "Mordred", "Gawain", "Bors"],
+    Female: ["Guinevere", "Isolde", "Morgana", "Igraine", "Viviane", "Elaine", "Nimue", "Lynette", "Lyonesse", "Mab"],
+    Neutral: ["Puck", "Robin", "Oberon", "Titania", "Ariel", "Caliban", "Prospero", "Goblin", "Fairy", "Sprite"]
+  }
+};
 
-  const getRandomItem = (arr: string[]) => arr[Math.floor(Math.random() * arr.length)];
+export default function NameGeneratorClient() {
+  const [category, setCategory] = useState<Category>("Fantasy");
+  const [gender, setGender] = useState<Gender>("Male");
+  const [count, setCount] = useState(5);
+  const [results, setResults] = useState<string[]>([]);
 
-  const generateName = (): string => {
-    let name = "";
-    if (category === "first_m") {
-      name = getRandomItem(firstNamesM);
-    } else if (category === "first_f") {
-      name = getRandomItem(firstNamesF);
-    } else if (category === "first_n") {
-      name = getRandomItem(firstNamesN);
-    } else if (category === "full") {
-      const allFirsts = [...firstNamesM, ...firstNamesF, ...firstNamesN];
-      name = `${getRandomItem(allFirsts)} ${getRandomItem(lastNames)}`;
-    } else if (category === "fantasy") {
-      name = `${getRandomItem(fantasyPrefixes)}${getRandomItem(fantasySuffixes)}${Math.random() > 0.5 ? getRandomItem(fantasySuffixes) : ""}`;
-      name = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
-    } else if (category === "username") {
-      const allFirsts = [...firstNamesM, ...firstNamesF, ...firstNamesN];
-      name = `${getRandomItem(usernamePrefixes)}${Math.random() > 0.5 ? getRandomItem(allFirsts) : getRandomItem(lastNames)}${Math.floor(Math.random() * 9999)}`;
-    } else if (category === "team") {
-      name = `${getRandomItem(teamPrefixes)} ${getRandomItem(teamSuffixes)}`;
+  const generate = () => {
+    const pool = names[category][gender];
+    const generated: string[] = [];
+    for (let i = 0; i < count; i++) {
+      generated.push(pool[Math.floor(Math.random() * pool.length)]);
     }
-    return name;
-  };
-
-  const handleGenerate = () => {
-    let newNames: string[] = [];
-    let attempts = 0;
-    while (newNames.length < count && attempts < 1000) {
-      let n = generateName();
-      if (startingLetter) {
-        if (n.toLowerCase().startsWith(startingLetter.toLowerCase())) {
-          newNames.push(n);
-        }
-      } else {
-        newNames.push(n);
-      }
-      attempts++;
-    }
-    if (attempts >= 1000 && newNames.length < count) {
-      toast.error(`Could only generate ${newNames.length} names with those filters.`);
-    }
-    setNames(newNames);
-  };
-
-  const handleReset = () => {
-    setNames([]);
-    setCount(5);
-    setCategory("full");
-    setStartingLetter("");
-  };
-
-  const copyAll = () => {
-    return names.join("\n");
+    setResults(generated);
   };
 
   return (
-    <div className="space-y-6">
-      <ToolPageHeader
-        icon={User}
-        title="Random Name Generator"
-        description="Generate random names for characters, babies, usernames, or pen names."
-        actions={
-          <>
-            <ActionButton onClick={handleGenerate} icon={Shuffle} label="Generate" variant="default" />
-            <ResetButton onClick={handleReset} />
-          </>
-        }
+    <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <ToolPageHeader icon={User} title="Name Generator" description="Generate random character names for novels, RPGs, and games across multiple genres." />
+      
+      <Card className={cardClass}>
+        <CardHeader className={headerClass}>
+          <CardTitle className={titleClass}>Generator Settings</CardTitle>
+        </CardHeader>
+        <CardContent className="p-4 sm:p-6 space-y-6">
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Category</label>
+              <div className="flex flex-wrap gap-2">
+                {(Object.keys(names) as Category[]).map(cat => (
+                  <Button key={cat} variant={category === cat ? "default" : "outline"} onClick={() => setCategory(cat)}>
+                    {cat}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Gender</label>
+              <div className="flex flex-wrap gap-2">
+                {(["Male", "Female", "Neutral"] as Gender[]).map(gen => (
+                  <Button key={gen} variant={gender === gen ? "default" : "outline"} onClick={() => setGender(gen)}>
+                    {gen}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Quantity: {count}</label>
+              <input 
+                type="range" 
+                min="1" 
+                max="20" 
+                value={count} 
+                onChange={e => setCount(parseInt(e.target.value))}
+                className="w-full accent-primary"
+              />
+            </div>
+          </div>
+
+          <Button onClick={generate} size="lg" className="w-full sm:w-auto">
+            <Shuffle className="w-4 h-4 mr-2" /> Generate Names
+          </Button>
+
+          {results.length > 0 && (
+            <div className="space-y-4 mt-6">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-semibold">Generated Names</h3>
+                <CopyButton getText={() => results.join(", ")} label="Copy All" />
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                {results.map((name, i) => (
+                  <div key={i} className="p-3 bg-muted/30 border border-border/50 rounded-lg flex items-center justify-between group">
+                    <span className="font-medium truncate">{name}</span>
+                    <CopyButton getText={() => name} label="" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      <ToolHowItWorks 
+        steps={[
+          { step: "01", title: "Pick Genre", description: "Select the thematic category that fits your world-building needs.", icon: User },
+          { step: "02", title: "Choose Gender", description: "Filter the database by male, female, or gender-neutral names.", icon: User },
+          { step: "03", title: "Generate", description: "Hit the button to pull random names from the curated lists.", icon: User }
+        ]} 
+        badges={["100% Free", "Client-Side", "Fun"]} 
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <GlassCard>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-primary" />
-              Settings
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label>Category</Label>
-              <Select value={category} onValueChange={(val) => setCategory(val as Category)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select category" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="full">Full Names</SelectItem>
-                  <SelectItem value="first_m">First Names (Male)</SelectItem>
-                  <SelectItem value="first_f">First Names (Female)</SelectItem>
-                  <SelectItem value="first_n">First Names (Neutral)</SelectItem>
-                  <SelectItem value="fantasy">Fantasy Names</SelectItem>
-                  <SelectItem value="username">Usernames</SelectItem>
-                  <SelectItem value="team">Team/Project Names</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            
-            <div className="space-y-2">
-              <Label>Count (1-10)</Label>
-              <Input 
-                type="number" 
-                min={1} 
-                max={10} 
-                value={count} 
-                onChange={(e) => setCount(Math.min(10, Math.max(1, parseInt(e.target.value) || 1)))} 
-              />
-            </div>
+      <ToolFeatureGuides features={[
+        { icon: User, title: "Four Distinct Genres", description: "Covers Fantasy, Sci-Fi, Modern, and Medieval naming conventions." },
+        { icon: User, title: "Curated Databases", description: "Hand-picked names that actually fit the aesthetic of their respective genres." },
+        { icon: User, title: "Batch Generation", description: "Generate up to 20 names simultaneously to quickly populate a cast of characters." },
+        { icon: User, title: "Individual Copy", description: "Hover over any generated name to copy it to your clipboard with a single click." }
+      ]}>
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <p>Naming characters is often one of the most time-consuming parts of writing a novel or preparing a tabletop RPG campaign. A good name instantly conveys culture, era, and personality to the audience.</p>
+          <p>Our generator pulls from strictly categorized lists to ensure you don't end up with a cyberpunk hacker named 'Galadriel' or a high elf named 'Kevin' (unless that's exactly what you're going for).</p>
+          <p>Whether you need a quick NPC name for your D&D session or a list of crew members for your sci-fi screenplay, this tool provides instant, genre-appropriate inspiration.</p>
+        </div>
+      </ToolFeatureGuides>
 
-            <div className="space-y-2">
-              <Label>Starting Letter (Optional)</Label>
-              <Input 
-                type="text" 
-                maxLength={1} 
-                value={startingLetter} 
-                onChange={(e) => setStartingLetter(e.target.value)} 
-                placeholder="e.g. A" 
-              />
-            </div>
-            
-            <Button onClick={handleGenerate} className="w-full">
-              <Shuffle className="w-4 h-4 mr-2" />
-              Generate Names
-            </Button>
-          </CardContent>
-        </GlassCard>
+      <ToolFaqAccordion faqs={[
+        { question: "Are these names randomly generated syllables?", answer: "No, we use curated lists of actual names and words that fit the aesthetic of each genre, rather than mashing random syllables together." },
+        { question: "Can I generate last names too?", answer: "Currently, the tool focuses on first names. For fantasy and medieval settings, many characters are known by a single name or a title." },
+        { question: "Will the generator repeat names?", answer: "If you generate a large batch, there is a chance of repeats since it draws randomly from a finite pool of 10 names per gender/category." }
+      ]} />
 
-        <GlassCard>
-          <CardHeader className="flex flex-row items-center justify-between">
-            <div className="space-y-1">
-              <CardTitle>Generated Names</CardTitle>
-              <CardDescription>
-                {names.length > 0 ? `${names.length} names generated` : "No names generated yet"}
-              </CardDescription>
-            </div>
-            {names.length > 0 && (
-              <CopyButton getText={copyAll} label="Copy All" />
-            )}
-          </CardHeader>
-          <CardContent>
-            {names.length === 0 ? (
-              <div className="text-center text-muted-foreground py-8 border-2 border-dashed rounded-lg">
-                Click generate to see names here
-              </div>
-            ) : (
-              <ul className="space-y-2">
-                {names.map((name, i) => (
-                  <li key={i} className="flex items-center justify-between p-3 bg-muted/50 rounded-md">
-                    <span className="font-medium">{name}</span>
-                    <CopyButton getText={() => name} label="" />
-                  </li>
-                ))}
-              </ul>
-            )}
-          </CardContent>
-        </GlassCard>
-      </div>
+      <RelatedTools currentToolUrl="/tools/fun/name-generator" max={6} />
     </div>
   );
 }

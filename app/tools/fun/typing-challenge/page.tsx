@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { TypingChallengeClient } from "@/components/tools/fun/typing-challenge-client";
+import TypingChallengeClient from "@/components/tools/fun/typing-challenge-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

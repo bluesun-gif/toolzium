@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { QuoteGeneratorClient } from "@/components/tools/fun/quote-generator-client";
+import QuoteGeneratorClient from "@/components/tools/fun/quote-generator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

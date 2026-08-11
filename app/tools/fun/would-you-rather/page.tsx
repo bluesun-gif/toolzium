@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { WouldYouRatherClient } from "@/components/tools/fun/would-you-rather-client";
+import WouldYouRatherClient from "@/components/tools/fun/would-you-rather-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

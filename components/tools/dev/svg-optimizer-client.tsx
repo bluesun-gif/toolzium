@@ -1,190 +1,219 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
+import { Copy, Code, FileCode, Scissors, CheckCircle, Sparkles } from "lucide-react";
 import toast from "react-hot-toast";
-import {
-  Code,
-  Sparkles,
-  Copy,
-  Check,
-  RefreshCw,
-  Zap,
-  Terminal,
-  FileCode,
-  CheckCircle2,
-} from "lucide-react";
 
-const SAMPLE_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">\n  <!-- Generator: Adobe Illustrator 28.0 -->\n  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#8B5CF6"/>\n</svg>`;
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
+const textareaClass = "w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50 font-mono";
+
+const DEFAULT_SVG = `<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generator: Adobe Illustrator 25.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 24 24" xml:space="preserve" fill-opacity="1" stroke-opacity="1">
+  <metadata>Some metadata here</metadata>
+  <path class="st0" fill="#FFFFFF" d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M12,20c-4.41,0-8-3.59-8-8 s3.59-8,8-8s8,3.59,8,8S16.41,20,12,20z"/>
+  <circle fill="#FF0000" cx="12" cy="12" r="4" />
+</svg>`;
+
+interface OptimizeOptions {
+  removeComments: boolean;
+  removeMetadata: boolean;
+  minifyWhitespace: boolean;
+  shortenColors: boolean;
+  removeDefaults: boolean;
+}
 
 export default function SvgOptimizerClient() {
-  const [rawSvg, setRawSvg] = useState<string>(SAMPLE_SVG);
-  const [optimizedSvg, setOptimizedSvg] = useState<string>(
-    `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#8B5CF6"/></svg>`
-  );
-  const [reactJsxSvg, setReactJsxSvg] = useState<string>(
-    `export function StarIcon(props: React.SVGProps<SVGSVGElement>) {\n  return (\n    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth={2} {...props}>\n      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#8B5CF6" />\n    </svg>\n  );\n}`
-  );
-  const [savedPercentage, setSavedPercentage] = useState<number>(34);
-  const [isOptimizing, setIsOptimizing] = useState<boolean>(false);
-  const [copiedSection, setCopiedSection] = useState<string | null>(null);
+  const [inputSvg, setInputSvg] = useState(DEFAULT_SVG);
+  const [options, setOptions] = useState<OptimizeOptions>({
+    removeComments: true,
+    removeMetadata: true,
+    minifyWhitespace: true,
+    shortenColors: true,
+    removeDefaults: true
+  });
+  const [activeTab, setActiveTab] = useState<"optimized" | "react" | "uri">("optimized");
 
-  const handleOptimizeSvg = () => {
-    if (!rawSvg.trim()) {
-      toast.error("Please paste valid SVG code.");
-      return;
+  const optimizedSvg = useMemo(() => {
+    let result = inputSvg;
+    if (options.removeComments) result = result.replace(/<!--[\s\S]*?-->/g, "");
+    if (options.removeMetadata) result = result.replace(/<metadata>[\s\S]*?<\/metadata>/g, "");
+    if (options.minifyWhitespace) result = result.replace(/\s+/g, " ").replace(/>\s+</g, "><").trim();
+    if (options.shortenColors) result = result.replace(/#([a-f0-9])\1([a-f0-9])\2([a-f0-9])\3/gi, "#$1$2$3");
+    if (options.removeDefaults) {
+      result = result.replace(/fill-opacity="1"/g, "");
+      result = result.replace(/stroke-opacity="1"/g, "");
+      result = result.replace(/xmlns:xlink="[^"]*"/g, "");
+      result = result.replace(/xml:space="preserve"/g, "");
+      result = result.replace(/version="[^"]*"/g, "");
     }
+    return result;
+  }, [inputSvg, options]);
 
-    setIsOptimizing(true);
+  const reactComponent = useMemo(() => {
+    let code = optimizedSvg;
+    code = code.replace(/class=/g, "className=");
+    code = code.replace(/stroke-width=/g, "strokeWidth=");
+    code = code.replace(/fill-rule=/g, "fillRule=");
+    code = code.replace(/clip-rule=/g, "clipRule=");
+    code = code.replace(/stroke-linecap=/g, "strokeLinecap=");
+    code = code.replace(/stroke-linejoin=/g, "strokeLinejoin=");
+    code = code.replace(/stroke-miterlimit=/g, "strokeMiterlimit=");
+    code = code.replace(/stroke-dasharray=/g, "strokeDasharray=");
+    code = code.replace(/stroke-dashoffset=/g, "strokeDashoffset=");
+    code = code.replace(/stroke-opacity=/g, "strokeOpacity=");
+    code = code.replace(/fill-opacity=/g, "fillOpacity=");
+    return `import React from 'react';\n\nconst SvgIcon = (props: React.SVGProps<SVGSVGElement>) => (\n  ${code.replace(/<svg/, "<svg {...props}")}\n);\n\nexport default SvgIcon;`;
+  }, [optimizedSvg]);
 
-    setTimeout(() => {
-      let cleaned = rawSvg
-        .replace(/<!--[\s\S]*?-->/g, "") // remove comments
-        .replace(/\s+/g, " ") // minify whitespace
-        .replace(/>\s+</g, "><")
-        .trim();
+  const dataUri = useMemo(() => {
+    try {
+      return `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(optimizedSvg)))}`;
+    } catch {
+      return "Error generating Data URI";
+    }
+  }, [optimizedSvg]);
 
-      const originalSize = rawSvg.length;
-      const newSize = cleaned.length;
-      const savings = Math.max(12, Math.round(((originalSize - newSize) / originalSize) * 100));
+  const originalSize = new Blob([inputSvg]).size;
+  const optimizedSize = new Blob([optimizedSvg]).size;
+  const savings = originalSize > 0 ? Math.round(((originalSize - optimizedSize) / originalSize) * 100) : 0;
 
-      setOptimizedSvg(cleaned);
-
-      const jsx = `export function CustomIcon(props: React.SVGProps<SVGSVGElement>) {\n  return (\n    ${cleaned.replace(/stroke-width/g, "strokeWidth").replace(/stroke-linecap/g, "strokeLinecap").replace(/stroke-linejoin/g, "strokeLinejoin").replace(/fill-rule/g, "fillRule")}\n  );\n}`;
-      setReactJsxSvg(jsx);
-      setSavedPercentage(savings);
-
-      setIsOptimizing(false);
-      toast.success(`SVG optimized! Reduced size by ${savings}%.`);
-    }, 400);
+  const getOutputContent = () => {
+    if (activeTab === "optimized") return optimizedSvg;
+    if (activeTab === "react") return reactComponent;
+    return dataUri;
   };
 
-  const handleCopy = (text: string, label: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedSection(label);
-    toast.success(`Copied ${label} to clipboard!`);
-    setTimeout(() => setCopiedSection(null), 2000);
+  const handleCopy = () => {
+    navigator.clipboard.writeText(getOutputContent());
+    toast.success("Copied to clipboard!");
   };
 
   return (
-    <div className="mx-auto max-w-6xl px-2 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-6 max-w-full overflow-hidden">
+    <div className="max-w-6xl mx-auto space-y-8 p-4 sm:p-6 lg:p-8">
       <ToolPageHeader
-        title="SVG Vector Path Optimizer & React JSX Minifier Studio"
-        description="Clean up SVG code, remove comments, minify vector paths, and convert raw SVG code into production-ready React/TypeScript JSX components."
+        icon={Scissors}
+        title="SVG Optimizer & React Converter"
+        description="Minify SVG code, convert to React JSX components, and generate Base64 Data URIs instantly."
       />
 
-      {/* SINGLE VIEWPORT SVG STUDIO WORKSPACE */}
-      <div className="grid gap-4 sm:gap-6 lg:grid-cols-12 min-h-[500px] max-w-full">
-        {/* Left Column: Raw SVG Input (5 Cols) */}
-        <div className="lg:col-span-5 flex flex-col max-w-full min-w-0">
-          <Card className="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl flex-1 flex flex-col justify-between overflow-hidden max-w-full min-w-0">
-            <CardHeader className="border-b border-border/40 bg-muted/20 p-3 sm:p-4">
-              <CardTitle className="text-xs sm:text-sm font-semibold flex items-center gap-2 tracking-tight">
-                <Code className="h-4 w-4 text-primary shrink-0" />
-                Raw SVG Code Input
-              </CardTitle>
-            </CardHeader>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card className={cardClass}>
+          <CardHeader className={headerClass}>
+            <CardTitle className={titleClass}><Code className="w-4 h-4" /> Input SVG</CardTitle>
+          </CardHeader>
+          <CardContent className="p-4 space-y-4">
+            <textarea
+              value={inputSvg}
+              onChange={(e) => setInputSvg(e.target.value)}
+              rows={12}
+              className={textareaClass}
+              placeholder="Paste your SVG code here..."
+            />
+            <div className="grid grid-cols-2 gap-3">
+              {Object.entries(options).map(([key, val]) => (
+                <label key={key} className="flex items-center gap-2 text-xs cursor-pointer hover:text-primary transition-colors">
+                  <input type="checkbox" checked={val as boolean} 
+                    onChange={(e) => setOptions({ ...options, [key]: e.target.checked })} 
+                    className="rounded border-border accent-primary" />
+                  <span className="capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
+                </label>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
 
-            <CardContent className="p-3 sm:p-4 space-y-3 flex-1 flex flex-col justify-between max-w-full min-w-0">
-              <div className="space-y-1 flex-1 flex flex-col max-w-full min-w-0">
-                <label className="text-xs font-semibold text-muted-foreground">Paste Raw &lt;svg&gt; Code:</label>
-                <Textarea
-                  value={rawSvg}
-                  onChange={(e) => setRawSvg(e.target.value)}
-                  placeholder="<svg>...</svg>"
-                  className="font-mono text-xs min-h-[220px] bg-muted/20 resize-none p-3 rounded-xl max-w-full min-w-0"
-                />
+        <Card className={cardClass}>
+          <CardHeader className={headerClass}>
+            <CardTitle className={titleClass}><CheckCircle className="w-4 h-4" /> Live Preview & Stats</CardTitle>
+          </CardHeader>
+          <CardContent className="p-4 space-y-4">
+            <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg border border-border/50">
+              <div className="text-xs">
+                <span className="text-muted-foreground">Original:</span> <span className="font-bold">{originalSize} bytes</span>
+                <span className="mx-2">→</span>
+                <span className="text-muted-foreground">Optimized:</span> <span className="font-bold text-primary">{optimizedSize} bytes</span>
               </div>
-
-              <Button
-                onClick={handleOptimizeSvg}
-                disabled={isOptimizing || !rawSvg.trim()}
-                className="w-full gap-2 shadow-md rounded-xl font-semibold h-10 justify-center text-xs sm:text-sm mt-2 max-w-full min-w-0"
-              >
-                {isOptimizing ? (
-                  <>
-                    <RefreshCw className="h-4 w-4 animate-spin shrink-0" />
-                    <span>Minifying SVG...</span>
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="h-4 w-4 shrink-0" />
-                    <span>Minify & Convert to React JSX</span>
-                  </>
-                )}
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Right Column: Optimized SVG & React Component (7 Cols) */}
-        <div className="lg:col-span-7 flex flex-col max-w-full min-w-0">
-          <Card className="border border-primary/30 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl flex-1 flex flex-col justify-between overflow-hidden max-w-full min-w-0">
-            <CardHeader className="border-b border-border/40 bg-muted/20 p-3 sm:p-4">
-              <div className="flex items-center justify-between gap-2 max-w-full min-w-0">
-                <CardTitle className="text-xs sm:text-sm font-semibold flex items-center gap-2 text-primary tracking-tight truncate min-w-0">
-                  <Terminal className="h-4 w-4 shrink-0" />
-                  <span>Optimized Output & React Component</span>
-                </CardTitle>
-                <Badge variant="outline" className="text-[10px] text-emerald-500 border-emerald-500/30 gap-1 shrink-0">
-                  <Zap className="h-3 w-3" /> Saved {savedPercentage}%
-                </Badge>
-              </div>
-            </CardHeader>
-
-            <CardContent className="p-3 sm:p-4 flex-1 flex flex-col justify-between max-w-full min-w-0 overflow-hidden space-y-3">
-              {/* Live Preview */}
-              <div className="p-3 rounded-xl border bg-muted/20 flex items-center justify-between">
-                <span className="text-xs font-semibold text-muted-foreground">Live SVG Render:</span>
-                <div
-                  className="p-2 rounded-lg bg-background border flex items-center justify-center min-w-[40px] min-h-[40px]"
-                  dangerouslySetInnerHTML={{ __html: optimizedSvg }}
-                />
-              </div>
-
-              {/* Minified SVG Code */}
-              <div className="space-y-1 max-w-full min-w-0">
-                <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-semibold text-muted-foreground">Minified SVG Code:</span>
-                  <button
-                    type="button"
-                    onClick={() => handleCopy(optimizedSvg, "Minified SVG")}
-                    className="text-[11px] text-primary hover:underline flex items-center gap-1 font-medium"
-                  >
-                    {copiedSection === "Minified SVG" ? <Check className="h-3 w-3 text-emerald-500" /> : <Copy className="h-3 w-3" />}
-                    {copiedSection === "Minified SVG" ? "Copied" : "Copy SVG"}
-                  </button>
-                </div>
-                <div className="p-3 rounded-xl border bg-[#0f172a] text-[#f8fafc] font-mono text-[11px] text-slate-100 max-w-full min-w-0 overflow-x-auto max-h-[110px]">
-                  <pre className="whitespace-pre-wrap break-all">{optimizedSvg}</pre>
-                </div>
-              </div>
-
-              {/* React JSX Component */}
-              <div className="space-y-1 max-w-full min-w-0">
-                <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-semibold text-muted-foreground">React JSX Component:</span>
-                  <button
-                    type="button"
-                    onClick={() => handleCopy(reactJsxSvg, "React JSX")}
-                    className="text-[11px] text-primary hover:underline flex items-center gap-1 font-medium"
-                  >
-                    {copiedSection === "React JSX" ? <Check className="h-3 w-3 text-emerald-500" /> : <Copy className="h-3 w-3" />}
-                    {copiedSection === "React JSX" ? "Copied" : "Copy React JSX"}
-                  </button>
-                </div>
-                <div className="p-3 rounded-xl border bg-[#0f172a] text-[#f8fafc] font-mono text-[11px] text-purple-300 max-w-full min-w-0 overflow-x-auto max-h-[140px]">
-                  <pre className="whitespace-pre-wrap break-all">{reactJsxSvg}</pre>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+              <span className="text-xs font-bold text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded-full">{savings}% Saved</span>
+            </div>
+            
+            <div className="h-48 flex items-center justify-center rounded-lg border border-border/50 p-4" 
+              style={{ backgroundImage: "linear-gradient(45deg, #ccc 25%, transparent 25%), linear-gradient(-45deg, #ccc 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #ccc 75%), linear-gradient(-45deg, transparent 75%, #ccc 75%)", backgroundSize: "20px 20px", backgroundPosition: "0 0, 0 10px, 10px -10px, -10px 0px" }}>
+              <div className="w-full h-full flex items-center justify-center max-w-[200px] max-h-[200px] text-foreground" 
+                dangerouslySetInnerHTML={{ __html: optimizedSvg }} />
+            </div>
+          </CardContent>
+        </Card>
       </div>
+
+      <Card className={cardClass}>
+        <CardHeader className={headerClass}>
+          <div className="flex items-center justify-between w-full flex-wrap gap-4">
+            <div className="flex gap-2">
+              {(["optimized", "react", "uri"] as const).map((tab) => (
+                <Button key={tab} variant={activeTab === tab ? "default" : "outline"} size="sm" onClick={() => setActiveTab(tab)} className="capitalize">
+                  {tab === "uri" ? "Data URI" : tab === "react" ? "React JSX" : "Optimized SVG"}
+                </Button>
+              ))}
+            </div>
+            <button
+              onClick={handleCopy}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+            >
+              <Copy className="w-3.5 h-3.5" /> Copy {activeTab === "uri" ? "URI" : "Code"}
+            </button>
+          </div>
+        </CardHeader>
+        <CardContent className="p-4">
+          <pre className="w-full bg-slate-950 text-cyan-400 p-4 rounded-lg text-xs font-mono overflow-x-auto max-h-96 whitespace-pre-wrap break-all">
+            {getOutputContent()}
+          </pre>
+        </CardContent>
+      </Card>
+
+      <ToolHowItWorks
+        steps={[
+          { step: "01", title: "Paste SVG", description: "Drop your raw SVG code exported from Figma, Illustrator, or Sketch.", icon: Code },
+          { step: "02", title: "Configure", description: "Select which optimizations to apply, like removing metadata or shortening hex codes.", icon: Scissors },
+          { step: "03", title: "Export", description: "Copy the minified SVG, React component, or Base64 Data URI for your project.", icon: FileCode }
+        ]}
+        badges={["100% Free", "Client-Side Privacy", "No Signup"]}
+      />
+
+      <ToolFeatureGuides
+        features={[
+          { icon: Scissors, title: "Smart Minification", description: "Strips comments, metadata, and collapses whitespace to reduce file size." },
+          { icon: FileCode, title: "React Converter", description: "Automatically converts attributes to camelCase for JSX compatibility." },
+          { icon: Sparkles, title: "Data URI Generator", description: "Embed SVGs directly in CSS to eliminate extra HTTP requests." },
+          { icon: CheckCircle, title: "Visual Preview", description: "Verify your optimized SVG renders correctly with a transparent checkerboard background." }
+        ]}
+      >
+        <div className="prose dark:prose-invert max-w-none">
+          <h3>Optimizing SVGs for High-Performance Web Applications</h3>
+          <p>Scalable Vector Graphics (SVG) are the gold standard for web icons, illustrations, and logos due to their infinite scalability and tiny file sizes. However, SVG files exported from design tools like Figma, Illustrator, or Sketch are often bloated with unnecessary metadata, redundant attributes, and excessive whitespace. This bloat not only increases your HTML payload but can also negatively impact rendering performance and DOM parsing speed. An enterprise-grade SVG optimization workflow is essential for maintaining a high-performance web application.</p>
+          <p>The optimization process involves several key steps: stripping XML comments, removing editor-specific metadata (such as <code>xmlns:xlink</code> or Adobe Illustrator namespaces), collapsing whitespace, and minifying the overall structure. Furthermore, converting verbose hexadecimal color codes to their shortest shorthand equivalents and removing default attribute values (like <code>fill-opacity="1"</code>) shaves off crucial bytes.</p>
+          <p>Beyond simple minification, modern frontend development requires SVGs to be integrated seamlessly into component-based frameworks like React, Vue, and Svelte. Raw SVG attributes often clash with JSX syntax; for example, the <code>class</code> attribute must be converted to <code>className</code>, and hyphenated attributes like <code>stroke-width</code> must be transformed into camelCase (<code>strokeWidth</code>). Our tool automates this entire pipeline, transforming bloated design exports into clean, typed React components ready for immediate use. Additionally, generating a Base64 Data URI allows you to embed the optimized SVG directly into your CSS as a background image, eliminating extra HTTP requests and further accelerating your site's load time. By rigorously optimizing your SVG assets, you ensure a faster, more efficient, and more maintainable codebase.</p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion
+        faqs={[
+          { question: "Is it safe to remove the xmlns attribute?", answer: "The primary xmlns='http://www.w3.org/2000/svg' is required for standalone SVG files. However, if you are embedding the SVG inline directly inside HTML5, it is technically optional, though keeping it is recommended for maximum compatibility." },
+          { question: "Why convert to a React component?", answer: "React requires SVG attributes to be camelCased (e.g., strokeWidth instead of stroke-width) and uses className instead of class. This tool automates that translation so you can drop the code straight into your TSX files." },
+          { question: "When should I use a Data URI?", answer: "Data URIs are perfect for small icons used as CSS background images. They prevent the browser from making an extra network request, though they increase the size of your CSS file slightly due to Base64 encoding overhead." }
+        ]}
+      />
+
+      <RelatedTools currentToolUrl="/tools/dev/svg-optimizer" max={6} />
     </div>
   );
 }

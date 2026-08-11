@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { MemoryCardMatchClient } from "@/components/tools/fun/memory-card-match-client";
+import MemoryCardMatchClient from "@/components/tools/fun/memory-card-match-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

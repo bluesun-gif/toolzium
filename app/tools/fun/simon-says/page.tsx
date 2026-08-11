@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { SimonSaysClient } from "@/components/tools/fun/simon-says-client";
+import SimonSaysClient from "@/components/tools/fun/simon-says-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

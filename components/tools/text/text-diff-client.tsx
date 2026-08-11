@@ -1,309 +1,189 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { toast } from "react-hot-toast";
-import { Split, Copy, ArrowLeftRight, Trash2, BookOpen, Shield, GitCompare, FileText, AlignLeft, Code2, Eye, Download, Zap } from "lucide-react";
+import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { cn } from "@/lib/utils";
-import * as diff from "diff";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import toast from "react-hot-toast";
+import { GitCompare, FileText, Search, BarChart3 } from "lucide-react";
 
-export function TextDiffClient() {
-  const [leftText, setLeftText] = useState("");
-  const [rightText, setRightText] = useState("");
-  const [isInline, setIsInline] = useState(false);
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
+const textareaClass = "w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50";
 
-  const handleSwap = () => {
-    setLeftText(rightText);
-    setRightText(leftText);
-  };
+interface DiffLine {
+  type: "same" | "added" | "removed";
+  text: string;
+}
 
-  const handleClear = () => {
-    setLeftText("");
-    setRightText("");
-  };
-
-  const diffResult = useMemo(() => {
-    return diff.diffLines(leftText, rightText);
-  }, [leftText, rightText]);
+export default function TextDiffClient() {
+  const [text1, setText1] = useState("");
+  const [text2, setText2] = useState("");
+  const [diff, setDiff] = useState<DiffLine[]>([]);
+  const [hasCompared, setHasCompared] = useState(false);
 
   const stats = useMemo(() => {
-    let added = 0;
-    let removed = 0;
-    let unchanged = 0;
-
-    diffResult.forEach(part => {
-      const lineCount = part.count || 0;
-      if (part.added) added += lineCount;
-      else if (part.removed) removed += lineCount;
-      else unchanged += lineCount;
+    let added = 0, removed = 0, same = 0;
+    diff.forEach((line) => {
+      if (line.type === "added") added++;
+      else if (line.type === "removed") removed++;
+      else same++;
     });
+    return { added, removed, same };
+  }, [diff]);
 
-    return { added, removed, unchanged };
-  }, [diffResult]);
+  const handleCompare = () => {
+    if (!text1 && !text2) {
+      toast.error("Please enter text in both boxes.");
+      return;
+    }
+    const lines1 = text1.split("\n");
+    const lines2 = text2.split("\n");
+    const maxLen = Math.max(lines1.length, lines2.length);
+    const result: DiffLine[] = [];
 
-  const getDiffText = () => {
-    return diffResult.map(part => {
-      const prefix = part.added ? "+ " : part.removed ? "- " : "  ";
-      return part.value.split('\n').filter((line, index, arr) => index < arr.length - 1 || line !== '').map(line => prefix + line).join('\n');
-    }).join('\n');
+    for (let i = 0; i < maxLen; i++) {
+      const l1 = lines1[i];
+      const l2 = lines2[i];
+      if (l1 === l2) {
+        result.push({ type: "same", text: l1 || "" });
+      } else {
+        if (l1 !== undefined) result.push({ type: "removed", text: l1 });
+        if (l2 !== undefined) result.push({ type: "added", text: l2 });
+      }
+    }
+    setDiff(result);
+    setHasCompared(true);
+    toast.success("Comparison complete");
+  };
+
+  const getBgClass = (type: string) => {
+    if (type === "added") return "bg-green-500/20 text-green-700 dark:text-green-400 border-l-4 border-green-500";
+    if (type === "removed") return "bg-red-500/20 text-red-700 dark:text-red-400 border-l-4 border-red-500 line-through";
+    return "bg-transparent text-muted-foreground border-l-4 border-transparent";
   };
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <ToolPageHeader
-        icon={Split}
-        title="Text Diff Viewer"
-        description="Compare two text snippets side-by-side to easily find differences."
-        actions={
-          <>
-            <ActionButton onClick={handleSwap} icon={ArrowLeftRight} label="Swap Texts" />
-            <ResetButton onClick={handleClear} label="Clear All" />
-          </>
-        }
-      />
-
+    <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <ToolPageHeader icon={GitCompare} title="Text Diff Checker" description="Compare two blocks of text line-by-line to highlight additions, deletions, and changes." />
+      
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <GlassCard>
-          <CardHeader>
-            <CardTitle>Original Text</CardTitle>
+        <Card className={cardClass}>
+          <CardHeader className={headerClass}>
+            <CardTitle className={titleClass}><FileText className="w-4 h-4 text-primary" /> Original Text</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-3 sm:p-4">
             <textarea
-              className="w-full min-h-[300px] p-3 rounded-md border bg-background font-mono text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-              value={leftText}
-              onChange={(e) => setLeftText(e.target.value)}
+              value={text1}
+              onChange={(e) => setText1(e.target.value)}
+              rows={10}
+              className={textareaClass}
               placeholder="Paste original text here..."
             />
           </CardContent>
-        </GlassCard>
-
-        <GlassCard>
-          <CardHeader>
-            <CardTitle>Modified Text</CardTitle>
+        </Card>
+        <Card className={cardClass}>
+          <CardHeader className={headerClass}>
+            <CardTitle className={titleClass}><FileText className="w-4 h-4 text-primary" /> Modified Text</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-3 sm:p-4">
             <textarea
-              className="w-full min-h-[300px] p-3 rounded-md border bg-background font-mono text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-              value={rightText}
-              onChange={(e) => setRightText(e.target.value)}
+              value={text2}
+              onChange={(e) => setText2(e.target.value)}
+              rows={10}
+              className={textareaClass}
               placeholder="Paste modified text here..."
             />
           </CardContent>
-        </GlassCard>
+        </Card>
       </div>
 
-      <GlassCard>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <div>
-            <CardTitle>Difference Comparison</CardTitle>
-            <CardDescription>
-              <span className="text-green-500 font-semibold">{stats.added}</span> additions,{" "}
-              <span className="text-red-500 font-semibold">{stats.removed}</span> deletions,{" "}
-              <span className="text-muted-foreground">{stats.unchanged}</span> unchanged lines.
-            </CardDescription>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <Switch id="inline-diff" checked={isInline} onCheckedChange={setIsInline} />
-              <Label htmlFor="inline-diff">Inline Diff</Label>
-            </div>
-            <CopyButton getText={getDiffText} label="Copy Diff" />
-          </div>
-        </CardHeader>
-        <Separator />
-        <CardContent className="p-0 overflow-hidden">
-          <div className="overflow-x-auto p-4 bg-muted/30">
-            <pre className="font-mono text-sm leading-relaxed whitespace-pre-wrap">
-              {diffResult.map((part, index) => {
-                const colorClass = part.added
-                  ? "bg-green-500/20 text-green-700 dark:text-green-400"
-                  : part.removed
-                  ? "bg-red-500/20 text-red-700 dark:text-red-400"
-                  : "text-foreground";
-                  
-                if (!isInline && part.removed) {
-                   // In side-by-side we might want to do more complex rendering, 
-                   // but for simplicity here we'll just render unified diff with different colors
-                }
+      <div className="flex justify-center">
+        <Button onClick={handleCompare} size="lg">
+          <Search className="w-4 h-4 mr-2" /> Compare Text
+        </Button>
+      </div>
 
-                return (
-                  <span key={index} className={cn("block px-2", colorClass)}>
-                    {part.value}
-                  </span>
-                );
-              })}
-            </pre>
+      {hasCompared && (
+        <>
+          <div className="grid grid-cols-3 gap-4">
+            <Card className="border-green-500/30 bg-green-500/5">
+              <CardContent className="p-4 text-center">
+                <div className="text-2xl font-bold text-green-600 dark:text-green-400">+{stats.added}</div>
+                <div className="text-xs text-muted-foreground">Lines Added</div>
+              </CardContent>
+            </Card>
+            <Card className="border-red-500/30 bg-red-500/5">
+              <CardContent className="p-4 text-center">
+                <div className="text-2xl font-bold text-red-600 dark:text-red-400">-{stats.removed}</div>
+                <div className="text-xs text-muted-foreground">Lines Removed</div>
+              </CardContent>
+            </Card>
+            <Card className={cardClass}>
+              <CardContent className="p-4 text-center">
+                <div className="text-2xl font-bold">{stats.same}</div>
+                <div className="text-xs text-muted-foreground">Lines Unchanged</div>
+              </CardContent>
+            </Card>
           </div>
-        </CardContent>
-      </GlassCard>
 
-      {/* SECTION 3: HOW IT WORKS */}
+          <Card className={cardClass}>
+            <CardHeader className={headerClass}>
+              <CardTitle className={titleClass}><BarChart3 className="w-4 h-4 text-primary" /> Diff Result</CardTitle>
+            </CardHeader>
+            <CardContent className="p-3 sm:p-4">
+              <div className="max-h-96 overflow-y-auto rounded-lg border border-border/60 bg-background/50 font-mono text-xs">
+                {diff.map((line, idx) => (
+                  <div key={idx} className={`px-3 py-1 ${getBgClass(line.type)}`}>
+                    {line.type === "added" && "+ "}
+                    {line.type === "removed" && "- "}
+                    {line.type === "same" && "  "}
+                    {line.text || "\u00A0"}
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </>
+      )}
+
       <ToolHowItWorks
         steps={[
-          {
-            step: "01",
-            title: "Paste Two Texts",
-            description: "Paste your original text in the left panel and the modified text in the right panel. Works with any text: documents, code, emails, articles, or data files.",
-            icon: FileText,
-          },
-          {
-            step: "02",
-            title: "See the Differences",
-            description: "Added content is highlighted in green, removed content in red, and unchanged text is shown normally. Changed lines and characters are highlighted precisely.",
-            icon: GitCompare,
-          },
-          {
-            step: "03",
-            title: "Review & Export",
-            description: "Switch between side-by-side and unified diff views. Export the diff as a patch file or copy the highlighted output for documentation or review.",
-            icon: Download,
-          },
+          { step: "01", title: "Input Versions", description: "Paste the original draft in the left box and the revised version in the right box.", icon: FileText },
+          { step: "02", title: "Run Comparison", description: "Click the compare button to analyze the differences line by line.", icon: Search },
+          { step: "03", title: "Review Changes", description: "Identify exactly what was added, deleted, or kept the same with color coding.", icon: BarChart3 },
         ]}
-        badges={[
-          "Character-level diff",
-          "Side-by-side view",
-          "Line-by-line comparison",
-        ]}
+        badges={["100% Free", "Client-Side", "No Signup"]}
       />
 
-      {/* SECTION 4: FEATURE GUIDES */}
       <ToolFeatureGuides
         features={[
-          {
-            icon: GitCompare,
-            title: "Character-Level Diff",
-            description: "Highlights differences at the character level within changed lines — showing exactly which characters were added, removed, or changed, not just which lines differ.",
-          },
-          {
-            icon: AlignLeft,
-            title: "Side-by-Side & Unified Views",
-            description: "Switch between side-by-side view (original left, modified right) and unified diff view (insertions/deletions in one panel) — choose what's most readable for your use case.",
-          },
-          {
-            icon: Eye,
-            title: "Whitespace Detection",
-            description: "Toggle whitespace sensitivity: see whether differences are due to trailing spaces, tabs, or newlines — useful for diagnosing subtle formatting differences in code or data.",
-          },
-          {
-            icon: Code2,
-            title: "Code & Markup Support",
-            description: "Works with any plain text: HTML, CSS, JavaScript, Python, JSON, YAML, Markdown, SQL, or natural language. No syntax-aware parsing needed — pure text comparison.",
-          },
-          {
-            icon: FileText,
-            title: "Statistics Summary",
-            description: "Shows total lines changed, lines added, lines deleted, and percentage similarity between the two texts — giving an at-a-glance measure of how different the texts are.",
-          },
-          {
-            icon: Shield,
-            title: "Private & Client-Side",
-            description: "All diffing runs in your browser. Neither text is sent to any server — safe for confidential documents, proprietary code, and private communications.",
-          },
+          { icon: GitCompare, title: "Line-by-Line Analysis", description: "Compares documents sequentially to highlight structural changes and edits." },
+          { icon: Search, title: "Visual Highlighting", description: "Uses green for additions and red with strikethrough for deletions for instant recognition." },
+          { icon: BarChart3, title: "Change Statistics", description: "Provides a quick summary of how many lines were added, removed, or left untouched." },
+          { icon: FileText, title: "Code & Prose Friendly", description: "Works equally well for comparing programming scripts, essays, or configuration files." },
         ]}
       >
         <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-          <h3 className="text-lg font-semibold">Text Diff Guide — How Diff Algorithms Work</h3>
-          <p>
-            A text diff tool finds the shortest sequence of additions and deletions needed to
-            transform one text into another. This is the same algorithm used by Git, Google Docs
-            revision history, and Wikipedia's edit comparison. Understanding how diffs work helps
-            you interpret results and use them effectively in code review, document editing, and
-            content management.
-          </p>
-
-          <h4 className="font-semibold">Reading a Diff — Color Coding Reference</h4>
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse text-sm">
-              <thead>
-                <tr className="bg-muted/50">
-                  <th className="border p-2 text-left">Color / Symbol</th>
-                  <th className="border p-2 text-left">Meaning</th>
-                  <th className="border p-2 text-left">Action Needed</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  ["🟢 Green (+ prefix)", "Added in the new version", "Review if addition is correct"],
-                  ["🔴 Red (- prefix)", "Removed from original", "Verify deletion is intentional"],
-                  ["⚪ No color", "Unchanged (context lines)", "No action needed"],
-                  ["🟡 Yellow highlight", "Changed characters within a line", "Review the specific change"],
-                ].map(([color, meaning, action]) => (
-                  <tr key={color} className="odd:bg-muted/20">
-                    <td className="border p-2 font-medium text-xs">{color}</td>
-                    <td className="border p-2 text-xs">{meaning}</td>
-                    <td className="border p-2 text-muted-foreground text-xs">{action}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          <h4 className="font-semibold">Common Use Cases for Text Diff</h4>
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse text-sm">
-              <thead>
-                <tr className="bg-muted/50">
-                  <th className="border p-2 text-left">Use Case</th>
-                  <th className="border p-2 text-left">What to Compare</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  ["Code review", "Before/after a code change to verify only intended lines changed"],
-                  ["Document editing", "Two versions of a contract, policy, or report"],
-                  ["Content revision", "Original vs edited article to review writer changes"],
-                  ["Config file changes", "Old vs new config to audit server/application changes"],
-                  ["Data validation", "Two CSV exports to find data discrepancies"],
-                  ["Translation review", "Source text vs back-translation to check accuracy"],
-                  ["Plagiarism check", "Two texts to see how similar or different they are"],
-                ].map(([use, what]) => (
-                  <tr key={use} className="odd:bg-muted/20">
-                    <td className="border p-2 font-medium text-xs">{use}</td>
-                    <td className="border p-2 text-muted-foreground text-xs">{what}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <p>Tracking changes between two versions of a document is essential for writers, editors, and developers. When collaborating on a project, it's common to receive a revised draft and need to know exactly what the other person changed without reading the entire document from scratch. A diff tool highlights these modifications instantly.</p>
+          <p>For developers, comparing code snippets or configuration files helps identify bugs introduced during recent edits. If a script was working yesterday but fails today, pasting the old and new versions into a diff checker reveals the exact lines that were modified, added, or deleted, drastically reducing debugging time.</p>
+          <p>Our line-by-line comparison algorithm provides a clear, Git-style output. Green lines indicate new additions, while red lines show what was removed. This visual language is universally understood in the tech industry, making it easy to review pull requests, track document revisions, or audit legal contracts for unauthorized changes.</p>
         </div>
       </ToolFeatureGuides>
 
-      {/* SECTION 5: FAQ + RELATED TOOLS */}
       <ToolFaqAccordion
         faqs={[
-          {
-            question: "What is a text diff?",
-            answer: "A text diff shows the differences between two versions of a text. Lines or characters added to the new version are highlighted in green; those removed from the original are in red; unchanged content is shown without highlighting. It's the same output format used by Git's 'git diff' command.",
-          },
-          {
-            question: "How does the diff algorithm work?",
-            answer: "Most diff tools use the Longest Common Subsequence (LCS) algorithm, invented by Myers (1986). It finds the longest sequence of lines that appear in both texts in the same order, then marks everything else as additions or deletions. Git uses a variant of this algorithm. The result is the minimal set of changes needed to transform one text into the other.",
-          },
-          {
-            question: "What is the difference between line diff and character diff?",
-            answer: "Line diff shows which entire lines were added or removed. Character diff (also called word diff or inline diff) goes further and highlights the specific characters that changed within a line. Character diff is more useful when changes are small (e.g., a word substitution in a long line); line diff is better for large block changes.",
-          },
-          {
-            question: "Can I compare code files with this tool?",
-            answer: "Yes. This tool works with any plain text, including source code in any language. Paste your code directly — no file upload needed. For comparing files with syntax highlighting, VS Code's built-in diff viewer (View > Compare Editor) or GitHub's pull request diff view provides syntax-aware comparison.",
-          },
-          {
-            question: "Is my text sent to a server?",
-            answer: "No. All comparison happens in your browser using JavaScript. Neither the original nor the modified text is transmitted anywhere. This makes the tool safe for confidential documents, proprietary source code, legal contracts, and private communications.",
-          },
+          { question: "Does this compare word-by-word or line-by-line?", answer: "This tool performs a strict line-by-line comparison. If a single word changes on a line, the entire line will be marked as removed and re-added." },
+          { question: "Are empty lines counted in the diff?", answer: "Yes, empty lines are treated as valid lines of text. Adding or removing blank lines will register as a change in the diff output." },
+          { question: "Can I compare large files?", answer: "Yes, the tool can handle several thousand lines. However, extremely large files might take a second to process in the browser." },
         ]}
       />
+
       <RelatedTools currentToolUrl="/tools/text/text-diff" max={6} />
     </div>
   );

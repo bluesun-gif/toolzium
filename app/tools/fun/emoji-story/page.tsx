@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { EmojiStoryClient } from "@/components/tools/fun/emoji-story-client";
+import EmojiStoryClient from "@/components/tools/fun/emoji-story-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

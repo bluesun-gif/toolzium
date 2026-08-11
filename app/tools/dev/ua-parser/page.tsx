@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { UaParserClient } from "@/components/tools/dev/ua-parser-client";
+import UaParserClient from "@/components/tools/dev/ua-parser-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

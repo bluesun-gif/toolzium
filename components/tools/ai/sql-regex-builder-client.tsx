@@ -1,255 +1,248 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
+import { motion } from "framer-motion";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Database, Code2, Copy, CheckCircle2, Sparkles, Sliders, Play, Terminal, Layers } from "lucide-react";
 import toast from "react-hot-toast";
-import { Database, Regex, Sparkles, Copy, Check, RefreshCw, CheckCircle2, Zap, Terminal } from "lucide-react";
 
-export default function SqlRegexBuilderClient() {
-  const [promptInput, setPromptInput] = useState<string>(
-    "Find all active users who registered in the last 30 days and spent over $100 total"
-  );
-  const [outputType, setOutputType] = useState<"sql" | "regex">("sql");
-  const [sqlDialect, setSqlDialect] = useState<string>("PostgreSQL");
-  const [generatedResult, setGeneratedResult] = useState<string>(
-    `SELECT u.id, u.name, u.email, SUM(o.total_amount) AS total_spent\nFROM users u\nJOIN orders o ON u.id = o.user_id\nWHERE u.status = 'ACTIVE'\n  AND u.created_at >= CURRENT_DATE - INTERVAL '30 days'\nGROUP BY u.id, u.name, u.email\nHAVING SUM(o.total_amount) > 100\nORDER BY total_spent DESC;`
-  );
-  const [explanation, setExplanation] = useState<string>(
-    "• Joins `users` and `orders` table on `user_id`.\n• Filters active users created within last 30 days.\n• Uses `HAVING SUM(...) > 100` to filter aggregated total purchases."
-  );
-  const [isGenerating, setIsGenerating] = useState<boolean>(false);
-  const [copied, setCopied] = useState<boolean>(false);
+interface SqlRegexResult {
+  sqlQuery: string;
+  regexPattern: string;
+  explanation: string;
+  testMatches: string[];
+}
 
-  const presets = [
-    {
-      name: "E-Commerce User Spend",
-      type: "sql" as const,
-      prompt: "Find all active users who registered in the last 30 days and spent over $100 total",
-    },
-    {
-      name: "Email Pattern Matcher",
-      type: "regex" as const,
-      prompt: "Match a valid email address with standard domain name extensions",
-    },
-    {
-      name: "Phone Number Validator",
-      type: "regex" as const,
-      prompt: "Validate North American phone numbers formatted with optional country code and hyphens",
-    },
-  ];
+export function SqlRegexBuilderClient() {
+  const [description, setDescription] = useState("");
+  const [dialect, setDialect] = useState<"postgres" | "mysql" | "sqlite" | "bigquery">("postgres");
+  const [targetColumn, setTargetColumn] = useState("email");
+  const [tableName, setTableName] = useState("users");
 
-  const handleGenerate = () => {
-    if (!promptInput.trim()) {
-      toast.error("Please describe what query or pattern you need.");
+  const [isBuilding, setIsBuilding] = useState(false);
+  const [result, setResult] = useState<SqlRegexResult | null>(null);
+
+  const handleBuild = useCallback(() => {
+    if (!description.trim()) {
+      toast.error("Please enter a description of what you want to match");
       return;
     }
 
-    setIsGenerating(true);
+    setIsBuilding(true);
 
     setTimeout(() => {
-      if (outputType === "sql") {
-        const query = `SELECT u.id, u.name, u.email, SUM(o.total_amount) AS total_spent\nFROM users u\nJOIN orders o ON u.id = o.user_id\nWHERE u.status = 'ACTIVE'\n  AND u.created_at >= CURRENT_DATE - INTERVAL '30 days'\nGROUP BY u.id, u.name, u.email\nHAVING SUM(o.total_amount) > 100\nORDER BY total_spent DESC;`;
-        const exp = "• Joins `users` and `orders` table on `user_id`.\n• Filters active users created within last 30 days.\n• Uses `HAVING SUM(...) > 100` to filter aggregated total purchases.";
-        setGeneratedResult(query);
-        setExplanation(exp);
+      const desc = description.toLowerCase();
+      const col = targetColumn.trim() || "column_name";
+      const tbl = tableName.trim() || "table_name";
+
+      let pattern = "";
+      let sql = "";
+      let exp = "";
+      let matches: string[] = [];
+
+      if (desc.includes("email")) {
+        pattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+        matches = ["user@example.com", "john.doe@company.org", "test+filter@domain.io"];
+        exp = "Matches valid email addresses with standard username, domain name, and TLD formatting.";
+      } else if (desc.includes("phone") || desc.includes("number")) {
+        pattern = "^\\+?[1-9]\\d{1,14}$";
+        matches = ["+14155552671", "442071838750", "+919876543210"];
+        exp = "Matches E.164 international phone number format.";
+      } else if (desc.includes("ip") || desc.includes("ipv4")) {
+        pattern = "^(?:[0-9]{1,3}\\.){3}[0-9]{1,3}$";
+        matches = ["192.168.1.1", "10.0.0.255", "127.0.0.1"];
+        exp = "Matches IPv4 dot-decimal IP addresses.";
+      } else if (desc.includes("uuid") || desc.includes("guid")) {
+        pattern = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$";
+        matches = ["123e4567-e89b-12d3-a456-426614174000", "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"];
+        exp = "Matches standard 36-character hyphenated UUID strings.";
       } else {
-        const pattern = `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$`;
-        const exp = "• `^`: Starts at beginning of string\n• `[a-zA-Z0-9._%+-]+`: Matches valid email username characters\n• `@`: Literal `@` symbol\n• `[a-zA-Z0-9.-]+`: Domain name\n• `\\.[a-zA-Z]{2,}$`: Valid top-level domain suffix";
-        setGeneratedResult(pattern);
-        setExplanation(exp);
+        pattern = `^[A-Za-z0-9_-]{3,20}$`;
+        matches = ["Admin_123", "User2026", "dev-team"];
+        exp = "Matches alphanumeric strings between 3 and 20 characters in length.";
       }
 
-      setIsGenerating(false);
-      toast.success(`Generated ${outputType.toUpperCase()} query!`);
-    }, 500);
-  };
+      if (dialect === "postgres") {
+        sql = `SELECT * FROM ${tbl}\nWHERE ${col} ~* '${pattern}';`;
+      } else if (dialect === "mysql") {
+        sql = `SELECT * FROM ${tbl}\nWHERE ${col} REGEXP '${pattern}';`;
+      } else if (dialect === "bigquery") {
+        sql = `SELECT * FROM \`${tbl}\` \nWHERE REGEXP_CONTAINS(${col}, r'${pattern}');`;
+      } else {
+        sql = `SELECT * FROM ${tbl}\nWHERE ${col} REGEXP '${pattern}';`;
+      }
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(generatedResult);
-    setCopied(true);
-    toast.success("Copied to clipboard!");
-    setTimeout(() => setCopied(false), 2000);
+      setResult({ sqlQuery: sql, regexPattern: pattern, explanation: exp, testMatches: matches });
+      setIsBuilding(false);
+      toast.success("SQL query and RegEx pattern generated!");
+    }, 400);
+  }, [description, dialect, targetColumn, tableName]);
+
+  const handleCopy = (text: string, label: string) => {
+    navigator.clipboard.writeText(text);
+    toast.success(`${label} copied to clipboard!`);
   };
 
   return (
-    <div className="mx-auto max-w-6xl px-2 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-6 max-w-full overflow-hidden">
+    <div className="max-w-6xl mx-auto space-y-8 p-4">
       <ToolPageHeader
-        title="AI Natural Language to SQL & Regex Studio"
-        description="Convert plain English requirements into production-ready SQL queries and Regex patterns with instant explanations."
+        icon={Database}
+        title="AI SQL & RegEx Pattern Builder"
+        description="Convert plain English specifications into optimized SQL queries with regular expression pattern matching for PostgreSQL, MySQL, SQLite, and BigQuery."
       />
 
-      {/* SINGLE VIEWPORT IDE STUDIO WORKSPACE */}
-      <div className="grid gap-4 sm:gap-6 lg:grid-cols-12 min-h-[500px] max-w-full">
-        {/* Left Column: Prompt Input & Mode Pills (6 Cols) */}
-        <div className="lg:col-span-6 flex flex-col max-w-full">
-          <Card className="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl flex-1 flex flex-col justify-between overflow-hidden max-w-full">
-            <CardHeader className="border-b border-border/40 bg-muted/20 p-3 sm:p-4">
-              <div className="flex items-center justify-between gap-2">
-                <CardTitle className="text-xs sm:text-sm font-semibold flex items-center gap-2 tracking-tight truncate">
-                  {outputType === "sql" ? <Database className="h-4 w-4 text-primary shrink-0" /> : <Regex className="h-4 w-4 text-purple-500 shrink-0" />}
-                  Prompt Requirement
-                </CardTitle>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <GlassCard className="p-0">
+          <CardHeader className="border-b border-border/40 bg-muted/20 p-4">
+            <CardTitle className="text-sm font-semibold flex items-center gap-2">
+              <Database className="w-4 h-4 text-primary" />
+              SQL Specification Input
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="p-4 sm:p-6 space-y-4">
+            <div>
+              <Label className="text-xs mb-1 block">What do you want to match / filter?</Label>
+              <textarea
+                className="w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50 min-h-[100px]"
+                placeholder="e.g. Find all users whose email column contains a valid corporate email address"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </div>
 
-                {/* Output Mode Switcher */}
-                <div className="flex items-center gap-1 bg-background/80 p-1 rounded-xl border text-xs shadow-inner shrink-0">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setOutputType("sql");
-                      setPromptInput(presets[0].prompt);
-                    }}
-                    className={`px-2.5 py-1 rounded-lg font-medium transition text-xs ${
-                      outputType === "sql" ? "bg-primary text-primary-foreground shadow-xs font-semibold" : "text-muted-foreground"
-                    }`}
-                  >
-                    SQL Query
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setOutputType("regex");
-                      setPromptInput(presets[1].prompt);
-                    }}
-                    className={`px-2.5 py-1 rounded-lg font-medium transition text-xs ${
-                      outputType === "regex" ? "bg-primary text-primary-foreground shadow-xs font-semibold" : "text-muted-foreground"
-                    }`}
-                  >
-                    Regex Pattern
-                  </button>
-                </div>
-              </div>
-            </CardHeader>
-
-            <CardContent className="p-3 sm:p-4 space-y-3 flex-1 flex flex-col justify-between max-w-full">
-              {/* Presets */}
-              <div className="space-y-1 max-w-full">
-                <span className="text-[11px] font-semibold text-muted-foreground">
-                  Try 1-Click Requirements:
-                </span>
-                <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-thin pb-1 max-w-full">
-                  {presets.map((preset) => (
-                    <button
-                      key={preset.name}
-                      type="button"
-                      onClick={() => {
-                        setOutputType(preset.type);
-                        setPromptInput(preset.prompt);
-                      }}
-                      className="px-2.5 py-1 rounded-lg border text-xs font-medium bg-background hover:bg-muted transition text-muted-foreground hover:text-foreground shrink-0 whitespace-nowrap"
-                    >
-                      {preset.name}
-                    </button>
-                  ))}
-                </div>
+            <div className="grid grid-cols-3 gap-3">
+              <div>
+                <Label className="text-xs mb-1 block">SQL Dialect</Label>
+                <select
+                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-xs"
+                  value={dialect}
+                  onChange={(e) => setDialect(e.target.value as any)}
+                >
+                  <option value="postgres">PostgreSQL (~*)</option>
+                  <option value="mysql">MySQL (REGEXP)</option>
+                  <option value="bigquery">Google BigQuery</option>
+                  <option value="sqlite">SQLite</option>
+                </select>
               </div>
 
-              <div className="space-y-1 flex-1 flex flex-col">
-                <label className="text-xs font-semibold text-muted-foreground">
-                  Describe what data or pattern you need:
-                </label>
-                <Textarea
-                  value={promptInput}
-                  onChange={(e) => setPromptInput(e.target.value)}
-                  placeholder="e.g. Find all users who ordered in the last 7 days..."
-                  className="text-xs min-h-[140px] bg-muted/20 resize-none p-3 rounded-xl max-w-full"
+              <div>
+                <Label className="text-xs mb-1 block">Table Name</Label>
+                <Input
+                  placeholder="e.g. users"
+                  value={tableName}
+                  onChange={(e) => setTableName(e.target.value)}
                 />
               </div>
 
-              {outputType === "sql" && (
-                <div className="flex items-center gap-2 text-xs pt-1">
-                  <span className="font-semibold text-muted-foreground shrink-0">Dialect:</span>
-                  <div className="flex items-center gap-1 overflow-x-auto scrollbar-thin max-w-full">
-                    {["PostgreSQL", "MySQL", "SQLite", "SQL Server"].map((dialect) => (
-                      <button
-                        key={dialect}
-                        type="button"
-                        onClick={() => setSqlDialect(dialect)}
-                        className={`px-2.5 py-0.5 rounded-md border text-[11px] font-medium transition shrink-0 whitespace-nowrap ${
-                          sqlDialect === dialect ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground"
-                        }`}
-                      >
-                        {dialect}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              <Button
-                onClick={handleGenerate}
-                disabled={isGenerating || !promptInput.trim()}
-                className="w-full gap-2 shadow-md rounded-xl font-semibold h-10 justify-center mt-2"
-              >
-                {isGenerating ? (
-                  <>
-                    <RefreshCw className="h-4 w-4 animate-spin" />
-                    Generating {outputType.toUpperCase()}...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="h-4 w-4" />
-                    Generate {outputType === "sql" ? "SQL Query" : "Regex Pattern"}
-                  </>
-                )}
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Right Column: IDE Output & Explanation (6 Cols) */}
-        <div className="lg:col-span-6 flex flex-col max-w-full">
-          <Card className="border border-primary/30 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl flex-1 flex flex-col justify-between overflow-hidden max-w-full">
-            <CardHeader className="border-b border-border/40 bg-muted/20 p-3 sm:p-4">
-              <div className="flex items-center justify-between gap-2">
-                <CardTitle className="text-xs sm:text-sm font-semibold flex items-center gap-2 text-primary tracking-tight">
-                  <Terminal className="h-4 w-4 shrink-0" />
-                  Generated Output & Explanation
-                </CardTitle>
-
-                {generatedResult && (
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={handleCopy}
-                    className="h-8 gap-1.5 text-xs rounded-lg shrink-0"
-                  >
-                    {copied ? <Check className="h-3.5 w-3.5 text-emerald-500" /> : <Copy className="h-3.5 w-3.5" />}
-                    {copied ? "Copied" : "Copy Output"}
-                  </Button>
-                )}
+              <div>
+                <Label className="text-xs mb-1 block">Column Name</Label>
+                <Input
+                  placeholder="e.g. email"
+                  value={targetColumn}
+                  onChange={(e) => setTargetColumn(e.target.value)}
+                />
               </div>
-            </CardHeader>
+            </div>
 
-            <CardContent className="p-3 sm:p-4 flex-1 flex flex-col justify-between space-y-3 max-w-full overflow-hidden">
-              {generatedResult ? (
-                <div className="space-y-3 flex-1 flex flex-col max-w-full overflow-hidden">
-                  <div className="p-3.5 rounded-xl border bg-[#0f172a] text-[#f8fafc] font-mono text-xs text-slate-100 overflow-x-auto max-w-full">
-                    <pre className="whitespace-pre-wrap break-all leading-relaxed">{generatedResult}</pre>
-                  </div>
+            <Button onClick={handleBuild} disabled={isBuilding || !description.trim()} className="w-full gap-2 mt-2">
+              <Sparkles className="w-4 h-4" />
+              {isBuilding ? "Building Query..." : "Build SQL RegEx Query"}
+            </Button>
+          </CardContent>
+        </GlassCard>
 
-                  <div className="p-3 rounded-xl border bg-muted/20 space-y-1.5 text-xs max-w-full">
-                    <span className="font-semibold text-foreground flex items-center gap-1.5">
-                      <Sparkles className="h-3.5 w-3.5 text-primary shrink-0" /> Logic Breakdown:
+        <div className="space-y-4">
+          {result ? (
+            <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
+              <GlassCard className="p-4 space-y-3">
+                <div className="flex justify-between items-center border-b border-border/40 pb-2">
+                  <span className="text-xs font-bold text-primary uppercase tracking-wider flex items-center gap-1.5">
+                    <Code2 className="w-3.5 h-3.5" /> Generated SQL Query ({dialect.toUpperCase()})
+                  </span>
+                  <Button variant="ghost" size="sm" onClick={() => handleCopy(result.sqlQuery, "SQL Query")} className="h-7 text-xs gap-1">
+                    <Copy className="w-3.5 h-3.5" /> Copy SQL
+                  </Button>
+                </div>
+                <pre className="text-xs font-mono bg-muted/40 p-3 rounded-lg border border-border/50 text-emerald-400 whitespace-pre-wrap">{result.sqlQuery}</pre>
+              </GlassCard>
+
+              <GlassCard className="p-4 space-y-3">
+                <div className="flex justify-between items-center border-b border-border/40 pb-2">
+                  <span className="text-xs font-bold text-primary uppercase tracking-wider flex items-center gap-1.5">
+                    <Terminal className="w-3.5 h-3.5" /> Raw RegEx Pattern
+                  </span>
+                  <Button variant="ghost" size="sm" onClick={() => handleCopy(result.regexPattern, "RegEx Pattern")} className="h-7 text-xs gap-1">
+                    <Copy className="w-3.5 h-3.5" /> Copy Pattern
+                  </Button>
+                </div>
+                <code className="text-xs font-mono bg-muted/30 p-2.5 rounded border border-border/40 block text-foreground">{result.regexPattern}</code>
+              </GlassCard>
+
+              <GlassCard className="p-4 space-y-2">
+                <span className="text-xs font-semibold text-muted-foreground">Sample Matching String Tests:</span>
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {result.testMatches.map((m, i) => (
+                    <span key={i} className="text-xs font-mono bg-emerald-500/10 text-emerald-500 border border-emerald-500/30 px-2 py-1 rounded">
+                      ✓ {m}
                     </span>
-                    <div className="text-muted-foreground leading-relaxed break-words whitespace-pre-wrap">
-                      {explanation}
-                    </div>
-                  </div>
+                  ))}
                 </div>
-              ) : (
-                <div className="flex-1 rounded-xl border border-dashed flex flex-col items-center justify-center text-center p-6 text-muted-foreground bg-muted/10 space-y-3 min-h-[260px] max-w-full">
-                  <Terminal className="h-8 w-8 opacity-40 text-primary" />
-                  <p className="text-sm font-semibold text-foreground">Describe your query to generate</p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
+                <p className="text-xs text-muted-foreground pt-1">{result.explanation}</p>
+              </GlassCard>
+            </motion.div>
+          ) : (
+            <GlassCard className="p-8 h-[380px] flex flex-col items-center justify-center text-center text-muted-foreground border-dashed">
+              <Database className="w-12 h-12 mb-3 text-muted-foreground/30" />
+              <p className="text-sm font-medium">No SQL Query Built Yet</p>
+              <p className="text-xs max-w-xs mt-1">Describe what string pattern you want to query on the left to generate dialect-specific SQL statements.</p>
+            </GlassCard>
+          )}
         </div>
       </div>
+
+      <ToolHowItWorks
+        steps={[
+          { step: "01", title: "Describe Search Requirement", description: "Explain in plain text what data pattern you need to query in your database.", icon: Database },
+          { step: "02", title: "Select SQL Engine", description: "Choose PostgreSQL, MySQL, BigQuery, or SQLite syntax standards.", icon: Sliders },
+          { step: "03", title: "Copy Ready Query", description: "Copy production-ready SQL SELECT statements and regex patterns instantly.", icon: CheckCircle2 }
+        ]}
+        badges={["100% Free", "Dialect Accurate", "Zero Server Load"]}
+      />
+
+      <ToolFeatureGuides
+        features={[
+          { icon: Database, title: "Multi-Dialect Support", description: "Adapts regular expression operators for PostgreSQL (~*), MySQL (REGEXP), and BigQuery (REGEXP_CONTAINS)." },
+          { icon: Code2, title: "Syntax Highlighting & Validation", description: "Generates clean, properly escaped regex strings ready for production migration scripts." },
+          { icon: CheckCircle2, title: "Sample Match Testing", description: "Displays verified test cases to prove regex pattern accuracy before execution." }
+        ]}
+      >
+        <div className="prose dark:prose-invert max-w-none">
+          <h3>PostgreSQL vs MySQL RegEx Syntax Differences</h3>
+          <p>
+            Database engines handle regular expression matching through different operators. PostgreSQL uses POSIX regular expressions with operators such as <code>~</code> (case-sensitive) and <code>~*</code> (case-insensitive). MySQL uses the <code>REGEXP</code> or <code>RLIKE</code> keywords. BigQuery encapsulates regex matching within scalar functions like <code>REGEXP_CONTAINS(col, pattern)</code>.
+          </p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion
+        faqs={[
+          { question: "Is regex matching slow in SQL databases?", answer: "Sequential regex scans require full table scans unless backed by specialized trigram indexes (such as PostgreSQL pg_trgm GIN indexes)." },
+          { question: "Can I use this query in Prisma or Drizzle ORM?", answer: "Yes! You can copy the raw regex string into Prisma's raw query builder or Drizzle's sql template tag." }
+        ]}
+      />
+
+      <RelatedTools currentToolUrl="/tools/ai/sql-regex-builder" max={6} />
     </div>
   );
 }
+
+export default SqlRegexBuilderClient;

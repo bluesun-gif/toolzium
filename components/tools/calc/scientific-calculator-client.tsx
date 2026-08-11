@@ -1,257 +1,142 @@
 "use client";
 
-import {
-  Calculator,
-  Delete,
-  Equal,
-  Eraser,
-  FunctionSquare,
-  Percent,
-  Pi,
-  Superscript,
-  X,
-} from "lucide-react";
-import * as React from "react";
-
-import { CalcButton } from "@/components/calculators/calc-button";
-import { Display } from "@/components/calculators/display";
-import {
-  ActionButton,
-  CopyButton,
-  LinkButton,
-  ResetButton,
-} from "@/components/shared/action-buttons";
+import React, { useState } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard, MotionGlassCard } from "@/components/ui/glass-card";
-import { Separator } from "@/components/ui/separator";
-import { safeEval } from "@/lib/safe-eval";
-import { cn } from "@/lib/utils";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Calculator } from "lucide-react";
+import toast from "react-hot-toast";
 
-// Function palette
-const FNS: Array<{ label: string; ins: string; title?: string }> = [
-  { label: "sin", ins: "sin(", title: "Sine" },
-  { label: "cos", ins: "cos(", title: "Cosine" },
-  { label: "tan", ins: "tan(", title: "Tangent" },
-  { label: "log", ins: "log(", title: "Log base 10" },
-  { label: "ln", ins: "ln(", title: "Natural log" },
-  { label: "√", ins: "√(", title: "Square root" },
-];
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
 
 export default function ScientificCalculatorClient() {
-  const [expr, setExpr] = React.useState("");
-  const [ans, setAns] = React.useState<string>("");
-  const [lastAns, setLastAns] = React.useState<string>("");
+  const [expression, setExpression] = useState("");
+  const [result, setResult] = useState("");
 
-  // Replace ANS with last result for preview/evaluate
-  const exprWithAns = React.useMemo(() => {
-    if (!expr) return "";
-    if (!lastAns) return expr;
-    return expr.replace(/\bANS\b/g, lastAns);
-  }, [expr, lastAns]);
+  const handleButtonClick = (val: string) => {
+    setExpression(prev => prev + val);
+  };
 
-  // Live preview (safeEval should understand sin, cos, tan, log, ln, √, ^, π, etc.)
-  React.useEffect(() => {
-    const v = safeEval(exprWithAns);
-    setAns(v == null ? "" : String(v));
-  }, [exprWithAns]);
+  const handleClear = () => {
+    setExpression("");
+    setResult("");
+  };
 
-  // Stable handlers
-  const push = React.useCallback((t: string) => {
-    setExpr((e) => e + t);
-  }, []);
+  const handleBackspace = () => {
+    setExpression(prev => prev.slice(0, -1));
+  };
 
-  const resetAll = React.useCallback(() => {
-    setExpr("");
-    setAns("");
-    setLastAns("");
-  }, []);
-
-  const clear = React.useCallback(() => {
-    setExpr("");
-    setAns("");
-  }, []);
-
-  const back = React.useCallback(() => {
-    setExpr((e) => e.slice(0, -1));
-  }, []);
-
-  const equal = React.useCallback(() => {
-    const v = safeEval(exprWithAns);
-    if (v == null) return;
-    const s = String(v);
-    setExpr(s);
-    setLastAns(s);
-    setAns("");
-  }, [exprWithAns]);
-
-  // Keyboard support (stable)
-  const onKey = React.useCallback(
-    (e: KeyboardEvent) => {
-      const k = e.key;
-      if (/^[0-9.+\-*/()% ]$/.test(k)) {
-        setExpr((x) => x + k);
-      } else if (k === "Enter") {
-        e.preventDefault();
-        equal();
-      } else if (k === "Backspace") {
-        back();
-      } else if (k.toLowerCase() === "c") {
-        clear();
-      } else if (k.toLowerCase() === "p") {
-        // quick π
-        push("π");
-      } else if (k === "^") {
-        push("^");
+  const handleCalculate = () => {
+    try {
+      let evalExpr = expression
+        .replace(/sin\(/g, "Math.sin(")
+        .replace(/cos\(/g, "Math.cos(")
+        .replace(/tan\(/g, "Math.tan(")
+        .replace(/sqrt\(/g, "Math.sqrt(")
+        .replace(/log\(/g, "Math.log10(")
+        .replace(/ln\(/g, "Math.log(")
+        .replace(/pi/g, "Math.PI")
+        .replace(/e/g, "Math.E")
+        .replace(/\^/g, "**");
+      
+      if (/[^0-9+\-*/().%\s\w]/.test(evalExpr.replace(/Math\.\w+/g, ""))) {
+         throw new Error("Invalid characters");
       }
-    },
-    [equal, back, clear, push],
-  );
 
-  React.useEffect(() => {
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [onKey]);
+      const res = Function(`"use strict"; return (${evalExpr})`)();
+      setResult(String(res));
+    } catch (err) {
+      toast.error("Invalid expression");
+      setResult("Error");
+    }
+  };
 
-  const previewHint = React.useMemo(() => (ans ? `= ${ans}` : ""), [ans]);
+  const buttons = [
+    "sin(", "cos(", "tan(", "sqrt(", "C", "DEL",
+    "log(", "ln(", "pi", "e", "(", ")",
+    "7", "8", "9", "/", "^", "%",
+    "4", "5", "6", "*", "1", "2",
+    "3", "-", "0", ".", "=", "+"
+  ];
 
   return (
-    <>
-      {/* Header with reusable controls */}
-      <ToolPageHeader
-        icon={FunctionSquare}
-        title="Scientific Calculator"
-        description="Trig, logs, powers, constants, and ANS."
-        actions={
-          <>
-            <ResetButton onClick={resetAll} />
-            <ActionButton icon={Eraser} label="Clear" onClick={clear} />
-            <CopyButton label="Copy Expr" getText={() => expr || "0"} />
-            <CopyButton
-              variant="default"
-              label="Copy Result"
-              getText={() => (ans || expr || "0").toString()}
-            />
-          </>
-        }
+    <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <ToolPageHeader icon={Calculator} title="Scientific Calculator" description="Perform advanced mathematical calculations with trigonometric, logarithmic, and exponential functions." />
+      
+      <Card className={cardClass}>
+        <CardHeader className={headerClass}>
+          <CardTitle className={titleClass}>Calculator Display</CardTitle>
+        </CardHeader>
+        <CardContent className="p-4 sm:p-6 space-y-4">
+          <div className="p-4 rounded-xl bg-slate-950 text-right min-h-[100px] flex flex-col justify-end">
+            <div className="text-slate-400 text-sm h-6 overflow-x-auto whitespace-nowrap">{expression || "0"}</div>
+            <div className="text-white text-4xl font-bold overflow-x-auto whitespace-nowrap">{result || "0"}</div>
+          </div>
+          
+          <div className="grid grid-cols-6 gap-2">
+            {buttons.map((btn) => {
+              let className = "h-12 rounded-lg font-semibold text-sm transition-colors ";
+              if (btn === "=") className += "bg-primary text-primary-foreground hover:bg-primary/90 col-span-2";
+              else if (btn === "C" || btn === "DEL") className += "bg-destructive/20 text-destructive hover:bg-destructive/30";
+              else if (["+", "-", "*", "/", "^", "%", "(", ")"].includes(btn)) className += "bg-muted hover:bg-muted/80 text-foreground";
+              else if (["sin(", "cos(", "tan(", "sqrt(", "log(", "ln(", "pi", "e"].includes(btn)) className += "bg-primary/10 text-primary hover:bg-primary/20 text-xs";
+              else className += "bg-card border border-border/50 hover:bg-muted/50 text-foreground";
+
+              return (
+                <Button 
+                  key={btn} 
+                  variant="ghost" 
+                  className={className}
+                  onClick={() => {
+                    if (btn === "C") handleClear();
+                    else if (btn === "DEL") handleBackspace();
+                    else if (btn === "=") handleCalculate();
+                    else handleButtonClick(btn);
+                  }}
+                >
+                  {btn}
+                </Button>
+              );
+            })}
+          </div>
+        </CardContent>
+      </Card>
+
+      <ToolHowItWorks 
+        steps={[
+          { step: "01", title: "Input Expression", description: "Use the keypad to type your mathematical expression, including scientific functions.", icon: Calculator },
+          { step: "02", title: "Review Formula", description: "Check the top line of the display to ensure your formula is entered correctly.", icon: Calculator },
+          { step: "03", title: "Calculate", description: "Press the equals button to instantly compute the final result.", icon: Calculator }
+        ]} 
+        badges={["100% Free", "Client-Side", "No Signup"]} 
       />
 
-      {/* Quick nav */}
-      <GlassCard className="px-4 py-3">
-        <div className="mb-1 flex flex-wrap gap-2 items-center justify-between">
-          <div className="flex flex-wrap gap-2">
-            <LinkButton size="sm" icon={Calculator} label="Standard" href="/tools/calc/standard" />
-            <LinkButton
-              size="sm"
-              variant="default"
-              icon={FunctionSquare}
-              label="Scientific"
-              href="/tools/calc/scientific"
-            />
-            <LinkButton size="sm" icon={Percent} label="Percentage" href="/tools/calc/percentage" />
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <ActionButton size="sm" icon={Delete} label="Back" onClick={back} />
-            <ActionButton
-              size="sm"
-              icon={Calculator}
-              variant="default"
-              label="Equals"
-              onClick={equal}
-              aria-label="Equals"
-            />
-          </div>
+      <ToolFeatureGuides features={[
+        { icon: Calculator, title: "Scientific Functions", description: "Includes sin, cos, tan, log, ln, square root, and constants like pi and e." },
+        { icon: Calculator, title: "Expression Editing", description: "Use the backspace button to correct typos without clearing the entire formula." },
+        { icon: Calculator, title: "Operator Support", description: "Supports standard arithmetic, exponents (^), and modulo (%) operations." },
+        { icon: Calculator, title: "Error Handling", description: "Displays a clear error toast if the mathematical expression is invalid." }
+      ]}>
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <p>A scientific calculator is indispensable for students, engineers, and scientists dealing with complex equations. This web-based tool brings the power of a physical scientific calculator directly to your browser.</p>
+          <p>Unlike basic calculators, this tool supports nested parentheses, trigonometric functions (in radians), logarithmic bases, and exponential notation. The dual-line display lets you see both your input expression and the computed result simultaneously.</p>
+          <p>All computations are executed locally via JavaScript's math engine, meaning you can use it offline and your calculations remain entirely private.</p>
         </div>
-      </GlassCard>
+      </ToolFeatureGuides>
 
-      <Separator className="my-4" />
+      <ToolFaqAccordion faqs={[
+        { question: "Are trigonometric functions in degrees or radians?", answer: "This calculator uses radians for sin, cos, and tan functions, which is the standard in higher mathematics and programming." },
+        { question: "How do I calculate exponents?", answer: "Use the ^ symbol. For example, to calculate 2 to the power of 8, type 2^8." },
+        { question: "What does the 'ln' button do?", answer: "The 'ln' button calculates the natural logarithm (base e), while 'log' calculates the common logarithm (base 10)." }
+      ]} />
 
-      <MotionGlassCard>
-        <div className="grid grid-cols-4 gap-3">
-          {/* Display */}
-          <Display value={expr || "0"} hint={previewHint} />
-
-          <div
-            className={cn(
-              "col-span-4 flex gap-2 overflow-x-auto pb-1",
-              "lg:grid lg:grid-cols-6 lg:gap-3 lg:overflow-visible",
-            )}
-          >
-            {FNS.map((f) => (
-              <CalcButton
-                key={f.label}
-                onClick={() => push(f.ins)}
-                variantIntent="accent"
-                className="min-w-[80px] justify-center"
-                title={f.title ?? f.label}
-              >
-                {f.label}
-              </CalcButton>
-            ))}
-          </div>
-
-          {/* Utility row */}
-          <CalcButton onClick={() => push("(")} variantIntent="ghost" title="(">
-            (
-          </CalcButton>
-          <CalcButton onClick={() => push(")")} variantIntent="ghost" title=")">
-            )
-          </CalcButton>
-          <CalcButton onClick={() => push("π")} variantIntent="ghost" title="Pi (π)">
-            <Pi className="h-4 w-4" />
-          </CalcButton>
-          <CalcButton onClick={() => push("e")} variantIntent="ghost" title="Euler's number (e)">
-            e
-          </CalcButton>
-
-          {/* Powers & percent */}
-          <CalcButton onClick={() => push("^")} variantIntent="ghost" title="Power (^)">
-            <Superscript className="h-4 w-4" />
-          </CalcButton>
-          <CalcButton onClick={() => push("^2")} variantIntent="ghost" title="Square (x²)">
-            x²
-          </CalcButton>
-          <CalcButton onClick={() => push("%")} variantIntent="ghost" title="Percent">
-            %
-          </CalcButton>
-          <CalcButton
-            onClick={() => push("ANS")}
-            onDoubleClick={() => push(lastAns)}
-            variantIntent="ghost"
-            title="Insert ANS (double-click to insert numeric)"
-          >
-            ANS
-          </CalcButton>
-
-          {/* Digits & ops */}
-          {["7", "8", "9", "/", "4", "5", "6", "*", "1", "2", "3", "-", "0", "."].map((t, i) => (
-            <CalcButton
-              key={i as number}
-              onClick={() => push(t)}
-              variantIntent={["/", "*", "-"].includes(t) ? "accent" : "ghost"}
-              title={t === "*" ? "Multiply" : t === "/" ? "Divide" : t}
-            >
-              {t === "*" ? <X className="h-4 w-4" /> : t}
-            </CalcButton>
-          ))}
-          <CalcButton onClick={() => push("+")} variantIntent="accent" title="Plus">
-            +
-          </CalcButton>
-
-          {/* Controls */}
-          <CalcButton onClick={back} className="col-span-2" variantIntent="accent" title="Back">
-            <Delete className="mr-2 h-4 w-4" />
-            Back
-          </CalcButton>
-          <CalcButton onClick={clear} variantIntent="danger" title="Clear">
-            <Eraser className="mr-2 h-4 w-4" />
-            Clear
-          </CalcButton>
-          <CalcButton onClick={equal} variantIntent="primary" title="Equals">
-            <Equal className="mr-2 h-4 w-4" />
-            Equals
-          </CalcButton>
-        </div>
-      </MotionGlassCard>
-    </>
+      <RelatedTools currentToolUrl="/tools/calc/scientific-calculator" max={6} />
+    </div>
   );
 }

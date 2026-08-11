@@ -1,8 +1,8 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
-import { toast } from "react-hot-toast";
+import React, { createContext, useContext } from "react";
 
+// Premium is DISABLED — site is fully free until 500k users reached
 type PremiumContextType = {
   isPremium: boolean;
   togglePremium: () => void;
@@ -13,43 +13,11 @@ type PremiumContextType = {
 const PremiumContext = createContext<PremiumContextType | undefined>(undefined);
 
 export function PremiumProvider({ children }: { children: React.ReactNode }) {
-  const [isPremium, setIsPremium] = useState<boolean>(false);
-  const [mounted, setMounted] = useState<boolean>(false);
+  // Always free — premium features disabled
+  const noop = () => {};
 
-  useEffect(() => {
-    setMounted(true);
-    const saved = localStorage.getItem("toolzium_premium_enabled");
-    if (saved === "true") {
-      setIsPremium(true);
-    }
-  }, []);
-
-  const activatePremium = () => {
-    setIsPremium(true);
-    localStorage.setItem("toolzium_premium_enabled", "true");
-    toast.success("Premium membership activated! Thank you for your support. 👑", {
-      duration: 5000,
-      icon: "🎉",
-    });
-  };
-
-  const deactivatePremium = () => {
-    setIsPremium(false);
-    localStorage.setItem("toolzium_premium_enabled", "false");
-    toast.success("Premium membership deactivated. Ads have been re-enabled.");
-  };
-
-  const togglePremium = () => {
-    if (isPremium) {
-      deactivatePremium();
-    } else {
-      activatePremium();
-    }
-  };
-
-  // Prevent hydration mismatch by rendering children without context checks until mounted
   return (
-    <PremiumContext.Provider value={{ isPremium: mounted ? isPremium : false, togglePremium, activatePremium, deactivatePremium }}>
+    <PremiumContext.Provider value={{ isPremium: false, togglePremium: noop, activatePremium: noop, deactivatePremium: noop }}>
       {children}
     </PremiumContext.Provider>
   );

@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { ApiStatusClient } from "@/components/tools/dev/api-status-client";
+import ApiStatusClient from "@/components/tools/dev/api-status-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

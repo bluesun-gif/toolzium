@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { AsciiArtClient } from "@/components/tools/fun/ascii-art-client";
+import AsciiArtClient from "@/components/tools/fun/ascii-art-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

@@ -1,221 +1,182 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Brain, RotateCcw, Trophy, Timer } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Palette, Timer, Move, RotateCcw } from "lucide-react";
+import toast from "react-hot-toast";
 
-type Difficulty = "easy" | "medium" | "hard";
-type Card = { id: number; color: string; isFlipped: boolean; isMatched: boolean };
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
 
 const COLORS = [
-  "bg-red-500", "bg-blue-500", "bg-green-500", "bg-yellow-500",
-  "bg-purple-500", "bg-pink-500", "bg-orange-500", "bg-teal-500",
-  "bg-indigo-500", "bg-lime-500"
+  "bg-red-500", "bg-blue-500", "bg-green-500", "bg-yellow-500", "bg-purple-500", 
+  "bg-pink-500", "bg-orange-500", "bg-cyan-500", "bg-lime-500", "bg-teal-500",
+  "bg-indigo-500", "bg-fuchsia-500", "bg-rose-500", "bg-amber-500", "bg-emerald-500",
+  "bg-sky-500", "bg-violet-500", "bg-stone-500"
 ];
 
-const DIFFICULTY_CONFIG = {
-  easy: { pairs: 6, cols: 3, rows: 4 },
-  medium: { pairs: 8, cols: 4, rows: 4 },
-  hard: { pairs: 10, cols: 5, rows: 4 }
-};
+type CardType = { id: number, color: string, isFlipped: boolean, isMatched: boolean };
 
-export function ColorMemoryClient() {
-  const [difficulty, setDifficulty] = useState<Difficulty>("medium");
-  const [cards, setCards] = useState<Card[]>([]);
-  const [flippedIds, setFlippedIds] = useState<number[]>([]);
+export default function ColorMemoryClient() {
+  const [gridSize, setGridSize] = useState<4 | 6>(4);
+  const [cards, setCards] = useState<CardType[]>([]);
+  const [flipped, setFlipped] = useState<number[]>([]);
   const [moves, setMoves] = useState(0);
   const [time, setTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isWon, setIsWon] = useState(false);
-  const [bestScore, setBestScore] = useState<Record<Difficulty, { moves: number; time: number } | null>>({
-    easy: null, medium: null, hard: null
-  });
 
-  useEffect(() => {
-    const saved = localStorage.getItem("colorMemoryBestScores");
-    if (saved) setBestScore(JSON.parse(saved));
-    initGame(difficulty);
-  }, []);
+  const totalPairs = useMemo(() => (gridSize * gridSize) / 2, [gridSize]);
 
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (isPlaying && !isWon) {
-      timer = setInterval(() => setTime(t => t + 1), 1000);
-    }
-    return () => clearInterval(timer);
-  }, [isPlaying, isWon]);
-
-  const initGame = (diff: Difficulty) => {
-    const { pairs } = DIFFICULTY_CONFIG[diff];
-    const gameColors = COLORS.slice(0, pairs);
-    const duplicatedColors = [...gameColors, ...gameColors];
-    const shuffledColors = duplicatedColors.sort(() => Math.random() - 0.5);
-    
-    setCards(shuffledColors.map((color, index) => ({
-      id: index,
-      color,
-      isFlipped: false,
-      isMatched: false
-    })));
-    setFlippedIds([]);
+  const initGame = useCallback(() => {
+    const selectedColors = COLORS.slice(0, totalPairs);
+    const deck = [...selectedColors, ...selectedColors]
+      .sort(() => Math.random() - 0.5)
+      .map((color, idx) => ({ id: idx, color, isFlipped: false, isMatched: false }));
+    setCards(deck);
+    setFlipped([]);
     setMoves(0);
     setTime(0);
-    setIsPlaying(false);
+    setIsPlaying(true);
     setIsWon(false);
-  };
+  }, [totalPairs]);
 
-  const handleDifficultyChange = (val: Difficulty) => {
-    setDifficulty(val);
-    initGame(val);
-  };
+  useEffect(() => {
+    initGame();
+  }, [initGame]);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isPlaying && !isWon) {
+      interval = setInterval(() => setTime(t => t + 1), 1000);
+    }
+    return () => clearInterval(interval);
+  }, [isPlaying, isWon]);
 
   const handleCardClick = (id: number) => {
-    if (!isPlaying) setIsPlaying(true);
-    if (flippedIds.length === 2) return;
-    if (cards[id].isFlipped || cards[id].isMatched) return;
+    if (flipped.length === 2) return;
+    const card = cards[id];
+    if (card.isFlipped || card.isMatched) return;
 
-    const newFlippedIds = [...flippedIds, id];
-    setFlippedIds(newFlippedIds);
-    setCards(cards.map(c => c.id === id ? { ...c, isFlipped: true } : c));
+    const newCards = [...cards];
+    newCards[id].isFlipped = true;
+    setCards(newCards);
 
-    if (newFlippedIds.length === 2) {
+    const newFlipped = [...flipped, id];
+    setFlipped(newFlipped);
+
+    if (newFlipped.length === 2) {
       setMoves(m => m + 1);
-      const [firstId, secondId] = newFlippedIds;
-      if (cards[firstId].color === cards[secondId].color) {
-        setTimeout(() => {
-          setCards(prev => prev.map(c => c.id === firstId || c.id === secondId ? { ...c, isMatched: true } : c));
-          setFlippedIds([]);
-          checkWinState();
-        }, 500);
+      const [first, second] = newFlipped;
+      if (newCards[first].color === newCards[second].color) {
+        newCards[first].isMatched = true;
+        newCards[second].isMatched = true;
+        setCards(newCards);
+        setFlipped([]);
+        
+        if (newCards.every(c => c.isMatched)) {
+          setIsWon(true);
+          setIsPlaying(false);
+          toast.success(`You won in ${moves + 1} moves!`);
+        }
       } else {
         setTimeout(() => {
-          setCards(prev => prev.map(c => c.id === firstId || c.id === secondId ? { ...c, isFlipped: false } : c));
-          setFlippedIds([]);
+          newCards[first].isFlipped = false;
+          newCards[second].isFlipped = false;
+          setCards([...newCards]);
+          setFlipped([]);
         }, 1000);
       }
     }
   };
 
-  const checkWinState = () => {
-    setCards(prev => {
-      const isComplete = prev.every(c => c.isMatched || flippedIds.includes(c.id));
-      if (isComplete) {
-        setIsWon(true);
-        setIsPlaying(false);
-        updateBestScore();
-      }
-      return prev;
-    });
-  };
-
-  const updateBestScore = () => {
-    const currentBest = bestScore[difficulty];
-    if (!currentBest || moves < currentBest.moves || (moves === currentBest.moves && time < currentBest.time)) {
-      const newBest = { ...bestScore, [difficulty]: { moves, time } };
-      setBestScore(newBest);
-      localStorage.setItem("colorMemoryBestScores", JSON.stringify(newBest));
-    }
-  };
-
-  const gridColsClass = {
-    easy: "grid-cols-3",
-    medium: "grid-cols-4",
-    hard: "grid-cols-5"
-  }[difficulty];
+  const gridCols = gridSize === 4 ? "grid-cols-4" : "grid-cols-6";
 
   return (
-    <div className="space-y-6">
-      <ToolPageHeader
-        icon={Brain}
-        title="Color Memory Game"
-        description="Test your memory with this classic color matching card game."
-        actions={
-          <Button onClick={() => initGame(difficulty)} variant="outline">
-            <RotateCcw className="w-4 h-4 mr-2" /> New Game
-          </Button>
-        }
+    <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <ToolPageHeader 
+        icon={Palette} 
+        title="Color Memory Game" 
+        description="Flip the tiles, match the colors, and test your memory with this classic grid game." 
       />
 
-      <div className="flex flex-col md:flex-row gap-6">
-        <div className="w-full md:w-1/3 space-y-4">
-          <GlassCard>
-            <CardHeader>
-              <CardTitle>Settings</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Select value={difficulty} onValueChange={handleDifficultyChange}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Difficulty" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="easy">Easy (3x4)</SelectItem>
-                  <SelectItem value="medium">Medium (4x4)</SelectItem>
-                  <SelectItem value="hard">Hard (5x4)</SelectItem>
-                </SelectContent>
-              </Select>
-            </CardContent>
-          </GlassCard>
+      <Card className={cardClass}>
+        <CardHeader className={headerClass}>
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <CardTitle className={titleClass}>Color Memory</CardTitle>
+            <div className="flex gap-2">
+              <Button variant={gridSize === 4 ? "default" : "outline"} size="sm" onClick={() => setGridSize(4)}>4x4</Button>
+              <Button variant={gridSize === 6 ? "default" : "outline"} size="sm" onClick={() => setGridSize(6)}>6x6</Button>
+              <Button variant="outline" size="sm" onClick={initGame} className="gap-1">
+                <RotateCcw className="w-3 h-3" /> Reset
+              </Button>
+            </div>
+          </div>
+          <div className="flex gap-6 mt-4 text-sm font-medium text-muted-foreground">
+            <span className="flex items-center gap-1"><Timer className="w-4 h-4" /> {time}s</span>
+            <span className="flex items-center gap-1"><Move className="w-4 h-4" /> {moves} Moves</span>
+          </div>
+        </CardHeader>
+        <CardContent className="p-4 sm:p-6">
+          <div className={`grid ${gridCols} gap-2 sm:gap-3 max-w-2xl mx-auto`}>
+            {cards.map((card) => (
+              <button
+                key={card.id}
+                onClick={() => handleCardClick(card.id)}
+                className={`aspect-square rounded-xl transition-all duration-300 transform ${
+                  card.isFlipped || card.isMatched 
+                    ? `${card.color} scale-95 shadow-inner` 
+                    : "bg-muted hover:bg-muted/80 shadow-md border border-border/50"
+                }`}
+                disabled={card.isMatched || flipped.length === 2}
+              />
+            ))}
+          </div>
+          {isWon && (
+            <div className="mt-6 text-center p-4 bg-primary/10 rounded-xl border border-primary/20">
+              <h3 className="text-xl font-bold text-primary">Congratulations!</h3>
+              <p className="text-muted-foreground">You matched all pairs in {moves} moves and {time} seconds.</p>
+            </div>
+          )}
+        </CardContent>
+      </Card>
 
-          <GlassCard>
-            <CardHeader>
-              <CardTitle>Stats</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex justify-between items-center text-lg">
-                <span className="flex items-center text-muted-foreground"><RotateCcw className="w-5 h-5 mr-2" /> Moves:</span>
-                <span className="font-bold">{moves}</span>
-              </div>
-              <div className="flex justify-between items-center text-lg">
-                <span className="flex items-center text-muted-foreground"><Timer className="w-5 h-5 mr-2" /> Time:</span>
-                <span className="font-bold">{time}s</span>
-              </div>
-              <div className="pt-4 border-t flex justify-between items-center">
-                <span className="flex items-center text-muted-foreground"><Trophy className="w-4 h-4 mr-2" /> Best:</span>
-                <span className="text-sm font-medium">
-                  {bestScore[difficulty] ? `${bestScore[difficulty]?.moves} moves (${bestScore[difficulty]?.time}s)` : "None"}
-                </span>
-              </div>
-            </CardContent>
-          </GlassCard>
-        </div>
+      <ToolHowItWorks 
+        steps={[
+          { step: "01", title: "Choose Grid Size", description: "Select either the 4x4 or 6x6 grid difficulty to begin your game.", icon: Palette },
+          { step: "02", title: "Flip Two Tiles", description: "Click on any two face-down tiles to reveal their hidden colors.", icon: Move },
+          { step: "03", title: "Match & Win", description: "Remember the locations and match all color pairs to win the game.", icon: Timer }
+        ]} 
+        badges={["100% Free", "Client-Side", "Fun"]} 
+      />
 
-        <div className="w-full md:w-2/3">
-          <GlassCard className="h-full flex items-center justify-center p-6">
-            {isWon ? (
-              <div className="text-center space-y-4 animate-in zoom-in">
-                <Trophy className="w-16 h-16 text-yellow-500 mx-auto" />
-                <h2 className="text-3xl font-bold">You Won!</h2>
-                <p className="text-muted-foreground">Completed in {moves} moves and {time} seconds.</p>
-                <Button onClick={() => initGame(difficulty)} size="lg" className="mt-4">Play Again</Button>
-              </div>
-            ) : (
-              <div className={cn("grid gap-2 sm:gap-4 mx-auto", gridColsClass)}>
-                {cards.map(card => (
-                  <button
-                    key={card.id}
-                    onClick={() => handleCardClick(card.id)}
-                    className={cn(
-                      "w-16 h-16 sm:w-20 sm:h-24 md:w-24 md:h-32 rounded-xl transition-all duration-300 transform preserve-3d shadow-md",
-                      (card.isFlipped || card.isMatched) ? "rotate-y-180" : "bg-primary hover:-translate-y-1 hover:shadow-lg cursor-pointer"
-                    )}
-                    disabled={card.isFlipped || card.isMatched}
-                  >
-                    <div className={cn(
-                      "absolute inset-0 backface-hidden rounded-xl",
-                      card.isFlipped || card.isMatched ? card.color : "hidden"
-                    )} />
-                  </button>
-                ))}
-              </div>
-            )}
-          </GlassCard>
+      <ToolFeatureGuides features={[
+        { icon: Palette, title: "Multiple Difficulties", description: "Switch between a relaxed 4x4 grid or a challenging 6x6 grid." },
+        { icon: Timer, title: "Live Timer", description: "Track exactly how long it takes you to clear the board." },
+        { icon: Move, title: "Move Counter", description: "Monitor your efficiency by counting every pair of tiles you flip." },
+        { icon: RotateCcw, title: "Instant Reset", description: "Shuffle the board and start a fresh game at any time with one click." }
+      ]}>
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <p>The Color Memory Game is a digital take on the classic card-matching challenge. It is designed to test and improve your short-term visual memory, concentration, and pattern recognition skills.</p>
+          <p>By flipping tiles and trying to recall where specific colors are hidden, you actively engage your brain's hippocampus, which is responsible for memory formation. The 4x4 grid is perfect for beginners or a quick mental warm-up, while the 6x6 grid offers a serious challenge for memory champions.</p>
+          <p>This game runs entirely in your browser, meaning no scores or personal data are tracked online. It is a safe, private, and relaxing way to take a break from work or study while keeping your mind sharp.</p>
         </div>
-      </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion faqs={[
+        { question: "How do I win the Color Memory Game?", answer: "You win by successfully matching all pairs of identical colors on the grid. The game ends when no face-down tiles remain." },
+        { question: "Can I play this game on a touchscreen device?", answer: "Yes, the game is fully optimized for touch interactions on smartphones and tablets. Simply tap the tiles to flip them." },
+        { question: "Does the game save my high scores?", answer: "To ensure complete privacy, the game does not save high scores to a server. Each session is a fresh start." }
+      ]} />
+
+      <RelatedTools currentToolUrl="/tools/fun/color-memory" max={6} />
     </div>
   );
 }

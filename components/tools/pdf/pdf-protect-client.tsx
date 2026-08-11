@@ -5,7 +5,11 @@ import ToolPageHeader from "@/components/shared/tool-page-header";
 import { GlassCard } from "@/components/ui/glass-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Lock, Upload, Download } from "lucide-react";
+import { Lock, Upload, Download, FileKey, Shield, Settings, EyeOff } from "lucide-react";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 import { PDFDocument } from "pdf-lib";
 import { encryptPDF } from "@pdfsmaller/pdf-encrypt";
 import toast from "react-hot-toast";
@@ -65,7 +69,7 @@ export default function PdfProtectClient() {
   };
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto px-4">
+    <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
       <ToolPageHeader
         icon={Lock}
         title="Protect & Lock PDF Studio"
@@ -115,6 +119,87 @@ export default function PdfProtectClient() {
           </div>
         )}
       </GlassCard>
+
+      <ToolHowItWorks
+        title="How to Protect a PDF Document"
+        steps={[
+          {
+            step: "Step 1",
+            title: "Upload PDF",
+            description: "Select the PDF file you want to secure.",
+            icon: Upload
+          },
+          {
+            step: "Step 2",
+            title: "Set Password",
+            description: "Enter a strong password to lock the document and restrict permissions.",
+            icon: FileKey
+          },
+          {
+            step: "Step 3",
+            title: "Download Encrypted PDF",
+            description: "Save your encrypted, password-protected PDF directly to your device.",
+            icon: Download
+          }
+        ]}
+        badges={["AES-128 Encryption", "Client-Side", "No Upload"]}
+      />
+
+      <ToolFeatureGuides
+        title="Why Use Our PDF Protector?"
+        features={[
+          {
+            title: "Strong Password Protection",
+            description: "Lock your document with a secure user password to prevent unauthorized viewing.",
+            icon: Lock
+          },
+          {
+            title: "Permission Controls",
+            description: "Restrict actions like printing, copying, and editing to maintain full control over your document.",
+            icon: Settings
+          },
+          {
+            title: "Robust Encryption Standard",
+            description: "We use advanced encryption algorithms (AES) to ensure your data remains completely secure.",
+            icon: Shield
+          },
+          {
+            title: "100% Private & Local",
+            description: "Your files never leave your device. All encryption happens locally within your browser.",
+            icon: EyeOff
+          }
+        ]}
+      >
+        <p>
+          Securing your sensitive information has never been more important. Our PDF protection tool allows you to easily encrypt your PDF documents without the need to install any software or upload your private data to a remote server. 
+        </p>
+        <p>
+          Whether you are handling confidential legal documents, financial reports, or personal records, you can lock them with robust encryption algorithms. By setting a password and controlling permissions, you ensure compliance with security standards while keeping your intellectual property and private information safe from prying eyes.
+        </p>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "How strong is the encryption used for PDF protection?",
+            answer: "We use standard AES (Advanced Encryption Standard) encryption, providing a robust layer of security that makes unauthorized access virtually impossible without the correct password."
+          },
+          {
+            question: "Can I remove the password later?",
+            answer: "Yes, if you possess the correct password, you can use a PDF unlock tool (or standard PDF readers that allow saving without a password) to remove the encryption."
+          },
+          {
+            question: "Can I restrict printing or copying?",
+            answer: "Yes! Password protection not only locks the document from being opened but also helps restrict permissions such as printing, text copying, and editing."
+          },
+          {
+            question: "Is my password or file stored on your servers?",
+            answer: "No. Everything is processed entirely within your browser locally. We never store your passwords, nor do we upload your PDF files to any servers."
+          }
+        ]}
+      />
+
+      <RelatedTools currentToolUrl="/tools/pdf/pdf-protect" />
     </div>
   );
 }

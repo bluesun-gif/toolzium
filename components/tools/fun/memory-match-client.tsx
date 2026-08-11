@@ -1,259 +1,215 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
-import { Gamepad2, Trophy, RotateCcw, Sparkles } from "lucide-react";
+import { RotateCcw, Timer, Play, Grid3X3, Zap } from "lucide-react";
 import toast from "react-hot-toast";
 
-const THEMES = {
-  animals: ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐨", "🐯", "🦁", "🐮"],
-  food: ["🍏", "🍎", "🍐", "🍊", "🍋", "🍌", "🍉", "🍇", "🍓", "🍈", "🍒", "🍑"],
-  sports: ["⚽", "🏀", "🏈", "⚾", "🥎", "🎾", "🏐", "🏉", "🥏", "🎱", "🪀", "🏓"],
-  flags: ["🇺🇸", "🇬🇧", "🇨🇦", "🇦🇺", "🇯🇵", "🇩🇪", "🇫🇷", "🇮🇹", "🇪🇸", "🇧🇷", "🇮🇳", "🇨🇳"],
-  technology: ["💻", "📱", "⌚", "⌨️", "🖱️", "🖨️", "🎮", "🕹️", "📷", "🔋", "🔌", "💾"],
-};
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
 
-type CardState = {
-  id: number;
-  emoji: string;
-  isFlipped: boolean;
-  isMatched: boolean;
-};
+const delay = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
 
 export function MemoryMatchClient() {
-  const [theme, setTheme] = useState<keyof typeof THEMES>("animals");
-  const [cardCount, setCardCount] = useState<16 | 24>(16);
-  const [cards, setCards] = useState<CardState[]>([]);
-  const [moves, setMoves] = useState(0);
-  const [time, setTime] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [flippedIndices, setFlippedIndices] = useState<number[]>([]);
-  const [isVictory, setIsVictory] = useState(false);
-  const [bestScore, setBestScore] = useState<{ moves: number; time: number } | null>(null);
+  const [difficulty, setDifficulty] = useState<"normal" | "fast" | "insane">("normal");
+  const [level, setLevel] = useState(1);
+  const [sequence, setSequence] = useState<number[]>([]);
+  const [userStep, setUserStep] = useState(0);
+  const [activeTile, setActiveTile] = useState(-1);
+  const [wrongTile, setWrongTile] = useState(-1);
+  const [phase, setPhase] = useState<"idle" | "showing" | "input" | "gameover">("idle");
+  const [highScore, setHighScore] = useState(0);
 
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const speed = useMemo(() => {
+    if (difficulty === "normal") return 800;
+    if (difficulty === "fast") return 400;
+    return 200;
+  }, [difficulty]);
 
-  const initializeGame = useCallback(() => {
-    const emojis = THEMES[theme].slice(0, cardCount / 2);
-    const deck = [...emojis, ...emojis]
-      .sort(() => Math.random() - 0.5)
-      .map((emoji, index) => ({
-        id: index,
-        emoji,
-        isFlipped: false,
-        isMatched: false,
-      }));
+  const generateSequence = useCallback((lvl: number): number[] => {
+    const seq: number[] = [];
+    const len = lvl + 1; // Start with 2 tiles
+    for (let i = 0; i < len; i++) {
+      seq.push(Math.floor(Math.random() * 9));
+    }
+    return seq;
+  }, []);
+
+  const startGame = useCallback(() => {
+    setLevel(1);
+    setUserStep(0);
+    setPhase("showing");
+    const newSeq = generateSequence(1);
+    setSequence(newSeq);
     
-    setCards(deck);
-    setMoves(0);
-    setTime(0);
-    setIsPlaying(false);
-    setFlippedIndices([]);
-    setIsVictory(false);
-    if (timerRef.current) clearInterval(timerRef.current);
-  }, [theme, cardCount]);
-
-  useEffect(() => {
-    initializeGame();
-    const savedScore = localStorage.getItem("memoryMatchBestScore");
-    if (savedScore) {
-      try {
-        setBestScore(JSON.parse(savedScore));
-      } catch (e) {
-        // ignore
+    (async () => {
+      await delay(500);
+      for (let i = 0; i < newSeq.length; i++) {
+        setActiveTile(newSeq[i]);
+        await delay(speed);
+        setActiveTile(-1);
+        await delay(speed / 2);
       }
-    }
-  }, [initializeGame]);
+      setPhase("input");
+    })();
+  }, [generateSequence, speed]);
 
-  useEffect(() => {
-    if (isPlaying && !isVictory) {
-      timerRef.current = setInterval(() => setTime((t) => t + 1), 1000);
-    }
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [isPlaying, isVictory]);
-
-  const handleCardClick = (index: number) => {
-    if (!isPlaying) setIsPlaying(true);
-    if (cards[index].isFlipped || cards[index].isMatched || flippedIndices.length === 2) return;
-
-    const newCards = [...cards];
-    newCards[index].isFlipped = true;
-    setCards(newCards);
-
-    const newFlippedIndices = [...flippedIndices, index];
-    setFlippedIndices(newFlippedIndices);
-
-    if (newFlippedIndices.length === 2) {
-      setMoves((m) => m + 1);
-      const [firstIndex, secondIndex] = newFlippedIndices;
+  const handleTileClick = useCallback(async (idx: number) => {
+    if (phase !== "input") return;
+    
+    if (idx === sequence[userStep]) {
+      setActiveTile(idx);
+      await delay(200);
+      setActiveTile(-1);
       
-      if (newCards[firstIndex].emoji === newCards[secondIndex].emoji) {
-        setTimeout(() => {
-          setCards((prev) => {
-            const updated = [...prev];
-            updated[firstIndex].isMatched = true;
-            updated[secondIndex].isMatched = true;
-            return updated;
-          });
-          setFlippedIndices([]);
-        }, 500);
+      if (userStep + 1 === sequence.length) {
+        // Level complete
+        const nextLvl = level + 1;
+        setLevel(nextLvl);
+        if (nextLvl > highScore) {
+          setHighScore(nextLvl);
+          toast.success(`New High Score: Level ${nextLvl}!`);
+        } else {
+          toast.success(`Level ${nextLvl} unlocked!`);
+        }
+        setUserStep(0);
+        setPhase("showing");
+        
+        const newSeq = [...sequence, Math.floor(Math.random() * 9)];
+        setSequence(newSeq);
+        
+        await delay(800);
+        for (let i = 0; i < newSeq.length; i++) {
+          setActiveTile(newSeq[i]);
+          await delay(speed);
+          setActiveTile(-1);
+          await delay(speed / 2);
+        }
+        setPhase("input");
       } else {
-        setTimeout(() => {
-          setCards((prev) => {
-            const updated = [...prev];
-            updated[firstIndex].isFlipped = false;
-            updated[secondIndex].isFlipped = false;
-            return updated;
-          });
-          setFlippedIndices([]);
-        }, 1000);
+        setUserStep(userStep + 1);
       }
+    } else {
+      // Wrong tile
+      setWrongTile(idx);
+      await delay(500);
+      setWrongTile(-1);
+      setPhase("gameover");
+      toast.error("Wrong sequence! Game Over.");
     }
-  };
+  }, [phase, sequence, userStep, level, highScore, speed]);
 
-  useEffect(() => {
-    if (cards.length > 0 && cards.every((c) => c.isMatched)) {
-      setIsVictory(true);
-      setIsPlaying(false);
-      if (timerRef.current) clearInterval(timerRef.current);
-      
-      const newScore = { moves, time };
-      if (!bestScore || moves < bestScore.moves || (moves === bestScore.moves && time < bestScore.time)) {
-        setBestScore(newScore);
-        localStorage.setItem("memoryMatchBestScore", JSON.stringify(newScore));
-        toast.success("New Best Score!");
-      }
-    }
-  }, [cards, moves, time, bestScore]);
-
-  const formatTime = (seconds: number) => {
-    const m = Math.floor(seconds / 60);
-    const s = seconds % 60;
-    return m + ":" + (s < 10 ? "0" : "") + s;
+  const getTileColor = (idx: number) => {
+    if (idx === wrongTile) return "bg-red-500 shadow-[0_0_15px_rgba(239,68,68,0.8)]";
+    if (idx === activeTile) return "bg-green-400 shadow-[0_0_20px_rgba(74,222,128,0.8)] scale-105";
+    return "bg-blue-600 hover:bg-blue-500 shadow-md";
   };
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-6xl mx-auto space-y-8 pb-12">
       <ToolPageHeader
-        icon={Gamepad2}
-        title="Memory Match Game"
-        description="Test your memory by matching pairs of cards as quickly as possible."
-        actions={
-          <ActionButton onClick={initializeGame} icon={RotateCcw} label="Restart Game" />
-        }
+        icon={Grid3X3}
+        title="Memory Match"
+        description="Test your sequential memory and reaction time. Watch the pattern, memorize it, and repeat it perfectly as the speed increases."
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <GlassCard className="md:col-span-1">
-          <CardHeader>
-            <CardTitle>Settings</CardTitle>
-            <CardDescription>Configure your game.</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Theme</label>
-              <Select value={theme} onValueChange={(val: keyof typeof THEMES) => setTheme(val)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select theme" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="animals">Animals</SelectItem>
-                  <SelectItem value="food">Food</SelectItem>
-                  <SelectItem value="sports">Sports</SelectItem>
-                  <SelectItem value="flags">Flags</SelectItem>
-                  <SelectItem value="technology">Technology</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Difficulty</label>
-              <Select value={cardCount.toString()} onValueChange={(val) => setCardCount(parseInt(val) as 16 | 24)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select difficulty" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="16">Normal (16 cards)</SelectItem>
-                  <SelectItem value="24">Hard (24 cards)</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            
-            <Separator />
-            
-            <div className="space-y-2">
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-medium text-muted-foreground">Moves:</span>
-                <span className="font-bold">{moves}</span>
+      <Card className={cardClass}>
+        <CardHeader className={headerClass}>
+          <CardTitle className={titleClass}>
+            <Zap className="w-4 h-4" /> Simon Grid
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="p-4 sm:p-6 space-y-6">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-6">
+              <div className="text-center">
+                <div className="text-xs text-muted-foreground">Level</div>
+                <div className="text-2xl font-bold text-primary">{phase === "idle" ? 0 : level}</div>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-medium text-muted-foreground">Time:</span>
-                <span className="font-bold">{formatTime(time)}</span>
+              <div className="text-center">
+                <div className="text-xs text-muted-foreground">High Score</div>
+                <div className="text-2xl font-bold text-yellow-500">{highScore}</div>
               </div>
-              {bestScore && (
-                <div className="pt-2">
-                  <span className="text-xs text-muted-foreground block mb-1">Best Score</span>
-                  <div className="flex items-center gap-1 text-sm bg-primary/10 text-primary p-2 rounded-md">
-                    <Trophy className="w-4 h-4" />
-                    {bestScore.moves} moves in {formatTime(bestScore.time)}
-                  </div>
-                </div>
-              )}
             </div>
-          </CardContent>
-        </GlassCard>
-
-        <GlassCard className="md:col-span-3">
-          <CardHeader>
-            <CardTitle>Game Board</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {isVictory ? (
-              <div className="flex flex-col items-center justify-center py-12 text-center space-y-6 animate-in fade-in zoom-in duration-500">
-                <div className="w-24 h-24 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center mb-4">
-                  <Sparkles className="w-12 h-12" />
-                </div>
-                <h2 className="text-3xl font-bold">You Won!</h2>
-                <div className="flex gap-4 text-lg">
-                  <div><span className="text-muted-foreground">Moves:</span> <span className="font-bold">{moves}</span></div>
-                  <div><span className="text-muted-foreground">Time:</span> <span className="font-bold">{formatTime(time)}</span></div>
-                </div>
-                <Button size="lg" onClick={initializeGame} className="mt-4">
-                  Play Again
-                </Button>
-              </div>
-            ) : (
-              <div 
-                className={"grid gap-4 " + (cardCount === 16 ? "grid-cols-4 sm:grid-cols-4" : "grid-cols-4 sm:grid-cols-6")}
+            <div className="flex items-center gap-3">
+              <select 
+                value={difficulty} 
+                onChange={(e) => setDifficulty(e.target.value as any)}
+                className="px-3 py-2 rounded-lg bg-background border border-border text-sm"
+                disabled={phase !== "idle" && phase !== "gameover"}
               >
-                {cards.map((card, index) => (
-                  <div
-                    key={card.id}
-                    onClick={() => handleCardClick(index)}
-                    className={
-                      "aspect-square rounded-xl cursor-pointer transition-all duration-300 transform-style-3d flex items-center justify-center text-4xl sm:text-5xl select-none shadow-sm border " +
-                      (card.isFlipped || card.isMatched
-                        ? "bg-white border-primary/20 rotate-y-180"
-                        : "bg-primary hover:bg-primary/90 text-transparent border-transparent")
-                    }
-                  >
-                    <div className={"transition-opacity duration-300 " + (card.isFlipped || card.isMatched ? "opacity-100" : "opacity-0")}>
-                      {card.emoji}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </CardContent>
-        </GlassCard>
-      </div>
+                <option value="normal">Normal (800ms)</option>
+                <option value="fast">Fast (400ms)</option>
+                <option value="insane">Insane (200ms)</option>
+              </select>
+              <Button onClick={startGame} variant="default" size="sm">
+                {phase === "idle" || phase === "gameover" ? <><Play className="w-4 h-4 mr-2" /> Start</> : <><RotateCcw className="w-4 h-4 mr-2" /> Restart</>}
+              </Button>
+            </div>
+          </div>
+
+          <div className="text-center text-sm font-medium text-muted-foreground h-6">
+            {phase === "showing" && "Memorize the pattern..."}
+            {phase === "input" && `Your turn! Repeat the sequence (${userStep}/${sequence.length})`}
+            {phase === "gameover" && "Game Over! Try again."}
+          </div>
+
+          <div className="grid grid-cols-3 gap-4 max-w-xs mx-auto">
+            {Array(9).fill(0).map((_, idx) => (
+              <button
+                key={idx}
+                className={`aspect-square rounded-2xl transition-all duration-200 border-b-4 border-black/20 active:scale-95 ${getTileColor(idx)}`}
+                onClick={() => handleTileClick(idx)}
+                disabled={phase !== "input"}
+              />
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      <ToolHowItWorks
+        steps={[
+          { step: "01", title: "Watch the Pattern", description: "The grid will light up in a specific sequence. Pay close attention to the order and speed.", icon: Zap },
+          { step: "02", title: "Memorize & Repeat", description: "Once the sequence finishes, tap the tiles in the exact same order from memory.", icon: Grid3X3 },
+          { step: "03", title: "Survive the Speed", description: "Each level adds a new tile to the sequence and increases the speed. How far can you go?", icon: Play }
+        ]}
+        badges={["100% Free", "Focus Training", "No Signup"]}
+      />
+
+      <ToolFeatureGuides
+        features={[
+          { icon: Zap, title: "Sequential Memory", description: "Trains your brain's ability to encode and recall sequential information, a key component of working memory." },
+          { icon: Grid3X3, title: "Visual Feedback", description: "Satisfying color shifts and glowing animations provide instant feedback on correct and incorrect inputs." },
+          { icon: Play, title: "Progressive Difficulty", description: "The sequence lengthens and the playback speed increases dynamically as you advance through levels." },
+          { icon: RotateCcw, title: "High Score Tracking", description: "Your personal best level is tracked locally, motivating you to beat your previous cognitive limits." }
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none mt-6">
+          <h3>Sequential Pattern Recall</h3>
+          <p>Memory Match is a modern, grid-based evolution of the classic Simon Says game. It is specifically designed to challenge your sequential memory and sustained attention. Unlike spatial memory tasks that rely on static locations, this tool requires you to hold a temporal sequence of events in your working memory. As the grid lights up, your brain's phonological loop and visuospatial sketchpad work in tandem to encode the order of the activations. When it is your turn to reproduce the pattern, you must retrieve this sequence accurately, suppressing any impulsive guesses. This type of cognitive training is highly correlated with improvements in fluid intelligence and executive function.</p>
+          <p>The game's difficulty scales dynamically on two axes: sequence length and playback speed. Starting with a simple two-tile pattern, each successful round adds a new random tile to the end of the sequence. Simultaneously, depending on your chosen difficulty mode, the delay between tile activations shrinks, forcing your brain to process visual information more rapidly. The 'Insane' mode, with its 200ms flash rate, pushes the boundaries of human reaction time and short-term memory capacity. The immediate visual feedback—green for correct, red for incorrect—ensures that your brain receives clear error signals, which are crucial for neuroplastic adaptation. Whether you are preparing for competitive exams, looking to sharpen your daily focus, or simply enjoy high-stakes brain teasers, Memory Match provides a rigorous, scientifically grounded workout for your neural pathways.</p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion
+        faqs={[
+          { question: "What is the difference between the difficulty modes?", answer: "The difficulty modes control the speed at which the sequence is shown. Normal is 800ms per tile, Fast is 400ms, and Insane is a blistering 200ms, requiring intense focus." },
+          { question: "Does the sequence get longer every level?", answer: "Yes, every time you successfully complete a level, one additional tile is added to the end of the sequence, increasing the memory load." },
+          { question: "Is my high score saved?", answer: "Your high score for the current session is tracked. Future updates may include persistent local storage to save your all-time best level." },
+          { question: "Can I play without sound?", answer: "Yes, this tool is entirely visual. It uses color and animation to provide feedback, making it perfect for playing in quiet environments like offices or libraries." }
+        ]}
+      />
+
+      <RelatedTools currentToolUrl="/tools/fun/memory-match" max={6} />
     </div>
   );
 }
+
+export default MemoryMatchClient;

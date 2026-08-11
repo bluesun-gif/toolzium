@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { AspectRatioClient } from "@/components/tools/calc/aspect-ratio-client";
+import AspectRatioClient from "@/components/tools/calc/aspect-ratio-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

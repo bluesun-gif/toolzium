@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { ColorMemoryClient } from "@/components/tools/fun/color-memory-client";
+import ColorMemoryClient from "@/components/tools/fun/color-memory-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

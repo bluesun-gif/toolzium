@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { CssGridClient } from "@/components/tools/dev/css-grid-client";
+import CssGridClient from "@/components/tools/dev/css-grid-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

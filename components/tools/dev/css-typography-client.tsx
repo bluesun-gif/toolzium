@@ -1,546 +1,340 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Type, Sliders, Copy, RefreshCw } from "lucide-react";
+import { Type, Copy, RotateCcw, AlignLeft, AlignCenter, AlignRight, AlignJustify, Sparkles, Palette } from "lucide-react";
 import toast from "react-hot-toast";
 
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
+const textareaClass = "w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50 font-mono";
+
+const FONTS = [
+  "Inter", "Roboto", "Outfit", "Playfair Display", "Poppins", "Montserrat", "Open Sans", "Lora", 
+  "Merriweather", "Oswald", "Raleway", "Nunito", "Source Code Pro", "Fira Code", "JetBrains Mono", 
+  "IBM Plex Sans", "DM Sans", "Space Grotesk", "Urbanist", "Plus Jakarta Sans"
+];
+
 const PRESETS = [
-  {
-    name: "Default",
-    settings: {
-      fontSize: 48,
-      fontSizeUnit: "px",
-      fontWeight: "400",
-      lineHeight: 1.5,
-      letterSpacing: 0,
-      textTransform: "none",
-      color: "#ffffff",
-      enableShadow: false,
-      shadowColor: "#000000",
-      shadowOffsetX: 2,
-      shadowOffsetY: 2,
-      shadowBlur: 4,
-      enableStroke: false,
-      strokeWidth: 1,
-      strokeColor: "#000000",
-      enableGradient: false,
-      gradientStart: "#ff0000",
-      gradientEnd: "#0000ff",
-    },
-  },
-  {
-    name: "Neon Glow",
-    settings: {
-      fontSize: 64,
-      fontSizeUnit: "px",
-      fontWeight: "700",
-      lineHeight: 1.2,
-      letterSpacing: 2,
-      textTransform: "uppercase",
-      color: "#ffffff",
-      enableShadow: true,
-      shadowColor: "#00ffff",
-      shadowOffsetX: 0,
-      shadowOffsetY: 0,
-      shadowBlur: 15,
-      enableStroke: false,
-      strokeWidth: 1,
-      strokeColor: "#000000",
-      enableGradient: false,
-      gradientStart: "#ff0000",
-      gradientEnd: "#0000ff",
-    },
-  },
-  {
-    name: "Retro 3D",
-    settings: {
-      fontSize: 72,
-      fontSizeUnit: "px",
-      fontWeight: "900",
-      lineHeight: 1.1,
-      letterSpacing: 0,
-      textTransform: "uppercase",
-      color: "#ffcc00",
-      enableShadow: true,
-      shadowColor: "#d35400",
-      shadowOffsetX: 4,
-      shadowOffsetY: 4,
-      shadowBlur: 0,
-      enableStroke: true,
-      strokeWidth: 2,
-      strokeColor: "#000000",
-      enableGradient: false,
-      gradientStart: "#ff0000",
-      gradientEnd: "#0000ff",
-    },
-  },
-  {
-    name: "Gradient Headline",
-    settings: {
-      fontSize: 56,
-      fontSizeUnit: "px",
-      fontWeight: "800",
-      lineHeight: 1.2,
-      letterSpacing: -1,
-      textTransform: "capitalize",
-      color: "#ffffff",
-      enableShadow: false,
-      shadowColor: "#000000",
-      shadowOffsetX: 0,
-      shadowOffsetY: 0,
-      shadowBlur: 0,
-      enableStroke: false,
-      strokeWidth: 1,
-      strokeColor: "#000000",
-      enableGradient: true,
-      gradientStart: "#ff416c",
-      gradientEnd: "#ff4b2b",
-    },
-  },
-  {
-    name: "Outline Stroke",
-    settings: {
-      fontSize: 80,
-      fontSizeUnit: "px",
-      fontWeight: "900",
-      lineHeight: 1,
-      letterSpacing: 4,
-      textTransform: "uppercase",
-      color: "transparent",
-      enableShadow: false,
-      shadowColor: "#000000",
-      shadowOffsetX: 0,
-      shadowOffsetY: 0,
-      shadowBlur: 0,
-      enableStroke: true,
-      strokeWidth: 2,
-      strokeColor: "#3498db",
-      enableGradient: false,
-      gradientStart: "#000000",
-      gradientEnd: "#ffffff",
-    },
-  },
-  {
-    name: "Soft Elegant",
-    settings: {
-      fontSize: 42,
-      fontSizeUnit: "px",
-      fontWeight: "300",
-      lineHeight: 1.6,
-      letterSpacing: 3,
-      textTransform: "lowercase",
-      color: "#2c3e50",
-      enableShadow: true,
-      shadowColor: "#bdc3c7",
-      shadowOffsetX: 1,
-      shadowOffsetY: 1,
-      shadowBlur: 2,
-      enableStroke: false,
-      strokeWidth: 1,
-      strokeColor: "#000000",
-      enableGradient: false,
-      gradientStart: "#000000",
-      gradientEnd: "#ffffff",
-    },
-  },
+  { name: "Modern Heading", family: "Space Grotesk", size: 48, weight: 700, lh: 1.2, ls: -1, transform: "none" as const },
+  { name: "Body Copy", family: "Inter", size: 16, weight: 400, lh: 1.6, ls: 0, transform: "none" as const },
+  { name: "Code Block", family: "JetBrains Mono", size: 14, weight: 400, lh: 1.5, ls: 0, transform: "none" as const },
+  { name: "Editorial", family: "Playfair Display", size: 32, weight: 600, lh: 1.3, ls: 0.5, transform: "none" as const },
+  { name: "Display", family: "Outfit", size: 72, weight: 800, lh: 1.1, ls: -2, transform: "uppercase" as const },
+  { name: "Handwritten", family: "Outfit", size: 24, weight: 400, lh: 1.4, ls: 1, transform: "none" as const },
 ];
 
 export function CssTypographyClient() {
-  const [text, setText] = useState("Toolzium Typography");
-  const [settings, setSettings] = useState(PRESETS[0].settings);
-  const [generatedCss, setGeneratedCss] = useState("");
-  const [previewStyle, setPreviewStyle] = useState<React.CSSProperties>({});
+  const [fontFamily, setFontFamily] = useState("Inter");
+  const [fontSize, setFontSize] = useState(16);
+  const [sizeUnit, setSizeUnit] = useState<"px" | "rem" | "em">("px");
+  const [fontWeight, setFontWeight] = useState(400);
+  const [lineHeight, setLineHeight] = useState(1.5);
+  const [letterSpacing, setLetterSpacing] = useState(0);
+  const [wordSpacing, setWordSpacing] = useState(0);
+  const [textTransform, setTextTransform] = useState<"none" | "uppercase" | "lowercase" | "capitalize">("none");
+  const [textDecoration, setTextDecoration] = useState<"none" | "underline" | "overline" | "line-through">("none");
+  const [textAlign, setTextAlign] = useState<"left" | "center" | "right" | "justify">("left");
+  const [fontStyle, setFontStyle] = useState<"normal" | "italic" | "oblique">("normal");
+  const [shadowX, setShadowX] = useState(0);
+  const [shadowY, setShadowY] = useState(0);
+  const [shadowBlur, setShadowBlur] = useState(0);
+  const [shadowColor, setShadowColor] = useState("#000000");
+  const [textColor, setTextColor] = useState("#0f172a");
+  const [bgColor, setBgColor] = useState("#ffffff");
+  const [sampleText, setSampleText] = useState("The quick brown fox jumps over the lazy dog. Typography is the art and technique of arranging type.");
 
-  const handleSettingChange = (key: string, value: any) => {
-    setSettings((prev) => ({ ...prev, [key]: value }));
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast.success("Copied to clipboard!");
   };
 
-  const applyPreset = (presetName: string) => {
-    const preset = PRESETS.find((p) => p.name === presetName);
-    if (preset) {
-      setSettings(preset.settings);
-      toast.success("Applied preset: " + presetName);
-    }
+  const applyPreset = (preset: typeof PRESETS[0]) => {
+    setFontFamily(preset.family);
+    setFontSize(preset.size);
+    setFontWeight(preset.weight);
+    setLineHeight(preset.lh);
+    setLetterSpacing(preset.ls);
+    setTextTransform(preset.transform);
+    toast.success(`Applied ${preset.name} preset`);
   };
 
-  const generateCSSAndStyle = () => {
-    let cssLines = [];
-    const styleObj: any = {
-      fontSize: settings.fontSize + settings.fontSizeUnit,
-      fontWeight: settings.fontWeight,
-      lineHeight: settings.lineHeight,
-      letterSpacing: settings.letterSpacing + "px",
-      textTransform: settings.textTransform,
-      color: settings.color,
+  const resetStyles = () => {
+    setFontFamily("Inter"); setFontSize(16); setSizeUnit("px"); setFontWeight(400);
+    setLineHeight(1.5); setLetterSpacing(0); setWordSpacing(0); setTextTransform("none");
+    setTextDecoration("none"); setTextAlign("left"); setFontStyle("normal");
+    setShadowX(0); setShadowY(0); setShadowBlur(0); setShadowColor("#000000");
+    setTextColor("#0f172a"); setBgColor("#ffffff");
+    toast.success("Styles reset to default");
+  };
+
+  const previewStyle = useMemo(() => {
+    let sizeVal: any = fontSize;
+    if (sizeUnit === "rem" || sizeUnit === "em") sizeVal = fontSize / 16;
+    return {
+      fontFamily: `'${fontFamily}', sans-serif`,
+      fontSize: `${sizeVal}${sizeUnit}`,
+      fontWeight: fontWeight,
+      lineHeight: lineHeight,
+      letterSpacing: `${letterSpacing}px`,
+      wordSpacing: `${wordSpacing}px`,
+      textTransform: textTransform,
+      textDecoration: textDecoration,
+      textAlign: textAlign,
+      fontStyle: fontStyle,
+      textShadow: shadowBlur > 0 || shadowX !== 0 || shadowY !== 0 ? `${shadowX}px ${shadowY}px ${shadowBlur}px ${shadowColor}` : "none",
+      color: textColor,
+      backgroundColor: bgColor,
     };
+  }, [fontFamily, fontSize, sizeUnit, fontWeight, lineHeight, letterSpacing, wordSpacing, textTransform, textDecoration, textAlign, fontStyle, shadowX, shadowY, shadowBlur, shadowColor, textColor, bgColor]);
 
-    cssLines.push("font-size: " + settings.fontSize + settings.fontSizeUnit + ";");
-    cssLines.push("font-weight: " + settings.fontWeight + ";");
-    cssLines.push("line-height: " + settings.lineHeight + ";");
-    if (settings.letterSpacing !== 0) {
-      cssLines.push("letter-spacing: " + settings.letterSpacing + "px;");
-    }
-    if (settings.textTransform !== "none") {
-      cssLines.push("text-transform: " + settings.textTransform + ";");
-    }
-
-    if (settings.enableShadow) {
-      const shadowValue = settings.shadowOffsetX + "px " + settings.shadowOffsetY + "px " + settings.shadowBlur + "px " + settings.shadowColor;
-      styleObj.textShadow = shadowValue;
-      cssLines.push("text-shadow: " + shadowValue + ";");
-    }
-
-    if (settings.enableStroke) {
-      const strokeValue = settings.strokeWidth + "px " + settings.strokeColor;
-      styleObj.WebkitTextStroke = strokeValue;
-      cssLines.push("-webkit-text-stroke: " + strokeValue + ";");
-      
-      // If color is transparent and no gradient, we need to ensure color is set for stroke to be visible properly
-      if (settings.color === "transparent" && !settings.enableGradient) {
-        cssLines.push("color: transparent;");
-      } else if (!settings.enableGradient) {
-         cssLines.push("color: " + settings.color + ";");
-      }
-    } else if (!settings.enableGradient) {
-       cssLines.push("color: " + settings.color + ";");
-    }
-
-    if (settings.enableGradient) {
-      const gradientVal = "linear-gradient(45deg, " + settings.gradientStart + ", " + settings.gradientEnd + ")";
-      styleObj.backgroundImage = gradientVal;
-      styleObj.WebkitBackgroundClip = "text";
-      styleObj.WebkitTextFillColor = "transparent";
-      
-      cssLines.push("background: " + gradientVal + ";");
-      cssLines.push("-webkit-background-clip: text;");
-      cssLines.push("-webkit-text-fill-color: transparent;");
-    }
-
-    setPreviewStyle(styleObj);
-    setGeneratedCss(".typography-preview {\n  " + cssLines.join("\n  ") + "\n}");
-  };
-
-  useEffect(() => {
-    generateCSSAndStyle();
-  }, [settings]);
+  const cssOutput = useMemo(() => {
+    let sizeVal: any = fontSize;
+    if (sizeUnit === "rem" || sizeUnit === "em") sizeVal = fontSize / 16;
+    let css = `.typography-class {\n`;
+    css += `  font-family: '${fontFamily}', sans-serif;\n`;
+    css += `  font-size: ${sizeVal}${sizeUnit};\n`;
+    css += `  font-weight: ${fontWeight};\n`;
+    css += `  line-height: ${lineHeight};\n`;
+    if (letterSpacing !== 0) css += `  letter-spacing: ${letterSpacing}px;\n`;
+    if (wordSpacing !== 0) css += `  word-spacing: ${wordSpacing}px;\n`;
+    if (textTransform !== "none") css += `  text-transform: ${textTransform};\n`;
+    if (textDecoration !== "none") css += `  text-decoration: ${textDecoration};\n`;
+    if (textAlign !== "left") css += `  text-align: ${textAlign};\n`;
+    if (fontStyle !== "normal") css += `  font-style: ${fontStyle};\n`;
+    if (shadowBlur > 0 || shadowX !== 0 || shadowY !== 0) css += `  text-shadow: ${shadowX}px ${shadowY}px ${shadowBlur}px ${shadowColor};\n`;
+    css += `  color: ${textColor};\n`;
+    css += `  background-color: ${bgColor};\n`;
+    css += `}`;
+    return css;
+  }, [fontFamily, fontSize, sizeUnit, fontWeight, lineHeight, letterSpacing, wordSpacing, textTransform, textDecoration, textAlign, fontStyle, shadowX, shadowY, shadowBlur, shadowColor, textColor, bgColor]);
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-6xl mx-auto space-y-8 px-4 py-8">
       <ToolPageHeader
         icon={Type}
-        title="CSS Typography Generator"
-        description="Create beautiful text effects, gradients, and strokes with live preview and CSS code generation."
-        actions={
-          <div className="flex gap-2">
-            <ResetButton onClick={() => setSettings(PRESETS[0].settings)} label="Reset" />
-          </div>
-        }
+        title="CSS Typography Playground"
+        description="Interactive CSS typography editor with complete control over font properties, shadows, and spacing. Generate perfect CSS for your web fonts."
       />
 
-      <div className="grid md:grid-cols-2 gap-6">
-        <div className="space-y-6">
-          <GlassCard>
-            <CardHeader>
-              <CardTitle>Typography Controls</CardTitle>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-1 space-y-4">
+          <Card className={cardClass}>
+            <CardHeader className={headerClass}>
+              <CardTitle className={titleClass}><Sparkles className="w-4 h-4" /> Presets</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label>Preview Text</Label>
-                <Input
-                  value={text}
-                  onChange={(e) => setText(e.target.value)}
-                  placeholder="Enter preview text"
-                />
-              </div>
+            <CardContent className="p-4 grid grid-cols-2 gap-2">
+              {PRESETS.map((p) => (
+                <Button key={p.name} variant="outline" size="sm" onClick={() => applyPreset(p)}>{p.name}</Button>
+              ))}
+              <Button variant="destructive" size="sm" className="col-span-2" onClick={resetStyles}><RotateCcw className="w-4 h-4 mr-2" /> Reset</Button>
+            </CardContent>
+          </Card>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label>Font Size</Label>
-                  <div className="flex items-center gap-2">
-                    <Input
-                      type="number"
-                      value={settings.fontSize}
-                      onChange={(e) => handleSettingChange("fontSize", e.target.value)}
-                    />
-                    <Select
-                      value={settings.fontSizeUnit}
-                      onValueChange={(val) => handleSettingChange("fontSizeUnit", val)}
-                    >
-                      <SelectTrigger className="w-[80px]">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="px">px</SelectItem>
-                        <SelectItem value="rem">rem</SelectItem>
-                        <SelectItem value="em">em</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
+          <Card className={cardClass}>
+            <CardHeader className={headerClass}>
+              <CardTitle className={titleClass}><Type className="w-4 h-4" /> Font & Size</CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 space-y-4">
+              <div>
+                <Label>Font Family</Label>
+                <select value={fontFamily} onChange={(e) => setFontFamily(e.target.value)} className="w-full rounded-lg border border-border/70 bg-background/80 p-2 text-sm mt-1">
+                  {FONTS.map((f) => <option key={f} value={f}>{f}</option>)}
+                </select>
+              </div>
+              <div className="flex gap-2">
+                <div className="flex-1">
+                  <Label>Size ({fontSize})</Label>
+                  <Input type="number" value={fontSize} onChange={(e) => setFontSize(Number(e.target.value))} className="mt-1" />
                 </div>
-                <div className="space-y-2">
-                  <Label>Font Weight</Label>
-                  <Select
-                    value={settings.fontWeight}
-                    onValueChange={(val) => handleSettingChange("fontWeight", val)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="100">100 - Thin</SelectItem>
-                      <SelectItem value="300">300 - Light</SelectItem>
-                      <SelectItem value="400">400 - Normal</SelectItem>
-                      <SelectItem value="600">600 - Semi Bold</SelectItem>
-                      <SelectItem value="700">700 - Bold</SelectItem>
-                      <SelectItem value="900">900 - Black</SelectItem>
-                    </SelectContent>
-                  </Select>
+                <div className="w-24">
+                  <Label>Unit</Label>
+                  <select value={sizeUnit} onChange={(e) => setSizeUnit(e.target.value as any)} className="w-full rounded-lg border border-border/70 bg-background/80 p-2 text-sm mt-1">
+                    <option value="px">px</option>
+                    <option value="rem">rem</option>
+                    <option value="em">em</option>
+                  </select>
                 </div>
               </div>
+              <div>
+                <Label>Weight ({fontWeight})</Label>
+                <input type="range" min="100" max="900" step="100" value={fontWeight} onChange={(e) => setFontWeight(Number(e.target.value))} className="w-full mt-1" />
+              </div>
+              <div>
+                <Label>Style</Label>
+                <select value={fontStyle} onChange={(e) => setFontStyle(e.target.value as any)} className="w-full rounded-lg border border-border/70 bg-background/80 p-2 text-sm mt-1">
+                  <option value="normal">Normal</option>
+                  <option value="italic">Italic</option>
+                  <option value="oblique">Oblique</option>
+                </select>
+              </div>
+            </CardContent>
+          </Card>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label>Line Height</Label>
-                  <Input
-                    type="number"
-                    step="0.1"
-                    value={settings.lineHeight}
-                    onChange={(e) => handleSettingChange("lineHeight", e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label>Letter Spacing (px)</Label>
-                  <Input
-                    type="number"
-                    value={settings.letterSpacing}
-                    onChange={(e) => handleSettingChange("letterSpacing", e.target.value)}
-                  />
+          <Card className={cardClass}>
+            <CardHeader className={headerClass}>
+              <CardTitle className={titleClass}>Spacing & Alignment</CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 space-y-4">
+              <div>
+                <Label>Line Height ({lineHeight})</Label>
+                <input type="range" min="0.8" max="3.0" step="0.1" value={lineHeight} onChange={(e) => setLineHeight(Number(e.target.value))} className="w-full mt-1" />
+              </div>
+              <div>
+                <Label>Letter Spacing ({letterSpacing}px)</Label>
+                <input type="range" min="-5" max="20" step="0.5" value={letterSpacing} onChange={(e) => setLetterSpacing(Number(e.target.value))} className="w-full mt-1" />
+              </div>
+              <div>
+                <Label>Word Spacing ({wordSpacing}px)</Label>
+                <input type="range" min="-5" max="20" step="0.5" value={wordSpacing} onChange={(e) => setWordSpacing(Number(e.target.value))} className="w-full mt-1" />
+              </div>
+              <div>
+                <Label>Alignment</Label>
+                <div className="flex gap-2 mt-1">
+                  <Button variant={textAlign === 'left' ? 'default' : 'outline'} size="sm" onClick={() => setTextAlign('left')}><AlignLeft className="w-4 h-4" /></Button>
+                  <Button variant={textAlign === 'center' ? 'default' : 'outline'} size="sm" onClick={() => setTextAlign('center')}><AlignCenter className="w-4 h-4" /></Button>
+                  <Button variant={textAlign === 'right' ? 'default' : 'outline'} size="sm" onClick={() => setTextAlign('right')}><AlignRight className="w-4 h-4" /></Button>
+                  <Button variant={textAlign === 'justify' ? 'default' : 'outline'} size="sm" onClick={() => setTextAlign('justify')}><AlignJustify className="w-4 h-4" /></Button>
                 </div>
               </div>
+              <div>
+                <Label>Transform</Label>
+                <select value={textTransform} onChange={(e) => setTextTransform(e.target.value as any)} className="w-full rounded-lg border border-border/70 bg-background/80 p-2 text-sm mt-1">
+                  <option value="none">None</option>
+                  <option value="uppercase">Uppercase</option>
+                  <option value="lowercase">Lowercase</option>
+                  <option value="capitalize">Capitalize</option>
+                </select>
+              </div>
+              <div>
+                <Label>Decoration</Label>
+                <select value={textDecoration} onChange={(e) => setTextDecoration(e.target.value as any)} className="w-full rounded-lg border border-border/70 bg-background/80 p-2 text-sm mt-1">
+                  <option value="none">None</option>
+                  <option value="underline">Underline</option>
+                  <option value="overline">Overline</option>
+                  <option value="line-through">Line-through</option>
+                </select>
+              </div>
+            </CardContent>
+          </Card>
 
+          <Card className={cardClass}>
+            <CardHeader className={headerClass}>
+              <CardTitle className={titleClass}><Palette className="w-4 h-4" /> Colors & Effects</CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 space-y-4">
               <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label>Text Transform</Label>
-                  <Select
-                    value={settings.textTransform}
-                    onValueChange={(val) => handleSettingChange("textTransform", val)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="none">None</SelectItem>
-                      <SelectItem value="uppercase">Uppercase</SelectItem>
-                      <SelectItem value="lowercase">Lowercase</SelectItem>
-                      <SelectItem value="capitalize">Capitalize</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-2">
+                <div>
                   <Label>Text Color</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      type="color"
-                      value={settings.color === "transparent" ? "#ffffff" : settings.color}
-                      onChange={(e) => handleSettingChange("color", e.target.value)}
-                      disabled={settings.enableGradient || settings.color === "transparent"}
-                      className="w-12 p-1"
-                    />
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleSettingChange("color", settings.color === "transparent" ? "#000000" : "transparent")}
-                      className="flex-1"
-                    >
-                      {settings.color === "transparent" ? "Set Solid" : "Set Transparent"}
-                    </Button>
-                  </div>
+                  <Input type="color" value={textColor} onChange={(e) => setTextColor(e.target.value)} className="w-full h-10 mt-1" />
+                </div>
+                <div>
+                  <Label>BG Color</Label>
+                  <Input type="color" value={bgColor} onChange={(e) => setBgColor(e.target.value)} className="w-full h-10 mt-1" />
                 </div>
               </div>
-            </CardContent>
-          </GlassCard>
-
-          <GlassCard>
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle>Presets</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-wrap gap-2">
-                {PRESETS.map((preset) => (
-                  <Button
-                    key={preset.name}
-                    variant="outline"
-                    size="sm"
-                    onClick={() => applyPreset(preset.name)}
-                  >
-                    {preset.name}
-                  </Button>
-                ))}
+              <div>
+                <Label>Text Shadow</Label>
+                <div className="grid grid-cols-3 gap-2 mt-1">
+                  <Input type="number" placeholder="X" value={shadowX} onChange={(e) => setShadowX(Number(e.target.value))} />
+                  <Input type="number" placeholder="Y" value={shadowY} onChange={(e) => setShadowY(Number(e.target.value))} />
+                  <Input type="number" placeholder="Blur" value={shadowBlur} onChange={(e) => setShadowBlur(Number(e.target.value))} />
+                </div>
+                <Input type="color" value={shadowColor} onChange={(e) => setShadowColor(e.target.value)} className="w-full h-10 mt-2" />
               </div>
             </CardContent>
-          </GlassCard>
+          </Card>
         </div>
 
-        <div className="space-y-6">
-          <GlassCard>
-            <CardHeader>
-              <CardTitle>Effects</CardTitle>
+        <div className="lg:col-span-2 space-y-6">
+          <Card className={cardClass}>
+            <CardHeader className={headerClass}>
+              <CardTitle className={titleClass}>Live Preview (Click to edit)</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
-              
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <Label className="text-base">Text Shadow</Label>
-                  <Switch
-                    checked={settings.enableShadow}
-                    onCheckedChange={(val) => handleSettingChange("enableShadow", val)}
-                  />
-                </div>
-                {settings.enableShadow && (
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label>Offset X</Label>
-                      <Input
-                        type="number"
-                        value={settings.shadowOffsetX}
-                        onChange={(e) => handleSettingChange("shadowOffsetX", e.target.value)}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label>Offset Y</Label>
-                      <Input
-                        type="number"
-                        value={settings.shadowOffsetY}
-                        onChange={(e) => handleSettingChange("shadowOffsetY", e.target.value)}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label>Blur</Label>
-                      <Input
-                        type="number"
-                        value={settings.shadowBlur}
-                        onChange={(e) => handleSettingChange("shadowBlur", e.target.value)}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label>Shadow Color</Label>
-                      <Input
-                        type="color"
-                        value={settings.shadowColor}
-                        onChange={(e) => handleSettingChange("shadowColor", e.target.value)}
-                        className="w-full p-1 h-10"
-                      />
-                    </div>
-                  </div>
-                )}
+            <CardContent className="p-0">
+              <div
+                contentEditable
+                suppressContentEditableWarning
+                onBlur={(e) => setSampleText(e.currentTarget.innerText)}
+                style={previewStyle}
+                className="min-h-[300px] p-8 focus:outline-none transition-all"
+              >
+                {sampleText}
               </div>
-
-              <Separator />
-
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <Label className="text-base">Text Stroke</Label>
-                  <Switch
-                    checked={settings.enableStroke}
-                    onCheckedChange={(val) => handleSettingChange("enableStroke", val)}
-                  />
-                </div>
-                {settings.enableStroke && (
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label>Stroke Width (px)</Label>
-                      <Input
-                        type="number"
-                        value={settings.strokeWidth}
-                        onChange={(e) => handleSettingChange("strokeWidth", e.target.value)}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label>Stroke Color</Label>
-                      <Input
-                        type="color"
-                        value={settings.strokeColor}
-                        onChange={(e) => handleSettingChange("strokeColor", e.target.value)}
-                        className="w-full p-1 h-10"
-                      />
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <Separator />
-
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <Label className="text-base">Text Gradient</Label>
-                  <Switch
-                    checked={settings.enableGradient}
-                    onCheckedChange={(val) => handleSettingChange("enableGradient", val)}
-                  />
-                </div>
-                {settings.enableGradient && (
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label>Start Color</Label>
-                      <Input
-                        type="color"
-                        value={settings.gradientStart}
-                        onChange={(e) => handleSettingChange("gradientStart", e.target.value)}
-                        className="w-full p-1 h-10"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label>End Color</Label>
-                      <Input
-                        type="color"
-                        value={settings.gradientEnd}
-                        onChange={(e) => handleSettingChange("gradientEnd", e.target.value)}
-                        className="w-full p-1 h-10"
-                      />
-                    </div>
-                  </div>
-                )}
-              </div>
-
             </CardContent>
-          </GlassCard>
+          </Card>
+
+          <Card className={cardClass}>
+            <CardHeader className={headerClass}>
+              <CardTitle className={titleClass}>Generated CSS</CardTitle>
+              <Button variant="outline" size="sm" onClick={() => handleCopy(cssOutput)}><Copy className="w-4 h-4" /></Button>
+            </CardHeader>
+            <CardContent className="p-4">
+              <textarea readOnly value={cssOutput} className={textareaClass} rows={14} />
+            </CardContent>
+          </Card>
+
+          <Card className={cardClass}>
+            <CardHeader className={headerClass}>
+              <CardTitle className={titleClass}>Font Pairing Suggestions</CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 text-sm text-muted-foreground">
+              <p>Based on <strong>{fontFamily}</strong>, try pairing it with:</p>
+              <ul className="list-disc pl-5 mt-2 space-y-1">
+                <li><strong>Headings:</strong> {fontFamily === "Inter" ? "Playfair Display" : "Inter"} / <strong>Body:</strong> {fontFamily}</li>
+                <li><strong>Code:</strong> JetBrains Mono / <strong>UI:</strong> {fontFamily}</li>
+              </ul>
+            </CardContent>
+          </Card>
         </div>
       </div>
 
-      <GlassCard className="w-full overflow-hidden">
-        <CardHeader>
-          <CardTitle>Live Preview</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="min-h-[200px] flex items-center justify-center p-8 bg-zinc-950 rounded-xl overflow-hidden pattern-boxes border">
-            <div style={previewStyle} className="text-center break-words max-w-full">
-              {text || "Preview Text"}
-            </div>
-          </div>
-        </CardContent>
-      </GlassCard>
+      <ToolHowItWorks
+        steps={[
+          { step: "01", title: "Select Base Font", description: "Choose from 20+ premium Google Fonts and set your base size and weight.", icon: Type },
+          { step: "02", title: "Fine-Tune Spacing", description: "Adjust line height, letter spacing, and word spacing for optimal readability.", icon: AlignJustify },
+          { step: "03", title: "Export CSS", description: "Copy the generated CSS code and paste it directly into your stylesheet.", icon: Copy },
+        ]}
+        badges={["100% Free", "Client-Side Privacy", "No Signup"]}
+      />
 
-      <GlassCard>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>CSS Code</CardTitle>
-          <CopyButton getText={() => generatedCss} label="Copy CSS" />
-        </CardHeader>
-        <CardContent>
-          <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-sm text-muted-foreground whitespace-pre-wrap">
-            {generatedCss}
-          </pre>
-        </CardContent>
-      </GlassCard>
+      <ToolFeatureGuides
+        features={[
+          { icon: Type, title: "20+ Google Fonts", description: "Access a curated list of the most popular and professional web fonts." },
+          { icon: Palette, title: "Advanced Effects", description: "Add precise text shadows with X/Y offsets, blur, and custom colors." },
+          { icon: AlignJustify, title: "Micro-Typography", description: "Control letter and word spacing to achieve perfect optical balance." },
+          { icon: Sparkles, title: "Smart Presets", description: "One-click presets for Modern Headings, Body Copy, Code Blocks, and more." },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none mt-6">
+          <h3>The Importance of CSS Typography in Modern Web Design</h3>
+          <p>Typography is the foundation of web design. It dictates not only how your content looks but how it feels, how readable it is, and how users perceive your brand. Mastering CSS typography goes far beyond simply picking a font family; it involves a deep understanding of hierarchy, optical alignment, and cognitive load. When implemented correctly, typography guides the user's eye effortlessly through the page, establishing a clear visual hierarchy that highlights the most important information first.</p>
+          <p>Modern CSS provides unprecedented control over text rendering. Properties like <code>letter-spacing</code> (tracking) and <code>word-spacing</code> allow designers to correct optical illusions that occur at large or small font sizes. For instance, uppercase text almost always requires increased letter spacing to remain legible, while large display headings often benefit from tightened tracking to create a cohesive visual mass. Furthermore, the <code>line-height</code> property is critical for readability; body copy typically requires a line-height of 1.5 to 1.7 to prevent lines from bleeding into one another, whereas large headings can utilize a tighter line-height of 1.1 to 1.2 to maintain impact.</p>
+          <h3>Performance and Accessibility Considerations</h3>
+          <p>When working with web fonts, performance is a key concern. Utilizing the <code>font-display: swap;</code> property in your CSS ensures that text remains visible during font loading, preventing the dreaded Flash of Invisible Text (FOIT). Additionally, accessibility must be at the forefront of typographic decisions. Ensuring sufficient color contrast between text and background (meeting WCAG AA or AAA standards) and avoiding reliance on color alone to convey meaning are non-negotiable requirements for inclusive design. This interactive playground allows you to test these parameters in real-time, ensuring your typography is both beautiful and accessible.</p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion
+        faqs={[
+          { question: "What is the difference between rem and em units?", answer: "rem (root em) is relative to the root HTML element's font size (usually 16px), making it consistent across the entire document. em is relative to the font size of its closest parent element, which can lead to compounding sizes in nested elements." },
+          { question: "How do I improve text readability on screens?", answer: "Increase line-height to at least 1.5 for body text, ensure high contrast between text and background, limit line length to 60-75 characters, and use appropriate letter spacing." },
+          { question: "Can I use custom fonts not listed here?", answer: "Yes, you can manually type any valid CSS font-family string into the generated CSS output, provided the font is loaded via @font-face or a CDN in your project." },
+        ]}
+      />
+
+      <RelatedTools currentToolUrl="/tools/dev/css-typography" max={6} />
     </div>
   );
 }
+
+export default CssTypographyClient;

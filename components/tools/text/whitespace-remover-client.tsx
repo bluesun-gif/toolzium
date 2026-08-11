@@ -1,260 +1,125 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Eraser, AlignJustify, Settings2, Code2, FileText, Shield } from "lucide-react";
+import React, { useState } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import TextareaField from "@/components/shared/form-fields/textarea-field";
-import SwitchRow from "@/components/shared/form-fields/switch-row";
-import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Separator } from "@/components/ui/separator";
-import Stat from "@/components/shared/stat";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { CopyButton } from "@/components/shared/action-buttons";
+import toast from "react-hot-toast";
+import { Scissors, FileText, Settings, Check } from "lucide-react";
+
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
+const textareaClass = "w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50";
 
 export default function WhitespaceRemoverClient() {
-  const [inputText, setInputText] = useState("");
-  const [outputText, setOutputText] = useState("");
-  
-  const [options, setOptions] = useState({
-    removeLeading: true,
-    removeTrailing: true,
-    collapseSpaces: true,
-    removeBlankLines: true,
-    trimEachLine: true,
-    removeAll: false,
-  });
+  const [text, setText] = useState("");
+  const [output, setOutput] = useState("");
 
-  const handleOptionChange = (key: keyof typeof options) => (checked: boolean) => {
-    setOptions(prev => {
-      const newOptions = { ...prev, [key]: checked };
-      if (key === "removeAll" && checked) {
-        newOptions.removeLeading = true;
-        newOptions.removeTrailing = true;
-        newOptions.collapseSpaces = true;
-        newOptions.removeBlankLines = true;
-        newOptions.trimEachLine = true;
-      }
-      return newOptions;
-    });
-  };
-
-  useEffect(() => {
-    let result = inputText;
-    
-    if (result) {
-      if (options.removeAll) {
-        result = result.replace(/\s+/g, "");
-      } else {
-        if (options.removeBlankLines) {
-          result = result.replace(/^\s*[\r\n]/gm, "");
-        }
-        if (options.trimEachLine) {
-          result = result.replace(/^[ \t]+|[ \t]+$/gm, "");
-        }
-        if (options.collapseSpaces) {
-          // Collapse multiple spaces/tabs into a single space, but leave newlines alone
-          result = result.replace(/[ \t]{2,}/g, " ");
-        }
-        if (options.removeLeading) {
-          result = result.replace(/^\s+/, "");
-        }
-        if (options.removeTrailing) {
-          result = result.replace(/\s+$/, "");
-        }
-      }
+  const processText = (mode: string) => {
+    if (!text) {
+      toast.error("Please enter some text first.");
+      return;
     }
-    
-    setOutputText(result);
-  }, [inputText, options]);
-
-  const handleReset = () => {
-    setInputText("");
-    setOptions({
-      removeLeading: true,
-      removeTrailing: true,
-      collapseSpaces: true,
-      removeBlankLines: true,
-      trimEachLine: true,
-      removeAll: false,
-    });
+    let result = text;
+    switch (mode) {
+      case "all":
+        result = text.replace(/\s+/g, "");
+        break;
+      case "collapse":
+        result = text.replace(/[ \t]+/g, " ");
+        break;
+      case "trim":
+        result = text.split("\n").map((line) => line.trim()).join("\n");
+        break;
+      case "leading":
+        result = text.split("\n").map((line) => line.replace(/^\s+/, "")).join("\n");
+        break;
+      case "trailing":
+        result = text.split("\n").map((line) => line.replace(/\s+$/, "")).join("\n");
+        break;
+    }
+    setOutput(result);
+    toast.success(`Applied: ${mode} whitespace removal`);
   };
-
-  const charsRemoved = Math.max(0, inputText.length - outputText.length);
-  const linesBefore = inputText ? inputText.split("\n").length : 0;
-  const linesAfter = outputText ? outputText.split("\n").length : 0;
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <ToolPageHeader
-        title="Whitespace Remover"
-        description="Remove extra spaces, blank lines, and unnecessary whitespace from your text."
-        icon={Eraser}
-      />
+    <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <ToolPageHeader icon={Scissors} title="Whitespace Remover" description="Strip, collapse, or trim unwanted spaces, tabs, and line breaks from your text data." />
+      
+      <Card className={cardClass}>
+        <CardHeader className={headerClass}>
+          <CardTitle className={titleClass}><FileText className="w-4 h-4 text-primary" /> Input Text</CardTitle>
+        </CardHeader>
+        <CardContent className="p-3 sm:p-4 space-y-4">
+          <textarea
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            rows={8}
+            className={textareaClass}
+            placeholder="Paste text with irregular spacing, indentation, or trailing spaces..."
+          />
+          <div className="flex flex-wrap gap-2">
+            <Button variant="outline" size="sm" onClick={() => processText("all")}>Remove All Spaces</Button>
+            <Button variant="outline" size="sm" onClick={() => processText("collapse")}>Collapse Multiple Spaces</Button>
+            <Button variant="outline" size="sm" onClick={() => processText("trim")}>Trim Every Line</Button>
+            <Button variant="outline" size="sm" onClick={() => processText("leading")}>Remove Leading Spaces</Button>
+            <Button variant="outline" size="sm" onClick={() => processText("trailing")}>Remove Trailing Spaces</Button>
+          </div>
+        </CardContent>
+      </Card>
 
-      <div className="grid gap-6 md:grid-cols-[1fr_300px]">
-        <div className="space-y-6">
-          <GlassCard>
-            <CardHeader>
-              <CardTitle>Input Text</CardTitle>
-              <CardDescription>Paste your text here to remove whitespace</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <TextareaField
-                value={inputText}
-                onChange={(e) => setInputText(e.target.value)}
-                placeholder="Paste your text here..."
-                rows={8}
-                className="font-mono text-sm"
-              />
-            </CardContent>
-          </GlassCard>
+      {output && (
+        <Card className={cardClass}>
+          <CardHeader className={headerClass}>
+            <CardTitle className={titleClass}><Check className="w-4 h-4 text-primary" /> Cleaned Output</CardTitle>
+          </CardHeader>
+          <CardContent className="p-3 sm:p-4 space-y-3">
+            <textarea value={output} readOnly rows={8} className={textareaClass} />
+            <div className="flex justify-end">
+              <CopyButton getText={() => output} label="Copy Result" />
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
-          <GlassCard>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <div className="space-y-1">
-                <CardTitle>Output Text</CardTitle>
-                <CardDescription>Your clean, trimmed text</CardDescription>
-              </div>
-              <div className="flex gap-2">
-                <CopyButton getText={outputText} />
-                <ResetButton onClick={handleReset} />
-              </div>
-            </CardHeader>
-            <CardContent>
-              <TextareaField
-                value={outputText}
-                readOnly
-                placeholder="Cleaned text will appear here..."
-                rows={8}
-                className="font-mono text-sm bg-muted/50"
-              />
-            </CardContent>
-          </GlassCard>
-        </div>
-
-        <div className="space-y-6">
-          <GlassCard>
-            <CardHeader>
-              <CardTitle>Options</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <SwitchRow
-                id="removeLeading"
-                label="Remove leading whitespace"
-                checked={options.removeLeading}
-                onCheckedChange={handleOptionChange("removeLeading")}
-                disabled={options.removeAll}
-              />
-              <SwitchRow
-                id="removeTrailing"
-                label="Remove trailing whitespace"
-                checked={options.removeTrailing}
-                onCheckedChange={handleOptionChange("removeTrailing")}
-                disabled={options.removeAll}
-              />
-              <SwitchRow
-                id="trimEachLine"
-                label="Trim each line"
-                checked={options.trimEachLine}
-                onCheckedChange={handleOptionChange("trimEachLine")}
-                disabled={options.removeAll}
-              />
-              <SwitchRow
-                id="collapseSpaces"
-                label="Collapse multiple spaces"
-                checked={options.collapseSpaces}
-                onCheckedChange={handleOptionChange("collapseSpaces")}
-                disabled={options.removeAll}
-              />
-              <SwitchRow
-                id="removeBlankLines"
-                label="Remove blank lines"
-                checked={options.removeBlankLines}
-                onCheckedChange={handleOptionChange("removeBlankLines")}
-                disabled={options.removeAll}
-              />
-              <Separator />
-              <SwitchRow
-                id="removeAll"
-                label="Remove ALL whitespace"
-                checked={options.removeAll}
-                onCheckedChange={handleOptionChange("removeAll")}
-              />
-            </CardContent>
-          </GlassCard>
-
-          <GlassCard>
-            <CardHeader>
-              <CardTitle>Statistics</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 gap-4">
-                <Stat
-                  label="Chars Removed"
-                  value={charsRemoved.toString()}
-                />
-                <Stat
-                  label="Lines Changed"
-                  value={linesBefore === linesAfter ? linesBefore.toString() : linesBefore + " → " + linesAfter}
-                />
-              </div>
-            </CardContent>
-          </GlassCard>
-        </div>
-      </div>
-
-      {/* SECTION 3: HOW IT WORKS */}
       <ToolHowItWorks
         steps={[
-          { step: "01", title: "Paste Your Text", description: "Paste any text containing unwanted whitespace: extra spaces, trailing spaces, double spaces, blank lines, tabs, or mixed indentation from different sources.", icon: FileText },
-          { step: "02", title: "Choose Clean Mode", description: "Select what to remove: trim leading/trailing spaces, collapse multiple spaces to one, remove blank lines, remove all tabs, or strip all whitespace entirely.", icon: Settings2 },
-          { step: "03", title: "Copy Clean Text", description: "The cleaned text appears instantly. Copy it with one click or download as a text file. See the character count reduction to verify whitespace was removed.", icon: Eraser },
+          { step: "01", title: "Paste Messy Text", description: "Input text containing extra spaces, bad indentation, or trailing whitespace.", icon: FileText },
+          { step: "02", title: "Select Action", description: "Choose the specific whitespace manipulation you want to apply.", icon: Settings },
+          { step: "03", title: "Copy Clean Data", description: "Grab the perfectly formatted text and use it in your code or document.", icon: Check },
         ]}
-        badges={["Multiple clean modes", "Instant processing", "Character count diff"]}
+        badges={["100% Free", "Client-Side", "No Signup"]}
       />
 
-      {/* SECTION 4: FEATURE GUIDES */}
       <ToolFeatureGuides
         features={[
-          { icon: Eraser, title: "Trim Leading and Trailing", description: "Removes spaces, tabs, and newlines at the very beginning and end of the text - equivalent to JavaScript's .trim() or Python's .strip() method." },
-          { icon: AlignJustify, title: "Collapse Multiple Spaces", description: "Replaces any run of 2+ consecutive spaces with a single space. Essential for cleaning up copy-pasted text from PDFs, emails, or web pages." },
-          { icon: Settings2, title: "Remove Blank Lines", description: "Removes empty lines and lines containing only whitespace from the text. Useful for cleaning up code, logs, exported data, and document drafts." },
-          { icon: Code2, title: "Tab to Space Conversion", description: "Converts tab characters to spaces (2 or 4 spaces configurable). Essential for normalizing indentation in code that mixes tabs and spaces." },
-          { icon: FileText, title: "Normalize Line Endings", description: "Converts Windows-style line endings (CRLF) to Unix-style (LF) and vice versa. Fixes encoding issues when sharing files between operating systems." },
-          { icon: Shield, title: "Client-Side and Private", description: "All text processing happens in your browser. Your content is never transmitted to any server." },
+          { icon: Scissors, title: "Total Removal", description: "Strip every single space, tab, and newline to create a continuous string of characters." },
+          { icon: Settings, title: "Smart Collapse", description: "Convert sequences of multiple spaces or tabs into a single, clean space." },
+          { icon: FileText, title: "Line Trimming", description: "Remove invisible trailing spaces at the end of lines that often cause linting errors." },
+          { icon: Check, title: "Code Formatting", description: "Perfect for fixing indentation issues when copying code snippets from PDFs or websites." },
         ]}
       >
         <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-          <h3 className="text-lg font-semibold">Whitespace Guide - Types, Problems and Solutions</h3>
-          <p>Whitespace characters are invisible formatting characters that control spacing in text. Excess whitespace causes problems in data processing, code, and web content.</p>
-          <h4 className="font-semibold">Common Whitespace Problems and Fixes</h4>
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse text-sm">
-              <thead><tr className="bg-muted/50"><th className="border p-2 text-left">Problem</th><th className="border p-2 text-left">Cause</th><th className="border p-2 text-left">Fix</th></tr></thead>
-              <tbody>
-                {[["Double spaces","Copy from PDF or Word","Collapse multiple spaces to one"],["Trailing spaces","Editor auto-format disabled","Trim trailing whitespace"],["Mixed CRLF/LF","Windows/Mac/Linux file sharing","Normalize line endings"],["Extra blank lines","Manual editing, paste","Remove consecutive blank lines"],["Tabs in HTML","Template copy-paste","Convert tabs to spaces"]].map(([prob, cause, fix]) => (
-                  <tr key={prob} className="odd:bg-muted/20"><td className="border p-2 font-medium text-xs">{prob}</td><td className="border p-2 text-xs">{cause}</td><td className="border p-2 text-primary text-xs">{fix}</td></tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <p>Invisible characters like spaces, tabs, and carriage returns are a frequent source of bugs in programming and data processing. Trailing whitespace at the end of a line can cause strict linters to fail, break CSV parsing, or cause authentication tokens to be rejected by APIs. This tool provides surgical precision for removing these hidden characters.</p>
+          <p>When copying code from tutorials, PDF textbooks, or formatted websites, you often inherit strange indentation or non-breaking spaces that break your IDE's syntax highlighting. The "Collapse Multiple Spaces" and "Trim Every Line" functions quickly normalize this text so it can be safely pasted into your codebase without triggering compiler warnings.</p>
+          <p>For data analysts, removing all whitespace is useful when comparing two strings that should be identical but differ only in formatting, or when preparing data for systems that do not accept spaces in identifiers. The ability to target only leading or trailing spaces ensures you don't accidentally destroy the internal structure of sentences or data payloads.</p>
         </div>
       </ToolFeatureGuides>
 
-      {/* SECTION 5: FAQ + RELATED TOOLS */}
       <ToolFaqAccordion
         faqs={[
-          { question: "What is trailing whitespace and why does it matter?", answer: "Trailing whitespace is spaces or tabs at the end of a line after the last visible character. It causes problems: diff tools show false changes, some compilers reject files with trailing whitespace, version control shows unintended modifications, and linters like ESLint flag it as an error." },
-          { question: "What is the difference between CRLF and LF line endings?", answer: "CRLF (\\r\\n) is used by Windows. LF (\\n) is used by Unix/Linux/macOS. When files are shared between systems, mixed line endings cause issues: Git may show every line as changed, some text processors display '^M' characters, and scripts may fail." },
-          { question: "What is a non-breaking space and how do I remove it?", answer: "A non-breaking space (NBSP, Unicode U+00A0) looks identical to a regular space but prevents line breaks and is treated differently by HTML parsers. It often enters text when copying from web pages or Microsoft Word. This tool detects and replaces NBSP with regular spaces." },
-          { question: "Why do I have double spaces in copy-pasted text?", answer: "PDFs use character spacing to position text visually, which often results in extra spaces when copied. Word documents may add spaces around special formatting. The 'collapse multiple spaces' option reduces any run of spaces to a single space." },
-          { question: "Should I remove all whitespace from code?", answer: "No - only remove problematic whitespace. Indentation spaces and tabs in code are meaningful. For code, use your editor's 'trim trailing whitespace on save' and 'normalize line endings' settings, or a linter like Prettier. Never strip indentation from code." },
+          { question: "Will 'Remove All Spaces' delete line breaks?", answer: "Yes, the 'Remove All Spaces' function targets all whitespace characters, including spaces, tabs, and newline breaks, merging everything into one long string." },
+          { question: "Does this handle tabs?", answer: "Yes, tabs are treated as whitespace. The collapse function will convert tabs and multiple spaces into a single standard space character." },
+          { question: "Can I fix copied code indentation with this?", answer: "Yes. Using 'Remove Leading Spaces' will strip all indentation, allowing you to re-indent the code cleanly using your own IDE's formatting tools." },
         ]}
       />
+
       <RelatedTools currentToolUrl="/tools/text/whitespace-remover" max={6} />
     </div>
   );

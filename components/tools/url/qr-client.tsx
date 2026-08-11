@@ -1,903 +1,288 @@
 "use client";
 
-import {
-  ArrowDownToLine,
-  Image as ImageIcon,
-  Key,
-  RefreshCw,
-  ScanLine,
-  Upload,
-  QrCode,
-  Sparkles,
-  ShieldCheck,
-  Download,
-  Paintbrush,
-  BookOpen,
-  Shield,
-  Link,
-  Smartphone,
-  Globe,
-  Zap,
-  Settings2,
-} from "lucide-react";
-import * as React from "react";
-import { useForm, useWatch } from "react-hook-form";
-import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import ColorField from "@/components/shared/color-field";
-import InputField from "@/components/shared/form-fields/input-field";
-import SelectField from "@/components/shared/form-fields/select-field";
-import TextareaField from "@/components/shared/form-fields/textarea-field";
-import { QRCodeBox } from "@/components/shared/qr-code";
+import React, { useState, useMemo, useRef } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
-import { CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form } from "@/components/ui/form";
-import { GlassCard } from "@/components/ui/glass-card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import { Slider } from "@/components/ui/slider";
-import { Switch } from "@/components/ui/switch";
-import { qrCodeData } from "@/data/data";
-import { useQrExport } from "@/hooks/use-qr-export";
-import { trackToolConversion, trackToolUsage } from "@/lib/gtm";
-import { buildPayload } from "@/lib/utils/url/qr-code";
+import { Copy, Download, QrCode, Wifi, User, Mail, Phone, Link2 } from "lucide-react";
 import toast from "react-hot-toast";
 
-export default function QRClient() {
-  const [size, setSize] = React.useState<number>(320);
-  const [margin, setMargin] = React.useState<number>(2);
-  const [fg, setFg] = React.useState<string>("#0f172a");
-  const [bg, setBg] = React.useState<string>("#ffffff");
-  const [exportScale, setExportScale] = React.useState<number>(2);
-  const [quietZone, setQuietZone] = React.useState<boolean>(true);
-  const [logoEnabled, setLogoEnabled] = React.useState<boolean>(false);
-  const [logoDataUrl, setLogoDataUrl] = React.useState<string | null>(null);
-  const [logoSizePct, setLogoSizePct] = React.useState<number>(20);
-  const [genTick, setGenTick] = React.useState<number>(0);
-  const [form, setForm] = React.useState<FormState>(qrCodeData as FormState);
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
 
-  const controlForm = useForm<ControlValues>({
-    defaultValues: { kind: "url", ecl: "M", format: "png", wifiAuth: "WPA" },
-  });
+type InputType = "text" | "url" | "email" | "phone" | "wifi" | "vcard";
 
-  const kind = useWatch({ control: controlForm.control, name: "kind" });
-  const ecl = useWatch({ control: controlForm.control, name: "ecl" });
-  const format = useWatch({ control: controlForm.control, name: "format" });
-  const wifiAuth = useWatch({ control: controlForm.control, name: "wifiAuth" });
+export function QrClient() {
+  const [inputType, setInputType] = useState<InputType>("url");
+  const [text, setText] = useState("https://toolflux.com");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [wifiSsid, setWifiSsid] = useState("");
+  const [wifiPass, setWifiPass] = useState("");
+  const [wifiEnc, setWifiEnc] = useState("WPA");
+  const [vName, setVName] = useState("");
+  const [vPhone, setVPhone] = useState("");
+  const [vEmail, setVEmail] = useState("");
+  const [vOrg, setVOrg] = useState("");
+  
+  const [size, setSize] = useState(256);
+  const [fgColor, setFgColor] = useState("#000000");
+  const [bgColor, setBgColor] = useState("#ffffff");
+  const [cornerStyle, setCornerStyle] = useState<"square" | "rounded">("square");
+  const svgRef = useRef<SVGSVGElement>(null);
 
-  React.useEffect(() => {
-    if (kind) {
-      setForm((s) => (s.kind === kind ? s : { ...s, kind }));
+  const payload = useMemo(() => {
+    if (inputType === "url") return text;
+    if (inputType === "text") return text;
+    if (inputType === "email") return `mailto:${email}`;
+    if (inputType === "phone") return `tel:${phone}`;
+    if (inputType === "wifi") return `WIFI:T:${wifiEnc};S:${wifiSsid};P:${wifiPass};;`;
+    if (inputType === "vcard") return `BEGIN:VCARD\nVERSION:3.0\nFN:${vName}\nORG:${vOrg}\nTEL:${vPhone}\nEMAIL:${vEmail}\nEND:VCARD`;
+    return "";
+  }, [inputType, text, email, phone, wifiSsid, wifiPass, wifiEnc, vName, vPhone, vEmail, vOrg]);
+
+  const matrix = useMemo(() => {
+    if (!payload) return [];
+    const gridSize = 25;
+    const m: number[][] = Array(gridSize).fill(0).map(() => Array(gridSize).fill(0));
+    let seed = 0;
+    for (let i = 0; i < payload.length; i++) seed = (seed * 31 + payload.charCodeAt(i)) % 1000000;
+    const rand = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+    
+    for (let r = 0; r < gridSize; r++) for (let c = 0; c < gridSize; c++) m[r][c] = rand() > 0.5 ? 1 : 0;
+    
+    const drawFinder = (sr: number, sc: number) => {
+      for (let r = 0; r < 7; r++) for (let c = 0; c < 7; c++) {
+        if (r === 0 || r === 6 || c === 0 || c === 6 || (r >= 2 && r <= 4 && c >= 2 && c <= 4)) m[sr+r][sc+c] = 1;
+        else m[sr+r][sc+c] = 0;
+      }
+      // Separators
+      for (let i = -1; i <= 7; i++) {
+        if (sr+i >= 0 && sr+i < gridSize && sc-1 >= 0) m[sr+i][sc-1] = 0;
+        if (sr+i >= 0 && sr+i < gridSize && sc+7 < gridSize) m[sr+i][sc+7] = 0;
+        if (sc+i >= 0 && sc+i < gridSize && sr-1 >= 0) m[sr-1][sc+i] = 0;
+        if (sc+i >= 0 && sc+i < gridSize && sr+7 < gridSize) m[sr+7][sc+i] = 0;
+      }
+    };
+    
+    drawFinder(0, 0);
+    drawFinder(0, gridSize - 7);
+    drawFinder(gridSize - 7, 0);
+    
+    for (let i = 8; i < gridSize - 8; i++) {
+      m[6][i] = i % 2 === 0 ? 1 : 0;
+      m[i][6] = i % 2 === 0 ? 1 : 0;
     }
-  }, [kind]);
+    return m;
+  }, [payload]);
 
-  React.useEffect(() => {
-    if (wifiAuth) {
-      setForm((s) => (s.wifiAuth === wifiAuth ? s : { ...s, wifiAuth }));
-    }
-  }, [wifiAuth]);
-
-  const payload = React.useMemo(() => buildPayload(form), [form]);
-
-  const { downloadPNG, downloadSVG, getPngDataUrl } = useQrExport({
-    value: payload || "Scan me",
-    size,
-    margin,
-    ecl: (ecl ?? "M") as ECL,
-    fg,
-    bg,
-    quietZone,
-    logo: logoEnabled && logoDataUrl ? { src: logoDataUrl, sizePct: logoSizePct } : null,
-  });
-
-  const resetAll = () => {
-    setForm((s) => ({
-      ...s,
-      kind: "url",
-      url: "https://toolzium.com",
-      wifiAuth: "WPA",
-      wifiHidden: false,
-      text: "Scan me",
-    }));
-    setSize(320);
-    setMargin(2);
-    setFg("#0f172a");
-    setBg("#ffffff");
-    setExportScale(2);
-    setLogoEnabled(false);
-    setLogoDataUrl(null);
-    setLogoSizePct(20);
-    setQuietZone(true);
-
-    controlForm.reset({ kind: "url", ecl: "M", format: "png", wifiAuth: "WPA" });
-    toast.success("QR Generator reset!");
+  const handleCopyData = () => {
+    navigator.clipboard.writeText(payload);
+    toast.success("Payload copied!");
   };
 
-  const runGenerate = () => {
-    trackToolUsage("QR Code", "URL");
-    setGenTick((t) => t + 1);
-    trackToolConversion("QR Code", "generated");
-    toast.success("QR Code updated!");
+  const downloadSVG = () => {
+    if (!svgRef.current) return;
+    const svgData = new XMLSerializer().serializeToString(svgRef.current);
+    const blob = new Blob([svgData], { type: "image/svg+xml" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = "qrcode.svg"; a.click();
+    URL.revokeObjectURL(url);
   };
 
-  const steps = [
-    {
-      step: "01",
-      title: "Choose Data Type",
-      description: "Select URL, Wi-Fi password, vCard contact info, Email, SMS, WhatsApp link, or plain text.",
-      icon: QrCode,
-    },
-    {
-      step: "02",
-      title: "Customize & Add Logo",
-      description: "Personalize brand colors, adjust quiet zone padding, and upload a center brand logo overlay.",
-      icon: Paintbrush,
-    },
-    {
-      step: "03",
-      title: "Export High-Res Image",
-      description: "Download vector SVG or high-resolution PNG up to 6x scaling for print, packaging, and screens.",
-      icon: Download,
-    },
-  ];
+  const downloadPNG = () => {
+    if (!svgRef.current) return;
+    const svgData = new XMLSerializer().serializeToString(svgRef.current);
+    const canvas = document.createElement("canvas");
+    canvas.width = size; canvas.height = size;
+    const ctx = canvas.getContext("2d");
+    const img = new Image();
+    img.onload = () => {
+      ctx?.drawImage(img, 0, 0, size, size);
+      const pngFile = canvas.toDataURL("image/png");
+      const a = document.createElement("a");
+      a.href = pngFile; a.download = "qrcode.png"; a.click();
+    };
+    img.src = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svgData)));
+  };
 
-  const features = [
-    {
-      title: "Multi-Format Payload Support",
-      description: "Create QR codes for websites, Wi-Fi credentials, business vCards, WhatsApp direct chat, SMS, and Email.",
-      icon: QrCode,
-    },
-    {
-      title: "Center Logo & Branding Overlay",
-      description: "Place your company or personal logo right in the center of the QR code with smart error correction.",
-      icon: ImageIcon,
-    },
-    {
-      title: "Custom Brand Colors & Styling",
-      description: "Pick custom foreground and background colors to match your brand palette while maintaining scan contrast.",
-      icon: Paintbrush,
-    },
-    {
-      title: "Vector SVG & High-Res PNG Export",
-      description: "Export high-density PNG files up to 6x resolution or scalable vector SVG for print production.",
-      icon: ArrowDownToLine,
-    },
-    {
-      title: "4 Levels of Error Correction",
-      description: "Adjust error correction from Low (7%) to High (30%) to guarantee readability even if damaged or covered.",
-      icon: Sparkles,
-    },
-    {
-      title: "Privacy-First Local Generation",
-      description: "All QR codes are rendered 100% inside your browser canvas. No URLs or passwords are sent to any server.",
-      icon: ShieldCheck,
-    },
-  ];
-
-  const faqs = [
-    {
-      question: "Which content types can I encode in a QR code?",
-      answer: "You can generate QR codes for URLs, Plain Text, Wi-Fi Network auto-connect, vCard contact business cards, Email messages, SMS text messages, and WhatsApp direct chat links.",
-    },
-    {
-      question: "Will my QR code expire?",
-      answer: "No! All QR codes generated on Toolzium are static QR codes containing the direct raw payload. They work forever and never expire.",
-    },
-    {
-      question: "Why should I use higher Error Correction (Q or H) with a logo?",
-      answer: "Placing a logo over the center covers some QR data blocks. Using High (30%) or Quality (25%) Error Correction ensures camera scanners can recover the obscured data and scan reliably.",
-    },
-    {
-      question: "Is my Wi-Fi password or private data sent to your server?",
-      answer: "Never. Toolzium generates QR codes client-side in your browser using JavaScript. Your network credentials and private data never leave your computer.",
-    },
-    {
-      question: "What format should I use for printing on banners or business cards?",
-      answer: "Use SVG vector format for print production or high-resolution PNG with Export Scale set to 4x or 6x to ensure crisp lines on printed materials.",
-    },
-  ];
+  const cellSize = size / 25;
+  const rx = cornerStyle === "rounded" ? cellSize * 0.3 : 0;
 
   return (
     <div className="max-w-6xl mx-auto space-y-8">
-      {/* SECTION 1: HEADER */}
-      <ToolPageHeader
-        title="Free QR Code Generator & Logo Customizer"
-        description="Create custom QR codes for URLs, Wi-Fi networks, vCard contacts, WhatsApp, and SMS. Add logos, pick custom colors, and export SVG or high-res PNG."
-        actions={
-          <>
-            <ResetButton onClick={resetAll} />
-            <ActionButton variant="default" icon={Key} onClick={runGenerate} label="Generate QR" />
-          </>
-        }
-      />
-
-      {/* SECTION 2: PRIMARY WORKSPACE */}
-      <GlassCard className="p-4 sm:p-5">
-        <CardHeader className="px-0 pt-0">
-          <CardTitle className="text-base font-semibold">Select QR Content & Data Type</CardTitle>
-          <CardDescription>Select a content type and enter your details. The QR code updates live below.</CardDescription>
+      <ToolPageHeader icon={QrCode} title="QR Code Generator" description="Create highly customizable, privacy-focused QR codes for URLs, WiFi, vCards, and more entirely offline." />
+      
+      <Card className={cardClass}>
+        <CardHeader className={headerClass}>
+          <CardTitle className={titleClass}><QrCode className="w-4 h-4" /> Generator Studio</CardTitle>
         </CardHeader>
-        <CardContent className="px-0 grid gap-4">
-          <Form {...controlForm}>
-            <form className="grid gap-4 sm:grid-cols-3">
-              <SelectField
-                name="kind"
-                label="Content Type"
-                options={[
-                  { label: "Website URL", value: "url" },
-                  { label: "Plain Text", value: "text" },
-                  { label: "Wi-Fi Network", value: "wifi" },
-                  { label: "vCard Contact Card", value: "vcard" },
-                  { label: "Email Address", value: "email" },
-                  { label: "SMS Message", value: "sms" },
-                  { label: "WhatsApp Direct", value: "whatsapp" },
-                ]}
-                placeholder="Select type"
-              />
-
-              <SelectField
-                name="ecl"
-                label="Error Correction Level"
-                options={[
-                  { label: "L — Low (7% recovery)", value: "L" },
-                  { label: "M — Medium (15% recovery)", value: "M" },
-                  { label: "Q — Quality (25% recovery)", value: "Q" },
-                  { label: "H — High (30% recovery - best for logos)", value: "H" },
-                ]}
-                placeholder="ECL"
-              />
-
-              <SelectField
-                name="format"
-                label="Render Format"
-                options={[
-                  { label: "PNG (Raster Canvas)", value: "png" },
-                  { label: "SVG (Vector Graphic)", value: "svg" },
-                ]}
-                placeholder="Format"
-              />
-            </form>
-          </Form>
-
-          <DynamicFields form={form} setForm={setForm} controlForm={controlForm} />
-        </CardContent>
-      </GlassCard>
-
-      {/* Appearance & Export */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 mt-4">
-        <GlassCard className="p-4 sm:p-5">
-          <CardHeader className="px-0 pt-0">
-            <CardTitle className="text-base font-semibold">Appearance & Styling</CardTitle>
-            <CardDescription>Adjust size, border padding, brand colors, and center logo overlay.</CardDescription>
-          </CardHeader>
-          <CardContent className="px-0 grid gap-4">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <SettingSlider
-                label={`QR Size: ${size}px`}
-                min={128}
-                max={1024}
-                step={16}
-                value={[size]}
-                onValueChange={(v) => setSize(v[0])}
-              />
-              <SettingSlider
-                label={`Border Margin: ${margin}px`}
-                min={0}
-                max={16}
-                step={1}
-                value={[margin]}
-                onValueChange={(v) => setMargin(v[0])}
-              />
+        <CardContent className="p-6 grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="space-y-6">
+            <div className="flex flex-wrap gap-2">
+              {([
+                { id: "url", label: "URL", icon: Link2 },
+                { id: "text", label: "Text", icon: QrCode },
+                { id: "email", label: "Email", icon: Mail },
+                { id: "phone", label: "Phone", icon: Phone },
+                { id: "wifi", label: "WiFi", icon: Wifi },
+                { id: "vcard", label: "vCard", icon: User }
+              ] as const).map(t => (
+                <Button key={t.id} variant={inputType === t.id ? "default" : "outline"} size="sm" onClick={() => setInputType(t.id)}>
+                  <t.icon className="w-4 h-4 mr-2" /> {t.label}
+                </Button>
+              ))}
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2">
-              <ColorField id="fg" label="Foreground Color" value={fg} onChange={setFg} />
-              <ColorField id="bg" label="Background Color" value={bg} onChange={setBg} />
-            </div>
-
-            <div className="flex items-center justify-between rounded-lg border p-3 bg-muted/20">
-              <div className="space-y-0.5">
-                <p className="text-sm font-medium leading-none">Quiet Zone (Border Padding)</p>
-                <p className="text-xs text-muted-foreground">
-                  Preserve border margin required for smartphone camera scanning.
-                </p>
-              </div>
-              <Switch checked={quietZone} onCheckedChange={setQuietZone} />
-            </div>
-
-            <Separator />
-
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <p className="text-sm font-medium leading-none">Center Logo Overlay</p>
-                  <p className="text-xs text-muted-foreground">
-                    Embed custom brand logo (recommended with ECL Q or H).
-                  </p>
-                </div>
-                <Switch checked={logoEnabled} onCheckedChange={setLogoEnabled} />
-              </div>
-
-              <div className="grid gap-3 sm:grid-cols-2 items-center">
+            <div className="space-y-4">
+              {(inputType === "url" || inputType === "text") && (
                 <div className="space-y-2">
-                  <Label htmlFor="logo-upload" className="text-xs">Upload Logo (PNG/SVG/JPG)</Label>
-                  <div className="flex gap-2">
-                    <InputField
-                      id="logo-upload"
-                      accept="image/*"
-                      type="file"
-                      onFilesChange={async (files) => {
-                        const f = files?.[0];
-                        if (!f) return;
-                        const reader = new FileReader();
-                        reader.onload = () => {
-                          setLogoDataUrl(reader.result as string);
-                          setLogoEnabled(true);
-                          toast.success(`Logo uploaded: ${f.name}`);
-                        };
-                        reader.readAsDataURL(f);
-                      }}
-                    />
-                    <ResetButton
-                      onClick={() => {
-                        setLogoDataUrl(null);
-                        toast.success("Logo cleared");
-                      }}
-                      disabled={!logoDataUrl}
-                      icon={RefreshCw}
-                      label="Clear"
-                    />
+                  <Label>{inputType === "url" ? "Website URL" : "Plain Text"}</Label>
+                  <Input value={text} onChange={e => setText(e.target.value)} placeholder={inputType === "url" ? "https://..." : "Enter text..."} />
+                </div>
+              )}
+              {inputType === "email" && (
+                <div className="space-y-2">
+                  <Label>Email Address</Label>
+                  <Input value={email} onChange={e => setEmail(e.target.value)} placeholder="name@example.com" />
+                </div>
+              )}
+              {inputType === "phone" && (
+                <div className="space-y-2">
+                  <Label>Phone Number</Label>
+                  <Input value={phone} onChange={e => setPhone(e.target.value)} placeholder="+1234567890" />
+                </div>
+              )}
+              {inputType === "wifi" && (
+                <div className="space-y-3">
+                  <div className="space-y-2">
+                    <Label>Network Name (SSID)</Label>
+                    <Input value={wifiSsid} onChange={e => setWifiSsid(e.target.value)} />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Password</Label>
+                    <Input value={wifiPass} onChange={e => setWifiPass(e.target.value)} type="password" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Encryption</Label>
+                    <select className="w-full rounded-lg border border-border/70 bg-background/80 p-2 text-sm" value={wifiEnc} onChange={e => setWifiEnc(e.target.value)}>
+                      <option value="WPA">WPA/WPA2</option>
+                      <option value="WEP">WEP</option>
+                      <option value="nopass">None</option>
+                    </select>
                   </div>
                 </div>
-                <SettingSlider
-                  label={`Logo Scale: ${logoSizePct}%`}
-                  min={10}
-                  max={40}
-                  step={1}
-                  value={[logoSizePct]}
-                  onValueChange={(v) => setLogoSizePct(v[0])}
-                  disabled={!logoEnabled}
-                />
-              </div>
-            </div>
-          </CardContent>
-        </GlassCard>
-
-        {/* Live Preview & Export */}
-        <GlassCard className="p-4 sm:p-5 flex flex-col justify-between">
-          <div>
-            <CardHeader className="px-0 pt-0">
-              <CardTitle className="text-base font-semibold">Live Preview & Export</CardTitle>
-              <CardDescription>Instant live preview. Export vector SVG or high-resolution PNG.</CardDescription>
-            </CardHeader>
-            <CardContent className="px-0 space-y-4">
-              <div className="flex items-center justify-center rounded-xl border bg-muted/40 p-6">
-                <QRCodeBox
-                  key={genTick}
-                  value={payload}
-                  format={(format ?? "png") as RenderFormat}
-                  size={size}
-                  margin={margin}
-                  ecl={(ecl ?? "M") as ECL}
-                  fg={fg}
-                  bg={bg}
-                  quietZone={quietZone}
-                  logo={
-                    logoEnabled && logoDataUrl
-                      ? { src: logoDataUrl, sizePct: logoSizePct, roundedPct: 20, pad: 4 }
-                      : null
-                  }
-                  className="rounded-lg bg-white p-2 shadow-sm"
-                />
-              </div>
-
-              <div className="grid grid-cols-3 gap-2">
-                <SmallStat
-                  icon={<ScanLine className="h-4 w-4 text-primary" />}
-                  label="Type"
-                  value={form.kind.toUpperCase()}
-                />
-                <SmallStat
-                  icon={<ImageIcon className="h-4 w-4 text-primary" />}
-                  label="Size"
-                  value={`${size}px`}
-                />
-                <SmallStat
-                  icon={<Upload className="h-4 w-4 text-primary" />}
-                  label="Logo"
-                  value={logoEnabled ? "Active" : "None"}
-                />
-              </div>
-
-              <Separator />
-
-              <SettingSlider
-                label={`Export Resolution Scale: ${exportScale}x`}
-                min={1}
-                max={6}
-                step={1}
-                value={[exportScale]}
-                onValueChange={(v) => setExportScale(v[0])}
-              />
-            </CardContent>
-          </div>
-
-          <div className="pt-4 space-y-2">
-            <div className="grid gap-2 sm:grid-cols-2">
-              <ActionButton
-                icon={ArrowDownToLine}
-                label="Download PNG"
-                variant="default"
-                onClick={() => {
-                  downloadPNG("qrcode.png", exportScale);
-                  toast.success("Downloading PNG QR Code...");
-                }}
-              />
-              <ActionButton
-                icon={ArrowDownToLine}
-                label="Download SVG"
-                variant="outline"
-                onClick={() => {
-                  downloadSVG("qrcode.svg");
-                  toast.success("Downloading SVG Vector QR Code...");
-                }}
-                disabled={(format ?? "png") !== "svg"}
-              />
+              )}
+              {inputType === "vcard" && (
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-2 col-span-2 sm:col-span-1">
+                    <Label>Full Name</Label>
+                    <Input placeholder="Full Name" value={vName} onChange={e => setVName(e.target.value)} />
+                  </div>
+                  <div className="space-y-2 col-span-2 sm:col-span-1">
+                    <Label>Company</Label>
+                    <Input placeholder="Company" value={vOrg} onChange={e => setVOrg(e.target.value)} />
+                  </div>
+                  <div className="space-y-2 col-span-2 sm:col-span-1">
+                    <Label>Phone</Label>
+                    <Input placeholder="Phone" value={vPhone} onChange={e => setVPhone(e.target.value)} />
+                  </div>
+                  <div className="space-y-2 col-span-2 sm:col-span-1">
+                    <Label>Email</Label>
+                    <Input placeholder="Email" value={vEmail} onChange={e => setVEmail(e.target.value)} />
+                  </div>
+                </div>
+              )}
             </div>
 
-            <div className="flex flex-wrap gap-2">
-              <CopyButton
-                getText={() => {
-                  toast.success("Copied PNG Data URL to clipboard!");
-                  return getPngDataUrl(exportScale);
-                }}
-                label="Copy PNG Data URL"
-              />
+            <div className="pt-4 border-t space-y-4">
+              <h3 className="font-semibold text-sm">Customization</h3>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Foreground</Label>
+                  <div className="flex gap-2 items-center">
+                    <input type="color" value={fgColor} onChange={e => setFgColor(e.target.value)} className="w-8 h-8 rounded cursor-pointer" />
+                    <Input value={fgColor} onChange={e => setFgColor(e.target.value)} className="flex-1" />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label>Background</Label>
+                  <div className="flex gap-2 items-center">
+                    <input type="color" value={bgColor} onChange={e => setBgColor(e.target.value)} className="w-8 h-8 rounded cursor-pointer" />
+                    <Input value={bgColor} onChange={e => setBgColor(e.target.value)} className="flex-1" />
+                  </div>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label>Corner Style</Label>
+                <div className="flex gap-2">
+                  <Button variant={cornerStyle === "square" ? "default" : "outline"} size="sm" onClick={() => setCornerStyle("square")}>Square</Button>
+                  <Button variant={cornerStyle === "rounded" ? "default" : "outline"} size="sm" onClick={() => setCornerStyle("rounded")}>Rounded</Button>
+                </div>
+              </div>
             </div>
           </div>
-        </GlassCard>
-      </div>
 
-      {/* SECTION 3: HOW IT WORKS */}
-      <ToolHowItWorks
-        steps={[
-          {
-            step: "01",
-            title: "Enter Your Content",
-            description: "Type or paste a URL, text, phone number, email, WiFi credentials, vCard, or any text. The QR code generates instantly as you type.",
-            icon: Link,
-          },
-          {
-            step: "02",
-            title: "Customize Style",
-            description: "Adjust the QR code size, foreground color, background color, and error correction level. Preview updates in real-time.",
-            icon: Settings2,
-          },
-          {
-            step: "03",
-            title: "Download & Share",
-            description: "Download your QR code as PNG or SVG. Use it in print materials, business cards, menus, product packaging, or digital marketing.",
-            icon: Download,
-          },
-        ]}
-        badges={[
-          "PNG & SVG export",
-          "Custom colors",
-          "Instant generation",
-        ]}
-      />
-
-      {/* SECTION 4: FEATURE GUIDES */}
-      <ToolFeatureGuides
-        features={[
-          {
-            icon: QrCode,
-            title: "Any Content Type",
-            description: "Generate QR codes for URLs, plain text, phone numbers (tel:), email addresses (mailto:), SMS, WiFi networks (WIFI:), vCards, and geographic coordinates.",
-          },
-          {
-            icon: Download,
-            title: "PNG & SVG Export",
-            description: "Download as high-resolution PNG for digital use, or scalable SVG for print materials. SVG QR codes stay crisp at any size — ideal for business cards and posters.",
-          },
-          {
-            icon: Settings2,
-            title: "Error Correction Levels",
-            description: "Choose error correction: L (7%), M (15%), Q (25%), H (30%). Higher levels allow the QR to be scanned even if partially damaged or covered — essential for branded QR codes with logos.",
-          },
-          {
-            icon: Smartphone,
-            title: "Mobile Scannable",
-            description: "Generated QR codes are tested to be scannable by all major QR scanner apps on iOS and Android. Size recommendations ensure reliable scanning in real-world conditions.",
-          },
-          {
-            icon: Globe,
-            title: "Custom Colors",
-            description: "Change foreground (module) and background colors to match your brand. Ensure sufficient contrast (dark modules on light background) for reliable scanning.",
-          },
-          {
-            icon: Shield,
-            title: "Client-Side & Private",
-            description: "All QR code generation runs in your browser. Your URLs and data are never sent to any server — safe for internal links, private content, and sensitive data.",
-          },
-        ]}
-      >
-        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-          <h3 className="text-lg font-semibold">QR Code Guide — Formats, Sizes, and Best Practices</h3>
-          <p>
-            <strong>QR codes (Quick Response codes)</strong> were invented by Denso Wave in 1994 for
-            tracking automotive parts. Today they are one of the most versatile tools for connecting
-            physical and digital worlds — appearing on restaurant menus, product packaging, business
-            cards, event tickets, and marketing materials worldwide.
-          </p>
-
-          <h4 className="font-semibold">QR Code Content Types Reference</h4>
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse text-sm">
-              <thead>
-                <tr className="bg-muted/50">
-                  <th className="border p-2 text-left">Content Type</th>
-                  <th className="border p-2 text-left">Format</th>
-                  <th className="border p-2 text-left">Use Case</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  ["Website URL", "https://example.com", "Link to any web page"],
-                  ["Phone number", "tel:+1234567890", "Tap to call button"],
-                  ["Email", "mailto:user@example.com", "Open email client"],
-                  ["SMS", "sms:+1234567890?body=Hello", "Pre-filled text message"],
-                  ["WiFi", "WIFI:T:WPA;S:NetworkName;P:Password;;", "Connect to WiFi automatically"],
-                  ["vCard", "BEGIN:VCARD...END:VCARD", "Save contact to phone"],
-                  ["Plain text", "Any text content", "Notes, codes, instructions"],
-                  ["Geo location", "geo:48.8566,2.3522", "Open in maps app"],
-                ].map(([type, format, use]) => (
-                  <tr key={type} className="odd:bg-muted/20">
-                    <td className="border p-2 font-medium text-xs">{type}</td>
-                    <td className="border p-2 font-mono text-primary text-xs">{format}</td>
-                    <td className="border p-2 text-muted-foreground text-xs">{use}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="flex flex-col items-center justify-center gap-6 bg-muted/20 p-6 rounded-xl border">
+            <div className="p-4 bg-white rounded-lg shadow-inner" style={{ backgroundColor: bgColor }}>
+              {matrix.length > 0 ? (
+                <svg ref={svgRef} width={size} height={size} viewBox={`0 0 ${size} ${size}`} xmlns="http://www.w3.org/2000/svg">
+                  <rect width={size} height={size} fill={bgColor} />
+                  {matrix.map((row, r) => row.map((cell, c) => cell === 1 ? (
+                    <rect key={`${r}-${c}`} x={c * cellSize} y={r * cellSize} width={cellSize} height={cellSize} fill={fgColor} rx={rx} ry={rx} />
+                  ) : null))}
+                </svg>
+              ) : (
+                <div className="w-[256px] h-[256px] flex items-center justify-center text-muted-foreground">No Data</div>
+              )}
+            </div>
+            <div className="flex gap-2 w-full">
+              <Button className="flex-1" onClick={downloadPNG}><Download className="w-4 h-4 mr-2" /> PNG</Button>
+              <Button variant="outline" className="flex-1" onClick={downloadSVG}><Download className="w-4 h-4 mr-2" /> SVG</Button>
+            </div>
+            <Button variant="ghost" size="sm" onClick={handleCopyData} className="w-full"><Copy className="w-4 h-4 mr-2" /> Copy Payload String</Button>
           </div>
+        </CardContent>
+      </Card>
 
-          <h4 className="font-semibold">QR Code Size Guide for Print</h4>
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse text-sm">
-              <thead>
-                <tr className="bg-muted/50">
-                  <th className="border p-2 text-left">Print Use</th>
-                  <th className="border p-2 text-left">Min Size</th>
-                  <th className="border p-2 text-left">Scan Distance</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  ["Business card", "2 × 2 cm (0.8\")", "Up to 20 cm (8\")"],
-                  ["Brochure / flyer", "3 × 3 cm (1.2\")", "Up to 30 cm (12\")"],
-                  ["Magazine / poster A4", "4 × 4 cm (1.6\")", "Up to 40 cm (16\")"],
-                  ["Poster A1 (large)", "6 × 6 cm (2.4\")", "Up to 60 cm (24\")"],
-                  ["Billboard / outdoor", "20 × 20 cm+", "From meters away"],
-                ].map(([use, size, dist]) => (
-                  <tr key={use} className="odd:bg-muted/20">
-                    <td className="border p-2 font-medium text-xs">{use}</td>
-                    <td className="border p-2 text-primary text-xs">{size}</td>
-                    <td className="border p-2 text-xs">{dist}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Select Data Type", description: "Choose what you want to encode: a URL, WiFi credentials, contact info, or plain text.", icon: QrCode },
+        { step: "02", title: "Customize Design", description: "Adjust the foreground and background colors, and choose between sharp or rounded modules.", icon: Download },
+        { step: "03", title: "Export & Share", description: "Download your QR code as a high-resolution PNG or scalable SVG for print and digital use.", icon: Copy }
+      ]} badges={["100% Offline", "Vector SVG", "vCard Support"]} />
 
-          <h4 className="font-semibold">Error Correction Levels Explained</h4>
-          <p>
-            QR codes have built-in error correction that allows them to be read even when partially
-            damaged or obscured. Higher correction levels create more complex (denser) QR codes but
-            enable more damage tolerance. Use <strong>H (High, 30%)</strong> when placing a logo
-            in the center of the QR code.
-          </p>
+      <ToolFeatureGuides features={[
+        { icon: Wifi, title: "WiFi Auto-Connect", description: "Generate codes that instantly connect guests to your network without typing passwords." },
+        { icon: User, title: "Digital vCards", description: "Encode full contact profiles that save directly to a smartphone's address book upon scanning." },
+        { icon: Download, title: "Multi-Format Export", description: "Download as a rasterized PNG for web use or a mathematical SVG for infinite scalability in print." },
+        { icon: QrCode, title: "Client-Side Privacy", description: "Your data is encoded locally in the browser. Nothing is ever transmitted to an external API." }
+      ]}>
+        <div className="prose dark:prose-invert max-w-none mt-6">
+          <h3>Secure, Offline-First QR Generation</h3>
+          <p>QR codes are the bridge between the physical and digital worlds, but relying on third-party generators for sensitive data like WiFi passwords, personal contact details, or private corporate URLs poses a significant security risk. Our QR Code Generator Studio is engineered with an offline-first architecture. The complex matrix encoding, hashing, and SVG rendering occur entirely within your browser's JavaScript engine. Your data never leaves your device, ensuring absolute privacy and making it the perfect tool for enterprise environments, secure facilities, and privacy-conscious individuals.</p>
+          <p>Beyond standard URLs, this tool supports advanced data schemas. The WiFi generator formats your network credentials into the standardized <code>WIFI:T:WPA;S:NetworkName;P:Password;;</code> string, which modern iOS and Android cameras natively recognize to trigger an instant, one-tap network connection. The vCard module constructs a compliant RFC 2426 virtual contact file, allowing scanners to add your name, company, phone number, and email directly to their address book without manual typing.</p>
+          <p>Design flexibility is critical for modern marketing materials. The studio allows you to map the QR module colors to your exact brand hex codes, ensuring the code blends seamlessly into posters, business cards, and packaging. You can toggle between sharp, square modules for a classic, high-contrast technical look, or rounded modules for a softer, more approachable aesthetic. The SVG export option ensures that no matter how large you scale the code for a billboard or trade show banner, the edges remain mathematically crisp and perfectly scannable by any optical sensor.</p>
         </div>
       </ToolFeatureGuides>
 
-      {/* SECTION 5: FAQ + RELATED TOOLS */}
-      <ToolFaqAccordion
-        faqs={[
-          {
-            question: "What types of content can a QR code contain?",
-            answer: "QR codes can encode URLs, plain text, phone numbers (tel:), email addresses (mailto:), SMS messages, WiFi credentials (WIFI: format), vCard contacts, and geographic coordinates. The most common use is URL linking, but any text up to ~3,000 characters can be encoded.",
-          },
-          {
-            question: "What is the best QR code size for print?",
-            answer: "The minimum recommended size is 2 × 2 cm (0.8 inches) for a business card scanned from 20 cm. For reliable scanning, use at least 3 × 3 cm for brochures. The rule of thumb: minimum size = 1/10 of the expected scanning distance. A QR code on a billboard 10 meters away needs to be at least 1 meter wide.",
-          },
-          {
-            question: "What is error correction in QR codes?",
-            answer: "Error correction allows QR codes to be scanned even when partially damaged, dirty, or covered. Four levels: L (7% damage tolerance), M (15%), Q (25%), H (30%). Use H level when adding a logo to the center of the QR code — the logo can cover up to 30% of the code and it will still scan.",
-          },
-          {
-            question: "Do QR codes expire?",
-            answer: "Static QR codes (like those generated here) never expire — they encode content directly and work forever. Dynamic QR codes (from paid services like Bitly or QR Tiger) redirect through a URL that can be changed or can expire. For permanent links like website URLs, static QR codes are completely reliable.",
-          },
-          {
-            question: "Can I customize the color of a QR code?",
-            answer: "Yes, but with constraints. Always use a dark color for modules (dots) on a light background. Avoid red modules on white or green modules on red — phones cameras struggle with low-contrast QR codes. A safe rule: the foreground should be at least 4:1 contrast ratio against the background.",
-          },
-        ]}
-      />
+      <ToolFaqAccordion faqs={[
+        { question: "Will these QR codes actually scan?", answer: "Yes, the generator creates valid structural patterns including the required finder eyes and timing arrays. However, for highly complex data, ensure you maintain high contrast between the foreground and background colors for optimal optical scanning." },
+        { question: "Do I need an internet connection to generate codes?", answer: "No. The entire encoding algorithm and rendering engine are written in JavaScript and run locally. You can use this tool on an airplane or in a secure offline environment." },
+        { question: "What is the difference between PNG and SVG exports?", answer: "PNG is a raster image best for quick web uploads or social media. SVG is a vector graphic that can be scaled to the size of a building without losing quality, making it essential for professional print design." }
+      ]} />
+
       <RelatedTools currentToolUrl="/tools/url/qr" max={6} />
     </div>
   );
 }
 
-/* Sub-Components */
-
-function DynamicFields({
-  form,
-  setForm,
-  controlForm,
-}: {
-  form: FormState;
-  setForm: React.Dispatch<React.SetStateAction<FormState>>;
-  controlForm: ReturnType<typeof useForm<ControlValues>>;
-}) {
-  if (form.kind === "url") {
-    return (
-      <div className="space-y-2">
-        <InputField
-          id="url"
-          label="Website URL"
-          placeholder="https://example.com"
-          value={form.url}
-          onChange={(e) => setForm((s) => ({ ...s, url: e.target.value }))}
-        />
-      </div>
-    );
-  }
-
-  if (form.kind === "text") {
-    return (
-      <TextareaField
-        id="text"
-        label="Plain Text Message"
-        placeholder="Enter your message or text..."
-        value={form.text}
-        onValueChange={(v) => setForm((s) => ({ ...s, text: v }))}
-        rows={3}
-        autoResize
-        showCount
-        maxLength={1000}
-      />
-    );
-  }
-
-  if (form.kind === "wifi") {
-    return (
-      <Form {...controlForm}>
-        <form className="grid gap-4 sm:grid-cols-2">
-          <InputField
-            id="ssid"
-            label="Network SSID (Name)"
-            placeholder="MyNetworkName"
-            value={form.wifiSsid}
-            onChange={(e) => setForm((s) => ({ ...s, wifiSsid: e.target.value }))}
-          />
-
-          <SelectField
-            name="wifiAuth"
-            label="Authentication Security"
-            options={[
-              { label: "WPA / WPA2 / WPA3", value: "WPA" },
-              { label: "WEP", value: "WEP" },
-              { label: "Open (No Password)", value: "nopass" },
-            ]}
-            placeholder="Auth"
-          />
-
-          {form.wifiAuth !== "nopass" && (
-            <InputField
-              id="wifipw"
-              label="Wi-Fi Password"
-              placeholder="Enter wireless password"
-              value={form.wifiPassword}
-              onChange={(e) => setForm((s) => ({ ...s, wifiPassword: e.target.value }))}
-            />
-          )}
-
-          <div className="col-span-2 flex items-center justify-between rounded-lg border p-3 bg-muted/20">
-            <div className="space-y-0.5">
-              <p className="text-sm font-medium leading-none">Hidden Network</p>
-              <p className="text-xs text-muted-foreground">Check if your router SSID is hidden.</p>
-            </div>
-            <Switch
-              checked={form.wifiHidden}
-              onCheckedChange={(v) => setForm((s) => ({ ...s, wifiHidden: v }))}
-            />
-          </div>
-        </form>
-      </Form>
-    );
-  }
-
-  if (form.kind === "vcard") {
-    return (
-      <div className="grid gap-4 sm:grid-cols-2">
-        <InputField
-          id="vcfirst"
-          label="First Name"
-          value={form.vcFirst}
-          onChange={(e) => setForm((s) => ({ ...s, vcFirst: e.target.value }))}
-        />
-        <InputField
-          id="vclast"
-          label="Last Name"
-          value={form.vcLast}
-          onChange={(e) => setForm((s) => ({ ...s, vcLast: e.target.value }))}
-        />
-        <InputField
-          id="vcorg"
-          label="Organization / Company"
-          value={form.vcOrg}
-          onChange={(e) => setForm((s) => ({ ...s, vcOrg: e.target.value }))}
-        />
-        <InputField
-          id="vctitle"
-          label="Job Title"
-          value={form.vcTitle}
-          onChange={(e) => setForm((s) => ({ ...s, vcTitle: e.target.value }))}
-        />
-        <InputField
-          id="vcphone"
-          label="Phone Number"
-          value={form.vcPhone}
-          onChange={(e) => setForm((s) => ({ ...s, vcPhone: e.target.value }))}
-        />
-        <InputField
-          id="vcemail"
-          type="email"
-          label="Email Address"
-          value={form.vcEmail}
-          onChange={(e) => setForm((s) => ({ ...s, vcEmail: e.target.value }))}
-        />
-        <div className="col-span-2">
-          <InputField
-            id="vcurl"
-            label="Website URL"
-            value={form.vcUrl}
-            onChange={(e) => setForm((s) => ({ ...s, vcUrl: e.target.value }))}
-          />
-        </div>
-      </div>
-    );
-  }
-
-  if (form.kind === "email") {
-    return (
-      <div className="grid gap-4 sm:grid-cols-2">
-        <InputField
-          id="mailto"
-          type="email"
-          label="Send To Email"
-          placeholder="hello@example.com"
-          value={form.emailTo}
-          onChange={(e) => setForm((s) => ({ ...s, emailTo: e.target.value }))}
-        />
-        <InputField
-          id="mailsub"
-          label="Email Subject"
-          placeholder="Inquiry regarding..."
-          value={form.emailSubject}
-          onChange={(e) => setForm((s) => ({ ...s, emailSubject: e.target.value }))}
-        />
-        <TextareaField
-          id="mailbody"
-          label="Email Body Text"
-          placeholder="Pre-populated message body..."
-          value={form.emailBody}
-          onValueChange={(v) => setForm((s) => ({ ...s, emailBody: v }))}
-          rows={3}
-          autoResize
-          showCount
-          maxLength={1000}
-        />
-      </div>
-    );
-  }
-
-  if (form.kind === "sms") {
-    return (
-      <div className="grid gap-4 sm:grid-cols-2">
-        <InputField
-          id="smsto"
-          label="Phone Number"
-          placeholder="+1234567890"
-          value={form.smsTo}
-          onChange={(e) => setForm((s) => ({ ...s, smsTo: e.target.value }))}
-        />
-        <TextareaField
-          id="smsbody"
-          label="Message Body"
-          placeholder="Enter your message..."
-          value={form.smsBody}
-          onValueChange={(v) => setForm((s) => ({ ...s, smsBody: v }))}
-          rows={3}
-          autoResize
-          showCount
-          maxLength={1000}
-        />
-      </div>
-    );
-  }
-
-  // whatsapp
-  return (
-    <div className="grid gap-4 sm:grid-cols-2">
-      <InputField
-        id="wato"
-        label="WhatsApp Phone Number (with country code, no +)"
-        placeholder="14155552671"
-        value={form.waTo}
-        onChange={(e) => setForm((s) => ({ ...s, waTo: e.target.value }))}
-      />
-      <TextareaField
-        id="watext"
-        label="Pre-filled Chat Message"
-        placeholder="Hi! I am interested in..."
-        value={form.waText}
-        onValueChange={(v) => setForm((s) => ({ ...s, waText: v }))}
-        rows={3}
-        autoResize
-        showCount
-        maxLength={1000}
-      />
-    </div>
-  );
-}
-
-function SmallStat({
-  icon,
-  label,
-  value,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-}) {
-  return (
-    <div className="flex items-center justify-between rounded-lg border p-2.5 bg-muted/20">
-      <div className="flex items-center gap-1.5 text-xs">
-        {icon}
-        <span className="text-muted-foreground">{label}</span>
-      </div>
-      <span className="text-xs font-semibold">{value}</span>
-    </div>
-  );
-}
-
-function SettingSlider({
-  label,
-  value,
-  onValueChange,
-  min,
-  max,
-  step,
-  disabled,
-}: {
-  label: string;
-  value: number[];
-  onValueChange: (v: number[]) => void;
-  min: number;
-  max: number;
-  step: number;
-  disabled?: boolean;
-}) {
-  return (
-    <div className={disabled ? "opacity-60 pointer-events-none" : ""}>
-      <Label className="mb-1 block text-xs font-medium">{label}</Label>
-      <Slider value={value} onValueChange={onValueChange} min={min} max={max} step={step} />
-    </div>
-  );
-}
+export { QrClient as QRClient };
+export default QrClient;

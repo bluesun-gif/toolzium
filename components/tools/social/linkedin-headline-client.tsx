@@ -1,97 +1,270 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { AiOutputDisplay } from "@/components/shared/ai-output-display";
-import { Globe, RefreshCw } from "lucide-react";
+import { CopyButton } from "@/components/shared/action-buttons";
 import toast from "react-hot-toast";
+import { Linkedin, Sparkles, RefreshCw, Briefcase } from "lucide-react";
+
+const cardClass =
+  "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
 
 export default function LinkedinHeadlineClient() {
-  const [role, setRole] = useState("SaaS Founder & Full-Stack Engineer");
-  const [headlines, setHeadlines] = useState<string[]>([]);
+  const [jobTitle, setJobTitle] = useState("");
+  const [industry, setIndustry] = useState("");
+  const [skills, setSkills] = useState("");
+  const [careerGoal, setCareerGoal] = useState("");
   const [loading, setLoading] = useState(false);
+  const [headlines, setHeadlines] = useState<string[]>([]);
 
-  const generateHeadlines = async () => {
+  const handleGenerate = async () => {
+    if (!jobTitle.trim()) {
+      toast.error("Enter your job title.");
+      return;
+    }
+
     setLoading(true);
 
     try {
-      const prompt = `Generate 5 high-converting LinkedIn profile headlines and post hooks for a '${role}'. Format with professional emojis and value propositions (e.g. 'Helping X achieve Y'). Output 1 per line. No markdown formatting.`;
+      const prompt = `You are a LinkedIn branding expert.
+Generate 8 LinkedIn headlines for:
+Job title: ${jobTitle}
+Industry: ${industry || "Not provided"}
+Key skills: ${skills || "Not provided"}
+Career goal: ${careerGoal || "Not provided"}
+
+Use different formulas such as value proposition, keyword-rich, achievement-focused, and question-based.
+Return exactly 8 headlines, one per line, with no numbering and no extra text.`;
 
       const res = await fetch("/api/ai/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt, type: "prose" }),
+        body: JSON.stringify({ prompt }),
       });
 
-      if (!res.ok) throw new Error("AI API failed");
-
       const data = await res.json();
-      if (data.results && data.results.length > 0) {
-        setHeadlines(data.results);
-        toast.success("AI generated fresh LinkedIn headlines!");
+
+      if (data.success && data.raw) {
+        const lines = String(data.raw)
+          .replace(/```[a-z]*\n?/gi, "")
+          .split("\n")
+          .map((line: string) => line.replace(/^[-*\d.)\s]+/, "").trim())
+          .filter(Boolean);
+
+        if (lines.length >= 8) {
+          setHeadlines(lines.slice(0, 8));
+          toast.success("LinkedIn headlines generated.");
+        } else {
+          throw new Error("Invalid AI output.");
+        }
       } else {
-        throw new Error("No results");
+        throw new Error("API error");
       }
-    } catch (err) {
-      console.warn("AI generation fallback:", err);
-      const fallbackList = [
-        "🚀 Founder @ Toolzium | Building AI tools that scale to 10M+ users | Ex-Senior Tech Architect",
-        "💡 Helping B2B startups scale from $0 to $1M ARR with AI automation & Next.js",
-      ];
-      setHeadlines(fallbackList);
-      toast.success("Generated LinkedIn headlines!");
+    } catch {
+      setHeadlines([
+        `${jobTitle} | Helping teams deliver better results`,
+        `${jobTitle} in ${industry || "your industry"} | ${skills || "Core skills"} focused`,
+        `${jobTitle} | Turning complex problems into practical solutions`,
+        `Experienced ${jobTitle} | ${skills || "Results-driven"} professional`,
+        `${jobTitle} | Building value through ${skills || "expertise and execution"}`,
+        `${jobTitle} | Focused on ${careerGoal || "long-term growth"}`,
+        `${jobTitle} | Making ${industry || "business"} outcomes clearer, faster, stronger`,
+        `${jobTitle} | ${skills || "Strategy, execution, and impact"}`,
+      ]);
+      toast.error("AI offline. Loaded template fallback.");
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    generateHeadlines();
-  }, []);
-
   return (
-    <div className="space-y-6 max-w-4xl mx-auto px-4">
+    <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
       <ToolPageHeader
-        icon={Globe}
-        title="LinkedIn Viral Post Format & Headline Hook Generator"
-        description="Generate high-converting LinkedIn profile headlines, B2B hooks, and viral storytelling formats with live AI inference."
+        icon={Linkedin}
+        title="LinkedIn Headline Generator"
+        description="Generate 8 LinkedIn headline variants with character counts and copy buttons."
       />
 
-      <GlassCard className="p-6 space-y-4">
-        <label className="text-sm font-bold text-foreground block">
-          Enter Your Current Role, Specialty, or Value Prop:
-        </label>
-        <div className="flex flex-col sm:flex-row gap-3">
-          <Input
-            type="text"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            placeholder="e.g. Product Manager, AI Researcher, Growth Marketer"
-            className="h-11 text-base font-bold flex-1"
-          />
-          <Button
-            onClick={generateHeadlines}
-            disabled={loading}
-            className="gap-2 font-bold h-11 px-6 shadow-md"
-          >
-            <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
-            {loading ? "AI Crafting..." : "Generate AI Headlines"}
+      <Card className={cardClass}>
+        <CardHeader className={headerClass}>
+          <CardTitle className={titleClass}>
+            <Briefcase className="w-4 h-4 text-primary" /> Career Details
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="p-3 sm:p-4 space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="text-xs font-medium text-muted-foreground">Job Title</label>
+              <Input
+                value={jobTitle}
+                onChange={(e) => setJobTitle(e.target.value)}
+                placeholder="e.g. Product Manager"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-xs font-medium text-muted-foreground">Industry</label>
+              <Input
+                value={industry}
+                onChange={(e) => setIndustry(e.target.value)}
+                placeholder="e.g. SaaS"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="text-xs font-medium text-muted-foreground">Key Skills</label>
+              <Input
+                value={skills}
+                onChange={(e) => setSkills(e.target.value)}
+                placeholder="e.g. growth, analytics, leadership"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-xs font-medium text-muted-foreground">Career Goal</label>
+              <Input
+                value={careerGoal}
+                onChange={(e) => setCareerGoal(e.target.value)}
+                placeholder="e.g. leadership roles"
+              />
+            </div>
+          </div>
+
+          <Button onClick={() => void handleGenerate()} disabled={loading} className="w-full">
+            {loading ? (
+              <>
+                <RefreshCw className="w-4 h-4 animate-spin" /> Generating...
+              </>
+            ) : (
+              <>
+                <Sparkles className="w-4 h-4" /> Generate Headlines
+              </>
+            )}
           </Button>
-        </div>
-      </GlassCard>
+        </CardContent>
+      </Card>
 
-      {/* Premium AI Output Display */}
-      <AiOutputDisplay
-        title="AI Generated LinkedIn Headlines & Hooks"
-        subtitle="100% Formatted for LinkedIn Profile & Posts"
-        content={headlines}
-        loading={loading}
-        onRegenerate={generateHeadlines}
-        variant="prose"
+      {headlines.length > 0 && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          {headlines.map((headline, index) => (
+            <Card key={`${headline.slice(0, 12)}-${index}`} className={cardClass}>
+              <CardHeader className={headerClass}>
+                <CardTitle className={titleClass}>
+                  <Linkedin className="w-4 h-4 text-primary" /> Headline {index + 1}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-3 sm:p-4 space-y-3">
+                <p className="text-sm leading-relaxed">{headline}</p>
+                <div className="flex items-center justify-between gap-3">
+                  <span
+                    className={`text-xs ${
+                      headline.length > 220 ? "text-red-500" : "text-muted-foreground"
+                    }`}
+                  >
+                    {headline.length}/220
+                  </span>
+                  <CopyButton getText={() => headline} label="Copy" />
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
+
+      <ToolHowItWorks
+        steps={[
+          {
+            step: "01",
+            title: "Add Career Info",
+            description: "Enter your role, industry, skills, and goal.",
+            icon: Briefcase,
+          },
+          {
+            step: "02",
+            title: "Generate Headlines",
+            description: "Get eight headline options with different positioning styles.",
+            icon: Sparkles,
+          },
+          {
+            step: "03",
+            title: "Copy and Update",
+            description: "Choose the strongest headline and add it to LinkedIn.",
+            icon: Linkedin,
+          },
+        ]}
+        badges={["AI-Powered", "8 Variants", "No Signup"]}
       />
+
+      <ToolFeatureGuides
+        features={[
+          {
+            icon: Linkedin,
+            title: "LinkedIn-Optimized",
+            description: "Creates headlines designed for professional visibility.",
+          },
+          {
+            icon: Sparkles,
+            title: "Multiple Formulas",
+            description: "Uses value, keyword, achievement, and question-based angles.",
+          },
+          {
+            icon: Briefcase,
+            title: "Career-Focused",
+            description: "Builds headlines around your role and goals.",
+          },
+          {
+            icon: Linkedin,
+            title: "Character Tracking",
+            description: "Shows length against the common LinkedIn headline limit.",
+          },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <p>
+            Your LinkedIn headline is one of the most visible parts of your professional profile. It appears in search
+            results, comments, posts, and connection requests. A clear and compelling headline can help recruiters,
+            clients, and collaborators understand your value immediately.
+          </p>
+          <p>
+            The best headlines usually do more than list a job title. They communicate specialization, value, and
+            credibility. Depending on your goal, you may want a keyword-rich headline for search visibility, a
+            value-proposition headline for clients, or an achievement-focused headline for job searching.
+          </p>
+          <p>
+            Use the generated options as drafts and customize them with your strongest proof points. Specific skills,
+            industries, and outcomes often perform better than generic phrases.
+          </p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "What is the LinkedIn headline limit?",
+            answer: "LinkedIn headlines are commonly limited to about 220 characters.",
+          },
+          {
+            question: "Should I use only my job title?",
+            answer:
+              "Usually no. Adding value, keywords, or specialization often makes the headline stronger.",
+          },
+          {
+            question: "Can this help freelancers?",
+            answer: "Yes. Enter your service focus and target client to create more targeted headlines.",
+          },
+        ]}
+      />
+
+      <RelatedTools currentToolUrl="/tools/social/linkedin-headline" max={6} />
     </div>
   );
 }

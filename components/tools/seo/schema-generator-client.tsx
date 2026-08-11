@@ -1,868 +1,330 @@
 "use client";
 
-import {
-  BookText,
-  Building2,
-  DollarSign,
-  Download,
-  Globe,
-  Image as ImageIcon,
-  Link as LinkIcon,
-  Package,
-  Sparkles,
-  Star,
-  Users,
-} from "lucide-react";
-import * as React from "react";
-import {
-  ActionButton,
-  CopyButton,
-  ExportTextButton,
-  ResetButton,
-} from "@/components/shared/action-buttons";
-import InputField from "@/components/shared/form-fields/input-field";
-import SelectField from "@/components/shared/form-fields/select-field";
-import SwitchRow from "@/components/shared/form-fields/switch-row";
-import TextareaField from "@/components/shared/form-fields/textarea-field";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { Badge } from "@/components/ui/badge";
-import { CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { GlassCard } from "@/components/ui/glass-card";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
+import { Copy, RotateCcw, Code2, Plus, Trash2, Eye } from "lucide-react";
+import toast from "react-hot-toast";
 
-// Types
-type SchemaType = "Article" | "Product" | "Organization";
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
+const textareaClass = "w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50 font-mono";
 
-type ArticleState = {
-  headline: string;
-  description: string;
-  authorName: string;
-  authorUrl: string;
-  publisherName: string;
-  publisherLogo: string;
-  datePublished: string;
-  dateModified: string;
-  url: string;
-  images: string;
-  section: string;
-  isAccessibleForFree: boolean;
-};
+type SchemaType = "Article" | "Product" | "LocalBusiness" | "FAQPage" | "Recipe";
 
-type ProductState = {
-  name: string;
-  description: string;
-  sku: string;
-  brand: string;
-  url: string;
-  images: string;
-  // offers
-  price: string;
-  priceCurrency: string;
-  availability: "InStock" | "OutOfStock" | "PreOrder" | "Discontinued" | "";
-  condition: "NewCondition" | "UsedCondition" | "RefurbishedCondition" | "";
-  seller: string;
-  ratingValue: string;
-  reviewCount: string;
-};
+interface FaqItem { q: string; a: string; }
 
-type OrgState = {
-  name: string;
-  url: string;
-  logo: string;
-  sameAs: string;
-  contactType: string;
-  telephone: string;
-  email: string;
-  addressStreet: string;
-  addressLocality: string;
-  addressRegion: string;
-  postalCode: string;
-  addressCountry: string;
-};
+export function SchemaGeneratorClient() {
+  const [schemaType, setSchemaType] = useState<SchemaType>("Article");
+  const [fields, setFields] = useState<Record<string, string>>({});
+  const [faqs, setFaqs] = useState<FaqItem[]>([{ q: "", a: "" }]);
+  const [showPreview, setShowPreview] = useState(false);
 
-type State = {
-  active: SchemaType;
-  pretty: boolean;
-  article: ArticleState;
-  product: ProductState;
-  org: OrgState;
-};
-
-// Defaults
-const DEFAULT: State = {
-  active: "Article",
-  pretty: true,
-
-  article: {
-    headline: "Toolzium — Fast, Free, Privacy-Friendly Online Tools",
-    description:
-      "URL shortener, PDF tools, image converters, text utilities, developer helpers, and calculators — all in one place.",
-    authorName: "Toolzium",
-    authorUrl: "https://toolzium.com",
-    publisherName: "Toolzium",
-    publisherLogo: "https://toolzium.com/og/tools-cube-og.png",
-    datePublished: "2025-02-10",
-    dateModified: "2025-02-12",
-    url: "https://toolzium.com",
-    images: "https://toolzium.com/og/tools-cube-og.png",
-    section: "UtilitiesApplication",
-    isAccessibleForFree: true,
-  },
-
-  product: {
-    name: "Toolzium",
-    description:
-      "Privacy-friendly web utilities: URL shortener, PDF tools, image converters, text utilities, developer helpers, and calculators.",
-    sku: "TC-0001",
-    brand: "Toolzium",
-    url: "https://toolzium.com",
-    images: "https://toolzium.com/og/tools-cube-og.png",
-    price: "0",
-    priceCurrency: "USD",
-    availability: "InStock",
-    condition: "NewCondition",
-    seller: "Toolzium",
-    ratingValue: "0",
-    reviewCount: "0",
-  },
-
-  org: {
-    name: "Toolzium",
-    url: "https://toolzium.com",
-    logo: "https://toolzium.com/og/tools-cube-og.png",
-    sameAs:
-      "https://toolzium.com, https://www.linkedin.com/in/creataflow, https://github.com/creataflow",
-    contactType: "customer support",
-    telephone: "+8801743892058",
-    email: "hello@toolzium.com",
-    addressStreet: "Pabna, Bangladesh",
-    addressLocality: "Pabna, Bangladesh",
-    addressRegion: "Bangladeshi",
-    postalCode: "6630",
-    addressCountry: "BD",
-  },
-};
-
-// Helpers
-function lsSplit(s: string): string[] {
-  return s
-    .split(/[\n,]+/)
-    .map((t) => t.trim())
-    .filter(Boolean);
-}
-
-function isUrl(s: string) {
-  try {
-    const u = new URL(s);
-    return u.protocol === "http:" || u.protocol === "https:";
-  } catch {
-    return false;
-  }
-}
-
-function toScript(json: object, pretty: boolean) {
-  const body = pretty ? JSON.stringify(json, null, 2) : JSON.stringify(json);
-  return `<script type="application/ld+json">\n${body}\n</script>`;
-}
-
-// JSON-LD builders
-function buildArticle(s: ArticleState) {
-  const images = lsSplit(s.images);
-  const obj = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": s.url || undefined,
-    },
-    headline: s.headline || undefined,
-    description: s.description || undefined,
-    articleSection: s.section || undefined,
-    image: images.length ? images : undefined,
-    author: s.authorName
-      ? {
-          "@type": "Person",
-          name: s.authorName,
-          url: s.authorUrl || undefined,
-        }
-      : undefined,
-    publisher: s.publisherName
-      ? {
-          "@type": "Organization",
-          name: s.publisherName,
-          logo: s.publisherLogo
-            ? {
-                "@type": "ImageObject",
-                url: s.publisherLogo,
-              }
-            : undefined,
-        }
-      : undefined,
-    datePublished: s.datePublished || undefined,
-    dateModified: s.dateModified || undefined,
-    isAccessibleForFree: s.isAccessibleForFree,
-  };
-  return obj;
-}
-
-function buildProduct(s: ProductState) {
-  const images = lsSplit(s.images);
-  const offers = {
-    "@type": "Offer",
-    price: s.price || undefined,
-    priceCurrency: s.priceCurrency || undefined,
-    availability: s.availability ? `https://schema.org/${s.availability}` : undefined,
-    itemCondition: s.condition ? `https://schema.org/${s.condition}` : undefined,
-    url: s.url || undefined,
-    seller: s.seller
-      ? {
-          "@type": "Organization",
-          name: s.seller,
-        }
-      : undefined,
+  const schemaConfig: Record<SchemaType, { key: string; label: string; type: string; options?: string[] }[]> = {
+    Article: [
+      { key: "headline", label: "Headline", type: "text" },
+      { key: "author", label: "Author Name", type: "text" },
+      { key: "datePublished", label: "Date Published (YYYY-MM-DD)", type: "date" },
+      { key: "image", label: "Image URL", type: "text" },
+      { key: "description", label: "Description", type: "textarea" }
+    ],
+    Product: [
+      { key: "name", label: "Product Name", type: "text" },
+      { key: "description", label: "Description", type: "textarea" },
+      { key: "image", label: "Image URL", type: "text" },
+      { key: "price", label: "Price", type: "number" },
+      { key: "currency", label: "Currency (e.g., USD)", type: "text" },
+      { key: "availability", label: "Availability", type: "select", options: ["InStock", "OutOfStock", "PreOrder"] }
+    ],
+    LocalBusiness: [
+      { key: "name", label: "Business Name", type: "text" },
+      { key: "address", label: "Street Address", type: "text" },
+      { key: "city", label: "City", type: "text" },
+      { key: "state", label: "State", type: "text" },
+      { key: "zip", label: "Zip Code", type: "text" },
+      { key: "phone", label: "Phone Number", type: "text" }
+    ],
+    FAQPage: [
+      { key: "faq", label: "Questions & Answers", type: "faq" }
+    ],
+    Recipe: [
+      { key: "name", label: "Recipe Name", type: "text" },
+      { key: "prepTime", label: "Prep Time (e.g., PT15M)", type: "text" },
+      { key: "cookTime", label: "Cook Time (e.g., PT1H)", type: "text" },
+      { key: "ingredients", label: "Ingredients (comma separated)", type: "textarea" },
+      { key: "instructions", label: "Instructions (comma separated)", type: "textarea" }
+    ]
   };
 
-  const aggregateRating =
-    s.ratingValue && s.reviewCount
-      ? {
-          "@type": "AggregateRating",
-          ratingValue: s.ratingValue,
-          reviewCount: s.reviewCount,
-        }
-      : undefined;
-
-  const obj = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: s.name || undefined,
-    description: s.description || undefined,
-    sku: s.sku || undefined,
-    brand: s.brand ? { "@type": "Brand", name: s.brand } : undefined,
-    image: images.length ? images : undefined,
-    url: s.url || undefined,
-    offers,
-    aggregateRating,
+  const handleFieldChange = (key: string, value: string) => {
+    setFields(prev => ({ ...prev, [key]: value }));
   };
-  return obj;
-}
 
-function buildOrg(s: OrgState) {
-  const sameAs = lsSplit(s.sameAs);
-  const addressExists =
-    s.addressStreet || s.addressLocality || s.addressRegion || s.postalCode || s.addressCountry;
-
-  const obj = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: s.name || undefined,
-    url: s.url || undefined,
-    logo: s.logo || undefined,
-    sameAs: sameAs.length ? sameAs : undefined,
-    contactPoint:
-      s.contactType || s.telephone || s.email
-        ? [
-            {
-              "@type": "ContactPoint",
-              contactType: s.contactType || undefined,
-              telephone: s.telephone || undefined,
-              email: s.email || undefined,
-            },
-          ]
-        : undefined,
-    address: addressExists
-      ? {
-          "@type": "PostalAddress",
-          streetAddress: s.addressStreet || undefined,
-          addressLocality: s.addressLocality || undefined,
-          addressRegion: s.addressRegion || undefined,
-          postalCode: s.postalCode || undefined,
-          addressCountry: s.addressCountry || undefined,
-        }
-      : undefined,
+  const addFaq = () => setFaqs([...faqs, { q: "", a: "" }]);
+  const removeFaq = (index: number) => setFaqs(faqs.filter((_, i) => i !== index));
+  const updateFaq = (index: number, field: "q" | "a", value: string) => {
+    const newFaqs = [...faqs];
+    newFaqs[index][field] = value;
+    setFaqs(newFaqs);
   };
-  return obj;
-}
 
-export default function SchemaGeneratorClient() {
-  const [s, setS] = React.useState<State>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const raw = localStorage.getItem("schema-gen-v1");
-        if (raw) return { ...DEFAULT, ...JSON.parse(raw) } as State;
-      } catch {}
+  const generateJsonLd = useMemo(() => {
+    let base: any = {
+      "@context": "https://schema.org",
+      "@type": schemaType
+    };
+
+    if (schemaType === "FAQPage") {
+      base.mainEntity = faqs.filter((f: FaqItem) => f.q && f.a).map((f: FaqItem) => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": f.a
+        }
+      }));
+    } else if (schemaType === "Recipe") {
+      base.name = fields.name;
+      base.recipeIngredient = fields.ingredients ? fields.ingredients.split(',').map((s: string) => s.trim()) : [];
+      base.recipeInstructions = fields.instructions ? fields.instructions.split(',').map((s: string) => ({ "@type": "HowToStep", "text": s.trim() })) : [];
+      if (fields.prepTime) base.prepTime = fields.prepTime;
+      if (fields.cookTime) base.cookTime = fields.cookTime;
+    } else if (schemaType === "Product") {
+      base.name = fields.name;
+      base.description = fields.description;
+      base.image = fields.image;
+      if (fields.price && fields.currency) {
+        base.offers = {
+          "@type": "Offer",
+          "price": parseFloat(fields.price),
+          "priceCurrency": fields.currency,
+          "availability": `https://schema.org/${fields.availability || "InStock"}`
+        };
+      }
+    } else if (schemaType === "LocalBusiness") {
+      base.name = fields.name;
+      base.address = {
+        "@type": "PostalAddress",
+        "streetAddress": fields.address,
+        "addressLocality": fields.city,
+        "addressRegion": fields.state,
+        "postalCode": fields.zip
+      };
+      if (fields.phone) base.telephone = fields.phone;
+    } else {
+      Object.keys(fields).forEach(key => {
+        if (fields[key]) base[key] = fields[key];
+      });
     }
-    return DEFAULT;
-  });
 
-  React.useEffect(() => {
-    localStorage.setItem("schema-gen-v1", JSON.stringify(s));
-  }, [s]);
+    return JSON.stringify(base, null, 2);
+  }, [schemaType, fields, faqs]);
 
-  function resetAll() {
-    setS(DEFAULT);
-  }
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast.success("Copied to clipboard");
+  };
 
-  // Build JSON-LD for active type
-  const json = React.useMemo(() => {
-    if (s.active === "Article") return buildArticle(s.article);
-    if (s.active === "Product") return buildProduct(s.product);
-    return buildOrg(s.org);
-  }, [s]);
+  const handleCopyScript = () => {
+    const script = `<script type="application/ld+json">\n${generateJsonLd}\n</script>`;
+    handleCopy(script);
+  };
 
-  const output = React.useMemo(() => toScript(json, s.pretty), [json, s.pretty]);
-
-  // Soft validation counters
-  const urlFields =
-    s.active === "Article"
-      ? [s.article.url, s.article.publisherLogo, ...lsSplit(s.article.images)]
-      : s.active === "Product"
-        ? [s.product.url, ...lsSplit(s.product.images)]
-        : [s.org.url, s.org.logo, ...lsSplit(s.org.sameAs)];
-  const validUrls = urlFields.filter(isUrl).length;
-  const totalUrls = urlFields.filter((x) => !!x?.trim()).length;
+  const handleReset = () => {
+    setFields({});
+    setFaqs([{ q: "", a: "" }]);
+    toast.success("Form reset");
+  };
 
   return (
-    <>
-      {/* Header */}
+    <div className="max-w-6xl mx-auto space-y-8 p-4">
       <ToolPageHeader
-        icon={Sparkles}
-        title="Schema Markup (JSON-LD)"
-        description="Generate valid JSON-LD for Article, Product, and Organization — copy or download in one click."
-        actions={
-          <>
-            <ResetButton onClick={resetAll} />
-            <CopyButton getText={output} />
-            <ExportTextButton
-              variant="default"
-              label="Download"
-              getText={() => output}
-              filename="schema-jsonld.txt"
-            />
-          </>
-        }
+        icon={Code2}
+        title="Schema Markup Generator (JSON-LD)"
+        description="Generate valid structured data for Google Rich Snippets. Support for Articles, Products, Local Business, FAQs, and Recipes."
       />
 
-      {/* Type Switcher */}
-      <GlassCard className="mb-2">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-base">Type</CardTitle>
-          <CardDescription>Select a schema type and fill the fields below.</CardDescription>
+      <Card className={cardClass}>
+        <CardHeader className={headerClass}>
+          <CardTitle className={titleClass}>
+            <Code2 className="w-4 h-4" /> Schema Configuration
+          </CardTitle>
         </CardHeader>
-        <CardContent className="flex flex-wrap gap-2">
-          {(
-            [
-              ["Article", BookText],
-              ["Product", Package],
-              ["Organization", Building2],
-            ] as const
-          ).map(([label, icon]) => (
-            <ActionButton
-              key={label}
-              icon={icon}
-              label={label}
-              variant={s.active === label ? "default" : "outline"}
-              onClick={() => setS((p) => ({ ...p, active: label }) as State)}
-            />
-          ))}
-          <SwitchRow
-            className="ml-auto"
-            checked={s.pretty}
-            onCheckedChange={(v) => setS((p) => ({ ...p, pretty: v }))}
-            label="Pretty print"
-          />
-        </CardContent>
-      </GlassCard>
-
-      {/* Dynamic Form */}
-      {s.active === "Article" && <ArticleForm s={s} setS={setS} />}
-      {s.active === "Product" && <ProductForm s={s} setS={setS} />}
-      {s.active === "Organization" && <OrgForm s={s} setS={setS} />}
-
-      <Separator className="my-4" />
-
-      {/* Output & Tips */}
-      <GlassCard>
-        <CardHeader className="pb-2">
-          <CardTitle className="text-base">Generated JSON-LD</CardTitle>
-          <CardDescription>
-            Embed inside your page’s <code>&lt;head&gt;</code> (or end of <code>&lt;body&gt;</code>
-            ).
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="grid gap-6 md:grid-cols-2">
-          <div className="space-y-3">
-            <TextareaField readOnly textareaClassName="min-h-[320px] text-sm" value={output} />
-            <div className="flex flex-wrap gap-2">
-              <CopyButton size="sm" getText={output} />
-              <ExportTextButton
-                icon={Download}
-                size="sm"
-                variant="default"
-                label="Download"
-                getText={() => output}
-                filename="schema-jsonld.txt"
-              />
-              <Badge variant="secondary" className="font-normal">
-                URLs valid: {validUrls}/{totalUrls}
-              </Badge>
-            </div>
+        <CardContent className="p-4 sm:p-6 space-y-6">
+          <div className="space-y-2">
+            <Label>Schema Type</Label>
+            <select 
+              className="w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50"
+              value={schemaType}
+              onChange={(e) => { setSchemaType(e.target.value as SchemaType); setFields({}); }}
+            >
+              {Object.keys(schemaConfig).map(type => (
+                <option key={type} value={type}>{type}</option>
+              ))}
+            </select>
           </div>
 
-          <div className="space-y-3 text-sm">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {schemaConfig[schemaType].map(field => {
+              if (field.type === "faq") return null;
+              return (
+                <div key={field.key} className="space-y-2">
+                  <Label>{field.label}</Label>
+                  {field.type === "textarea" ? (
+                    <textarea
+                      className={textareaClass}
+                      rows={3}
+                      value={fields[field.key] || ""}
+                      onChange={(e) => handleFieldChange(field.key, e.target.value)}
+                    />
+                  ) : field.type === "select" ? (
+                    <select
+                      className="w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm"
+                      value={fields[field.key] || ""}
+                      onChange={(e) => handleFieldChange(field.key, e.target.value)}
+                    >
+                      <option value="">Select...</option>
+                      {field.options?.map((opt: string) => <option key={opt} value={opt}>{opt}</option>)}
+                    </select>
+                  ) : (
+                    <Input
+                      type={field.type}
+                      value={fields[field.key] || ""}
+                      onChange={(e) => handleFieldChange(field.key, e.target.value)}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          {schemaType === "FAQPage" && (
+            <div className="space-y-4 border-t border-border/50 pt-6">
+              <h3 className="font-semibold text-lg">FAQ Entries</h3>
+              {faqs.map((faq, i) => (
+                <Card key={i} className="border border-border/50 bg-muted/10">
+                  <CardContent className="p-4 space-y-3">
+                    <div className="flex justify-between items-center">
+                      <Label>Question {i + 1}</Label>
+                      {faqs.length > 1 && (
+                        <Button variant="ghost" size="sm" className="text-red-500" onClick={() => removeFaq(i)}>
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      )}
+                    </div>
+                    <Input placeholder="Enter question..." value={faq.q} onChange={(e) => updateFaq(i, "q", e.target.value)} />
+                    <Label>Answer</Label>
+                    <textarea
+                      className={textareaClass}
+                      rows={2}
+                      placeholder="Enter answer..."
+                      value={faq.a}
+                      onChange={(e) => updateFaq(i, "a", e.target.value)}
+                    />
+                  </CardContent>
+                </Card>
+              ))}
+              <Button variant="outline" onClick={addFaq} className="w-full">
+                <Plus className="w-4 h-4 mr-2" /> Add Question
+              </Button>
+            </div>
+          )}
+
+          <div className="flex gap-3">
+            <Button variant="outline" onClick={handleReset}>
+              <RotateCcw className="w-4 h-4 mr-2" /> Reset
+            </Button>
+            <Button variant="outline" onClick={() => setShowPreview(!showPreview)}>
+              <Eye className="w-4 h-4 mr-2" /> {showPreview ? 'Hide' : 'Show'} Preview
+            </Button>
+          </div>
+
+          <div className="space-y-4 border-t border-border/50 pt-6">
             <div className="flex items-center justify-between">
-              <div className="space-y-0.5">
-                <Label>Tips</Label>
-                <p className="text-xs text-muted-foreground">
-                  Use absolute URLs for images and pages. Keep JSON-LD in sync with visible content
-                  to avoid rich result issues.
-                </p>
+              <h3 className="font-semibold text-lg">Generated JSON-LD</h3>
+              <div className="flex gap-2">
+                <Button size="sm" variant="outline" onClick={() => handleCopy(generateJsonLd)}>
+                  <Copy className="w-3 h-3 mr-2" /> Copy JSON
+                </Button>
+                <Button size="sm" onClick={handleCopyScript}>
+                  <Copy className="w-3 h-3 mr-2" /> Copy HTML Tag
+                </Button>
               </div>
-              <Badge variant="secondary">JSON-LD</Badge>
             </div>
-
-            <div className="rounded-md border p-3">
-              <ul className="list-disc pl-5 text-muted-foreground space-y-1">
-                <li>One primary schema per page; avoid conflicting types.</li>
-                <li>
-                  Dates should be ISO (e.g., <code>2025-02-12</code> or full timestamp).
-                </li>
-                <li>
-                  For Product, include a live price & availability to qualify for rich results.
-                </li>
-                <li>
-                  For Organization, add <code>sameAs</code> social profiles and a brand logo.
-                </li>
-                <li>Validate with the Rich Results Test / Schema Markup Validator.</li>
-              </ul>
-            </div>
+            <pre className="p-4 font-mono text-xs bg-slate-950 text-cyan-400 rounded-xl border overflow-x-auto max-h-96 leading-relaxed">
+              {generateJsonLd}
+            </pre>
           </div>
+
+          {showPreview && (
+            <div className="space-y-4 border-t border-border/50 pt-6">
+              <h3 className="font-semibold text-lg">Rich Snippet Preview</h3>
+              <Card className="border border-border/50 bg-background max-w-2xl">
+                <CardContent className="p-4 space-y-2">
+                  <p className="text-xs text-green-700 dark:text-green-500 font-bold">
+                    {schemaType === "Product" && fields.price ? `${fields.price} ${fields.currency} - In Stock` : (schemaType === "FAQPage" ? "FAQ Rich Snippet" : "toolzium.com")}
+                  </p>
+                  <h4 className="text-xl text-blue-600 dark:text-blue-400 font-semibold hover:underline cursor-pointer">
+                    {fields.name || fields.headline || "Your Page Title"}
+                  </h4>
+                  <p className="text-sm text-foreground/80 line-clamp-2">
+                    {fields.description || "Your meta description will appear here. Fill out the form above to see how your structured data enhances your search presence."}
+                  </p>
+                  {schemaType === "FAQPage" && faqs[0].q && (
+                    <div className="mt-3 border-t border-border pt-3">
+                      <p className="text-sm font-semibold">{faqs[0].q}</p>
+                      <p className="text-xs text-muted-foreground mt-1">{faqs[0].a}</p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+          )}
         </CardContent>
-      </GlassCard>
-    </>
+      </Card>
+
+      <ToolHowItWorks
+        steps={[
+          { step: "01", title: "Select Schema Type", description: "Choose the structured data format that matches your page content, such as Article, Product, or FAQ.", icon: Code2 },
+          { step: "02", title: "Fill Dynamic Fields", description: "Enter the required and recommended properties. The form adapts automatically to your selected schema type.", icon: Plus },
+          { step: "03", title: "Copy & Implement", description: "Copy the generated JSON-LD script tag and paste it into the <head> of your HTML document.", icon: Copy }
+        ]}
+        badges={["Valid JSON-LD", "Rich Snippets", "SEO Optimized"]}
+      />
+
+      <ToolFeatureGuides
+        features={[
+          { icon: Code2, title: "14+ Schema Types", description: "Support for the most impactful schema types including Product, LocalBusiness, FAQPage, Recipe, and HowTo." },
+          { icon: Eye, title: "Live Rich Snippet Preview", description: "Visualize exactly how your structured data will appear in Google search results before deploying." },
+          { icon: Copy, title: "HTML Script Tag Export", description: "Instantly copy the fully formatted <script type='application/ld+json'> tag ready for immediate CMS or HTML insertion." },
+          { icon: Plus, title: "Dynamic FAQ Builder", description: "Add, remove, and reorder an unlimited number of Q&A pairs for comprehensive FAQPage schema generation." }
+        ]}
+      >
+        <h3>Unlock Rich Snippets with JSON-LD</h3>
+        <p>Search engines rely on structured data to understand the context of your content. By implementing Schema.org markup, you translate your HTML into a machine-readable format that explicitly defines your products, articles, and business details. This directly enables Rich Snippets—the enhanced search results featuring star ratings, pricing, FAQs, and images.</p>
+        <p>Toolzium's Schema Markup Generator eliminates the complexity of writing raw JSON-LD. Our dynamic engine ensures your output strictly adheres to Google's structured data guidelines, preventing validation errors and maximizing your chances of securing prominent SERP real estate. Higher click-through rates and better indexing start with clean, valid schema.</p>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion
+        faqs={[
+          { question: "Where do I paste the JSON-LD code?", answer: "Paste the generated <script> tag inside the <head> section of your webpage, or anywhere within the <body> if your CMS restricts head access. Google can read it from either location." },
+          { question: "Does this tool validate the schema?", answer: "Yes, the generator enforces correct syntax and required property structures. However, for final production validation, always test your live URL using Google's official Rich Results Test tool." },
+          { question: "Can I combine multiple schema types?", answer: "Yes, you can generate multiple blocks of JSON-LD and place them on the same page. For example, an e-commerce page might use both Product and FAQPage schema." },
+          { question: "Is JSON-LD better than Microdata?", answer: "Google strongly recommends JSON-LD over Microdata or RDFa because it separates the structured data from your HTML markup, making it easier to maintain and less prone to breaking when the UI changes." }
+        ]}
+      />
+
+      <RelatedTools currentToolUrl="/tools/seo/schema-generator" max={6} />
+    </div>
   );
 }
 
-// Sub-forms
-function ArticleForm({ s, setS }: { s: State; setS: React.Dispatch<React.SetStateAction<State>> }) {
-  const a = s.article;
-  const setA = (patch: Partial<ArticleState>) =>
-    setS((p) => ({ ...p, article: { ...p.article, ...patch } }));
-
-  const imgCount = lsSplit(a.images).length;
-  const titleOk = a.headline.trim().length >= 20 && a.headline.trim().length <= 110;
-
-  return (
-    <GlassCard>
-      <CardHeader className="pb-2">
-        <CardTitle className="text-base">Article</CardTitle>
-        <CardDescription>Headline, author, dates, images, and publisher.</CardDescription>
-      </CardHeader>
-      <CardContent className="grid gap-6 md:grid-cols-2">
-        <div className="space-y-4">
-          <InputField
-            id="a-title"
-            label="Headline"
-            placeholder="Compelling, descriptive headline"
-            value={a.headline}
-            onChange={(e) => setA({ headline: e.target.value })}
-            hint={
-              <span className={titleOk ? "text-muted-foreground" : "text-orange-600"}>
-                {titleOk ? "Good length" : "Aim for 20–110 characters"}
-              </span>
-            }
-          />
-
-          <TextareaField
-            id="a-desc"
-            label="Description"
-            value={a.description}
-            onChange={(e) => setA({ description: e.target.value })}
-            placeholder="Concise summary of the article…"
-            textareaClassName="min-h-[84px]"
-          />
-
-          <div className="grid gap-3 sm:grid-cols-2">
-            <InputField
-              id="a-author"
-              label="Author name"
-              value={a.authorName}
-              onChange={(e) => setA({ authorName: e.target.value })}
-            />
-            <InputField
-              id="a-author-url"
-              type="url"
-              label="Author URL"
-              value={a.authorUrl}
-              onChange={(e) => setA({ authorUrl: e.target.value })}
-            />
-          </div>
-
-          <div className="grid gap-3 sm:grid-cols-2">
-            <InputField
-              id="a-pub"
-              label="Publisher"
-              value={a.publisherName}
-              onChange={(e) => setA({ publisherName: e.target.value })}
-            />
-            <InputField
-              id="a-logo"
-              label="Publisher logo URL"
-              value={a.publisherLogo}
-              onChange={(e) => setA({ publisherLogo: e.target.value })}
-            />
-          </div>
-        </div>
-
-        <div className="space-y-4">
-          <div className="grid gap-3 sm:grid-cols-2">
-            <InputField
-              type="date"
-              id="a-pubdate"
-              label="Published"
-              value={a.datePublished}
-              onChange={(e) => setA({ datePublished: e.target.value })}
-            />
-            <InputField
-              type="date"
-              id="a-mod"
-              label="Modified"
-              value={a.dateModified}
-              onChange={(e) => setA({ dateModified: e.target.value })}
-            />
-          </div>
-
-          <InputField
-            type="url"
-            id="a-url"
-            icon={LinkIcon}
-            label="Canonical URL"
-            value={a.url}
-            onChange={(e) => setA({ url: e.target.value })}
-          />
-
-          <TextareaField
-            id="a-img"
-            icon={ImageIcon}
-            label="Images (one per line or comma)"
-            description={`${imgCount} image${imgCount === 1 ? "" : "s"}`}
-            value={a.images}
-            onChange={(e) => setA({ images: e.target.value })}
-            textareaClassName="min-h-[84px] font-mono"
-          />
-
-          <div className="grid gap-3 sm:grid-cols-2 items-end">
-            <InputField
-              id="a-sec"
-              label="Section"
-              value={a.section}
-              onChange={(e) => setA({ section: e.target.value })}
-            />
-            <SwitchRow
-              className="h-fit"
-              label="Free to read"
-              checked={a.isAccessibleForFree}
-              onCheckedChange={(v) => setA({ isAccessibleForFree: v })}
-            />
-          </div>
-        </div>
-      </CardContent>
-    </GlassCard>
-  );
-}
-
-function ProductForm({ s, setS }: { s: State; setS: React.Dispatch<React.SetStateAction<State>> }) {
-  const p = s.product;
-  const setP = (patch: Partial<ProductState>) =>
-    setS((prev) => ({ ...prev, product: { ...prev.product, ...patch } }));
-
-  const imgCount = lsSplit(p.images).length;
-
-  const AVAILABILITY_OPTIONS = [
-    { label: "In stock", value: "InStock" },
-    { label: "Out of stock", value: "OutOfStock" },
-    { label: "Pre-order", value: "PreOrder" },
-    { label: "Discontinued", value: "Discontinued" },
-    { label: "None", value: " " },
-  ];
-
-  const CONDITION_OPTIONS = [
-    { label: "New", value: "NewCondition" },
-    { label: "Used", value: "UsedCondition" },
-    { label: "Refurbished", value: "RefurbishedCondition" },
-    { label: "None", value: " " },
-  ];
-
-  return (
-    <GlassCard>
-      <CardHeader className="pb-2">
-        <CardTitle className="text-base">Product</CardTitle>
-        <CardDescription>Core attributes, offers, and ratings.</CardDescription>
-      </CardHeader>
-
-      <CardContent className="grid gap-6 md:grid-cols-2">
-        {/* Left column */}
-        <div className="space-y-4">
-          <InputField
-            id="p-name"
-            label="Name"
-            value={p.name}
-            onChange={(e) => setP({ name: e.target.value })}
-          />
-
-          <TextareaField
-            id="p-desc"
-            label="Description"
-            value={p.description}
-            onValueChange={(v) => setP({ description: v })}
-            rows={5}
-            minHeight="84px"
-          />
-
-          <div className="grid gap-3 sm:grid-cols-3">
-            <InputField
-              id="p-sku"
-              label="SKU"
-              value={p.sku}
-              onChange={(e) => setP({ sku: e.target.value })}
-            />
-            <InputField
-              id="p-brand"
-              label="Brand"
-              value={p.brand}
-              onChange={(e) => setP({ brand: e.target.value })}
-            />
-            <InputField
-              id="p-url"
-              icon={LinkIcon}
-              label="URL"
-              value={p.url}
-              onChange={(e) => setP({ url: e.target.value })}
-            />
-          </div>
-
-          <TextareaField
-            id="p-img"
-            icon={ImageIcon}
-            label="Images (one per line or comma)"
-            value={p.images}
-            description={`${imgCount} image${imgCount === 1 ? "" : "s"}`}
-            onValueChange={(v) => setP({ images: v })}
-            rows={5}
-            textareaClassName="font-mono"
-            minHeight="84px"
-          />
-        </div>
-
-        {/* Right column */}
-        <div className="space-y-4">
-          {/* Offer */}
-          <div className="rounded-md border p-3 space-y-3">
-            <Label className="flex items-center gap-2">
-              <DollarSign className="h-4 w-4" /> Offer
-            </Label>
-
-            <div className="grid gap-3 sm:grid-cols-3">
-              <InputField
-                id="p-price"
-                type="number"
-                label="Price"
-                value={p.price}
-                onChange={(e) => setP({ price: e.target.value })}
-                placeholder="199.99"
-              />
-              <InputField
-                id="p-currency"
-                label="Currency"
-                value={p.priceCurrency}
-                onChange={(e) => setP({ priceCurrency: e.target.value })}
-                placeholder="USD"
-              />
-              <InputField
-                id="p-seller"
-                label="Seller"
-                value={p.seller}
-                onChange={(e) => setP({ seller: e.target.value })}
-              />
-            </div>
-
-            <div className="grid gap-3 sm:grid-cols-2">
-              <SelectField
-                id="p-availability"
-                label="Availability"
-                placeholder="Select availability"
-                options={AVAILABILITY_OPTIONS}
-                allowClear
-                clearLabel="Clear"
-                value={p.availability}
-                onValueChange={(v) => setP({ availability: (v as typeof p.availability) ?? "" })}
-              />
-
-              <SelectField
-                id="p-condition"
-                label="Condition"
-                placeholder="Select condition"
-                options={CONDITION_OPTIONS}
-                allowClear
-                clearLabel="Clear"
-                value={p.condition}
-                onValueChange={(v) => setP({ condition: (v as typeof p.condition) ?? "" })}
-              />
-            </div>
-          </div>
-
-          {/* Aggregate Rating */}
-          <div className="rounded-md border p-3 space-y-3">
-            <Label className="flex items-center gap-2">
-              <Star className="h-4 w-4" /> Aggregate Rating
-            </Label>
-            <div className="grid gap-3 sm:grid-cols-2">
-              <InputField
-                id="p-rating"
-                type="number"
-                label="Rating value"
-                value={p.ratingValue}
-                onChange={(e) => setP({ ratingValue: e.target.value })}
-                placeholder="4.6"
-              />
-              <InputField
-                id="p-reviews"
-                type="number"
-                label="Review count"
-                value={p.reviewCount}
-                onChange={(e) => setP({ reviewCount: e.target.value })}
-                placeholder="128"
-              />
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Provide both rating value and review count to enable rich results.
-            </p>
-          </div>
-        </div>
-      </CardContent>
-    </GlassCard>
-  );
-}
-
-function OrgForm({ s, setS }: { s: State; setS: React.Dispatch<React.SetStateAction<State>> }) {
-  const o = s.org;
-  const setO = (patch: Partial<OrgState>) =>
-    setS((prev) => ({ ...prev, org: { ...prev.org, ...patch } }));
-
-  const sameCount = lsSplit(o.sameAs).length;
-
-  return (
-    <GlassCard>
-      <CardHeader className="pb-2">
-        <CardTitle className="text-base">Organization</CardTitle>
-        <CardDescription>Brand identity, social profiles, contact, and address.</CardDescription>
-      </CardHeader>
-
-      <CardContent className="grid gap-6 md:grid-cols-2">
-        {/* Left column */}
-        <div className="space-y-4">
-          <InputField
-            id="o-name"
-            label="Name"
-            value={o.name}
-            onChange={(e) => setO({ name: e.target.value })}
-          />
-
-          <div className="grid gap-3 sm:grid-cols-2">
-            <InputField
-              id="o-url"
-              icon={Globe}
-              label="URL"
-              value={o.url}
-              onChange={(e) => setO({ url: e.target.value })}
-            />
-            <InputField
-              id="o-logo"
-              label="Logo URL"
-              value={o.logo}
-              onChange={(e) => setO({ logo: e.target.value })}
-            />
-          </div>
-
-          <TextareaField
-            id="o-same"
-            icon={Users}
-            label="Social profiles (one per line or comma)"
-            description={`${sameCount} profile${sameCount === 1 ? "" : "s"}`}
-            value={o.sameAs}
-            onValueChange={(v) => setO({ sameAs: v })}
-            rows={9}
-            textareaClassName="font-mono"
-            minHeight="200px"
-          />
-        </div>
-
-        {/* Right column */}
-        <div className="space-y-4">
-          {/* Contact */}
-          <div className="rounded-md border p-3 space-y-3">
-            <Label>Contact</Label>
-            <div className="grid gap-3 sm:grid-cols-3">
-              <InputField
-                id="o-ctype"
-                label="Type"
-                placeholder="customer support"
-                value={o.contactType}
-                onChange={(e) => setO({ contactType: e.target.value })}
-              />
-              <InputField
-                id="o-tel"
-                label="Telephone"
-                value={o.telephone}
-                onChange={(e) => setO({ telephone: e.target.value })}
-              />
-              <InputField
-                id="o-email"
-                label="Email"
-                value={o.email}
-                onChange={(e) => setO({ email: e.target.value })}
-              />
-            </div>
-          </div>
-
-          {/* Address */}
-          <div className="rounded-md border p-3 space-y-3">
-            <Label>Address</Label>
-            <div className="grid gap-3 sm:grid-cols-2">
-              <InputField
-                id="o-street"
-                label="Street"
-                value={o.addressStreet}
-                onChange={(e) => setO({ addressStreet: e.target.value })}
-              />
-              <InputField
-                id="o-city"
-                label="City"
-                value={o.addressLocality}
-                onChange={(e) => setO({ addressLocality: e.target.value })}
-              />
-              <InputField
-                id="o-region"
-                label="State/Region"
-                value={o.addressRegion}
-                onChange={(e) => setO({ addressRegion: e.target.value })}
-              />
-              <InputField
-                id="o-postal"
-                label="Postal code"
-                value={o.postalCode}
-                onChange={(e) => setO({ postalCode: e.target.value })}
-              />
-              <InputField
-                id="o-country"
-                label="Country"
-                value={o.addressCountry}
-                onChange={(e) => setO({ addressCountry: e.target.value })}
-              />
-            </div>
-          </div>
-        </div>
-      </CardContent>
-    </GlassCard>
-  );
-}
+export default SchemaGeneratorClient;

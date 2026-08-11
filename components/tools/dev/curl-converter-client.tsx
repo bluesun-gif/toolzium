@@ -1,260 +1,301 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import TextareaField from "@/components/shared/form-fields/textarea-field";
-import { ResetButton, CopyButton } from "@/components/shared/action-buttons";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Terminal, Code2, ArrowRightLeft } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import { Copy, RotateCcw, Terminal, Code, Globe, Zap } from "lucide-react";
+import toast from "react-hot-toast";
 
-type Language = "javascript" | "python" | "nodejs" | "go" | "php" | "rust";
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
+const textareaClass = "w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50 font-mono";
+
+const DEFAULT_CURL = `curl -X POST https://api.example.com/v1/users \\
+  -H "Authorization: Bearer sk_test_abc123" \\
+  -H "Content-Type: application/json" \\
+  -d '{"name": "John Doe", "email": "john@example.com"}'`;
 
 interface ParsedCurl {
   method: string;
   url: string;
   headers: Record<string, string>;
-  data: string | null;
+  body: string;
 }
 
 export default function CurlConverterClient() {
-  const [curlInput, setCurlInput] = useState<string>(
-    `curl -X POST "https://api.example.com/v1/users" \\
-  -H "Authorization: Bearer my_secret_token" \\
-  -H "Content-Type: application/json" \\
-  -d '{"name": "Tanvir Ahmed", "role": "Architect"}'`
-  );
-  const [targetLang, setTargetLang] = useState<Language>("javascript");
+  const [curlInput, setCurlInput] = useState(DEFAULT_CURL);
+  const [activeLang, setActiveLang] = useState<"js" | "python" | "node" | "go" | "php" | "rust">("js");
 
   const parsed = useMemo<ParsedCurl>(() => {
-    let raw = curlInput.trim();
-    if (!raw.startsWith("curl")) {
-      return { method: "GET", url: "", headers: {}, data: null };
-    }
-
-    // Clean continuation backslashes & extra whitespace
-    raw = raw.replace(/\\\n/g, " ").replace(/\s+/g, " ");
-
+    let clean = curlInput.replace(/\\\s*\n/g, " ").replace(/\s+/g, " ").trim();
     let method = "GET";
-    let url = "";
+    const methodMatch = clean.match(/-X\s+(GET|POST|PUT|DELETE|PATCH|OPTIONS|HEAD)/i);
+    if (methodMatch) method = methodMatch[1].toUpperCase();
+    else if (clean.includes("-d ") || clean.includes("--data ") || clean.includes("--data-raw ")) method = "POST";
+
+    const urlMatch = clean.match(/curl\s+(?:[^"'\s]*\s+)*["']?(https?:\/\/[^"'\s]+)["']?/) || clean.match(/(https?:\/\/[^"'\s]+)/);
+    const url = urlMatch ? urlMatch[1] : "";
+
     const headers: Record<string, string> = {};
-    let data: string | null = null;
-
-    // Match URL (first non-flag argument or after url flag)
-    const urlMatch = raw.match(/(?:'|")?(https?:\/\/[^\s"']+)(?:'|")?/i);
-    if (urlMatch) {
-      url = urlMatch[1];
-    }
-
-    // Method flag -X or --request
-    const methodMatch = raw.match(/(?:-X|--request)\s+([A-Z]+)/i);
-    if (methodMatch) {
-      method = methodMatch[1].toUpperCase();
-    }
-
-    // Header flags -H or --header
-    const headerRegex = /(?:-H|--header)\s+(?:"|')([^"']+)(?:"|')/gi;
+    const headerRegex = /(?:-H|--header)\s+["']([^"']+)["']/g;
     let hMatch;
-    while ((hMatch = headerRegex.exec(raw)) !== null) {
-      const headerStr = hMatch[1];
-      const colonIdx = headerStr.indexOf(":");
-      if (colonIdx > 0) {
-        const key = headerStr.substring(0, colonIdx).trim();
-        const val = headerStr.substring(colonIdx + 1).trim();
-        headers[key] = val;
+    while ((hMatch = headerRegex.exec(clean)) !== null) {
+      const parts = hMatch[1].split(":");
+      if (parts.length >= 2) {
+        const key = parts.shift()?.trim() || "";
+        const val = parts.join(":").trim();
+        if (key) headers[key] = val;
       }
     }
 
-    // Data flags -d or --data or --data-raw
-    const dataMatch = raw.match(/(?:-d|--data|--data-raw|--data-binary)\s+(?:'|")([\s\S]*?)(?:'|")(?:\s+|$)/i);
-    if (dataMatch) {
-      data = dataMatch[1];
-      if (method === "GET") method = "POST";
-    }
+    let body = "";
+    const bodyMatch = clean.match(/(?:-d|--data|--data-raw)\s+["'](.+?)["']/);
+    if (bodyMatch) body = bodyMatch[1];
 
-    return { method, url, headers, data };
+    return { method, url, headers, body };
   }, [curlInput]);
 
-  const generatedCode = useMemo<string>(() => {
-    if (!parsed.url) return "// Paste a valid cURL command above to see code generation.";
+  const generateCode = () => {
+    const headersStr = Object.keys(parsed.headers).length > 0 
+      ? `    headers: {\n${Object.entries(parsed.headers).map(([k, v]) => `      "${k}": "${v}"`).join(",\n")}\n    },\n` 
+      : "";
+    const bodyStr = parsed.body ? `    body: JSON.stringify(${parsed.body}),\n` : "";
+    
+    const pyHeaders = Object.keys(parsed.headers).length > 0 ? `    headers=${JSON.stringify(parsed.headers)},\n` : "";
+    const pyBody = parsed.body ? `    json=${parsed.body},\n` : "";
 
-    const { method, url, headers, data } = parsed;
+    switch (activeLang) {
+      case "js":
+        return `try {
+  const response = await fetch("${parsed.url}", {
+    method: "${parsed.method}",
+${headersStr}${bodyStr}  });
+  if (!response.ok) throw new Error(\`HTTP error! status: \${response.status}\`);
+  const data = await response.json();
+  console.log(data);
+} catch (error) {
+  console.error("Fetch Error:", error);
+}`;
+      case "python":
+        return `import requests
 
-    switch (targetLang) {
-      case "javascript": {
-        let code = `fetch("${url}", {\n  method: "${method}",\n`;
-        if (Object.keys(headers).length > 0) {
-          code += `  headers: ${JSON.stringify(headers, null, 4).replace(/\n/g, "\n  ")},\n`;
-        }
-        if (data) {
-          code += `  body: JSON.stringify(${data.startsWith("{") ? data : JSON.stringify(data)}),\n`;
-        }
-        code += `})\n  .then(res => res.json())\n  .then(data => console.log(data))\n  .catch(err => console.error(err));`;
-        return code;
-      }
+try:
+    response = requests.request(
+        "${parsed.method}",
+        "${parsed.url}",
+${pyHeaders}${pyBody}    )
+    response.raise_for_status()
+    print(response.json())
+except requests.exceptions.RequestException as e:
+    print(f"Request failed: {e}")`;
+      case "node":
+        return `const axios = require('axios');
 
-      case "python": {
-        let code = `import requests\n\nurl = "${url}"\n`;
-        if (Object.keys(headers).length > 0) {
-          code += `headers = ${JSON.stringify(headers, null, 4)}\n`;
-        }
-        if (data) {
-          if (data.startsWith("{")) {
-            code += `json_payload = ${data}\nresponse = requests.${method.toLowerCase()}(url, headers=headers, json=json_payload)\n`;
-          } else {
-            code += `data_payload = ${JSON.stringify(data)}\nresponse = requests.${method.toLowerCase()}(url, headers=headers, data=data_payload)\n`;
-          }
-        } else {
-          code += `response = requests.${method.toLowerCase()}(url${Object.keys(headers).length > 0 ? ", headers=headers" : ""})\n`;
-        }
-        code += `print(response.json())`;
-        return code;
-      }
+(async () => {
+  try {
+    const response = await axios({
+      method: '${parsed.method.toLowerCase()}',
+      url: '${parsed.url}',
+${Object.keys(parsed.headers).length > 0 ? `      headers: ${JSON.stringify(parsed.headers)},\n` : ""}${parsed.body ? `      data: ${parsed.body}\n` : ""}    });
+    console.log(response.data);
+  } catch (error) {
+    console.error(error.response ? error.response.data : error.message);
+  }
+})();`;
+      case "go":
+        return `package main
 
-      case "nodejs": {
-        let code = `const axios = require('axios');\n\nconst config = {\n  method: '${method.toLowerCase()}',\n  url: '${url}',\n`;
-        if (Object.keys(headers).length > 0) {
-          code += `  headers: ${JSON.stringify(headers, null, 4).replace(/\n/g, "\n  ")},\n`;
-        }
-        if (data) {
-          code += `  data: ${data.startsWith("{") ? data : JSON.stringify(data)},\n`;
-        }
-        code += `};\n\naxios(config)\n  .then(response => console.log(response.data))\n  .catch(error => console.error(error));`;
-        return code;
-      }
+import (
+    "fmt"
+    "io"
+    "net/http"
+    "strings"
+)
 
-      case "go": {
-        return `package main\n\nimport (\n\t"fmt"\n\t"net/http"\n\t"io"\n${data ? '\t"strings"\n' : ""})\n\nfunc main() {\n\tclient := &http.Client{}\n\tvar req *http.Request\n\tvar err error\n\n${
-          data ? `\tbody := strings.NewReader(\`${data}\`)\n\treq, err = http.NewRequest("${method}", "${url}", body)\n` : `\treq, err = http.NewRequest("${method}", "${url}", nil)\n`
-        }\tif err != nil {\n\t\tpanic(err)\n\t}\n\n${Object.entries(headers)
-          .map(([k, v]) => `\treq.Header.Add("${k}", "${v}")`)
-          .join("\n")}\n\n\tresp, err := client.Do(req)\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\tdefer resp.Body.Close()\n\n\tbodyBytes, _ := io.ReadAll(resp.Body)\n\tfmt.Println(string(bodyBytes))\n}`;
-      }
+func main() {
+    client := &http.Client{}
+    var data = strings.NewReader(\`${parsed.body}\`)
+    req, err := http.NewRequest("${parsed.method}", "${parsed.url}", data)
+    if err != nil { panic(err) }
+    
+${Object.entries(parsed.headers).map(([k, v]) => `    req.Header.Add("${k}", "${v}")`).join("\n")}
+    
+    resp, err := client.Do(req)
+    if err != nil { panic(err) }
+    defer resp.Body.Close()
+    
+    body, _ := io.ReadAll(resp.Body)
+    fmt.Println(string(body))
+}`;
+      case "php":
+        return `<?php
+$curl = curl_init();
 
-      case "php": {
-        let code = `<?php\n$ch = curl_init();\ncurl_setopt($ch, CURLOPT_URL, '${url}');\ncurl_setopt($ch, CURLOPT_RETURNTRANSFER, true);\ncurl_setopt($ch, CURLOPT_CUSTOMREQUEST, '${method}');\n`;
-        if (Object.keys(headers).length > 0) {
-          const headerArr = Object.entries(headers).map(([k, v]) => `'${k}: ${v}'`);
-          code += `curl_setopt($ch, CURLOPT_HTTPHEADER, [\n    ${headerArr.join(",\n    ")}\n]);\n`;
-        }
-        if (data) {
-          code += `curl_setopt($ch, CURLOPT_POSTFIELDS, '${data}');\n`;
-        }
-        code += `$response = curl_exec($ch);\ncurl_close($ch);\necho $response;`;
-        return code;
-      }
+curl_setopt_array($curl, [
+    CURLOPT_URL => "${parsed.url}",
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_CUSTOMREQUEST => "${parsed.method}",
+${Object.keys(parsed.headers).length > 0 ? `    CURLOPT_HTTPHEADER => ${JSON.stringify(Object.entries(parsed.headers).map(([k,v]) => `${k}: ${v}`))},\n` : ""}${parsed.body ? `    CURLOPT_POSTFIELDS => '${parsed.body}',\n` : ""}]);
 
-      case "rust": {
-        let code = `use reqwest::Client;\n\n#[tokio::main]\nasync fn main() -> Result<(), Box<dyn std::error::Error>> {\n    let client = Client::new();\n    let res = client.${method.toLowerCase()}("${url}")\n`;
-        Object.entries(headers).forEach(([k, v]) => {
-          code += `        .header("${k}", "${v}")\n`;
-        });
-        if (data) {
-          code += `        .body(r#"${data}"#)\n`;
-        }
-        code += `        .send()\n        .await?\n        .text()\n        .await?;\n\n    println!("{}", res);\n    Ok(())\n}`;
-        return code;
-      }
+$response = curl_exec($curl);
+$err = curl_error($curl);
+curl_close($curl);
 
-      default:
-        return "";
+if ($err) {
+    echo "cURL Error #:" . $err;
+} else {
+    echo $response;
+}
+?>`;
+      case "rust":
+        return `use reqwest::Client;
+use serde_json::json;
+
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let client = Client::new();
+    let res = client.${parsed.method.toLowerCase()}("${parsed.url}")
+${Object.entries(parsed.headers).map(([k, v]) => `        .header("${k}", "${v}")`).join("\n")}${parsed.body ? `\n        .json(&${parsed.body})` : ""}
+        .send()
+        .await?;
+
+    println!("Status: {}", res.status());
+    println!("Body: {}", res.text().await?);
+    Ok(())
+}`;
+      default: return "";
     }
-  }, [parsed, targetLang]);
-
-  const handleReset = () => {
-    setCurlInput("");
   };
 
+  const codeOutput = generateCode();
+
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
+    <div className="max-w-6xl mx-auto space-y-8 p-4 sm:p-6 lg:p-8">
       <ToolPageHeader
-        title="cURL to Code Converter"
-        description="Convert cURL commands to JavaScript Fetch, Python Requests, Node.js Axios, Go, PHP, and Rust. Parses headers, HTTP methods, and JSON request payloads instantly."
         icon={Terminal}
+        title="cURL to Code Converter"
+        description="Instantly translate cURL commands into production-ready HTTP client code for JS, Python, Go, PHP, and Rust."
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Left Column: cURL Input */}
-        <div className="lg:col-span-6 space-y-6">
-          <GlassCard className="h-full flex flex-col">
-            <CardHeader className="flex flex-row items-center justify-between pb-4 border-b">
-              <div>
-                <CardTitle>cURL Command</CardTitle>
-                <CardDescription>Paste your cURL request snippet</CardDescription>
-              </div>
-              <ResetButton onClick={handleReset} />
-            </CardHeader>
-            <CardContent className="pt-6 flex-1 flex flex-col space-y-4">
-              <TextareaField
-                value={curlInput}
-                onChange={(e) => setCurlInput(e.target.value)}
-                placeholder='curl -X POST "https://api.example.com" -H "Content-Type: application/json" -d "..."'
-                rows={12}
-                className="font-mono text-xs flex-1"
-              />
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <Card className={`${cardClass} lg:col-span-1`}>
+          <CardHeader className={headerClass}>
+            <CardTitle className={titleClass}><Terminal className="w-4 h-4" /> cURL Input</CardTitle>
+          </CardHeader>
+          <CardContent className="p-4 space-y-4">
+            <textarea
+              value={curlInput}
+              onChange={(e) => setCurlInput(e.target.value)}
+              rows={8}
+              className={textareaClass}
+              placeholder="Paste your cURL command here..."
+            />
+            <Button variant="outline" className="w-full" onClick={() => setCurlInput("")}>
+              <RotateCcw className="w-4 h-4 mr-2" /> Clear
+            </Button>
+          </CardContent>
+        </Card>
 
-              {parsed.url && (
-                <div className="p-3 border rounded-lg bg-muted/20 text-xs space-y-1">
-                  <div className="flex gap-2">
-                    <span className="font-semibold text-primary">Method:</span> {parsed.method}
-                  </div>
-                  <div className="flex gap-2 truncate">
-                    <span className="font-semibold text-primary">Target URL:</span> {parsed.url}
-                  </div>
-                  <div className="flex gap-2">
-                    <span className="font-semibold text-primary">Headers Count:</span> {Object.keys(parsed.headers).length}
-                  </div>
+        <div className="lg:col-span-2 space-y-6">
+          <Card className={cardClass}>
+            <CardHeader className={headerClass}>
+              <CardTitle className={titleClass}><Zap className="w-4 h-4" /> Parsed Details</CardTitle>
+            </CardHeader>
+            <CardContent className="p-4">
+              <div className="flex flex-wrap gap-3 mb-4">
+                <span className="px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full">{parsed.method}</span>
+                <span className="px-3 py-1 bg-muted text-muted-foreground text-xs font-mono rounded-full break-all">{parsed.url || "No URL detected"}</span>
+              </div>
+              <div className="grid grid-cols-2 gap-4 text-xs">
+                <div>
+                  <span className="text-muted-foreground font-semibold block mb-1">Headers ({Object.keys(parsed.headers).length})</span>
+                  <ul className="space-y-1">
+                    {Object.entries(parsed.headers).map(([k, v]) => (
+                      <li key={k} className="font-mono text-[10px] truncate" title={`${k}: ${v}`}>
+                        <span className="text-cyan-400">{k}:</span> {v}
+                      </li>
+                    ))}
+                    {Object.keys(parsed.headers).length === 0 && <li className="text-muted-foreground">None detected</li>}
+                  </ul>
                 </div>
-              )}
-            </CardContent>
-          </GlassCard>
-        </div>
-
-        {/* Right Column: Code Generator */}
-        <div className="lg:col-span-6 space-y-6">
-          <GlassCard className="h-full flex flex-col">
-            <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b">
-              <div>
-                <CardTitle>Generated Code</CardTitle>
-                <CardDescription>Select target language</CardDescription>
+                <div>
+                  <span className="text-muted-foreground font-semibold block mb-1">Body</span>
+                  <pre className="font-mono text-[10px] bg-muted/50 p-2 rounded overflow-x-auto max-h-24">
+                    {parsed.body || "None"}
+                  </pre>
+                </div>
               </div>
-              <CopyButton getText={generatedCode} label="Copy Code" />
+            </CardContent>
+          </Card>
+
+          <Card className={cardClass}>
+            <CardHeader className={headerClass}>
+              <div className="flex items-center justify-between w-full flex-wrap gap-4">
+                <div className="flex gap-2 flex-wrap">
+                  {(["js", "python", "node", "go", "php", "rust"] as const).map((lang) => (
+                    <Button key={lang} variant={activeLang === lang ? "default" : "outline"} size="sm" onClick={() => setActiveLang(lang)} className="uppercase text-[10px]">
+                      {lang}
+                    </Button>
+                  ))}
+                </div>
+                <button
+                  onClick={() => { navigator.clipboard.writeText(codeOutput); toast.success("Copied Code!"); }}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+                >
+                  <Copy className="w-3.5 h-3.5" /> Copy Code
+                </button>
+              </div>
             </CardHeader>
-
-            <CardContent className="pt-6 flex-1 flex flex-col space-y-4">
-              {/* Language Tabs */}
-              <div className="flex flex-wrap gap-2">
-                {[
-                  { id: "javascript", label: "JS (Fetch)" },
-                  { id: "python", label: "Python" },
-                  { id: "nodejs", label: "Node.js (Axios)" },
-                  { id: "go", label: "Go" },
-                  { id: "php", label: "PHP" },
-                  { id: "rust", label: "Rust" },
-                ].map((lang) => (
-                  <Button
-                    key={lang.id}
-                    type="button"
-                    variant={targetLang === lang.id ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setTargetLang(lang.id as Language)}
-                  >
-                    {lang.label}
-                  </Button>
-                ))}
-              </div>
-
-              <TextareaField
-                value={generatedCode}
-                readOnly
-                rows={14}
-                className="font-mono text-xs bg-[#0f172a] text-[#f8fafc] text-slate-100 flex-1 dark:bg-[#0f172a] text-[#f8fafc]"
-              />
+            <CardContent className="p-4">
+              <pre className="w-full bg-slate-950 text-emerald-400 p-4 rounded-lg text-xs font-mono overflow-x-auto max-h-96 whitespace-pre-wrap">
+                {codeOutput}
+              </pre>
             </CardContent>
-          </GlassCard>
+          </Card>
         </div>
       </div>
+
+      <ToolHowItWorks
+        steps={[
+          { step: "01", title: "Paste cURL", description: "Drop your terminal command into the input box. Multi-line commands are supported.", icon: Terminal },
+          { step: "02", title: "Auto-Parse", description: "The engine extracts the method, URL, headers, and payload automatically.", icon: Zap },
+          { step: "03", title: "Select Language", description: "Choose your target language and copy the production-ready boilerplate code.", icon: Code }
+        ]}
+        badges={["100% Free", "Client-Side Privacy", "No Signup"]}
+      />
+
+      <ToolFeatureGuides
+        features={[
+          { icon: Terminal, title: "Smart Parser", description: "Handles multi-line commands, escaped quotes, and various cURL flags seamlessly." },
+          { icon: Code, title: "6 Languages", description: "Generate idiomatic code for JS Fetch, Python Requests, Node Axios, Go, PHP, and Rust." },
+          { icon: Zap, title: "Instant Analysis", description: "Visual breakdown of detected HTTP method, headers, and JSON payloads." },
+          { icon: Globe, title: "Production Ready", description: "Includes error handling, async patterns, and proper content-type serialization." }
+        ]}
+      >
+        <div className="prose dark:prose-invert max-w-none">
+          <h3>Accelerate API Integration with Automated Code Generation</h3>
+          <p>The cURL command-line tool is an indispensable utility for backend engineers, DevOps professionals, and API developers. It allows for the rapid testing of HTTP endpoints, authentication flows, and complex data payloads directly from the terminal. However, transitioning from a quick terminal test to production-ready application code often involves tedious manual translation. Developers must painstakingly map cURL flags to their programming language's specific HTTP client libraries, ensuring that headers, query parameters, request bodies, and authentication tokens are formatted correctly. This manual process is not only time-consuming but also highly prone to syntax errors and subtle bugs.</p>
+          <p>An automated cURL-to-code converter bridges this gap, instantly translating terminal commands into robust, idiomatic code across multiple languages. Whether you are building a frontend integration using the JavaScript <code>fetch</code> API, a backend microservice in Node.js with <code>axios</code>, a data pipeline in Python using <code>requests</code>, or a high-performance system in Go or Rust, generating the correct boilerplate is critical.</p>
+          <p>Production-ready code requires more than just the basic request; it demands proper error handling, asynchronous patterns (like <code>async/await</code> or Promises), and correct content-type serialization. Our advanced parser intelligently detects HTTP methods, extracts Bearer tokens, parses JSON payloads, and identifies crucial flags like <code>--insecure</code> or <code>--compressed</code>. By automating this translation, engineering teams can drastically reduce the time spent on API integration, eliminate copy-paste errors, and maintain a consistent, high-quality standard across their codebase. Whether you are documenting an API for your team or rapidly prototyping a new feature, instant code generation empowers you to move faster and ship with confidence.</p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion
+        faqs={[
+          { question: "Does this support multipart/form-data?", answer: "Currently, the parser focuses on JSON and standard string payloads. Multipart form data with file uploads requires more complex terminal syntax that is usually better handled directly in your code editor." },
+          { question: "Are my API keys safe?", answer: "Yes. This tool runs 100% client-side in your browser. Your cURL commands and sensitive Bearer tokens are never sent to any external server." },
+          { question: "Can I convert WebSocket commands?", answer: "No, cURL is designed for standard HTTP/HTTPS requests. WebSocket connections require different client libraries and persistent connection handling." }
+        ]}
+      />
+
+      <RelatedTools currentToolUrl="/tools/dev/curl-converter" max={6} />
     </div>
   );
 }

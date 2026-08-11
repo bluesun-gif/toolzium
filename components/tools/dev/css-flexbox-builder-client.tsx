@@ -1,268 +1,324 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Layout, Sliders, Copy, Plus, Trash2 } from "lucide-react";
-import { toast } from "react-hot-toast";
-import { cn } from "@/lib/utils";
+import { LayoutGrid, Copy, Plus, Trash2, RotateCcw, Sparkles } from "lucide-react";
+import toast from "react-hot-toast";
+
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
+const textareaClass = "w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50 font-mono";
+
+type FlexItem = { id: number; grow: number; shrink: number; basis: string; align: string; order: number };
+
+const PRESETS = [
+  { name: "Nav Bar", dir: "row", wrap: "nowrap", justify: "space-between", align: "center", gap: 20 },
+  { name: "Card Grid", dir: "row", wrap: "wrap", justify: "flex-start", align: "stretch", gap: 16 },
+  { name: "Holy Grail", dir: "column", wrap: "nowrap", justify: "flex-start", align: "stretch", gap: 0 },
+  { name: "Centered", dir: "row", wrap: "nowrap", justify: "center", align: "center", gap: 10 },
+];
 
 export function CssFlexboxBuilderClient() {
-  const [flexDirection, setFlexDirection] = useState("row");
-  const [flexWrap, setFlexWrap] = useState("nowrap");
-  const [justifyContent, setJustifyContent] = useState("flex-start");
+  const [direction, setDirection] = useState("row");
+  const [wrap, setWrap] = useState("nowrap");
+  const [justify, setJustify] = useState("flex-start");
   const [alignItems, setAlignItems] = useState("stretch");
   const [alignContent, setAlignContent] = useState("stretch");
   const [gap, setGap] = useState(10);
-  
-  const [items, setItems] = useState([
-    { id: 1, text: "1", flexGrow: 0, flexShrink: 1, flexBasis: "auto" },
-    { id: 2, text: "2", flexGrow: 0, flexShrink: 1, flexBasis: "auto" },
-    { id: 3, text: "3", flexGrow: 0, flexShrink: 1, flexBasis: "auto" }
+  const [items, setItems] = useState<FlexItem[]>([
+    { id: 1, grow: 0, shrink: 1, basis: "auto", align: "auto", order: 0 },
+    { id: 2, grow: 0, shrink: 1, basis: "auto", align: "auto", order: 0 },
+    { id: 3, grow: 0, shrink: 1, basis: "auto", align: "auto", order: 0 },
   ]);
-  const [nextId, setNextId] = useState(4);
+  const [outputType, setOutputType] = useState<"css" | "tailwind">("css");
+
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast.success("Copied to clipboard!");
+  };
 
   const addItem = () => {
-    setItems([...items, { id: nextId, text: String(nextId), flexGrow: 0, flexShrink: 1, flexBasis: "auto" }]);
-    setNextId(nextId + 1);
+    if (items.length < 8) {
+      setItems([...items, { id: Date.now(), grow: 0, shrink: 1, basis: "auto", align: "auto", order: 0 }]);
+    } else {
+      toast.error("Maximum 8 items allowed");
+    }
   };
 
   const removeItem = (id: number) => {
-    setItems(items.filter(item => item.id !== id));
+    setItems(items.filter((i) => i.id !== id));
   };
 
-  const updateItem = (id: number, field: string, value: string | number) => {
-    setItems(items.map(item => item.id === id ? { ...item, [field]: value } : item));
+  const updateItem = (id: number, field: keyof FlexItem, value: any) => {
+    setItems(items.map((i) => i.id === id ? { ...i, [field]: value } : i));
+  };
+
+  const applyPreset = (preset: typeof PRESETS[0]) => {
+    setDirection(preset.dir);
+    setWrap(preset.wrap);
+    setJustify(preset.justify);
+    setAlignItems(preset.align);
+    setGap(preset.gap);
+    toast.success(`Applied ${preset.name} preset`);
   };
 
   const reset = () => {
-    setFlexDirection("row");
-    setFlexWrap("nowrap");
-    setJustifyContent("flex-start");
-    setAlignItems("stretch");
-    setAlignContent("stretch");
-    setGap(10);
-    setItems([
-      { id: 1, text: "1", flexGrow: 0, flexShrink: 1, flexBasis: "auto" },
-      { id: 2, text: "2", flexGrow: 0, flexShrink: 1, flexBasis: "auto" },
-      { id: 3, text: "3", flexGrow: 0, flexShrink: 1, flexBasis: "auto" }
-    ]);
-    setNextId(4);
-    toast.success("Reset to defaults");
+    setDirection("row"); setWrap("nowrap"); setJustify("flex-start");
+    setAlignItems("stretch"); setAlignContent("stretch"); setGap(10);
+    setItems([{ id: 1, grow: 0, shrink: 1, basis: "auto", align: "auto", order: 0 }]);
   };
 
-  const getContainerCss = () => {
-    let css = ".container {\n";
-    css += "  display: flex;\n";
-    if (flexDirection !== "row") css += "  flex-direction: " + flexDirection + ";\n";
-    if (flexWrap !== "nowrap") css += "  flex-wrap: " + flexWrap + ";\n";
-    if (justifyContent !== "flex-start") css += "  justify-content: " + justifyContent + ";\n";
-    if (alignItems !== "stretch") css += "  align-items: " + alignItems + ";\n";
-    if (alignContent !== "stretch" && flexWrap !== "nowrap") css += "  align-content: " + alignContent + ";\n";
-    if (gap > 0) css += "  gap: " + gap + "px;\n";
-    css += "}\n\n";
+  const sortedItems = useMemo(() => {
+    return [...items].sort((a, b) => a.order - b.order);
+  }, [items]);
 
-    items.forEach((item, index) => {
-      if (item.flexGrow !== 0 || item.flexShrink !== 1 || item.flexBasis !== "auto") {
-        css += ".item-" + (index + 1) + " {\n";
-        css += "  flex: " + item.flexGrow + " " + item.flexShrink + " " + item.flexBasis + ";\n";
-        css += "}\n";
-      }
+  const cssOutput = useMemo(() => {
+    let css = `.container {\n  display: flex;\n  flex-direction: ${direction};\n  flex-wrap: ${wrap};\n  justify-content: ${justify};\n  align-items: ${alignItems};\n  align-content: ${alignContent};\n  gap: ${gap}px;\n}\n\n`;
+    items.forEach((item, i) => {
+      css += `.item-${i + 1} {\n`;
+      if (item.grow !== 0) css += `  flex-grow: ${item.grow};\n`;
+      if (item.shrink !== 1) css += `  flex-shrink: ${item.shrink};\n`;
+      if (item.basis !== "auto") css += `  flex-basis: ${item.basis};\n`;
+      if (item.align !== "auto") css += `  align-self: ${item.align};\n`;
+      if (item.order !== 0) css += `  order: ${item.order};\n`;
+      css += `}\n\n`;
     });
-    
-    return css;
-  };
+    return css.trim();
+  }, [direction, wrap, justify, alignItems, alignContent, gap, items]);
+
+  const tailwindOutput = useMemo(() => {
+    let tw = `<div class="flex flex-${direction} flex-${wrap} justify-${justify} items-${alignItems} content-${alignContent} gap-[${gap}px]">\n`;
+    items.forEach((item, i) => {
+      let classes = [];
+      if (item.grow > 0) classes.push(`grow-${item.grow}`);
+      if (item.shrink !== 1) classes.push(`shrink-${item.shrink}`);
+      if (item.basis !== "auto") classes.push(`basis-[${item.basis}]`);
+      if (item.align !== "auto") classes.push(`self-${item.align}`);
+      if (item.order !== 0) classes.push(`order-${item.order}`);
+      tw += `  <div class="${classes.join(' ')}">Item ${i + 1}</div>\n`;
+    });
+    tw += `</div>`;
+    return tw;
+  }, [direction, wrap, justify, alignItems, alignContent, gap, items]);
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-6xl mx-auto space-y-8 px-4 py-8">
       <ToolPageHeader
-        icon={Layout}
-        title="CSS Flexbox Layout Visual Builder"
-        description="Interactive playground to visually build and experiment with CSS flexbox layouts."
-        actions={
-          <>
-            <CopyButton getText={getContainerCss} label="Copy CSS" />
-            <ResetButton onClick={reset} label="Reset" />
-          </>
-        }
+        icon={LayoutGrid}
+        title="CSS Flexbox Builder"
+        description="Visual CSS Flexbox layout builder with live preview. Master flex-direction, alignment, and item properties with instant code generation."
       />
-      
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-1 space-y-6">
-          <GlassCard>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2"><Sliders className="h-5 w-5" /> Container Settings</CardTitle>
+        <div className="lg:col-span-1 space-y-4">
+          <Card className={cardClass}>
+            <CardHeader className={headerClass}>
+              <CardTitle className={titleClass}><Sparkles className="w-4 h-4" /> Presets</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label>flex-direction</Label>
-                <Select value={flexDirection} onValueChange={setFlexDirection}>
-                  <SelectTrigger><SelectValue placeholder="flex-direction" /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="row">row</SelectItem>
-                    <SelectItem value="row-reverse">row-reverse</SelectItem>
-                    <SelectItem value="column">column</SelectItem>
-                    <SelectItem value="column-reverse">column-reverse</SelectItem>
-                  </SelectContent>
-                </Select>
+            <CardContent className="p-4 grid grid-cols-2 gap-2">
+              {PRESETS.map((p) => (
+                <Button key={p.name} variant="outline" size="sm" onClick={() => applyPreset(p)}>{p.name}</Button>
+              ))}
+              <Button variant="destructive" size="sm" className="col-span-2" onClick={reset}><RotateCcw className="w-4 h-4 mr-2" /> Reset</Button>
+            </CardContent>
+          </Card>
+
+          <Card className={cardClass}>
+            <CardHeader className={headerClass}>
+              <CardTitle className={titleClass}>Container Properties</CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 space-y-4">
+              <div>
+                <Label>Direction</Label>
+                <select value={direction} onChange={(e) => setDirection(e.target.value)} className="w-full rounded-lg border border-border/70 bg-background/80 p-2 text-sm mt-1">
+                  <option value="row">row</option>
+                  <option value="row-reverse">row-reverse</option>
+                  <option value="column">column</option>
+                  <option value="column-reverse">column-reverse</option>
+                </select>
               </div>
-              <div className="space-y-2">
-                <Label>flex-wrap</Label>
-                <Select value={flexWrap} onValueChange={setFlexWrap}>
-                  <SelectTrigger><SelectValue placeholder="flex-wrap" /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="nowrap">nowrap</SelectItem>
-                    <SelectItem value="wrap">wrap</SelectItem>
-                    <SelectItem value="wrap-reverse">wrap-reverse</SelectItem>
-                  </SelectContent>
-                </Select>
+              <div>
+                <Label>Wrap</Label>
+                <select value={wrap} onChange={(e) => setWrap(e.target.value)} className="w-full rounded-lg border border-border/70 bg-background/80 p-2 text-sm mt-1">
+                  <option value="nowrap">nowrap</option>
+                  <option value="wrap">wrap</option>
+                  <option value="wrap-reverse">wrap-reverse</option>
+                </select>
               </div>
-              <div className="space-y-2">
-                <Label>justify-content</Label>
-                <Select value={justifyContent} onValueChange={setJustifyContent}>
-                  <SelectTrigger><SelectValue placeholder="justify-content" /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="flex-start">flex-start</SelectItem>
-                    <SelectItem value="flex-end">flex-end</SelectItem>
-                    <SelectItem value="center">center</SelectItem>
-                    <SelectItem value="space-between">space-between</SelectItem>
-                    <SelectItem value="space-around">space-around</SelectItem>
-                    <SelectItem value="space-evenly">space-evenly</SelectItem>
-                  </SelectContent>
-                </Select>
+              <div>
+                <Label>Justify Content</Label>
+                <select value={justify} onChange={(e) => setJustify(e.target.value)} className="w-full rounded-lg border border-border/70 bg-background/80 p-2 text-sm mt-1">
+                  <option value="flex-start">flex-start</option>
+                  <option value="flex-end">flex-end</option>
+                  <option value="center">center</option>
+                  <option value="space-between">space-between</option>
+                  <option value="space-around">space-around</option>
+                  <option value="space-evenly">space-evenly</option>
+                </select>
               </div>
-              <div className="space-y-2">
-                <Label>align-items</Label>
-                <Select value={alignItems} onValueChange={setAlignItems}>
-                  <SelectTrigger><SelectValue placeholder="align-items" /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="stretch">stretch</SelectItem>
-                    <SelectItem value="flex-start">flex-start</SelectItem>
-                    <SelectItem value="flex-end">flex-end</SelectItem>
-                    <SelectItem value="center">center</SelectItem>
-                    <SelectItem value="baseline">baseline</SelectItem>
-                  </SelectContent>
-                </Select>
+              <div>
+                <Label>Align Items</Label>
+                <select value={alignItems} onChange={(e) => setAlignItems(e.target.value)} className="w-full rounded-lg border border-border/70 bg-background/80 p-2 text-sm mt-1">
+                  <option value="stretch">stretch</option>
+                  <option value="flex-start">flex-start</option>
+                  <option value="flex-end">flex-end</option>
+                  <option value="center">center</option>
+                  <option value="baseline">baseline</option>
+                </select>
               </div>
-              <div className="space-y-2">
-                <Label>align-content (requires wrap)</Label>
-                <Select value={alignContent} onValueChange={setAlignContent} disabled={flexWrap === "nowrap"}>
-                  <SelectTrigger><SelectValue placeholder="align-content" /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="stretch">stretch</SelectItem>
-                    <SelectItem value="flex-start">flex-start</SelectItem>
-                    <SelectItem value="flex-end">flex-end</SelectItem>
-                    <SelectItem value="center">center</SelectItem>
-                    <SelectItem value="space-between">space-between</SelectItem>
-                    <SelectItem value="space-around">space-around</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label>gap (px)</Label>
-                <Input type="number" min="0" value={gap} onChange={(e) => setGap(Number(e.target.value))} />
+              <div>
+                <Label>Gap ({gap}px)</Label>
+                <input type="range" min="0" max="40" value={gap} onChange={(e) => setGap(Number(e.target.value))} className="w-full mt-1" />
               </div>
             </CardContent>
-          </GlassCard>
-        </div>
-        
-        <div className="lg:col-span-2 space-y-6">
-          <GlassCard className="overflow-hidden">
-            <CardHeader className="bg-muted/30 pb-4">
-              <CardTitle>Preview</CardTitle>
+          </Card>
+
+          <Card className={cardClass}>
+            <CardHeader className={headerClass}>
+              <CardTitle className={titleClass}>Child Items ({items.length}/8)</CardTitle>
+              <Button variant="outline" size="sm" onClick={addItem}><Plus className="w-4 h-4" /></Button>
             </CardHeader>
-            <CardContent className="p-4 bg-muted/10 h-[400px] overflow-auto">
-              <div 
-                className="w-full h-full bg-background border-2 border-dashed border-muted-foreground/30 p-2 rounded-md"
+            <CardContent className="p-4 space-y-4 max-h-96 overflow-y-auto">
+              {items.map((item, index) => (
+                <div key={item.id} className="p-3 border border-border/50 rounded-lg space-y-2 bg-muted/10">
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs font-bold">Item #{index + 1}</span>
+                    <Button variant="ghost" size="icon" onClick={() => removeItem(item.id)}><Trash2 className="w-3 h-3 text-red-500" /></Button>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    <div>
+                      <Label>Grow</Label>
+                      <Input type="number" min="0" max="5" value={item.grow} onChange={(e) => updateItem(item.id, "grow", Number(e.target.value))} />
+                    </div>
+                    <div>
+                      <Label>Shrink</Label>
+                      <Input type="number" min="0" max="5" value={item.shrink} onChange={(e) => updateItem(item.id, "shrink", Number(e.target.value))} />
+                    </div>
+                    <div>
+                      <Label>Basis</Label>
+                      <Input value={item.basis} onChange={(e) => updateItem(item.id, "basis", e.target.value)} placeholder="auto" />
+                    </div>
+                    <div>
+                      <Label>Order</Label>
+                      <Input type="number" min="-5" max="5" value={item.order} onChange={(e) => updateItem(item.id, "order", Number(e.target.value))} />
+                    </div>
+                  </div>
+                  <div>
+                    <Label>Align Self</Label>
+                    <select value={item.align} onChange={(e) => updateItem(item.id, "align", e.target.value)} className="w-full rounded border border-border/70 bg-background/80 p-1 text-xs mt-1">
+                      <option value="auto">auto</option>
+                      <option value="flex-start">flex-start</option>
+                      <option value="flex-end">flex-end</option>
+                      <option value="center">center</option>
+                      <option value="baseline">baseline</option>
+                      <option value="stretch">stretch</option>
+                    </select>
+                  </div>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="lg:col-span-2 space-y-6">
+          <Card className={cardClass}>
+            <CardHeader className={headerClass}>
+              <CardTitle className={titleClass}>Live Preview</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6">
+              <div
                 style={{
                   display: "flex",
-                  flexDirection: flexDirection as any,
-                  flexWrap: flexWrap as any,
-                  justifyContent: justifyContent,
+                  flexDirection: direction as any,
+                  flexWrap: wrap as any,
+                  justifyContent: justify,
                   alignItems: alignItems,
                   alignContent: alignContent,
-                  gap: gap + "px"
+                  gap: `${gap}px`,
                 }}
+                className="w-full min-h-[300px] bg-muted/30 rounded-lg border border-border/50 p-4"
               >
-                {items.map((item) => (
-                  <div 
+                {sortedItems.map((item, i) => (
+                  <div
                     key={item.id}
-                    className="bg-primary/20 border-2 border-primary/50 rounded-md p-4 flex items-center justify-center font-bold text-lg min-w-[80px] min-h-[80px]"
                     style={{
-                      flexGrow: item.flexGrow,
-                      flexShrink: item.flexShrink,
-                      flexBasis: item.flexBasis
+                      flexGrow: item.grow,
+                      flexShrink: item.shrink,
+                      flexBasis: item.basis,
+                      alignSelf: item.align as any,
+                      order: item.order,
                     }}
+                    className="bg-primary text-primary-foreground flex items-center justify-center font-bold rounded min-w-[60px] min-h-[60px] p-4 shadow-md transition-all"
                   >
-                    {item.text}
+                    {i + 1}
                   </div>
                 ))}
               </div>
             </CardContent>
-          </GlassCard>
+          </Card>
 
-          <GlassCard>
-            <CardHeader className="flex flex-row items-center justify-between">
-              <div>
-                <CardTitle>Flex Items</CardTitle>
-                <CardDescription>Adjust properties of individual items</CardDescription>
+          <Card className={cardClass}>
+            <CardHeader className={headerClass}>
+              <CardTitle className={titleClass}>Generated Code</CardTitle>
+              <div className="flex gap-2">
+                <Button variant={outputType === "css" ? "default" : "outline"} size="sm" onClick={() => setOutputType("css")}>CSS</Button>
+                <Button variant={outputType === "tailwind" ? "default" : "outline"} size="sm" onClick={() => setOutputType("tailwind")}>Tailwind</Button>
+                <Button variant="outline" size="sm" onClick={() => handleCopy(outputType === "css" ? cssOutput : tailwindOutput)}><Copy className="w-4 h-4" /></Button>
               </div>
-              <Button onClick={addItem} size="sm" variant="outline" className="gap-2">
-                <Plus className="h-4 w-4" /> Add Item
-              </Button>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {items.map((item, index) => (
-                  <div key={item.id} className="flex flex-col sm:flex-row gap-4 p-4 border rounded-lg bg-card">
-                    <div className="flex items-center justify-between sm:w-16">
-                      <span className="font-bold text-lg">{index + 1}</span>
-                      <Button variant="ghost" size="icon" className="sm:hidden text-destructive" onClick={() => removeItem(item.id)}>
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 flex-1">
-                      <div className="space-y-2">
-                        <Label>flex-grow</Label>
-                        <Input type="number" min="0" value={item.flexGrow} onChange={(e) => updateItem(item.id, "flexGrow", Number(e.target.value))} />
-                      </div>
-                      <div className="space-y-2">
-                        <Label>flex-shrink</Label>
-                        <Input type="number" min="0" value={item.flexShrink} onChange={(e) => updateItem(item.id, "flexShrink", Number(e.target.value))} />
-                      </div>
-                      <div className="space-y-2">
-                        <Label>flex-basis</Label>
-                        <Input type="text" value={item.flexBasis} onChange={(e) => updateItem(item.id, "flexBasis", e.target.value)} />
-                      </div>
-                    </div>
-                    <Button variant="ghost" size="icon" className="hidden sm:flex text-destructive mt-6" onClick={() => removeItem(item.id)}>
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
-                ))}
-              </div>
+            <CardContent className="p-4">
+              <textarea readOnly value={outputType === "css" ? cssOutput : tailwindOutput} className={textareaClass} rows={14} />
             </CardContent>
-          </GlassCard>
-          
-          <GlassCard>
-            <CardHeader>
-              <CardTitle>CSS Code</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <pre className="p-4 bg-muted rounded-lg overflow-x-auto text-sm font-mono">
-                {getContainerCss()}
-              </pre>
-            </CardContent>
-          </GlassCard>
+          </Card>
         </div>
       </div>
+
+      <ToolHowItWorks
+        steps={[
+          { step: "01", title: "Set Container Rules", description: "Define how the flex container distributes space using direction, wrap, and justify.", icon: LayoutGrid },
+          { step: "02", title: "Tweak Child Items", description: "Adjust individual item properties like flex-grow, shrink, and align-self.", icon: Plus },
+          { step: "03", title: "Export Code", description: "Copy the generated standard CSS or Tailwind classes directly into your project.", icon: Copy },
+        ]}
+        badges={["100% Free", "Visual Builder", "Tailwind Support"]}
+      />
+
+      <ToolFeatureGuides
+        features={[
+          { icon: LayoutGrid, title: "Visual Live Preview", description: "See your flexbox layout update in real-time as you adjust container and child properties." },
+          { icon: Sparkles, title: "Layout Presets", description: "Instantly apply common layouts like Navigation Bars, Card Grids, and Holy Grail." },
+          { icon: Copy, title: "Dual Code Export", description: "Generate both raw CSS properties and modern Tailwind CSS utility classes." },
+          { icon: Plus, title: "Per-Item Control", description: "Manage up to 8 individual flex items with unique grow, shrink, basis, and order values." },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none mt-6">
+          <h3>Mastering CSS Flexbox: The Layout Engine of the Modern Web</h3>
+          <p>Before the advent of CSS Flexbox, web layout was a hacky endeavor relying on floats, clearfixes, and rigid table structures. Flexbox (Flexible Box Layout) revolutionized how developers arrange content by introducing a one-dimensional layout model that distributes space among items in a container, even when their sizes are unknown or dynamic. The core philosophy of Flexbox is the relationship between a "flex container" and its "flex items." The container controls the macro-alignment (how items are grouped and distributed along the main and cross axes), while the items can override these rules on an individual basis.</p>
+          <p>Understanding the axes is critical. When <code>flex-direction</code> is set to <code>row</code>, the main axis runs horizontally (left-to-right), and the cross axis runs vertically. Properties like <code>justify-content</code> always align items along the main axis, while <code>align-items</code> aligns them along the cross axis. If you change the direction to <code>column</code>, these axes flip: <code>justify-content</code> now controls vertical distribution, and <code>align-items</code> controls horizontal alignment. This mental model shift is where many developers stumble, but once internalized, it makes complex UI arrangements trivial to implement.</p>
+          <h3>The Power of Flex-Grow, Flex-Shrink, and Flex-Basis</h3>
+          <p>The true magic of Flexbox lies in the <code>flex</code> shorthand property, which dictates how items react when the container's available space changes. <code>flex-grow</code> determines how much of the remaining positive space an item should consume. If all items have <code>flex-grow: 1</code>, they share space equally. If one item has <code>flex-grow: 2</code>, it gets twice as much of the leftover space as the others. Conversely, <code>flex-shrink</code> dictates how items compress when the container is too small. Finally, <code>flex-basis</code> acts as the hypothetical starting size of the item before any growing or shrinking occurs. By combining these three properties, developers can create fluid, responsive interfaces that adapt beautifully to any screen size without relying on complex media queries.</p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion
+        faqs={[
+          { question: "What is the difference between justify-content and align-items?", answer: "justify-content distributes space along the main axis (the direction defined by flex-direction), while align-items aligns items along the cross axis (perpendicular to the main axis)." },
+          { question: "When should I use Flexbox vs CSS Grid?", answer: "Use Flexbox for one-dimensional layouts (a single row or column of items). Use CSS Grid for two-dimensional layouts where you need precise control over both rows and columns simultaneously." },
+          { question: "Why isn't my flex item shrinking?", answer: "By default, flex items have a minimum size based on their content (min-width: auto). To allow an item to shrink below its content size, add `min-width: 0` or `overflow: hidden` to the flex item." },
+        ]}
+      />
+
+      <RelatedTools currentToolUrl="/tools/dev/css-flexbox-builder" max={6} />
     </div>
   );
 }
+
+export default CssFlexboxBuilderClient;

@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { RpsClient } from "@/components/tools/fun/rps-client";
+import RpsClient from "@/components/tools/fun/rps-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

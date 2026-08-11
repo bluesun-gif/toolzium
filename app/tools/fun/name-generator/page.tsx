@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { NameGeneratorClient } from "@/components/tools/fun/name-generator-client";
+import NameGeneratorClient from "@/components/tools/fun/name-generator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

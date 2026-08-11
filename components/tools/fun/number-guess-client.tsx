@@ -1,243 +1,157 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
-import { Hash, TrendingUp, Trophy, RotateCcw } from "lucide-react";
-import { toast } from "react-hot-toast";
+import toast from "react-hot-toast";
+import { HelpCircle, RotateCcw } from "lucide-react";
 
-type Difficulty = "Easy" | "Medium" | "Hard";
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
 
-export function NumberGuessClient() {
-  const [difficulty, setDifficulty] = useState<Difficulty>("Medium");
-  const [min, setMin] = useState(1);
-  const [max, setMax] = useState(100);
-  const [target, setTarget] = useState(50);
-  const [guesses, setGuesses] = useState<number[]>([]);
-  const [currentGuess, setCurrentGuess] = useState("");
-  const [status, setStatus] = useState<"playing" | "won" | "lost">("playing");
-  const [startTime, setStartTime] = useState<number>(Date.now());
-  const [timeElapsed, setTimeElapsed] = useState(0);
-  const [bestScores, setBestScores] = useState<Record<Difficulty, number | null>>({ Easy: null, Medium: null, Hard: null });
-  const [streak, setStreak] = useState(0);
-  
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+type Difficulty = "easy" | "medium" | "hard";
+const LIMITS: Record<Difficulty, number> = { easy: 100, medium: 500, hard: 1000 };
 
-  const initGame = useCallback((diff: Difficulty = difficulty) => {
-    let newMax = 100;
-    if (diff === "Easy") newMax = 50;
-    else if (diff === "Hard") newMax = 1000;
-    
-    setMax(newMax);
-    setMin(1);
-    setTarget(Math.floor(Math.random() * newMax) + 1);
-    setGuesses([]);
-    setCurrentGuess("");
+export default function NumberGuessClient() {
+  const [difficulty, setDifficulty] = useState<Difficulty>("easy");
+  const [target, setTarget] = useState(0);
+  const [guess, setGuess] = useState("");
+  const [history, setHistory] = useState<{ val: number, hint: string }[]>([]);
+  const [status, setStatus] = useState<"playing" | "won">("playing");
+
+  const initGame = (diff: Difficulty = difficulty) => {
+    const max = LIMITS[diff];
+    setTarget(Math.floor(Math.random() * max) + 1);
+    setHistory([]);
+    setGuess("");
     setStatus("playing");
-    setStartTime(Date.now());
-    setTimeElapsed(0);
-    
-    if (timerRef.current) clearInterval(timerRef.current);
-    timerRef.current = setInterval(() => {
-      setTimeElapsed(Math.floor((Date.now() - startTime) / 1000));
-    }, 1000);
-  }, [difficulty, startTime]);
-
-  useEffect(() => {
-    const savedScores = localStorage.getItem("numberGuessBestScores");
-    if (savedScores) {
-      try { setBestScores(JSON.parse(savedScores)); } catch (e) {}
-    }
-    const savedStreak = localStorage.getItem("numberGuessStreak");
-    if (savedStreak) {
-      setStreak(parseInt(savedStreak, 10));
-    }
-    initGame();
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (status !== "playing" && timerRef.current) {
-      clearInterval(timerRef.current);
-    }
-  }, [status]);
-
-  const handleDifficultyChange = (val: string) => {
-    const d = val as Difficulty;
-    setDifficulty(d);
-    initGame(d);
+    setDifficulty(diff);
   };
 
+  useEffect(() => { initGame(); }, []);
+
   const handleGuess = () => {
-    if (status !== "playing") return;
-    const num = parseInt(currentGuess, 10);
-    if (isNaN(num) || num < min || num > max) {
-      toast.error(`Please enter a number between ${min} and ${max}`);
-      return;
-    }
-    if (guesses.includes(num)) {
-      toast.error("You already guessed that number!");
-      return;
-    }
-
-    const newGuesses = [...guesses, num];
-    setGuesses(newGuesses);
-    setCurrentGuess("");
-
-    if (num === target) {
+    const num = parseInt(guess);
+    if (isNaN(num)) return toast.error("Please enter a valid number.");
+    
+    let hint = "";
+    if (num < target) hint = "Too Low ⬆️";
+    else if (num > target) hint = "Too High ⬇️";
+    else {
+      hint = "Correct! 🎉";
       setStatus("won");
-      toast.success(`You won in ${newGuesses.length} guesses!`);
-      const currentBest = bestScores[difficulty];
-      if (currentBest === null || newGuesses.length < currentBest) {
-        const newBest = { ...bestScores, [difficulty]: newGuesses.length };
-        setBestScores(newBest);
-        localStorage.setItem("numberGuessBestScores", JSON.stringify(newBest));
-        toast.success("New Best Score!");
-      }
-      const newStreak = streak + 1;
-      setStreak(newStreak);
-      localStorage.setItem("numberGuessStreak", newStreak.toString());
-    } else {
-      setStreak(0);
-      localStorage.setItem("numberGuessStreak", "0");
+      toast.success(`You got it in ${history.length + 1} attempts!`);
     }
+    
+    setHistory([{ val: num, hint }, ...history]);
+    setGuess("");
   };
 
   return (
-    <div className="space-y-6">
-      <ToolPageHeader
-        icon={Hash}
-        title="Number Guessing Game"
-        description="A fun classic game. Guess the number as fast as you can!"
-        actions={
-          <ActionButton onClick={() => initGame()} icon={RotateCcw} label="Restart Game" />
-        }
+    <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <ToolPageHeader 
+        icon={HelpCircle} 
+        title="Number Guessing Game" 
+        description="Test your intuition and logic skills by guessing the hidden number." 
+      />
+      
+      <Card className={cardClass}>
+        <CardHeader className={headerClass}>
+          <CardTitle className={titleClass}>
+            <HelpCircle className="w-4 h-4 text-primary" /> Guess the Number
+          </CardTitle>
+          <div className="flex gap-2 mt-3">
+            {Object.keys(LIMITS).map(d => (
+              <Button 
+                key={d} 
+                variant={difficulty === d ? "default" : "outline"} 
+                size="sm"
+                onClick={() => initGame(d as Difficulty)}
+              >
+                {d.charAt(0).toUpperCase() + d.slice(1)} (1-{LIMITS[d as Difficulty]})
+              </Button>
+            ))}
+          </div>
+        </CardHeader>
+        <CardContent className="p-4 space-y-6">
+          {status === "playing" ? (
+            <div className="flex gap-2 max-w-md mx-auto">
+              <Input 
+                type="number" 
+                value={guess} 
+                onChange={(e) => setGuess(e.target.value)} 
+                placeholder={`1 to ${LIMITS[difficulty]}`}
+                onKeyDown={(e) => e.key === "Enter" && handleGuess()}
+              />
+              <Button onClick={handleGuess}>Guess</Button>
+            </div>
+          ) : (
+            <div className="text-center space-y-4">
+              <p className="text-2xl font-bold text-green-500">You Won! The number was {target}.</p>
+              <p className="text-muted-foreground">Attempts: {history.length}</p>
+              <Button onClick={() => initGame()} className="gap-2">
+                <RotateCcw className="w-4 h-4" /> Play Again
+              </Button>
+            </div>
+          )}
+
+          <div className="space-y-2 max-h-64 overflow-y-auto">
+            <h3 className="text-sm font-semibold text-muted-foreground">Guess History:</h3>
+            {history.length === 0 ? (
+              <p className="text-sm italic text-muted-foreground">No guesses yet...</p>
+            ) : (
+              history.map((h, i) => (
+                <div key={i} className="flex justify-between items-center bg-muted/50 px-4 py-2 rounded-lg border border-border/50">
+                  <span className="font-mono font-bold">{h.val}</span>
+                  <span className={`text-sm font-medium ${h.hint.includes("Low") ? "text-blue-500" : h.hint.includes("High") ? "text-orange-500" : "text-green-500"}`}>
+                    {h.hint}
+                  </span>
+                </div>
+              ))
+            )}
+          </div>
+        </CardContent>
+      </Card>
+
+      <ToolHowItWorks 
+        steps={[
+          { step: "01", title: "Choose Difficulty", description: "Select a range: Easy (1-100), Medium (1-500), or Hard (1-1000).", icon: HelpCircle },
+          { step: "02", title: "Make a Guess", description: "Enter a number and submit it. The tool will tell you if it's too high or low.", icon: HelpCircle },
+          { step: "03", title: "Find the Target", description: "Use the hints to narrow down the range and guess the exact number.", icon: HelpCircle }
+        ]} 
+        badges={["100% Free", "Client-Side", "Fun"]} 
       />
 
-      <div className="grid md:grid-cols-2 gap-6">
-        <GlassCard>
-          <CardHeader>
-            <CardTitle>Play Area</CardTitle>
-            <CardDescription>Guess a number between {min} and {max}</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex gap-4 items-end">
-              <div className="flex-1 space-y-2">
-                <label className="text-sm font-medium">Difficulty</label>
-                <Select value={difficulty} onValueChange={handleDifficultyChange} disabled={status === "playing" && guesses.length > 0}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select difficulty" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Easy">Easy (1-50)</SelectItem>
-                    <SelectItem value="Medium">Medium (1-100)</SelectItem>
-                    <SelectItem value="Hard">Hard (1-1000)</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="text-sm text-muted-foreground mb-2">Time: {timeElapsed}s</div>
-            </div>
+      <ToolFeatureGuides 
+        features={[
+          { icon: HelpCircle, title: "Three Difficulty Modes", description: "Scale the challenge from 100 to 1000 possible numbers." },
+          { icon: HelpCircle, title: "Directional Hints", description: "Clear visual feedback telling you if your guess is too high or too low." },
+          { icon: HelpCircle, title: "Attempt Tracking", description: "Keep a history log of all your guesses and hints." },
+          { icon: HelpCircle, title: "Instant Reset", description: "Start a new game with a new random number instantly." }
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <p>The Number Guessing Game is a classic exercise in logic and binary search algorithms. By consistently guessing the midpoint of the remaining range, you can mathematically guarantee finding the number in the minimum number of attempts.</p>
+          <p>For the 1-100 range, a perfect binary search strategy will always find the number in 7 guesses or fewer. Can you beat the mathematical average?</p>
+        </div>
+      </ToolFeatureGuides>
 
-            <Separator />
+      <ToolFaqAccordion 
+        faqs={[
+          { question: "What is the best strategy?", answer: "Use a binary search. Always guess the number exactly halfway between your current known 'too high' and 'too low' boundaries." },
+          { question: "Are numbers repeated in the history?", answer: "The game allows duplicate guesses, but it's logically inefficient. The history will show all your attempts." },
+          { question: "Is the number truly random?", answer: "Yes, it uses JavaScript's Math.random() which provides a pseudo-random number uniformly distributed in the selected range." }
+        ]} 
+      />
 
-            {status === "won" ? (
-              <div className="text-center p-6 bg-primary/10 rounded-lg">
-                <h3 className="text-2xl font-bold text-primary mb-2">You Won! 🎉</h3>
-                <p>The number was {target}.</p>
-                <p>It took you {guesses.length} guesses and {timeElapsed} seconds.</p>
-                <Button onClick={() => initGame()} className="mt-4">Play Again</Button>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                <div className="flex gap-2">
-                  <Input
-                    type="number"
-                    value={currentGuess}
-                    onChange={(e) => setCurrentGuess(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") handleGuess();
-                    }}
-                    placeholder={`Enter a number`}
-                    min={min}
-                    max={max}
-                  />
-                  <Button onClick={handleGuess}>Guess</Button>
-                </div>
-                {guesses.length > 0 && (
-                  <div className="text-center">
-                    <p className="text-lg font-semibold">
-                      {guesses[guesses.length - 1] > target ? "Too High!" : "Too Low!"}
-                    </p>
-                  </div>
-                )}
-              </div>
-            )}
-          </CardContent>
-        </GlassCard>
-
-        <GlassCard>
-          <CardHeader>
-            <CardTitle>Stats & History</CardTitle>
-            <CardDescription>Your game statistics</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="flex justify-between items-center bg-muted/50 p-4 rounded-lg">
-              <div className="flex items-center gap-2">
-                <Trophy className="w-5 h-5 text-yellow-500" />
-                <span className="font-medium">Current Streak</span>
-              </div>
-              <span className="text-xl font-bold">{streak}</span>
-            </div>
-
-            <div className="space-y-2">
-              <h3 className="text-sm font-medium">Best Scores (Fewest Guesses)</h3>
-              <div className="grid grid-cols-3 gap-2">
-                {(["Easy", "Medium", "Hard"] as Difficulty[]).map((d) => (
-                  <div key={d} className="bg-muted p-2 rounded text-center">
-                    <div className="text-xs text-muted-foreground">{d}</div>
-                    <div className="font-bold">{bestScores[d] ?? "-"}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <Separator />
-
-            <div className="space-y-2">
-              <h3 className="text-sm font-medium flex items-center gap-2">
-                <TrendingUp className="w-4 h-4" />
-                Guess History
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {guesses.map((g, i) => (
-                  <div
-                    key={i}
-                    className={"px-3 py-1 rounded-full text-sm " + (g === target
-                        ? "bg-green-500/20 text-green-700"
-                        : g > target
-                        ? "bg-red-500/20 text-red-700"
-                        : "bg-blue-500/20 text-blue-700")}
-                  >
-                    {g} {g === target ? "✓" : g > target ? "↓" : "↑"}
-                  </div>
-                ))}
-                {guesses.length === 0 && (
-                  <span className="text-sm text-muted-foreground">No guesses yet</span>
-                )}
-              </div>
-            </div>
-          </CardContent>
-        </GlassCard>
-      </div>
+      <RelatedTools currentToolUrl="/tools/fun/number-guess" max={6} />
     </div>
   );
 }

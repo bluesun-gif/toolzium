@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { VideoRatioClient } from "@/components/tools/calc/video-ratio-client";
+import VideoRatioClient from "@/components/tools/calc/video-ratio-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

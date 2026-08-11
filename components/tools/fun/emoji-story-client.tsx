@@ -1,194 +1,119 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { cn } from "@/lib/utils";
-import { SmilePlus, Shuffle, Copy, ThumbsUp, ThumbsDown, MessageSquareText } from "lucide-react";
+import { CopyButton } from "@/components/shared/action-buttons";
 import toast from "react-hot-toast";
+import { SmilePlus, Trash2 } from "lucide-react";
 
-type StoryCategory = "Adventure" | "Romance" | "Mystery" | "Comedy" | "Sci-Fi" | "Horror";
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
 
-interface StoryHistory {
-  id: string;
-  emojis: string;
-  translation: string;
-  rating: 'up' | 'down' | null;
-}
-
-const emojiBanks: Record<StoryCategory, string[]> = {
-  Adventure: ["🧗", "🗺️", "⚔️", "🐉", "🏔️", "🏃", "🛡️", "🔥", "💎", "🏴‍☠️", "⛵", "🌴"],
-  Romance: ["❤️", "🌹", "💌", "👩‍❤️‍👨", "💍", "🍷", "🍫", "💋", "💑", "✨", "😍", "🍓"],
-  Mystery: ["🔍", "🕵️", "👣", "🚪", "🔑", "📜", "💼", "🕰️", "👁️", "🎩", "🩸", "🔦"],
-  Comedy: ["🤡", "🍌", "🐒", "滑", "🥧", "😂", "🕺", "🤪", "🦆", "🎉", "💩", "👖"],
-  "Sci-Fi": ["👽", "🚀", "🛸", "🌌", "🤖", "👨‍🚀", "🔭", "☄️", "👾", "🛰️", "🧪", "⚙️"],
-  Horror: ["👻", "💀", "🦇", "🏚️", "🕷️", "🔪", "🩸", "🎃", "🌕", "😱", "🧟", "🕯️"]
+const EMOJI_MAP: Record<string, string> = {
+  "happy": "😀", "sad": "😢", "angry": "😡", "love": "❤️", "heart": "❤️",
+  "dog": "🐶", "cat": "🐱", "mouse": "🐭", "cow": "🐮", "pig": "🐷",
+  "sun": "☀️", "moon": "🌙", "star": "⭐", "cloud": "☁️", "rain": "🌧️",
+  "fire": "🔥", "water": "💧", "tree": "🌳", "flower": "🌸", "leaf": "🍃",
+  "apple": "🍎", "banana": "🍌", "grape": "🍇", "pizza": "🍕", "burger": "🍔",
+  "car": "🚗", "bus": "🚌", "train": "🚆", "plane": "✈️", "boat": "⛵",
+  "house": "🏠", "school": "🏫", "hospital": "🏥", "store": "🏪", "bank": "🏦",
+  "book": "📖", "pen": "🖊️", "pencil": "✏️", "paper": "📄", "computer": "💻",
+  "phone": "📱", "tv": "📺", "radio": "📻", "camera": "📷", "video": "📹",
+  "music": "🎵", "song": "🎶", "guitar": "🎸", "piano": "🎹", "drum": "🥁",
+  "money": "💵", "dollar": "💲", "gold": "🥇", "silver": "🥈", "bronze": "🥉",
+  "time": "⏰", "clock": "🕒", "watch": "⌚", "hour": "⏳", "calendar": "📅",
+  "smile": "😊", "laugh": "😂", "cry": "😭", "sleep": "😴", "eat": "🍽️",
+  "run": "🏃", "walk": "🚶", "jump": "🤸", "swim": "🏊", "fly": "🦅"
 };
 
-export function EmojiStoryClient() {
-  const [category, setCategory] = useState<StoryCategory>("Adventure");
-  const [length, setLength] = useState<number>(5);
-  const [currentEmojis, setCurrentEmojis] = useState<string[]>([]);
-  const [translation, setTranslation] = useState<string>("");
-  const [history, setHistory] = useState<StoryHistory[]>([]);
+export default function EmojiStoryClient() {
+  const [input, setInput] = useState("I love to eat pizza and watch tv at my house.");
 
-  const generateEmojis = () => {
-    const bank = emojiBanks[category] || emojiBanks["Adventure"];
-    const emojis: string[] = [];
-    for (let i = 0; i < length; i++) {
-      emojis.push(bank[Math.floor(Math.random() * bank.length)]);
-    }
-    setCurrentEmojis(emojis);
-    setTranslation("");
-  };
-
-  const regenerateEmoji = (index: number) => {
-    const bank = emojiBanks[category];
-    const newEmojis = [...currentEmojis];
-    newEmojis[index] = bank[Math.floor(Math.random() * bank.length)];
-    setCurrentEmojis(newEmojis);
-    setTranslation("");
-  };
-
-  const translateStory = () => {
-    if (currentEmojis.length === 0) return;
-    const dummyTranslations = [
-      "A brave hero found a mysterious object and journeyed far, encountering bizarre beings before returning victorious.",
-      "It started normal, then things got weird, someone fell over, a magical event occurred, and everyone laughed.",
-      "An unexpected discovery led to a chase, a romantic encounter, a spooky scare, and a triumphant ending."
-    ];
-    const trans = dummyTranslations[Math.floor(Math.random() * dummyTranslations.length)] + " (Translated from " + category + " emoji dialect)";
-    setTranslation(trans);
-    
-    setHistory(prev => [{
-      id: Date.now().toString(),
-      emojis: currentEmojis.join(" "),
-      translation: trans,
-      rating: null
-    }, ...prev.slice(0, 9)]);
-  };
-
-  const rateStory = (id: string, rating: 'up' | 'down') => {
-    setHistory(prev => prev.map(h => h.id === id ? { ...h, rating } : h));
-    toast.success("Thanks for rating!");
-  };
+  const emojiText = useMemo(() => {
+    if (!input) return "";
+    const regex = new RegExp(`\\b(${Object.keys(EMOJI_MAP).join('|')})\\b`, 'gi');
+    return input.replace(regex, (match) => EMOJI_MAP[match.toLowerCase()]);
+  }, [input]);
 
   return (
-    <div className="space-y-6">
-      <ToolPageHeader
-        icon={SmilePlus}
-        title="Emoji Story Generator"
-        description="Generate random emoji stories, interpret them, and share!"
-        actions={
-          <>
-            <ActionButton onClick={generateEmojis} icon={Shuffle} label="Generate" />
-            <CopyButton getText={() => currentEmojis.join(" ")} label="Copy Emojis" />
-          </>
-        }
+    <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <ToolPageHeader 
+        icon={SmilePlus} 
+        title="Emoji Story Generator" 
+        description="Translate your sentences into fun emoji-filled stories instantly." 
+      />
+      
+      <Card className={cardClass}>
+        <CardHeader className={headerClass}>
+          <CardTitle className={titleClass}>
+            <SmilePlus className="w-4 h-4 text-primary" /> Story Input
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="p-4 space-y-4">
+          <div className="flex justify-end">
+             <Button onClick={() => { setInput(""); toast.success("Cleared!"); }} variant="outline" size="sm" className="gap-2">
+               <Trash2 className="w-4 h-4" /> Clear
+             </Button>
+          </div>
+          <textarea
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            rows={4}
+            className="w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50"
+            placeholder="Write your story here... (e.g., The dog ran to the house)"
+          />
+          
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm font-semibold">Emoji Translation</h3>
+              <CopyButton getText={() => emojiText} label="Copy Story" />
+            </div>
+            <div className="w-full rounded-lg border border-border/70 bg-muted/30 p-4 text-lg min-h-[100px] whitespace-pre-wrap">
+              {emojiText || "Your emoji story will appear here..."}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <ToolHowItWorks 
+        steps={[
+          { step: "01", title: "Write Story", description: "Type a sentence or paragraph using common English words.", icon: SmilePlus },
+          { step: "02", title: "Auto-Translate", description: "The tool scans your text and replaces matching words with emojis.", icon: SmilePlus },
+          { step: "03", title: "Share", description: "Copy your new emoji story and send it to friends or social media.", icon: SmilePlus }
+        ]} 
+        badges={["100% Free", "Client-Side", "Fun"]} 
       />
 
-      <div className="grid md:grid-cols-2 gap-6">
-        <GlassCard className="md:col-span-2">
-          <CardHeader>
-            <CardTitle>Your Emoji Story</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="flex flex-wrap gap-4 justify-center py-8 bg-black/5 rounded-lg">
-              {currentEmojis.length > 0 ? (
-                currentEmojis.map((emoji, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => regenerateEmoji(idx)}
-                    className="text-5xl hover:scale-125 transition-transform cursor-pointer"
-                    title="Click to regenerate this emoji"
-                  >
-                    {emoji}
-                  </button>
-                ))
-              ) : (
-                <div className="text-muted-foreground">Click Generate to start a story</div>
-              )}
-            </div>
-            
-            <div className="flex gap-4 justify-center items-center flex-wrap">
-              <div className="flex items-center gap-2">
-                <Label>Category:</Label>
-                <Select value={category} onValueChange={(v: StoryCategory) => setCategory(v)}>
-                  <SelectTrigger className="w-32"><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    {Object.keys(emojiBanks).map(cat => (
-                      <SelectItem key={cat} value={cat}>{cat}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              
-              <div className="flex items-center gap-2">
-                <Label>Length:</Label>
-                <Input
-                  type="number"
-                  min={3}
-                  max={15}
-                  value={length}
-                  onChange={(e) => setLength(Number(e.target.value) || 5)}
-                  className="w-20"
-                />
-              </div>
+      <ToolFeatureGuides 
+        features={[
+          { icon: SmilePlus, title: "60+ Word Dictionary", description: "Supports a wide range of common nouns, verbs, and emotions." },
+          { icon: SmilePlus, title: "Case Insensitive", description: "Matches words regardless of capitalization." },
+          { icon: SmilePlus, title: "Context Aware", description: "Uses word boundaries to prevent replacing parts of larger words." },
+          { icon: SmilePlus, title: "Real-time Processing", description: "See your story transform as you type without clicking a button." }
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <p>Emojis have become a universal language, adding emotion and visual flair to our digital communications. The Emoji Story Generator automatically translates your plain text into a vibrant sequence of emojis.</p>
+          <p>Using a built-in dictionary of over 60 common words, the tool uses regular expressions with word boundaries to ensure accurate replacements. Try writing about animals, food, weather, or daily activities to see the magic happen!</p>
+        </div>
+      </ToolFeatureGuides>
 
-              <Button onClick={translateStory} disabled={currentEmojis.length === 0}>
-                <MessageSquareText className="w-4 h-4 mr-2" /> Translate
-              </Button>
-            </div>
+      <ToolFaqAccordion 
+        faqs={[
+          { question: "Why didn't some of my words turn into emojis?", answer: "The tool currently supports a specific dictionary of ~70 common words. If a word isn't in the dictionary, it will remain as plain text." },
+          { question: "Does it replace parts of words?", answer: "No. The tool uses word boundary matching, so the word 'cat' will not be replaced inside the word 'catalog'." },
+          { question: "Can I use it for secret messages?", answer: "While fun, emoji translation is not a secure encryption method. Anyone can guess the original words based on context!" }
+        ]} 
+      />
 
-            {translation && (
-              <div className="p-4 bg-primary/10 rounded-md text-center text-lg italic">
-                "{translation}"
-              </div>
-            )}
-          </CardContent>
-        </GlassCard>
-
-        {history.length > 0 && (
-          <GlassCard className="md:col-span-2">
-            <CardHeader>
-              <CardTitle>History</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {history.map(item => (
-                <div key={item.id} className="flex justify-between items-center p-3 border rounded bg-card">
-                  <div className="space-y-1">
-                    <div className="text-2xl">{item.emojis}</div>
-                    <div className="text-sm text-muted-foreground">{item.translation}</div>
-                  </div>
-                  <div className="flex gap-2">
-                    <Button
-                      variant={item.rating === 'up' ? 'default' : 'outline'}
-                      size="icon"
-                      onClick={() => rateStory(item.id, 'up')}
-                    >
-                      <ThumbsUp className="w-4 h-4" />
-                    </Button>
-                    <Button
-                      variant={item.rating === 'down' ? 'default' : 'outline'}
-                      size="icon"
-                      onClick={() => rateStory(item.id, 'down')}
-                    >
-                      <ThumbsDown className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
-              ))}
-            </CardContent>
-          </GlassCard>
-        )}
-      </div>
+      <RelatedTools currentToolUrl="/tools/fun/emoji-story" max={6} />
     </div>
   );
 }

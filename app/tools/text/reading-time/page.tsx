@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { ReadingTimeClient } from "@/components/tools/text/reading-time-client";
+import ReadingTimeClient from "@/components/tools/text/reading-time-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

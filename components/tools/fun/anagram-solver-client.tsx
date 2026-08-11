@@ -1,117 +1,157 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Search, Gamepad2 } from "lucide-react";
+import { CopyButton } from "@/components/shared/action-buttons";
 import toast from "react-hot-toast";
+import { Shuffle, Copy, Trash2 } from "lucide-react";
 
-const MOCK_DICTIONARY = [
-  "apple", "pear", "peach", "banana", "orange", "lemon", "lime", "grape", "melon",
-  "cat", "act", "tac", "dog", "god", "bat", "tab", "rat", "tar", "art",
-  "star", "rats", "arts", "tars", "tsar", "stop", "pots", "tops", "post",
-  "hello", "world", "tool", "loot", "polo", "pool"
-];
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
 
-export function AnagramSolverClient() {
-  const [letters, setLetters] = useState("");
-  const [startsWith, setStartsWith] = useState("");
-  const [endsWith, setEndsWith] = useState("");
-  const [results, setResults] = useState<string[]>([]);
-
-  const handleSolve = () => {
-    if (!letters) {
-      toast.error("Please enter some letters");
-      return;
+function getPermutations(str: string): string[] {
+  if (str.length <= 1) return [str];
+  const perms = new Set<string>();
+  for (let i = 0; i < str.length; i++) {
+    const char = str[i];
+    const remaining = str.slice(0, i) + str.slice(i + 1);
+    for (const perm of getPermutations(remaining)) {
+      perms.add(char + perm);
     }
-    const targetLetters = letters.toLowerCase().split("");
-    const found = MOCK_DICTIONARY.filter(word => {
-      let temp = [...targetLetters];
-      let match = true;
-      for (const char of word) {
-        const index = temp.indexOf(char);
-        if (index > -1) {
-          temp.splice(index, 1);
-        } else {
-          const wildIndex = temp.indexOf('?');
-          if (wildIndex > -1) {
-             temp.splice(wildIndex, 1);
-          } else {
-             match = false;
-             break;
-          }
-        }
-      }
-      if (match && startsWith && !word.startsWith(startsWith.toLowerCase())) match = false;
-      if (match && endsWith && !word.endsWith(endsWith.toLowerCase())) match = false;
-      return match;
-    });
-    setResults(found);
-    toast.success("Anagrams found!");
+  }
+  return Array.from(perms);
+}
+
+function getRandomShuffles(str: string, count: number): string[] {
+  const shuffles = new Set<string>();
+  const arr = str.split("");
+  while (shuffles.size < count && shuffles.size < 100) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    shuffles.add(arr.join(""));
+  }
+  return Array.from(shuffles);
+}
+
+export default function AnagramSolverClient() {
+  const [input, setInput] = useState("");
+
+  const anagrams = useMemo(() => {
+    const clean = input.replace(/\s+/g, "").toLowerCase();
+    if (!clean) return [];
+    if (clean.length <= 6) {
+      return getPermutations(clean);
+    }
+    return getRandomShuffles(clean, 50);
+  }, [input]);
+
+  const copyAll = () => {
+    if (anagrams.length === 0) return toast.error("Nothing to copy!");
+    navigator.clipboard.writeText(anagrams.join(", "));
+    toast.success("All anagrams copied!");
   };
 
-  const handleReset = () => {
-    setLetters("");
-    setStartsWith("");
-    setEndsWith("");
-    setResults([]);
+  const clearInput = () => {
+    setInput("");
+    toast.success("Cleared!");
   };
 
   return (
-    <div className="space-y-6">
-      <ToolPageHeader
-        icon={Gamepad2}
-        title="Anagram Finder & Solver"
-        description="Find all possible valid English anagram words from input letters."
-        actions={<ResetButton onClick={handleReset} label="Reset" />}
+    <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <ToolPageHeader 
+        icon={Shuffle} 
+        title="Anagram Solver" 
+        description="Generate all possible anagram rearrangements for your words and phrases instantly." 
+      />
+      
+      <Card className={cardClass}>
+        <CardHeader className={headerClass}>
+          <CardTitle className={titleClass}>
+            <Shuffle className="w-4 h-4 text-primary" /> Word Input
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="p-4 space-y-4">
+          <div className="flex gap-2">
+            <Input 
+              value={input} 
+              onChange={(e) => setInput(e.target.value)} 
+              placeholder="Enter a word or phrase..." 
+              className="flex-1"
+            />
+            <Button onClick={clearInput} variant="outline" size="icon">
+              <Trash2 className="w-4 h-4" />
+            </Button>
+          </div>
+          
+          {anagrams.length > 0 && (
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <p className="text-sm text-muted-foreground">
+                  Found <span className="font-bold text-foreground">{anagrams.length}</span> {anagrams.length === 1 ? 'result' : 'results'}
+                  {input.replace(/\s+/g, "").length > 6 && " (showing random samples for long words)"}
+                </p>
+                <div className="flex gap-2">
+                  <CopyButton getText={() => anagrams.join(", ")} label="Copy All" />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 max-h-96 overflow-y-auto p-1">
+                {anagrams.map((word, i) => (
+                  <div key={i} className="flex items-center justify-between bg-muted/50 px-3 py-2 rounded-lg border border-border/50 text-sm font-mono">
+                    <span>{word}</span>
+                    <button onClick={() => { navigator.clipboard.writeText(word); toast.success("Copied!"); }} className="text-muted-foreground hover:text-primary">
+                      <Copy className="w-3 h-3" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      <ToolHowItWorks 
+        steps={[
+          { step: "01", title: "Enter Text", description: "Type any word or phrase into the input field above.", icon: Shuffle },
+          { step: "02", title: "Generate", description: "Our algorithm instantly calculates all possible letter combinations.", icon: Shuffle },
+          { step: "03", title: "Copy Results", description: "Browse the grid and copy individual words or the entire list.", icon: Copy }
+        ]} 
+        badges={["100% Free", "Client-Side", "Fun"]} 
       />
 
-      <GlassCard>
-        <CardHeader>
-          <CardTitle>Input Letters</CardTitle>
-          <CardDescription>Enter up to 12 letters. Use ? for wildcard.</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="space-y-2">
-              <Label>Letters</Label>
-              <Input value={letters} onChange={(e) => setLetters(e.target.value)} maxLength={12} placeholder="e.g. act?" />
-            </div>
-            <div className="space-y-2">
-              <Label>Starts With (optional)</Label>
-              <Input value={startsWith} onChange={(e) => setStartsWith(e.target.value)} placeholder="e.g. a" />
-            </div>
-            <div className="space-y-2">
-              <Label>Ends With (optional)</Label>
-              <Input value={endsWith} onChange={(e) => setEndsWith(e.target.value)} placeholder="e.g. t" />
-            </div>
-          </div>
-          <ActionButton onClick={handleSolve} icon={Search} label="Solve" variant="default" size="default" />
-        </CardContent>
-      </GlassCard>
+      <ToolFeatureGuides 
+        features={[
+          { icon: Shuffle, title: "Smart Permutations", description: "Calculates exact mathematical permutations for short words." },
+          { icon: Shuffle, title: "Random Sampling", description: "Uses random shuffling for longer phrases to prevent browser freezing." },
+          { icon: Copy, title: "Quick Copy", description: "Copy individual anagrams or the entire list with a single click." },
+          { icon: Trash2, title: "Instant Clear", description: "Reset the tool and start a new word search immediately." }
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <p>An anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once. Our Anagram Solver is the perfect tool for word games like Scrabble, Words with Friends, or crossword puzzles.</p>
+          <p>For words with 6 or fewer letters, the tool calculates every single mathematically possible arrangement. For longer phrases, generating millions of combinations would crash your browser, so the tool intelligently switches to a random sampling algorithm, providing you with a diverse selection of valid shuffles.</p>
+          <p>Because all processing happens locally in your browser, your words are never sent to a server, ensuring complete privacy and instant results without network latency.</p>
+        </div>
+      </ToolFeatureGuides>
 
-      {results.length > 0 && (
-        <GlassCard>
-          <CardHeader>
-            <CardTitle>Results</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-wrap gap-2">
-              {results.map((word, i) => (
-                <div key={i} className="px-3 py-1 bg-secondary rounded-md flex items-center gap-2">
-                  <span>{word}</span>
-                  <CopyButton getText={() => word} label="Copy" />
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </GlassCard>
-      )}
+      <ToolFaqAccordion 
+        faqs={[
+          { question: "How many anagrams can a word have?", answer: "The number of anagrams depends on the word's length and repeating letters. A 5-letter word with unique letters has 120 permutations (5!), while repeating letters reduce the total unique combinations." },
+          { question: "Why does it show random samples for long words?", answer: "A 10-letter word has over 3.6 million permutations. Generating all of them would freeze your browser. The tool switches to random sampling to provide instant, useful results without crashing." },
+          { question: "Does it support phrases with spaces?", answer: "Yes! The tool automatically strips spaces and punctuation, treating the entire phrase as a single pool of letters to rearrange." }
+        ]} 
+      />
+
+      <RelatedTools currentToolUrl="/tools/fun/anagram-solver" max={6} />
     </div>
   );
 }

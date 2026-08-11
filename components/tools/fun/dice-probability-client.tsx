@@ -1,179 +1,186 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { ResetButton } from "@/components/shared/action-buttons";
-import { Separator } from "@/components/ui/separator";
-import { Dices, BarChart3, Calculator, Percent } from "lucide-react";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dices, BarChart3, Calculator, TrendingUp } from "lucide-react";
 
-export function DiceProbabilityClient() {
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
+
+const DICE_TYPES = [
+  { label: "d4", sides: 4 },
+  { label: "d6", sides: 6 },
+  { label: "d8", sides: 8 },
+  { label: "d10", sides: 10 },
+  { label: "d12", sides: 12 },
+  { label: "d20", sides: 20 }
+];
+
+export default function DiceProbabilityClient() {
   const [numDice, setNumDice] = useState(2);
-  const [sides, setSides] = useState(6);
-  const [condition, setCondition] = useState("exact");
-  const [targetVal, setTargetVal] = useState(7);
-  const [targetValMax, setTargetValMax] = useState(8);
+  const [diceIdx, setDiceIdx] = useState(1); // d6 default
 
-  const calculateDistribution = (n: number, s: number) => {
-    let dp = new Array(n * s + 1).fill(0);
-    dp[0] = 1;
+  const sides = DICE_TYPES[diceIdx].sides;
 
-    for (let i = 1; i <= n; i++) {
-      const nextDp = new Array(n * s + 1).fill(0);
-      for (let j = 1; j <= i * s; j++) {
-        for (let k = 1; k <= s; k++) {
-          if (j - k >= 0) {
-            nextDp[j] += dp[j - k];
+  const stats = useMemo(() => {
+    const minSum = numDice;
+    const maxSum = numDice * sides;
+    const dp: number[][] = Array(numDice + 1).fill(0).map(() => Array(maxSum + 1).fill(0));
+    
+    for (let i = 1; i <= sides; i++) {
+      dp[1][i] = 1;
+    }
+
+    for (let i = 2; i <= numDice; i++) {
+      for (let j = i; j <= i * sides; j++) {
+        for (let k = 1; k <= sides; k++) {
+          if (j - k >= i - 1) {
+            dp[i][j] += dp[i - 1][j - k];
           }
         }
       }
-      dp = nextDp;
     }
-    return dp;
-  };
 
-  const distribution = useMemo(() => calculateDistribution(numDice, sides), [numDice, sides]);
-  const totalOutcomes = Math.pow(sides, numDice);
+    const totalOutcomes = Math.pow(sides, numDice);
+    const distribution = [];
+    let maxProb = 0;
 
-  let favorableOutcomes = 0;
-  if (condition === "exact") {
-    favorableOutcomes = distribution[targetVal] || 0;
-  } else if (condition === "at_least") {
-    for (let i = targetVal; i < distribution.length; i++) {
-      favorableOutcomes += distribution[i] || 0;
+    for (let i = minSum; i <= maxSum; i++) {
+      const ways = dp[numDice][i];
+      const prob = ways / totalOutcomes;
+      if (prob > maxProb) maxProb = prob;
+      distribution.push({ sum: i, ways, prob });
     }
-  } else if (condition === "at_most") {
-    for (let i = 0; i <= targetVal; i++) {
-      favorableOutcomes += distribution[i] || 0;
-    }
-  } else if (condition === "between") {
-    for (let i = targetVal; i <= targetValMax; i++) {
-      favorableOutcomes += distribution[i] || 0;
-    }
-  }
 
-  const probability = favorableOutcomes / totalOutcomes;
-  
-  const expectedValue = numDice * ((sides + 1) / 2);
-  const variance = numDice * ((sides * sides - 1) / 12);
-  const stdDev = Math.sqrt(variance);
+    const expectedValue = numDice * (sides + 1) / 2;
+    const variance = numDice * (Math.pow(sides, 2) - 1) / 12;
+
+    return { distribution, totalOutcomes, expectedValue, variance, maxProb, minSum, maxSum };
+  }, [numDice, sides]);
 
   return (
-    <div className="space-y-6">
-      <ToolPageHeader
-        icon={Dices}
-        title="Dice Probability Calculator"
-        description="Calculate probabilities for dice rolls. See the distribution of outcomes and odds."
-        actions={
-          <ResetButton onClick={() => {
-            setNumDice(2);
-            setSides(6);
-            setCondition("exact");
-            setTargetVal(7);
-          }} label="Reset" />
-        }
+    <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <ToolPageHeader 
+        icon={Dices} 
+        title="Dice Probability Calculator" 
+        description="Calculate exact probability distributions, expected values, and variances for any dice combination." 
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-        <div className="md:col-span-4 space-y-6">
-          <GlassCard>
-            <CardHeader>
-              <CardTitle>Configuration</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label>Number of Dice (1-10)</Label>
-                <Input type="number" min="1" max="10" value={numDice} onChange={(e) => setNumDice(Math.max(1, Math.min(10, parseInt(e.target.value) || 1)))} />
+      <Card className={cardClass}>
+        <CardHeader className={headerClass}>
+          <CardTitle className={titleClass}>Configuration</CardTitle>
+        </CardHeader>
+        <CardContent className="p-6 space-y-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Number of Dice (1-6)</label>
+              <input 
+                type="range" 
+                min="1" 
+                max="6" 
+                value={numDice} 
+                onChange={(e) => setNumDice(parseInt(e.target.value))}
+                className="w-full accent-primary"
+              />
+              <div className="text-center font-bold text-lg">{numDice}</div>
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Dice Type</label>
+              <div className="grid grid-cols-3 gap-2">
+                {DICE_TYPES.map((d, idx) => (
+                  <button
+                    key={d.label}
+                    onClick={() => setDiceIdx(idx)}
+                    className={`p-2 rounded-lg border text-sm font-semibold transition-all ${
+                      diceIdx === idx ? "bg-primary text-primary-foreground border-primary" : "bg-background border-border hover:border-primary"
+                    }`}
+                  >
+                    {d.label}
+                  </button>
+                ))}
               </div>
-              <div className="space-y-2">
-                <Label>Sides per Die</Label>
-                <Select value={sides.toString()} onValueChange={(val) => setSides(parseInt(val))}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {[4, 6, 8, 10, 12, 20, 100].map((s) => (
-                      <SelectItem key={s} value={s.toString()}>d{s}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <Separator />
-              <div className="space-y-2">
-                <Label>Condition</Label>
-                <Select value={condition} onValueChange={setCondition}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="exact">Exact Sum</SelectItem>
-                    <SelectItem value="at_least">At Least (≥)</SelectItem>
-                    <SelectItem value="at_most">At Most (≤)</SelectItem>
-                    <SelectItem value="between">Between (Inclusive)</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label>Target Value</Label>
-                <Input type="number" value={targetVal} onChange={(e) => setTargetVal(parseInt(e.target.value) || 0)} />
-              </div>
-              {condition === "between" && (
-                <div className="space-y-2">
-                  <Label>Max Target Value</Label>
-                  <Input type="number" value={targetValMax} onChange={(e) => setTargetValMax(parseInt(e.target.value) || 0)} />
-                </div>
-              )}
-            </CardContent>
-          </GlassCard>
+            </div>
+          </div>
 
-          <GlassCard>
-            <CardHeader>
-              <CardTitle>Presets</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-col gap-2">
-                <Button variant="outline" className="justify-start" onClick={() => { setNumDice(2); setSides(20); setCondition("at_least"); setTargetVal(15); }}>D&D Advantage (approx)</Button>
-                <Button variant="outline" className="justify-start" onClick={() => { setNumDice(2); setSides(6); setCondition("exact"); setTargetVal(7); }}>Monopoly (2d6)</Button>
-                <Button variant="outline" className="justify-start" onClick={() => { setNumDice(5); setSides(6); setCondition("at_least"); setTargetVal(15); }}>Yahtzee (5d6)</Button>
-              </div>
-            </CardContent>
-          </GlassCard>
-        </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-border/50">
+            <div className="p-4 bg-muted/50 rounded-xl text-center">
+              <p className="text-xs text-muted-foreground uppercase">Total Outcomes</p>
+              <p className="text-2xl font-bold">{stats.totalOutcomes.toLocaleString()}</p>
+            </div>
+            <div className="p-4 bg-muted/50 rounded-xl text-center">
+              <p className="text-xs text-muted-foreground uppercase">Expected Value</p>
+              <p className="text-2xl font-bold">{stats.expectedValue.toFixed(2)}</p>
+            </div>
+            <div className="p-4 bg-muted/50 rounded-xl text-center">
+              <p className="text-xs text-muted-foreground uppercase">Variance</p>
+              <p className="text-2xl font-bold">{stats.variance.toFixed(2)}</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
-        <div className="md:col-span-8 space-y-6">
-          <GlassCard>
-            <CardHeader>
-              <CardTitle>Probability Results</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
-                <div className="bg-primary/10 p-4 rounded-xl border border-primary/20 flex flex-col justify-center items-center">
-                  <div className="text-sm font-medium text-muted-foreground mb-1">
-                    Probability
+      <Card className={cardClass}>
+        <CardHeader className={headerClass}>
+          <CardTitle className={titleClass}>Probability Distribution</CardTitle>
+        </CardHeader>
+        <CardContent className="p-6">
+          <div className="flex items-end justify-between gap-1 h-64 w-full overflow-x-auto pb-8 relative">
+            {stats.distribution.map((d) => {
+              const heightPercent = (d.prob / stats.maxProb) * 100;
+              return (
+                <div key={d.sum} className="flex flex-col items-center flex-1 min-w-[20px] group relative h-full justify-end">
+                  <div className="absolute bottom-full mb-2 hidden group-hover:block bg-popover text-popover-foreground text-xs p-2 rounded shadow-lg z-10 whitespace-nowrap">
+                    Sum: {d.sum}<br/>
+                    Ways: {d.ways}<br/>
+                    Prob: {(d.prob * 100).toFixed(2)}%
                   </div>
-                  <div className="text-4xl font-bold text-primary">{((probability || 0) * 100).toFixed(2)}%</div>
-                  <div className="text-xs mt-1 text-muted-foreground">{favorableOutcomes} / {totalOutcomes}</div>
+                  <div 
+                    className="w-full bg-primary/80 hover:bg-primary rounded-t transition-all" 
+                    style={{ height: `${heightPercent}%` }}
+                  />
+                  <span className="absolute -bottom-6 text-xs text-muted-foreground">{d.sum}</span>
                 </div>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between p-2 rounded bg-muted/50">
-                    <span className="text-muted-foreground">Expected Value (Mean)</span>
-                    <span className="font-medium">{expectedValue.toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between p-2 rounded bg-muted/50">
-                    <span className="text-muted-foreground">Standard Deviation</span>
-                    <span className="font-medium">{stdDev.toFixed(2)}</span>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </GlassCard>
+              );
+            })}
+          </div>
+        </CardContent>
+      </Card>
+
+      <ToolHowItWorks 
+        steps={[
+          { step: "01", title: "Select Dice Count", description: "Use the slider to choose how many dice you want to roll (from 1 to 6).", icon: Dices },
+          { step: "02", title: "Choose Dice Type", description: "Pick your preferred dice type, from standard d6 to D&D style d20.", icon: Calculator },
+          { step: "03", title: "Analyze Results", description: "View the interactive histogram and statistical breakdown instantly.", icon: BarChart3 }
+        ]} 
+        badges={["100% Free", "Client-Side", "Fun"]} 
+      />
+
+      <ToolFeatureGuides features={[
+        { icon: Dices, title: "Multiple Dice Types", description: "Support for d4, d6, d8, d10, d12, and d20 for tabletop RPGs and statistics." },
+        { icon: BarChart3, title: "Visual Histogram", description: "A dynamic bar chart visualizes the exact probability curve of your dice pool." },
+        { icon: Calculator, title: "Exact Math", description: "Calculates true combinations, expected value, and variance using dynamic programming." },
+        { icon: TrendingUp, title: "Hover Tooltips", description: "Hover over any bar to see the exact number of ways to roll that specific sum." }
+      ]}>
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <p>Understanding dice probability is crucial for tabletop gamers, statisticians, and game designers. When you roll multiple dice, the distribution of possible sums forms a bell curve, heavily favoring the middle numbers.</p>
+          <p>This calculator uses dynamic programming to compute the exact number of ways to achieve every possible sum, rather than relying on Monte Carlo simulations. This means the percentages, expected values, and variances provided are mathematically exact.</p>
+          <p>Whether you are trying to optimize your character's damage output in Dungeons & Dragons, or teaching a statistics class about the Central Limit Theorem, this tool provides instant, reliable data without requiring any server-side processing.</p>
         </div>
-      </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion faqs={[
+        { question: "How is the expected value calculated?", answer: "The expected value (mean) for 'n' dice with 's' sides is calculated using the formula: n * (s + 1) / 2." },
+        { question: "Why do middle numbers have higher probabilities?", answer: "There are simply more combinations of individual dice rolls that add up to middle numbers than to extreme minimum or maximum numbers." },
+        { question: "Can I use this for board game strategy?", answer: "Absolutely. Knowing the exact probability of rolling a specific sum can heavily inform risk assessment in games like Settlers of Catan or Risk." }
+      ]} />
+
+      <RelatedTools currentToolUrl="/tools/fun/dice-probability" max={6} />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { NumberGuessClient } from "@/components/tools/fun/number-guess-client";
+import NumberGuessClient from "@/components/tools/fun/number-guess-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

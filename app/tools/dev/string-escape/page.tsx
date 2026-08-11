@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { StringEscapeClient } from "@/components/tools/dev/string-escape-client";
+import StringEscapeClient from "@/components/tools/dev/string-escape-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

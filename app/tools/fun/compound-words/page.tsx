@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { CompoundWordsClient } from "@/components/tools/fun/compound-words-client";
+import CompoundWordsClient from "@/components/tools/fun/compound-words-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

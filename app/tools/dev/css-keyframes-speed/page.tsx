@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { CssKeyframesSpeedClient } from "@/components/tools/dev/css-keyframes-speed-client";
+import CssKeyframesSpeedClient from "@/components/tools/dev/css-keyframes-speed-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

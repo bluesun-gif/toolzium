@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { TriviaGeneratorClient } from "@/components/tools/fun/trivia-client";
+import TriviaGeneratorClient from "@/components/tools/fun/trivia-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

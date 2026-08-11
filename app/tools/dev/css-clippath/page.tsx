@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { CssClippathClient } from "@/components/tools/dev/css-clippath-client";
+import CssClippathClient from "@/components/tools/dev/css-clippath-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

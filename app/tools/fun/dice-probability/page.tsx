@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { DiceProbabilityClient } from "@/components/tools/fun/dice-probability-client";
+import DiceProbabilityClient from "@/components/tools/fun/dice-probability-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

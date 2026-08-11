@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { Magic8BallClient } from "@/components/tools/fun/magic-8-ball-client";
+import Magic8BallClient from "@/components/tools/fun/magic-8-ball-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

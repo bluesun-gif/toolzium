@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { TruthOrDareClient } from "@/components/tools/fun/truth-or-dare-client";
+import TruthOrDareClient from "@/components/tools/fun/truth-or-dare-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

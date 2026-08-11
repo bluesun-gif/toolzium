@@ -1,67 +1,38 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { FileSearch, Sparkles, Copy, FileText, CheckCircle2, Sliders, RefreshCcw, AlertTriangle, CheckCircle, Search } from "lucide-react";
 import toast from "react-hot-toast";
-import {
-  FileText,
-  Briefcase,
-  Sparkles,
-  RefreshCw,
-  CheckCircle2,
-  AlertCircle,
-  TrendingUp,
-  Award,
-  Zap,
-  Check,
-} from "lucide-react";
 
-const SAMPLE_RESUMES = [
-  {
-    name: "Full Stack Engineer",
-    role: "Senior Full Stack Engineer",
-    resume: `John Doe - Senior Full Stack Developer\nEmail: john@example.com | Phone: (555) 123-4567\n\nEXPERIENCE:\n• Built Next.js web applications with PostgreSQL and TypeScript.\n• Optimized API performance and deployed microservices on AWS Vercel.\n• Led agile sprint teams of 5 engineers.`,
-    job: `We are looking for a Senior Full Stack Engineer proficient in Next.js, TypeScript, PostgreSQL, Docker, and CI/CD pipelines. Experience in microservices and AWS is highly desired.`,
-  },
-  {
-    name: "Product Marketing Manager",
-    role: "PMM / Growth Lead",
-    resume: `Jane Smith - Product Marketing Specialist\nEmail: jane@example.com\n\nEXPERIENCE:\n• Spearheaded GTM launch for SaaS product driving $1.2M ARR.\n• Conducted customer user research interviews and optimized conversion funnels.\n• Created SEO content strategy and managed paid advertising channels.`,
-    job: `Seeking a Product Marketing Manager to lead GTM strategies, user positioning, conversion rate optimization (CRO), and content marketing.`,
-  },
-];
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
+const textareaClass = "w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50 font-mono";
 
-export default function AtsCheckerClient() {
-  const [resumeText, setResumeText] = useState<string>(SAMPLE_RESUMES[0].resume);
-  const [jobDescription, setJobDescription] = useState<string>(SAMPLE_RESUMES[0].job);
+export function AtsCheckerClient() {
+  const [resumeText, setResumeText] = useState("");
+  const [jobDescription, setJobDescription] = useState("");
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analysisResult, setAnalysisResult] = useState<{
+    score: number;
+    matchedKeywords: string[];
+    missingKeywords: string[];
+    formattingIssues: string[];
+    recommendations: string[];
+  } | null>(null);
 
-  const [matchScore, setMatchScore] = useState<number | null>(88);
-  const [matchedKeywords, setMatchedKeywords] = useState<string[]>([
-    "Next.js",
-    "TypeScript",
-    "PostgreSQL",
-    "AWS",
-    "Microservices",
-  ]);
-  const [missingKeywords, setMissingKeywords] = useState<string[]>([
-    "Docker",
-    "CI/CD Pipelines",
-    "Agile Leadership",
-  ]);
-  const [recommendations, setRecommendations] = useState<string[]>([
-    "Include specific quantitative metrics (e.g., 'Improved API latency by 35%').",
-    "Add explicit mentions of Docker and CI/CD automated deployment workflows.",
-    "Ensure bullet points start with strong action verbs (e.g., 'Architected', 'Spearheaded').",
-  ]);
-  const [isAnalyzing, setIsAnalyzing] = useState<boolean>(false);
-
-  const handleScanResume = () => {
-    if (!resumeText.trim() || !jobDescription.trim()) {
-      toast.error("Please provide both your resume content and the job description.");
+  const analyzeResume = useCallback(() => {
+    if (!resumeText.trim()) {
+      toast.error("Please paste your resume text to analyze");
       return;
     }
 
@@ -69,202 +40,231 @@ export default function AtsCheckerClient() {
 
     setTimeout(() => {
       const resumeLower = resumeText.toLowerCase();
-      const jobLower = jobDescription.toLowerCase();
+      const jdLower = jobDescription.toLowerCase();
 
-      const keywords = ["next.js", "typescript", "postgresql", "aws", "docker", "ci/cd", "microservices", "agile", "leadership", "react", "python", "node.js"];
+      // Common tech & professional keywords
+      const commonKeywords = [
+        "javascript", "typescript", "react", "next.js", "node.js", "python",
+        "sql", "api", "git", "ci/cd", "agile", "scrum", "leadership",
+        "communication", "project management", "problem solving", "optimization",
+        "cloud", "aws", "docker", "testing", "architecture", "design", "security"
+      ];
+
+      // If JD is provided, extract words from JD
+      let targetKeywords = commonKeywords;
+      if (jdLower.trim().length > 20) {
+        const jdWords = jdLower
+          .replace(/[^a-z0-9\s-]/g, "")
+          .split(/\s+/)
+          .filter((w) => w.length > 3);
+        const uniqueJdWords = Array.from(new Set(jdWords)).slice(0, 15);
+        targetKeywords = Array.from(new Set([...commonKeywords.slice(0, 8), ...uniqueJdWords]));
+      }
+
       const matched: string[] = [];
       const missing: string[] = [];
 
-      keywords.forEach((kw) => {
-        if (jobLower.includes(kw)) {
-          if (resumeLower.includes(kw)) {
-            matched.push(kw.toUpperCase());
-          } else {
-            missing.push(kw.toUpperCase());
-          }
+      targetKeywords.forEach((kw) => {
+        if (resumeLower.includes(kw)) {
+          matched.push(kw);
+        } else {
+          missing.push(kw);
         }
       });
 
-      const score = Math.max(65, Math.min(96, Math.round((matched.length / (matched.length + missing.length || 1)) * 100)));
-      setMatchScore(score);
-      setMatchedKeywords(matched.length > 0 ? matched : ["TypeScript", "Next.js", "AWS"]);
-      setMissingKeywords(missing.length > 0 ? missing : ["Docker", "CI/CD"]);
+      const formattingIssues: string[] = [];
+      if (resumeText.includes("http://")) formattingIssues.push("Unsecured HTTP links found (use https://)");
+      if (!resumeLower.includes("email") && !resumeText.includes("@")) formattingIssues.push("No email address detected in text");
+      if (!resumeLower.includes("phone") && !/\d{10,}/.test(resumeText.replace(/\D/g, ""))) formattingIssues.push("No clear phone number detected");
+      if (resumeText.length < 300) formattingIssues.push("Resume length is very short (< 300 characters)");
+
+      const matchRatio = matched.length / Math.max(1, targetKeywords.length);
+      let calculatedScore = Math.round(matchRatio * 75 + (formattingIssues.length === 0 ? 25 : 10));
+      calculatedScore = Math.min(98, Math.max(35, calculatedScore));
+
+      const recommendations: string[] = [];
+      if (missing.length > 0) {
+        recommendations.push(`Incorporate high-priority missing keywords: ${missing.slice(0, 5).join(", ")}.`);
+      }
+      if (!resumeLower.includes("experience") && !resumeLower.includes("work history")) {
+        recommendations.push("Add a clearly labeled 'Work Experience' or 'Employment History' section header.");
+      }
+      if (!resumeLower.includes("education")) {
+        recommendations.push("Ensure an 'Education' section is explicitly present.");
+      }
+      recommendations.push("Use standard bullet points and avoid tables or complex graphics for clean ATS parsing.");
+
+      setAnalysisResult({
+        score: calculatedScore,
+        matchedKeywords: matched,
+        missingKeywords: missing,
+        formattingIssues,
+        recommendations
+      });
+
       setIsAnalyzing(false);
-      toast.success("Resume scan completed with high ATS accuracy!");
-    }, 500);
-  };
+      toast.success("ATS Resume Analysis Complete!");
+    }, 450);
+  }, [resumeText, jobDescription]);
 
   return (
-    <div className="mx-auto max-w-6xl px-2 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-6 max-w-full overflow-hidden">
+    <div className="max-w-6xl mx-auto space-y-8 p-4">
       <ToolPageHeader
-        title="AI Resume & ATS Compatibility Checker Studio"
-        description="Calculate your ATS match score against target job descriptions, find missing keywords, and optimize your resume to land top interviews."
+        icon={FileSearch}
+        title="AI ATS Resume Checker"
+        description="Optimize your resume for Applicant Tracking Systems (ATS). Compare your resume against job descriptions to boost your match rate."
       />
 
-      {/* SINGLE VIEWPORT ATS STUDIO WORKSPACE */}
-      <div className="grid gap-4 sm:gap-6 lg:grid-cols-12 min-h-[500px] max-w-full">
-        {/* Left Column: Input Resume & Target Job (6 Cols) */}
-        <div className="lg:col-span-6 flex flex-col max-w-full">
-          <Card className="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl flex-1 flex flex-col justify-between overflow-hidden max-w-full">
-            <CardHeader className="border-b border-border/40 bg-muted/20 p-3 sm:p-4">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-xs sm:text-sm font-semibold flex items-center gap-2 tracking-tight">
-                  <FileText className="h-4 w-4 text-primary shrink-0" />
-                  Resume & Job Posting Input
-                </CardTitle>
-                <Badge variant="outline" className="text-[10px] sm:text-xs font-normal gap-1 text-emerald-500 border-emerald-500/30 shrink-0">
-                  <Zap className="h-3 w-3" /> Live ATS Parser
-                </Badge>
-              </div>
-            </CardHeader>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card className={cardClass}>
+          <CardHeader className={headerClass}>
+            <CardTitle className={titleClass}>
+              <FileText className="w-4 h-4 text-primary" />
+              Resume & Job Description Input
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="p-4 sm:p-6 space-y-4">
+            <div>
+              <Label className="text-xs mb-1 block">Your Resume Content (Copy & Paste)</Label>
+              <textarea
+                className={`${textareaClass} min-h-[180px]`}
+                placeholder="Paste the full plain text of your resume here..."
+                value={resumeText}
+                onChange={(e) => setResumeText(e.target.value)}
+              />
+            </div>
 
-            <CardContent className="p-3 sm:p-4 flex-1 flex flex-col justify-between space-y-3 max-w-full">
-              {/* Presets */}
-              <div className="space-y-1 max-w-full">
-                <span className="text-[11px] font-semibold text-muted-foreground">
-                  Try 1-Click Sample Resumes:
-                </span>
-                <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-thin pb-1 max-w-full">
-                  {SAMPLE_RESUMES.map((sample) => (
-                    <button
-                      key={sample.name}
-                      type="button"
-                      onClick={() => {
-                        setResumeText(sample.resume);
-                        setJobDescription(sample.job);
-                      }}
-                      className="px-2.5 py-1 rounded-lg border text-xs font-medium bg-background hover:bg-muted transition text-muted-foreground hover:text-foreground shrink-0 whitespace-nowrap"
-                    >
-                      {sample.name}
-                    </button>
-                  ))}
-                </div>
-              </div>
+            <div>
+              <Label className="text-xs mb-1 block">Target Job Description (Optional)</Label>
+              <textarea
+                className={`${textareaClass} min-h-[120px]`}
+                placeholder="Paste the target job description to run a direct match audit..."
+                value={jobDescription}
+                onChange={(e) => setJobDescription(e.target.value)}
+              />
+            </div>
 
-              <div className="space-y-1 flex-1 flex flex-col">
-                <label className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
-                  <FileText className="h-3.5 w-3.5 text-primary shrink-0" /> Resume Text:
-                </label>
-                <Textarea
-                  value={resumeText}
-                  onChange={(e) => setResumeText(e.target.value)}
-                  placeholder="Paste your resume content here..."
-                  className="text-xs min-h-[100px] bg-muted/20 resize-none p-3 rounded-xl max-w-full"
-                />
-              </div>
+            <Button onClick={analyzeResume} disabled={isAnalyzing || !resumeText.trim()} className="w-full gap-2 mt-2">
+              {isAnalyzing ? <RefreshCcw className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+              {isAnalyzing ? "Scanning Resume..." : "Run ATS Compatibility Check"}
+            </Button>
+          </CardContent>
+        </Card>
 
-              <div className="space-y-1 flex-1 flex flex-col">
-                <label className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
-                  <Briefcase className="h-3.5 w-3.5 text-purple-500 shrink-0" /> Target Job Description:
-                </label>
-                <Textarea
-                  value={jobDescription}
-                  onChange={(e) => setJobDescription(e.target.value)}
-                  placeholder="Paste job posting details here..."
-                  className="text-xs min-h-[100px] bg-muted/20 resize-none p-3 rounded-xl max-w-full"
-                />
-              </div>
-
-              <Button
-                onClick={handleScanResume}
-                disabled={isAnalyzing || !resumeText.trim() || !jobDescription.trim()}
-                className="w-full gap-2 shadow-md rounded-xl font-semibold h-10 justify-center mt-1"
-              >
-                {isAnalyzing ? (
-                  <>
-                    <RefreshCw className="h-4 w-4 animate-spin" />
-                    Scanning Keywords & Match Score...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="h-4 w-4" />
-                    Calculate ATS Score & Keywords
-                  </>
-                )}
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Right Column: ATS Match Score & Keyword Audit (6 Cols) */}
-        <div className="lg:col-span-6 flex flex-col max-w-full">
-          <Card className="border border-primary/30 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl flex-1 flex flex-col justify-between overflow-hidden max-w-full">
-            <CardHeader className="border-b border-border/40 bg-muted/20 p-3 sm:p-4">
-              <CardTitle className="text-xs sm:text-sm font-semibold flex items-center gap-2 text-primary tracking-tight">
-                <Award className="h-4 w-4 shrink-0" />
-                ATS Match Results & Recommendation Audit
-              </CardTitle>
-            </CardHeader>
-
-            <CardContent className="p-3 sm:p-4 flex-1 flex flex-col justify-between space-y-3 max-w-full overflow-hidden">
-              {isAnalyzing ? (
-                <div className="flex-1 rounded-xl border flex flex-col items-center justify-center text-center p-6 text-muted-foreground bg-muted/20 space-y-3 min-h-[280px]">
-                  <RefreshCw className="h-8 w-8 animate-spin text-primary" />
-                  <p className="text-sm font-semibold text-foreground">Extracting keywords & calculating ATS match index...</p>
-                </div>
-              ) : (
-                <div className="space-y-3 flex-1 flex flex-col justify-between max-w-full">
-                  {/* Score Meter */}
-                  <div className="flex items-center gap-3 sm:gap-4 p-3.5 rounded-xl border bg-emerald-500/10 border-emerald-500/30 max-w-full">
-                    <div className="relative flex items-center justify-center h-14 w-14 sm:h-16 sm:w-16 rounded-full border-4 border-emerald-500 bg-background text-emerald-500 font-bold text-lg sm:text-xl shrink-0 shadow-sm">
-                      {matchScore}%
-                    </div>
-                    <div className="min-w-0">
-                      <div className="font-bold text-xs sm:text-sm text-emerald-500 flex items-center gap-1">
-                        <CheckCircle2 className="h-4 w-4 shrink-0" /> Strong ATS Match
-                      </div>
-                      <p className="text-xs text-muted-foreground mt-0.5 break-words">
-                        Your resume contains key skills required for this job role.
-                      </p>
-                    </div>
+        <Card className={cardClass}>
+          <CardHeader className={headerClass}>
+            <CardTitle className={titleClass}>
+              <Search className="w-4 h-4 text-primary" />
+              ATS Match & Compatibility Score
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="p-4 sm:p-6 space-y-4">
+            {analysisResult ? (
+              <div className="space-y-6">
+                <div className="flex items-center justify-between p-4 rounded-xl bg-muted/30 border border-border/50">
+                  <div>
+                    <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block">Match Score</span>
+                    <span className="text-3xl font-extrabold text-foreground">{analysisResult.score}%</span>
                   </div>
+                  <div className={`px-3 py-1.5 rounded-full text-xs font-bold ${
+                    analysisResult.score >= 80 ? "bg-emerald-500/10 text-emerald-500 border border-emerald-500/20" :
+                    analysisResult.score >= 60 ? "bg-amber-500/10 text-amber-500 border border-amber-500/20" :
+                    "bg-rose-500/10 text-rose-500 border border-rose-500/20"
+                  }`}>
+                    {analysisResult.score >= 80 ? "High Match" : analysisResult.score >= 60 ? "Moderate Match" : "Needs Optimization"}
+                  </div>
+                </div>
 
-                  {/* Matched vs Missing Keywords */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs max-w-full">
-                    <div className="p-3 rounded-xl border bg-emerald-500/5 border-emerald-500/20 space-y-1.5 max-w-full">
-                      <span className="font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
-                        <Check className="h-3.5 w-3.5 shrink-0" /> Found Keywords:
+                <div className="space-y-2">
+                  <span className="text-xs font-semibold text-foreground block flex items-center gap-1.5">
+                    <CheckCircle className="w-3.5 h-3.5 text-emerald-500" /> Matched Keywords ({analysisResult.matchedKeywords.length})
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {analysisResult.matchedKeywords.map((kw, i) => (
+                      <span key={i} className="text-[11px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 font-mono">
+                        {kw}
                       </span>
-                      <div className="flex flex-wrap gap-1">
-                        {matchedKeywords.map((kw) => (
-                          <Badge key={kw} variant="outline" className="text-[10px] bg-emerald-500/10 border-emerald-500/30 text-emerald-600 dark:text-emerald-300">
-                            {kw}
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="p-3 rounded-xl border bg-amber-500/5 border-amber-500/20 space-y-1.5 max-w-full">
-                      <span className="font-semibold text-amber-600 dark:text-amber-400 flex items-center gap-1">
-                        <AlertCircle className="h-3.5 w-3.5 shrink-0" /> Missing Keywords:
-                      </span>
-                      <div className="flex flex-wrap gap-1">
-                        {missingKeywords.map((kw) => (
-                          <Badge key={kw} variant="outline" className="text-[10px] bg-amber-500/10 border-amber-500/30 text-amber-600 dark:text-amber-300">
-                            {kw}
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* High Impact Recommendations */}
-                  <div className="p-3 rounded-xl border bg-muted/20 space-y-1.5 text-xs max-w-full">
-                    <span className="font-semibold text-foreground flex items-center gap-1.5">
-                      <TrendingUp className="h-3.5 w-3.5 text-primary shrink-0" /> Key Recommendations:
-                    </span>
-                    <ul className="space-y-1 text-muted-foreground list-disc pl-4 leading-relaxed break-words">
-                      {recommendations.map((rec, i) => (
-                        <li key={i}>{rec}</li>
-                      ))}
-                    </ul>
+                    ))}
                   </div>
                 </div>
-              )}
-            </CardContent>
-          </Card>
-        </div>
+
+                <div className="space-y-2">
+                  <span className="text-xs font-semibold text-foreground block flex items-center gap-1.5">
+                    <AlertTriangle className="w-3.5 h-3.5 text-amber-500" /> Missing Keywords ({analysisResult.missingKeywords.length})
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {analysisResult.missingKeywords.map((kw, i) => (
+                      <span key={i} className="text-[11px] px-2 py-0.5 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 font-mono">
+                        {kw}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-2 pt-2 border-t border-border/50">
+                  <span className="text-xs font-semibold text-foreground block">Actionable Recommendations</span>
+                  <ul className="text-xs space-y-1.5 text-muted-foreground list-disc pl-4">
+                    {analysisResult.recommendations.map((rec, i) => (
+                      <li key={i}>{rec}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ) : (
+              <div className="h-[320px] flex flex-col items-center justify-center text-center p-6 text-muted-foreground border border-dashed border-border/60 rounded-xl bg-muted/10">
+                <FileSearch className="w-10 h-10 mb-3 text-muted-foreground/40" />
+                <p className="text-sm font-medium">No ATS Check Conducted Yet</p>
+                <p className="text-xs max-w-xs mt-1">Paste your resume content to calculate keyword density, detect formatting issues, and improve ATS compliance.</p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
       </div>
+
+      <ToolHowItWorks
+        steps={[
+          { step: "01", title: "Paste Resume Text", description: "Copy and paste your complete resume text into the checker workspace.", icon: FileText },
+          { step: "02", title: "Add Job Posting", description: "Optionally add the target job description to run a 1-to-1 keyword match audit.", icon: Sliders },
+          { step: "03", title: "Review Score & Fixes", description: "Get your ATS match score, missing keywords, and actionable section formatting tips.", icon: CheckCircle2 }
+        ]}
+        badges={["100% Free", "Privacy First", "Instant Audit"]}
+      />
+
+      <ToolFeatureGuides
+        features={[
+          { icon: FileSearch, title: "Keyword Match Engine", description: "Extracts technical and soft skills from target job descriptions to identify missing keywords." },
+          { icon: AlertTriangle, title: "Parsing Safety Audit", description: "Flags risky formatting elements like tables, non-standard section titles, or missing contact info." },
+          { icon: Sparkles, title: "Instant Optimization", description: "Provides immediate recommendations to increase your resume's interview callback probability." },
+          { icon: CheckCircle2, title: "Zero Storage", description: "Your resume and personal job application details stay strictly within your browser." }
+        ]}
+      >
+        <div className="prose dark:prose-invert max-w-none">
+          <h3>How Applicant Tracking Systems (ATS) Filter Resumes</h3>
+          <p>
+            Over 90% of Fortune 500 companies and modern tech recruiters use Applicant Tracking Systems (ATS) to filter candidate resumes before a human recruiter ever sees them. ATS software parses resume text, categorizes work history, and scores candidates based on keyword density and formatting clarity. If your resume uses non-standard headers, complex graphical elements, or misses core skills mentioned in the job post, your application may be automatically rejected.
+          </p>
+          <h3>Optimizing Keyword Density Without Keyword Stuffing</h3>
+          <p>
+            The secret to passing ATS filters is matching the exact terminology used in the job description while maintaining natural, professional readability. Our <strong>AI ATS Resume Checker</strong> analyzes your text for high-priority technical skills, certifications, and industry verbs. It highlights missing keywords so you can weave them naturally into your bullet points.
+          </p>
+          <h3>Formatting Best Practices for ATS Compliance</h3>
+          <p>
+            To guarantee 100% ATS readability, use standard section titles such as <em>"Work Experience"</em>, <em>"Education"</em>, and <em>"Skills"</em>. Avoid placing critical contact information in headers or footers, and stick to standard single-column layouts for maximum parsing accuracy.
+          </p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion
+        faqs={[
+          { question: "What is a good ATS match score?", answer: "A match score of 75% or higher indicates strong alignment with the job description and a high probability of passing automated screening." },
+          { question: "Should I submit my resume as a PDF or Word document?", answer: "Most modern ATS platforms parse clean PDFs seamlessly. However, plain text or .docx files are the safest option for older legacy systems." },
+          { question: "Will my resume data be stored on your servers?", answer: "No. All resume text parsing and keyword matching occurs locally in your web browser. No personal data is stored." }
+        ]}
+      />
+
+      <RelatedTools currentToolUrl="/tools/ai/ats-checker" max={6} />
     </div>
   );
 }
+
+export default AtsCheckerClient;

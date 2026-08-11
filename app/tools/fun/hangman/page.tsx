@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { HangmanClient } from "@/components/tools/fun/hangman-client";
+import HangmanClient from "@/components/tools/fun/hangman-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

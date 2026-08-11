@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { ReactionTimeClient } from "@/components/tools/fun/reaction-time-client";
+import ReactionTimeClient from "@/components/tools/fun/reaction-time-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

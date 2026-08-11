@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { MarkdownTableClient } from "@/components/tools/text/markdown-table-client";
+import MarkdownTableClient from "@/components/tools/text/markdown-table-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

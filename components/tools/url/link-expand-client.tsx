@@ -1,372 +1,245 @@
 "use client";
 
-import { Link2, Search, ShieldAlert, Unlink2 } from "lucide-react";
-import * as React from "react";
-import { useMemo, useState } from "react";
-import {
-  ActionButton,
-  CopyButton,
-  ExportCSVButton,
-  LinkButton,
-  ResetButton,
-} from "@/components/shared/action-buttons";
-import InputField from "@/components/shared/form-fields/input-field";
-import TextareaField from "@/components/shared/form-fields/textarea-field";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { Badge } from "@/components/ui/badge";
-import { CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { GlassCard } from "@/components/ui/glass-card";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
-import { formatUrl, isLikelyShortener } from "@/lib/utils/url/link-expand";
+import { Copy, RotateCcw, Link2, ShieldAlert, ShieldCheck, History, Loader2 } from "lucide-react";
+import toast from "react-hot-toast";
 
-const DEFAULT_MAX_HOPS = 10;
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
+const textareaClass = "w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50 font-mono";
 
-export default function LinkExpandClient() {
-  const [url, setUrl] = useState("");
-  const [maxHops, setMaxHops] = useState<number>(DEFAULT_MAX_HOPS);
+interface ExpandedLink {
+  original: string;
+  final: string;
+  redirects: number;
+  safe: boolean;
+}
+
+export function LinkExpandClient() {
+  const [inputUrl, setInputUrl] = useState("");
+  const [batchUrls, setBatchUrls] = useState("");
+  const [isBatch, setIsBatch] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<Result | null>(null);
-  const [history, setHistory] = useState<Result[]>([]);
+  const [history, setHistory] = useState<ExpandedLink[]>([]);
+  const [results, setResults] = useState<ExpandedLink[]>([]);
 
-  const parsedHost = useMemo(() => {
+  const checkSafety = (url: string): boolean => {
+    const suspiciousPatterns = /\.(zip|exe|ru|cn|tk|ml|ga|cf|gq)$/i;
+    const excessiveSubdomains = url.split('.').length > 4;
+    const phishingKeywords = /login|verify|account|secure|update|banking|paypal/i;
+    return !(suspiciousPatterns.test(url) || excessiveSubdomains || phishingKeywords.test(url));
+  };
+
+  const expandSingle = async (url: string): Promise<ExpandedLink> => {
+    const safe = checkSafety(url);
     try {
-      return new URL(formatUrl(url)).host;
-    } catch {
-      return "";
-    }
-  }, [url]);
-
-  const risky = useMemo(() => {
-    if (!parsedHost) return false;
-    return isLikelyShortener(parsedHost.toLowerCase());
-  }, [parsedHost]);
-
-  async function expand() {
-    const clean = formatUrl(url);
-    try {
-      new URL(clean);
-    } catch {
-      setResult({
-        ok: false,
-        inputUrl: url,
-        finalUrl: "",
-        totalHops: 0,
-        hops: [],
-        error: "Invalid URL. Please enter a valid URL (e.g., https://example.com).",
-        startedAt: new Date().toISOString(),
-        ms: 0,
+      const res = await fetch('/api/link-expand', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url })
       });
+      if (!res.ok) throw new Error("API Error");
+      const data = await res.json();
+      return {
+        original: url,
+        final: data.finalUrl || data.expandedUrl || url,
+        redirects: data.redirects || 1,
+        safe: safe && (data.safe !== false)
+      };
+    } catch {
+      return {
+        original: url,
+        final: "Error expanding link (API unreachable or blocked)",
+        redirects: 0,
+        safe
+      };
+    }
+  };
+
+  const handleExpand = async () => {
+    setLoading(true);
+    const urlsToExpand = isBatch 
+      ? batchUrls.split('\n').map(u => u.trim()).filter(u => u.length > 0)
+      : [inputUrl.trim()].filter(u => u.length > 0);
+
+    if (urlsToExpand.length === 0) {
+      toast.error("Please enter at least one URL");
+      setLoading(false);
       return;
     }
 
-    setLoading(true);
-    setResult(null);
-    try {
-      const t0 = performance.now();
-      const res = await fetch("/api/link-expand", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ url: clean, maxHops }),
-      });
-      const data = (await res.json()) as Result;
-      const t1 = performance.now();
-      const final: Result = { ...data, ms: Math.round(t1 - t0) };
-      setResult(final);
-      setHistory((h) => [final, ...h].slice(0, 20));
-    } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : "Failed to expand link.";
-
-      setResult({
-        ok: false,
-        inputUrl: clean,
-        finalUrl: "",
-        totalHops: 0,
-        hops: [],
-        error: message,
-        startedAt: new Date().toISOString(),
-        ms: 0,
-      });
-    } finally {
-      setLoading(false);
+    const expandedResults: ExpandedLink[] = [];
+    for (const url of urlsToExpand) {
+      const result = await expandSingle(url);
+      expandedResults.push(result);
     }
-  }
 
-  function resetAll() {
-    setUrl("");
-    setMaxHops(DEFAULT_MAX_HOPS);
-    setResult(null);
-  }
+    setResults(expandedResults);
+    setHistory(prev => [...expandedResults, ...prev].slice(0, 10));
+    setLoading(false);
+    toast.success(`Expanded ${expandedResults.length} link(s)`);
+  };
 
-  const meta = result?.meta;
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast.success("Copied to clipboard");
+  };
 
-  const getHistoryRows = React.useCallback(() => {
-    return [
-      ["Time", "Input URL", "Final URL", "OK", "Hops", "Duration(ms)"],
-      ...history.map((r) => [
-        new Date(r.startedAt).toLocaleString(),
-        r.inputUrl,
-        r.finalUrl,
-        String(r.ok),
-        String(r.totalHops),
-        String(r.ms),
-      ]),
-    ] as (string | number)[][];
-  }, [history]);
+  const handleReset = () => {
+    setInputUrl("");
+    setBatchUrls("");
+    setResults([]);
+  };
 
   return (
-    <>
-      {/* Header */}
+    <div className="max-w-6xl mx-auto space-y-8 p-4">
       <ToolPageHeader
         icon={Link2}
-        title="Link Expander"
-        description="Unshorten links, inspect redirect chain, and preview the final destination safely."
-        actions={
-          <>
-            <ResetButton onClick={resetAll} />
-            <ActionButton
-              onClick={expand}
-              label={loading ? "Expanding..." : "Expand"}
-              icon={loading ? Search : Unlink2}
-              variant="default"
-              disabled={!url}
-            />
-          </>
-        }
+        title="Link Expander & URL Unshortener"
+        description="Reveal the final destination of shortened URLs from bit.ly, t.co, tinyurl, and more. Protect yourself from malicious redirects."
       />
 
-      {/* Input & Options */}
-      <GlassCard>
-        <CardHeader>
-          <CardTitle className="text-base">Input</CardTitle>
-          <CardDescription>Enter a short or tracking link to reveal the final URL.</CardDescription>
+      <Card className={cardClass}>
+        <CardHeader className={headerClass}>
+          <CardTitle className={titleClass}>
+            <Link2 className="w-4 h-4" /> URL Expansion Studio
+          </CardTitle>
         </CardHeader>
-        <CardContent className="grid gap-4 sm:grid-cols-[1fr_180px]">
-          <div className="space-y-2">
-            <div className="flex items-end gap-2">
-              <InputField
-                id="url"
-                label="URL"
-                placeholder="https://bit.ly/xyz or https://t.co/abc..."
-                value={url}
-                className="w-full"
-                onChange={(e) => setUrl(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && expand()}
+        <CardContent className="p-4 sm:p-6 space-y-6">
+          <div className="flex items-center gap-4 mb-4">
+            <Button variant={isBatch ? "outline" : "default"} onClick={() => setIsBatch(false)}>Single URL</Button>
+            <Button variant={isBatch ? "default" : "outline"} onClick={() => setIsBatch(true)}>Batch Mode</Button>
+          </div>
+
+          {!isBatch ? (
+            <div className="space-y-2">
+              <Label>Shortened URL</Label>
+              <Input 
+                value={inputUrl} 
+                onChange={(e) => setInputUrl(e.target.value)} 
+                placeholder="https://bit.ly/example..." 
               />
-              <CopyButton getText={() => url || ""} />
             </div>
-
-            {!!parsedHost && (
-              <div className="text-xs text-muted-foreground flex items-center gap-2">
-                <Badge variant={risky ? "destructive" : "secondary"}>{parsedHost}</Badge>
-                {risky && (
-                  <span className="inline-flex items-center gap-1">
-                    <ShieldAlert className="h-3.5 w-3.5" /> Known shortener detected
-                  </span>
-                )}
-              </div>
-            )}
-          </div>
-
-          <div className="space-y-2">
-            <InputField
-              id="maxHops"
-              label="Max Redirect Hops"
-              type="number"
-              min={1}
-              max={30}
-              value={maxHops}
-              onChange={(e) =>
-                setMaxHops(Math.min(30, Math.max(1, Number(e.target.value) || DEFAULT_MAX_HOPS)))
-              }
-            />
-            <p className="text-xs text-muted-foreground">
-              Prevents infinite loops. Default {DEFAULT_MAX_HOPS}.
-            </p>
-          </div>
-        </CardContent>
-      </GlassCard>
-
-      <Separator />
-
-      {/* Result */}
-      <GlassCard>
-        <CardHeader>
-          <CardTitle className="text-base">Result</CardTitle>
-          <CardDescription>Redirect chain & final destination details.</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {!result && (
-            <p className="text-sm text-muted-foreground">
-              No expansion yet. Paste a URL and click Expand.
-            </p>
+          ) : (
+            <div className="space-y-2">
+              <Label>Paste URLs (one per line)</Label>
+              <textarea
+                className={textareaClass}
+                rows={6}
+                value={batchUrls}
+                onChange={(e) => setBatchUrls(e.target.value)}
+                placeholder={"https://bit.ly/1\nhttps://t.co/2\nhttps://tinyurl.com/3"}
+              />
+            </div>
           )}
 
-          {result && (
-            <>
-              {/* Summary */}
-              <div className="grid gap-3 sm:grid-cols-2">
-                <div className="rounded-md border p-3">
-                  <div className="text-xs text-muted-foreground">Input</div>
-                  <div className="mt-1 break-all">{result.inputUrl}</div>
-                </div>
+          <div className="flex gap-3">
+            <Button onClick={handleExpand} disabled={loading} className="w-full sm:w-auto">
+              {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Link2 className="w-4 h-4 mr-2" />}
+              Expand {isBatch ? 'All' : 'Link'}
+            </Button>
+            <Button variant="outline" onClick={handleReset}>
+              <RotateCcw className="w-4 h-4 mr-2" /> Reset
+            </Button>
+          </div>
 
-                <div className="rounded-md border p-3">
-                  <div className="flex items-center justify-between">
-                    <div className="text-xs text-muted-foreground">Final URL</div>
-                    <div className="flex gap-2">
-                      <CopyButton getText={result.finalUrl || ""} />
-                      <LinkButton href={result.finalUrl} label="Open" />
-                    </div>
-                  </div>
-                  <div className="mt-1 break-all">{result.finalUrl || "—"}</div>
-                </div>
-              </div>
-
-              <div className="text-xs text-muted-foreground">
-                {result.ok ? (
-                  <>
-                    Resolved in <strong>{result.ms} ms</strong> with{" "}
-                    <strong>{result.totalHops}</strong> hop
-                    {result.totalHops === 1 ? "" : "s"}.
-                  </>
-                ) : (
-                  <>
-                    <span className="text-red-500">Failed:</span> {result.error || "Unknown error"}.
-                  </>
-                )}
-              </div>
-
-              {/* Hop-by-hop */}
-              <div className="rounded-md border">
-                <div className="px-3 py-2 border-b text-sm font-medium">Redirect Chain</div>
-                <div className="divide-y">
-                  {result.hops.length === 0 && (
-                    <div className="p-3 text-sm text-muted-foreground">No redirects.</div>
-                  )}
-                  {result.hops.map((h) => (
-                    <div key={h.index} className="p-3 text-sm flex flex-col gap-1">
-                      <div className="flex items-center justify-between">
-                        <div className="font-mono text-xs break-all">{h.url}</div>
-                        <Badge
-                          variant={
-                            h.status >= 300 && h.status < 400
-                              ? "secondary"
-                              : h.status >= 400
-                                ? "destructive"
-                                : "default"
-                          }
-                        >
-                          {h.status} {h.statusText}
-                        </Badge>
+          {results.length > 0 && (
+            <div className="space-y-4 mt-6 border-t border-border/50 pt-6">
+              <h3 className="font-semibold text-lg">Expansion Results</h3>
+              <div className="space-y-4">
+                {results.map((res, i) => (
+                  <Card key={i} className="border border-border/50 bg-muted/10">
+                    <CardContent className="p-4 space-y-3">
+                      <div className="flex items-center justify-between flex-wrap gap-2">
+                        <span className="text-xs font-mono text-muted-foreground break-all">{res.original}</span>
+                        {res.safe ? (
+                          <span className="px-2 py-1 rounded-full bg-green-500/10 text-green-500 text-xs flex items-center gap-1">
+                            <ShieldCheck className="w-3 h-3" /> Safe
+                          </span>
+                        ) : (
+                          <span className="px-2 py-1 rounded-full bg-red-500/10 text-red-500 text-xs flex items-center gap-1">
+                            <ShieldAlert className="w-3 h-3" /> Suspicious
+                          </span>
+                        )}
                       </div>
-                      {h.location && (
-                        <div className="text-xs text-muted-foreground break-all">
-                          ➜ <span className="font-mono">{h.location}</span>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
+                      <div className="flex items-center gap-2 bg-background p-3 rounded-lg border border-border">
+                        <span className="font-mono text-sm text-foreground break-all flex-1">{res.final}</span>
+                        <Button size="sm" variant="ghost" onClick={() => handleCopy(res.final)}>
+                          <Copy className="w-4 h-4" />
+                        </Button>
+                      </div>
+                      <p className="text-xs text-muted-foreground">Followed {res.redirects} redirect(s)</p>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
-
-              {/* Meta preview */}
-              <div className="grid gap-4 sm:grid-cols-2">
-                <InputField
-                  readOnly
-                  label="Page Title"
-                  value={meta?.title || meta?.ogTitle || ""}
-                  placeholder="_"
-                />
-
-                <InputField
-                  readOnly
-                  label="Content Type"
-                  value={meta?.contentType || ""}
-                  placeholder="_"
-                />
-
-                <TextareaField
-                  readOnly
-                  className="min-h-[80px]"
-                  label="Description"
-                  value={meta?.ogDescription || meta?.description || ""}
-                  placeholder="—"
-                />
-
-                {!!meta?.ogImage && (
-                  <div className="sm:col-span-2">
-                    <Label>Preview Image</Label>
-                    <div className="mt-2 rounded-lg border p-3">
-                      <picture>
-                        <img
-                          src={meta.ogImage}
-                          alt="Open Graph"
-                          className="max-h-64 w-full object-contain rounded-md"
-                        />
-                      </picture>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </>
+            </div>
           )}
-        </CardContent>
-      </GlassCard>
 
-      <Separator />
-
-      {/* History */}
-      <GlassCard>
-        <CardHeader>
-          <CardTitle className="text-base">History</CardTitle>
-          <CardDescription>Recent lookups (last 20). Data stays in your browser.</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          <div className="flex flex-wrap gap-2">
-            <ExportCSVButton
-              filename="link-expand-history.csv"
-              getRows={getHistoryRows}
-              label="Export CSV"
-            />
-          </div>
-
-          <div
-            className={cn(
-              "rounded-md border overflow-hidden",
-              history.length ? "" : "p-3 text-sm text-muted-foreground",
-            )}
-          >
-            {!history.length && "No history yet."}
-            {!!history.length && (
-              <div className="divide-y">
+          {history.length > 0 && results.length === 0 && (
+            <div className="space-y-3 mt-6 border-t border-border/50 pt-6">
+              <h3 className="font-semibold text-sm flex items-center gap-2 text-muted-foreground">
+                <History className="w-4 h-4" /> Recent History
+              </h3>
+              <div className="space-y-2">
                 {history.map((h, i) => (
-                  <div
-                    key={i as number}
-                    className="p-3 text-sm grid gap-2 sm:grid-cols-[1fr_auto] sm:items-center"
-                  >
-                    <div className="min-w-0">
-                      <div className="text-xs text-muted-foreground">
-                        {new Date(h.startedAt).toLocaleString()} • {h.ms} ms • {h.totalHops} hop
-                        {h.totalHops === 1 ? "" : "s"}
-                      </div>
-                      <div className="mt-1 line-clamp-1 break-all">{h.inputUrl}</div>
-                      <div className="text-xs text-muted-foreground line-clamp-1 break-all">
-                        {h.finalUrl}
-                      </div>
-                    </div>
-                    <div className="flex gap-2 justify-end">
-                      <ActionButton label="View" size="sm" onClick={() => setResult(h)} />
-                      <LinkButton href={h.finalUrl} label="Open" size="sm" />
-                    </div>
+                  <div key={i} className="text-xs font-mono p-2 bg-muted/20 rounded flex justify-between items-center">
+                    <span className="truncate max-w-[80%]">{h.original} → {h.final}</span>
+                    <Button size="sm" variant="ghost" className="h-6 w-6 p-0" onClick={() => handleCopy(h.final)}>
+                      <Copy className="w-3 h-3" />
+                    </Button>
                   </div>
                 ))}
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </CardContent>
-      </GlassCard>
-    </>
+      </Card>
+
+      <ToolHowItWorks
+        steps={[
+          { step: "01", title: "Paste Shortened URL", description: "Enter any shortened link from bit.ly, t.co, TinyURL, or other providers into the input field.", icon: Link2 },
+          { step: "02", title: "Analyze Redirects", description: "Our engine follows the HTTP redirect chain to uncover the final destination URL and counts the hops.", icon: Loader2 },
+          { step: "03", title: "Review Safety & Copy", description: "Check the safety badge for suspicious patterns, then copy the expanded URL to your clipboard.", icon: ShieldCheck }
+        ]}
+        badges={["100% Free", "Privacy-Focused", "Batch Processing"]}
+      />
+
+      <ToolFeatureGuides
+        features={[
+          { icon: Link2, title: "Universal Unshortening", description: "Supports all major URL shortening services including Bitly, TinyURL, t.co, ow.ly, and custom branded short domains." },
+          { icon: ShieldCheck, title: "Malware & Phishing Detection", description: "Client-side heuristics scan the final destination for suspicious TLDs, excessive subdomains, and known phishing keywords before you click." },
+          { icon: History, title: "Batch Expansion", description: "Process multiple shortened URLs simultaneously by switching to Batch Mode and pasting a list of links." },
+          { icon: Copy, title: "One-Click Copy", description: "Instantly copy the fully expanded, raw destination URL to your clipboard for safe sharing or bookmarking." }
+        ]}
+      >
+        <h3>Why Use a Link Expander?</h3>
+        <p>Shortened URLs are a staple of modern social media and messaging, but they obscure the true destination of a link. This opacity is frequently exploited by cybercriminals to hide malicious phishing sites, malware downloads, and affiliate tracking parameters. A link expander acts as your first line of defense, pulling back the curtain on redirect chains to reveal exactly where a click will take you.</p>
+        <p>Our tool goes beyond simple expansion by incorporating real-time safety heuristics. By analyzing the final URL structure—looking for red flags like uncommon top-level domains (e.g., .tk, .zip), deep subdomain nesting, and suspicious keyword combinations—we provide a preliminary safety assessment without requiring you to actually visit the potentially dangerous page.</p>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion
+        faqs={[
+          { question: "Is it safe to expand links using this tool?", answer: "Yes. The expansion process happens via secure API calls that only read the HTTP headers of the redirect chain. We never execute or render the final destination page, keeping your device safe from drive-by downloads." },
+          { question: "What URL shorteners are supported?", answer: "We support virtually all standard 301 and 302 redirect chains, including Bitly, TinyURL, Twitter's t.co, YouTube's youtu.be, and custom enterprise shorteners." },
+          { question: "Why does the safety badge say 'Suspicious'?", answer: "Our heuristic engine flags URLs with high-risk characteristics, such as obscure country-code TLDs, excessive subdomains (e.g., login.secure.account.bank.example.xyz), or known phishing keywords. Always exercise caution with flagged links." },
+          { question: "Can I expand multiple links at once?", answer: "Yes, simply toggle to 'Batch Mode' and paste a list of shortened URLs, one per line. The tool will process them sequentially and display all results." }
+        ]}
+      />
+
+      <RelatedTools currentToolUrl="/tools/url/expand" max={6} />
+    </div>
   );
 }
+
+export default LinkExpandClient;

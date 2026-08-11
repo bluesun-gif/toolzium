@@ -1,159 +1,160 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
-import { cn } from "@/lib/utils";
-import { Zap, Timer, Trophy, RotateCcw } from "lucide-react";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
+import { Zap, RotateCcw } from "lucide-react";
 
-type GameState = "waiting" | "ready" | "clicked" | "early";
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
 
-export function ReactionTimeClient() {
-  const [gameState, setGameState] = useState<GameState>("waiting");
-  const [reactionTime, setReactionTime] = useState<number | null>(null);
-  const [startTime, setStartTime] = useState<number>(0);
-  const [attempts, setAttempts] = useState<number[]>([]);
+type GameState = "idle" | "waiting" | "ready" | "result" | "tooEarly";
+
+export default function ReactionTimeClient() {
+  const [state, setState] = useState<GameState>("idle");
+  const [reactionTime, setReactionTime] = useState(0);
+  const [times, setTimes] = useState<number[]>([]);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const startTimeRef = useRef<number>(0);
 
-  const bestScore = attempts.length > 0 ? Math.min(...attempts) : null;
-  const averageScore = attempts.length > 0 ? Math.round(attempts.reduce((a, b) => a + b, 0) / attempts.length) : null;
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
 
   const startTest = () => {
-    setGameState("ready");
-    setReactionTime(null);
-    const delay = Math.floor(Math.random() * 3000) + 2000; // 2 to 5 seconds
+    setState("waiting");
+    const delay = Math.random() * 3000 + 2000; // 2 to 5 seconds
     timeoutRef.current = setTimeout(() => {
-      setGameState("clicked");
-      setStartTime(Date.now());
+      setState("ready");
+      startTimeRef.current = Date.now();
     }, delay);
   };
 
   const handleClick = () => {
-    if (gameState === "waiting") {
+    if (state === "idle" || state === "result" || state === "tooEarly") {
       startTest();
-    } else if (gameState === "ready") {
+    } else if (state === "waiting") {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
-      setGameState("early");
-    } else if (gameState === "clicked") {
-      const time = Date.now() - startTime;
+      setState("tooEarly");
+      toast.error("Too early! Wait for green.");
+    } else if (state === "ready") {
+      const time = Date.now() - startTimeRef.current;
       setReactionTime(time);
-      setGameState("waiting");
-      setAttempts(prev => {
-        const newAttempts = [time, ...prev].slice(0, 10);
-        return newAttempts;
-      });
-    } else if (gameState === "early") {
-      setGameState("waiting");
+      setTimes(prev => [...prev, time]);
+      setState("result");
     }
   };
 
-  const getRating = (ms: number) => {
-    if (ms < 200) return "Superhuman ⚡";
-    if (ms < 300) return "Excellent 🚀";
-    if (ms < 400) return "Good 🏃";
-    if (ms < 500) return "Average 🚶";
-    return "Slow 🐢";
+  const resetAll = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setState("idle");
+    setTimes([]);
+    setReactionTime(0);
+    toast.success("Stats reset!");
   };
 
-  const resetScores = () => {
-    setAttempts([]);
-    toast.success("Scores reset!");
-  };
+  const bestTime = times.length > 0 ? Math.min(...times) : 0;
+  const avgTime = times.length > 0 ? Math.round(times.reduce((a, b) => a + b, 0) / times.length) : 0;
+
+  const bgColor = 
+    state === "waiting" ? "bg-red-500 hover:bg-red-600" : 
+    state === "ready" ? "bg-green-500 hover:bg-green-600" : 
+    state === "tooEarly" ? "bg-orange-500 hover:bg-orange-600" : 
+    "bg-blue-600 hover:bg-blue-700";
+
+  const message = 
+    state === "waiting" ? "Wait for green..." : 
+    state === "ready" ? "CLICK NOW!" : 
+    state === "tooEarly" ? "Too Early! Click to try again." : 
+    state === "result" ? `${reactionTime} ms! Click to try again.` : 
+    "Click to Start";
 
   return (
-    <div className="space-y-6">
-      <ToolPageHeader
-        icon={Zap}
-        title="Reaction Time Test"
-        description="Test how fast you can respond to visual cues. Click when the screen turns green!"
-        actions={<ResetButton onClick={resetScores} label="Reset Scores" />}
+    <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <ToolPageHeader 
+        icon={Zap} 
+        title="Reaction Time Test" 
+        description="Measure your reflexes and track your fastest reaction times." 
+      />
+      
+      <Card className={cardClass}>
+        <CardHeader className={headerClass}>
+          <CardTitle className={titleClass}>
+            <Zap className="w-4 h-4 text-primary" /> Reflex Tester
+          </CardTitle>
+          <div className="flex gap-4 text-sm mt-2">
+            <span className="text-primary font-bold">Best: {bestTime > 0 ? `${bestTime}ms` : "-"}</span>
+            <span className="text-muted-foreground font-bold">Avg: {avgTime > 0 ? `${avgTime}ms` : "-"}</span>
+            <span className="text-muted-foreground">Attempts: {times.length}</span>
+          </div>
+        </CardHeader>
+        <CardContent className="p-4 space-y-6">
+          <div 
+            onClick={handleClick}
+            className={`w-full h-64 rounded-xl flex items-center justify-center text-white text-3xl font-bold cursor-pointer transition-colors select-none ${bgColor}`}
+          >
+            {message}
+          </div>
+          
+          <div className="flex justify-center">
+            <Button onClick={resetAll} variant="outline" className="gap-2">
+              <RotateCcw className="w-4 h-4" /> Reset Stats
+            </Button>
+          </div>
+
+          {times.length > 0 && (
+            <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
+              {times.slice(-10).map((t, i) => (
+                <div key={i} className="bg-muted/50 p-2 rounded text-center text-sm font-mono border border-border/50">
+                  {t} ms
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      <ToolHowItWorks 
+        steps={[
+          { step: "01", title: "Start", description: "Click the blue area to begin the test.", icon: Zap },
+          { step: "02", title: "Wait", description: "The screen will turn red. Do NOT click until it turns green.", icon: Zap },
+          { step: "03", title: "React", description: "Click as fast as you can when the screen turns green to record your time.", icon: Zap }
+        ]} 
+        badges={["100% Free", "Client-Side", "Fun"]} 
       />
 
-      <div className="grid md:grid-cols-3 gap-6">
-        <GlassCard className="md:col-span-2">
-          <CardHeader>
-            <CardTitle>Reaction Area</CardTitle>
-            <CardDescription>Click the area below based on instructions.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div
-              onClick={handleClick}
-              className={cn(
-                "h-64 flex flex-col items-center justify-center rounded-xl cursor-pointer text-white transition-colors select-none",
-                gameState === "waiting" && "bg-blue-500 hover:bg-blue-600",
-                gameState === "ready" && "bg-red-500",
-                gameState === "clicked" && "bg-green-500",
-                gameState === "early" && "bg-orange-500"
-              )}
-            >
-              {gameState === "waiting" && (
-                <>
-                  <Zap className="w-12 h-12 mb-2" />
-                  <p className="text-2xl font-bold">Click to Start</p>
-                  {reactionTime && (
-                    <p className="mt-2 opacity-90">{reactionTime} ms ({getRating(reactionTime)})</p>
-                  )}
-                </>
-              )}
-              {gameState === "ready" && (
-                <>
-                  <Timer className="w-12 h-12 mb-2 animate-pulse" />
-                  <p className="text-2xl font-bold">Wait for green...</p>
-                </>
-              )}
-              {gameState === "clicked" && (
-                <>
-                  <Zap className="w-12 h-12 mb-2" />
-                  <p className="text-2xl font-bold">CLICK!</p>
-                </>
-              )}
-              {gameState === "early" && (
-                <>
-                  <RotateCcw className="w-12 h-12 mb-2" />
-                  <p className="text-2xl font-bold">Too early!</p>
-                  <p className="mt-2 opacity-90">Click to try again.</p>
-                </>
-              )}
-            </div>
-          </CardContent>
-        </GlassCard>
+      <ToolFeatureGuides 
+        features={[
+          { icon: Zap, title: "Millisecond Precision", description: "Uses high-resolution timestamps for accurate measurement." },
+          { icon: Zap, title: "Anti-Cheat Logic", description: "Clicking before the green screen results in a penalty and resets the trial." },
+          { icon: Zap, title: "Statistical Tracking", description: "Automatically calculates your best and average reaction times." },
+          { icon: Zap, title: "Visual History", description: "Shows your last 10 attempts so you can track your improvement." }
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <p>The average human reaction time to a visual stimulus is between 200 and 250 milliseconds. Elite athletes and gamers often achieve times below 180ms.</p>
+          <p>This test measures your cognitive processing speed and motor response. Factors like fatigue, caffeine, and screen refresh rates can all influence your final score.</p>
+        </div>
+      </ToolFeatureGuides>
 
-        <GlassCard>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2"><Trophy className="w-5 h-5" /> Stats</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-             <div className="flex justify-between items-center bg-muted/50 p-3 rounded-lg">
-                <span className="font-medium">Best Score</span>
-                <span className="font-bold text-primary">{bestScore ? `${bestScore} ms` : '-'}</span>
-             </div>
-             <div className="flex justify-between items-center bg-muted/50 p-3 rounded-lg">
-                <span className="font-medium">Average</span>
-                <span className="font-bold">{averageScore ? `${averageScore} ms` : '-'}</span>
-             </div>
-             <Separator />
-             <div>
-                <h4 className="font-medium mb-2">Recent Attempts</h4>
-                {attempts.length === 0 ? (
-                  <p className="text-sm text-muted-foreground">No attempts yet.</p>
-                ) : (
-                  <ul className="space-y-2">
-                    {attempts.map((time, idx) => (
-                      <li key={idx} className="text-sm flex justify-between items-center">
-                        <span className="text-muted-foreground">#{attempts.length - idx}</span>
-                        <span className="font-mono">{time} ms</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-             </div>
-          </CardContent>
-        </GlassCard>
-      </div>
+      <ToolFaqAccordion 
+        faqs={[
+          { question: "What is a good reaction time?", answer: "Around 200-250ms is average for adults. Anything under 200ms is considered excellent, often seen in competitive gamers." },
+          { question: "Why did it say 'Too Early'?", answer: "You clicked while the screen was still red. This prevents cheating by anticipating the color change." },
+          { question: "Does my monitor affect the score?", answer: "Yes. High refresh rate monitors (144Hz+) and low-latency mice will yield slightly faster results than standard 60Hz office equipment." }
+        ]} 
+      />
+
+      <RelatedTools currentToolUrl="/tools/fun/reaction-time" max={6} />
     </div>
   );
 }

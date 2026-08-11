@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { TicTacToeClient } from "@/components/tools/fun/tic-tac-toe-client";
+import TicTacToeClient from "@/components/tools/fun/tic-tac-toe-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

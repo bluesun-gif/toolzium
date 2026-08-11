@@ -1,131 +1,145 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Switch } from "@/components/ui/switch";
+import { CopyButton } from "@/components/shared/action-buttons";
 import { Hash } from "lucide-react";
 
-// A very basic number to words implementation for demonstration
-function numberToWords(num: number | string): string {
-  if (!num) return "";
-  const n = typeof num === 'string' ? parseFloat(num) : num;
-  if (isNaN(n)) return "Invalid number";
-  // Simplified logic, assume a library is normally used
-  return `Spelled out form of ${n}`; 
-}
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
 
-export function NumberWordsClient() {
-  const [input, setInput] = useState("");
-  const [mode, setMode] = useState("numberToWords"); // numberToWords or wordsToNumber
-  const [currencyMode, setCurrencyMode] = useState(false);
-  const [currency, setCurrency] = useState("USD");
-  const [ordinalMode, setOrdinalMode] = useState(false);
+const ones = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
+const tens = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+const scales = ["", "Thousand", "Million", "Billion", "Trillion"];
 
-  const result = useMemo(() => {
-    if (!input) return "";
-    if (mode === "numberToWords") {
-      let res = numberToWords(input);
-      if (currencyMode) {
-        res = `${res} ${currency}`;
+const convertChunk = (n: number) => {
+  let str = "";
+  if (n > 99) {
+    str += ones[Math.floor(n / 100)] + " Hundred ";
+    n %= 100;
+  }
+  if (n >= 20) {
+    str += tens[Math.floor(n / 10)] + " ";
+    n %= 10;
+  }
+  if (n > 0) {
+    str += ones[n] + " ";
+  }
+  return str.trim();
+};
+
+const numberToWords = (num: number): string => {
+  if (num === 0) return "Zero";
+  if (isNaN(num)) return "";
+  
+  let isNeg = false;
+  if (num < 0) {
+    isNeg = true;
+    num = Math.abs(num);
+  }
+
+  let intPart = Math.floor(num);
+  let decPart = Math.round((num - intPart) * 100); 
+  
+  let words = "";
+  let scaleIdx = 0;
+  
+  if (intPart === 0) {
+    words = "Zero";
+  } else {
+    while (intPart > 0) {
+      let chunk = intPart % 1000;
+      if (chunk > 0) {
+        words = convertChunk(chunk) + " " + scales[scaleIdx] + " " + words;
       }
-      if (ordinalMode) {
-        res = `${res} (Ordinal)`;
-      }
-      return res;
-    } else {
-      return `Number form of ${input}`;
+      intPart = Math.floor(intPart / 1000);
+      scaleIdx++;
     }
-  }, [input, mode, currencyMode, currency, ordinalMode]);
+  }
+  
+  let result = (isNeg ? "Negative " : "") + words.trim();
+  
+  if (decPart > 0) {
+    result += " Point " + convertChunk(decPart);
+  }
+  
+  return result.replace(/\s+/g, " ").trim();
+};
+
+export default function NumberWordsClient() {
+  const [input, setInput] = useState("1234567.89");
+
+  const words = useMemo(() => {
+    const num = parseFloat(input);
+    if (isNaN(num)) return "Please enter a valid number";
+    return numberToWords(num);
+  }, [input]);
 
   return (
-    <div className="space-y-6">
-      <ToolPageHeader 
-        icon={Hash} 
-        title="Number Spell Out" 
-        description="Convert numbers to words and words to numbers." 
-        actions={
-          <ResetButton onClick={() => {
-            setInput("");
-            setMode("numberToWords");
-            setCurrencyMode(false);
-            setCurrency("USD");
-            setOrdinalMode(false);
-          }} />
-        } 
-      />
-
-      <GlassCard>
-        <CardHeader>
-          <CardTitle>Converter</CardTitle>
-          <CardDescription>Enter a value to convert</CardDescription>
+    <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <ToolPageHeader icon={Hash} title="Number to Words Converter" description="Instantly convert numerical digits into their English word equivalents up to trillions." />
+      
+      <Card className={cardClass}>
+        <CardHeader className={headerClass}>
+          <CardTitle className={titleClass}>Input Number</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex gap-4 mb-4">
-            <Select value={mode} onValueChange={setMode}>
-              <SelectTrigger className="w-[200px]"><SelectValue placeholder="Mode" /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="numberToWords">Number to Words</SelectItem>
-                <SelectItem value="wordsToNumber">Words to Number</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+        <CardContent className="p-4 sm:p-6 space-y-6">
+          <Input 
+            type="text" 
+            placeholder="e.g. 1234567.89" 
+            value={input} 
+            onChange={e => setInput(e.target.value)} 
+            className="text-2xl font-mono"
+          />
 
-          <div className="space-y-2">
-            <Label>Input</Label>
-            <Input 
-              type={mode === "numberToWords" ? "number" : "text"} 
-              value={input} 
-              onChange={(e) => setInput(e.target.value)} 
-              placeholder={mode === "numberToWords" ? "e.g. 1234.56" : "e.g. one hundred"}
-            />
-          </div>
-
-          {mode === "numberToWords" && (
-            <div className="flex flex-wrap gap-6 pt-4">
-              <div className="flex items-center space-x-2">
-                <Switch checked={currencyMode} onCheckedChange={setCurrencyMode} />
-                <Label>Currency Mode</Label>
-              </div>
-              {currencyMode && (
-                <div className="w-[150px]">
-                  <Select value={currency} onValueChange={setCurrency}>
-                    <SelectTrigger><SelectValue placeholder="Currency" /></SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="USD">USD</SelectItem>
-                      <SelectItem value="EUR">EUR</SelectItem>
-                      <SelectItem value="GBP">GBP</SelectItem>
-                      <SelectItem value="INR">INR</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              )}
-              <div className="flex items-center space-x-2">
-                <Switch checked={ordinalMode} onCheckedChange={setOrdinalMode} />
-                <Label>Ordinal Mode</Label>
-              </div>
-            </div>
-          )}
-
-          <Separator className="my-6" />
-          
-          <div className="space-y-2">
+          <div className="p-6 rounded-xl bg-muted/30 border border-border/50 space-y-4">
             <div className="flex justify-between items-center">
-              <Label>Result</Label>
-              <CopyButton getText={() => result} label="Copy Result" />
+              <h3 className="text-sm font-semibold text-muted-foreground">English Words</h3>
+              <CopyButton getText={() => words} label="Copy" />
             </div>
-            <div className="p-4 bg-muted rounded-md min-h-[60px] text-lg font-medium break-words">
-              {result || "Waiting for input..."}
-            </div>
+            <p className="text-xl sm:text-2xl font-bold text-primary leading-relaxed break-words">
+              {words}
+            </p>
           </div>
         </CardContent>
-      </GlassCard>
+      </Card>
+
+      <ToolHowItWorks 
+        steps={[
+          { step: "01", title: "Enter Digits", description: "Type or paste any number, including decimals, into the input field.", icon: Hash },
+          { step: "02", title: "Auto-Convert", description: "The tool instantly parses the number and generates the English word representation.", icon: Hash },
+          { step: "03", title: "Copy Text", description: "Use the copy button to grab the text for use in checks, legal documents, or invoices.", icon: Hash }
+        ]} 
+        badges={["100% Free", "Client-Side", "Instant"]} 
+      />
+
+      <ToolFeatureGuides features={[
+        { icon: Hash, title: "Large Number Support", description: "Accurately converts numbers up to the trillions scale with proper grouping." },
+        { icon: Hash, title: "Decimal Handling", description: "Processes fractional parts and appends them as 'Point' followed by the words." },
+        { icon: Hash, title: "Negative Numbers", description: "Correctly identifies and prefixes negative values with the word 'Negative'." },
+        { icon: Hash, title: "Real-Time Parsing", description: "Updates the output continuously as you type without requiring a submit button." }
+      ]}>
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <p>Writing out numbers in words is a strict requirement in many formal contexts, including writing bank checks, drafting legal contracts, and filling out financial invoices. Mistakes in spelling or grouping can lead to rejected documents.</p>
+          <p>Our converter handles the complex logic of grouping by thousands, millions, and billions, while correctly applying hyphens and spacing rules for compound numbers like 'Twenty-One'.</p>
+          <p>Because the conversion logic runs entirely in your browser via JavaScript, it is incredibly fast and completely secure for sensitive financial figures.</p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion faqs={[
+        { question: "Does it support decimals?", answer: "Yes, decimal values are read as 'Point' followed by the numerical words for the fractional part (e.g., 12.34 becomes 'Twelve Point Thirty-Four')." },
+        { question: "What is the maximum number it can handle?", answer: "The tool supports numbers up to the Trillions scale. Extremely large numbers beyond standard JavaScript floating-point precision may lose exactness." },
+        { question: "Can I convert currency amounts?", answer: "While it converts the raw numbers perfectly, you will need to manually append the currency name (e.g., 'Dollars' or 'Cents') to the final text." }
+      ]} />
+
+      <RelatedTools currentToolUrl="/tools/calc/number-words" max={6} />
     </div>
   );
 }

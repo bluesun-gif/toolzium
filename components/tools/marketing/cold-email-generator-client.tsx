@@ -2,117 +2,327 @@
 
 import React, { useState } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { AiOutputDisplay } from "@/components/shared/ai-output-display";
-import { Mail, RefreshCw } from "lucide-react";
+import { CopyButton } from "@/components/shared/action-buttons";
 import toast from "react-hot-toast";
+import { Mail, Sparkles, RefreshCw, Target } from "lucide-react";
+
+const cardClass =
+  "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
+
+interface ColdEmail {
+  label: string;
+  subject: string;
+  body: string;
+}
+
+function extractBetween(raw: string, startMarker: string, endMarker: string): string {
+  const startIndex = raw.indexOf(startMarker);
+  if (startIndex === -1) return "";
+  const contentStart = startIndex + startMarker.length;
+  const endIndex = raw.indexOf(endMarker, contentStart);
+  if (endIndex === -1) return raw.slice(contentStart).trim();
+  return raw.slice(contentStart, endIndex).trim();
+}
+
+function extractAfter(raw: string, marker: string): string {
+  const startIndex = raw.indexOf(marker);
+  if (startIndex === -1) return "";
+  return raw.slice(startIndex + marker.length).trim();
+}
 
 export default function ColdEmailGeneratorClient() {
-  const [product, setProduct] = useState("AI-Powered SEO & Content Optimization Platform");
-  const [targetAudience, setTargetAudience] = useState("Head of Marketing at E-Commerce Brands");
-  const [valueProp, setValueProp] = useState("Increases organic Google traffic by 40% in 30 days without manual copywriting.");
-  const [results, setResults] = useState<string[]>([]);
+  const [product, setProduct] = useState("");
+  const [recipientRole, setRecipientRole] = useState("");
+  const [painPoint, setPainPoint] = useState("");
+  const [cta, setCta] = useState("");
   const [loading, setLoading] = useState(false);
+  const [emails, setEmails] = useState<ColdEmail[]>([]);
 
-  const generateEmails = async () => {
-    if (!product.trim()) return;
+  const handleGenerate = async () => {
+    if (!product.trim()) {
+      toast.error("Enter your product or service.");
+      return;
+    }
 
     setLoading(true);
 
     try {
-      const prompt = `Write 3 high-converting B2B cold email templates targeting '${targetAudience}' for a product named '${product}'. Value Proposition: '${valueProp}'. Include punchy subject line, personalized hook, value callout, and frictionless CTA. Format as 3 clear email cards. No markdown asterisks.`;
+      const prompt = `You are a B2B cold email expert.
+Product/service: ${product}
+Target recipient role: ${recipientRole || "Not provided"}
+Pain point: ${painPoint || "Not provided"}
+Desired CTA: ${cta || "Book a call"}
+
+Generate 3 cold emails:
+1. Formal
+2. Friendly
+3. AIDA Framework
+
+Each email must include a subject line and body.
+Return ONLY the 3 emails separated by |||.
+Each email must use this exact structure:
+SUBJECT:
+...
+BODY:
+...`;
 
       const res = await fetch("/api/ai/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt, type: "cards" }),
+        body: JSON.stringify({ prompt }),
       });
 
-      if (!res.ok) throw new Error("AI API failed");
-
       const data = await res.json();
-      if (data.results && data.results.length > 0) {
-        setResults(data.results);
-        toast.success("AI Cold email templates generated!");
+
+      if (data.success && data.raw) {
+        const parts = String(data.raw)
+          .replace(/```[a-z]*\n?/gi, "")
+          .split("|||")
+          .map((part: string) => part.trim())
+          .filter(Boolean);
+
+        if (parts.length >= 3) {
+          const parsed = parts.slice(0, 3).map((part, index) => ({
+            label: ["Formal", "Friendly", "AIDA Framework"][index],
+            subject: extractBetween(part, "SUBJECT:", "BODY:") || `Cold email about ${product}`,
+            body: extractAfter(part, "BODY:") || part,
+          }));
+
+          setEmails(parsed);
+          toast.success("Cold emails generated.");
+        } else {
+          throw new Error("Invalid AI output.");
+        }
       } else {
-        throw new Error("No results");
+        throw new Error("API error");
       }
-    } catch (err) {
-      toast.error("AI generation failed. Please try again.");
+    } catch {
+      setEmails([
+        {
+          label: "Formal",
+          subject: `A more efficient approach to ${painPoint || "your current workflow"}`,
+          body: `Hello,\n\nI understand that ${
+            painPoint || "operational efficiency"
+          } is a priority for teams like yours. ${product} was designed to help ${
+            recipientRole || "teams"
+          } solve this more effectively.\n\nWould you be open to a brief conversation?\n\nBest regards,\nYour Name`,
+        },
+        {
+          label: "Friendly",
+          subject: `Quick idea for ${recipientRole || "your team"}`,
+          body: `Hi there,\n\nI came across your work and thought ${product} could be useful for ${
+            painPoint || "improving your workflow"
+          }.\n\nIf you're open to it, I'd love to share a quick idea.\n\nCheers,\nYour Name`,
+        },
+        {
+          label: "AIDA Framework",
+          subject: `Reduce ${painPoint || "friction"} with ${product}`,
+          body: `Attention: If ${
+            painPoint || "slow processes"
+          } are holding your team back, this is relevant.\n\nInterest: ${product} helps ${
+            recipientRole || "businesses"
+          } streamline the work that matters most.\n\nDesire: Teams can save time, reduce errors, and move faster.\n\nAction: ${
+            cta || "Book a call"
+          } and see whether it fits your needs.\n\nYour Name`,
+        },
+      ]);
+      toast.error("AI offline. Loaded template fallback.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto px-4">
+    <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
       <ToolPageHeader
         icon={Mail}
-        title="AI Cold Email & B2B Sales Outreach Sequence Generator"
-        description="Craft high-reply B2B cold email campaigns, personalized sales pitches, and follow-up templates powered by live AI."
+        title="Cold Email Generator"
+        description="Generate Formal, Friendly, and AIDA cold email variants with subject lines."
       />
 
-      <GlassCard className="p-6 space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <label className="text-xs font-bold text-foreground block">Product / Service Name:</label>
-            <Input
-              type="text"
-              value={product}
-              onChange={(e) => setProduct(e.target.value)}
-              placeholder="e.g. LeadGen Pro"
-              className="h-11"
-            />
+      <Card className={cardClass}>
+        <CardHeader className={headerClass}>
+          <CardTitle className={titleClass}>
+            <Target className="w-4 h-4 text-primary" /> Campaign Details
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="p-3 sm:p-4 space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="text-xs font-medium text-muted-foreground">Product / Service</label>
+              <Input
+                value={product}
+                onChange={(e) => setProduct(e.target.value)}
+                placeholder="e.g. AI-powered CRM"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-xs font-medium text-muted-foreground">Recipient Role</label>
+              <Input
+                value={recipientRole}
+                onChange={(e) => setRecipientRole(e.target.value)}
+                placeholder="e.g. Marketing Director"
+              />
+            </div>
           </div>
 
-          <div className="space-y-2">
-            <label className="text-xs font-bold text-foreground block">Target Prospect / Role:</label>
-            <Input
-              type="text"
-              value={targetAudience}
-              onChange={(e) => setTargetAudience(e.target.value)}
-              placeholder="e.g. VP of Sales at Tech Startups"
-              className="h-11"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="text-xs font-medium text-muted-foreground">Pain Point</label>
+              <Input
+                value={painPoint}
+                onChange={(e) => setPainPoint(e.target.value)}
+                placeholder="e.g. slow reporting"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-xs font-medium text-muted-foreground">Desired CTA</label>
+              <Input
+                value={cta}
+                onChange={(e) => setCta(e.target.value)}
+                placeholder="e.g. book a demo"
+              />
+            </div>
           </div>
-        </div>
 
-        <div className="space-y-2">
-          <label className="text-xs font-bold text-foreground block">Core Value Proposition / Key Benefit:</label>
-          <Input
-            type="text"
-            value={valueProp}
-            onChange={(e) => setValueProp(e.target.value)}
-            placeholder="e.g. Save 10 hours per week on customer support..."
-            className="h-11"
-          />
-        </div>
-
-        <div className="flex justify-end pt-2">
-          <Button
-            onClick={generateEmails}
-            disabled={loading || !product}
-            className="gap-2 font-bold h-11 px-6 shadow-md"
-          >
-            <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
-            {loading ? "AI Writing Emails..." : "AI Generate Cold Email Sequence"}
+          <Button onClick={() => void handleGenerate()} disabled={loading} className="w-full">
+            {loading ? (
+              <>
+                <RefreshCw className="w-4 h-4 animate-spin" /> Generating...
+              </>
+            ) : (
+              <>
+                <Sparkles className="w-4 h-4" /> Generate Emails
+              </>
+            )}
           </Button>
-        </div>
-      </GlassCard>
+        </CardContent>
+      </Card>
 
-      {/* Output */}
-      {results.length > 0 && (
-        <AiOutputDisplay
-          title="Generated B2B Cold Email Templates"
-          subtitle="High-converting templates with subject lines and low-friction CTAs"
-          content={results}
-          loading={loading}
-          onRegenerate={generateEmails}
-          variant="cards"
-        />
+      {emails.length > 0 && (
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
+          {emails.map((email, index) => (
+            <Card key={`${email.label}-${index}`} className={cardClass}>
+              <CardHeader className={headerClass}>
+                <CardTitle className={titleClass}>
+                  <Mail className="w-4 h-4 text-primary" /> {email.label}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-3 sm:p-4 space-y-3">
+                <div className="space-y-1">
+                  <p className="text-xs font-medium text-muted-foreground">Subject</p>
+                  <p className="text-sm font-semibold">{email.subject}</p>
+                </div>
+
+                <div className="space-y-1">
+                  <p className="text-xs font-medium text-muted-foreground">Body</p>
+                  <p className="text-sm whitespace-pre-wrap leading-relaxed">{email.body}</p>
+                </div>
+
+                <CopyButton
+                  getText={() => `Subject: ${email.subject}\n\n${email.body}`}
+                  label="Copy Email"
+                />
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       )}
+
+      <ToolHowItWorks
+        steps={[
+          {
+            step: "01",
+            title: "Define the Offer",
+            description: "Add product, recipient, pain point, and call to action.",
+            icon: Target,
+          },
+          {
+            step: "02",
+            title: "Generate Variants",
+            description: "Get three email styles with subject lines.",
+            icon: Sparkles,
+          },
+          {
+            step: "03",
+            title: "Send and Test",
+            description: "Copy the best version and start outreach testing.",
+            icon: Mail,
+          },
+        ]}
+        badges={["AI-Powered", "3 Variants", "No Signup"]}
+      />
+
+      <ToolFeatureGuides
+        features={[
+          {
+            icon: Mail,
+            title: "Outreach-Focused",
+            description: "Creates cold emails designed for first-touch communication.",
+          },
+          {
+            icon: Target,
+            title: "Pain-Point Driven",
+            description: "Builds the message around the recipient's problem.",
+          },
+          {
+            icon: Sparkles,
+            title: "Multiple Styles",
+            description: "Includes formal, friendly, and AIDA framework approaches.",
+          },
+          {
+            icon: Mail,
+            title: "Subject Lines Included",
+            description: "Generates subject lines alongside each email body.",
+          },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <p>
+            Cold email remains one of the most effective outbound channels when done well. The best cold emails are not
+            generic blasts. They are concise, relevant, and focused on a real problem the recipient cares about.
+          </p>
+          <p>
+            A strong cold email usually has a clear subject line, a personalized opening, a specific pain point, a
+            credible solution, and a low-friction call to action. Different audiences respond to different tones, which
+            is why testing formal, friendly, and framework-based variants can improve results.
+          </p>
+          <p>
+            Use the generated drafts as a foundation. Personalize the first line, keep the email short, and make the
+            next step easy. Avoid overpromising or using spammy language that can hurt deliverability.
+          </p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "How long should a cold email be?",
+            answer:
+              "Short is usually better. Aim for clarity and a single clear call to action.",
+          },
+          {
+            question: "Should I A/B test subject lines?",
+            answer: "Yes. Subject lines can strongly affect open rates, so testing is recommended.",
+          },
+          {
+            question: "Can I use these emails for sales outreach?",
+            answer:
+              "Yes. Personalize each email and make sure the message matches the recipient's context.",
+          },
+        ]}
+      />
+
+      <RelatedTools currentToolUrl="/tools/marketing/cold-email-generator" max={6} />
     </div>
   );
 }

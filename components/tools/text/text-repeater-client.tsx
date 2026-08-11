@@ -1,215 +1,160 @@
-"use client"
+"use client";
 
-import React, { useState, useEffect } from "react"
-import { GlassCard } from "@/components/ui/glass-card"
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-import { CopyButton, ResetButton } from "@/components/shared/action-buttons"
-import TextareaField from "@/components/shared/form-fields/textarea-field"
-import InputField from "@/components/shared/form-fields/input-field"
-import SwitchRow from "@/components/shared/form-fields/switch-row"
-import Stat from "@/components/shared/stat"
-
+import React, { useState } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
-import { Repeat, Copy, Settings2, Hash, AlignLeft, FileText } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { CopyButton } from "@/components/shared/action-buttons";
+import toast from "react-hot-toast";
+import { Repeat, PenTool, Settings, Copy } from "lucide-react";
+
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
+const textareaClass = "w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50";
 
 export default function TextRepeaterClient() {
-    const [text, setText] = useState("Repeat this text");
-    const [count, setCount] = useState<number | "">(3);
-    const [separatorType, setSeparatorType] = useState("newline");
-    const [customSeparator, setCustomSeparator] = useState("");
-    const [addLineNumbers, setAddLineNumbers] = useState(false);
-    const [output, setOutput] = useState("");
+  const [text, setText] = useState("");
+  const [count, setCount] = useState(10);
+  const [separator, setSeparator] = useState("newline");
+  const [customSep, setCustomSep] = useState("");
+  const [output, setOutput] = useState("");
 
-    useEffect(() => {
-        if (!text) {
-            setOutput("");
-            return;
-        }
+  const handleGenerate = () => {
+    if (!text) {
+      toast.error("Please enter some text to repeat.");
+      return;
+    }
+    if (count < 1 || count > 10000) {
+      toast.error("Count must be between 1 and 10,000.");
+      return;
+    }
 
-        let sep = "";
-        if (separatorType === "newline") sep = "\n";
-        else if (separatorType === "space") sep = " ";
-        else if (separatorType === "comma") sep = ", ";
-        else if (separatorType === "custom") sep = customSeparator;
+    let sep = "";
+    if (separator === "newline") sep = "\n";
+    else if (separator === "space") sep = " ";
+    else if (separator === "comma") sep = ", ";
+    else if (separator === "custom") sep = customSep;
 
-        const parsedCount = typeof count === "number" ? count : 1;
-        const limitCount = Math.min(Math.max(1, parsedCount), 10000);
-        
-        let newOutput = "";
-        for (let i = 0; i < limitCount; i++) {
-            let currentText = text;
-            if (addLineNumbers) {
-                currentText = (i + 1) + ". " + currentText;
-            }
-            newOutput += currentText;
-            if (i < limitCount - 1) {
-                newOutput += sep;
-            }
-        }
-        setOutput(newOutput);
-    }, [text, count, separatorType, customSeparator, addLineNumbers]);
+    const arr = Array(count).fill(text);
+    const result = arr.join(sep);
+    setOutput(result);
+    toast.success(`Generated ${count} repetitions`);
+  };
 
-    const handleReset = () => {
-        setText("");
-        setCount(3);
-        setSeparatorType("newline");
-        setCustomSeparator("");
-        setAddLineNumbers(false);
-    };
-
-    const charCount = output.length;
-    const lineCount = output.length > 0 ? output.split("\n").length : 0;
-
-    return (
-        <div className="max-w-6xl mx-auto space-y-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="space-y-6">
-                <GlassCard>
-                    <CardHeader>
-                        <CardTitle>Configuration</CardTitle>
-                        <CardDescription>Set the text and how you want it repeated</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-6">
-                        <TextareaField
-                            label="Text to Repeat"
-                            placeholder="Enter text here..."
-                            value={text}
-                            onChange={(e) => setText(e.target.value)}
-                            rows={4}
-                        />
-                        
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <InputField
-                                label="Repeat Count (Max: 10,000)"
-                                type="number"
-                                min={1}
-                                max={10000}
-                                value={count}
-                                onChange={(e) => {
-                                    const val = e.target.value;
-                                    setCount(val === "" ? "" : Number(val));
-                                }}
-                            />
-                            
-                            <div className="space-y-2">
-                                <label className="text-sm font-medium">Separator</label>
-                                <select
-                                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                                    value={separatorType}
-                                    onChange={(e) => setSeparatorType(e.target.value)}
-                                >
-                                    <option value="newline">New Line</option>
-                                    <option value="space">Space</option>
-                                    <option value="comma">Comma</option>
-                                    <option value="none">None</option>
-                                    <option value="custom">Custom...</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        {separatorType === "custom" && (
-                            <InputField
-                                label="Custom Separator"
-                                placeholder="Enter custom separator..."
-                                value={customSeparator}
-                                onChange={(e) => setCustomSeparator(e.target.value)}
-                            />
-                        )}
-
-                        <SwitchRow
-                            label="Add Line Numbers"
-                            hint="Prefix each repetition with its number"
-                            checked={addLineNumbers}
-                            onCheckedChange={setAddLineNumbers}
-                        />
-                    </CardContent>
-                </GlassCard>
-            </div>
-
-            <div className="space-y-6">
-                <GlassCard>
-                    <CardHeader>
-                        <CardTitle>Output</CardTitle>
-                        <CardDescription>Your repeated text preview</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-6">
-                        <TextareaField
-                            label="Preview"
-                            value={output}
-                            readOnly
-                            rows={10}
-                            className="font-mono text-sm"
-                        />
-                        
-                        <div className="flex flex-wrap gap-2">
-                            <CopyButton getText={output} />
-                            <ResetButton onClick={handleReset} />
-                        </div>
-
-                        <Separator />
-
-                        <div className="flex gap-6">
-                            <Stat label="Characters" value={charCount} />
-                            <Stat label="Lines" value={lineCount} />
-                        </div>
-                    </CardContent>
-                </GlassCard>
-            </div>
-            </div>
-
-            {/* SECTION 3: HOW IT WORKS */}
-            <ToolHowItWorks
-              steps={[
-                { step: "01", title: "Enter Your Text", description: "Type or paste the text, word, phrase, or character you want to repeat. Can be a single character, a word, a sentence, or multiple lines.", icon: FileText },
-                { step: "02", title: "Set Repeat Options", description: "Choose how many times to repeat (1-10,000), the separator between repetitions (newline, comma, space, custom), and whether to add line numbers.", icon: Settings2 },
-                { step: "03", title: "Copy the Result", description: "See the repeated text instantly in the output area. Copy all with one click or download as a text file for use in spreadsheets, code, or test data.", icon: Copy },
-              ]}
-              badges={["Up to 10,000 repeats", "Custom separator", "Instant output"]}
+  return (
+    <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <ToolPageHeader icon={Repeat} title="Text Repeater" description="Repeat any word, phrase, or paragraph multiple times with custom separators." />
+      
+      <Card className={cardClass}>
+        <CardHeader className={headerClass}>
+          <CardTitle className={titleClass}><PenTool className="w-4 h-4 text-primary" /> Configuration</CardTitle>
+        </CardHeader>
+        <CardContent className="p-3 sm:p-4 space-y-4">
+          <div className="space-y-2">
+            <label className="text-xs font-medium text-muted-foreground">Text to Repeat</label>
+            <Input
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              placeholder="e.g., Hello World"
             />
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="text-xs font-medium text-muted-foreground">Repeat Count (1-10000)</label>
+              <Input
+                type="number"
+                min={1}
+                max={10000}
+                value={count}
+                onChange={(e) => setCount(parseInt(e.target.value) || 1)}
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-xs font-medium text-muted-foreground">Separator</label>
+              <select
+                value={separator}
+                onChange={(e) => setSeparator(e.target.value)}
+                className="w-full rounded-lg border border-border/70 bg-background/80 p-2 text-sm outline-none focus:ring-2 focus:ring-primary/50"
+              >
+                <option value="newline">New Line</option>
+                <option value="space">Space</option>
+                <option value="comma">Comma</option>
+                <option value="custom">Custom</option>
+              </select>
+            </div>
+          </div>
 
-            {/* SECTION 4: FEATURE GUIDES */}
-            <ToolFeatureGuides
-              features={[
-                { icon: Repeat, title: "High-Volume Repetition", description: "Repeat text up to 10,000 times in milliseconds. Output appears instantly regardless of repeat count or text length." },
-                { icon: Settings2, title: "Flexible Separators", description: "Choose newline, comma, space, tab, pipe, or any custom character as the separator between each repetition." },
-                { icon: Hash, title: "Line Numbers", description: "Optionally add line numbers (1., 2., 3...) to each repeated item for numbered lists and structured output." },
-                { icon: AlignLeft, title: "Multi-Line Support", description: "Repeat entire paragraphs or multi-line blocks. The entire input block is repeated as a unit with separator between repetitions." },
-                { icon: Copy, title: "One-Click Copy", description: "Copy the entire repeated output to clipboard with one click or download as a .txt file for large outputs." },
-                { icon: FileText, title: "Private and Client-Side", description: "All text processing happens in your browser. Your text is never sent to any server." },
-              ]}
-            >
-              <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-                <h3 className="text-lg font-semibold">Text Repeater Use Cases</h3>
-                <p>A text repeater is useful for generating test data, filling UI mockups, stress testing inputs, creating numbered lists, and language learning exercises.</p>
-                <h4 className="font-semibold">Common Use Cases</h4>
-                <div className="overflow-x-auto">
-                  <table className="w-full border-collapse text-sm">
-                    <thead><tr className="bg-muted/50"><th className="border p-2 text-left">Use Case</th><th className="border p-2 text-left">Example</th></tr></thead>
-                    <tbody>
-                      {[["Test data generation","Repeat 'test-user-' 100 times"],["UI mockup fill","Repeat a product card template"],["QA stress testing","Repeat 'A' 10,000 times to test max input"],["CSV data fill","Repeat a category value for many rows"],["Language learning","Repeat a vocabulary word 50 times"]].map(([use, ex]) => (
-                        <tr key={use} className="odd:bg-muted/20"><td className="border p-2 font-medium text-xs">{use}</td><td className="border p-2 text-muted-foreground text-xs">{ex}</td></tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </ToolFeatureGuides>
+          {separator === "custom" && (
+            <div className="space-y-2">
+              <label className="text-xs font-medium text-muted-foreground">Custom Separator</label>
+              <Input
+                value={customSep}
+                onChange={(e) => setCustomSep(e.target.value)}
+                placeholder="e.g., | or ---"
+              />
+            </div>
+          )}
 
-            {/* SECTION 5: FAQ + RELATED TOOLS */}
-            <ToolFaqAccordion
-              faqs={[
-                { question: "What is a text repeater used for?", answer: "Text repeaters are used to quickly generate repeated text for test data generation, UI mockups, stress testing inputs (repeat a character 10,000 times to test field length limits), creating lists, and language learning." },
-                { question: "Can I repeat multiple lines of text?", answer: "Yes. Enter your multi-line text and the entire block is repeated as a unit. The separator is inserted between each full repetition of the block." },
-                { question: "What is the maximum number of repetitions?", answer: "This tool supports up to 10,000 repetitions. For very large outputs, the download button saves the result as a .txt file to prevent browser performance issues." },
-                { question: "How do I create a numbered list?", answer: "Enable the 'Add line numbers' option. Each repeated item will be prefixed with its sequence number (1., 2., 3...). Set the separator to newline for a numbered list format." },
-                { question: "Can I use a custom separator?", answer: "Yes. Select 'Custom' separator and type any character or string to use between each repetition - including multi-character separators, HTML tags, or any other text." },
-              ]}
-            />
-            <RelatedTools currentToolUrl="/tools/text/text-repeater" max={6} />
+          <Button onClick={handleGenerate} className="w-full">
+            <Repeat className="w-4 h-4 mr-2" /> Generate Repeated Text
+          </Button>
+        </CardContent>
+      </Card>
+
+      {output && (
+        <Card className={cardClass}>
+          <CardHeader className={headerClass}>
+            <CardTitle className={titleClass}><Copy className="w-4 h-4 text-primary" /> Output ({output.length} characters)</CardTitle>
+          </CardHeader>
+          <CardContent className="p-3 sm:p-4 space-y-3">
+            <textarea value={output} readOnly rows={10} className={textareaClass} />
+            <div className="flex justify-end">
+              <CopyButton getText={() => output} label="Copy All" />
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      <ToolHowItWorks
+        steps={[
+          { step: "01", title: "Enter Phrase", description: "Type the word, sentence, or emoji string you want to duplicate.", icon: PenTool },
+          { step: "02", title: "Set Parameters", description: "Choose how many times to repeat it and select the separator between instances.", icon: Settings },
+          { step: "03", title: "Generate & Copy", description: "Click generate to build the string and copy it to your clipboard instantly.", icon: Copy },
+        ]}
+        badges={["100% Free", "Client-Side", "No Signup"]}
+      />
+
+      <ToolFeatureGuides
+        features={[
+          { icon: Repeat, title: "High Volume", description: "Capable of generating up to 10,000 repetitions instantly without crashing your browser." },
+          { icon: Settings, title: "Custom Separators", description: "Join your repeated text with newlines, spaces, commas, or any custom string you define." },
+          { icon: PenTool, title: "Emoji Support", description: "Perfect for generating long strings of emojis for social media comments or spam prevention." },
+          { icon: Copy, title: "One-Click Copy", description: "Immediately copy the massive generated text block to your clipboard for pasting anywhere." },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <p>A text repeater is a surprisingly versatile utility for developers, marketers, and everyday internet users. Developers often use it to generate dummy data, populate test databases, or create large payload strings to stress-test API endpoints and form validations. By repeating a specific JSON structure or CSV row hundreds of times, you can quickly simulate large datasets.</p>
+          <p>Marketers and social media managers use text repeaters to create visual patterns or bypass character minimums on certain platforms. Repeating specific keywords or hashtags can also be used to format large blocks of text for visual impact in comment sections or forum posts. The ability to define custom separators means you can format the output as a comma-separated list, a bulleted list, or a continuous paragraph.</p>
+          <p>For everyday use, it's the fastest way to type a long string of identical characters, like a divider line (e.g., repeating "-----" fifty times) or generating a block of placeholder text when Lorem Ipsum isn't specific enough for your layout mockups. Because the generation happens entirely in your browser, it is instantaneous and completely private.</p>
         </div>
-    )
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion
+        faqs={[
+          { question: "Will this crash my browser if I generate 10,000 lines?", answer: "Modern browsers can easily handle strings with millions of characters. However, pasting a massive string into a basic text editor like Notepad might cause a brief freeze." },
+          { question: "Can I repeat multiple lines at once?", answer: "Yes. If you paste a multi-line paragraph into the input box, the entire block will be treated as a single unit and repeated according to your count." },
+          { question: "Is there a limit to the custom separator?", answer: "You can use any string as a custom separator, including HTML tags, emojis, or long phrases. The only limit is your device's memory." },
+        ]}
+      />
+
+      <RelatedTools currentToolUrl="/tools/text/text-repeater" max={6} />
+    </div>
+  );
 }

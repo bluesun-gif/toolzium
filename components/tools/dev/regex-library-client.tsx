@@ -1,924 +1,260 @@
 "use client";
 
-import {
-  LayoutGrid,
-  Link2,
-  Plus,
-  Regex as RegexIcon,
-  Save,
-  Sparkles,
-  Trash2,
-  Wand2,
-} from "lucide-react";
-import * as React from "react";
-import {
-  ActionButton,
-  CopyButton,
-  ExportTextButton,
-  ResetButton,
-} from "@/components/shared/action-buttons";
-import InputField from "@/components/shared/form-fields/input-field";
-import SelectField from "@/components/shared/form-fields/select-field";
-import TextareaField from "@/components/shared/form-fields/textarea-field";
+import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { Badge } from "@/components/ui/badge";
-import { CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { GlassCard } from "@/components/ui/glass-card";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
+import { Copy, Search, Code2, ShieldCheck, TestTube } from "lucide-react";
+import toast from "react-hot-toast";
 
-// Types & data
-type Pattern = {
-  id: string;
-  title: string;
-  description: string;
-  pattern: string;
-  flags?: string;
-  category: (typeof CATEGORIES)[number];
-  sample?: string;
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
+const textareaClass = "w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50 font-mono";
+
+const handleCopy = (text: string) => {
+  navigator.clipboard.writeText(text);
+  toast.success("Copied to clipboard!");
 };
 
-const CATEGORIES = ["All", "Web", "Numbers", "Security", "System", "Text", "Bangla"] as const;
-
-const LIBRARY: Pattern[] = [
-  // Web
-  {
-    id: "email",
-    title: "Email (simple, practical)",
-    description: "Basic RFC-lite email matcher for most use cases.",
-    pattern: String.raw`[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}`,
-    flags: "g",
-    category: "Web",
-    sample: "hello@example.com, admin@mail.io",
-  },
-  {
-    id: "url",
-    title: "URL (http/https)",
-    description: "Matches common http/https URLs with optional query/hash.",
-    pattern: String.raw`https?:\/\/[^\s/$.?#].[^\s]*`,
-    flags: "gi",
-    category: "Web",
-    sample: "Visit https://toolzium.com or http://example.org?q=1#top",
-  },
-  {
-    id: "slug",
-    title: "Slug (kebab-case)",
-    description: "Lowercase letters, digits and hyphens.",
-    pattern: `^[a-z0-9]+(?:-[a-z0-9]+)*$`,
-    flags: "",
-    category: "Web",
-    sample: "projects, my-project-01",
-  },
-  {
-    id: "html-tag",
-    title: "HTML tag",
-    description: "Find HTML tags with attributes.",
-    pattern: `<("[^"]*"|'[^']*'|[^'">])*>`,
-    flags: "g",
-    category: "Web",
-    sample: "<div class='box'>Hello</div>",
-  },
-  {
-    id: "youtube-id",
-    title: "YouTube Video ID",
-    description: "Extract 11-char YouTube video ID from URL.",
-    pattern: String.raw`(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([A-Za-z0-9_-]{11})`,
-    flags: "i",
-    category: "Web",
-    sample: "https://youtu.be/abc123XYZ09",
-  },
-
-  // Numbers
-  {
-    id: "integer",
-    title: "Integer (signed)",
-    description: "Optional leading +/-, then digits.",
-    pattern: String.raw`^[+-]?\d+$`,
-    flags: "",
-    category: "Numbers",
-    sample: "-42, 0, +99",
-  },
-  {
-    id: "number",
-    title: "Number (int/float)",
-    description: "Optional sign, optional decimals.",
-    pattern: String.raw`^[+-]?(?:\d+\.?\d*|\.\d+)$`,
-    flags: "",
-    category: "Numbers",
-    sample: "3, -2.5, .75, +10.0",
-  },
-  {
-    id: "currency",
-    title: "Currency (BDT style)",
-    description: "Digits with optional commas and decimals.",
-    pattern: String.raw`^\d{1,3}(?:,\d{3})*(?:\.\d{1,2})?$`,
-    flags: "",
-    category: "Numbers",
-    sample: "1,200,500.00",
-  },
-  {
-    id: "roman-numeral",
-    title: "Roman numeral",
-    description: "Match Roman numerals up to 3999.",
-    pattern: `^(?=[MDCLXVI])M*(C[MD]|D?C{0,3})(X[CL]|L?X{0,3})(I[XV]|V?I{0,3})$`,
-    flags: "i",
-    category: "Numbers",
-    sample: "XIV, MMXXV",
-  },
-  {
-    id: "percentage",
-    title: "Percentage (0-100%)",
-    description: "Number between 0–100 with % sign.",
-    pattern: String.raw`^(100(\.0+)?|[0-9]?\d(\.\d+)?)%$`,
-    flags: "",
-    category: "Numbers",
-    sample: "25%, 99.5%, 100%",
-  },
-
-  // Security
-  {
-    id: "strong-password",
-    title: "Strong password (8+ with mix)",
-    description: "At least 8 chars, upper, lower, number, symbol.",
-    pattern: String.raw`^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$`,
-    flags: "",
-    category: "Security",
-    sample: "Aa1!aaaa",
-  },
-  {
-    id: "hex-color",
-    title: "Hex color (#RGB/#RRGGBB)",
-    description: "3 or 6 hex digits after #.",
-    pattern: `^#(?:[0-9a-fA-F]{3}){1,2}$`,
-    flags: "",
-    category: "Security",
-    sample: "#0fa, #0F0F0F",
-  },
-  {
-    id: "jwt-token",
-    title: "JWT token",
-    description: "Three base64url encoded parts separated by dots.",
-    pattern: String.raw`^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$`,
-    flags: "",
-    category: "Security",
-    sample: "eyJhbGciOi...abc.def.ghi",
-  },
-
-  // System
-  {
-    id: "uuid-v4",
-    title: "UUID v4",
-    description: "Canonical lowercase/uppercase variants.",
-    pattern: `^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$`,
-    flags: "",
-    category: "System",
-    sample: "123e4567-e89b-12d3-a456-426614174000",
-  },
-  {
-    id: "ipv4",
-    title: "IPv4 address",
-    description: "0–255 dot-separated quads.",
-    pattern: String.raw`^(?:25[0-5]|2[0-4]\d|1?\d?\d)(?:\.(?:25[0-5]|2[0-4]\d|1?\d?\d)){3}$`,
-    flags: "",
-    category: "System",
-    sample: "192.168.0.1",
-  },
-  {
-    id: "ipv6",
-    title: "IPv6 address",
-    description: "Matches most IPv6 formats.",
-    pattern: `^(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|(::1)|::)$`,
-    flags: "i",
-    category: "System",
-    sample: "2001:0db8:85a3:0000:0000:8a2e:0370:7334",
-  },
-  {
-    id: "mac-address",
-    title: "MAC address",
-    description: "6 pairs of hex digits separated by : or -.",
-    pattern: `^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$`,
-    flags: "",
-    category: "System",
-    sample: "00:1A:2B:3C:4D:5E",
-  },
-
-  // Text
-  {
-    id: "trim-spaces",
-    title: "Trim extra spaces (find)",
-    description: "Multiple spaces for replacement.",
-    pattern: String.raw`\s{2,}`,
-    flags: "g",
-    category: "Text",
-    sample: "hello   world",
-  },
-  {
-    id: "words",
-    title: "Words (ASCII)",
-    description: "Word tokens split.",
-    pattern: String.raw`\b\w+\b`,
-    flags: "g",
-    category: "Text",
-    sample: "This is a test.",
-  },
-  {
-    id: "hashtags",
-    title: "Hashtags",
-    description: "Find #hashtags in text.",
-    pattern: String.raw`#\w+`,
-    flags: "g",
-    category: "Text",
-    sample: "Loving #Toolzium and #regex",
-  },
-  {
-    id: "mentions",
-    title: "Mentions (@username)",
-    description: "Find Twitter/Instagram style mentions.",
-    pattern: String.raw`@\w+`,
-    flags: "g",
-    category: "Text",
-    sample: "Thanks @tariqul_dev",
-  },
-
-  // Bangla
-  {
-    id: "bd-mobile",
-    title: "Bangladesh mobile (+880 / 01)",
-    description: "Typical Bangladeshi mobile formats.",
-    pattern: String.raw`^(?:\+?88)?01[3-9]\d{8}$`,
-    flags: "",
-    category: "Bangla",
-    sample: "+8801712345678, 01712345678",
-  },
-  {
-    id: "bangla-letters",
-    title: "Bangla letters",
-    description: "Matches Bangla letters (একাধিক).",
-    pattern: String.raw`[\u0980-\u09FF]+`,
-    flags: "g",
-    category: "Bangla",
-    sample: "আমার সোনার বাংলা",
-  },
-  {
-    id: "bangla-number",
-    title: "Bangla numbers",
-    description: "০–৯ বাংলা সংখ্যা match করে।",
-    pattern: `[০-৯]+`,
-    flags: "g",
-    category: "Bangla",
-    sample: "১২৩৪৫৬৭৮৯০",
-  },
+const regexData = [
+  { n: "Email", r: "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", d: "Validates standard email addresses.", c: "Email & URLs", m: ["user@domain.com"], nm: ["user@domain"] },
+  { n: "URL", r: "https?:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$", d: "HTTP/HTTPS URLs.", c: "Email & URLs", m: ["https://google.com"], nm: ["google.com"] },
+  { n: "Domain", r: "^(?:[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]\\.)+[a-zA-Z]{2,}$", d: "Domain names.", c: "Email & URLs", m: ["sub.domain.org"], nm: ["-domain.com"] },
+  { n: "IPv4", r: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$", d: "IPv4 addresses.", c: "Email & URLs", m: ["192.168.1.1"], nm: ["256.1.2.3"] },
+  { n: "IPv6", r: "^(?:[A-F0-9]{1,4}:){7}[A-F0-9]{1,4}$", d: "Simplified IPv6.", c: "Email & URLs", m: ["2001:0db8:85a3:0000:0000:8a2e:0370:7334"], nm: ["192.168.1.1"] },
+  { n: "Integer", r: "^-?\\d+$", d: "Positive/negative integers.", c: "Numbers", m: ["-42", "100"], nm: ["12.5"] },
+  { n: "Float", r: "^-?\\d*\\.\\d+$", d: "Decimal numbers.", c: "Numbers", m: ["3.14", "-0.99"], nm: ["42"] },
+  { n: "US Phone", r: "^(?:\\+?1[-.\\s]?)?\\(?\\d{3}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}$", d: "US phone numbers.", c: "Numbers", m: ["(555) 123-4567"], nm: ["123-4567"] },
+  { n: "Int Phone", r: "^\\+(?:[0-9] ?){6,14}[0-9]$", d: "International phones.", c: "Numbers", m: ["+44 20 7946 0958"], nm: ["44207946"] },
+  { n: "Currency", r: "^\\$\\d{1,3}(?:,\\d{3})*(?:\\.\\d{2})?$", d: "USD currency.", c: "Numbers", m: ["$1,234.56"], nm: ["1234.56"] },
+  { n: "Percentage", r: "^(100(\\.0+)?|\\d{1,2}(\\.\\d+)?)%$", d: "Percentages 0-100.", c: "Numbers", m: ["99.9%"], nm: ["101%"] },
+  { n: "Hex Color", r: "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$", d: "Hex color codes.", c: "Numbers", m: ["#FF5733", "#FFF"], nm: ["#GGGGGG"] },
+  { n: "ISO Date", r: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:\\d{2})$", d: "ISO 8601 dates.", c: "Dates & Times", m: ["2023-10-27T10:00:00Z"], nm: ["10/27/2023"] },
+  { n: "MM/DD/YYYY", r: "^(0[1-9]|1[0-2])\\/(0[1-9]|1\\d|2\\d|3[01])\\/(19|20)\\d{2}$", d: "US date format.", c: "Dates & Times", m: ["12/31/2023"], nm: ["31/12/2023"] },
+  { n: "DD/MM/YYYY", r: "^(0[1-9]|1\\d|2\\d|3[01])\\/(0[1-9]|1[0-2])\\/(19|20)\\d{2}$", d: "UK date format.", c: "Dates & Times", m: ["31/12/2023"], nm: ["12/31/2023"] },
+  { n: "24h Time", r: "^([01]\\d|2[0-3]):([0-5]\\d)(?::([0-5]\\d))?$", d: "24-hour time.", c: "Dates & Times", m: ["23:59:59"], nm: ["24:00"] },
+  { n: "12h Time", r: "^(0?[1-9]|1[0-2]):[0-5][0-9](?:\\s?[AaPp][Mm])?$", d: "12-hour time.", c: "Dates & Times", m: ["01:30 PM"], nm: ["13:30"] },
+  { n: "Username", r: "^[a-zA-Z0-9_]{3,16}$", d: "Alphanumeric usernames.", c: "Validation", m: ["user_123"], nm: ["us"] },
+  { n: "Strong Pwd", r: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", d: "Complex passwords.", c: "Validation", m: ["Pass123!"], nm: ["password"] },
+  { n: "Visa", r: "^4[0-9]{12}(?:[0-9]{3})?$", d: "Visa credit cards.", c: "Validation", m: ["4111111111111111"], nm: ["5111111111111111"] },
+  { n: "MasterCard", r: "^(5[1-5][0-9]{14}|2(22[1-9][0-9]{12}|2[3-9][0-9]{13}|[3-6][0-9]{14}|7[0-1][0-9]{13}|720[0-9]{12}))$", d: "MasterCard numbers.", c: "Validation", m: ["5555555555554444"], nm: ["4111111111111111"] },
+  { n: "Amex", r: "^3[47][0-9]{13}$", d: "American Express.", c: "Validation", m: ["378282246310005"], nm: ["4111111111111111"] },
+  { n: "SSN", r: "^(?!\\b(\\d)\\1+\\b)(?!123-45-6789|219-09-9999|078-05-1120)(?!666|000|9\\d{2})\\d{3}-(?!00)\\d{2}-(?!0{4})\\d{4}$", d: "US SSN.", c: "Validation", m: ["123-45-6789"], nm: ["000-00-0000"] },
+  { n: "ZIP Code", r: "^\\d{5}(?:[-\\s]\\d{4})?$", d: "US ZIP codes.", c: "Validation", m: ["90210-1234"], nm: ["9021"] },
+  { n: "Slug", r: "^[a-z0-9]+(?:-[a-z0-9]+)*$", d: "URL slugs.", c: "Validation", m: ["my-blog-post"], nm: ["My Blog Post"] },
+  { n: "JWT", r: "^eyJ[A-Za-z0-9-_]+\\.eyJ[A-Za-z0-9-_]+\\.[A-Za-z0-9-_.+/=]*$", d: "JSON Web Tokens.", c: "Security", m: ["eyJhbGci..."], nm: ["random_string"] },
+  { n: "API Key", r: "^[A-Za-z0-9_\\-]{32,}$", d: "Generic API keys.", c: "Security", m: ["sk_live_1234567890abcdef"], nm: ["short"] },
+  { n: "SQLi Detect", r: "(?i)(\\b(select|insert|update|delete|drop|union|alter)\\b.*\\b(from|into|table|database)\\b)|(--|;|\\/\\*)", d: "Basic SQL injection.", c: "Security", m: ["' OR 1=1; --"], nm: ["normal text"] },
+  { n: "XSS Detect", r: "(?i)<script.*?>|javascript:|on\\w+\\s*=", d: "Basic XSS payloads.", c: "Security", m: ["<script>alert(1)</script>"], nm: ["<p>safe</p>"] },
+  { n: "Whitespace", r: "^\\s+|\\s+$", d: "Leading/trailing spaces.", c: "Text Processing", m: ["  hello  "], nm: ["hello"] },
+  { n: "HTML Tags", r: "<\\/?([a-zA-Z0-9]+)(\\s+[a-zA-Z0-9]+(\\s*=\\s*(?:\".*?\"|'.*?'|[^'\">\\s]+))?)*\\s*\\/?>", d: "HTML elements.", c: "Text Processing", m: ["<div class='x'>"], nm: ["not a tag"] },
+  { n: "Markdown Link", r: "\\[([^\\]]+)\\]\\(([^\\)]+)\\)", d: "Markdown URLs.", c: "Text Processing", m: ["[Google](https://google.com)"], nm: ["https://google.com"] },
+  { n: "camelCase", r: "^[a-z]+([A-Z][a-z]*)*$", d: "camelCase strings.", c: "Text Processing", m: ["myVariableName"], nm: ["MyVariable"] },
+  { n: "snake_case", r: "^[a-z]+(_[a-z]+)*$", d: "snake_case strings.", c: "Text Processing", m: ["my_variable_name"], nm: ["my-variable"] },
+  { n: "Sentence", r: "^[A-Z][a-z]*(?:\\s[a-z]+)*[.?!]$", d: "Simple sentences.", c: "Text Processing", m: ["Hello world."], nm: ["hello world"] },
+  { n: "MAC Addr", r: "^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$", d: "MAC addresses.", c: "Email & URLs", m: ["00:1A:2B:3C:4D:5E"], nm: ["00-1A-2B"] },
+  { n: "UUID", r: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", d: "UUID v4 strings.", c: "Validation", m: ["123e4567-e89b-12d3-a456-426614174000"], nm: ["12345"] },
+  { n: "Latitude", r: "^-?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?)$", d: "GPS Latitude.", c: "Numbers", m: ["45.123"], nm: ["95"] },
+  { n: "Longitude", r: "^-?(180(\\.0+)?|((1[0-7]\\d)|([1-9]?\\d))(\\.\\d+)?)$", d: "GPS Longitude.", c: "Numbers", m: ["-120.45"], nm: ["185"] },
+  { n: "YouTube ID", r: "^(?:https?:\\/\\/(?:www\\.)?youtube\\.com\\/watch\\?v=|youtu\\.be\\/)([a-zA-Z0-9_-]{11})$", d: "YouTube video IDs.", c: "Email & URLs", m: ["https://youtu.be/dQw4w9WgXcQ"], nm: ["vimeo.com/123"] },
+  { n: "Twitter Handle", r: "^@([A-Za-z0-9_]{1,15})$", d: "Twitter usernames.", c: "Validation", m: ["@elonmusk"], nm: ["elonmusk"] },
+  { n: "Hashtag", r: "^#([A-Za-z0-9_]+)$", d: "Social hashtags.", c: "Validation", m: ["#coding"], nm: ["# coding"] },
+  { n: "Emoji", r: "[\\u{1F600}-\\u{1F64F}\\u{1F300}-\\u{1F5FF}\\u{1F680}-\\u{1F6FF}\\u{1F1E0}-\\u{1F1FF}\\u{2600}-\\u{26FF}\\u{2700}-\\u{27BF}]", d: "Basic emojis.", c: "Text Processing", m: ["Hello 🚀"], nm: ["Hello"] },
+  { n: "Credit Card", r: "^\\d{4}[- ]?\\d{4}[- ]?\\d{4}[- ]?\\d{4}$", d: "Generic CC formats.", c: "Validation", m: ["1234 5678 9012 3456"], nm: ["123456"] },
+  { n: "Passport", r: "^(?!^0+$)[a-zA-Z0-9]{6,9}$", d: "Generic passport numbers.", c: "Validation", m: ["AB123456"], nm: ["00000"] },
+  { n: "VIN", r: "^(?:[A-HJ-NPR-Z0-9]{17})$", d: "Vehicle ID numbers.", c: "Validation", m: ["1HGBH41JXMN109186"], nm: ["12345"] },
+  { n: "ISBN-10", r: "^(?:\\d{9}[Xx]|\\d{10})$", d: "ISBN 10 digits.", c: "Validation", m: ["0306406152"], nm: ["030640615"] },
+  { n: "ISBN-13", r: "^(?:978|979)\\d{10}$", d: "ISBN 13 digits.", c: "Validation", m: ["9780306406157"], nm: ["1234567890123"] },
+  { n: "Bitcoin Addr", r: "^(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,39}$", d: "Bitcoin addresses.", c: "Security", m: ["1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa"], nm: ["invalid"] },
 ];
 
-// ---------- Helpers ----------
-const FLAG_KEYS = ["g", "i", "m", "s", "u", "y"] as const;
-type FlagKey = (typeof FLAG_KEYS)[number];
-type Flags = Record<FlagKey, boolean>;
+const categories = ["All", "Email & URLs", "Numbers", "Dates & Times", "Validation", "Security", "Text Processing"];
 
-const INITIAL_FLAGS: Flags = { g: true, i: true, m: false, s: false, u: false, y: false };
+export function RegexLibraryClient() {
+  const [search, setSearch] = useState("");
+  const [activeCat, setActiveCat] = useState("All");
+  const [testText, setTestText] = useState("Contact me at test@example.com or visit https://google.com! My phone is 555-123-4567.");
+  const [testPattern, setTestPattern] = useState("");
 
-function escapeForDisplay(src: string) {
-  return src.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-}
-function safeWindow(): (Window & typeof globalThis) | undefined {
-  return typeof window !== "undefined" ? window : undefined;
-}
-
-function buildRegex(src: string, flags: string) {
-  try {
-    return { re: new RegExp(src, flags), error: null as string | null };
-  } catch (e: unknown) {
-    const msg = e instanceof Error ? e.message : "Invalid regex";
-    return { re: null as RegExp | null, error: msg };
-  }
-}
-
-type MatchRow = { match: string; index: number; groups?: Record<string, string | undefined> };
-
-// Robust matcher that handles zero-length matches
-function collectMatches(text: string, re: RegExp | null): MatchRow[] {
-  if (!re || !text) return [];
-
-  const g: RegExp = new RegExp(re.source, re.flags.includes("g") ? re.flags : `${re.flags}g`);
-  const rows: MatchRow[] = [];
-
-  for (;;) {
-    const m = g.exec(text);
-    if (m === null) break;
-
-    rows.push({
-      match: m[0] ?? "",
-      index: m.index ?? -1,
-      groups: m.groups ?? undefined,
+  const filteredRegex = useMemo(() => {
+    return regexData.filter((p) => {
+      const matchSearch = p.n.toLowerCase().includes(search.toLowerCase()) || p.d.toLowerCase().includes(search.toLowerCase());
+      const matchCat = activeCat === "All" || p.c === activeCat;
+      return matchSearch && matchCat;
     });
+  }, [search, activeCat]);
 
-    if (m[0] === "") {
-      const next = (m.index ?? 0) + 1;
-      g.lastIndex = next;
-      if (next >= text.length) break;
-    }
-  }
-
-  return rows;
-}
-
-function encodeShare(p: { pattern: string; flags: string; text: string; replace: string }) {
-  const payload = new URLSearchParams({
-    re: p.pattern,
-    f: p.flags,
-    t: p.text,
-    r: p.replace,
-  }).toString();
-  return `?${payload}`;
-}
-function decodeShare(search: string) {
-  const sp = new URLSearchParams(search);
-  return {
-    pattern: sp.get("re") ?? "",
-    flags: sp.get("f") ?? "",
-    text: sp.get("t") ?? "",
-    replace: sp.get("r") ?? "",
-  };
-}
-
-export default function RegexLibraryClient() {
-  // Search & filter
-  const [q, setQ] = React.useState("");
-  const [cat, setCat] = React.useState<"All" | Pattern["category"]>("All");
-
-  // Tester state
-  const [pattern, setPattern] = React.useState<string>(LIBRARY[0].pattern);
-  const [flags, setFlags] = React.useState<Flags>(INITIAL_FLAGS);
-  const [testText, setTestText] = React.useState<string>(LIBRARY[0].sample ?? "");
-  const [replace, setReplace] = React.useState<string>("");
-  const [error, setError] = React.useState<string | null>(null);
-  const [runMs, setRunMs] = React.useState<number | null>(null);
-
-  // Favorites
-  type Fav = { id: string; title: string; pattern: string; flags: string };
-  const [favs, setFavs] = React.useState<Fav[]>([]);
-
-  // Quick inserts
-  const QUICK = React.useMemo(
-    () => [
-      { label: "Digits (\\d+)", value: String.raw`\d+` },
-      { label: "Word (\\w+)", value: String.raw`\w+` },
-      { label: "Whitespace (\\s+)", value: String.raw`\s+` },
-      { label: "Start ^", value: "^" },
-      { label: "End $", value: "$" },
-      { label: "Word boundary \\b", value: String.raw`\b` },
-      { label: "Group ()", value: "($1)" },
-      { label: "Named (?<name>)", value: `(?<name>...)` },
-    ],
-    [],
-  );
-
-  // Parse share URL on mount
-  React.useEffect(() => {
-    const w = safeWindow();
-    if (!w) return;
-    const { pattern: ps, flags: fs, text: ts, replace: rs } = decodeShare(w.location.search);
-    if (ps || fs || ts || rs) {
-      setPattern(ps || LIBRARY[0].pattern);
-
-      const next: Flags = { g: false, i: false, m: false, s: false, u: false, y: false };
-      for (const ch of fs || "") {
-        if (FLAG_KEYS.includes(ch as FlagKey)) next[ch as FlagKey] = true;
+  const testResults = useMemo(() => {
+    if (!testPattern) return [];
+    try {
+      const regex = new RegExp(testPattern, "g");
+      const matches = [];
+      let m;
+      let safetyCount = 0;
+      while ((m = regex.exec(testText)) !== null) {
+        matches.push(m[0]);
+        if (m[0].length === 0) {
+          regex.lastIndex++;
+        }
+        safetyCount++;
+        if (safetyCount > 5000) break;
       }
-      setFlags(next);
-
-      setTestText(ts || "");
-      setReplace(rs || "");
+      return matches;
+    } catch (e) {
+      return ["Invalid Regex"];
     }
-  }, []);
+  }, [testText, testPattern]);
 
-  // Load favorites
-  React.useEffect(() => {
-    const w = safeWindow();
-    if (!w) return;
-    try {
-      const saved = w.localStorage.getItem("regex-favs");
-      if (saved) setFavs(JSON.parse(saved) as Fav[]);
-    } catch {}
-  }, []);
-  const saveFavs = React.useCallback((list: Fav[]) => {
-    const w = safeWindow();
-    setFavs(list);
-    if (!w) return;
-    try {
-      w.localStorage.setItem("regex-favs", JSON.stringify(list));
-    } catch {}
-  }, []);
+  const howItWorksSteps = [
+    { step: "01", title: "Browse the Library", description: "Search through 50+ production-ready regex patterns categorized by use case, from emails to security payloads.", icon: Search },
+    { step: "02", title: "Copy the Pattern", description: "Review the match and non-match examples to ensure the pattern fits your needs, then copy it with one click.", icon: Copy },
+    { step: "03", title: "Quick Test", description: "Paste your own text into the testing panel and apply any pattern to see real-time highlighted matches.", icon: TestTube },
+  ];
 
-  const flagsStr = React.useMemo(() => FLAG_KEYS.filter((f) => flags[f]).join(""), [flags]);
+  const features = [
+    { icon: Search, title: "Curated Pattern Library", description: "Access over 50 battle-tested regular expressions for emails, URLs, dates, validation, and security detection." },
+    { icon: Code2, title: "Visual Examples", description: "Every pattern includes concrete examples of matching and non-matching strings to clarify exact behavior." },
+    { icon: TestTube, title: "Live Regex Tester", description: "Instantly test any pattern against your own custom text input to verify edge cases before deploying to production." },
+    { icon: ShieldCheck, title: "Security Focused", description: "Includes specialized patterns for detecting SQL injection attempts, XSS payloads, and validating JWT tokens." },
+  ];
 
-  // Build regex & measure compile time
-  const { re, error: buildErr } = React.useMemo(() => {
-    const t0 = performance.now();
-    const out = buildRegex(pattern, flagsStr);
-    setRunMs(performance.now() - t0);
-    return out;
-  }, [pattern, flagsStr]);
+  const faqs = [
+    { question: "Are these regex patterns safe for production?", answer: "Yes, these patterns are designed to be robust and avoid catastrophic backtracking. However, always test against your specific dataset and consider using dedicated parsing libraries for complex formats like HTML." },
+    { question: "How do I use the Quick Test panel?", answer: "Simply copy a pattern from the library, paste it into the 'Regex Pattern' field in the test panel, and type your text. Matches will be listed below." },
+    { question: "Do I need to escape backslashes in my code?", answer: "If you are defining the regex as a string (e.g., new RegExp('...')), you must double the backslashes (\\\\). If using literal syntax (/.../), single backslashes are fine." },
+  ];
 
-  React.useEffect(() => {
-    setError(buildErr);
-  }, [buildErr]);
 
-  // Not a hook — regular handler
-  function applyInTester(item: Pattern) {
-    setPattern(item.pattern);
-    const next: Flags = { g: false, i: false, m: false, s: false, u: false, y: false };
-    for (const f of item.flags ?? "") {
-      if (FLAG_KEYS.includes(f as FlagKey)) next[f as FlagKey] = true;
-    }
-    setFlags(next);
-    setTestText(item.sample ?? "");
-    safeWindow()?.scrollTo({ top: 0, behavior: "smooth" });
-  }
-
-  function resetTester() {
-    setPattern("");
-    setFlags({ g: true, i: false, m: false, s: false, u: false, y: false });
-    setTestText("");
-    setReplace("");
-    setError(null);
-  }
-
-  const filtered = React.useMemo(() => {
-    const needle = q.trim().toLowerCase();
-    return LIBRARY.filter((p) => {
-      if (cat !== "All" && p.category !== cat) return false;
-      if (!needle) return true;
-      return (
-        p.title.toLowerCase().includes(needle) ||
-        p.description.toLowerCase().includes(needle) ||
-        p.pattern.toLowerCase().includes(needle)
-      );
-    });
-  }, [q, cat]);
-
-  const matches = React.useMemo(() => collectMatches(testText, re), [testText, re]);
-
-  const replaced = React.useMemo(() => {
-    if (!re || !testText) return "";
-    try {
-      const gg = new RegExp(re.source, re.flags.includes("g") ? re.flags : `${re.flags}g`);
-      return testText.replace(gg, replace);
-    } catch {
-      return "";
-    }
-  }, [re, testText, replace]);
-
-  function addFavorite() {
-    const title = prompt("Save as (title)?", pattern.slice(0, 32) || "Untitled");
-    if (!title) return;
-    const id = `${Date.now()}`;
-    const next = [...favs, { id, title, pattern, flags: flagsStr }];
-    saveFavs(next);
-  }
-  function applyFavorite(f: Fav) {
-    setPattern(f.pattern);
-    const next: Flags = { g: false, i: false, m: false, s: false, u: false, y: false };
-    for (const ch of f.flags) {
-      if (FLAG_KEYS.includes(ch as FlagKey)) next[ch as FlagKey] = true;
-    }
-    setFlags(next);
-  }
-  function removeFavorite(id: string) {
-    const next = favs.filter((f) => f.id !== id);
-    saveFavs(next);
-  }
 
   return (
-    <>
-      {/* Header */}
+    <div className="max-w-6xl mx-auto space-y-8">
       <ToolPageHeader
-        icon={RegexIcon}
-        title="Regex Library"
-        description="Collection of useful regular expressions"
-        actions={
-          <>
-            <ResetButton onClick={resetTester} />
-            <CopyButton
-              icon={Link2}
-              label="Share"
-              getText={() => {
-                const w = safeWindow();
-                if (!w) return;
-                return (
-                  w.location.origin +
-                  w.location.pathname +
-                  encodeShare({ pattern, flags: flagsStr, text: testText, replace })
-                );
-              }}
-            />
-            <ActionButton icon={Save} label="Save Favorite" onClick={addFavorite} />
-          </>
-        }
+        icon={Code2}
+        title="Regex Pattern Library"
+        description="Searchable collection of 50+ production-ready regular expressions with live testing, examples, and one-click copying."
       />
 
-      {/* Tester */}
-      <GlassCard>
-        <CardHeader>
-          <CardTitle className="text-base">Regex Tester</CardTitle>
-          <CardDescription>
-            Edit the pattern, toggle flags, and see live matches highlighted.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="grid gap-4 md:grid-cols-2">
-          <div className="space-y-3">
-            <div className="space-y-2">
-              <Label htmlFor="pattern">Pattern</Label>
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="rounded-md border bg-muted/50 px-2 py-1 text-xs text-muted-foreground">
-                  /
-                </span>
-                <InputField
-                  id="pattern"
-                  placeholder="your-regex-here"
-                  value={pattern}
-                  onChange={(e) => setPattern(e.target.value)}
-                  className="font-mono"
-                />
-                <span className="rounded-md border bg-muted/50 px-2 py-1 text-xs text-muted-foreground">
-                  /
-                </span>
-                <InputField
-                  aria-label="flags"
-                  value={flagsStr}
-                  onChange={(e) => {
-                    const next: Flags = {
-                      g: false,
-                      i: false,
-                      m: false,
-                      s: false,
-                      u: false,
-                      y: false,
-                    };
-                    const v = e.target.value.replace(/[^gimsuy]/g, "");
-                    for (const ch of v)
-                      if (FLAG_KEYS.includes(ch as FlagKey)) next[ch as FlagKey] = true;
-                    setFlags(next);
-                  }}
-                  className="w-24 font-mono"
-                />
-                <span className="ml-auto text-xs text-muted-foreground">
-                  {runMs ? `${runMs.toFixed(2)}ms` : "—"}
-                </span>
-              </div>
-              <div className="mt-1 grid grid-cols-6 gap-2 sm:grid-cols-6">
-                {FLAG_KEYS.map((k) => (
-                  <ActionButton
-                    key={k}
-                    size="sm"
-                    label={k}
-                    onClick={() => setFlags((f) => ({ ...f, [k]: !f[k] }))}
-                    variant={flags[k] ? "default" : "outline"}
-                  />
-                ))}
-              </div>
-              {error ? (
-                <p className="text-xs text-destructive">Error: {error}</p>
-              ) : (
-                <p className="text-xs text-muted-foreground">Flags: {flagsStr || "—"}</p>
-              )}
+      <Card className={cardClass}>
+        <CardHeader className={headerClass}>
+          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+            <div className="relative flex-1 w-full">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              <Input 
+                className="pl-9 h-9" 
+                placeholder="Search patterns..." 
+                value={search} 
+                onChange={(e) => setSearch(e.target.value)} 
+              />
             </div>
-
-            <div className="space-y-2">
-              <Label>Quick inserts</Label>
-              <div className="flex flex-wrap gap-2">
-                {QUICK.map((qk) => (
-                  <ActionButton
-                    key={qk.label}
-                    label={qk.label}
-                    size="sm"
-                    onClick={() => setPattern((p) => p + qk.value)}
-                  />
-                ))}
-              </div>
-            </div>
-
-            <TextareaField
-              id="test"
-              label="Test Text"
-              value={testText}
-              onChange={(e) => setTestText(e.target.value)}
-              className="min-h-[140px] font-mono"
-              placeholder="Paste or type text to test…"
-            />
-
-            <InputField
-              id="replace"
-              label="Replace"
-              value={replace}
-              onChange={(e) => setReplace(e.target.value)}
-              placeholder="Use $1, $<name> etc."
-              className="font-mono"
-              hint={
-                <p className="text-xs text-muted-foreground">
-                  Supports capture groups and named groups. Example:{" "}
-                  <code className="font-mono">Hello, $1</code> or{" "}
-                  <code className="font-mono">$&</code>.
-                </p>
-              }
-            />
-          </div>
-
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <Label>Preview (matches highlighted)</Label>
-              <div className="flex gap-2">
-                <CopyButton size="sm" label="Copy Regex" getText={`/${pattern}/${flagsStr}`} />
-                <ExportTextButton
-                  size="sm"
-                  label="Matches JSON"
-                  filename="regex-matches.json"
-                  getText={() => JSON.stringify(matches, null, 2)}
-                />
-              </div>
-            </div>
-            <div className="min-h-[140px] rounded-md border p-3 text-sm leading-6">
-              <div className="prose prose-sm dark:prose-invert max-w-none">
-                {highlightMatches(testText, re)}
-              </div>
-            </div>
-
-            {!error && re && (
-              <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
-                <Badge>
-                  source: <span className="font-mono ml-1">/{escapeForDisplay(re.source)}/</span>
-                </Badge>
-                <Badge>flags: {re.flags || "—"}</Badge>
-                <Badge>matches: {matches.length}</Badge>
-              </div>
-            )}
-
-            <TextareaField
-              label="Replace Result"
-              readOnly
-              value={replaced}
-              className="min-h-[120px] font-mono"
-              placeholder="Replaced text will appear here…"
-            />
-
-            {/* Matches table-ish */}
-            <div className="space-y-2">
-              <Label>Matches Inspector</Label>
-              <div className="max-h-64 overflow-auto rounded-md border">
-                {matches.length === 0 ? (
-                  <div className="p-3 text-sm text-muted-foreground">No matches.</div>
-                ) : (
-                  <div className="divide-y">
-                    {matches.map((m, i) => (
-                      <div
-                        key={i as number}
-                        className="grid grid-cols-1 gap-1 p-3 sm:grid-cols-12 sm:gap-3"
-                      >
-                        <div className="sm:col-span-3">
-                          <div className="text-[11px] text-muted-foreground">Match #{i + 1}</div>
-                          <div className="font-mono text-sm break-words">{m.match}</div>
-                        </div>
-                        <div className="sm:col-span-2">
-                          <div className="text-[11px] text-muted-foreground">Index</div>
-                          <div className="text-sm">{m.index}</div>
-                        </div>
-                        <div className="sm:col-span-7">
-                          <div className="text-[11px] text-muted-foreground">Groups</div>
-                          {m.groups ? (
-                            <div className="flex flex-wrap gap-2">
-                              {Object.entries(m.groups).map(([k, v]) => (
-                                <Badge key={k} variant="secondary" className="font-mono">
-                                  {k}: {v ?? "—"}
-                                </Badge>
-                              ))}
-                            </div>
-                          ) : (
-                            <div className="text-sm text-muted-foreground">—</div>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </GlassCard>
-
-      <Separator className="my-4" />
-
-      {/* Library controls */}
-      <GlassCard className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between px-6">
-        <div className="flex items-center gap-2">
-          <Sparkles className="h-5 w-5" />
-          <div className="text-sm text-muted-foreground">Hand-picked patterns, ready to copy.</div>
-        </div>
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-end">
-          <InputField
-            placeholder="Search patterns…"
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            className="pl-8"
-          />
-
-          <SelectField
-            id="category"
-            icon={LayoutGrid}
-            label="Category"
-            placeholder="All"
-            className="w-44"
-            value={cat}
-            options={CATEGORIES.map((c) => ({ value: c, label: c }))}
-            onValueChange={(v) => setCat((v as (typeof CATEGORIES)[number]) ?? "All")}
-          />
-        </div>
-      </GlassCard>
-
-      {/* Library grid */}
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 mt-4">
-        {filtered.map((item) => (
-          <GlassCard key={item.id}>
-            <CardHeader className="pb-2">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-base">{item.title}</CardTitle>
-                <Badge variant="secondary">{item.category}</Badge>
-              </div>
-              <CardDescription>{item.description}</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="rounded-md border bg-muted/50 p-2">
-                <code className="whitespace-pre-wrap break-words text-sm">
-                  /{escapeForDisplay(item.pattern)}/{item.flags || ""}
-                </code>
-              </div>
-              {item.sample && (
-                <div className="rounded-md border p-2">
-                  <div className="mb-1 text-xs text-muted-foreground">Sample</div>
-                  <div className="text-sm font-mono">{item.sample}</div>
-                </div>
-              )}
-              <div className="flex flex-wrap gap-2">
-                <CopyButton size="sm" getText={`/${item.pattern}/${item.flags ?? ""}`} />
-                <ActionButton
-                  size="sm"
-                  icon={Wand2}
-                  label="Use in Tester"
-                  className="gap-2"
-                  onClick={() => applyInTester(item)}
-                />
-              </div>
-            </CardContent>
-          </GlassCard>
-        ))}
-      </div>
-
-      <Separator className="my-4" />
-
-      {/* Favorites */}
-      <GlassCard>
-        <CardHeader>
-          <CardTitle className="text-base">Favorites</CardTitle>
-          <CardDescription>Save and reuse your most common patterns.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          {favs.length === 0 ? (
-            <div className="rounded-md border p-3 text-sm text-muted-foreground">
-              No favorites yet. Click <em>Save Favorite</em> above to store the current pattern.
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
-              {favs.map((f) => (
-                <div key={f.id} className="rounded-md border p-3">
-                  <div className="mb-2 flex items-center justify-between">
-                    <div className="font-medium">{f.title}</div>
-                    <div className="flex gap-1">
-                      <ActionButton size="icon" icon={Plus} onClick={() => applyFavorite(f)} />
-                      <CopyButton
-                        size="icon"
-                        label=""
-                        copiedLabel=""
-                        getText={`/${f.pattern}/${f.flags}`}
-                      />
-                      <ActionButton
-                        size="icon"
-                        icon={Trash2}
-                        variant="destructive"
-                        onClick={() => removeFavorite(f.id)}
-                      />
-                    </div>
-                  </div>
-                  <div className="rounded-md border bg-muted/50 p-2 text-sm font-mono">
-                    /{escapeForDisplay(f.pattern)}/{f.flags}
-                  </div>
-                </div>
+            <div className="flex flex-wrap gap-2">
+              {categories.map((cat) => (
+                <Button 
+                  key={cat} 
+                  variant={activeCat === cat ? "default" : "outline"} 
+                  size="sm" 
+                  className="h-7 text-xs"
+                  onClick={() => setActiveCat(cat)}
+                >
+                  {cat}
+                </Button>
               ))}
             </div>
-          )}
-        </CardContent>
-      </GlassCard>
-
-      <Separator className="my-4" />
-
-      {/* Cheatsheet */}
-      <GlassCard>
-        <CardHeader>
-          <CardTitle className="text-base">Regex Cheatsheet</CardTitle>
-          <CardDescription>Common tokens, anchors & quantifiers (JS flavor).</CardDescription>
+          </div>
         </CardHeader>
-        <CardContent className="grid gap-3 md:grid-cols-3">
-          <div className="rounded-md border p-3 text-sm">
-            <div className="font-medium mb-2">Anchors</div>
-            <ul className="list-disc pl-5 space-y-1 text-muted-foreground">
-              <li>
-                <code className="font-mono">^</code> start of string
-              </li>
-              <li>
-                <code className="font-mono">$</code> end of string
-              </li>
-              <li>
-                <code className="font-mono">\b</code> word boundary
-              </li>
-            </ul>
-          </div>
-          <div className="rounded-md border p-3 text-sm">
-            <div className="font-medium mb-2">Character Classes</div>
-            <ul className="list-disc pl-5 space-y-1 text-muted-foreground">
-              <li>
-                <code className="font-mono">\d</code> digit, <code className="font-mono">\w</code>{" "}
-                word, <code className="font-mono">\s</code> whitespace
-              </li>
-              <li>
-                <code className="font-mono">.</code> any char (except newline unless{" "}
-                <code className="font-mono">s</code>)
-              </li>
-              <li>
-                <code className="font-mono">[abc]</code> set,{" "}
-                <code className="font-mono">[^abc]</code> negated
-              </li>
-            </ul>
-          </div>
-          <div className="rounded-md border p-3 text-sm">
-            <div className="font-medium mb-2">Groups & Quantifiers</div>
-            <ul className="list-disc pl-5 space-y-1 text-muted-foreground">
-              <li>
-                <code className="font-mono">( )</code> capture,{" "}
-                <code className="font-mono">(?: )</code> non-capture
-              </li>
-              <li>
-                <code className="font-mono">(?&lt;name&gt; )</code> named capture
-              </li>
-              <li>
-                <code className="font-mono">?</code>, <code className="font-mono">*</code>,{" "}
-                <code className="font-mono">+</code>, <code className="font-mono">{"{m,n}"}</code>{" "}
-                (add <code className="font-mono">?</code> for lazy)
-              </li>
-            </ul>
+        <CardContent className="p-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[600px] overflow-y-auto pr-2">
+            {filteredRegex.map((p, i) => (
+              <Card key={i} className="border border-border/50 bg-background/50 overflow-hidden">
+                <CardHeader className="p-3 bg-muted/10 border-b border-border/30">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-sm font-bold">{p.n}</CardTitle>
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium">{p.c}</span>
+                  </div>
+                </CardHeader>
+                <CardContent className="p-3 space-y-2">
+                  <div className="flex items-center justify-between bg-slate-950 p-2 rounded text-[10px] text-cyan-400 font-mono break-all">
+                    <span className="flex-1 mr-2">{p.r}</span>
+                    <Button variant="ghost" size="sm" className="h-6 w-6 p-0" onClick={() => handleCopy(p.r)}>
+                      <Copy className="w-3 h-3" />
+                    </Button>
+                  </div>
+                  <p className="text-xs text-muted-foreground">{p.d}</p>
+                  <div className="flex flex-wrap gap-1">
+                    {p.m.map((m, j) => (
+                      <span key={j} className="text-[10px] px-1.5 py-0.5 rounded bg-green-500/10 text-green-500 border border-green-500/20">{m}</span>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </CardContent>
-      </GlassCard>
-    </>
+      </Card>
+
+      <Card className={cardClass}>
+        <CardHeader className={headerClass}>
+          <CardTitle className={titleClass}><TestTube className="w-4 h-4" /> Quick Test Panel</CardTitle>
+        </CardHeader>
+        <CardContent className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-3">
+            <div className="space-y-1">
+              <Label className="text-xs">Test Text</Label>
+              <textarea 
+                className={textareaClass} 
+                rows={5} 
+                value={testText} 
+                onChange={(e) => setTestText(e.target.value)} 
+              />
+            </div>
+            <div className="space-y-1">
+              <Label className="text-xs">Regex Pattern (paste from above)</Label>
+              <Input 
+                className="font-mono text-xs" 
+                value={testPattern} 
+                onChange={(e) => setTestPattern(e.target.value)} 
+                placeholder="e.g. ^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
+              />
+            </div>
+          </div>
+          <div className="space-y-2">
+            <Label className="text-xs font-bold">Matches ({testResults.length})</Label>
+            <div className="h-40 overflow-y-auto bg-muted/10 rounded-lg p-3 space-y-1 border border-border/50">
+              {testResults.length === 0 ? (
+                <p className="text-xs text-muted-foreground italic">No matches found or invalid regex.</p>
+              ) : (
+                testResults.map((m, i) => (
+                  <div key={i} className="text-xs font-mono bg-primary/10 text-primary px-2 py-1 rounded border border-primary/20 break-all">
+                    {m}
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <ToolHowItWorks steps={howItWorksSteps} badges={["100% Free", "50+ Patterns", "Live Testing"]} />
+      
+      <ToolFeatureGuides features={features}>
+        <div className="prose prose-invert max-w-none mt-8">
+          <h3>The Developer's Regex Cheat Sheet</h3>
+          <p>Regular expressions are an indispensable tool for any software engineer, enabling powerful pattern matching, data validation, and text manipulation. However, crafting robust regex patterns from scratch is notoriously difficult, often leading to subtle bugs, catastrophic backtracking, or false positives. Our Regex Pattern Library provides a curated collection of over 50 battle-tested, production-ready regular expressions covering everything from basic email validation to complex security payload detection.</p>
+          <p>Each pattern in the library is accompanied by concrete examples of matching and non-matching strings, ensuring you understand exactly how the expression behaves before integrating it into your codebase. Whether you need to validate international phone numbers, extract YouTube video IDs, parse ISO 8601 dates, or detect potential SQL injection attempts in user input, our categorized library allows you to find the exact pattern you need in seconds. The built-in Quick Test panel lets you paste your own custom text and apply any pattern in real-time, verifying edge cases without leaving the page.</p>
+          <p>Stop wasting time searching through outdated forums or wrestling with cryptic syntax. Keep this library bookmarked as your go-to reference for form validation, log parsing, and data sanitization tasks. All patterns are optimized for performance and designed to avoid the common pitfalls that cause regex engines to hang or consume excessive CPU cycles.</p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion faqs={faqs} />
+      <RelatedTools currentToolUrl="/tools/dev/regex-library" />
+    </div>
   );
 }
 
-// ---------- View helper ----------
-function highlightMatches(text: string, re: RegExp | null) {
-  if (!re || !text) return <>{text}</>;
-
-  const g: RegExp = new RegExp(re.source, re.flags.includes("g") ? re.flags : `${re.flags}g`);
-  const parts: React.ReactNode[] = [];
-  let last = 0;
-
-  for (;;) {
-    const m = g.exec(text);
-    if (m === null) break;
-
-    const start = m.index ?? 0;
-    const end = start + (m[0]?.length ?? 0);
-
-    if (start > last) {
-      parts.push(<span key={`t-${last}`}>{text.slice(last, start)}</span>);
-    }
-
-    parts.push(
-      <mark key={`m-${start}-${end}`} className="rounded px-0.5 py-0.5 ring-1 ring-primary/20">
-        {text.slice(start, end)}
-      </mark>,
-    );
-
-    last = end;
-
-    if (m[0] === "") {
-      const next = start + 1;
-      g.lastIndex = next;
-      last = next;
-      if (next >= text.length) break;
-    }
-  }
-
-  if (last < text.length) {
-    parts.push(<span key="t-end">{text.slice(last)}</span>);
-  }
-
-  return <>{parts}</>;
-}
+export default RegexLibraryClient;

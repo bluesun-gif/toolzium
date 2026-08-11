@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { KeycodeInfoClient } from "@/components/tools/dev/keycode-info-client";
+import KeycodeInfoClient from "@/components/tools/dev/keycode-info-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

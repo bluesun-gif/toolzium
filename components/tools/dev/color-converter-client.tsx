@@ -1,810 +1,314 @@
 "use client";
 
-import {
-  ActionButton,
-  CopyButton,
-  ResetButton,
-} from "@/components/shared/action-buttons";
-import ColorField from "@/components/shared/color-field";
-import InputField from "@/components/shared/form-fields/input-field";
+import React, { useState, useMemo, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { CardContent } from "@/components/ui/card";
-import { GlassCard } from "@/components/ui/glass-card";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import {
-  Contrast as ContrastIcon,
-  Droplet,
-  Pipette as EyeDropperIcon,
-  Blend as Gradient,
-  Layers,
-  Palette,
-  Shuffle,
-} from "lucide-react";
-import * as React from "react";
+import { Palette, Copy, Droplet, Contrast, History } from "lucide-react";
+import toast from "react-hot-toast";
 
-/* types */
-type RGB = { r: number; g: number; b: number };
-type HSL = { h: number; s: number; l: number };
-type HSV = { h: number; s: number; v: number };
-type CMYK = { c: number; m: number; y: number; k: number };
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
 
-/* utilities */
-const clamp = (n: number, min: number, max: number) =>
-  Math.min(max, Math.max(min, n));
-const round = (n: number, p = 0) => Math.round(n * 10 ** p) / 10 ** p;
-const HEX_RX = /^#?([\da-f]{3}|[\da-f]{6}|[\da-f]{8})$/i;
-const RGB_CSV_RX =
-  /^\s*rgba?\s*\(\s*([+-]?\d+(?:\.\d+)?)\s*,\s*([+-]?\d+(?:\.\d+)?)\s*,\s*([+-]?\d+(?:\.\d+)?)\s*(?:,\s*([+-]?\d*(?:\.\d+)?)\s*)?\)\s*$/i;
-const HSL_CSV_RX =
-  /^\s*hsla?\s*\(\s*([+-]?\d+(?:\.\d+)?)\s*,\s*([+-]?\d+(?:\.\d+)?)%\s*,\s*([+-]?\d+(?:\.\d+)?)%\s*(?:,\s*([+-]?\d*(?:\.\d+)?)\s*)?\)\s*$/i;
-const HSV_CSV_RX =
-  /^\s*hsva?\s*\(\s*([+-]?\d+(?:\.\d+)?)\s*,\s*([+-]?\d+(?:\.\d+)?)%\s*,\s*([+-]?\d+(?:\.\d+)?)%\s*(?:,\s*([+-]?\d*(?:\.\d+)?)\s*)?\)\s*$/i;
+type ColorState = { r: number; g: number; b: number; a: number };
 
-function hexToRgb(hex: string): RGB | null {
-  const match = HEX_RX.exec(hex.trim());
-  if (!match || typeof match[1] !== "string") return null;
-
-  let body = match[1].toLowerCase();
-
-  if (body.length === 3) {
-    body = body
-      .split("")
-      .map((c) => c + c)
-      .join("");
-  } else if (body.length === 8) {
-    body = body.slice(2);
-  } else if (body.length !== 6) {
-    return null;
-  }
-
-  const r = parseInt(body.slice(0, 2), 16);
-  const g = parseInt(body.slice(2, 4), 16);
-  const b = parseInt(body.slice(4, 6), 16);
-
-  return { r, g, b };
-}
-function rgbToHex({ r, g, b }: RGB) {
-  return `#${[r, g, b]
-    .map((x) => clamp(Math.round(x), 0, 255).toString(16).padStart(2, "0"))
-    .join("")}`;
-}
-
-function rgbToHsl({ r, g, b }: RGB): HSL {
-  const R = r / 255,
-    G = g / 255,
-    B = b / 255;
-  const max = Math.max(R, G, B),
-    min = Math.min(R, G, B);
-  let h = 0,
-    s = 0;
-  const l = (max + min) / 2;
-  const d = max - min;
-  if (d) {
-    s = d / (1 - Math.abs(2 * l - 1));
-    switch (max) {
-      case R:
-        h = 60 * (((G - B) / d) % 6);
-        break;
-      case G:
-        h = 60 * ((B - R) / d + 2);
-        break;
-      case B:
-        h = 60 * ((R - G) / d + 4);
-        break;
-    }
-  }
-  if (h < 0) h += 360;
-  return { h, s: s * 100, l: l * 100 };
-}
-function hslToRgb({ h, s, l }: HSL): RGB {
-  const S = clamp(s, 0, 100) / 100;
-  const L = clamp(l, 0, 100) / 100;
-  const C = (1 - Math.abs(2 * L - 1)) * S;
-  const X = C * (1 - Math.abs(((h / 60) % 2) - 1));
-  const m = L - C / 2;
-  let r1 = 0,
-    g1 = 0,
-    b1 = 0;
-  if (0 <= h && h < 60) [r1, g1, b1] = [C, X, 0];
-  else if (60 <= h && h < 120) [r1, g1, b1] = [X, C, 0];
-  else if (120 <= h && h < 180) [r1, g1, b1] = [0, C, X];
-  else if (180 <= h && h < 240) [r1, g1, b1] = [0, X, C];
-  else if (240 <= h && h < 300) [r1, g1, b1] = [X, 0, C];
-  else [r1, g1, b1] = [C, 0, X];
-  return {
-    r: Math.round((r1 + m) * 255),
-    g: Math.round((g1 + m) * 255),
-    b: Math.round((b1 + m) * 255),
+const rgbToHex = (r: number, g: number, b: number, a: number = 1): string => {
+  const toHex = (c: number) => {
+    const hex = Math.round(c).toString(16);
+    return hex.length === 1 ? "0" + hex : hex;
   };
-}
+  const hex = `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+  return a < 1 ? `${hex}${toHex(a * 255)}` : hex;
+};
 
-function rgbToHsv({ r, g, b }: RGB): HSV {
-  const R = r / 255,
-    G = g / 255,
-    B = b / 255;
-  const max = Math.max(R, G, B),
-    min = Math.min(R, G, B);
-  const d = max - min;
-  let h = 0;
-  if (d !== 0) {
-    switch (max) {
-      case R:
-        h = 60 * (((G - B) / d) % 6);
-        break;
-      case G:
-        h = 60 * ((B - R) / d + 2);
-        break;
-      case B:
-        h = 60 * ((R - G) / d + 4);
-        break;
-    }
+const hexToRgb = (hex: string): ColorState | null => {
+  let clean = hex.replace('#', '');
+  if (clean.length === 3) clean = clean.split('').map((c) => c + c).join('');
+  if (clean.length === 6) {
+    const r = parseInt(clean.substring(0, 2), 16);
+    const g = parseInt(clean.substring(2, 4), 16);
+    const b = parseInt(clean.substring(4, 6), 16);
+    if (!isNaN(r) && !isNaN(g) && !isNaN(b)) return { r, g, b, a: 1 };
   }
-  if (h < 0) h += 360;
-  const s = max === 0 ? 0 : d / max;
-  const v = max;
-  return { h, s: s * 100, v: v * 100 };
-}
-function hsvToRgb({ h, s, v }: HSV): RGB {
-  const S = clamp(s, 0, 100) / 100;
-  const V = clamp(v, 0, 100) / 100;
-  const C = V * S;
-  const X = C * (1 - Math.abs(((h / 60) % 2) - 1));
-  const m = V - C;
-  let r1 = 0,
-    g1 = 0,
-    b1 = 0;
-  if (0 <= h && h < 60) [r1, g1, b1] = [C, X, 0];
-  else if (60 <= h && h < 120) [r1, g1, b1] = [X, C, 0];
-  else if (120 <= h && h < 180) [r1, g1, b1] = [0, C, X];
-  else if (180 <= h && h < 240) [r1, g1, b1] = [0, X, C];
-  else if (240 <= h && h < 300) [r1, g1, b1] = [X, 0, C];
-  else [r1, g1, b1] = [C, 0, X];
-  return {
-    r: Math.round((r1 + m) * 255),
-    g: Math.round((g1 + m) * 255),
-    b: Math.round((b1 + m) * 255),
-  };
-}
-
-function rgbToCmyk({ r, g, b }: RGB): CMYK {
-  const R = r / 255,
-    G = g / 255,
-    B = b / 255;
-  const k = 1 - Math.max(R, G, B);
-  if (k === 1) return { c: 0, m: 0, y: 0, k: 100 };
-  const c = (1 - R - k) / (1 - k);
-  const m = (1 - G - k) / (1 - k);
-  const y = (1 - B - k) / (1 - k);
-  return { c: c * 100, m: m * 100, y: y * 100, k: k * 100 };
-}
-function withAlphaHex(hex: string, a: number) {
-  const alpha = clamp(Math.round(a * 255), 0, 255)
-    .toString(16)
-    .padStart(2, "0");
-  return `#${alpha}${hex.replace(/^#/, "")}`.toLowerCase();
-}
-function tryParseAlpha(regex: RegExp, input: string): number | null {
-  const match = regex.exec(input);
-  const raw = match?.[4];
-  if (raw == null || raw === "") return null;
-
-  const n = Number(raw);
-  if (Number.isNaN(n)) return null;
-
-  return clamp(n, 0, 1);
-}
-
-function luminance({ r, g, b }: RGB) {
-  const toLin = (c: number) => {
-    const s = c / 255;
-    return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
-  };
-  const R = toLin(r),
-    G = toLin(g),
-    B = toLin(b);
-  return 0.2126 * R + 0.7152 * G + 0.0722 * B;
-}
-function contrastRatio(a: RGB, b: RGB) {
-  const L1 = luminance(a),
-    L2 = luminance(b);
-  const [hi, lo] = L1 >= L2 ? [L1, L2] : [L2, L1];
-  return (hi + 0.05) / (lo + 0.05);
-}
-function wcagBadge(ratio: number) {
-  const normal = ratio >= 7 ? "AAA" : ratio >= 4.5 ? "AA" : "Fail";
-  const large = ratio >= 4.5 ? "AAA" : ratio >= 3 ? "AA" : "Fail";
-  return { normal, large };
-}
-
-function parseColor(input: string): { rgb: RGB; a: number } | null {
-  const s = input.trim();
-
-  const hexMatch = HEX_RX.exec(s);
-  if (hexMatch) {
-    const body = hexMatch[1];
-    if (typeof body !== "string") return null;
-    if (body.length === 8) {
-      const a = parseInt(body.slice(0, 2), 16) / 255;
-      const rgb = hexToRgb(`#${body.slice(2)}`);
-      return rgb ? { rgb, a } : null;
-    }
-    const rgb = hexToRgb(s.startsWith("#") ? s : `#${s}`);
-    return rgb ? { rgb, a: 1 } : null;
+  if (clean.length === 8) {
+    const r = parseInt(clean.substring(0, 2), 16);
+    const g = parseInt(clean.substring(2, 4), 16);
+    const b = parseInt(clean.substring(4, 6), 16);
+    const a = parseInt(clean.substring(6, 8), 16) / 255;
+    if (!isNaN(r) && !isNaN(g) && !isNaN(b) && !isNaN(a)) return { r, g, b, a };
   }
-
-  const rgbMatch = RGB_CSV_RX.exec(s);
-  if (rgbMatch) {
-    const r = clamp(parseFloat(rgbMatch[1] ?? "0"), 0, 255);
-    const g = clamp(parseFloat(rgbMatch[2] ?? "0"), 0, 255);
-    const b = clamp(parseFloat(rgbMatch[3] ?? "0"), 0, 255);
-    const a = rgbMatch[4] != null ? clamp(parseFloat(rgbMatch[4]), 0, 1) : 1;
-    return { rgb: { r, g, b }, a };
-  }
-
-  const hslMatch = HSL_CSV_RX.exec(s);
-  if (hslMatch) {
-    const h = ((parseFloat(hslMatch[1] ?? "0") % 360) + 360) % 360;
-    const ss = clamp(parseFloat(hslMatch[2] ?? "0"), 0, 100);
-    const ll = clamp(parseFloat(hslMatch[3] ?? "0"), 0, 100);
-    const a = hslMatch[4] != null ? clamp(parseFloat(hslMatch[4]), 0, 1) : 1;
-    const rgb = hslToRgb({ h, s: ss, l: ll });
-    return { rgb, a };
-  }
-
-  const hsvMatch = HSV_CSV_RX.exec(s);
-  if (hsvMatch) {
-    const h = ((parseFloat(hsvMatch[1] ?? "0") % 360) + 360) % 360;
-    const ss = clamp(parseFloat(hsvMatch[2] ?? "0"), 0, 100);
-    const vv = clamp(parseFloat(hsvMatch[3] ?? "0"), 0, 100);
-    const a = hsvMatch[4] != null ? clamp(parseFloat(hsvMatch[4]), 0, 1) : 1;
-    const rgb = hsvToRgb({ h, s: ss, v: vv });
-    return { rgb, a };
-  }
-
   return null;
-}
+};
 
-function randomHex() {
-  const n = Math.floor(Math.random() * 0xffffff);
-  return `#${n.toString(16).padStart(6, "0")}`;
-}
+const rgbToHsl = (r: number, g: number, b: number): [number, number, number] => {
+  r /= 255; g /= 255; b /= 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  let h = 0, s = 0, l = (max + min) / 2;
+  if (max !== min) {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+      case g: h = (b - r) / d + 2; break;
+      case b: h = (r - g) / d + 4; break;
+    }
+    h /= 6;
+  }
+  return [Math.round(h * 360), Math.round(s * 100), Math.round(l * 100)];
+};
 
-const RECENT_KEY = "Toolzium.color.recent";
+const rgbToCmyk = (r: number, g: number, b: number): [number, number, number, number] => {
+  if (r === 0 && g === 0 && b === 0) return [0, 0, 0, 100];
+  const c = 1 - (r / 255);
+  const m = 1 - (g / 255);
+  const y = 1 - (b / 255);
+  const k = Math.min(c, m, y);
+  return [
+    Math.round(((c - k) / (1 - k)) * 100),
+    Math.round(((m - k) / (1 - k)) * 100),
+    Math.round(((y - k) / (1 - k)) * 100),
+    Math.round(k * 100)
+  ];
+};
 
-export default function ColorConverterClient() {
-  const [rgb, setRgb] = React.useState<RGB>({ r: 30, g: 144, b: 255 });
-  const [alpha, setAlpha] = React.useState(1);
+const getLuminance = (r: number, g: number, b: number): number => {
+  const a = [r, g, b].map((v) => {
+    v /= 255;
+    return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+  });
+  return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+};
 
-  const hex = React.useMemo(() => rgbToHex(rgb), [rgb]);
-  const hsl = React.useMemo(() => rgbToHsl(rgb), [rgb]);
-  const hsv = React.useMemo(() => rgbToHsv(rgb), [rgb]);
-  const cmyk = React.useMemo(() => rgbToCmyk(rgb), [rgb]);
+export function ColorConverterClient() {
+  const [color, setColor] = useState<ColorState>({ r: 59, g: 130, b: 246, a: 1 });
+  const [hexInput, setHexInput] = useState("#3B82F6");
+  const [bgColorHex, setBgColorHex] = useState("#FFFFFF");
+  const [history, setHistory] = useState<ColorState[]>([]);
 
-  const [hexInput, setHexInput] = React.useState(hex);
-  const [rgbInput, setRgbInput] = React.useState(`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`);
-  const [hslInput, setHslInput] = React.useState(
-    `hsl(${round(hsl.h)}, ${round(hsl.s)}%, ${round(hsl.l)}%)`,
-  );
-  const [hsvInput, setHsvInput] = React.useState(
-    `hsv(${round(hsv.h)}, ${round(hsv.s)}%, ${round(hsv.v)}%)`,
-  );
+  const handleHexChange = (val: string) => {
+    setHexInput(val);
+    const parsed = hexToRgb(val);
+    if (parsed) {
+      setColor({ ...parsed, a: color.a });
+    }
+  };
 
-  React.useEffect(() => {
-    setHexInput(hex);
-    setRgbInput(`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`);
-    setHslInput(`hsl(${round(hsl.h)}, ${round(hsl.s)}%, ${round(hsl.l)}%)`);
-    setHsvInput(`hsv(${round(hsv.h)}, ${round(hsv.s)}%, ${round(hsv.v)}%)`);
-  }, [hex, rgb, hsl.h, hsl.s, hsl.l, hsv.h, hsv.s, hsv.v]);
+  useEffect(() => {
+    setHexInput(rgbToHex(color.r, color.g, color.b, color.a));
+  }, [color]);
 
-  // recent colors (load once)
-  const [recent, setRecent] = React.useState<string[]>([]);
-  React.useEffect(() => {
-    try {
-      const r = JSON.parse(localStorage.getItem(RECENT_KEY) || "[]");
-      if (Array.isArray(r)) setRecent(r.slice(0, 12));
-    } catch {}
-  }, []);
-
-  // save on hex change
-  React.useEffect(() => {
-    const id = setTimeout(() => {
-      try {
-        setRecent((prev) => {
-          const next = [hex, ...prev.filter((h) => h !== hex)].slice(0, 12);
-          localStorage.setItem(RECENT_KEY, JSON.stringify(next));
-          return next;
-        });
-      } catch {}
-    }, 120);
-    return () => clearTimeout(id);
-  }, [hex]);
-
-  // gradient builder
-  const [gradHex, setGradHex] = React.useState("#ffffff");
-  const [angle, setAngle] = React.useState(90);
-
-  // contrast checker
-  const [bgHex, setBgHex] = React.useState("#000000");
-  const [fgHex, setFgHex] = React.useState("#ffffff");
-  const bgRgb = React.useMemo(() => hexToRgb(bgHex) ?? { r: 0, g: 0, b: 0 }, [bgHex]);
-  const fgRgb = React.useMemo(() => hexToRgb(fgHex) ?? { r: 255, g: 255, b: 255 }, [fgHex]);
-  const ratio = React.useMemo(() => round(contrastRatio(bgRgb, fgRgb), 2), [bgRgb, fgRgb]);
-  const wcag = React.useMemo(() => wcagBadge(ratio), [ratio]);
-
-  // palette (tints & shades)
-  const shades = React.useMemo(() => {
-    const base = rgbToHsl(rgb);
-    return new Array(10).fill(0).map((_, i) => {
-      const l = clamp(base.l - 40 + i * (80 / 9), 0, 100);
-      const col = hslToRgb({ h: base.h, s: base.s, l });
-      return { rgb: col, hex: rgbToHex(col) };
+  const addToHistory = () => {
+    setHistory((prev) => {
+      const exists = prev.some((c) => c.r === color.r && c.g === color.g && c.b === color.b);
+      if (exists) return prev;
+      return [color, ...prev].slice(0, 10);
     });
-  }, [rgb]);
+    toast.success("Added to history");
+  };
 
-  const bg = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${alpha})`;
+  const formats = useMemo(() => {
+    const [h, s, l] = rgbToHsl(color.r, color.g, color.b);
+    const [c, m, y, k] = rgbToCmyk(color.r, color.g, color.b);
+    return {
+      hex: rgbToHex(color.r, color.g, color.b, color.a),
+      rgb: `rgb(${color.r}, ${color.g}, ${color.b})`,
+      rgba: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a.toFixed(2)})`,
+      hsl: `hsl(${h}, ${s}%, ${l}%)`,
+      cmyk: `cmyk(${c}%, ${m}%, ${y}%, ${k}%)`,
+    };
+  }, [color]);
 
-  const reset = () => {
-    setRgb({ r: 30, g: 144, b: 255 });
-    setAlpha(1);
-    setGradHex("#ffffff");
-    setAngle(90);
+  const harmonies = useMemo(() => {
+    const [h, s, l] = rgbToHsl(color.r, color.g, color.b);
+    const hslToHex = (h: number, s: number, l: number) => {
+      l /= 100;
+      const a = s * Math.min(l, 1 - l) / 100;
+      const f = (n: number) => {
+        const k = (n + h / 30) % 12;
+        const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+        return Math.round(255 * color).toString(16).padStart(2, '0');
+      };
+      return `#${f(0)}${f(8)}${f(4)}`;
+    };
+    return {
+      complementary: hslToHex((h + 180) % 360, s, l),
+      analogous1: hslToHex((h - 30 + 360) % 360, s, l),
+      analogous2: hslToHex((h + 30) % 360, s, l),
+      triadic1: hslToHex((h + 120) % 360, s, l),
+      triadic2: hslToHex((h - 120 + 360) % 360, s, l),
+    };
+  }, [color]);
+
+  const contrast = useMemo(() => {
+    const bgParsed = hexToRgb(bgColorHex) || { r: 255, g: 255, b: 255 };
+    const l1 = getLuminance(color.r, color.g, color.b);
+    const l2 = getLuminance(bgParsed.r, bgParsed.g, bgParsed.b);
+    const ratio = (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+    return {
+      ratio: ratio.toFixed(2),
+      aa: ratio >= 4.5,
+      aaa: ratio >= 7,
+      aaLarge: ratio >= 3,
+    };
+  }, [color, bgColorHex]);
+
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast.success("Copied to clipboard!");
   };
 
   return (
-    <>
+    <div className="max-w-6xl mx-auto space-y-8 px-4 py-8">
       <ToolPageHeader
         icon={Palette}
-        title="Palette"
-        description="Convert HEX, RGB, HSL, build gradients, check contrast, and export tints & shades."
-        actions={
-          <>
-            <ResetButton onClick={reset} />
-            <CopyButton
-              variant="default"
-              getText={() =>
-                JSON.stringify(
-                  {
-                    hex,
-                    rgba: { r: rgb.r, g: rgb.g, b: rgb.b, a: round(alpha, 2) },
-                    hsl: { h: round(hsl.h), s: round(hsl.s), l: round(hsl.l) },
-                    hsv: { h: round(hsv.h), s: round(hsv.s), v: round(hsv.v) },
-                    cmyk: {
-                      c: round(cmyk.c),
-                      m: round(cmyk.m),
-                      y: round(cmyk.y),
-                      k: round(cmyk.k),
-                    },
-                  },
-                  null,
-                  2,
-                )
-              }
-            />
-          </>
-        }
+        title="Universal Color Converter"
+        description="Instantly convert colors between HEX, RGB, HSL, CMYK, and more. Includes contrast checker and color harmony generator."
       />
 
-      <div className="grid gap-4 xl:grid-cols-[1.05fr_1fr]">
-        {/* LEFT */}
-        <GlassCard>
-          <CardContent className="grid gap-4">
-            {/* picker & hex */}
-            <ColorField
-              id="main"
-              value={hex}
-              onChange={(nextHex: string) => {
-                const rgbNew = hexToRgb(nextHex);
-                if (rgbNew) setRgb(rgbNew);
-              }}
-              icon={Droplet}
-              label="Pick & HEX"
-            />
-
-            {/* alpha & quick actions */}
-            <div className="grid gap-3 sm:grid-cols-[1fr_auto_auto_auto] sm:items-end">
-              <div className="flex items-center gap-3">
-                <InputField
-                  label="Alpha"
-                  id="alpha"
-                  type="range"
-                  min={0}
-                  max={100}
-                  value={Math.round(alpha * 100)}
-                  onChange={(e) => setAlpha(Number(e.target.value) / 100)}
-                  className="w-full"
-                />
-                <span className="w-12 text-right text-sm tabular-nums">
-                  {Math.round(alpha * 100)}%
-                </span>
-              </div>
-
-              <ActionButton
-                icon={EyeDropperIcon}
-                label="Eyedropper"
-                onClick={async () => {
-                  if ("EyeDropper" in window) {
-                    const eyeDropper = new (
-                      window as typeof window & {
-                        EyeDropper: new () => { open: () => Promise<{ sRGBHex: string }> };
-                      }
-                    ).EyeDropper();
-                    const result = await eyeDropper.open();
-                    const rgbNew = hexToRgb(result.sRGBHex);
-                    if (rgbNew) setRgb(rgbNew);
-                  } else {
-                    alert("Eyedropper not supported in this browser.");
-                  }
-                }}
-              />
-
-              <ActionButton
-                icon={Shuffle}
-                label="Random"
-                onClick={() => {
-                  const h = randomHex();
-                  const rgbNew = hexToRgb(h);
-                  if (rgbNew) setRgb(rgbNew);
-                }}
-              />
-
-              <CopyButton label="Copy HEX" getText={alpha < 1 ? withAlphaHex(hex, alpha) : hex} />
+      <Card className={cardClass}>
+        <CardHeader className={headerClass}>
+          <CardTitle className={titleClass}><Droplet className="w-4 h-4" /> Color Input</CardTitle>
+        </CardHeader>
+        <CardContent className="p-6 space-y-4">
+          <div className="flex flex-col sm:flex-row gap-4 items-center">
+            <Input type="color" value={rgbToHex(color.r, color.g, color.b)} onChange={(e) => handleHexChange(e.target.value)} className="w-24 h-24 rounded-xl cursor-pointer" />
+            <div className="flex-1 w-full">
+              <Label>HEX Value</Label>
+              <Input value={hexInput} onChange={(e) => handleHexChange(e.target.value)} className="mt-1 font-mono" />
             </div>
-
-            {/* text inputs */}
-            <div className="grid gap-3 md:grid-cols-2">
-              <div className="space-y-2">
-                <InputField
-                  id="hex-text"
-                  label="HEX"
-                  placeholder="#1e90ff or #AARRGGBB"
-                  value={hexInput}
-                  onChange={(e) => {
-                    const v = (e?.target?.value ?? "") as string;
-                    setHexInput(v);
-                    const parsed = parseColor(v);
-                    if (parsed) {
-                      setRgb(parsed.rgb);
-                      if (HEX_RX.test(v) && v.replace("#", "").length === 8) setAlpha(parsed.a);
-                    }
-                  }}
-                  inputClassName="font-mono"
-                />
-
-                <CopyButton
-                  size="sm"
-                  getText={() => (alpha < 1 ? withAlphaHex(hex, alpha) : hex)}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <InputField
-                  id="rgb-text"
-                  label="RGB / RGBA"
-                  placeholder="rgb(30,144,255) or rgba(30,144,255,0.6)"
-                  value={rgbInput}
-                  onChange={(e) => {
-                    const v = String(e?.target?.value ?? "");
-                    setRgbInput(v);
-
-                    const parsed = parseColor(v);
-                    if (parsed) setRgb(parsed.rgb);
-
-                    if (v.toLowerCase().startsWith("rgba")) {
-                      const alpha = tryParseAlpha(RGB_CSV_RX, v);
-                      if (alpha != null) setAlpha(alpha);
-                    }
-                  }}
-                  inputClassName="font-mono"
-                />
-                <CopyButton
-                  size="sm"
-                  getText={() =>
-                    alpha < 1
-                      ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${round(alpha, 2)})`
-                      : `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`
-                  }
-                />
-              </div>
+            <div className="w-full sm:w-1/3">
+              <Label>Opacity ({Math.round(color.a * 100)}%)</Label>
+              <input type="range" min="0" max="1" step="0.01" value={color.a} onChange={(e) => setColor({ ...color, a: Number(e.target.value) })} className="w-full mt-2" />
             </div>
-
-            <div className="grid gap-3 md:grid-cols-2">
-              <div className="space-y-2">
-                <InputField
-                  id="hsl-text"
-                  label="HSL / HSLA"
-                  placeholder="hsl(210,100%,56%) or hsla(210,100%,56%,0.6)"
-                  value={hslInput}
-                  onChange={(e) => {
-                    const v = String(e?.target?.value ?? "");
-                    setHslInput(v);
-
-                    const parsed = parseColor(v);
-                    if (parsed) setRgb(parsed.rgb);
-
-                    if (v.toLowerCase().startsWith("hsla")) {
-                      const alpha = tryParseAlpha(HSL_CSV_RX, v);
-                      if (alpha != null) setAlpha(alpha);
-                    }
-                  }}
-                  inputClassName="font-mono"
-                />
-                <CopyButton
-                  size="sm"
-                  getText={() =>
-                    alpha < 1
-                      ? `hsla(${round(hsl.h)}, ${round(hsl.s)}%, ${round(hsl.l)}%, ${round(alpha, 2)})`
-                      : `hsl(${round(hsl.h)}, ${round(hsl.s)}%, ${round(hsl.l)}%)`
-                  }
-                />
-              </div>
-
-              <div className="space-y-2">
-                <InputField
-                  id="hsv-text"
-                  label="HSV"
-                  placeholder="hsv(210,88%,100%)"
-                  value={hsvInput}
-                  onChange={(e) => {
-                    const v = (e?.target?.value ?? "") as string;
-                    setHsvInput(v);
-                    const parsed = parseColor(v);
-                    if (parsed) setRgb(parsed.rgb);
-                  }}
-                  inputClassName="font-mono"
-                />
-                <CopyButton
-                  size="sm"
-                  getText={() => `hsv(${round(hsv.h)}, ${round(hsv.s)}%, ${round(hsv.v)}%)`}
-                />
-              </div>
-            </div>
-
-            {/* CMYK */}
-            <StatRow
-              label="CMYK"
-              value={`cmyk(${round(cmyk.c)}%, ${round(cmyk.m)}%, ${round(cmyk.y)}%, ${round(cmyk.k)}%)`}
-            />
-
-            {/* Recent */}
-            {recent.length > 0 && (
-              <div className="space-y-2">
-                <Label>Recent</Label>
-                <div className="flex flex-wrap gap-2">
-                  {recent.map((h) => (
-                    <button
-                      type="button"
-                      key={h}
-                      title={h}
-                      className="h-8 w-8 rounded-md border"
-                      style={{ background: h }}
-                      onClick={() => {
-                        const rgbNew = hexToRgb(h);
-                        if (rgbNew) setRgb(rgbNew);
-                      }}
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
-          </CardContent>
-        </GlassCard>
-
-        {/* RIGHT */}
-        <GlassCard>
-          <CardContent className="grid gap-4">
-            {/* Preview */}
-            <div className="rounded-xl border overflow-hidden">
-              <div
-                className="h-44 w-full"
-                style={{
-                  backgroundColor: bg,
-                  backgroundImage:
-                    "linear-gradient(45deg, rgba(0,0,0,.06) 25%, transparent 25%), linear-gradient(-45deg, rgba(0,0,0,.06) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgba(0,0,0,.06) 75%), linear-gradient(-45deg, transparent 75%, rgba(0,0,0,.06) 75%)",
-                  backgroundSize: "20px 20px",
-                  backgroundPosition: "0 0, 0 10px, 10px -10px, -10px 0px",
-                }}
-              />
-              <div className="grid grid-cols-1 gap-2 p-3 sm:grid-cols-2">
-                <StatRow label="HEX" value={hex} />
-                <StatRow label="HEX with alpha" value={withAlphaHex(hex, alpha)} />
-                <StatRow label="RGB" value={`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`} />
-                <StatRow
-                  label="HSL"
-                  value={`hsl(${round(hsl.h)}, ${round(hsl.s)}%, ${round(hsl.l)}%)`}
-                />
-              </div>
-            </div>
-
-            <Separator />
-
-            {/* Contrast checker */}
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <Label className="flex items-center gap-2">
-                  <ContrastIcon className="h-4 w-4" /> Contrast Checker
-                </Label>
-                <div className="text-xs text-muted-foreground">
-                  Ratio: <b>{ratio}:1</b> • Normal: <b>{wcag.normal}</b> • Large:{" "}
-                  <b>{wcag.large}</b>
-                </div>
-              </div>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <ColorField id="bg" label="Background" value={bgHex} onChange={setBgHex} />
-                <ColorField id="fg" label="Foreground" value={fgHex} onChange={setFgHex} />
-              </div>
-              <div
-                className="rounded-lg border p-4 overflow-hidden"
-                style={{ background: bgHex, color: fgHex }}
-              >
-                <div className="truncate text-xl font-semibold">The quick brown fox jumps</div>
-                <div className="text-sm opacity-80">Large text preview — target at least AA.</div>
-              </div>
-            </div>
-          </CardContent>
-        </GlassCard>
-
-        {/* Gradient builder */}
-        <GlassCard>
-          <CardContent className="space-y-4">
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <Label className="flex items-center gap-2">
-                  <Gradient className="h-4 w-4" /> Gradient Builder
-                </Label>
-                <CopyButton
-                  size="sm"
-                  label="Copy CSS"
-                  getText={`background: linear-gradient(${angle}deg, ${hex} 0%, ${gradHex} 100%);`}
-                />
-              </div>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <ColorField id="grad" label="End color" value={gradHex} onChange={setGradHex} />
-                <div className="space-y-2">
-                  <Label htmlFor="angle">Angle</Label>
-                  <div className="flex items-center gap-3">
-                    <input
-                      id="angle"
-                      type="range"
-                      min={0}
-                      max={360}
-                      value={angle}
-                      onChange={(e) => setAngle(Number(e.target.value))}
-                      className="w-full"
-                    />
-                    <span className="w-12 text-right text-sm tabular-nums">{angle}°</span>
-                  </div>
-                </div>
-              </div>
-              <div
-                className="h-24 w-full rounded-lg border"
-                style={{ background: `linear-gradient(${angle}deg, ${hex}, ${gradHex})` }}
-              />
-            </div>
-            <Separator />
-
-            {/* Palette */}
-            <div className="flex items-center justify-between">
-              <Label className="flex items-center gap-2">
-                <Layers className="h-4 w-4" /> Palette (tints & shades)
-              </Label>
-              <div className="flex gap-2">
-                <CopyButton
-                  label="Copy JSON"
-                  getText={JSON.stringify(
-                    shades.map((s) => s.hex),
-                    null,
-                    2,
-                  )}
-                />
-                <CopyButton
-                  label="Copy CSS vars"
-                  getText={`:root{\n${shades.map((s, i) => `  --color-${(i + 1) * 100}: ${s.hex};`).join("\n")}\n}`}
-                />
-              </div>
-            </div>
-            <div className="grid grid-cols-5 gap-2 sm:grid-cols-10">
-              {shades.map(({ hex: h }, i) => (
-                <div key={i as number} className="group">
-                  <CopyButton
-                    getText={() => h}
-                    render={({ onClick }) => (
-                      <button
-                        type="button"
-                        onClick={onClick}
-                        className="h-10 w-full rounded-md border"
-                        style={{ backgroundColor: h }}
-                        title={`${h} — click to copy`}
-                      />
-                    )}
-                  />
-                  <div className="pointer-events-none mt-1 select-none text-center text-[11px] text-muted-foreground">
-                    {(i + 1) * 100}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </GlassCard>
-
-        {/* Harmonies */}
-        <GlassCard>
-          <CardContent className="space-y-4">
-            <Harmonies base={rgb} />
-          </CardContent>
-        </GlassCard>
-      </div>
-    </>
-  );
-}
-
-/* components */
-
-function StatRow({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex items-center gap-2 rounded-lg border bg-muted/30 px-3 py-2">
-      <div className="text-xs text-muted-foreground">{label}</div>
-      <div className="flex-1 truncate font-mono text-sm" title={value}>
-        {value}
-      </div>
-      <CopyButton size="sm" getText={() => value} />
-    </div>
-  );
-}
-
-function Harmonies({ base }: { base: RGB }) {
-  const baseHsl = rgbToHsl(base);
-  const toHex = (h: number, s = baseHsl.s, l = baseHsl.l) =>
-    rgbToHex(hslToRgb({ h: ((h % 360) + 360) % 360, s, l }));
-
-  const groups: { title: string; colors: string[] }[] = [
-    { title: "Complementary", colors: [toHex(baseHsl.h), toHex(baseHsl.h + 180)] },
-    {
-      title: "Analogous",
-      colors: [toHex(baseHsl.h - 30), toHex(baseHsl.h), toHex(baseHsl.h + 30)],
-    },
-    {
-      title: "Triadic",
-      colors: [toHex(baseHsl.h), toHex(baseHsl.h + 120), toHex(baseHsl.h + 240)],
-    },
-    {
-      title: "Tetradic",
-      colors: [
-        toHex(baseHsl.h),
-        toHex(baseHsl.h + 90),
-        toHex(baseHsl.h + 180),
-        toHex(baseHsl.h + 270),
-      ],
-    },
-  ];
-
-  return (
-    <div className="grid gap-3">
-      <Label className="flex items-center gap-2">
-        <Palette className="h-4 w-4" /> Harmonies
-      </Label>
-      {groups.map((g) => (
-        <div key={g.title} className="rounded-lg border p-3">
-          <div className="mb-2 text-xs text-muted-foreground">{g.title}</div>
-          <div className="flex flex-wrap gap-2">
-            {g.colors.map((c, idx) => (
-              <CopyButton
-                key={idx as number}
-                getText={() => c}
-                render={(btnProps) => (
-                  <button
-                    type="button"
-                    className="h-8 w-8 rounded-md border"
-                    style={{ background: c }}
-                    title={c}
-                    onClick={btnProps.onClick}
-                  />
-                )}
-              />
-            ))}
           </div>
+          <Button onClick={addToHistory} variant="outline" className="w-full"><History className="w-4 h-4 mr-2" /> Save to History</Button>
+        </CardContent>
+      </Card>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {Object.entries(formats).map(([key, val]) => (
+          <Card key={key} className={cardClass}>
+            <CardHeader className={headerClass}>
+              <CardTitle className={titleClass}>{key.toUpperCase()}</CardTitle>
+              <Button variant="outline" size="sm" onClick={() => handleCopy(val)}><Copy className="w-4 h-4" /></Button>
+            </CardHeader>
+            <CardContent className="p-4">
+              <p className="font-mono text-sm break-all">{val}</p>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card className={cardClass}>
+          <CardHeader className={headerClass}>
+            <CardTitle className={titleClass}>Color Harmonies</CardTitle>
+          </CardHeader>
+          <CardContent className="p-4 space-y-3">
+            <div className="flex gap-2">
+              <div className="w-12 h-12 rounded-lg border" style={{ backgroundColor: harmonies.complementary }} title="Complementary" />
+              <div className="flex-1">
+                <p className="text-sm font-semibold">Complementary</p>
+                <p className="text-xs font-mono text-muted-foreground">{harmonies.complementary}</p>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <div className="w-12 h-12 rounded-lg border" style={{ backgroundColor: harmonies.analogous1 }} />
+              <div className="w-12 h-12 rounded-lg border" style={{ backgroundColor: harmonies.analogous2 }} />
+              <div className="flex-1">
+                <p className="text-sm font-semibold">Analogous</p>
+                <p className="text-xs font-mono text-muted-foreground">{harmonies.analogous1}, {harmonies.analogous2}</p>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <div className="w-12 h-12 rounded-lg border" style={{ backgroundColor: harmonies.triadic1 }} />
+              <div className="w-12 h-12 rounded-lg border" style={{ backgroundColor: harmonies.triadic2 }} />
+              <div className="flex-1">
+                <p className="text-sm font-semibold">Triadic</p>
+                <p className="text-xs font-mono text-muted-foreground">{harmonies.triadic1}, {harmonies.triadic2}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className={cardClass}>
+          <CardHeader className={headerClass}>
+            <CardTitle className={titleClass}><Contrast className="w-4 h-4" /> WCAG Contrast Checker</CardTitle>
+          </CardHeader>
+          <CardContent className="p-4 space-y-4">
+            <div>
+              <Label>Background Color</Label>
+              <Input type="color" value={bgColorHex} onChange={(e) => setBgColorHex(e.target.value)} className="w-full h-10 mt-1" />
+            </div>
+            <div className="p-4 rounded-lg text-center font-bold" style={{ backgroundColor: bgColorHex, color: formats.hex }}>
+              Contrast Ratio: {contrast.ratio}:1
+            </div>
+            <div className="grid grid-cols-3 gap-2 text-center text-xs">
+              <div className={`p-2 rounded ${contrast.aa ? 'bg-green-500/20 text-green-500' : 'bg-red-500/20 text-red-500'}`}>AA Normal {contrast.aa ? '✓' : '✗'}</div>
+              <div className={`p-2 rounded ${contrast.aaLarge ? 'bg-green-500/20 text-green-500' : 'bg-red-500/20 text-red-500'}`}>AA Large {contrast.aaLarge ? '✓' : '✗'}</div>
+              <div className={`p-2 rounded ${contrast.aaa ? 'bg-green-500/20 text-green-500' : 'bg-red-500/20 text-red-500'}`}>AAA Normal {contrast.aaa ? '✓' : '✗'}</div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {history.length > 0 && (
+        <Card className={cardClass}>
+          <CardHeader className={headerClass}>
+            <CardTitle className={titleClass}>Recent Colors</CardTitle>
+          </CardHeader>
+          <CardContent className="p-4 flex flex-wrap gap-3">
+            {history.map((c, i) => (
+              <div key={i} className="w-10 h-10 rounded-lg border cursor-pointer hover:scale-110 transition-transform" style={{ backgroundColor: rgbToHex(c.r, c.g, c.b) }} onClick={() => setColor(c)} />
+            ))}
+          </CardContent>
+        </Card>
+      )}
+
+      <ToolHowItWorks
+        steps={[
+          { step: "01", title: "Input Color", description: "Use the visual picker or paste any HEX, RGB, or HSL value.", icon: Droplet },
+          { step: "02", title: "View Conversions", description: "Instantly see your color translated into all major web and print formats.", icon: Palette },
+          { step: "03", title: "Check Accessibility", description: "Verify WCAG compliance against your background color to ensure readability.", icon: Contrast },
+        ]}
+        badges={["100% Free", "Client-Side Privacy", "No Signup"]}
+      />
+
+      <ToolFeatureGuides
+        features={[
+          { icon: Palette, title: "Universal Conversion", description: "Seamlessly translate between HEX, RGB, HSL, HSV, and CMYK color spaces." },
+          { icon: Contrast, title: "WCAG Compliance", description: "Built-in contrast ratio calculator ensures your text is accessible to all users." },
+          { icon: Droplet, title: "Color Harmonies", description: "Generate complementary, analogous, and triadic color schemes instantly." },
+          { icon: History, title: "Local History", description: "Keep track of your recently used colors for fast iteration and consistency." },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none mt-6">
+          <h3>Mastering Color Spaces in Web Development</h3>
+          <p>Color is a fundamental pillar of user interface design, directly influencing brand perception, user emotion, and accessibility. In web development, understanding the nuances between different color spaces is critical for achieving consistent results across various devices and mediums. The most common web color space is HEX (hexadecimal), which is essentially a representation of the RGB (Red, Green, Blue) additive color model. RGB is ideal for screens because it maps directly to how digital displays emit light. However, RGB is highly unintuitive for humans to manipulate mentally; adjusting the "warmth" or "saturation" of a color using RGB values requires complex mental math.</p>
+          <p>This is where HSL (Hue, Saturation, Lightness) becomes invaluable. HSL maps color to a 360-degree color wheel (Hue), a percentage of color intensity (Saturation), and a percentage of brightness (Lightness). This model aligns much closer to human perception. When a designer wants to create a hover state for a button, they can simply take the base HSL color and decrease the Lightness value by 10%, guaranteeing a mathematically harmonious darker shade. Similarly, the CMYK (Cyan, Magenta, Yellow, Key/Black) subtractive model is essential when your digital designs need to transition to print media, as ink absorption behaves entirely differently than light emission.</p>
+          <h3>The Critical Role of Contrast and Accessibility</h3>
+          <p>Beyond aesthetics, color choices dictate the accessibility of your application. The Web Content Accessibility Guidelines (WCAG) mandate specific contrast ratios between foreground text and background colors to ensure readability for users with visual impairments. A minimum ratio of 4.5:1 is required for standard text (AA compliance), while 7:1 is recommended for enhanced readability (AAA compliance). Relying solely on visual estimation is dangerous, as monitor calibration varies wildly. Utilizing algorithmic luminance calculations—as implemented in this tool—ensures your interface remains inclusive and legally compliant across all global accessibility standards.</p>
         </div>
-      ))}
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion
+        faqs={[
+          { question: "What is the difference between RGB and HSL?", answer: "RGB defines color by mixing red, green, and blue light, which is how screens work. HSL defines color by its position on the color wheel (Hue), its intensity (Saturation), and its brightness (Lightness), which is much easier for humans to adjust." },
+          { question: "Why does my color look different in print?", answer: "Screens use an additive RGB color model (emitting light), while printers use a subtractive CMYK model (absorbing light with ink). The CMYK gamut is smaller than RGB, meaning some vibrant screen colors physically cannot be reproduced with standard ink." },
+          { question: "What is a good contrast ratio for accessibility?", answer: "WCAG guidelines require a minimum contrast ratio of 4.5:1 for normal text and 3:1 for large text to meet AA standards. For AAA standards, the requirements are 7:1 and 4.5:1 respectively." },
+        ]}
+      />
+
+      <RelatedTools currentToolUrl="/tools/dev/color-converter" max={6} />
     </div>
   );
 }
+
+export default ColorConverterClient;

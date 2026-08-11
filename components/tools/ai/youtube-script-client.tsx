@@ -1,228 +1,180 @@
 "use client";
-
 import React, { useState } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
+import { Video, Wand2, Copy, Check, RefreshCw, Film, Award } from "lucide-react";
 import toast from "react-hot-toast";
-import { Video, Sparkles, RefreshCw, Copy, Check, Tv, PlayCircle, Award, Film } from "lucide-react";
 
-interface ScriptResult {
-  titles: string[];
-  hook15s: string;
-  outline: { time: string; topic: string }[];
-  fullScript: string;
-}
+interface ScriptResult { titles: string[]; hook: string; outline: string; body: string; }
 
 export default function YoutubeScriptClient() {
-  const [videoTopic, setVideoTopic] = useState<string>("How to build a SaaS startup in 30 days without coding");
-  const [videoStyle, setVideoStyle] = useState<string>("Educational & Step-by-Step");
-  const [targetAudience, setTargetAudience] = useState<string>("Entrepreneurs & Indie Hackers");
-
-  const [result, setResult] = useState<ScriptResult | null>({
-    titles: [
-      "I Built a $10k/Mo SaaS in 30 Days (No Code Allowed)",
-      "How Anyone Can Build a SaaS Application in 2026",
-      "Stop Learning Code: Build Apps 10x Faster Like This",
-    ],
-    hook15s: "What if I told you that 80% of successful software startups built this year were created by people who don't know a single line of code? In the next 8 minutes, I'm revealing the exact 4-step framework you can use to launch your own profitable SaaS in 30 days.",
-    outline: [
-      { time: "0:00 - 0:15", topic: "High-CTR Pattern Interrupt Hook" },
-      { time: "0:15 - 2:00", topic: "The No-Code Tech Stack Overview" },
-      { time: "2:00 - 5:30", topic: "Step-by-Step MVP Architecture & DB Setup" },
-      { time: "5:30 - 7:30", topic: "Monetization & First 100 Paying Users" },
-      { time: "7:30 - 8:00", topic: "Outro & Call-to-Action Subscriber Push" },
-    ],
-    fullScript: `[INTRO - 0:00]\n(Host standing facing camera with dynamic background graphics)\n"What if I told you that 80% of successful software startups built this year were created by people who don't know code? In this video, I'm giving you the exact 4-step blueprint."\n\n[SECTION 1: THE NO-CODE STACK - 0:15]\n"First, let's break down the tech stack. Instead of spending 6 months learning React and Python, we use modern visual building tools..."\n\n[SECTION 2: DATABASE & LOGIC - 2:00]\n"Next, connect your data model. Here is how we set up tables and user authentication in 10 minutes..."`,
-  });
-
-  const [isGenerating, setIsGenerating] = useState<boolean>(false);
+  const [topic, setTopic] = useState("");
+  const [tone, setTone] = useState("Educational & Engaging");
+  const [loading, setLoading] = useState(false);
+  const [script, setScript] = useState<ScriptResult | null>(null);
   const [copiedSection, setCopiedSection] = useState<string | null>(null);
 
-  const handleGenerateScript = () => {
-    if (!videoTopic.trim()) {
-      toast.error("Please enter a video topic.");
-      return;
-    }
-
-    setIsGenerating(true);
-
-    setTimeout(() => {
-      const topic = videoTopic.trim();
-      setResult({
-        titles: [
-          `The Secret to ${topic} (Step-by-Step Blueprint)`,
-          `Why Most People Fail at ${topic} (And How to Fix It)`,
-          `I Tried ${topic} for 30 Days (Insane Results)`,
-        ],
-        hook15s: `If you're trying to master ${topic}, you're probably doing it wrong. In the next 7 minutes, I'm revealing the secret framework that top creators use to get 10x faster results.`,
-        outline: [
-          { time: "0:00 - 0:15", topic: "Pattern Interrupt Hook" },
-          { time: "0:15 - 2:30", topic: "Core Problem Breakdown" },
-          { time: "2:30 - 6:00", topic: "Step-by-Step Action Plan" },
-          { time: "6:00 - 7:00", topic: "Final Takeaway & CTA" },
-        ],
-        fullScript: `[INTRO]\n"If you're trying to master ${topic}, stop what you're doing right now. In this video, I'm going to walk you through the proven step-by-step strategy..."\n\n[CORE STRATEGY]\n"Step 1: Focus on high-leverage execution..."`,
-      });
-
-      setIsGenerating(false);
-      toast.success("Generated high-CTR YouTube script & titles!");
-    }, 500);
-  };
-
-  const handleCopyText = (text: string, label: string) => {
+  const handleCopy = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
     setCopiedSection(label);
-    toast.success(`Copied ${label} to clipboard!`);
+    toast.success(`Copied ${label}!`);
     setTimeout(() => setCopiedSection(null), 2000);
   };
 
-  return (
-    <div className="mx-auto max-w-6xl px-2 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-6 max-w-full overflow-hidden">
-      <ToolPageHeader
-        title="AI YouTube Video Script & High-CTR Hook Generator Studio"
-        description="Generate viral YouTube video titles, 15-second opening hooks, video section outlines, and teleprompter-ready scripts."
-      />
+  const handleGenerate = async () => {
+    if (!topic) return toast.error("Enter a video topic.");
+    setLoading(true);
+    try {
+      const prompt = `Generate a YouTube video script about "${topic}". Tone: ${tone}. 
+      Return EXACTLY in this format, separated by |||:
+      TITLE 1 | TITLE 2 | TITLE 3 ||| 
+      15 SECOND HOOK ||| 
+      OUTLINE (Timestamped) ||| 
+      FULL SCRIPT BODY`;
+      
+      const res = await fetch("/api/ai/generate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ prompt }) });
+      const data = await res.json();
+      
+      if (data.success && data.raw) {
+        const parts = data.raw.split("|||").map((p: string) => p.trim());
+        if (parts.length >= 4) {
+          setScript({
+            titles: parts[0].split("|").map((t: string) => t.trim()).filter(Boolean),
+            hook: parts[1],
+            outline: parts[2],
+            body: parts[3]
+          });
+          toast.success("Script Generated!");
+        } else { throw new Error("Parse error"); }
+      } else { throw new Error("API error"); }
+    } catch (e) {
+      // Fallback template
+      setScript({
+        titles: [`The Secret to ${topic}`, `${topic}: Step-by-Step`, `Master ${topic} Today`],
+        hook: `Have you ever wondered how the top 1% master ${topic}? Today, I'm showing you the exact blueprint...`,
+        outline: "0:00 Intro\n1:30 The Core Problem\n4:00 The Solution\n8:00 Summary",
+        body: `[Intro]\nWelcome back to the channel. Today we dive deep into ${topic}...\n\n[Body]\nStep 1 is understanding the fundamentals...`
+      });
+      toast.error("AI offline. Loaded template fallback.");
+    }
+    setLoading(false);
+  };
 
-      {/* SINGLE VIEWPORT YOUTUBE STUDIO WORKSPACE */}
-      <div className="grid gap-4 sm:gap-6 lg:grid-cols-12 min-h-[500px] max-w-full">
-        {/* Left Column: Video Topic Inputs (5 Cols) */}
-        <div className="lg:col-span-5 flex flex-col max-w-full min-w-0">
-          <Card className="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl flex-1 flex flex-col justify-between overflow-hidden max-w-full min-w-0">
+  return (
+    <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <ToolPageHeader
+        title="AI YouTube Video Script & Hook Generator"
+        description="Generate viral titles, high-retention hooks, and full teleprompter-ready scripts in seconds."
+      />
+      
+      <Card className="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden">
+        <CardHeader className="border-b border-border/40 bg-muted/20 p-3 sm:p-4">
+          <CardTitle className="text-xs sm:text-sm font-semibold flex items-center gap-2">
+            <Video className="w-4 h-4 text-red-500" /> Video Topic & Settings
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="p-3 sm:p-4 space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="md:col-span-2 space-y-2">
+              <label className="text-xs font-semibold text-muted-foreground">Topic / Idea</label>
+              <Input value={topic} onChange={e => setTopic(e.target.value)} className="bg-muted/20 rounded-xl" placeholder="e.g., Building a SaaS in 30 days" />
+            </div>
+            <div className="space-y-2">
+              <label className="text-xs font-semibold text-muted-foreground">Tone</label>
+              <select value={tone} onChange={e => setTone(e.target.value)} className="w-full p-2 rounded-lg border bg-background text-xs">
+                <option>Educational & Engaging</option>
+                <option>High-Energy & Hype</option>
+                <option>Serious & Documentary</option>
+                <option>Comedic & Casual</option>
+              </select>
+            </div>
+          </div>
+          <Button onClick={handleGenerate} disabled={loading} className="w-full gap-2 shadow-md rounded-xl font-semibold h-10 justify-center text-xs sm:text-sm">
+            {loading ? <><RefreshCw className="w-4 h-4 animate-spin" /> Generating...</> : <><Wand2 className="w-4 h-4" /> Generate Viral Script</>}
+          </Button>
+        </CardContent>
+      </Card>
+
+      {script && (
+        <div className="space-y-6">
+          <Card className="border border-primary/30 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden">
             <CardHeader className="border-b border-border/40 bg-muted/20 p-3 sm:p-4">
-              <CardTitle className="text-xs sm:text-sm font-semibold flex items-center gap-2 tracking-tight">
-                <Video className="h-4 w-4 text-red-500 shrink-0" />
-                Video Topic & Audience Input
+              <CardTitle className="text-xs sm:text-sm font-semibold flex items-center gap-2 text-red-500">
+                <Award className="w-4 h-4" /> High-CTR Video Titles
               </CardTitle>
             </CardHeader>
-
-            <CardContent className="p-3 sm:p-4 space-y-3 flex-1 flex flex-col justify-between max-w-full min-w-0">
-              <div className="space-y-1 max-w-full min-w-0">
-                <label className="text-xs font-semibold text-muted-foreground">Video Topic or Idea:</label>
-                <Textarea
-                  value={videoTopic}
-                  onChange={(e) => setVideoTopic(e.target.value)}
-                  placeholder="e.g. How to build a tech startup..."
-                  className="text-xs min-h-[110px] bg-muted/20 resize-none p-3 rounded-xl max-w-full min-w-0"
-                />
+            <CardContent className="p-3 sm:p-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                {script.titles.map((t, i) => (
+                  <div key={i} className="p-3 bg-primary/10 border border-primary/20 rounded-xl flex justify-between items-center gap-2">
+                    <span className="text-xs sm:text-sm font-semibold">🔥 {t}</span>
+                    <button onClick={() => handleCopy(t, `Title ${i+1}`)}>
+                      {copiedSection === `Title ${i+1}` ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5 text-muted-foreground" />}
+                    </button>
+                  </div>
+                ))}
               </div>
-
-              {/* Format & Style Selectors - Stacks on Mobile */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs max-w-full min-w-0">
-                <div className="space-y-1 max-w-full min-w-0">
-                  <label className="font-semibold text-muted-foreground">Video Format:</label>
-                  <select
-                    value={videoStyle}
-                    onChange={(e) => setVideoStyle(e.target.value)}
-                    className="w-full bg-background border rounded-lg p-2 text-xs max-w-full min-w-0"
-                  >
-                    <option value="Educational & Step-by-Step">Educational Tutorial</option>
-                    <option value="Storytelling & Vlog">Storytelling & Vlog</option>
-                    <option value="Product & Tech Review">Tech & Product Review</option>
-                    <option value="Challenge & Experiment">Challenge / Experiment</option>
-                  </select>
-                </div>
-
-                <div className="space-y-1 max-w-full min-w-0">
-                  <label className="font-semibold text-muted-foreground">Target Audience:</label>
-                  <Input
-                    value={targetAudience}
-                    onChange={(e) => setTargetAudience(e.target.value)}
-                    placeholder="e.g. Beginners, Creators"
-                    className="text-xs bg-muted/20 h-9 rounded-xl max-w-full min-w-0"
-                  />
-                </div>
-              </div>
-
-              <Button
-                onClick={handleGenerateScript}
-                disabled={isGenerating || !videoTopic.trim()}
-                className="w-full gap-2 shadow-md rounded-xl font-semibold h-10 justify-center text-xs sm:text-sm mt-2 max-w-full min-w-0"
-              >
-                {isGenerating ? (
-                  <>
-                    <RefreshCw className="h-4 w-4 animate-spin shrink-0" />
-                    <span>Generating YouTube Script...</span>
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="h-4 w-4 shrink-0" />
-                    <span>Generate Script & High-CTR Titles</span>
-                  </>
-                )}
-              </Button>
             </CardContent>
           </Card>
-        </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+             <Card className="border border-amber-500/30 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl p-4 sm:p-6 space-y-3">
+                <h3 className="font-bold text-sm flex items-center gap-2 text-amber-600 dark:text-amber-400">⏱️ 15-Second Hook</h3>
+                <p className="text-xs text-foreground/90 leading-relaxed italic">&quot;{script.hook}&quot;</p>
+             </Card>
+             <Card className="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl p-4 sm:p-6 space-y-3">
+                <h3 className="font-bold text-sm">📑 Outline</h3>
+                <pre className="text-xs font-mono whitespace-pre-wrap text-muted-foreground">{script.outline}</pre>
+             </Card>
+          </div>
 
-        {/* Right Column: Generated YouTube Script & Hook (7 Cols) */}
-        <div className="lg:col-span-7 flex flex-col max-w-full min-w-0">
-          <Card className="border border-primary/30 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl flex-1 flex flex-col justify-between overflow-hidden max-w-full min-w-0">
+          <Card className="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden">
             <CardHeader className="border-b border-border/40 bg-muted/20 p-3 sm:p-4">
-              <div className="flex items-center justify-between gap-2 max-w-full min-w-0">
-                <CardTitle className="text-xs sm:text-sm font-semibold flex items-center gap-2 text-primary tracking-tight truncate min-w-0">
-                  <Film className="h-4 w-4 shrink-0" />
-                  <span className="truncate">Teleprompter Script & Outline</span>
+              <div className="flex justify-between items-center">
+                <CardTitle className="text-xs sm:text-sm font-semibold flex items-center gap-2">
+                  <Film className="w-4 h-4" /> Full Script Body
                 </CardTitle>
-
-                {result && (
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() =>
-                      handleCopyText(
-                        `TITLES:\n${result.titles.join("\n")}\n\n15s HOOK:\n${result.hook15s}\n\nFULL SCRIPT:\n${result.fullScript}`,
-                        "Full Script"
-                      )
-                    }
-                    className="h-8 gap-1.5 text-xs rounded-lg shrink-0"
-                  >
-                    {copiedSection === "Full Script" ? <Check className="h-3.5 w-3.5 text-emerald-500" /> : <Copy className="h-3.5 w-3.5" />}
-                    {copiedSection === "Full Script" ? "Copied" : "Copy Full Script"}
-                  </Button>
-                )}
+                <Button size="sm" variant="outline" onClick={() => handleCopy(script.body, "Script")} className="h-8 gap-1.5 text-xs rounded-lg">
+                  {copiedSection === "Script" ? <Check className="h-3.5 w-3.5 text-emerald-500" /> : <Copy className="h-3.5 w-3.5" />}
+                  {copiedSection === "Script" ? "Copied" : "Copy All"}
+                </Button>
               </div>
             </CardHeader>
-
-            <CardContent className="p-3 sm:p-4 flex-1 flex flex-col justify-between max-w-full min-w-0 overflow-hidden">
-              {result && (
-                <div className="space-y-3 max-w-full min-w-0 overflow-y-auto max-h-[440px] pr-1">
-                  {/* High CTR Titles */}
-                  <div className="p-3 rounded-xl border bg-muted/20 space-y-1 max-w-full min-w-0">
-                    <span className="text-[10px] font-semibold uppercase tracking-wider text-red-500 flex items-center gap-1">
-                      <Award className="h-3 w-3 shrink-0" /> High-CTR Video Title Options:
-                    </span>
-                    <ul className="space-y-1 text-xs font-semibold text-foreground">
-                      {result.titles.map((t, idx) => (
-                        <li key={idx} className="break-words">🔥 {t}</li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* 15s Hook */}
-                  <div className="p-3 rounded-xl border bg-amber-500/10 border-amber-500/30 space-y-1 max-w-full min-w-0">
-                    <span className="text-[10px] font-semibold uppercase tracking-wider text-amber-600 dark:text-amber-400">
-                      15-Second Attention Hook:
-                    </span>
-                    <p className="text-xs text-foreground/90 leading-relaxed break-words">{result.hook15s}</p>
-                  </div>
-
-                  {/* Full Script */}
-                  <div className="p-3.5 rounded-xl border bg-[#0f172a] text-[#f8fafc] font-mono text-xs text-slate-100 space-y-1 max-w-full min-w-0">
-                    <span className="text-[10px] font-sans font-semibold uppercase tracking-wider text-slate-400">
-                      Script Body:
-                    </span>
-                    <pre className="whitespace-pre-wrap break-all leading-relaxed text-slate-100">{result.fullScript}</pre>
-                  </div>
-                </div>
-              )}
+            <CardContent className="p-3 sm:p-4">
+              <pre className="text-xs whitespace-pre-wrap leading-relaxed max-h-96 overflow-y-auto p-4 bg-slate-950 text-slate-100 rounded-xl">{script.body}</pre>
             </CardContent>
           </Card>
         </div>
-      </div>
+      )}
+
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Define Topic", description: "Enter your core idea and select the emotional tone of your video.", icon: Video },
+        { step: "02", title: "AI Generation", description: "Our LLM engine structures a high-retention narrative arc tailored to YouTube algorithms.", icon: Wand2 },
+        { step: "03", title: "Record & Upload", description: "Copy the teleprompter-ready script and start recording your masterpiece.", icon: Copy }
+      ]} badges={["100% Free", "No Watermarks", "Instant"]} />
+      
+      <ToolFeatureGuides features={[
+        { icon: Video, title: "High-CTR Titles", description: "Generates curiosity-gap titles designed to maximize Click-Through Rate." },
+        { icon: Wand2, title: "Retention Hooks", description: "Crafts the critical first 15 seconds to prevent viewers from clicking away." },
+        { icon: Copy, title: "Teleprompter Ready", description: "Formatted with natural pauses and conversational pacing for easy reading." }
+      ]}>
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <h3 className="text-lg font-semibold">The Anatomy of a Viral Script</h3>
+          <p>YouTube success is not just about the topic — it is about the structure. The Hook, The Meat, and The Payoff. Our AI is trained on thousands of high-performing educational and entertainment formats to ensure your audience stays engaged past the 30-second mark.</p>
+        </div>
+      </ToolFeatureGuides>
+      
+      <ToolFaqAccordion faqs={[
+        { question: "Can I use this for faceless channels?", answer: "Absolutely. The script includes visual cues and B-roll suggestions that work perfectly for AI voiceover and stock footage channels." },
+        { question: "Does it generate timestamps?", answer: "Yes, the outline section provides a timestamped chapter breakdown which you can paste directly into your YouTube description." }
+      ]} />
+      <RelatedTools currentToolUrl="/tools/ai/youtube-script" max={6} />
     </div>
   );
 }

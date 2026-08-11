@@ -1,341 +1,157 @@
 "use client";
+
 import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Trash2, Plus, Download, RotateCcw } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Separator } from "@/components/ui/separator";
+import { BookOpen, Plus, Trash2 } from "lucide-react";
 
-const GRADE_SCALE: Record<string, number> = {
-  "A+": 4.0,
-  "A": 4.0,
-  "A-": 3.7,
-  "B+": 3.3,
-  "B": 3.0,
-  "B-": 2.7,
-  "C+": 2.3,
-  "C": 2.0,
-  "C-": 1.7,
-  "D+": 1.3,
-  "D": 1.0,
-  "F": 0.0,
-};
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
 
-type Course = {
+const scale4: Record<string, number> = { "A": 4.0, "B": 3.0, "C": 2.0, "D": 1.0, "F": 0.0 };
+const scale5: Record<string, number> = { "A": 5.0, "B": 4.0, "C": 3.0, "D": 2.0, "E": 1.0, "F": 0.0 };
+
+interface Course {
   id: string;
   name: string;
-  grade: string;
   credits: string;
-};
-
-type Semester = {
-  id: string;
-  name: string;
-  courses: Course[];
-};
-
-const generateId = () => Math.random().toString(36).substring(2, 9);
-
-const createEmptyCourse = (): Course => ({
-  id: generateId(),
-  name: "",
-  grade: "A",
-  credits: "3",
-});
-
-const createEmptySemester = (index: number): Semester => ({
-  id: generateId(),
-  name: `Semester ${index}`,
-  courses: [createEmptyCourse(), createEmptyCourse(), createEmptyCourse()],
-});
+  grade: string;
+}
 
 export default function GpaCalculatorClient() {
-  const [semesters, setSemesters] = useState<Semester[]>([createEmptySemester(1)]);
+  const [courses, setCourses] = useState<Course[]>([
+    { id: "1", name: "", credits: "", grade: "A" }
+  ]);
+  const [scale, setScale] = useState<"4.0" | "5.0">("4.0");
 
-  const addSemester = () => {
-    setSemesters([...semesters, createEmptySemester(semesters.length + 1)]);
+  const currentScale = scale === "4.0" ? scale4 : scale5;
+  const maxGpa = scale === "4.0" ? "4.00" : "5.00";
+
+  const addCourse = () => {
+    setCourses([...courses, { id: Date.now().toString(), name: "", credits: "", grade: "A" }]);
   };
 
-  const removeSemester = (id: string) => {
-    setSemesters(semesters.filter((s) => s.id !== id));
+  const removeCourse = (id: string) => {
+    if (courses.length > 1) {
+      setCourses(courses.filter(c => c.id !== id));
+    }
   };
 
-  const updateSemesterName = (id: string, name: string) => {
-    setSemesters(semesters.map((s) => (s.id === id ? { ...s, name } : s)));
+  const updateCourse = (id: string, field: keyof Course, value: string) => {
+    setCourses(courses.map(c => c.id === id ? { ...c, [field]: value } : c));
   };
 
-  const addCourse = (semesterId: string) => {
-    setSemesters(
-      semesters.map((s) =>
-        s.id === semesterId ? { ...s, courses: [...s.courses, createEmptyCourse()] } : s
-      )
-    );
-  };
-
-  const removeCourse = (semesterId: string, courseId: string) => {
-    setSemesters(
-      semesters.map((s) =>
-        s.id === semesterId
-          ? { ...s, courses: s.courses.filter((c) => c.id !== courseId) }
-          : s
-      )
-    );
-  };
-
-  const updateCourse = (semesterId: string, courseId: string, field: keyof Course, value: string) => {
-    setSemesters(
-      semesters.map((s) =>
-        s.id === semesterId
-          ? {
-              ...s,
-              courses: s.courses.map((c) =>
-                c.id === courseId ? { ...c, [field]: value } : c
-              ),
-            }
-          : s
-      )
-    );
-  };
-
-  const resetAll = () => {
-    setSemesters([createEmptySemester(1)]);
-  };
-
-  const calculateGpa = (courses: Course[]) => {
+  const gpa = useMemo(() => {
     let totalPoints = 0;
     let totalCredits = 0;
-    courses.forEach((c) => {
-      const credits = parseFloat(c.credits) || 0;
-      const points = GRADE_SCALE[c.grade] ?? 0;
-      if (credits > 0) {
-        totalPoints += credits * points;
-        totalCredits += credits;
+    courses.forEach(c => {
+      const cred = parseFloat(c.credits);
+      if (!isNaN(cred) && cred > 0 && currentScale[c.grade] !== undefined) {
+        totalPoints += cred * currentScale[c.grade];
+        totalCredits += cred;
       }
     });
     return totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : "0.00";
-  };
-
-  const { totalCredits, cgpa } = useMemo(() => {
-    let tPoints = 0;
-    let tCredits = 0;
-    semesters.forEach((s) => {
-      s.courses.forEach((c) => {
-        const credits = parseFloat(c.credits) || 0;
-        const points = GRADE_SCALE[c.grade] ?? 0;
-        if (credits > 0) {
-          tPoints += credits * points;
-          tCredits += credits;
-        }
-      });
-    });
-    return {
-      totalCredits: tCredits,
-      cgpa: tCredits > 0 ? (tPoints / tCredits).toFixed(2) : "0.00",
-    };
-  }, [semesters]);
-
-  const getGpaColor = (gpaStr: string) => {
-    const gpa = parseFloat(gpaStr);
-    if (gpa >= 3.5) return "text-green-600";
-    if (gpa >= 2.5) return "text-yellow-600";
-    return "text-red-600";
-  };
-
-  const exportResults = () => {
-    let text = "GPA Calculator Results\n\n";
-    text += `Total CGPA: ${cgpa}\n`;
-    text += `Total Credits: ${totalCredits}\n\n`;
-
-    semesters.forEach((s) => {
-      text += `--- ${s.name} ---\n`;
-      text += `Semester GPA: ${calculateGpa(s.courses)}\n`;
-      s.courses.forEach((c) => {
-        text += `${c.name || "Course"}: Grade ${c.grade}, Credits ${c.credits}\n`;
-      });
-      text += "\n";
-    });
-
-    const blob = new Blob([text], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "gpa_results.txt";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
+  }, [courses, currentScale]);
 
   return (
-    <div className="space-y-6">
-      <ToolPageHeader
-        title="GPA Calculator"
-        description="Calculate your semester GPA and cumulative GPA (CGPA) easily."
+    <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <ToolPageHeader icon={BookOpen} title="GPA Calculator" description="Calculate your semester GPA with support for both 4.0 and 5.0 grading scales." />
+      
+      <Card className={cardClass}>
+        <CardHeader className={headerClass}>
+          <CardTitle className={titleClass}>Semester Courses</CardTitle>
+        </CardHeader>
+        <CardContent className="p-4 sm:p-6 space-y-4">
+          <div className="flex gap-2 mb-4">
+            <Button variant={scale === "4.0" ? "default" : "outline"} onClick={() => setScale("4.0")}>4.0 Scale</Button>
+            <Button variant={scale === "5.0" ? "default" : "outline"} onClick={() => setScale("5.0")}>5.0 Scale</Button>
+          </div>
+
+          <div className="space-y-3">
+            {courses.map((course) => (
+              <div key={course.id} className="grid grid-cols-12 gap-2 items-center">
+                <Input 
+                  className="col-span-5" 
+                  placeholder="Course Name" 
+                  value={course.name} 
+                  onChange={e => updateCourse(course.id, "name", e.target.value)} 
+                />
+                <Input 
+                  className="col-span-2" 
+                  type="number" 
+                  placeholder="Credits" 
+                  value={course.credits} 
+                  onChange={e => updateCourse(course.id, "credits", e.target.value)} 
+                />
+                <select 
+                  className="col-span-3 rounded-lg border border-border/70 bg-background/80 p-2 text-sm outline-none focus:ring-2 focus:ring-primary/50"
+                  value={course.grade}
+                  onChange={e => updateCourse(course.id, "grade", e.target.value)}
+                >
+                  {Object.keys(currentScale).map(g => <option key={g} value={g}>{g} ({currentScale[g]})</option>)}
+                </select>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="col-span-2 text-destructive hover:bg-destructive/10"
+                  onClick={() => removeCourse(course.id)}
+                  disabled={courses.length === 1}
+                >
+                  <Trash2 className="w-4 h-4" />
+                </Button>
+              </div>
+            ))}
+          </div>
+          
+          <Button variant="outline" onClick={addCourse} className="w-full sm:w-auto">
+            <Plus className="w-4 h-4 mr-2" /> Add Course
+          </Button>
+
+          <div className="mt-6 p-6 rounded-xl bg-primary/10 border border-primary/20 text-center">
+            <div className="text-sm text-muted-foreground mb-1">Semester GPA</div>
+            <div className="text-5xl font-bold text-primary">{gpa}</div>
+            <div className="text-xs text-muted-foreground mt-2">out of {maxGpa}</div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <ToolHowItWorks 
+        steps={[
+          { step: "01", title: "Select Scale", description: "Toggle between the standard 4.0 scale or the 5.0 scale used by some institutions.", icon: BookOpen },
+          { step: "02", title: "Enter Courses", description: "Input your course names, credit hours, and the grades achieved.", icon: BookOpen },
+          { step: "03", title: "Get GPA", description: "View your calculated semester GPA instantly updated on the screen.", icon: BookOpen }
+        ]} 
+        badges={["100% Free", "Client-Side", "Instant"]} 
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="md:col-span-2 space-y-6">
-          {semesters.map((semester, sIndex) => {
-            const semesterGpa = calculateGpa(semester.courses);
-            return (
-              <Card key={semester.id}>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-                  <div className="flex-1 mr-4">
-                    <Input
-                      value={semester.name}
-                      onChange={(e) => updateSemesterName(semester.id, e.target.value)}
-                      className="font-semibold text-lg border-transparent hover:border-border focus:border-ring transition-colors px-2 py-1 h-auto"
-                    />
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <div className="text-right">
-                      <div className="text-sm text-muted-foreground">Semester GPA</div>
-                      <div className={"text-xl font-bold " + (getGpaColor(semesterGpa))}>
-                        {semesterGpa}
-                      </div>
-                    </div>
-                    {semesters.length > 1 && (
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="text-destructive hover:bg-destructive/10 hover:text-destructive"
-                        onClick={() => removeSemester(semester.id)}
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    )}
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div className="grid grid-cols-12 gap-2 text-sm font-medium text-muted-foreground px-2">
-                      <div className="col-span-5">Course Name</div>
-                      <div className="col-span-3">Grade</div>
-                      <div className="col-span-3">Credits</div>
-                      <div className="col-span-1"></div>
-                    </div>
-                    {semester.courses.map((course) => (
-                      <div key={course.id} className="grid grid-cols-12 gap-2 items-center">
-                        <div className="col-span-5">
-                          <Input
-                            placeholder="e.g. Math 101"
-                            value={course.name}
-                            onChange={(e) =>
-                              updateCourse(semester.id, course.id, "name", e.target.value)
-                            }
-                          />
-                        </div>
-                        <div className="col-span-3">
-                          <Select
-                            value={course.grade}
-                            onValueChange={(val) =>
-                              updateCourse(semester.id, course.id, "grade", val)
-                            }
-                          >
-                            <SelectTrigger>
-                              <SelectValue placeholder="Grade" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {Object.keys(GRADE_SCALE).map((grade) => (
-                                <SelectItem key={grade} value={grade}>
-                                  {grade} ({GRADE_SCALE[grade].toFixed(1)})
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        <div className="col-span-3">
-                          <Input
-                            type="number"
-                            min="0"
-                            step="0.5"
-                            value={course.credits}
-                            onChange={(e) =>
-                              updateCourse(semester.id, course.id, "credits", e.target.value)
-                            }
-                          />
-                        </div>
-                        <div className="col-span-1 flex justify-center">
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="text-muted-foreground hover:text-destructive"
-                            onClick={() => removeCourse(semester.id, course.id)}
-                            disabled={semester.courses.length <= 1}
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </Button>
-                        </div>
-                      </div>
-                    ))}
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="w-full mt-2"
-                      onClick={() => addCourse(semester.id)}
-                    >
-                      <Plus className="w-4 h-4 mr-2" />
-                      Add Course
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
-          <Button variant="secondary" className="w-full" onClick={addSemester}>
-            <Plus className="w-4 h-4 mr-2" />
-            Add Semester
-          </Button>
+      <ToolFeatureGuides features={[
+        { icon: BookOpen, title: "Dual Scales", description: "Supports both the traditional 4.0 GPA scale and the 5.0 weighted scale." },
+        { icon: BookOpen, title: "Simple Grading", description: "Uses standard A-F letter grades without plus/minus variations for straightforward calculation." },
+        { icon: BookOpen, title: "Credit Weighting", description: "Automatically applies the correct mathematical weight to each course based on its credits." },
+        { icon: BookOpen, title: "Privacy First", description: "Your grades and course names are never saved or transmitted to any server." }
+      ]}>
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <p>Different educational systems around the world utilize different GPA scales. While the 4.0 scale is standard in the US, many international and specialized systems use a 5.0 scale to account for advanced or honors coursework.</p>
+          <p>This GPA calculator allows you to quickly model your semester performance by inputting your credits and letter grades. It is an excellent tool for projecting your final grades before the semester officially concludes.</p>
+          <p>By keeping the interface clean and focused on semester-by-semester calculation, you can easily evaluate how a single term impacts your overall academic trajectory.</p>
         </div>
+      </ToolFeatureGuides>
 
-        <div className="space-y-6">
-          <Card className="sticky top-6">
-            <CardHeader>
-              <CardTitle>Summary</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="text-center p-6 bg-muted/50 rounded-lg">
-                <div className="text-sm text-muted-foreground mb-1">Cumulative GPA</div>
-                <div className={"text-6xl font-bold " + (getGpaColor(cgpa))}>{cgpa}</div>
-                <div className="text-sm text-muted-foreground mt-2">
-                  Total Credits: {totalCredits}
-                </div>
-              </div>
+      <ToolFaqAccordion faqs={[
+        { question: "What is the difference between 4.0 and 5.0 scales?", answer: "The 4.0 scale typically caps an 'A' at 4.0 points, while a 5.0 scale often assigns 5.0 points to an 'A' in advanced, honors, or AP/IB courses." },
+        { question: "Does this include plus and minus grades?", answer: "This specific tool uses whole letter grades (A, B, C, D, F) to align with standard 5.0 scale reporting. For plus/minus precision, use our CGPA Calculator." },
+        { question: "Can I use this for high school?", answer: "Yes, it is perfectly suited for high school students tracking their semester grades on either a standard or weighted scale." }
+      ]} />
 
-              <div className="space-y-2">
-                <Button className="w-full" onClick={exportResults}>
-                  <Download className="w-4 h-4 mr-2" />
-                  Export Results
-                </Button>
-                <Button variant="outline" className="w-full" onClick={resetAll}>
-                  <RotateCcw className="w-4 h-4 mr-2" />
-                  Reset All
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-sm">Grade Scale</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-                {Object.entries(GRADE_SCALE).map(([grade, points]) => (
-                  <div key={grade} className="flex justify-between border-b pb-1">
-                    <span className="font-medium">{grade}</span>
-                    <span className="text-muted-foreground">{points.toFixed(1)}</span>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+      <RelatedTools currentToolUrl="/tools/calc/gpa-calculator" max={6} />
     </div>
   );
 }

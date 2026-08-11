@@ -1,223 +1,135 @@
 "use client";
 
-import {
-  Calculator,
-  Copy,
-  Delete,
-  Divide,
-  Equal,
-  Eraser,
-  FunctionSquare,
-  Percent,
-  X,
-} from "lucide-react";
-import * as React from "react";
-import toast from "react-hot-toast";
-import { CalcButton } from "@/components/calculators/calc-button";
-import { Display } from "@/components/calculators/display";
-import { ActionButton, LinkButton, ResetButton } from "@/components/shared/action-buttons";
+import React, { useState } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard, MotionGlassCard } from "@/components/ui/glass-card";
-import { Separator } from "@/components/ui/separator";
-import { safeEval } from "@/lib/safe-eval";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Calculator, Delete } from "lucide-react";
+import toast from "react-hot-toast";
+
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
 
 export default function StandardCalculatorClient() {
-  const [expr, setExpr] = React.useState<string>("");
-  const [ans, setAns] = React.useState<string>("");
-  const [lastAns, setLastAns] = React.useState<string>("");
+  const [display, setDisplay] = useState("0");
+  const [evaluated, setEvaluated] = useState(false);
 
-  const exprWithAns = React.useMemo(() => {
-    if (!expr) return "";
-    if (!lastAns) return expr;
-    return expr.replace(/\bANS\b/g, lastAns);
-  }, [expr, lastAns]);
-
-  // Live preview
-  React.useEffect(() => {
-    const v = safeEval(exprWithAns);
-    setAns(v == null ? "" : String(v));
-  }, [exprWithAns]);
-
-  const push = (t: string) => setExpr((e) => e + t);
-
-  const clear = React.useCallback(() => {
-    setExpr("");
-    setAns("");
-  }, []);
-
-  const back = React.useCallback(() => {
-    setExpr((e) => e.slice(0, -1));
-  }, []);
-
-  const equal = React.useCallback(() => {
-    const v = safeEval(exprWithAns);
-    if (v == null) return;
-    const s = String(v);
-    setExpr(s);
-    setLastAns(s);
-    setAns("");
-  }, [exprWithAns]);
-
-  const copyExpr = async () => {
-    try {
-      await navigator.clipboard.writeText(expr || "0");
-      toast.success("Expression copied");
-    } catch {
-      toast.error("Copy failed");
+  const handleBtn = (val: string) => {
+    if (val === "C") { 
+      setDisplay("0"); 
+      setEvaluated(false); 
+      return; 
     }
-  };
-
-  const copyAns = async () => {
-    try {
-      const v = ans || expr;
-      if (!v) return;
-      await navigator.clipboard.writeText(String(v));
-      toast.success("Result copied");
-    } catch {
-      toast.error("Copy failed");
+    if (val === "DEL") { 
+      setDisplay(prev => prev.length > 1 ? prev.slice(0, -1) : "0"); 
+      return; 
     }
-  };
-
-  // stable key handler that references the stable handlers
-  const onKey = React.useCallback(
-    (e: KeyboardEvent) => {
-      const k = e.key;
-      if (/^[0-9.+\-*/()% ]$/.test(k)) {
-        setExpr((x) => x + k);
-      } else if (k === "Enter") {
-        equal();
-      } else if (k === "Backspace") {
-        back();
-      } else if (k.toLowerCase() === "c") {
-        clear();
+    if (val === "=") {
+      try {
+        const expr = display.replace(/×/g, "*").replace(/÷/g, "/");
+        if (/[^0-9+\-*/.()]/.test(expr)) throw new Error("Invalid");
+        const res = Function(`"use strict"; return (${expr})`)();
+        setDisplay(String(res));
+        setEvaluated(true);
+      } catch { 
+        setDisplay("Error"); 
+        toast.error("Invalid expression");
       }
-    },
-    [equal, back, clear],
-  );
+      return;
+    }
+    if (val === "+/-") {
+      if (!isNaN(parseFloat(display)) && isFinite(parseFloat(display))) {
+         setDisplay(String(parseFloat(display) * -1));
+      }
+      return;
+    }
+    
+    if (evaluated && !isNaN(val as any)) {
+      setDisplay(val);
+      setEvaluated(false);
+    } else {
+      setDisplay(prev => prev === "0" && val !== "." ? val : prev + val);
+    }
+  };
 
-  // effect depends on the stable onKey
-  React.useEffect(() => {
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [onKey]);
+  const buttons = [
+    "C", "DEL", "+/-", "÷",
+    "7", "8", "9", "×",
+    "4", "5", "6", "-",
+    "1", "2", "3", "+",
+    "0", ".", "="
+  ];
 
   return (
-    <>
-      <ToolPageHeader
-        icon={Calculator}
-        title="Standard Calculator"
-        description="Type freely; preview updates live. Use ANS to reuse the last result."
-        actions={
-          <>
-            <ResetButton onClick={clear} />
-            <ActionButton icon={Copy} label="Copy Expr" onClick={copyExpr} />
-            <ActionButton
-              variant="default"
-              icon={Copy}
-              label="Copy Result"
-              onClick={copyAns}
-              disabled={!ans && !expr}
-            />
-          </>
-        }
+    <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <ToolPageHeader icon={Calculator} title="Standard Calculator" description="A clean, simple 4-function calculator for everyday math tasks." />
+      
+      <Card className={cardClass}>
+        <CardHeader className={headerClass}>
+          <CardTitle className={titleClass}>Display</CardTitle>
+        </CardHeader>
+        <CardContent className="p-4 sm:p-6 space-y-4">
+          <div className="p-6 rounded-xl bg-slate-950 text-right min-h-[80px] flex items-center justify-end overflow-x-auto">
+            <span className="text-white text-4xl font-bold font-mono whitespace-nowrap">{display}</span>
+          </div>
+          
+          <div className="grid grid-cols-4 gap-3">
+            {buttons.map((btn) => {
+              let className = "h-14 rounded-xl font-semibold text-lg transition-colors ";
+              if (btn === "=") className += "bg-primary text-primary-foreground hover:bg-primary/90 col-span-2";
+              else if (btn === "C" || btn === "DEL") className += "bg-destructive/20 text-destructive hover:bg-destructive/30";
+              else if (["+", "-", "×", "÷", "+/-"].includes(btn)) className += "bg-muted hover:bg-muted/80 text-foreground";
+              else className += "bg-card border border-border/50 hover:bg-muted/50 text-foreground";
+
+              return (
+                <Button 
+                  key={btn} 
+                  variant="ghost" 
+                  className={className}
+                  onClick={() => handleBtn(btn)}
+                >
+                  {btn === "DEL" ? <Delete className="w-5 h-5" /> : btn}
+                </Button>
+              );
+            })}
+          </div>
+        </CardContent>
+      </Card>
+
+      <ToolHowItWorks 
+        steps={[
+          { step: "01", title: "Input Numbers", description: "Use the numeric keypad to enter your first value.", icon: Calculator },
+          { step: "02", title: "Select Operator", description: "Choose addition, subtraction, multiplication, or division.", icon: Calculator },
+          { step: "03", title: "Calculate", description: "Enter the second value and press equals to see the result.", icon: Calculator }
+        ]} 
+        badges={["100% Free", "Client-Side", "No Signup"]} 
       />
 
-      {/* Quick nav */}
-      <GlassCard className="px-4 py-3">
-        <div className="mb-1 flex flex-wrap gap-2 items-center justify-between">
-          <div className="flex flex-wrap gap-2">
-            <LinkButton
-              size="sm"
-              variant="default"
-              icon={Calculator}
-              label="Standard"
-              href="/tools/calc/standard"
-            />
-            <LinkButton
-              size="sm"
-              icon={FunctionSquare}
-              label="Scientific"
-              href="/tools/calc/scientific"
-            />
-            <LinkButton size="sm" icon={Percent} label="Percentage" href="/tools/calc/percentage" />
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <ActionButton size="sm" icon={Delete} label="Back" onClick={back} />
-            <ActionButton
-              size="sm"
-              icon={Calculator}
-              variant="default"
-              label="Equals"
-              onClick={equal}
-              aria-label="Equals"
-            />
-          </div>
+      <ToolFeatureGuides features={[
+        { icon: Calculator, title: "Four Functions", description: "Supports standard addition, subtraction, multiplication, and division." },
+        { icon: Calculator, title: "Error Handling", description: "Safely catches invalid mathematical expressions and prevents browser crashes." },
+        { icon: Calculator, title: "Sign Toggle", description: "Quickly switch between positive and negative numbers with the +/- button." },
+        { icon: Calculator, title: "Backspace Support", description: "Easily correct typos by deleting the last entered character." }
+      ]}>
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <p>Sometimes you don't need complex scientific formulas; you just need a reliable tool to add up groceries or split a bill. This standard calculator provides a familiar, no-nonsense interface for basic arithmetic.</p>
+          <p>The interface is optimized for both mouse clicks and quick visual scanning, with distinct colors for operators, numbers, and utility functions like Clear and Delete.</p>
+          <p>Like all Toolzium utilities, this calculator operates entirely offline in your browser, ensuring instantaneous results and total privacy.</p>
         </div>
-      </GlassCard>
+      </ToolFeatureGuides>
 
-      <Separator className="my-4" />
+      <ToolFaqAccordion faqs={[
+        { question: "Does it support order of operations (PEMDAS)?", answer: "Yes, the underlying evaluation engine respects standard mathematical precedence, so multiplication and division are calculated before addition and subtraction." },
+        { question: "Can I use parentheses?", answer: "This standard interface does not include parenthesis buttons, but it evaluates standard linear expressions correctly. For complex nested equations, use our Scientific Calculator." },
+        { question: "Why does it say 'Error'?", answer: "An error occurs if you attempt to divide by zero or if the expression is mathematically invalid." }
+      ]} />
 
-      <MotionGlassCard>
-        {/* Calculator */}
-        <div className="grid grid-cols-4 gap-3">
-          {/* Display spans all columns */}
-          <Display value={expr || "0"} hint={ans ? `= ${ans}` : ""} />
-
-          {/* Top row */}
-          <CalcButton
-            onClick={clear}
-            variantIntent="danger"
-            className="col-span-2"
-            title="All Clear (C)"
-          >
-            <Eraser className="mr-2 h-4 w-4" />
-            AC
-          </CalcButton>
-          <CalcButton onClick={back} variantIntent="accent" title="Delete (Backspace)">
-            <Delete className="mr-2 h-4 w-4" />
-            DEL
-          </CalcButton>
-          <CalcButton onClick={() => push("/")} variantIntent="accent" title="Divide">
-            <Divide className="h-4 w-4" />
-          </CalcButton>
-
-          {/* Digits & ops grid */}
-          {["7", "8", "9", "*", "4", "5", "6", "-", "1", "2", "3", "+", "0", ".", "(", ")"].map(
-            (t) => (
-              <CalcButton
-                key={t}
-                onClick={() => push(t)}
-                variantIntent={["*", "-", "+"].includes(t) ? "accent" : "ghost"}
-                title={t === "*" ? "Multiply" : t}
-              >
-                {t === "*" ? <X className="h-4 w-4" /> : t}
-              </CalcButton>
-            ),
-          )}
-
-          {/* Bottom row */}
-          <CalcButton onClick={() => push("%")} variantIntent="ghost" title="Percent">
-            %
-          </CalcButton>
-          <CalcButton
-            onClick={() => push("ANS")}
-            onDoubleClick={() => push(lastAns)}
-            variantIntent="ghost"
-            title="Insert ANS (double-click to insert numeric)"
-          >
-            ANS
-          </CalcButton>
-          <CalcButton
-            className="col-span-2"
-            variantIntent="primary"
-            onClick={equal}
-            title="Equals (Enter)"
-          >
-            <Equal className="mr-2 h-4 w-4" />
-            Equals
-          </CalcButton>
-        </div>
-      </MotionGlassCard>
-    </>
+      <RelatedTools currentToolUrl="/tools/calc/standard-calculator" max={6} />
+    </div>
   );
 }

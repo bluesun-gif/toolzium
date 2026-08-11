@@ -1,346 +1,216 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Layers, RefreshCw, Sparkles, Check, Palette } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import { Copy, RotateCcw, Sparkles, Palette, SlidersHorizontal, Layers, Box } from "lucide-react";
 import toast from "react-hot-toast";
 
-const PRESET_COLORS = [
-  { name: "White", rgb: "255, 255, 255", hex: "#ffffff" },
-  { name: "Black", rgb: "0, 0, 0", hex: "#000000" },
-  { name: "Purple", rgb: "147, 51, 234", hex: "#9333ea" },
-  { name: "Cyan", rgb: "6, 182, 212", hex: "#06b6d4" },
-  { name: "Emerald", rgb: "16, 185, 129", hex: "#10b981" },
-  { name: "Rose", rgb: "244, 63, 94", hex: "#f43f5e" },
-  { name: "Royal Blue", rgb: "37, 99, 235", hex: "#2563eb" },
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
+
+const glassColors = [
+  { name: "White", rgba: "255, 255, 255" },
+  { name: "Black", rgba: "0, 0, 0" },
+  { name: "Purple", rgba: "168, 85, 247" },
+  { name: "Cyan", rgba: "34, 211, 238" },
+  { name: "Emerald", rgba: "16, 185, 129" },
+  { name: "Rose", rgba: "244, 63, 94" },
+  { name: "Royal Blue", rgba: "59, 130, 246" },
 ];
 
-const PRESET_BACKGROUNDS = [
-  {
-    name: "Cosmic Mesh",
-    style: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-  },
-  {
-    name: "Neon Sunset",
-    style: "linear-gradient(to right, #ff7e5f, #feb47b)",
-  },
-  {
-    name: "Aurora Borealis",
-    style: "linear-gradient(to right, #43e97b 0%, #38f9d7 100%)",
-  },
-  {
-    name: "Deep Ocean",
-    style: "linear-gradient(to right, #2b5876, #4e4376)",
-  },
-  {
-    name: "Cyberpunk",
-    style: "linear-gradient(to right, #f857a6, #ff5858)",
-  },
+const bgPresets = [
+  { name: "Cosmic Mesh", value: "radial-gradient(circle at 20% 20%, #1e1b4b 0%, #000 50%), radial-gradient(circle at 80% 80%, #312e81 0%, transparent 50%), #000" },
+  { name: "Neon Sunset", value: "linear-gradient(135deg, #ff0076 0%, #590fb7 50%, #00ffcc 100%)" },
+  { name: "Aurora Borealis", value: "linear-gradient(180deg, #0f172a 0%, #064e3b 40%, #10b981 100%)" },
+  { name: "Deep Ocean", value: "linear-gradient(135deg, #0ea5e9 0%, #1e3a8a 100%)" },
+  { name: "Cyberpunk", value: "linear-gradient(45deg, #ff00ff 0%, #00ffff 50%, #ffff00 100%)" },
 ];
 
 export function CssGlassmorphismClient() {
-  const [blur, setBlur] = useState<number>(12);
-  const [opacity, setOpacity] = useState<number>(25);
-  const [saturation, setSaturation] = useState<number>(140);
-  const [borderWidth, setBorderWidth] = useState<number>(2);
-  const [borderOpacity, setBorderOpacity] = useState<number>(40);
-  const [shadowBlur, setShadowBlur] = useState<number>(30);
-  const [borderRadius, setBorderRadius] = useState<number>(20);
-  
-  const [selectedColor, setSelectedColor] = useState(PRESET_COLORS[0]);
-  const [bgIndex, setBgIndex] = useState<number>(0);
+  const [blur, setBlur] = useState(12);
+  const [opacity, setOpacity] = useState(20);
+  const [saturation, setSaturation] = useState(180);
+  const [borderWidth, setBorderWidth] = useState(1);
+  const [borderOpacity, setBorderOpacity] = useState(30);
+  const [shadowBlur, setShadowBlur] = useState(24);
+  const [borderRadius, setBorderRadius] = useState(20);
+  const [glassColor, setGlassColor] = useState(glassColors[0]);
+  const [bgPreset, setBgPreset] = useState(bgPresets[1]);
 
-  const handleReset = () => {
-    setBlur(12);
-    setOpacity(25);
-    setSaturation(140);
-    setBorderWidth(2);
-    setBorderOpacity(40);
-    setShadowBlur(30);
-    setBorderRadius(20);
-    setSelectedColor(PRESET_COLORS[0]);
-    toast.success("Reset Glassmorphism to default values");
-  };
+  const cssCode = useMemo(() => {
+    return `.glass-card {
+  background: rgba(${glassColor.rgba}, ${opacity / 100});
+  border-radius: ${borderRadius}px;
+  border: ${borderWidth}px solid rgba(${glassColor.rgba}, ${borderOpacity / 100});
+  box-shadow: 0 8px ${shadowBlur}px 0 rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(${blur}px) saturate(${saturation}%);
+  -webkit-backdrop-filter: blur(${blur}px) saturate(${saturation}%);
+}`;
+  }, [blur, opacity, saturation, borderWidth, borderOpacity, shadowBlur, borderRadius, glassColor]);
 
-  const cycleBackground = () => {
-    setBgIndex((prev) => (prev + 1) % PRESET_BACKGROUNDS.length);
-  };
-
-  const getCssCode = () => {
-    const bgAlpha = (opacity / 100).toFixed(2);
-    const borderAlpha = (borderOpacity / 100).toFixed(2);
-    const rgbStr = selectedColor.rgb;
-
-    return `/* Glassmorphism Generated CSS */
-background: rgba(${rgbStr}, ${bgAlpha});
-backdrop-filter: blur(${blur}px) saturate(${saturation}%);
--webkit-backdrop-filter: blur(${blur}px) saturate(${saturation}%);
-border-radius: ${borderRadius}px;
-border: ${borderWidth}px solid rgba(${rgbStr}, ${borderAlpha});
-box-shadow: 0 8px ${shadowBlur}px 0 rgba(0, 0, 0, 0.25);`;
-  };
-
-  // Compute live inline styles for the preview glass card
-  const glassStyle: React.CSSProperties = {
-    background: `rgba(${selectedColor.rgb}, ${opacity / 100})`,
+  const previewCardStyle: React.CSSProperties = {
+    background: `rgba(${glassColor.rgba}, ${opacity / 100})`,
+    borderRadius: `${borderRadius}px`,
+    border: `${borderWidth}px solid rgba(${glassColor.rgba}, ${borderOpacity / 100})`,
+    boxShadow: `0 8px ${shadowBlur}px 0 rgba(0, 0, 0, 0.15)`,
     backdropFilter: `blur(${blur}px) saturate(${saturation}%)`,
     WebkitBackdropFilter: `blur(${blur}px) saturate(${saturation}%)`,
-    borderRadius: `${borderRadius}px`,
-    border: `${borderWidth}px solid rgba(${selectedColor.rgb}, ${borderOpacity / 100})`,
-    boxShadow: `0 8px ${shadowBlur}px 0 rgba(0, 0, 0, 0.25)`,
-    transition: "all 0.15s ease-out",
+    color: "#ffffff",
+    textShadow: "0 2px 4px rgba(0,0,0,0.6)"
   };
 
+  const handleReset = () => {
+    setBlur(12); setOpacity(20); setSaturation(180); setBorderWidth(1);
+    setBorderOpacity(30); setShadowBlur(24); setBorderRadius(20);
+    setGlassColor(glassColors[0]); setBgPreset(bgPresets[1]);
+    toast.success("Settings reset to defaults");
+  };
+
+  const SliderControl = ({ label, value, onChange, min, max, unit }: any) => (
+    <div className="space-y-1.5">
+      <div className="flex justify-between items-center">
+        <Label className="text-xs font-medium text-muted-foreground">{label}</Label>
+        <span className="text-xs font-mono font-semibold text-primary">{value}{unit}</span>
+      </div>
+      <input
+        type="range" min={min} max={max} value={value}
+        onChange={(e) => onChange(Number(e.target.value))}
+        className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
+      />
+    </div>
+  );
+
   return (
-    <div className="space-y-6 max-w-5xl mx-auto px-4">
+    <div className="max-w-6xl mx-auto space-y-8 p-4 sm:p-6 lg:p-8">
       <ToolPageHeader
-        icon={Layers}
-        title="CSS Glassmorphism Studio Generator"
-        description="Create modern frosted glass UI elements with real-time blur, transparency, border, and saturation controls."
-        actions={
-          <>
-            <ActionButton onClick={cycleBackground} icon={RefreshCw} label="Change Background" />
-            <ResetButton onClick={handleReset} label="Reset Defaults" />
-          </>
-        }
+        icon={Sparkles}
+        title="CSS Glassmorphism Generator"
+        description="Create stunning frosted-glass UI effects with real-time preview and production-ready CSS code."
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Controls Column */}
-        <GlassCard className="lg:col-span-6 p-5 space-y-5">
-          <div className="flex items-center justify-between border-b pb-3">
-            <h2 className="text-base font-bold text-foreground flex items-center gap-2">
-              <Sparkles className="h-4 w-4 text-primary" /> Glass Controls
-            </h2>
-            <Badge variant="outline" className="text-[11px] font-mono">
-              Live Responsive
-            </Badge>
-          </div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <Card className={`${cardClass} lg:col-span-1`}>
+          <CardHeader className={headerClass}>
+            <CardTitle className={titleClass}><SlidersHorizontal className="w-4 h-4" /> Controls</CardTitle>
+          </CardHeader>
+          <CardContent className="p-4 space-y-4 max-h-[600px] overflow-y-auto">
+            <SliderControl label="Blur" value={blur} onChange={setBlur} min={0} max={50} unit="px" />
+            <SliderControl label="Opacity" value={opacity} onChange={setOpacity} min={0} max={100} unit="%" />
+            <SliderControl label="Saturation" value={saturation} onChange={setSaturation} min={0} max={200} unit="%" />
+            <SliderControl label="Border Width" value={borderWidth} onChange={setBorderWidth} min={0} max={10} unit="px" />
+            <SliderControl label="Border Opacity" value={borderOpacity} onChange={setBorderOpacity} min={0} max={100} unit="%" />
+            <SliderControl label="Shadow Blur" value={shadowBlur} onChange={setShadowBlur} min={0} max={60} unit="px" />
+            <SliderControl label="Border Radius" value={borderRadius} onChange={setBorderRadius} min={0} max={40} unit="px" />
+            
+            <div className="pt-4 border-t border-border/40 space-y-2">
+              <Label className="text-xs font-medium text-muted-foreground">Glass Color</Label>
+              <div className="flex flex-wrap gap-2">
+                {glassColors.map((c) => (
+                  <button key={c.name} onClick={() => setGlassColor(c)}
+                    className={`w-8 h-8 rounded-full border-2 transition-all ${glassColor.name === c.name ? "border-primary scale-110" : "border-transparent"}`}
+                    style={{ backgroundColor: `rgba(${c.rgba}, 0.8)` }} title={c.name} />
+                ))}
+              </div>
+            </div>
 
-          {/* Color Presets */}
-          <div className="space-y-2">
-            <label className="text-xs font-bold text-foreground uppercase tracking-wider flex items-center gap-1.5">
-              <Palette className="h-3.5 w-3.5 text-primary" /> Glass Tint Color
-            </label>
-            <div className="flex flex-wrap gap-2 pt-1">
-              {PRESET_COLORS.map((c) => (
+            <div className="pt-4 border-t border-border/40 space-y-2">
+              <Label className="text-xs font-medium text-muted-foreground">Background Preset</Label>
+              <div className="grid grid-cols-2 gap-2">
+                {bgPresets.map((bg) => (
+                  <button key={bg.name} onClick={() => setBgPreset(bg)}
+                    className={`text-[10px] font-medium py-1.5 px-2 rounded-md border transition-all ${bgPreset.name === bg.name ? "border-primary bg-primary/10 text-primary" : "border-border/50 hover:bg-muted/50"}`}>
+                    {bg.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <Button variant="outline" className="w-full mt-4" onClick={handleReset}>
+              <RotateCcw className="w-4 h-4 mr-2" /> Reset
+            </Button>
+          </CardContent>
+        </Card>
+
+        <div className="lg:col-span-2 space-y-6">
+          <Card className={cardClass}>
+            <CardHeader className={headerClass}>
+              <CardTitle className={titleClass}><Layers className="w-4 h-4" /> Live Preview</CardTitle>
+            </CardHeader>
+            <CardContent className="p-0">
+              <div className="h-[350px] flex items-center justify-center p-8 relative overflow-hidden" style={{ background: bgPreset.value }}>
+                <div className="p-8 max-w-sm w-full text-center space-y-4" style={previewCardStyle}>
+                  <h3 className="text-2xl font-bold">Glassmorphism</h3>
+                  <p className="text-sm opacity-90">This is a live preview of your frosted glass card floating over a vibrant background.</p>
+                  <button className="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg text-xs font-bold backdrop-blur-sm border border-white/30 transition-colors">
+                    Interactive Button
+                  </button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className={cardClass}>
+            <CardHeader className={headerClass}>
+              <div className="flex items-center justify-between w-full">
+                <CardTitle className={titleClass}><Box className="w-4 h-4" /> Generated CSS</CardTitle>
                 <button
-                  key={c.name}
-                  onClick={() => setSelectedColor(c)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition ${
-                    selectedColor.name === c.name
-                      ? "border-primary bg-primary/10 text-primary shadow-xs"
-                      : "border-border bg-muted/20 text-muted-foreground hover:bg-muted/40"
-                  }`}
+                  onClick={() => { navigator.clipboard.writeText(cssCode); toast.success("Copied!"); }}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
                 >
-                  <span
-                    className="h-3 w-3 rounded-full border border-black/20"
-                    style={{ backgroundColor: c.hex }}
-                  />
-                  {c.name}
-                  {selectedColor.name === c.name && <Check className="h-3 w-3 ml-0.5" />}
+                  <Copy className="w-3.5 h-3.5" /> Copy
                 </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="space-y-4 pt-2">
-            {/* Blur Slider */}
-            <div className="space-y-1.5">
-              <div className="flex justify-between text-xs font-semibold">
-                <span className="text-foreground">Backdrop Blur</span>
-                <span className="font-mono text-primary font-bold">{blur}px</span>
               </div>
-              <input
-                type="range"
-                min="0"
-                max="40"
-                value={blur}
-                onChange={(e) => setBlur(Number(e.target.value))}
-                className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
-              />
-            </div>
-
-            {/* Opacity Slider */}
-            <div className="space-y-1.5">
-              <div className="flex justify-between text-xs font-semibold">
-                <span className="text-foreground">Glass Transparency (Opacity)</span>
-                <span className="font-mono text-primary font-bold">{opacity}%</span>
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value={opacity}
-                onChange={(e) => setOpacity(Number(e.target.value))}
-                className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
-              />
-            </div>
-
-            {/* Saturation Slider */}
-            <div className="space-y-1.5">
-              <div className="flex justify-between text-xs font-semibold">
-                <span className="text-foreground">Saturation Boost</span>
-                <span className="font-mono text-primary font-bold">{saturation}%</span>
-              </div>
-              <input
-                type="range"
-                min="50"
-                max="250"
-                value={saturation}
-                onChange={(e) => setSaturation(Number(e.target.value))}
-                className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
-              />
-            </div>
-
-            {/* Border Width Slider */}
-            <div className="space-y-1.5">
-              <div className="flex justify-between text-xs font-semibold">
-                <span className="text-foreground">Border Width</span>
-                <span className="font-mono text-primary font-bold">{borderWidth}px</span>
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="10"
-                value={borderWidth}
-                onChange={(e) => setBorderWidth(Number(e.target.value))}
-                className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
-              />
-            </div>
-
-            {/* Border Opacity Slider */}
-            <div className="space-y-1.5">
-              <div className="flex justify-between text-xs font-semibold">
-                <span className="text-foreground">Border Transparency</span>
-                <span className="font-mono text-primary font-bold">{borderOpacity}%</span>
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value={borderOpacity}
-                onChange={(e) => setBorderOpacity(Number(e.target.value))}
-                className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
-              />
-            </div>
-
-            {/* Border Radius Slider */}
-            <div className="space-y-1.5">
-              <div className="flex justify-between text-xs font-semibold">
-                <span className="text-foreground">Border Radius (Corner Roundness)</span>
-                <span className="font-mono text-primary font-bold">{borderRadius}px</span>
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="40"
-                value={borderRadius}
-                onChange={(e) => setBorderRadius(Number(e.target.value))}
-                className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
-              />
-            </div>
-
-            {/* Shadow Blur Slider */}
-            <div className="space-y-1.5">
-              <div className="flex justify-between text-xs font-semibold">
-                <span className="text-foreground">Elevation Shadow</span>
-                <span className="font-mono text-primary font-bold">{shadowBlur}px</span>
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="80"
-                value={shadowBlur}
-                onChange={(e) => setShadowBlur(Number(e.target.value))}
-                className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
-              />
-            </div>
-          </div>
-        </GlassCard>
-
-        {/* Live Preview & Code Column */}
-        <div className="lg:col-span-6 space-y-6">
-          {/* Live Preview Card */}
-          <GlassCard className="p-5 space-y-4">
-            <div className="flex items-center justify-between border-b pb-3">
-              <h2 className="text-base font-bold text-foreground">Live Interactive Canvas</h2>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={cycleBackground}
-                className="text-xs gap-1.5 h-8 text-primary"
-              >
-                <RefreshCw className="h-3.5 w-3.5" />
-                Theme: {PRESET_BACKGROUNDS[bgIndex].name}
-              </Button>
-            </div>
-
-            {/* Canvas Viewport with Floating Shapes behind the Glass Element */}
-            <div
-              className="w-full h-72 rounded-2xl relative overflow-hidden flex items-center justify-center p-6 transition-all duration-300 shadow-inner"
-              style={{ background: PRESET_BACKGROUNDS[bgIndex].style }}
-            >
-              {/* Vibrant Floating Background Circles for Backdrop Blur Contrast */}
-              <div className="absolute -top-6 -left-6 w-32 h-32 rounded-full bg-white/40 blur-sm animate-pulse" />
-              <div className="absolute -bottom-6 -right-6 w-40 h-40 rounded-full bg-yellow-300/40 blur-sm" />
-              <div className="absolute top-1/3 right-1/4 w-20 h-20 rounded-full bg-cyan-300/50" />
-
-              {/* The Glassmorphism Target Card */}
-              <div
-                className="relative z-10 w-full max-w-sm p-6 flex flex-col items-center justify-center text-center space-y-2 select-none"
-                style={glassStyle}
-              >
-                <h3
-                  className={`text-xl font-extrabold tracking-tight ${
-                    selectedColor.name === "White" || selectedColor.name === "Cyan"
-                      ? "text-slate-900"
-                      : "text-white"
-                  }`}
-                >
-                  Glassmorphism
-                </h3>
-                <p
-                  className={`text-xs font-medium ${
-                    selectedColor.name === "White" || selectedColor.name === "Cyan"
-                      ? "text-slate-700"
-                      : "text-slate-200"
-                  }`}
-                >
-                  Live preview of your frosted glass card with <strong>{blur}px</strong> blur and <strong>{opacity}%</strong> transparency.
-                </p>
-                <Badge
-                  variant="outline"
-                  className={`text-[10px] mt-2 ${
-                    selectedColor.name === "White" || selectedColor.name === "Cyan"
-                      ? "bg-slate-900/10 border-slate-900/30 text-slate-900"
-                      : "bg-white/20 border-white/40 text-white"
-                  }`}
-                >
-                  ✓ Real-time CSS Render
-                </Badge>
-              </div>
-            </div>
-          </GlassCard>
-
-          {/* Generated CSS Code Card */}
-          <GlassCard className="p-5 space-y-3">
-            <div className="flex items-center justify-between border-b pb-3">
-              <h2 className="text-base font-bold text-foreground">Generated CSS Code</h2>
-              <CopyButton getText={getCssCode} label="Copy CSS Code" />
-            </div>
-
-            <pre className="p-4 rounded-xl bg-slate-950 text-slate-100 font-mono text-xs overflow-x-auto leading-relaxed border border-slate-800 shadow-xs">
-              {getCssCode()}
-            </pre>
-          </GlassCard>
+            </CardHeader>
+            <CardContent className="p-4">
+              <pre className="w-full bg-slate-950 text-cyan-400 p-4 rounded-lg text-xs font-mono overflow-x-auto">{cssCode}</pre>
+            </CardContent>
+          </Card>
         </div>
       </div>
+
+      <ToolHowItWorks
+        steps={[
+          { step: "01", title: "Customize Effects", description: "Adjust blur, opacity, and saturation sliders to craft your perfect frosted glass look.", icon: SlidersHorizontal },
+          { step: "02", title: "Choose Colors", description: "Select a glass tint and a vibrant background preset to see how your UI adapts.", icon: Palette },
+          { step: "03", title: "Export Code", description: "Copy the generated CSS with vendor prefixes and drop it straight into your project.", icon: Copy }
+        ]}
+        badges={["100% Free", "Client-Side Privacy", "No Signup"]}
+      />
+
+      <ToolFeatureGuides
+        features={[
+          { icon: Sparkles, title: "Real-Time Rendering", description: "See your CSS changes instantly without page reloads or compilation steps." },
+          { icon: Layers, title: "Vendor Prefixes", description: "Automatically includes -webkit-backdrop-filter for Safari compatibility." },
+          { icon: Palette, title: "Color Tinting", description: "Apply subtle RGB tints to create colored glass effects." },
+          { icon: Box, title: "Border Luminance", description: "Fine-tune the inner border glow that gives glass its physical edge." }
+        ]}
+      >
+        <div className="prose dark:prose-invert max-w-none">
+          <h3>The Ultimate Guide to CSS Glassmorphism</h3>
+          <p>Glassmorphism has taken the web design world by storm, offering a sleek, modern aesthetic that adds depth and hierarchy to user interfaces. Originating from early iterations of Apple's iOS and macOS design languages, this style relies heavily on the CSS <code>backdrop-filter</code> property to create a translucent, frosted-glass effect. By allowing the background to bleed through foreground elements, designers can create immersive, layered experiences that feel both tactile and futuristic.</p>
+          <p>The key to mastering glassmorphism lies in balancing blur, transparency, and saturation. Too much blur obscures the background entirely, defeating the purpose of the effect, while too little leaves the text difficult to read against complex patterns. Our enterprise-grade generator provides granular control over every aspect of this effect, from the subtle border luminance that gives the glass its physical edge, to the inner saturation boost that keeps colors vibrant behind the frost.</p>
+          <p>When implementing glassmorphism, it is also vital to consider performance implications. The <code>backdrop-filter</code> property can be computationally expensive, particularly on lower-end mobile devices or when applied to large, scrolling containers. To mitigate this, developers should apply the effect to smaller, static UI components rather than full-page wrappers. Additionally, providing a solid fallback background color using the <code>@supports</code> rule ensures that users on older browsers or those with reduced-motion preferences still experience a functional and visually pleasing interface. This generator automatically outputs the necessary vendor prefixes, ensuring your frosted glass effects render flawlessly across Safari, Chrome, Firefox, and Edge.</p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion
+        faqs={[
+          { question: "Does glassmorphism work on all browsers?", answer: "Most modern browsers support backdrop-filter. Safari requires the -webkit- prefix, which this tool automatically generates. For older browsers, you should provide a solid fallback background color." },
+          { question: "Will this slow down my website?", answer: "Backdrop-filter can be GPU-intensive. It is best used on smaller UI elements like cards, modals, or navigation bars rather than full-page backgrounds to maintain 60fps performance." },
+          { question: "How do I ensure text is readable?", answer: "Adjust the opacity and saturation sliders. Increasing saturation and adding a subtle dark or light tint to the glass color helps maintain high contrast ratios for accessibility." }
+        ]}
+      />
+
+      <RelatedTools currentToolUrl="/tools/dev/css-glassmorphism" max={6} />
     </div>
   );
 }
+
+export default CssGlassmorphismClient;

@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { ZodiacClient } from "@/components/tools/fun/zodiac-client";
+import ZodiacClient from "@/components/tools/fun/zodiac-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

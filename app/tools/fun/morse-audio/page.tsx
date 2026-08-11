@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { MorseAudioClient } from "@/components/tools/fun/morse-audio-client";
+import MorseAudioClient from "@/components/tools/fun/morse-audio-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

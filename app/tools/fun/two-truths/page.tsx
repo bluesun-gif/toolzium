@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { TwoTruthsClient } from "@/components/tools/fun/two-truths-client";
+import TwoTruthsClient from "@/components/tools/fun/two-truths-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

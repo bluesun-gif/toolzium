@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { Rot13Client } from "@/components/tools/text/rot13-client";
+import Rot13Client from "@/components/tools/text/rot13-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { AnimalQuizClient } from "@/components/tools/fun/animal-quiz-client";
+import AnimalQuizClient from "@/components/tools/fun/animal-quiz-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

@@ -2,9 +2,13 @@
 
 import React, { useState } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 import { GlassCard } from "@/components/ui/glass-card";
 import { Button } from "@/components/ui/button";
-import { FileText, Upload, Download, Trash2, ArrowUp, ArrowDown } from "lucide-react";
+import { FileText, Upload, Download, Trash2, ArrowUp, ArrowDown, ArrowUpDown, FileDown, ShieldCheck, Layers } from "lucide-react";
 import { PDFDocument } from "pdf-lib";
 import toast from "react-hot-toast";
 
@@ -85,7 +89,7 @@ export default function PdfMergeClient() {
   };
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto px-4">
+    <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
       <ToolPageHeader
         icon={FileText}
         title="PDF Merge Studio"
@@ -169,6 +173,37 @@ export default function PdfMergeClient() {
           </div>
         )}
       </GlassCard>
+
+      <ToolHowItWorks
+        steps={[
+          { step: "Step 1", title: "Upload PDFs", description: "Select multiple PDF files into the tool.", icon: Upload },
+          { step: "Step 2", title: "Arrange Order", description: "Reorder your files using the up and down arrows.", icon: ArrowUpDown },
+          { step: "Step 3", title: "Download", description: "Click merge and download your single PDF file instantly.", icon: FileDown },
+        ]}
+        badges={["100% Free", "Client-Side Privacy", "No File Limits"]}
+      />
+
+      <ToolFeatureGuides
+        features={[
+          { title: "Drag and Drop Reordering", description: "Easily rearrange your PDF documents before merging.", icon: ArrowUpDown },
+          { title: "Local Browser Processing", description: "Files are processed directly in your browser ensuring maximum privacy.", icon: ShieldCheck },
+          { title: "Multi-Format Support", description: "Merge any standard PDF versions with no restrictive limits.", icon: Layers }
+        ]}
+      >
+        <p>Merging PDFs is an essential workflow tool for students, professionals, and businesses alike. Combining multiple documents such as invoices, reports, or chapters into a single file makes sharing and storage significantly more manageable.</p>
+        <p>Our PDF merge tool executes all processing locally on your device, meaning your sensitive documents are never uploaded to our servers. This ensures 100% privacy and blazing fast performance, regardless of how many files you need to combine.</p>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion
+        faqs={[
+          { question: "Is there a file size limit?", answer: "Since all processing happens locally in your browser, the only limit is your device's memory. There are no artificial limits imposed by our tool." },
+          { question: "How do I change the page order?", answer: "You can reorder the PDF files using the up and down arrows next to each file. The merged PDF will follow the top-to-bottom sequence you set." },
+          { question: "Can I merge password-protected PDFs?", answer: "Currently, our tool requires PDFs to be unencrypted before merging. You'll need to remove passwords from your files first." },
+          { question: "Are my files uploaded to any server?", answer: "No, absolutely not. All PDF processing is performed securely on your own device." }
+        ]}
+      />
+
+      <RelatedTools currentToolUrl="/tools/pdf/pdf-merge" />
     </div>
   );
 }

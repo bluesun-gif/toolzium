@@ -1,324 +1,157 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useRef } from "react";
-import { Binary, Play, Square, Settings2, Radio, Volume2, Copy, Shield, Zap, BookOpen, Type } from "lucide-react";
+import React, { useState, useMemo } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { GlassCard } from "@/components/ui/glass-card";
-import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Slider } from "@/components/ui/slider";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { CopyButton } from "@/components/shared/action-buttons";
+import toast from "react-hot-toast";
+import { Radio, ArrowRightLeft, Copy } from "lucide-react";
 
-const MORSE_CODE_DICT: Record<string, string> = {
-  'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
-  'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
-  'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.',
-  'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
-  'Y': '-.--', 'Z': '--..', '1': '.----', '2': '..---', '3': '...--',
-  '4': '....-', '5': '.....', '6': '-....', '7': '--...', '8': '---..',
-  '9': '----.', '0': '-----', ',': '--..--', '.': '.-.-.-', '?': '..--..',
-  '/': '-..-.', '-': '-....-', '(': '-.--.', ')': '-.--.-', '!': '-.-.--',
-  '@': '.--.-.', '&': '.-...', ':': '---...', ';': '-.-.-.', '=': '-...-',
-  '+': '.-.-.', '_': '..--.-', '"': '.-..-.', '$': '...-..-', '\'': '.----.'
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
+
+const MORSE_MAP: Record<string, string> = {
+  "A": ".-", "B": "-...", "C": "-.-.", "D": "-..", "E": ".", "F": "..-.",
+  "G": "--.", "H": "....", "I": "..", "J": ".---", "K": "-.-", "L": ".-..",
+  "M": "--", "N": "-.", "O": "---", "P": ".--.", "Q": "--.-", "R": ".-.",
+  "S": "...", "T": "-", "U": "..-", "V": "...-", "W": ".--", "X": "-..-",
+  "Y": "-.--", "Z": "--..", "0": "-----", "1": ".----", "2": "..---",
+  "3": "...--", "4": "....-", "5": ".....", "6": "-....", "7": "--...",
+  "8": "---..", "9": "----.", ".": ".-.-.-", ",": "--..--", "?": "..--..",
+  "'": ".----.", "!": "-.-.--", "/": "-..-.", "(": "-.--.", ")": "-.--.-",
+  "&": ".-...", ":": "---...", ";": "-.-.-.", "=": "-...-", "+": ".-.-.",
+  "-": "-....-", "_": "..--.-", '"': ".-..-.", "$": "...-..-", "@": ".--.-."
 };
 
-const REVERSE_DICT: Record<string, string> = Object.entries(MORSE_CODE_DICT).reduce((acc, [key, value]) => {
-  acc[value] = key;
-  return acc;
-}, {} as Record<string, string>);
+const REVERSE_MORSE_MAP: Record<string, string> = Object.fromEntries(
+  Object.entries(MORSE_MAP).map(([k, v]) => [v, k])
+);
 
-export function MorseCodeClient() {
+export default function MorseCodeClient() {
   const [input, setInput] = useState("");
-  const [output, setOutput] = useState("");
-  const [isMorseInput, setIsMorseInput] = useState(false);
-  const [wpm, setWpm] = useState(20);
-  const [isPlaying, setIsPlaying] = useState(false);
-  
-  const audioCtxRef = useRef<AudioContext | null>(null);
-  const oscillatorRef = useRef<OscillatorNode | null>(null);
-  const timeoutIdsRef = useRef<NodeJS.Timeout[]>([]);
+  const [mode, setMode] = useState<"text-to-morse" | "morse-to-text">("text-to-morse");
 
-  const stopAudio = useCallback(() => {
-    timeoutIdsRef.current.forEach(clearTimeout);
-    timeoutIdsRef.current = [];
-    if (oscillatorRef.current) {
-      try {
-        oscillatorRef.current.stop();
-        oscillatorRef.current.disconnect();
-      } catch (e) {
-        // Ignore errors if already stopped
-      }
-      oscillatorRef.current = null;
-    }
-    setIsPlaying(false);
-  }, []);
+  const output = useMemo(() => {
+    if (!input.trim()) return "";
 
-  useEffect(() => {
-    return () => {
-      stopAudio();
-      if (audioCtxRef.current) {
-        audioCtxRef.current.close();
-      }
-    };
-  }, [stopAudio]);
-
-  const detectAndTranslate = useCallback((text: string) => {
-    if (!text.trim()) {
-      setOutput("");
-      setIsMorseInput(false);
-      return;
-    }
-
-    // Check if input is likely Morse code (mostly dots, dashes, spaces, and slashes)
-    const isMorse = /^[.\- \/\n]+$/.test(text);
-    setIsMorseInput(isMorse);
-
-    if (isMorse) {
-      // Decode Morse to Text
-      const words = text.trim().split(/[\/\n]+|   +/);
-      const decoded = words.map(word => {
-        return word.split(' ').map(char => REVERSE_DICT[char] || char).join('');
-      }).join(' ');
-      setOutput(decoded);
+    if (mode === "text-to-morse") {
+      return input
+        .toUpperCase()
+        .split(" ")
+        .map((word) =>
+          word
+            .split("")
+            .map((char) => MORSE_MAP[char] || "")
+            .filter(Boolean)
+            .join(" ")
+        )
+        .join(" / ");
     } else {
-      // Encode Text to Morse
-      const encoded = text.toUpperCase().split('').map(char => {
-        if (char === ' ' || char === '\n') return '/';
-        return MORSE_CODE_DICT[char] || char;
-      }).join(' ');
-      setOutput(encoded);
+      return input
+        .split(" / ")
+        .map((word) =>
+          word
+            .trim()
+            .split(" ")
+            .map((morse) => REVERSE_MORSE_MAP[morse] || "")
+            .join("")
+        )
+        .join(" ");
     }
-  }, []);
+  }, [input, mode]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const val = e.target.value;
-    setInput(val);
-    detectAndTranslate(val);
-  };
-
-  const handleReset = () => {
+  const handleModeToggle = () => {
+    setMode(mode === "text-to-morse" ? "morse-to-text" : "text-to-morse");
     setInput("");
-    setOutput("");
-    stopAudio();
-  };
-
-  const playMorse = async () => {
-    if (isPlaying) {
-      stopAudio();
-      return;
-    }
-    
-    let morseToPlay = isMorseInput ? input : output;
-    if (!morseToPlay) return;
-    
-    // Normalize spaces and slashes for playback
-    morseToPlay = morseToPlay.replace(/\//g, ' / ');
-
-    setIsPlaying(true);
-    
-    if (!audioCtxRef.current) {
-      audioCtxRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
-    }
-    
-    const ctx = audioCtxRef.current;
-    if (ctx.state === 'suspended') {
-      await ctx.resume();
-    }
-
-    const dotDuration = 1.2 / wpm; // Standard formula for dot duration based on WPM
-    
-    let currentTime = ctx.currentTime;
-    
-    const osc = ctx.createOscillator();
-    const gainNode = ctx.createGain();
-    
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(600, ctx.currentTime); // 600Hz tone
-    
-    osc.connect(gainNode);
-    gainNode.connect(ctx.destination);
-    
-    gainNode.gain.setValueAtTime(0, ctx.currentTime);
-    osc.start(ctx.currentTime);
-    oscillatorRef.current = osc;
-
-    const sequence: {type: string, duration: number}[] = [];
-    
-    for (let i = 0; i < morseToPlay.length; i++) {
-      const char = morseToPlay[i];
-      if (char === '.') {
-        sequence.push({ type: 'on', duration: dotDuration });
-        sequence.push({ type: 'off', duration: dotDuration }); // Space between parts of same letter
-      } else if (char === '-') {
-        sequence.push({ type: 'on', duration: dotDuration * 3 });
-        sequence.push({ type: 'off', duration: dotDuration });
-      } else if (char === ' ') {
-        sequence.push({ type: 'off', duration: dotDuration * 2 }); // Space between letters (3 - 1 from above)
-      } else if (char === '/') {
-        sequence.push({ type: 'off', duration: dotDuration * 6 }); // Space between words (7 - 1 from above)
-      }
-    }
-
-    let scheduleTime = ctx.currentTime;
-    sequence.forEach(({ type, duration }) => {
-      if (type === 'on') {
-        gainNode.gain.setValueAtTime(1, scheduleTime);
-        gainNode.gain.setTargetAtTime(0, scheduleTime + duration - 0.01, 0.01); // smooth off to avoid clicks
-      }
-      scheduleTime += duration;
-    });
-
-    // Schedule stop
-    const stopTime = scheduleTime;
-    
-    const stopTimeoutId = setTimeout(() => {
-      stopAudio();
-    }, (stopTime - ctx.currentTime) * 1000);
-    
-    timeoutIdsRef.current.push(stopTimeoutId);
+    toast.success(`Switched to ${mode === "text-to-morse" ? "Morse to Text" : "Text to Morse"}`);
   };
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
+    <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
       <ToolPageHeader
+        icon={Radio}
         title="Morse Code Translator"
-        description="Translate text to morse code and vice-versa. Includes audio playback and adjustable speeds."
-        icon={Binary}
+        description="Convert text to Morse code and decode Morse code back to readable text instantly."
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <GlassCard>
-          <CardHeader>
-            <CardTitle>{isMorseInput ? 'Morse Code (Input)' : 'Text (Input)'}</CardTitle>
+      <Card className={cardClass}>
+        <CardHeader className={headerClass}>
+          <CardTitle className={titleClass}>
+            <Radio className="w-4 h-4 text-primary" /> Input
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="p-3 sm:p-4 space-y-4">
+          <textarea
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            rows={6}
+            className="w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50"
+            placeholder={mode === "text-to-morse" ? "Enter text to convert to Morse code..." : "Enter Morse code (e.g., .... . .-.. .-.. --- / .-- --- .-. .-.. -..)"}
+          />
+          <Button onClick={handleModeToggle} variant="outline" className="w-full">
+            <ArrowRightLeft className="w-4 h-4 mr-2" />
+            Switch to {mode === "text-to-morse" ? "Morse to Text" : "Text to Morse"}
+          </Button>
+        </CardContent>
+      </Card>
+
+      {output && (
+        <Card className={cardClass}>
+          <CardHeader className={headerClass}>
+            <CardTitle className={titleClass}>
+              <Copy className="w-4 h-4 text-primary" /> Output
+            </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <Textarea
-              placeholder={isMorseInput ? "Enter morse code (e.g. .... . .-.. .-.. ---)" : "Enter text to translate..."}
-              value={input}
-              onChange={handleInputChange}
-              className="min-h-[200px] resize-y font-mono text-lg"
+          <CardContent className="p-3 sm:p-4 space-y-3">
+            <textarea
+              value={output}
+              readOnly
+              rows={6}
+              className="w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50"
             />
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-muted-foreground">
-                Auto-detects direction based on input
-              </span>
-              <ResetButton onClick={handleReset} />
-            </div>
+            <CopyButton getText={() => output} label="Copy Output" />
           </CardContent>
-        </GlassCard>
+        </Card>
+      )}
 
-        <GlassCard>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0">
-            <CardTitle>{isMorseInput ? 'Text (Output)' : 'Morse Code (Output)'}</CardTitle>
-            <div className="flex gap-2">
-              <ActionButton
-                onClick={playMorse}
-                disabled={!input}
-                icon={isPlaying ? Square : Play}
-                label={isPlaying ? "Stop" : "Play"}
-                variant={isPlaying ? "destructive" : "secondary"}
-              />
-              <CopyButton getText={() => output} />
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="min-h-[200px] p-3 rounded-md bg-muted/50 border overflow-y-auto font-mono text-lg break-words">
-              {output || <span className="text-muted-foreground italic">Translation will appear here...</span>}
-            </div>
-            
-            <div className="space-y-3 pt-4 border-t border-border/50">
-              <div className="flex justify-between">
-                <Label className="flex items-center gap-2">
-                  <Settings2 className="w-4 h-4 text-muted-foreground" />
-                  Playback Speed (WPM)
-                </Label>
-                <span className="text-sm font-medium">{wpm} WPM</span>
-              </div>
-              <Slider
-                value={[wpm]}
-                min={5}
-                max={40}
-                step={1}
-                onValueChange={(vals) => setWpm(vals[0])}
-                disabled={isPlaying}
-              />
-            </div>
-          </CardContent>
-        </GlassCard>
-      </div>
-
-      {/* SECTION 3: HOW IT WORKS */}
       <ToolHowItWorks
         steps={[
-          { step: "01", title: "Enter Text or Morse", description: "Type plain text to convert to Morse code, or type Morse code (dots and dashes) to decode back to text. The translator auto-detects which direction to convert.", icon: Type },
-          { step: "02", title: "Hear the Signal", description: "Click Play to hear the Morse code as audio beeps using the Web Audio API. Adjust speed (WPM) and frequency (Hz) to match your practice or communication needs.", icon: Volume2 },
-          { step: "03", title: "Copy or Share", description: "Copy the Morse code output with one click. Use it for educational purposes, creative projects, communication practice, or decorative encoding.", icon: Copy },
+          { step: "01", title: "Enter Text or Morse", description: "Type your message or paste Morse code into the input field.", icon: Radio },
+          { step: "02", title: "Select Conversion Mode", description: "Choose between converting text to Morse or decoding Morse back to text.", icon: ArrowRightLeft },
+          { step: "03", title: "Copy Result", description: "Get the translated output instantly and copy it with a single click.", icon: Copy },
         ]}
-        badges={["ITU standard", "Audio playback", "Bidirectional"]}
+        badges={["100% Free", "Client-Side", "No Signup"]}
       />
 
-      {/* SECTION 4: FEATURE GUIDES */}
       <ToolFeatureGuides
         features={[
-          { icon: Radio, title: "Bidirectional Translation", description: "Convert text to Morse code and Morse code back to text. Supports all 26 letters, digits 0-9, and common punctuation following the ITU International Morse Code standard." },
-          { icon: Volume2, title: "Audio Playback", description: "Hear the Morse code played as real audio beeps using the Web Audio API. Adjustable WPM (words per minute) speed from 5 to 40 WPM and frequency from 400-900 Hz." },
-          { icon: Settings2, title: "Speed and Tone Control", description: "Adjust transmission speed in WPM (standard: 20 WPM) and tone frequency in Hz (standard: 600 Hz). Higher WPM for proficiency testing, lower for learning." },
-          { icon: Zap, title: "Real-Time Conversion", description: "Conversion happens instantly as you type with no delay. Both the Morse output and character-by-character breakdown update in real time." },
-          { icon: BookOpen, title: "Character Reference", description: "Built-in Morse code reference chart showing the dot-dash pattern for every letter, number, and punctuation mark. Essential for learning the code." },
-          { icon: Shield, title: "Client-Side and Private", description: "All translation and audio generation happens in your browser using the Web Audio API. No text is sent to any server." },
+          { icon: Radio, title: "International Standard", description: "Uses the official International Morse Code standard with all letters, numbers, and common punctuation." },
+          { icon: ArrowRightLeft, title: "Bidirectional Translation", description: "Seamlessly switch between text-to-Morse and Morse-to-text modes." },
+          { icon: Copy, title: "Word Separation", description: "Characters are separated by spaces and words by ' / ' for clear readability." },
+          { icon: Radio, title: "Real-Time Processing", description: "See the translation results update live as you type." },
         ]}
       >
         <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-          <h3 className="text-lg font-semibold">Morse Code Reference Chart</h3>
-          <p>International Morse Code (ITU) uses dots (dit) and dashes (dah) to represent characters. A dash is 3x the length of a dot. Space between parts of same letter: 1 dot. Space between letters: 3 dots. Space between words: 7 dots.</p>
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse text-sm">
-              <thead><tr className="bg-muted/50"><th className="border p-2 text-left">Char</th><th className="border p-2 text-left">Morse</th><th className="border p-2 text-left">Char</th><th className="border p-2 text-left">Morse</th><th className="border p-2 text-left">Char</th><th className="border p-2 text-left">Morse</th></tr></thead>
-              <tbody>
-                {[[["A",".-"],["B","-..."],["C","-.-."]],[["D","-.."],["E","."],["F","..-."]],[["G","--."],["H","...."],["I",".."]],[["J",".---"],["K","-.-"],["L",".-.."]],[["M","--"],["N","-. "],["O","---"]],[["P",".--."],["Q","--.-"],["R",".-."]],[["S","..."],["T","-"],["U","..-"]],[["V","...-"],["W",".--"],["X","-..-"]],[["Y","-.--"],["Z","--.."],["",""]],[["0","-----"],["1",".----"],["2","..---"]],[["3","...--"],["4","....-"],["5","....."]],[["6","-...."],["7","--..."],["8","---.."]],[["9","----."],["",""],["",""]]].map((row, i) => (
-                  <tr key={i} className="odd:bg-muted/20">
-                    {row.map(([ch, code], j) => (
-                      <React.Fragment key={j}>
-                        <td className="border p-2 font-bold text-xs text-center">{ch}</td>
-                        <td className="border p-2 font-mono text-primary text-xs">{code}</td>
-                      </React.Fragment>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <h3 className="text-lg font-semibold">Timing and Speed Reference</h3>
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse text-sm">
-              <thead><tr className="bg-muted/50"><th className="border p-2 text-left">Speed (WPM)</th><th className="border p-2 text-left">Level</th><th className="border p-2 text-left">Dot Duration</th><th className="border p-2 text-left">Use Case</th></tr></thead>
-              <tbody>
-                {[["5 WPM","Beginner","240ms","Learning Morse code"],["10 WPM","Novice","120ms","Basic practice"],["13 WPM","Tech License","92ms","Former US amateur radio requirement"],["20 WPM","Intermediate","60ms","Comfortable conversation speed"],["25 WPM","Advanced","48ms","Contest and DX operating"],["35+ WPM","Expert","34ms","High-speed competition"]].map(([speed, level, dot, use]) => (
-                  <tr key={speed} className="odd:bg-muted/20"><td className="border p-2 font-mono text-primary text-xs">{speed}</td><td className="border p-2 font-medium text-xs">{level}</td><td className="border p-2 text-xs">{dot}</td><td className="border p-2 text-muted-foreground text-xs">{use}</td></tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <h3 className="text-lg font-semibold">Morse Code History and Uses Today</h3>
-          <p>Invented by Samuel Morse in 1837 for the electric telegraph, Morse code was the first form of long-distance digital communication. The most famous Morse sequence is SOS (... --- ...), the international distress signal adopted in 1906. While telegraph networks are gone, Morse code survives in: amateur (ham) radio communication, aviation navigational beacons (VOR/NDB transmit their callsign in Morse), military training, accessibility technology (ALS patients communicate using blink-to-Morse systems), and popular culture.</p>
+          <p>Morse code is a character encoding system that represents letters, numbers, and punctuation as sequences of dots (.) and dashes (-). Invented by Samuel Morse and Alfred Vail in the 1830s, it became the standard for telegraph communication and remains relevant today in aviation, amateur radio, and emergency signaling.</p>
+          <p>The International Morse Code standard assigns unique patterns to each character. For example, "SOS" — the universal distress signal — is encoded as "... --- ..." (three dots, three dashes, three dots). Letters within a word are separated by spaces, while words are separated by " / " (space-slash-space) in this tool's output format.</p>
+          <p>Modern applications of Morse code include assistive technology for people with disabilities, amateur radio communication (CW mode), aviation navigation beacons, and educational exercises in computer science and history. This translator supports all 26 letters, 10 digits, and common punctuation marks according to the official standard.</p>
         </div>
       </ToolFeatureGuides>
 
-      {/* SECTION 5: FAQ + RELATED TOOLS */}
       <ToolFaqAccordion
         faqs={[
-          { question: "How do I type Morse code for decoding?", answer: "Use dots (.) and dashes (-) with a single space between letters and three spaces (or a slash /) between words. Example: .... . .-.. .-.. --- / .-- --- .-. .-.. -.. decodes to HELLO WORLD. The translator accepts both dot-dash notation and the slash word separator." },
-          { question: "What is the SOS signal in Morse code?", answer: "SOS in Morse code is ... --- ... (three dots, three dashes, three dots). It was chosen as the international distress signal in 1906 because it is easy to recognize and transmit even by untrained operators. Contrary to popular belief, SOS does not stand for Save Our Ship or Save Our Souls - it was chosen purely for its simplicity." },
-          { question: "What does WPM mean in Morse code?", answer: "WPM stands for Words Per Minute. In Morse code, the standard test word is PARIS (.--.  .-  .-. ..  ...), which contains exactly 50 timing units. Sending PARIS once per minute equals 1 WPM. Amateur radio licensing exams traditionally required 5 WPM (Novice) or 13 WPM (Tech) proficiency, though the US eliminated the Morse requirement in 2007." },
-          { question: "Is Morse code still used today?", answer: "Yes. Amateur (ham) radio operators worldwide use Morse code for long-distance communication, especially in low-signal conditions where voice transmission fails. Aviation still uses Morse: VOR and NDB navigational beacons transmit their 2-3 letter callsign in Morse code. Military services train operators in Morse. Accessibility technology uses Morse code to enable communication for people with severe motor disabilities, including ALS patients who control computers via eye blinks converted to Morse." },
-          { question: "What is the difference between dots and dashes in Morse code?", answer: "A dot (dit) is the basic timing unit. A dash (dah) is exactly 3 dots in duration. The space between parts of the same letter is 1 dot. The space between letters is 3 dots. The space between words is 7 dots. This proportional timing system means Morse code can be sent at any speed while maintaining correct relative durations between elements." },
+          { question: "What Morse code standard does this tool use?", answer: "This tool uses the International Morse Code standard, which is the most widely recognized and used worldwide." },
+          { question: "How are words separated in the output?", answer: "Characters within a word are separated by single spaces, while words are separated by ' / ' (space-slash-space)." },
+          { question: "Does it support special characters?", answer: "Yes, it supports common punctuation including periods, commas, question marks, exclamation points, and more." },
         ]}
       />
+
       <RelatedTools currentToolUrl="/tools/text/morse-code" max={6} />
     </div>
   );

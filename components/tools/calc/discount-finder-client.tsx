@@ -1,639 +1,189 @@
 "use client";
 
-import { ArrowLeftRight, Calculator, Copy, Download, Minus, Plus, Tag } from "lucide-react";
-import * as React from "react";
-import {
-  ActionButton,
-  CopyButton,
-  ExportCSVButton,
-  ResetButton,
-} from "@/components/shared/action-buttons";
-import InputField from "@/components/shared/form-fields/input-field";
-import SelectField from "@/components/shared/form-fields/select-field";
+import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Tag, Copy } from "lucide-react";
+import { CopyButton } from "@/components/shared/action-buttons";
 
-import { Badge } from "@/components/ui/badge";
-import { CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { GlassCard } from "@/components/ui/glass-card";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-
-/* Types & helpers */
-type Currency = "BDT" | "USD" | "INR";
-type Mode = "forward" | "reverse";
-
-type HistoryItem = {
-  ts: string;
-  mode: Mode;
-  original: number;
-  discountPct: number;
-  extraPct: number;
-  fixedOff: number;
-  taxPct: number;
-  qty: number;
-  finalEach: number;
-  finalTotal: number;
-  effectivePct: number;
-};
-
-type FormState = {
-  currency: Currency;
-  mode: Mode;
-  original: string;
-  discountPct: string;
-  extraPct: string;
-  fixedOff: string;
-  taxPct: string;
-  qty: string;
-  targetFinal: string;
-  compare: string;
-};
-
-const HISTORY_KEY = "df_history";
-
-function parseNum(n: string | number): number {
-  const v = typeof n === "number" ? n : Number(String(n).replace(/,/g, "").trim());
-  return Number.isFinite(v) ? v : 0;
-}
-
-function fmt(n: number, currency: Currency) {
-  const locale = currency === "USD" ? "en-US" : "en-IN";
-  return new Intl.NumberFormat(locale, {
-    style: "currency",
-    currency,
-    maximumFractionDigits: 2,
-  }).format(Math.round(n * 100) / 100);
-}
-
-function qs(k: string, fallback: string) {
-  if (typeof window === "undefined") return fallback;
-  return new URLSearchParams(window.location.search).get(k) ?? fallback;
-}
-
-function setParams(params: Record<string, string | number>) {
-  if (typeof window === "undefined") return;
-  const url = new URL(window.location.href);
-  for (const [k, v] of Object.entries(params)) {
-    url.searchParams.set(k, String(v)); // no implicit return in loop
-  }
-  window.history.replaceState({}, "", url.toString());
-}
-
-const currencyOptions = [
-  { value: "BDT", label: <span>BDT — Bangladeshi Taka (৳)</span> },
-  { value: "USD", label: <span>USD — US Dollar ($)</span> },
-  { value: "INR", label: <span>INR — Indian Rupee (₹)</span> },
-];
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
 
 export default function DiscountFinderClient() {
-  // Single state for all form inputs
-  const [form, setForm] = React.useState<FormState>(() => ({
-    currency: (qs("c", "BDT") as Currency) || "BDT",
-    mode: (qs("m", "forward") as Mode) || "forward",
-    original: qs("op", "1200") || "1200",
-    discountPct: qs("dp", "15") || "15",
-    extraPct: qs("xp", "0") || "0",
-    fixedOff: qs("fx", "0") || "0",
-    taxPct: qs("tx", "0") || "0",
-    qty: qs("q", "1") || "1",
-    targetFinal: qs("tf", "") || "",
-    compare: qs("cmp", "") || "",
-  }));
+  const [originalPrice, setOriginalPrice] = useState<number>(100);
+  const [discountPercent, setDiscountPercent] = useState<number>(20);
+  const [taxPercent, setTaxPercent] = useState<number>(0);
 
-  const updateForm = (patch: Partial<FormState>) => setForm((s) => ({ ...s, ...patch }));
-
-  const [history, setHistory] = React.useState<HistoryItem[]>([]);
-  React.useEffect(() => {
-    try {
-      const raw = localStorage.getItem(HISTORY_KEY);
-      const parsed = raw ? JSON.parse(raw) : [];
-      if (Array.isArray(parsed)) setHistory(parsed);
-    } catch {}
-  }, []);
-  React.useEffect(() => {
-    localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(0, 50)));
-  }, [history]);
-
-  // Keep URL synced
-  React.useEffect(() => {
-    const {
-      currency,
-      mode,
-      original,
-      discountPct,
-      extraPct,
-      fixedOff,
-      taxPct,
-      qty,
-      targetFinal,
-      compare,
-    } = form;
-    setParams({
-      c: currency,
-      m: mode,
-      op: parseNum(original),
-      dp: parseNum(discountPct),
-      xp: parseNum(extraPct),
-      fx: parseNum(fixedOff),
-      tx: parseNum(taxPct),
-      q: Math.max(1, parseNum(qty)),
-      tf: parseNum(targetFinal),
-      cmp: parseNum(compare),
-    });
-  }, [form]);
-
-  const o = React.useMemo(() => Math.max(0, parseNum(form.original)), [form.original]);
-  const dp = React.useMemo(() => Math.max(0, parseNum(form.discountPct)), [form.discountPct]);
-  const xp = React.useMemo(() => Math.max(0, parseNum(form.extraPct)), [form.extraPct]);
-  const fx = React.useMemo(() => Math.max(0, parseNum(form.fixedOff)), [form.fixedOff]);
-  const tx = React.useMemo(() => Math.max(0, parseNum(form.taxPct)), [form.taxPct]);
-  const q = React.useMemo(() => Math.max(1, parseNum(form.qty)), [form.qty]);
-  const cmp = React.useMemo(() => Math.max(0, parseNum(form.compare)), [form.compare]);
-  const tf = React.useMemo(() => Math.max(0, parseNum(form.targetFinal)), [form.targetFinal]);
-
-  const {
-    discountedEachBeforeTax,
-    taxEach,
-    finalEach,
-    finalTotal,
-    totalSavings,
-    totalSavingsPct,
-    effectivePct,
-    needPctForTarget,
-  } = React.useMemo(() => {
-    const afterFirst = o * (1 - dp / 100);
-    const afterSecond = afterFirst * (1 - xp / 100);
-    const discountedEachBeforeTax = Math.max(0, afterSecond - fx);
-    const taxEach = (discountedEachBeforeTax * tx) / 100;
-    const finalEach = discountedEachBeforeTax + taxEach;
-    const finalTotal = finalEach * q;
-
-    const originalTotal = o * q;
-    const totalSavings = Math.max(0, originalTotal - finalTotal);
-    const totalSavingsPct = originalTotal > 0 ? (totalSavings / originalTotal) * 100 : 0;
-
-    const effectivePct = o > 0 ? ((o - discountedEachBeforeTax) / o) * 100 : 0;
-
-    let needPctForTarget = 0;
-    if (o > 0 && 1 - xp / 100 > 0 && tf > 0) {
-      const rhs = tf / (1 + tx / 100) + fx;
-      const denom = o * (1 - xp / 100);
-      const oneMinusDp = denom > 0 ? rhs / denom : 0;
-      needPctForTarget = (1 - oneMinusDp) * 100;
-      if (!Number.isFinite(needPctForTarget)) needPctForTarget = 0;
-    }
+  const calculations = useMemo(() => {
+    const discountAmount = (originalPrice * discountPercent) / 100;
+    const priceAfterDiscount = originalPrice - discountAmount;
+    const taxAmount = (priceAfterDiscount * taxPercent) / 100;
+    const finalPrice = priceAfterDiscount + taxAmount;
+    const totalSavings = originalPrice - finalPrice;
 
     return {
-      discountedEachBeforeTax,
-      taxEach,
-      finalEach,
-      finalTotal,
+      discountAmount,
+      priceAfterDiscount,
+      taxAmount,
+      finalPrice,
       totalSavings,
-      totalSavingsPct,
-      effectivePct,
-      needPctForTarget,
     };
-  }, [o, dp, xp, fx, tx, q, tf]);
-
-  const shareUrl = typeof window !== "undefined" ? window.location.href : "";
-
-  function resetAll() {
-    updateForm({
-      currency: "BDT",
-      mode: "forward",
-      original: "1200",
-      discountPct: "15",
-      extraPct: "0",
-      fixedOff: "0",
-      taxPct: "0",
-      qty: "1",
-      compare: "",
-      targetFinal: "",
-    });
-  }
-
-  function saveHistory() {
-    setHistory((h) => [
-      {
-        ts: new Date().toISOString(),
-        mode: form.mode,
-        original: o,
-        discountPct: dp,
-        extraPct: xp,
-        fixedOff: fx,
-        taxPct: tx,
-        qty: q,
-        finalEach,
-        finalTotal,
-        effectivePct,
-      },
-      ...h,
-    ]);
-  }
-
-  const currentRows = React.useMemo<(string | number)[][]>(
-    () => [
-      ["Currency", form.currency],
-      ["Mode", form.mode],
-      ["Original (each)", o],
-      ["Discount %", dp],
-      ["Extra %", xp],
-      ["Fixed Off (each)", fx],
-      ["Tax %", tx],
-      ["Quantity", q],
-      ["Price After Discounts (pre-tax, each)", discountedEachBeforeTax],
-      ["Tax (each)", taxEach],
-      ["Final (each)", finalEach],
-      ["Final (total)", finalTotal],
-      ["Effective Discount % (pre-tax)", effectivePct.toFixed(2)],
-      ...(form.mode === "reverse" && tf
-        ? [
-            [
-              "Required % Discount for target",
-              Number.isFinite(needPctForTarget) ? needPctForTarget.toFixed(2) : "—",
-            ],
-          ]
-        : []),
-    ],
-    [
-      form.currency,
-      form.mode,
-      o,
-      dp,
-      xp,
-      fx,
-      tx,
-      q,
-      discountedEachBeforeTax,
-      taxEach,
-      finalEach,
-      finalTotal,
-      effectivePct,
-      needPctForTarget,
-      tf,
-    ],
-  );
-
-  const historyRows = React.useMemo<(string | number)[][]>(
-    () => [
-      [
-        "Time",
-        "Mode",
-        "Original",
-        "Discount %",
-        "Extra %",
-        "Fixed Off",
-        "Tax %",
-        "Qty",
-        "Final Each",
-        "Final Total",
-        "Effective %",
-      ],
-      ...history.map((r) => [
-        r.ts,
-        r.mode,
-        r.original,
-        r.discountPct,
-        r.extraPct,
-        r.fixedOff,
-        r.taxPct,
-        r.qty,
-        r.finalEach,
-        r.finalTotal,
-        r.effectivePct,
-      ]),
-    ],
-    [history],
-  );
-
-  const summaryText = React.useMemo(
-    () =>
-      `Original: ${fmt(o, form.currency)} | Disc: ${dp}% + ${xp}% & -${fmt(
-        fx,
-        form.currency,
-      )} | Tax: ${tx}% | Final(each): ${fmt(finalEach, form.currency)} | Total: ${fmt(
-        finalTotal,
-        form.currency,
-      )} | Savings: ${fmt(totalSavings, form.currency)} (${totalSavingsPct.toFixed(2)}%)`,
-    [o, form.currency, dp, xp, fx, tx, finalEach, finalTotal, totalSavings, totalSavingsPct],
-  );
-
-  const discountPresets = React.useMemo(() => [5, 10, 12.5, 15, 20, 25, 30, 40, 50, 60, 70], []);
+  }, [originalPrice, discountPercent, taxPercent]);
 
   return (
-    <>
+    <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
       <ToolPageHeader
         icon={Tag}
-        title="Discount Finder"
-        description="Before/after price, savings, and effective discount."
-        actions={
-          <>
-            <ResetButton onClick={resetAll} />
-            <ActionButton
-              icon={ArrowLeftRight}
-              label={form.mode === "forward" ? "Switch to Reverse" : "Switch to Forward"}
-              onClick={() => updateForm({ mode: form.mode === "forward" ? "reverse" : "forward" })}
-            />
-            <ActionButton
-              variant="default"
-              icon={Calculator}
-              label="Save Result"
-              onClick={saveHistory}
-            />
-          </>
-        }
+        title="Discount Calculator"
+        description="Calculate discounts, final prices, and total savings with optional tax."
       />
 
-      {/* Inputs */}
-      <GlassCard>
-        <CardHeader>
-          <CardTitle className="text-base">Inputs</CardTitle>
-          <CardDescription>
-            Enter original price and discounts. Use Reverse to solve for a target.
-          </CardDescription>
+      <Card className={cardClass}>
+        <CardHeader className={headerClass}>
+          <CardTitle className={titleClass}>
+            <Tag className="w-4 h-4 text-primary" /> Price Details
+          </CardTitle>
         </CardHeader>
-
-        <CardContent className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {/* Currency */}
-          <SelectField
-            label="Currency"
-            value={form.currency}
-            onValueChange={(v) => updateForm({ currency: v as Currency })}
-            options={currencyOptions}
-          />
-
-          {/* Original */}
-          <InputField
-            label="Original Price (each)"
-            id="original"
-            inputMode="decimal"
-            value={form.original}
-            onChange={(e) => updateForm({ original: e.target.value })}
-            placeholder="e.g. 1200"
-          />
-
-          {/* Quantity with stepper */}
-          <div className="space-y-2">
-            <Label htmlFor="qty">Quantity</Label>
-            <div className="flex items-center gap-2">
-              <ActionButton
-                variant="outline"
-                size="icon"
-                icon={Minus}
-                aria-label="decrease quantity"
-                onClick={() => updateForm({ qty: String(Math.max(1, parseNum(form.qty) - 1)) })}
+        <CardContent className="p-3 sm:p-4 space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label className="text-xs font-medium text-muted-foreground mb-2 block">
+                Original Price ($)
+              </label>
+              <Input
+                type="number"
+                value={originalPrice}
+                onChange={(e) => setOriginalPrice(Number(e.target.value))}
+                min={0}
+                step={0.01}
               />
-              <InputField
-                id="qty"
-                inputMode="numeric"
-                value={form.qty}
-                onChange={(e) => updateForm({ qty: e.target.value })}
+            </div>
+            <div>
+              <label className="text-xs font-medium text-muted-foreground mb-2 block">
+                Discount (%)
+              </label>
+              <Input
+                type="number"
+                value={discountPercent}
+                onChange={(e) => setDiscountPercent(Number(e.target.value))}
+                min={0}
+                max={100}
               />
-              <ActionButton
-                variant="outline"
-                size="icon"
-                icon={Plus}
-                aria-label="increase quantity"
-                onClick={() => updateForm({ qty: String(Math.max(1, parseNum(form.qty) + 1)) })}
+            </div>
+            <div>
+              <label className="text-xs font-medium text-muted-foreground mb-2 block">
+                Tax (%) (optional)
+              </label>
+              <Input
+                type="number"
+                value={taxPercent}
+                onChange={(e) => setTaxPercent(Number(e.target.value))}
+                min={0}
+                max={100}
               />
             </div>
           </div>
 
-          {/* Discount % */}
-          <div className="space-y-2">
-            <InputField
-              label="Discount (%)"
-              id="discount"
-              inputMode="decimal"
-              value={form.discountPct}
-              onChange={(e) => updateForm({ discountPct: e.target.value })}
-            />
-            <div className="flex flex-wrap gap-1">
-              {discountPresets.map((p) => (
-                <Badge
-                  key={p}
-                  variant={parseNum(form.discountPct) === p ? "default" : "outline"}
-                  className="cursor-pointer"
-                  onClick={() => updateForm({ discountPct: String(p) })}
-                >
-                  {p}%
-                </Badge>
-              ))}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="p-4 bg-muted/40 rounded-lg text-center">
+              <div className="text-xs text-muted-foreground mb-1">Discount</div>
+              <div className="text-xl font-bold text-red-500">
+                ${calculations.discountAmount.toFixed(2)}
+              </div>
+              <CopyButton
+                getText={() => calculations.discountAmount.toFixed(2)}
+                label="Copy"
+              />
             </div>
-          </div>
 
-          {/* Extra % */}
-          <InputField
-            label="Extra Discount (%)"
-            id="extra"
-            inputMode="decimal"
-            value={form.extraPct}
-            onChange={(e) => updateForm({ extraPct: e.target.value })}
-            placeholder="e.g. 5"
-          />
-
-          {/* Fixed off */}
-          <InputField
-            label="Fixed Off (each)"
-            id="fixed"
-            inputMode="decimal"
-            value={form.fixedOff}
-            onChange={(e) => updateForm({ fixedOff: e.target.value })}
-            placeholder="e.g. 100"
-          />
-
-          {/* Tax */}
-          <InputField
-            label="Tax (%)"
-            id="tax"
-            inputMode="decimal"
-            value={form.taxPct}
-            onChange={(e) => updateForm({ taxPct: e.target.value })}
-            placeholder="e.g. 0 or 7.5"
-          />
-
-          {/* Compare */}
-          <InputField
-            label="Competitor Price (each, optional)"
-            id="compare"
-            inputMode="decimal"
-            value={form.compare}
-            onChange={(e) => updateForm({ compare: e.target.value })}
-            placeholder="e.g. 999"
-          />
-
-          {/* Reverse target */}
-          {form.mode === "reverse" && (
-            <InputField
-              label="Target Final Price (each)"
-              id="target"
-              inputMode="decimal"
-              value={form.targetFinal}
-              onChange={(e) => updateForm({ targetFinal: e.target.value })}
-              placeholder="e.g. 950"
-            />
-          )}
-        </CardContent>
-      </GlassCard>
-
-      {/* Results */}
-      <GlassCard className="my-4">
-        <CardHeader>
-          <CardTitle className="text-base">Results</CardTitle>
-          <CardDescription>
-            Pre-tax vs final price, savings, and effective discount.
-          </CardDescription>
-        </CardHeader>
-
-        <CardContent className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="rounded-xl border p-4">
-            <div className="text-xs text-muted-foreground">
-              Price After Discounts (pre-tax, each)
+            <div className="p-4 bg-muted/40 rounded-lg text-center">
+              <div className="text-xs text-muted-foreground mb-1">After Discount</div>
+              <div className="text-xl font-bold">
+                ${calculations.priceAfterDiscount.toFixed(2)}
+              </div>
+              <CopyButton
+                getText={() => calculations.priceAfterDiscount.toFixed(2)}
+                label="Copy"
+              />
             </div>
-            <div className="mt-1 text-xl font-semibold">
-              {fmt(discountedEachBeforeTax, form.currency)}
-            </div>
-            <div className="mt-1 text-xs text-muted-foreground">
-              Effective discount: {effectivePct.toFixed(2)}%
-            </div>
-          </div>
 
-          <div className="rounded-xl border p-4">
-            <div className="text-xs text-muted-foreground">Tax (each)</div>
-            <div className="mt-1 text-xl font-semibold">{fmt(taxEach, form.currency)}</div>
-            <div className="mt-1 text-xs text-muted-foreground">{tx}%</div>
-          </div>
-
-          <div className="rounded-xl border p-4">
-            <div className="text-xs text-muted-foreground">Final Price (each)</div>
-            <div className="mt-1 text-xl font-semibold">{fmt(finalEach, form.currency)}</div>
-            <div className="mt-1 text-xs text-muted-foreground">Per unit</div>
-          </div>
-
-          <div className="rounded-xl border p-4">
-            <div className="text-xs text-muted-foreground">Final Total</div>
-            <div className="mt-1 text-xl font-semibold">{fmt(finalTotal, form.currency)}</div>
-            <div className="mt-1 text-xs text-muted-foreground">Qty: {q}</div>
-          </div>
-
-          <div className="rounded-xl border p-4 sm:col-span-2 lg:col-span-2">
-            <div className="text-xs text-muted-foreground">Savings</div>
-            <div className="mt-1 text-xl font-semibold">
-              {fmt(totalSavings, form.currency)} ({totalSavingsPct.toFixed(2)}%)
-            </div>
-            {cmp > 0 && (
-              <div className="mt-1 text-xs text-muted-foreground">
-                vs competitor: {fmt(cmp, form.currency)} — You save{" "}
-                {fmt(Math.max(0, (cmp - finalEach) * q), form.currency)} total
+            {taxPercent > 0 && (
+              <div className="p-4 bg-muted/40 rounded-lg text-center">
+                <div className="text-xs text-muted-foreground mb-1">Tax</div>
+                <div className="text-xl font-bold text-orange-500">
+                  ${calculations.taxAmount.toFixed(2)}
+                </div>
+                <CopyButton
+                  getText={() => calculations.taxAmount.toFixed(2)}
+                  label="Copy"
+                />
               </div>
             )}
+
+            <div className="p-4 bg-primary/10 border border-primary/30 rounded-lg text-center">
+              <div className="text-xs text-muted-foreground mb-1">Final Price</div>
+              <div className="text-xl font-bold text-primary">
+                ${calculations.finalPrice.toFixed(2)}
+              </div>
+              <CopyButton
+                getText={() => calculations.finalPrice.toFixed(2)}
+                label="Copy"
+              />
+            </div>
           </div>
 
-          {form.mode === "reverse" && (
-            <div className="rounded-xl border p-4 sm:col-span-2 lg:col-span-2">
-              <div className="text-xs text-muted-foreground">Required % Discount for target</div>
-              <div className="mt-1 text-xl font-semibold">
-                {Number.isFinite(needPctForTarget) ? `${needPctForTarget.toFixed(2)}%` : "—"}
-              </div>
-              <div className="mt-1 text-xs text-muted-foreground">
-                To reach {tf ? fmt(tf, form.currency) : "target"} per unit (final, after tax).
-              </div>
+          <div className="p-4 bg-green-500/10 border border-green-500/30 rounded-lg text-center">
+            <div className="text-sm text-muted-foreground mb-1">You Save</div>
+            <div className="text-3xl font-bold text-green-600 dark:text-green-400">
+              ${calculations.totalSavings.toFixed(2)}
             </div>
-          )}
+            <CopyButton
+              getText={() => calculations.totalSavings.toFixed(2)}
+              label="Copy Savings"
+            />
+          </div>
         </CardContent>
-      </GlassCard>
+      </Card>
 
-      <Separator />
+      <ToolHowItWorks
+        steps={[
+          { step: "01", title: "Enter Original Price", description: "Input the full price before any discount is applied.", icon: Tag },
+          { step: "02", title: "Set Discount", description: "Enter the discount percentage to see your savings.", icon: Tag },
+          { step: "03", title: "Add Tax (Optional)", description: "Include sales tax to calculate the final total price.", icon: Copy },
+        ]}
+        badges={["100% Free", "Client-Side", "Instant"]}
+      />
 
-      {/* Actions */}
-      <div className="flex flex-wrap gap-2 mt-4">
-        <CopyButton label="Copy Summary" icon={Copy} getText={() => summaryText} />
-        <CopyButton
-          label="Copy Share Link"
-          icon={Copy}
-          getText={() => (shareUrl ? shareUrl : "")}
-        />
+      <ToolFeatureGuides
+        features={[
+          { icon: Tag, title: "Discount Calculation", description: "Instantly see how much you save with any percentage discount." },
+          { icon: Copy, title: "Tax Support", description: "Optionally add sales tax to calculate the true final price." },
+          { icon: Tag, title: "Savings Display", description: "Clearly shows your total savings in a highlighted card." },
+          { icon: Copy, title: "Copy Values", description: "Copy any calculated value with one click for use elsewhere." },
+        ]}
+      >
+        <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+          <p>Understanding discounts and final prices is essential for smart shopping and budgeting. This calculator breaks down the math so you can see exactly how much you're saving and what you'll actually pay at checkout. Whether you're comparing deals, planning purchases, or just curious about the real cost after discounts and taxes.</p>
+          <p>The discount calculation is straightforward: multiply the original price by the discount percentage, then subtract that amount from the original. For example, a 20% discount on $100 saves you $20, bringing the price to $80. The tax calculation (if applicable) is then applied to the discounted price, not the original — a detail that many shoppers miss.</p>
+          <p>This tool is particularly useful during sales events, when comparing "percent off" versus "dollars off" deals, or when shopping in regions with sales tax. The savings display makes it easy to see the real value of a discount, helping you make informed purchasing decisions and avoid marketing tricks that make small discounts seem larger than they are.</p>
+        </div>
+      </ToolFeatureGuides>
 
-        <ExportCSVButton
-          filename="discount-current.csv"
-          label="Export This Calc"
-          icon={Download}
-          variant="outline"
-          getRows={async () => currentRows}
-        />
+      <ToolFaqAccordion
+        faqs={[
+          { question: "Is tax calculated on the original or discounted price?", answer: "Sales tax is typically calculated on the price after the discount is applied, which is how this calculator works." },
+          { question: "Can I use this for bulk discounts?", answer: "Yes, enter the total original price for all items and the discount percentage to see your total savings." },
+          { question: "What if there's no tax?", answer: "Simply leave the tax field at 0%, and the calculator will show the price after discount as the final price." },
+        ]}
+      />
 
-        {history.length > 0 && (
-          <ExportCSVButton
-            filename="discount-history.csv"
-            label="Export History"
-            icon={Download}
-            variant="outline"
-            getRows={async () => historyRows}
-          />
-        )}
-
-        {history.length > 0 && (
-          <ActionButton variant="outline" label="Clear History" onClick={() => setHistory([])} />
-        )}
-      </div>
-
-      {/* History */}
-      {history.length > 0 && (
-        <GlassCard className="mt-4">
-          <CardHeader>
-            <CardTitle className="text-base">Recent Calculations</CardTitle>
-            <CardDescription>Last 50 are stored locally.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="overflow-auto rounded-md border">
-              <table className="w-full min-w-[860px] border-collapse text-sm">
-                <thead className="sticky top-0 bg-background/80 backdrop-blur">
-                  <tr className="[&>th]:border-b [&>th]:px-3 [&>th]:py-2 text-muted-foreground">
-                    <th className="text-left">Time</th>
-                    <th className="text-left">Mode</th>
-                    <th className="text-right">Original</th>
-                    <th className="text-right">Disc %</th>
-                    <th className="text-right">Extra %</th>
-                    <th className="text-right">Fixed</th>
-                    <th className="text-right">Tax %</th>
-                    <th className="text-right">Qty</th>
-                    <th className="text-right">Final(each)</th>
-                    <th className="text-right">Final(total)</th>
-                    <th className="text-right">Effective %</th>
-                    <th className="text-right">Copy</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {history.map((h, idx) => (
-                    <tr key={idx as number} className="[&>td]:border-b [&>td]:px-3 [&>td]:py-2">
-                      <td className="text-left">{new Date(h.ts).toLocaleString()}</td>
-                      <td className="text-left">{h.mode === "forward" ? "Forward" : "Reverse"}</td>
-                      <td className="text-right">{fmt(h.original, form.currency)}</td>
-                      <td className="text-right">{h.discountPct}</td>
-                      <td className="text-right">{h.extraPct}</td>
-                      <td className="text-right">{fmt(h.fixedOff, form.currency)}</td>
-                      <td className="text-right">{h.taxPct}</td>
-                      <td className="text-right">{h.qty}</td>
-                      <td className="text-right">{fmt(h.finalEach, form.currency)}</td>
-                      <td className="text-right">{fmt(h.finalTotal, form.currency)}</td>
-                      <td className="text-right">{h.effectivePct.toFixed(2)}</td>
-                      <td className="text-right">
-                        <CopyButton
-                          size="sm"
-                          label="Copy"
-                          getText={() =>
-                            `Mode: ${h.mode} | Original: ${h.original} | Disc: ${h.discountPct}% + ${h.extraPct}% | Fixed: ${h.fixedOff} | Tax: ${h.taxPct}% | Qty: ${h.qty} | Final(each): ${h.finalEach} | Final(total): ${h.finalTotal} | Effective: ${h.effectivePct.toFixed(2)}%`
-                          }
-                        />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </CardContent>
-        </GlassCard>
-      )}
-    </>
+      <RelatedTools currentToolUrl="/tools/calc/discount-finder" max={6} />
+    </div>
   );
 }

@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { NumberWordsClient } from "@/components/tools/calc/number-words-client";
+import NumberWordsClient from "@/components/tools/calc/number-words-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 

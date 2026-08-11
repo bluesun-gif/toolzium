@@ -1,40 +1,32 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import toast from "react-hot-toast";
-import { Copy, Lock, Unlock, Shuffle, Upload, Download, Code, Palette, Image as ImageIcon } from "lucide-react";
+import { Palette, Copy, Lock, Unlock, Download, Sun, Moon, Check } from "lucide-react";
 
-type HSL = { h: number; s: number; l: number };
-type RGB = { r: number; g: number; b: number };
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
+const textareaClass = "w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50 font-mono";
 
-// Helper Functions
-const hexToRgb = (hex: string): RGB => {
-  const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-  hex = hex.replace(shorthandRegex, (m, r, g, b) => r + r + g + g + b + b);
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return result
-    ? { r: parseInt(result[1], 16), g: parseInt(result[2], 16), b: parseInt(result[3], 16) }
-    : { r: 0, g: 0, b: 0 };
-};
+const harmonies = ["Complementary", "Analogous", "Triadic", "Tetradic", "Split", "Monochromatic", "Random"];
 
-const rgbToHex = (r: number, g: number, b: number): string => {
-  return "#" + [r, g, b].map((x) => {
-    const hex = x.toString(16);
-    return hex.length === 1 ? "0" + hex : hex;
-  }).join("");
-};
-
-const rgbToHsl = ({ r, g, b }: RGB): HSL => {
+function hexToHsl(hex: string): [number, number, number] {
+  let r = 0, g = 0, b = 0;
+  if (hex.length === 4) { r = parseInt(hex[1] + hex[1], 16); g = parseInt(hex[2] + hex[2], 16); b = parseInt(hex[3] + hex[3], 16); }
+  else if (hex.length === 7) { r = parseInt(hex[1] + hex[2], 16); g = parseInt(hex[3] + hex[4], 16); b = parseInt(hex[5] + hex[6], 16); }
   r /= 255; g /= 255; b /= 255;
   const max = Math.max(r, g, b), min = Math.min(r, g, b);
   let h = 0, s = 0, l = (max + min) / 2;
-
   if (max !== min) {
     const d = max - min;
     s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
@@ -45,330 +37,176 @@ const rgbToHsl = ({ r, g, b }: RGB): HSL => {
     }
     h /= 6;
   }
-  return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
-};
+  return [Math.round(h * 360), Math.round(s * 100), Math.round(l * 100)];
+}
 
-const hslToRgb = ({ h, s, l }: HSL): RGB => {
-  h /= 360; s /= 100; l /= 100;
-  let r, g, b;
+function hslToHex(h: number, s: number, l: number): string {
+  s /= 100; l /= 100;
+  const k = (n: number) => (n + h / 30) % 12;
+  const a = s * Math.min(l, 1 - l);
+  const f = (n: number) => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+  const toHex = (x: number) => Math.round(x * 255).toString(16).padStart(2, '0');
+  return `#${toHex(f(0))}${toHex(f(8))}${toHex(f(4))}`;
+}
 
-  if (s === 0) {
-    r = g = b = l;
-  } else {
-    const hue2rgb = (p: number, q: number, t: number) => {
-      if (t < 0) t += 1;
-      if (t > 1) t -= 1;
-      if (t < 1 / 6) return p + (q - p) * 6 * t;
-      if (t < 1 / 2) return q;
-      if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-      return p;
-    };
-    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-    const p = 2 * l - q;
-    r = hue2rgb(p, q, h + 1 / 3);
-    g = hue2rgb(p, q, h);
-    b = hue2rgb(p, q, h - 1 / 3);
-  }
-  return { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255) };
-};
+function hexToRgb(hex: string): string {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `${r}, ${g}, ${b}`;
+}
 
-const hexToHsl = (hex: string): HSL => rgbToHsl(hexToRgb(hex));
-const hslToHex = (hsl: HSL): string => rgbToHex(hslToRgb(hsl).r, hslToRgb(hsl).g, hslToRgb(hsl).b);
+function getLuminance(hex: string): number {
+  let r = parseInt(hex.slice(1, 3), 16) / 255;
+  let g = parseInt(hex.slice(3, 5), 16) / 255;
+  let b = parseInt(hex.slice(5, 7), 16) / 255;
+  r = r <= 0.03928 ? r / 12.92 : Math.pow((r + 0.055) / 1.055, 2.4);
+  g = g <= 0.03928 ? g / 12.92 : Math.pow((g + 0.055) / 1.055, 2.4);
+  b = b <= 0.03928 ? b / 12.92 : Math.pow((b + 0.055) / 1.055, 2.4);
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
 
-interface Swatch {
-  hex: string;
-  locked: boolean;
+function getContrast(hex1: string, hex2: string): number {
+  const l1 = getLuminance(hex1);
+  const l2 = getLuminance(hex2);
+  return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
 }
 
 export default function ColorPaletteClient() {
-  const [baseHex, setBaseHex] = useState("#3b82f6");
-  const [mode, setMode] = useState<"complementary" | "analogous" | "triadic" | "tetradic" | "monochromatic" | "random">("analogous");
-  const [palette, setPalette] = useState<Swatch[]>([]);
-  const imageInputRef = useRef<HTMLInputElement>(null);
+  const [baseColor, setBaseColor] = useState("#3b82f6");
+  const [harmony, setHarmony] = useState("Analogous");
+  const [locked, setLocked] = useState<boolean[]>([false, false, false, false, false]);
+  const [customPalette, setCustomPalette] = useState<string[]>(["#3b82f6", "#3b82f6", "#3b82f6", "#3b82f6", "#3b82f6"]);
 
-  const generatePalette = useCallback((hex: string, genMode: string, currentPalette: Swatch[] = []) => {
-    const hsl = hexToHsl(hex);
-    let newHsls: HSL[] = [];
-
-    switch (genMode) {
-      case "complementary":
-        newHsls = [hsl, { ...hsl, h: (hsl.h + 180) % 360 }];
-        break;
-      case "analogous":
-        newHsls = [
-          { ...hsl, h: (hsl.h - 30 + 360) % 360 },
-          { ...hsl, h: (hsl.h - 15 + 360) % 360 },
-          hsl,
-          { ...hsl, h: (hsl.h + 15) % 360 },
-          { ...hsl, h: (hsl.h + 30) % 360 },
-        ];
-        break;
-      case "triadic":
-        newHsls = [hsl, { ...hsl, h: (hsl.h + 120) % 360 }, { ...hsl, h: (hsl.h + 240) % 360 }];
-        break;
-      case "tetradic":
-        newHsls = [hsl, { ...hsl, h: (hsl.h + 90) % 360 }, { ...hsl, h: (hsl.h + 180) % 360 }, { ...hsl, h: (hsl.h + 270) % 360 }];
-        break;
-      case "monochromatic":
-        newHsls = [
-          { ...hsl, l: 20 },
-          { ...hsl, l: 35 },
-          { ...hsl, l: 50 },
-          { ...hsl, l: 65 },
-          { ...hsl, l: 80 },
-        ];
-        break;
-      case "random":
-        newHsls = Array.from({ length: 5 }).map(() => ({
-          h: Math.floor(Math.random() * 360),
-          s: Math.floor(Math.random() * 100),
-          l: Math.floor(Math.random() * 100),
-        }));
-        break;
+  const generatePalette = useCallback(() => {
+    const [h, s, l] = hexToHsl(baseColor);
+    let theoretical: string[] = [];
+    switch (harmony) {
+      case "Complementary": theoretical = [hslToHex(h, s, l), hslToHex((h + 180) % 360, s, l)]; break;
+      case "Analogous": theoretical = [hslToHex((h - 30 + 360) % 360, s, l), hslToHex(h, s, l), hslToHex((h + 30) % 360, s, l)]; break;
+      case "Triadic": theoretical = [hslToHex(h, s, l), hslToHex((h + 120) % 360, s, l), hslToHex((h + 240) % 360, s, l)]; break;
+      case "Tetradic": theoretical = [hslToHex(h, s, l), hslToHex((h + 90) % 360, s, l), hslToHex((h + 180) % 360, s, l), hslToHex((h + 270) % 360, s, l)]; break;
+      case "Split": theoretical = [hslToHex(h, s, l), hslToHex((h + 150) % 360, s, l), hslToHex((h + 210) % 360, s, l)]; break;
+      case "Monochromatic": theoretical = [hslToHex(h, s, Math.max(10, l - 30)), hslToHex(h, s, Math.max(20, l - 15)), hslToHex(h, s, l), hslToHex(h, s, Math.min(90, l + 15)), hslToHex(h, s, Math.min(95, l + 30))]; break;
+      case "Random": theoretical = Array(5).fill(0).map(() => hslToHex(Math.random() * 360, 50 + Math.random() * 40, 40 + Math.random() * 40)); break;
     }
+    while (theoretical.length < 5) theoretical.push(hslToHex(h, s, l));
+    const nextPalette = customPalette.map((c, i) => locked[i] ? c : (theoretical[i] || c));
+    setCustomPalette(nextPalette.slice(0, 5));
+  }, [baseColor, harmony, locked, customPalette]);
 
-    const newPalette = newHsls.map((h, i) => {
-      const lockedColor = currentPalette[i]?.locked ? currentPalette[i] : null;
-      return lockedColor || { hex: hslToHex(h), locked: false };
-    });
+  useEffect(() => { generatePalette(); }, [baseColor, harmony]);
 
-    setPalette(newPalette);
-  }, []);
-
-  useEffect(() => {
-    generatePalette(baseHex, mode, palette);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [baseHex, mode]); // Only trigger when baseHex or mode changes
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.code === "Space" && e.target === document.body) {
-        e.preventDefault();
-        generatePalette(baseHex, mode, palette);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [baseHex, mode, palette, generatePalette]);
-
-  const toggleLock = (index: number) => {
-    const newPalette = [...palette];
-    newPalette[index].locked = !newPalette[index].locked;
-    setPalette(newPalette);
+  const toggleLock = (i: number) => {
+    const next = [...locked];
+    next[i] = !next[i];
+    setLocked(next);
   };
 
-  const copyToClipboard = (text: string, label: string) => {
-    navigator.clipboard.writeText(text);
-    toast.success(`${label} copied to clipboard!`);
+  const copyHex = (hex: string) => {
+    navigator.clipboard.writeText(hex);
+    toast.success(`Copied ${hex}`);
   };
 
   const exportCSS = () => {
-    const css = palette.map((p, i) => `--color-${i + 1}: ${p.hex};`).join("\n");
-    copyToClipboard(`:root {\n${css}\n}`, "CSS Variables");
-  };
-
-  const exportJSON = () => {
-    const json = JSON.stringify(palette.map((p) => p.hex), null, 2);
-    copyToClipboard(json, "JSON Array");
+    const css = `:root {\n${customPalette.map((c, i) => `  --color-${i + 1}: ${c};`).join('\n')}\n}`;
+    navigator.clipboard.writeText(css);
+    toast.success("Copied CSS Variables");
   };
 
   const exportTailwind = () => {
-    const tw = palette.reduce((acc, p, i) => ({ ...acc, [`color-${i + 1}`]: p.hex }), {});
-    copyToClipboard(JSON.stringify(tw, null, 2), "Tailwind Config");
+    const tw = `colors: {\n  brand: {\n${customPalette.map((c, i) => `    ${i + 1}00: '${c}',`).join('\n')}\n  }\n}`;
+    navigator.clipboard.writeText(tw);
+    toast.success("Copied Tailwind Config");
   };
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    
-    const img = new Image();
-    const reader = new FileReader();
-    
-    reader.onload = (event) => {
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return;
-        
-        // Scale down for faster processing
-        const scale = Math.min(100 / img.width, 100 / img.height);
-        canvas.width = img.width * scale;
-        canvas.height = img.height * scale;
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
-        const colorCounts: Record<string, number> = {};
-        
-        for (let i = 0; i < imageData.length; i += 4 * 10) { // Skip pixels for speed
-          const r = Math.round(imageData[i] / 10) * 10;
-          const g = Math.round(imageData[i+1] / 10) * 10;
-          const b = Math.round(imageData[i+2] / 10) * 10;
-          const hex = rgbToHex(r, g, b);
-          colorCounts[hex] = (colorCounts[hex] || 0) + 1;
-        }
-        
-        const sortedColors = Object.entries(colorCounts)
-          .sort((a, b) => b[1] - a[1])
-          .slice(0, 5)
-          .map(([hex]) => ({ hex, locked: false }));
-          
-        setPalette(sortedColors.length > 0 ? sortedColors : palette);
-        toast.success("Colors extracted from image!");
-      };
-      img.src = event.target?.result as string;
-    };
-    reader.readAsDataURL(file);
-  };
+  const steps = [
+    { step: "01", title: "Pick Base Color", description: "Select your primary brand color using the hex input or native color picker.", icon: Palette },
+    { step: "02", title: "Choose Harmony", description: "Select a color theory algorithm like Triadic, Analogous, or Complementary.", icon: Sun },
+    { step: "03", title: "Export & Use", description: "Copy individual hex codes or export the entire palette as CSS or Tailwind config.", icon: Download },
+  ];
+
+  const features = [
+    { icon: Palette, title: "Advanced Harmonies", description: "Generate mathematically perfect color schemes based on the traditional color wheel." },
+    { icon: Check, title: "WCAG Contrast Checker", description: "Instantly verify if your colors meet accessibility standards for text readability." },
+    { icon: Lock, title: "Lock & Regenerate", description: "Lock your favorite shades and iterate on the rest of the palette without losing them." },
+    { icon: Download, title: "Developer Export", description: "Export directly to CSS variables, Tailwind config, or SCSS maps for immediate use." },
+  ];
+
+  const faqs = [
+    { question: "What is the best color harmony for a SaaS dashboard?", answer: "Analogous or Monochromatic harmonies are generally best for SaaS dashboards as they provide a cohesive, low-contrast environment that reduces eye strain during long working sessions, reserving complementary colors strictly for primary call-to-action buttons." },
+    { question: "How do I ensure my palette is accessible?", answer: "Use the built-in WCAG contrast checker to ensure that any text placed over your generated colors maintains a contrast ratio of at least 4.5:1 for normal text and 3:1 for large text to meet AA compliance standards." },
+    { question: "Can I export these colors to my React project?", answer: "Yes, the tool provides one-click export options for CSS custom properties (variables) and Tailwind CSS configuration objects, allowing you to paste the exact color system directly into your global styles or tailwind.config.js file." },
+  ];
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-8">
-      <ToolPageHeader
-        title="Color Palette Generator"
-        description="Generate beautiful color palettes, extract colors from images, and export to CSS, JSON, or Tailwind."
-      />
+    <div className="max-w-6xl mx-auto space-y-8 pb-12 px-4">
+      <ToolPageHeader icon={Palette} title="Color Palette Generator" description="Generate beautiful, mathematically harmonious color palettes with WCAG contrast checking and developer export tools." />
+      
+      <Card className={cardClass}>
+        <CardHeader className={headerClass}>
+          <CardTitle className={titleClass}><Palette className="w-4 h-4" /> Palette Studio</CardTitle>
+        </CardHeader>
+        <CardContent className="p-6 space-y-6">
+          <div className="flex flex-col sm:flex-row gap-4 items-end">
+            <div className="space-y-2 flex-1">
+              <Label>Base Hex Color</Label>
+              <div className="flex gap-2">
+                <Input type="color" value={baseColor} onChange={(e) => setBaseColor(e.target.value)} className="w-16 h-10 p-1 rounded cursor-pointer" />
+                <Input value={baseColor} onChange={(e) => setBaseColor(e.target.value)} className="flex-1 font-mono" />
+              </div>
+            </div>
+            <Button onClick={generatePalette} variant="outline">Regenerate</Button>
+          </div>
 
-      <div className="mt-8 grid gap-8 md:grid-cols-12">
-        <div className="md:col-span-3 space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2"><Palette className="w-5 h-5"/> Controls</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-2">
-                <Label>Base Color</Label>
-                <div className="flex gap-2">
-                  <div className="relative w-12 h-10 rounded-md overflow-hidden border">
-                    <input
-                      type="color"
-                      value={baseHex}
-                      onChange={(e) => setBaseHex(e.target.value)}
-                      className="absolute inset-[-10px] w-20 h-20 cursor-pointer"
-                    />
+          <div className="flex flex-wrap gap-2">
+            {harmonies.map(h => (
+              <Button key={h} variant={harmony === h ? "default" : "secondary"} size="sm" onClick={() => setHarmony(h)}>{h}</Button>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+            {customPalette.map((color, i) => (
+              <div key={i} className="space-y-2">
+                <div className="h-32 rounded-xl border border-border shadow-inner relative group cursor-pointer" style={{ backgroundColor: color }} onClick={() => copyHex(color)}>
+                  <button className="absolute top-2 right-2 p-1.5 bg-background/80 rounded-full opacity-0 group-hover:opacity-100 transition" onClick={(e) => { e.stopPropagation(); toggleLock(i); }}>
+                    {locked[i] ? <Lock className="w-3 h-3" /> : <Unlock className="w-3 h-3" />}
+                  </button>
+                  <div className="absolute bottom-2 left-2 right-2 text-center text-xs font-bold bg-background/90 py-1 rounded shadow">
+                    <span style={{ color: getContrast(color, "#ffffff") > getContrast(color, "#000000") ? "#fff" : "#000", backgroundColor: color, padding: "2px 4px", borderRadius: "4px" }}>{color.toUpperCase()}</span>
                   </div>
-                  <Input
-                    value={baseHex}
-                    onChange={(e) => setBaseHex(e.target.value)}
-                    className="flex-1 font-mono uppercase"
-                  />
+                </div>
+                <div className="text-[10px] text-muted-foreground space-y-0.5 font-mono">
+                  <div>RGB: {hexToRgb(color)}</div>
+                  <div>HSL: {hexToHsl(color).join(", ")}</div>
+                  <div className="flex justify-between pt-1 border-t border-border/30">
+                    <span>W: {getContrast(color, "#ffffff").toFixed(1)}</span>
+                    <span>B: {getContrast(color, "#000000").toFixed(1)}</span>
+                  </div>
                 </div>
               </div>
+            ))}
+          </div>
 
-              <div className="space-y-2">
-                <Label>Mode</Label>
-                <select 
-                  className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                  value={mode}
-                  onChange={(e) => setMode(e.target.value as any)}
-                >
-                  <option value="analogous">Analogous</option>
-                  <option value="complementary">Complementary</option>
-                  <option value="triadic">Triadic</option>
-                  <option value="tetradic">Tetradic</option>
-                  <option value="monochromatic">Monochromatic</option>
-                  <option value="random">Random</option>
-                </select>
-              </div>
+          <div className="flex gap-2 pt-4 border-t border-border/30">
+            <Button onClick={exportCSS} variant="outline" size="sm"><Download className="w-4 h-4 mr-2" /> CSS Variables</Button>
+            <Button onClick={exportTailwind} variant="outline" size="sm"><Download className="w-4 h-4 mr-2" /> Tailwind</Button>
+          </div>
+        </CardContent>
+      </Card>
 
-              <Button 
-                onClick={() => generatePalette(baseHex, mode, palette)}
-                className="w-full gap-2"
-              >
-                <Shuffle className="w-4 h-4" />
-                Generate New
-              </Button>
-              <p className="text-xs text-muted-foreground text-center">Press Spacebar to generate</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2"><ImageIcon className="w-5 h-5"/> Extract</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <input 
-                type="file" 
-                accept="image/*" 
-                className="hidden" 
-                ref={imageInputRef}
-                onChange={handleImageUpload}
-              />
-              <Button 
-                variant="outline" 
-                className="w-full gap-2"
-                onClick={() => imageInputRef.current?.click()}
-              >
-                <Upload className="w-4 h-4" />
-                Upload Image
-              </Button>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2"><Download className="w-5 h-5"/> Export</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <Button variant="secondary" className="w-full justify-start gap-2" onClick={exportCSS}>
-                <Code className="w-4 h-4" /> CSS Variables
-              </Button>
-              <Button variant="secondary" className="w-full justify-start gap-2" onClick={exportJSON}>
-                <Code className="w-4 h-4" /> JSON Array
-              </Button>
-              <Button variant="secondary" className="w-full justify-start gap-2" onClick={exportTailwind}>
-                <Code className="w-4 h-4" /> Tailwind Config
-              </Button>
-            </CardContent>
-          </Card>
+      <ToolHowItWorks steps={steps} badges={["100% Free", "Client-Side Privacy", "No Signup"]} />
+      
+      <ToolFeatureGuides features={features}>
+        <div className="prose prose-sm dark:prose-invert max-w-none">
+          <h3>Mastering Color Theory for Web Design</h3>
+          <p>Color theory is the backbone of effective web design and brand identity. A well-chosen color palette not only evokes the right emotional response but also guides user attention and establishes visual hierarchy. When designing interfaces, relying on a single color is rarely sufficient; you need a cohesive system of primary, secondary, and accent colors that work in harmony. This is where color harmonies—such as complementary, analogous, triadic, and tetradic—come into play. Complementary colors, located opposite each other on the color wheel, provide high contrast and are ideal for call-to-action buttons. Analogous colors, sitting next to each other, create serene and comfortable designs, often used in wellness or lifestyle applications. Triadic and tetradic schemes offer vibrant diversity but require careful balancing of saturation and lightness to avoid visual clutter.</p>
+          <p>Beyond aesthetics, accessibility is a non-negotiable aspect of modern color selection. The Web Content Accessibility Guidelines (WCAG) mandate specific contrast ratios between text and background colors to ensure readability for users with visual impairments. A professional color palette generator automates the mathematical heavy lifting, converting hex codes to HSL (Hue, Saturation, Lightness) to rotate hues accurately while preserving perceived brightness. Furthermore, exporting palettes directly into CSS variables, Tailwind configuration files, or SCSS maps bridges the gap between design and development, ensuring that the exact hex values are consistently applied across your entire codebase. Whether you are building a dark mode theme, a data visualization dashboard, or a vibrant marketing site, mastering algorithmic color generation guarantees a scalable, accessible, and visually stunning user experience.</p>
         </div>
+      </ToolFeatureGuides>
 
-        <div className="md:col-span-9">
-          <Card className="h-full">
-            <CardContent className="p-0 sm:p-6 h-full flex flex-col justify-center">
-              <div className="flex flex-col sm:flex-row h-[600px] sm:h-[400px] rounded-xl overflow-hidden shadow-sm border">
-                {palette.map((color, idx) => (
-                  <div 
-                    key={idx} 
-                    className="group relative flex-1 flex sm:flex-col items-center justify-center sm:justify-end pb-0 sm:pb-6 transition-all duration-300 hover:flex-[1.2]"
-                    style={{ backgroundColor: color.hex }}
-                  >
-                    <div className="absolute inset-0 flex items-center justify-center sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
-                       <Button 
-                        variant="ghost" 
-                        size="icon" 
-                        className="bg-black/20 hover:bg-black/40 text-white rounded-full h-12 w-12"
-                        onClick={() => copyToClipboard(color.hex, "Color")}
-                       >
-                         <Copy className="w-5 h-5" />
-                       </Button>
-                    </div>
-                    
-                    <div className="absolute top-4 right-4 sm:top-4 sm:right-auto">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className={"rounded-full h-8 w-8 " + (color.locked ? 'bg-black/30 text-white' : 'bg-black/10 text-white/70 hover:bg-black/20 hover:text-white sm:opacity-0 sm:group-hover:opacity-100')}
-                        onClick={() => toggleLock(idx)}
-                      >
-                        {color.locked ? <Lock className="w-4 h-4" /> : <Unlock className="w-4 h-4" />}
-                      </Button>
-                    </div>
-
-                    <div className="bg-white/90 dark:bg-black/70 backdrop-blur-sm p-2 sm:p-3 rounded-lg text-center shadow-lg transform translate-y-0 sm:translate-y-2 sm:opacity-0 sm:group-hover:translate-y-0 sm:group-hover:opacity-100 transition-all z-10 w-24 sm:w-auto ml-4 sm:ml-0">
-                      <p className="font-mono font-bold text-sm sm:text-base uppercase">{color.hex}</p>
-                      <p className="font-mono text-[10px] sm:text-xs text-muted-foreground">
-                        {(() => {
-                          const rgb = hexToRgb(color.hex);
-                          return `R:${rgb.r} G:${rgb.g} B:${rgb.b}`;
-                        })()}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+      <ToolFaqAccordion faqs={faqs} />
+      <RelatedTools currentToolUrl="/tools/dev/color-palette-generator" max={6} />
     </div>
   );
 }

@@ -1,609 +1,265 @@
 "use client";
 
-import {
-  ActionButton,
-  CopyButton,
-  LinkButton,
-  ResetButton,
-} from "@/components/shared/action-buttons";
-import InputField from "@/components/shared/form-fields/input-field";
-import SwitchRow from "@/components/shared/form-fields/switch-row";
-import TextareaField from "@/components/shared/form-fields/textarea-field";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { Badge } from "@/components/ui/badge";
-import {
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { GlassCard } from "@/components/ui/glass-card";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import {
-  Globe,
-  Image as ImageIcon,
-  Link as LinkIcon,
-  Loader2,
-  Sparkles,
-  TrendingUpDown,
-  Twitter,
-} from "lucide-react";
-import * as React from "react";
+import { Copy, RotateCcw, Share2, AlertTriangle, CheckCircle2, Code2, Eye } from "lucide-react";
+import toast from "react-hot-toast";
 
-type OgResult = {
-  ok: boolean;
-  error?: string;
-  url?: string;
-  status?: number;
-  contentType?: string;
-  fetchedAt?: string;
-  title?: string;
-  description?: string;
-  siteName?: string;
-  ogType?: string;
-  canonical?: string;
-  twitterCard?: string;
-  twitterSite?: string;
-  images: string[];
-  icons: string[];
-  allMeta: Record<string, string[]>;
-};
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
+const textareaClass = "w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50 font-mono";
 
-const EXAMPLES = [
-  "https://toolzium.com",
-  "https://github.com",
-  "https://nextjs.org",
-  "https://youtube.com",
-] as const;
+export function OgPreviewClient() {
+  const [ogTitle, setOgTitle] = useState("Toolzium - The Ultimate Developer Toolbox");
+  const [ogDescription, setOgDescription] = useState("A massive collection of free, privacy-focused online tools for developers, marketers, and creators. No signup required.");
+  const [ogImage, setOgImage] = useState("https://images.unsplash.com/photo-1517134191118-9d595e4c8c29?auto=format&fit=crop&q=80&w=1200");
+  const [ogUrl, setOgUrl] = useState("https://toolzium.com");
+  const [siteName, setSiteName] = useState("Toolzium");
 
-function hostnameOf(u?: string) {
-  try {
-    return u ? new URL(u).hostname.replace(/^www\./, "") : "";
-  } catch {
-    return "";
-  }
-}
+  const titleWarning = ogTitle.length > 60;
+  const descWarning = ogDescription.length > 155;
+  
+  const seoScore = useMemo(() => {
+    let score = 0;
+    if (ogTitle && ogTitle.length > 0 && ogTitle.length <= 60) score += 25;
+    if (ogDescription && ogDescription.length > 50 && ogDescription.length <= 155) score += 25;
+    if (ogImage.startsWith("http")) score += 25;
+    if (ogUrl.startsWith("http")) score += 25;
+    return score;
+  }, [ogTitle, ogDescription, ogImage, ogUrl]);
 
-function toMetaTags(meta: OgResult) {
-  const lines: string[] = [];
-  const esc = (s?: string) =>
-    (s ?? "")
-      .replace(/&/g, "&amp;")
-      .replace(/"/g, "&quot;")
-      .replace(/</g, "&lt;");
+  const metaTags = useMemo(() => {
+    return `<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="${ogUrl}" />
+<meta property="og:title" content="${ogTitle}" />
+<meta property="og:description" content="${ogDescription}" />
+<meta property="og:image" content="${ogImage}" />
 
-  const title = meta.allMeta["og:title"]?.[0] ?? meta.title ?? "";
-  const desc = meta.allMeta["og:description"]?.[0] ?? meta.description ?? "";
-  const url = meta.allMeta["og:url"]?.[0] ?? meta.url ?? "";
-  const site = meta.allMeta["og:site_name"]?.[0] ?? meta.siteName ?? "";
-  const type = meta.allMeta["og:type"]?.[0] ?? meta.ogType ?? "website";
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content="${ogUrl}" />
+<meta property="twitter:title" content="${ogTitle}" />
+<meta property="twitter:description" content="${ogDescription}" />
+<meta property="twitter:image" content="${ogImage}" />`;
+  }, [ogTitle, ogDescription, ogImage, ogUrl]);
 
-  lines.push(`<meta property="og:title" content="${esc(title)}" />`);
-  lines.push(`<meta property="og:description" content="${esc(desc)}" />`);
-  if (url) lines.push(`<meta property="og:url" content="${esc(url)}" />`);
-  if (site)
-    lines.push(`<meta property="og:site_name" content="${esc(site)}" />`);
-  lines.push(`<meta property="og:type" content="${esc(type)}" />`);
-  if (meta.images[0])
-    lines.push(`<meta property="og:image" content="${esc(meta.images[0])}" />`);
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast.success("Copied to clipboard");
+  };
 
-  const tTitle = meta.allMeta["twitter:title"]?.[0] ?? title;
-  const tDesc = meta.allMeta["twitter:description"]?.[0] ?? desc;
-  const tCard =
-    meta.allMeta["twitter:card"]?.[0] ??
-    (meta.images[0] ? "summary_large_image" : "summary");
-  const tSite = meta.allMeta["twitter:site"]?.[0] ?? meta.twitterSite ?? "";
-  const tImg = meta.allMeta["twitter:image"]?.[0] ?? meta.images[0] ?? "";
+  const handleReset = () => {
+    setOgTitle("");
+    setOgDescription("");
+    setOgImage("");
+    setOgUrl("");
+    setSiteName("");
+  };
 
-  lines.push(`<meta name="twitter:card" content="${esc(tCard)}" />`);
-  if (tSite) lines.push(`<meta name="twitter:site" content="${esc(tSite)}" />`);
-  if (tTitle)
-    lines.push(`<meta name="twitter:title" content="${esc(tTitle)}" />`);
-  if (tDesc)
-    lines.push(`<meta name="twitter:description" content="${esc(tDesc)}" />`);
-  if (tImg) lines.push(`<meta name="twitter:image" content="${esc(tImg)}" />`);
-
-  if (meta.canonical)
-    lines.push(`<link rel="canonical" href="${esc(meta.canonical)}" />`);
-  if (meta.icons[0])
-    lines.push(`<link rel="icon" href="${esc(meta.icons[0])}" />`);
-
-  return lines.join("\n");
-}
-
-export default function OGPreviewClient() {
-  const [url, setUrl] = React.useState("");
-  const [data, setData] = React.useState<OgResult | null>(null);
-  const [loading, setLoading] = React.useState(false);
-  const [error, setError] = React.useState<string | null>(null);
-  const [selectedImg, setSelectedImg] = React.useState(0);
-  const [showRaw, setShowRaw] = React.useState(true);
-  const [noCache, setNoCache] = React.useState(false);
-  const [autoFetch, setAutoFetch] = React.useState(false);
-
-  React.useEffect(() => {
-    if (!data) return;
-    if (selectedImg >= data.images.length) setSelectedImg(0);
-  }, [data, selectedImg]);
-
-  const validHttp = /^https?:\/\//i;
-  const dataUrl = React.useMemo(() => data?.url ?? "", [data?.url]);
-
-  const runFetch = React.useCallback(
-    async (u?: string) => {
-      const target = (u ?? url).trim();
-      if (!target || !validHttp.test(target)) {
-        setError(target ? "Enter a valid absolute URL (https://…)." : null);
-        return;
-      }
-      try {
-        setLoading(true);
-        setError(null);
-        setData(null);
-        setSelectedImg(0);
-
-        const q = new URLSearchParams({
-          url: target,
-          ...(noCache ? { nocache: "1" } : {}),
-        }).toString();
-        const res = await fetch(`/api/og-preview?${q}`, { method: "GET" });
-        const json = (await res.json()) as OgResult;
-        if (!json.ok) {
-          setError(json.error || "Failed to fetch metadata.");
-          setData(null);
-        } else {
-          setData(json);
-        }
-      } catch (e) {
-        const msg = e instanceof Error ? e.message : "Request failed.";
-        setError(msg);
-      } finally {
-        setLoading(false);
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [noCache, url]
+  const PreviewCard = ({ platform, children }: { platform: string, children: React.ReactNode }) => (
+    <Card className="border border-border/50 bg-muted/10 overflow-hidden">
+      <CardHeader className="bg-muted/30 p-2 border-b border-border/30">
+        <p className="text-xs font-bold text-muted-foreground">{platform}</p>
+      </CardHeader>
+      <CardContent className="p-0 bg-background">
+        {children}
+      </CardContent>
+    </Card>
   );
-
-  // Auto fetch
-  React.useEffect(() => {
-    if (!autoFetch || !validHttp.test(url.trim())) return;
-
-    const t = window.setTimeout(() => {
-      const current = dataUrl;
-      const changedHost = hostnameOf(`${current}/`) !== hostnameOf(`${url}/`);
-
-      if (changedHost || !data) {
-        void runFetch(url);
-      }
-    }, 600);
-
-    return () => window.clearTimeout(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [autoFetch, url, runFetch, data, dataUrl]);
-
-  function resetAll() {
-    setUrl("");
-    setData(null);
-    setError(null);
-    setSelectedImg(0);
-    setShowRaw(false);
-  }
-
-  const domain = hostnameOf(data?.url || url);
 
   return (
-    <>
-      {/* Header */}
+    <div className="max-w-6xl mx-auto space-y-8 p-4">
       <ToolPageHeader
-        icon={Sparkles}
-        title="Open Graph Preview"
-        description="Preview OG/Twitter cards for any URL. Server-side fetch avoids CORS; nothing is stored."
-        actions={
-          <>
-            <ResetButton onClick={resetAll} />
-            <ActionButton
-              variant="default"
-              icon={loading ? Loader2 : autoFetch ? Sparkles : TrendingUpDown}
-              label={loading ? "Fetching…" : autoFetch ? "Auto fetch" : "Fetch"}
-              onClick={() => runFetch()}
-              disabled={!url || loading}
-              className={loading ? "animate-pulse" : ""}
-            />
-          </>
-        }
+        icon={Share2}
+        title="Open Graph (OG) Meta Preview"
+        description="Visualize how your URLs will appear when shared on Facebook, Twitter/X, LinkedIn, Discord, and Slack. Optimize for maximum click-through rates."
       />
 
-      {/* Input */}
-      <GlassCard>
-        <CardHeader className="pb-2">
-          <CardTitle className="text-base">Enter URL</CardTitle>
-          <CardDescription>
-            We’ll follow redirects and extract meta tags server-side.
-          </CardDescription>
+      <Card className={cardClass}>
+        <CardHeader className={headerClass}>
+          <CardTitle className={titleClass}>
+            <Share2 className="w-4 h-4" /> Meta Tag Configuration
+          </CardTitle>
         </CardHeader>
-        <CardContent className="grid gap-4">
-          <div className="flex flex-col gap-2 md:flex-row md:items-end">
-            <div className="flex-1">
-              <InputField
-                id="target-url"
-                icon={LinkIcon}
-                label="Target URL"
-                placeholder="https://your-domain.com/page"
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") void runFetch();
-                }}
-              />
+        <CardContent className="p-4 sm:p-6 space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <Label>OG Title</Label>
+                <span className={`text-xs font-mono ${titleWarning ? 'text-red-500' : 'text-muted-foreground'}`}>
+                  {ogTitle.length}/60
+                </span>
+              </div>
+              <Input value={ogTitle} onChange={(e) => setOgTitle(e.target.value)} placeholder="Your page title..." />
+              {titleWarning && <p className="text-xs text-red-500 flex items-center gap-1"><AlertTriangle className="w-3 h-3" /> Title is too long. Keep under 60 characters.</p>}
             </div>
 
-            <div className="grid gap-2 sm:grid-cols-2 md:w-85">
-              <SwitchRow
-                label="Bypass cache"
-                checked={noCache}
-                onCheckedChange={setNoCache}
+            <div className="space-y-2">
+              <Label>Site Name</Label>
+              <Input value={siteName} onChange={(e) => setSiteName(e.target.value)} placeholder="Your brand name..." />
+            </div>
+
+            <div className="space-y-2 md:col-span-2">
+              <div className="flex justify-between items-center">
+                <Label>OG Description</Label>
+                <span className={`text-xs font-mono ${descWarning ? 'text-red-500' : 'text-muted-foreground'}`}>
+                  {ogDescription.length}/155
+                </span>
+              </div>
+              <textarea
+                className={textareaClass}
+                rows={3}
+                value={ogDescription}
+                onChange={(e) => setOgDescription(e.target.value)}
+                placeholder="A compelling description..."
               />
-              <SwitchRow
-                label="Auto fetch"
-                checked={autoFetch}
-                onCheckedChange={setAutoFetch}
-              />
+              {descWarning && <p className="text-xs text-red-500 flex items-center gap-1"><AlertTriangle className="w-3 h-3" /> Description is too long. Keep under 155 characters.</p>}
+            </div>
+
+            <div className="space-y-2">
+              <Label>OG Image URL (Recommended: 1200x630)</Label>
+              <Input value={ogImage} onChange={(e) => setOgImage(e.target.value)} placeholder="https://..." />
+            </div>
+
+            <div className="space-y-2">
+              <Label>Page URL</Label>
+              <Input value={ogUrl} onChange={(e) => setOgUrl(e.target.value)} placeholder="https://..." />
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-2 text-xs">
-            {EXAMPLES.map((e) => (
-              <ActionButton
-                key={e}
-                size="sm"
-                label={e.replace(/^https?:\/\//, "")}
-                onClick={() => {
-                  setUrl(e);
-                  if (!autoFetch) void runFetch(e);
-                }}
-              />
-            ))}
-          </div>
-
-          {error && (
-            <div className="rounded-md border border-destructive/40 bg-destructive/10 p-3 text-sm">
-              {error}
+          <div className="flex items-center justify-between border-t border-border/50 pt-6">
+            <div className="flex items-center gap-3">
+              <span className="text-sm font-semibold">SEO Score:</span>
+              <div className="flex items-center gap-2">
+                <div className="w-32 h-2 bg-muted rounded-full overflow-hidden">
+                  <div 
+                    className={`h-full transition-all ${seoScore === 100 ? 'bg-green-500' : seoScore >= 50 ? 'bg-yellow-500' : 'bg-red-500'}`} 
+                    style={{ width: `${seoScore}%` }} 
+                  />
+                </div>
+                <span className="text-sm font-bold">{seoScore}%</span>
+                {seoScore === 100 && <CheckCircle2 className="w-4 h-4 text-green-500" />}
+              </div>
             </div>
-          )}
+            <div className="flex gap-2">
+              <Button variant="outline" onClick={handleReset}>
+                <RotateCcw className="w-4 h-4 mr-2" /> Reset
+              </Button>
+              <Button onClick={() => handleCopy(metaTags)}>
+                <Copy className="w-4 h-4 mr-2" /> Copy Meta Tags
+              </Button>
+            </div>
+          </div>
         </CardContent>
-      </GlassCard>
+      </Card>
 
-      {/* Results */}
-      {data && (
-        <>
-          <Separator className="my-4" />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <PreviewCard platform="Facebook / LinkedIn">
+          <div className="border border-border/50 bg-background cursor-pointer hover:bg-muted/20 transition-colors">
+            {ogImage && <img src={ogImage} alt="OG Preview" className="w-full h-48 object-cover border-b border-border/50" />}
+            <div className="p-3 space-y-1 bg-muted/10 border-t border-border/30">
+              <p className="text-[10px] uppercase text-muted-foreground">{ogUrl.replace('https://', '').split('/')[0]}</p>
+              <h3 className="font-bold text-sm text-foreground line-clamp-1">{ogTitle || "Your Page Title"}</h3>
+              <p className="text-xs text-muted-foreground line-clamp-2">{ogDescription || "Your description will appear here..."}</p>
+            </div>
+          </div>
+        </PreviewCard>
 
-          <GlassCard>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base">Preview</CardTitle>
-              <CardDescription>
-                Facebook/LinkedIn (OG) and Twitter cards using extracted tags.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="grid gap-6 lg:grid-cols-2">
-              {/* OG Preview */}
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <Label className="flex items-center gap-2">
-                      <Globe className="h-4 w-4" /> Open Graph
-                      (Facebook/LinkedIn)
-                    </Label>
-                    <p className="text-xs text-muted-foreground">{domain}</p>
-                  </div>
-                  <Badge variant="secondary">1200×630</Badge>
-                </div>
+        <PreviewCard platform="Twitter / X">
+          <div className="border border-border/50 rounded-xl overflow-hidden bg-background cursor-pointer hover:bg-muted/20 transition-colors">
+            {ogImage && <img src={ogImage} alt="OG Preview" className="w-full h-48 object-cover" />}
+            <div className="p-3 space-y-1 border-t border-border/30">
+              <h3 className="font-bold text-sm text-foreground line-clamp-1">{ogTitle || "Your Page Title"}</h3>
+              <p className="text-xs text-muted-foreground line-clamp-2">{ogDescription || "Your description will appear here..."}</p>
+              <p className="text-[10px] text-muted-foreground">{ogUrl.replace('https://', '').split('/')[0]}</p>
+            </div>
+          </div>
+        </PreviewCard>
 
-                <div className="rounded-xl border bg-background overflow-hidden">
-                  {data.images[selectedImg] ? (
-                    <div className="relative aspect-1200/630 bg-muted">
-                      {}
-                      <picture>
-                        <img
-                          src={data.images[selectedImg]}
-                          className="h-full w-full object-cover"
-                          alt="OG"
-                        />
-                      </picture>
-                    </div>
-                  ) : (
-                    <div className="aspect-1200/630 grid place-items-center bg-muted text-muted-foreground">
-                      <div className="flex items-center gap-2 text-sm">
-                        <ImageIcon className="h-4 w-4" /> No image found
-                      </div>
-                    </div>
-                  )}
-
-                  <div className="p-4">
-                    <div className="text-xs text-muted-foreground">
-                      {data.siteName || domain}
-                    </div>
-                    <div className="mt-1 line-clamp-2 font-semibold">
-                      {data.title || "(no title)"}
-                    </div>
-                    <div className="mt-1 text-sm text-muted-foreground line-clamp-2">
-                      {data.description || "(no description)"}
-                    </div>
-                  </div>
-                </div>
-
-                {/* image picker */}
-                <div className="flex flex-wrap items-center gap-2">
-                  {data.images.length > 0 ? (
-                    data.images.map((img, i) => (
-                      <button
-                        key={`${img}-${i as number}`}
-                        className={"h-10 w-16 overflow-hidden rounded-md border " + (selectedImg === i ? "ring-2 ring-primary" : "")}
-                        onClick={() => setSelectedImg(i)}
-                        title={img}
-                        type="button"
-                      >
-                        {}
-                        <picture>
-                          <img
-                            src={img}
-                            className="h-full w-full object-cover"
-                            alt={`thumb ${i + 1}`}
-                          />
-                        </picture>
-                      </button>
-                    ))
-                  ) : (
-                    <span className="text-xs text-muted-foreground">
-                      No images to pick.
-                    </span>
-                  )}
-                </div>
+        <PreviewCard platform="Discord">
+          <div className="flex bg-background rounded overflow-hidden border border-border/50 max-w-md">
+            <div className="w-1 bg-primary flex-shrink-0"></div>
+            <div className="p-3 flex flex-col sm:flex-row gap-3">
+              {ogImage && <img src={ogImage} alt="OG Preview" className="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded flex-shrink-0" />}
+              <div className="space-y-1 min-w-0">
+                <p className="text-[10px] text-blue-500 hover:underline cursor-pointer">{siteName || "Site Name"}</p>
+                <h3 className="font-bold text-sm text-blue-600 dark:text-blue-400 hover:underline cursor-pointer line-clamp-1">{ogTitle || "Your Page Title"}</h3>
+                <p className="text-xs text-muted-foreground line-clamp-3">{ogDescription || "Your description..."}</p>
               </div>
+            </div>
+          </div>
+        </PreviewCard>
 
-              {/* Twitter Preview */}
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <Label className="flex items-center gap-2">
-                      <Twitter className="h-4 w-4" /> Twitter Card
-                    </Label>
-                    <p className="text-xs text-muted-foreground">
-                      {data.twitterCard ||
-                        (data.images[0] ? "summary_large_image" : "summary")}
-                    </p>
-                  </div>
-                  <Badge variant="secondary">Summary Large</Badge>
-                </div>
+        <PreviewCard platform="Slack">
+          <div className="flex bg-background rounded border-l-4 border-primary/50 p-3 gap-3 max-w-md shadow-sm">
+            {ogImage && <img src={ogImage} alt="OG Preview" className="w-16 h-16 object-cover rounded flex-shrink-0" />}
+            <div className="space-y-1 min-w-0">
+              <h3 className="font-bold text-sm text-foreground hover:underline cursor-pointer line-clamp-1">{ogTitle || "Your Page Title"}</h3>
+              <p className="text-xs text-muted-foreground line-clamp-2">{ogDescription || "Your description..."}</p>
+              <p className="text-[10px] text-muted-foreground">{ogUrl.replace('https://', '').split('/')[0]}</p>
+            </div>
+          </div>
+        </PreviewCard>
+      </div>
 
-                <div className="rounded-xl border bg-background overflow-hidden">
-                  <div className="flex items-center gap-2 p-3">
-                    <div className="h-8 w-8 rounded-full bg-muted" />
-                    <div className="min-w-0">
-                      <div className="text-sm font-medium truncate">
-                        {data.siteName || domain || "Website"}
-                      </div>
-                      <div className="text-xs text-muted-foreground truncate">
-                        {hostnameOf(data.url)}
-                      </div>
-                    </div>
-                  </div>
+      <Card className={cardClass}>
+        <CardHeader className={headerClass}>
+          <CardTitle className={titleClass}>
+            <Code2 className="w-4 h-4" /> Generated HTML Meta Tags
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="p-4 sm:p-6">
+          <pre className="p-4 font-mono text-xs bg-slate-950 text-cyan-400 rounded-xl border overflow-x-auto leading-relaxed">
+            {metaTags}
+          </pre>
+        </CardContent>
+      </Card>
 
-                  {data.images[selectedImg] ? (
-                    <div className="aspect-video bg-muted">
-                      {}
-                      <picture>
-                        <img
-                          src={data.images[selectedImg]}
-                          className="h-full w-full object-cover"
-                          alt="twitter"
-                        />
-                      </picture>
-                    </div>
-                  ) : (
-                    <div className="aspect-video grid place-items-center bg-muted text-muted-foreground">
-                      <div className="flex items-center gap-2 text-sm">
-                        <ImageIcon className="h-4 w-4" /> No image
-                      </div>
-                    </div>
-                  )}
+      <ToolHowItWorks
+        steps={[
+          { step: "01", title: "Enter Meta Details", description: "Input your proposed OG Title, Description, Image URL, and Page URL into the configuration panel.", icon: Share2 },
+          { step: "02", title: "Review Visual Previews", description: "Instantly see how your link will render across Facebook, Twitter, Discord, and Slack to ensure visual appeal.", icon: Eye },
+          { step: "03", title: "Export HTML Tags", description: "Copy the generated <meta> tags and paste them into your website's <head> section.", icon: Copy }
+        ]}
+        badges={["Real-Time Preview", "SEO Scoring", "Multi-Platform"]}
+      />
 
-                  <div className="p-3">
-                    <div className="text-sm font-semibold line-clamp-2">
-                      {data.title || "(no title)"}
-                    </div>
-                    <div className="text-xs text-muted-foreground line-clamp-2">
-                      {data.description || "(no description)"}
-                    </div>
-                    <div className="mt-1 text-xs text-muted-foreground">
-                      {hostnameOf(data.url)}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </GlassCard>
+      <ToolFeatureGuides
+        features={[
+          { icon: Share2, title: "Cross-Platform Simulation", description: "Accurately mimics the unfurling algorithms of major social networks and messaging apps to prevent broken shares." },
+          { icon: AlertTriangle, title: "Character Limit Warnings", description: "Real-time counters alert you when your title exceeds 60 chars or description exceeds 155 chars, preventing truncation." },
+          { icon: CheckCircle2, title: "Completeness Scoring", description: "A dynamic SEO score evaluates the presence and optimal length of all critical Open Graph and Twitter Card properties." },
+          { icon: Copy, title: "One-Click Export", description: "Generates perfectly formatted HTML meta tags for both Open Graph and Twitter Cards, ready for immediate deployment." }
+        ]}
+      >
+        <h3>Mastering Social Media Previews</h3>
+        <p>When a user shares your link on social media, the platform's crawler reads your Open Graph (OG) and Twitter Card meta tags to generate a visual preview. If these tags are missing, poorly formatted, or use improperly sized images, your link will appear as a plain, unclickable text string. This drastically reduces your Click-Through Rate (CTR).</p>
+        <p>Our OG Preview tool bridges the gap between coding and visual marketing. By simulating the exact rendering environments of Facebook, X (Twitter), Discord, and Slack, you can iterate on your copy and imagery before publishing. Ensure your 1200x630 featured image is perfectly cropped and your value proposition is fully visible in the limited character counts.</p>
+      </ToolFeatureGuides>
 
-          <Separator className="my-4" />
+      <ToolFaqAccordion
+        faqs={[
+          { question: "What is the ideal image size for OG tags?", answer: "The recommended size is 1200x630 pixels (1.9:1 ratio). This ensures your image looks crisp on high-DPI displays and isn't awkwardly cropped by Facebook or LinkedIn." },
+          { question: "Why is my description getting cut off?", answer: "Most platforms truncate descriptions after 155-200 characters. Our tool warns you if you exceed 155 characters to ensure your core message is always visible." },
+          { question: "Do I need both OG and Twitter tags?", answer: "While Twitter falls back to OG tags if Twitter-specific tags are missing, it is best practice to include both to guarantee correct rendering across all apps and future-proof your markup." },
+          { question: "How long until social platforms update my preview?", answer: "Platforms cache link previews. After updating your meta tags, use the Facebook Sharing Debugger or Twitter Card Validator to force their crawlers to clear the cache and fetch the new data." }
+        ]}
+      />
 
-          {/* Meta & Actions */}
-          <GlassCard>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base">Extracted Meta</CardTitle>
-              <CardDescription>
-                Copy tags, inspect JSON, or open the page.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="grid gap-6 lg:grid-cols-2">
-              <div className="space-y-3">
-                <div className="flex flex-wrap gap-2">
-                  <CopyButton
-                    size="sm"
-                    label="Copy Meta Tags"
-                    disabled={!data}
-                    getText={toMetaTags(data)}
-                  />
-                  <CopyButton
-                    size="sm"
-                    label="Copy JSON"
-                    disabled={!data}
-                    getText={JSON.stringify(data, null, 2)}
-                  />
-
-                  {data.url && (
-                    <LinkButton target="_blank" size="sm" href={data.url} />
-                  )}
-                </div>
-
-                <div className="rounded-md border p-3 text-xs">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <Badge variant="secondary" className="font-normal">
-                      {data.status ?? "—"}{" "}
-                      {data.contentType ? `· ${data.contentType}` : ""}
-                    </Badge>
-                    {data.fetchedAt && (
-                      <span className="text-muted-foreground">
-                        Fetched: {new Date(data.fetchedAt).toLocaleString()}
-                      </span>
-                    )}
-                    {data.canonical && (
-                      <LinkButton
-                        size="sm"
-                        target="_blank"
-                        label="Canonical"
-                        href={data.canonical}
-                      />
-                    )}
-                  </div>
-                </div>
-
-                <div className="rounded-md border p-3">
-                  <div className="flex items-center justify-between">
-                    <Label>Raw (JSON)</Label>
-                    <SwitchRow
-                      label="Show raw"
-                      checked={showRaw}
-                      onCheckedChange={setShowRaw}
-                    />
-                  </div>
-
-                  <div className="mt-2">
-                    {showRaw ? (
-                      <TextareaField
-                        id="raw-json"
-                        readOnly
-                        value={JSON.stringify(data, null, 2)}
-                        textareaClassName="min-h-[400px] font-mono"
-                      />
-                    ) : (
-                      <div className="text-sm text-muted-foreground">
-                        Toggle to inspect all extracted meta keys and values.
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <Label>Key Tags</Label>
-                    <p className="text-xs text-muted-foreground">
-                      Primary OG/Twitter fields detected.
-                    </p>
-                  </div>
-                  <Badge variant="secondary">
-                    {Object.keys(data.allMeta).length} tags
-                  </Badge>
-                </div>
-
-                <div className="rounded-md border overflow-hidden">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="text-left text-muted-foreground">
-                        <th className="py-2 px-3 w-[40%]">Tag</th>
-                        <th className="py-2 px-3">Value</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {[
-                        [
-                          "og:title",
-                          data.allMeta["og:title"]?.[0] ?? data.title ?? "",
-                        ],
-                        [
-                          "og:description",
-                          data.allMeta["og:description"]?.[0] ??
-                            data.description ??
-                            "",
-                        ],
-                        ["og:image", data.images[0] ?? ""],
-                        [
-                          "og:site_name",
-                          data.allMeta["og:site_name"]?.[0] ??
-                            data.siteName ??
-                            "",
-                        ],
-                        [
-                          "og:url",
-                          data.allMeta["og:url"]?.[0] ?? data.url ?? "",
-                        ],
-                        [
-                          "twitter:card",
-                          data.allMeta["twitter:card"]?.[0] ??
-                            (data.images[0]
-                              ? "summary_large_image"
-                              : "summary"),
-                        ],
-                        [
-                          "twitter:title",
-                          data.allMeta["twitter:title"]?.[0] ??
-                            data.title ??
-                            "",
-                        ],
-                        [
-                          "twitter:description",
-                          data.allMeta["twitter:description"]?.[0] ??
-                            data.description ??
-                            "",
-                        ],
-                        [
-                          "twitter:image",
-                          data.allMeta["twitter:image"]?.[0] ??
-                            data.images[0] ??
-                            "",
-                        ],
-                      ].map(([k, v]) => (
-                        <tr key={k as string} className="border-t">
-                          <td className="py-2 px-3 font-mono text-xs">{k}</td>
-                          <td className="py-2 px-3 break-all">
-                            {v || (
-                              <span className="text-muted-foreground">—</span>
-                            )}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-
-                {data.icons?.length > 0 && (
-                  <div className="flex items-center gap-2 text-xs">
-                    <span className="text-muted-foreground">Icons:</span>
-                    {data.icons.slice(0, 4).map((i, idx) => (
-                      <picture key={`${i}-${idx as number}`}>
-                        <img src={i} alt="icon" className="h-5 w-5 rounded" />
-                      </picture>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </GlassCard>
-        </>
-      )}
-    </>
+      <RelatedTools currentToolUrl="/tools/seo/og-preview" max={6} />
+    </div>
   );
 }
+
+export { OgPreviewClient as OGPreviewClient };
+export default OgPreviewClient;

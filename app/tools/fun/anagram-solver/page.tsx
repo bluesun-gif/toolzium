@@ -1,5 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { AnagramSolverClient } from "@/components/tools/fun/anagram-solver-client";
+import AnagramSolverClient from "@/components/tools/fun/anagram-solver-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 
