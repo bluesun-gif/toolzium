@@ -1,0 +1,1813 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: debug.spec.ts >> Debug Failed Tools >> debug /tools/time/age
+- Location: tests\debug.spec.ts:16:9
+
+# Error details
+
+```
+Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 0
+Received: 1
+```
+
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - generic [ref=e5]:
+    - generic [ref=e8]:
+      - link "Toolzium home" [ref=e10] [cursor=pointer]:
+        - /url: /
+        - img "Toolzium Logo" [ref=e11]
+        - generic [ref=e12]: Toolzium
+      - generic [ref=e14]:
+        - generic [ref=e15]: Platform
+        - list [ref=e16]:
+          - listitem [ref=e17]:
+            - button "Tools" [expanded] [ref=e18]
+            - list [ref=e26]:
+              - listitem [ref=e27]:
+                - link "All Tools" [ref=e28] [cursor=pointer]:
+                  - /url: /tools
+          - listitem [ref=e30]:
+            - button "AI Tools" [expanded] [ref=e31]
+            - list [ref=e39]:
+              - listitem [ref=e40]:
+                - link "AI Prompt Engineering & Optimizer Studio" [ref=e41] [cursor=pointer]:
+                  - /url: /tools/ai/prompt-optimizer
+              - listitem [ref=e43]:
+                - link "AI YouTube Video Script & High-CTR Hook Generator" [ref=e44] [cursor=pointer]:
+                  - /url: /tools/ai/youtube-script
+              - listitem [ref=e46]:
+                - link "AI Startup & Business Name Generator Studio" [ref=e47] [cursor=pointer]:
+                  - /url: /tools/ai/startup-name
+              - listitem [ref=e49]:
+                - link "AI Social Media Bio & Creator Profile Generator" [ref=e50] [cursor=pointer]:
+                  - /url: /tools/ai/social-bio
+              - listitem [ref=e52]:
+                - link "AI Code Explainer & Converter" [ref=e53] [cursor=pointer]:
+                  - /url: /tools/ai/code-explainer
+              - listitem [ref=e55]:
+                - link "AI SQL & Regex Builder" [ref=e56] [cursor=pointer]:
+                  - /url: /tools/ai/sql-regex-builder
+              - listitem [ref=e58]:
+                - link "AI Resume & ATS Checker" [ref=e59] [cursor=pointer]:
+                  - /url: /tools/ai/ats-checker
+              - listitem [ref=e61]:
+                - link "AI Document Summarizer & Q&A" [ref=e62] [cursor=pointer]:
+                  - /url: /tools/ai/pdf-chat
+              - listitem [ref=e64]:
+                - link "AI Product Description Generator" [ref=e65] [cursor=pointer]:
+                  - /url: /tools/ai/product-description
+          - listitem [ref=e67]:
+            - button "URL" [expanded] [ref=e68]
+            - list [ref=e76]:
+              - listitem [ref=e77]:
+                - link "URL Shortener" [ref=e78] [cursor=pointer]:
+                  - /url: /tools/url/shortener
+              - listitem [ref=e80]:
+                - link "UTM Builder" [ref=e81] [cursor=pointer]:
+                  - /url: /tools/url/utm-builder
+              - listitem [ref=e83]:
+                - link "Link Expander" [ref=e84] [cursor=pointer]:
+                  - /url: /tools/url/expand
+              - listitem [ref=e86]:
+                - link "QR Code Generator" [ref=e87] [cursor=pointer]:
+                  - /url: /tools/url/qr
+              - listitem [ref=e89]:
+                - link "YouTube Thumbnail Downloader" [ref=e90] [cursor=pointer]:
+                  - /url: /tools/url/youtube-thumbnail
+          - listitem [ref=e92]:
+            - button "Text" [expanded] [ref=e93]
+            - list [ref=e100]:
+              - listitem [ref=e101]:
+                - link "Base64 Encoder/Decoder" [ref=e102] [cursor=pointer]:
+                  - /url: /tools/text/base64
+              - listitem [ref=e104]:
+                - link "Case Converter" [ref=e105] [cursor=pointer]:
+                  - /url: /tools/text/case-converter
+              - listitem [ref=e107]:
+                - link "Slugify Text" [ref=e108] [cursor=pointer]:
+                  - /url: /tools/text/slugify
+              - listitem [ref=e110]:
+                - link "AI Essay Conclusion & Summary Generator" [ref=e111] [cursor=pointer]:
+                  - /url: /tools/academic/essay-conclusion-generator
+              - listitem [ref=e113]:
+                - link "AI Study Flashcard & Quiz Creator Studio" [ref=e114] [cursor=pointer]:
+                  - /url: /tools/academic/flashcard-creator
+              - listitem [ref=e116]:
+                - link "AI Literature Review & Academic Paper Summarizer" [ref=e117] [cursor=pointer]:
+                  - /url: /tools/academic/literature-summarizer
+              - listitem [ref=e119]:
+                - link "AI Content Paraphraser & Tone Transformer Studio" [ref=e120] [cursor=pointer]:
+                  - /url: /tools/writing/ai-paraphraser
+              - listitem [ref=e122]:
+                - link "AI Grammar & Style Polish Studio" [ref=e123] [cursor=pointer]:
+                  - /url: /tools/writing/ai-grammar-polish
+              - listitem [ref=e125]:
+                - link "AI Elevator Pitch & Value Proposition Studio" [ref=e126] [cursor=pointer]:
+                  - /url: /tools/writing/ai-elevator-pitch
+              - listitem [ref=e128]:
+                - link "AI Blog Post Intro & Opening Hook Generator" [ref=e129] [cursor=pointer]:
+                  - /url: /tools/writing/blog-intro-generator
+              - listitem [ref=e131]:
+                - link "AI High Open-Rate Email Subject Line Generator" [ref=e132] [cursor=pointer]:
+                  - /url: /tools/writing/email-subject-generator
+              - listitem [ref=e134]:
+                - link "AI Executive Resume Summary & Bullet Point Generator" [ref=e135] [cursor=pointer]:
+                  - /url: /tools/writing/resume-summary-generator
+              - listitem [ref=e137]:
+                - link "Word Counter" [ref=e138] [cursor=pointer]:
+                  - /url: /tools/text/word-counter
+              - listitem [ref=e140]:
+                - link "Line Tools" [ref=e141] [cursor=pointer]:
+                  - /url: /tools/text/line-tools
+              - listitem [ref=e143]:
+                - link "Text Cleaner" [ref=e144] [cursor=pointer]:
+                  - /url: /tools/text/cleaner
+              - listitem [ref=e146]:
+                - link "Text to List" [ref=e147] [cursor=pointer]:
+                  - /url: /tools/text/to-list
+              - listitem [ref=e149]:
+                - link "Password Strength Checker" [ref=e150] [cursor=pointer]:
+                  - /url: /tools/text/password-strength
+              - listitem [ref=e152]:
+                - link "Fancy Text Generator" [ref=e153] [cursor=pointer]:
+                  - /url: /tools/text/fancy-text
+              - listitem [ref=e155]:
+                - link "Text to Speech Reader" [ref=e156] [cursor=pointer]:
+                  - /url: /tools/text/text-to-speech
+              - listitem [ref=e158]:
+                - link "Speech to Text Transcriber" [ref=e159] [cursor=pointer]:
+                  - /url: /tools/text/speech-to-text
+              - listitem [ref=e161]:
+                - link "Character Counter" [ref=e162] [cursor=pointer]:
+                  - /url: /tools/text/character-counter
+              - listitem [ref=e164]:
+                - link "Translate Text" [ref=e165] [cursor=pointer]:
+                  - /url: /tools/text/translate
+              - listitem [ref=e167]:
+                - link "Morse Code Translator" [ref=e168] [cursor=pointer]:
+                  - /url: /tools/text/morse-code
+              - listitem [ref=e170]:
+                - link "Binary/Hex Text Converter" [ref=e171] [cursor=pointer]:
+                  - /url: /tools/text/binary-text
+              - listitem [ref=e173]:
+                - link "ROT13 / Caesar Cipher" [ref=e174] [cursor=pointer]:
+                  - /url: /tools/text/rot13
+              - listitem [ref=e176]:
+                - link "Reading Time Calculator" [ref=e177] [cursor=pointer]:
+                  - /url: /tools/text/reading-time
+              - listitem [ref=e179]:
+                - link "Emoji Picker & Search" [ref=e180] [cursor=pointer]:
+                  - /url: /tools/text/emoji-picker
+              - listitem [ref=e182]:
+                - link "Markdown Table Generator" [ref=e183] [cursor=pointer]:
+                  - /url: /tools/text/markdown-table
+              - listitem [ref=e185]:
+                - link "Text Diff Viewer" [ref=e186] [cursor=pointer]:
+                  - /url: /tools/text/text-diff
+              - listitem [ref=e188]:
+                - link "Text Statistics" [ref=e189] [cursor=pointer]:
+                  - /url: /tools/text/text-stats
+              - listitem [ref=e191]:
+                - link "Resume Builder" [ref=e192] [cursor=pointer]:
+                  - /url: /tools/text/resume-builder
+              - listitem [ref=e194]:
+                - link "Pronunciation Guide" [ref=e195] [cursor=pointer]:
+                  - /url: /tools/text/pronunciation
+              - listitem [ref=e197]:
+                - link "Text Repeater" [ref=e198] [cursor=pointer]:
+                  - /url: /tools/text/text-repeater
+              - listitem [ref=e200]:
+                - link "Whitespace Remover" [ref=e201] [cursor=pointer]:
+                  - /url: /tools/text/whitespace-remover
+          - listitem [ref=e203]:
+            - button "PDF" [expanded] [ref=e204]
+            - list [ref=e212]:
+              - listitem [ref=e213]:
+                - link "PDF Merge" [ref=e214] [cursor=pointer]:
+                  - /url: /tools/pdf/merge
+              - listitem [ref=e216]:
+                - link "PDF Split" [ref=e217] [cursor=pointer]:
+                  - /url: /tools/pdf/split
+              - listitem [ref=e219]:
+                - link "PDF Compress" [ref=e220] [cursor=pointer]:
+                  - /url: /tools/pdf/compress
+              - listitem [ref=e222]:
+                - link "PDF to Word" [ref=e223] [cursor=pointer]:
+                  - /url: /tools/pdf/pdf-to-word
+              - listitem [ref=e225]:
+                - link "Image to PDF" [ref=e226] [cursor=pointer]:
+                  - /url: /tools/pdf/image-pdf
+              - listitem [ref=e228]:
+                - link "Protect & Lock PDF" [ref=e229] [cursor=pointer]:
+                  - /url: /tools/pdf/protect
+              - listitem [ref=e231]:
+                - link "Sign & Fill PDF" [ref=e232] [cursor=pointer]:
+                  - /url: /tools/pdf/sign-fill
+              - listitem [ref=e234]:
+                - link "PDF Page Rotate" [ref=e235] [cursor=pointer]:
+                  - /url: /tools/pdf/rotate
+          - listitem [ref=e237]:
+            - button "Image" [expanded] [ref=e238]
+            - list [ref=e247]:
+              - listitem [ref=e248]:
+                - link "Image Convert" [ref=e249] [cursor=pointer]:
+                  - /url: /tools/image/convert
+              - listitem [ref=e251]:
+                - link "Image Resize" [ref=e252] [cursor=pointer]:
+                  - /url: /tools/image/resize
+              - listitem [ref=e254]:
+                - link "Image Compressor" [ref=e255] [cursor=pointer]:
+                  - /url: /tools/image/compress
+              - listitem [ref=e257]:
+                - link "Background Remover" [ref=e258] [cursor=pointer]:
+                  - /url: /tools/image/bg-remove
+              - listitem [ref=e260]:
+                - link "Image to PDF" [ref=e261] [cursor=pointer]:
+                  - /url: /tools/image/image-to-pdf
+              - listitem [ref=e263]:
+                - link "EXIF Metadata Viewer" [ref=e264] [cursor=pointer]:
+                  - /url: /tools/image/exif-viewer
+              - listitem [ref=e266]:
+                - link "Meme Generator" [ref=e267] [cursor=pointer]:
+                  - /url: /tools/image/meme-generator
+              - listitem [ref=e269]:
+                - link "Aspect Ratio Calculator" [ref=e270] [cursor=pointer]:
+                  - /url: /tools/image/aspect-ratio
+              - listitem [ref=e272]:
+                - link "Image Color Extractor" [ref=e273] [cursor=pointer]:
+                  - /url: /tools/image/color-extractor
+              - listitem [ref=e275]:
+                - link "Favicon Generator" [ref=e276] [cursor=pointer]:
+                  - /url: /tools/image/favicon
+              - listitem [ref=e278]:
+                - link "SVG to PNG Converter" [ref=e279] [cursor=pointer]:
+                  - /url: /tools/image/svg-to-png
+              - listitem [ref=e281]:
+                - link "Pixel Art Creator" [ref=e282] [cursor=pointer]:
+                  - /url: /tools/image/pixel-art
+              - listitem [ref=e284]:
+                - link "Color Blind Palette" [ref=e285] [cursor=pointer]:
+                  - /url: /tools/image/color-blind-palette
+              - listitem [ref=e287]:
+                - link "Font Pairing Suggester" [ref=e288] [cursor=pointer]:
+                  - /url: /tools/image/font-pairing
+              - listitem [ref=e290]:
+                - link "Color Name Finder" [ref=e291] [cursor=pointer]:
+                  - /url: /tools/image/color-name
+              - listitem [ref=e293]:
+                - link "Photo Collage Layout" [ref=e294] [cursor=pointer]:
+                  - /url: /tools/image/collage-layout
+              - listitem [ref=e296]:
+                - link "Image Watermark" [ref=e297] [cursor=pointer]:
+                  - /url: /tools/image/watermark
+              - listitem [ref=e299]:
+                - link "Color Palette from Image" [ref=e300] [cursor=pointer]:
+                  - /url: /tools/image/palette-extract
+              - listitem [ref=e302]:
+                - link "Photo Grid Maker" [ref=e303] [cursor=pointer]:
+                  - /url: /tools/image/photo-grid
+              - listitem [ref=e305]:
+                - link "Screenshot Annotator" [ref=e306] [cursor=pointer]:
+                  - /url: /tools/image/annotator
+              - listitem [ref=e308]:
+                - link "Image Watermark Creator" [ref=e309] [cursor=pointer]:
+                  - /url: /tools/image/watermark-creator
+              - listitem [ref=e311]:
+                - link "Image Privacy & EXIF Cleaner" [ref=e312] [cursor=pointer]:
+                  - /url: /tools/image/metadata-cleaner
+              - listitem [ref=e314]:
+                - link "Image Color Swapper" [ref=e315] [cursor=pointer]:
+                  - /url: /tools/image/color-swapper
+              - listitem [ref=e317]:
+                - link "Image Area Blur & Anonymizer" [ref=e318] [cursor=pointer]:
+                  - /url: /tools/image/blur-image
+              - listitem [ref=e320]:
+                - link "SVG Path Visualizer & Inspector" [ref=e321] [cursor=pointer]:
+                  - /url: /tools/image/svg-path
+              - listitem [ref=e323]:
+                - link "Image Color Threshold & Binarizer" [ref=e324] [cursor=pointer]:
+                  - /url: /tools/image/color-threshold
+              - listitem [ref=e326]:
+                - link "Image to ASCII Art Generator" [ref=e327] [cursor=pointer]:
+                  - /url: /tools/image/image-ascii
+              - listitem [ref=e329]:
+                - link "Image Color Swatch Extractor" [ref=e330] [cursor=pointer]:
+                  - /url: /tools/image/color-swatch
+              - listitem [ref=e332]:
+                - link "Image Aspect Ratio Cropper" [ref=e333] [cursor=pointer]:
+                  - /url: /tools/image/aspect-cropper
+              - listitem [ref=e335]:
+                - link "Color Palette Harmonizer & Generator" [ref=e336] [cursor=pointer]:
+                  - /url: /tools/image/color-harmony
+              - listitem [ref=e338]:
+                - link "Image & Palette Color Contrast Checker" [ref=e339] [cursor=pointer]:
+                  - /url: /tools/image/color-contrast-checker
+              - listitem [ref=e341]:
+                - link "Color Palette SVG & CSS Swatch Exporter" [ref=e342] [cursor=pointer]:
+                  - /url: /tools/image/color-palette-export
+              - listitem [ref=e344]:
+                - link "Placeholder Image Generator" [ref=e345] [cursor=pointer]:
+                  - /url: /tools/image/placeholder-generator
+              - listitem [ref=e347]:
+                - link "Image to Text (OCR)" [ref=e348] [cursor=pointer]:
+                  - /url: /tools/image/image-to-text
+          - listitem [ref=e350]:
+            - button "Developer" [expanded] [ref=e351]
+            - list [ref=e359]:
+              - listitem [ref=e360]:
+                - link "JSON Formatter" [ref=e361] [cursor=pointer]:
+                  - /url: /tools/dev/json-formatter
+              - listitem [ref=e363]:
+                - link "JSON to TypeScript Type & Interface Converter" [ref=e364] [cursor=pointer]:
+                  - /url: /tools/dev/json-to-typescript
+              - listitem [ref=e366]:
+                - link "SQL Table to Prisma Schema Converter Studio" [ref=e367] [cursor=pointer]:
+                  - /url: /tools/dev/sql-to-prisma
+              - listitem [ref=e369]:
+                - link "JWT Security Audit & Payload Inspector Studio" [ref=e370] [cursor=pointer]:
+                  - /url: /tools/dev/jwt-inspector
+              - listitem [ref=e372]:
+                - link "Regex Tester & AI Natural Language Explainer" [ref=e373] [cursor=pointer]:
+                  - /url: /tools/dev/regex-explainer
+              - listitem [ref=e375]:
+                - link "Env Variables Security Risk & Secret Leak Scanner" [ref=e376] [cursor=pointer]:
+                  - /url: /tools/dev/env-scanner
+              - listitem [ref=e378]:
+                - link "AI Code Refactoring & Security Vulnerability Auditor" [ref=e379] [cursor=pointer]:
+                  - /url: /tools/dev/code-auditor
+              - listitem [ref=e381]:
+                - link "JWT Decoder" [ref=e382] [cursor=pointer]:
+                  - /url: /tools/dev/jwt-decode
+              - listitem [ref=e384]:
+                - link "Regex Tester" [ref=e385] [cursor=pointer]:
+                  - /url: /tools/dev/regex-tester
+              - listitem [ref=e387]:
+                - link "Hash Generator" [ref=e388] [cursor=pointer]:
+                  - /url: /tools/dev/hash-generator
+              - listitem [ref=e390]:
+                - link "Lorem Ipsum Generator" [ref=e391] [cursor=pointer]:
+                  - /url: /tools/dev/lorem-ipsum
+              - listitem [ref=e393]:
+                - link "Password Generator" [ref=e394] [cursor=pointer]:
+                  - /url: /tools/dev/password-generator
+              - listitem [ref=e396]:
+                - link "UUID / NanoID Generator" [ref=e397] [cursor=pointer]:
+                  - /url: /tools/dev/uuid-nanoid
+              - listitem [ref=e399]:
+                - link "Timestamp Converter" [ref=e400] [cursor=pointer]:
+                  - /url: /tools/dev/timestamp-converter
+              - listitem [ref=e402]:
+                - link "Color Converter" [ref=e403] [cursor=pointer]:
+                  - /url: /tools/dev/color-converter
+              - listitem [ref=e405]:
+                - link "Diff Checker" [ref=e406] [cursor=pointer]:
+                  - /url: /tools/dev/diff-checker
+              - listitem [ref=e408]:
+                - link "Markdown Previewer" [ref=e409] [cursor=pointer]:
+                  - /url: /tools/dev/markdown-previewer
+              - listitem [ref=e411]:
+                - link "Regex Library" [ref=e412] [cursor=pointer]:
+                  - /url: /tools/dev/regex-library
+              - listitem [ref=e414]:
+                - link "API Request Tester" [ref=e415] [cursor=pointer]:
+                  - /url: /tools/dev/api-tester
+              - listitem [ref=e417]:
+                - link "YAML to JSON Converter" [ref=e418] [cursor=pointer]:
+                  - /url: /tools/dev/yaml-json
+              - listitem [ref=e420]:
+                - link "CSV to JSON Converter" [ref=e421] [cursor=pointer]:
+                  - /url: /tools/dev/csv-json
+              - listitem [ref=e423]:
+                - link "Number Base Converter" [ref=e424] [cursor=pointer]:
+                  - /url: /tools/dev/base-converter
+              - listitem [ref=e426]:
+                - link "Color Palette Generator" [ref=e427] [cursor=pointer]:
+                  - /url: /tools/dev/color-palette
+              - listitem [ref=e429]:
+                - link "Cron Expression Generator" [ref=e430] [cursor=pointer]:
+                  - /url: /tools/dev/cron-generator
+              - listitem [ref=e432]:
+                - link "HTML to Markdown Converter" [ref=e433] [cursor=pointer]:
+                  - /url: /tools/dev/html-markdown
+              - listitem [ref=e435]:
+                - link "Color Blindness Simulator" [ref=e436] [cursor=pointer]:
+                  - /url: /tools/dev/color-blindness
+              - listitem [ref=e438]:
+                - link "JSON Schema Validator" [ref=e439] [cursor=pointer]:
+                  - /url: /tools/dev/json-schema
+              - listitem [ref=e441]:
+                - link "CSS Gradient Generator" [ref=e442] [cursor=pointer]:
+                  - /url: /tools/dev/gradient-generator
+              - listitem [ref=e444]:
+                - link "CSS Box Shadow Generator" [ref=e445] [cursor=pointer]:
+                  - /url: /tools/dev/box-shadow
+              - listitem [ref=e447]:
+                - link "Crontab Explainer" [ref=e448] [cursor=pointer]:
+                  - /url: /tools/dev/cron-explainer
+              - listitem [ref=e450]:
+                - link "Env Variables Editor" [ref=e451] [cursor=pointer]:
+                  - /url: /tools/dev/env-editor
+              - listitem [ref=e453]:
+                - link "String Escape/Unescape" [ref=e454] [cursor=pointer]:
+                  - /url: /tools/dev/string-escape
+              - listitem [ref=e456]:
+                - link "API Status Monitor" [ref=e457] [cursor=pointer]:
+                  - /url: /tools/dev/api-status
+              - listitem [ref=e459]:
+                - link "Code Minifier" [ref=e460] [cursor=pointer]:
+                  - /url: /tools/dev/code-minifier
+              - listitem [ref=e462]:
+                - link "Flexbox Playground" [ref=e463] [cursor=pointer]:
+                  - /url: /tools/dev/flexbox-playground
+              - listitem [ref=e465]:
+                - link "CSS Grid Generator" [ref=e466] [cursor=pointer]:
+                  - /url: /tools/dev/css-grid
+              - listitem [ref=e468]:
+                - link "HTML Entity Encoder" [ref=e469] [cursor=pointer]:
+                  - /url: /tools/dev/html-entities
+              - listitem [ref=e471]:
+                - link "Regex Cheat Sheet" [ref=e472] [cursor=pointer]:
+                  - /url: /tools/dev/regex-cheatsheet
+              - listitem [ref=e474]:
+                - link "HTTP Status Codes" [ref=e475] [cursor=pointer]:
+                  - /url: /tools/dev/http-status
+              - listitem [ref=e477]:
+                - link "CSS Animation Generator" [ref=e478] [cursor=pointer]:
+                  - /url: /tools/dev/css-animation
+              - listitem [ref=e480]:
+                - link "SQL Formatter" [ref=e481] [cursor=pointer]:
+                  - /url: /tools/dev/sql-formatter
+              - listitem [ref=e483]:
+                - link "CSS Flexbox Generator" [ref=e484] [cursor=pointer]:
+                  - /url: /tools/dev/flexbox-generator
+              - listitem [ref=e486]:
+                - link "Keycode & Event Viewer" [ref=e487] [cursor=pointer]:
+                  - /url: /tools/dev/keycode-info
+              - listitem [ref=e489]:
+                - link "cURL Code Converter" [ref=e490] [cursor=pointer]:
+                  - /url: /tools/dev/curl-converter
+              - listitem [ref=e492]:
+                - link "User Agent Parser & Inspector" [ref=e493] [cursor=pointer]:
+                  - /url: /tools/dev/ua-parser
+              - listitem [ref=e495]:
+                - link "CSS 3D Transform Generator" [ref=e496] [cursor=pointer]:
+                  - /url: /tools/dev/css-transform
+              - listitem [ref=e498]:
+                - link "CSS Clip-Path Maker" [ref=e499] [cursor=pointer]:
+                  - /url: /tools/dev/css-clippath
+              - listitem [ref=e501]:
+                - link "CSS Filter Effects Generator" [ref=e502] [cursor=pointer]:
+                  - /url: /tools/dev/css-filters
+              - listitem [ref=e504]:
+                - link "CSS Box & Text Shadow Generator" [ref=e505] [cursor=pointer]:
+                  - /url: /tools/dev/css-shadow
+              - listitem [ref=e507]:
+                - link "CSS Border-Radius Shape Generator" [ref=e508] [cursor=pointer]:
+                  - /url: /tools/dev/css-radius
+              - listitem [ref=e510]:
+                - link "CSS 2D Transform Matrix Generator" [ref=e511] [cursor=pointer]:
+                  - /url: /tools/dev/css-transform-2d
+              - listitem [ref=e513]:
+                - link "CSS Flexbox Layout Playground" [ref=e514] [cursor=pointer]:
+                  - /url: /tools/dev/css-flexbox-builder
+              - listitem [ref=e516]:
+                - link "CSS Grid Layout Visual Builder" [ref=e517] [cursor=pointer]:
+                  - /url: /tools/dev/css-grid-builder
+              - listitem [ref=e519]:
+                - link "CSS Glassmorphism & Backdrop Filter Generator" [ref=e520] [cursor=pointer]:
+                  - /url: /tools/dev/css-glassmorphism
+              - listitem [ref=e522]:
+                - link "CSS Keyframe Animation Generator" [ref=e523] [cursor=pointer]:
+                  - /url: /tools/dev/css-keyframes
+              - listitem [ref=e525]:
+                - link "CSS Typography & Text Effect Generator" [ref=e526] [cursor=pointer]:
+                  - /url: /tools/dev/css-typography
+              - listitem [ref=e528]:
+                - link "CSS 3D Transform & Perspective Generator" [ref=e529] [cursor=pointer]:
+                  - /url: /tools/dev/css-transform-3d
+              - listitem [ref=e531]:
+                - link "CSS Keyframe Multi-Animation Stacker" [ref=e532] [cursor=pointer]:
+                  - /url: /tools/dev/css-keyframes-stack
+              - listitem [ref=e534]:
+                - link "CSS Keyframe Visual Animation Builder" [ref=e535] [cursor=pointer]:
+                  - /url: /tools/dev/css-keyframes-builder
+              - listitem [ref=e537]:
+                - link "CSS Keyframe Visual Curve & Speed Builder" [ref=e538] [cursor=pointer]:
+                  - /url: /tools/dev/css-keyframes-speed
+              - listitem [ref=e540]:
+                - link "Color Picker & Palette Generator" [ref=e541] [cursor=pointer]:
+                  - /url: /tools/dev/color-picker
+              - listitem [ref=e543]:
+                - link "JSON to CSV Converter" [ref=e544] [cursor=pointer]:
+                  - /url: /tools/dev/json-csv
+              - listitem [ref=e546]:
+                - link "Markdown Editor" [ref=e547] [cursor=pointer]:
+                  - /url: /tools/dev/markdown-editor
+          - listitem [ref=e549]:
+            - button "SEO" [expanded] [ref=e550]
+            - list [ref=e558]:
+              - listitem [ref=e559]:
+                - link "OG Image Builder" [ref=e560] [cursor=pointer]:
+                  - /url: /tools/seo/og-builder
+              - listitem [ref=e562]:
+                - link "Open Graph Preview" [ref=e563] [cursor=pointer]:
+                  - /url: /tools/seo/og-preview
+              - listitem [ref=e565]:
+                - link "robots.txt Generator" [ref=e566] [cursor=pointer]:
+                  - /url: /tools/seo/robots-generator
+              - listitem [ref=e568]:
+                - link "AI High-CTR SEO Title & Meta Description Generator" [ref=e569] [cursor=pointer]:
+                  - /url: /tools/seo/ai-meta-generator
+              - listitem [ref=e571]:
+                - link "AI Schema.org JSON-LD Structured Data Generator" [ref=e572] [cursor=pointer]:
+                  - /url: /tools/seo/ai-schema-generator
+              - listitem [ref=e574]:
+                - link "AI Cold Email & B2B Sales Outreach Sequence Generator" [ref=e575] [cursor=pointer]:
+                  - /url: /tools/marketing/cold-email-generator
+              - listitem [ref=e577]:
+                - link "AI Product Slogan & Brand Tagline Generator" [ref=e578] [cursor=pointer]:
+                  - /url: /tools/marketing/slogan-generator
+              - listitem [ref=e580]:
+                - link "Meta Tags Generator" [ref=e581] [cursor=pointer]:
+                  - /url: /tools/seo/meta-generator
+              - listitem [ref=e583]:
+                - link "Sitemap.xml Generator" [ref=e584] [cursor=pointer]:
+                  - /url: /tools/seo/sitemap-generator
+              - listitem [ref=e586]:
+                - link "Schema Markup Generator" [ref=e587] [cursor=pointer]:
+                  - /url: /tools/seo/schema-generator
+          - listitem [ref=e589]:
+            - button "Calculators" [expanded] [ref=e590]
+            - list [ref=e597]:
+              - listitem [ref=e598]:
+                - link "BMI Calculator" [ref=e599] [cursor=pointer]:
+                  - /url: /tools/calc/bmi
+              - listitem [ref=e601]:
+                - link "Unit Converter" [ref=e602] [cursor=pointer]:
+                  - /url: /tools/calc/unit-converter
+              - listitem [ref=e604]:
+                - link "Date Difference Calculator" [ref=e605] [cursor=pointer]:
+                  - /url: /tools/calc/date-diff
+              - listitem [ref=e607]:
+                - link "Standard Calculator" [ref=e608] [cursor=pointer]:
+                  - /url: /tools/calc/standard
+              - listitem [ref=e610]:
+                - link "Scientific Calculator" [ref=e611] [cursor=pointer]:
+                  - /url: /tools/calc/scientific
+              - listitem [ref=e613]:
+                - link "Percentage Calculator" [ref=e614] [cursor=pointer]:
+                  - /url: /tools/calc/percentage
+              - listitem [ref=e616]:
+                - link "Loan EMI Calculator" [ref=e617] [cursor=pointer]:
+                  - /url: /tools/calc/emi
+              - listitem [ref=e619]:
+                - link "Currency Converter" [ref=e620] [cursor=pointer]:
+                  - /url: /tools/calc/currency
+              - listitem [ref=e622]:
+                - link "Tip Calculator & Bill Splitter" [ref=e623] [cursor=pointer]:
+                  - /url: /tools/calc/tip-split
+              - listitem [ref=e625]:
+                - link "Discount Calculator" [ref=e626] [cursor=pointer]:
+                  - /url: /tools/calc/discount
+              - listitem [ref=e628]:
+                - link "GPA Calculator" [ref=e629] [cursor=pointer]:
+                  - /url: /tools/calc/gpa
+              - listitem [ref=e631]:
+                - link "CGPA Calculator" [ref=e632] [cursor=pointer]:
+                  - /url: /tools/calc/cgpa
+              - listitem [ref=e634]:
+                - link "Video Aspect Ratio Calculator" [ref=e635] [cursor=pointer]:
+                  - /url: /tools/calc/video-ratio
+              - listitem [ref=e637]:
+                - link "Aspect Ratio Calculator" [ref=e638] [cursor=pointer]:
+                  - /url: /tools/calc/aspect-ratio
+              - listitem [ref=e640]:
+                - link "Number to Words" [ref=e641] [cursor=pointer]:
+                  - /url: /tools/calc/number-words
+              - listitem [ref=e643]:
+                - link "Credit Card Payoff Calculator" [ref=e644] [cursor=pointer]:
+                  - /url: /tools/finance/credit-payoff
+              - listitem [ref=e646]:
+                - link "Debt Snowball vs Avalanche Calculator" [ref=e647] [cursor=pointer]:
+                  - /url: /tools/finance/debt-payoff-planner
+              - listitem [ref=e649]:
+                - link "Paycheck Deductions & Take-Home Calculator" [ref=e650] [cursor=pointer]:
+                  - /url: /tools/finance/paycheck-deductions
+              - listitem [ref=e652]:
+                - link "Emergency Fund Savings Planner" [ref=e653] [cursor=pointer]:
+                  - /url: /tools/finance/emergency-fund-planner
+              - listitem [ref=e655]:
+                - link "Freelance Tax & Quarterly Estimate Calculator" [ref=e656] [cursor=pointer]:
+                  - /url: /tools/finance/freelance-tax-calc
+              - listitem [ref=e658]:
+                - link "Emergency Savings Goal Calculator" [ref=e659] [cursor=pointer]:
+                  - /url: /tools/finance/emergency-goal-calc
+              - listitem [ref=e661]:
+                - link "50/30/20 Rule Budget & Income Allocator" [ref=e662] [cursor=pointer]:
+                  - /url: /tools/finance/budget-50-30-20
+              - listitem [ref=e664]:
+                - link "Debt-to-Income (DTI) Ratio Calculator" [ref=e665] [cursor=pointer]:
+                  - /url: /tools/finance/dti-calculator
+              - listitem [ref=e667]:
+                - link "Auto Loan Monthly Payment & Amortization Calculator" [ref=e668] [cursor=pointer]:
+                  - /url: /tools/finance/auto-loan-calculator
+              - listitem [ref=e670]:
+                - link "Loan-to-Value (LTV) & Home Equity Calculator" [ref=e671] [cursor=pointer]:
+                  - /url: /tools/finance/ltv-calculator
+              - listitem [ref=e673]:
+                - link "HELOC (Home Equity Line of Credit) Payment Calculator" [ref=e674] [cursor=pointer]:
+                  - /url: /tools/finance/heloc-calculator
+          - listitem [ref=e676]:
+            - button "Date & Time" [expanded] [ref=e677]
+            - list [ref=e685]:
+              - listitem [ref=e686]:
+                - link "Time Zone Converter" [ref=e687] [cursor=pointer]:
+                  - /url: /tools/time/timezone
+              - listitem [ref=e689]:
+                - link "Age Calculator" [ref=e690] [cursor=pointer]:
+                  - /url: /tools/time/age
+              - listitem [ref=e692]:
+                - link "Countdown Timer" [ref=e693] [cursor=pointer]:
+                  - /url: /tools/time/countdown
+              - listitem [ref=e695]:
+                - link "Week Number Calculator" [ref=e696] [cursor=pointer]:
+                  - /url: /tools/time/weekno
+              - listitem [ref=e698]:
+                - link "World Clock" [ref=e699] [cursor=pointer]:
+                  - /url: /tools/time/world-clock
+              - listitem [ref=e701]:
+                - link "Meeting Planner" [ref=e702] [cursor=pointer]:
+                  - /url: /tools/time/meeting-planner
+              - listitem [ref=e704]:
+                - link "Time Zone Comparison" [ref=e705] [cursor=pointer]:
+                  - /url: /tools/time/timezone-compare
+              - listitem [ref=e707]:
+                - link "Holiday Calendar" [ref=e708] [cursor=pointer]:
+                  - /url: /tools/time/holidays
+              - listitem [ref=e710]:
+                - link "Cooking Timer" [ref=e711] [cursor=pointer]:
+                  - /url: /tools/time/cooking-timer
+              - listitem [ref=e713]:
+                - link "Timezone Alarm" [ref=e714] [cursor=pointer]:
+                  - /url: /tools/time/tz-alarm
+              - listitem [ref=e716]:
+                - link "Work Shift Scheduler" [ref=e717] [cursor=pointer]:
+                  - /url: /tools/time/shift-scheduler
+              - listitem [ref=e719]:
+                - link "Work Hours & Overtime Calculator" [ref=e720] [cursor=pointer]:
+                  - /url: /tools/time/work-hours
+              - listitem [ref=e722]:
+                - link "World Clock & Meeting Planner" [ref=e723] [cursor=pointer]:
+                  - /url: /tools/time/world-planner
+              - listitem [ref=e725]:
+                - link "Event Countdown Widget Creator" [ref=e726] [cursor=pointer]:
+                  - /url: /tools/time/event-widget
+              - listitem [ref=e728]:
+                - link "Lunar Calendar" [ref=e729] [cursor=pointer]:
+                  - /url: /tools/time/lunar-calendar
+              - listitem [ref=e731]:
+                - link "Date Formatter" [ref=e732] [cursor=pointer]:
+                  - /url: /tools/time/date-formatter
+              - listitem [ref=e734]:
+                - link "Birthday Countdown" [ref=e735] [cursor=pointer]:
+                  - /url: /tools/time/birthday-countdown
+              - listitem [ref=e737]:
+                - link "Event Countdown" [ref=e738] [cursor=pointer]:
+                  - /url: /tools/time/event-countdown
+              - listitem [ref=e740]:
+                - link "Sunrise & Sunset Calculator" [ref=e741] [cursor=pointer]:
+                  - /url: /tools/time/sun-calculator
+          - listitem [ref=e743]:
+            - button "Utilities" [expanded] [ref=e744]
+            - list [ref=e751]:
+              - listitem [ref=e752]:
+                - link "Clipboard Cleaner" [ref=e753] [cursor=pointer]:
+                  - /url: /tools/util/clipboard-cleaner
+              - listitem [ref=e755]:
+                - link "Clipboard Manager" [ref=e756] [cursor=pointer]:
+                  - /url: /tools/util/clipboard-manager
+              - listitem [ref=e758]:
+                - link "Electricity Usage Monitor" [ref=e759] [cursor=pointer]:
+                  - /url: /tools/util/electricity-monitor
+              - listitem [ref=e761]:
+                - link "Random Picker" [ref=e762] [cursor=pointer]:
+                  - /url: /tools/util/random-picker
+              - listitem [ref=e764]:
+                - link "ID Generator" [ref=e765] [cursor=pointer]:
+                  - /url: /tools/util/id-generator
+              - listitem [ref=e767]:
+                - link "Pomodoro Timer" [ref=e768] [cursor=pointer]:
+                  - /url: /tools/util/pomodoro
+              - listitem [ref=e770]:
+                - link "Unit Price Comparator" [ref=e771] [cursor=pointer]:
+                  - /url: /tools/util/unit-price
+              - listitem [ref=e773]:
+                - link "Stopwatch" [ref=e774] [cursor=pointer]:
+                  - /url: /tools/util/stopwatch
+              - listitem [ref=e776]:
+                - link "Flip a Coin" [ref=e777] [cursor=pointer]:
+                  - /url: /tools/util/coin-flip
+              - listitem [ref=e779]:
+                - link "Roll a Dice" [ref=e780] [cursor=pointer]:
+                  - /url: /tools/util/dice-roller
+              - listitem [ref=e782]:
+                - link "Random Number Generator" [ref=e783] [cursor=pointer]:
+                  - /url: /tools/util/random-number
+              - listitem [ref=e785]:
+                - link "Typing Speed Test" [ref=e786] [cursor=pointer]:
+                  - /url: /tools/util/typing-test
+              - listitem [ref=e788]:
+                - link "Screen Recorder" [ref=e789] [cursor=pointer]:
+                  - /url: /tools/util/screen-recorder
+              - listitem [ref=e791]:
+                - link "Decision Maker" [ref=e792] [cursor=pointer]:
+                  - /url: /tools/util/decision-maker
+              - listitem [ref=e794]:
+                - link "Phonetic Pronunciation Password Generator" [ref=e795] [cursor=pointer]:
+                  - /url: /tools/util/phonetic-password
+              - listitem [ref=e797]:
+                - link "Password Strength & Entropy Calculator" [ref=e798] [cursor=pointer]:
+                  - /url: /tools/util/password-entropy
+              - listitem [ref=e800]:
+                - link "Diceware Wordlist Passphrase Generator" [ref=e801] [cursor=pointer]:
+                  - /url: /tools/util/diceware-password
+              - listitem [ref=e803]:
+                - link "PDF Merge & Combine" [ref=e804] [cursor=pointer]:
+                  - /url: /tools/util/pdf-merge
+              - listitem [ref=e806]:
+                - link "PDF to Image Converter" [ref=e807] [cursor=pointer]:
+                  - /url: /tools/util/pdf-to-image
+          - listitem [ref=e809]:
+            - button "Office" [expanded] [ref=e810]
+            - list [ref=e818]:
+              - listitem [ref=e819]:
+                - link "AI Executive Meeting Notes & Action Item Summarizer" [ref=e820] [cursor=pointer]:
+                  - /url: /tools/productivity/ai-meeting-summarizer
+              - listitem [ref=e822]:
+                - link "Invoice Generator" [ref=e823] [cursor=pointer]:
+                  - /url: /tools/office/invoice
+              - listitem [ref=e825]:
+                - link "AI Essay Outline & Thesis Statement Generator" [ref=e826] [cursor=pointer]:
+                  - /url: /tools/academic/thesis-generator
+              - listitem [ref=e828]:
+                - link "APA / MLA / Chicago Citation & Bibliography Generator" [ref=e829] [cursor=pointer]:
+                  - /url: /tools/academic/citation-generator
+              - listitem [ref=e831]:
+                - link "To-Do List (Offline)" [ref=e832] [cursor=pointer]:
+                  - /url: /tools/office/todo
+              - listitem [ref=e834]:
+                - link "Meeting Notes Template" [ref=e835] [cursor=pointer]:
+                  - /url: /tools/office/meeting-notes
+              - listitem [ref=e837]:
+                - link "Receipt Tracker" [ref=e838] [cursor=pointer]:
+                  - /url: /tools/office/receipt-scanner
+              - listitem [ref=e840]:
+                - link "Resume Analyzer" [ref=e841] [cursor=pointer]:
+                  - /url: /tools/office/resume-analyzer
+              - listitem [ref=e843]:
+                - link "Invoice Number Generator" [ref=e844] [cursor=pointer]:
+                  - /url: /tools/office/invoice-number
+              - listitem [ref=e846]:
+                - link "Batch File Renamer" [ref=e847] [cursor=pointer]:
+                  - /url: /tools/office/file-renamer
+              - listitem [ref=e849]:
+                - link "SOP Template Builder" [ref=e850] [cursor=pointer]:
+                  - /url: /tools/office/sop-builder
+              - listitem [ref=e852]:
+                - link "Cover Letter Builder" [ref=e853] [cursor=pointer]:
+                  - /url: /tools/office/cover-letter
+              - listitem [ref=e855]:
+                - link "Business Card Generator" [ref=e856] [cursor=pointer]:
+                  - /url: /tools/office/business-card
+              - listitem [ref=e858]:
+                - link "Email Signature Generator" [ref=e859] [cursor=pointer]:
+                  - /url: /tools/office/email-signature
+              - listitem [ref=e861]:
+                - link "Letter Template Generator" [ref=e862] [cursor=pointer]:
+                  - /url: /tools/office/letter-template
+              - listitem [ref=e864]:
+                - link "AI Independent Contractor Agreement Studio" [ref=e865] [cursor=pointer]:
+                  - /url: /tools/office/ai-contractor-agreement
+              - listitem [ref=e867]:
+                - link "AI Statement of Work (SOW) Deliverables Generator" [ref=e868] [cursor=pointer]:
+                  - /url: /tools/office/ai-sow-generator
+              - listitem [ref=e870]:
+                - link "AI Client Retainer & Scope Proposal Generator" [ref=e871] [cursor=pointer]:
+                  - /url: /tools/office/ai-retainer-generator
+              - listitem [ref=e873]:
+                - link "Contract Template" [ref=e874] [cursor=pointer]:
+                  - /url: /tools/office/contract-template
+              - listitem [ref=e876]:
+                - link "NDA Generator" [ref=e877] [cursor=pointer]:
+                  - /url: /tools/office/nda-generator
+              - listitem [ref=e879]:
+                - link "Invoice Line Item Calculator" [ref=e880] [cursor=pointer]:
+                  - /url: /tools/office/invoice-calc
+              - listitem [ref=e882]:
+                - link "Purchase Order Generator" [ref=e883] [cursor=pointer]:
+                  - /url: /tools/office/po-generator
+              - listitem [ref=e885]:
+                - link "Packing Slip Generator" [ref=e886] [cursor=pointer]:
+                  - /url: /tools/office/packing-slip
+              - listitem [ref=e888]:
+                - link "Commercial Invoice Generator" [ref=e889] [cursor=pointer]:
+                  - /url: /tools/office/commercial-invoice
+              - listitem [ref=e891]:
+                - link "Bill of Lading (BOL) Generator" [ref=e892] [cursor=pointer]:
+                  - /url: /tools/office/bol-generator
+              - listitem [ref=e894]:
+                - link "Proforma Invoice Generator" [ref=e895] [cursor=pointer]:
+                  - /url: /tools/office/proforma-invoice
+              - listitem [ref=e897]:
+                - link "Expense Tracker" [ref=e898] [cursor=pointer]:
+                  - /url: /tools/office/expense-tracker
+              - listitem [ref=e900]:
+                - link "Timesheet Calculator" [ref=e901] [cursor=pointer]:
+                  - /url: /tools/office/timesheet
+              - listitem [ref=e903]:
+                - link "Grocery List Manager" [ref=e904] [cursor=pointer]:
+                  - /url: /tools/office/grocery-list
+              - listitem [ref=e906]:
+                - link "Meeting Cost Calculator" [ref=e907] [cursor=pointer]:
+                  - /url: /tools/office/meeting-cost
+              - listitem [ref=e909]:
+                - link "Price Quotation & Estimate Generator" [ref=e910] [cursor=pointer]:
+                  - /url: /tools/office/quote-generator
+              - listitem [ref=e912]:
+                - link "Work Completion Letter Generator" [ref=e913] [cursor=pointer]:
+                  - /url: /tools/office/completion-letter
+              - listitem [ref=e915]:
+                - link "SLA Document Generator" [ref=e916] [cursor=pointer]:
+                  - /url: /tools/office/sla-generator
+              - listitem [ref=e918]:
+                - link "Professional Service Contract Generator" [ref=e919] [cursor=pointer]:
+                  - /url: /tools/office/service-contract
+              - listitem [ref=e921]:
+                - link "Mutual Non-Disclosure Agreement (NDA) Generator" [ref=e922] [cursor=pointer]:
+                  - /url: /tools/office/nda-builder
+              - listitem [ref=e924]:
+                - link "Independent Contractor Agreement Builder" [ref=e925] [cursor=pointer]:
+                  - /url: /tools/office/contractor-agreement
+              - listitem [ref=e927]:
+                - link "Professional Service Retainer Agreement Generator" [ref=e928] [cursor=pointer]:
+                  - /url: /tools/office/retainer-agreement
+              - listitem [ref=e930]:
+                - link "Master Services Agreement (MSA) Generator" [ref=e931] [cursor=pointer]:
+                  - /url: /tools/office/msa-generator
+              - listitem [ref=e933]:
+                - link "Consulting Services Agreement Generator" [ref=e934] [cursor=pointer]:
+                  - /url: /tools/office/consulting-agreement
+              - listitem [ref=e936]:
+                - link "Mutual NDA Scope & Term Builder" [ref=e937] [cursor=pointer]:
+                  - /url: /tools/office/nda-scope-builder
+              - listitem [ref=e939]:
+                - link "Independent Contractor SOW Builder" [ref=e940] [cursor=pointer]:
+                  - /url: /tools/office/sow-contractor-builder
+              - listitem [ref=e942]:
+                - link "Contractor Scope of Work & Deliverables Builder" [ref=e943] [cursor=pointer]:
+                  - /url: /tools/office/contractor-sow-builder
+          - listitem [ref=e945]:
+            - button "Travel" [expanded] [ref=e946]
+            - list [ref=e953]:
+              - listitem [ref=e954]:
+                - link "Distance Calculator" [ref=e955] [cursor=pointer]:
+                  - /url: /tools/travel/distance
+              - listitem [ref=e957]:
+                - link "Travel Packing Checklist" [ref=e958] [cursor=pointer]:
+                  - /url: /tools/travel/packing
+              - listitem [ref=e960]:
+                - link "Jet Lag Calculator" [ref=e961] [cursor=pointer]:
+                  - /url: /tools/travel/jet-lag
+              - listitem [ref=e963]:
+                - link "Fuel Cost Calculator" [ref=e964] [cursor=pointer]:
+                  - /url: /tools/travel/fuel-cost
+              - listitem [ref=e966]:
+                - link "Travel Budget Planner" [ref=e967] [cursor=pointer]:
+                  - /url: /tools/travel/budget
+              - listitem [ref=e969]:
+                - link "Packing Weight Calculator" [ref=e970] [cursor=pointer]:
+                  - /url: /tools/travel/packing-weight
+              - listitem [ref=e972]:
+                - link "Fuel Efficiency Converter" [ref=e973] [cursor=pointer]:
+                  - /url: /tools/travel/fuel-efficiency
+              - listitem [ref=e975]:
+                - link "Travel Checklist" [ref=e976] [cursor=pointer]:
+                  - /url: /tools/travel/checklist
+              - listitem [ref=e978]:
+                - link "Visa Requirements Checker" [ref=e979] [cursor=pointer]:
+                  - /url: /tools/travel/visa-check
+              - listitem [ref=e981]:
+                - link "Flight Time Calculator" [ref=e982] [cursor=pointer]:
+                  - /url: /tools/travel/flight-time
+              - listitem [ref=e984]:
+                - link "Travel Expense Tracker" [ref=e985] [cursor=pointer]:
+                  - /url: /tools/travel/expenses
+              - listitem [ref=e987]:
+                - link "Travel Phrase Book" [ref=e988] [cursor=pointer]:
+                  - /url: /tools/travel/phrasebook
+              - listitem [ref=e990]:
+                - link "Travel Document Checklist" [ref=e991] [cursor=pointer]:
+                  - /url: /tools/travel/documents
+              - listitem [ref=e993]:
+                - link "Exchange Rate History" [ref=e994] [cursor=pointer]:
+                  - /url: /tools/travel/exchange-history
+              - listitem [ref=e996]:
+                - link "Offline Currency Calculator" [ref=e997] [cursor=pointer]:
+                  - /url: /tools/travel/offline-currency
+              - listitem [ref=e999]:
+                - link "Flight Duration & Time Zone Calculator" [ref=e1000] [cursor=pointer]:
+                  - /url: /tools/travel/flight-duration
+              - listitem [ref=e1002]:
+                - link "Passport Photo Crop & Grid" [ref=e1003] [cursor=pointer]:
+                  - /url: /tools/travel/passport-photo
+              - listitem [ref=e1005]:
+                - link "Daily Travel Budget Planner" [ref=e1006] [cursor=pointer]:
+                  - /url: /tools/travel/daily-budget
+              - listitem [ref=e1008]:
+                - link "Travel Visa Requirements Index" [ref=e1009] [cursor=pointer]:
+                  - /url: /tools/travel/visa-index
+              - listitem [ref=e1011]:
+                - link "Airline Baggage Allowance & Fee Calculator" [ref=e1012] [cursor=pointer]:
+                  - /url: /tools/travel/baggage-calc
+              - listitem [ref=e1014]:
+                - link "Currency Exchange Fee Calculator" [ref=e1015] [cursor=pointer]:
+                  - /url: /tools/travel/exchange-fees
+              - listitem [ref=e1017]:
+                - link "Travel Daily Expense Budget Calculator" [ref=e1018] [cursor=pointer]:
+                  - /url: /tools/travel/travel-daily-budget
+              - listitem [ref=e1020]:
+                - link "Travel Multi-Currency Budget Planner" [ref=e1021] [cursor=pointer]:
+                  - /url: /tools/travel/travel-budget-planner
+          - listitem [ref=e1023]:
+            - button "Finance" [expanded] [ref=e1024]
+            - list [ref=e1032]:
+              - listitem [ref=e1033]:
+                - link "Real-Time Gold & Metals Price Tracker" [ref=e1034] [cursor=pointer]:
+                  - /url: /tools/finance/gold-price-tracker
+              - listitem [ref=e1036]:
+                - link "Savings Goal Calculator" [ref=e1037] [cursor=pointer]:
+                  - /url: /tools/finance/savings-goal
+              - listitem [ref=e1039]:
+                - link "GST/VAT Calculator" [ref=e1040] [cursor=pointer]:
+                  - /url: /tools/finance/vat
+              - listitem [ref=e1042]:
+                - link "Salary to Hourly Converter" [ref=e1043] [cursor=pointer]:
+                  - /url: /tools/finance/salary-hourly
+              - listitem [ref=e1045]:
+                - link "Compound Interest Calculator" [ref=e1046] [cursor=pointer]:
+                  - /url: /tools/finance/compound-interest
+              - listitem [ref=e1048]:
+                - link "Mortgage Calculator" [ref=e1049] [cursor=pointer]:
+                  - /url: /tools/finance/mortgage
+              - listitem [ref=e1051]:
+                - link "Investment Return Calculator" [ref=e1052] [cursor=pointer]:
+                  - /url: /tools/finance/investment-return
+              - listitem [ref=e1054]:
+                - link "Debt Payoff Calculator" [ref=e1055] [cursor=pointer]:
+                  - /url: /tools/finance/debt-payoff
+              - listitem [ref=e1057]:
+                - link "Net Salary Calculator" [ref=e1058] [cursor=pointer]:
+                  - /url: /tools/finance/net-salary
+              - listitem [ref=e1060]:
+                - link "Loan Comparison Calculator" [ref=e1061] [cursor=pointer]:
+                  - /url: /tools/finance/loan-comparison
+              - listitem [ref=e1063]:
+                - link "Electricity Cost Calculator" [ref=e1064] [cursor=pointer]:
+                  - /url: /tools/finance/electricity-cost
+              - listitem [ref=e1066]:
+                - link "Subscription Tracker" [ref=e1067] [cursor=pointer]:
+                  - /url: /tools/finance/subscriptions
+              - listitem [ref=e1069]:
+                - link "Interest Rate Comparison" [ref=e1070] [cursor=pointer]:
+                  - /url: /tools/finance/interest-compare
+              - listitem [ref=e1072]:
+                - link "Retirement Calculator" [ref=e1073] [cursor=pointer]:
+                  - /url: /tools/finance/retirement
+              - listitem [ref=e1075]:
+                - link "Currency Pair Chart" [ref=e1076] [cursor=pointer]:
+                  - /url: /tools/finance/currency-chart
+              - listitem [ref=e1078]:
+                - link "Expense Splitter" [ref=e1079] [cursor=pointer]:
+                  - /url: /tools/finance/expense-splitter
+              - listitem [ref=e1081]:
+                - link "Tax Bracket Calculator" [ref=e1082] [cursor=pointer]:
+                  - /url: /tools/finance/tax-bracket
+              - listitem [ref=e1084]:
+                - link "Expense Categorizer" [ref=e1085] [cursor=pointer]:
+                  - /url: /tools/finance/expense-categories
+              - listitem [ref=e1087]:
+                - link "Paycheck Calculator" [ref=e1088] [cursor=pointer]:
+                  - /url: /tools/finance/paycheck
+              - listitem [ref=e1090]:
+                - link "Budget Template Generator" [ref=e1091] [cursor=pointer]:
+                  - /url: /tools/finance/budget-template
+              - listitem [ref=e1093]:
+                - link "Interest Rate Converter" [ref=e1094] [cursor=pointer]:
+                  - /url: /tools/finance/rate-converter
+              - listitem [ref=e1096]:
+                - link "Tax Withholding Estimator" [ref=e1097] [cursor=pointer]:
+                  - /url: /tools/finance/tax-withholding
+              - listitem [ref=e1099]:
+                - link "Net Worth Calculator" [ref=e1100] [cursor=pointer]:
+                  - /url: /tools/finance/net-worth
+              - listitem [ref=e1102]:
+                - link "Savings vs Spending" [ref=e1103] [cursor=pointer]:
+                  - /url: /tools/finance/savings-spending
+              - listitem [ref=e1105]:
+                - link "Invoice Payment Tracker" [ref=e1106] [cursor=pointer]:
+                  - /url: /tools/finance/invoice-tracker
+              - listitem [ref=e1108]:
+                - link "Crypto Profit Calculator" [ref=e1109] [cursor=pointer]:
+                  - /url: /tools/finance/crypto-profit
+              - listitem [ref=e1111]:
+                - link "Crypto Dollar-Cost-Averaging (DCA) & Profit Calculator" [ref=e1112] [cursor=pointer]:
+                  - /url: /tools/finance/crypto-dca-calc
+              - listitem [ref=e1114]:
+                - link "Shopify & Amazon Product Listing AI Copy Generator" [ref=e1115] [cursor=pointer]:
+                  - /url: /tools/marketing/ecommerce-copy-generator
+              - listitem [ref=e1117]:
+                - link "AI SaaS Pricing Strategy & Tier Matrix Calculator" [ref=e1118] [cursor=pointer]:
+                  - /url: /tools/finance/saas-pricing-calculator
+              - listitem [ref=e1120]:
+                - link "AI Real Estate Cap Rate & Cash-on-Cash Investment Auditor" [ref=e1121] [cursor=pointer]:
+                  - /url: /tools/finance/cap-rate-calculator
+              - listitem [ref=e1123]:
+                - link "AI Startup Runway & Net Burn Rate Calculator" [ref=e1124] [cursor=pointer]:
+                  - /url: /tools/finance/startup-runway-calc
+              - listitem [ref=e1126]:
+                - link "SaaS Monthly Recurring Revenue (MRR) & Churn Rate Calculator" [ref=e1127] [cursor=pointer]:
+                  - /url: /tools/finance/mrr-churn-calc
+              - listitem [ref=e1129]:
+                - link "Shopify & Amazon Profit Margin & Ad Spend (ROAS) Calculator" [ref=e1130] [cursor=pointer]:
+                  - /url: /tools/finance/roas-calculator
+              - listitem [ref=e1132]:
+                - link "Freelance Hourly Rate & Project Pricing Calculator" [ref=e1133] [cursor=pointer]:
+                  - /url: /tools/finance/freelance-rate-calc
+              - listitem [ref=e1135]:
+                - link "Freelance Rate Calculator" [ref=e1136] [cursor=pointer]:
+                  - /url: /tools/finance/freelance-rate
+              - listitem [ref=e1138]:
+                - link "Emergency Fund Calculator" [ref=e1139] [cursor=pointer]:
+                  - /url: /tools/finance/emergency-fund
+              - listitem [ref=e1141]:
+                - link "FIRE Financial Independence Calculator" [ref=e1142] [cursor=pointer]:
+                  - /url: /tools/finance/fire-calc
+              - listitem [ref=e1144]:
+                - link "Loan Amortization Schedule Calculator" [ref=e1145] [cursor=pointer]:
+                  - /url: /tools/finance/loan-amortization
+              - listitem [ref=e1147]:
+                - link "Emergency Loan vs Savings Comparison" [ref=e1148] [cursor=pointer]:
+                  - /url: /tools/finance/emergency-loan
+              - listitem [ref=e1150]:
+                - link "Investment Compound Growth Visualizer" [ref=e1151] [cursor=pointer]:
+                  - /url: /tools/finance/compound-growth
+          - listitem [ref=e1153]:
+            - button "Fun" [expanded] [ref=e1154]
+            - list [ref=e1161]:
+              - listitem [ref=e1162]:
+                - link "Random Quote Generator" [ref=e1163] [cursor=pointer]:
+                  - /url: /tools/fun/quote-generator
+              - listitem [ref=e1165]:
+                - link "Truth or Dare Generator" [ref=e1166] [cursor=pointer]:
+                  - /url: /tools/fun/truth-or-dare
+              - listitem [ref=e1168]:
+                - link "Would You Rather" [ref=e1169] [cursor=pointer]:
+                  - /url: /tools/fun/would-you-rather
+              - listitem [ref=e1171]:
+                - link "Magic 8 Ball" [ref=e1172] [cursor=pointer]:
+                  - /url: /tools/fun/magic-8-ball
+              - listitem [ref=e1174]:
+                - link "Random Name Generator" [ref=e1175] [cursor=pointer]:
+                  - /url: /tools/fun/name-generator
+              - listitem [ref=e1177]:
+                - link "Zodiac Sign Finder" [ref=e1178] [cursor=pointer]:
+                  - /url: /tools/fun/zodiac
+              - listitem [ref=e1180]:
+                - link "ASCII Art Generator" [ref=e1181] [cursor=pointer]:
+                  - /url: /tools/fun/ascii-art
+              - listitem [ref=e1183]:
+                - link "Dice Probability Calculator" [ref=e1184] [cursor=pointer]:
+                  - /url: /tools/fun/dice-probability
+              - listitem [ref=e1186]:
+                - link "Color Memory Game" [ref=e1187] [cursor=pointer]:
+                  - /url: /tools/fun/color-memory
+              - listitem [ref=e1189]:
+                - link "Reaction Time Test" [ref=e1190] [cursor=pointer]:
+                  - /url: /tools/fun/reaction-time
+              - listitem [ref=e1192]:
+                - link "Trivia Generator" [ref=e1193] [cursor=pointer]:
+                  - /url: /tools/fun/trivia
+              - listitem [ref=e1195]:
+                - link "Emoji Story Generator" [ref=e1196] [cursor=pointer]:
+                  - /url: /tools/fun/emoji-story
+              - listitem [ref=e1198]:
+                - link "Word Association Game" [ref=e1199] [cursor=pointer]:
+                  - /url: /tools/fun/word-association
+              - listitem [ref=e1201]:
+                - link "Number Guessing Game" [ref=e1202] [cursor=pointer]:
+                  - /url: /tools/fun/number-guess
+              - listitem [ref=e1204]:
+                - link "Two Truths and a Lie" [ref=e1205] [cursor=pointer]:
+                  - /url: /tools/fun/two-truths
+              - listitem [ref=e1207]:
+                - link "Rock Paper Scissors" [ref=e1208] [cursor=pointer]:
+                  - /url: /tools/fun/rps
+              - listitem [ref=e1210]:
+                - link "Simon Says" [ref=e1211] [cursor=pointer]:
+                  - /url: /tools/fun/simon-says
+              - listitem [ref=e1213]:
+                - link "Word Guess Game" [ref=e1214] [cursor=pointer]:
+                  - /url: /tools/fun/wordle
+              - listitem [ref=e1216]:
+                - link "Memory Match Game" [ref=e1217] [cursor=pointer]:
+                  - /url: /tools/fun/memory-match
+              - listitem [ref=e1219]:
+                - link "Tic Tac Toe with AI" [ref=e1220] [cursor=pointer]:
+                  - /url: /tools/fun/tic-tac-toe
+              - listitem [ref=e1222]:
+                - link "Hangman Word Game" [ref=e1223] [cursor=pointer]:
+                  - /url: /tools/fun/hangman
+              - listitem [ref=e1225]:
+                - link "Speed Typing Challenge" [ref=e1226] [cursor=pointer]:
+                  - /url: /tools/fun/typing-challenge
+              - listitem [ref=e1228]:
+                - link "Sudoku Puzzle & Solver" [ref=e1229] [cursor=pointer]:
+                  - /url: /tools/fun/sudoku
+              - listitem [ref=e1231]:
+                - link "Word Scramble Game" [ref=e1232] [cursor=pointer]:
+                  - /url: /tools/fun/word-scramble
+              - listitem [ref=e1234]:
+                - link "Pattern Memory Game" [ref=e1235] [cursor=pointer]:
+                  - /url: /tools/fun/pattern-memory
+              - listitem [ref=e1237]:
+                - link "Word Search Puzzle Generator" [ref=e1238] [cursor=pointer]:
+                  - /url: /tools/fun/word-search
+              - listitem [ref=e1240]:
+                - link "Anagram Finder & Solver" [ref=e1241] [cursor=pointer]:
+                  - /url: /tools/fun/anagram-solver
+              - listitem [ref=e1243]:
+                - link "Wordle Unlimited Game & Solver" [ref=e1244] [cursor=pointer]:
+                  - /url: /tools/fun/wordle-unlimited
+              - listitem [ref=e1246]:
+                - link "Sudoku Unlimited Puzzle Generator & Solver" [ref=e1247] [cursor=pointer]:
+                  - /url: /tools/fun/sudoku-unlimited
+              - listitem [ref=e1249]:
+                - link "6-Letter Wordle Challenge Game" [ref=e1250] [cursor=pointer]:
+                  - /url: /tools/fun/wordle-6letter
+              - listitem [ref=e1252]:
+                - link "Memory Card Matching Game" [ref=e1253] [cursor=pointer]:
+                  - /url: /tools/fun/memory-card-match
+              - listitem [ref=e1255]:
+                - link "Tic-Tac-Toe AI Unbeatable Challenge" [ref=e1256] [cursor=pointer]:
+                  - /url: /tools/fun/tictactoe-ai
+              - listitem [ref=e1258]:
+                - link "Connect 4 AI Challenge Game" [ref=e1259] [cursor=pointer]:
+                  - /url: /tools/fun/connect4-ai
+              - listitem [ref=e1261]:
+                - link "Memory Tile Sequence Challenge" [ref=e1262] [cursor=pointer]:
+                  - /url: /tools/fun/memory-sequence
+              - listitem [ref=e1264]:
+                - link "Memory Grid Flip Challenge" [ref=e1265] [cursor=pointer]:
+                  - /url: /tools/fun/memory-grid-flip
+              - listitem [ref=e1267]:
+                - link "Tile Sequence Pattern Memory Challenge" [ref=e1268] [cursor=pointer]:
+                  - /url: /tools/fun/pattern-tile-memory
+          - listitem [ref=e1270]:
+            - button "Network & Security" [expanded] [ref=e1271]
+            - list [ref=e1278]:
+              - listitem [ref=e1279]:
+                - link "What Is My IP" [ref=e1280] [cursor=pointer]:
+                  - /url: /tools/network/my-ip
+              - listitem [ref=e1282]:
+                - link "IP Geolocation Lookup" [ref=e1283] [cursor=pointer]:
+                  - /url: /tools/network/ip-lookup
+              - listitem [ref=e1285]:
+                - link "WHOIS Domain Lookup" [ref=e1286] [cursor=pointer]:
+                  - /url: /tools/network/whois
+              - listitem [ref=e1288]:
+                - link "DNS Lookup" [ref=e1289] [cursor=pointer]:
+                  - /url: /tools/network/dns-lookup
+              - listitem [ref=e1291]:
+                - link "HTTP Header Checker" [ref=e1292] [cursor=pointer]:
+                  - /url: /tools/network/http-headers
+              - listitem [ref=e1294]:
+                - link "SSL Certificate Checker" [ref=e1295] [cursor=pointer]:
+                  - /url: /tools/network/ssl-checker
+              - listitem [ref=e1297]:
+                - link "Email Header Analyzer" [ref=e1298] [cursor=pointer]:
+                  - /url: /tools/network/email-headers
+              - listitem [ref=e1300]:
+                - link "Username Checker" [ref=e1301] [cursor=pointer]:
+                  - /url: /tools/network/username-check
+              - listitem [ref=e1303]:
+                - link "MAC Address Lookup" [ref=e1304] [cursor=pointer]:
+                  - /url: /tools/network/mac-lookup
+              - listitem [ref=e1306]:
+                - link "Subdomain Finder" [ref=e1307] [cursor=pointer]:
+                  - /url: /tools/network/subdomain-finder
+              - listitem [ref=e1309]:
+                - link "Web & Security Directory" [ref=e1310] [cursor=pointer]:
+                  - /url: /tools/network/web-resources
+              - listitem [ref=e1312]:
+                - link "WiFi QR Code Generator" [ref=e1313] [cursor=pointer]:
+                  - /url: /tools/network/wifi-qr
+              - listitem [ref=e1315]:
+                - link "Network Speed Converter" [ref=e1316] [cursor=pointer]:
+                  - /url: /tools/network/speed-converter
+              - listitem [ref=e1318]:
+                - link "Bandwidth Calculator" [ref=e1319] [cursor=pointer]:
+                  - /url: /tools/network/bandwidth
+              - listitem [ref=e1321]:
+                - link "Subnet Calculator" [ref=e1322] [cursor=pointer]:
+                  - /url: /tools/network/subnet
+              - listitem [ref=e1324]:
+                - link "Port Number Reference" [ref=e1325] [cursor=pointer]:
+                  - /url: /tools/network/port-reference
+              - listitem [ref=e1327]:
+                - link "DNS Record Generator" [ref=e1328] [cursor=pointer]:
+                  - /url: /tools/network/dns-generator
+              - listitem [ref=e1330]:
+                - link "CORS Header Generator" [ref=e1331] [cursor=pointer]:
+                  - /url: /tools/network/cors-headers
+          - listitem [ref=e1333]:
+            - button "Health" [expanded] [ref=e1334]
+            - list [ref=e1341]:
+              - listitem [ref=e1342]:
+                - link "AI BMR & TDEE Metabolism Calculator Studio" [ref=e1343] [cursor=pointer]:
+                  - /url: /tools/health/ai-bmr-calculator
+              - listitem [ref=e1345]:
+                - link "AI Calorie Deficit & Weight Loss Target Calculator" [ref=e1346] [cursor=pointer]:
+                  - /url: /tools/health/ai-calorie-deficit
+              - listitem [ref=e1348]:
+                - link "AI Personal Workout Routine & Training Split Generator" [ref=e1349] [cursor=pointer]:
+                  - /url: /tools/health/ai-workout-generator
+              - listitem [ref=e1351]:
+                - link "AI Daily Meal Plan & Macro Targets Generator" [ref=e1352] [cursor=pointer]:
+                  - /url: /tools/health/ai-meal-planner
+              - listitem [ref=e1354]:
+                - link "Calorie Calculator" [ref=e1355] [cursor=pointer]:
+                  - /url: /tools/health/calorie-calculator
+              - listitem [ref=e1357]:
+                - link "Sleep Calculator" [ref=e1358] [cursor=pointer]:
+                  - /url: /tools/health/sleep-calculator
+              - listitem [ref=e1360]:
+                - link "Water Intake Calculator" [ref=e1361] [cursor=pointer]:
+                  - /url: /tools/health/water-intake
+              - listitem [ref=e1363]:
+                - link "BMR Calculator" [ref=e1364] [cursor=pointer]:
+                  - /url: /tools/health/bmr-calculator
+              - listitem [ref=e1366]:
+                - link "Body Fat Calculator" [ref=e1367] [cursor=pointer]:
+                  - /url: /tools/health/body-fat
+              - listitem [ref=e1369]:
+                - link "Heart Rate Zone Calculator" [ref=e1370] [cursor=pointer]:
+                  - /url: /tools/health/heart-rate-zones
+              - listitem [ref=e1372]:
+                - link "Pregnancy Due Date Calculator" [ref=e1373] [cursor=pointer]:
+                  - /url: /tools/health/due-date
+              - listitem [ref=e1375]:
+                - link "Meditation Timer" [ref=e1376] [cursor=pointer]:
+                  - /url: /tools/health/meditation-timer
+              - listitem [ref=e1378]:
+                - link "Screen Time Calculator" [ref=e1379] [cursor=pointer]:
+                  - /url: /tools/health/screen-time
+              - listitem [ref=e1381]:
+                - link "Macro Calculator" [ref=e1382] [cursor=pointer]:
+                  - /url: /tools/health/macro-calculator
+              - listitem [ref=e1384]:
+                - link "Blood Pressure Tracker" [ref=e1385] [cursor=pointer]:
+                  - /url: /tools/health/blood-pressure
+              - listitem [ref=e1387]:
+                - link "Ideal Weight Calculator" [ref=e1388] [cursor=pointer]:
+                  - /url: /tools/health/ideal-weight
+              - listitem [ref=e1390]:
+                - link "Hydration Reminder" [ref=e1391] [cursor=pointer]:
+                  - /url: /tools/health/hydration
+              - listitem [ref=e1393]:
+                - link "Allergy Tracker" [ref=e1394] [cursor=pointer]:
+                  - /url: /tools/health/allergy-tracker
+              - listitem [ref=e1396]:
+                - link "Workout Timer" [ref=e1397] [cursor=pointer]:
+                  - /url: /tools/health/workout-timer
+              - listitem [ref=e1399]:
+                - link "Symptom Diary" [ref=e1400] [cursor=pointer]:
+                  - /url: /tools/health/symptom-diary
+              - listitem [ref=e1402]:
+                - link "Calorie Burn Calculator" [ref=e1403] [cursor=pointer]:
+                  - /url: /tools/health/calorie-burn
+              - listitem [ref=e1405]:
+                - link "Nutrition Label Maker" [ref=e1406] [cursor=pointer]:
+                  - /url: /tools/health/nutrition-label
+              - listitem [ref=e1408]:
+                - link "Habit Score Calculator" [ref=e1409] [cursor=pointer]:
+                  - /url: /tools/health/habit-score
+              - listitem [ref=e1411]:
+                - link "Blood Type Compatibility" [ref=e1412] [cursor=pointer]:
+                  - /url: /tools/health/blood-type
+              - listitem [ref=e1414]:
+                - link "Calorie Lookup" [ref=e1415] [cursor=pointer]:
+                  - /url: /tools/health/calorie-lookup
+              - listitem [ref=e1417]:
+                - link "Step Counter Log" [ref=e1418] [cursor=pointer]:
+                  - /url: /tools/health/step-counter
+              - listitem [ref=e1420]:
+                - link "Vision Test" [ref=e1421] [cursor=pointer]:
+                  - /url: /tools/health/vision-test
+              - listitem [ref=e1423]:
+                - link "Pregnancy Tracker" [ref=e1424] [cursor=pointer]:
+                  - /url: /tools/health/pregnancy-tracker
+              - listitem [ref=e1426]:
+                - link "Blood Sugar Tracker" [ref=e1427] [cursor=pointer]:
+                  - /url: /tools/health/blood-sugar
+              - listitem [ref=e1429]:
+                - link "Meal Planner & Calorie Target" [ref=e1430] [cursor=pointer]:
+                  - /url: /tools/health/meal-planner
+              - listitem [ref=e1432]:
+                - link "Intermittent Fasting Tracker" [ref=e1433] [cursor=pointer]:
+                  - /url: /tools/health/fasting-tracker
+              - listitem [ref=e1435]:
+                - link "Calorie Deficit & Goal Date Estimator" [ref=e1436] [cursor=pointer]:
+                  - /url: /tools/health/calorie-deficit
+              - listitem [ref=e1438]:
+                - link "Protein Intake & Muscle Target Calculator" [ref=e1439] [cursor=pointer]:
+                  - /url: /tools/health/protein-calc
+              - listitem [ref=e1441]:
+                - link "Hydration & Daily Water Tracker" [ref=e1442] [cursor=pointer]:
+                  - /url: /tools/health/hydration-tracker
+              - listitem [ref=e1444]:
+                - link "Calorie Burn by Activity Calculator" [ref=e1445] [cursor=pointer]:
+                  - /url: /tools/health/calorie-activity
+          - listitem [ref=e1447]:
+            - button "Productivity" [expanded] [ref=e1448]
+            - list [ref=e1458]:
+              - listitem [ref=e1459]:
+                - link "AI Meeting Action Items Extractor Studio" [ref=e1460] [cursor=pointer]:
+                  - /url: /tools/productivity/ai-action-items
+              - listitem [ref=e1462]:
+                - link "AI Project Risk & Assumption Matrix Auditor" [ref=e1463] [cursor=pointer]:
+                  - /url: /tools/productivity/ai-risk-matrix
+              - listitem [ref=e1465]:
+                - link "AI Executive Weekly Status Report Generator" [ref=e1466] [cursor=pointer]:
+                  - /url: /tools/productivity/ai-status-report
+              - listitem [ref=e1468]:
+                - link "Online Notepad" [ref=e1469] [cursor=pointer]:
+                  - /url: /tools/productivity/notepad
+              - listitem [ref=e1471]:
+                - link "Online Whiteboard" [ref=e1472] [cursor=pointer]:
+                  - /url: /tools/productivity/whiteboard
+              - listitem [ref=e1474]:
+                - link "Habit Tracker" [ref=e1475] [cursor=pointer]:
+                  - /url: /tools/productivity/habit-tracker
+              - listitem [ref=e1477]:
+                - link "Eisenhower Matrix" [ref=e1478] [cursor=pointer]:
+                  - /url: /tools/productivity/eisenhower-matrix
+              - listitem [ref=e1480]:
+                - link "Flashcard Maker" [ref=e1481] [cursor=pointer]:
+                  - /url: /tools/productivity/flashcards
+              - listitem [ref=e1483]:
+                - link "Kanban Board" [ref=e1484] [cursor=pointer]:
+                  - /url: /tools/productivity/kanban
+              - listitem [ref=e1486]:
+                - link "Habit Streak Counter" [ref=e1487] [cursor=pointer]:
+                  - /url: /tools/productivity/streaks
+              - listitem [ref=e1489]:
+                - link "Focus Timer" [ref=e1490] [cursor=pointer]:
+                  - /url: /tools/productivity/focus-timer
+              - listitem [ref=e1492]:
+                - link "Daily Journal" [ref=e1493] [cursor=pointer]:
+                  - /url: /tools/productivity/journal
+              - listitem [ref=e1495]:
+                - link "Reading List Manager" [ref=e1496] [cursor=pointer]:
+                  - /url: /tools/productivity/reading-list
+              - listitem [ref=e1498]:
+                - link "Gratitude Journal" [ref=e1499] [cursor=pointer]:
+                  - /url: /tools/productivity/gratitude
+              - listitem [ref=e1501]:
+                - link "Goal Tracker" [ref=e1502] [cursor=pointer]:
+                  - /url: /tools/productivity/goals
+              - listitem [ref=e1504]:
+                - link "Weekly Planner" [ref=e1505] [cursor=pointer]:
+                  - /url: /tools/productivity/weekly-planner
+              - listitem [ref=e1507]:
+                - link "Daily Affirmations" [ref=e1508] [cursor=pointer]:
+                  - /url: /tools/productivity/affirmations
+              - listitem [ref=e1510]:
+                - link "Daily Standup Generator" [ref=e1511] [cursor=pointer]:
+                  - /url: /tools/productivity/standup
+              - listitem [ref=e1513]:
+                - link "Meeting Agenda Builder" [ref=e1514] [cursor=pointer]:
+                  - /url: /tools/productivity/meeting-agenda
+              - listitem [ref=e1516]:
+                - link "Bookmark Manager" [ref=e1517] [cursor=pointer]:
+                  - /url: /tools/productivity/bookmarks
+              - listitem [ref=e1519]:
+                - link "Project Timeline" [ref=e1520] [cursor=pointer]:
+                  - /url: /tools/productivity/timeline
+              - listitem [ref=e1522]:
+                - link "Pomodoro Analytics & Log" [ref=e1523] [cursor=pointer]:
+                  - /url: /tools/productivity/pomodoro-analytics
+              - listitem [ref=e1525]:
+                - link "Mind Map Builder" [ref=e1526] [cursor=pointer]:
+                  - /url: /tools/productivity/mind-map
+              - listitem [ref=e1528]:
+                - link "Weekly Habit & Routine Planner" [ref=e1529] [cursor=pointer]:
+                  - /url: /tools/productivity/habit-planner
+              - listitem [ref=e1531]:
+                - link "Weekly Meal Prep & Grocery Planner" [ref=e1532] [cursor=pointer]:
+                  - /url: /tools/productivity/meal-prep
+              - listitem [ref=e1534]:
+                - link "Weekly Goals & Milestone Planner" [ref=e1535] [cursor=pointer]:
+                  - /url: /tools/productivity/weekly-goals
+              - listitem [ref=e1537]:
+                - link "Color-Coded Category Kanban Board" [ref=e1538] [cursor=pointer]:
+                  - /url: /tools/productivity/colored-kanban
+              - listitem [ref=e1540]:
+                - link "OKR Goals & Key Results Planner" [ref=e1541] [cursor=pointer]:
+                  - /url: /tools/productivity/okr-planner
+          - listitem [ref=e1543]:
+            - button "Gaming & Brand Tools" [expanded] [ref=e1544]
+            - list [ref=e1551]:
+              - listitem [ref=e1552]:
+                - link "Roblox Username & Display Name Generator" [ref=e1553] [cursor=pointer]:
+                  - /url: /tools/gaming/roblox-username-generator
+              - listitem [ref=e1555]:
+                - link "Mobile Legends (MLBB) Fancy Name & Symbol Generator" [ref=e1556] [cursor=pointer]:
+                  - /url: /tools/gaming/mlbb-name-generator
+              - listitem [ref=e1558]:
+                - link "Free Fire (FF) Nickname & Boss Squad Tag Studio" [ref=e1559] [cursor=pointer]:
+                  - /url: /tools/gaming/free-fire-name-generator
+              - listitem [ref=e1561]:
+                - link "Valorant Pro Crosshair Generator & Code Converter" [ref=e1562] [cursor=pointer]:
+                  - /url: /tools/gaming/valorant-crosshair
+              - listitem [ref=e1564]:
+                - link "GTA V License Plate & Crew Name Studio" [ref=e1565] [cursor=pointer]:
+                  - /url: /tools/gaming/gta-name-generator
+              - listitem [ref=e1567]:
+                - link "Steam Profile Bio & Layout Decorator" [ref=e1568] [cursor=pointer]:
+                  - /url: /tools/gaming/steam-bio-generator
+              - listitem [ref=e1570]:
+                - link "Minecraft Seed & World Name Generator" [ref=e1571] [cursor=pointer]:
+                  - /url: /tools/gaming/minecraft-seed-namer
+          - listitem [ref=e1573]:
+            - button "Social Media & Community Studios" [expanded] [ref=e1574]
+            - list [ref=e1582]:
+              - listitem [ref=e1583]:
+                - link "AI YouTube Video Script & Outline Generator" [ref=e1584] [cursor=pointer]:
+                  - /url: /tools/social/youtube-script-generator
+              - listitem [ref=e1586]:
+                - link "AI X / Twitter Viral Thread Generator" [ref=e1587] [cursor=pointer]:
+                  - /url: /tools/social/twitter-thread-generator
+              - listitem [ref=e1589]:
+                - link "AI Facebook & Instagram Ad Copy Studio" [ref=e1590] [cursor=pointer]:
+                  - /url: /tools/social/ad-copy-generator
+              - listitem [ref=e1592]:
+                - link "AI Podcast Episode Script & Show Notes Studio" [ref=e1593] [cursor=pointer]:
+                  - /url: /tools/social/podcast-script-generator
+              - listitem [ref=e1595]:
+                - link "Instagram Bio & Aesthetic Caption Generator" [ref=e1596] [cursor=pointer]:
+                  - /url: /tools/social/instagram-bio-generator
+              - listitem [ref=e1598]:
+                - link "Discord Server Name & Channel Layout Studio" [ref=e1599] [cursor=pointer]:
+                  - /url: /tools/social/discord-name-generator
+              - listitem [ref=e1601]:
+                - link "Twitch Stream Title & High-CTR Hook Generator" [ref=e1602] [cursor=pointer]:
+                  - /url: /tools/social/twitch-title-generator
+              - listitem [ref=e1604]:
+                - link "Spotify Playlist Title & Aesthetic Description Studio" [ref=e1605] [cursor=pointer]:
+                  - /url: /tools/social/spotify-playlist-generator
+              - listitem [ref=e1607]:
+                - link "TikTok Viral Caption & Hashtag Hook Studio" [ref=e1608] [cursor=pointer]:
+                  - /url: /tools/social/tiktok-caption-generator
+              - listitem [ref=e1610]:
+                - link "YouTube Video Tag & High-SEO Keyword Extractor" [ref=e1611] [cursor=pointer]:
+                  - /url: /tools/social/youtube-tag-extractor
+              - listitem [ref=e1613]:
+                - link "TikTok Engagement & Creator Fund Calculator" [ref=e1614] [cursor=pointer]:
+                  - /url: /tools/social/tiktok-engagement-calc
+              - listitem [ref=e1616]:
+                - link "Instagram Reel Hook & Viral Caption Generator" [ref=e1617] [cursor=pointer]:
+                  - /url: /tools/social/instagram-reel-hooks
+              - listitem [ref=e1619]:
+                - link "Social Video Downloader" [ref=e1620] [cursor=pointer]:
+                  - /url: /tools/social/video-downloader
+              - listitem [ref=e1622]:
+                - link "LinkedIn Viral Post & Headline Hook Generator" [ref=e1623] [cursor=pointer]:
+                  - /url: /tools/social/linkedin-headline-generator
+      - button "Toggle Sidebar" [ref=e1625]
+    - generic [ref=e1626]:
+      - banner [ref=e1627]:
+        - generic [ref=e1628]:
+          - button "Toggle Sidebar" [ref=e1629]
+          - heading "Toolzium" [level=1] [ref=e1631]
+          - generic [ref=e1632]:
+            - button "Search tools" [ref=e1633]:
+              - generic [ref=e1637]: Search tools…
+              - generic [ref=e1638]: ⌘K
+            - button "Switch to dark mode" [ref=e1639]
+            - link "Follow us on Facebook" [ref=e1640] [cursor=pointer]:
+              - /url: https://www.facebook.com/toolzium
+            - link "Connect on LinkedIn" [ref=e1641] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/tanvirahmadsohan/
+            - link "GitHub Profile" [ref=e1642] [cursor=pointer]:
+              - /url: https://github.com/bluesun-gif
+              - img "Github"
+            - generic [ref=e1643]:
+              - link "Sign In" [ref=e1644] [cursor=pointer]:
+                - /url: /sign-in
+              - link "Sign Up" [ref=e1645] [cursor=pointer]:
+                - /url: /sign-up
+          - generic [ref=e1646]:
+            - heading "Command Palette" [level=2] [ref=e1647]
+            - paragraph [ref=e1648]: Search for a command to run...
+      - main [ref=e1649]:
+        - generic [ref=e1651]:
+          - generic [ref=e1653]:
+            - generic [ref=e1654]:
+              - generic [ref=e1655]:
+                - heading "Age Calculator" [level=1] [ref=e1656]
+                - paragraph [ref=e1661]: Find exact age in years, months, days — plus next birthday and fun milestones.
+              - generic [ref=e1662]:
+                - button "Reset" [ref=e1663]
+                - button "Use today" [ref=e1664]
+                - button "Copy link" [ref=e1665]
+            - generic [ref=e1666]:
+              - generic [ref=e1667]:
+                - generic [ref=e1668]: Your Birth Details
+                - generic [ref=e1669]: Enter date (and optionally time) of birth. We use your device zone:Asia/Dhaka.
+              - generic [ref=e1670]:
+                - generic [ref=e1671]:
+                  - generic [ref=e1672]: Date of Birth
+                  - textbox "Date of Birth" [ref=e1674]
+                - generic [ref=e1675]:
+                  - generic [ref=e1676]:
+                    - generic [ref=e1677]: Time of Birth (optional)
+                    - generic [ref=e1678]:
+                      - textbox "Time of Birth (optional)" [disabled]: 00:00
+                  - generic [ref=e1679]:
+                    - switch "Include time" [ref=e1680]
+                    - generic [ref=e1681]: Include time
+            - generic [ref=e1682]:
+              - generic [ref=e1683]:
+                - generic [ref=e1684]: Results
+                - generic [ref=e1685]: Live as the seconds tick by. Copy a summary to share.
+              - generic [ref=e1686]: Enter your birth date to see results here.
+            - generic [ref=e1690]:
+              - generic [ref=e1691]:
+                - heading "How It Works" [level=2] [ref=e1692]
+                - paragraph [ref=e1693]: Simple, fast, and 100% secure in 3 steps.
+              - generic [ref=e1694]:
+                - generic [ref=e1701]:
+                  - generic [ref=e1702]: "01"
+                  - generic [ref=e1708]:
+                    - heading "Enter Your Date of Birth" [level=3] [ref=e1709]
+                    - paragraph [ref=e1710]: Select your birth date using the date picker. Optionally enter a target date (defaults to today) to calculate age on a specific past or future date.
+                - generic [ref=e1715]:
+                  - generic [ref=e1716]: "02"
+                  - generic [ref=e1721]:
+                    - heading "See Your Exact Age" [level=3] [ref=e1722]
+                    - paragraph [ref=e1723]: Instantly see your age in years, months, days, hours, minutes, and total days lived. The calculation accounts for leap years and month-length differences.
+                - generic [ref=e1728]:
+                  - generic [ref=e1729]: "03"
+                  - generic [ref=e1734]:
+                    - heading "Explore Milestones" [level=3] [ref=e1735]
+                    - paragraph [ref=e1736]: See upcoming age milestones and how long until your next birthday. Compare ages, calculate retirement dates, or find how old someone was on a specific date.
+              - generic [ref=e1737]:
+                - generic [ref=e1738]: Exact years, months & days
+                - generic [ref=e1743]: Leap year accurate
+                - generic [ref=e1748]: Next birthday countdown
+            - generic [ref=e1753]:
+              - generic [ref=e1754]:
+                - generic [ref=e1755]:
+                  - heading "Key Features & Capabilities" [level=2] [ref=e1756]
+                  - paragraph [ref=e1762]: Designed for accuracy, privacy, and maximum efficiency.
+                - generic [ref=e1763]:
+                  - generic [ref=e1764]:
+                    - heading "Precise Age Calculation" [level=3] [ref=e1769]
+                    - paragraph [ref=e1770]: Calculates exact age to the day, accounting for leap years, variable month lengths, and timezone differences. More accurate than simple year subtraction.
+                  - generic [ref=e1771]:
+                    - heading "Age in Multiple Units" [level=3] [ref=e1777]
+                    - paragraph [ref=e1778]: "Shows age expressed as: years + months + days, total days alive, total hours, total minutes — for a complete picture of time lived."
+                  - generic [ref=e1779]:
+                    - heading "Upcoming Milestones" [level=3] [ref=e1784]
+                    - paragraph [ref=e1785]: Shows days until next birthday, upcoming milestone birthdays (25, 30, 40, 50, etc.), and the exact date of each significant life milestone.
+                  - generic [ref=e1786]:
+                    - heading "Historical Age Calculator" [level=3] [ref=e1792]
+                    - paragraph [ref=e1793]: Calculate how old a person was on any past date — useful for historical research, legal documents, or understanding age at a specific life event.
+                  - generic [ref=e1794]:
+                    - heading "Future Age Calculator" [level=3] [ref=e1799]
+                    - paragraph [ref=e1800]: Enter a future date to see how old you'll be. Great for retirement planning, milestone events, or calculating ages for contracts and legal documents.
+                  - generic [ref=e1801]:
+                    - heading "Private & Offline" [level=3] [ref=e1806]
+                    - paragraph [ref=e1807]: All calculations happen in your browser. Your birth date is never sent to any server — works fully offline.
+              - generic [ref=e1811]:
+                - heading "Age Calculation Guide — How Age is Measured Around the World" [level=3] [ref=e1812]
+                - paragraph [ref=e1813]: Age calculation seems simple, but edge cases make it surprisingly tricky. Leap years, month-length variations, birthday timing rules, and different cultural age systems all affect the answer. Here's a comprehensive guide to how age is calculated.
+                - heading "Age Calculation Methods by Country/Culture" [level=4] [ref=e1814]
+                - table [ref=e1816]:
+                  - rowgroup [ref=e1817]:
+                    - row [ref=e1818]:
+                      - columnheader "System" [ref=e1819]
+                      - columnheader "Region" [ref=e1820]
+                      - columnheader "How Age is Counted" [ref=e1821]
+                  - rowgroup [ref=e1822]:
+                    - row [ref=e1823]:
+                      - cell "Western (international)" [ref=e1824]
+                      - cell "Most of the world" [ref=e1825]
+                      - cell "Age increases on birthday; 0 at birth" [ref=e1826]
+                    - row [ref=e1827]:
+                      - cell "East Asian traditional" [ref=e1828]
+                      - cell "Korea, China (traditional)" [ref=e1829]
+                      - cell "Born at age 1; increases on Lunar New Year" [ref=e1830]
+                    - row [ref=e1831]:
+                      - cell "Korean (international)" [ref=e1832]
+                      - cell "South Korea (modern)" [ref=e1833]
+                      - cell "Born at age 0; increases on January 1" [ref=e1834]
+                    - row [ref=e1835]:
+                      - cell "Japanese traditional" [ref=e1836]
+                      - cell "Japan (historical)" [ref=e1837]
+                      - cell "Born at 1; increases on New Year's Day" [ref=e1838]
+                - heading "Interesting Age Facts & Statistics" [level=4] [ref=e1839]
+                - table [ref=e1841]:
+                  - rowgroup [ref=e1842]:
+                    - row [ref=e1843]:
+                      - columnheader "Milestone" [ref=e1844]
+                      - columnheader "Days Alive" [ref=e1845]
+                      - columnheader "Context" [ref=e1846]
+                  - rowgroup [ref=e1847]:
+                    - row [ref=e1848]:
+                      - cell "1 year old" [ref=e1849]
+                      - cell "365 days" [ref=e1850]
+                      - cell "366 in a leap year birth" [ref=e1851]
+                    - row [ref=e1852]:
+                      - cell "10 years old" [ref=e1853]
+                      - cell "~3,652 days" [ref=e1854]
+                      - cell "Depending on leap years" [ref=e1855]
+                    - row [ref=e1856]:
+                      - cell "18 years (legal adult)" [ref=e1857]
+                      - cell "~6,574 days" [ref=e1858]
+                      - cell "~157,776 hours" [ref=e1859]
+                    - row [ref=e1860]:
+                      - cell "21 years" [ref=e1861]
+                      - cell "~7,670 days" [ref=e1862]
+                      - cell "~184,080 hours" [ref=e1863]
+                    - row [ref=e1864]:
+                      - cell "1 million minutes old" [ref=e1865]
+                      - cell "~694.4 days" [ref=e1866]
+                      - cell "~1 year 11 months" [ref=e1867]
+                    - row [ref=e1868]:
+                      - cell "1 billion seconds old" [ref=e1869]
+                      - cell "~31.7 years" [ref=e1870]
+                      - cell "~11,574 days" [ref=e1871]
+                    - row [ref=e1872]:
+                      - cell "65 years (retirement)" [ref=e1873]
+                      - cell "~23,741 days" [ref=e1874]
+                      - cell "~570,000 hours" [ref=e1875]
+                    - row [ref=e1876]:
+                      - cell "100 years (centenarian)" [ref=e1877]
+                      - cell "~36,524 days" [ref=e1878]
+                      - cell "~876,600 hours" [ref=e1879]
+                - heading "Leap Year Rules — Why Age Calculation is Complex" [level=4] [ref=e1880]
+                - paragraph [ref=e1881]: "A leap year occurs when the year is divisible by 4, except for century years (divisible by 100), unless also divisible by 400. This means:"
+                - list [ref=e1882]:
+                  - listitem [ref=e1883]: "2000: Leap year (divisible by 400) ✅"
+                  - listitem [ref=e1884]: "1900: NOT a leap year (divisible by 100, not 400) ❌"
+                  - listitem [ref=e1885]: "2024: Leap year (divisible by 4, not a century year) ✅"
+                  - listitem [ref=e1886]: "February 29 birthdays: Legally celebrated on Feb 28 or Mar 1 in non-leap years (varies by jurisdiction)"
+            - generic [ref=e1887]:
+              - generic [ref=e1888]:
+                - heading "Frequently Asked Questions" [level=2] [ref=e1889]
+                - paragraph [ref=e1895]: Everything you need to know about using this tool.
+              - generic [ref=e1896]:
+                - generic [ref=e1897]:
+                  - button "How is age calculated exactly?" [expanded] [ref=e1898]
+                  - region "How is age calculated exactly?" [ref=e1903]:
+                    - generic [ref=e1904]: Age is calculated by subtracting the birth date from the current (or target) date, accounting for month lengths and leap years. A person turns n years old on their nth birthday. If they were born on Feb 29, in non-leap years their birthday is celebrated on Feb 28 or Mar 1 (varies by country and legal context).
+                - generic [ref=e1906]:
+                  - button "How many days old am I?" [ref=e1907]
+                  - region "How many days old am I?":
+                    - generic: "To calculate days alive: count the number of days from your birth date to today, including leap year days (366 days) in applicable years. Use this calculator to get your exact day count instantly. An 18-year-old is approximately 6,570-6,575 days old depending on how many leap years occurred."
+                - generic [ref=e1913]:
+                  - button "What is the Korean age system?" [ref=e1914]
+                  - region "What is the Korean age system?":
+                    - generic: In the traditional Korean age system, everyone is born at age 1 (not 0) and gains a year on Lunar New Year's Day, not their birthday. This means a Korean-age person can be 1-2 years older than their international age. South Korea officially switched to the international age system in June 2023 for legal and administrative purposes.
+                - generic [ref=e1920]:
+                  - button "When is the 1 billion second birthday?" [ref=e1921]
+                  - region "When is the 1 billion second birthday?":
+                    - generic: "1 billion seconds = 1,000,000,000 seconds ÷ 60 ÷ 60 ÷ 24 ÷ 365.25 = approximately 31.69 years old. To find your exact 1-billion-second birthday: add 1,000,000,000 seconds to your birth timestamp. It typically falls around age 31 years and 8 months."
+                - generic [ref=e1927]:
+                  - button "How do you calculate age for legal documents?" [ref=e1928]
+                  - region "How do you calculate age for legal documents?":
+                    - generic: For most legal purposes, age is calculated as the number of complete years elapsed since birth. A person born on October 15 reaches their birthday age on October 15 of the corresponding year. In most jurisdictions, a person born on Feb 29 in a leap year becomes the relevant age on Feb 28 or Mar 1 in non-leap years — this varies by local law.
+            - region "Related Tools" [ref=e1934]:
+              - generic [ref=e1935]:
+                - heading [level=2] [ref=e1936]
+                - link "View all tools" [ref=e1941] [cursor=pointer]:
+                  - /url: /tools
+              - generic [ref=e1944]:
+                - link [ref=e1945] [cursor=pointer]:
+                  - /url: /tools/time/timezone
+                  - generic [ref=e1947]:
+                    - generic [ref=e1948]:
+                      - heading "Time Zone Converter" [level=3] [ref=e1949]
+                      - paragraph [ref=e1950]: Convert time between different time zones worldwide. World clock and time zone calculator for scheduling international meetings. Compare times across multiple cities and countries.
+                    - generic [ref=e1951]: Try it out
+                - link [ref=e1954] [cursor=pointer]:
+                  - /url: /tools/time/countdown
+                  - generic [ref=e1956]:
+                    - generic [ref=e1957]:
+                      - heading "Countdown Timer" [level=3] [ref=e1958]
+                      - paragraph [ref=e1959]: Online countdown timer for events, meetings, and Pomodoro technique. Customizable timer with alarm sound. Track time remaining for deadlines and important dates.
+                    - generic [ref=e1960]: Try it out
+                - link [ref=e1963] [cursor=pointer]:
+                  - /url: /tools/time/weekno
+                  - generic [ref=e1965]:
+                    - generic [ref=e1966]:
+                      - heading "Week Number Calculator" [level=3] [ref=e1967]
+                      - paragraph [ref=e1968]: Find ISO week number for any date. Week number calculator with date range display. Useful for project planning and scheduling with week-based calendars.
+                    - generic [ref=e1969]: Try it out
+                - link [ref=e1972] [cursor=pointer]:
+                  - /url: /tools/time/world-clock
+                  - generic [ref=e1974]:
+                    - generic [ref=e1975]:
+                      - heading "World Clock" [level=3] [ref=e1976]
+                      - paragraph [ref=e1977]: View current time in multiple cities worldwide. Live-updating world clock with 30+ major timezones, day/night indicators, 12h/24h toggle, and UTC offsets. Save your favorite cities.
+                    - generic [ref=e1978]: Try it out
+                - link [ref=e1981] [cursor=pointer]:
+                  - /url: /tools/time/meeting-planner
+                  - generic [ref=e1983]:
+                    - generic [ref=e1984]:
+                      - heading "Meeting Planner" [level=3] [ref=e1985]
+                      - paragraph [ref=e1986]: Find the best meeting time across time zones. Visual 24-hour grid with working hours highlighted. Overlap detection. Copy invite text with converted times.
+                    - generic [ref=e1987]: Try it out
+                - link [ref=e1990] [cursor=pointer]:
+                  - /url: /tools/time/timezone-compare
+                  - generic [ref=e1992]:
+                    - generic [ref=e1993]:
+                      - heading "Time Zone Comparison" [level=3] [ref=e1994]
+                      - paragraph [ref=e1995]: Compare time across up to 8 time zones side by side. Slider to pick time. Business hours highlighted. UTC offsets shown.
+                    - generic [ref=e1996]: Try it out
+          - generic [ref=e2001]:
+            - generic [ref=e2002]: "Share:"
+            - link "Share on Twitter / X" [ref=e2003] [cursor=pointer]:
+              - /url: https://twitter.com/intent/tweet?text=Age%20Calculator%20%E2%80%94%20Free%20Online%20Tool%20%7C%20Toolzium&url=https%3A%2F%2Ftoolzium.com%2Ftools%2Ftime%2Fage
+            - link "Share on Facebook" [ref=e2004] [cursor=pointer]:
+              - /url: https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftoolzium.com%2Ftools%2Ftime%2Fage
+            - link "Share on LinkedIn" [ref=e2005] [cursor=pointer]:
+              - /url: https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Ftoolzium.com%2Ftools%2Ftime%2Fage
+            - button "Copy link" [ref=e2006]
+  - alert [ref=e2007]
+```
+
+# Test source
+
+```ts
+  1  | import { test, expect } from '@playwright/test';
+  2  | 
+  3  | const BASE_URL = 'https://toolzium.com';
+  4  | const failedRoutes = [
+  5  |   '/tools/office/invoice',
+  6  |   '/tools/text/fancy-text',
+  7  |   '/tools/text/lorem-ipsum',
+  8  |   '/tools/time/age',
+  9  |   '/tools/time/meeting-planner',
+  10 |   '/tools/time/timezone',
+  11 |   '/tools/time/weekno'
+  12 | ];
+  13 | 
+  14 | test.describe('Debug Failed Tools', () => {
+  15 |   for (const route of failedRoutes) {
+  16 |     test(`debug ${route}`, async ({ page }) => {
+  17 |       let pageErrors = [];
+  18 | 
+  19 |       page.on('pageerror', exception => {
+  20 |         pageErrors.push(exception.message);
+  21 |       });
+  22 | 
+  23 |       await page.goto(`${BASE_URL}${route}`, { waitUntil: 'domcontentloaded' });
+  24 |       await page.waitForTimeout(1000);
+  25 |       
+  26 |       if (pageErrors.length > 0) {
+  27 |         console.log(`=== ERROR ON ${route} ===`);
+  28 |         console.log(pageErrors);
+  29 |       }
+  30 |       
+> 31 |       expect(pageErrors.length).toBe(0);
+     |                                 ^ Error: expect(received).toBe(expected) // Object.is equality
+  32 |     });
+  33 |   }
+  34 | });
+  35 | 
+```
