@@ -145,7 +145,7 @@ export default function VideoDownloaderClient() {
       setResult(data);
     } catch {
       setError("Network error. Please check your connection and try again.");
-    } font-sans finally {
+    } finally {
       setLoading(false);
     }
   };
