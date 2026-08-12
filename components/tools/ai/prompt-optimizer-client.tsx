@@ -56,16 +56,16 @@ interface SavedHistoryItem {
 }
 
 const domains = [
-  { id: "general", name: "General Creative & Problem Solving" },
-  { id: "software", name: "Software Engineering & Architecture" },
-  { id: "webdev", name: "Frontend & Full-Stack Development" },
-  { id: "copywriting", name: "Brand Copywriting & Persuasion" },
-  { id: "seo", name: "SEO Content Strategy & Growth" },
-  { id: "business", name: "Executive Business Strategy" },
-  { id: "datascience", name: "Data Science & Machine Learning" },
-  { id: "art", name: "Digital Art & Rendering" },
-  { id: "finance", name: "Financial Modeling & Analysis" },
-  { id: "legal", name: "Legal Contracts & Compliance" },
+  { id: "general", name: "Creative Problem Solver" },
+  { id: "software", name: "Software Engineer" },
+  { id: "webdev", name: "Full-Stack Developer" },
+  { id: "copywriting", name: "Brand Copywriter" },
+  { id: "seo", name: "SEO Strategist" },
+  { id: "business", name: "Business Executive" },
+  { id: "datascience", name: "Data Scientist" },
+  { id: "art", name: "Digital Artist" },
+  { id: "finance", name: "Financial Analyst" },
+  { id: "legal", name: "Legal Expert" },
 ];
 
 const presets = [
@@ -213,9 +213,27 @@ Create a highly detailed, professional meta-prompt that transforms user draft id
           ? (includeXmlTags ? `\n<constraints>\n- Do NOT use filler language (e.g. "Certainly!", "Here is the...").\n- Do NOT hallucinate facts.\n</constraints>` : `\nConstraints: Do NOT use filler language. Do NOT hallucinate.`)
           : "";
 
+        const getDomainSpecificInstructions = (d: string) => {
+          switch(d) {
+            case "software": return "- Write clean, maintainable, and well-documented code.\n- Follow best practices for performance and security.";
+            case "webdev": return "- Focus on responsive, accessible, and modern UI/UX.\n- Ensure cross-browser compatibility and semantic HTML.";
+            case "copywriting": return "- Use persuasive, high-converting language.\n- Focus on user benefits and emotional triggers.";
+            case "seo": return "- Optimize for search intent and readability.\n- Naturally integrate relevant keywords and LSI terms.";
+            case "business": return "- Provide strategic, actionable executive insights.\n- Focus on ROI, scalability, and operational efficiency.";
+            case "datascience": return "- Ensure statistical rigor and data accuracy.\n- Provide clear interpretations of data models and metrics.";
+            case "art": return "- Focus on visual composition, color theory, and lighting.\n- Provide detailed aesthetic and stylistic direction.";
+            case "finance": return "- Maintain strict accuracy in financial modeling.\n- Focus on risk assessment and clear metric reporting.";
+            case "legal": return "- Use precise, unambiguous legal terminology.\n- Focus on compliance, liability protection, and clarity.";
+            default: return "- Approach the problem with creative, lateral thinking.\n- Provide innovative and practical solutions.";
+          }
+        };
+
+        const domainSpecific = getDomainSpecificInstructions(domain);
+
         finalPrompt = `${xmlWrapperOpen}
 ${detailInstruction}
-${toneInstruction}${cotInstruction}${fewShotInstruction}${negativeInstruction}
+${toneInstruction}
+${domainSpecific}${cotInstruction}${fewShotInstruction}${negativeInstruction}
 ${xmlWrapperClose}`;
       }
 
@@ -258,7 +276,7 @@ ${xmlWrapperClose}`;
     return parts.map((part, i) => {
       if (part.match(/^\[[A-Z0-9_]+\]$/)) {
         return (
-          <span key={i} className="bg-purple-200/50 dark:bg-purple-900/50 text-purple-900 dark:text-purple-200 px-1.5 py-0.5 rounded-md font-bold text-[12px] mr-1">
+          <span key={i} className="bg-primary/20 text-primary-foreground px-1.5 py-0.5 rounded-md font-bold text-[12px] mr-1">
             {part}
           </span>
         );
@@ -268,18 +286,18 @@ ${xmlWrapperClose}`;
   };
 
   if (!mounted) {
-    return <div className="min-h-screen bg-slate-50 dark:bg-slate-950 p-8 animate-pulse" />;
+    return <div className="min-h-screen  p-8 animate-pulse" />;
   }
 
   return (
-    <div className="w-full bg-white dark:bg-slate-950 min-h-screen pb-20 relative">
+    <div className="w-full  min-h-screen pb-20 relative">
       <GridPattern
         width={40}
         height={40}
         x={-1}
         y={-1}
         className={cn(
-          "absolute inset-0 h-full w-full stroke-slate-200/80 dark:stroke-slate-800/80 [mask-image:linear-gradient(to_bottom,white,transparent)]"
+          "absolute inset-0 h-full w-full stroke-border [mask-image:linear-gradient(to_bottom,white,transparent)]"
         )}
       />
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
@@ -299,7 +317,7 @@ ${xmlWrapperClose}`;
             {/* Detail Depth Slider */}
             <div className="space-y-3">
               <div className="flex justify-between items-center">
-                <Label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Detail Depth</Label>
+                <Label className="text-sm font-semibold text-muted-foreground">Detail Depth</Label>
               </div>
               <Slider 
                 value={detailDepth} 
@@ -317,7 +335,7 @@ ${xmlWrapperClose}`;
             {/* Creative Temperature Slider */}
             <div className="space-y-3 pt-2">
               <div className="flex justify-between items-center">
-                <Label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Creative Temperature</Label>
+                <Label className="text-sm font-semibold text-muted-foreground">Creative Temperature</Label>
               </div>
               <Slider 
                 value={creativeTemp} 
@@ -335,9 +353,9 @@ ${xmlWrapperClose}`;
             {/* Dropdowns */}
             <div className="space-y-4 pt-2">
               <div className="space-y-1.5">
-                <Label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Target AI Model</Label>
+                <Label className="text-sm font-semibold text-muted-foreground">Target AI Model</Label>
                 <Select value={targetModel} onValueChange={setTargetModel}>
-                  <SelectTrigger className="w-full bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 h-9 rounded-lg">
+                  <SelectTrigger className="w-full bg-background border-border h-9 rounded-lg">
                     <SelectValue placeholder="Select Model" />
                   </SelectTrigger>
                   <SelectContent>
@@ -352,9 +370,9 @@ ${xmlWrapperClose}`;
               </div>
 
               <div className="space-y-1.5">
-                <Label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Domain Persona</Label>
+                <Label className="text-sm font-semibold text-muted-foreground">Domain Persona</Label>
                 <Select value={domain} onValueChange={setDomain}>
-                  <SelectTrigger className="w-full bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 h-9 rounded-lg">
+                  <SelectTrigger className="w-full bg-background border-border h-9 rounded-lg [&>span]:truncate text-left">
                     <SelectValue placeholder="Select Persona" />
                   </SelectTrigger>
                   <SelectContent>
@@ -372,42 +390,42 @@ ${xmlWrapperClose}`;
               
               <label className="flex items-center justify-between cursor-pointer group">
                 <div className="flex items-center gap-2">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${includeXmlTags ? 'bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400' : 'bg-slate-100 text-slate-400 dark:bg-slate-800'}`}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${includeXmlTags ? 'bg-purple-100 text-primary dark:bg-purple-900/30 dark:text-purple-400' : 'bg-slate-100 text-slate-400 dark:bg-slate-800'}`}>
                     <Code2 className="w-4 h-4" />
                   </div>
-                  <span className="text-sm font-medium text-slate-700 dark:text-slate-300">XML Tags</span>
+                  <span className="text-sm font-medium text-muted-foreground">XML Tags</span>
                 </div>
-                <Switch checked={includeXmlTags} onCheckedChange={setIncludeXmlTags} className="data-[state=checked]:bg-purple-600" />
+                <Switch checked={includeXmlTags} onCheckedChange={setIncludeXmlTags} className="data-[state=checked]:bg-primary" />
               </label>
 
               <label className="flex items-center justify-between cursor-pointer group">
                 <div className="flex items-center gap-2">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${includeCoT ? 'bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400' : 'bg-slate-100 text-slate-400 dark:bg-slate-800'}`}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${includeCoT ? 'bg-purple-100 text-primary dark:bg-purple-900/30 dark:text-purple-400' : 'bg-slate-100 text-slate-400 dark:bg-slate-800'}`}>
                     <Zap className="w-4 h-4" />
                   </div>
-                  <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Chain-of-Thought</span>
+                  <span className="text-sm font-medium text-muted-foreground">Chain-of-Thought</span>
                 </div>
-                <Switch checked={includeCoT} onCheckedChange={setIncludeCoT} className="data-[state=checked]:bg-purple-600" />
+                <Switch checked={includeCoT} onCheckedChange={setIncludeCoT} className="data-[state=checked]:bg-primary" />
               </label>
 
               <label className="flex items-center justify-between cursor-pointer group">
                 <div className="flex items-center gap-2">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${includeNegativePrompt ? 'bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400' : 'bg-slate-100 text-slate-400 dark:bg-slate-800'}`}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${includeNegativePrompt ? 'bg-purple-100 text-primary dark:bg-purple-900/30 dark:text-purple-400' : 'bg-slate-100 text-slate-400 dark:bg-slate-800'}`}>
                     <ShieldCheck className="w-4 h-4" />
                   </div>
-                  <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Negative Image Flags</span>
+                  <span className="text-sm font-medium text-muted-foreground">Negative Image Flags</span>
                 </div>
-                <Switch checked={includeNegativePrompt} onCheckedChange={setIncludeNegativePrompt} className="data-[state=checked]:bg-purple-600" />
+                <Switch checked={includeNegativePrompt} onCheckedChange={setIncludeNegativePrompt} className="data-[state=checked]:bg-primary" />
               </label>
 
               <label className="flex items-center justify-between cursor-pointer group">
                 <div className="flex items-center gap-2">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${includeFewShot ? 'bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400' : 'bg-slate-100 text-slate-400 dark:bg-slate-800'}`}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${includeFewShot ? 'bg-purple-100 text-primary dark:bg-purple-900/30 dark:text-purple-400' : 'bg-slate-100 text-slate-400 dark:bg-slate-800'}`}>
                     <Layers className="w-4 h-4" />
                   </div>
-                  <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Few-Shot Examples</span>
+                  <span className="text-sm font-medium text-muted-foreground">Few-Shot Examples</span>
                 </div>
-                <Switch checked={includeFewShot} onCheckedChange={setIncludeFewShot} className="data-[state=checked]:bg-purple-600" />
+                <Switch checked={includeFewShot} onCheckedChange={setIncludeFewShot} className="data-[state=checked]:bg-primary" />
               </label>
             </div>
 
@@ -419,7 +437,7 @@ ${xmlWrapperClose}`;
                   <button
                     key={idx}
                     onClick={() => applyPreset(p.text)}
-                    className="text-left text-sm font-medium text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-full px-4 py-1.5 transition-colors border border-slate-200/50 dark:border-slate-700"
+                    className="text-left text-sm font-medium text-muted-foreground bg-muted hover:bg-accent hover:text-accent-foreground rounded-full px-4 py-1.5 transition-colors border border-border/50"
                   >
                     {p.label}
                   </button>
@@ -436,11 +454,11 @@ ${xmlWrapperClose}`;
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch min-h-[400px]">
               
               {/* Input Card */}
-              <GlassCard className="p-5 flex flex-col h-full bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 shadow-sm rounded-2xl relative overflow-hidden">
-                <Label className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-4">Raw Draft Prompt Input</Label>
+              <GlassCard className="p-5 flex flex-col h-full bg-background border-border shadow-sm rounded-2xl relative overflow-hidden">
+                <Label className="text-lg font-bold text-foreground mb-4">Raw Draft Prompt Input</Label>
                 <div className="flex-1 flex flex-col mt-2">
                   <textarea
-                    className="w-full flex-1 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-4 text-[15px] outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 resize-none font-medium text-slate-700 dark:text-slate-300 shadow-inner"
+                    className="w-full flex-1 rounded-xl border border-border bg-background p-4 text-[15px] outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary resize-none font-medium text-muted-foreground shadow-inner"
                     placeholder="e.g. Create a photorealistic image of a golden retriever dog in a sunset meadow..."
                     value={rawPrompt}
                     onChange={(e) => setRawPrompt(e.target.value)}
@@ -448,7 +466,7 @@ ${xmlWrapperClose}`;
                   <Button 
                     onClick={handleOptimize} 
                     disabled={isOptimizing || !rawPrompt.trim()} 
-                    className="w-full mt-4 bg-purple-500 hover:bg-purple-600 text-white font-semibold rounded-xl h-12 text-base shadow-lg shadow-purple-500/20 transition-all active:scale-[0.98]"
+                    className="w-full mt-4 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl h-12 text-base shadow-lg shadow-primary/20 transition-all active:scale-[0.98]"
                   >
                     {isOptimizing ? <RefreshCcw className="w-5 h-5 animate-spin mr-2" /> : <Wand2 className="w-5 h-5 mr-2" />}
                     {isOptimizing ? `Optimizing...` : `Optimize (${targetModel.split(' ')[0].toUpperCase()})`}
@@ -457,15 +475,15 @@ ${xmlWrapperClose}`;
               </GlassCard>
 
               {/* Output Card */}
-              <div className="p-0 flex flex-col h-full bg-[#f3f4f6] dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 shadow-sm rounded-2xl overflow-hidden relative">
+              <div className="p-0 flex flex-col h-full bg-muted/30 border border-border shadow-sm rounded-2xl overflow-hidden relative">
                 <div className="p-4 flex justify-between items-center">
-                  <Label className="text-lg font-bold text-slate-800 dark:text-slate-100">Output Workspace</Label>
+                  <Label className="text-lg font-bold text-foreground">Output Workspace</Label>
                   <Button 
                     variant="outline" 
                     size="sm" 
                     onClick={() => handleCopy(result?.expandedSuperPrompt || "")} 
                     disabled={!result}
-                    className="h-9 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700 font-semibold gap-1.5 rounded-lg shadow-sm"
+                    className="h-9 bg-muted hover:bg-accent text-slate-700 dark:text-slate-200 border-border font-semibold gap-1.5 rounded-lg shadow-sm"
                   >
                     <Copy className="w-4 h-4" /> Copy Optimized Prompt
                   </Button>
@@ -474,12 +492,12 @@ ${xmlWrapperClose}`;
                 <div className="p-5 pt-0 flex-1 overflow-y-auto">
                   {result ? (
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full">
-                      <pre className="font-mono text-[13px] md:text-sm text-slate-700 dark:text-slate-300 whitespace-pre-wrap leading-relaxed h-full">
+                      <pre className="font-mono text-[13px] md:text-sm text-muted-foreground whitespace-pre-wrap leading-relaxed h-full">
                         {renderHighlightedText(result.expandedSuperPrompt)}
                       </pre>
                     </motion.div>
                   ) : (
-                    <div className="h-full flex items-center justify-center text-slate-400 dark:text-slate-600 font-medium">
+                    <div className="h-full flex items-center justify-center text-muted-foreground font-medium">
                       Optimization output will appear here
                     </div>
                   )}
@@ -488,9 +506,9 @@ ${xmlWrapperClose}`;
             </div>
 
             {/* Bottom Row: History */}
-            <GlassCard className="p-5 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 shadow-sm rounded-2xl flex-1">
+            <GlassCard className="p-5 bg-background border-border shadow-sm rounded-2xl flex-1">
               <div className="flex justify-between items-center mb-4">
-                <Label className="text-lg font-bold text-slate-800 dark:text-slate-100">
+                <Label className="text-lg font-bold text-foreground">
                   Your Prompt Optimization History <span className="text-slate-400 font-normal">({history.length})</span>
                 </Label>
                 {history.length > 0 && (
@@ -503,19 +521,19 @@ ${xmlWrapperClose}`;
               {history.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[300px] overflow-y-auto pr-2">
                   {history.map((item) => (
-                    <div key={item.id} className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700/50 flex justify-between items-center hover:border-purple-200 dark:hover:border-purple-800/50 transition-colors">
+                    <div key={item.id} className="p-3 bg-muted/50 rounded-xl border border-border flex justify-between items-center hover:border-primary/50 transition-colors">
                       <div className="truncate flex-1 pr-4">
-                        <span className="font-semibold text-sm text-slate-800 dark:text-slate-200 truncate block">{item.raw}</span>
+                        <span className="font-semibold text-sm text-foreground truncate block">{item.raw}</span>
                         <div className="flex items-center gap-2 mt-1">
                           <span className="text-[11px] font-medium text-slate-500">{item.timestamp}</span>
-                          <span className="text-[11px] font-bold text-purple-600 dark:text-purple-400 bg-purple-100 dark:bg-purple-900/30 px-1.5 py-0.5 rounded-md">{item.model.toUpperCase()}</span>
+                          <span className="text-[11px] font-bold text-primary bg-primary/10 px-1.5 py-0.5 rounded-md">{item.model.toUpperCase()}</span>
                         </div>
                       </div>
                       <Button 
                         variant="outline" 
                         size="sm" 
                         onClick={() => { setResult(item.result); setRawPrompt(item.raw); setTargetModel(item.model); }} 
-                        className="h-8 px-3 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm font-semibold text-slate-700 dark:text-slate-300"
+                        className="h-8 px-3 border-border bg-muted shadow-sm font-semibold text-muted-foreground"
                       >
                         Reload
                       </Button>
@@ -523,7 +541,7 @@ ${xmlWrapperClose}`;
                   ))}
                 </div>
               ) : (
-                <div className="text-sm text-slate-400 text-center py-6 border-2 border-dashed border-slate-100 dark:border-slate-800 rounded-xl">
+                <div className="text-sm text-slate-400 text-center py-6 border-2 border-dashed border-border rounded-xl">
                   No history yet. Run an optimization to see it here.
                 </div>
               )}

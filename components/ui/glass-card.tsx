@@ -22,16 +22,16 @@ export function GlassCard({
       {...props}
       className={cn(
         "relative overflow-hidden transition-all duration-300",
-        // Crisp, high-contrast light and dark styling
-        "bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl",
-        borderMuted ? "border border-slate-200/80 dark:border-slate-800" : "border border-slate-200 dark:border-slate-700",
-        "shadow-md shadow-slate-200/50 dark:shadow-black/40 rounded-2xl",
+        // Reverted to original glass background styling
+        "bg-background/40 backdrop-blur supports-[backdrop-filter]:bg-background/30",
+        borderMuted ? "border-muted/40" : "",
         className,
       )}
     >
       {sheen && (
-        <div className="pointer-events-none absolute inset-0 opacity-40">
-          <div className="absolute inset-[-1px] rounded-[inherit] bg-gradient-to-br from-white/60 via-white/10 to-transparent dark:from-white/10 dark:to-transparent" />
+        <div className="pointer-events-none absolute inset-0 opacity-70">
+          {/* soft gradient bevel */}
+          <div className="absolute inset-[-1px] rounded-[inherit] bg-gradient-to-br from-white/10 via-white/5 to-transparent" />
         </div>
       )}
       {children}

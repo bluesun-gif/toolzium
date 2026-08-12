@@ -232,7 +232,8 @@ export default function HomePage() {
                       <Badge
                         key={t.url}
                         variant="secondary"
-                        className="text-xs"
+                        className="text-xs truncate max-w-[100%] block"
+                        title={t.title}
                       >
                         {t.title}
                       </Badge>

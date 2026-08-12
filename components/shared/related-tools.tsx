@@ -3,7 +3,7 @@
 import React, { useMemo } from "react";
 import { ToolsData } from "@/data/tools";
 import { GlassCard } from "@/components/ui/glass-card";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 type RelatedToolsProps = {
@@ -50,22 +50,36 @@ export function RelatedTools({ currentToolUrl, max = 6 }: RelatedToolsProps) {
   if (!displayedTools || displayedTools.length === 0) return null;
 
   return (
-    <section className="mt-10" aria-label="Related Tools">
-      <h2 className="text-lg font-semibold mb-4 flex items-center gap-2 text-slate-900 dark:text-slate-100">
-        <ArrowRight className="h-5 w-5 text-purple-600" />
-        Related Tools You Might Like
-      </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <section className="mt-16 pt-8 border-t border-border/60" aria-label="Related Tools">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
+        <h2 className="text-2xl font-bold flex items-center gap-3 text-foreground">
+          <div className="p-2 bg-primary/10 rounded-xl">
+            <Sparkles className="h-5 w-5 text-primary" />
+          </div>
+          Related Tools You Might Like
+        </h2>
+        <Link href="/tools" className="text-sm font-semibold text-primary hover:text-primary flex items-center gap-1 group transition-colors">
+          View all tools
+          <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+        </Link>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {displayedTools.map((tool) => (
-          <Link key={tool.url} href={tool.url} className="group">
-            <GlassCard className="p-4 h-full transition-all duration-300 group-hover:scale-[1.02] group-hover:shadow-lg">
-              <h3 className="font-medium text-sm group-hover:text-purple-600 transition-colors text-slate-900 dark:text-slate-100">
-                {tool.title}
-              </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
-                {tool.description?.slice(0, 100)}
-                {(tool.description?.length ?? 0) > 100 ? "…" : ""}
-              </p>
+          <Link key={tool.url} href={tool.url} className="group outline-none">
+            <GlassCard className="p-6 h-full transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-xl group-hover:shadow-primary/10 group-focus-visible:ring-2 group-focus-visible:ring-primary group-hover:border-primary/50 bg-background/40 backdrop-blur">
+              <div className="flex flex-col h-full justify-between gap-4">
+                <div>
+                  <h3 className="font-bold text-base group-hover:text-primary transition-colors text-foreground mb-2">
+                    {tool.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
+                    {tool.description}
+                  </p>
+                </div>
+                <div className="flex items-center text-xs font-semibold text-primary opacity-0 group-hover:opacity-100 transition-opacity -translate-x-2 group-hover:translate-x-0 duration-300">
+                  Try it out <ArrowRight className="h-3 w-3 ml-1" />
+                </div>
+              </div>
             </GlassCard>
           </Link>
         ))}

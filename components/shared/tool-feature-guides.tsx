@@ -2,6 +2,7 @@
 
 import { GlassCard } from "@/components/ui/glass-card";
 import { Sparkles, type LucideIcon } from "lucide-react";
+import React from "react";
 
 type FeatureCard = {
   title: string;
@@ -25,28 +26,31 @@ export default function ToolFeatureGuides({
   className = "",
 }: ToolFeatureGuidesProps) {
   return (
-    <section className={`mt-10 space-y-8 ${className}`}>
-      {/* Features Grid */}
+    <section className={`mt-16 space-y-10 ${className}`}>
       {features && features.length > 0 && (
-        <div className="space-y-4">
-          <div className="space-y-1">
-            <h2 className="text-xl font-bold tracking-tight text-foreground flex items-center gap-2">
-              <Sparkles className="h-5 w-5 text-primary shrink-0" />
+        <div className="space-y-6">
+          <div className="space-y-2 text-center md:text-left">
+            <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-foreground flex items-center justify-center md:justify-start gap-3">
+              <div className="p-2 bg-primary/10 rounded-xl">
+                <Sparkles className="h-6 w-6 text-primary shrink-0" />
+              </div>
               <span>{title}</span>
             </h2>
-            {subtitle && <p className="text-xs sm:text-sm text-muted-foreground">{subtitle}</p>}
+            {subtitle && <p className="text-sm md:text-base text-muted-foreground max-w-2xl">{subtitle}</p>}
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {features.map((feat, idx) => {
               const Icon = feat.icon || Sparkles;
               return (
-                <GlassCard key={idx} className="p-5 space-y-2">
-                  <div className="flex items-center gap-2 text-primary font-semibold text-sm">
-                    <Icon className="h-4 w-4 shrink-0" />
-                    <h3>{feat.title}</h3>
+                <GlassCard key={idx} className="p-6 space-y-4 group hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 bg-background/40 backdrop-blur">
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-lg bg-muted flex items-center justify-center text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary transition-colors shadow-sm group-hover:shadow group-hover:scale-105 duration-300">
+                      <Icon className="h-5 w-5 shrink-0" />
+                    </div>
+                    <h3 className="font-bold text-foreground text-base group-hover:text-primary transition-colors">{feat.title}</h3>
                   </div>
-                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                  <p className="text-sm text-muted-foreground leading-relaxed">
                     {feat.description}
                   </p>
                 </GlassCard>
@@ -56,11 +60,13 @@ export default function ToolFeatureGuides({
         </div>
       )}
 
-      {/* SEO Deep Content Children */}
       {children && (
-        <GlassCard className="p-6 sm:p-8 space-y-4 text-sm text-muted-foreground leading-relaxed">
-          {children}
-        </GlassCard>
+        <div className="relative group">
+          <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/20 to-primary/10 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
+          <GlassCard className="relative p-6 sm:p-8 space-y-4 text-sm text-muted-foreground leading-relaxed bg-background/80 backdrop-blur-xl border border-border">
+            {children}
+          </GlassCard>
+        </div>
       )}
     </section>
   );
