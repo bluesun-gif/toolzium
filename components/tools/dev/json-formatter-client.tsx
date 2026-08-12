@@ -451,7 +451,7 @@ export default function JsonFormatterClient() {
  </p>
  <div className="overflow-x-auto">
  <table className="w-full text-sm text-left border-collapse border border-border">
- <thead className="bg-slate-50">
+ <thead className="bg-muted/40 text-foreground">
  <tr>
  <th className="px-4 py-3 border border-border font-semibold">Format</th>
  <th className="px-4 py-3 border border-border font-semibold">Human Readable</th>

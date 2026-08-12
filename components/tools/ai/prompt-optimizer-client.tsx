@@ -390,7 +390,7 @@ ${xmlWrapperClose}`;
  
  <label className="flex items-center justify-between cursor-pointer group">
  <div className="flex items-center gap-2">
- <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${includeXmlTags ? 'bg-primary/10 text-primary ' : 'bg-slate-100 text-muted-foreground '}`}>
+ <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${includeXmlTags ? 'bg-primary/10 text-primary ' : 'bg-muted text-muted-foreground '}`}>
  <Code2 className="w-4 h-4"/>
  </div>
  <span className="text-sm font-medium text-muted-foreground">XML Tags</span>
@@ -400,7 +400,7 @@ ${xmlWrapperClose}`;
 
  <label className="flex items-center justify-between cursor-pointer group">
  <div className="flex items-center gap-2">
- <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${includeCoT ? 'bg-primary/10 text-primary ' : 'bg-slate-100 text-muted-foreground '}`}>
+ <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${includeCoT ? 'bg-primary/10 text-primary ' : 'bg-muted text-muted-foreground '}`}>
  <Zap className="w-4 h-4"/>
  </div>
  <span className="text-sm font-medium text-muted-foreground">Chain-of-Thought</span>
@@ -410,7 +410,7 @@ ${xmlWrapperClose}`;
 
  <label className="flex items-center justify-between cursor-pointer group">
  <div className="flex items-center gap-2">
- <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${includeNegativePrompt ? 'bg-primary/10 text-primary ' : 'bg-slate-100 text-muted-foreground '}`}>
+ <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${includeNegativePrompt ? 'bg-primary/10 text-primary ' : 'bg-muted text-muted-foreground '}`}>
  <ShieldCheck className="w-4 h-4"/>
  </div>
  <span className="text-sm font-medium text-muted-foreground">Negative Image Flags</span>
@@ -420,7 +420,7 @@ ${xmlWrapperClose}`;
 
  <label className="flex items-center justify-between cursor-pointer group">
  <div className="flex items-center gap-2">
- <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${includeFewShot ? 'bg-primary/10 text-primary ' : 'bg-slate-100 text-muted-foreground '}`}>
+ <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${includeFewShot ? 'bg-primary/10 text-primary ' : 'bg-muted text-muted-foreground '}`}>
  <Layers className="w-4 h-4"/>
  </div>
  <span className="text-sm font-medium text-muted-foreground">Few-Shot Examples</span>

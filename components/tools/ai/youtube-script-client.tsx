@@ -270,7 +270,7 @@ export function YoutubeScriptClient() {
  return (
  <div className="max-w-6xl mx-auto space-y-8 p-4">
  {/* 3D Red YouTube Header Box */}
- <div className="flex items-center gap-4 bg-background p-6 rounded-3xl border border-border shadow-md shadow-slate-200/50">
+ <div className="flex items-center gap-4 bg-background p-6 rounded-3xl border border-border shadow-md">
  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-red-500 to-rose-600 text-white shadow-lg shadow-red-500/30 flex items-center justify-center shrink-0">
  <Youtube className="w-7 h-7"/>
  </div>
@@ -289,7 +289,7 @@ export function YoutubeScriptClient() {
  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
  {/* Left Input Control Panel */}
  <GlassCard className="p-0">
- <CardHeader className="border-b border-slate-100 bg-slate-50/50 p-4">
+ <CardHeader className="border-b border-border bg-muted/40 p-4">
  <CardTitle className="text-sm font-semibold flex items-center justify-between text-foreground">
  <span className="flex items-center gap-2">
  <Video className="w-4 h-4 text-red-600"/>
@@ -309,7 +309,7 @@ export function YoutubeScriptClient() {
  key={idx}
  type="button"
  onClick={() => applyPreset(p.text)}
- className="text-xs bg-slate-100 hover:bg-red-50 hover:text-red-700 dark:hover:bg-red-950/50 text-slate-700 dark:text-slate-300 px-2.5 py-1 rounded-xl border border-border transition-all font-medium"
+ className="text-xs bg-muted hover:bg-primary/10 hover:text-primary text-foreground px-2.5 py-1 rounded-xl border border-border transition-all font-semibold"
  >
  {p.label}
  </button>

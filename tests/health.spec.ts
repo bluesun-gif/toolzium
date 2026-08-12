@@ -11,18 +11,18 @@ const BASE_URL = 'https://toolzium.com';
 test.describe('Tool Health Check', () => {
   for (const route of routes) {
     test(`health check for ${route}`, async ({ page }) => {
-      let pageErrors = [];
+      let pageErrors: string[] = [];
 
       page.on('pageerror', exception => {
         pageErrors.push(exception.message);
       });
 
       const response = await page.goto(`${BASE_URL}${route}`, { waitUntil: 'domcontentloaded' });
-      expect(response.status()).toBe(200);
+      expect(response?.status()).toBe(200);
 
       await page.waitForTimeout(500);
 
-      const bodyText = await page.textContent('body');
+      const bodyText = (await page.textContent('body')) || '';
       const hasReactError = bodyText.includes('Application error: a client-side exception has occurred') 
         || bodyText.includes('An unexpected error has occurred.');
       

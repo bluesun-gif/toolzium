@@ -14,7 +14,7 @@ const failedRoutes = [
 test.describe('Debug Failed Tools', () => {
   for (const route of failedRoutes) {
     test(`debug ${route}`, async ({ page }) => {
-      let pageErrors = [];
+      let pageErrors: string[] = [];
 
       page.on('pageerror', exception => {
         pageErrors.push(exception.message);
