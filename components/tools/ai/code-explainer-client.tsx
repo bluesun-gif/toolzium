@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState, useMemo, useCallback } from "react";
-import { motion } from "framer-motion";
-import ToolPageHeader from "@/components/shared/tool-page-header";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
@@ -11,231 +10,391 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Code2, Sparkles, Copy, CheckCircle2, Sliders, RefreshCcw, Terminal, FileCode, Cpu } from "lucide-react";
+import { 
+  Code2, Sparkles, Copy, CheckCircle2, RefreshCcw, Terminal, 
+  Trash2, History, Wand2, FileCode, Cpu, Bug, Settings, ChevronRight
+} from "lucide-react";
 import toast from "react-hot-toast";
+import ReactMarkdown from "react-markdown";
+import rehypeHighlight from "rehype-highlight";
 
-interface CodeAnalysisResult {
-  explanation: string;
-  timeComplexity: string;
-  spaceComplexity: string;
-  keyConcepts: string[];
-  suggestions: string[];
+interface AnalysisHistoryItem {
+  id: string;
+  timestamp: number;
+  actionType: string;
+  model: string;
+  inputCodeSnippet: string;
+  resultMarkdown: string;
 }
 
 export function CodeExplainerClient() {
+  const [mounted, setMounted] = useState(false);
   const [code, setCode] = useState("");
-  const [language, setLanguage] = useState("typescript");
-  const [detailLevel, setDetailLevel] = useState<"beginner" | "intermediate" | "expert">("intermediate");
+  const [aiModel, setAiModel] = useState("llama-3.3-70b-versatile");
+  const [actionType, setActionType] = useState("explain");
+  const [targetLanguage, setTargetLanguage] = useState("python");
+  
+  // Advanced Toggles
+  const [includeComments, setIncludeComments] = useState(false);
+  const [optimizePerformance, setOptimizePerformance] = useState(false);
+  const [edgeCases, setEdgeCases] = useState(false);
 
   const [isProcessing, setIsProcessing] = useState(false);
-  const [result, setResult] = useState<CodeAnalysisResult | null>(null);
+  const [result, setResult] = useState<string | null>(null);
+  const [history, setHistory] = useState<AnalysisHistoryItem[]>([]);
+
+  useEffect(() => {
+    setMounted(true);
+    const saved = localStorage.getItem("toolflux_code_explainer_history");
+    if (saved) {
+      try {
+        setHistory(JSON.parse(saved));
+      } catch (e) {
+        console.error("Failed to parse code explainer history");
+      }
+    }
+  }, []);
+
+  const saveToHistory = (item: AnalysisHistoryItem) => {
+    const updated = [item, ...history].slice(0, 10);
+    setHistory(updated);
+    localStorage.setItem("toolflux_code_explainer_history", JSON.stringify(updated));
+  };
+
+  const clearHistory = () => {
+    setHistory([]);
+    localStorage.removeItem("toolflux_code_explainer_history");
+    toast.success("History cleared");
+  };
 
   const lineCount = useMemo(() => (code.trim() ? code.trim().split("\n").length : 0), [code]);
 
-  const explainCode = useCallback(() => {
-    if (!code.trim()) {
-      toast.error("Please paste code to explain");
-      return;
+  const generatePrompt = () => {
+    let prompt = `You are an elite Staff Software Engineer and AI code assistant. Please process the following code strictly according to the requested action.\n\n`;
+    
+    switch (actionType) {
+      case "explain":
+        prompt += `Task: Provide a highly clear, structured, plain-English breakdown of what this code does. Explain the core logic, purpose, and flow step-by-step.\n`;
+        break;
+      case "complexity":
+        prompt += `Task: Perform a rigorous algorithmic audit. State the Big-O Time Complexity and Space Complexity upfront. Break down the bottlenecks, memory allocations, and loop iterations.\n`;
+        break;
+      case "review":
+        prompt += `Task: Conduct a thorough code review. Identify potential bugs, security vulnerabilities, anti-patterns, and bad practices. Provide actionable fixes and improved code blocks.\n`;
+        break;
+      case "convert":
+        prompt += `Task: Convert the provided source code accurately into **${targetLanguage}**. Ensure idiomatic patterns, standard libraries, and best practices for ${targetLanguage} are utilized. Provide the converted code and briefly explain any syntax changes made.\n`;
+        break;
+      case "test":
+        prompt += `Task: Generate a comprehensive suite of unit tests for the provided code. Use a popular testing framework (like Jest, PyTest, or native testing libraries depending on the language).\n`;
+        break;
+      default:
+        prompt += `Task: Explain the code.\n`;
     }
 
+    if (includeComments) prompt += `- Include detailed inline comments in any code blocks you provide to explain the logic.\n`;
+    if (optimizePerformance) prompt += `- Provide performance optimizations and refactor the code to be faster and more memory-efficient.\n`;
+    if (edgeCases) prompt += `- Strictly address edge cases (e.g., null inputs, out-of-bounds, invalid types, empty arrays) and explain how they are handled or should be handled.\n`;
+
+    prompt += `\nEnsure your response is formatted purely in Markdown. Wrap code in standard Markdown code blocks with appropriate language tags.\n\n[USER SOURCE CODE]:\n\`\`\`\n${code}\n\`\`\``;
+    return prompt;
+  };
+
+  const handleGenerate = async () => {
+    if (!code.trim()) {
+      toast.error("Please paste source code to analyze");
+      return;
+    }
+    
     setIsProcessing(true);
+    setResult(null);
 
-    setTimeout(() => {
-      const lines = code.trim().split("\n");
-      const sampleLine = lines[0] || "";
-
-      let explanationText = "";
-      let timeComp = "O(N)";
-      let spaceComp = "O(1)";
-      let concepts = ["Control Flow", "Function Scope", "Type Inference"];
-      let suggestions = ["Consider memoization for recursive calls", "Add explicit return type annotations"];
-
-      if (detailLevel === "beginner") {
-        explanationText = `This ${language.toUpperCase()} snippet performs data transformation across ${lines.length} lines.\n\nFirst, it initializes variables using '${sampleLine.slice(0, 30)}...'. Then, it iterates through input parameters and returns the evaluated result safely.`;
-      } else if (detailLevel === "expert") {
-        explanationText = `High-level architectural audit for ${language.toUpperCase()} block:\n\n1. Execution Context: Evaluates closure boundaries and heap allocations.\n2. Iteration Bottlenecks: Operates in sequential pass over target collections.\n3. Safety Check: Null check guards prevent runtime null dereferences.`;
-        timeComp = "O(N log N)";
-        spaceComp = "O(N)";
-        concepts = ["Closure Scope", "Memory Allocation", "Algorithmic Complexity"];
-      } else {
-        explanationText = `Technical Breakdown (${language.toUpperCase()}):\n\n- Line 1 establishes context and variable definitions.\n- Core loop/conditional logic computes intermediate state values.\n- Returns structured output to the caller while preventing side effects.`;
-      }
-
-      setResult({
-        explanation: explanationText,
-        timeComplexity: timeComp,
-        spaceComplexity: spaceComp,
-        keyConcepts: concepts,
-        suggestions
+    try {
+      const promptText = generatePrompt();
+      const response = await fetch("/api/ai/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prompt: promptText,
+          type: "text", // Signals to our API that we want raw text back, not a list
+          model: aiModel
+        }),
       });
 
-      setIsProcessing(false);
-      toast.success("Code breakdown and complexity analysis generated!");
-    }, 400);
-  }, [code, language, detailLevel]);
+      const data = await response.json();
+      
+      if (!data.success || !data.raw) {
+        throw new Error(data.error || "Failed to generate AI response.");
+      }
 
-  const handleCopy = (text: string, label: string) => {
-    navigator.clipboard.writeText(text);
-    toast.success(`${label} copied to clipboard!`);
+      const rawResult = data.raw;
+      setResult(rawResult);
+
+      const newItem: AnalysisHistoryItem = {
+        id: Date.now().toString(),
+        timestamp: Date.now(),
+        actionType,
+        model: aiModel,
+        inputCodeSnippet: code.substring(0, 100) + (code.length > 100 ? "..." : ""),
+        resultMarkdown: rawResult
+      };
+      saveToHistory(newItem);
+      toast.success("Analysis complete!");
+    } catch (error: any) {
+      toast.error(error.message || "An error occurred during analysis.");
+    } finally {
+      setIsProcessing(false);
+    }
   };
+
+  const handleCopy = () => {
+    if (result) {
+      navigator.clipboard.writeText(result);
+      toast.success("Copied to clipboard!");
+    }
+  };
+
+  const loadHistoryItem = (item: AnalysisHistoryItem) => {
+    setResult(item.resultMarkdown);
+    toast.success("Loaded from history");
+  };
+
+  if (!mounted) return null;
 
   return (
     <div className="max-w-6xl mx-auto space-y-8 p-4">
+      {/* Required for Syntax Highlighting */}
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+
       {/* 3D Cyan Code Icon Header Box */}
-      <div className="flex items-center gap-4 bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-md shadow-slate-200/50">
-        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500 to-teal-600 text-white shadow-lg shadow-cyan-500/30 flex items-center justify-center shrink-0">
-          <Code2 className="w-7 h-7" />
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-md shadow-slate-200/50">
+        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500 to-teal-600 text-white shadow-lg shadow-cyan-500/30 flex items-center justify-center shrink-0">
+          <Code2 className="w-8 h-8" />
         </div>
         <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-slate-100">AI Code Explainer & Algorithmic Auditor</h1>
-            <span className="text-[10px] font-bold uppercase tracking-wider bg-cyan-100 dark:bg-cyan-950/50 text-cyan-700 dark:text-cyan-300 px-2.5 py-0.5 rounded-full border border-cyan-200">FAST</span>
+          <div className="flex items-center gap-3 mb-1">
+            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-slate-100 tracking-tight">AI Code Explainer & Converter</h1>
+            <span className="text-[10px] font-bold uppercase tracking-wider bg-cyan-100 dark:bg-cyan-950/50 text-cyan-700 dark:text-cyan-300 px-2.5 py-1 rounded-full border border-cyan-200">POWERED BY LLMs</span>
           </div>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Decode complex code snippets, algorithms, and legacy functions into clear line-by-line breakdowns and Big-O complexity metrics.</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">Instantly decode complex algorithms, convert languages, generate unit tests, and audit Big-O complexity using top-tier AI models.</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <GlassCard className="p-0">
-          <CardHeader className="border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 p-4">
-            <div className="flex justify-between items-center">
-              <CardTitle className="text-sm font-semibold flex items-center gap-2 text-slate-900 dark:text-slate-100">
-                <Terminal className="w-4 h-4 text-cyan-600" />
-                Source Code Editor
-              </CardTitle>
-              <span className="text-[11px] font-mono text-slate-500 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">{lineCount} lines</span>
-            </div>
-          </CardHeader>
-          <CardContent className="p-4 sm:p-6 space-y-4">
-            <div>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* Left Column: Editor & Settings */}
+        <div className="lg:col-span-5 space-y-4">
+          <GlassCard className="p-0 overflow-hidden">
+            <CardHeader className="border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 p-4">
+              <div className="flex justify-between items-center">
+                <CardTitle className="text-sm font-semibold flex items-center gap-2 text-slate-900 dark:text-slate-100">
+                  <Terminal className="w-4 h-4 text-cyan-600" />
+                  Source Code Editor
+                </CardTitle>
+                <span className="text-[11px] font-mono text-slate-500 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">{lineCount} lines</span>
+              </div>
+            </CardHeader>
+            <CardContent className="p-0">
               <textarea
-                className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-3 text-sm outline-none focus:ring-2 focus:ring-cyan-500 min-h-[220px] font-mono leading-relaxed text-slate-900 dark:text-slate-100"
+                className="w-full bg-white dark:bg-slate-900 p-4 text-sm outline-none resize-none min-h-[300px] font-mono leading-relaxed text-slate-900 dark:text-slate-100 focus:ring-0 border-0"
                 placeholder="// Paste JavaScript, Python, Rust, Go, C++, or SQL code snippet here..."
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
               />
-            </div>
+            </CardContent>
+          </GlassCard>
 
-            <div className="grid grid-cols-2 gap-3">
+          <GlassCard className="p-5 space-y-4">
+            <div className="flex items-center gap-2 mb-2">
+              <Settings className="w-4 h-4 text-slate-400" />
+              <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">Configuration</h3>
+            </div>
+            
+            <div className="space-y-3">
               <div>
-                <Label className="text-xs mb-1 block text-slate-700 dark:text-slate-300 font-medium">Programming Language</Label>
+                <Label className="text-xs mb-1.5 block text-slate-600 dark:text-slate-400 font-semibold">AI Model</Label>
                 <select
-                  className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-2 text-xs text-slate-900 dark:text-slate-100 font-medium"
-                  value={language}
-                  onChange={(e) => setLanguage(e.target.value)}
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 px-3 py-2.5 text-sm text-slate-900 dark:text-slate-100 font-medium focus:ring-2 focus:ring-cyan-500 outline-none"
+                  value={aiModel}
+                  onChange={(e) => setAiModel(e.target.value)}
                 >
-                  <option value="typescript">TypeScript / JavaScript</option>
-                  <option value="python">Python 3</option>
-                  <option value="rust">Rust</option>
-                  <option value="golang">Go (Golang)</option>
-                  <option value="cpp">C++ / C</option>
-                  <option value="sql">SQL Query</option>
+                  <option value="llama-3.3-70b-versatile">Groq Llama 3.3 70B (Fastest)</option>
+                  <option value="gpt-4o">OpenAI GPT-4o (Premium)</option>
+                  <option value="claude-3-5-sonnet-20241022">Claude 3.5 Sonnet (Best Logic)</option>
+                  <option value="gemini-1.5-pro">Gemini 1.5 Pro</option>
                 </select>
               </div>
 
               <div>
-                <Label className="text-xs mb-1 block text-slate-700 dark:text-slate-300 font-medium">Detail Level</Label>
+                <Label className="text-xs mb-1.5 block text-slate-600 dark:text-slate-400 font-semibold">Core Task</Label>
                 <select
-                  className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 py-2 text-xs text-slate-900 dark:text-slate-100 font-medium"
-                  value={detailLevel}
-                  onChange={(e) => setDetailLevel(e.target.value as any)}
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 px-3 py-2.5 text-sm text-slate-900 dark:text-slate-100 font-medium focus:ring-2 focus:ring-cyan-500 outline-none"
+                  value={actionType}
+                  onChange={(e) => setActionType(e.target.value)}
                 >
-                  <option value="beginner">Beginner (Plain English)</option>
-                  <option value="intermediate">Intermediate (Technical)</option>
-                  <option value="expert">Expert (Architecture & Big-O)</option>
+                  <option value="explain">Plain English Explanation</option>
+                  <option value="complexity">Big-O Complexity Audit</option>
+                  <option value="review">Find Bugs & Code Review</option>
+                  <option value="convert">Convert to Another Language</option>
+                  <option value="test">Generate Unit Tests</option>
                 </select>
+              </div>
+
+              {actionType === "convert" && (
+                <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }}>
+                  <Label className="text-xs mb-1.5 block text-slate-600 dark:text-slate-400 font-semibold">Target Language</Label>
+                  <select
+                    className="w-full rounded-xl border border-cyan-200 dark:border-cyan-800/50 bg-cyan-50/30 dark:bg-cyan-950/20 px-3 py-2.5 text-sm text-cyan-900 dark:text-cyan-100 font-medium focus:ring-2 focus:ring-cyan-500 outline-none"
+                    value={targetLanguage}
+                    onChange={(e) => setTargetLanguage(e.target.value)}
+                  >
+                    <option value="python">Python</option>
+                    <option value="typescript">TypeScript</option>
+                    <option value="javascript">JavaScript</option>
+                    <option value="rust">Rust</option>
+                    <option value="golang">Go (Golang)</option>
+                    <option value="cpp">C++</option>
+                    <option value="java">Java</option>
+                    <option value="csharp">C#</option>
+                    <option value="sql">SQL</option>
+                  </select>
+                </motion.div>
+              )}
+
+              <div className="pt-2">
+                <Label className="text-xs mb-2 block text-slate-600 dark:text-slate-400 font-semibold">Advanced Prompt Toggles</Label>
+                <div className="space-y-2">
+                  <label className="flex items-center gap-2 cursor-pointer group">
+                    <input type="checkbox" checked={includeComments} onChange={(e) => setIncludeComments(e.target.checked)} className="rounded text-cyan-600 focus:ring-cyan-500 bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700 cursor-pointer" />
+                    <span className="text-sm text-slate-700 dark:text-slate-300 group-hover:text-cyan-600 transition-colors">Include Detailed Code Comments</span>
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer group">
+                    <input type="checkbox" checked={optimizePerformance} onChange={(e) => setOptimizePerformance(e.target.checked)} className="rounded text-cyan-600 focus:ring-cyan-500 bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700 cursor-pointer" />
+                    <span className="text-sm text-slate-700 dark:text-slate-300 group-hover:text-cyan-600 transition-colors">Optimize for Performance</span>
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer group">
+                    <input type="checkbox" checked={edgeCases} onChange={(e) => setEdgeCases(e.target.checked)} className="rounded text-cyan-600 focus:ring-cyan-500 bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700 cursor-pointer" />
+                    <span className="text-sm text-slate-700 dark:text-slate-300 group-hover:text-cyan-600 transition-colors">Handle Edge Cases / Vulnerabilities</span>
+                  </label>
+                </div>
               </div>
             </div>
 
-            <Button onClick={explainCode} disabled={isProcessing || !code.trim()} className="w-full gap-2 mt-2 bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-700 hover:to-teal-700 text-white font-semibold shadow-md shadow-cyan-500/20 rounded-xl h-11">
-              {isProcessing ? <RefreshCcw className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-              {isProcessing ? "Analyzing Code Base..." : "Explain Code Snippet"}
+            <Button onClick={handleGenerate} disabled={isProcessing || !code.trim()} className="w-full gap-2 mt-4 bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-700 hover:to-teal-700 text-white font-bold shadow-lg shadow-cyan-500/25 rounded-xl h-12 text-sm transition-all hover:scale-[1.02] active:scale-95">
+              {isProcessing ? <RefreshCcw className="w-5 h-5 animate-spin" /> : <Wand2 className="w-5 h-5" />}
+              {isProcessing ? "AI Engine Running..." : "Execute Analysis"}
             </Button>
-          </CardContent>
-        </GlassCard>
+          </GlassCard>
 
-        <div className="space-y-4">
-          {result ? (
-            <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
-              <GlassCard className="p-4 space-y-3">
-                <div className="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-2">
-                  <span className="text-xs font-extrabold text-cyan-600 uppercase tracking-wider flex items-center gap-1.5">
-                    <FileCode className="w-3.5 h-3.5" /> Plain-English Breakdown
-                  </span>
-                  <Button variant="outline" size="sm" onClick={() => handleCopy(result.explanation, "Explanation")} className="h-7 text-xs gap-1 border-slate-200">
-                    <Copy className="w-3.5 h-3.5" /> Copy
-                  </Button>
+          {/* History Section */}
+          {history.length > 0 && (
+            <GlassCard className="p-5">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <History className="w-4 h-4 text-slate-500" />
+                  <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">Recent Executions</h3>
                 </div>
-                <p className="text-sm leading-relaxed whitespace-pre-wrap text-slate-800 dark:text-slate-200">{result.explanation}</p>
-              </GlassCard>
-
-              <GlassCard className="p-4 space-y-3">
-                <div className="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-2">
-                  <span className="text-xs font-extrabold text-emerald-600 uppercase tracking-wider flex items-center gap-1.5">
-                    <Cpu className="w-3.5 h-3.5" /> Big-O Complexity Audit
-                  </span>
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="bg-emerald-50 dark:bg-emerald-950/40 p-3 rounded-xl border border-emerald-200 dark:border-emerald-800 text-center">
-                    <span className="text-[11px] text-emerald-700 dark:text-emerald-300 font-semibold block">Time Complexity</span>
-                    <span className="text-base font-extrabold text-emerald-600 dark:text-emerald-400 font-mono mt-0.5 block">{result.timeComplexity}</span>
+                <button onClick={clearHistory} className="text-xs text-red-500 hover:text-red-600 font-semibold flex items-center gap-1">
+                  <Trash2 className="w-3 h-3" /> Clear
+                </button>
+              </div>
+              <div className="space-y-2">
+                {history.map((item) => (
+                  <div key={item.id} onClick={() => loadHistoryItem(item)} className="p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 hover:bg-cyan-50 dark:bg-slate-900/50 dark:hover:bg-cyan-950/30 cursor-pointer transition-colors group">
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="text-xs font-bold text-slate-800 dark:text-slate-200 capitalize">{item.actionType}</span>
+                      <span className="text-[10px] text-slate-400 font-mono">{new Date(item.timestamp).toLocaleTimeString()}</span>
+                    </div>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 font-mono truncate">{item.inputCodeSnippet}</p>
+                    <div className="flex items-center justify-between mt-2">
+                      <span className="text-[10px] font-medium text-cyan-600 dark:text-cyan-400 px-2 py-0.5 bg-cyan-100 dark:bg-cyan-900/30 rounded">{item.model.split("-")[0].toUpperCase()}</span>
+                      <ChevronRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-cyan-500 transition-colors" />
+                    </div>
                   </div>
-                  <div className="bg-emerald-50 dark:bg-emerald-950/40 p-3 rounded-xl border border-emerald-200 dark:border-emerald-800 text-center">
-                    <span className="text-[11px] text-emerald-700 dark:text-emerald-300 font-semibold block">Space Complexity</span>
-                    <span className="text-base font-extrabold text-emerald-600 dark:text-emerald-400 font-mono mt-0.5 block">{result.spaceComplexity}</span>
-                  </div>
-                </div>
-              </GlassCard>
-
-              <GlassCard className="p-4 space-y-2">
-                <span className="text-xs font-bold text-sky-600 uppercase tracking-wider block">Key Concepts & Optimization Tips:</span>
-                <div className="flex flex-wrap gap-1.5 pt-1">
-                  {result.keyConcepts.map((c, i) => (
-                    <span key={i} className="text-xs bg-sky-50 dark:bg-sky-950/50 text-sky-700 dark:text-sky-300 border border-sky-200 px-2.5 py-1 rounded-lg font-mono font-medium">
-                      {c}
-                    </span>
-                  ))}
-                </div>
-              </GlassCard>
-            </motion.div>
-          ) : (
-            <GlassCard className="p-8 h-[380px] flex flex-col items-center justify-center text-center text-slate-400 border-dashed border-2 border-slate-200 dark:border-slate-800">
-              <Code2 className="w-12 h-12 mb-3 text-slate-300 dark:text-slate-700" />
-              <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">No Code Explained Yet</p>
-              <p className="text-xs max-w-xs mt-1 text-slate-500">Paste your source code on the left to analyze execution logic, Big-O time complexity, and optimization tips.</p>
+                ))}
+              </div>
             </GlassCard>
           )}
+        </div>
+
+        {/* Right Column: Output */}
+        <div className="lg:col-span-7">
+          <GlassCard className="h-full min-h-[600px] flex flex-col p-0 overflow-hidden">
+            <CardHeader className="border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 p-4 shrink-0">
+              <div className="flex justify-between items-center">
+                <CardTitle className="text-sm font-semibold flex items-center gap-2 text-slate-900 dark:text-slate-100">
+                  <Sparkles className="w-4 h-4 text-teal-600" />
+                  AI Output Terminal
+                </CardTitle>
+                {result && (
+                  <Button variant="outline" size="sm" onClick={handleCopy} className="h-8 text-xs gap-1.5 border-slate-200 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800">
+                    <Copy className="w-3.5 h-3.5" /> Copy Output
+                  </Button>
+                )}
+              </div>
+            </CardHeader>
+            <CardContent className="p-0 flex-1 overflow-auto bg-slate-50/30 dark:bg-slate-900/20">
+              {isProcessing ? (
+                <div className="h-full flex flex-col items-center justify-center space-y-4 p-8">
+                  <div className="relative w-16 h-16">
+                    <div className="absolute inset-0 border-4 border-slate-100 dark:border-slate-800 rounded-full"></div>
+                    <div className="absolute inset-0 border-4 border-cyan-500 rounded-full border-t-transparent animate-spin"></div>
+                  </div>
+                  <p className="text-sm font-bold text-slate-600 dark:text-slate-400 animate-pulse">Running advanced AI models...</p>
+                  <p className="text-xs text-slate-400 font-mono text-center max-w-xs">Connecting to {aiModel} via API stream</p>
+                </div>
+              ) : result ? (
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="p-5 sm:p-8">
+                  <div className="prose prose-sm sm:prose-base dark:prose-invert prose-pre:bg-[#0d1117] prose-pre:border prose-pre:border-slate-800 prose-pre:shadow-xl max-w-none prose-headings:text-slate-800 dark:prose-headings:text-slate-200 prose-a:text-cyan-600">
+                    <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
+                      {result}
+                    </ReactMarkdown>
+                  </div>
+                </motion.div>
+              ) : (
+                <div className="h-full flex flex-col items-center justify-center text-center p-8 text-slate-400">
+                  <div className="w-20 h-20 bg-slate-100 dark:bg-slate-800/50 rounded-full flex items-center justify-center mb-4">
+                    <Code2 className="w-10 h-10 text-slate-300 dark:text-slate-600" />
+                  </div>
+                  <p className="text-lg font-bold text-slate-700 dark:text-slate-300 mb-2">Awaiting Instructions</p>
+                  <p className="text-sm max-w-md mt-1 text-slate-500 leading-relaxed">
+                    Paste your source code, configure the AI model and prompt options, and hit execute to see the magic happen right here.
+                  </p>
+                </div>
+              )}
+            </CardContent>
+          </GlassCard>
         </div>
       </div>
 
       <ToolHowItWorks
         steps={[
-          { step: "01", title: "Paste Code Snippet", description: "Input functions, loops, or complex algorithms in any language.", icon: Code2 },
-          { step: "02", title: "Select Detail Level", description: "Choose between Beginner, Technical, or Expert Big-O analysis.", icon: Sliders },
-          { step: "03", title: "Copy Explanation", description: "Export line-by-line documentation directly into code comments or pull requests.", icon: CheckCircle2 }
+          { step: "01", title: "Paste Source Code", description: "Input functions, loops, or complex architectures in any language.", icon: Terminal },
+          { step: "02", title: "Select Operation", description: "Choose to Explain, Analyze Complexity, Find Bugs, Convert, or Write Tests.", icon: Settings },
+          { step: "03", title: "Execute AI Engine", description: "Receive perfectly formatted markdown and syntax-highlighted code blocks.", icon: Wand2 }
         ]}
-        badges={["100% Free", "Big-O Analysis", "Multi-Language Support"]}
+        badges={["LLM Powered", "Syntax Highlighting", "4+ AI Models"]}
       />
 
       <ToolFeatureGuides
         features={[
-          { icon: Code2, title: "Multi-Language Syntax Support", description: "Parses TypeScript, Python, Rust, Go, C++, and complex SQL queries." },
-          { icon: Cpu, title: "Algorithmic Big-O Auditing", description: "Calculates estimated time and space complexity metrics for performance tuning." },
-          { icon: CheckCircle2, title: "Client-Side Confidentiality", description: "Processes your proprietary code snippets 100% inside local browser memory." }
+          { icon: Code2, title: "Multi-Language Conversion", description: "Port legacy logic into modern frameworks instantly with context-aware language translation." },
+          { icon: Cpu, title: "Algorithmic Big-O Auditing", description: "Identifies hidden nested loops and recursive bottlenecks, calculating precise Time & Space complexity." },
+          { icon: Bug, title: "Automated Code Review", description: "Acts as a Senior Engineer reviewing your PR, catching null-pointer exceptions and security flaws." }
         ]}
       >
         <div className="prose dark:prose-invert max-w-none">
-          <h3>The Value of Automated Code Auditing</h3>
+          <h3>Why use AI for Code Analysis?</h3>
           <p>
-            Reading legacy or unfamiliar codebases consumes significant developer time. By decomposing complex functions into plain-English steps, developers rapidly onboard onto new repositories, audit algorithmic complexity, and write clear code comments during peer reviews.
+            Reading legacy or unfamiliar codebases consumes significant developer time. By leveraging massive LLMs like GPT-4o and Llama 3.3, you can decompose complex functions into plain-English steps, rapidly onboard onto new repositories, audit algorithmic complexity, and instantly port algorithms between languages without losing logic fidelity.
           </p>
         </div>
       </ToolFeatureGuides>
 
       <ToolFaqAccordion
         faqs={[
-          { question: "Is my code sent to external servers?", answer: "No. All parsing and analysis execute locally inside your client browser context." },
-          { question: "Does it support SQL queries?", answer: "Yes! Select 'SQL Query' in the language dropdown to break down complex JOINs and aggregations." }
+          { question: "Which AI models can I use?", answer: "We support Groq Llama 3.3 70B for maximum speed, OpenAI GPT-4o for premium logic reasoning, Anthropic Claude 3.5 Sonnet, and Google Gemini 1.5 Pro." },
+          { question: "Can I convert code to a language not listed?", answer: "Currently, we provide dropdowns for the most popular languages (Python, TS, JS, Rust, Go, C++, Java, C#, SQL). The AI is capable of others, but we optimize prompts for these specific targets." },
+          { question: "Are my generated results saved?", answer: "Yes, your recent execution history is safely stored in your browser's local storage so you can retrieve previous audits instantly." }
         ]}
       />
 

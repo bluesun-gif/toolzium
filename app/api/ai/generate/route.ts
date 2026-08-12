@@ -41,7 +41,11 @@ function cleanAiOutput(text: string): string[] {
     .filter((line) => line.length > 0 && !line.toLowerCase().includes("here is") && !line.toLowerCase().includes("here are"));
 }
 
-async function callGroq(prompt: string, key: string) {
+async function callGroq(prompt: string, key: string, type: string = "list") {
+  const systemPrompt = type === "text" 
+    ? "You are an expert AI assistant. Provide your response directly in markdown format."
+    : "You are a creative naming & content generation AI engine. Return only the generated list of items, one per line. Do not include introductory conversational text or markdown formatting.";
+
   const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
     method: "POST",
     headers: {
@@ -53,7 +57,7 @@ async function callGroq(prompt: string, key: string) {
       messages: [
         {
           role: "system",
-          content: "You are a creative naming & content generation AI engine. Return only the generated list of items, one per line. Do not include introductory conversational text or markdown formatting.",
+          content: systemPrompt,
         },
         { role: "user", content: prompt },
       ],
@@ -71,7 +75,11 @@ async function callGroq(prompt: string, key: string) {
   return data.choices?.[0]?.message?.content || "";
 }
 
-async function callOpenRouter(prompt: string, key: string) {
+async function callOpenRouter(prompt: string, key: string, type: string = "list") {
+  const systemPrompt = type === "text" 
+    ? "You are an expert AI assistant. Provide your response directly in markdown format."
+    : "You are a creative naming & content generation AI engine. Return only the generated list of items, one per line. Do not include introductory conversational text or markdown formatting.";
+
   const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     method: "POST",
     headers: {
@@ -85,7 +93,7 @@ async function callOpenRouter(prompt: string, key: string) {
       messages: [
         {
           role: "system",
-          content: "You are a creative naming & content generation AI engine. Return only the generated list of items, one per line. Do not include introductory conversational text or markdown formatting.",
+          content: systemPrompt,
         },
         { role: "user", content: prompt },
       ],
@@ -103,7 +111,11 @@ async function callOpenRouter(prompt: string, key: string) {
   return data.choices?.[0]?.message?.content || "";
 }
 
-async function callGemini(prompt: string, key: string) {
+async function callGemini(prompt: string, key: string, type: string = "list") {
+  const systemPrompt = type === "text" 
+    ? "You are an expert AI assistant. Provide your response directly in markdown format."
+    : "You are a creative naming & content generation AI engine. Return only the generated list of items, one per line. Do not include introductory conversational text or markdown formatting.";
+
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`;
   const res = await fetch(url, {
     method: "POST",
@@ -115,7 +127,7 @@ async function callGemini(prompt: string, key: string) {
         {
           parts: [
             {
-              text: "System: You are a creative naming & content generation AI engine. Return only the generated list of items, one per line. Do not include introductory conversational text or markdown formatting.\nUser: " + prompt,
+              text: "System: " + systemPrompt + "\nUser: " + prompt,
             },
           ],
         },
@@ -155,7 +167,7 @@ export async function POST(req: Request) {
         groqIndex++;
 
         try {
-          rawOutput = await callGroq(prompt, key);
+          rawOutput = await callGroq(prompt, key, type);
           if (rawOutput) break;
         } catch (err: any) {
           console.warn(`Groq key attempt ${attempt + 1} failed:`, err.message);
@@ -171,7 +183,7 @@ export async function POST(req: Request) {
         openRouterIndex++;
 
         try {
-          rawOutput = await callOpenRouter(prompt, key);
+          rawOutput = await callOpenRouter(prompt, key, type);
           if (rawOutput) break;
         } catch (err: any) {
           console.warn(`OpenRouter key attempt ${attempt + 1} failed:`, err.message);
@@ -187,7 +199,7 @@ export async function POST(req: Request) {
         geminiIndex++;
 
         try {
-          rawOutput = await callGemini(prompt, key);
+          rawOutput = await callGemini(prompt, key, type);
           if (rawOutput) break;
         } catch (err: any) {
           console.warn(`Gemini key attempt ${attempt + 1} failed:`, err.message);
