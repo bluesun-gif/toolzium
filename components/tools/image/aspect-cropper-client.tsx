@@ -700,22 +700,22 @@ export function AspectCropperClient() {
         {/* Feature & FAQ Content */}
         <ToolHowItWorks
           steps={[
-            { title: "Upload Image", description: "Select any PNG, JPG, or WebP photo from your computer or phone." },
-            { title: "Select Aspect Ratio", description: "Choose a preset (1:1, 16:9, 9:16, 4:5, 3:2, 21:9) or custom freeform cropping." },
-            { title: "Interactive Canvas Drag", description: "Drag the crop box anywhere or pull corner grab handles to adjust crop dimensions." },
-            { title: "Export High-Res Image", description: "Click Download Cropped Image to export your cropped photo in PNG, JPEG, or WebP." }
+            { step: "01", title: "Upload Image", description: "Select any PNG, JPG, or WebP photo from your computer or phone." },
+            { step: "02", title: "Select Aspect Ratio", description: "Choose a preset (1:1, 16:9, 9:16, 4:5, 3:2, 21:9) or custom freeform cropping." },
+            { step: "03", title: "Interactive Canvas Drag", description: "Drag the crop box anywhere or pull corner grab handles to adjust crop dimensions." },
+            { step: "04", title: "Export High-Res Image", description: "Click Download Cropped Image to export your cropped photo in PNG, JPEG, or WebP." }
           ]}
         />
 
         <ToolFeatureGuides
-          guides={[
+          features={[
             {
-              title: "Social Media Image Dimensions Guide",
-              content: "Optimizing your image dimensions prevents pixelation and unwanted cropping across major platforms:\n\n• Instagram Post (1:1 Square): 1080 × 1080 px\n• Instagram Portrait (4:5): 1080 × 1350 px\n• TikTok & IG Reels (9:16): 1080 × 1920 px\n• YouTube Thumbnail (16:9): 1280 × 720 px\n• X / Twitter Post (16:9): 1200 × 675 px"
+              title: "Social Media Preset Dimensions",
+              description: "Presets automatically crop to 1:1 Square (Instagram/Avatar), 16:9 Landscape (YouTube), 9:16 Story/Reels, 4:5 Feed, 3:2 Photo, and 21:9 Ultrawide."
             },
             {
               title: "100% Client-Side Privacy",
-              content: "Your photos and images are processed entirely inside your local web browser. No image data is ever uploaded to external servers."
+              description: "Your photos and images are processed entirely inside your local web browser using HTML5 Canvas. Zero uploads to external servers."
             }
           ]}
         />
