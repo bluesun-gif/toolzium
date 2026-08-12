@@ -511,19 +511,19 @@ export function ShortenerClient() {
                   <RefreshCcw className="w-6 h-6 animate-spin text-primary" />
                   <span className="text-xs font-semibold">Fetching telemetry data...</span>
                 </div>
-              ) : analyticsData && analyticsData.ok ? (
+              ) : analyticsData ? (
                 <div className="space-y-4 text-xs">
                   <div className="grid grid-cols-2 gap-3">
                     <div className="p-3 bg-muted/40 rounded-xl border border-border">
                       <span className="text-muted-foreground block text-[11px]">Total Clicks</span>
                       <span className="text-2xl font-extrabold text-primary font-mono">
-                        {analyticsData.analytics?.totalClicks || 0}
+                        {analyticsData.total || 0}
                       </span>
                     </div>
                     <div className="p-3 bg-muted/40 rounded-xl border border-border">
                       <span className="text-muted-foreground block text-[11px]">Created At</span>
                       <span className="text-xs font-semibold text-foreground">
-                        {analyticsData.analytics?.createdAt ? new Date(analyticsData.analytics.createdAt).toLocaleDateString() : "Today"}
+                        {analyticsData.first ? new Date(analyticsData.first).toLocaleDateString() : "Today"}
                       </span>
                     </div>
                   </div>
@@ -531,7 +531,7 @@ export function ShortenerClient() {
                   <div className="space-y-2">
                     <span className="font-bold text-muted-foreground block uppercase text-[10px]">Destination URL</span>
                     <p className="p-3 bg-muted/40 rounded-xl border border-border font-mono break-all text-foreground text-xs">
-                      {analyticsData.analytics?.originalUrl}
+                      {analyticsData.link?.targetUrl}
                     </p>
                   </div>
                 </div>
