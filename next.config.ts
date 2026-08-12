@@ -17,7 +17,7 @@ const nextConfig: NextConfig = {
   },
     async redirects() {
     return [
-      { source: "/tools/ai/prompt%20optimizer", destination: "/tools/ai/prompt-optimizer", permanent: true },
+      { source: "/tools/ai/prompt optimizer", destination: "/tools/ai/prompt-optimizer", permanent: true },
       { source: "/tools/ai/prompt_optimizer", destination: "/tools/ai/prompt-optimizer", permanent: true },
       { source: "/tools/ai/promptoptimizer", destination: "/tools/ai/prompt-optimizer", permanent: true },
       { source: "/tools/ai/prompt-engineering", destination: "/tools/ai/prompt-optimizer", permanent: true },
