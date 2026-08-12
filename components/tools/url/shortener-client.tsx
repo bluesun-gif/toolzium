@@ -147,7 +147,11 @@ export function ShortenerClient() {
           const shortUrl = `${origin}/${slug}`;
 
           const qrTargetUrl = `${shortUrl}?src=qr`;
-          const qrDataUrl = await QRCode.toDataURL(qrTargetUrl, { width: 280, margin: 2 });
+          const qrDataUrl = await QRCode.toDataURL(qrTargetUrl, {
+            width: 280,
+            margin: 2,
+            color: { dark: "#000000", light: "#ffffff" }
+          });
 
           newLinks.push({
             id: res.link.id || `slug-${Date.now()}-${i}`,
@@ -232,18 +236,36 @@ export function ShortenerClient() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
           {/* Left Input Control Card */}
           <GlassCard className="p-5 flex flex-col bg-background border-border shadow-sm rounded-2xl">
-            <div className="flex justify-between items-center border-b border-border pb-3 mb-4">
-              <Label className="text-lg font-bold text-foreground flex items-center gap-2">
-                <Link2 className="w-5 h-5 text-primary" />
-                Shorten URL Input
+            <div className="flex flex-wrap justify-between items-center border-b border-border pb-3 mb-4 gap-2">
+              <Label className="text-base font-bold text-foreground flex items-center gap-2">
+                <Scissors className="w-4 h-4 text-primary" /> Shorten URL Studio
               </Label>
-              <button
-                type="button"
-                onClick={() => setIsBatchMode(!isBatchMode)}
-                className="text-xs text-primary hover:underline flex items-center gap-1 font-semibold"
-              >
-                {isBatchMode ? "Single URL Mode" : "Bulk Batch Mode"}
-              </button>
+              <div className="flex gap-1 bg-muted/60 p-1 rounded-xl border border-border">
+                <Button
+                  type="button"
+                  variant={!isBatchMode ? "default" : "ghost"}
+                  size="sm"
+                  onClick={() => setIsBatchMode(false)}
+                  className={cn(
+                    "h-7 text-xs font-bold rounded-lg px-3 transition-all",
+                    !isBatchMode ? "bg-primary text-white shadow-sm" : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  Single URL
+                </Button>
+                <Button
+                  type="button"
+                  variant={isBatchMode ? "default" : "ghost"}
+                  size="sm"
+                  onClick={() => setIsBatchMode(true)}
+                  className={cn(
+                    "h-7 text-xs font-bold rounded-lg px-3 transition-all",
+                    isBatchMode ? "bg-primary text-white shadow-sm" : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  Bulk Batch Mode
+                </Button>
+              </div>
             </div>
 
             <div className="space-y-4 flex-1">
@@ -257,7 +279,7 @@ export function ShortenerClient() {
                       placeholder="https://example.com/very-long-url-path-name?ref=marketing"
                       value={longUrl}
                       onChange={(e) => setLongUrl(e.target.value)}
-                      className="bg-background border-border"
+                      className="bg-background border-border text-foreground font-sans"
                     />
                   </div>
 
@@ -270,26 +292,26 @@ export function ShortenerClient() {
                         type="button"
                         onClick={generateAiAlias}
                         disabled={isGeneratingAiSlug || !longUrl.trim()}
-                        className="text-xs font-bold text-primary hover:underline flex items-center gap-1"
+                        className="text-xs font-bold text-primary hover:underline flex items-center gap-1 cursor-pointer"
                       >
                         {isGeneratingAiSlug ? (
                           <RefreshCcw className="w-3 h-3 animate-spin" />
                         ) : (
                           <Wand2 className="w-3 h-3" />
                         )}
-                        <span>AI Smart Alias</span>
+                        <span>✨ AI Smart Alias</span>
                       </button>
                     </div>
 
                     <div className="flex items-center">
-                      <span className="text-xs font-mono bg-muted/80 text-muted-foreground px-3 py-2.5 rounded-l-xl border border-border border-r-0 shrink-0 font-semibold">
+                      <span className="text-xs font-mono bg-muted text-foreground border border-border border-r-0 px-3 py-2.5 rounded-l-xl shrink-0 font-bold">
                         toolzium.com/
                       </span>
                       <Input
                         placeholder="my-custom-link"
                         value={customAlias}
                         onChange={(e) => setCustomAlias(e.target.value)}
-                        className="bg-background border-border rounded-l-none"
+                        className="bg-background border-border rounded-l-none text-foreground font-mono"
                       />
                     </div>
                   </div>
@@ -311,7 +333,7 @@ export function ShortenerClient() {
               <Button
                 onClick={handleShorten}
                 disabled={isShortening || (!longUrl.trim() && !batchInput.trim())}
-                className="w-full gap-2 mt-4 bg-primary hover:bg-primary/90 text-white font-semibold shadow-lg shadow-primary/20 rounded-xl h-12 text-base"
+                className="w-full gap-2 mt-4 bg-primary hover:bg-primary/90 text-white font-bold shadow-lg shadow-primary/20 rounded-xl h-12 text-base"
               >
                 {isShortening ? (
                   <RefreshCcw className="w-5 h-5 animate-spin" />
@@ -327,7 +349,7 @@ export function ShortenerClient() {
           <div className="flex flex-col space-y-4">
             {activeResults.length > 0 ? (
               <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
-                <Label className="text-lg font-bold text-foreground block px-1">
+                <Label className="text-base font-bold text-foreground block px-1">
                   Newly Created Short Links ({activeResults.length})
                 </Label>
 
@@ -387,9 +409,9 @@ export function ShortenerClient() {
                 </div>
               </motion.div>
             ) : (
-              <GlassCard className="p-8 h-full min-h-[420px] flex flex-col items-center justify-center text-center text-muted-foreground border-dashed border-2 border-border rounded-2xl">
+              <GlassCard className="p-8 h-full min-h-[420px] flex flex-col items-center justify-center text-center text-muted-foreground border-dashed border-2 border-border rounded-2xl bg-background shadow-sm">
                 <Scissors className="w-14 h-14 mb-3 text-muted-foreground/40" />
-                <p className="text-base font-semibold text-foreground">No Short Links Created Yet</p>
+                <p className="text-base font-bold text-foreground">No Short Links Created Yet</p>
                 <p className="text-xs max-w-xs mt-1 text-muted-foreground">
                   Paste your long destination URL on the left to generate clean short links, scannable QR codes, and click analytics.
                 </p>
@@ -409,7 +431,7 @@ export function ShortenerClient() {
                 variant="ghost"
                 size="sm"
                 onClick={handleClearHistory}
-                className="h-7 text-xs text-muted-foreground hover:text-red-500"
+                className="h-7 text-xs text-muted-foreground hover:text-red-500 font-semibold"
               >
                 <Trash2 className="w-3.5 h-3.5 mr-1" /> Clear History
               </Button>
@@ -419,7 +441,7 @@ export function ShortenerClient() {
               {history.map((item, idx) => (
                 <div
                   key={idx}
-                  className="flex flex-col sm:flex-row sm:items-center justify-between text-xs bg-muted/30 p-3 rounded-xl border border-border gap-2"
+                  className="flex flex-col sm:flex-row sm:items-center justify-between text-xs bg-muted/30 p-3.5 rounded-xl border border-border gap-2"
                 >
                   <div className="truncate max-w-md">
                     <a
@@ -478,76 +500,52 @@ export function ShortenerClient() {
                     setAnalyticsSlug(null);
                     setAnalyticsData(null);
                   }}
-                  className="h-8 w-8 rounded-full hover:bg-muted text-muted-foreground"
+                  className="rounded-full"
                 >
                   <X className="w-4 h-4" />
                 </Button>
               </div>
 
               {isLoadingAnalytics ? (
-                <div className="py-12 flex flex-col items-center justify-center text-muted-foreground gap-2">
+                <div className="py-12 flex flex-col items-center justify-center text-muted-foreground space-y-2">
                   <RefreshCcw className="w-6 h-6 animate-spin text-primary" />
-                  <span className="text-xs font-medium">Loading live click metrics...</span>
+                  <span className="text-xs font-semibold">Fetching telemetry data...</span>
                 </div>
-              ) : analyticsData ? (
-                <div className="space-y-4">
+              ) : analyticsData && analyticsData.ok ? (
+                <div className="space-y-4 text-xs">
                   <div className="grid grid-cols-2 gap-3">
-                    <div className="bg-primary/10 border border-primary/20 p-4 rounded-2xl text-center">
-                      <span className="text-xs font-semibold text-primary block mb-1">Total Click Volume</span>
-                      <span className="text-3xl font-black text-primary font-mono">{analyticsData.total}</span>
+                    <div className="p-3 bg-muted/40 rounded-xl border border-border">
+                      <span className="text-muted-foreground block text-[11px]">Total Clicks</span>
+                      <span className="text-2xl font-extrabold text-primary font-mono">
+                        {analyticsData.analytics?.totalClicks || 0}
+                      </span>
                     </div>
-                    <div className="bg-muted/50 border border-border p-4 rounded-2xl text-center">
-                      <span className="text-xs font-semibold text-muted-foreground block mb-1">First Created</span>
-                      <span className="text-sm font-bold text-foreground font-mono mt-1 block">
-                        {new Date(analyticsData.first).toLocaleDateString()}
+                    <div className="p-3 bg-muted/40 rounded-xl border border-border">
+                      <span className="text-muted-foreground block text-[11px]">Created At</span>
+                      <span className="text-xs font-semibold text-foreground">
+                        {analyticsData.analytics?.createdAt ? new Date(analyticsData.analytics.createdAt).toLocaleDateString() : "Today"}
                       </span>
                     </div>
                   </div>
 
                   <div className="space-y-2">
-                    <span className="text-xs font-bold text-foreground block flex items-center gap-1.5">
-                      <MousePointer className="w-3.5 h-3.5 text-primary" /> Traffic Referrals & Scans
-                    </span>
-                    <div className="bg-muted/40 p-3 rounded-2xl border border-border space-y-2 text-xs">
-                      {analyticsData.topReferrers.length > 0 ? (
-                        analyticsData.topReferrers.map(([source, count], i) => (
-                          <div
-                            key={i}
-                            className="flex justify-between items-center p-2 rounded-lg bg-background border border-border/60"
-                          >
-                            <span className="font-semibold text-foreground flex items-center gap-2 font-mono">
-                              {source.includes("QR") ? (
-                                <span className="p-1 bg-primary/10 text-primary rounded">
-                                  <Smartphone className="w-3.5 h-3.5" />
-                                </span>
-                              ) : (
-                                <span className="p-1 bg-primary/10 text-primary rounded">
-                                  <Globe className="w-3.5 h-3.5" />
-                                </span>
-                              )}
-                              {source}
-                            </span>
-                            <span className="font-extrabold text-primary font-mono">{count} clicks</span>
-                          </div>
-                        ))
-                      ) : (
-                        <p className="text-muted-foreground text-center text-xs py-3">
-                          No click referrers recorded yet.
-                        </p>
-                      )}
-                    </div>
+                    <span className="font-bold text-muted-foreground block uppercase text-[10px]">Destination URL</span>
+                    <p className="p-3 bg-muted/40 rounded-xl border border-border font-mono break-all text-foreground text-xs">
+                      {analyticsData.analytics?.originalUrl}
+                    </p>
                   </div>
                 </div>
               ) : (
-                <p className="text-xs text-muted-foreground text-center py-6">
-                  No analytics recorded for this short link yet.
-                </p>
+                <div className="py-8 text-center text-muted-foreground space-y-1">
+                  <p className="text-sm font-bold text-foreground">No Click Data Logged Yet</p>
+                  <p className="text-xs">Share your short link to start collecting click analytics!</p>
+                </div>
               )}
             </motion.div>
           </div>
         )}
 
-        {/* QR Code Modal */}
+        {/* High-Contrast QR Code Download Modal */}
         {qrModalUrl && (
           <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-md flex items-center justify-center p-4">
             <motion.div
@@ -555,23 +553,32 @@ export function ShortenerClient() {
               animate={{ scale: 1, opacity: 1 }}
               className="bg-card border border-border rounded-3xl p-6 max-w-sm w-full shadow-2xl text-center space-y-4"
             >
-              <h3 className="text-base font-bold text-foreground">Short Link QR Code</h3>
-              <div className="p-4 bg-white rounded-2xl inline-block border border-border shadow-md">
-                <img src={qrModalUrl} alt="QR Code" className="w-48 h-48 rounded-lg" />
+              <div className="flex justify-between items-center border-b border-border pb-2">
+                <span className="text-xs font-bold text-primary uppercase tracking-wider">
+                  Scannable QR Code
+                </span>
+                <Button variant="ghost" size="icon" onClick={() => setQrModalUrl(null)} className="rounded-full h-8 w-8 p-0">
+                  <X className="w-4 h-4" />
+                </Button>
               </div>
-              <div className="flex justify-center gap-2">
-                <a href={qrModalUrl} download="shortlink_qr.png" className="w-full">
-                  <Button size="sm" className="w-full text-xs gap-1.5 bg-primary text-white font-semibold rounded-xl h-10">
-                    <Download className="w-3.5 h-3.5" /> Download PNG
-                  </Button>
-                </a>
+
+              {/* White card container for 100% QR scannability on all themes */}
+              <div className="p-4 bg-white rounded-2xl inline-block border border-slate-200 shadow-md">
+                <img src={qrModalUrl} alt="QR Code" className="w-56 h-56 rounded-lg" />
+              </div>
+
+              <div className="flex gap-2">
                 <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setQrModalUrl(null)}
-                  className="text-xs rounded-xl border-border h-10"
+                  className="flex-1 bg-primary hover:bg-primary/90 text-white font-bold h-10 rounded-xl text-xs"
+                  onClick={() => {
+                    const a = document.createElement("a");
+                    a.href = qrModalUrl;
+                    a.download = `qrcode_${Date.now()}.png`;
+                    a.click();
+                    toast.success("QR Code downloaded!");
+                  }}
                 >
-                  Close
+                  <Download className="w-3.5 h-3.5 mr-1.5" /> Download PNG
                 </Button>
               </div>
             </motion.div>
@@ -580,32 +587,32 @@ export function ShortenerClient() {
 
         <ToolHowItWorks
           steps={[
-            { step: "01", title: "Paste Destination Link", description: "Input long URL and optional custom alias or AI generated slug.", icon: Link2 },
-            { step: "02", title: "Instant Link Creation", description: "Generates clean redirect slug saved to database and local storage.", icon: Scissors },
-            { step: "03", title: "View Analytics & Stats", description: "Click Analytics to view total click volume, QR code scan breakdown, and referrers.", icon: BarChart3 },
+            { step: "01", title: "Paste Destination URL", description: "Input any long web page link, campaign URL, or affiliate link.", icon: Link2 },
+            { step: "02", title: "Generate Custom Alias", description: "Use AI to auto-generate a punchy memorable slug or type your custom alias.", icon: Wand2 },
+            { step: "03", title: "Track & Download QR", description: "Copy short URL, view real-time click analytics, or download PNG QR codes.", icon: BarChart3 },
           ]}
-          badges={["100% Free", "Click Analytics Included", "QR Scan Tracking"]}
+          badges={["Custom Slugs", "Real-Time Click Analytics", "High-Contrast QR Code"]}
         />
 
         <ToolFeatureGuides
           features={[
-            { icon: BarChart3, title: "Real-Time Click Telemetry", description: "Tracks total click volume, geographic country origin, and referral channels." },
-            { icon: Smartphone, title: "QR Scan vs Direct Click Split", description: "Differentiates traffic coming from scanned physical QR codes vs direct web links." },
-            { icon: History, title: "Local Browser History", description: "Persists your shortened links securely inside local storage." },
+            { icon: Scissors, title: "Custom Back-Half Slugs", description: "Create branded short links with custom aliases (e.g. toolzium.com/spring-sale)." },
+            { icon: BarChart3, title: "Click Analytics Telemetry", description: "Track click counts, referrer sources, and device breakdowns in real-time." },
+            { icon: QrCode, title: "Scannable QR Codes", description: "Auto-generates high-contrast QR codes for mobile users to scan and visit your links." },
           ]}
         >
-          <div className="prose dark:prose-invert max-w-none">
-            <h3>Understanding Short Link Click Analytics</h3>
+          <div className="prose dark:prose-invert max-w-none mt-6">
+            <h3>Why Short Links Matter for Digital Brands</h3>
             <p>
-              Tracking campaign link performance allows marketers and creators to evaluate channel ROI. Our <strong>URL Shortener Analytics Engine</strong> measures total click volume, distinguishes physical QR code scans from online link clicks, and aggregates top referral sources without collecting personal user data.
+              Short links clean up messy destination URLs, improve social media click-through rates, and allow accurate campaign tracking without leaking internal query parameters.
             </p>
           </div>
         </ToolFeatureGuides>
 
         <ToolFaqAccordion
           faqs={[
-            { question: "How do I check analytics for my shortened link?", answer: "Click the 'Analytics' or 'Stats' button on any shortened link card to view live click metrics." },
-            { question: "Can I track QR code scans separately from direct link clicks?", answer: "Yes! Scanned QR codes are automatically tagged as '📱 QR Code Scan' in your link's analytics report." },
+            { question: "Do my short links expire?", answer: "No! All short links created on Toolzium remain active indefinitely." },
+            { question: "Can I customize the alias?", answer: "Yes! Type any custom slug or click 'AI Smart Alias' to auto-generate a punchy link name." },
           ]}
         />
 
