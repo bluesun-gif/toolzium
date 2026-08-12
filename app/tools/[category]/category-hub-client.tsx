@@ -7,37 +7,33 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { cn } from "@/lib/utils";
-import { Search, ArrowRight, Sparkles, Wrench } from "lucide-react";
+import { Search, ArrowRight, Wrench } from "lucide-react";
 import Link from "next/link";
+import { ToolsData } from "@/data/tools";
 
-interface ToolItem {
-  title: string;
-  url: string;
-  description: string;
-  popular?: boolean;
-}
-
-interface CategoryObj {
-  title: string;
-  url: string;
-  icon?: any;
-  items: ToolItem[];
-}
-
-export default function CategoryHubClient({ categoryObj }: { categoryObj: CategoryObj }) {
+export default function CategoryHubClient({ categorySlug }: { categorySlug: string }) {
   const [search, setSearch] = useState("");
 
-  const IconComp = categoryObj.icon || Wrench;
+  const categoryPath = `/tools/${categorySlug}`;
+  const categoryObj = useMemo(() => {
+    return ToolsData.find(
+      (c) => c.url.toLowerCase() === categoryPath.toLowerCase()
+    );
+  }, [categoryPath]);
+
+  const IconComp = categoryObj?.icon || Wrench;
+  const title = categoryObj?.title || "Tools";
+  const items = categoryObj?.items || [];
 
   const filteredTools = useMemo(() => {
-    if (!search.trim()) return categoryObj.items;
+    if (!search.trim()) return items;
     const query = search.toLowerCase();
-    return categoryObj.items.filter(
+    return items.filter(
       (item) =>
         item.title.toLowerCase().includes(query) ||
         item.description.toLowerCase().includes(query)
     );
-  }, [categoryObj.items, search]);
+  }, [items, search]);
 
   return (
     <div className="w-full min-h-screen pb-20 relative">
@@ -54,8 +50,8 @@ export default function CategoryHubClient({ categoryObj }: { categoryObj: Catego
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader
           icon={IconComp}
-          title={`${categoryObj.title} Hub`}
-          description={`Explore ${categoryObj.items.length} free, browser-based ${categoryObj.title.toLowerCase()} designed for developers, creators, and professionals.`}
+          title={`${title} Hub`}
+          description={`Explore ${items.length} free, browser-based ${title.toLowerCase()} designed for developers, creators, and professionals.`}
         />
 
         {/* Search Bar */}
@@ -63,7 +59,7 @@ export default function CategoryHubClient({ categoryObj }: { categoryObj: Catego
           <div className="relative">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
-              placeholder={`Search ${categoryObj.items.length} ${categoryObj.title.toLowerCase()}...`}
+              placeholder={`Search ${items.length} ${title.toLowerCase()}...`}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="pl-10 h-11 bg-background border-border text-foreground font-medium text-sm"

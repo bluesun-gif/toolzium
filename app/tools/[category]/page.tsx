@@ -13,7 +13,7 @@ interface Props {
 export async function generateMetadata({ params }: Props) {
   const { category } = await params;
   const categoryPath = `/tools/${category}`;
-  
+
   const categoryObj = ToolsData.find(
     (c) => c.url.toLowerCase() === categoryPath.toLowerCase()
   );
@@ -50,7 +50,7 @@ export default async function CategoryPage({ params }: Props) {
 
   return (
     <>
-      <CategoryHubClient categoryObj={categoryObj} />
+      <CategoryHubClient categorySlug={category} />
 
       <JsonLd
         data={{
