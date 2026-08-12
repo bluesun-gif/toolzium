@@ -1,17 +1,15 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect, useCallback } from "react";
+import { motion } from "framer-motion";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
 import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { AnimatedShinyText } from "@/components/magicui/animated-shiny-text";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { cn } from "@/lib/utils";
 import {
@@ -26,22 +24,11 @@ import { Slider } from "@/components/ui/slider";
 import {
   Sparkles,
   Copy,
-  Sliders,
-  CheckCircle2,
-  Terminal,
   Code2,
   Zap,
-  Image as ImageIcon,
-  Check,
-  Lightbulb,
-  Download,
-  History,
-  Trash2,
   RefreshCcw,
-  Gauge,
   Layers,
   Wand2,
-  Bot,
   Settings2,
   ShieldCheck
 } from "lucide-react";
@@ -68,6 +55,26 @@ interface SavedHistoryItem {
   timestamp: string;
 }
 
+const domains = [
+  { id: "general", name: "General Creative & Problem Solving" },
+  { id: "software", name: "Software Engineering & Architecture" },
+  { id: "webdev", name: "Frontend & Full-Stack Development" },
+  { id: "copywriting", name: "Brand Copywriting & Persuasion" },
+  { id: "seo", name: "SEO Content Strategy & Growth" },
+  { id: "business", name: "Executive Business Strategy" },
+  { id: "datascience", name: "Data Science & Machine Learning" },
+  { id: "art", name: "Digital Art & Rendering" },
+  { id: "finance", name: "Financial Modeling & Analysis" },
+  { id: "legal", name: "Legal Contracts & Compliance" },
+];
+
+const presets = [
+  { label: "Photorealistic Dog", text: "Create a photorealistic image of a golden retriever dog in a sunset meadow" },
+  { label: "Python Web Scraper", text: "Write a Python script to scrape product prices from web pages and save to CSV" },
+  { label: "SEO Blog Article", text: "Write a high-converting blog post about remote work productivity" },
+  { label: "Pitch Deck Pitch", text: "Craft a 60-second elevator pitch for an AI productivity startup" },
+];
+
 export function PromptOptimizerClient() {
   const [mounted, setMounted] = useState(false);
   const [rawPrompt, setRawPrompt] = useState("");
@@ -88,27 +95,6 @@ export function PromptOptimizerClient() {
   const [isOptimizing, setIsOptimizing] = useState(false);
   const [result, setResult] = useState<OptimizedResult | null>(null);
   const [history, setHistory] = useState<SavedHistoryItem[]>([]);
-
-  // Expand domain list
-  const domains = [
-    { id: "general", name: "General Creative & Problem Solving" },
-    { id: "software", name: "Software Engineering & Architecture" },
-    { id: "webdev", name: "Frontend & Full-Stack Development" },
-    { id: "copywriting", name: "Brand Copywriting & Persuasion" },
-    { id: "seo", name: "SEO Content Strategy & Growth" },
-    { id: "business", name: "Executive Business Strategy" },
-    { id: "datascience", name: "Data Science & Machine Learning" },
-    { id: "art", name: "Digital Art & Rendering" },
-    { id: "finance", name: "Financial Modeling & Analysis" },
-    { id: "legal", name: "Legal Contracts & Compliance" },
-  ];
-
-  const presets = [
-    { label: "Photorealistic Dog", text: "Create a photorealistic image of a golden retriever dog in a sunset meadow" },
-    { label: "Python Web Scraper", text: "Write a Python script to scrape product prices from web pages and save to CSV" },
-    { label: "SEO Blog Article", text: "Write a high-converting blog post about remote work productivity" },
-    { label: "Pitch Deck Pitch", text: "Craft a 60-second elevator pitch for an AI productivity startup" },
-  ];
 
   useEffect(() => {
     // eslint-disable-next-line
@@ -254,7 +240,7 @@ ${xmlWrapperClose}`;
 
       setIsOptimizing(false);
       toast.success(`Prompt optimized successfully!`);
-    } catch (err: any) {
+    } catch (err) {
       console.error("Optimization error:", err);
       setIsOptimizing(false);
       toast.error("Error generating prompt. Please try again.");
