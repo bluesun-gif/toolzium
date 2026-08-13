@@ -39,7 +39,7 @@ export default function YamlJsonClient() {
  let mounted = true;
  (async () => {
  const mod = await import("js-yaml");
- if (mounted) {
+ if (typeof window !== "undefined") {
  setYamlLib({
  load: mod.load as YamlLib["load"],
  dump: mod.dump as YamlLib["dump"],

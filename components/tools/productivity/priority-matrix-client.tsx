@@ -50,7 +50,7 @@ export function PriorityMatrixClient() {
  if (isLoaded) {
  localStorage.setItem("toolzium_priority_matrix", JSON.stringify(tasks));
  }
- }, [tasks, isLoaded]);
+ }, [tasks]);
 
  const addTask = (e: React.FormEvent) => {
  e.preventDefault();
@@ -94,9 +94,6 @@ export function PriorityMatrixClient() {
  toast.success("Matrix reset");
  }
  };
-
- if (!isLoaded) return <div className="animate-pulse h-96 bg-muted/20 rounded-xl"/>;
-
  return (
  <div className="space-y-6">
  <ToolPageHeader 

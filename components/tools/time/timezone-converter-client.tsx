@@ -380,7 +380,7 @@ export default function TimezoneConverterClient() {
  const swapWithSource = (tz: string) => setSourceTz(tz);
 
  useEffect(() => {
- if (typeof window ==="undefined") return;
+  // Client-only effect
  const params = new URLSearchParams(window.location.search);
  const src = params.get("src");
  const date = params.get("date");

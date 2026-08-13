@@ -219,7 +219,6 @@ const genUuidOnce = useCallback((): string => {
  }
 }, [uuidVersion, v5NamespacePreset, v5Namespace, v5Name, formatUuid]);
 
-
 const genNanoOnce = useCallback((): string => {
  const core =
  nanoAlphabet === DEFAULT_NANO_ALPHABET
@@ -227,7 +226,6 @@ const genNanoOnce = useCallback((): string => {
  : customAlphabet(nanoAlphabet, nanoSize)();
  return `${prefix}${core}${suffix}`;
 }, [nanoAlphabet, nanoSize, prefix, suffix]);
-
 
 const run = useCallback(() => {
  try {

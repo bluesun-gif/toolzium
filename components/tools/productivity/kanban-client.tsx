@@ -69,11 +69,11 @@ export function KanbanClient() {
   }, []);
 
   useEffect(() => {
-    if (mounted) {
+    if (typeof window !== "undefined") {
       localStorage.setItem("kanban-tasks", JSON.stringify(tasks));
       localStorage.setItem("kanban-columns", JSON.stringify(columns));
     }
-  }, [tasks, columns, mounted]);
+  }, [tasks, columns]);
 
   const handleReset = () => {
     setColumns(DEFAULT_COLUMNS);
@@ -143,9 +143,6 @@ export function KanbanClient() {
       setTasks(updatedTasks);
     }
   };
-
-  if (!mounted) return null;
-
   return (
     <div className="relative max-w-6xl mx-auto space-y-8">
       <GridPattern

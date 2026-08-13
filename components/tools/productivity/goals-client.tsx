@@ -66,10 +66,10 @@ export function GoalsClient() {
   }, []);
 
   useEffect(() => {
-    if (mounted) {
+    if (typeof window !== "undefined") {
       localStorage.setItem("goalsTracker", JSON.stringify(goals));
     }
-  }, [goals, mounted]);
+  }, [goals]);
 
   const addGoal = () => {
     if (!newTitle.trim()) {
@@ -144,9 +144,6 @@ export function GoalsClient() {
   };
 
   const filteredGoals = filter === "All" ? goals : goals.filter((g) => g.category === filter);
-
-  if (!mounted) return null;
-
   return (
     <div className="relative max-w-6xl mx-auto space-y-8">
       <GridPattern

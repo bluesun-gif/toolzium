@@ -62,7 +62,7 @@ export default function JwtDecoderClient() {
  const tokenRef = useRef<HTMLTextAreaElement | null>(null);
 
  useEffect(() => {
- if (typeof window ==="undefined") return;
+  // Client-only effect
  const sp = new URLSearchParams(window.location.search);
  const t = sp.get("token");
  if (t) {

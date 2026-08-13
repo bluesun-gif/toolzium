@@ -63,7 +63,7 @@ function qs(k: string, fallback: string) {
  return new URLSearchParams(window.location.search).get(k) ?? fallback;
 }
 function setParams(params: Record<string, string | number>) {
- if (typeof window ==="undefined") return;
+  // Client-only effect
  const url = new URL(window.location.href);
  for (const [k, v] of Object.entries(params)) {
  url.searchParams.set(k, String(v)); // explicit void; no implicit return

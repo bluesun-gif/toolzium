@@ -202,7 +202,7 @@ export default function WeekNumberClient() {
  const setToday = () => setDateStr(fmtDateInput(new Date()));
 
  useEffect(() => {
- if (typeof window ==="undefined") return;
+  // Client-only effect
  const p = new URLSearchParams(window.location.search);
  const d = p.get("date");
  const isoParam = p.get("iso");

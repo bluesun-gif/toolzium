@@ -73,8 +73,6 @@ export function CssTransform2dClient() {
  { question:"Are 2D transforms hardware accelerated?", answer:"Yes, modern browsers offload translate, scale, and rotate operations to the GPU compositor, ensuring buttery smooth 60fps animations without triggering expensive layout recalculations."},
  ];
 
-
-
  return (
  <div className="max-w-6xl mx-auto space-y-8">
  <ToolPageHeader

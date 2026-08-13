@@ -60,7 +60,7 @@ const qs = (k: string, fallback: string) => {
 };
 
 const setParams = (params: Record<string, string | number>) => {
- if (typeof window ==="undefined") return;
+  // Client-only effect
  const url = new URL(window.location.href);
 
  Object.entries(params).forEach(([k, v]) => {

@@ -55,10 +55,10 @@ export function SavingsSpendingClient() {
   }, []);
 
   useEffect(() => {
-    if (mounted) {
+    if (typeof window !== "undefined") {
       localStorage.setItem("savings-spending-data", JSON.stringify({ income, expenses }));
     }
-  }, [income, expenses, mounted]);
+  }, [income, expenses]);
 
   const handleExpenseChange = (key: keyof Expenses, value: string) => {
     setExpenses((prev) => ({
@@ -85,9 +85,6 @@ export function SavingsSpendingClient() {
   const actualNeedsPct = income > 0 ? (needs / income) * 100 : 0;
   const actualWantsPct = income > 0 ? (wants / income) * 100 : 0;
   const actualSavingsPct = income > 0 ? (savings / income) * 100 : 0;
-
-  if (!mounted) return null;
-
   return (
     <div className="relative max-w-6xl mx-auto space-y-8">
       <GridPattern

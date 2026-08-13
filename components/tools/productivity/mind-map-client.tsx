@@ -239,9 +239,6 @@ export function MindMapClient() {
   };
 
   const selectedNode = findNode(root, selectedId);
-
-  if (!isLoaded) return null;
-
   return (
     <div className="relative max-w-6xl mx-auto space-y-8">
       <GridPattern

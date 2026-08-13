@@ -172,8 +172,6 @@ export function SqlToPrismaClient() {
  { question:"What happens to snake_case column names?", answer:"If the snake_case mapping toggle is enabled, columns like 'user_id' are converted to 'userId' in Prisma, with an @map(\"user_id\") attribute added to maintain database compatibility."},
  ];
 
-
-
  return (
  <div className="max-w-6xl mx-auto space-y-8">
  <ToolPageHeader

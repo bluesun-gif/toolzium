@@ -1,6 +1,6 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
-import NotepadClient from "@/components/tools/productivity/notepad-client";
+import { NotepadClient } from "@/components/tools/productivity/notepad-client";
 
 export const metadata = buildMetadata({
   title: "Online Notepad",

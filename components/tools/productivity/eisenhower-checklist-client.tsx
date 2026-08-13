@@ -52,7 +52,7 @@ export function EisenhowerChecklistClient() {
  if (isLoaded) {
  localStorage.setItem("eisenhower-tasks", JSON.stringify(tasks));
  }
- }, [tasks, isLoaded]);
+ }, [tasks]);
 
  const addTask = () => {
  if (!newTaskText.trim()) {

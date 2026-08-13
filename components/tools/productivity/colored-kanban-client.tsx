@@ -59,10 +59,10 @@ export function ColoredKanbanClient() {
   }, []);
 
   useEffect(() => {
-    if (mounted) {
+    if (typeof window !== "undefined") {
       localStorage.setItem("colored_kanban_tasks", JSON.stringify(tasks));
     }
-  }, [tasks, mounted]);
+  }, [tasks]);
 
   const addTask = () => {
     if (!newTaskTitle.trim()) {
@@ -101,9 +101,6 @@ export function ColoredKanbanClient() {
     a.click();
     toast.success("Exported Kanban tasks!");
   };
-
-  if (!mounted) return null;
-
   return (
     <div className="relative max-w-6xl mx-auto space-y-8">
       <GridPattern

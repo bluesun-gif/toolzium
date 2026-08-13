@@ -160,8 +160,6 @@ export function JsonToTypescriptClient() {
  { question:"Is my JSON data sent to a server?", answer:"No, all parsing and TypeScript generation happens 100% locally in your browser. Your data never leaves your device."},
  ];
 
-
-
  return (
  <div className="max-w-6xl mx-auto space-y-8">
  <ToolPageHeader

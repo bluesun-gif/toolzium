@@ -93,9 +93,6 @@ export function AffirmationsClient() {
     generateAffirmations();
     toast.success("Reset favorites!");
   };
-
-  if (!mounted) return null;
-
   return (
     <div className="relative max-w-6xl mx-auto space-y-8">
       <GridPattern

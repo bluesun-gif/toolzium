@@ -62,7 +62,7 @@ function clamp(n: number, min: number, max: number) {
  return Math.min(max, Math.max(min, n));
 }
 function makeBeep(volume = 0.4, durationMs = 220, freq = 880) {
- if (typeof window ==="undefined") return;
+  // Client-only effect
  const AudioCtx =
  window.AudioContext ||
  (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;

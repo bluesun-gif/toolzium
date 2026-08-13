@@ -69,10 +69,10 @@ export function HabitTrackerClient() {
   }, []);
 
   useEffect(() => {
-    if (mounted) {
+    if (typeof window !== "undefined") {
       localStorage.setItem("toolzium-habit-tracker", JSON.stringify(habits));
     }
-  }, [habits, mounted]);
+  }, [habits]);
 
   const addHabit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -184,9 +184,6 @@ export function HabitTrackerClient() {
     localStorage.removeItem("toolzium-habit-tracker");
     toast.success("Reset habits!");
   };
-
-  if (!mounted) return null;
-
   return (
     <div className="relative max-w-6xl mx-auto space-y-8">
       <GridPattern

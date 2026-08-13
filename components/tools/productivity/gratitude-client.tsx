@@ -45,7 +45,7 @@ export function GratitudeClient() {
   const dateString = currentDate.toISOString().split("T")[0];
 
   useEffect(() => {
-    if (mounted) {
+    if (typeof window !== "undefined") {
       if (entries[dateString]) {
         const savedItems = [...entries[dateString]];
         while (savedItems.length < 3) savedItems.push("");
@@ -55,7 +55,7 @@ export function GratitudeClient() {
       }
       setPrompt(PROMPTS[Math.floor(Math.random() * PROMPTS.length)]);
     }
-  }, [currentDate, entries, dateString, mounted]);
+  }, [currentDate, entries, dateString]);
 
   const saveEntry = () => {
     const filtered = currentItems.filter((i) => i.trim().length > 0);
@@ -106,9 +106,6 @@ export function GratitudeClient() {
     setCurrentItems(["", "", ""]);
     toast.success("Reset journal entries!");
   };
-
-  if (!mounted) return null;
-
   return (
     <div className="relative max-w-6xl mx-auto space-y-8">
       <GridPattern

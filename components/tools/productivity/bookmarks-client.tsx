@@ -62,11 +62,11 @@ export function BookmarksClient() {
   }, []);
 
   useEffect(() => {
-    if (mounted) {
+    if (typeof window !== "undefined") {
       localStorage.setItem("bookmarks-items", JSON.stringify(bookmarks));
       localStorage.setItem("bookmarks-categories", JSON.stringify(categories));
     }
-  }, [bookmarks, categories, mounted]);
+  }, [bookmarks, categories]);
 
   const addBookmark = () => {
     if (!url.trim() || !title.trim()) {
@@ -158,9 +158,6 @@ export function BookmarksClient() {
       b.url.toLowerCase().includes(search.toLowerCase()) ||
       b.category.toLowerCase().includes(search.toLowerCase())
   );
-
-  if (!mounted) return null;
-
   return (
     <div className="relative max-w-6xl mx-auto space-y-8">
       <GridPattern

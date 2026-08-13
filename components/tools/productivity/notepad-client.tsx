@@ -71,7 +71,7 @@ export function NotepadClient() {
     return () => {
       if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
     };
-  }, [notes, mounted]);
+  }, [notes]);
 
   const createNewNote = () => {
     const newNote: Note = {
@@ -161,9 +161,6 @@ export function NotepadClient() {
     textareaRef.current?.focus();
     toast.success("Cleared note content.");
   };
-
-  if (!mounted) return null;
-
   return (
     <div className="relative max-w-6xl mx-auto space-y-8">
       <GridPattern

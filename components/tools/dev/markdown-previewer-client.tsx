@@ -57,7 +57,7 @@ function useLocalStorage<T>(key: string, initial: T) {
  // load once
  React.useEffect(() => {
  try {
- if (typeof window ==="undefined") return;
+  // Client-only effect
  const raw = localStorage.getItem(key);
  if (raw) setValue(JSON.parse(raw) as T);
  } catch {}
@@ -65,7 +65,7 @@ function useLocalStorage<T>(key: string, initial: T) {
 
  // save (debounced)
  React.useEffect(() => {
- if (typeof window ==="undefined") return;
+  // Client-only effect
  const t = window.setTimeout(() => {
  try {
  localStorage.setItem(key, JSON.stringify(value));
@@ -161,7 +161,7 @@ export default function MarkdownPreviewerClient() {
  import("remark-gfm"),
  import("rehype-highlight"),
  ]);
- if (mounted) {
+ if (typeof window !== "undefined") {
  setGfmList([gfm]);
  setHighlightList([highlight]);
  }

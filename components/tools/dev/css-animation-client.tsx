@@ -101,8 +101,6 @@ export function CssAnimationClient() {
  { question:"Can I animate properties other than transform and opacity?", answer:"Currently, the visual editor focuses on transform and opacity for performance reasons, but you can manually edit the generated CSS to include colors, borders, etc."},
  ];
 
-
-
  return (
  <div className="max-w-6xl mx-auto space-y-8">
  <ToolPageHeader

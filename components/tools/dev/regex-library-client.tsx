@@ -131,8 +131,6 @@ export function RegexLibraryClient() {
  { question:"Do I need to escape backslashes in my code?", answer:"If you are defining the regex as a string (e.g., new RegExp('...')), you must double the backslashes (\\\\). If using literal syntax (/.../), single backslashes are fine."},
  ];
 
-
-
  return (
  <div className="max-w-6xl mx-auto space-y-8">
  <ToolPageHeader

@@ -52,10 +52,10 @@ export function ShiftSchedulerClient() {
   }, []);
 
   useEffect(() => {
-    if (mounted) {
+    if (typeof window !== "undefined") {
       localStorage.setItem("shift-scheduler", JSON.stringify(employees));
     }
-  }, [employees, mounted]);
+  }, [employees]);
 
   const addEmployee = () => {
     if (!newName.trim()) {
@@ -113,9 +113,6 @@ export function ShiftSchedulerClient() {
     });
     return txt;
   };
-
-  if (!mounted) return null;
-
   return (
     <div className="relative max-w-6xl mx-auto space-y-8">
       <GridPattern

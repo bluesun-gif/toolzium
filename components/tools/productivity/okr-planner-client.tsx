@@ -72,10 +72,10 @@ export function OkrPlannerClient() {
   }, []);
 
   useEffect(() => {
-    if (mounted) {
+    if (typeof window !== "undefined") {
       localStorage.setItem("okr-planner-save", JSON.stringify(objectives));
     }
-  }, [objectives, mounted]);
+  }, [objectives]);
 
   const generateId = () => Math.random().toString(36).substring(2, 9);
 
@@ -168,9 +168,6 @@ export function OkrPlannerClient() {
     URL.revokeObjectURL(url);
     toast.success("Exported OKR JSON!");
   };
-
-  if (!mounted) return null;
-
   return (
     <div className="relative max-w-6xl mx-auto space-y-8">
       <GridPattern

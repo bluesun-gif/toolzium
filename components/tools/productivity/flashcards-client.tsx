@@ -70,10 +70,10 @@ export function FlashcardMakerClient() {
   }, []);
 
   useEffect(() => {
-    if (mounted) {
+    if (typeof window !== "undefined") {
       localStorage.setItem("flashcard-decks", JSON.stringify(decks));
     }
-  }, [decks, mounted]);
+  }, [decks]);
 
   const activeDeck = decks.find((d) => d.id === activeDeckId) || decks[0];
 
@@ -182,9 +182,6 @@ export function FlashcardMakerClient() {
     localStorage.removeItem("flashcard-decks");
     toast.success("Reset decks to defaults!");
   };
-
-  if (!mounted) return null;
-
   return (
     <div className="relative max-w-6xl mx-auto space-y-8">
       <GridPattern

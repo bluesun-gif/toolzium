@@ -39,7 +39,7 @@ export function EisenhowerMatrixClient() {
  if (isLoaded) {
  localStorage.setItem("eisenhower-tasks", JSON.stringify(tasks));
  }
- }, [tasks, isLoaded]);
+ }, [tasks]);
 
  const addTask = (quadrant: 1 | 2 | 3 | 4 = 1) => {
  if (!newTaskText.trim()) {

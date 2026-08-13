@@ -70,8 +70,6 @@ export function CssTransform3dClient() {
  { question:"Can I nest 3D transformed elements?", answer:"Yes, but every intermediate parent container between the perspective origin and the final 3D element must also have 'transform-style: preserve-3d' applied to maintain the 3D rendering context."},
  ];
 
-
-
  return (
  <div className="max-w-6xl mx-auto space-y-8">
  <ToolPageHeader

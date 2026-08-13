@@ -46,7 +46,7 @@ export function EisenhowerWorkspaceClient() {
  if (isLoaded) {
  localStorage.setItem("eisenhower_tasks", JSON.stringify(tasks));
  }
- }, [tasks, isLoaded]);
+ }, [tasks]);
 
  const addTask = () => {
  if (!newTaskTitle.trim()) {
@@ -144,9 +144,6 @@ export function EisenhowerWorkspaceClient() {
  </div>
  );
  };
-
- if (!isLoaded) return null;
-
  return (
  <div className={"space-y-6"}>
  <ToolPageHeader 

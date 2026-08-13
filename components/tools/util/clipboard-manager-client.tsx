@@ -44,10 +44,10 @@ export function ClipboardManagerClient() {
  }, []);
 
  useEffect(() => {
- if (isClient) {
+ if (typeof window !== "undefined") {
  localStorage.setItem("tz-clipboard-manager", JSON.stringify(snippets));
  }
- }, [snippets, isClient]);
+ }, [snippets]);
 
  const addSnippet = () => {
  if (!content.trim()) {
