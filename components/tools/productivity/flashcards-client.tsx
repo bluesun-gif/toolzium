@@ -28,8 +28,7 @@ type Deck = {
 export function FlashcardMakerClient() {
  const [decks, setDecks] = useState<Deck[]>([]);
  const [activeDeckId, setActiveDeckId] = useState<string>("");
- const [isLoaded, setIsLoaded] = useState(false);
-
+ 
  const [mode, setMode] = useState<"edit"|"study">("edit");
  const [newDeckName, setNewDeckName] = useState("");
  
@@ -58,7 +57,7 @@ export function FlashcardMakerClient() {
  setDecks([defaultDeck]);
  setActiveDeckId(defaultDeck.id);
  }
- setIsLoaded(true);
+ ;
  }, []);
 
  useEffect(() => {
@@ -169,8 +168,7 @@ export function FlashcardMakerClient() {
  e.target.value ="";
  };
 
- if (!isLoaded) return null;
-
+ 
  return (
  <div className="space-y-6">
  <ToolPageHeader

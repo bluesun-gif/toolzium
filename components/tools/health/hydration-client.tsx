@@ -15,8 +15,7 @@ export function HydrationClient() {
  const [goal, setGoal] = useState(2000); // ml
  const [intake, setIntake] = useState(0);
  const [history, setHistory] = useState<Record<string, number>>({});
- const [mounted, setMounted] = useState(false);
- 
+  
  const todayDate = new Date().toISOString().split("T")[0];
 
  useEffect(() => {

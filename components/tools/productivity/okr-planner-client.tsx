@@ -56,8 +56,7 @@ const DEFAULT_OBJECTIVES: Objective[] = [
 
 export function OkrPlannerClient() {
   const [objectives, setObjectives] = useState<Objective[]>(DEFAULT_OBJECTIVES);
-  const [loaded, setLoaded] = useState(false);
-
+  
   useEffect(() => {
     const saved = localStorage.getItem("okr-planner-save");
     if (saved) {
@@ -68,14 +67,13 @@ export function OkrPlannerClient() {
         setObjectives(DEFAULT_OBJECTIVES);
       }
     }
-    setLoaded(true);
-  }, []);
+      }, []);
 
   useEffect(() => {
-    if (loaded) {
+    if (typeof window !== "undefined") {
       localStorage.setItem("okr-planner-save", JSON.stringify(objectives));
     }
-  }, [objectives, loaded]);
+  }, [];
 
   const generateId = () => Math.random().toString(36).substring(2, 9);
 
@@ -167,11 +165,7 @@ export function OkrPlannerClient() {
     a.click();
     URL.revokeObjectURL(url);
     toast.success("Exported OKR JSON!");
-  };
-
-  if (!loaded) return null;
-
-  return (
+  };  return (
     <div className="relative max-w-6xl mx-auto space-y-8">
       <GridPattern
         width={30}

@@ -28,8 +28,7 @@ const UNITS = ["pcs","kg","lb","L","pack"];
 
 export function GroceryListClient() {
  const [items, setItems] = useState<GroceryItem[]>([]);
- const [mounted, setMounted] = useState(false);
- 
+  
  const [newItemName, setNewItemName] = useState("");
  const [newItemQuantity, setNewItemQuantity] = useState("1");
  const [newItemUnit, setNewItemUnit] = useState("pcs");
@@ -48,10 +47,10 @@ export function GroceryListClient() {
   }, []);
 
  useEffect(() => {
- if (mounted) {
+ if (typeof window !== "undefined") {
  localStorage.setItem("grocery-items", JSON.stringify(items));
  }
- }, [items, mounted]);
+ }, [items, typeof window]);
 
  const handleAddItem = (e?: React.FormEvent) => {
  e?.preventDefault();

@@ -45,8 +45,7 @@ export function ExpensesClient() {
  const [expenseDate, setExpenseDate] = useState(new Date().toISOString().split('T')[0]);
  const [expenseNotes, setExpenseNotes] = useState("");
 
- const [mounted, setMounted] = useState(false);
-
+ 
  useEffect(() => {
   const saved = localStorage.getItem("toolzium_travel_trips");
  if (saved) {
@@ -59,10 +58,10 @@ export function ExpensesClient() {
  }, []);
 
  useEffect(() => {
- if (mounted) {
+ if (typeof window !== "undefined") {
  localStorage.setItem("toolzium_travel_trips", JSON.stringify(trips));
  }
- }, [trips, mounted]);
+ }, [trips, typeof window]);
 
  const activeTrip = trips.find(t => t.id === activeTripId);
 

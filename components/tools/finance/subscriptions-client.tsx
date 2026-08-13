@@ -28,8 +28,7 @@ const CATEGORIES = ["Streaming","Software","Gaming","Music","Fitness","News","Cl
 
 export function SubscriptionsClient() {
  const [subs, setSubs] = useState<Subscription[]>([]);
- const [mounted, setMounted] = useState(false);
- const [sortBy, setSortBy] = useState<"date"|"cost">("date");
+  const [sortBy, setSortBy] = useState<"date"|"cost">("date");
 
  const [newName, setNewName] = useState("");
  const [newCost, setNewCost] = useState<number |"">("");
@@ -45,10 +44,10 @@ export function SubscriptionsClient() {
   }, []);
 
  useEffect(() => {
- if (mounted) {
+ if (typeof window !== "undefined") {
  localStorage.setItem("toolzium_subs", JSON.stringify(subs));
  }
- }, [subs, mounted]);
+ }, [subs, typeof window]);
 
  const addSub = () => {
  if (!newName || !newCost) {

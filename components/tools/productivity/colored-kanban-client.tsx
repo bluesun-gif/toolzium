@@ -45,11 +45,9 @@ export function ColoredKanbanClient() {
   const [tasks, setTasks] = useState<Task[]>(DEFAULT_TASKS);
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [newTaskColor, setNewTaskColor] = useState<Task["color"]>("red");
-  const [isClient, setIsClient] = useState(false);
-
+  
   useEffect(() => {
-    setIsClient(true);
-    const saved = localStorage.getItem("colored_kanban_tasks");
+        const saved = localStorage.getItem("colored_kanban_tasks");
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -60,7 +58,7 @@ export function ColoredKanbanClient() {
 
   useEffect(() => {
     if (isClient) localStorage.setItem("colored_kanban_tasks", JSON.stringify(tasks));
-  }, [tasks, isClient]);
+  }, [];
 
   const addTask = () => {
     if (!newTaskTitle.trim()) {
@@ -98,11 +96,7 @@ export function ColoredKanbanClient() {
     a.download = "kanban_tasks.json";
     a.click();
     toast.success("Exported Kanban tasks!");
-  };
-
-  if (!isClient) return null;
-
-  return (
+  };  return (
     <div className="relative max-w-6xl mx-auto space-y-8">
       <GridPattern
         width={30}

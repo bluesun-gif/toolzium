@@ -28,8 +28,7 @@ interface UtmHistoryItem {
 }
 
 export function UTMBuilderClient() {
-  const [mounted, setMounted] = useState(false);
-  const [baseUrl, setBaseUrl] = useState("https://toolzium.com");
+    const [baseUrl, setBaseUrl] = useState("https://toolzium.com");
   const [source, setSource] = useState("google");
   const [medium, setMedium] = useState("cpc");
   const [campaign, setCampaign] = useState("spring_sale_2026");

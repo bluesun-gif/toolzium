@@ -22,8 +22,7 @@ export function JournalClient() {
  const [entries, setEntries] = useState<Record<string, JournalEntry>>({});
  const [currentDate, setCurrentDate] = useState(() => new Date().toISOString().split("T")[0]);
  const [searchTerm, setSearchTerm] = useState("");
- const [mounted, setMounted] = useState(false);
-
+ 
  useEffect(() => {
  const saved = localStorage.getItem("tz-journal");
  if (saved) {

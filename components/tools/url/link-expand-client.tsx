@@ -25,8 +25,7 @@ interface ExpandedLink {
 }
 
 export function LinkExpandClient() {
-  const [mounted, setMounted] = useState(false);
-  const [inputUrl, setInputUrl] = useState("https://bit.ly/3xExampleShortUrl");
+    const [inputUrl, setInputUrl] = useState("https://bit.ly/3xExampleShortUrl");
   const [batchUrls, setBatchUrls] = useState("");
   const [isBatch, setIsBatch] = useState(false);
   const [loading, setLoading] = useState(false);

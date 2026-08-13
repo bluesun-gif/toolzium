@@ -28,21 +28,19 @@ const SHIFT_HOURS = { Morning: 8, Evening: 8, Night: 8, Off: 0 };
 export function ShiftSchedulerClient() {
  const [employees, setEmployees] = useState<Employee[]>([]);
  const [newName, setNewName] = useState("");
- const [isClient, setIsClient] = useState(false);
-
+ 
  useEffect(() => {
- setIsClient(true);
- const saved = localStorage.getItem("shift-scheduler");
+  const saved = localStorage.getItem("shift-scheduler");
  if (saved) {
  try { setEmployees(JSON.parse(saved)); } catch (e) {}
  }
  }, []);
 
  useEffect(() => {
- if (isClient) {
+ if (typeof window !== "undefined") {
  localStorage.setItem("shift-scheduler", JSON.stringify(employees));
  }
- }, [employees, isClient]);
+ }, [];
 
  const addEmployee = () => {
  if (!newName.trim()) return;
@@ -87,11 +85,7 @@ export function ShiftSchedulerClient() {
  txt += e.shifts.map((s, i) => DAYS[i] +":"+ s.charAt(0)).join(",") +"\n";
  });
  return txt;
- };
-
- if (!isClient) return null;
-
- return (
+ }; return (
  <div className="space-y-6">
  <ToolPageHeader
  icon={Calendar}

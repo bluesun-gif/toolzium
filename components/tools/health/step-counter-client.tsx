@@ -24,8 +24,7 @@ export function StepCounterClient() {
  const [strideLength, setStrideLength] = useState<number>(0.762); // meters
  const [newDate, setNewDate] = useState<string>(new Date().toISOString().split("T")[0]);
  const [newSteps, setNewSteps] = useState<number>(0);
- const [mounted, setMounted] = useState(false);
-
+ 
  useEffect(() => {
  const saved = localStorage.getItem("step-counter-entries");
  const savedGoal = localStorage.getItem("step-counter-goal");
@@ -36,12 +35,12 @@ export function StepCounterClient() {
   }, []);
 
  useEffect(() => {
- if (mounted) {
+ if (typeof window !== "undefined") {
  localStorage.setItem("step-counter-entries", JSON.stringify(entries));
  localStorage.setItem("step-counter-goal", goal.toString());
  localStorage.setItem("step-counter-stride", strideLength.toString());
  }
- }, [entries, goal, strideLength, mounted]);
+ }, [entries, goal, strideLength, typeof window]);
 
  const handleAddEntry = () => {
  if (!newDate || newSteps < 0) {

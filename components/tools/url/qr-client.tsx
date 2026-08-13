@@ -35,8 +35,7 @@ import toast from "react-hot-toast";
 type InputType = "url" | "text" | "email" | "phone" | "wifi" | "vcard";
 
 export function QrClient() {
-  const [mounted, setMounted] = useState(false);
-  const [inputType, setInputType] = useState<InputType>("url");
+    const [inputType, setInputType] = useState<InputType>("url");
   const [urlInput, setUrlInput] = useState("https://toolzium.com");
   const [textInput, setTextInput] = useState("");
   const [emailInput, setEmailInput] = useState("");

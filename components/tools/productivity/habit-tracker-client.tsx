@@ -31,8 +31,7 @@ export function HabitTrackerClient() {
  const [newHabitName, setNewHabitName] = useState("");
  const [newHabitEmoji, setNewHabitEmoji] = useState("✨");
  const [newHabitFrequency, setNewHabitFrequency] = useState<"daily"|"weekly">("daily");
- const [isLoaded, setIsLoaded] = useState(false);
-
+ 
  const getTodayString = () => {
  const today = new Date();
  const offset = today.getTimezoneOffset();
@@ -51,7 +50,7 @@ export function HabitTrackerClient() {
  console.error("Failed to parse habits", e);
  }
  }
- setIsLoaded(true);
+ ;
  }, []);
 
  useEffect(() => {
@@ -161,8 +160,7 @@ export function HabitTrackerClient() {
  return Math.round((completedToday / habits.length) * 100);
  }, [habits, todayStr]);
 
- if (!isLoaded) return null;
-
+ 
  return (
  <div className="space-y-6">
  <ToolPageHeader

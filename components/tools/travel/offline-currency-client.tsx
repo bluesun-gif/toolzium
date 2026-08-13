@@ -24,11 +24,9 @@ export function OfflineCurrencyClient() {
  const [rate, setRate] = useState<number>(0.92);
  const [amount, setAmount] = useState<string>("100");
  const [isReversed, setIsReversed] = useState(false);
- const [isClient, setIsClient] = useState(false);
-
+ 
  useEffect(() => {
- setIsClient(true);
- const saved = localStorage.getItem("offline-currency-rate");
+  const saved = localStorage.getItem("offline-currency-rate");
  if (saved) {
  try {
  const parsed = JSON.parse(saved);
@@ -55,11 +53,7 @@ export function OfflineCurrencyClient() {
  const toCurrency = isReversed ? homeCurrency : destCurrency;
  const currentRate = isReversed ? (1 / rate) : rate;
 
- const result = (numAmount * currentRate).toFixed(2);
-
- if (!isClient) return null;
-
- return (
+ const result = (numAmount * currentRate).toFixed(2); return (
  <div className="space-y-6">
  <ToolPageHeader
  icon={Calculator}

@@ -37,8 +37,7 @@ interface ThumbnailInfo {
 }
 
 export default function YoutubeThumbnailClient() {
-  const [mounted, setMounted] = useState(false);
-  const [url, setUrl] = useState("");
+    const [url, setUrl] = useState("");
   const [videoId, setVideoId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [thumbnails, setThumbnails] = useState<ThumbnailInfo[]>([]);

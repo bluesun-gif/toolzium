@@ -49,8 +49,7 @@ interface ShortenedLink {
 }
 
 export function ShortenerClient() {
-  const [mounted, setMounted] = useState(false);
-  const [longUrl, setLongUrl] = useState("");
+    const [longUrl, setLongUrl] = useState("");
   const [customAlias, setCustomAlias] = useState("");
   const [batchInput, setBatchInput] = useState("");
   const [isBatchMode, setIsBatchMode] = useState(false);

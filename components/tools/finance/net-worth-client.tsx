@@ -33,8 +33,7 @@ export function NetWorthClient() {
  const [newItemCategory, setNewItemCategory] = useState(ASSET_CATEGORIES[0]);
  const [newItemType, setNewItemType] = useState<"asset"|"liability">("asset");
 
- const [mounted, setMounted] = useState(false);
-
+ 
  useEffect(() => {
  const savedAssets = localStorage.getItem("net-worth-assets");
  const savedLiabs = localStorage.getItem("net-worth-liabilities");
@@ -45,12 +44,12 @@ export function NetWorthClient() {
   }, []);
 
  useEffect(() => {
- if (mounted) {
+ if (typeof window !== "undefined") {
  localStorage.setItem("net-worth-assets", JSON.stringify(assets));
  localStorage.setItem("net-worth-liabilities", JSON.stringify(liabilities));
  localStorage.setItem("net-worth-snapshots", JSON.stringify(snapshots));
  }
- }, [assets, liabilities, snapshots, mounted]);
+ }, [assets, liabilities, snapshots, typeof window]);
 
  const handleAddItem = () => {
  if (!newItemName || !newItemAmount || isNaN(Number(newItemAmount))) {

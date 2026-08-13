@@ -35,8 +35,7 @@ const DEFAULT_COLUMNS: Column[] = [
 export function KanbanClient() {
  const [columns, setColumns] = useState<Column[]>(DEFAULT_COLUMNS);
  const [tasks, setTasks] = useState<Task[]>([]);
- const [isLoaded, setIsLoaded] = useState(false);
- const [newTaskTitle, setNewTaskTitle] = useState("");
+  const [newTaskTitle, setNewTaskTitle] = useState("");
  const [newTaskDesc, setNewTaskDesc] = useState("");
  const [newColumnTitle, setNewColumnTitle] = useState("");
 
@@ -45,7 +44,7 @@ export function KanbanClient() {
  const savedCols = localStorage.getItem("kanban-columns");
  if (savedTasks) setTasks(JSON.parse(savedTasks));
  if (savedCols) setColumns(JSON.parse(savedCols));
- setIsLoaded(true);
+ ;
  }, []);
 
  useEffect(() => {

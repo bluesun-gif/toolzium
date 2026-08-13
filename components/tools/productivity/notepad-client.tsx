@@ -22,8 +22,7 @@ export default function NotepadClient() {
  const [isMonospace, setIsMonospace] = useState(false);
  const [fontSize, setFontSize] = useState(16);
  const [saveStatus, setSaveStatus] = useState<"Saved"|"Saving..."|"Unsaved">("Saved");
- const [isLoaded, setIsLoaded] = useState(false);
- 
+  
  const textareaRef = useRef<HTMLTextAreaElement>(null);
  const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -45,7 +44,7 @@ export default function NotepadClient() {
  } else {
  createNewNote();
  }
- setIsLoaded(true);
+ ;
  }, []);
 
  useEffect(() => {
@@ -163,8 +162,7 @@ export default function NotepadClient() {
  }
  };
 
- if (!isLoaded) return <div className="h-96 flex items-center justify-center">Loading...</div>;
-
+ 
  return (
  <div className="mx-auto max-w-5xl px-4 py-8">
  <ToolPageHeader
