@@ -49,10 +49,8 @@ export function WeeklyPlannerClient() {
   const [hour, setHour] = useState("9");
   const [duration, setDuration] = useState("1");
   const [color, setColor] = useState(COLORS[0].value);
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
     const saved = localStorage.getItem("weekly-planner-events");
     if (saved) {
       try {
@@ -63,10 +61,10 @@ export function WeeklyPlannerClient() {
   }, []);
 
   useEffect(() => {
-    if (mounted) {
+    if (typeof window !== "undefined") {
       localStorage.setItem("weekly-planner-events", JSON.stringify(events));
     }
-  }, [events, mounted]);
+  }, [events]);
 
   const addEvent = () => {
     if (!title.trim()) return toast.error("Please enter an event title");
@@ -108,8 +106,6 @@ export function WeeklyPlannerClient() {
     localStorage.removeItem("weekly-planner-events");
     toast.success("Reset schedule to defaults!");
   };
-
-  if (!mounted) return null;
 
   return (
     <div className="relative max-w-6xl mx-auto space-y-8">
