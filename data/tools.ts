@@ -3096,7 +3096,14 @@ export const ToolsData = [
           "Calculate total calories burned across 30+ physical activities based on body weight and duration. MET values & food equivalents.",
         popular: true,
       },
-                                                                  ],
+      {
+        title: "Indoor Cycling Calorie Calculator",
+        url: "/tools/health/indoor-cycling-calorie",
+        description:
+          "Calculate calories burned during stationary indoor cycling and spinning workouts based on body weight, cadence (RPM), resistance level, and duration.",
+        popular: true,
+      },
+    ],
   },
   {
     title: "Productivity",
