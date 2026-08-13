@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Sparkles, Loader2, Copy, RefreshCw, Edit3, BarChart2 } from "lucide-react";
+import { Sparkles, GraduationCap, Loader2, Copy, RefreshCw, Edit3, BarChart2 } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -98,7 +98,7 @@ export function EssayConclusionGeneratorClient() {
   return <div className="relative max-w-6xl mx-auto space-y-8 p-4"><ToolBackground /><div className="relative z-10">
       
 
- <ToolPageHeader icon={Sparkles} title="AI Essay Conclusion Generator" description="Craft powerful, memorable endings for your essays. Synthesize your arguments and leave a lasting impression on your readers." />
+ <ToolPageHeader icon={GraduationCap} title="AI Essay Conclusion Generator" description="Craft powerful, memorable endings for your essays. Synthesize your arguments and leave a lasting impression on your readers." />
 
  <GlassCard>
  <CardHeader className={headerClass}>
