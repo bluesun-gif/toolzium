@@ -9,12 +9,12 @@ import { GridPattern } from "@/components/magicui/grid-pattern";
 export function ToolBackground() {
   return (
     <>
-      <GridPattern />
-      {/* Soft scrim: strong behind the central content column, fades to transparent
-          at the edges so the grid pattern stays visible around the periphery. */}
+      <GridPattern className="absolute inset-0 -z-20 opacity-70 [mask-image:radial-gradient(ellipse_85%_75%_at_50%_35%,transparent_45%,white_100%)]" />
+      {/* Soft scrim (research-best: gradient overlay dims grid behind text,
+          keeps grid visible at edges). Sits above grid (-z-20) but below content (z-10). */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_70%_60%_at_50%_35%,hsl(var(--background)/0.82),hsl(var(--background)/0.35)_75%,transparent_100%)]"
+        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_75%_65%_at_50%_30%,hsl(var(--background)/0.85),hsl(var(--background)/0.4)_70%,transparent_100%)]"
       />
     </>
   );
