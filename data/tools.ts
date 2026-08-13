@@ -2583,6 +2583,13 @@ export const ToolsData = [
         popular: true,
       },
       {
+        title: "Dice Roller",
+        url: "/tools/fun/dice-roller",
+        description:
+          "Roll virtual dice with crisp, visible pips. Choose 1-6 dice, roll with a click or Space bar, and track your recent rolls. Free dice roller with local history.",
+        popular: true,
+      },
+      {
         title: "Simon Says",
         url: "/tools/fun/simon-says",
         description:
