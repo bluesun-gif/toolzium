@@ -163,11 +163,11 @@ export function WeeklyGoalsClient() {
   const handleExport = () => {
     let content = "Weekly Goals & Milestones Plan\n\n";
     goals.forEach((g, i) => {
-      content += `Goal ${i + 1}: ${g.title} [${g.category}]\n`;
-      content += `Progress: ${getProgress(g)}%\n`;
+      content += "Goal " + (i + 1) + ": " + g.title + " [" + g.category + "]\n";
+      content += "Progress: " + getProgress(g) + "%\n";
       if (g.tasks.length > 0) {
         g.tasks.forEach((t) => {
-          content += `  ${t.completed ? "[X]" : "[ "] } ${t.text}\n`;
+          content += (t.completed ? "  [X] " : "  [ ] ") + t.text + "\n";
         });
       } else {
         content += "  No tasks added yet.\n";
