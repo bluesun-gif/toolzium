@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
-import { Copy, RotateCcw, Plus, Trash2, ArrowUp, ArrowDown, Download, FileText } from"lucide-react";
+import { Copy, RotateCcw, Plus, Trash2, ArrowUp, ArrowDown, Download, FileText, Target, CheckCircle2, XCircle } from"lucide-react";
 import toast from"react-hot-toast";
 import { GridPattern } from"@/components/magicui/grid-pattern";
 import { GlassCard } from"@/components/ui/glass-card";
@@ -50,6 +50,40 @@ export function ResumeBuilderClient() {
  const [data, setData] = useState<ResumeData>(initialData);
  const [template, setTemplate] = useState<"professional"|"modern"|"minimal">("modern");
  const [accent, setAccent] = useState("#2563eb");
+ const [jobDesc, setJobDesc] = useState("");
+
+ // ATS analysis — stolen idea from Jobscan/Enhancv (free alternative to paid $19-25/mo tools)
+ const ACTION_VERBS = ["led","built","created","developed","designed","implemented","launched","managed","improved","increased","reduced","optimized","streamlined","drove","architected","shipped","owned","scaled","automated","spearheaded"];
+ const analysis = useMemo(() => {
+ const checks: {label: string; pass: boolean}[] = [];
+ const p = data.personal;
+ checks.push({ label: "Contact email present", pass: /\S+@\S+\.\S+/.test(p.email) });
+ checks.push({ label: "Phone number present", pass: p.phone.replace(/\D/g,"").length >= 7 });
+ checks.push({ label: "Location included", pass: p.location.trim().length > 0 });
+ const summaryWords = data.summary.trim().split(/\s+/).filter(Boolean).length;
+ checks.push({ label: "Summary 30-200 words", pass: summaryWords >= 30 && summaryWords <= 200 });
+ const allBullets = data.experience.flatMap(e => e.bullets).filter(Boolean);
+ checks.push({ label: "At least 3 experience bullets", pass: allBullets.length >= 3 });
+ checks.push({ label: "Bullets start with action verb", pass: allBullets.length > 0 && allBullets.filter(b => ACTION_VERBS.some(v => b.toLowerCase().startsWith(v))).length >= Math.ceil(allBullets.length/2) });
+ checks.push({ label: "Education listed", pass: data.education.length > 0 });
+ checks.push({ label: "At least 3 skills", pass: data.skills.filter(s => s.name.trim()).length >= 3 });
+ const score = Math.round((checks.filter(c => c.pass).length / checks.length) * 100);
+ // keyword match vs job desc
+ let kwMatch = 0; const missing: string[] = [];
+ if (jobDesc.trim()) {
+ const resumeText = (data.summary + " " + allBullets.join(" ") + " " + data.skills.map(s=>s.name).join(" ")).toLowerCase();
+ const jdWords = Array.from(new Set(jobDesc.toLowerCase().match(/[a-z][a-z+#]{2,}/g) || [])).filter(w => w.length > 3);
+ const common = jdWords.filter(w => resumeText.includes(w));
+ kwMatch = Math.round((common.length / Math.max(jdWords.length,1)) * 100);
+ const skillWords = jdWords.filter(w => !resumeText.includes(w)).slice(0,8);
+ missing.push(...skillWords);
+ }
+ return { checks, score, kwMatch, missing };
+ }, [data, jobDesc]);
+ const atsScore = analysis.score;
+ const atsChecks = analysis.checks;
+ const kwMatch = analysis.kwMatch;
+ const missingKeywords = analysis.missing;
 
  const handleCopy = (text: string) => {
  navigator.clipboard.writeText(text);
@@ -289,6 +323,53 @@ export function ResumeBuilderClient() {
  </div>
  </div>
  </div>
+
+ {/* ATS SCORE CHECKER — stolen idea from Jobscan/Enhancv (free alternative to $19-25/mo paid tools) */}
+ <GlassCard>
+ <CardHeader className={headerClass}>
+ <CardTitle className={titleClass}><Target className="h-4 w-4 text-primary" /> ATS Score Checker</CardTitle>
+ </CardHeader>
+ <CardContent className="p-4 space-y-4">
+ <div className="flex items-center gap-4">
+ <div className="relative h-20 w-20 shrink-0">
+ <svg viewBox="0 0 36 36" className="h-20 w-20 -rotate-90">
+ <path d="M18 2a16 16 0 1 1 0 32 16 16 0 0 1 0-32" fill="none" stroke="currentColor" className="text-muted-foreground/20" strokeWidth="3"/>
+ <path d="M18 2a16 16 0 1 1 0 32 16 16 0 0 1 0-32" fill="none" stroke="currentColor" className={atsScore >= 80 ? "text-green-500" : atsScore >= 60 ? "text-yellow-500" : "text-red-500"} strokeWidth="3" strokeDasharray={`${atsScore} 100`} strokeLinecap="round"/>
+ </svg>
+ <span className="absolute inset-0 flex items-center justify-center text-xl font-bold">{atsScore}</span>
+ </div>
+ <div className="text-sm">
+ <p className="font-semibold">Applicant Tracking System Readiness</p>
+ <p className="text-muted-foreground">{atsScore >= 80 ? "Strong — likely passes most ATS filters." : atsScore >= 60 ? "Decent — a few fixes will help." : "Needs work — improve before applying."}</p>
+ </div>
+ </div>
+
+ <div>
+ <Label className="text-xs text-muted-foreground">Tailor to a Job Description (optional)</Label>
+ <textarea className={textareaClass} rows={2} placeholder="Paste a job description to see keyword match..." value={jobDesc} onChange={(e) => setJobDesc(e.target.value)} />
+ {jobDesc.trim() && (
+ <div className="mt-2 text-sm">
+ <span className="font-semibold">Keyword Match: </span>
+ <span className={kwMatch >= 70 ? "text-green-500" : "text-yellow-500"}>{kwMatch}%</span>
+ <div className="mt-1 flex flex-wrap gap-1">
+ {missingKeywords.map((k) => <span key={k} className="px-2 py-0.5 bg-destructive/10 text-destructive rounded text-xs">{k}</span>)}
+ {missingKeywords.length === 0 && <span className="text-green-500 text-xs">All key terms present!</span>}
+ </div>
+ </div>
+ )}
+ </div>
+
+ <div className="space-y-1">
+ <p className="text-xs font-semibold text-muted-foreground">Checks passed</p>
+ {atsChecks.map((c, i) => (
+ <div key={i} className="flex items-center gap-2 text-sm">
+ {c.pass ? <CheckCircle2 className="h-4 w-4 text-green-500" /> : <XCircle className="h-4 w-4 text-red-500" />}
+ <span className={c.pass ? "" : "text-muted-foreground"}>{c.label}</span>
+ </div>
+ ))}
+ </div>
+ </CardContent>
+ </GlassCard>
 
  <ToolHowItWorks steps={[
  { step:"01", title:"Fill Details", description:"Enter your personal info, experience, education, and skills in the structured form.", icon: FileText },
