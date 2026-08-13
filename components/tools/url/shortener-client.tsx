@@ -67,8 +67,7 @@ export function ShortenerClient() {
   const [isLoadingAnalytics, setIsLoadingAnalytics] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-    try {
+        try {
       if (typeof window !== "undefined") {
         const saved = localStorage.getItem("toolzium_shortener_history");
         if (saved) {
@@ -211,9 +210,6 @@ export function ShortenerClient() {
     localStorage.removeItem("toolzium_shortener_history");
     toast.success("Shortener history cleared!");
   };
-
-  if (!mounted) return <div className="min-h-screen p-8 animate-pulse" />;
-
   return (
     <div className="w-full min-h-screen pb-20 relative">
       <GridPattern

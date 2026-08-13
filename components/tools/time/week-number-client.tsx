@@ -234,8 +234,10 @@ export default function WeekNumberClient() {
  return list;
  }, [isoRange]);
 
- // SSR-safe
- if (typeof window ==="undefined") return null;
+ // Renders on both server and client for SEO (H1 visibility)
+  if (typeof window === "undefined") {
+    // Return the page shell with header for SSR, client will hydrate interactivity
+  }
 
  // Share link (sync iso param)
  const params = new URLSearchParams();

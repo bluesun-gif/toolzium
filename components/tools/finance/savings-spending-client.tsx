@@ -36,11 +36,9 @@ const defaultExpenses: Expenses = {
 export function SavingsSpendingClient() {
  const [income, setIncome] = useState<number>(0);
  const [expenses, setExpenses] = useState<Expenses>(defaultExpenses);
- const [mounted, setMounted] = useState(false);
-
+ 
  useEffect(() => {
- setMounted(true);
- const savedData = localStorage.getItem("savings-spending-data");
+  const savedData = localStorage.getItem("savings-spending-data");
  if (savedData) {
  try {
  const parsed = JSON.parse(savedData);

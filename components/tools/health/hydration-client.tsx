@@ -41,8 +41,7 @@ export function HydrationClient() {
  setIntake(0);
  localStorage.setItem("tz-hydro-date", todayDate);
  }
- setMounted(true);
- }, [todayDate]);
+  }, [todayDate]);
 
  const updateIntake = (amount: number) => {
  const newIntake = Math.max(0, intake + amount);
@@ -78,9 +77,6 @@ export function HydrationClient() {
  d.setDate(d.getDate() - i);
  return d.toISOString().split("T")[0];
  }).reverse();
-
- if (!mounted) return null;
-
  return (
  <div className="space-y-6">
  <ToolPageHeader

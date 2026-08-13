@@ -45,8 +45,7 @@ export function GroceryListClient() {
  console.error("Failed to parse saved grocery items");
  }
  }
- setMounted(true);
- }, []);
+  }, []);
 
  useEffect(() => {
  if (mounted) {
@@ -124,9 +123,6 @@ export function GroceryListClient() {
 
  const totalCost = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
  const checkedCost = items.filter(i => i.checked).reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
- if (!mounted) return null;
-
  return (
  <div className="space-y-6">
  <ToolPageHeader

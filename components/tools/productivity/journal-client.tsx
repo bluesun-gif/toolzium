@@ -33,8 +33,7 @@ export function JournalClient() {
  // ignore
  }
  }
- setMounted(true);
- }, []);
+  }, []);
 
  const saveEntry = (entry: JournalEntry) => {
  const newEntries = { ...entries, [entry.date]: entry };
@@ -80,9 +79,6 @@ export function JournalClient() {
  .filter(e => e.content.toLowerCase().includes(term) || e.tags.some(t => t.toLowerCase().includes(term)))
  .sort((a, b) => b.date.localeCompare(a.date));
  }, [entries, searchTerm]);
-
- if (!mounted) return null;
-
  return (
  <div className="space-y-6">
  <ToolPageHeader

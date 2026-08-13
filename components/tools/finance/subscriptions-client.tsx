@@ -42,8 +42,7 @@ export function SubscriptionsClient() {
  if (saved) {
  try { setSubs(JSON.parse(saved)); } catch (e) {}
  }
- setMounted(true);
- }, []);
+  }, []);
 
  useEffect(() => {
  if (mounted) {
@@ -94,9 +93,6 @@ export function SubscriptionsClient() {
  }
  return new Date(a.nextDate ||"2099-01-01").getTime() - new Date(b.nextDate ||"2099-01-01").getTime();
  });
-
- if (!mounted) return null;
-
  return (
  <div className="space-y-6">
  <ToolPageHeader

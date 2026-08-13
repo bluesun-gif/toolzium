@@ -41,8 +41,7 @@ export function UTMBuilderClient() {
   const [isGeneratingAi, setIsGeneratingAi] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-    const saved = localStorage.getItem("toolzium_utm_history");
+        const saved = localStorage.getItem("toolzium_utm_history");
     if (saved) {
       try {
         setHistory(JSON.parse(saved));
@@ -215,9 +214,6 @@ export function UTMBuilderClient() {
       </div>
     );
   };
-
-  if (!mounted) return <div className="min-h-screen p-8 animate-pulse" />;
-
   return (
     <div className="w-full min-h-screen pb-20 relative">
       <GridPattern

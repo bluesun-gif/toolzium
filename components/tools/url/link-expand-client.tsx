@@ -35,8 +35,7 @@ export function LinkExpandClient() {
   const [isAnalyzingAi, setIsAnalyzingAi] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-    try {
+        try {
       const saved = localStorage.getItem("toolzium_link_expand_history");
       if (saved) setHistory(JSON.parse(saved));
     } catch (e) {
@@ -141,9 +140,6 @@ export function LinkExpandClient() {
     setBatchUrls("");
     setResults([]);
   };
-
-  if (!mounted) return <div className="min-h-screen p-8 animate-pulse" />;
-
   return (
     <div className="w-full min-h-screen pb-20 relative">
       <GridPattern

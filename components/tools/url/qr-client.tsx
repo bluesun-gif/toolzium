@@ -64,8 +64,7 @@ export function QrClient() {
   const [qrSvgString, setQrSvgString] = useState<string>("");
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
+      }, []);
 
   const payload = useMemo(() => {
     if (inputType === "url") return urlInput.trim();
@@ -168,9 +167,6 @@ export function QrClient() {
     navigator.clipboard.writeText(payload);
     toast.success("Payload copied to clipboard!");
   };
-
-  if (!mounted) return <div className="min-h-screen p-8 animate-pulse" />;
-
   return (
     <div className="w-full min-h-screen pb-20 relative">
       <GridPattern

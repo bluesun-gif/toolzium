@@ -48,8 +48,7 @@ export function ExpensesClient() {
  const [mounted, setMounted] = useState(false);
 
  useEffect(() => {
- setMounted(true);
- const saved = localStorage.getItem("toolzium_travel_trips");
+  const saved = localStorage.getItem("toolzium_travel_trips");
  if (saved) {
  try {
  setTrips(JSON.parse(saved));
@@ -133,9 +132,6 @@ export function ExpensesClient() {
  };
  return colors[cat] ||"#6b7280";
  };
-
- if (!mounted) return null;
-
  return (
  <div className="space-y-6">
  <ToolPageHeader

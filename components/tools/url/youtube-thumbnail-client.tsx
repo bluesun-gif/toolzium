@@ -46,8 +46,7 @@ export default function YoutubeThumbnailClient() {
   const [isAnalyzingAi, setIsAnalyzingAi] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
+      }, []);
 
   const extractVideoId = (inputUrl: string): string | null => {
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\/shorts\/)([^#\&\?]*).*/;
@@ -154,9 +153,6 @@ export default function YoutubeThumbnailClient() {
     setThumbnails([]);
     setAiAnalysis(null);
   };
-
-  if (!mounted) return <div className="min-h-screen p-8 animate-pulse" />;
-
   return (
     <div className="w-full min-h-screen pb-20 relative">
       <GridPattern

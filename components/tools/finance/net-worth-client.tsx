@@ -42,8 +42,7 @@ export function NetWorthClient() {
  if (savedAssets) setAssets(JSON.parse(savedAssets));
  if (savedLiabs) setLiabilities(JSON.parse(savedLiabs));
  if (savedSnaps) setSnapshots(JSON.parse(savedSnaps));
- setMounted(true);
- }, []);
+  }, []);
 
  useEffect(() => {
  if (mounted) {
@@ -114,9 +113,6 @@ export function NetWorthClient() {
  const formatCurrency = (val: number) => {
  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(val);
  };
-
- if (!mounted) return null;
-
  return (
  <div className="space-y-6">
  <ToolPageHeader

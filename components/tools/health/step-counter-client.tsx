@@ -33,8 +33,7 @@ export function StepCounterClient() {
  if (saved) setEntries(JSON.parse(saved));
  if (savedGoal) setGoal(Number(savedGoal));
  if (savedStride) setStrideLength(Number(savedStride));
- setMounted(true);
- }, []);
+  }, []);
 
  useEffect(() => {
  if (mounted) {
@@ -105,9 +104,6 @@ export function StepCounterClient() {
 
  return { today: todaySteps, weeklyAvg, streak: currentStreak, calToday, distToday, progress };
  }, [entries, goal, strideLength]);
-
- if (!mounted) return null;
-
  return (
  <div className="space-y-6">
  <ToolPageHeader

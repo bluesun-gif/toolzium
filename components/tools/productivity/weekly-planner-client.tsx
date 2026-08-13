@@ -42,8 +42,7 @@ export function WeeklyPlannerClient() {
  const [mounted, setMounted] = useState(false);
 
  useEffect(() => {
- setMounted(true);
- const saved = localStorage.getItem("weekly-planner-events");
+  const saved = localStorage.getItem("weekly-planner-events");
  if (saved) {
  try { setEvents(JSON.parse(saved)); } catch (e) {}
  }
@@ -88,9 +87,6 @@ export function WeeklyPlannerClient() {
  });
  return text ||"No events planned.";
  };
-
- if (!mounted) return null;
-
  return (
  <div className="space-y-6">
  <ToolPageHeader

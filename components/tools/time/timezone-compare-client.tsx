@@ -26,8 +26,7 @@ export function TimezoneCompareClient() {
  const [zones, setZones] = useState<string[]>(["UTC","America/New_York"]);
  const [selectedZone, setSelectedZone] = useState(TIMEZONES[0].value);
  const [baseTimeOffset, setBaseTimeOffset] = useState(0); // 0 to 24 hours in minutes
- const [mounted, setMounted] = useState(false);
-
+ 
  useEffect(() => { setMounted(true); }, []);
 
  const addZone = () => {
@@ -43,9 +42,7 @@ export function TimezoneCompareClient() {
  }
  };
 
- const getZoneTime = (zone: string) => {
- if (!mounted) return { text:"", isBusiness: false, isDark: false };
- const date = new Date();
+ const getZoneTime = (zone: string) => { const date = new Date();
  date.setHours(0, 0, 0, 0);
  date.setMinutes(baseTimeOffset);
 
@@ -71,9 +68,6 @@ export function TimezoneCompareClient() {
 
  return { text: timeStr, isBusiness, isDark, hour24 };
  };
-
- if (!mounted) return null;
-
  return (
  <div className="space-y-6">
  <ToolPageHeader
