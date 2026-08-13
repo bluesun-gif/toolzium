@@ -70,7 +70,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: {
     default: `Toolzium — ${TOTAL_TOOLS_COUNT}+ Free Online Tools for Everyone`,
-    template: "%s - Toolzium",
+    template: "%s | Toolzium",
   },
   description: smartDescription,
   metadataBase: new URL(siteURL),
