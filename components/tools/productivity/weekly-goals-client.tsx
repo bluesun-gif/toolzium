@@ -68,11 +68,8 @@ export function WeeklyGoalsClient() {
   const [newGoalTitle, setNewGoalTitle] = useState("");
   const [newGoalCategory, setNewGoalCategory] = useState<Category>("Work");
   const [newTaskTexts, setNewTaskTexts] = useState<Record<string, string>>({});
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    setLoaded(true);
-    const saved = localStorage.getItem("weeklyGoals");
+    useEffect(() => {
+        const saved = localStorage.getItem("weeklyGoals");
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -82,8 +79,8 @@ export function WeeklyGoalsClient() {
   }, []);
 
   useEffect(() => {
-    if (loaded) localStorage.setItem("weeklyGoals", JSON.stringify(goals));
-  }, [goals, loaded]);
+    if (typeof window !== "undefined") localStorage.setItem("weeklyGoals", JSON.stringify(goals));
+  }, [goals]);
 
   const addGoal = () => {
     if (!newGoalTitle.trim()) {
@@ -190,11 +187,7 @@ export function WeeklyGoalsClient() {
   const handleReset = () => {
     setGoals(DEFAULT_WEEKLY_GOALS);
     toast.success("Reset weekly goals to default!");
-  };
-
-  if (!loaded) return null;
-
-  return (
+  };  return (
     <div className="relative max-w-6xl mx-auto space-y-8">
       <GridPattern
         width={30}

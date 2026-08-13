@@ -34,10 +34,21 @@ export default function Page() {
     ]
   };
 
+
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      { "@type": "Question", name: "How does the Daily Standup Generator work?", acceptedAnswer: { "@type": "Answer", text: "Toolzium's Daily Standup Generator runs instantly in your browser. Generate daily standup reports. Yesterday, Today, Blockers sections. Slack formatting. Save history by date. Quick templates. No sign-up or software installation required." } },
+      { "@type": "Question", name: "Is the Daily Standup Generator 100% free to use?", acceptedAnswer: { "@type": "Answer", text: "Yes, the Daily Standup Generator is 100% free with unlimited usage and no account required." } },
+      { "@type": "Question", name: "Is my data secure when using the Daily Standup Generator?", acceptedAnswer: { "@type": "Answer", text: "Yes, all processing occurs locally in your browser. Your data never leaves your device." } }
+    ]
+  };
   return (
     <div className="space-y-4">
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
+      <JsonLd data={faqLd} />
       <StandupClient />
     </div>
   );

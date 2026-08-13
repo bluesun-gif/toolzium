@@ -31,10 +31,21 @@ export default function Page() {
       { "@type": "ListItem", position: 3, name: "Crypto Profit Calculator", item: toolUrl }
     ]
   };
+
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      { "@type": "Question", name: "How does the Crypto Profit Calculator work?", acceptedAnswer: { "@type": "Answer", text: "Toolzium's Crypto Profit Calculator runs instantly in your browser. Calculate profit/loss from crypto trades. Buy/sell price, fees, ROI %. Popular coin presets. Visual profit cards. No sign-up or software installation required." } },
+      { "@type": "Question", name: "Is the Crypto Profit Calculator 100% free to use?", acceptedAnswer: { "@type": "Answer", text: "Yes, the Crypto Profit Calculator is 100% free with unlimited usage and no account required." } },
+      { "@type": "Question", name: "Is my data secure when using the Crypto Profit Calculator?", acceptedAnswer: { "@type": "Answer", text: "Yes, all processing occurs locally in your browser. Your data never leaves your device." } }
+    ]
+  };
   return (
     <div className="space-y-4">
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
+      <JsonLd data={faqLd} />
       <CryptoProfitClient />
     </div>
   );

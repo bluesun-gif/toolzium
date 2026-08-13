@@ -32,10 +32,21 @@ export default function Page() {
     ]
   };
 
+
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      { "@type": "Question", name: "How does the Recumbent Exercise Bike Calorie Calculator work?", acceptedAnswer: { "@type": "Answer", text: "Toolzium's Recumbent Exercise Bike Calorie Calculator runs instantly in your browser. Calculate calories burned on a recumbent stationary bike based on weight, duration, intensity, and cadence. No sign-up or software installation required." } },
+      { "@type": "Question", name: "Is the Recumbent Exercise Bike Calorie Calculator 100% free to use?", acceptedAnswer: { "@type": "Answer", text: "Yes, the Recumbent Exercise Bike Calorie Calculator is 100% free with unlimited usage and no account required." } },
+      { "@type": "Question", name: "Is my data secure when using the Recumbent Exercise Bike Calorie Calculator?", acceptedAnswer: { "@type": "Answer", text: "Yes, all processing occurs locally in your browser. Your data never leaves your device." } }
+    ]
+  };
   return (
     <div className="space-y-4">
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
+      <JsonLd data={faqLd} />
       <RecumbentBikeCalorieClient />
     </div>
   );

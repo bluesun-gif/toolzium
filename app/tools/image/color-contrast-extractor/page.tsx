@@ -14,5 +14,16 @@ export default function Page() {
   const toolUrl = `${siteURL}/tools/image/color-contrast-extractor`;
   const appLd = { "@context": "https://schema.org", "@type": "WebApplication", name: "Color Contrast Ratio & Accessibility Analyzer", url: toolUrl, description: "Test color contrast ratios between text and background colors.", applicationCategory: "DesignApplication", operatingSystem: "All", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" } };
   const crumbsLd = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: siteURL }, { "@type": "ListItem", position: 2, name: "Image Tools", item: `${siteURL}/tools#cat-image` }, { "@type": "ListItem", position: 3, name: "Color Contrast", item: toolUrl }] };
-  return (<div className="space-y-4"><JsonLd data={appLd} /><JsonLd data={crumbsLd} /><ColorContrastClient /></div>);
+
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      { "@type": "Question", name: "How does the Color Contrast Ratio & Accessibility Analyzer work?", acceptedAnswer: { "@type": "Answer", text: "Toolzium's Color Contrast Ratio & Accessibility Analyzer runs instantly in your browser. Test color contrast ratios between text and background colors to ensure WCAG accessibility compliance. No sign-up or software installation required." } },
+      { "@type": "Question", name: "Is the Color Contrast Ratio & Accessibility Analyzer 100% free to use?", acceptedAnswer: { "@type": "Answer", text: "Yes, the Color Contrast Ratio & Accessibility Analyzer is 100% free with unlimited usage and no account required." } },
+      { "@type": "Question", name: "Is my data secure when using the Color Contrast Ratio & Accessibility Analyzer?", acceptedAnswer: { "@type": "Answer", text: "Yes, all processing occurs locally in your browser. Your data never leaves your device." } }
+    ]
+  };
+  return (<div className="space-y-4"><JsonLd data={appLd} /><JsonLd data={crumbsLd} />
+      <JsonLd data={faqLd} /><ColorContrastClient /></div>);
 }

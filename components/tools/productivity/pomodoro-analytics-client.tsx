@@ -38,13 +38,10 @@ export function PomodoroAnalyticsClient() {
   const [isRunning, setIsRunning] = useState(false);
   const [currentTask, setCurrentTask] = useState("");
   const [logs, setLogs] = useState<LogEntry[]>([]);
-  const [loaded, setLoaded] = useState(false);
-
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+    const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    setLoaded(true);
-    const savedLogs = localStorage.getItem("pomodoroLogs");
+        const savedLogs = localStorage.getItem("pomodoroLogs");
     if (savedLogs) {
       try {
         const parsed = JSON.parse(savedLogs);
@@ -154,11 +151,7 @@ export function PomodoroAnalyticsClient() {
     localStorage.removeItem("pomodoroLogs");
     setTimeLeft(durations.work * 60);
     toast.success("Reset Pomodoro logs & timer!");
-  };
-
-  if (!loaded) return null;
-
-  return (
+  };  return (
     <div className="relative max-w-6xl mx-auto space-y-8">
       <GridPattern
         width={30}

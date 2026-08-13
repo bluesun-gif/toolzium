@@ -34,10 +34,21 @@ export default function Page() {
     ]
   };
 
+
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      { "@type": "Question", name: "How does the Travel Budget Currency Comparison Matrix work?", acceptedAnswer: { "@type": "Answer", text: "Toolzium's Travel Budget Currency Comparison Matrix runs instantly in your browser. Compare travel budgets across multiple destination currencies. No sign-up or software installation required." } },
+      { "@type": "Question", name: "Is the Travel Budget Currency Comparison Matrix 100% free to use?", acceptedAnswer: { "@type": "Answer", text: "Yes, the Travel Budget Currency Comparison Matrix is 100% free with unlimited usage and no account required." } },
+      { "@type": "Question", name: "Is my data secure when using the Travel Budget Currency Comparison Matrix?", acceptedAnswer: { "@type": "Answer", text: "Yes, all processing occurs locally in your browser. Your data never leaves your device." } }
+    ]
+  };
   return (
     <div className="space-y-4">
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
+      <JsonLd data={faqLd} />
       <TravelBudgetMatrixClient />
     </div>
   );

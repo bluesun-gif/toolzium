@@ -38,10 +38,21 @@ export default function Page() {
     ]
   };
 
+
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      { "@type": "Question", name: "How does the Emergency Savings Goal Calculator work?", acceptedAnswer: { "@type": "Answer", text: "Toolzium's Emergency Savings Goal Calculator runs instantly in your browser. Calculate monthly or weekly savings required to reach your emergency savings goal with high-yield APY interest accumulation. No sign-up or software installation required." } },
+      { "@type": "Question", name: "Is the Emergency Savings Goal Calculator 100% free to use?", acceptedAnswer: { "@type": "Answer", text: "Yes, the Emergency Savings Goal Calculator is 100% free with unlimited usage and no account required." } },
+      { "@type": "Question", name: "Is my data secure when using the Emergency Savings Goal Calculator?", acceptedAnswer: { "@type": "Answer", text: "Yes, all processing occurs locally in your browser. Your data never leaves your device." } }
+    ]
+  };
   return (
     <div className="space-y-4">
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
+      <JsonLd data={faqLd} />
       <EmergencyGoalCalcClient />
     </div>
   );

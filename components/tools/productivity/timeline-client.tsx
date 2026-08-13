@@ -43,11 +43,8 @@ export function TimelineClient() {
   const [newTaskStart, setNewTaskStart] = useState("2026-08-15");
   const [newTaskEnd, setNewTaskEnd] = useState("2026-08-28");
   const [newTaskColor, setNewTaskColor] = useState("#3b82f6");
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    setLoaded(true);
-    const saved = localStorage.getItem("timeline-tasks");
+    useEffect(() => {
+        const saved = localStorage.getItem("timeline-tasks");
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -57,8 +54,8 @@ export function TimelineClient() {
   }, []);
 
   useEffect(() => {
-    if (loaded) localStorage.setItem("timeline-tasks", JSON.stringify(tasks));
-  }, [tasks, loaded]);
+    if (typeof window !== "undefined") localStorage.setItem("timeline-tasks", JSON.stringify(tasks));
+  }, [tasks]);
 
   const addTask = () => {
     if (!newTaskName.trim() || !newTaskStart || !newTaskEnd) {
@@ -143,11 +140,7 @@ export function TimelineClient() {
       summary += `- ${t.name} (${t.status}): ${t.startDate} to ${t.endDate}\n`;
     });
     return summary;
-  };
-
-  if (!loaded) return null;
-
-  return (
+  };  return (
     <div className="relative max-w-6xl mx-auto space-y-8">
       <GridPattern
         width={30}

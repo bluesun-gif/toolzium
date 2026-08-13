@@ -31,10 +31,21 @@ export default function Page() {
       { "@type": "ListItem", position: 3, name: "FIRE Calculator", item: toolUrl }
     ]
   };
+
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      { "@type": "Question", name: "How does the FIRE Financial Independence Calculator work?", acceptedAnswer: { "@type": "Answer", text: "Toolzium's FIRE Financial Independence Calculator runs instantly in your browser. Calculate age of Financial Independence & Early Retirement. Required portfolio size, net worth growth projection table, Lean/Fat/Coast FIRE. No sign-up or software installation required." } },
+      { "@type": "Question", name: "Is the FIRE Financial Independence Calculator 100% free to use?", acceptedAnswer: { "@type": "Answer", text: "Yes, the FIRE Financial Independence Calculator is 100% free with unlimited usage and no account required." } },
+      { "@type": "Question", name: "Is my data secure when using the FIRE Financial Independence Calculator?", acceptedAnswer: { "@type": "Answer", text: "Yes, all processing occurs locally in your browser. Your data never leaves your device." } }
+    ]
+  };
   return (
     <div className="space-y-4">
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
+      <JsonLd data={faqLd} />
       <FireCalcClient />
     </div>
   );

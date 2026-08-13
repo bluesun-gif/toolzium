@@ -37,11 +37,8 @@ export function HabitPlannerClient() {
   const [newHabitName, setNewHabitName] = useState("");
   const [newHabitCategory, setNewHabitCategory] = useState("Health");
   const [streak, setStreak] = useState(3);
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    setLoaded(true);
-    const saved = localStorage.getItem("habitPlanner");
+    useEffect(() => {
+        const saved = localStorage.getItem("habitPlanner");
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -101,11 +98,7 @@ export function HabitPlannerClient() {
   const calculateCompletion = (days: boolean[]) => {
     const completed = days.filter(Boolean).length;
     return Math.round((completed / 7) * 100);
-  };
-
-  if (!loaded) return null;
-
-  return (
+  };  return (
     <div className="relative max-w-6xl mx-auto space-y-8">
       <GridPattern
         width={30}

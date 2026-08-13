@@ -38,10 +38,21 @@ export default function Page() {
     ]
   };
 
+
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      { "@type": "Question", name: "How does the Jump Rope & HIIT Calorie Calculator work?", acceptedAnswer: { "@type": "Answer", text: "Toolzium's Jump Rope & HIIT Calorie Calculator runs instantly in your browser. Calculate total calories burned during jump rope and High-Intensity Interval Training (HIIT) workouts. No sign-up or software installation required." } },
+      { "@type": "Question", name: "Is the Jump Rope & HIIT Calorie Calculator 100% free to use?", acceptedAnswer: { "@type": "Answer", text: "Yes, the Jump Rope & HIIT Calorie Calculator is 100% free with unlimited usage and no account required." } },
+      { "@type": "Question", name: "Is my data secure when using the Jump Rope & HIIT Calorie Calculator?", acceptedAnswer: { "@type": "Answer", text: "Yes, all processing occurs locally in your browser. Your data never leaves your device." } }
+    ]
+  };
   return (
     <div className="space-y-4">
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
+      <JsonLd data={faqLd} />
       <JumpropeCalorieClient />
     </div>
   );
