@@ -273,15 +273,8 @@ Calling Code: ${result.country_calling_code || 'N/A'}
 
 function ResultItem({ icon, label, value }: { icon: React.ReactNode; label: string; value: React.ReactNode }) {
  return (
- <div className="flex flex-col space-y-1 p-3 bg-muted/50 rounded-lg">
-      <GridPattern
-        width={30}
-        height={30}
-        x={-1}
-        y={-1}
-        strokeDasharray="4 2"
-        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
-      />
+      <div className="relative flex flex-col space-y-1 p-3 bg-muted/50 rounded-lg">
+      <GridPattern />
 
  <span className="text-xs text-muted-foreground flex items-center gap-1.5">
  {icon}

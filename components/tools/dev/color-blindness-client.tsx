@@ -92,15 +92,8 @@ export default function ColorBlindnessClient() {
  ];
 
  return (
- <div className="max-w-6xl mx-auto space-y-8 pb-12 px-4">
-      <GridPattern
-        width={30}
-        height={30}
-        x={-1}
-        y={-1}
-        strokeDasharray="4 2"
-        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
-      />
+      <div className="relative max-w-6xl mx-auto space-y-8 pb-12 px-4">
+      <GridPattern />
 
  <ToolPageHeader icon={Eye} title="Color Blindness Simulator"description="Audit your UI accessibility by simulating how your colors appear to users with various forms of Color Vision Deficiency (CVD)."/>
  

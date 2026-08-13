@@ -321,14 +321,7 @@ export default function WeekNumberClient() {
  <CardContent className="grid gap-6 lg:grid-cols-2">
  {/* Left: Date + quick actions */}
  <div className="space-y-3">
-      <GridPattern
-        width={30}
-        height={30}
-        x={-1}
-        y={-1}
-        strokeDasharray="4 2"
-        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
-      />
+      <GridPattern />
 
  <InputField
  id="wk-date"
@@ -552,7 +545,7 @@ function Stat({
  icon?: LucideIcon;
 }) {
  return (
- <div className="rounded-xl border p-3 hover:ring-1 hover:ring-primary/20 transition-shadow">
+      <div className="relative rounded-xl border p-3 hover:ring-1 hover:ring-primary/20 transition-shadow">
  <div className="flex items-center justify-between">
  <div className="text-sm text-muted-foreground flex items-center gap-2">
  {Icon ? <Icon className="h-6 w-6"/> : null}

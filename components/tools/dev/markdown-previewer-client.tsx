@@ -84,14 +84,7 @@ function Panel({
  className
  )}
  >
-      <GridPattern
-        width={30}
-        height={30}
-        x={-1}
-        y={-1}
-        strokeDasharray="4 2"
-        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
-      />
+      <GridPattern />
 
  <div className="flex items-center justify-between border-b px-3 py-2">
  <div>
@@ -875,7 +868,7 @@ function Toolbar({
  >;
 }) {
  return (
- <div className="inline-flex w-full flex-wrap items-center gap-2">
+      <div className="relative inline-flex w-full flex-wrap items-center gap-2">
  {groups.map((g, gi) => (
  <div
  key={`grp-${gi as number}`}

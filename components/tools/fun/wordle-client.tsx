@@ -160,14 +160,7 @@ export function WordleClient() {
  
  return (
  <div key={j} className={`w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center text-2xl font-bold border-2 ${border} ${bg} ${text} transition-all duration-300`}>
-      <GridPattern
-        width={30}
-        height={30}
-        x={-1}
-        y={-1}
-        strokeDasharray="4 2"
-        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
-      />
+      <GridPattern />
 
  {letter.toUpperCase()}
  </div>
@@ -182,7 +175,7 @@ export function WordleClient() {
  const renderKeyboard = () => {
  const rows = ["qwertyuiop","asdfghjkl","zxcvbnm"];
  return (
- <div className="flex flex-col gap-1.5 mt-6">
+      <div className="relative flex flex-col gap-1.5 mt-6">
  {rows.map((row, i) => (
  <div key={i} className="flex justify-center gap-1">
  {i === 2 && <Button variant="outline"size="sm"className="px-2 text-xs"onClick={() => setCurrent("")}>Enter</Button>}

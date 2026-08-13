@@ -91,15 +91,8 @@ export function CssGlassmorphismClient() {
  );
 
  return (
- <div className="max-w-6xl mx-auto space-y-8 p-4 sm:p-6 lg:p-8">
-      <GridPattern
-        width={30}
-        height={30}
-        x={-1}
-        y={-1}
-        strokeDasharray="4 2"
-        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
-      />
+      <div className="relative max-w-6xl mx-auto space-y-8 p-4 sm:p-6 lg:p-8">
+      <GridPattern />
 
  <ToolPageHeader
  icon={Sparkles}

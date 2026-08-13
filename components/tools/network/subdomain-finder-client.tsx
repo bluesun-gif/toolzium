@@ -168,14 +168,7 @@ export default function SubdomainFinderClient() {
  />
 
  <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-      <GridPattern
-        width={30}
-        height={30}
-        x={-1}
-        y={-1}
-        strokeDasharray="4 2"
-        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
-      />
+      <GridPattern />
 
  {/* Left Control Panel */}
  <div className="lg:col-span-1 space-y-4">

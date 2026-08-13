@@ -93,15 +93,8 @@ export function PhotoGridClient() {
  };
 
  return (
- <div className="space-y-6">
-      <GridPattern
-        width={30}
-        height={30}
-        x={-1}
-        y={-1}
-        strokeDasharray="4 2"
-        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
-      />
+      <div className="relative space-y-6">
+      <GridPattern />
 
  <ToolPageHeader icon={LayoutGrid} title="Photo Grid Maker"description="Combine photos into a grid"actions={<ResetButton onClick={() => setImages([])} label="Clear All"/>} />
  

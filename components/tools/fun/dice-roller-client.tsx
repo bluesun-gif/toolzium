@@ -37,15 +37,8 @@ export default function DiceRollerClient() {
  const total = results.length > 0 ? results.reduce((a, b) => a + b, 0) + modifier : 0;
 
  return (
- <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
-      <GridPattern
-        width={30}
-        height={30}
-        x={-1}
-        y={-1}
-        strokeDasharray="4 2"
-        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
-      />
+      <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern />
 
  <ToolPageHeader icon={Dice1} title="Dice Roller"description="Roll multiple polyhedral dice with custom modifiers, perfect for tabletop RPGs and board games."/>
  

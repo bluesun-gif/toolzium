@@ -125,15 +125,8 @@ export function MeditationTimerClient() {
  };
 
  return (
- <div className="space-y-6 max-w-4xl mx-auto">
-      <GridPattern
-        width={30}
-        height={30}
-        x={-1}
-        y={-1}
-        strokeDasharray="4 2"
-        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
-      />
+      <div className="relative space-y-6 max-w-4xl mx-auto">
+      <GridPattern />
 
  <ToolPageHeader
  icon={Timer}

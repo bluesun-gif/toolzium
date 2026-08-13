@@ -123,14 +123,7 @@ export function PriorityActionPlannerClient() {
  const qTasks = tasks.filter(t => t.quadrant === q);
  return (
  <div className={cn("p-4 rounded-xl border", colorClass)}>
-      <GridPattern
-        width={30}
-        height={30}
-        x={-1}
-        y={-1}
-        strokeDasharray="4 2"
-        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
-      />
+      <GridPattern />
 
  <h3 className="font-semibold mb-3 flex items-center gap-2">
  {title} <span className="text-xs bg-background/50 px-2 py-0.5 rounded-full">{qTasks.length}</span>
@@ -155,7 +148,7 @@ export function PriorityActionPlannerClient() {
  };
 
  return (
- <div className="space-y-6">
+      <div className="relative space-y-6">
  <ToolPageHeader
  icon={CheckSquare}
  title="Priority Matrix Action Planner"

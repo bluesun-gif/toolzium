@@ -127,14 +127,7 @@ Final Balance: ${formatCurrency(results.finalBalance)}`;
  <ToolPageHeader title="Compound Interest Calculator"description="Calculate how your investments can grow over time with compound interest."/>
 
  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-      <GridPattern
-        width={30}
-        height={30}
-        x={-1}
-        y={-1}
-        strokeDasharray="4 2"
-        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
-      />
+      <GridPattern />
 
  {/* Input Section */}
  <Card className="lg:col-span-1">

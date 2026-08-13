@@ -110,15 +110,8 @@ export function EventCountdownClient() {
  const seconds = Math.floor((absDiff % (1000 * 60)) / 1000);
 
  return (
- <div className="flex flex-col items-center">
-      <GridPattern
-        width={30}
-        height={30}
-        x={-1}
-        y={-1}
-        strokeDasharray="4 2"
-        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
-      />
+      <div className="relative flex flex-col items-center">
+      <GridPattern />
 
  {isPast && <div className="text-sm font-semibold text-destructive mb-2">Event Passed</div>}
  <div className="grid grid-cols-4 gap-2 text-center w-full">

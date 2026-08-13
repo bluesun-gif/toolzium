@@ -288,14 +288,7 @@ export default function JsonFormatterClient() {
  {/* Settings Bar */}
  <GlassCard className="mb-4 p-4 sm:p-5 space-y-4">
  <div className="grid gap-4 md:grid-cols-3">
-      <GridPattern
-        width={30}
-        height={30}
-        x={-1}
-        y={-1}
-        strokeDasharray="4 2"
-        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
-      />
+      <GridPattern />
 
  <SelectField
  label="Indentation Level"

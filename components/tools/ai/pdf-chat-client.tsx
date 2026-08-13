@@ -200,15 +200,7 @@ Instructions:
   };
   return (
     <div className="w-full min-h-screen pb-20 relative">
-      <GridPattern
-        width={40}
-        height={40}
-        x={-1}
-        y={-1}
-        className={cn(
-          "absolute inset-0 h-full w-full stroke-border [mask-image:linear-gradient(to_bottom,white,transparent)]"
-        )}
-      />
+      <GridPattern />
 
       {/* Required for Syntax Highlighting */}
       <link

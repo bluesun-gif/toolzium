@@ -142,14 +142,7 @@ export function DailyPriorityActionBoardClient() {
  <span className="text-sm font-normal text-muted-foreground">{completedCount}/{bucketTasks.length}</span>
  </CardTitle>
  <div className="w-full bg-secondary h-2 rounded-full overflow-hidden mt-2">
-      <GridPattern
-        width={30}
-        height={30}
-        x={-1}
-        y={-1}
-        strokeDasharray="4 2"
-        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
-      />
+      <GridPattern />
 
  <div className={cn("h-full transition-all duration-300", colorClass.replace("text-","bg-"))} style={{ width: progress +"%"}} />
  </div>
@@ -192,7 +185,7 @@ export function DailyPriorityActionBoardClient() {
  const overallProgress = totalTasks === 0 ? 0 : Math.round((totalCompleted / totalTasks) * 100);
 
  return (
- <div className="space-y-6">
+      <div className="relative space-y-6">
  <ToolPageHeader 
  icon={CheckSquare}
  title="Daily Priority Action Board"

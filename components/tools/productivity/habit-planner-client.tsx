@@ -100,14 +100,7 @@ export function HabitPlannerClient() {
     return Math.round((completed / 7) * 100);
   };  return (
     <div className="relative max-w-6xl mx-auto space-y-8">
-      <GridPattern
-        width={30}
-        height={30}
-        x={-1}
-        y={-1}
-        strokeDasharray="4 2"
-        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
-      />
+      <GridPattern />
 
       <ToolPageHeader
         icon={Calendar}

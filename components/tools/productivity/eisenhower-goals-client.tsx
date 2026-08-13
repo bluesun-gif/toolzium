@@ -74,14 +74,7 @@ export function EisenhowerGoalsClient() {
  const bucketTasks = tasks.filter(t => t.bucket === id);
  return (
  <div className={cn("flex flex-col h-full rounded-xl border-2 p-4", colorClass)}>
-      <GridPattern
-        width={30}
-        height={30}
-        x={-1}
-        y={-1}
-        strokeDasharray="4 2"
-        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
-      />
+      <GridPattern />
 
  <div className="mb-4">
  <h3 className="text-lg font-bold">{title}</h3>
@@ -111,7 +104,7 @@ export function EisenhowerGoalsClient() {
  };
 
  return (
- <div className="space-y-6">
+      <div className="relative space-y-6">
  <ToolPageHeader
  title="Eisenhower Planner"
  description="Map goals to 4 actionable buckets."

@@ -118,14 +118,7 @@ export function EisenhowerWorkspaceClient() {
  const qTasks = filteredTasks.filter(t => t.quadrant === id);
  return (
  <div className={"border rounded-lg p-4 flex flex-col h-full bg-card shadow-sm"}>
-      <GridPattern
-        width={30}
-        height={30}
-        x={-1}
-        y={-1}
-        strokeDasharray="4 2"
-        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
-      />
+      <GridPattern />
 
  <div className={"flex items-center justify-between mb-4"}>
  <h3 className={cn("font-semibold", colorClass)}>{title}</h3>

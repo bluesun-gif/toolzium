@@ -202,7 +202,7 @@ export function UTMBuilderClient() {
     drawFinder(14, 0);
 
     return (
-      <div className="bg-white p-3 rounded-2xl border border-slate-200 shadow-md inline-block">
+      <div className="relative bg-white p-3 rounded-2xl border border-slate-200 shadow-md inline-block">
         <svg viewBox={`0 0 ${size} ${size}`} className="w-24 h-24">
           {matrix.map((row, r) =>
             row.map((cell, c) =>
@@ -215,15 +215,7 @@ export function UTMBuilderClient() {
   };
   return (
     <div className="w-full min-h-screen pb-20 relative">
-      <GridPattern
-        width={40}
-        height={40}
-        x={-1}
-        y={-1}
-        className={cn(
-          "absolute inset-0 h-full w-full stroke-border [mask-image:linear-gradient(to_bottom,white,transparent)]"
-        )}
-      />
+      <GridPattern />
 
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader

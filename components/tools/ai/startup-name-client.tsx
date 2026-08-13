@@ -204,15 +204,7 @@ export function StartupNameClient() {
   };
   return (
     <div className="w-full min-h-screen pb-20 relative">
-      <GridPattern
-        width={40}
-        height={40}
-        x={-1}
-        y={-1}
-        className={cn(
-          "absolute inset-0 h-full w-full stroke-border [mask-image:linear-gradient(to_bottom,white,transparent)]"
-        )}
-      />
+      <GridPattern />
 
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader

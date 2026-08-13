@@ -151,15 +151,8 @@ export default function AmbientNoiseClient() {
  const activeTrack = TRACKS.find((t) => t.id === activeTrackId) || TRACKS[0];
 
  return (
- <div className="mx-auto max-w-6xl px-2 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-6 max-w-full overflow-hidden">
-      <GridPattern
-        width={30}
-        height={30}
-        x={-1}
-        y={-1}
-        strokeDasharray="4 2"
-        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
-      />
+      <div className="relative mx-auto max-w-6xl px-2 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-6 max-w-full overflow-hidden">
+      <GridPattern />
 
  <ToolPageHeader
  title="Ambient Focus Noise & Binaural Sound Generator Studio"

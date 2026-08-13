@@ -378,15 +378,8 @@ function ResultBox({
  copyText?: string | (() => string | Promise<string | null | undefined>);
 }) {
  return (
- <div className="rounded-lg border p-3">
-      <GridPattern
-        width={30}
-        height={30}
-        x={-1}
-        y={-1}
-        strokeDasharray="4 2"
-        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
-      />
+      <div className="relative rounded-lg border p-3">
+      <GridPattern />
 
  <div className="mb-1 flex items-center justify-between">
  <span className="text-xs text-muted-foreground">{label}</span>

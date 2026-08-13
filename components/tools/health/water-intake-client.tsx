@@ -140,15 +140,8 @@ export function WaterIntakeClient() {
  };
 
  return (
- <div className="w-full max-w-5xl mx-auto flex flex-col gap-8">
-      <GridPattern
-        width={30}
-        height={30}
-        x={-1}
-        y={-1}
-        strokeDasharray="4 2"
-        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
-      />
+      <div className="relative w-full max-w-5xl mx-auto flex flex-col gap-8">
+      <GridPattern />
 
  <ToolPageHeader
  title="Water Intake Calculator"

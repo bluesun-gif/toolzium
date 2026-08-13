@@ -120,15 +120,8 @@ export function MarkdownStudioClient() {
  );
 
  return (
- <div className="max-w-7xl mx-auto space-y-8 p-4">
-      <GridPattern
-        width={30}
-        height={30}
-        x={-1}
-        y={-1}
-        strokeDasharray="4 2"
-        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
-      />
+      <div className="relative max-w-7xl mx-auto space-y-8 p-4">
+      <GridPattern />
 
  <ToolPageHeader
  icon={FileText}

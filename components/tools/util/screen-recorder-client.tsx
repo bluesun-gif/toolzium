@@ -177,15 +177,8 @@ export default function ScreenRecorderClient() {
 
  if (!supported) {
  return (
- <div className="mx-auto max-w-3xl px-4 py-8 text-center">
-      <GridPattern
-        width={30}
-        height={30}
-        x={-1}
-        y={-1}
-        strokeDasharray="4 2"
-        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
-      />
+      <div className="relative mx-auto max-w-3xl px-4 py-8 text-center">
+      <GridPattern />
 
  <AlertTriangle className="mx-auto h-12 w-12 text-destructive mb-4"/>
  <h2 className="text-2xl font-bold mb-2">Browser Not Supported</h2>

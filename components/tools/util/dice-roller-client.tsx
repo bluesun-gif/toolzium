@@ -64,22 +64,14 @@ const Die = ({ value, rolling }: { value: number; rolling: boolean }) => {
  const rotation = rolling ? Math.floor(Math.random() * 360) : 0;
 
  return (
- <div
- className="w-16 h-16 sm:w-24 sm:h-24 bg-background border-2 border-border rounded-xl shadow-md p-2 grid grid-cols-3 grid-rows-3 gap-1 transition-all duration-300"
+      <div className="relative w-16 h-16 sm:w-24 sm:h-24 bg-background border-2 border-border rounded-xl shadow-md p-2 grid grid-cols-3 grid-rows-3 gap-1 transition-all duration-300"
  style={{
  transform: rolling
  ? `rotate(${rotation}deg) scale(1.1)`
  :"rotate(0deg) scale(1)",
  }}
  >
-      <GridPattern
-        width={30}
-        height={30}
-        x={-1}
-        y={-1}
-        strokeDasharray="4 2"
-        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
-      />
+      <GridPattern />
 
  {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
  <div

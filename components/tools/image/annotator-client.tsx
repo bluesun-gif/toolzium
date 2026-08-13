@@ -276,15 +276,8 @@ export function AnnotatorClient() {
  cn("h-10 w-10 p-0", activeTool === tool ?"bg-primary text-primary-foreground":"bg-muted hover:bg-muted/80");
 
  return (
- <div className="space-y-6">
-      <GridPattern
-        width={30}
-        height={30}
-        x={-1}
-        y={-1}
-        strokeDasharray="4 2"
-        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
-      />
+      <div className="relative space-y-6">
+      <GridPattern />
 
  <ToolPageHeader
  icon={PenTool}

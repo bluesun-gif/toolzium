@@ -154,15 +154,8 @@ export default function CalorieCalculatorClient() {
  const fWidth = (macros.fat * 9 / calories) * 100;
  
  return (
- <div className="mt-4 space-y-2">
-      <GridPattern
-        width={30}
-        height={30}
-        x={-1}
-        y={-1}
-        strokeDasharray="4 2"
-        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
-      />
+      <div className="relative mt-4 space-y-2">
+      <GridPattern />
 
  <div className="flex h-2.5 w-full overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-700">
  <div style={{ width: `\${pWidth}%` }} className="bg-blue-500"/>
