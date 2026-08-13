@@ -368,12 +368,11 @@ export default function PomodoroFocusClient() {
  <div className="flex flex-col items-center justify-center gap-4">
  <div className="relative h-48 w-48">
  <svg
- viewBox="0 0 100 100"
  className="h-full w-full"
  role="img"
- aria-labelledby="progress-title"
+ aria-label="Pomodoro progress ring"
+ viewBox="0 0 100 100"
  >
- <title id="progress-title">Pomodoro progress ring</title>
  <circle
  cx="50"
  cy="50"
