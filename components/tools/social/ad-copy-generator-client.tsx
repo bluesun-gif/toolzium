@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ResetButton, CopyButton } from "@/components/shared/action-buttons";
 import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Target, RefreshCw, Sparkles, Copy, Megaphone, Zap, Shield, BookOpen, Layers } from "lucide-react";
+import { Target, RefreshCw, Sparkles, Copy, Megaphone, Zap, Shield, BookOpen, Layers } from"lucide-react";
 import toast from "react-hot-toast";
 
 export default function AdCopyGeneratorClient() {

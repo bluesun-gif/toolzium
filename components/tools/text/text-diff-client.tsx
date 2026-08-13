@@ -10,6 +10,8 @@ import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import toast from"react-hot-toast";
 import { GitCompare, FileText, Search, BarChart3 } from"lucide-react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -70,10 +72,19 @@ export default function TextDiffClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader icon={GitCompare} title="Text Diff Checker"description="Compare two blocks of text line-by-line to highlight additions, deletions, and changes."/>
  
  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}><FileText className="w-4 h-4 text-primary"/> Original Text</CardTitle>
  </CardHeader>
@@ -86,8 +97,8 @@ export default function TextDiffClient() {
  placeholder="Paste original text here..."
  />
  </CardContent>
- </Card>
- <Card className={cardClass}>
+ </GlassCard>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}><FileText className="w-4 h-4 text-primary"/> Modified Text</CardTitle>
  </CardHeader>
@@ -100,7 +111,7 @@ export default function TextDiffClient() {
  placeholder="Paste modified text here..."
  />
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
 
  <div className="flex justify-center">
@@ -124,15 +135,15 @@ export default function TextDiffClient() {
  <div className="text-xs text-muted-foreground">Lines Removed</div>
  </CardContent>
  </Card>
- <Card className={cardClass}>
+ <GlassCard>
  <CardContent className="p-4 text-center">
  <div className="text-2xl font-bold">{stats.same}</div>
  <div className="text-xs text-muted-foreground">Lines Unchanged</div>
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}><BarChart3 className="w-4 h-4 text-primary"/> Diff Result</CardTitle>
  </CardHeader>
@@ -148,7 +159,7 @@ export default function TextDiffClient() {
  ))}
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
  </>
  )}
 
@@ -184,7 +195,7 @@ export default function TextDiffClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/text/text-diff"max={6} />
+ <RelatedTools currentToolUrl="/tools/text/text-diff" max={6} />
  </div>
  );
 }

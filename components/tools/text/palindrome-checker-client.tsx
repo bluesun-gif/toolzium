@@ -9,6 +9,8 @@ import { RelatedTools } from"@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Input } from"@/components/ui/input";
 import { RotateCcw, CheckCircle2, XCircle } from"lucide-react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -26,13 +28,22 @@ export default function PalindromeCheckerClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={RotateCcw}
  title="Palindrome Checker"
  description="Check if your text is a palindrome — reads the same forwards and backwards."
  />
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <RotateCcw className="w-4 h-4 text-primary"/> Input Text
@@ -73,7 +84,7 @@ export default function PalindromeCheckerClient() {
  </div>
  )}
  </CardContent>
- </Card>
+ </GlassCard>
 
  <ToolHowItWorks
  steps={[
@@ -107,7 +118,7 @@ export default function PalindromeCheckerClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/text/palindrome-checker"max={6} />
+ <RelatedTools currentToolUrl="/tools/text/palindrome-checker" max={6} />
  </div>
  );
 }

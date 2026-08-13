@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { cn } from "@/lib/utils";
-import { Image as ImageIcon, Copy, Download, RefreshCcw, Sparkles } from "lucide-react";
+import { Image as ImageIcon, Copy, Download, RefreshCcw, Sparkles } from"lucide-react";
 import toast from "react-hot-toast";
 
 export function PlaceholderGeneratorClient() {

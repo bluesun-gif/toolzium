@@ -12,6 +12,9 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import toast from"react-hot-toast";
 import { Circle, Copy, Link, Unlink, Palette, Maximize } from"lucide-react";
+import { cn } from"@/lib/utils";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -62,13 +65,22 @@ export default function CssRadiusClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Circle}
  title="CSS Border Radius Generator"
  description="Design complex, elliptical border-radius shapes with visual corner controls and real-time CSS code generation."
  />
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Maximize className="w-4 h-4 text-primary"/> Visual Preview
@@ -92,10 +104,10 @@ export default function CssRadiusClient() {
  </svg>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
- <Card className={cardClass +"lg:col-span-2"}>
+ <Card className={cn(cardClass, "lg:col-span-2")}>
  <CardHeader className={headerClass}>
  <div className="flex justify-between items-center w-full">
  <CardTitle className={titleClass}>Corner Controls</CardTitle>
@@ -168,7 +180,7 @@ export default function CssRadiusClient() {
  </CardContent>
  </Card>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>Dimensions & Presets</CardTitle>
  </CardHeader>
@@ -201,10 +213,10 @@ export default function CssRadiusClient() {
  </div>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>Generated CSS</CardTitle>
  <Button size="sm"className="h-8 text-xs px-3"onClick={copyCSS}>
@@ -212,9 +224,9 @@ export default function CssRadiusClient() {
  </Button>
  </CardHeader>
  <CardContent className="p-5">
- <pre className={textareaClass +"min-h-[120px] text-foreground leading-relaxed p-4 bg-muted/30 rounded-lg overflow-x-auto text-xs"}>{cssOutput}</pre>
+ <pre className={cn(textareaClass, "min-h-[120px] text-foreground leading-relaxed p-4 bg-muted/30 rounded-lg overflow-x-auto text-xs")}>{cssOutput}</pre>
  </CardContent>
- </Card>
+ </GlassCard>
 
  <ToolHowItWorks
  steps={[
@@ -255,7 +267,7 @@ export default function CssRadiusClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/dev/css-radius"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/css-radius" max={6} />
  </div>
  );
 }

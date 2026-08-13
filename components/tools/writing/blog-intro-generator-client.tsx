@@ -11,6 +11,8 @@ import { Button } from"@/components/ui/button";
 import { CopyButton } from"@/components/shared/action-buttons";
 import toast from"react-hot-toast";
 import { Newspaper, Sparkles, RefreshCw, HelpCircle, BarChart3, BookOpen } from"lucide-react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 interface BlogIntroResult {
  question: string;
@@ -93,13 +95,22 @@ Return ONLY the 3 intros separated by ||| with no labels.`;
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Newspaper}
  title="Blog Intro Generator"
  description="Generate 3 blog introductions with question, statistic, and story hooks."
  />
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <BookOpen className="w-4 h-4 text-primary"/> Blog Details
@@ -139,11 +150,11 @@ Return ONLY the 3 intros separated by ||| with no labels.`;
  )}
  </Button>
  </CardContent>
- </Card>
+ </GlassCard>
 
  {result && (
  <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <HelpCircle className="w-4 h-4 text-primary"/> Question Hook
@@ -153,9 +164,9 @@ Return ONLY the 3 intros separated by ||| with no labels.`;
  <p className="text-sm whitespace-pre-wrap leading-relaxed">{result.question}</p>
  <CopyButton getText={() => result.question} label="Copy Question Intro"/>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <BarChart3 className="w-4 h-4 text-primary"/> Statistic Hook
@@ -165,9 +176,9 @@ Return ONLY the 3 intros separated by ||| with no labels.`;
  <p className="text-sm whitespace-pre-wrap leading-relaxed">{result.statistic}</p>
  <CopyButton getText={() => result.statistic} label="Copy Statistic Intro"/>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Newspaper className="w-4 h-4 text-primary"/> Story Hook
@@ -177,7 +188,7 @@ Return ONLY the 3 intros separated by ||| with no labels.`;
  <p className="text-sm whitespace-pre-wrap leading-relaxed">{result.story}</p>
  <CopyButton getText={() => result.story} label="Copy Story Intro"/>
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
  )}
 
@@ -262,7 +273,7 @@ Return ONLY the 3 intros separated by ||| with no labels.`;
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/writing/blog-intro-generator"max={6} />
+ <RelatedTools currentToolUrl="/tools/writing/blog-intro-generator" max={6} />
  </div>
  );
 }

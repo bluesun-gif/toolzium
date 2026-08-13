@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
 import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Crosshair, Copy, Check, Sparkles, Shield, BookOpen, Layers, Zap } from "lucide-react";
+import { Crosshair, Copy, Check, Sparkles, Shield, BookOpen, Layers, Zap } from"lucide-react";
 import toast from "react-hot-toast";
 
 const PRO_CROSSHAIRS = [

@@ -38,6 +38,7 @@ import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import { RelatedTools } from"@/components/shared/related-tools";
 import { useEffect, useMemo, useState } from"react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 
 // Types
 type TermMode ="years"|"months";
@@ -264,6 +265,15 @@ export default function EmiCalculatorClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  {/* Header */}
  <ToolPageHeader
  icon={Calculator}
@@ -708,7 +718,7 @@ export default function EmiCalculatorClient() {
  },
  ]}
  />
- <RelatedTools currentToolUrl="/tools/calc/emi"max={6} />
+ <RelatedTools currentToolUrl="/tools/calc/emi" max={6} />
  </div>
  );
 }

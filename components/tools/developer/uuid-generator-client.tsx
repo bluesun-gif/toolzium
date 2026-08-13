@@ -11,6 +11,8 @@ import { Button } from"@/components/ui/button";
 import { CopyButton } from"@/components/shared/action-buttons";
 import toast from"react-hot-toast";
 import { Fingerprint, Hash, RefreshCw, Zap } from"lucide-react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -47,13 +49,22 @@ export default function UuidGeneratorClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Fingerprint}
  title="UUID v4 Generator"
  description="Generate cryptographically random RFC 4122 version 4 UUIDs for databases, APIs, and identifiers."
  />
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Hash className="w-4 h-4 text-primary"/> Generator Controls
@@ -82,10 +93,10 @@ export default function UuidGeneratorClient() {
  </Button>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
  {uuids.length > 0 && (
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Fingerprint className="w-4 h-4 text-primary"/> Generated UUIDs ({uuids.length})
@@ -110,7 +121,7 @@ export default function UuidGeneratorClient() {
  </Button>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
  )}
 
  <ToolHowItWorks
@@ -146,7 +157,7 @@ export default function UuidGeneratorClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/developer/uuid-generator"max={6} />
+ <RelatedTools currentToolUrl="/tools/developer/uuid-generator" max={6} />
  </div>
  );
 }

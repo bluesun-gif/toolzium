@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
 import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Pickaxe, RefreshCw, Sparkles, Compass, Shield, BookOpen, Layers, Zap } from "lucide-react";
+import { Pickaxe, RefreshCw, Sparkles, Compass, Shield, BookOpen, Layers, Zap } from"lucide-react";
 import toast from "react-hot-toast";
 
 const MINECRAFT_STYLES = [

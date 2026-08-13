@@ -10,6 +10,8 @@ import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { BrainCircuit, RotateCcw, Zap, Shield, Grid3X3 } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -277,13 +279,22 @@ export function Connect4AiClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 pb-12">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={BrainCircuit}
  title="Connect Four AI"
  description="Challenge a sophisticated Minimax AI opponent in the classic game of Connect Four. Test your strategic thinking and pattern recognition."
  />
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Grid3X3 className="w-4 h-4"/> Game Board
@@ -359,7 +370,7 @@ export function Connect4AiClient() {
  </div>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
  <ToolHowItWorks
  steps={[
@@ -394,7 +405,7 @@ export function Connect4AiClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/fun/connect4-ai"max={6} />
+ <RelatedTools currentToolUrl="/tools/fun/connect4-ai" max={6} />
  </div>
  );
 }

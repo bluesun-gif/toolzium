@@ -12,6 +12,8 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Copy, RotateCcw, Search, Server, Globe, AlertCircle, CheckCircle, Info } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -84,13 +86,22 @@ export function HttpStatusClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Server}
  title="HTTP Status Code Reference"
  description="A searchable, filterable encyclopedia of HTTP status codes, their meanings, and common real-world use cases."
  />
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Search className="w-4 h-4"/> Lookup & Filter
@@ -114,7 +125,7 @@ export function HttpStatusClient() {
  ))}
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
  {filtered.map((s) => (
@@ -183,7 +194,7 @@ export function HttpStatusClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/dev/http-status"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/http-status" max={6} />
  </div>
  );
 }

@@ -50,6 +50,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { Label } from"@/components/ui/label";
 import { Separator } from"@/components/ui/separator";
 import { cn } from"@/lib/utils";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 
 /* Types */
 type LineItem = {
@@ -282,6 +283,15 @@ export default function SimpleInvoiceClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={FileText}
  title="Simple Invoice"
@@ -1103,7 +1113,7 @@ export default function SimpleInvoiceClient() {
  },
  ]}
  />
- <RelatedTools currentToolUrl="/tools/office/invoice"max={6} />
+ <RelatedTools currentToolUrl="/tools/office/invoice" max={6} />
  </div>
  );
 }

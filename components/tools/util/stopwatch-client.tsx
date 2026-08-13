@@ -11,6 +11,7 @@ import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import { RelatedTools } from"@/components/shared/related-tools";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 
 interface Lap {
  id: number;
@@ -134,6 +135,15 @@ export default function StopwatchClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader 
  title="Stopwatch"
  description="A precise stopwatch with lap recording and millisecond accuracy. Features keyboard shortcuts for quick control."
@@ -388,7 +398,7 @@ export default function StopwatchClient() {
  },
  ]}
  />
- <RelatedTools currentToolUrl="/tools/util/stopwatch"max={6} />
+ <RelatedTools currentToolUrl="/tools/util/stopwatch" max={6} />
  </div>
  );
 }

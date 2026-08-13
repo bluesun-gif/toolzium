@@ -39,6 +39,7 @@ import { CardContent, CardDescription, CardHeader, CardTitle } from"@/components
 import { GlassCard } from"@/components/ui/glass-card";
 import { Separator } from"@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from"@/components/ui/tabs";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 
 const STORAGE_KEY ="Toolzium:uuid-nanoid-v1";
 
@@ -299,6 +300,15 @@ const run = useCallback(() => {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Hash}
  title="UUID & NanoID Generator"
@@ -787,7 +797,7 @@ const run = useCallback(() => {
  },
  ]}
  />
- <RelatedTools currentToolUrl="/tools/dev/uuid-nanoid"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/uuid-nanoid" max={6} />
  </div>
  );
 }

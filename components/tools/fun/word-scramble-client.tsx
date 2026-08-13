@@ -11,6 +11,8 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Shuffle, Timer, Lightbulb, SkipForward, CheckCircle2, RotateCcw } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -123,13 +125,22 @@ export default function WordScrambleClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader 
  icon={Shuffle} 
  title="Word Scramble"
  description="Unscramble the letters to reveal the hidden word before the timer runs out!"
  />
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <div className="flex justify-between items-center">
  <CardTitle className={titleClass}>
@@ -190,7 +201,7 @@ export default function WordScrambleClient() {
  </div>
  )}
  </CardContent>
- </Card>
+ </GlassCard>
 
  <ToolHowItWorks 
  steps={[
@@ -220,7 +231,7 @@ export default function WordScrambleClient() {
  { question:"What happens if I use the hint?", answer:"Using the hint simply reveals the first letter of the word to help jog your memory. It does not penalize your score."}
  ]} />
 
- <RelatedTools currentToolUrl="/tools/fun/word-scramble"max={6} />
+ <RelatedTools currentToolUrl="/tools/fun/word-scramble" max={6} />
  </div>
  );
 }

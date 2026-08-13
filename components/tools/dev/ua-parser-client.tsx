@@ -10,6 +10,9 @@ import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import toast from"react-hot-toast";
 import { Globe, Monitor, Smartphone, Bot, Cpu, Search, Copy } from"lucide-react";
+import { cn } from"@/lib/utils";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -108,13 +111,22 @@ export default function UaParserClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Search}
  title="User Agent Parser"
  description="Analyze and decode any User-Agent string to identify browsers, operating systems, devices, and bots instantly."
  />
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Globe className="w-4 h-4 text-primary"/> User-Agent String Input
@@ -124,7 +136,7 @@ export default function UaParserClient() {
  <textarea
  value={uaString}
  onChange={(e) => setUaString(e.target.value)}
- className={textareaClass +"min-h-[100px]"}
+ className={cn(textareaClass, "min-h-[100px]")}
  placeholder="Paste a User-Agent string here..."
  />
  <div className="flex flex-wrap gap-3">
@@ -149,11 +161,11 @@ export default function UaParserClient() {
  </select>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
  {parsedData && (
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
- <Card className={cardClass}>
+ <GlassCard>
  <CardContent className="p-5 flex items-center gap-4">
  <Globe className="w-10 h-10 text-primary"/>
  <div>
@@ -161,9 +173,9 @@ export default function UaParserClient() {
  <p className="text-lg font-bold text-foreground">{parsedData.browser} <span className="text-muted-foreground font-normal text-sm">{parsedData.browserVersion}</span></p>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
  
- <Card className={cardClass}>
+ <GlassCard>
  <CardContent className="p-5 flex items-center gap-4">
  <Monitor className="w-10 h-10 text-primary"/>
  <div>
@@ -171,9 +183,9 @@ export default function UaParserClient() {
  <p className="text-lg font-bold text-foreground">{parsedData.os} <span className="text-muted-foreground font-normal text-sm">{parsedData.osVersion}</span></p>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardContent className="p-5 flex items-center gap-4">
  <Smartphone className="w-10 h-10 text-primary"/>
  <div>
@@ -181,9 +193,9 @@ export default function UaParserClient() {
  <p className="text-lg font-bold text-foreground">{parsedData.device}</p>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardContent className="p-5 flex items-center gap-4">
  <Cpu className="w-10 h-10 text-primary"/>
  <div>
@@ -191,9 +203,9 @@ export default function UaParserClient() {
  <p className="text-lg font-bold text-foreground">{parsedData.engine}</p>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass + (parsedData.isBot ?"border-destructive/50 bg-destructive/5":"")}>
+ <Card className={cn(cardClass, (parsedData.isBot ?"border-destructive/50 bg-destructive/5":""))}>
  <CardContent className="p-5 flex items-center gap-4">
  <Bot className={`w-10 h-10 ${parsedData.isBot ?"text-destructive":"text-muted-foreground"}`} />
  <div>
@@ -244,7 +256,7 @@ export default function UaParserClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/dev/ua-parser"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/ua-parser" max={6} />
  </div>
  );
 }

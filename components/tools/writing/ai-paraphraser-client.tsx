@@ -11,6 +11,8 @@ import { Button } from"@/components/ui/button";
 import { CopyButton } from"@/components/shared/action-buttons";
 import toast from"react-hot-toast";
 import { Repeat, Sparkles, RefreshCw, FileText, PenTool } from"lucide-react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 type ParaphraseStyle ="Formal"|"Casual"|"Academic"|"Creative";
 
@@ -81,13 +83,22 @@ ${text}`;
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Repeat}
  title="AI Paraphraser"
  description="Rewrite text in Formal, Casual, Academic, or Creative style while keeping the original meaning."
  />
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <FileText className="w-4 h-4 text-primary"/> Text to Paraphrase
@@ -128,11 +139,11 @@ ${text}`;
  )}
  </Button>
  </CardContent>
- </Card>
+ </GlassCard>
 
  {paraphrased && (
  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <FileText className="w-4 h-4 text-primary"/> Original Text
@@ -141,9 +152,9 @@ ${text}`;
  <CardContent className="p-3 sm:p-4">
  <p className="text-sm whitespace-pre-wrap leading-relaxed">{text}</p>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <PenTool className="w-4 h-4 text-primary"/> Paraphrased Text
@@ -153,7 +164,7 @@ ${text}`;
  <p className="text-sm whitespace-pre-wrap leading-relaxed">{paraphrased}</p>
  <CopyButton getText={() => paraphrased} label="Copy Paraphrased Text"/>
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
  )}
 
@@ -238,7 +249,7 @@ ${text}`;
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/writing/ai-paraphraser"max={6} />
+ <RelatedTools currentToolUrl="/tools/writing/ai-paraphraser" max={6} />
  </div>
  );
 }

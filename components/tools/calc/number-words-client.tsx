@@ -10,6 +10,8 @@ import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Input } from"@/components/ui/input";
 import { CopyButton } from"@/components/shared/action-buttons";
 import { Hash } from"lucide-react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -84,9 +86,18 @@ export default function NumberWordsClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader icon={Hash} title="Number to Words Converter"description="Instantly convert numerical digits into their English word equivalents up to trillions."/>
  
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>Input Number</CardTitle>
  </CardHeader>
@@ -109,7 +120,7 @@ export default function NumberWordsClient() {
  </p>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
  <ToolHowItWorks 
  steps={[
@@ -139,7 +150,7 @@ export default function NumberWordsClient() {
  { question:"Can I convert currency amounts?", answer:"While it converts the raw numbers perfectly, you will need to manually append the currency name (e.g., 'Dollars' or 'Cents') to the final text."}
  ]} />
 
- <RelatedTools currentToolUrl="/tools/calc/number-words"max={6} />
+ <RelatedTools currentToolUrl="/tools/calc/number-words" max={6} />
  </div>
  );
 }

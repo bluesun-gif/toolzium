@@ -7,8 +7,14 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components
 import { Separator } from"@/components/ui/separator";
 import { Button } from"@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { BarChart3, ArrowLeftRight, TrendingUp, DollarSign } from"lucide-react";
+import { BarChart3, ArrowLeftRight, TrendingUp, DollarSign, Sparkles, Shield, Zap, Copy } from"lucide-react";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import { RelatedTools } from"@/components/shared/related-tools";
+import { cn } from"@/lib/utils";
 
 const CURRENCIES = [
 "USD","EUR","GBP","JPY","AUD","CAD","CHF","CNY","INR","BDT"
@@ -85,6 +91,15 @@ export function CurrencyChartClient() {
 
  return (
  <div className="space-y-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={BarChart3}
  title="Currency Pair Chart"
@@ -135,8 +150,8 @@ export function CurrencyChartClient() {
  </div>
  <div className="p-4 bg-muted rounded-lg text-center">
  <div className="text-sm text-muted-foreground mb-1">Trend</div>
- <div className={"text-2xl font-bold flex items-center justify-center gap-2"+ (isUp ? 'text-green-500' : 'text-red-500')}>
- <TrendingUp className={"h-5 w-5"+ (isUp ? '' : 'rotate-180')} />
+ <div className={cn("text-2xl font-bold flex items-center justify-center gap-2", (isUp ? 'text-green-500' : 'text-red-500'))}>
+ <TrendingUp className={cn("h-5 w-5", (isUp ? '' : 'rotate-180'))} />
  {isUp ? '+2.4%' : '-1.8%'}
  </div>
  </div>
@@ -164,6 +179,84 @@ export function CurrencyChartClient() {
  </div>
  </CardContent>
  </GlassCard>
- </div>
+ 
+      <ToolHowItWorks
+        steps={[
+          {
+            step: "01",
+            title: "Input Your Data",
+            description: "Enter your information in the input field above and configure any options.",
+            icon: Sparkles,
+          },
+          {
+            step: "02",
+            title: "Process & Generate",
+            description: "The tool processes your input instantly and displays the results.",
+            icon: Zap,
+          },
+          {
+            step: "03",
+            title: "Copy & Use",
+            description: "Copy the output with one click and use it wherever you need.",
+            icon: Copy,
+          },
+        ]}
+        badges={["100% Free", "Instant Results", "Privacy-First"]}
+      />
+
+      <ToolFeatureGuides
+        features={[
+          {
+            icon: Sparkles,
+            title: "Lightning Fast",
+            description: "Get results in milliseconds with our optimized client-side processing engine.",
+          },
+          {
+            icon: Shield,
+            title: "Completely Private",
+            description: "All processing happens in your browser. Your data never leaves your device.",
+          },
+          {
+            icon: Zap,
+            title: "No Signup Required",
+            description: "Use this tool instantly without creating an account or providing any personal information.",
+          },
+        ]}
+      >
+        <div className="prose dark:prose-invert max-w-none">
+          <h3>Why Use Our Currency Pair Chart?</h3>
+          <p>
+            This free online tool is designed to help you get accurate results quickly and securely.
+            Whether you're a developer, designer, student, or professional, our Currency Pair Chart provides
+            the functionality you need without any complexity or cost.
+          </p>
+          <p>
+            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
+            privacy and zero latency. No data is ever transmitted to external servers, making it safe
+            for sensitive information.
+          </p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "Is this tool free to use?",
+            answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits.",
+          },
+          {
+            question: "Is my data secure?",
+            answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server.",
+          },
+          {
+            question: "Do I need to create an account?",
+            answer: "No account or registration is required. Simply open the tool and start using it immediately.",
+          },
+        ]}
+      />
+
+      <RelatedTools currentToolUrl="/tools/finance/currency-chart" max={6} />
+
+</div>
  );
 }

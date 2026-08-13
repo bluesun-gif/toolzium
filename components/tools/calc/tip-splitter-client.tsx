@@ -36,6 +36,7 @@ import { CardContent, CardDescription, CardHeader, CardTitle } from"@/components
 import { GlassCard } from"@/components/ui/glass-card";
 import { Label } from"@/components/ui/label";
 import { Separator } from"@/components/ui/separator";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 
 // Types
 type Currency ="BDT"|"USD"|"INR";
@@ -297,6 +298,15 @@ export default function TipSplitterClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  {/* Header */}
  <ToolPageHeader
  icon={UtensilsCrossed}
@@ -798,7 +808,7 @@ export default function TipSplitterClient() {
  },
  ]}
  />
- <RelatedTools currentToolUrl="/tools/calc/tip-split"max={6} />
+ <RelatedTools currentToolUrl="/tools/calc/tip-split" max={6} />
  </div>
  );
 }

@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
 import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Calendar, Users, AlertCircle, Plus, Trash2, Shield, BookOpen, Layers, CheckCircle2 } from "lucide-react";
+import { Calendar, Users, AlertCircle, Plus, Trash2, Shield, BookOpen, Layers, CheckCircle2 } from"lucide-react";
 import { cn } from "@/lib/utils";
 import toast from "react-hot-toast";
 

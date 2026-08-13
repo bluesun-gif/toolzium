@@ -14,7 +14,7 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
 import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Sun, Heart, Shuffle, Plus, Moon, Sparkles, Shield, BookOpen, Layers } from "lucide-react";
+import { Sun, Heart, Shuffle, Plus, Moon, Sparkles, Shield, BookOpen, Layers } from"lucide-react";
 import { cn } from "@/lib/utils";
 import toast from "react-hot-toast";
 

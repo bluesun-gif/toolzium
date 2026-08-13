@@ -12,6 +12,8 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Copy, Search, Code2, ShieldCheck, TestTube } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -133,13 +135,22 @@ export function RegexLibraryClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Code2}
  title="Regex Pattern Library"
  description="Searchable collection of 50+ production-ready regular expressions with live testing, examples, and one-click copying."
  />
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
  <div className="relative flex-1 w-full">
@@ -191,12 +202,12 @@ export function RegexLibraryClient() {
  </div>
  </CardContent>
  </Card>
- ))}
+))}
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}><TestTube className="w-4 h-4"/> Quick Test Panel</CardTitle>
  </CardHeader>
@@ -236,7 +247,7 @@ export function RegexLibraryClient() {
  </div>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
  <ToolHowItWorks steps={howItWorksSteps} badges={["100% Free","50+ Patterns","Live Testing"]} />
  

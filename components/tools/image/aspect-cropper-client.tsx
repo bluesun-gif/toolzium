@@ -14,22 +14,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Slider } from "@/components/ui/slider";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { cn } from "@/lib/utils";
-import {
-  Crop,
-  Download,
-  RotateCw,
-  RotateCcw,
-  FlipHorizontal,
-  FlipVertical,
-  Upload,
-  RefreshCcw,
-  ZoomIn,
-  Move,
-  Sparkles,
-  CheckCircle2,
-  Maximize2
-} from "lucide-react";
+import { Crop, Download, RotateCw, RotateCcw, FlipHorizontal, FlipVertical, Upload, RefreshCcw, ZoomIn, Move, Sparkles, CheckCircle2, Maximize2, Shield, Zap, Copy } from"lucide-react";
 import { toast } from "react-hot-toast";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 
 interface CropBox {
   x: number;
@@ -722,7 +709,25 @@ export function AspectCropperClient() {
 
         <RelatedTools currentToolUrl="/tools/image/aspect-cropper" />
       </div>
-    </div>
+    
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "Is this tool free to use?",
+            answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits.",
+          },
+          {
+            question: "Is my data secure?",
+            answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server.",
+          },
+          {
+            question: "Do I need to create an account?",
+            answer: "No account or registration is required. Simply open the tool and start using it immediately.",
+          },
+        ]}
+      />
+
+</div>
   );
 }
 

@@ -10,6 +10,8 @@ import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Grid3x3, RotateCcw, Trophy, History, Cpu, User } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -184,13 +186,22 @@ export function TictactoeAiClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Grid3x3}
  title="Tic-Tac-Toe AI"
  description="Challenge an unbeatable Minimax AI or test your tactics against randomized and medium-difficulty bots."
  />
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Grid3x3 className="w-4 h-4"/> Tic-Tac-Toe AI
@@ -265,7 +276,7 @@ export function TictactoeAiClient() {
  </div>
  )}
  </CardContent>
- </Card>
+ </GlassCard>
 
  <ToolHowItWorks
  steps={[
@@ -297,7 +308,7 @@ export function TictactoeAiClient() {
  { question:"Is my score saved permanently?", answer:"Scores are tracked locally during your active browser session to maintain a competitive feel without requiring user accounts or databases."}
  ]} />
 
- <RelatedTools currentToolUrl="/tools/fun/tictactoe-ai"max={6} />
+ <RelatedTools currentToolUrl="/tools/fun/tictactoe-ai" max={6} />
  </div>
  );
 }

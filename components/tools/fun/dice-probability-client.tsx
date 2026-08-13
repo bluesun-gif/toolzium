@@ -8,6 +8,8 @@ import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import { RelatedTools } from"@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Dices, BarChart3, Calculator, TrendingUp } from"lucide-react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -66,13 +68,22 @@ export default function DiceProbabilityClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader 
  icon={Dices} 
  title="Dice Probability Calculator"
  description="Calculate exact probability distributions, expected values, and variances for any dice combination."
  />
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>Configuration</CardTitle>
  </CardHeader>
@@ -123,9 +134,9 @@ export default function DiceProbabilityClient() {
  </div>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>Probability Distribution</CardTitle>
  </CardHeader>
@@ -150,7 +161,7 @@ export default function DiceProbabilityClient() {
  })}
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
  <ToolHowItWorks 
  steps={[
@@ -180,7 +191,7 @@ export default function DiceProbabilityClient() {
  { question:"Can I use this for board game strategy?", answer:"Absolutely. Knowing the exact probability of rolling a specific sum can heavily inform risk assessment in games like Settlers of Catan or Risk."}
  ]} />
 
- <RelatedTools currentToolUrl="/tools/fun/dice-probability"max={6} />
+ <RelatedTools currentToolUrl="/tools/fun/dice-probability" max={6} />
  </div>
  );
 }

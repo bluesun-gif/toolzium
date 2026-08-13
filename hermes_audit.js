@@ -50,10 +50,12 @@ const LAYER_CHECKS = {
 
 // Class concatenation bug detection
 const CLASS_CONCAT_BUGS = [
-  // String concatenation with + that could produce broken classes
-  { name: 'Direct string concat', pattern: /\+\s*["'`].*(?:bg-|text-|p-|m-|rounded-|border-|flex-|grid-)/g, severity: 'high' },
-  // Template literal without cn() for conditional classes
-  { name: 'Conditional class without cn()', pattern: /className\s*=\s*\(`[^`]*\$\{.*\?\s*["`'][^`]*\}|className\s*=\s*\{`\s*[^`]*\$\{.*\?\s*["`'][^`]*\}/g, severity: 'medium' },
+  // TRUE bug: literal string concatenation with + INSIDE the className value
+  // e.g. className={"p-4 rounded-lg" + (cond ? "bg-red-500" : "")}
+  // Must have a closing " before the + (i.e. + is inside the className string literal context)
+  { name: 'Direct string concat (broken)', pattern: /className=\{(["'`][^"'`]*(?:bg-|text-|p-|m-|rounded-|border-|flex-|grid-|w-|h-|space-|gap-|justify-|items-|self-)[^"'`]*["'`])\s*\+/g, severity: 'high' },
+  // TRUE bug: direct string assignment in className context without space
+  { name: 'String assignment concat', pattern: /className[^>]*\+=/g, severity: 'medium' },
 ];
 
 // Theme contrast checks

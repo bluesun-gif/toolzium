@@ -51,6 +51,7 @@ import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import { RelatedTools } from"@/components/shared/related-tools";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 
 // Utils
 
@@ -241,6 +242,15 @@ function TimeZoneSelect({
 }) {
  return (
  <div className="space-y-2">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  {label && <Label>{label}</Label>}
  <Select value={value} onValueChange={onValueChange}>
  <SelectTrigger>
@@ -791,7 +801,7 @@ export default function TimezoneConverterClient() {
  },
  ]}
  />
- <RelatedTools currentToolUrl="/tools/time/timezone"max={6} />
+ <RelatedTools currentToolUrl="/tools/time/timezone" max={6} />
  </div>
  );
 }

@@ -10,6 +10,8 @@ import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { PawPrint, CheckCircle2, XCircle, RotateCcw } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -83,6 +85,15 @@ export default function AnimalQuizClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader 
  icon={PawPrint} 
  title="Animal Quiz"
@@ -90,7 +101,7 @@ export default function AnimalQuizClient() {
  />
 
  {!gameOver ? (
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <span>Question {currentQ + 1} of {QUESTIONS.length}</span>
@@ -125,9 +136,9 @@ export default function AnimalQuizClient() {
  </Button>
  )}
  </CardContent>
- </Card>
+ </GlassCard>
  ) : (
- <Card className={cardClass}>
+ <GlassCard>
  <CardContent className="p-8 text-center space-y-6">
  <div className="flex justify-center">
  {score > QUESTIONS.length / 2 ? <CheckCircle2 className="w-16 h-16 text-green-500"/> : <XCircle className="w-16 h-16 text-red-500"/>}
@@ -138,7 +149,7 @@ export default function AnimalQuizClient() {
  <RotateCcw className="w-4 h-4"/> Play Again
  </Button>
  </CardContent>
- </Card>
+ </GlassCard>
  )}
 
  <ToolHowItWorks 
@@ -169,7 +180,7 @@ export default function AnimalQuizClient() {
  { question:"Can I play this quiz on my mobile phone?", answer:"Absolutely! The interface is fully responsive and optimized for smartphones, tablets, and desktop computers."}
  ]} />
 
- <RelatedTools currentToolUrl="/tools/fun/animal-quiz"max={6} />
+ <RelatedTools currentToolUrl="/tools/fun/animal-quiz" max={6} />
  </div>
  );
 }

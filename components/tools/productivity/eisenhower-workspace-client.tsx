@@ -9,9 +9,15 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Button } from"@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { Layout, Plus, Filter, Download, Trash2, ArrowRight } from"lucide-react";
+import { Layout, Plus, Filter, Download, Trash2, ArrowRight, Sparkles, Shield, Zap, Copy } from"lucide-react";
 import { ActionButton } from"@/components/shared/action-buttons";
 import { toast } from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import { RelatedTools } from"@/components/shared/related-tools";
+import { cn } from"@/lib/utils";
 
 type Quadrant ="q1"|"q2"|"q3"|"q4";
 type Task = {
@@ -112,8 +118,17 @@ export function EisenhowerWorkspaceClient() {
  const qTasks = filteredTasks.filter(t => t.quadrant === id);
  return (
  <div className={"border rounded-lg p-4 flex flex-col h-full bg-card shadow-sm"}>
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <div className={"flex items-center justify-between mb-4"}>
- <h3 className={"font-semibold"+ colorClass}>{title}</h3>
+ <h3 className={cn("font-semibold", colorClass)}>{title}</h3>
  <span className={"text-xs bg-muted px-2 py-1 rounded-full"}>{qTasks.length}</span>
  </div>
  <div className={"space-y-2 flex-grow overflow-y-auto max-h-[300px]"}>
@@ -200,6 +215,84 @@ export function EisenhowerWorkspaceClient() {
  <QuadrantView id="q3"title="Delegate (Urgent, Not Important)"colorClass="text-orange-500"/>
  <QuadrantView id="q4"title="Eliminate (Not Urgent & Not Important)"colorClass="text-muted-foreground"/>
  </div>
- </div>
+ 
+      <ToolHowItWorks
+        steps={[
+          {
+            step: "01",
+            title: "Input Your Data",
+            description: "Enter your information in the input field above and configure any options.",
+            icon: Sparkles,
+          },
+          {
+            step: "02",
+            title: "Process & Generate",
+            description: "The tool processes your input instantly and displays the results.",
+            icon: Zap,
+          },
+          {
+            step: "03",
+            title: "Copy & Use",
+            description: "Copy the output with one click and use it wherever you need.",
+            icon: Copy,
+          },
+        ]}
+        badges={["100% Free", "Instant Results", "Privacy-First"]}
+      />
+
+      <ToolFeatureGuides
+        features={[
+          {
+            icon: Sparkles,
+            title: "Lightning Fast",
+            description: "Get results in milliseconds with our optimized client-side processing engine.",
+          },
+          {
+            icon: Shield,
+            title: "Completely Private",
+            description: "All processing happens in your browser. Your data never leaves your device.",
+          },
+          {
+            icon: Zap,
+            title: "No Signup Required",
+            description: "Use this tool instantly without creating an account or providing any personal information.",
+          },
+        ]}
+      >
+        <div className="prose dark:prose-invert max-w-none">
+          <h3>Why Use Our task.title?</h3>
+          <p>
+            This free online tool is designed to help you get accurate results quickly and securely.
+            Whether you're a developer, designer, student, or professional, our task.title provides
+            the functionality you need without any complexity or cost.
+          </p>
+          <p>
+            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
+            privacy and zero latency. No data is ever transmitted to external servers, making it safe
+            for sensitive information.
+          </p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "Is this tool free to use?",
+            answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits.",
+          },
+          {
+            question: "Is my data secure?",
+            answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server.",
+          },
+          {
+            question: "Do I need to create an account?",
+            answer: "No account or registration is required. Simply open the tool and start using it immediately.",
+          },
+        ]}
+      />
+
+      <RelatedTools currentToolUrl="/tools/productivity/eisenhower-workspace" max={6} />
+
+</div>
  );
 }

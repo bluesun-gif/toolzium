@@ -13,6 +13,8 @@ import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import { RelatedTools } from"@/components/shared/related-tools";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { cn } from"@/lib/utils";
 
 interface PdfFile {
  id: string;
@@ -236,6 +238,15 @@ export default function PdfMergeClient() {
 
  return (
  <div className="max-w-4xl mx-auto space-y-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  title="PDF Merge"
  description="Merge multiple PDF files into one document quickly and securely in your browser."
@@ -245,7 +256,7 @@ export default function PdfMergeClient() {
  <GlassCard>
  <CardContent className="p-6 space-y-6">
  <div
- className={"border-2 border-dashed rounded-xl p-8 md:p-12 text-center transition-colors cursor-pointer"+ (isDragging ?"border-primary bg-primary/5":"border-muted-foreground/25 hover:border-primary/50")}
+ className={cn("border-2 border-dashed rounded-xl p-8 md:p-12 text-center transition-colors cursor-pointer", (isDragging ?"border-primary bg-primary/5":"border-muted-foreground/25 hover:border-primary/50"))}
  onDragOver={handleDragOver}
  onDragLeave={handleDragLeave}
  onDrop={handleDrop}
@@ -436,7 +447,7 @@ export default function PdfMergeClient() {
 
  <ToolFaqAccordion faqs={faqs} />
  
- <RelatedTools currentToolUrl="/tools/util/pdf-merge"max={6} />
+ <RelatedTools currentToolUrl="/tools/util/pdf-merge" max={6} />
  </div>
  );
 }

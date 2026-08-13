@@ -10,6 +10,8 @@ import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import { RelatedTools } from"@/components/shared/related-tools";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { cn } from"@/lib/utils";
 
 type CoinResult ="Heads"|"Tails";
 
@@ -64,6 +66,15 @@ export default function CoinFlipClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader title="Flip a Coin"description="Flip a virtual coin with true randomness and track your statistics."/>
  
  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
@@ -158,9 +169,9 @@ export default function CoinFlipClient() {
  history.map((result, i) => (
  <Badge 
  key={i} 
- className={"text-sm px-3 py-1"+ (result ==="Heads"
+ className={cn("text-sm px-3 py-1", (result ==="Heads"
  ?"bg-yellow-500 hover:bg-yellow-600 text-white border-none shadow-sm"
- :"bg-slate-500 hover:bg-slate-600 text-white border-none shadow-sm")}
+ :"bg-slate-500 hover:bg-slate-600 text-white border-none shadow-sm"))}
  >
  {result ==="Heads"?"H":"T"}
  </Badge>
@@ -320,7 +331,7 @@ export default function CoinFlipClient() {
  },
  ]}
  />
- <RelatedTools currentToolUrl="/tools/util/coin-flip"max={6} />
+ <RelatedTools currentToolUrl="/tools/util/coin-flip" max={6} />
  </div>
  );
 }

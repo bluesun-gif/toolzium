@@ -10,6 +10,8 @@ import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Shield, Braces, AlertTriangle, CheckCircle2, XCircle, Info, Copy } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -114,13 +116,22 @@ export default function CodeAuditorClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Shield}
  title="Code Auditor"
  description="Analyze your code for security vulnerabilities, best practice violations, and potential bugs - all client-side"
  />
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Braces className="w-4 h-4 text-primary"/>
@@ -145,11 +156,11 @@ export default function CodeAuditorClient() {
  </Button>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
  {findings.length > 0 && (
  <>
- <Card className={cardClass}>
+ <GlassCard>
  <CardContent className="p-4">
  <div className="flex flex-wrap gap-3 items-center">
  <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-muted">
@@ -176,9 +187,9 @@ export default function CodeAuditorClient() {
  )}
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <AlertTriangle className="w-4 h-4 text-primary"/>
@@ -213,7 +224,7 @@ export default function CodeAuditorClient() {
  </div>
  ))}
  </CardContent>
- </Card>
+ </GlassCard>
  </>
  )}
 
@@ -257,7 +268,7 @@ export default function CodeAuditorClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/dev/code-auditor"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/code-auditor" max={6} />
  </div>
  );
 }

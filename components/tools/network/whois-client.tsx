@@ -16,6 +16,7 @@ import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import { RelatedTools } from"@/components/shared/related-tools";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 
 interface WhoisData {
  domainName: string;
@@ -178,6 +179,15 @@ DNSSEC: ${result.dnssec ?"Enabled":"Disabled"}`;
 
  return (
  <div className="space-y-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader 
  title="WHOIS Domain Lookup"
  description="Lookup domain registration details, registrar info, and DNS records."
@@ -505,7 +515,7 @@ DNSSEC: ${result.dnssec ?"Enabled":"Disabled"}`;
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/network/whois"max={6} />
+ <RelatedTools currentToolUrl="/tools/network/whois" max={6} />
  </div>
  );
 }

@@ -13,6 +13,7 @@ import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import { RelatedTools } from"@/components/shared/related-tools";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 
 // CSS Colors List (a representative subset)
 const cssColors = [
@@ -308,6 +309,15 @@ export default function ColorPickerClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  title="Color Picker"
  description="Pick any color and get HEX, RGB, HSL codes instantly. Free online color picker with color name detection, complementary colors, and recent color history."
@@ -673,7 +683,7 @@ export default function ColorPickerClient() {
  },
  ]}
  />
- <RelatedTools currentToolUrl="/tools/dev/color-picker"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/color-picker" max={6} />
  </div>
  );
 }

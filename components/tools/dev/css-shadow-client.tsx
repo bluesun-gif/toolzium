@@ -12,6 +12,8 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import toast from"react-hot-toast";
 import { Box, Layers, Copy, Plus, Trash2, Sliders, Code, Sun, Moon } from"lucide-react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -114,10 +116,19 @@ export default function CssShadowClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 pb-12 px-4">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader icon={Box} title="CSS Box Shadow Generator"description="Design complex, multi-layered CSS box shadows with live preview, presets, and instant code export."/>
  
  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}><Sliders className="w-4 h-4"/> Shadow Layers</CardTitle>
  </CardHeader>
@@ -179,9 +190,9 @@ export default function CssShadowClient() {
  ))}
  <Button variant="outline"className="w-full"onClick={addLayer}><Plus className="w-4 h-4 mr-2"/> Add Layer</Button>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}><Box className="w-4 h-4"/> Live Preview</CardTitle>
  </CardHeader>
@@ -207,10 +218,10 @@ export default function CssShadowClient() {
  </div>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <div className="flex items-center justify-between w-full font-mono">
  <CardTitle className={titleClass}><Code className="w-4 h-4"/> Generated CSS</CardTitle>
@@ -220,7 +231,7 @@ export default function CssShadowClient() {
  <CardContent className="p-4">
  <pre className={textareaClass}>box-shadow: {cssString};</pre>
  </CardContent>
- </Card>
+ </GlassCard>
 
  <ToolHowItWorks steps={steps} badges={["100% Free","Client-Side Privacy","No Signup"]} />
  
@@ -233,7 +244,7 @@ export default function CssShadowClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={faqs} />
- <RelatedTools currentToolUrl="/tools/dev/css-box-shadow-generator"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/css-box-shadow-generator" max={6} />
  </div>
  );
 }

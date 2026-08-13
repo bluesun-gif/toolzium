@@ -12,6 +12,8 @@ import { Input } from"@/components/ui/input";
 import { CopyButton } from"@/components/shared/action-buttons";
 import toast from"react-hot-toast";
 import { Mail, Sparkles, RefreshCw, Target } from"lucide-react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass =
 "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -143,13 +145,22 @@ BODY:
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Mail}
  title="Cold Email Generator"
  description="Generate Formal, Friendly, and AIDA cold email variants with subject lines."
  />
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Target className="w-4 h-4 text-primary"/> Campaign Details
@@ -206,7 +217,7 @@ BODY:
  )}
  </Button>
  </CardContent>
- </Card>
+ </GlassCard>
 
  {emails.length > 0 && (
  <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
@@ -322,7 +333,7 @@ BODY:
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/marketing/cold-email-generator"max={6} />
+ <RelatedTools currentToolUrl="/tools/marketing/cold-email-generator" max={6} />
  </div>
  );
 }

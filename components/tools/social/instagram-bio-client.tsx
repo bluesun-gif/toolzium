@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
 import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Instagram, Sparkles, RefreshCw, PenTool, Copy, CheckCircle2, Shield, BookOpen, Layers } from "lucide-react";
+import { Instagram, Sparkles, RefreshCw, PenTool, Copy, CheckCircle2, Shield, BookOpen, Layers } from"lucide-react";
 import toast from "react-hot-toast";
 
 const variantLabels = ["Professional", "Casual", "Witty", "Minimalist", "Emoji-heavy"];

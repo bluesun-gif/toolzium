@@ -10,6 +10,8 @@ import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import toast from"react-hot-toast";
 import { Brain, RotateCcw } from"lucide-react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -94,14 +96,23 @@ export default function TriviaClient() {
  if (finished) {
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader icon={Brain} title="Trivia Quiz"description="Test your general knowledge."/>
- <Card className={cardClass}>
+ <GlassCard>
  <CardContent className="p-8 text-center space-y-4">
  <h2 className="text-3xl font-bold">Quiz Complete!</h2>
  <p className="text-xl">You scored <span className="text-primary font-bold">{score}</span> out of {QUESTIONS.length}</p>
  <Button onClick={restart} className="gap-2"><RotateCcw className="w-4 h-4"/> Play Again</Button>
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
  );
  }
@@ -114,7 +125,7 @@ export default function TriviaClient() {
  description="Test your knowledge across science, history, tech, and more."
  />
  
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <div className="flex justify-between items-center">
  <CardTitle className={titleClass}>
@@ -154,7 +165,7 @@ export default function TriviaClient() {
  })}
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
  <ToolHowItWorks 
  steps={[
@@ -187,7 +198,7 @@ export default function TriviaClient() {
  ]} 
  />
 
- <RelatedTools currentToolUrl="/tools/fun/trivia"max={6} />
+ <RelatedTools currentToolUrl="/tools/fun/trivia" max={6} />
  </div>
  );
 }

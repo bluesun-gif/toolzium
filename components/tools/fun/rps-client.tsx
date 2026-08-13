@@ -10,6 +10,8 @@ import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import toast from"react-hot-toast";
 import { Swords, RotateCcw } from"lucide-react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -68,13 +70,22 @@ export default function RpsClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader 
  icon={Swords} 
  title="Rock Paper Scissors"
  description="Play the classic hand game against the computer."
  />
  
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Swords className="w-4 h-4 text-primary"/> Battle Arena
@@ -137,7 +148,7 @@ export default function RpsClient() {
  </div>
  )}
  </CardContent>
- </Card>
+ </GlassCard>
 
  <ToolHowItWorks 
  steps={[
@@ -170,7 +181,7 @@ export default function RpsClient() {
  ]} 
  />
 
- <RelatedTools currentToolUrl="/tools/fun/rps"max={6} />
+ <RelatedTools currentToolUrl="/tools/fun/rps" max={6} />
  </div>
  );
 }

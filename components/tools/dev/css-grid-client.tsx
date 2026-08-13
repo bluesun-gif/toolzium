@@ -12,6 +12,8 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { LayoutGrid, Copy, RotateCcw, ChevronDown, ChevronUp } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -145,6 +147,15 @@ export default function CssGridClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={LayoutGrid}
  title="CSS Grid Generator"
@@ -153,7 +164,7 @@ export default function CssGridClient() {
 
  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
  <div className="lg:col-span-1 space-y-4">
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={`${headerClass} cursor-pointer`} onClick={() => toggleSection('presets')}>
  <CardTitle className={titleClass}>
  <LayoutGrid className="w-4 h-4 text-primary"/>
@@ -170,9 +181,9 @@ export default function CssGridClient() {
  ))}
  </CardContent>
  )}
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={`${headerClass} cursor-pointer`} onClick={() => toggleSection('layout')}>
  <CardTitle className={titleClass}>
  <LayoutGrid className="w-4 h-4 text-primary"/>
@@ -208,9 +219,9 @@ export default function CssGridClient() {
  </div>
  </CardContent>
  )}
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={`${headerClass} cursor-pointer`} onClick={() => toggleSection('spacing')}>
  <CardTitle className={titleClass}>
  <LayoutGrid className="w-4 h-4 text-primary"/>
@@ -230,9 +241,9 @@ export default function CssGridClient() {
  </div>
  </CardContent>
  )}
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={`${headerClass} cursor-pointer`} onClick={() => toggleSection('areas')}>
  <CardTitle className={titleClass}>
  <LayoutGrid className="w-4 h-4 text-primary"/>
@@ -251,9 +262,9 @@ export default function CssGridClient() {
  />
  </CardContent>
  )}
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={`${headerClass} cursor-pointer`} onClick={() => toggleSection('alignment')}>
  <CardTitle className={titleClass}>
  <LayoutGrid className="w-4 h-4 text-primary"/>
@@ -283,7 +294,7 @@ export default function CssGridClient() {
  </div>
  </CardContent>
  )}
- </Card>
+ </GlassCard>
 
  <Button variant="outline"className="w-full text-xs font-semibold"onClick={resetGrid}>
  <RotateCcw className="w-4 h-4 mr-2"/>
@@ -292,7 +303,7 @@ export default function CssGridClient() {
  </div>
 
  <div className="lg:col-span-2 space-y-6">
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <LayoutGrid className="w-4 h-4 text-primary"/>
@@ -339,9 +350,9 @@ export default function CssGridClient() {
  })}
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Copy className="w-4 h-4 text-primary"/>
@@ -359,7 +370,7 @@ export default function CssGridClient() {
  <code className="text-foreground">{generatedCSS}</code>
  </pre>
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
  </div>
 
@@ -403,7 +414,7 @@ export default function CssGridClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/dev/css-grid"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/css-grid" max={6} />
  </div>
  );
 }

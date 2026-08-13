@@ -11,6 +11,8 @@ import { Button } from"@/components/ui/button";
 import { CopyButton } from"@/components/shared/action-buttons";
 import toast from"react-hot-toast";
 import { Mic, Sparkles, RefreshCw, Timer, Target, MessageSquare } from"lucide-react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 interface ElevatorPitchResult {
  pitch30: string;
@@ -105,13 +107,22 @@ Return ONLY the 3 pitches separated by ||| with no labels.`;
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Mic}
  title="AI Elevator Pitch Generator"
  description="Generate 30-second, 60-second, and 90-second pitches for your business idea."
  />
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <MessageSquare className="w-4 h-4 text-primary"/> Pitch Details
@@ -162,11 +173,11 @@ Return ONLY the 3 pitches separated by ||| with no labels.`;
  )}
  </Button>
  </CardContent>
- </Card>
+ </GlassCard>
 
  {result && (
  <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Timer className="w-4 h-4 text-primary"/> 30-Second Pitch
@@ -176,9 +187,9 @@ Return ONLY the 3 pitches separated by ||| with no labels.`;
  <p className="text-sm whitespace-pre-wrap leading-relaxed">{result.pitch30}</p>
  <CopyButton getText={() => result.pitch30} label="Copy 30s"/>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Target className="w-4 h-4 text-primary"/> 60-Second Pitch
@@ -188,9 +199,9 @@ Return ONLY the 3 pitches separated by ||| with no labels.`;
  <p className="text-sm whitespace-pre-wrap leading-relaxed">{result.pitch60}</p>
  <CopyButton getText={() => result.pitch60} label="Copy 60s"/>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Mic className="w-4 h-4 text-primary"/> 90-Second Pitch
@@ -200,7 +211,7 @@ Return ONLY the 3 pitches separated by ||| with no labels.`;
  <p className="text-sm whitespace-pre-wrap leading-relaxed">{result.pitch90}</p>
  <CopyButton getText={() => result.pitch90} label="Copy 90s"/>
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
  )}
 
@@ -286,7 +297,7 @@ Return ONLY the 3 pitches separated by ||| with no labels.`;
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/writing/ai-elevator-pitch"max={6} />
+ <RelatedTools currentToolUrl="/tools/writing/ai-elevator-pitch" max={6} />
  </div>
  );
 }

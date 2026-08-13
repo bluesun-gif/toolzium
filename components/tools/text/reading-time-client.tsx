@@ -8,6 +8,8 @@ import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import { RelatedTools } from"@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Clock, BookOpen, Mic, FileText } from"lucide-react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -37,9 +39,18 @@ export default function ReadingTimeClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader icon={Clock} title="Reading Time Estimator"description="Calculate exactly how long it takes to read or speak your text based on average human speeds."/>
  
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}><FileText className="w-4 h-4 text-primary"/> Document Input</CardTitle>
  </CardHeader>
@@ -52,7 +63,7 @@ export default function ReadingTimeClient() {
  placeholder="Paste your article, speech, or book chapter here..."
  />
  </CardContent>
- </Card>
+ </GlassCard>
 
  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
  {statItems.map((item) => (
@@ -67,7 +78,7 @@ export default function ReadingTimeClient() {
  </div>
 
  {stats.words > 0 && (
- <Card className={cardClass}>
+ <GlassCard>
  <CardContent className="p-4 space-y-2">
  <div className="flex justify-between text-xs text-muted-foreground mb-1">
  <span>Page Progress (250 words/page)</span>
@@ -80,7 +91,7 @@ export default function ReadingTimeClient() {
  />
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
  )}
 
  <ToolHowItWorks
@@ -115,7 +126,7 @@ export default function ReadingTimeClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/text/reading-time"max={6} />
+ <RelatedTools currentToolUrl="/tools/text/reading-time" max={6} />
  </div>
  );
 }

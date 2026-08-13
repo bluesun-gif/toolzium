@@ -13,6 +13,7 @@ import { Button } from"@/components/ui/button";
 import { Label } from"@/components/ui/label";
 import { FileText, Sparkles, Copy, CheckCircle2, Sliders, RefreshCcw, Calendar, Users, Target, Clock } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 
 interface MeetingSummary {
  executiveSummary: string;
@@ -65,6 +66,15 @@ export function AiMeetingSummarizerClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 p-4">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={FileText}
  title="AI Meeting Notes & Transcript Summarizer"
@@ -196,7 +206,7 @@ export function AiMeetingSummarizerClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/productivity/ai-meeting-summarizer"max={6} />
+ <RelatedTools currentToolUrl="/tools/productivity/ai-meeting-summarizer" max={6} />
  </div>
  );
 }

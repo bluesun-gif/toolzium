@@ -9,6 +9,8 @@ import { RelatedTools } from"@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { CopyButton } from"@/components/shared/action-buttons";
 import { RotateCw, Lock, Unlock, Zap } from"lucide-react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -27,9 +29,18 @@ export default function Rot13Client() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader icon={RotateCw} title="ROT13 Encoder/Decoder"description="Apply the classic ROT13 letter substitution cipher to hide or reveal text instantly."/>
  
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}><Lock className="w-4 h-4 text-primary"/> Input Text</CardTitle>
  </CardHeader>
@@ -43,10 +54,10 @@ export default function Rot13Client() {
  />
  <div className="text-xs text-muted-foreground text-right">{text.length} characters</div>
  </CardContent>
- </Card>
+ </GlassCard>
 
  {output && (
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}><Unlock className="w-4 h-4 text-primary"/> ROT13 Output</CardTitle>
  </CardHeader>
@@ -56,7 +67,7 @@ export default function Rot13Client() {
  <CopyButton getText={() => output} label="Copy Result"/>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
  )}
 
  <ToolHowItWorks
@@ -91,7 +102,7 @@ export default function Rot13Client() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/text/rot13"max={6} />
+ <RelatedTools currentToolUrl="/tools/text/rot13" max={6} />
  </div>
  );
 }

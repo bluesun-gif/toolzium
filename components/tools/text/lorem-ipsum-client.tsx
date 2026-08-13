@@ -15,6 +15,7 @@ import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import { RelatedTools } from"@/components/shared/related-tools";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 const LOREM_WORDS = [
 "lorem","ipsum","dolor","sit","amet","consectetur","adipiscing","elit","sed","do",
 "eiusmod","tempor","incididunt","ut","labore","et","dolore","magna","aliqua","enim",
@@ -106,6 +107,15 @@ export default function LoremIpsumClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  title="Lorem Ipsum Generator"
  description="Generate custom placeholder dummy text for design mockups, wireframes, and layouts. Choose paragraphs, sentences, words, or lists with optional HTML tags."
@@ -317,7 +327,7 @@ export default function LoremIpsumClient() {
  { question:"Is Lorem Ipsum Latin? Does it mean anything?", answer:"Lorem Ipsum is derived from Latin but is deliberately scrambled to be meaningless. The original Cicero passage discusses the nature of good and evil in philosophy. The standard Lorem ipsum passage starting text was extracted, altered, and randomized so it reads as authentic-looking Latin while conveying no actual meaning, preventing readers from being influenced by the content during design review."},
  ]}
  />
- <RelatedTools currentToolUrl="/tools/text/lorem-ipsum"max={6} />
+ <RelatedTools currentToolUrl="/tools/text/lorem-ipsum" max={6} />
  </div>
  );
 }

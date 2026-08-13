@@ -11,6 +11,8 @@ import { Button } from"@/components/ui/button";
 import { CopyButton } from"@/components/shared/action-buttons";
 import toast from"react-hot-toast";
 import { Binary, ArrowRightLeft, Copy } from"lucide-react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -47,13 +49,22 @@ export default function BinaryTextClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Binary}
  title="Binary Text Converter"
  description="Convert text to binary representation and decode binary back to readable text instantly."
  />
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Binary className="w-4 h-4 text-primary"/> Input
@@ -72,10 +83,10 @@ export default function BinaryTextClient() {
  Switch to {mode ==="text-to-binary"?"Binary to Text":"Text to Binary"}
  </Button>
  </CardContent>
- </Card>
+ </GlassCard>
 
  {output && (
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Copy className="w-4 h-4 text-primary"/> Output
@@ -90,7 +101,7 @@ export default function BinaryTextClient() {
  />
  <CopyButton getText={() => output} label="Copy Output"/>
  </CardContent>
- </Card>
+ </GlassCard>
  )}
 
  <ToolHowItWorks
@@ -125,7 +136,7 @@ export default function BinaryTextClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/text/binary-text"max={6} />
+ <RelatedTools currentToolUrl="/tools/text/binary-text" max={6} />
  </div>
  );
 }

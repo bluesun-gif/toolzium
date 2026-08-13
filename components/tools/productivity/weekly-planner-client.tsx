@@ -15,7 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { cn } from "@/lib/utils";
-import { Calendar, Clock, Plus, Trash2, Shield, BookOpen, Layers, CheckCircle2 } from "lucide-react";
+import { Calendar, Clock, Plus, Trash2, Shield, BookOpen, Layers, CheckCircle2 } from"lucide-react";
 import { toast } from "react-hot-toast";
 
 type Event = {

@@ -12,6 +12,8 @@ import { Input } from"@/components/ui/input";
 import { CopyButton } from"@/components/shared/action-buttons";
 import toast from"react-hot-toast";
 import { Map, Plus, Trash2, Download } from"lucide-react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass =
 "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -108,13 +110,22 @@ export default function SitemapGeneratorClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Map}
  title="Sitemap Generator"
  description="Create a valid XML sitemap with URL priority, change frequency, and last modified dates."
  />
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Map className="w-4 h-4 text-primary"/> URLs
@@ -193,9 +204,9 @@ export default function SitemapGeneratorClient() {
  </Button>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Map className="w-4 h-4 text-primary"/> Generated XML Sitemap
@@ -207,7 +218,7 @@ export default function SitemapGeneratorClient() {
  </pre>
  <CopyButton getText={() => sitemapXml} label="Copy Sitemap XML"/>
  </CardContent>
- </Card>
+ </GlassCard>
 
  <ToolHowItWorks
  steps={[
@@ -295,7 +306,7 @@ export default function SitemapGeneratorClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/seo/sitemap-generator"max={6} />
+ <RelatedTools currentToolUrl="/tools/seo/sitemap-generator" max={6} />
  </div>
  );
 }

@@ -12,6 +12,8 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Languages, ArrowRightLeft, Bookmark, Volume2, Copy, Plus, Trash2, Star } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -144,13 +146,22 @@ export function TranslateClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 p-4">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Languages}
  title="Offline Phrase Translator"
  description="Instantly translate common phrases and vocabulary between 10 major languages using our built-in secure dictionary engine."
  />
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <div className="flex flex-col sm:flex-row items-center justify-between gap-4 w-full">
  <div className="flex-1 w-full sm:w-auto">
@@ -211,10 +222,10 @@ export function TranslateClient() {
  </div>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
  {showBreakdown && translationResult.breakdown.length > 0 && (
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>Word-by-Word Analysis</CardTitle>
  </CardHeader>
@@ -226,7 +237,7 @@ export function TranslateClient() {
  </div>
  ))}
  </CardContent>
- </Card>
+ </GlassCard>
  )}
 
  <div className="flex justify-center">
@@ -236,7 +247,7 @@ export function TranslateClient() {
  </div>
 
  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>Common Phrases</CardTitle>
  </CardHeader>
@@ -260,9 +271,9 @@ export function TranslateClient() {
  </div>
  ))}
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Star className="w-4 h-4 text-yellow-500"/> My Phrasebook
@@ -285,7 +296,7 @@ export function TranslateClient() {
  ))
  )}
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
 
  <ToolHowItWorks
@@ -331,7 +342,7 @@ export function TranslateClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/text/translate"max={6} />
+ <RelatedTools currentToolUrl="/tools/text/translate" max={6} />
  </div>
  );
 }

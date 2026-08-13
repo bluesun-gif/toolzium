@@ -11,6 +11,8 @@ import { Button } from"@/components/ui/button";
 import { Label } from"@/components/ui/label";
 import { Copy, RotateCcw, Sparkles, Palette, SlidersHorizontal, Layers, Box } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -90,6 +92,15 @@ export function CssGlassmorphismClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 p-4 sm:p-6 lg:p-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Sparkles}
  title="CSS Glassmorphism Generator"
@@ -139,7 +150,7 @@ export function CssGlassmorphismClient() {
  </Card>
 
  <div className="lg:col-span-2 space-y-6">
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}><Layers className="w-4 h-4"/> Live Preview</CardTitle>
  </CardHeader>
@@ -154,9 +165,9 @@ export function CssGlassmorphismClient() {
  </div>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <div className="flex items-center justify-between w-full">
  <CardTitle className={titleClass}><Box className="w-4 h-4"/> Generated CSS</CardTitle>
@@ -171,7 +182,7 @@ export function CssGlassmorphismClient() {
  <CardContent className="p-4">
  <pre className="w-full bg-background text-cyan-400 p-4 rounded-lg text-xs font-mono overflow-x-auto">{cssCode}</pre>
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
  </div>
 
@@ -208,7 +219,7 @@ export function CssGlassmorphismClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/dev/css-glassmorphism"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/css-glassmorphism" max={6} />
  </div>
  );
 }

@@ -52,6 +52,7 @@ import {
 import { GlassCard } from"@/components/ui/glass-card";
 import { Separator } from"@/components/ui/separator";
 import { base64, digest, hex, hmac } from"@/lib/utils/dev/hash-generator";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 
 // Helpers: bytes / encoders
 const enc = new TextEncoder();
@@ -176,6 +177,15 @@ export default function HashGeneratorClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Hash}
  title="Hash Generator"
@@ -630,7 +640,7 @@ export default function HashGeneratorClient() {
  },
  ]}
  />
- <RelatedTools currentToolUrl="/tools/dev/hash-generator"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/hash-generator" max={6} />
  </div>
  );
 }

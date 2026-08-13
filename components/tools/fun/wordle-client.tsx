@@ -11,6 +11,8 @@ import { Button } from"@/components/ui/button";
 import { Label } from"@/components/ui/label";
 import { RotateCcw, Trophy, Share2, Settings, Keyboard } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -158,6 +160,15 @@ export function WordleClient() {
  
  return (
  <div key={j} className={`w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center text-2xl font-bold border-2 ${border} ${bg} ${text} transition-all duration-300`}>
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  {letter.toUpperCase()}
  </div>
  );
@@ -195,7 +206,7 @@ export function WordleClient() {
  <div className="max-w-6xl mx-auto space-y-8">
  <ToolPageHeader icon={Trophy} title="Wordle Clone"description="Play the classic 5-letter word guessing game entirely offline in your browser."/>
  
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <div className="flex justify-between items-center w-full">
  <CardTitle className={titleClass}><Keyboard className="w-4 h-4"/> Daily Puzzle</CardTitle>
@@ -212,7 +223,7 @@ export function WordleClient() {
  <div className="flex flex-col gap-1.5">{renderGrid()}</div>
  {renderKeyboard()}
  </CardContent>
- </Card>
+ </GlassCard>
 
  {showStats && (
  <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4"onClick={() => setShowStats(false)}>
@@ -266,7 +277,7 @@ export function WordleClient() {
  { question:"Can I play more than once a day?", answer:"Absolutely. Unlike the official daily version, this clone allows you to play unlimited games. Simply click the refresh icon to start a new puzzle instantly."}
  ]} />
 
- <RelatedTools currentToolUrl="/tools/fun/wordle"max={6} />
+ <RelatedTools currentToolUrl="/tools/fun/wordle" max={6} />
  </div>
  );
 }

@@ -1,11 +1,17 @@
 "use client";
 
 import { useState, useEffect, useMemo } from"react";
-import { Moon, Sun, Clock, Info, BedDouble } from"lucide-react";
+import { Moon, Sun, Clock, Info, BedDouble, Sparkles, Shield, Zap, Copy } from"lucide-react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
 import { CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { GlassCard } from"@/components/ui/glass-card";
 import { Separator } from"@/components/ui/separator";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import { RelatedTools } from"@/components/shared/related-tools";
+import { cn } from"@/lib/utils";
 
 type Mode ="wake"|"sleep";
 
@@ -107,6 +113,15 @@ export function SleepCalculatorClient() {
 
  return (
  <div className="space-y-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  title="Sleep Calculator"
  description="Calculate the best times to go to sleep or wake up based on 90-minute sleep cycles."
@@ -126,13 +141,13 @@ export function SleepCalculatorClient() {
  <div className="flex bg-muted p-1 rounded-lg">
  <button
  onClick={() => setMode("wake")}
- className={"flex-1 flex items-center justify-center gap-2 py-2 px-3 text-sm rounded-md transition-colors"+ (mode ==="wake"?"bg-background shadow-sm font-medium":"text-muted-foreground hover:bg-background/50")}
+ className={cn("flex-1 flex items-center justify-center gap-2 py-2 px-3 text-sm rounded-md transition-colors", (mode ==="wake"?"bg-background shadow-sm font-medium":"text-muted-foreground hover:bg-background/50"))}
  >
  <Sun className="w-4 h-4"/> Wake up at
  </button>
  <button
  onClick={() => setMode("sleep")}
- className={"flex-1 flex items-center justify-center gap-2 py-2 px-3 text-sm rounded-md transition-colors"+ (mode ==="sleep"?"bg-background shadow-sm font-medium":"text-muted-foreground hover:bg-background/50")}
+ className={cn("flex-1 flex items-center justify-center gap-2 py-2 px-3 text-sm rounded-md transition-colors", (mode ==="sleep"?"bg-background shadow-sm font-medium":"text-muted-foreground hover:bg-background/50"))}
  >
  <BedDouble className="w-4 h-4"/> Go to bed at
  </button>
@@ -224,18 +239,18 @@ export function SleepCalculatorClient() {
  return (
  <div
  key={res.cycles}
- className={"p-4 rounded-xl border"+ (bgColor) +""+ (borderColor) +"flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all"}
+ className={cn("p-4 rounded-xl border", (bgColor), "", (borderColor), "flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all")}
  >
  <div>
  <div className="flex items-center gap-3 mb-1">
  <h3 className="text-2xl font-bold tracking-tight">
  {formatTime(res.time)}
  </h3>
- <span className={"text-xs font-semibold px-2 py-0.5 rounded-full"+ (badgeColor)}>
+ <span className={cn("text-xs font-semibold px-2 py-0.5 rounded-full", (badgeColor))}>
  {res.cycles} cycle{res.cycles > 1 ? 's' : ''}
  </span>
  </div>
- <p className={"text-sm font-medium"+ (textColor)}>
+ <p className={cn("text-sm font-medium", (textColor))}>
  {res.category ==="optimal"&&"Optimal amount of sleep"}
  {res.category ==="okay"&&"Okay, but could be better"}
  {res.category ==="insufficient"&&"Not enough sleep"}
@@ -256,6 +271,84 @@ export function SleepCalculatorClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+      <ToolHowItWorks
+        steps={[
+          {
+            step: "01",
+            title: "Input Your Data",
+            description: "Enter your information in the input field above and configure any options.",
+            icon: Sparkles,
+          },
+          {
+            step: "02",
+            title: "Process & Generate",
+            description: "The tool processes your input instantly and displays the results.",
+            icon: Zap,
+          },
+          {
+            step: "03",
+            title: "Copy & Use",
+            description: "Copy the output with one click and use it wherever you need.",
+            icon: Copy,
+          },
+        ]}
+        badges={["100% Free", "Instant Results", "Privacy-First"]}
+      />
+
+      <ToolFeatureGuides
+        features={[
+          {
+            icon: Sparkles,
+            title: "Lightning Fast",
+            description: "Get results in milliseconds with our optimized client-side processing engine.",
+          },
+          {
+            icon: Shield,
+            title: "Completely Private",
+            description: "All processing happens in your browser. Your data never leaves your device.",
+          },
+          {
+            icon: Zap,
+            title: "No Signup Required",
+            description: "Use this tool instantly without creating an account or providing any personal information.",
+          },
+        ]}
+      >
+        <div className="prose dark:prose-invert max-w-none">
+          <h3>Why Use Our Sleep Calculator?</h3>
+          <p>
+            This free online tool is designed to help you get accurate results quickly and securely.
+            Whether you're a developer, designer, student, or professional, our Sleep Calculator provides
+            the functionality you need without any complexity or cost.
+          </p>
+          <p>
+            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
+            privacy and zero latency. No data is ever transmitted to external servers, making it safe
+            for sensitive information.
+          </p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "Is this tool free to use?",
+            answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits.",
+          },
+          {
+            question: "Is my data secure?",
+            answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server.",
+          },
+          {
+            question: "Do I need to create an account?",
+            answer: "No account or registration is required. Simply open the tool and start using it immediately.",
+          },
+        ]}
+      />
+
+      <RelatedTools currentToolUrl="/tools/health/sleep-calculator" max={6} />
+
+</div>
  );
 }

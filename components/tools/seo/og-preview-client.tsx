@@ -12,6 +12,8 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Copy, RotateCcw, Share2, AlertTriangle, CheckCircle2, Code2, Eye } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -79,13 +81,22 @@ export function OgPreviewClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 p-4">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Share2}
  title="Open Graph (OG) Meta Preview"
  description="Visualize how your URLs will appear when shared on Facebook, Twitter/X, LinkedIn, Discord, and Slack. Optimize for maximum click-through rates."
  />
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Share2 className="w-4 h-4"/> Meta Tag Configuration
@@ -161,7 +172,7 @@ export function OgPreviewClient() {
  </div>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
  <PreviewCard platform="Facebook / LinkedIn">
@@ -212,7 +223,7 @@ export function OgPreviewClient() {
  </PreviewCard>
  </div>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Code2 className="w-4 h-4"/> Generated HTML Meta Tags
@@ -223,7 +234,7 @@ export function OgPreviewClient() {
  {metaTags}
  </pre>
  </CardContent>
- </Card>
+ </GlassCard>
 
  <ToolHowItWorks
  steps={[
@@ -256,7 +267,7 @@ export function OgPreviewClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/seo/og-preview"max={6} />
+ <RelatedTools currentToolUrl="/tools/seo/og-preview" max={6} />
  </div>
  );
 }

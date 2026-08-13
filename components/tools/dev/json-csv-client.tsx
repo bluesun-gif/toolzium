@@ -12,6 +12,8 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import toast from"react-hot-toast";
 import { FileJson, FileSpreadsheet, ArrowRightLeft, Copy, Download, Settings, AlertCircle } from"lucide-react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -154,9 +156,18 @@ export default function JsonCsvClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 pb-12 px-4">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader icon={ArrowRightLeft} title="JSON to CSV Converter"description="Transform JSON arrays into flat CSV files and vice versa with nested object flattening and custom delimiters."/>
  
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <div className="flex items-center justify-between w-full flex-wrap gap-4">
  <CardTitle className={titleClass}><Settings className="w-4 h-4"/> Conversion Engine</CardTitle>
@@ -214,7 +225,7 @@ export default function JsonCsvClient() {
  </div>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
  <ToolHowItWorks steps={steps} badges={["100% Free","Client-Side Privacy","No Signup"]} />
  
@@ -227,7 +238,7 @@ export default function JsonCsvClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={faqs} />
- <RelatedTools currentToolUrl="/tools/dev/json-to-csv-converter"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/json-to-csv-converter" max={6} />
  </div>
  );
 }

@@ -27,6 +27,7 @@ import { Badge } from"@/components/ui/badge";
 import { CardContent, CardDescription, CardHeader, CardTitle } from"@/components/ui/card";
 import { GlassCard } from"@/components/ui/glass-card";
 import { Label } from"@/components/ui/label";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 import {
  Select,
  SelectContent,
@@ -173,6 +174,15 @@ export default function UnitConverterClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  {/* header */}
  <ToolPageHeader
  icon={Sparkles}
@@ -528,7 +538,7 @@ export default function UnitConverterClient() {
  },
  ]}
  />
- <RelatedTools currentToolUrl="/tools/calc/unit-converter"max={6} />
+ <RelatedTools currentToolUrl="/tools/calc/unit-converter" max={6} />
  </div>
  );
 }

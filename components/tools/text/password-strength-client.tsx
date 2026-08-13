@@ -16,6 +16,8 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Separator } from"@/components/ui/separator";
 import { Switch } from"@/components/ui/switch";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { cn } from"@/lib/utils";
 import {
  bandColor,
  bandFromEntropy,
@@ -55,6 +57,15 @@ export default function PasswordStrengthClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  {/* Header */}
  <ToolPageHeader
  icon={ShieldCheck}
@@ -113,7 +124,7 @@ export default function PasswordStrengthClient() {
  </div>
  <div className="h-2 w-full rounded-md bg-muted overflow-hidden">
  <div
- className={"h-full transition-all duration-500"+ (bandColor(band))}
+ className={cn("h-full transition-all duration-500", (bandColor(band)))}
  style={{ width: `${meterPct}%` }}
  />
  </div>
@@ -357,7 +368,7 @@ export default function PasswordStrengthClient() {
  { question:"What entropy level is considered strong enough?", answer:"Security levels by entropy: 40-56 bits is adequate for low-value accounts with rate-limited online access. 72-80 bits is strong for most purposes and resistant to offline attacks using bcrypt or Argon2. 100+ bits is very strong and resistant to all current hardware attacks including GPU clusters. NIST recommends at least 112 bits for the most sensitive applications."},
  ]}
  />
- <RelatedTools currentToolUrl="/tools/text/password-strength"max={6} />
+ <RelatedTools currentToolUrl="/tools/text/password-strength" max={6} />
  </div>
  );
 }
@@ -414,7 +425,7 @@ correct horse battery staple"
  <td className="py-2 pr-4">{r.bits.toFixed(1)}</td>
  <td className="py-2 pr-4">
  <span
- className={"inline-flex items-center rounded px-2 py-0.5 text-xs text-white"+ (bandColor(r.band)) +""}
+ className={cn("inline-flex items-center rounded px-2 py-0.5 text-xs text-white", (bandColor(r.band)), "")}
  >
  {r.band}
  </span>

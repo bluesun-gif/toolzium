@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { cn } from "@/lib/utils";
-import { Copy, Download, History, Link2, QrCode, Sparkles, RefreshCcw, Wand2, Trash2 } from "lucide-react";
+import { Copy, Download, History, Link2, QrCode, Sparkles, RefreshCcw, Wand2, Trash2 } from"lucide-react";
 import toast from "react-hot-toast";
 
 const SOURCES = ["google", "facebook", "twitter", "linkedin", "email", "newsletter", "bing", "reddit"];

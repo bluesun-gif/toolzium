@@ -13,6 +13,7 @@ import { RelatedTools } from"@/components/shared/related-tools";
 import { PDFDocument } from"pdf-lib";
 import { encryptPDF } from"@pdfsmaller/pdf-encrypt";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 
 export default function PdfProtectClient() {
  const [file, setFile] = useState<File | null>(null);
@@ -70,6 +71,15 @@ export default function PdfProtectClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Lock}
  title="Protect & Lock PDF Studio"

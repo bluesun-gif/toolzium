@@ -39,6 +39,7 @@ import { Separator } from"@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from"@/components/ui/tabs";
 import { cn } from"@/lib/utils";
 import { buildUnified, clamp, diffTokens, normalize, tokenize } from"@/lib/utils/dev/diff-checker";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 
 export default function DiffCheckerClient() {
  const [a, setA] = React.useState<string>("");
@@ -111,6 +112,15 @@ export default function DiffCheckerClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  title="Diff Checker"
  description="Compare text inputs and see differences in split or unified view."
@@ -455,7 +465,7 @@ export default function DiffCheckerClient() {
  },
  ]}
  />
- <RelatedTools currentToolUrl="/tools/dev/diff-checker"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/diff-checker" max={6} />
  </div>
  );
 }

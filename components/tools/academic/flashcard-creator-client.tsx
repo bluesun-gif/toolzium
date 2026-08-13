@@ -12,6 +12,8 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Layers, Edit, Trash2, Shuffle, ChevronLeft, ChevronRight, Plus, Download, Upload, Brain } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -138,6 +140,15 @@ export function FlashcardCreatorClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 p-4">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Brain}
  title="Spaced Repetition Flashcards"
@@ -184,7 +195,7 @@ export function FlashcardCreatorClient() {
  </CardContent>
  </Card>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <div className="flex justify-between items-center w-full">
  <CardTitle className={titleClass}>Deck ({deck.length})</CardTitle>
@@ -206,7 +217,7 @@ export function FlashcardCreatorClient() {
  </div>
  ))}
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
  ) : (
  <div className="max-w-2xl mx-auto space-y-6">
@@ -256,7 +267,7 @@ export function FlashcardCreatorClient() {
  )}
  </>
  ) : (
- <Card className={cardClass}>
+ <GlassCard>
  <CardContent className="p-8 text-center space-y-6">
  <h2 className="text-3xl font-bold">Session Complete!</h2>
  <div className="grid grid-cols-2 gap-4 max-w-xs mx-auto">
@@ -273,7 +284,7 @@ export function FlashcardCreatorClient() {
  <Shuffle className="w-4 h-4"/> Study Again
  </Button>
  </CardContent>
- </Card>
+ </GlassCard>
  )}
  </div>
  )}
@@ -321,7 +332,7 @@ export function FlashcardCreatorClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/academic/flashcard-creator"max={6} />
+ <RelatedTools currentToolUrl="/tools/academic/flashcard-creator" max={6} />
  </div>
  );
 }

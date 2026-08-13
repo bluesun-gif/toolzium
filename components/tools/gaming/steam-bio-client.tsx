@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
 import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Shield, RefreshCw, Sparkles, Gamepad2, Copy, BookOpen, Layers, Zap } from "lucide-react";
+import { Shield, RefreshCw, Sparkles, Gamepad2, Copy, BookOpen, Layers, Zap } from"lucide-react";
 import toast from "react-hot-toast";
 
 const STEAM_STYLES = [

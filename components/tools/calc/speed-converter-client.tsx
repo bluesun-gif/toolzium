@@ -9,6 +9,8 @@ import { RelatedTools } from"@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Input } from"@/components/ui/input";
 import { Gauge } from"lucide-react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -41,9 +43,18 @@ export default function SpeedConverterClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader icon={Gauge} title="Speed Converter"description="Instantly convert speed between km/h, mph, m/s, knots, and ft/s with precision."/>
  
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>Enter Speed</CardTitle>
  </CardHeader>
@@ -74,7 +85,7 @@ export default function SpeedConverterClient() {
  ))}
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
  <ToolHowItWorks 
  steps={[
@@ -104,7 +115,7 @@ export default function SpeedConverterClient() {
  { question:"Is this tool free to use?", answer:"Yes, the Speed Converter is 100% free, requires no signup, and has no usage limits."}
  ]} />
 
- <RelatedTools currentToolUrl="/tools/calc/speed-converter"max={6} />
+ <RelatedTools currentToolUrl="/tools/calc/speed-converter" max={6} />
  </div>
  );
 }

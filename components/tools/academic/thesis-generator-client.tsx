@@ -12,6 +12,8 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { GraduationCap, Sparkles, Copy, FileText, CheckCircle2, Sliders, RefreshCcw, Compass } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -83,6 +85,15 @@ export function ThesisGeneratorClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 p-4">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={GraduationCap}
  title="Thesis Statement Generator"
@@ -90,7 +101,7 @@ export function ThesisGeneratorClient() {
  />
 
  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Compass className="w-4 h-4 text-primary"/>
@@ -153,9 +164,9 @@ export function ThesisGeneratorClient() {
  {isProcessing ?"Building Thesis...":"Generate Thesis Options"}
  </Button>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <GraduationCap className="w-4 h-4 text-primary"/>
@@ -183,7 +194,7 @@ export function ThesisGeneratorClient() {
  </div>
  )}
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
 
  <ToolHowItWorks
@@ -228,7 +239,7 @@ export function ThesisGeneratorClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/academic/thesis-generator"max={6} />
+ <RelatedTools currentToolUrl="/tools/academic/thesis-generator" max={6} />
  </div>
  );
 }

@@ -10,6 +10,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { Button } from"@/components/ui/button";
 import { FileText, Upload, Download, Settings, Image, Shield, FileArchive } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 
 const QUALITY_PRESETS = [
  { label:"Maximum (≈90%)", dpi: 150, jpegQ: 0.9 },
@@ -121,6 +122,15 @@ export default function PdfCompressClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={FileText}
  title="PDF Compress Studio"

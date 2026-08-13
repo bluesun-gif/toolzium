@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
 import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Music, RefreshCw, Sparkles, Disc, Heart, Copy, Share2, ListMusic, Headphones, Zap, Shield, BookOpen, Layers } from "lucide-react";
+import { Music, RefreshCw, Sparkles, Disc, Heart, Copy, Share2, ListMusic, Headphones, Zap, Shield, BookOpen, Layers } from"lucide-react";
 import toast from "react-hot-toast";
 
 interface PlaylistIdea {

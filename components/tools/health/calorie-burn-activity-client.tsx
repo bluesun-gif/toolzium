@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Flame, Activity, Clock, HeartPulse, Sparkles, Scale } from "lucide-react";
+import { Flame, Activity, Clock, HeartPulse, Sparkles, Scale } from"lucide-react";
 import toast from "react-hot-toast";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";

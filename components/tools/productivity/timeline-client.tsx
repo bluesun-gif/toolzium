@@ -15,7 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Separator } from "@/components/ui/separator";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
 import { GridPattern } from "@/components/magicui/grid-pattern";
-import { BarChart3, Plus, Calendar, Trash2, ArrowUp, ArrowDown, Shield, BookOpen, Layers, CheckCircle2 } from "lucide-react";
+import { BarChart3, Plus, Calendar, Trash2, ArrowUp, ArrowDown, Shield, BookOpen, Layers, CheckCircle2 } from"lucide-react";
 import { cn } from "@/lib/utils";
 import toast from "react-hot-toast";
 

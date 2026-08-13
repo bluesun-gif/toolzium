@@ -38,6 +38,7 @@ import {
 } from"@/lib/utils/time/age-calculator";
 import { Cake, Calendar, HeartPulse, Info, BookOpen, Shield, Clock, Heart, BarChart3, Baby, User, Milestone } from"lucide-react";
 import { useEffect, useMemo, useState } from"react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 
 export default function AgeCalculatorClient() {
  const deviceTz = useMemo(() => getLocalTimeZone(), []);
@@ -161,6 +162,15 @@ Next birthday: ${results?.until.exact} (${results?.until.days} days)`
 
  return (
  <div className="max-w-6xl mx-auto space-y-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  {/* HEADER */}
  <ToolPageHeader
  icon={HeartPulse}
@@ -456,7 +466,7 @@ Next birthday: ${results?.until.exact} (${results?.until.days} days)`
  },
  ]}
  />
- <RelatedTools currentToolUrl="/tools/time/age"max={6} />
+ <RelatedTools currentToolUrl="/tools/time/age" max={6} />
  </div>
  );
 }

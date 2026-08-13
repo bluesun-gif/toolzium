@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Calculator, DollarSign, PieChart, ShieldCheck, FileText, CheckCircle2, AlertCircle } from "lucide-react";
+import { Calculator, DollarSign, PieChart, ShieldCheck, FileText, CheckCircle2, AlertCircle } from"lucide-react";
 import toast from "react-hot-toast";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";

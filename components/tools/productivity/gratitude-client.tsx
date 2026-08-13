@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ResetButton } from "@/components/shared/action-buttons";
 import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Heart, Calendar, Sparkles, ChevronLeft, ChevronRight, Save, Shield, BookOpen, Layers, CheckCircle2 } from "lucide-react";
+import { Heart, Calendar, Sparkles, ChevronLeft, ChevronRight, Save, Shield, BookOpen, Layers, CheckCircle2 } from"lucide-react";
 import { cn } from "@/lib/utils";
 import toast from "react-hot-toast";
 

@@ -10,8 +10,14 @@ import { Label } from"@/components/ui/label";
 import { Button } from"@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { Receipt, Filter, DollarSign, Download, Trash2, CheckCircle, AlertCircle } from"lucide-react";
+import { Receipt, Filter, DollarSign, Download, Trash2, CheckCircle, AlertCircle, Sparkles, Shield, Zap, Copy } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import { RelatedTools } from"@/components/shared/related-tools";
+import { cn } from"@/lib/utils";
 
 type Invoice = {
  id: string;
@@ -132,6 +138,15 @@ export function InvoiceTrackerClient() {
 
  return (
  <div className="space-y-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Receipt}
  title="Invoice Tracker"
@@ -233,7 +248,7 @@ export function InvoiceTrackerClient() {
  ) : (
  <div className="space-y-4">
  {processedInvoices.map(inv => (
- <div key={inv.id} className={"flex flex-col sm:flex-row sm:items-center justify-between p-4 border rounded-lg transition-colors hover:bg-muted/30"+ (inv.status ==="Overdue"?"border-red-200 bg-red-50/30":"")}>
+ <div key={inv.id} className={cn("flex flex-col sm:flex-row sm:items-center justify-between p-4 border rounded-lg transition-colors hover:bg-muted/30", (inv.status ==="Overdue"?"border-red-200 bg-red-50/30":""))}>
  <div className="mb-4 sm:mb-0 space-y-1">
  <div className="flex items-center gap-2">
  <span className="font-semibold">{inv.clientName}</span>
@@ -268,6 +283,84 @@ export function InvoiceTrackerClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+      <ToolHowItWorks
+        steps={[
+          {
+            step: "01",
+            title: "Input Your Data",
+            description: "Enter your information in the input field above and configure any options.",
+            icon: Sparkles,
+          },
+          {
+            step: "02",
+            title: "Process & Generate",
+            description: "The tool processes your input instantly and displays the results.",
+            icon: Zap,
+          },
+          {
+            step: "03",
+            title: "Copy & Use",
+            description: "Copy the output with one click and use it wherever you need.",
+            icon: Copy,
+          },
+        ]}
+        badges={["100% Free", "Instant Results", "Privacy-First"]}
+      />
+
+      <ToolFeatureGuides
+        features={[
+          {
+            icon: Sparkles,
+            title: "Lightning Fast",
+            description: "Get results in milliseconds with our optimized client-side processing engine.",
+          },
+          {
+            icon: Shield,
+            title: "Completely Private",
+            description: "All processing happens in your browser. Your data never leaves your device.",
+          },
+          {
+            icon: Zap,
+            title: "No Signup Required",
+            description: "Use this tool instantly without creating an account or providing any personal information.",
+          },
+        ]}
+      >
+        <div className="prose dark:prose-invert max-w-none">
+          <h3>Why Use Our Invoice Tracker?</h3>
+          <p>
+            This free online tool is designed to help you get accurate results quickly and securely.
+            Whether you're a developer, designer, student, or professional, our Invoice Tracker provides
+            the functionality you need without any complexity or cost.
+          </p>
+          <p>
+            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
+            privacy and zero latency. No data is ever transmitted to external servers, making it safe
+            for sensitive information.
+          </p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "Is this tool free to use?",
+            answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits.",
+          },
+          {
+            question: "Is my data secure?",
+            answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server.",
+          },
+          {
+            question: "Do I need to create an account?",
+            answer: "No account or registration is required. Simply open the tool and start using it immediately.",
+          },
+        ]}
+      />
+
+      <RelatedTools currentToolUrl="/tools/finance/invoice-tracker" max={6} />
+
+</div>
  );
 }

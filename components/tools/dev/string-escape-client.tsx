@@ -10,6 +10,9 @@ import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import toast from"react-hot-toast";
 import { Code, ArrowRightLeft, Copy, Replace, Shield, FileText, Globe } from"lucide-react";
+import { cn } from"@/lib/utils";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -82,13 +85,22 @@ export default function StringEscapeClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Code}
  title="String Escape & Unescape Tool"
  description="Encode and decode strings for HTML, URL, JavaScript, JSON, CSV, SQL, Base64, and Unicode formats instantly."
  />
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Shield className="w-4 h-4 text-primary"/> Format & Direction
@@ -128,10 +140,10 @@ export default function StringEscapeClient() {
  </Button>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <div className="flex justify-between items-center w-full">
  <CardTitle className={titleClass}>Input</CardTitle>
@@ -142,16 +154,16 @@ export default function StringEscapeClient() {
  <textarea
  value={input}
  onChange={(e) => setInput(e.target.value)}
- className={textareaClass +"min-h-[250px]"}
+ className={cn(textareaClass, "min-h-[250px]")}
  placeholder="Enter string to process..."
  />
  <Button variant="outline"size="sm"className="mt-3 w-full text-xs font-semibold"onClick={() => setInput("")}>
  Clear Input
  </Button>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <div className="flex justify-between items-center w-full">
  <CardTitle className={titleClass}>Output</CardTitle>
@@ -162,14 +174,14 @@ export default function StringEscapeClient() {
  <textarea
  value={output}
  readOnly
- className={textareaClass +"min-h-[250px] bg-muted/30"}
+ className={cn(textareaClass, "min-h-[250px] bg-muted/30")}
  placeholder="Output will appear here..."
  />
  <Button size="sm"className="mt-3 w-full text-xs font-semibold"onClick={copyOutput}>
  <Copy className="w-4 h-4 mr-2"/> Copy Output
  </Button>
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
 
  <ToolHowItWorks
@@ -211,7 +223,7 @@ export default function StringEscapeClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/dev/string-escape"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/string-escape" max={6} />
  </div>
  );
 }

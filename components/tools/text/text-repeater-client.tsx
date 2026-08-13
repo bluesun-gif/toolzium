@@ -15,7 +15,7 @@ import { CopyButton } from "@/components/shared/action-buttons";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { cn } from "@/lib/utils";
 import toast from "react-hot-toast";
-import { Repeat, PenTool, Settings, Copy } from "lucide-react";
+import { Repeat, PenTool, Settings, Copy } from"lucide-react";
 
 export default function TextRepeaterClient() {
   const [text, setText] = useState("");

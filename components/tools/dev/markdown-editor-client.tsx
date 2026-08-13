@@ -15,6 +15,7 @@ import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import { RelatedTools } from"@/components/shared/related-tools";
+import { cn } from"@/lib/utils";
 
 // Basic markdown parser
 const parseMarkdown = (text: string) => {
@@ -199,7 +200,7 @@ export default function MarkdownEditorClient() {
  icon={FileText}
  />
 
- <div className={"flex flex-col md:flex-row gap-8"+ (isFullscreen ?"fixed inset-0 z-50 bg-background p-4 md:p-8 m-0 max-w-none overflow-y-auto":"")}>
+ <div className={cn("flex flex-col md:flex-row gap-8", (isFullscreen ?"fixed inset-0 z-50 bg-background p-4 md:p-8 m-0 max-w-none overflow-y-auto":""))}>
  <div className="flex-1 space-y-4 flex flex-col h-[70vh] min-h-[500px]">
  {/* Toolbar */}
  <GlassCard className="p-2 flex flex-wrap gap-1 shrink-0 items-center justify-between">
@@ -261,7 +262,7 @@ export default function MarkdownEditorClient() {
  </div>
  <div className="flex-1 flex min-h-0 relative">
  {lineNumbers && (
- <div className={"w-10 select-none py-3 text-right pr-2 text-xs font-mono text-muted-foreground border-r overflow-hidden shrink-0"+ editorBgClass}>
+ <div className={cn("w-10 select-none py-3 text-right pr-2 text-xs font-mono text-muted-foreground border-r overflow-hidden shrink-0", editorBgClass)}>
  {linesArray.map((_, i) => (
  <div key={i}>{i + 1}</div>
  ))}
@@ -273,7 +274,7 @@ export default function MarkdownEditorClient() {
  onChange={(e) => setMarkdown(e.target.value)}
  onScroll={handleScroll}
  placeholder="Type your markdown here..."
- className={"flex-1 p-3 font-mono text-sm resize-none focus:outline-none"+ editorBgClass +""+ wrapClass}
+ className={cn("flex-1 p-3 font-mono text-sm resize-none focus:outline-none", editorBgClass, "", wrapClass)}
  />
  </div>
  </GlassCard>
@@ -284,7 +285,7 @@ export default function MarkdownEditorClient() {
  <span>PREVIEW</span>
  </div>
  <div 
- className={"flex-1 p-4 overflow-y-auto prose dark:prose-invert max-w-none text-sm"+ (darkTheme ?"bg-[#0f172a] text-[#f8fafc] text-foreground":"bg-background text-foreground")}
+ className={cn("flex-1 p-4 overflow-y-auto prose dark:prose-invert max-w-none text-sm", (darkTheme ?"bg-[#0f172a] text-[#f8fafc] text-foreground":"bg-background text-foreground"))}
  dangerouslySetInnerHTML={{ __html: htmlPreview }}
  />
  </GlassCard>

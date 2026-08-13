@@ -9,6 +9,8 @@ import { RelatedTools } from"@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { HelpCircle, Shuffle } from"lucide-react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -89,9 +91,18 @@ export default function WouldYouRatherClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader icon={HelpCircle} title="Would You Rather Generator"description="Spark fun conversations and debates with randomized 'Would You Rather' scenarios."/>
  
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>Make Your Choice</CardTitle>
  </CardHeader>
@@ -137,7 +148,7 @@ export default function WouldYouRatherClient() {
  </Button>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
  <ToolHowItWorks 
  steps={[
@@ -167,7 +178,7 @@ export default function WouldYouRatherClient() {
  { question:"Will the questions eventually repeat?", answer:"Yes, once you have cycled through all 30 questions in the deck, the randomizer will reshuffle and begin the cycle anew."}
  ]} />
 
- <RelatedTools currentToolUrl="/tools/fun/would-you-rather"max={6} />
+ <RelatedTools currentToolUrl="/tools/fun/would-you-rather" max={6} />
  </div>
  );
 }

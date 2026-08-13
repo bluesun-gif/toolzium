@@ -12,6 +12,7 @@ import { Input } from"@/components/ui/input";
 import { FileText, Upload, Download, Pen, Type, Image as ImageIcon, Trash2, RotateCcw, Hand, FileSignature, ShieldCheck, Zap, DownloadCloud } from"lucide-react";
 import { PDFDocument } from"pdf-lib";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 
 type SignMode ="type"|"draw"|"image";
 type PlacedSig = { x: number; y: number; width: number; height: number; dataUrl: string };
@@ -320,6 +321,15 @@ export default function PdfSignFillClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Pen}
  title="PDF Sign & Fill Studio"
@@ -558,7 +568,7 @@ export default function PdfSignFillClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/pdf/pdf-sign-fill"max={6} />
+ <RelatedTools currentToolUrl="/tools/pdf/pdf-sign-fill" max={6} />
  </div>
  );
 }

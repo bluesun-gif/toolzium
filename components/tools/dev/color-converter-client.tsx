@@ -12,6 +12,8 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Palette, Copy, Droplet, Contrast, History } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -166,13 +168,22 @@ export function ColorConverterClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-4 py-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Palette}
  title="Universal Color Converter"
  description="Instantly convert colors between HEX, RGB, HSL, CMYK, and more. Includes contrast checker and color harmony generator."
  />
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}><Droplet className="w-4 h-4"/> Color Input</CardTitle>
  </CardHeader>
@@ -190,7 +201,7 @@ export function ColorConverterClient() {
  </div>
  <Button onClick={addToHistory} variant="outline"className="w-full"><History className="w-4 h-4 mr-2"/> Save to History</Button>
  </CardContent>
- </Card>
+ </GlassCard>
 
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
  {Object.entries(formats).map(([key, val]) => (
@@ -207,7 +218,7 @@ export function ColorConverterClient() {
  </div>
 
  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>Color Harmonies</CardTitle>
  </CardHeader>
@@ -236,9 +247,9 @@ export function ColorConverterClient() {
  </div>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}><Contrast className="w-4 h-4"/> WCAG Contrast Checker</CardTitle>
  </CardHeader>
@@ -256,11 +267,11 @@ export function ColorConverterClient() {
  <div className={`p-2 rounded ${contrast.aaa ? 'bg-green-500/20 text-green-500' : 'bg-red-500/20 text-red-500'}`}>AAA Normal {contrast.aaa ? '✓' : '✗'}</div>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
 
  {history.length > 0 && (
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>Recent Colors</CardTitle>
  </CardHeader>
@@ -269,7 +280,7 @@ export function ColorConverterClient() {
  <div key={i} className="w-10 h-10 rounded-lg border cursor-pointer hover:scale-110 transition-transform"style={{ backgroundColor: rgbToHex(c.r, c.g, c.b) }} onClick={() => setColor(c)} />
  ))}
  </CardContent>
- </Card>
+ </GlassCard>
  )}
 
  <ToolHowItWorks
@@ -306,7 +317,7 @@ export function ColorConverterClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/dev/color-converter"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/color-converter" max={6} />
  </div>
  );
 }

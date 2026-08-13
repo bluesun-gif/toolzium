@@ -8,6 +8,8 @@ import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import { RelatedTools } from"@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Star } from"lucide-react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -60,9 +62,18 @@ export default function ZodiacClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader icon={Star} title="Zodiac Sign Finder"description="Discover your astrological sign, ruling planet, and personality traits based on your birthdate."/>
  
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>Enter Birthdate</CardTitle>
  </CardHeader>
@@ -116,7 +127,7 @@ export default function ZodiacClient() {
  </div>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
  <ToolHowItWorks 
  steps={[
@@ -146,7 +157,7 @@ export default function ZodiacClient() {
  { question:"Why are the elements important?", answer:"The four elements (Fire, Earth, Air, Water) group the signs into fundamental temperaments, explaining why certain signs naturally get along better than others."}
  ]} />
 
- <RelatedTools currentToolUrl="/tools/fun/zodiac"max={6} />
+ <RelatedTools currentToolUrl="/tools/fun/zodiac" max={6} />
  </div>
  );
 }

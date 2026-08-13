@@ -10,6 +10,8 @@ import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { CopyButton } from"@/components/shared/action-buttons";
 import toast from"react-hot-toast";
 import { Braces, Check, XCircle, Sparkles, Shield, Zap, AlignLeft } from"lucide-react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -42,6 +44,15 @@ export default function JsonFormatterClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Braces}
  title="JSON Formatter & Validator"
@@ -49,7 +60,7 @@ export default function JsonFormatterClient() {
  />
 
  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <AlignLeft className="w-4 h-4 text-primary"/> Raw JSON Input
@@ -68,9 +79,9 @@ export default function JsonFormatterClient() {
  <span className="text-muted-foreground">{input.length} chars</span>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  {error ? <XCircle className="w-4 h-4 text-red-500"/> : <Check className="w-4 h-4 text-green-500"/>}
@@ -97,7 +108,7 @@ export default function JsonFormatterClient() {
  </>
  )}
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
 
  <div className="flex flex-wrap items-center justify-center gap-3">
@@ -166,7 +177,7 @@ export default function JsonFormatterClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/developer/json-formatter"max={6} />
+ <RelatedTools currentToolUrl="/tools/developer/json-formatter" max={6} />
  </div>
  );
 }

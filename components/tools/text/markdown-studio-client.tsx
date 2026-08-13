@@ -12,6 +12,8 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Copy, RotateCcw, Bold, Italic, Heading1, Heading2, Link, Image as ImageIcon, Code, Quote, List, Minus, Download, Sun, Moon, Maximize, FileText } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -119,6 +121,15 @@ export function MarkdownStudioClient() {
 
  return (
  <div className="max-w-7xl mx-auto space-y-8 p-4">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={FileText}
  title="Markdown Studio"
@@ -140,7 +151,7 @@ export function MarkdownStudioClient() {
  </div>
 
  <div className={`grid ${isFullscreen ? 'grid-cols-1' : 'lg:grid-cols-2'} gap-6 mb-8`}>
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>Editor</CardTitle>
  <div className="flex flex-wrap gap-1 mt-2 border-t border-border/30 pt-2">
@@ -174,7 +185,7 @@ export function MarkdownStudioClient() {
  </Button>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
  {!isFullscreen && (
  <Card className={`${cardClass} ${theme ==="dark"?"bg-gray-900 text-gray-100":"bg-background text-foreground"}`}>
@@ -218,7 +229,7 @@ export function MarkdownStudioClient() {
  { question:"Is it free to use?", answer:"Yes, Markdown Studio is 100% free with no limits on document length or number of exports."}
  ]} />
 
- <RelatedTools currentToolUrl="/tools/text/markdown-studio"max={6} />
+ <RelatedTools currentToolUrl="/tools/text/markdown-studio" max={6} />
  </div>
  );
 }

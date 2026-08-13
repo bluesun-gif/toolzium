@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
 import { GridPattern } from "@/components/magicui/grid-pattern";
-import { LayoutGrid, Plus, ArrowLeft, ArrowRight, Trash2, Check, Shield, BookOpen, Layers, CheckCircle2 } from "lucide-react";
+import { LayoutGrid, Plus, ArrowLeft, ArrowRight, Trash2, Check, Shield, BookOpen, Layers, CheckCircle2 } from"lucide-react";
 import { cn } from "@/lib/utils";
 import toast from "react-hot-toast";
 

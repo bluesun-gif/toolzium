@@ -27,6 +27,7 @@ import { Separator } from"@/components/ui/separator";
 import { generateParagraph, mulberry32 } from"@/lib/utils/dev/lorem-ipsum";
 import { AlignLeft, BookOpen, Shield, FileText, Type, Layers, Code2, Zap, Globe } from"lucide-react";
 import { useCallback, useEffect, useMemo, useState } from"react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 
 export default function LoremIpsumClient() {
  const [paragraphs, setParagraphs] = useState<number>(3);
@@ -87,6 +88,15 @@ export default function LoremIpsumClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={AlignLeft}
  title="Lorem Ipsum Generator"
@@ -417,7 +427,7 @@ export default function LoremIpsumClient() {
  },
  ]}
  />
- <RelatedTools currentToolUrl="/tools/dev/lorem-ipsum"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/lorem-ipsum" max={6} />
  </div>
  );
 }

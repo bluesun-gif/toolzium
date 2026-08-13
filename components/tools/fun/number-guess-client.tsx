@@ -11,6 +11,8 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import toast from"react-hot-toast";
 import { HelpCircle, RotateCcw } from"lucide-react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -56,13 +58,22 @@ export default function NumberGuessClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader 
  icon={HelpCircle} 
  title="Number Guessing Game"
  description="Test your intuition and logic skills by guessing the hidden number."
  />
  
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <HelpCircle className="w-4 h-4 text-primary"/> Guess the Number
@@ -118,7 +129,7 @@ export default function NumberGuessClient() {
  )}
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
  <ToolHowItWorks 
  steps={[
@@ -151,7 +162,7 @@ export default function NumberGuessClient() {
  ]} 
  />
 
- <RelatedTools currentToolUrl="/tools/fun/number-guess"max={6} />
+ <RelatedTools currentToolUrl="/tools/fun/number-guess" max={6} />
  </div>
  );
 }

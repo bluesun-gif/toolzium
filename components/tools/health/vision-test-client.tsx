@@ -8,8 +8,13 @@ import { Separator } from"@/components/ui/separator";
 import { Button } from"@/components/ui/button";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
 import { cn } from"@/lib/utils";
-import { Eye, AlertTriangle, BarChart2, RotateCcw } from"lucide-react";
+import { Eye, AlertTriangle, BarChart2, RotateCcw, Sparkles, Shield, Zap, Copy } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import { RelatedTools } from"@/components/shared/related-tools";
 
 export function VisionTestClient() {
  const [snellenResult, setSnellenResult] = useState<string | null>(null);
@@ -32,6 +37,15 @@ export function VisionTestClient() {
 
  return (
  <div className="space-y-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  title="Vision Test"
  description="Simple online vision screening tool (not medical advice)."
@@ -39,29 +53,29 @@ export function VisionTestClient() {
  actions={<ResetButton onClick={handleReset} label="Reset"/>}
  />
 
- <GlassCard className={"border-yellow-500/50"+"bg-yellow-500/10"}>
- <CardContent className={"pt-6"+"flex"+"items-start"+"gap-4"}>
- <AlertTriangle className={"text-yellow-500"+"h-6"+"w-6"+"shrink-0"} />
+ <GlassCard className={cn("border-yellow-500/50", "bg-yellow-500/10")}>
+ <CardContent className={cn("pt-6", "flex", "items-start", "gap-4")}>
+ <AlertTriangle className={cn("text-yellow-500", "h-6", "w-6", "shrink-0")} />
  <div>
- <h3 className={"font-semibold"+"text-yellow-700"+"dark:text-yellow-400"}>Disclaimer</h3>
- <p className={"text-sm"+"text-yellow-700/80"+"dark:text-yellow-400/80"}>
+ <h3 className={cn("font-semibold", "text-yellow-700", "dark:text-yellow-400")}>Disclaimer</h3>
+ <p className={cn("text-sm", "text-yellow-700/80", "dark:text-yellow-400/80")}>
  This is a basic screening tool and does NOT provide medical diagnosis or replace a professional eye exam. Please consult an optometrist or ophthalmologist for medical advice.
  </p>
  </div>
  </CardContent>
  </GlassCard>
 
- <div className={"grid"+"gap-6"+"md:grid-cols-2"}>
+ <div className={cn("grid", "gap-6", "md:grid-cols-2")}>
  <GlassCard>
  <CardHeader>
  <CardTitle>Visual Acuity Test</CardTitle>
  <CardDescription>Stand about 3-10 feet away. Click the smallest row you can read clearly.</CardDescription>
  </CardHeader>
  <CardContent className="space-y-6">
- <div className={"flex"+"flex-col"+"items-center"+"space-y-4"+"p-8"+"bg-background"+""+"rounded-lg"+"border"}>
+ <div className={cn("flex", "flex-col", "items-center", "space-y-4", "p-8", "bg-background", "", "rounded-lg", "border")}>
  {snellenRows.map((row, i) => (
- <div key={i} className={"flex"+"w-full"+"items-center"+"justify-center"+"group"+"cursor-pointer"} onClick={() => setSnellenResult(row.acuity)}>
- <div className={"font-serif"+"font-bold"+"tracking-widest"+ row.size +"group-hover:text-primary"+"transition-colors"+"text-center"}>
+ <div key={i} className={cn("flex", "w-full", "items-center", "justify-center", "group", "cursor-pointer")} onClick={() => setSnellenResult(row.acuity)}>
+ <div className={cn("font-serif", "font-bold", "tracking-widest", row.size, "group-hover:text-primary", "transition-colors", "text-center")}>
  {row.text}
  </div>
  </div>
@@ -69,9 +83,9 @@ export function VisionTestClient() {
  </div>
  
  {snellenResult && (
- <div className={"p-4"+"rounded-lg"+"bg-primary/10"+"text-center"}>
- <h4 className={"font-semibold"+"text-primary"}>Approximate Result</h4>
- <p className={"text-2xl"+"font-bold"}>{snellenResult}</p>
+ <div className={cn("p-4", "rounded-lg", "bg-primary/10", "text-center")}>
+ <h4 className={cn("font-semibold", "text-primary")}>Approximate Result</h4>
+ <p className={cn("text-2xl", "font-bold")}>{snellenResult}</p>
  </div>
  )}
  </CardContent>
@@ -83,13 +97,13 @@ export function VisionTestClient() {
  <CardDescription>Identify the shape or number in the pattern.</CardDescription>
  </CardHeader>
  <CardContent className="space-y-6">
- <div className={"flex"+"justify-center"}>
+ <div className={cn("flex", "justify-center")}>
  {/* Simple Ishihara-like simulation using divs */}
- <div className={"relative"+"w-64"+"h-64"+"rounded-full"+"overflow-hidden"+"bg-orange-200"+"flex"+"items-center"+"justify-center"+"p-4"}>
- <div className={"absolute"+"inset-0"+"opacity-50"}>
+ <div className={cn("relative", "w-64", "h-64", "rounded-full", "overflow-hidden", "bg-orange-200", "flex", "items-center", "justify-center", "p-4")}>
+ <div className={cn("absolute", "inset-0", "opacity-50")}>
  {/* Background dots simulation */}
  {Array.from({ length: 100 }).map((_, i) => (
- <div key={i} className={"absolute"+"rounded-full"+ ((i % 3 === 0) ?"bg-orange-500":"bg-red-400")} 
+ <div key={i} className={cn("absolute", "rounded-full", ((i % 3 === 0) ?"bg-orange-500":"bg-red-400"))} 
  style={{
  width: (Math.random() * 10 + 5) +"px",
  height: (Math.random() * 10 + 5) +"px",
@@ -99,19 +113,97 @@ export function VisionTestClient() {
  ))}
  </div>
  {/* Foreground shape simulation (number 12) */}
- <div className={"relative"+"z-10"+"text-green-600"+"font-bold"+"text-8xl"+"opacity-80"+"mix-blend-multiply"}>
+ <div className={cn("relative", "z-10", "text-green-600", "font-bold", "text-8xl", "opacity-80", "mix-blend-multiply")}>
  12
  </div>
  </div>
  </div>
  <div className="space-y-2">
- <p className={"text-sm"+"text-center"+"text-muted-foreground"}>
+ <p className={cn("text-sm", "text-center", "text-muted-foreground")}>
  If you have normal color vision, you should see the number"12".
  </p>
  </div>
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+      <ToolHowItWorks
+        steps={[
+          {
+            step: "01",
+            title: "Input Your Data",
+            description: "Enter your information in the input field above and configure any options.",
+            icon: Sparkles,
+          },
+          {
+            step: "02",
+            title: "Process & Generate",
+            description: "The tool processes your input instantly and displays the results.",
+            icon: Zap,
+          },
+          {
+            step: "03",
+            title: "Copy & Use",
+            description: "Copy the output with one click and use it wherever you need.",
+            icon: Copy,
+          },
+        ]}
+        badges={["100% Free", "Instant Results", "Privacy-First"]}
+      />
+
+      <ToolFeatureGuides
+        features={[
+          {
+            icon: Sparkles,
+            title: "Lightning Fast",
+            description: "Get results in milliseconds with our optimized client-side processing engine.",
+          },
+          {
+            icon: Shield,
+            title: "Completely Private",
+            description: "All processing happens in your browser. Your data never leaves your device.",
+          },
+          {
+            icon: Zap,
+            title: "No Signup Required",
+            description: "Use this tool instantly without creating an account or providing any personal information.",
+          },
+        ]}
+      >
+        <div className="prose dark:prose-invert max-w-none">
+          <h3>Why Use Our Vision Test?</h3>
+          <p>
+            This free online tool is designed to help you get accurate results quickly and securely.
+            Whether you're a developer, designer, student, or professional, our Vision Test provides
+            the functionality you need without any complexity or cost.
+          </p>
+          <p>
+            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
+            privacy and zero latency. No data is ever transmitted to external servers, making it safe
+            for sensitive information.
+          </p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "Is this tool free to use?",
+            answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits.",
+          },
+          {
+            question: "Is my data secure?",
+            answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server.",
+          },
+          {
+            question: "Do I need to create an account?",
+            answer: "No account or registration is required. Simply open the tool and start using it immediately.",
+          },
+        ]}
+      />
+
+      <RelatedTools currentToolUrl="/tools/health/vision-test" max={6} />
+
+</div>
  );
 }

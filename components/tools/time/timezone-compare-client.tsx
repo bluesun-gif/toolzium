@@ -13,7 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
 import { Slider } from "@/components/ui/slider";
 import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Globe, Plus, Trash2, Clock, Shield, BookOpen, Layers } from "lucide-react";
+import { Globe, Plus, Trash2, Clock, Shield, BookOpen, Layers } from"lucide-react";
 import { cn } from "@/lib/utils";
 import toast from "react-hot-toast";
 

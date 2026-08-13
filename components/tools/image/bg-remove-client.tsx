@@ -36,6 +36,7 @@ import {
  Eye,
 } from"lucide-react";
 import { removeBackground } from"@imgly/background-removal";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 
 const SAMPLE_IMAGES = [
  {
@@ -307,6 +308,15 @@ export default function BgRemoveClient() {
 
  return (
  <div className="mx-auto max-w-6xl px-4 py-6 space-y-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  title="AI Background Remover Studio"
  description="Remove image backgrounds instantly with high-precision thresholding or HD Neural AI segmentation. Complete with interactive comparison slider and studio backdrop presets."
@@ -805,7 +815,7 @@ export default function BgRemoveClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/image/bg-remove"max={6} />
+ <RelatedTools currentToolUrl="/tools/image/bg-remove" max={6} />
  </div>
  );
 }

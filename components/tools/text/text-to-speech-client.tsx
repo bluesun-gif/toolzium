@@ -12,6 +12,8 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Volume2, Play, Pause, Square, RotateCcw, Mic, Settings, AlertCircle } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -162,18 +164,27 @@ export function TextToSpeechClient() {
  if (!isSupported) {
  return (
  <div className="max-w-6xl mx-auto space-y-8 p-4">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Volume2}
  title="Text to Speech Converter"
  description="Convert written text into natural-sounding speech using your browser's native synthesis engine."
  />
- <Card className={cardClass}>
+ <GlassCard>
  <CardContent className="p-8 text-center text-destructive flex flex-col items-center gap-4">
  <AlertCircle className="w-12 h-12"/>
  <h2 className="text-xl font-bold">Browser Not Supported</h2>
  <p>Your browser does not support the Web Speech API. Please try Chrome, Edge, or Safari.</p>
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
  );
  }
@@ -220,7 +231,7 @@ export function TextToSpeechClient() {
  </CardContent>
  </Card>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Settings className="w-4 h-4 text-primary"/>
@@ -291,10 +302,10 @@ export function TextToSpeechClient() {
  />
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardContent className="p-4 sm:p-6">
  <div className="flex flex-wrap gap-3 justify-center">
  {!isPlaying ? (
@@ -322,7 +333,7 @@ export function TextToSpeechClient() {
  </Button>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
  <ToolHowItWorks
  steps={[
@@ -367,7 +378,7 @@ export function TextToSpeechClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/text/text-to-speech"max={6} />
+ <RelatedTools currentToolUrl="/tools/text/text-to-speech" max={6} />
  </div>
  );
 }

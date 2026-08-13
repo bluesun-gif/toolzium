@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
 import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Swords, RefreshCw, Sparkles, Shield, Copy, Search, Filter } from "lucide-react";
+import { Swords, RefreshCw, Sparkles, Shield, Copy, Search, Filter } from"lucide-react";
 import toast from "react-hot-toast";
 
 const SYMBOL_DECORATIONS = [

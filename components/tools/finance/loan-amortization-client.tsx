@@ -14,6 +14,7 @@ import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import { RelatedTools } from"@/components/shared/related-tools";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 
 export function LoanAmortizationClient() {
  const [loanAmount, setLoanAmount] = useState("250000");
@@ -109,6 +110,15 @@ export function LoanAmortizationClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Calculator}
  title="Loan Amortization Schedule"
@@ -461,7 +471,7 @@ export function LoanAmortizationClient() {
  },
  ]}
  />
- <RelatedTools currentToolUrl="/tools/finance/loan-amortization"max={6} />
+ <RelatedTools currentToolUrl="/tools/finance/loan-amortization" max={6} />
  </div>
  );
 }

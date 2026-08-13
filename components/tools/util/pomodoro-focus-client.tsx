@@ -40,6 +40,7 @@ import {
 } from"@/components/ui/select";
 import { Separator } from"@/components/ui/separator";
 import { cn, pad } from"@/lib/utils";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 
 /* Types */
 type Mode ="work"|"short"|"long";
@@ -323,6 +324,15 @@ export default function PomodoroFocusClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Timer}
  title="Pomodoro Focus"
@@ -744,7 +754,7 @@ export default function PomodoroFocusClient() {
  },
  ]}
  />
- <RelatedTools currentToolUrl="/tools/util/pomodoro"max={6} />
+ <RelatedTools currentToolUrl="/tools/util/pomodoro" max={6} />
  </div>
  );
 }

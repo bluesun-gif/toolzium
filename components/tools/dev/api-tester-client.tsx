@@ -12,6 +12,8 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Send, Copy, Plus, Trash2, History, Code, Globe, Lock, Loader2 } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -155,13 +157,22 @@ export function ApiTesterClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-4 py-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Globe}
  title="Client-Side API Tester"
  description="A lightweight, browser-based API request builder and tester. Debug REST endpoints, inspect headers, and view responses without leaving your browser."
  />
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardContent className="p-4 space-y-4">
  <div className="flex flex-col sm:flex-row gap-3">
  <select value={method} onChange={(e) => setMethod(e.target.value)} className="w-full sm:w-32 rounded-lg border border-border/70 bg-background/80 p-2 text-sm font-bold">
@@ -238,10 +249,10 @@ export function ApiTesterClient() {
  </div>
  )}
  </CardContent>
- </Card>
+ </GlassCard>
 
  {response && (
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>Response</CardTitle>
  <Button variant="outline"size="sm"onClick={() => handleCopy(response.body)}><Copy className="w-4 h-4"/></Button>
@@ -271,11 +282,11 @@ export function ApiTesterClient() {
  </div>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
  )}
 
  {history.length > 0 && (
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}><History className="w-4 h-4"/> Recent Requests</CardTitle>
  </CardHeader>
@@ -293,7 +304,7 @@ export function ApiTesterClient() {
  </div>
  ))}
  </CardContent>
- </Card>
+ </GlassCard>
  )}
 
  <ToolHowItWorks
@@ -330,7 +341,7 @@ export function ApiTesterClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/dev/api-tester"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/api-tester" max={6} />
  </div>
  );
 }

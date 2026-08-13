@@ -12,6 +12,8 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Settings, Copy, Eye, EyeOff, Plus, Trash2, ArrowDownAZ, AlertTriangle, FileCode } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -135,13 +137,22 @@ export function EnvEditorClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-4 py-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Settings}
  title="Professional .env Editor"
  description="Parse, validate, format, and export environment variables. Manage your .env files with secret masking and syntax validation."
  />
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>Controls</CardTitle>
  <div className="flex gap-2">
@@ -199,7 +210,7 @@ export function EnvEditorClient() {
  <Button variant="outline"onClick={removeDuplicates}>Remove Duplicates</Button>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
  {validations.length > 0 && (
  <Card className="border border-yellow-500/50 shadow-lg bg-yellow-500/5 rounded-2xl overflow-hidden">
@@ -214,7 +225,7 @@ export function EnvEditorClient() {
  </Card>
  )}
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}><FileCode className="w-4 h-4"/> Export</CardTitle>
  <div className="flex gap-2">
@@ -233,7 +244,7 @@ export function EnvEditorClient() {
  <span>Comments: {parsedEnv.filter((p) => p.type ==="comment").length}</span>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
  <ToolHowItWorks
  steps={[
@@ -269,7 +280,7 @@ export function EnvEditorClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/dev/env-editor"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/env-editor" max={6} />
  </div>
  );
 }

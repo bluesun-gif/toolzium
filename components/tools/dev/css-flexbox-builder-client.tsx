@@ -12,6 +12,8 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { LayoutGrid, Copy, Plus, Trash2, RotateCcw, Sparkles } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -112,6 +114,15 @@ export function CssFlexboxBuilderClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-4 py-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={LayoutGrid}
  title="CSS Flexbox Builder"
@@ -120,7 +131,7 @@ export function CssFlexboxBuilderClient() {
 
  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
  <div className="lg:col-span-1 space-y-4">
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}><Sparkles className="w-4 h-4"/> Presets</CardTitle>
  </CardHeader>
@@ -130,9 +141,9 @@ export function CssFlexboxBuilderClient() {
  ))}
  <Button variant="destructive"size="sm"className="col-span-2"onClick={reset}><RotateCcw className="w-4 h-4 mr-2"/> Reset</Button>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>Container Properties</CardTitle>
  </CardHeader>
@@ -180,9 +191,9 @@ export function CssFlexboxBuilderClient() {
  <input type="range"min="0"max="40"value={gap} onChange={(e) => setGap(Number(e.target.value))} className="w-full mt-1"/>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>Child Items ({items.length}/8)</CardTitle>
  <Button variant="outline"size="sm"onClick={addItem}><Plus className="w-4 h-4"/></Button>
@@ -226,11 +237,11 @@ export function CssFlexboxBuilderClient() {
  </div>
  ))}
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
 
  <div className="lg:col-span-2 space-y-6">
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>Live Preview</CardTitle>
  </CardHeader>
@@ -264,9 +275,9 @@ export function CssFlexboxBuilderClient() {
  ))}
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>Generated Code</CardTitle>
  <div className="flex gap-2">
@@ -278,7 +289,7 @@ export function CssFlexboxBuilderClient() {
  <CardContent className="p-4">
  <textarea readOnly value={outputType ==="css"? cssOutput : tailwindOutput} className={textareaClass} rows={14} />
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
  </div>
 
@@ -316,7 +327,7 @@ export function CssFlexboxBuilderClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/dev/css-flexbox-builder"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/css-flexbox-builder" max={6} />
  </div>
  );
 }

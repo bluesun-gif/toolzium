@@ -12,6 +12,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Copy, RotateCcw, Palette, Shuffle, Download, Layers, Code } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -124,6 +125,15 @@ export function MeshGradientClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Palette}
  title="Mesh Gradient Generator"
@@ -276,7 +286,7 @@ export function MeshGradientClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/dev/mesh-gradient"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/mesh-gradient" max={6} />
  </div>
  );
 }

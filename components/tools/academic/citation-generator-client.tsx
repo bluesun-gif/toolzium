@@ -12,6 +12,8 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Book, FileText, Globe, Plus, Trash2, Download, Copy, Library } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -164,6 +166,15 @@ export function CitationGeneratorClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 p-4">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Book}
  title="Academic Citation Generator"
@@ -281,7 +292,7 @@ export function CitationGeneratorClient() {
  </CardContent>
  </Card>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Library className="w-4 h-4 text-primary"/>
@@ -312,10 +323,10 @@ export function CitationGeneratorClient() {
  </Button>
  )}
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 w-full">
  <CardTitle className={titleClass}>
@@ -373,7 +384,7 @@ export function CitationGeneratorClient() {
  </div>
  )}
  </CardContent>
- </Card>
+ </GlassCard>
 
  <ToolHowItWorks
  steps={[
@@ -418,7 +429,7 @@ export function CitationGeneratorClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/academic/citation-generator"max={6} />
+ <RelatedTools currentToolUrl="/tools/academic/citation-generator" max={6} />
  </div>
  );
 }

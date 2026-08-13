@@ -11,7 +11,9 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from "@/component
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ResetButton, CopyButton } from "@/components/shared/action-buttons";
-import { DollarSign, Calculator, Home, AlertTriangle, CheckCircle2, Sliders, ShieldAlert, Award } from "lucide-react";
+import { DollarSign, Calculator, Home, AlertTriangle, CheckCircle2, Sliders, ShieldAlert, Award } from"lucide-react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { cn } from"@/lib/utils";
 
 export function LtvCalculatorClient() {
   const [homeValue, setHomeValue] = useState("400000");
@@ -124,6 +126,15 @@ export function LtvCalculatorClient() {
 
   return (
     <div className="space-y-12">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
       <ToolPageHeader
         icon={Calculator}
         title="Loan-to-Value (LTV) Calculator"
@@ -200,7 +211,7 @@ export function LtvCalculatorClient() {
                 </div>
                 <div className="w-full bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
                   <div
-                    className={"h-full " + (ltv > 80 ? "bg-red-500" : "bg-primary")}
+                    className={cn("h-full ", (ltv > 80 ? "bg-red-500" : "bg-primary"))}
                     style={{ width: Math.min(100, ltv) + "%" }}
                   ></div>
                 </div>
@@ -213,7 +224,7 @@ export function LtvCalculatorClient() {
                 </div>
                 <div className="w-full bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
                   <div
-                    className={"h-full " + (cltv > 80 ? "bg-red-500" : "bg-primary")}
+                    className={cn("h-full ", (cltv > 80 ? "bg-red-500" : "bg-primary"))}
                     style={{ width: Math.min(100, cltv) + "%" }}
                   ></div>
                 </div>

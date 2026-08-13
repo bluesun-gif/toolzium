@@ -12,6 +12,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Copy, RotateCcw, Mic, MicOff, Trash2, CheckCircle2 } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -123,6 +124,15 @@ export function SpeechToTextClient() {
 
  return (
  <div className="max-w-4xl mx-auto space-y-8 p-4">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Mic}
  title="Speech to Text"
@@ -234,7 +244,7 @@ export function SpeechToTextClient() {
  { question:"Do I need a high-quality microphone?", answer:"While a good microphone helps, modern speech engines are highly optimized for standard laptop and phone microphones in normal environments."}
  ]} />
 
- <RelatedTools currentToolUrl="/tools/text/speech-to-text"max={6} />
+ <RelatedTools currentToolUrl="/tools/text/speech-to-text" max={6} />
  </div>
  );
 }

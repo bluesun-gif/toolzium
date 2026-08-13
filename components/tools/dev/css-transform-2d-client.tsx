@@ -12,6 +12,8 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Copy, RotateCcw, Move, RotateCw, Maximize, Sliders } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -75,6 +77,15 @@ export function CssTransform2dClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Move}
  title="CSS Transform 2D Generator"
@@ -82,7 +93,7 @@ export function CssTransform2dClient() {
  />
 
  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}><Sliders className="w-4 h-4"/> Controls</CardTitle>
  </CardHeader>
@@ -138,9 +149,9 @@ export function CssTransform2dClient() {
  <Button variant="secondary"size="sm"className="text-xs"onClick={() => applyPreset("skew")}>Skew</Button>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={`${cardClass} flex flex-col`}>
+ <GlassCard className={`${cardClass} flex flex-col`}>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}><Move className="w-4 h-4"/> Live Preview</CardTitle>
  </CardHeader>
@@ -157,9 +168,9 @@ export function CssTransform2dClient() {
  BOX
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <div className="flex items-center justify-between w-full">
  <CardTitle className={titleClass}><Copy className="w-4 h-4"/> CSS Output</CardTitle>
@@ -173,7 +184,7 @@ export function CssTransform2dClient() {
  {cssOutput}
  </pre>
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
 
  <ToolHowItWorks steps={howItWorksSteps} badges={["100% Free","GPU Accelerated","No Framework Lock-in"]} />

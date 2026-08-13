@@ -10,6 +10,8 @@ import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Copy, Code, FileCode, Scissors, CheckCircle, Sparkles } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -100,6 +102,15 @@ export default function SvgOptimizerClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 p-4 sm:p-6 lg:p-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Scissors}
  title="SVG Optimizer & React Converter"
@@ -107,7 +118,7 @@ export default function SvgOptimizerClient() {
  />
 
  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}><Code className="w-4 h-4"/> Input SVG</CardTitle>
  </CardHeader>
@@ -130,9 +141,9 @@ export default function SvgOptimizerClient() {
  ))}
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}><CheckCircle className="w-4 h-4"/> Live Preview & Stats</CardTitle>
  </CardHeader>
@@ -152,10 +163,10 @@ export default function SvgOptimizerClient() {
  dangerouslySetInnerHTML={{ __html: optimizedSvg }} />
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <div className="flex items-center justify-between w-full flex-wrap gap-4">
  <div className="flex gap-2">
@@ -178,7 +189,7 @@ export default function SvgOptimizerClient() {
  {getOutputContent()}
  </pre>
  </CardContent>
- </Card>
+ </GlassCard>
 
  <ToolHowItWorks
  steps={[
@@ -213,7 +224,7 @@ export default function SvgOptimizerClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/dev/svg-optimizer"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/svg-optimizer" max={6} />
  </div>
  );
 }

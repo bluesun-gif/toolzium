@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
 import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Target, CheckSquare, BarChart2, Download, Plus, Trash2, Shield, BookOpen, Layers } from "lucide-react";
+import { Target, CheckSquare, BarChart2, Download, Plus, Trash2, Shield, BookOpen, Layers } from"lucide-react";
 import { cn } from "@/lib/utils";
 import toast from "react-hot-toast";
 

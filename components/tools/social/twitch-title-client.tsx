@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
 import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Tv, RefreshCw, Sparkles, Video, Copy, Shield, BookOpen, Layers, Zap } from "lucide-react";
+import { Tv, RefreshCw, Sparkles, Video, Copy, Shield, BookOpen, Layers, Zap } from"lucide-react";
 import toast from "react-hot-toast";
 
 const GAME_CATEGORIES = [

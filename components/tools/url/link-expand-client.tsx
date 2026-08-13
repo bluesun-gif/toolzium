@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { cn } from "@/lib/utils";
-import { Copy, RotateCcw, Link2, ShieldAlert, ShieldCheck, History, Loader2, Wand2, RefreshCcw, ExternalLink } from "lucide-react";
+import { Copy, RotateCcw, Link2, ShieldAlert, ShieldCheck, History, Loader2, Wand2, RefreshCcw, ExternalLink } from"lucide-react";
 import toast from "react-hot-toast";
 
 interface ExpandedLink {

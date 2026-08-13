@@ -12,6 +12,8 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Type, Copy, RotateCcw, AlignLeft, AlignCenter, AlignRight, AlignJustify, Sparkles, Palette } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -120,6 +122,15 @@ export function CssTypographyClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-4 py-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Type}
  title="CSS Typography Playground"
@@ -128,7 +139,7 @@ export function CssTypographyClient() {
 
  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
  <div className="lg:col-span-1 space-y-4">
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}><Sparkles className="w-4 h-4"/> Presets</CardTitle>
  </CardHeader>
@@ -138,9 +149,9 @@ export function CssTypographyClient() {
  ))}
  <Button variant="destructive"size="sm"className="col-span-2"onClick={resetStyles}><RotateCcw className="w-4 h-4 mr-2"/> Reset</Button>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}><Type className="w-4 h-4"/> Font & Size</CardTitle>
  </CardHeader>
@@ -178,9 +189,9 @@ export function CssTypographyClient() {
  </select>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>Spacing & Alignment</CardTitle>
  </CardHeader>
@@ -225,9 +236,9 @@ export function CssTypographyClient() {
  </select>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}><Palette className="w-4 h-4"/> Colors & Effects</CardTitle>
  </CardHeader>
@@ -252,11 +263,11 @@ export function CssTypographyClient() {
  <Input type="color"value={shadowColor} onChange={(e) => setShadowColor(e.target.value)} className="w-full h-10 mt-2"/>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
 
  <div className="lg:col-span-2 space-y-6">
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>Live Preview (Click to edit)</CardTitle>
  </CardHeader>
@@ -271,9 +282,9 @@ export function CssTypographyClient() {
  {sampleText}
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>Generated CSS</CardTitle>
  <Button variant="outline"size="sm"onClick={() => handleCopy(cssOutput)}><Copy className="w-4 h-4"/></Button>
@@ -281,9 +292,9 @@ export function CssTypographyClient() {
  <CardContent className="p-4">
  <textarea readOnly value={cssOutput} className={textareaClass} rows={14} />
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>Font Pairing Suggestions</CardTitle>
  </CardHeader>
@@ -294,7 +305,7 @@ export function CssTypographyClient() {
  <li><strong>Code:</strong> JetBrains Mono / <strong>UI:</strong> {fontFamily}</li>
  </ul>
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
  </div>
 
@@ -332,7 +343,7 @@ export function CssTypographyClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/dev/css-typography"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/css-typography" max={6} />
  </div>
  );
 }

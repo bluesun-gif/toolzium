@@ -10,6 +10,8 @@ import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Input } from"@/components/ui/input";
 import { Tag, Copy } from"lucide-react";
 import { CopyButton } from"@/components/shared/action-buttons";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -38,13 +40,22 @@ export default function DiscountFinderClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Tag}
  title="Discount Calculator"
  description="Calculate discounts, final prices, and total savings with optional tax."
  />
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Tag className="w-4 h-4 text-primary"/> Price Details
@@ -149,7 +160,7 @@ export default function DiscountFinderClient() {
  />
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
  <ToolHowItWorks
  steps={[
@@ -183,7 +194,7 @@ export default function DiscountFinderClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/calc/discount-finder"max={6} />
+ <RelatedTools currentToolUrl="/tools/calc/discount-finder" max={6} />
  </div>
  );
 }

@@ -42,6 +42,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { Separator } from"@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from"@/components/ui/tabs";
 import { TooltipProvider } from"@/components/ui/tooltip";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 
 export default function JwtDecoderClient() {
  const [token, setToken] = useState<string>("");
@@ -208,6 +209,15 @@ export default function JwtDecoderClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <TooltipProvider>
  <ToolPageHeader
  icon={FileJson}
@@ -703,7 +713,7 @@ export default function JwtDecoderClient() {
  },
  ]}
  />
- <RelatedTools currentToolUrl="/tools/dev/jwt-decode"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/jwt-decode" max={6} />
  </div>
  );
 }

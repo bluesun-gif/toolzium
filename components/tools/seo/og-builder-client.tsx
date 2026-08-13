@@ -10,6 +10,8 @@ import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Input } from"@/components/ui/input";
 import { CopyButton } from"@/components/shared/action-buttons";
 import { Share2, Image as ImageIcon, Link2, Twitter } from"lucide-react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass =
 "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -63,6 +65,15 @@ export default function OgBuilderClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Share2}
  title="Open Graph Tag Builder"
@@ -70,7 +81,7 @@ export default function OgBuilderClient() {
  />
 
  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <ImageIcon className="w-4 h-4 text-primary"/> Social Metadata
@@ -142,10 +153,10 @@ export default function OgBuilderClient() {
  </div>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
  <div className="space-y-4">
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Twitter className="w-4 h-4 text-primary"/> Social Preview
@@ -175,9 +186,9 @@ export default function OgBuilderClient() {
  </div>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Link2 className="w-4 h-4 text-primary"/> Generated Tags
@@ -189,7 +200,7 @@ export default function OgBuilderClient() {
  </pre>
  <CopyButton getText={() => generatedCode} label="Copy Tags"/>
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
  </div>
 
@@ -280,7 +291,7 @@ export default function OgBuilderClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/seo/og-builder"max={6} />
+ <RelatedTools currentToolUrl="/tools/seo/og-builder" max={6} />
  </div>
  );
 }

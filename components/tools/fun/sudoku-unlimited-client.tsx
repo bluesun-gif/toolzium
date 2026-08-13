@@ -10,6 +10,8 @@ import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Grid3x3, RotateCcw, Timer, Pen, Undo2, Trophy } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -184,13 +186,22 @@ export function SudokuUnlimitedClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Grid3x3}
  title="Sudoku Unlimited"
  description="Conquer logic puzzles across multiple dimensions with 4x4 Mini, 9x9 Classic, and 16x16 Giant grids."
  />
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Grid3x3 className="w-4 h-4"/> Sudoku Unlimited
@@ -273,7 +284,7 @@ export function SudokuUnlimitedClient() {
  </div>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
  <ToolHowItWorks
  steps={[
@@ -305,7 +316,7 @@ export function SudokuUnlimitedClient() {
  { question:"Do my stats save if I refresh?", answer:"Stats are maintained in local session memory. For permanent tracking, we recommend keeping the tab open during your training sessions."}
  ]} />
 
- <RelatedTools currentToolUrl="/tools/fun/sudoku-unlimited"max={6} />
+ <RelatedTools currentToolUrl="/tools/fun/sudoku-unlimited" max={6} />
  </div>
  );
 }

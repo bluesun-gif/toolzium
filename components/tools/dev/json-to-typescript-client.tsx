@@ -12,6 +12,8 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Copy, RotateCcw, Code2, Settings, FileJson, FileType, CheckSquare } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -162,6 +164,15 @@ export function JsonToTypescriptClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={FileJson}
  title="JSON to TypeScript Converter"
@@ -169,7 +180,7 @@ export function JsonToTypescriptClient() {
  />
 
  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}><FileJson className="w-4 h-4"/> JSON Input</CardTitle>
  </CardHeader>
@@ -217,9 +228,9 @@ export function JsonToTypescriptClient() {
  </label>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <div className="flex items-center justify-between w-full">
  <CardTitle className={titleClass}><Code2 className="w-4 h-4"/> TypeScript Output</CardTitle>
@@ -237,7 +248,7 @@ export function JsonToTypescriptClient() {
  {result.code}
  </pre>
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
 
  <ToolHowItWorks steps={howItWorksSteps} badges={["100% Free","Client-Side Privacy","No Signup"]} />

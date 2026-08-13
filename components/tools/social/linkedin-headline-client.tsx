@@ -12,6 +12,8 @@ import { Input } from"@/components/ui/input";
 import { CopyButton } from"@/components/shared/action-buttons";
 import toast from"react-hot-toast";
 import { Linkedin, Sparkles, RefreshCw, Briefcase } from"lucide-react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass =
 "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -88,13 +90,22 @@ Return exactly 8 headlines, one per line, with no numbering and no extra text.`;
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Linkedin}
  title="LinkedIn Headline Generator"
  description="Generate 8 LinkedIn headline variants with character counts and copy buttons."
  />
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Briefcase className="w-4 h-4 text-primary"/> Career Details
@@ -151,7 +162,7 @@ Return exactly 8 headlines, one per line, with no numbering and no extra text.`;
  )}
  </Button>
  </CardContent>
- </Card>
+ </GlassCard>
 
  {headlines.length > 0 && (
  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -264,7 +275,7 @@ Return exactly 8 headlines, one per line, with no numbering and no extra text.`;
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/social/linkedin-headline"max={6} />
+ <RelatedTools currentToolUrl="/tools/social/linkedin-headline" max={6} />
  </div>
  );
 }

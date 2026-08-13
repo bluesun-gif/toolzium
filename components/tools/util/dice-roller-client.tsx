@@ -32,6 +32,7 @@ import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import { RelatedTools } from"@/components/shared/related-tools";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 // Secure random number generator (1-6)
 const secureRandomDie = () => {
  const array = new Uint32Array(1);
@@ -71,6 +72,15 @@ const Die = ({ value, rolling }: { value: number; rolling: boolean }) => {
  :"rotate(0deg) scale(1)",
  }}
  >
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
  <div
  key={i}
@@ -527,7 +537,7 @@ const DiceRollerClient = () => {
  },
  ]}
  />
- <RelatedTools currentToolUrl="/tools/util/dice-roller"max={6} />
+ <RelatedTools currentToolUrl="/tools/util/dice-roller" max={6} />
  </div>
  );
 };

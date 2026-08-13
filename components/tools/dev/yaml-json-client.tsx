@@ -23,6 +23,7 @@ import ToolPageHeader from"@/components/shared/tool-page-header";
 import { CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { GlassCard } from"@/components/ui/glass-card";
 import { Separator } from"@/components/ui/separator";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 
 /* Types */
 type Direction ="auto"|"yaml-to-json"|"json-to-yaml";
@@ -255,6 +256,15 @@ endpoints:
 
  return (
  <div className="max-w-6xl mx-auto space-y-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  title="YAML ⇄ JSON"
  description="Convert YAML to JSON and back. Multi-doc YAML, pretty/minified JSON, sorting, and YAML flow style."
@@ -615,7 +625,7 @@ endpoints:
  },
  ]}
  />
- <RelatedTools currentToolUrl="/tools/dev/yaml-json"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/yaml-json" max={6} />
  </div>
  );
 }

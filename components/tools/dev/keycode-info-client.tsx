@@ -11,6 +11,9 @@ import { Button } from"@/components/ui/button";
 import { Label } from"@/components/ui/label";
 import toast from"react-hot-toast";
 import { Keyboard, Copy, History, Terminal, Command } from"lucide-react";
+import { cn } from"@/lib/utils";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -84,13 +87,22 @@ export default function KeycodeInfoClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Keyboard}
  title="JavaScript Keycode Reference"
  description="Press any key to instantly view detailed KeyboardEvent data including key, code, keyCode, and modifier states."
  />
 
- <Card className={cardClass +"border-primary/30 bg-primary/5"}>
+ <Card className={cn(cardClass, "border-primary/30 bg-primary/5")}>
  <CardContent className="p-12 flex flex-col items-center justify-center text-center relative">
  <div className="absolute top-4 right-4 flex items-center gap-2">
  <Label className="text-xs cursor-pointer flex items-center gap-2 text-muted-foreground select-none">
@@ -148,7 +160,7 @@ export default function KeycodeInfoClient() {
  </Card>
 
  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
- <Card className={cardClass +"lg:col-span-2"}>
+ <Card className={cn(cardClass, "lg:col-span-2")}>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Terminal className="w-4 h-4 text-primary"/> Quick Reference Table
@@ -178,7 +190,7 @@ export default function KeycodeInfoClient() {
  </CardContent>
  </Card>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <History className="w-4 h-4 text-primary"/> Event History (Last 10)
@@ -198,7 +210,7 @@ export default function KeycodeInfoClient() {
  )}
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
 
  <ToolHowItWorks
@@ -240,7 +252,7 @@ export default function KeycodeInfoClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/dev/keycode-info"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/keycode-info" max={6} />
  </div>
  );
 }

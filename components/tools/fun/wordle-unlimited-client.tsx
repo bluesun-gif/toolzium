@@ -11,6 +11,8 @@ import { Button } from"@/components/ui/button";
 import { Label } from"@/components/ui/label";
 import { RotateCcw, Keyboard, Infinity as InfinityIcon, Timer } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -153,6 +155,15 @@ export function WordleUnlimitedClient() {
  
  return (
  <div key={j} className={`w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-xl font-bold border-2 ${border} ${bg} ${text} transition-all duration-300`}>
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  {letter.toUpperCase()}
  </div>
  );
@@ -190,7 +201,7 @@ export function WordleUnlimitedClient() {
  <div className="max-w-6xl mx-auto space-y-8">
  <ToolPageHeader icon={InfinityIcon} title="Wordle Unlimited"description="Play endless rounds of Wordle with customizable word lengths and speed-run timers."/>
  
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <div className="flex flex-wrap justify-between items-center w-full gap-4">
  <CardTitle className={titleClass}><InfinityIcon className="w-4 h-4"/> Unlimited Mode</CardTitle>
@@ -222,7 +233,7 @@ export function WordleUnlimitedClient() {
  </div>
  )}
  </CardContent>
- </Card>
+ </GlassCard>
 
  <ToolHowItWorks steps={[
  { step:"01", title:"Select Length", description:"Choose your difficulty by selecting a word length between 4 and 7 letters.", icon: Keyboard },
@@ -250,7 +261,7 @@ export function WordleUnlimitedClient() {
  { question:"Are the 4-letter and 7-letter words real English words?", answer:"Yes. The internal dictionary is filtered to ensure that regardless of the length selected, the target solution is a recognized, valid English word."}
  ]} />
 
- <RelatedTools currentToolUrl="/tools/fun/wordle-unlimited"max={6} />
+ <RelatedTools currentToolUrl="/tools/fun/wordle-unlimited" max={6} />
  </div>
  );
 }

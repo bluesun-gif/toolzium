@@ -11,6 +11,8 @@ import { Button } from"@/components/ui/button";
 import { Label } from"@/components/ui/label";
 import { Copy, RotateCcw, Terminal, Code, Globe, Zap } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -178,6 +180,15 @@ ${Object.entries(parsed.headers).map(([k, v]) => ` .header("${k}","${v}")`).join
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 p-4 sm:p-6 lg:p-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Terminal}
  title="cURL to Code Converter"
@@ -204,7 +215,7 @@ ${Object.entries(parsed.headers).map(([k, v]) => ` .header("${k}","${v}")`).join
  </Card>
 
  <div className="lg:col-span-2 space-y-6">
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}><Zap className="w-4 h-4"/> Parsed Details</CardTitle>
  </CardHeader>
@@ -233,9 +244,9 @@ ${Object.entries(parsed.headers).map(([k, v]) => ` .header("${k}","${v}")`).join
  </div>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <div className="flex items-center justify-between w-full flex-wrap gap-4">
  <div className="flex gap-2 flex-wrap">
@@ -258,7 +269,7 @@ ${Object.entries(parsed.headers).map(([k, v]) => ` .header("${k}","${v}")`).join
  {codeOutput}
  </pre>
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
  </div>
 
@@ -295,7 +306,7 @@ ${Object.entries(parsed.headers).map(([k, v]) => ` .header("${k}","${v}")`).join
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/dev/curl-converter"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/curl-converter" max={6} />
  </div>
  );
 }

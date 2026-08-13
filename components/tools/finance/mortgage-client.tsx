@@ -15,6 +15,7 @@ import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import { RelatedTools } from"@/components/shared/related-tools";
 import { Home, Calculator, TrendingUp, DollarSign, BookOpen, Shield, PieChart, TrendingDown, BarChart3, Percent } from"lucide-react";
 import { cn } from"@/lib/utils";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 
 export function MortgageClient() {
  const [homePrice, setHomePrice] = useState<number>(300000);
@@ -70,6 +71,15 @@ export function MortgageClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Calculator}
  title="Mortgage Calculator"
@@ -407,7 +417,7 @@ export function MortgageClient() {
  },
  ]}
  />
- <RelatedTools currentToolUrl="/tools/finance/mortgage"max={6} />
+ <RelatedTools currentToolUrl="/tools/finance/mortgage" max={6} />
  </div>
  );
 }

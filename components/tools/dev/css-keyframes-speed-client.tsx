@@ -11,6 +11,8 @@ import { Button } from"@/components/ui/button";
 import { Label } from"@/components/ui/label";
 import toast from"react-hot-toast";
 import { Play, Pause, Copy, RotateCcw, Clock, Zap, Box } from"lucide-react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -60,6 +62,15 @@ export default function CssKeyframesSpeedClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <style>{keyframesCSS}</style>
  
  <ToolPageHeader
@@ -68,7 +79,7 @@ export default function CssKeyframesSpeedClient() {
  description="Visual CSS animation speed, timing, and bezier curve tester with real-time preview and code generation."
  />
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Box className="w-4 h-4 text-primary"/> Animation Preview
@@ -84,10 +95,10 @@ export default function CssKeyframesSpeedClient() {
  <RotateCcw className="w-4 h-4 mr-2"/> Restart
  </Button>
  </CardContent>
- </Card>
+ </GlassCard>
 
  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Clock className="w-4 h-4 text-primary"/> Timing & Speed
@@ -158,9 +169,9 @@ export default function CssKeyframesSpeedClient() {
  </Button>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Zap className="w-4 h-4 text-primary"/> Timing Function
@@ -210,10 +221,10 @@ export default function CssKeyframesSpeedClient() {
  </div>
  )}
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Copy className="w-4 h-4 text-primary"/> Generated CSS
@@ -225,7 +236,7 @@ export default function CssKeyframesSpeedClient() {
  <CardContent className="p-5">
  <pre className="p-4 bg-muted/30 rounded-lg overflow-x-auto text-xs font-mono leading-relaxed text-foreground">{cssOutput}</pre>
  </CardContent>
- </Card>
+ </GlassCard>
 
  <ToolHowItWorks
  steps={[
@@ -264,7 +275,7 @@ export default function CssKeyframesSpeedClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/dev/css-keyframes-speed"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/css-keyframes-speed" max={6} />
  </div>
  );
 }

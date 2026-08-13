@@ -9,7 +9,7 @@ import { RelatedTools } from "@/components/shared/related-tools";
 import { GlassCard } from "@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus, X, Download, Copy, Trash2, Type, FileText, CheckCircle2, Clock, Shield, BookOpen, Layers } from "lucide-react";
+import { Plus, X, Download, Copy, Trash2, Type, FileText, CheckCircle2, Clock, Shield, BookOpen, Layers } from"lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { GridPattern } from "@/components/magicui/grid-pattern";

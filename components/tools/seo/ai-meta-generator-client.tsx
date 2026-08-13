@@ -12,6 +12,8 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Copy, RotateCcw, Wand2, Loader2, CheckCircle2 } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -118,13 +120,22 @@ Keywords: [comma-separated list of 5-7 relevant tags]`;
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 p-4">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Wand2}
  title="AI SEO Meta Tag Generator"
  description="Generate highly optimized, click-worthy title tags and meta descriptions powered by advanced AI language models."
  />
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Wand2 className="w-4 h-4"/> Meta Generation Studio
@@ -252,7 +263,7 @@ Keywords: [comma-separated list of 5-7 relevant tags]`;
  </div>
  )}
  </CardContent>
- </Card>
+ </GlassCard>
 
  <ToolHowItWorks
  steps={[
@@ -285,7 +296,7 @@ Keywords: [comma-separated list of 5-7 relevant tags]`;
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/seo/ai-meta-generator"max={6} />
+ <RelatedTools currentToolUrl="/tools/seo/ai-meta-generator" max={6} />
  </div>
  );
 }

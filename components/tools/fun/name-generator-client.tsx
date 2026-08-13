@@ -10,6 +10,8 @@ import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { CopyButton } from"@/components/shared/action-buttons";
 import { User, Shuffle } from"lucide-react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -58,9 +60,18 @@ export default function NameGeneratorClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader icon={User} title="Name Generator"description="Generate random character names for novels, RPGs, and games across multiple genres."/>
  
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>Generator Settings</CardTitle>
  </CardHeader>
@@ -122,7 +133,7 @@ export default function NameGeneratorClient() {
  </div>
  )}
  </CardContent>
- </Card>
+ </GlassCard>
 
  <ToolHowItWorks 
  steps={[
@@ -152,7 +163,7 @@ export default function NameGeneratorClient() {
  { question:"Will the generator repeat names?", answer:"If you generate a large batch, there is a chance of repeats since it draws randomly from a finite pool of 10 names per gender/category."}
  ]} />
 
- <RelatedTools currentToolUrl="/tools/fun/name-generator"max={6} />
+ <RelatedTools currentToolUrl="/tools/fun/name-generator" max={6} />
  </div>
  );
 }

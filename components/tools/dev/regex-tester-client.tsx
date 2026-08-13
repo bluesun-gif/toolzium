@@ -28,6 +28,7 @@ import {
 import { GlassCard } from"@/components/ui/glass-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from"@/components/ui/tabs";
 import { escapeHtml, FLAG_META, PRESETS } from"@/lib/utils/dev/regex-tester";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 
 export default function RegexTesterClient() {
  const [pattern, setPattern] = useState<string>(String.raw`\b[A-Za-z]+\b`);
@@ -233,6 +234,15 @@ for (const m of matches) {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={Regex}
  title="Regex Tester"
@@ -848,7 +858,7 @@ for (const m of matches) {
  },
  ]}
  />
- <RelatedTools currentToolUrl="/tools/dev/regex-tester"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/regex-tester" max={6} />
  </div>
  );
 }

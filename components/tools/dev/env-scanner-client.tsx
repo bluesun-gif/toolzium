@@ -12,6 +12,8 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Copy, RotateCcw, ShieldAlert, Download, ChevronDown, ChevronUp, FileWarning, KeyRound, AlertTriangle, CheckCircle2 } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -137,13 +139,22 @@ export function EnvScannerClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={ShieldAlert}
  title="Env Scanner & Security Analyzer"
  description="Audit your .env files for leaked secrets, hardcoded passwords, and configuration vulnerabilities entirely client-side."
  />
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <FileWarning className="w-4 h-4"/> Environment Configuration Input
@@ -167,10 +178,10 @@ export function EnvScannerClient() {
  </Button>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
  {input.trim() && (
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <CheckCircle2 className="w-4 h-4"/> Audit Statistics
@@ -192,11 +203,11 @@ export function EnvScannerClient() {
  </div>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
  )}
 
  {analysis.risks.length > 0 && (
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <AlertTriangle className="w-4 h-4"/> Security Findings
@@ -254,7 +265,7 @@ export function EnvScannerClient() {
  </table>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
  )}
 
  <ToolHowItWorks
@@ -296,7 +307,7 @@ export function EnvScannerClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/dev/env-scanner"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/env-scanner" max={6} />
  </div>
  );
 }

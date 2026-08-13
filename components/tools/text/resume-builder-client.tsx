@@ -12,6 +12,8 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Copy, RotateCcw, Plus, Trash2, ArrowUp, ArrowDown, Download, FileText } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -102,11 +104,20 @@ export function ResumeBuilderClient() {
  
  return (
  <div className="max-w-7xl mx-auto space-y-8 p-4">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader icon={FileText} title="Resume Builder"description="Create a professional resume with live preview and multiple templates."/>
 
  <div className="grid lg:grid-cols-2 gap-8 mb-8">
  <div className="space-y-6">
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}><CardTitle className={titleClass}>Personal Info</CardTitle></CardHeader>
  <CardContent className="p-4 grid grid-cols-2 gap-4">
  <Input placeholder="Full Name"value={data.personal.name} onChange={(e) => updatePersonal("name", e.target.value)} className="col-span-2"/>
@@ -116,16 +127,16 @@ export function ResumeBuilderClient() {
  <Input placeholder="Location"value={data.personal.location} onChange={(e) => updatePersonal("location", e.target.value)} />
  <Input placeholder="Website"value={data.personal.website} onChange={(e) => updatePersonal("website", e.target.value)} />
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}><CardTitle className={titleClass}>Summary</CardTitle></CardHeader>
  <CardContent className="p-4">
  <textarea className={textareaClass} rows={3} value={data.summary} onChange={(e) => setData(p => ({...p, summary: e.target.value}))} />
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <div className="flex justify-between w-full">
  <CardTitle className={titleClass}>Experience</CardTitle>
@@ -160,9 +171,9 @@ export function ResumeBuilderClient() {
  </div>
  ))}
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <div className="flex justify-between w-full">
  <CardTitle className={titleClass}>Education</CardTitle>
@@ -188,9 +199,9 @@ export function ResumeBuilderClient() {
  </div>
  ))}
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <div className="flex justify-between w-full">
  <CardTitle className={titleClass}>Skills</CardTitle>
@@ -208,7 +219,7 @@ export function ResumeBuilderClient() {
  </div>
  ))}
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
 
  <div className="lg:sticky lg:top-20 self-start">
@@ -313,7 +324,7 @@ export function ResumeBuilderClient() {
  { question:"How do I save my work for later?", answer:"Currently, you can export the HTML file to save it locally. You can later paste the content back into a text editor or use it as a reference."}
  ]} />
 
- <RelatedTools currentToolUrl="/tools/text/resume-builder"max={6} />
+ <RelatedTools currentToolUrl="/tools/text/resume-builder" max={6} />
  </div>
  );
 }

@@ -10,6 +10,8 @@ import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Film } from"lucide-react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -54,9 +56,18 @@ export default function VideoRatioClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader icon={Film} title="Video Aspect Ratio Calculator"description="Calculate aspect ratios, scale resolutions, and preview common video dimensions."/>
  
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>Dimensions</CardTitle>
  </CardHeader>
@@ -114,7 +125,7 @@ export default function VideoRatioClient() {
  </div>
  )}
  </CardContent>
- </Card>
+ </GlassCard>
 
  <ToolHowItWorks 
  steps={[
@@ -144,7 +155,7 @@ export default function VideoRatioClient() {
  { question:"What does 2.35:1 mean?", answer:"This is an anamorphic widescreen cinematic ratio. If you input 2560x1080, the calculator will reduce it to approximately 64:27, which is roughly 2.37:1."}
  ]} />
 
- <RelatedTools currentToolUrl="/tools/calc/video-ratio"max={6} />
+ <RelatedTools currentToolUrl="/tools/calc/video-ratio" max={6} />
  </div>
  );
 }

@@ -10,6 +10,8 @@ import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { GraduationCap, Plus, Trash2 } from"lucide-react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -61,9 +63,18 @@ export default function CgpaCalculatorClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader icon={GraduationCap} title="CGPA Calculator"description="Calculate your Cumulative Grade Point Average based on course credits and grades."/>
  
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>Course Details</CardTitle>
  </CardHeader>
@@ -114,7 +125,7 @@ export default function CgpaCalculatorClient() {
  <div className="text-xs text-muted-foreground mt-2">out of 4.00</div>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
  <ToolHowItWorks 
  steps={[
@@ -144,7 +155,7 @@ export default function CgpaCalculatorClient() {
  { question:"Can I calculate my GPA for just one semester?", answer:"Yes, simply clear the existing rows and enter only the courses from the specific semester you wish to evaluate."}
  ]} />
 
- <RelatedTools currentToolUrl="/tools/calc/cgpa-calculator"max={6} />
+ <RelatedTools currentToolUrl="/tools/calc/cgpa-calculator" max={6} />
  </div>
  );
 }

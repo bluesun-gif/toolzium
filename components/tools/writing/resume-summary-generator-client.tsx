@@ -11,6 +11,8 @@ import { Button } from"@/components/ui/button";
 import { CopyButton } from"@/components/shared/action-buttons";
 import toast from"react-hot-toast";
 import { FileText, Sparkles, RefreshCw, Briefcase, Award, User } from"lucide-react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 interface ResumeSummaryResult {
  concise: string;
@@ -103,13 +105,22 @@ Return ONLY the 3 summaries separated by ||| with no labels.`;
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  icon={FileText}
  title="Resume Summary Generator"
  description="Generate concise, detailed, and executive resume summaries from your experience and skills."
  />
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <User className="w-4 h-4 text-primary"/> Career Details
@@ -158,11 +169,11 @@ Return ONLY the 3 summaries separated by ||| with no labels.`;
  )}
  </Button>
  </CardContent>
- </Card>
+ </GlassCard>
 
  {result && (
  <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Briefcase className="w-4 h-4 text-primary"/> Concise Summary
@@ -172,9 +183,9 @@ Return ONLY the 3 summaries separated by ||| with no labels.`;
  <p className="text-sm whitespace-pre-wrap leading-relaxed">{result.concise}</p>
  <CopyButton getText={() => result.concise} label="Copy Concise"/>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <FileText className="w-4 h-4 text-primary"/> Detailed Summary
@@ -184,9 +195,9 @@ Return ONLY the 3 summaries separated by ||| with no labels.`;
  <p className="text-sm whitespace-pre-wrap leading-relaxed">{result.detailed}</p>
  <CopyButton getText={() => result.detailed} label="Copy Detailed"/>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>
  <Award className="w-4 h-4 text-primary"/> Executive Summary
@@ -196,7 +207,7 @@ Return ONLY the 3 summaries separated by ||| with no labels.`;
  <p className="text-sm whitespace-pre-wrap leading-relaxed">{result.executive}</p>
  <CopyButton getText={() => result.executive} label="Copy Executive"/>
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
  )}
 
@@ -281,7 +292,7 @@ Return ONLY the 3 summaries separated by ||| with no labels.`;
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/writing/resume-summary-generator"max={6} />
+ <RelatedTools currentToolUrl="/tools/writing/resume-summary-generator" max={6} />
  </div>
  );
 }

@@ -12,6 +12,8 @@ import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import { RelatedTools } from"@/components/shared/related-tools";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { cn } from"@/lib/utils";
 
 export default function ImageToTextClient() {
  const [imageSrc, setImageSrc] = useState<string | null>(null);
@@ -142,6 +144,15 @@ export default function ImageToTextClient() {
 
  return (
  <div className="max-w-6xl mx-auto">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader
  title="Image to Text (OCR)"
  description="Extract text from images using OCR. Upload PNG, JPG, or WEBP images and convert to editable text. Free online image to text converter."
@@ -166,7 +177,7 @@ export default function ImageToTextClient() {
  
  {!imageSrc ? (
  <div
- className={"border-2 border-dashed rounded-lg p-10 flex flex-col items-center justify-center text-center cursor-pointer transition-colors"+ (isDragging ?"border-primary bg-primary/10":"border-border hover:bg-muted/50")}
+ className={cn("border-2 border-dashed rounded-lg p-10 flex flex-col items-center justify-center text-center cursor-pointer transition-colors", (isDragging ?"border-primary bg-primary/10":"border-border hover:bg-muted/50"))}
  onDragOver={handleDragOver}
  onDragLeave={handleDragLeave}
  onDrop={handleDrop}
@@ -421,7 +432,7 @@ export default function ImageToTextClient() {
  ]}
  />
 
- <RelatedTools currentToolUrl="/tools/image/image-to-text"max={6} />
+ <RelatedTools currentToolUrl="/tools/image/image-to-text" max={6} />
  </div>
  );
  }

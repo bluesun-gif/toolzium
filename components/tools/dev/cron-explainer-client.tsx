@@ -14,6 +14,8 @@ import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import { RelatedTools } from"@/components/shared/related-tools";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { cn } from"@/lib/utils";
 
 // A minimal parser/explainer logic to avoid heavy npm dependencies if not installed
 const explainCronPart = (part: string, unit: string, min: number, max: number, names?: string[]) => {
@@ -102,6 +104,15 @@ export function CronExplainerClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader 
  title="Cron Explainer"
  description="Translate cron expressions into human-readable text and view scheduled run times."
@@ -131,7 +142,7 @@ export function CronExplainerClient() {
  />
  </div>
  
- <div className={"p-4 rounded-md text-lg font-medium text-center"+ (explanation.valid ? 'bg-primary/10 text-primary' : 'bg-destructive/10 text-destructive')}>
+ <div className={cn("p-4 rounded-md text-lg font-medium text-center", (explanation.valid ? 'bg-primary/10 text-primary' : 'bg-destructive/10 text-destructive'))}>
  {explanation.text}
  </div>
  
@@ -405,7 +416,7 @@ export function CronExplainerClient() {
  },
  ]}
  />
- <RelatedTools currentToolUrl="/tools/dev/cron-explainer"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/cron-explainer" max={6} />
  </div>
  );
 }

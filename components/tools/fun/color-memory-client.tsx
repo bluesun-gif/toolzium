@@ -10,6 +10,8 @@ import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Palette, Timer, Move, RotateCcw } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -101,13 +103,22 @@ export default function ColorMemoryClient() {
 
  return (
  <div className="max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
+      <GridPattern
+        width={30}
+        height={30}
+        x={-1}
+        y={-1}
+        strokeDasharray="4 2"
+        className="absolute inset-0 -z-10 opacity-30 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
  <ToolPageHeader 
  icon={Palette} 
  title="Color Memory Game"
  description="Flip the tiles, match the colors, and test your memory with this classic grid game."
  />
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <div className="flex flex-wrap items-center justify-between gap-4">
  <CardTitle className={titleClass}>Color Memory</CardTitle>
@@ -146,7 +157,7 @@ export default function ColorMemoryClient() {
  </div>
  )}
  </CardContent>
- </Card>
+ </GlassCard>
 
  <ToolHowItWorks 
  steps={[
@@ -176,7 +187,7 @@ export default function ColorMemoryClient() {
  { question:"Does the game save my high scores?", answer:"To ensure complete privacy, the game does not save high scores to a server. Each session is a fresh start."}
  ]} />
 
- <RelatedTools currentToolUrl="/tools/fun/color-memory"max={6} />
+ <RelatedTools currentToolUrl="/tools/fun/color-memory" max={6} />
  </div>
  );
 }
