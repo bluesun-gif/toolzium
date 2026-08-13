@@ -100,6 +100,7 @@ export function PromptOptimizerClient() {
   const [isOptimizing, setIsOptimizing] = useState(false);
   const [result, setResult] = useState<OptimizedResult | null>(null);
   const [history, setHistory] = useState<SavedHistoryItem[]>([]);
+  const [showBefore, setShowBefore] = useState(false);
   useEffect(() => {
     try {
       if (typeof window !== "undefined") {
@@ -401,21 +402,38 @@ ${xmlWrapperClose}`;
 
  {/* Output Card */}
  <div className="p-0 flex flex-col h-full bg-muted/30 border border-border shadow-sm rounded-2xl overflow-hidden relative">
- <div className="p-4 flex justify-between items-center">
+ <div className="p-4 flex justify-between items-center gap-3 flex-wrap">
+ <div className="flex items-center gap-3">
  <Label className="text-lg font-bold text-foreground">Output Workspace</Label>
- <Button variant="outline" size="sm" onClick={() => handleCopy(result?.expandedSuperPrompt || "")} disabled={!result} className="h-9 bg-muted hover:bg-accent text-slate-700 dark:text-slate-200 border-border font-semibold gap-1.5 rounded-lg shadow-sm">
- <Copy className="w-4 h-4" /> Copy Optimized Prompt
+ {result && (
+ <div className="flex items-center gap-2">
+ <div className="relative h-9 w-9">
+ <svg viewBox="0 0 36 36" className="h-9 w-9 -rotate-90">
+ <path d="M18 2a16 16 0 1 1 0 32 16 16 0 0 1 0-32" fill="none" stroke="currentColor" className="text-muted-foreground/20" strokeWidth="3"/>
+ <path d="M18 2a16 16 0 1 1 0 32 16 16 0 0 1 0-32" fill="none" stroke="currentColor" className={result.qualityScore >= 80 ? "text-green-500" : result.qualityScore >= 60 ? "text-yellow-500" : "text-red-500"} strokeWidth="3" strokeDasharray={`${result.qualityScore} 100`} strokeLinecap="round"/>
+ </svg>
+ <span className="absolute inset-0 flex items-center justify-center text-[10px] font-bold">{result.qualityScore}</span>
+ </div>
+ <span className="text-[11px] text-muted-foreground font-medium">~{result.estimatedTokens} tok</span>
+ </div>
+ )}
+ </div>
+ <div className="flex items-center gap-2">
+ {result && (
+ <Button variant={showBefore ? "default" : "outline"} size="sm" onClick={() => setShowBefore(s => !s)} className="h-9 font-semibold gap-1.5 rounded-lg shadow-sm">
+ {showBefore ? "Show Optimized" : "Show Original"}
+ </Button>
+ )}
+ <Button variant="outline" size="sm" onClick={() => handleCopy((showBefore ? rawPrompt : result?.expandedSuperPrompt) || "")} disabled={!result} className="h-9 bg-muted hover:bg-accent text-slate-700 dark:text-slate-200 border-border font-semibold gap-1.5 rounded-lg shadow-sm">
+ <Copy className="w-4 h-4" /> Copy
  </Button>
  </div>
- 
+ </div>
+
  <div className="p-5 pt-0 flex-1 overflow-y-auto">
- {result ? <motion.div initial={{
-                    opacity: 0
-                  }} animate={{
-                    opacity: 1
-                  }} className="h-full">
+ {result ? <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full">
  <pre className="font-mono text-[13px] md:text-sm text-muted-foreground whitespace-pre-wrap leading-relaxed h-full">
- {renderHighlightedText(result.expandedSuperPrompt)}
+ {renderHighlightedText(showBefore ? rawPrompt : result.expandedSuperPrompt)}
  </pre>
  </motion.div> : <div className="h-full flex items-center justify-center text-muted-foreground font-medium">
  Optimization output will appear here
