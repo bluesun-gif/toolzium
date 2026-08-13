@@ -9,19 +9,31 @@ import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
 import { CopyButton } from "@/components/shared/action-buttons";
 import toast from "react-hot-toast";
 import { Repeat, Sparkles, RefreshCw, FileText, PenTool } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
-type ParaphraseStyle = "Formal" | "Casual" | "Academic" | "Creative";
+type ParaphraseStyle = "Standard" | "Fluency" | "Formal" | "Creative" | "Shorten" | "Expand";
+const STYLES: { id: ParaphraseStyle; hint: string }[] = [
+  { id: "Standard", hint: "Balanced rewrite, natural phrasing" },
+  { id: "Fluency", hint: "Smoothest, most readable version" },
+  { id: "Formal", hint: "Professional, polished tone" },
+  { id: "Creative", hint: "Vivid, engaging wording" },
+  { id: "Shorten", hint: "Condense while keeping meaning" },
+  { id: "Expand", hint: "Elaborate with more detail" },
+];
 const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
 const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
 const inputClass = "w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50";
 export default function AiParaphraserClient() {
   const [text, setText] = useState("");
-  const [style, setStyle] = useState<ParaphraseStyle>("Formal");
+  const [style, setStyle] = useState<ParaphraseStyle>("Standard");
+  const [creativity, setCreativity] = useState<number[]>([50]);
+  const [humanize, setHumanize] = useState(false);
   const [loading, setLoading] = useState(false);
   const [paraphrased, setParaphrased] = useState("");
   const handleParaphrase = async () => {
@@ -31,9 +43,12 @@ export default function AiParaphraserClient() {
     }
     setLoading(true);
     try {
+      const creativeNote = creativity[0] > 70 ? "Use highly varied vocabulary and sentence structures (synonym richness high)." : creativity[0] < 30 ? "Make minimal word changes, keep structure close to original." : "Balance synonym variety with natural phrasing.";
+      const humanNote = humanize ? "Rewrite to sound naturally human-written, avoid robotic or AI-typical phrasing." : "";
       const prompt = `You are a professional rewriting assistant.
 Rewrite the following text in a ${style} style while preserving the original meaning.
-
+${creativeNote}
+${humanNote}
 Return EXACTLY in this format:
 PARAPHRASED:
 ...
@@ -82,14 +97,25 @@ ${text}`;
  </CardHeader>
  <CardContent className="p-3 sm:p-4 space-y-4">
  <div className="space-y-2">
- <label className="text-xs font-medium text-muted-foreground">Style</label>
+ <label className="text-xs font-medium text-muted-foreground">Mode</label>
  <select value={style} onChange={e => setStyle(e.target.value as ParaphraseStyle)} className={inputClass}>
- <option value="Formal">Formal</option>
- <option value="Casual">Casual</option>
- <option value="Academic">Academic</option>
- <option value="Creative">Creative</option>
+ {STYLES.map(s => <option key={s.id} value={s.id}>{s.id}</option>)}
  </select>
+ <p className="text-[11px] text-muted-foreground/70">{STYLES.find(s => s.id === style)?.hint}</p>
  </div>
+
+ <div className="space-y-2">
+ <div className="flex justify-between items-center">
+ <label className="text-xs font-medium text-muted-foreground">Creativity (synonym strength)</label>
+ <span className="text-xs font-bold text-primary">{creativity[0]}%</span>
+ </div>
+ <Slider value={creativity} onValueChange={setCreativity} max={100} step={1} className="py-2" />
+ </div>
+
+ <label className="flex items-center justify-between cursor-pointer">
+ <span className="text-xs font-medium text-muted-foreground">AI Humanizer (natural tone)</span>
+ <Switch checked={humanize} onCheckedChange={setHumanize} className="data-[state=checked]:bg-primary" />
+ </label>
 
  <textarea value={text} onChange={e => setText(e.target.value)} rows={8} className={inputClass} placeholder="Paste the text you want to rewrite..." />
 
