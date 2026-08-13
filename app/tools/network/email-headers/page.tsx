@@ -1,44 +1,26 @@
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import EmailHeadersClient from "@/components/tools/network/email-headers-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "Email Header Analyzer",
-  description: "Analyze raw email headers to trace routing paths, identify sender details, and check SPF, DKIM, and DMARC authentication results.",
+  description: "Analyze email headers to trace delivery path, check SPF/DKIM/DMARC authentication, and identify spam. Paste raw headers and see the full hop-by-hop route.",
   path: "/tools/network/email-headers",
-  keywords: ["email header analyzer", "email trace", "SPF checker", "DKIM checker", "DMARC checker", "Toolzium", "online tools"],
+  keywords: ["identify", "check", "dmarc", "spam", "headers", "email", "trace", "dkim", "path", "authentication", "delivery", "analyze"],
 });
 
 export default function Page() {
-  const toolUrl = `${siteURL}/tools/network/email-headers`;
-  const appLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "Email Header Analyzer — Toolzium",
-    url: toolUrl,
-    applicationCategory: "UtilitiesApplication",
-    operatingSystem: "Web",
-    isAccessibleForFree: true,
-    inLanguage: ["en"],
-    description: "Analyze raw email headers to trace routing paths, identify sender details, and check SPF, DKIM, and DMARC authentication results.",
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-    featureList: ["Extract email metadata", "Trace routing hops", "Analyze SPF, DKIM, DMARC"],
-    creator: { "@type": "Organization", name: "Toolzium", url: "https://toolzium.com" },
-  };
-  const crumbsLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Tools", item: `${siteURL}/tools` },
-      { "@type": "ListItem", position: 2, name: "Network & Security", item: `${siteURL}/tools#cat-network-security` },
-      { "@type": "ListItem", position: 3, name: "Email Header Analyzer", item: toolUrl },
-    ],
-  };
+  const jsonLd = buildToolJsonLd({
+    name: "Email Header Analyzer",
+    description: "Analyze email headers to trace delivery path, check SPF/DKIM/DMARC authentication, and identify spam. Paste raw headers and see the full hop-by-hop route.",
+    path: "/tools/network/email-headers",
+    categoryName: "Network",
+    categoryPath: "/tools/network",
+  });
+
   return (
-    <div className="space-y-4">
-      <JsonLd data={appLd} />
-      <JsonLd data={crumbsLd} />
+    <div className="max-w-6xl mx-auto space-y-8">
+      <JsonLd data={jsonLd as any} />
       <EmailHeadersClient />
     </div>
   );

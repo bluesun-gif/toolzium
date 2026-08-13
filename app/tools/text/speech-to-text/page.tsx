@@ -1,51 +1,27 @@
-import { Metadata } from "next";
-import SpeechToTextClient from "@/components/tools/text/speech-to-text-client";
-import { generateSEOMetadata } from "@/lib/seo-config";
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
+import SpeechToTextClient from "@/components/tools/text/speech-to-text-client";
 
-export const metadata: Metadata = generateSEOMetadata({
-  title: "Speech to Text Transcriber — Free Voice Typing Online",
-  description:
-    "Free online Speech to Text voice typing tool. Dictate, transcribe speech, and convert voice to text in real-time. Choose from multiple languages, copy, edit, or download your transcriptions.",
+export const metadata = buildMetadata({
+  title: "Speech to Text Transcriber",
+  description: "Convert speech and spoken voice to text in real-time. Free online voice transcriber with language selections, live editor, and text copy/download actions.",
   path: "/tools/text/speech-to-text",
+  keywords: ["speech", "with", "convert", "spoken", "time", "transcriber", "online", "voice", "free", "real", "text"],
 });
 
-export default function SpeechToTextPage() {
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "How do I use Speech to Text?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Select your transcription language, click the 'Start Listening' microphone button, grant your browser permission to access your microphone, and begin speaking. Your words will be transcribed on-screen in real-time.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Is my voice data private?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. The Web Speech API processes audio locally or via browser-secure services without saving audio files or text data to third-party databases. We do not store or monitor any of your transcriptions.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Does it support punctuation formatting?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes, you can dictate punctuation naturally by saying words like 'period', 'comma', 'question mark', or 'new paragraph' (supported in English and various other languages).",
-        },
-      },
-    ],
-  };
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "Speech to Text Transcriber",
+    description: "Convert speech and spoken voice to text in real-time. Free online voice transcriber with language selections, live editor, and text copy/download actions.",
+    path: "/tools/text/speech-to-text",
+    categoryName: "Text",
+    categoryPath: "/tools/text",
+  });
 
   return (
-    <>
-      <JsonLd data={faqSchema} />
+    <div className="max-w-6xl mx-auto space-y-8">
+      <JsonLd data={jsonLd as any} />
       <SpeechToTextClient />
-    </>
+    </div>
   );
 }

@@ -1,44 +1,26 @@
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import UsernameCheckClient from "@/components/tools/network/username-check-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Username Availability Checker",
-  description: "Check username availability and generate social media profile links for over 20+ platforms simultaneously from a single username.",
+  title: "Username Checker",
+  description: "Check username availability across 20+ social media platforms. Generate direct profile links for GitHub, Twitter, Instagram, YouTube, TikTok, Reddit, and more.",
   path: "/tools/network/username-check",
-  keywords: ["username checker", "social media link generator", "profile finder", "name availability", "Toolzium", "online tools"],
+  keywords: ["across", "username", "links", "check", "generate", "profile", "availability", "direct", "social", "platforms", "media", "github"],
 });
 
 export default function Page() {
-  const toolUrl = `${siteURL}/tools/network/username-check`;
-  const appLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "Username Availability Checker — Toolzium",
-    url: toolUrl,
-    applicationCategory: "UtilitiesApplication",
-    operatingSystem: "Web",
-    isAccessibleForFree: true,
-    inLanguage: ["en"],
-    description: "Check username availability and generate social media profile URLs for over 20+ platforms from a single username.",
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-    featureList: ["Multi-platform URL generation", "Copy multiple links", "Search filter", "One-click open"],
-    creator: { "@type": "Organization", name: "Toolzium", url: "https://toolzium.com" },
-  };
-  const crumbsLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Tools", item: `${siteURL}/tools` },
-      { "@type": "ListItem", position: 2, name: "Network", item: `${siteURL}/tools#cat-network-security` },
-      { "@type": "ListItem", position: 3, name: "Username Checker", item: toolUrl },
-    ],
-  };
+  const jsonLd = buildToolJsonLd({
+    name: "Username Checker",
+    description: "Check username availability across 20+ social media platforms. Generate direct profile links for GitHub, Twitter, Instagram, YouTube, TikTok, Reddit, and more.",
+    path: "/tools/network/username-check",
+    categoryName: "Network",
+    categoryPath: "/tools/network",
+  });
+
   return (
-    <div className="space-y-4">
-      <JsonLd data={appLd} />
-      <JsonLd data={crumbsLd} />
+    <div className="max-w-6xl mx-auto space-y-8">
+      <JsonLd data={jsonLd as any} />
       <UsernameCheckClient />
     </div>
   );

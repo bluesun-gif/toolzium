@@ -1,71 +1,26 @@
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import TextDiffClient from "@/components/tools/text/text-diff-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Text Diff Viewer | Toolzium",
-  description: "Compare two blocks of text side-by-side with highlighting for additions, deletions, and unchanged lines. Support for inline diff mode and line numbers.",
+  title: "Text Diff Viewer",
+  description: "Compare two texts side-by-side with highlighted additions, deletions, and unchanged lines. Line numbers, stats, swap, and unified diff mode. Copy diff output.",
   path: "/tools/text/text-diff",
-  keywords: ["text diff", "text compare", "diff viewer", "compare text", "text diff tool"],
+  keywords: ["numbers", "with", "lines", "additions", "side", "line", "highlighted", "texts", "unchanged", "deletions", "compare"],
 });
 
 export default function Page() {
-  const toolUrl = `${siteURL}/tools/text/text-diff`;
-  
-  const appLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
+  const jsonLd = buildToolJsonLd({
     name: "Text Diff Viewer",
-    url: toolUrl,
-    description: "Compare two blocks of text side-by-side with highlighting for additions, deletions, and unchanged lines.",
-    applicationCategory: "UtilitiesApplication",
-    operatingSystem: "All",
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "USD"
-    }
-  };
-
-  const crumbsLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: siteURL },
-      { "@type": "ListItem", position: 2, name: "Text Tools", item: `${siteURL}/tools#cat-text` },
-      { "@type": "ListItem", position: 3, name: "Text Diff Viewer", item: toolUrl }
-    ]
-  };
-
-  const faqLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "What is a text diff viewer?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "A text diff viewer is a tool that compares two blocks of text and highlights the differences between them, such as additions, deletions, and unchanged lines."
-        }
-      },
-      {
-        "@type": "Question",
-        name: "Does it support inline diff mode?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes, you can toggle between side-by-side and inline (unified) diff modes."
-        }
-      }
-    ]
-  };
+    description: "Compare two texts side-by-side with highlighted additions, deletions, and unchanged lines. Line numbers, stats, swap, and unified diff mode. Copy diff output.",
+    path: "/tools/text/text-diff",
+    categoryName: "Text",
+    categoryPath: "/tools/text",
+  });
 
   return (
     <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={appLd} />
-      <JsonLd data={crumbsLd} />
-      <JsonLd data={faqLd} />
+      <JsonLd data={jsonLd as any} />
       <TextDiffClient />
     </div>
   );

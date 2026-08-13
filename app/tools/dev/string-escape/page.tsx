@@ -1,56 +1,26 @@
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import StringEscapeClient from "@/components/tools/dev/string-escape-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "String Escape & Unescape Tool | Toolzium",
-  description: "Escape and unescape strings online for HTML, URL, JavaScript, JSON, XML, SQL, CSS, and Base64 formats.",
+  title: "String Escape/Unescape",
+  description: "Escape and unescape strings for HTML, URL, JavaScript, JSON, XML, SQL, CSS, Base64. Bidirectional conversion. Copy output instantly.",
   path: "/tools/dev/string-escape",
-  keywords: ["string escape", "unescape", "html entities", "url encode", "json escape", "base64 encode", "sql escape"],
+  keywords: ["output", "javascript", "escape", "bidirectional", "strings", "copy", "instantly", "unescape", "conversion", "html", "json"],
 });
 
 export default function Page() {
-  const toolUrl = `${siteURL}/tools/dev/string-escape`;
-  
-  const appLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "String Escape Tool",
-    url: toolUrl,
-    description: "Escape and unescape strings online for HTML, URL, JavaScript, JSON, XML, SQL, CSS, and Base64 formats.",
-    applicationCategory: "UtilitiesApplication",
-    operatingSystem: "All",
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }
-  };
-  
-  const crumbsLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: siteURL },
-      { "@type": "ListItem", position: 2, name: "Developer Tools", item: `${siteURL}/tools#cat-dev` },
-      { "@type": "ListItem", position: 3, name: "String Escape", item: toolUrl }
-    ]
-  };
-
-  const faqLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "What formats are supported?",
-        acceptedAnswer: { "@type": "Answer", text: "We support HTML entities, URL encoding, JavaScript strings, JSON strings, XML, SQL, CSS strings, and Base64 encoding." }
-      }
-    ]
-  };
+  const jsonLd = buildToolJsonLd({
+    name: "String Escape/Unescape",
+    description: "Escape and unescape strings for HTML, URL, JavaScript, JSON, XML, SQL, CSS, Base64. Bidirectional conversion. Copy output instantly.",
+    path: "/tools/dev/string-escape",
+    categoryName: "Dev",
+    categoryPath: "/tools/dev",
+  });
 
   return (
-    <div className="space-y-4">
-      <JsonLd data={appLd} />
-      <JsonLd data={crumbsLd} />
-      <JsonLd data={faqLd} />
+    <div className="max-w-6xl mx-auto space-y-8">
+      <JsonLd data={jsonLd as any} />
       <StringEscapeClient />
     </div>
   );

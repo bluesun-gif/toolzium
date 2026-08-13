@@ -1,12 +1,27 @@
-import { Metadata } from "next";
+import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import PdfRotateClient from "@/components/tools/pdf/pdf-rotate-client";
 
-export const metadata: Metadata = {
-  title: "PDF Page Rotate Studio | Toolzium",
-  description:
-    "Rotate PDF pages 90°, 180°, or 270° clockwise or counter-clockwise. 100% client-side.",
-};
+export const metadata = buildMetadata({
+  title: "PDF Page Rotate",
+  description: "Rotate selected PDF pages clockwise or counter-clockwise.",
+  path: "/tools/pdf/rotate",
+  keywords: ["rotate", "pages", "selected", "clockwise", "counter"],
+});
 
-export default function PdfRotatePage() {
-  return <PdfRotateClient />;
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "PDF Page Rotate",
+    description: "Rotate selected PDF pages clockwise or counter-clockwise.",
+    path: "/tools/pdf/rotate",
+    categoryName: "Pdf",
+    categoryPath: "/tools/pdf",
+  });
+
+  return (
+    <div className="max-w-6xl mx-auto space-y-8">
+      <JsonLd data={jsonLd as any} />
+      <PdfRotateClient />
+    </div>
+  );
 }

@@ -1,51 +1,27 @@
-import { Metadata } from "next";
-import TextToSpeechClient from "@/components/tools/text/text-to-speech-client";
-import { generateSEOMetadata } from "@/lib/seo-config";
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
+import TextToSpeechClient from "@/components/tools/text/text-to-speech-client";
 
-export const metadata: Metadata = generateSEOMetadata({
-  title: "Text to Speech (TTS) Reader — Online Natural Voices",
-  description:
-    "Free online Text to Speech (TTS) converter tool. Turn text into clear, natural-sounding audio voice narration. Adjust speech rate, pitch, and choose from multiple languages and browser voices.",
+export const metadata = buildMetadata({
+  title: "Text to Speech Reader",
+  description: "Convert text to clear, natural-sounding audio speech online. Select from multiple languages, voices, adjustments for speed and pitch. Completely free and secure.",
   path: "/tools/text/text-to-speech",
+  keywords: ["select", "sounding", "speech", "from", "natural", "clear", "convert", "audio", "online", "languages", "text", "multiple"],
 });
 
-export default function TextToSpeechPage() {
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "How does the Text to Speech tool work?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "It utilizes the SpeechSynthesis interface of the Web Speech API built natively into modern browsers. Your text is synthesized directly in the browser and read out loud using system voice engines without sending data to any server.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Is this Text to Speech tool free?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes, it is 100% free and has no character limit, paid paywalls, or API usage restrictions.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Can I customize the voices?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes! You can choose from various system-installed voices (including Microsoft, Google, or Apple voices depending on your OS), and adjust speed and pitch sliders to customize narration.",
-        },
-      },
-    ],
-  };
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "Text to Speech Reader",
+    description: "Convert text to clear, natural-sounding audio speech online. Select from multiple languages, voices, adjustments for speed and pitch. Completely free and secure.",
+    path: "/tools/text/text-to-speech",
+    categoryName: "Text",
+    categoryPath: "/tools/text",
+  });
 
   return (
-    <>
-      <JsonLd data={faqSchema} />
+    <div className="max-w-6xl mx-auto space-y-8">
+      <JsonLd data={jsonLd as any} />
       <TextToSpeechClient />
-    </>
+    </div>
   );
 }

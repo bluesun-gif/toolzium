@@ -1,54 +1,26 @@
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import FancyTextClient from "@/components/tools/text/fancy-text-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Fancy Text Generator - Cool Fonts & Text Styles",
-  description: "Generate fancy text, cool fonts, and weird unicode styles for Instagram, Twitter, Facebook, and Discord.",
+  title: "Fancy Text Generator",
+  description: "Generate fancy Unicode text styles — bold, italic, script, fraktur, double-struck, circled, squared, upside-down, strikethrough, underline, and more. Copy stylish text for social media bios, usernames, and posts.",
   path: "/tools/text/fancy-text",
-  keywords: ["fancy text", "text generator", "cool fonts", "unicode text", "weird text", "text styles", "Toolzium", "online tools"],
+  keywords: ["fraktur", "italic", "generate", "unicode", "double", "struck", "bold", "styles", "script", "text", "fancy", "circled"],
 });
 
 export default function Page() {
-  const toolUrl = `${siteURL}/tools/text/fancy-text`;
-  
-  const appLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "Fancy Text Generator — Toolzium",
-    url: toolUrl,
-    applicationCategory: "UtilitiesApplication",
-    operatingSystem: "Web",
-    isAccessibleForFree: true,
-    inLanguage: ["en"],
-    description: "Generate fancy text, cool fonts, and weird unicode styles for Instagram, Twitter, Facebook, and Discord.",
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-    featureList: [
-      "Mathematical Bold text",
-      "Fraktur text",
-      "Script text",
-      "Upside Down text",
-      "Fullwidth text",
-      "Zalgo text"
-    ],
-    creator: { "@type": "Organization", name: "Toolzium", url: "https://toolzium.com" },
-  };
-
-  const crumbsLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Tools", item: `${siteURL}/tools` },
-      { "@type": "ListItem", position: 2, name: "Text", item: `${siteURL}/tools#cat-text` },
-      { "@type": "ListItem", position: 3, name: "Fancy Text Generator", item: toolUrl },
-    ],
-  };
+  const jsonLd = buildToolJsonLd({
+    name: "Fancy Text Generator",
+    description: "Generate fancy Unicode text styles — bold, italic, script, fraktur, double-struck, circled, squared, upside-down, strikethrough, underline, and more. Copy stylish text for social media bios, usernames, and posts.",
+    path: "/tools/text/fancy-text",
+    categoryName: "Text",
+    categoryPath: "/tools/text",
+  });
 
   return (
     <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={appLd} />
-      <JsonLd data={crumbsLd} />
+      <JsonLd data={jsonLd as any} />
       <FancyTextClient />
     </div>
   );

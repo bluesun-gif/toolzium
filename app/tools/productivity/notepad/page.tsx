@@ -1,50 +1,27 @@
-import { Metadata } from "next";
-import NotepadClient from "@/components/tools/productivity/notepad-client";
-import { generateSEOMetadata } from "@/lib/seo-config";
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
+import NotepadClient from "@/components/tools/productivity/notepad-client";
 
-export const metadata: Metadata = generateSEOMetadata({
-  title: "Online Notepad — Free Text Editor No Signup",
-  description: "Free online notepad that auto-saves to your browser. Multiple tabs, dark mode, word count, download as .txt. No signup, works offline. Notes stay private.",
+export const metadata = buildMetadata({
+  title: "Online Notepad",
+  description: "Free online notepad and text editor. Auto-saves to your browser with multiple tabs, dark mode, word count, and download as .txt. No signup required, works offline. Your notes never leave your device.",
   path: "/tools/productivity/notepad",
+  keywords: ["your", "with", "notepad", "browser", "online", "free", "saves", "multiple", "auto", "text", "tabs", "editor"],
 });
 
-export default function NotepadPage() {
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "Does this notepad save my work automatically?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes, our online notepad auto-saves your text directly to your browser's local storage every few seconds. Even if you accidentally close the tab, your notes will be there when you return.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Are my notes private and secure?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Absolutely. All notes are saved entirely on your device (in your browser's local storage). No data is sent to our servers, ensuring complete privacy.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Does this tool work offline?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes, since the application runs entirely in your browser and saves data locally, you can continue typing and saving notes even if you lose your internet connection.",
-        },
-      }
-    ],
-  };
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "Online Notepad",
+    description: "Free online notepad and text editor. Auto-saves to your browser with multiple tabs, dark mode, word count, and download as .txt. No signup required, works offline. Your notes never leave your device.",
+    path: "/tools/productivity/notepad",
+    categoryName: "Productivity",
+    categoryPath: "/tools/productivity",
+  });
 
   return (
-    <>
-      <JsonLd data={faqSchema} />
+    <div className="max-w-6xl mx-auto space-y-8">
+      <JsonLd data={jsonLd as any} />
       <NotepadClient />
-    </>
+    </div>
   );
 }

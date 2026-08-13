@@ -1,47 +1,26 @@
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import SubdomainFinderClient from "@/components/tools/network/subdomain-finder-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Subdomain Finder & Scanner",
-  description: "Free online subdomain finder. Scan public Certificate Transparency (CT) logs to find all registered subdomains for any domain instantly.",
+  title: "Subdomain Finder",
+  description: "Find all registered subdomains for any domain using public Certificate Transparency (CT) logs. Fast, 100% free, and legal lookup.",
   path: "/tools/network/subdomain-finder",
-  keywords: ["subdomain finder", "find subdomains", "subdomain scanner", "domain enum", "certificate transparency logs", "crt.sh lookup", "Toolzium", "online tools"],
+  keywords: ["transparency", "public", "free", "fast", "using", "find", "domain", "certificate", "legal", "registered", "logs", "subdomains"],
 });
 
 export default function Page() {
-  const toolUrl = `${siteURL}/tools/network/subdomain-finder`;
-  
-  const appLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "Subdomain Finder — Toolzium",
-    url: toolUrl,
-    applicationCategory: "UtilitiesApplication",
-    operatingSystem: "Web",
-    isAccessibleForFree: true,
-    inLanguage: ["en"],
-    description: "Free online subdomain finder. Scan public Certificate Transparency (CT) logs to find all registered subdomains for any domain instantly.",
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-    featureList: ["Subdomain enumeration", "CT Log search", "Subdomain export", "Domain analysis"],
-    creator: { "@type": "Organization", name: "Toolzium", url: "https://toolzium.com" },
-  };
-  
-  const crumbsLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Tools", item: `${siteURL}/tools` },
-      { "@type": "ListItem", position: 2, name: "Network & Security", item: `${siteURL}/tools#cat-network-security` },
-      { "@type": "ListItem", position: 3, name: "Subdomain Finder", item: toolUrl },
-    ],
-  };
+  const jsonLd = buildToolJsonLd({
+    name: "Subdomain Finder",
+    description: "Find all registered subdomains for any domain using public Certificate Transparency (CT) logs. Fast, 100% free, and legal lookup.",
+    path: "/tools/network/subdomain-finder",
+    categoryName: "Network",
+    categoryPath: "/tools/network",
+  });
 
   return (
-    <div className="space-y-4">
-      <JsonLd data={appLd} />
-      <JsonLd data={crumbsLd} />
+    <div className="max-w-6xl mx-auto space-y-8">
+      <JsonLd data={jsonLd as any} />
       <SubdomainFinderClient />
     </div>
   );

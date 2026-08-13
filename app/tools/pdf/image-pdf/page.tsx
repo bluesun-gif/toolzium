@@ -1,12 +1,27 @@
-import { Metadata } from "next";
+import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import ImagePdfClient from "@/components/tools/pdf/image-pdf-client";
 
-export const metadata: Metadata = {
-  title: "Image to PDF Converter | Toolzium",
-  description:
-    "Convert JPG, PNG, and WebP images into a single PDF document. 100% client-side, fast & free.",
-};
+export const metadata = buildMetadata({
+  title: "Image to PDF",
+  description: "Convert images to PDF and PDF pages to PNG images.",
+  path: "/tools/pdf/image-pdf",
+  keywords: ["convert", "images", "pages"],
+});
 
-export default function ImagePdfPage() {
-  return <ImagePdfClient />;
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "Image to PDF",
+    description: "Convert images to PDF and PDF pages to PNG images.",
+    path: "/tools/pdf/image-pdf",
+    categoryName: "Pdf",
+    categoryPath: "/tools/pdf",
+  });
+
+  return (
+    <div className="max-w-6xl mx-auto space-y-8">
+      <JsonLd data={jsonLd as any} />
+      <ImagePdfClient />
+    </div>
+  );
 }

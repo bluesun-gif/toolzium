@@ -1,146 +1,26 @@
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import CurrencyConverterClient from "@/components/tools/calc/currency-converter-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "Currency Converter",
-  description:
-    "Convert currencies with live exchange rates. Supports 150+ currencies worldwide including USD, EUR, GBP, BDT, INR, and more. Fast, free, and accurate.",
+  description: "Convert currencies with live exchange rates. Real-time currency converter for 150+ currencies including USD, EUR, GBP, JPY, INR. Free forex calculator for international money exchange.",
   path: "/tools/calc/currency",
-  keywords: [
-    "currency converter",
-    "convert currencies",
-    "live exchange rates",
-    "forex calculator",
-    "exchange rate converter",
-    "multi-currency converter",
-    "money exchange calculator",
-    "USD to EUR",
-    "EUR to USD",
-    "GBP to USD",
-    "USD to BDT",
-    "BDT to USD",
-    "INR to USD",
-    "AUD to USD",
-    "CAD to USD",
-    "JPY to USD",
-    "real-time forex rates",
-    "currency conversion app",
-    "currency calculator",
-    "offline currency converter",
-    "currency with charts",
-    "multi-currency conversion",
-    "currency history",
-    "cross-currency exchange",
-    "Toolzium",
-    "calculators",
-    "finance tools",
-    "Bangladesh",
-    "online tools",
-  ],
+  keywords: ["with", "currencies", "convert", "time", "converter", "including", "real", "exchange", "rates", "currency", "live"],
 });
 
 export default function Page() {
-  const toolUrl = `${siteURL}/tools/calc/currency`;
-
-  const appLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "Currency Converter — Toolzium",
-    url: toolUrl,
-    applicationCategory: "FinanceApplication",
-    operatingSystem: "Web",
-    isAccessibleForFree: true,
-    inLanguage: ["en", "bn"],
-    description:
-      "Live currency converter with real-time exchange rates. Supports 150+ currencies, quick swap, offline mode, and historical data.",
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-    featureList: [
-      "Convert between 150+ world currencies instantly",
-      "Real-time forex rates with frequent updates",
-      "Popular quick pairs (USD↔EUR, USD↔BDT, GBP↔USD, etc.)",
-      "Swap currencies with one click",
-      "Multi-currency conversion (convert one to many)",
-      "Favorite currencies for faster access",
-      "Offline fallback with last saved rates",
-      "Historical charts & data export (CSV/JSON)",
-      "Copy & share results quickly",
-      "Responsive, mobile-friendly interface",
-      "Completely free & privacy-friendly",
-    ],
-    creator: {
-      "@type": "Person",
-      name: "Toolzium",
-      url: "https://toolzium.com",
-    },
-    potentialAction: {
-      "@type": "CalculateAction",
-      target: toolUrl,
-      name: "Convert currencies online",
-    },
-  };
-
-  const crumbsLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Tools", item: `${siteURL}/tools` },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Calculators",
-        item: `${siteURL}/tools#cat-calculators`,
-      },
-      { "@type": "ListItem", position: 3, name: "Currency Converter", item: toolUrl },
-    ],
-  };
-
-  const faqLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "How accurate are the currency conversion rates?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "The tool updates exchange rates frequently using live market data. Rates are accurate for general use but may differ slightly from bank or money exchange rates.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Can I use the currency converter offline?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. The converter stores the last available exchange rates locally, so you can still perform conversions without internet access.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Does the tool support historical exchange rates?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. You can view historical currency data and export results as CSV or JSON for analysis.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Is this currency converter free?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. It is completely free, privacy-friendly, and requires no signup.",
-        },
-      },
-    ],
-  };
+  const jsonLd = buildToolJsonLd({
+    name: "Currency Converter",
+    description: "Convert currencies with live exchange rates. Real-time currency converter for 150+ currencies including USD, EUR, GBP, JPY, INR. Free forex calculator for international money exchange.",
+    path: "/tools/calc/currency",
+    categoryName: "Calc",
+    categoryPath: "/tools/calc",
+  });
 
   return (
     <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={appLd} />
-      <JsonLd data={crumbsLd} />
-      <JsonLd data={faqLd} />
-
+      <JsonLd data={jsonLd as any} />
       <CurrencyConverterClient />
     </div>
   );

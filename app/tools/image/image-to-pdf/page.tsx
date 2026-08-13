@@ -1,50 +1,27 @@
-import { Metadata } from "next";
-import ClientComponent from "@/components/tools/image/image-to-pdf-client";
-import { generateSEOMetadata } from "@/lib/seo-config";
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
+import ClientComponent from "@/components/tools/image/image-to-pdf-client";
 
-export const metadata: Metadata = generateSEOMetadata({
-  title: "Image to PDF Converter — JPG PNG to PDF Free",
-  description: "Convert images to PDF online for free. JPG, PNG, WebP to PDF. Multiple images, drag-and-drop reordering, page size selection. Client-side PDF generation.",
+export const metadata = buildMetadata({
+  title: "Image to PDF",
+  description: "Convert images to PDF online for free. Support JPG, PNG, WebP to PDF conversion. Multiple image upload, drag-and-drop reordering, page size selection, and margin control. Client-side PDF generation.",
   path: "/tools/image/image-to-pdf",
+  keywords: ["webp", "convert", "image", "upload", "online", "free", "drag", "images", "drop", "conversion", "support", "multiple"],
 });
 
-export default function ImageToPdfPage() {
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "What image formats are supported?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "We support popular formats like JPG, PNG, and WebP for conversion to PDF.",
-        }
-      },
-      {
-        "@type": "Question",
-        name: "Can I choose the page size?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes, you can choose from standard sizes like A4, Letter, Legal, or set custom dimensions.",
-        }
-      },
-      {
-        "@type": "Question",
-        name: "Are my files uploaded to your servers?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "No, all PDF generation happens locally in your browser. Your images remain private and secure.",
-        }
-      }
-    ],
-  };
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "Image to PDF",
+    description: "Convert images to PDF online for free. Support JPG, PNG, WebP to PDF conversion. Multiple image upload, drag-and-drop reordering, page size selection, and margin control. Client-side PDF generation.",
+    path: "/tools/image/image-to-pdf",
+    categoryName: "Image",
+    categoryPath: "/tools/image",
+  });
 
   return (
-    <>
-      <JsonLd data={faqSchema} />
+    <div className="max-w-6xl mx-auto space-y-8">
+      <JsonLd data={jsonLd as any} />
       <ClientComponent />
-    </>
+    </div>
   );
 }
