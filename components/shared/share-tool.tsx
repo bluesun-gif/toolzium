@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Facebook, Linkedin, Link2, Twitter } from "lucide-react";
+import { Linkedin, Link2, Twitter } from "lucide-react";
 import toast from "react-hot-toast";
 
 type ShareToolProps = {
@@ -18,11 +18,6 @@ export function ShareTool({ title, url }: ShareToolProps) {
       name: "Twitter / X",
       icon: Twitter,
       href: `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`,
-    },
-    {
-      name: "Facebook",
-      icon: Facebook,
-      href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
     },
     {
       name: "LinkedIn",
