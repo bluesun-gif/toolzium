@@ -14,31 +14,47 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
 import { GridPattern } from "@/components/magicui/grid-pattern";
-import { FileText, Clock, Users, Plus, Trash2, ArrowUp, ArrowDown, Printer, Save, Shield, BookOpen, Layers, CheckCircle2 } from"lucide-react";
+import { FileText, Clock, Users, Plus, Trash2, ArrowUp, ArrowDown, Printer, Save, Shield, BookOpen, Layers, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import toast from "react-hot-toast";
-
 type AgendaItem = {
   id: string;
   topic: string;
   presenter: string;
   duration: number;
 };
-
 const TEMPLATES = {
-  standup: [
-    { topic: "What did you complete yesterday?", presenter: "All Team Members", duration: 5 },
-    { topic: "What is your main focus today?", presenter: "All Team Members", duration: 5 },
-    { topic: "Identify active blockers & dependencies", presenter: "Team Lead", duration: 5 },
-  ],
-  review: [
-    { topic: "Project Progress & Milestone Update", presenter: "Project Manager", duration: 10 },
-    { topic: "Architecture & Code Review", presenter: "Tech Lead", duration: 15 },
-    { topic: "Risk Management & Resource Allocation", presenter: "All", duration: 15 },
-    { topic: "Action Items & Next Steps", presenter: "Project Manager", duration: 10 },
-  ],
+  standup: [{
+    topic: "What did you complete yesterday?",
+    presenter: "All Team Members",
+    duration: 5
+  }, {
+    topic: "What is your main focus today?",
+    presenter: "All Team Members",
+    duration: 5
+  }, {
+    topic: "Identify active blockers & dependencies",
+    presenter: "Team Lead",
+    duration: 5
+  }],
+  review: [{
+    topic: "Project Progress & Milestone Update",
+    presenter: "Project Manager",
+    duration: 10
+  }, {
+    topic: "Architecture & Code Review",
+    presenter: "Tech Lead",
+    duration: 15
+  }, {
+    topic: "Risk Management & Resource Allocation",
+    presenter: "All",
+    duration: 15
+  }, {
+    topic: "Action Items & Next Steps",
+    presenter: "Project Manager",
+    duration: 10
+  }]
 };
-
 export function MeetingAgendaClient() {
   const [title, setTitle] = useState("Sprint Planning & Roadmap Sync");
   const [date, setDate] = useState("2026-08-15");
@@ -46,14 +62,28 @@ export function MeetingAgendaClient() {
   const [totalDuration, setTotalDuration] = useState(60);
   const [location, setLocation] = useState("Google Meet / Room 302");
   const [attendees, setAttendees] = useState("Engineering & Product Team");
-  const [items, setItems] = useState<AgendaItem[]>([
-    { id: "1", topic: "Welcome & Objective Setting", presenter: "Host", duration: 5 },
-    { id: "2", topic: "Product Backlog Grooming", presenter: "Product Owner", duration: 25 },
-    { id: "3", topic: "Sprint Capacity & Commitment", presenter: "Scrum Master", duration: 20 },
-    { id: "4", topic: "Q&A and Wrap Up", presenter: "Host", duration: 10 },
-  ]);
+  const [items, setItems] = useState<AgendaItem[]>([{
+    id: "1",
+    topic: "Welcome & Objective Setting",
+    presenter: "Host",
+    duration: 5
+  }, {
+    id: "2",
+    topic: "Product Backlog Grooming",
+    presenter: "Product Owner",
+    duration: 25
+  }, {
+    id: "3",
+    topic: "Sprint Capacity & Commitment",
+    presenter: "Scrum Master",
+    duration: 20
+  }, {
+    id: "4",
+    topic: "Q&A and Wrap Up",
+    presenter: "Host",
+    duration: 10
+  }]);
   const [mounted, setMounted] = useState(false);
-
   useEffect(() => {
     setMounted(true);
     const saved = localStorage.getItem("toolzium_agenda");
@@ -70,36 +100,43 @@ export function MeetingAgendaClient() {
       } catch (e) {}
     }
   }, []);
-
   const saveAgenda = () => {
-    localStorage.setItem(
-      "toolzium_agenda",
-      JSON.stringify({ title, date, time, totalDuration, location, attendees, items })
-    );
+    localStorage.setItem("toolzium_agenda", JSON.stringify({
+      title,
+      date,
+      time,
+      totalDuration,
+      location,
+      attendees,
+      items
+    }));
     toast.success("Saved agenda locally!");
   };
-
   const loadTemplate = (type: keyof typeof TEMPLATES) => {
     const templateItems = TEMPLATES[type].map((item, i) => ({
       ...item,
-      id: Date.now().toString() + i,
+      id: Date.now().toString() + i
     }));
     setItems(templateItems);
     toast.success(`Loaded ${type} meeting template!`);
   };
-
   const addItem = () => {
-    setItems([...items, { id: Date.now().toString(), topic: "New Discussion Topic", presenter: "Team Member", duration: 10 }]);
+    setItems([...items, {
+      id: Date.now().toString(),
+      topic: "New Discussion Topic",
+      presenter: "Team Member",
+      duration: 10
+    }]);
   };
-
   const updateItem = (id: string, field: keyof AgendaItem, value: any) => {
-    setItems(items.map((it) => (it.id === id ? { ...it, [field]: value } : it)));
+    setItems(items.map(it => it.id === id ? {
+      ...it,
+      [field]: value
+    } : it));
   };
-
   const removeItem = (id: string) => {
-    setItems(items.filter((it) => it.id !== id));
+    setItems(items.filter(it => it.id !== id));
   };
-
   const moveItem = (index: number, dir: number) => {
     if (index + dir < 0 || index + dir >= items.length) return;
     const newItems = [...items];
@@ -108,9 +145,7 @@ export function MeetingAgendaClient() {
     newItems[index + dir] = temp;
     setItems(newItems);
   };
-
   const usedTime = items.reduce((sum, item) => sum + (Number(item.duration) || 0), 0);
-
   const getCopyText = () => {
     let text = `MEETING AGENDA: ${title}\n`;
     text += `Date: ${date} | Time: ${time}\n`;
@@ -122,7 +157,6 @@ export function MeetingAgendaClient() {
     });
     return text;
   };
-
   const resetAll = () => {
     setTitle("Team Sync");
     setDate("2026-08-15");
@@ -133,23 +167,15 @@ export function MeetingAgendaClient() {
     setItems([]);
     toast.success("Reset agenda!");
   };
-  return (
-    <div className="relative max-w-6xl mx-auto space-y-8">
+  return <div className="relative max-w-6xl mx-auto space-y-8">
       <GridPattern />
 
-      <ToolPageHeader
-        icon={FileText}
-        title="Interactive Meeting Agenda Builder"
-        description="Plan meeting topics, allocate presenter time limits, load quick templates, and copy formatted markdown notes."
-        actions={
-          <div className="flex gap-2">
+      <ToolPageHeader icon={FileText} title="Interactive Meeting Agenda Builder" description="Plan meeting topics, allocate presenter time limits, load quick templates, and copy formatted markdown notes." actions={<div className="flex gap-2">
             <ActionButton icon={Save} label="Save" onClick={saveAgenda} />
             <ActionButton icon={Printer} label="Print" onClick={() => window.print()} variant="outline" />
             <CopyButton getText={getCopyText} label="Copy Agenda" />
             <ResetButton onClick={resetAll} label="Reset" />
-          </div>
-        }
-      />
+          </div>} />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* MEETING DETAILS */}
@@ -163,29 +189,29 @@ export function MeetingAgendaClient() {
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="m-title" className="text-xs font-bold">Meeting Title</Label>
-                <Input id="m-title" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. Sprint Planning..." className="h-11 font-medium" />
+                <Input id="m-title" value={title} onChange={e => setTitle(e.target.value)} placeholder="e.g. Sprint Planning..." className="h-11 font-medium" />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1">
                   <Label htmlFor="m-date" className="text-xs font-semibold">Date</Label>
-                  <Input id="m-date" type="date" value={date} onChange={(e) => setDate(e.target.value)} className="h-9 text-xs" />
+                  <Input id="m-date" type="date" value={date} onChange={e => setDate(e.target.value)} className="h-9 text-xs" />
                 </div>
                 <div className="space-y-1">
                   <Label htmlFor="m-time" className="text-xs font-semibold">Time</Label>
-                  <Input id="m-time" type="time" value={time} onChange={(e) => setTime(e.target.value)} className="h-9 text-xs" />
+                  <Input id="m-time" type="time" value={time} onChange={e => setTime(e.target.value)} className="h-9 text-xs" />
                 </div>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="m-dur" className="text-xs font-bold">Target Duration (Minutes)</Label>
-                <Input id="m-dur" type="number" value={totalDuration} onChange={(e) => setTotalDuration(Number(e.target.value))} className="h-10 text-xs font-mono font-bold" />
+                <Input id="m-dur" type="number" value={totalDuration} onChange={e => setTotalDuration(Number(e.target.value))} className="h-10 text-xs font-mono font-bold" />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="m-loc" className="text-xs font-semibold">Location / Conference Link</Label>
-                <Input id="m-loc" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Zoom / Google Meet link..." className="h-10 text-xs" />
+                <Input id="m-loc" value={location} onChange={e => setLocation(e.target.value)} placeholder="Zoom / Google Meet link..." className="h-10 text-xs" />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="m-att" className="text-xs font-semibold">Attendees</Label>
-                <Input id="m-att" value={attendees} onChange={(e) => setAttendees(e.target.value)} placeholder="Team members..." className="h-10 text-xs" />
+                <Input id="m-att" value={attendees} onChange={e => setAttendees(e.target.value)} placeholder="Team members..." className="h-10 text-xs" />
               </div>
 
               <Separator />
@@ -226,129 +252,83 @@ export function MeetingAgendaClient() {
               </Button>
             </CardHeader>
             <CardContent className="space-y-3">
-              {items.length === 0 ? (
-                <div className="text-center p-8 text-muted-foreground text-xs italic border border-dashed border-border/80 rounded-xl">
+              {items.length === 0 ? <div className="text-center p-8 text-muted-foreground text-xs italic border border-dashed border-border/80 rounded-xl">
                   No agenda items added yet. Click &apos;Add Topic&apos; or pick a template on the left.
-                </div>
-              ) : (
-                items.map((item, index) => (
-                  <div key={item.id} className="flex gap-3 items-start p-3 bg-muted/20 rounded-xl border border-border/60">
+                </div> : items.map((item, index) => <div key={item.id} className="flex gap-3 items-start p-3 bg-muted/20 rounded-xl border border-border/60">
                     <div className="flex flex-col gap-0.5 mt-1">
-                      <button onClick={() => moveItem(index, -1)} disabled={index === 0} className="p-1 hover:bg-muted rounded disabled:opacity-30">
+                      <Button onClick={() => moveItem(index, -1)} disabled={index === 0} className="p-1 hover:bg-muted rounded disabled:opacity-30">
                         <ArrowUp className="w-3.5 h-3.5" />
-                      </button>
-                      <button onClick={() => moveItem(index, 1)} disabled={index === items.length - 1} className="p-1 hover:bg-muted rounded disabled:opacity-30">
+                      </Button>
+                      <Button onClick={() => moveItem(index, 1)} disabled={index === items.length - 1} className="p-1 hover:bg-muted rounded disabled:opacity-30">
                         <ArrowDown className="w-3.5 h-3.5" />
-                      </button>
+                      </Button>
                     </div>
 
                     <div className="flex-1 space-y-2">
-                      <Input
-                        placeholder="Discussion Topic Title..."
-                        value={item.topic}
-                        onChange={(e) => updateItem(item.id, "topic", e.target.value)}
-                        className="font-bold text-xs h-9 text-foreground"
-                      />
+                      <Input placeholder="Discussion Topic Title..." value={item.topic} onChange={e => updateItem(item.id, "topic", e.target.value)} className="font-bold text-xs h-9 text-foreground" />
                       <div className="flex gap-2">
                         <div className="flex-1 flex items-center gap-1.5">
                           <Users className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
-                          <Input
-                            placeholder="Presenter"
-                            value={item.presenter}
-                            onChange={(e) => updateItem(item.id, "presenter", e.target.value)}
-                            className="h-8 text-xs"
-                          />
+                          <Input placeholder="Presenter" value={item.presenter} onChange={e => updateItem(item.id, "presenter", e.target.value)} className="h-8 text-xs" />
                         </div>
                         <div className="w-28 flex items-center gap-1.5">
                           <Clock className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
-                          <Input
-                            type="number"
-                            placeholder="Mins"
-                            value={item.duration}
-                            onChange={(e) => updateItem(item.id, "duration", Number(e.target.value))}
-                            className="h-8 text-xs font-bold"
-                          />
+                          <Input type="number" placeholder="Mins" value={item.duration} onChange={e => updateItem(item.id, "duration", Number(e.target.value))} className="h-8 text-xs font-bold" />
                         </div>
                       </div>
                     </div>
 
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => removeItem(item.id)}
-                      className="text-muted-foreground hover:text-destructive h-8 w-8 mt-1"
-                    >
+                    <Button variant="ghost" size="icon" onClick={() => removeItem(item.id)} className="text-muted-foreground hover:text-destructive h-8 w-8 mt-1">
                       <Trash2 className="w-4 h-4" />
                     </Button>
-                  </div>
-                ))
-              )}
+                  </div>)}
             </CardContent>
           </GlassCard>
         </div>
       </div>
 
       {/* HOW IT WORKS */}
-      <ToolHowItWorks
-        steps={[
-          {
-            step: "01",
-            title: "Set Meeting Parameters",
-            description: "Define meeting title, date, time, attendees, and target total duration.",
-            icon: Clock,
-          },
-          {
-            step: "02",
-            title: "Structure Agenda Topics",
-            description: "Add discussion topics, assign presenters, and specify minute allocations.",
-            icon: FileText,
-          },
-          {
-            step: "03",
-            title: "Copy & Export Notes",
-            description: "Copy clean formatted markdown agendas into calendar invites or team emails.",
-            icon: CheckCircle2,
-          },
-        ]}
-        badges={["Time Budget Calculator", "Markdown Copy", "100% Free"]}
-      />
+      <ToolHowItWorks steps={[{
+      step: "01",
+      title: "Set Meeting Parameters",
+      description: "Define meeting title, date, time, attendees, and target total duration.",
+      icon: Clock
+    }, {
+      step: "02",
+      title: "Structure Agenda Topics",
+      description: "Add discussion topics, assign presenters, and specify minute allocations.",
+      icon: FileText
+    }, {
+      step: "03",
+      title: "Copy & Export Notes",
+      description: "Copy clean formatted markdown agendas into calendar invites or team emails.",
+      icon: CheckCircle2
+    }]} badges={["Time Budget Calculator", "Markdown Copy", "100% Free"]} />
 
       {/* FEATURE GUIDES */}
-      <ToolFeatureGuides
-        features={[
-          {
-            icon: Clock,
-            title: "Time Allocation Budgeting",
-            description: "Calculates total allocated minutes and warns when agenda topics exceed target meeting duration.",
-          },
-          {
-            icon: FileText,
-            title: "Quick-Start Team Templates",
-            description: "Includes pre-configured meeting templates for Agile Standups and Project Reviews.",
-          },
-          {
-            icon: Shield,
-            title: "Confidential Local Storage",
-            description: "Saves draft meeting agendas securely in local storage without server retention.",
-          },
-        ]}
-      />
+      <ToolFeatureGuides features={[{
+      icon: Clock,
+      title: "Time Allocation Budgeting",
+      description: "Calculates total allocated minutes and warns when agenda topics exceed target meeting duration."
+    }, {
+      icon: FileText,
+      title: "Quick-Start Team Templates",
+      description: "Includes pre-configured meeting templates for Agile Standups and Project Reviews."
+    }, {
+      icon: Shield,
+      title: "Confidential Local Storage",
+      description: "Saves draft meeting agendas securely in local storage without server retention."
+    }]} />
 
       {/* FAQ ACCORDION */}
-      <ToolFaqAccordion
-        faqs={[
-          {
-            question: "What happens if my topics exceed the total duration?",
-            answer: "The allocated time indicator turns red to alert you that the sum of topic durations exceeds your target meeting length.",
-          },
-          {
-            question: "Can I print the agenda?",
-            answer: "Yes, click the 'Print' button to generate a clean print/PDF view of your meeting agenda.",
-          },
-        ]}
-      />
+      <ToolFaqAccordion faqs={[{
+      question: "What happens if my topics exceed the total duration?",
+      answer: "The allocated time indicator turns red to alert you that the sum of topic durations exceeds your target meeting length."
+    }, {
+      question: "Can I print the agenda?",
+      answer: "Yes, click the 'Print' button to generate a clean print/PDF view of your meeting agenda."
+    }]} />
 
       <RelatedTools currentToolUrl="/tools/productivity/meeting-agenda" max={6} />
-    </div>
-  );
+    </div>;
 }
