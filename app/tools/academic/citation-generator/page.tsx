@@ -4,66 +4,74 @@ import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "APA, MLA & Chicago Citation Generator — 100% Free Bibliography Maker | Toolzium",
+  title: "Free Citation Generator (APA 7th, MLA 9th, Chicago, NLM) | Toolzium",
   description:
-    "Generate accurate APA 7th, MLA 9th, Chicago, and NLM style citations and works cited bibliographies for academic essays, books, and websites.",
+    "Free academic citation and bibliography generator. Create accurate APA 7th, MLA 9th, Chicago, Harvard, and NLM style citations instantly. No signup required.",
   path: "/tools/academic/citation-generator",
   keywords: [
-    "citation generator",
-    "apa citation generator",
-    "chicago citation generator",
-    "mla citation maker",
     "nlm citation generator",
+    "chicago citation machine",
     "do my bibliography",
-    "bibliography generator"
+    "chicago citation generator",
+    "apa citation generator",
+    "mla citation generator",
+    "chicago bibliography machine",
+    "bibliographic reference generator",
+    "apa reference calculator",
+    "citation generator for chicago style",
   ],
 });
 
 export default function CitationGeneratorPage() {
   const toolUrl = siteURL + "/tools/academic/citation-generator";
-
   const appLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "APA / MLA / Chicago Citation Generator",
+    name: "Academic Citation & Bibliography Generator",
     url: toolUrl,
-    description: "Generate formatted APA 7th, MLA 9th, Chicago, and NLM citations.",
+    description: "Generate APA 7th, MLA 9th, Chicago, NLM, and Harvard citations and full bibliographies instantly.",
     applicationCategory: "EducationalApplication",
     operatingSystem: "All",
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   };
-
   const crumbsLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: siteURL },
-      { "@type": "ListItem", position: 2, name: "Academic Tools", item: siteURL + "/tools/academic" },
-      { "@type": "ListItem", position: 3, name: "Citation Generator", item: toolUrl }
-    ]
+      { "@type": "ListItem", position: 2, name: "Academic Tools", item: siteURL + "/tools#cat-academic" },
+      { "@type": "ListItem", position: 3, name: "Citation Generator", item: toolUrl },
+    ],
   };
-
   const faqLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     mainEntity: [
       {
         "@type": "Question",
-        name: "Which citation styles are supported?",
+        name: "Which citation styles does this generator support?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Toolzium Citation Generator supports APA 7th edition, MLA 9th edition, Chicago Manual of Style (Notes & Bibliography), and NLM (National Library of Medicine) formats."
-        }
+          text: "We support APA 7th Edition, MLA 9th Edition, Chicago Style, Harvard, IEEE, NLM, and Vancouver citation formats.",
+        },
       },
       {
         "@type": "Question",
-        name: "Is this citation generator free to use?",
+        name: "Is this citation generator completely free?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Yes, it is 100% free with no registration required. You can format unlimited citations for websites, books, journal articles, and reports."
-        }
-      }
-    ]
+          text: "Yes, 100% free with unlimited citation generation and bibliography exports. No account or subscription required.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How does the tool handle multiple authors?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "The tool automatically formats author lists, ampersands, and 'et al.' rules based on the chosen style guidelines (APA vs MLA vs Chicago).",
+        },
+      },
+    ],
   };
 
   return (
