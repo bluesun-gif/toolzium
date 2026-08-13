@@ -31,11 +31,12 @@ export default function SpotifyPlaylistPage() {
   });
 
   return (
-    <div className="space-y-4">
-      <JsonLd data={jsonLd[0]} />
-      <JsonLd data={jsonLd[1]} />
-      <JsonLd data={jsonLd[2]} />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <SpotifyPlaylistClient />
-    </div>
+    </>
   );
 }
