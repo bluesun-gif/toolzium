@@ -45,8 +45,7 @@ interface SavedAtsHistory {
 }
 
 export function AtsCheckerClient() {
-  const [mounted, setMounted] = useState(false);
-  const [resumeText, setResumeText] = useState("");
+    const [resumeText, setResumeText] = useState("");
   const [jobDescription, setJobDescription] = useState("");
   const [jobRole, setJobRole] = useState("Senior Full-Stack Engineer");
 
@@ -60,8 +59,7 @@ export function AtsCheckerClient() {
   ];
 
   useEffect(() => {
-    setMounted(true);
-    try {
+  try {
       if (typeof window !== "undefined") {
         const saved = localStorage.getItem("toolzium_ats_history");
         if (saved) setHistory(JSON.parse(saved));
@@ -162,9 +160,6 @@ export function AtsCheckerClient() {
       toast.error("Failed to analyze resume. Please try again.");
     }
   }, [resumeText, jobDescription, jobRole]);
-
-  if (!mounted) return <div className="min-h-screen p-8 animate-pulse" />;
-
   return (
     <div className="w-full min-h-screen pb-20 relative">
       <GridPattern

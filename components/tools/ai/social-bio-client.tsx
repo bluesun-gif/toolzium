@@ -49,8 +49,7 @@ interface SavedBioHistory {
 }
 
 export function SocialBioClient() {
-  const [mounted, setMounted] = useState(false);
-  const [name, setName] = useState("");
+    const [name, setName] = useState("");
   const [profession, setProfession] = useState("");
   const [keySkills, setKeySkills] = useState("");
   const [callToAction, setCallToAction] = useState("");
@@ -67,8 +66,7 @@ export function SocialBioClient() {
   ];
 
   useEffect(() => {
-    setMounted(true);
-    try {
+  try {
       if (typeof window !== "undefined") {
         const saved = localStorage.getItem("toolzium_social_bio_history");
         if (saved) setHistory(JSON.parse(saved));
@@ -176,8 +174,6 @@ export function SocialBioClient() {
     navigator.clipboard.writeText(text);
     toast.success(`${label} copied to clipboard!`);
   };
-
-  if (!mounted) return <div className="min-h-screen p-8 animate-pulse" />;
 
   return (
     <div className="w-full min-h-screen pb-20 relative">

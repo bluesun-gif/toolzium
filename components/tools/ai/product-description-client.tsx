@@ -46,8 +46,7 @@ interface SavedProductHistory {
 }
 
 export function ProductDescriptionClient() {
-  const [mounted, setMounted] = useState(false);
-  const [productName, setProductName] = useState("");
+    const [productName, setProductName] = useState("");
   const [category, setCategory] = useState("Electronics");
   const [featuresInput, setFeaturesInput] = useState("");
   const [targetAudience, setTargetAudience] = useState("");
@@ -63,8 +62,7 @@ export function ProductDescriptionClient() {
   ];
 
   useEffect(() => {
-    setMounted(true);
-    try {
+  try {
       if (typeof window !== "undefined") {
         const saved = localStorage.getItem("toolzium_product_desc_history");
         if (saved) setHistory(JSON.parse(saved));
@@ -174,9 +172,6 @@ export function ProductDescriptionClient() {
     navigator.clipboard.writeText(text);
     toast.success(`${label} copied to clipboard!`);
   };
-
-  if (!mounted) return <div className="min-h-screen p-8 animate-pulse" />;
-
   return (
     <div className="w-full min-h-screen pb-20 relative">
       <GridPattern

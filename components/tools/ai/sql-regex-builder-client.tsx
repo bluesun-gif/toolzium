@@ -45,8 +45,7 @@ interface SavedQueryHistory {
 }
 
 export function SqlRegexBuilderClient() {
-  const [mounted, setMounted] = useState(false);
-  const [description, setDescription] = useState("");
+    const [description, setDescription] = useState("");
   const [dialect, setDialect] = useState<"postgres" | "mysql" | "sqlite" | "bigquery">("postgres");
   const [targetColumn, setTargetColumn] = useState("email");
   const [tableName, setTableName] = useState("users");
@@ -63,8 +62,7 @@ export function SqlRegexBuilderClient() {
   ];
 
   useEffect(() => {
-    setMounted(true);
-    try {
+  try {
       if (typeof window !== "undefined") {
         const saved = localStorage.getItem("toolzium_sql_regex_history");
         if (saved) setHistory(JSON.parse(saved));
@@ -173,9 +171,6 @@ export function SqlRegexBuilderClient() {
     navigator.clipboard.writeText(text);
     toast.success(`${label} copied to clipboard!`);
   };
-
-  if (!mounted) return <div className="min-h-screen p-8 animate-pulse" />;
-
   return (
     <div className="w-full min-h-screen pb-20 relative">
       <GridPattern

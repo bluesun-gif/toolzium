@@ -55,8 +55,7 @@ interface SavedScriptHistory {
 }
 
 export function YoutubeScriptClient() {
-  const [mounted, setMounted] = useState(false);
-  const [topic, setTopic] = useState("");
+    const [topic, setTopic] = useState("");
   const [niche, setNiche] = useState("tech");
   const [tone, setTone] = useState("educational");
   const [targetLength, setTargetLength] = useState<"shorts" | "standard" | "deepdive" | "masterclass">("standard");
@@ -96,8 +95,7 @@ export function YoutubeScriptClient() {
   ];
 
   useEffect(() => {
-    setMounted(true);
-    try {
+  try {
       if (typeof window !== "undefined") {
         const saved = localStorage.getItem("toolzium_youtube_script_history");
         if (saved) {
@@ -245,11 +243,6 @@ export function YoutubeScriptClient() {
     a.click();
     toast.success("Downloaded SRT Teleprompter file!");
   };
-
-  if (!mounted) {
-    return <div className="min-h-screen p-8 animate-pulse" />;
-  }
-
   return (
     <div className="w-full min-h-screen pb-20 relative">
       <GridPattern

@@ -31,8 +31,7 @@ interface AnalysisHistoryItem {
 }
 
 export function CodeExplainerClient() {
-  const [mounted, setMounted] = useState(false);
-  const [code, setCode] = useState("");
+    const [code, setCode] = useState("");
   const [aiModel, setAiModel] = useState("groq-llama-3.3");
   const [actionType, setActionType] = useState("explain");
   const [targetLanguage, setTargetLanguage] = useState("python");
@@ -47,7 +46,6 @@ export function CodeExplainerClient() {
   const [history, setHistory] = useState<AnalysisHistoryItem[]>([]);
 
   useEffect(() => {
-    setMounted(true);
     const saved = localStorage.getItem("toolzium_code_explainer_history");
     if (saved) {
       try {
@@ -160,9 +158,6 @@ export function CodeExplainerClient() {
     setResult(item.resultMarkdown);
     toast.success("Loaded from history");
   };
-
-  if (!mounted) return <div className="min-h-screen p-8 animate-pulse" />;
-
   return (
     <div className="w-full min-h-screen pb-20 relative">
       <GridPattern

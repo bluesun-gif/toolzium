@@ -51,7 +51,6 @@ interface Message {
 }
 
 export function PdfChatClient() {
-  const [mounted, setMounted] = useState(false);
   const [pdfText, setPdfText] = useState(
     `# Color Contrast Compliance Matrix\n\n| Background \\ Text | Primary | Secondary | Background | Surface |\n|---|---|---|---|---|\n| **Primary** | - | 4.41:1 (Fail) | 21.00:1 (AA) | 20.07:1 (AA) |\n| **Secondary** | 4.41:1 (Fail) | - | 4.76:1 (AA) | 4.55:1 (AA) |\n| **Background** | 21.00:1 (AA) | 4.76:1 (AA) | - | 1.05:1 (Fail) |\n| **Surface** | 20.07:1 (AA) | 4.55:1 (AA) | 1.05:1 (Fail) | - |\n\n## Key Summary & Audit Notes\n- **WCAG 2.1 Level AA Standard**: Requires contrast ratio of at least **4.5:1** for normal text and **3:1** for large text.\n- **Primary on Secondary**: Contrast ratio of **4.41:1** fails strict 4.5:1 AA standard by a minor fraction. Increase primary dark shade by 5%.\n- **Background Contrast**: Complies with AAA high-contrast standards (21.00:1 ratio).`
   );
@@ -79,7 +78,7 @@ export function PdfChatClient() {
   ];
 
   useEffect(() => {
-    setMounted(true);
+    // Hydration-safe: no mounted guard needed
   }, []);
 
   const stats = useMemo(() => {
@@ -199,9 +198,6 @@ Instructions:
     navigator.clipboard.writeText(pdfText);
     toast.success("Document content copied to clipboard!");
   };
-
-  if (!mounted) return <div className="min-h-screen p-8 animate-pulse" />;
-
   return (
     <div className="w-full min-h-screen pb-20 relative">
       <GridPattern

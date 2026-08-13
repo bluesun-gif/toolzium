@@ -48,7 +48,6 @@ interface SavedHistory {
 }
 
 export function StartupNameClient() {
-  const [mounted, setMounted] = useState(false);
   const [keywords, setKeywords] = useState("");
   const [industry, setIndustry] = useState("tech");
   const [namingStyle, setNamingStyle] = useState<"modern" | "compound" | "abstract" | "suffix" | "creative">("modern");
@@ -76,7 +75,6 @@ export function StartupNameClient() {
   ];
 
   useEffect(() => {
-    setMounted(true);
     try {
       if (typeof window !== "undefined") {
         const saved = localStorage.getItem("toolzium_startup_name_history");
@@ -204,9 +202,6 @@ export function StartupNameClient() {
     navigator.clipboard.writeText(text);
     toast.success(`${label} copied to clipboard!`);
   };
-
-  if (!mounted) return <div className="min-h-screen p-8 animate-pulse" />;
-
   return (
     <div className="w-full min-h-screen pb-20 relative">
       <GridPattern

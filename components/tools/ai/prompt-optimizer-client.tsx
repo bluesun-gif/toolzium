@@ -76,8 +76,7 @@ const presets = [
 ];
 
 export function PromptOptimizerClient() {
- const [mounted, setMounted] = useState(false);
- const [rawPrompt, setRawPrompt] = useState("");
+  const [rawPrompt, setRawPrompt] = useState("");
  const [targetModel, setTargetModel] = useState<string>("gpt4o");
  const [domain, setDomain] = useState("general");
  
@@ -97,8 +96,7 @@ export function PromptOptimizerClient() {
  const [history, setHistory] = useState<SavedHistoryItem[]>([]);
 
  useEffect(() => {
- // eslint-disable-next-line
- setMounted(true);
+  
  try {
  if (typeof window !=="undefined") {
  const saved = localStorage.getItem("toolzium_prompt_optimizer_history");
@@ -284,11 +282,6 @@ ${xmlWrapperClose}`;
  return <span key={i}>{part}</span>;
  });
  };
-
- if (!mounted) {
- return <div className="min-h-screen p-8 animate-pulse"/>;
- }
-
  return (
  <div className="w-full min-h-screen pb-20 relative">
  <GridPattern
