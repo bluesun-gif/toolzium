@@ -2407,6 +2407,20 @@ export const ToolsData = [
         popular: true,
       },
       {
+        title: "Tax Withholding Calculator",
+        url: "/tools/finance/tax-withholding-calc",
+        description:
+          "Estimate your paycheck federal tax withholding, net take-home pay, and effective tax rate based on W-4 filing parameters.",
+        popular: true,
+      },
+      {
+        title: "Salary / Net Pay Calculator",
+        url: "/tools/finance/net-pay-calc",
+        description:
+          "Calculate your net take-home paycheck after federal taxes, FICA (Social Security & Medicare), 401(k) retirement savings, and health insurance.",
+        popular: true,
+      },
+      {
         title: "Freelance Rate Calculator",
         url: "/tools/finance/freelance-rate",
         description:
@@ -3101,6 +3115,13 @@ export const ToolsData = [
         url: "/tools/health/indoor-cycling-calorie",
         description:
           "Calculate calories burned during stationary indoor cycling and spinning workouts based on body weight, cadence (RPM), resistance level, and duration.",
+        popular: true,
+      },
+      {
+        title: "Calorie Burn by Activity Calculator Studio",
+        url: "/tools/health/calorie-burn-activity",
+        description:
+          "Calculate exact calories burned across 30+ physical activities, sports, and exercise routines based on body weight and duration.",
         popular: true,
       },
     ],

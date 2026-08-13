@@ -80,19 +80,19 @@ export function LtvCalculatorClient() {
 
   const steps = [
     {
-      step: 1,
+      step: "01",
       title: "Enter Home Appraised Value",
       description: "Input the current estimated or appraised market value of your property.",
       icon: Home,
     },
     {
-      step: 2,
+      step: "02",
       title: "Input Mortgage Balances",
       description: "Enter your primary mortgage remaining balance and any 2nd mortgage or HELOC line.",
       icon: DollarSign,
     },
     {
-      step: 3,
+      step: "03",
       title: "Analyze LTV & Equity",
       description: "Instantly see your Loan-to-Value (LTV), Combined LTV (CLTV), total equity, and PMI requirement status.",
       icon: Calculator,
@@ -266,7 +266,25 @@ export function LtvCalculatorClient() {
 
       <ToolHowItWorks steps={steps} />
 
-      <ToolFeatureGuides title="Complete Guide to Loan-to-Value (LTV) & Home Equity">
+      <ToolFeatureGuides
+        features={[
+          {
+            icon: Home,
+            title: "Appraised Market Value Assessment",
+            description: "Calculates total borrowing ratio against current home market value.",
+          },
+          {
+            icon: Calculator,
+            title: "Combined Loan-to-Value (CLTV)",
+            description: "Includes second mortgages, HELOC lines, and junior liens in overall debt coverage.",
+          },
+          {
+            icon: DollarSign,
+            title: "Cash-Out Refinance Estimator",
+            description: "Shows maximum equity cash-out potential at standard 80% LTV underwriting limit.",
+          },
+        ]}
+      >
         <div className="space-y-6 text-muted-foreground leading-relaxed">
           <p>
             Understanding your <strong>Loan-to-Value (LTV)</strong> ratio is essential whenever you buy a home, refinance your existing mortgage, or apply for a <strong>Home Equity Line of Credit (HELOC)</strong>. Lenders use LTV to assess risk before extending credit secured by residential real estate.
@@ -299,7 +317,7 @@ export function LtvCalculatorClient() {
 
       <ToolFaqAccordion faqs={faqs} />
 
-      <RelatedTools currentToolUrl="/tools/finance/ltv-calculator" category="finance" />
+      <RelatedTools currentToolUrl="/tools/finance/ltv-calculator" max={6} />
     </div>
   );
 }
