@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useMemo } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -127,7 +128,7 @@ Final Balance: ${formatCurrency(results.finalBalance)}`;
  <ToolPageHeader title="Compound Interest Calculator"description="Calculate how your investments can grow over time with compound interest."/>
 
  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-      <GridPattern />
+      <ToolBackground />
 
  {/* Input Section */}
  <Card className="lg:col-span-1">

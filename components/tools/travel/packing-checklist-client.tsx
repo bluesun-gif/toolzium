@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import { Backpack, Briefcase, ClipboardList, Luggage, Mountain, Plus, Sun, ThermometerSnowflake, ThermometerSun, Trash2, Umbrella, Sparkles, Shield, Zap, Copy } from"lucide-react";
 import React, { useCallback, useEffect, useMemo, useState } from"react";
@@ -287,7 +288,7 @@ export default function PackingChecklistClient() {
  />
 
  <div className="space-y-2">
-      <GridPattern />
+      <ToolBackground />
 
  <Label>Quick add</Label>
  <div className="flex gap-2">

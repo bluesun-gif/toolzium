@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useCallback, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -163,8 +164,8 @@ Instructions:
     navigator.clipboard.writeText(pdfText);
     toast.success("Document content copied to clipboard!");
   };
-  return <div className="w-full min-h-screen pb-20 relative">
-      <GridPattern />
+  return <div className="w-full min-h-screen pb-20 relative"><ToolBackground /><div className="relative z-10">
+      
 
       {/* Required for Syntax Highlighting */}
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
@@ -194,15 +195,15 @@ Instructions:
 
                 {/* View Mode Switcher */}
                 <div className="flex items-center gap-1 bg-background border border-border p-1 rounded-xl text-xs font-semibold">
-                  <Button type="button" onClick={() => setViewMode("rendered")} className={cn(cn("px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5", viewMode === "rendered" ? "bg-primary text-white shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
+                  <Button type="button" onClick={() => setViewMode("rendered")} className={cn(cn("px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5", viewMode === "rendered" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
                     <Eye className="w-3.5 h-3.5" />
                     <span>Formatted View</span>
                   </Button>
-                  <Button type="button" onClick={() => setViewMode("raw")} className={cn(cn("px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5", viewMode === "raw" ? "bg-primary text-white shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
+                  <Button type="button" onClick={() => setViewMode("raw")} className={cn(cn("px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5", viewMode === "raw" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
                     <Code2 className="w-3.5 h-3.5" />
                     <span>Raw Code</span>
                   </Button>
-                  <Button type="button" onClick={() => setViewMode("edit")} className={cn(cn("px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5", viewMode === "edit" ? "bg-primary text-white shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
+                  <Button type="button" onClick={() => setViewMode("edit")} className={cn(cn("px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5", viewMode === "edit" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
                     <FileCode className="w-3.5 h-3.5" />
                     <span>Edit Text</span>
                   </Button>
@@ -236,8 +237,8 @@ Instructions:
               {/* Document Canvas Surface */}
               <div className="p-4 sm:p-6 flex-1 overflow-y-auto bg-muted/10">
                 <div style={{
-                fontSize: `${zoomLevel / 100 * 100}%`
-              }} className="transition-all duration-200">
+                  fontSize: `${zoomLevel / 100 * 100}%`
+                }} className="transition-all duration-200">
                   {viewMode === "rendered" && <div className="bg-card border border-border/80 p-6 sm:p-10 rounded-2xl shadow-xl space-y-4 max-w-none text-foreground min-h-[460px]">
                       <div className="prose prose-sm sm:prose-base dark:prose-invert max-w-none prose-headings:font-bold prose-headings:text-foreground prose-p:text-foreground/90 prose-strong:text-primary prose-table:w-full prose-table:border-collapse prose-th:border prose-th:border-border prose-th:bg-muted/50 prose-th:p-2.5 prose-td:border prose-td:border-border prose-td:p-2.5">
                         <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
@@ -291,17 +292,17 @@ Instructions:
               {/* Chat Message History */}
               <CardContent className="p-4 flex-1 overflow-y-auto space-y-4 bg-card/40">
                 {messages.map(msg => <motion.div key={msg.id} initial={{
-                opacity: 0,
-                y: 10
-              }} animate={{
-                opacity: 1,
-                y: 0
-              }} className={cn("flex gap-3 text-xs", msg.sender === "user" ? "justify-end" : "justify-start")}>
+                  opacity: 0,
+                  y: 10
+                }} animate={{
+                  opacity: 1,
+                  y: 0
+                }} className={cn("flex gap-3 text-xs", msg.sender === "user" ? "justify-end" : "justify-start")}>
                     {msg.sender === "bot" && <div className="w-7 h-7 rounded-full bg-primary/10 border border-primary/20 text-primary flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
                         <Bot className="w-4 h-4" />
                       </div>}
 
-                    <div className={cn("p-4 rounded-2xl max-w-[90%] leading-relaxed shadow-sm", msg.sender === "user" ? "bg-primary text-white font-medium shadow-primary/20" : "bg-background border border-border text-foreground")}>
+                    <div className={cn("p-4 rounded-2xl max-w-[90%] leading-relaxed shadow-sm", msg.sender === "user" ? "bg-primary text-primary-foreground font-medium shadow-primary/20" : "bg-background border border-border text-foreground")}>
                       {msg.sender === "user" ? <p className="whitespace-pre-wrap">{msg.text}</p> : <div className="prose prose-xs dark:prose-invert max-w-none prose-headings:font-bold prose-headings:text-foreground prose-headings:border-b prose-headings:border-border/60 prose-headings:pb-1 prose-headings:my-2 prose-p:text-foreground/90 prose-strong:text-primary prose-table:w-full prose-table:border-collapse prose-th:border prose-th:border-border prose-th:bg-muted/50 prose-th:p-2 prose-td:border prose-td:border-border prose-td:p-2">
                           <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
                             {msg.text}
@@ -322,7 +323,7 @@ Instructions:
               {/* Chat Input Bar */}
               <div className="p-3 border-t border-border bg-muted/30 flex gap-2 shrink-0">
                 <Input placeholder="Ask Claude any question about your document..." value={inputQuery} onChange={e => setInputQuery(e.target.value)} onKeyDown={e => e.key === "Enter" && handleSendQuery()} className="text-xs bg-background border-border" />
-                <Button onClick={() => handleSendQuery()} disabled={isProcessing || !inputQuery.trim()} size="sm" className="gap-1.5 text-xs bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl px-4">
+                <Button onClick={() => handleSendQuery()} disabled={isProcessing || !inputQuery.trim()} size="sm" className="gap-1.5 text-xs bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl px-4">
                   <Send className="w-3.5 h-3.5" />
                   <span>Send</span>
                 </Button>
@@ -332,35 +333,35 @@ Instructions:
         </div>
 
         <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Open Document File",
-        description: "Upload PDF, Word, Markdown, or code files into the Document Reader.",
-        icon: FileText
-      }, {
-        step: "02",
-        title: "Rendered Paper Preview",
-        description: "View formatted tables, titles, and specifications on a clean document canvas.",
-        icon: Eye
-      }, {
-        step: "03",
-        title: "Claude 3.5 AI Assistant Q&A",
-        description: "Query Claude AI for accessibility audits, summaries, and data extraction.",
-        icon: Bot
-      }]} badges={["100% Free", "Word & PDF File Viewer", "Claude 3.5 Sonnet Engine"]} />
+          step: "01",
+          title: "Open Document File",
+          description: "Upload PDF, Word, Markdown, or code files into the Document Reader.",
+          icon: FileText
+        }, {
+          step: "02",
+          title: "Rendered Paper Preview",
+          description: "View formatted tables, titles, and specifications on a clean document canvas.",
+          icon: Eye
+        }, {
+          step: "03",
+          title: "Claude 3.5 AI Assistant Q&A",
+          description: "Query Claude AI for accessibility audits, summaries, and data extraction.",
+          icon: Bot
+        }]} badges={["100% Free", "Word & PDF File Viewer", "Claude 3.5 Sonnet Engine"]} />
 
         <ToolFeatureGuides features={[{
-        icon: Eye,
-        title: "Formatted Document Reader",
-        description: "Renders Markdown, tables, lists, and headings as a formatted paper document view."
-      }, {
-        icon: Bot,
-        title: "Claude 3.5 Sonnet Q&A",
-        description: "Leverages Anthropic's flagship AI reasoning for precise document analysis."
-      }, {
-        icon: TableIcon,
-        title: "Matrix & Table Parsing",
-        description: "Auto-formats WCAG compliance matrices, CSV data, and spec sheets."
-      }]}>
+          icon: Eye,
+          title: "Formatted Document Reader",
+          description: "Renders Markdown, tables, lists, and headings as a formatted paper document view."
+        }, {
+          icon: Bot,
+          title: "Claude 3.5 Sonnet Q&A",
+          description: "Leverages Anthropic's flagship AI reasoning for precise document analysis."
+        }, {
+          icon: TableIcon,
+          title: "Matrix & Table Parsing",
+          description: "Auto-formats WCAG compliance matrices, CSV data, and spec sheets."
+        }]}>
           <div className="prose dark:prose-invert max-w-none">
             <h3>Streamlining Enterprise Document Auditing</h3>
             <p>
@@ -370,15 +371,15 @@ Instructions:
         </ToolFeatureGuides>
 
         <ToolFaqAccordion faqs={[{
-        question: "Which file formats can I open?",
-        answer: "We support Markdown (.md), Plain Text (.txt), Word (.docx), PDF (.pdf), Code (.ts, .py, .js, .sql), JSON, and CSV files."
-      }, {
-        question: "Is my document stored on a server?",
-        answer: "No, all file reading and chat context processing occur securely in your active session."
-      }]} />
+          question: "Which file formats can I open?",
+          answer: "We support Markdown (.md), Plain Text (.txt), Word (.docx), PDF (.pdf), Code (.ts, .py, .js, .sql), JSON, and CSV files."
+        }, {
+          question: "Is my document stored on a server?",
+          answer: "No, all file reading and chat context processing occur securely in your active session."
+        }]} />
 
         <RelatedTools currentToolUrl="/tools/ai/pdf-chat" max={6} />
       </div>
-    </div>;
+    </div></div>;
 }
 export default PdfChatClient;

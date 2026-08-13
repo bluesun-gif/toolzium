@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -32,37 +33,37 @@ const COLOR_CLASSES: Record<Task["color"], {
   red: {
     bg: "bg-red-500/10 dark:bg-red-500/20",
     border: "border-red-500/40",
-    badge: "bg-red-500 text-white",
+    badge: "bg-red-500 text-primary-foreground",
     text: "text-red-950 dark:text-red-100"
   },
   blue: {
     bg: "bg-blue-500/10 dark:bg-blue-500/20",
     border: "border-blue-500/40",
-    badge: "bg-blue-500 text-white",
+    badge: "bg-blue-500 text-primary-foreground",
     text: "text-blue-950 dark:text-blue-100"
   },
   green: {
     bg: "bg-emerald-500/10 dark:bg-emerald-500/20",
     border: "border-emerald-500/40",
-    badge: "bg-emerald-500 text-white",
+    badge: "bg-emerald-500 text-primary-foreground",
     text: "text-emerald-950 dark:text-emerald-100"
   },
   yellow: {
     bg: "bg-amber-500/10 dark:bg-amber-500/20",
     border: "border-amber-500/40",
-    badge: "bg-amber-500 text-white",
+    badge: "bg-amber-500 text-primary-foreground",
     text: "text-amber-950 dark:text-amber-100"
   },
   purple: {
     bg: "bg-purple-500/10 dark:bg-purple-500/20",
     border: "border-purple-500/40",
-    badge: "bg-purple-500 text-white",
+    badge: "bg-purple-500 text-primary-foreground",
     text: "text-purple-950 dark:text-purple-100"
   },
   orange: {
     bg: "bg-orange-500/10 dark:bg-orange-500/20",
     border: "border-orange-500/40",
-    badge: "bg-orange-500 text-white",
+    badge: "bg-orange-500 text-primary-foreground",
     text: "text-orange-950 dark:text-orange-100"
   }
 };
@@ -147,8 +148,8 @@ export function ColoredKanbanClient() {
     a.click();
     toast.success("Exported Kanban tasks!");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+      
 
       <ToolPageHeader icon={Layout} title="Color-Coded Category Kanban Board" description="Visual Kanban task board with custom color tags, priority badges, and light/dark theme contrast optimization." actions={<div className="flex gap-2">
             <ActionButton onClick={exportJSON} icon={Download} label="Export JSON" variant="outline" size="default" />
@@ -198,28 +199,28 @@ export function ColoredKanbanClient() {
       {/* KANBAN COLUMNS BOARD */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {([{
-        col: "todo",
-        title: "Todo",
-        badge: "bg-muted text-foreground"
-      }, {
-        col: "inprogress",
-        title: "In Progress",
-        badge: "bg-primary/20 text-primary"
-      }, {
-        col: "review",
-        title: "Review",
-        badge: "bg-amber-500/20 text-amber-600 dark:text-amber-400"
-      }, {
-        col: "done",
-        title: "Done",
-        badge: "bg-emerald-500/20 text-emerald-600 dark:text-emerald-400"
-      }] as const).map(({
-        col,
-        title,
-        badge
-      }) => {
-        const colTasks = tasks.filter(t => t.column === col);
-        return <GlassCard key={col} className="flex flex-col">
+          col: "todo",
+          title: "Todo",
+          badge: "bg-muted text-foreground"
+        }, {
+          col: "inprogress",
+          title: "In Progress",
+          badge: "bg-primary/20 text-primary"
+        }, {
+          col: "review",
+          title: "Review",
+          badge: "bg-amber-500/20 text-amber-600 dark:text-amber-400"
+        }, {
+          col: "done",
+          title: "Done",
+          badge: "bg-emerald-500/20 text-emerald-600 dark:text-emerald-400"
+        }] as const).map(({
+          col,
+          title,
+          badge
+        }) => {
+          const colTasks = tasks.filter(t => t.column === col);
+          return <GlassCard key={col} className="flex flex-col">
               <CardHeader className="p-4 flex flex-row items-center justify-between border-b border-border/60">
                 <CardTitle className="text-base font-bold text-foreground capitalize flex items-center gap-2">
                   {title}
@@ -233,8 +234,8 @@ export function ColoredKanbanClient() {
                 {colTasks.length === 0 ? <div className="flex flex-col items-center justify-center h-48 text-muted-foreground text-xs text-center border border-dashed border-border/80 rounded-xl p-4">
                     <span>No tasks in {title}</span>
                   </div> : colTasks.map(t => {
-              const colorStyle = COLOR_CLASSES[t.color] || COLOR_CLASSES.red;
-              return <div key={t.id} className={cn("p-3.5 rounded-xl border shadow-sm transition-all space-y-2.5", colorStyle.bg, colorStyle.border, colorStyle.text)}>
+                const colorStyle = COLOR_CLASSES[t.color] || COLOR_CLASSES.red;
+                return <div key={t.id} className={cn("p-3.5 rounded-xl border shadow-sm transition-all space-y-2.5", colorStyle.bg, colorStyle.border, colorStyle.text)}>
                         <div className="flex items-start justify-between gap-2">
                           <p className="text-sm font-bold leading-snug break-words">{t.title}</p>
                           <Button onClick={() => deleteTask(t.id)} className="text-muted-foreground hover:text-destructive transition-colors p-1" title="Delete task">
@@ -257,54 +258,54 @@ export function ColoredKanbanClient() {
                           </div>
                         </div>
                       </div>;
-            })}
+              })}
               </CardContent>
             </GlassCard>;
-      })}
+        })}
       </div>
 
       {/* HOW IT WORKS */}
       <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Add Task & Tag Color",
-      description: "Type your task title and select a color badge (Red for High Priority, Blue for Tech Debt, etc.).",
-      icon: Tag
-    }, {
-      step: "02",
-      title: "Move Across Columns",
-      description: "Use left and right arrow buttons to move tasks through Todo, In Progress, Review, and Done states.",
-      icon: ChevronRight
-    }, {
-      step: "03",
-      title: "Auto-Saved & Exportable",
-      description: "All changes save automatically to local storage and can be exported as JSON.",
-      icon: CheckCircle2
-    }]} badges={["Light & Dark Theme Contrast", "Color Tagging", "Auto-Saved"]} />
+        step: "01",
+        title: "Add Task & Tag Color",
+        description: "Type your task title and select a color badge (Red for High Priority, Blue for Tech Debt, etc.).",
+        icon: Tag
+      }, {
+        step: "02",
+        title: "Move Across Columns",
+        description: "Use left and right arrow buttons to move tasks through Todo, In Progress, Review, and Done states.",
+        icon: ChevronRight
+      }, {
+        step: "03",
+        title: "Auto-Saved & Exportable",
+        description: "All changes save automatically to local storage and can be exported as JSON.",
+        icon: CheckCircle2
+      }]} badges={["Light & Dark Theme Contrast", "Color Tagging", "Auto-Saved"]} />
 
       {/* FEATURE GUIDES */}
       <ToolFeatureGuides features={[{
-      icon: Layout,
-      title: "High Contrast Theme Engine",
-      description: "Optimized font colors and translucent backgrounds to ensure 100% legibility in both light and dark mode."
-    }, {
-      icon: Tag,
-      title: "Custom Category Badging",
-      description: "Assign distinct color badges (Red, Orange, Yellow, Green, Blue, Purple) to categorize work streams."
-    }, {
-      icon: Download,
-      title: "JSON Export & Persistence",
-      description: "Export task data to JSON backup files for offline archival."
-    }]} />
+        icon: Layout,
+        title: "High Contrast Theme Engine",
+        description: "Optimized font colors and translucent backgrounds to ensure 100% legibility in both light and dark mode."
+      }, {
+        icon: Tag,
+        title: "Custom Category Badging",
+        description: "Assign distinct color badges (Red, Orange, Yellow, Green, Blue, Purple) to categorize work streams."
+      }, {
+        icon: Download,
+        title: "JSON Export & Persistence",
+        description: "Export task data to JSON backup files for offline archival."
+      }]} />
 
       {/* FAQ ACCORDION */}
       <ToolFaqAccordion faqs={[{
-      question: "Is my task data saved securely?",
-      answer: "Yes, all tasks are stored in your browser's local storage. No data is sent to external servers."
-    }, {
-      question: "Does this Kanban board support light and dark theme mode?",
-      answer: "Yes! Every color tag uses high-contrast translucent backgrounds with dark-text in light theme and light-text in dark theme."
-    }]} />
+        question: "Is my task data saved securely?",
+        answer: "Yes, all tasks are stored in your browser's local storage. No data is sent to external servers."
+      }, {
+        question: "Does this Kanban board support light and dark theme mode?",
+        answer: "Yes! Every color tag uses high-contrast translucent backgrounds with dark-text in light theme and light-text in dark theme."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/productivity/colored-kanban" max={6} />
-    </div>;
+    </div></div>;
 }

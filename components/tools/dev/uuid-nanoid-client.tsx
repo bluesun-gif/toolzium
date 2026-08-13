@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import {
  ActionButton,
@@ -300,7 +301,7 @@ const run = useCallback(() => {
 
  return (
       <div className="relative max-w-6xl mx-auto space-y-8">
-      <GridPattern />
+      <ToolBackground />
 
  <ToolPageHeader
  icon={Hash}

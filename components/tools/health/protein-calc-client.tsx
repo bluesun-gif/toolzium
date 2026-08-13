@@ -1,66 +1,51 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
-import React, { useState, useMemo } from"react";
-import { Dumbbell, Target, Utensils, Copy, Sparkles, Shield, Zap } from"lucide-react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle } from"@/components/ui/card";
-import { Input } from"@/components/ui/input";
-import { Label } from"@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { GridPattern } from"@/components/magicui/grid-pattern";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import { RelatedTools } from"@/components/shared/related-tools";
-
+import React, { useState, useMemo } from "react";
+import { Dumbbell, Target, Utensils, Copy, Sparkles, Shield, Zap } from "lucide-react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { GridPattern } from "@/components/magicui/grid-pattern";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 export function ProteinCalcClient() {
- const [weight, setWeight] = useState("150");
- const [weightUnit, setWeightUnit] = useState("lbs");
- const [goal, setGoal] = useState("muscle");
- 
- const resetAll = () => {
- setWeight("150");
- setWeightUnit("lbs");
- setGoal("muscle");
- };
+  const [weight, setWeight] = useState("150");
+  const [weightUnit, setWeightUnit] = useState("lbs");
+  const [goal, setGoal] = useState("muscle");
+  const resetAll = () => {
+    setWeight("150");
+    setWeightUnit("lbs");
+    setGoal("muscle");
+  };
+  const results = useMemo(() => {
+    const w = parseFloat(weight);
+    if (isNaN(w) || w <= 0) return null;
 
- const results = useMemo(() => {
- const w = parseFloat(weight);
- if (isNaN(w) || w <= 0) return null;
- 
- // convert to lbs for calculation standard
- const weightLbs = weightUnit ==="kg"? w * 2.20462 : w;
- 
- let multiplier = 0.8;
- if (goal ==="sedentary") multiplier = 0.4;
- else if (goal ==="endurance") multiplier = 0.6;
- else if (goal ==="muscle") multiplier = 0.8;
- else if (goal ==="weightloss") multiplier = 1.0;
- 
- const dailyProtein = Math.round(weightLbs * multiplier);
- const calories = dailyProtein * 4;
- 
- return {
- daily: dailyProtein,
- calories: calories,
- meals3: Math.round(dailyProtein / 3),
- meals4: Math.round(dailyProtein / 4),
- meals5: Math.round(dailyProtein / 5),
- };
- }, [weight, weightUnit, goal]);
+    // convert to lbs for calculation standard
+    const weightLbs = weightUnit === "kg" ? w * 2.20462 : w;
+    let multiplier = 0.8;
+    if (goal === "sedentary") multiplier = 0.4;else if (goal === "endurance") multiplier = 0.6;else if (goal === "muscle") multiplier = 0.8;else if (goal === "weightloss") multiplier = 1.0;
+    const dailyProtein = Math.round(weightLbs * multiplier);
+    const calories = dailyProtein * 4;
+    return {
+      daily: dailyProtein,
+      calories: calories,
+      meals3: Math.round(dailyProtein / 3),
+      meals4: Math.round(dailyProtein / 4),
+      meals5: Math.round(dailyProtein / 5)
+    };
+  }, [weight, weightUnit, goal]);
+  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+      
 
- return (
-      <div className="relative space-y-6">
-      <GridPattern />
-
- <ToolPageHeader
- icon={Dumbbell}
- title="Protein Intake Calculator"
- description="Calculate daily recommended protein intake based on body weight, goal, and activity level."
- actions={<ResetButton onClick={resetAll} label="Reset"/>}
- />
+ <ToolPageHeader icon={Dumbbell} title="Protein Intake Calculator" description="Calculate daily recommended protein intake based on body weight, goal, and activity level." actions={<ResetButton onClick={resetAll} label="Reset" />} />
 
  <div className="grid md:grid-cols-2 gap-6">
  <GlassCard>
@@ -71,7 +56,7 @@ export function ProteinCalcClient() {
  <div className="space-y-2">
  <Label>Weight</Label>
  <div className="flex gap-2">
- <Input type="number"value={weight} onChange={(e) => setWeight(e.target.value)} className="flex-1"/>
+ <Input type="number" value={weight} onChange={e => setWeight(e.target.value)} className="flex-1" />
  <Select value={weightUnit} onValueChange={setWeightUnit}>
  <SelectTrigger className="w-[100px]">
  <SelectValue />
@@ -106,8 +91,7 @@ export function ProteinCalcClient() {
  <CardTitle>Results</CardTitle>
  </CardHeader>
  <CardContent>
- {results ? (
- <div className="space-y-6">
+ {results ? <div className="space-y-6">
  <div className="text-center p-6 bg-primary/10 rounded-xl">
  <div className="text-4xl font-bold text-primary">{results.daily}g</div>
  <div className="text-sm text-muted-foreground mt-1">Daily Protein Intake</div>
@@ -115,7 +99,7 @@ export function ProteinCalcClient() {
  </div>
  
  <div className="space-y-3">
- <h3 className="font-semibold flex items-center gap-2"><Utensils className="w-4 h-4"/> Per Meal Breakdown</h3>
+ <h3 className="font-semibold flex items-center gap-2"><Utensils className="w-4 h-4" /> Per Meal Breakdown</h3>
  <div className="grid grid-cols-3 gap-2 text-center">
  <div className="bg-muted p-2 rounded-md">
  <div className="font-bold">{results.meals3}g</div>
@@ -133,61 +117,45 @@ export function ProteinCalcClient() {
  </div>
  
  <div className="flex justify-end">
- <CopyButton getText={() =>"Daily Protein:"+ results.daily +"g ("+ results.calories +"kcal). Breakdown:"+ results.meals3 +"g/3 meals,"+ results.meals4 +"g/4 meals,"+ results.meals5 +"g/5 meals."} label="Copy Results"/>
+ <CopyButton getText={() => "Daily Protein:" + results.daily + "g (" + results.calories + "kcal). Breakdown:" + results.meals3 + "g/3 meals," + results.meals4 + "g/4 meals," + results.meals5 + "g/5 meals."} label="Copy Results" />
  </div>
- </div>
- ) : (
- <div className="text-center p-6 text-muted-foreground">
+ </div> : <div className="text-center p-6 text-muted-foreground">
  Enter valid details to see your recommended protein intake.
- </div>
- )}
+ </div>}
  </CardContent>
  </GlassCard>
  </div>
  
-      <ToolHowItWorks
-        steps={[
-          {
-            step: "01",
-            title: "Input Your Data",
-            description: "Enter your information in the input field above and configure any options.",
-            icon: Sparkles,
-          },
-          {
-            step: "02",
-            title: "Process & Generate",
-            description: "The tool processes your input instantly and displays the results.",
-            icon: Zap,
-          },
-          {
-            step: "03",
-            title: "Copy & Use",
-            description: "Copy the output with one click and use it wherever you need.",
-            icon: Copy,
-          },
-        ]}
-        badges={["100% Free", "Instant Results", "Privacy-First"]}
-      />
+      <ToolHowItWorks steps={[{
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
 
-      <ToolFeatureGuides
-        features={[
-          {
-            icon: Sparkles,
-            title: "Lightning Fast",
-            description: "Get results in milliseconds with our optimized client-side processing engine.",
-          },
-          {
-            icon: Shield,
-            title: "Completely Private",
-            description: "All processing happens in your browser. Your data never leaves your device.",
-          },
-          {
-            icon: Zap,
-            title: "No Signup Required",
-            description: "Use this tool instantly without creating an account or providing any personal information.",
-          },
-        ]}
-      >
+      <ToolFeatureGuides features={[{
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Protein Intake Calculator?</h3>
           <p>
@@ -203,25 +171,18 @@ export function ProteinCalcClient() {
         </div>
       </ToolFeatureGuides>
 
-      <ToolFaqAccordion
-        faqs={[
-          {
-            question: "Is this tool free to use?",
-            answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits.",
-          },
-          {
-            question: "Is my data secure?",
-            answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server.",
-          },
-          {
-            question: "Do I need to create an account?",
-            answer: "No account or registration is required. Simply open the tool and start using it immediately.",
-          },
-        ]}
-      />
+      <ToolFaqAccordion faqs={[{
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/health/protein-calc" max={6} />
 
-</div>
- );
+    </div></div>;
 }

@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -14,18 +15,27 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
 import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Gamepad2, RefreshCw, Sparkles, Shield, Copy, Search } from"lucide-react";
+import { Gamepad2, RefreshCw, Sparkles, Shield, Copy, Search } from "lucide-react";
 import toast from "react-hot-toast";
-
-const ROBLOX_STYLES = [
-  { value: "aesthetic", label: "✨ Aesthetic & Soft Girl/Boy" },
-  { value: "clean", label: "⚡ Clean & Short (4-5 Letters)" },
-  { value: "goth", label: "🖤 Dark & Goth / Edgy" },
-  { value: "anime", label: "⛩️ Anime & Otaku Vibe" },
-  { value: "pvp", label: "🔥 Hardcore Gamer & PvP Sweaty" },
-  { value: "cute", label: "🌸 Cute & Kawaii" },
-];
-
+const ROBLOX_STYLES = [{
+  value: "aesthetic",
+  label: "✨ Aesthetic & Soft Girl/Boy"
+}, {
+  value: "clean",
+  label: "⚡ Clean & Short (4-5 Letters)"
+}, {
+  value: "goth",
+  label: "🖤 Dark & Goth / Edgy"
+}, {
+  value: "anime",
+  label: "⛩️ Anime & Otaku Vibe"
+}, {
+  value: "pvp",
+  label: "🔥 Hardcore Gamer & PvP Sweaty"
+}, {
+  value: "cute",
+  label: "🌸 Cute & Kawaii"
+}];
 export default function RobloxUsernameClient() {
   const [style, setStyle] = useState("aesthetic");
   const [useNumbers, setUseNumbers] = useState(true);
@@ -34,30 +44,27 @@ export default function RobloxUsernameClient() {
   const [searchQuery, setSearchQuery] = useState("");
   const [visibleCount, setVisibleCount] = useState(30);
   const [loading, setLoading] = useState(false);
-
   const generateRobloxNames = async () => {
     setLoading(true);
-
     try {
       const prompt = `Generate 40 unique Roblox username base concepts in '${style}' vibe. Output 1 username per line. Rule: Numbers=${useNumbers}, Underscores=${useUnderscore}. No spaces or special symbols except underscores. No markdown.`;
-
       const res = await fetch("/api/ai/generate", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt }),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          prompt
+        })
       });
-
       const data = await res.json();
-      const baseList: string[] = data.results && data.results.length > 0
-        ? data.results
-        : ["SoftVibes", "VelvetMist", "LunarBlush", "StarlightAura", "SilkClouds", "VexZyn", "NoxRyn", "JaxLuv", "ZekSol", "VynKyo", "VoidVamp", "ShadowGrim", "VenomCorpse", "RavenDusk", "GloomHex"];
+      const baseList: string[] = data.results && data.results.length > 0 ? data.results : ["SoftVibes", "VelvetMist", "LunarBlush", "StarlightAura", "SilkClouds", "VexZyn", "NoxRyn", "JaxLuv", "ZekSol", "VynKyo", "VoidVamp", "ShadowGrim", "VenomCorpse", "RavenDusk", "GloomHex"];
 
       // Multiply into 100+ variations with clean Roblox-friendly variations
       const expanded: string[] = [];
-      baseList.forEach((base) => {
+      baseList.forEach(base => {
         const clean = base.replace(/[^a-zA-Z0-9_]/g, "");
         if (!clean) return;
-
         expanded.push(clean);
         if (useNumbers) {
           expanded.push(`${clean}77`);
@@ -73,31 +80,21 @@ export default function RobloxUsernameClient() {
         expanded.push(`${clean}Vibes`);
         expanded.push(`${clean}Official`);
       });
-
       const unique = Array.from(new Set(expanded));
       setAllNames(unique);
       toast.success(`Generated ${unique.length}+ Roblox usernames!`);
     } catch {
-      const fallbackList = [
-        "SoftVibes", "VelvetMist", "LunarBlush", "StarlightAura", "SilkClouds",
-        "VexZyn", "NoxRyn", "JaxLuv", "ZekSol", "VynKyo",
-        "VoidVamp", "ShadowGrim", "VenomCorpse", "RavenDusk", "GloomHex",
-      ];
+      const fallbackList = ["SoftVibes", "VelvetMist", "LunarBlush", "StarlightAura", "SilkClouds", "VexZyn", "NoxRyn", "JaxLuv", "ZekSol", "VynKyo", "VoidVamp", "ShadowGrim", "VenomCorpse", "RavenDusk", "GloomHex"];
       setAllNames(fallbackList);
       toast.success("Generated Roblox usernames!");
     } finally {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     generateRobloxNames();
   }, [style]);
-
-  const filteredNames = allNames.filter((n) =>
-    n.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
+  const filteredNames = allNames.filter(n => n.toLowerCase().includes(searchQuery.toLowerCase()));
   const handleReset = () => {
     setStyle("aesthetic");
     setUseNumbers(true);
@@ -106,17 +103,10 @@ export default function RobloxUsernameClient() {
     setVisibleCount(30);
     generateRobloxNames();
   };
+  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+      
 
-  return (
-    <div className="relative max-w-6xl mx-auto space-y-8">
-      <GridPattern />
-
-      <ToolPageHeader
-        icon={Gamepad2}
-        title="Roblox 100+ Username & Display Name Generator"
-        description="Generate 100+ cool, aesthetic, rare 4-letter, goth, and PvP Roblox usernames and display names with live AI."
-        actions={<ResetButton onClick={handleReset} label="Reset" />}
-      />
+      <ToolPageHeader icon={Gamepad2} title="Roblox 100+ Username & Display Name Generator" description="Generate 100+ cool, aesthetic, rare 4-letter, goth, and PvP Roblox usernames and display names with live AI." actions={<ResetButton onClick={handleReset} label="Reset" />} />
 
       {/* INPUT CARD */}
       <GlassCard>
@@ -131,51 +121,35 @@ export default function RobloxUsernameClient() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="space-y-2">
               <Label>Select Theme</Label>
-              <Select value={style} onValueChange={(v) => setStyle(v)}>
+              <Select value={style} onValueChange={v => setStyle(v)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select style" />
                 </SelectTrigger>
                 <SelectContent>
-                  {ROBLOX_STYLES.map((s) => (
-                    <SelectItem key={s.value} value={s.value}>
+                  {ROBLOX_STYLES.map(s => <SelectItem key={s.value} value={s.value}>
                       {s.label}
-                    </SelectItem>
-                  ))}
+                    </SelectItem>)}
                 </SelectContent>
               </Select>
             </div>
 
             <div className="flex flex-col justify-end space-y-2 pb-2">
               <label className="text-xs font-bold text-foreground flex items-center gap-2 cursor-pointer select-none">
-                <input
-                  type="checkbox"
-                  checked={useNumbers}
-                  onChange={(e) => setUseNumbers(e.target.checked)}
-                  className="h-4 w-4 rounded border-primary text-primary accent-primary"
-                />
+                <input type="checkbox" checked={useNumbers} onChange={e => setUseNumbers(e.target.checked)} className="h-4 w-4 rounded border-primary text-primary accent-primary" />
                 <span>Include Numbers (e.g. 77, 99)</span>
               </label>
             </div>
 
             <div className="flex flex-col justify-end space-y-2 pb-2">
               <label className="text-xs font-bold text-foreground flex items-center gap-2 cursor-pointer select-none">
-                <input
-                  type="checkbox"
-                  checked={useUnderscore}
-                  onChange={(e) => setUseUnderscore(e.target.checked)}
-                  className="h-4 w-4 rounded border-primary text-primary accent-primary"
-                />
+                <input type="checkbox" checked={useUnderscore} onChange={e => setUseUnderscore(e.target.checked)} className="h-4 w-4 rounded border-primary text-primary accent-primary" />
                 <span>Include Underscores (e.g. Soft_Vibes)</span>
               </label>
             </div>
           </div>
 
           <div className="flex justify-end pt-2">
-            <Button
-              onClick={generateRobloxNames}
-              disabled={loading}
-              className="gap-2 font-bold h-11 px-6 shadow-md"
-            >
+            <Button onClick={generateRobloxNames} disabled={loading} className="gap-2 font-bold h-11 px-6 shadow-md">
               <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
               {loading ? "Generating 100+ Usernames..." : "Generate 100+ Roblox Usernames"}
             </Button>
@@ -184,8 +158,7 @@ export default function RobloxUsernameClient() {
       </GlassCard>
 
       {/* 100+ DISPLAY GRID */}
-      {allNames.length > 0 && (
-        <div className="space-y-4">
+      {allNames.length > 0 && <div className="space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border/60 pb-3">
             <h2 className="text-xl font-bold tracking-tight text-foreground flex items-center gap-2">
               <Sparkles className="h-5 w-5 text-primary" />
@@ -195,100 +168,66 @@ export default function RobloxUsernameClient() {
             {/* SEARCH FILTER */}
             <div className="relative w-full sm:w-64">
               <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Filter usernames..."
-                className="pl-9 h-10 text-xs"
-              />
+              <Input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Filter usernames..." className="pl-9 h-10 text-xs" />
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-            {filteredNames.slice(0, visibleCount).map((item, idx) => (
-              <GlassCard key={idx} className="p-3.5 flex items-center justify-between hover:border-primary/40 transition-all">
+            {filteredNames.slice(0, visibleCount).map((item, idx) => <GlassCard key={idx} className="p-3.5 flex items-center justify-between hover:border-primary/40 transition-all">
                 <span className="font-bold text-sm text-foreground truncate pr-2 font-mono">{item}</span>
                 <CopyButton getText={() => item} label="Copy" />
-              </GlassCard>
-            ))}
+              </GlassCard>)}
           </div>
 
-          {visibleCount < filteredNames.length && (
-            <div className="flex justify-center pt-4">
-              <Button
-                variant="outline"
-                onClick={() => setVisibleCount((prev) => prev + 30)}
-                className="font-bold gap-2 px-8 h-11 border-primary/30 text-primary hover:bg-primary/10"
-              >
+          {visibleCount < filteredNames.length && <div className="flex justify-center pt-4">
+              <Button variant="outline" onClick={() => setVisibleCount(prev => prev + 30)} className="font-bold gap-2 px-8 h-11 border-primary/30 text-primary hover:bg-primary/10">
                 Load 30 More Usernames ({filteredNames.length - visibleCount} Remaining)
               </Button>
-            </div>
-          )}
-        </div>
-      )}
+            </div>}
+        </div>}
 
       {/* HOW IT WORKS */}
-      <ToolHowItWorks
-        steps={[
-          {
-            step: "01",
-            title: "Select Roblox Style",
-            description: "Choose from Aesthetic, Clean 4-letter, Goth Edgy, Anime Otaku, or Cute Kawaii.",
-            icon: Gamepad2,
-          },
-          {
-            step: "02",
-            title: "AI Generates 100+ Options",
-            description: "Produces 100+ valid Roblox username combinations adhering to Roblox character rules.",
-            icon: Sparkles,
-          },
-          {
-            step: "03",
-            title: "Copy & Change Name",
-            description: "Copy your favorite username and paste directly into Roblox Account Settings.",
-            icon: Copy,
-          },
-        ]}
-        badges={["100+ Usernames", "Roblox Display Name Ready", "100% Free"]}
-      />
+      <ToolHowItWorks steps={[{
+        step: "01",
+        title: "Select Roblox Style",
+        description: "Choose from Aesthetic, Clean 4-letter, Goth Edgy, Anime Otaku, or Cute Kawaii.",
+        icon: Gamepad2
+      }, {
+        step: "02",
+        title: "AI Generates 100+ Options",
+        description: "Produces 100+ valid Roblox username combinations adhering to Roblox character rules.",
+        icon: Sparkles
+      }, {
+        step: "03",
+        title: "Copy & Change Name",
+        description: "Copy your favorite username and paste directly into Roblox Account Settings.",
+        icon: Copy
+      }]} badges={["100+ Usernames", "Roblox Display Name Ready", "100% Free"]} />
 
       {/* FEATURE GUIDES */}
-      <ToolFeatureGuides
-        features={[
-          {
-            icon: Gamepad2,
-            title: "100+ Unique Usernames",
-            description: "Generates large sets of clean usernames so you can find un-taken Roblox names easily.",
-          },
-          {
-            icon: Sparkles,
-            title: "Roblox Username Rules Compliant",
-            description: "Adheres to Roblox's 3-20 character length limits, alphanumeric rules, and single-underscore restrictions.",
-          },
-          {
-            icon: Shield,
-            title: "100% Free & Safe",
-            description: "Generates usernames instantly without asking for your Roblox password or Robux.",
-          },
-        ]}
-      />
+      <ToolFeatureGuides features={[{
+        icon: Gamepad2,
+        title: "100+ Unique Usernames",
+        description: "Generates large sets of clean usernames so you can find un-taken Roblox names easily."
+      }, {
+        icon: Sparkles,
+        title: "Roblox Username Rules Compliant",
+        description: "Adheres to Roblox's 3-20 character length limits, alphanumeric rules, and single-underscore restrictions."
+      }, {
+        icon: Shield,
+        title: "100% Free & Safe",
+        description: "Generates usernames instantly without asking for your Roblox password or Robux."
+      }]} />
 
       {/* FAQ ACCORDION */}
-      <ToolFaqAccordion
-        faqs={[
-          {
-            question: "How do I change my Roblox username?",
-            answer: "Log into Roblox → Settings → Account Info → click the Edit icon next to Username (costs 1,000 Robux) or Display Name (Free once every 7 days!).",
-          },
-          {
-            question: "Can I use special symbols in my Roblox username?",
-            answer: "No, Roblox usernames only allow letters, numbers, and a single underscore inside the name. However, Display Names allow spaces and more flexibility!",
-          },
-        ]}
-      />
+      <ToolFaqAccordion faqs={[{
+        question: "How do I change my Roblox username?",
+        answer: "Log into Roblox → Settings → Account Info → click the Edit icon next to Username (costs 1,000 Robux) or Display Name (Free once every 7 days!)."
+      }, {
+        question: "Can I use special symbols in my Roblox username?",
+        answer: "No, Roblox usernames only allow letters, numbers, and a single underscore inside the name. However, Display Names allow spaces and more flexibility!"
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/gaming/roblox-username-generator" max={6} />
-    </div>
-  );
+    </div></div>;
 }

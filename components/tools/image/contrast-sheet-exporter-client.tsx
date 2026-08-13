@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useRef } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -91,10 +92,10 @@ export function ContrastSheetExporterClient() {
     return (brightest + 0.05) / (darkest + 0.05);
   };
   const complianceBadge = (ratio: number) => {
-    if (ratio >= 7) return <span className="bg-green-500 text-white text-xs px-2 py-1 rounded">AAA</span>;
-    if (ratio >= 4.5) return <span className="bg-blue-500 text-white text-xs px-2 py-1 rounded">AA</span>;
-    if (ratio >= 3) return <span className="bg-yellow-500 text-white text-xs px-2 py-1 rounded">UI</span>;
-    return <span className="bg-red-500 text-white text-xs px-2 py-1 rounded">FAIL</span>;
+    if (ratio >= 7) return <span className="bg-green-500 text-primary-foreground text-xs px-2 py-1 rounded">AAA</span>;
+    if (ratio >= 4.5) return <span className="bg-blue-500 text-primary-foreground text-xs px-2 py-1 rounded">AA</span>;
+    if (ratio >= 3) return <span className="bg-yellow-500 text-primary-foreground text-xs px-2 py-1 rounded">UI</span>;
+    return <span className="bg-red-500 text-primary-foreground text-xs px-2 py-1 rounded">FAIL</span>;
   };
   const exportJSON = () => {
     const data = colors.map(c => ({
@@ -146,26 +147,26 @@ export function ContrastSheetExporterClient() {
       toast.error("Could not generate SVG.");
     }
   };
-  return <div className="relative space-y-6">
-      <GridPattern />
+  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Palette} title="Color Palette Contrast Sheet Exporter" description="Generate WCAG 2.1 contrast matrices for your brand colors." actions={<>
  <ActionButton onClick={exportJSON} icon={Download} label="Export JSON" />
  <ActionButton onClick={exportSVG} icon={Download} label="Export SVG" />
  <CopyButton getText={getCssVariables} label="Copy CSS Vars" />
  <ResetButton onClick={() => setColors([{
-        id: "1",
-        name: "Primary",
-        hex: "#3b82f6"
-      }, {
-        id: "2",
-        name: "Background",
-        hex: "#ffffff"
-      }, {
-        id: "3",
-        name: "Text",
-        hex: "#1f2937"
-      }])} label="Reset" />
+          id: "1",
+          name: "Primary",
+          hex: "#3b82f6"
+        }, {
+          id: "2",
+          name: "Background",
+          hex: "#ffffff"
+        }, {
+          id: "3",
+          name: "Text",
+          hex: "#1f2937"
+        }])} label="Reset" />
  </>} />
 
  <GlassCard>
@@ -176,7 +177,7 @@ export function ContrastSheetExporterClient() {
  <CardContent>
  <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
  {colors.map(color => <div key={color.id} className="p-3 border rounded-lg space-y-3 bg-card relative group">
- <Button onClick={() => removeColor(color.id)} className="absolute -top-2 -right-2 bg-destructive text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity">
+ <Button onClick={() => removeColor(color.id)} className="absolute -top-2 -right-2 bg-destructive text-primary-foreground rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity">
  <X className="w-3 h-3" />
  </Button>
  <div className="flex items-center gap-2">
@@ -204,8 +205,8 @@ export function ContrastSheetExporterClient() {
  {colors.map(c => <th key={c.id} className="p-2 border bg-muted/50 text-center">
  <div className="flex flex-col items-center gap-1">
  <div className="w-6 h-6 rounded-full border shadow-sm" style={{
-                    backgroundColor: c.hex
-                  }} />
+                      backgroundColor: c.hex
+                    }} />
  <span className="truncate w-16" title={c.name}>{c.name}</span>
  </div>
  </th>)}
@@ -216,32 +217,32 @@ export function ContrastSheetExporterClient() {
  <th className="p-2 border text-left bg-muted/50">
  <div className="flex items-center gap-2">
  <div className="w-6 h-6 rounded-full border shadow-sm shrink-0" style={{
-                    backgroundColor: bg.hex
-                  }} />
+                      backgroundColor: bg.hex
+                    }} />
  <span className="truncate" title={bg.name}>{bg.name}</span>
  </div>
  </th>
  {colors.map(fg => {
-                const ratio = getContrastRatio(bg.hex, fg.hex);
-                const isSame = bg.id === fg.id;
-                return <td key={fg.id} className="p-2 border text-center relative h-16">
+                  const ratio = getContrastRatio(bg.hex, fg.hex);
+                  const isSame = bg.id === fg.id;
+                  return <td key={fg.id} className="p-2 border text-center relative h-16">
  {!isSame ? <div className="flex flex-col items-center justify-center h-full w-full absolute inset-0 rounded-sm" style={{
-                    backgroundColor: bg.hex,
-                    color: fg.hex
-                  }}>
+                      backgroundColor: bg.hex,
+                      color: fg.hex
+                    }}>
  <span className="font-bold text-lg">{ratio.toFixed(2)}</span>
  <div className="mt-1 scale-90">{complianceBadge(ratio)}</div>
  </div> : <div className="text-muted-foreground opacity-50">-</div>}
  </td>;
-              })}
+                })}
  </tr>)}
  </tbody>
  </table>
 
  {/* Hidden SVG for export */}
  <div style={{
-          display: "none"
-        }}>
+            display: "none"
+          }}>
  <svg id="contrast-grid-svg" xmlns="http://www.w3.org/2000/svg" width={150 + colors.length * 100} height={50 + colors.length * 100} viewBox={"0 0" + (150 + colors.length * 100) + "" + (50 + colors.length * 100)}>
  <style>
  {"text { font-family: sans-serif; font-size: 14px; } .header { font-weight: bold; }"}
@@ -258,16 +259,16 @@ export function ContrastSheetExporterClient() {
  <text x={75} y={50 + row * 100 + 45} textAnchor="middle" className="header" fill={getContrastRatio(bg.hex, "#ffffff") > 2 ? "#ffffff" : "#000000"}>{bg.name}</text>
  
  {colors.map((fg, col) => {
-                const ratio = getContrastRatio(bg.hex, fg.hex);
-                return row !== col ? <g key={"c" + col}>
+                  const ratio = getContrastRatio(bg.hex, fg.hex);
+                  return row !== col ? <g key={"c" + col}>
  <rect x={150 + col * 100} y={50 + row * 100} width="80" height="80" fill={bg.hex} stroke="#ddd" rx="4" />
  <text x={150 + col * 100 + 40} y={50 + row * 100 + 40} textAnchor="middle" fill={fg.hex} style={{
-                    fontSize: "18px",
-                    fontWeight: "bold"
-                  }}>{ratio.toFixed(2)}</text>
+                      fontSize: "18px",
+                      fontWeight: "bold"
+                    }}>{ratio.toFixed(2)}</text>
  <text x={150 + col * 100 + 40} y={50 + row * 100 + 65} textAnchor="middle" fill={fg.hex}>{ratio >= 7 ? "AAA" : ratio >= 4.5 ? "AA" : ratio >= 3 ? "UI" : "FAIL"}</text>
  </g> : null;
-              })}
+                })}
  </g>)}
  </svg>
  </div>
@@ -275,35 +276,35 @@ export function ContrastSheetExporterClient() {
  </GlassCard>
  
       <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Input Your Data",
-      description: "Enter your information in the input field above and configure any options.",
-      icon: Sparkles
-    }, {
-      step: "02",
-      title: "Process & Generate",
-      description: "The tool processes your input instantly and displays the results.",
-      icon: Zap
-    }, {
-      step: "03",
-      title: "Copy & Use",
-      description: "Copy the output with one click and use it wherever you need.",
-      icon: Copy
-    }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
 
       <ToolFeatureGuides features={[{
-      icon: Sparkles,
-      title: "Lightning Fast",
-      description: "Get results in milliseconds with our optimized client-side processing engine."
-    }, {
-      icon: Shield,
-      title: "Completely Private",
-      description: "All processing happens in your browser. Your data never leaves your device."
-    }, {
-      icon: Zap,
-      title: "No Signup Required",
-      description: "Use this tool instantly without creating an account or providing any personal information."
-    }]}>
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our c.name?</h3>
           <p>
@@ -320,17 +321,17 @@ export function ContrastSheetExporterClient() {
       </ToolFeatureGuides>
 
       <ToolFaqAccordion faqs={[{
-      question: "Is this tool free to use?",
-      answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-    }, {
-      question: "Is my data secure?",
-      answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-    }, {
-      question: "Do I need to create an account?",
-      answer: "No account or registration is required. Simply open the tool and start using it immediately."
-    }]} />
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/image/contrast-sheet-exporter" max={6} />
 
-  </div>;
+  </div></div>;
 }

@@ -1,6 +1,7 @@
 "use client";
-import { Button } from"@/components/ui/button";
+import { ToolBackground } from"@/components/shared/tool-background";
 
+import { Button } from "@/components/ui/button";
 import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -33,8 +34,8 @@ export default function UrlEncoderClient() {
     setInput(output.startsWith("⚠️") ? "" : output);
     toast.success(`Switched to ${mode === "encode" ? "decode" : "encode"} mode`);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Link2} title="URL Encoder & Decoder" description="Safely encode and decode URL components for query strings, paths, and API parameters." />
 
@@ -77,39 +78,39 @@ export default function UrlEncoderClient() {
  </div>
 
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Pick Encode or Decode",
-      description: "Select whether you need to escape a plain text string or decode an existing URL component.",
-      icon: Link2
-    }, {
-      step: "02",
-      title: "Paste Your Text",
-      description: "Drop in your query value, path segment, or encoded string. Output updates instantly.",
-      icon: RefreshCw
-    }, {
-      step: "03",
-      title: "Copy the Result",
-      description: "Use the copied output in your API calls, browser redirects, or query parameters.",
-      icon: ArrowRight
-    }]} badges={["100% Free", "Client-Side", "No Signup"]} />
+        step: "01",
+        title: "Pick Encode or Decode",
+        description: "Select whether you need to escape a plain text string or decode an existing URL component.",
+        icon: Link2
+      }, {
+        step: "02",
+        title: "Paste Your Text",
+        description: "Drop in your query value, path segment, or encoded string. Output updates instantly.",
+        icon: RefreshCw
+      }, {
+        step: "03",
+        title: "Copy the Result",
+        description: "Use the copied output in your API calls, browser redirects, or query parameters.",
+        icon: ArrowRight
+      }]} badges={["100% Free", "Client-Side", "No Signup"]} />
 
  <ToolFeatureGuides features={[{
-      icon: Link2,
-      title: "RFC 3986 Compliant",
-      description: "Follows the official URI syntax specification for safe percent-encoding."
-    }, {
-      icon: Shield,
-      title: "Handles Special Chars",
-      description: "Correctly encodes spaces, ampersands, equals signs, and other reserved URL characters."
-    }, {
-      icon: Globe,
-      title: "Unicode Support",
-      description: "Safely encodes non-ASCII characters and emojis into valid UTF-8 percent sequences."
-    }, {
-      icon: Zap,
-      title: "Instant Feedback",
-      description: "Live recomputation means you see the result the moment you finish typing."
-    }]}>
+        icon: Link2,
+        title: "RFC 3986 Compliant",
+        description: "Follows the official URI syntax specification for safe percent-encoding."
+      }, {
+        icon: Shield,
+        title: "Handles Special Chars",
+        description: "Correctly encodes spaces, ampersands, equals signs, and other reserved URL characters."
+      }, {
+        icon: Globe,
+        title: "Unicode Support",
+        description: "Safely encodes non-ASCII characters and emojis into valid UTF-8 percent sequences."
+      }, {
+        icon: Zap,
+        title: "Instant Feedback",
+        description: "Live recomputation means you see the result the moment you finish typing."
+      }]}>
  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
  <p>URLs follow a strict syntax defined by RFC 3986. Certain characters — such as spaces, ampersands, equals signs, question marks, and slashes — have reserved meaning inside a URL structure. If you want to include those characters as part of a value (for example, inside a query parameter like <code>?q=hello&amp;world</code>), you must percent-encode them so the URL parser does not misinterpret the structure.</p>
  <p>Percent-encoding works by replacing unsafe characters with a <code>%</code> followed by two hexadecimal digits representing the byte value. For multi-byte UTF-8 characters, each byte is encoded separately, producing sequences like <code>%E2%9C%93</code> for the checkmark symbol. The standard JavaScript functions <code>encodeURIComponent()</code> and <code>decodeURIComponent()</code> handle this conversion reliably for query parameters and path segments.</p>
@@ -118,16 +119,16 @@ export default function UrlEncoderClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={[{
-      question: "What is the difference between encodeURI and encodeURIComponent?",
-      answer: "encodeURI() encodes an entire URL and leaves reserved characters like / and ? alone. encodeURIComponent() encodes a single component and escapes every special character. Use the latter for query parameter values."
-    }, {
-      question: "Why do spaces become %20?",
-      answer: "In URL encoding, spaces are represented as %20 (hex 20 is the ASCII code for space). Some legacy forms use + instead, but %20 is the standard in URI syntax."
-    }, {
-      question: "Can this handle emojis?",
-      answer: "Yes. Emojis and other non-ASCII characters are converted to their UTF-8 byte sequence and each byte is percent-encoded, producing safe URL strings."
-    }]} />
+        question: "What is the difference between encodeURI and encodeURIComponent?",
+        answer: "encodeURI() encodes an entire URL and leaves reserved characters like / and ? alone. encodeURIComponent() encodes a single component and escapes every special character. Use the latter for query parameter values."
+      }, {
+        question: "Why do spaces become %20?",
+        answer: "In URL encoding, spaces are represented as %20 (hex 20 is the ASCII code for space). Some legacy forms use + instead, but %20 is the standard in URI syntax."
+      }, {
+        question: "Can this handle emojis?",
+        answer: "Yes. Emojis and other non-ASCII characters are converted to their UTF-8 byte sequence and each byte is percent-encoded, producing safe URL strings."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/developer/url-encoder" max={6} />
- </div>;
+ </div></div>;
 }

@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -158,8 +159,8 @@ export function SqlRegexBuilderClient() {
     navigator.clipboard.writeText(text);
     toast.success(`${label} copied to clipboard!`);
   };
-  return <div className="w-full min-h-screen pb-20 relative">
-      <GridPattern />
+  return <div className="w-full min-h-screen pb-20 relative"><ToolBackground /><div className="relative z-10">
+      
 
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader title="AI SQL Regex Query & Pattern Builder" description="Convert plain-English pattern requirements into executable SQL regular expressions for PostgreSQL, MySQL, BigQuery, and SQLite." icon={Database} />
@@ -214,7 +215,7 @@ export function SqlRegexBuilderClient() {
                 </div>
               </div>
 
-              <Button onClick={handleBuild} disabled={isBuilding || !description.trim()} className="w-full gap-2 mt-4 bg-primary hover:bg-primary/90 text-white font-semibold shadow-lg shadow-primary/20 rounded-xl h-12 text-base">
+              <Button onClick={handleBuild} disabled={isBuilding || !description.trim()} className="w-full gap-2 mt-4 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shadow-lg shadow-primary/20 rounded-xl h-12 text-base">
                 {isBuilding ? <RefreshCcw className="w-5 h-5 animate-spin" /> : <Sparkles className="w-5 h-5" />}
                 {isBuilding ? "Building SQL Pattern..." : "Build Executable SQL Regex"}
               </Button>
@@ -224,12 +225,12 @@ export function SqlRegexBuilderClient() {
           {/* Right Workspace Card */}
           <div className="flex flex-col space-y-4">
             {result ? <motion.div initial={{
-            opacity: 0,
-            y: 15
-          }} animate={{
-            opacity: 1,
-            y: 0
-          }} className="space-y-4">
+              opacity: 0,
+              y: 15
+            }} animate={{
+              opacity: 1,
+              y: 0
+            }} className="space-y-4">
                 <GlassCard className="p-5 space-y-3 border-l-4 border-l-primary bg-card/70 backdrop-blur-md rounded-2xl">
                   <div className="flex justify-between items-center border-b border-border/60 pb-2">
                     <span className="text-xs font-extrabold text-primary uppercase tracking-wider flex items-center gap-1.5 font-mono">
@@ -293,9 +294,9 @@ export function SqlRegexBuilderClient() {
                     <span className="text-[10px] text-muted-foreground">{item.timestamp} · {item.dialect.toUpperCase()}</span>
                   </div>
                   <Button variant="outline" size="sm" onClick={() => {
-              setResult(item.result);
-              setDescription(item.description);
-            }} className="h-7 text-xs px-2.5 font-semibold">
+                setResult(item.result);
+                setDescription(item.description);
+              }} className="h-7 text-xs px-2.5 font-semibold">
                     Reload
                   </Button>
                 </div>)}
@@ -303,35 +304,35 @@ export function SqlRegexBuilderClient() {
           </GlassCard>}
 
         <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Describe Pattern",
-        description: "Describe target strings like emails, phone numbers, or IP addresses.",
-        icon: Database
-      }, {
-        step: "02",
-        title: "Select SQL Dialect",
-        description: "Choose PostgreSQL, MySQL, BigQuery, or SQLite regex operators.",
-        icon: Sliders
-      }, {
-        step: "03",
-        title: "Copy Query",
-        description: "Export production SQL queries ready for database execution.",
-        icon: CheckCircle2
-      }]} badges={["100% Free", "PostgreSQL & MySQL", "Regex Validator"]} />
+          step: "01",
+          title: "Describe Pattern",
+          description: "Describe target strings like emails, phone numbers, or IP addresses.",
+          icon: Database
+        }, {
+          step: "02",
+          title: "Select SQL Dialect",
+          description: "Choose PostgreSQL, MySQL, BigQuery, or SQLite regex operators.",
+          icon: Sliders
+        }, {
+          step: "03",
+          title: "Copy Query",
+          description: "Export production SQL queries ready for database execution.",
+          icon: CheckCircle2
+        }]} badges={["100% Free", "PostgreSQL & MySQL", "Regex Validator"]} />
 
         <ToolFeatureGuides features={[{
-        icon: Database,
-        title: "Multi-Dialect SQL Syntax",
-        description: "Generates correct regex operators (`~*`, `REGEXP`, `REGEXP_CONTAINS`) for your target database."
-      }, {
-        icon: Code2,
-        title: "Raw Regex Pattern Export",
-        description: "Extracts standalone regular expressions for backend validation scripts."
-      }, {
-        icon: CheckCircle2,
-        title: "Sample Match Telemetry",
-        description: "Provides instant sample string matches for verification."
-      }]}>
+          icon: Database,
+          title: "Multi-Dialect SQL Syntax",
+          description: "Generates correct regex operators (`~*`, `REGEXP`, `REGEXP_CONTAINS`) for your target database."
+        }, {
+          icon: Code2,
+          title: "Raw Regex Pattern Export",
+          description: "Extracts standalone regular expressions for backend validation scripts."
+        }, {
+          icon: CheckCircle2,
+          title: "Sample Match Telemetry",
+          description: "Provides instant sample string matches for verification."
+        }]}>
           <div className="prose dark:prose-invert max-w-none">
             <h3>The Power of Database Regular Expressions</h3>
             <p>
@@ -341,15 +342,15 @@ export function SqlRegexBuilderClient() {
         </ToolFeatureGuides>
 
         <ToolFaqAccordion faqs={[{
-        question: "What is the difference between PostgreSQL ~ and ~*?",
-        answer: "In PostgreSQL, `~` performs a case-sensitive regular expression match, whereas `~*` performs a case-insensitive match."
-      }, {
-        question: "Is REGEXP supported in SQLite?",
-        answer: "SQLite supports the REGEXP operator if user-defined regular expression functions are enabled in your sqlite3 database driver."
-      }]} />
+          question: "What is the difference between PostgreSQL ~ and ~*?",
+          answer: "In PostgreSQL, `~` performs a case-sensitive regular expression match, whereas `~*` performs a case-insensitive match."
+        }, {
+          question: "Is REGEXP supported in SQLite?",
+          answer: "SQLite supports the REGEXP operator if user-defined regular expression functions are enabled in your sqlite3 database driver."
+        }]} />
 
         <RelatedTools currentToolUrl="/tools/ai/sql-regex-builder" max={6} />
       </div>
-    </div>;
+    </div></div>;
 }
 export default SqlRegexBuilderClient;

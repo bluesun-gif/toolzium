@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -134,8 +135,8 @@ export function GradientGeneratorClient() {
     }]);
     setAngle(Math.floor(Math.random() * 360));
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 p-4 sm:p-6 lg:p-8">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8 p-4 sm:p-6 lg:p-8"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Palette} title="CSS Gradient Generator" description="Create beautiful linear, radial, and conic gradients with multi-stop support and Tailwind CSS output." />
 
@@ -180,15 +181,15 @@ export function GradientGeneratorClient() {
  <Label className="text-xs font-medium">Presets</Label>
  <div className="grid grid-cols-3 gap-2">
  {presets.map(p => <Button key={p.name} onClick={() => {
-                setStops(p.stops.map((s, i) => ({
-                  id: i.toString(),
-                  color: s.color,
-                  position: s.pos
-                })));
-                setType("linear");
-              }} className="h-10 rounded-md border border-border/50 hover:border-primary transition-all" style={{
-                background: `linear-gradient(90deg, ${p.stops.map(s => s.color).join(",")})`
-              }} title={p.name} />)}
+                  setStops(p.stops.map((s, i) => ({
+                    id: i.toString(),
+                    color: s.color,
+                    position: s.pos
+                  })));
+                  setType("linear");
+                }} className="h-10 rounded-md border border-border/50 hover:border-primary transition-all" style={{
+                  background: `linear-gradient(90deg, ${p.stops.map(s => s.color).join(",")})`
+                }} title={p.name} />)}
  </div>
  </div>
 
@@ -205,8 +206,8 @@ export function GradientGeneratorClient() {
  </CardHeader>
  <CardContent className="p-0">
  <div className="h-[250px] w-full rounded-b-2xl" style={{
-              background: cssCode
-            }} />
+                background: cssCode
+              }} />
  </CardContent>
  </GlassCard>
 
@@ -215,9 +216,9 @@ export function GradientGeneratorClient() {
  <div className="flex items-center justify-between w-full">
  <CardTitle className={titleClass}>Standard CSS</CardTitle>
  <Button onClick={() => {
-                navigator.clipboard.writeText(`background: ${cssCode};`);
-                toast.success("Copied CSS!");
-              }} className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
+                  navigator.clipboard.writeText(`background: ${cssCode};`);
+                  toast.success("Copied CSS!");
+                }} className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
  <Copy className="w-3.5 h-3.5" /> Copy
  </Button>
  </div>
@@ -232,9 +233,9 @@ export function GradientGeneratorClient() {
  <div className="flex items-center justify-between w-full">
  <CardTitle className={titleClass}>Tailwind CSS Class</CardTitle>
  <Button onClick={() => {
-                navigator.clipboard.writeText(tailwindCode);
-                toast.success("Copied Tailwind Class!");
-              }} className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
+                  navigator.clipboard.writeText(tailwindCode);
+                  toast.success("Copied Tailwind Class!");
+                }} className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
  <Copy className="w-3.5 h-3.5" /> Copy
  </Button>
  </div>
@@ -247,39 +248,39 @@ export function GradientGeneratorClient() {
  </div>
 
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Select Type",
-      description: "Choose between linear, radial, or conic gradient types.",
-      icon: Layers
-    }, {
-      step: "02",
-      title: "Add Color Stops",
-      description: "Define up to 6 colors and their exact position percentages.",
-      icon: Palette
-    }, {
-      step: "03",
-      title: "Export Code",
-      description: "Grab the standard CSS or the Tailwind arbitrary value class.",
-      icon: Copy
-    }]} badges={["100% Free", "Client-Side Privacy", "No Signup"]} />
+        step: "01",
+        title: "Select Type",
+        description: "Choose between linear, radial, or conic gradient types.",
+        icon: Layers
+      }, {
+        step: "02",
+        title: "Add Color Stops",
+        description: "Define up to 6 colors and their exact position percentages.",
+        icon: Palette
+      }, {
+        step: "03",
+        title: "Export Code",
+        description: "Grab the standard CSS or the Tailwind arbitrary value class.",
+        icon: Copy
+      }]} badges={["100% Free", "Client-Side Privacy", "No Signup"]} />
 
  <ToolFeatureGuides features={[{
-      icon: Sparkles,
-      title: "Multi-Stop Support",
-      description: "Add up to 6 distinct color stops for complex, multi-tonal transitions."
-    }, {
-      icon: Layers,
-      title: "Three Gradient Types",
-      description: "Full support for linear, radial, and conic gradient functions."
-    }, {
-      icon: Palette,
-      title: "Tailwind Integration",
-      description: "Automatically generates arbitrary value classes for Tailwind CSS."
-    }, {
-      icon: Shuffle,
-      title: "Random Generator",
-      description: "Instantly generate beautiful, random color combinations for inspiration."
-    }]}>
+        icon: Sparkles,
+        title: "Multi-Stop Support",
+        description: "Add up to 6 distinct color stops for complex, multi-tonal transitions."
+      }, {
+        icon: Layers,
+        title: "Three Gradient Types",
+        description: "Full support for linear, radial, and conic gradient functions."
+      }, {
+        icon: Palette,
+        title: "Tailwind Integration",
+        description: "Automatically generates arbitrary value classes for Tailwind CSS."
+      }, {
+        icon: Shuffle,
+        title: "Random Generator",
+        description: "Instantly generate beautiful, random color combinations for inspiration."
+      }]}>
  <div className="prose dark:prose-invert max-w-none">
  <h3>Mastering CSS Gradients for Modern Web Design</h3>
  <p>CSS gradients are a fundamental pillar of modern web design, allowing developers to create smooth transitions between two or more colors without relying on heavy image assets. From subtle background washes to vibrant, eye-catching buttons, gradients add visual interest and guide user attention. The evolution of CSS has introduced three primary types of gradients: linear, radial, and conic. Linear gradients flow along a straight axis, defined by an angle or directional keyword, making them perfect for sleek headers and progress bars. Radial gradients emanate from a central point outward in a circular or elliptical shape, ideal for spotlight effects and glowing orbs. Conic gradients, the newest addition, sweep around a center point like a color wheel, enabling the creation of pie charts, dials, and mesmerizing psychedelic patterns.</p>
@@ -289,17 +290,17 @@ export function GradientGeneratorClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={[{
-      question: "How do I use this in Tailwind CSS?",
-      answer: "Copy the generated Tailwind class (e.g., bg-[linear-gradient(...)]) and apply it directly to your element's className. Tailwind's JIT compiler will automatically generate the required CSS."
-    }, {
-      question: "Can I animate these gradients?",
-      answer: "Yes! You can animate the background-position or background-size properties using CSS keyframes to create moving gradient effects."
-    }, {
-      question: "Do gradients affect page load speed?",
-      answer: "CSS gradients are rendered natively by the browser and are significantly faster and lighter than downloading equivalent PNG or JPEG images."
-    }]} />
+        question: "How do I use this in Tailwind CSS?",
+        answer: "Copy the generated Tailwind class (e.g., bg-[linear-gradient(...)]) and apply it directly to your element's className. Tailwind's JIT compiler will automatically generate the required CSS."
+      }, {
+        question: "Can I animate these gradients?",
+        answer: "Yes! You can animate the background-position or background-size properties using CSS keyframes to create moving gradient effects."
+      }, {
+        question: "Do gradients affect page load speed?",
+        answer: "CSS gradients are rendered natively by the browser and are significantly faster and lighter than downloading equivalent PNG or JPEG images."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/dev/gradient-generator" max={6} />
- </div>;
+ </div></div>;
 }
 export default GradientGeneratorClient;

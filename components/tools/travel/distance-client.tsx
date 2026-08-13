@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import type * as LeafletNS from"leaflet";
 import"leaflet/dist/leaflet.css";
@@ -339,7 +340,7 @@ export default function DistanceETAClient() {
  <GlassCard>
  <CardHeader>
  <div className="flex items-center gap-2">
-      <GridPattern />
+      <ToolBackground />
 
  <CardTitle className="text-base">Map & Settings</CardTitle>
  <Badge variant="secondary"className="ml-1">

@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -111,7 +112,7 @@ export function EventCountdownClient() {
 
  return (
       <div className="relative flex flex-col items-center">
-      <GridPattern />
+      <ToolBackground />
 
  {isPast && <div className="text-sm font-semibold text-destructive mb-2">Event Passed</div>}
  <div className="grid grid-cols-4 gap-2 text-center w-full">

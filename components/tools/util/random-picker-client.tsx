@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import {
  ActionButton,
@@ -157,7 +158,7 @@ export default function RandomPickerClient() {
  />
  {winner ? (
  <div className="flex items-center justify-between rounded-md border p-3">
-      <GridPattern />
+      <ToolBackground />
 
  <span className="font-semibold">{winner}</span>
  <CopyButton size="sm"getText={() => winner ||""} />

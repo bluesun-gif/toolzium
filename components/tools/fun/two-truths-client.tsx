@@ -1,6 +1,7 @@
 "use client";
-import { cn } from"@/lib/utils";
+import { ToolBackground } from"@/components/shared/tool-background";
 
+import { cn } from "@/lib/utils";
 import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -126,8 +127,8 @@ export default function TwoTruthsClient() {
     setShowResult(false);
     setGameOver(false);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={MessageCircleQuestion} title="Two Truths and a Lie" description="Can you spot the fake fact? Test your knowledge against 15 tricky sets of statements." />
 
@@ -146,20 +147,20 @@ export default function TwoTruthsClient() {
  <h2 className="text-xl font-semibold text-center text-muted-foreground">Which of these is the <span className="text-red-500">LIE</span>?</h2>
  <div className="grid gap-4">
  {current.statements.map((stmt, idx) => {
-              let btnClass = "w-full text-left p-5 rounded-xl border transition-all font-medium text-base";
-              if (showResult) {
-                if (idx === current.lie) btnClass += "bg-red-500/20 border-red-500 text-red-700 dark:text-red-400";else if (idx === selected) btnClass += "bg-green-500/20 border-green-500 text-green-700 dark:text-green-400";else btnClass += "bg-muted border-border opacity-50";
-              } else {
-                btnClass += "bg-background border-border hover:border-primary hover:bg-primary/5";
-              }
-              return <Button key={idx} className={cn(btnClass)} onClick={() => handleSelect(idx)} disabled={showResult}>
+                let btnClass = "w-full text-left p-5 rounded-xl border transition-all font-medium text-base";
+                if (showResult) {
+                  if (idx === current.lie) btnClass += "bg-red-500/20 border-red-500 text-red-700 dark:text-red-400";else if (idx === selected) btnClass += "bg-green-500/20 border-green-500 text-green-700 dark:text-green-400";else btnClass += "bg-muted border-border opacity-50";
+                } else {
+                  btnClass += "bg-background border-border hover:border-primary hover:bg-primary/5";
+                }
+                return <Button key={idx} className={cn(btnClass)} onClick={() => handleSelect(idx)} disabled={showResult}>
  <span className="flex items-start gap-3">
  {showResult && idx === current.lie && <XCircle className="w-5 h-5 mt-0.5 shrink-0" />}
  {showResult && idx !== current.lie && idx === selected && <CheckCircle2 className="w-5 h-5 mt-0.5 shrink-0" />}
  <span>{stmt}</span>
  </span>
  </Button>;
-            })}
+              })}
  </div>
  {showResult && <div className="space-y-4 pt-4 border-t border-border/50">
  <div className="flex items-start gap-3 p-4 bg-blue-500/10 border border-blue-500/20 rounded-xl">
@@ -181,39 +182,39 @@ export default function TwoTruthsClient() {
  </GlassCard>
 
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Read the Statements",
-      description: "Review the three factual statements provided in the current category.",
-      icon: MessageCircleQuestion
-    }, {
-      step: "02",
-      title: "Spot the Fake",
-      description: "Analyze each claim and click on the one you believe is the lie.",
-      icon: XCircle
-    }, {
-      step: "03",
-      title: "Learn the Truth",
-      description: "Read the explanation to learn why the statement was false, then proceed.",
-      icon: Lightbulb
-    }]} badges={["100% Free", "Client-Side", "Fun"]} />
+        step: "01",
+        title: "Read the Statements",
+        description: "Review the three factual statements provided in the current category.",
+        icon: MessageCircleQuestion
+      }, {
+        step: "02",
+        title: "Spot the Fake",
+        description: "Analyze each claim and click on the one you believe is the lie.",
+        icon: XCircle
+      }, {
+        step: "03",
+        title: "Learn the Truth",
+        description: "Read the explanation to learn why the statement was false, then proceed.",
+        icon: Lightbulb
+      }]} badges={["100% Free", "Client-Side", "Fun"]} />
 
  <ToolFeatureGuides features={[{
-      icon: MessageCircleQuestion,
-      title: "Diverse Categories",
-      description: "Covers Science, History, Geography, Nature, and more to test broad knowledge."
-    }, {
-      icon: Lightbulb,
-      title: "Educational Explanations",
-      description: "Every round provides context and facts to explain why the lie was false."
-    }, {
-      icon: XCircle,
-      title: "Instant Feedback",
-      description: "Know immediately if you spotted the lie and track your running score."
-    }, {
-      icon: RotateCcw,
-      title: "Endless Replay",
-      description: "Shuffle the sets and challenge your friends to see who knows the most trivia."
-    }]}>
+        icon: MessageCircleQuestion,
+        title: "Diverse Categories",
+        description: "Covers Science, History, Geography, Nature, and more to test broad knowledge."
+      }, {
+        icon: Lightbulb,
+        title: "Educational Explanations",
+        description: "Every round provides context and facts to explain why the lie was false."
+      }, {
+        icon: XCircle,
+        title: "Instant Feedback",
+        description: "Know immediately if you spotted the lie and track your running score."
+      }, {
+        icon: RotateCcw,
+        title: "Endless Replay",
+        description: "Shuffle the sets and challenge your friends to see who knows the most trivia."
+      }]}>
  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
  <p>"Two Truths and a Lie"is a classic icebreaker game, but our version focuses on fascinating trivia and common misconceptions. It is designed not just to entertain, but to actively debunk popular myths and teach surprising facts.</p>
  <p>Many of the statements presented here rely on the Mandela Effect or widely accepted"common knowledge"that is actually scientifically or historically inaccurate. By forcing you to evaluate each claim critically, the game promotes skepticism and lateral thinking.</p>
@@ -222,16 +223,16 @@ export default function TwoTruthsClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={[{
-      question: "Are these facts verified?",
-      answer: "Yes, every statement and explanation has been cross-referenced with reliable scientific, historical, and geographical sources."
-    }, {
-      question: "Can I use this for a party game?",
-      answer: "Absolutely! You can read the statements aloud to a group and have everyone vote on which one they think is the lie."
-    }, {
-      question: "Do the questions change?",
-      answer: "Currently, there is a curated list of 15 high-quality sets. We plan to expand the database with user-submitted facts in the future."
-    }]} />
+        question: "Are these facts verified?",
+        answer: "Yes, every statement and explanation has been cross-referenced with reliable scientific, historical, and geographical sources."
+      }, {
+        question: "Can I use this for a party game?",
+        answer: "Absolutely! You can read the statements aloud to a group and have everyone vote on which one they think is the lie."
+      }, {
+        question: "Do the questions change?",
+        answer: "Currently, there is a curated list of 15 high-quality sets. We plan to expand the database with user-submitted facts in the future."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/fun/two-truths" max={6} />
- </div>;
+ </div></div>;
 }

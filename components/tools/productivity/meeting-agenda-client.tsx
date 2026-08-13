@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -167,8 +168,8 @@ export function MeetingAgendaClient() {
     setItems([]);
     toast.success("Reset agenda!");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+      
 
       <ToolPageHeader icon={FileText} title="Interactive Meeting Agenda Builder" description="Plan meeting topics, allocate presenter time limits, load quick templates, and copy formatted markdown notes." actions={<div className="flex gap-2">
             <ActionButton icon={Save} label="Save" onClick={saveAgenda} />
@@ -289,46 +290,46 @@ export function MeetingAgendaClient() {
 
       {/* HOW IT WORKS */}
       <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Set Meeting Parameters",
-      description: "Define meeting title, date, time, attendees, and target total duration.",
-      icon: Clock
-    }, {
-      step: "02",
-      title: "Structure Agenda Topics",
-      description: "Add discussion topics, assign presenters, and specify minute allocations.",
-      icon: FileText
-    }, {
-      step: "03",
-      title: "Copy & Export Notes",
-      description: "Copy clean formatted markdown agendas into calendar invites or team emails.",
-      icon: CheckCircle2
-    }]} badges={["Time Budget Calculator", "Markdown Copy", "100% Free"]} />
+        step: "01",
+        title: "Set Meeting Parameters",
+        description: "Define meeting title, date, time, attendees, and target total duration.",
+        icon: Clock
+      }, {
+        step: "02",
+        title: "Structure Agenda Topics",
+        description: "Add discussion topics, assign presenters, and specify minute allocations.",
+        icon: FileText
+      }, {
+        step: "03",
+        title: "Copy & Export Notes",
+        description: "Copy clean formatted markdown agendas into calendar invites or team emails.",
+        icon: CheckCircle2
+      }]} badges={["Time Budget Calculator", "Markdown Copy", "100% Free"]} />
 
       {/* FEATURE GUIDES */}
       <ToolFeatureGuides features={[{
-      icon: Clock,
-      title: "Time Allocation Budgeting",
-      description: "Calculates total allocated minutes and warns when agenda topics exceed target meeting duration."
-    }, {
-      icon: FileText,
-      title: "Quick-Start Team Templates",
-      description: "Includes pre-configured meeting templates for Agile Standups and Project Reviews."
-    }, {
-      icon: Shield,
-      title: "Confidential Local Storage",
-      description: "Saves draft meeting agendas securely in local storage without server retention."
-    }]} />
+        icon: Clock,
+        title: "Time Allocation Budgeting",
+        description: "Calculates total allocated minutes and warns when agenda topics exceed target meeting duration."
+      }, {
+        icon: FileText,
+        title: "Quick-Start Team Templates",
+        description: "Includes pre-configured meeting templates for Agile Standups and Project Reviews."
+      }, {
+        icon: Shield,
+        title: "Confidential Local Storage",
+        description: "Saves draft meeting agendas securely in local storage without server retention."
+      }]} />
 
       {/* FAQ ACCORDION */}
       <ToolFaqAccordion faqs={[{
-      question: "What happens if my topics exceed the total duration?",
-      answer: "The allocated time indicator turns red to alert you that the sum of topic durations exceeds your target meeting length."
-    }, {
-      question: "Can I print the agenda?",
-      answer: "Yes, click the 'Print' button to generate a clean print/PDF view of your meeting agenda."
-    }]} />
+        question: "What happens if my topics exceed the total duration?",
+        answer: "The allocated time indicator turns red to alert you that the sum of topic durations exceeds your target meeting length."
+      }, {
+        question: "Can I print the agenda?",
+        answer: "Yes, click the 'Print' button to generate a clean print/PDF view of your meeting agenda."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/productivity/meeting-agenda" max={6} />
-    </div>;
+    </div></div>;
 }

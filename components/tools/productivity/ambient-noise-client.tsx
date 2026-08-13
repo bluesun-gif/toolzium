@@ -1,6 +1,7 @@
 "use client";
-import { cn } from"@/lib/utils";
+import { ToolBackground } from"@/components/shared/tool-background";
 
+import { cn } from "@/lib/utils";
 import React, { useState, useEffect, useRef } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -163,8 +164,8 @@ export default function AmbientNoiseClient() {
     };
   }, []);
   const activeTrack = TRACKS.find(t => t.id === activeTrackId) || TRACKS[0];
-  return <div className="relative mx-auto max-w-6xl px-2 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-6 max-w-full overflow-hidden">
-      <GridPattern />
+  return <div className="relative mx-auto max-w-6xl px-2 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-6 max-w-full overflow-hidden"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader title="Ambient Focus Noise & Binaural Sound Generator Studio" description="Synthesize Brown Noise, Pink Noise, White Noise, and 40Hz Binaural Beats 100% in your browser for deep work, study, and sleep." />
 
@@ -224,9 +225,9 @@ export default function AmbientNoiseClient() {
  {/* Animated Wave Bar */}
  <div className="flex items-center justify-center gap-1.5 h-12 w-full max-w-xs">
  {[40, 70, 35, 90, 60, 100, 50, 80, 45, 75, 95, 30].map((h, i) => <div key={i} className={`w-2 rounded-full bg-primary transition-all duration-300 ${isPlaying ? "animate-pulse" : "opacity-30"}`} style={{
-                height: isPlaying ? `${h}%` : "12px",
-                animationDelay: `${i * 0.08}s`
-              }} />)}
+                  height: isPlaying ? `${h}%` : "12px",
+                  animationDelay: `${i * 0.08}s`
+                }} />)}
  </div>
 
  {/* Play / Pause Toggle Button */}
@@ -246,35 +247,35 @@ export default function AmbientNoiseClient() {
  </div>
  
       <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Input Your Data",
-      description: "Enter your information in the input field above and configure any options.",
-      icon: Sparkles
-    }, {
-      step: "02",
-      title: "Process & Generate",
-      description: "The tool processes your input instantly and displays the results.",
-      icon: Zap
-    }, {
-      step: "03",
-      title: "Copy & Use",
-      description: "Copy the output with one click and use it wherever you need.",
-      icon: Copy
-    }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
 
       <ToolFeatureGuides features={[{
-      icon: Sparkles,
-      title: "Lightning Fast",
-      description: "Get results in milliseconds with our optimized client-side processing engine."
-    }, {
-      icon: Shield,
-      title: "Completely Private",
-      description: "All processing happens in your browser. Your data never leaves your device."
-    }, {
-      icon: Zap,
-      title: "No Signup Required",
-      description: "Use this tool instantly without creating an account or providing any personal information."
-    }]}>
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Ambient Focus Noise & Binaural Sound Generator Studio?</h3>
           <p>
@@ -291,17 +292,17 @@ export default function AmbientNoiseClient() {
       </ToolFeatureGuides>
 
       <ToolFaqAccordion faqs={[{
-      question: "Is this tool free to use?",
-      answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-    }, {
-      question: "Is my data secure?",
-      answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-    }, {
-      question: "Do I need to create an account?",
-      answer: "No account or registration is required. Simply open the tool and start using it immediately."
-    }]} />
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/productivity/ambient-noise" max={6} />
 
-  </div>;
+  </div></div>;
 }

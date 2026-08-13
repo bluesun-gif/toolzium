@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -1156,8 +1157,8 @@ export function EmojiPickerClient() {
     acc[cat] = EMOJI_DB.filter(e => e.category === cat);
     return acc;
   }, {} as Record<string, typeof EMOJI_DB>);
-  return <div className="relative max-w-6xl mx-auto space-y-8">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Smile} title="Emoji Picker & Search" description="Search, discover, and copy emojis from various categories instantly." />
 
@@ -1189,8 +1190,8 @@ export function EmojiPickerClient() {
 
  <div className="space-y-6">
  {Object.entries(grouped).map(([category, emojis]) => {
-        if (emojis.length === 0) return null;
-        return <GlassCard key={category}>
+          if (emojis.length === 0) return null;
+          return <GlassCard key={category}>
  <CardHeader>
  <CardTitle>{category}</CardTitle>
  </CardHeader>
@@ -1202,7 +1203,7 @@ export function EmojiPickerClient() {
  </div>
  </CardContent>
  </GlassCard>;
-      })}
+        })}
  
  {search.trim() && filteredEmojis.length === 0 && <GlassCard>
  <CardContent className="py-12 text-center text-muted-foreground">
@@ -1213,48 +1214,48 @@ export function EmojiPickerClient() {
 
  {/* HOW IT WORKS */}
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Search or Browse",
-      description: "Type an emoji name (e.g., 'heart', 'fire', 'thumbs up') in the search box for instant filtering, or browse by category: Smileys, People, Animals, Food, Travel, Objects, Symbols, Flags.",
-      icon: Search
-    }, {
-      step: "02",
-      title: "Click to Select",
-      description: "Click any emoji to instantly copy it to your clipboard. Hover over any emoji to see its official Unicode name, code point, and keyboard shortcut. Recently used emojis appear at the top.",
-      icon: Smile
-    }, {
-      step: "03",
-      title: "Paste Anywhere",
-      description: "Paste the copied emoji into any text field: social media posts, emails, documents, code comments, Discord messages, Slack, or any app that supports Unicode text.",
-      icon: Copy
-    }]} badges={["3,600+ emojis", "Category browse", "Instant search"]} />
+        step: "01",
+        title: "Search or Browse",
+        description: "Type an emoji name (e.g., 'heart', 'fire', 'thumbs up') in the search box for instant filtering, or browse by category: Smileys, People, Animals, Food, Travel, Objects, Symbols, Flags.",
+        icon: Search
+      }, {
+        step: "02",
+        title: "Click to Select",
+        description: "Click any emoji to instantly copy it to your clipboard. Hover over any emoji to see its official Unicode name, code point, and keyboard shortcut. Recently used emojis appear at the top.",
+        icon: Smile
+      }, {
+        step: "03",
+        title: "Paste Anywhere",
+        description: "Paste the copied emoji into any text field: social media posts, emails, documents, code comments, Discord messages, Slack, or any app that supports Unicode text.",
+        icon: Copy
+      }]} badges={["3,600+ emojis", "Category browse", "Instant search"]} />
 
  {/* FEATURE GUIDES */}
  <ToolFeatureGuides features={[{
-      icon: Search,
-      title: "Instant Search",
-      description: "Search across 3,600+ emoji names, keywords, and aliases simultaneously. Results update as you type with no delay. Supports partial matches and common synonyms (e.g., 'happy' finds 😀 😃 😄 🤩)."
-    }, {
-      icon: Smile,
-      title: "Category Browse",
-      description: "Browse all 8 Unicode emoji categories: Smileys & Emotion, People & Body, Animals & Nature, Food & Drink, Travel & Places, Activities, Objects, Symbols, and Flags. Each category shows count."
-    }, {
-      icon: Heart,
-      title: "Recently Used",
-      description: "Your 20 most recently clicked emojis appear in a 'Recent' section at the top, making your frequently-used emojis always one click away across browser sessions."
-    }, {
-      icon: Globe,
-      title: "Unicode Names & Code Points",
-      description: "Hover any emoji to see its official Unicode name (e.g., SMILING FACE WITH HEART-EYES), code point (U+1F60D), and HTML entity. Essential for developers working with emoji encoding."
-    }, {
-      icon: Zap,
-      title: "One-Click Copy",
-      description: "Click any emoji to instantly copy it to clipboard. No extra steps, no confirm dialogs. The emoji is ready to paste immediately in any application."
-    }, {
-      icon: Shield,
-      title: "Client-Side & Private",
-      description: "The complete emoji database is loaded locally in your browser. No search queries or selections are sent to any server. Works offline once the page loads."
-    }]}>
+        icon: Search,
+        title: "Instant Search",
+        description: "Search across 3,600+ emoji names, keywords, and aliases simultaneously. Results update as you type with no delay. Supports partial matches and common synonyms (e.g., 'happy' finds 😀 😃 😄 🤩)."
+      }, {
+        icon: Smile,
+        title: "Category Browse",
+        description: "Browse all 8 Unicode emoji categories: Smileys & Emotion, People & Body, Animals & Nature, Food & Drink, Travel & Places, Activities, Objects, Symbols, and Flags. Each category shows count."
+      }, {
+        icon: Heart,
+        title: "Recently Used",
+        description: "Your 20 most recently clicked emojis appear in a 'Recent' section at the top, making your frequently-used emojis always one click away across browser sessions."
+      }, {
+        icon: Globe,
+        title: "Unicode Names & Code Points",
+        description: "Hover any emoji to see its official Unicode name (e.g., SMILING FACE WITH HEART-EYES), code point (U+1F60D), and HTML entity. Essential for developers working with emoji encoding."
+      }, {
+        icon: Zap,
+        title: "One-Click Copy",
+        description: "Click any emoji to instantly copy it to clipboard. No extra steps, no confirm dialogs. The emoji is ready to paste immediately in any application."
+      }, {
+        icon: Shield,
+        title: "Client-Side & Private",
+        description: "The complete emoji database is loaded locally in your browser. No search queries or selections are sent to any server. Works offline once the page loads."
+      }]}>
  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
  <h3 className="text-lg font-semibold">Emoji Reference Guide — Unicode, Encoding & Platform Rendering</h3>
  <p>
@@ -1320,21 +1321,21 @@ export function EmojiPickerClient() {
 
  {/* FAQ */}
  <ToolFaqAccordion faqs={[{
-      question: "How do I copy an emoji from this picker?",
-      answer: "Simply click on any emoji in the grid. It is instantly copied to your clipboard and you will see a brief confirmation. You can then paste it anywhere with Ctrl+V (Windows/Linux) or Cmd+V (Mac). The tool copies the actual Unicode character, which works in any application that supports text input."
-    }, {
-      question: "Why does the same emoji look different on different devices?",
-      answer: "Each platform (Apple, Google, Samsung, Microsoft, Twitter) creates its own emoji artwork for the same Unicode character. The character code is identical, but the visual design varies. For example, the grinning face emoji (U+1F600) has a round yellow face on Apple but a slightly different style on Google's Noto set. The character itself is the same — only the rendering differs."
-    }, {
-      question: "Can I use emoji in HTML and CSS?",
-      answer: "Yes. You can use emoji directly in HTML as text content since modern browsers handle UTF-8 natively. For CSS, use the Unicode code point in the content property: content: '\\1F600'. For JavaScript, use the ES6 syntax: '\\u{1F600}'. Always ensure your HTML file has the charset=UTF-8 meta tag and your server sends UTF-8 headers."
-    }, {
-      question: "How many emoji are available?",
-      answer: "Unicode 15.1 (released 2023) includes 3,782 emoji across 8 categories. New emoji are added annually through Unicode Consortium proposals. Older devices and platforms may not display newer emoji, showing a missing character box instead. This picker includes all Unicode 15.0 emoji, the most widely supported version across modern devices."
-    }, {
-      question: "Do emoji work in email subject lines?",
-      answer: "Most modern email clients support emoji in subject lines, including Gmail, Outlook 2016+, Apple Mail, Yahoo Mail, and mobile apps. Older Outlook versions (2007-2013) may display emoji as empty boxes. Emoji in subject lines can increase open rates by 25-45% in A/B tests according to Experian email marketing benchmarks. Test across your audience's common email clients before rolling out widely."
-    }]} />
+        question: "How do I copy an emoji from this picker?",
+        answer: "Simply click on any emoji in the grid. It is instantly copied to your clipboard and you will see a brief confirmation. You can then paste it anywhere with Ctrl+V (Windows/Linux) or Cmd+V (Mac). The tool copies the actual Unicode character, which works in any application that supports text input."
+      }, {
+        question: "Why does the same emoji look different on different devices?",
+        answer: "Each platform (Apple, Google, Samsung, Microsoft, Twitter) creates its own emoji artwork for the same Unicode character. The character code is identical, but the visual design varies. For example, the grinning face emoji (U+1F600) has a round yellow face on Apple but a slightly different style on Google's Noto set. The character itself is the same — only the rendering differs."
+      }, {
+        question: "Can I use emoji in HTML and CSS?",
+        answer: "Yes. You can use emoji directly in HTML as text content since modern browsers handle UTF-8 natively. For CSS, use the Unicode code point in the content property: content: '\\1F600'. For JavaScript, use the ES6 syntax: '\\u{1F600}'. Always ensure your HTML file has the charset=UTF-8 meta tag and your server sends UTF-8 headers."
+      }, {
+        question: "How many emoji are available?",
+        answer: "Unicode 15.1 (released 2023) includes 3,782 emoji across 8 categories. New emoji are added annually through Unicode Consortium proposals. Older devices and platforms may not display newer emoji, showing a missing character box instead. This picker includes all Unicode 15.0 emoji, the most widely supported version across modern devices."
+      }, {
+        question: "Do emoji work in email subject lines?",
+        answer: "Most modern email clients support emoji in subject lines, including Gmail, Outlook 2016+, Apple Mail, Yahoo Mail, and mobile apps. Older Outlook versions (2007-2013) may display emoji as empty boxes. Emoji in subject lines can increase open rates by 25-45% in A/B tests according to Experian email marketing benchmarks. Test across your audience's common email clients before rolling out widely."
+      }]} />
  <RelatedTools currentToolUrl="/tools/text/emoji-picker" max={6} />
- </div>;
+ </div></div>;
 }

@@ -1,6 +1,7 @@
 "use client";
-import { cn } from"@/lib/utils";
+import { ToolBackground } from"@/components/shared/tool-background";
 
+import { cn } from "@/lib/utils";
 import React, { useState, useMemo, useCallback, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -101,8 +102,8 @@ export function MemoryMatchClient() {
     if (idx === activeTile) return "bg-green-400 shadow-[0_0_20px_rgba(74,222,128,0.8)] scale-105";
     return "bg-blue-600 hover:bg-blue-500 shadow-md";
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 pb-12">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8 pb-12"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Grid3X3} title="Memory Match" description="Test your sequential memory and reaction time. Watch the pattern, memorize it, and repeat it perfectly as the speed increases." />
 
@@ -149,39 +150,39 @@ export function MemoryMatchClient() {
  </GlassCard>
 
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Watch the Pattern",
-      description: "The grid will light up in a specific sequence. Pay close attention to the order and speed.",
-      icon: Zap
-    }, {
-      step: "02",
-      title: "Memorize & Repeat",
-      description: "Once the sequence finishes, tap the tiles in the exact same order from memory.",
-      icon: Grid3X3
-    }, {
-      step: "03",
-      title: "Survive the Speed",
-      description: "Each level adds a new tile to the sequence and increases the speed. How far can you go?",
-      icon: Play
-    }]} badges={["100% Free", "Focus Training", "No Signup"]} />
+        step: "01",
+        title: "Watch the Pattern",
+        description: "The grid will light up in a specific sequence. Pay close attention to the order and speed.",
+        icon: Zap
+      }, {
+        step: "02",
+        title: "Memorize & Repeat",
+        description: "Once the sequence finishes, tap the tiles in the exact same order from memory.",
+        icon: Grid3X3
+      }, {
+        step: "03",
+        title: "Survive the Speed",
+        description: "Each level adds a new tile to the sequence and increases the speed. How far can you go?",
+        icon: Play
+      }]} badges={["100% Free", "Focus Training", "No Signup"]} />
 
  <ToolFeatureGuides features={[{
-      icon: Zap,
-      title: "Sequential Memory",
-      description: "Trains your brain's ability to encode and recall sequential information, a key component of working memory."
-    }, {
-      icon: Grid3X3,
-      title: "Visual Feedback",
-      description: "Satisfying color shifts and glowing animations provide instant feedback on correct and incorrect inputs."
-    }, {
-      icon: Play,
-      title: "Progressive Difficulty",
-      description: "The sequence lengthens and the playback speed increases dynamically as you advance through levels."
-    }, {
-      icon: RotateCcw,
-      title: "High Score Tracking",
-      description: "Your personal best level is tracked locally, motivating you to beat your previous cognitive limits."
-    }]}>
+        icon: Zap,
+        title: "Sequential Memory",
+        description: "Trains your brain's ability to encode and recall sequential information, a key component of working memory."
+      }, {
+        icon: Grid3X3,
+        title: "Visual Feedback",
+        description: "Satisfying color shifts and glowing animations provide instant feedback on correct and incorrect inputs."
+      }, {
+        icon: Play,
+        title: "Progressive Difficulty",
+        description: "The sequence lengthens and the playback speed increases dynamically as you advance through levels."
+      }, {
+        icon: RotateCcw,
+        title: "High Score Tracking",
+        description: "Your personal best level is tracked locally, motivating you to beat your previous cognitive limits."
+      }]}>
  <div className="prose prose-sm dark:prose-invert max-w-none mt-6">
  <h3>Sequential Pattern Recall</h3>
  <p>Memory Match is a modern, grid-based evolution of the classic Simon Says game. It is specifically designed to challenge your sequential memory and sustained attention. Unlike spatial memory tasks that rely on static locations, this tool requires you to hold a temporal sequence of events in your working memory. As the grid lights up, your brain's phonological loop and visuospatial sketchpad work in tandem to encode the order of the activations. When it is your turn to reproduce the pattern, you must retrieve this sequence accurately, suppressing any impulsive guesses. This type of cognitive training is highly correlated with improvements in fluid intelligence and executive function.</p>
@@ -190,20 +191,20 @@ export function MemoryMatchClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={[{
-      question: "What is the difference between the difficulty modes?",
-      answer: "The difficulty modes control the speed at which the sequence is shown. Normal is 800ms per tile, Fast is 400ms, and Insane is a blistering 200ms, requiring intense focus."
-    }, {
-      question: "Does the sequence get longer every level?",
-      answer: "Yes, every time you successfully complete a level, one additional tile is added to the end of the sequence, increasing the memory load."
-    }, {
-      question: "Is my high score saved?",
-      answer: "Your high score for the current session is tracked. Future updates may include persistent local storage to save your all-time best level."
-    }, {
-      question: "Can I play without sound?",
-      answer: "Yes, this tool is entirely visual. It uses color and animation to provide feedback, making it perfect for playing in quiet environments like offices or libraries."
-    }]} />
+        question: "What is the difference between the difficulty modes?",
+        answer: "The difficulty modes control the speed at which the sequence is shown. Normal is 800ms per tile, Fast is 400ms, and Insane is a blistering 200ms, requiring intense focus."
+      }, {
+        question: "Does the sequence get longer every level?",
+        answer: "Yes, every time you successfully complete a level, one additional tile is added to the end of the sequence, increasing the memory load."
+      }, {
+        question: "Is my high score saved?",
+        answer: "Your high score for the current session is tracked. Future updates may include persistent local storage to save your all-time best level."
+      }, {
+        question: "Can I play without sound?",
+        answer: "Yes, this tool is entirely visual. It uses color and animation to provide feedback, making it perfect for playing in quiet environments like offices or libraries."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/fun/memory-match" max={6} />
- </div>;
+ </div></div>;
 }
 export default MemoryMatchClient;

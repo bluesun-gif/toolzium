@@ -1,6 +1,7 @@
 "use client";
-import { cn } from"@/lib/utils";
+import { ToolBackground } from"@/components/shared/tool-background";
 
+import { cn } from "@/lib/utils";
 import React, { useState, useMemo, useCallback, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -202,8 +203,8 @@ export function TictactoeAiClient() {
     setWinningLine([]);
     setIsPlayerTurn(playerSymbol === 'X');
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Grid3x3} title="Tic-Tac-Toe AI" description="Challenge an unbeatable Minimax AI or test your tactics against randomized and medium-difficulty bots." />
 
@@ -217,23 +218,23 @@ export function TictactoeAiClient() {
  <div className="flex flex-wrap gap-3 items-center justify-between">
  <div className="flex gap-2">
  {(['easy', 'medium', 'hard'] as Difficulty[]).map(d => <Button key={d} variant={difficulty === d ? "default" : "outline"} size="sm" onClick={() => {
-              setDifficulty(d);
-              resetGame();
-            }}>
+                setDifficulty(d);
+                resetGame();
+              }}>
  {d.charAt(0).toUpperCase() + d.slice(1)}
  </Button>)}
  </div>
  <div className="flex gap-2">
  <Button variant={playerSymbol === 'X' ? "default" : "outline"} size="sm" onClick={() => {
-              setPlayerSymbol('X');
-              resetGame();
-            }}>
+                setPlayerSymbol('X');
+                resetGame();
+              }}>
  Play X
  </Button>
  <Button variant={playerSymbol === 'O' ? "default" : "outline"} size="sm" onClick={() => {
-              setPlayerSymbol('O');
-              resetGame();
-            }}>
+                setPlayerSymbol('O');
+                resetGame();
+              }}>
  Play O
  </Button>
  </div>
@@ -281,39 +282,39 @@ export function TictactoeAiClient() {
  </GlassCard>
 
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Select Difficulty",
-      description: "Choose between Easy (random), Medium (tactical), or Hard (perfect Minimax AI).",
-      icon: Cpu
-    }, {
-      step: "02",
-      title: "Make Your Move",
-      description: "Tap any empty cell to place your symbol. X always goes first.",
-      icon: Grid3x3
-    }, {
-      step: "03",
-      title: "Outsmart the Bot",
-      description: "Analyze the board, block threats, and aim for a draw against the unbeatable Hard AI.",
-      icon: Trophy
-    }]} badges={["100% Free", "Client-Side Privacy", "No Signup"]} />
+        step: "01",
+        title: "Select Difficulty",
+        description: "Choose between Easy (random), Medium (tactical), or Hard (perfect Minimax AI).",
+        icon: Cpu
+      }, {
+        step: "02",
+        title: "Make Your Move",
+        description: "Tap any empty cell to place your symbol. X always goes first.",
+        icon: Grid3x3
+      }, {
+        step: "03",
+        title: "Outsmart the Bot",
+        description: "Analyze the board, block threats, and aim for a draw against the unbeatable Hard AI.",
+        icon: Trophy
+      }]} badges={["100% Free", "Client-Side Privacy", "No Signup"]} />
 
  <ToolFeatureGuides features={[{
-      icon: Cpu,
-      title: "Minimax Algorithm",
-      description: "Hard mode uses exhaustive game-tree search to guarantee mathematically perfect play."
-    }, {
-      icon: User,
-      title: "Symbol Selection",
-      description: "Choose to play as X (first mover advantage) or O (defensive counter-play)."
-    }, {
-      icon: Trophy,
-      title: "Score Tracking",
-      description: "Persistent session scoring tracks your wins, losses, and draws across all difficulty tiers."
-    }, {
-      icon: History,
-      title: "Match History",
-      description: "Review your recent tactical outcomes to identify patterns and improve your strategy."
-    }]}>
+        icon: Cpu,
+        title: "Minimax Algorithm",
+        description: "Hard mode uses exhaustive game-tree search to guarantee mathematically perfect play."
+      }, {
+        icon: User,
+        title: "Symbol Selection",
+        description: "Choose to play as X (first mover advantage) or O (defensive counter-play)."
+      }, {
+        icon: Trophy,
+        title: "Score Tracking",
+        description: "Persistent session scoring tracks your wins, losses, and draws across all difficulty tiers."
+      }, {
+        icon: History,
+        title: "Match History",
+        description: "Review your recent tactical outcomes to identify patterns and improve your strategy."
+      }]}>
  <div className="prose dark:prose-invert max-w-none">
  <h3>Mastering Game Theory & Minimax</h3>
  <p>Tic-Tac-Toe AI elevates the childhood classic into a sophisticated laboratory for strategic thinking and algorithmic game theory. While the standard 3x3 grid is often dismissed as a solved game resulting in inevitable draws between perfect players, our platform introduces new artificial intelligence difficulty tiers that transform this simple framework into a dynamic training ground for decision-making. Whether you are facing our 'Easy' bot that makes randomized moves, the 'Medium' bot that actively blocks and seeks winning lines, or the 'Hard' bot powered by the legendary Minimax algorithm, every match offers a unique psychological and logical challenge.</p>
@@ -323,20 +324,20 @@ export function TictactoeAiClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={[{
-      question: "Is it possible to beat the Hard AI?",
-      answer: "Mathematically, no. The Hard AI uses the Minimax algorithm, which evaluates every possible future move. If you play perfectly, you will force a draw, but you cannot win."
-    }, {
-      question: "How does the Medium AI make decisions?",
-      answer: "The Medium AI checks if it can win in one move, then checks if it needs to block your winning move. If neither applies, it makes a random valid move."
-    }, {
-      question: "Does X always have an advantage?",
-      answer: "Yes, X moves first, which provides a slight initiative advantage. However, against perfect play, the first-move advantage is neutralized into a guaranteed draw."
-    }, {
-      question: "Is my score saved permanently?",
-      answer: "Scores are tracked locally during your active browser session to maintain a competitive feel without requiring user accounts or databases."
-    }]} />
+        question: "Is it possible to beat the Hard AI?",
+        answer: "Mathematically, no. The Hard AI uses the Minimax algorithm, which evaluates every possible future move. If you play perfectly, you will force a draw, but you cannot win."
+      }, {
+        question: "How does the Medium AI make decisions?",
+        answer: "The Medium AI checks if it can win in one move, then checks if it needs to block your winning move. If neither applies, it makes a random valid move."
+      }, {
+        question: "Does X always have an advantage?",
+        answer: "Yes, X moves first, which provides a slight initiative advantage. However, against perfect play, the first-move advantage is neutralized into a guaranteed draw."
+      }, {
+        question: "Is my score saved permanently?",
+        answer: "Scores are tracked locally during your active browser session to maintain a competitive feel without requiring user accounts or databases."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/fun/tictactoe-ai" max={6} />
- </div>;
+ </div></div>;
 }
 export default TictactoeAiClient;

@@ -1,6 +1,7 @@
 "use client";
-import { cn } from"@/lib/utils";
+import { ToolBackground } from"@/components/shared/tool-background";
 
+import { cn } from "@/lib/utils";
 import React, { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -272,8 +273,8 @@ export function MeshGradientClient() {
     img.src = url;
     toast.success("Exported PNG!");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Palette} title="Mesh Gradient Generator" description="Design beautiful multi-point color blending mesh gradients for backgrounds, exportable as CSS, SVG, or PNG." />
 
@@ -322,11 +323,11 @@ export function MeshGradientClient() {
  <Label className="text-xs">Presets</Label>
  <div className="grid grid-cols-4 gap-2">
  {PRESETS.map((p, i) => <Button key={p.name} onClick={() => setPoints(p.points.map((pt, idx) => ({
-                ...pt,
-                id: idx
-              })))} className="h-8 rounded border border-border/50 hover:scale-105 transition-transform" style={{
-                background: `linear-gradient(45deg, ${p.points[0].color}, ${p.points[1].color})`
-              }} title={p.name} />)}
+                  ...pt,
+                  id: idx
+                })))} className="h-8 rounded border border-border/50 hover:scale-105 transition-transform" style={{
+                  background: `linear-gradient(45deg, ${p.points[0].color}, ${p.points[1].color})`
+                }} title={p.name} />)}
  </div>
  </div>
 
@@ -344,12 +345,12 @@ export function MeshGradientClient() {
  </CardHeader>
  <CardContent className="p-4 flex-1 flex flex-col gap-4">
  <div className="w-full rounded-xl border border-border/50 shadow-inner" style={{
-            aspectRatio: `${SIZES[sizeIdx].w} / ${SIZES[sizeIdx].h}`,
-            backgroundColor: points[0]?.color || "#000",
-            backgroundImage: points.map(p => `radial-gradient(at ${p.x}% ${p.y}%, ${p.color} 0px, transparent 50%)`).join(","),
-            backgroundSize: "cover",
-            filter: `blur(${blur}px)`
-          }} />
+              aspectRatio: `${SIZES[sizeIdx].w} / ${SIZES[sizeIdx].h}`,
+              backgroundColor: points[0]?.color || "#000",
+              backgroundImage: points.map(p => `radial-gradient(at ${p.x}% ${p.y}%, ${p.color} 0px, transparent 50%)`).join(","),
+              backgroundSize: "cover",
+              filter: `blur(${blur}px)`
+            }} />
 
  <div className="flex border-b border-border/50">
  <Button className={cn(`px-4 py-2 text-sm font-medium ${activeTab === "css" ? "border-b-2 border-primary text-primary" : "text-muted-foreground"}`)} onClick={() => setActiveTab("css")}>
@@ -375,39 +376,39 @@ export function MeshGradientClient() {
  </div>
 
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Define Color Points",
-      description: "Add up to 6 color points and position them across the X/Y axis using the interactive sliders.",
-      icon: Layers
-    }, {
-      step: "02",
-      title: "Adjust Blur & Size",
-      description: "Control the mesh intensity with the blur slider and select your target canvas aspect ratio.",
-      icon: Palette
-    }, {
-      step: "03",
-      title: "Export Code or PNG",
-      description: "Copy the generated CSS/SVG directly to your project, or download a high-resolution PNG asset.",
-      icon: Download
-    }]} badges={["100% Free", "Client-Side Privacy", "No Signup"]} />
+        step: "01",
+        title: "Define Color Points",
+        description: "Add up to 6 color points and position them across the X/Y axis using the interactive sliders.",
+        icon: Layers
+      }, {
+        step: "02",
+        title: "Adjust Blur & Size",
+        description: "Control the mesh intensity with the blur slider and select your target canvas aspect ratio.",
+        icon: Palette
+      }, {
+        step: "03",
+        title: "Export Code or PNG",
+        description: "Copy the generated CSS/SVG directly to your project, or download a high-resolution PNG asset.",
+        icon: Download
+      }]} badges={["100% Free", "Client-Side Privacy", "No Signup"]} />
 
  <ToolFeatureGuides features={[{
-      icon: Layers,
-      title: "Multi-Point Radial Blending",
-      description: "Layer multiple radial gradients to create complex, organic mesh transitions impossible with standard linear gradients."
-    }, {
-      icon: Code,
-      title: "Production-Ready CSS",
-      description: "Outputs clean, cross-browser compatible CSS utilizing standard radial-gradient syntax and backdrop filters."
-    }, {
-      icon: Palette,
-      title: "Curated Presets",
-      description: "Jumpstart your design with 8 professionally curated color palettes inspired by modern UI trends."
-    }, {
-      icon: Download,
-      title: "Vector & Raster Export",
-      description: "Export infinitely scalable SVG code for web, or high-DPI PNG files via client-side canvas rendering."
-    }]}>
+        icon: Layers,
+        title: "Multi-Point Radial Blending",
+        description: "Layer multiple radial gradients to create complex, organic mesh transitions impossible with standard linear gradients."
+      }, {
+        icon: Code,
+        title: "Production-Ready CSS",
+        description: "Outputs clean, cross-browser compatible CSS utilizing standard radial-gradient syntax and backdrop filters."
+      }, {
+        icon: Palette,
+        title: "Curated Presets",
+        description: "Jumpstart your design with 8 professionally curated color palettes inspired by modern UI trends."
+      }, {
+        icon: Download,
+        title: "Vector & Raster Export",
+        description: "Export infinitely scalable SVG code for web, or high-DPI PNG files via client-side canvas rendering."
+      }]}>
  <div className="prose dark:prose-invert max-w-none">
  <h3>The Art of Mesh Gradients in Modern UI</h3>
  <p>Mesh gradients have become a staple in contemporary web design, offering a vibrant, fluid alternative to flat colors and static images. Unlike traditional linear gradients that transition between two points, mesh gradients utilize multiple overlapping radial gradients to create complex, organic color blending that mimics natural light and fluid dynamics.</p>
@@ -422,20 +423,20 @@ export function MeshGradientClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={[{
-      question: "Is the generated CSS compatible with all browsers?",
-      answer: "Yes. The output uses standard radial-gradient syntax which is supported by all modern browsers (Chrome, Firefox, Safari, Edge). The blur effect uses the standard CSS filter property."
-    }, {
-      question: "How does the PNG export work without a server?",
-      answer: "We utilize the HTML5 Canvas API. The tool generates an SVG string, loads it into an invisible Image object, draws it onto a canvas at your selected resolution, and extracts the PNG data URL locally."
-    }, {
-      question: "Can I use these gradients for commercial projects?",
-      answer: "Absolutely. All gradients generated using this tool are entirely yours and can be used in personal, commercial, or client projects without attribution."
-    }, {
-      question: "Why does my CSS look sharp instead of blended?",
-      answer: "Ensure you have included the 'filter: blur(Xpx)' property in your CSS. The blur is what softens the hard edges of the radial gradients into a smooth mesh."
-    }]} />
+        question: "Is the generated CSS compatible with all browsers?",
+        answer: "Yes. The output uses standard radial-gradient syntax which is supported by all modern browsers (Chrome, Firefox, Safari, Edge). The blur effect uses the standard CSS filter property."
+      }, {
+        question: "How does the PNG export work without a server?",
+        answer: "We utilize the HTML5 Canvas API. The tool generates an SVG string, loads it into an invisible Image object, draws it onto a canvas at your selected resolution, and extracts the PNG data URL locally."
+      }, {
+        question: "Can I use these gradients for commercial projects?",
+        answer: "Absolutely. All gradients generated using this tool are entirely yours and can be used in personal, commercial, or client projects without attribution."
+      }, {
+        question: "Why does my CSS look sharp instead of blended?",
+        answer: "Ensure you have included the 'filter: blur(Xpx)' property in your CSS. The blur is what softens the hard edges of the radial gradients into a smooth mesh."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/dev/mesh-gradient" max={6} />
- </div>;
+ </div></div>;
 }
 export default MeshGradientClient;

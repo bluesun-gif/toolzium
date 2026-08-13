@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -71,14 +72,14 @@ export function ColorContrastClient() {
  {passed ? <CheckCircle className="w-4 h-4" /> : <AlertTriangle className="w-4 h-4" />}
  {label}
  </div>;
-  return <div className="relative space-y-6">
-      <GridPattern />
+  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader title="Color Contrast Analyzer" description="Check WCAG contrast ratios and accessibility." icon={CheckCircle} actions={<ResetButton onClick={() => {
-      setTextColor("#FFFFFF");
-      setBgColor("#000000");
-      setBorderColor("#444444");
-    }} />} />
+        setTextColor("#FFFFFF");
+        setBgColor("#000000");
+        setBorderColor("#444444");
+      }} />} />
 
  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
  <GlassCard>
@@ -130,9 +131,9 @@ export function ColorContrastClient() {
  <CardHeader><CardTitle>Live Preview</CardTitle></CardHeader>
  <CardContent>
  <div className="p-8 rounded-lg shadow-inner flex flex-col gap-6 transition-colors duration-200" style={{
-            backgroundColor: bgColor,
-            color: textColor
-          }}>
+              backgroundColor: bgColor,
+              color: textColor
+            }}>
  <div>
  <h3 className="text-2xl font-bold mb-2">Large Text Preview (18pt+)</h3>
  <p className="text-base font-normal">
@@ -143,23 +144,23 @@ export function ColorContrastClient() {
 
  <div className="flex flex-wrap gap-4 items-center">
  <Button className="px-4 py-2 font-medium rounded-md shadow-sm" style={{
-                backgroundColor: textColor,
-                color: bgColor
-              }}>
+                  backgroundColor: textColor,
+                  color: bgColor
+                }}>
  Solid Button
  </Button>
  <Button className="px-4 py-2 font-medium rounded-md shadow-sm border-2" style={{
-                borderColor: borderColor,
-                color: textColor
-              }}>
+                  borderColor: borderColor,
+                  color: textColor
+                }}>
  Outline Button
  </Button>
  </div>
 
  <div className="p-4 rounded border-l-4" style={{
-              backgroundColor: "rgba(0,0,0,0.1)",
-              borderColor: borderColor
-            }}>
+                backgroundColor: "rgba(0,0,0,0.1)",
+                borderColor: borderColor
+              }}>
  <div className="font-bold mb-1">UI Component Preview</div>
  <div className="text-sm opacity-90">Notice how the border color contrasts against the background.</div>
  </div>
@@ -169,35 +170,35 @@ export function ColorContrastClient() {
  </div>
  
       <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Input Your Data",
-      description: "Enter your information in the input field above and configure any options.",
-      icon: Sparkles
-    }, {
-      step: "02",
-      title: "Process & Generate",
-      description: "The tool processes your input instantly and displays the results.",
-      icon: Zap
-    }, {
-      step: "03",
-      title: "Copy & Use",
-      description: "Copy the output with one click and use it wherever you need.",
-      icon: Copy
-    }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
 
       <ToolFeatureGuides features={[{
-      icon: Sparkles,
-      title: "Lightning Fast",
-      description: "Get results in milliseconds with our optimized client-side processing engine."
-    }, {
-      icon: Shield,
-      title: "Completely Private",
-      description: "All processing happens in your browser. Your data never leaves your device."
-    }, {
-      icon: Zap,
-      title: "No Signup Required",
-      description: "Use this tool instantly without creating an account or providing any personal information."
-    }]}>
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Color Contrast Analyzer?</h3>
           <p>
@@ -214,17 +215,17 @@ export function ColorContrastClient() {
       </ToolFeatureGuides>
 
       <ToolFaqAccordion faqs={[{
-      question: "Is this tool free to use?",
-      answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-    }, {
-      question: "Is my data secure?",
-      answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-    }, {
-      question: "Do I need to create an account?",
-      answer: "No account or registration is required. Simply open the tool and start using it immediately."
-    }]} />
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/image/color-contrast-extractor" max={6} />
 
-  </div>;
+  </div></div>;
 }

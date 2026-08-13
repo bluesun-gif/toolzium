@@ -1,6 +1,7 @@
 "use client";
-import { cn } from"@/lib/utils";
+import { ToolBackground } from"@/components/shared/tool-background";
 
+import { cn } from "@/lib/utils";
 import React, { useState, useMemo, useCallback, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -198,8 +199,8 @@ export function SudokuUnlimitedClient() {
   const symbols = Array.from({
     length: size
   }, (_, i) => i + 1);
-  return <div className="relative max-w-6xl mx-auto space-y-8">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Grid3x3} title="Sudoku Unlimited" description="Conquer logic puzzles across multiple dimensions with 4x4 Mini, 9x9 Classic, and 16x16 Giant grids." />
 
@@ -213,9 +214,9 @@ export function SudokuUnlimitedClient() {
  <div className="flex flex-wrap gap-3 items-center justify-between">
  <div className="flex gap-2">
  {(['4x4', '9x9', '16x16'] as Mode[]).map(m => <Button key={m} variant={mode === m ? "default" : "outline"} size="sm" onClick={() => {
-              setMode(m);
-              generatePuzzle(m, difficulty);
-            }}>
+                setMode(m);
+                generatePuzzle(m, difficulty);
+              }}>
  {m}
  </Button>)}
  </div>
@@ -227,15 +228,15 @@ export function SudokuUnlimitedClient() {
 
  <div className="flex flex-col lg:flex-row gap-6 items-center lg:items-start justify-center">
  <div className={`grid border-2 border-foreground rounded-lg overflow-hidden ${mode === '16x16' ? 'max-w-[500px]' : 'max-w-[360px]'} w-full aspect-square`} style={{
-            gridTemplateColumns: `repeat(${size}, minmax(0, 1fr))`
-          }}>
+              gridTemplateColumns: `repeat(${size}, minmax(0, 1fr))`
+            }}>
  {grid.map((row, r) => row.map((cell, c) => {
-              const isSelected = selected?.r === r && selected?.c === c;
-              const isInitial = initial[r][c];
-              const isError = errors.has(`${r}-${c}`);
-              const borderR = (c + 1) % N === 0 && c !== size - 1 ? 'border-r-2 border-r-foreground' : 'border-r border-r-border';
-              const borderB = (r + 1) % N === 0 && r !== size - 1 ? 'border-b-2 border-b-foreground' : 'border-b border-b-border';
-              return <Button key={`${r}-${c}`} onClick={() => handleCellClick(r, c)} className={cn(`relative flex items-center justify-center font-bold transition-colors
+                const isSelected = selected?.r === r && selected?.c === c;
+                const isInitial = initial[r][c];
+                const isError = errors.has(`${r}-${c}`);
+                const borderR = (c + 1) % N === 0 && c !== size - 1 ? 'border-r-2 border-r-foreground' : 'border-r border-r-border';
+                const borderB = (r + 1) % N === 0 && r !== size - 1 ? 'border-b-2 border-b-foreground' : 'border-b border-b-border';
+                return <Button key={`${r}-${c}`} onClick={() => handleCellClick(r, c)} className={cn(`relative flex items-center justify-center font-bold transition-colors
  ${borderR} ${borderB}
  ${mode === '16x16' ? 'text-xs' : 'text-lg'}
  ${isSelected ? 'bg-primary/20' : 'bg-background hover:bg-muted/50'}
@@ -247,7 +248,7 @@ export function SudokuUnlimitedClient() {
  </span>) || null}
  </div>}
  </Button>;
-            }))}
+              }))}
  </div>
 
  <div className="space-y-4 w-full max-w-[250px]">
@@ -276,39 +277,39 @@ export function SudokuUnlimitedClient() {
  </GlassCard>
 
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Choose Your Dimension",
-      description: "Select between 4x4 Mini, 9x9 Classic, or 16x16 Giant grids based on your skill level.",
-      icon: Grid3x3
-    }, {
-      step: "02",
-      title: "Map the Constraints",
-      description: "Analyze rows, columns, and sub-grids to identify missing symbols and logical deductions.",
-      icon: Pen
-    }, {
-      step: "03",
-      title: "Conquer the Grid",
-      description: "Place symbols systematically and track your best times across all puzzle dimensions.",
-      icon: Trophy
-    }]} badges={["100% Free", "Client-Side Privacy", "No Signup"]} />
+        step: "01",
+        title: "Choose Your Dimension",
+        description: "Select between 4x4 Mini, 9x9 Classic, or 16x16 Giant grids based on your skill level.",
+        icon: Grid3x3
+      }, {
+        step: "02",
+        title: "Map the Constraints",
+        description: "Analyze rows, columns, and sub-grids to identify missing symbols and logical deductions.",
+        icon: Pen
+      }, {
+        step: "03",
+        title: "Conquer the Grid",
+        description: "Place symbols systematically and track your best times across all puzzle dimensions.",
+        icon: Trophy
+      }]} badges={["100% Free", "Client-Side Privacy", "No Signup"]} />
 
  <ToolFeatureGuides features={[{
-      icon: Grid3x3,
-      title: "Multi-Dimensional Play",
-      description: "Seamlessly switch between 4x4, 9x9, and 16x16 grids with adaptive UI scaling."
-    }, {
-      icon: Pen,
-      title: "Advanced Notation",
-      description: "Track complex candidate permutations with our dynamic sub-grid pencil note system."
-    }, {
-      icon: Trophy,
-      title: "Persistent Stats",
-      description: "Monitor your completion rates and personal best times for every puzzle variant."
-    }, {
-      icon: RotateCcw,
-      title: "Infinite Generation",
-      description: "Algorithmic permutation ensures you never play the exact same puzzle twice."
-    }]}>
+        icon: Grid3x3,
+        title: "Multi-Dimensional Play",
+        description: "Seamlessly switch between 4x4, 9x9, and 16x16 grids with adaptive UI scaling."
+      }, {
+        icon: Pen,
+        title: "Advanced Notation",
+        description: "Track complex candidate permutations with our dynamic sub-grid pencil note system."
+      }, {
+        icon: Trophy,
+        title: "Persistent Stats",
+        description: "Monitor your completion rates and personal best times for every puzzle variant."
+      }, {
+        icon: RotateCcw,
+        title: "Infinite Generation",
+        description: "Algorithmic permutation ensures you never play the exact same puzzle twice."
+      }]}>
  <div className="prose dark:prose-invert max-w-none">
  <h3>Expanding the Boundaries of Logic</h3>
  <p>Sudoku Unlimited expands the boundaries of traditional logic puzzles by introducing groundbreaking variant modes that cater to every skill level and cognitive appetite. While the classic 9x9 grid remains the gold standard for logical deduction, true puzzle aficionados often seek new dimensions to conquer. Our platform introduces the accessible Mini 4x4 mode, perfect for young learners and beginners grasping the fundamental rules of Latin squares and spatial constraints. Conversely, the colossal Giant 16x16 mode—utilizing digits 1-9 alongside letters A-G—offers a staggering 256-cell battlefield that will push even the most seasoned Sudoku grandmasters to their absolute cognitive limits.</p>
@@ -318,20 +319,20 @@ export function SudokuUnlimitedClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={[{
-      question: "How do the 16x16 symbols work?",
-      answer: "The 16x16 mode uses digits 1-9 followed by letters A-G to represent the 16 unique symbols required for the grid."
-    }, {
-      question: "Is the 4x4 mode good for kids?",
-      answer: "Absolutely. The 4x4 Mini mode simplifies the rules to 2x2 boxes, making it an excellent introduction to logical deduction for children."
-    }, {
-      question: "Are the 16x16 puzzles generated dynamically?",
-      answer: "Yes. We use a sophisticated Latin square permutation algorithm to generate valid 16x16 puzzles instantly in your browser."
-    }, {
-      question: "Do my stats save if I refresh?",
-      answer: "Stats are maintained in local session memory. For permanent tracking, we recommend keeping the tab open during your training sessions."
-    }]} />
+        question: "How do the 16x16 symbols work?",
+        answer: "The 16x16 mode uses digits 1-9 followed by letters A-G to represent the 16 unique symbols required for the grid."
+      }, {
+        question: "Is the 4x4 mode good for kids?",
+        answer: "Absolutely. The 4x4 Mini mode simplifies the rules to 2x2 boxes, making it an excellent introduction to logical deduction for children."
+      }, {
+        question: "Are the 16x16 puzzles generated dynamically?",
+        answer: "Yes. We use a sophisticated Latin square permutation algorithm to generate valid 16x16 puzzles instantly in your browser."
+      }, {
+        question: "Do my stats save if I refresh?",
+        answer: "Stats are maintained in local session memory. For permanent tracking, we recommend keeping the tab open during your training sessions."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/fun/sudoku-unlimited" max={6} />
- </div>;
+ </div></div>;
 }
 export default SudokuUnlimitedClient;

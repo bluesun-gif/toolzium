@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
 import InputField from"@/components/shared/form-fields/input-field";
@@ -107,7 +108,7 @@ export default function TodoOfflineClient() {
  />
 
  <div className="col-span-2">
-      <GridPattern />
+      <ToolBackground />
 
  <ActionButton variant="default"icon={Plus} label="Add Task"onClick={addTodo} />
  </div>

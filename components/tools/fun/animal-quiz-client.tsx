@@ -1,6 +1,7 @@
 "use client";
-import { cn } from"@/lib/utils";
+import { ToolBackground } from"@/components/shared/tool-background";
 
+import { cn } from "@/lib/utils";
 import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -140,8 +141,8 @@ export default function AnimalQuizClient() {
     setGameOver(false);
   };
   const progress = useMemo(() => (currentQ + (showResult ? 1 : 0)) / QUESTIONS.length * 100, [currentQ, showResult]);
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={PawPrint} title="Animal Quiz" description="Test your wildlife knowledge with this fun, interactive 20+ question animal trivia game." />
 
@@ -153,24 +154,24 @@ export default function AnimalQuizClient() {
  </CardTitle>
  <div className="w-full bg-muted rounded-full h-2 mt-3">
  <div className="bg-primary h-2 rounded-full transition-all" style={{
-            width: `${progress}%`
-          }} />
+              width: `${progress}%`
+            }} />
  </div>
  </CardHeader>
  <CardContent className="p-6 space-y-6">
  <h2 className="text-xl font-bold text-foreground">{question.q}</h2>
  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
  {question.options.map((opt, idx) => {
-            let btnClass = "w-full text-left p-4 rounded-xl border transition-all font-medium";
-            if (showResult) {
-              if (idx === question.answer) btnClass += "bg-green-500/20 border-green-500 text-green-700 dark:text-green-400";else if (idx === selected) btnClass += "bg-red-500/20 border-red-500 text-red-700 dark:text-red-400";else btnClass += "bg-muted border-border text-muted-foreground opacity-50";
-            } else {
-              btnClass += "bg-background border-border hover:border-primary hover:bg-primary/5";
-            }
-            return <Button key={idx} className={cn(btnClass)} onClick={() => handleSelect(idx)} disabled={showResult}>
+              let btnClass = "w-full text-left p-4 rounded-xl border transition-all font-medium";
+              if (showResult) {
+                if (idx === question.answer) btnClass += "bg-green-500/20 border-green-500 text-green-700 dark:text-green-400";else if (idx === selected) btnClass += "bg-red-500/20 border-red-500 text-red-700 dark:text-red-400";else btnClass += "bg-muted border-border text-muted-foreground opacity-50";
+              } else {
+                btnClass += "bg-background border-border hover:border-primary hover:bg-primary/5";
+              }
+              return <Button key={idx} className={cn(btnClass)} onClick={() => handleSelect(idx)} disabled={showResult}>
  {opt}
  </Button>;
-          })}
+            })}
  </div>
  {showResult && <Button onClick={handleNext} className="w-full">
  {currentQ < QUESTIONS.length - 1 ? "Next Question" : "Finish Quiz"}
@@ -190,39 +191,39 @@ export default function AnimalQuizClient() {
  </GlassCard>}
 
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Read the Question",
-      description: "Read the wildlife trivia question presented on the screen.",
-      icon: PawPrint
-    }, {
-      step: "02",
-      title: "Select an Answer",
-      description: "Click on one of the four multiple-choice options you think is correct.",
-      icon: CheckCircle2
-    }, {
-      step: "03",
-      title: "Track Your Score",
-      description: "See immediate feedback and track your progress to the final results.",
-      icon: RotateCcw
-    }]} badges={["100% Free", "Client-Side", "Fun"]} />
+        step: "01",
+        title: "Read the Question",
+        description: "Read the wildlife trivia question presented on the screen.",
+        icon: PawPrint
+      }, {
+        step: "02",
+        title: "Select an Answer",
+        description: "Click on one of the four multiple-choice options you think is correct.",
+        icon: CheckCircle2
+      }, {
+        step: "03",
+        title: "Track Your Score",
+        description: "See immediate feedback and track your progress to the final results.",
+        icon: RotateCcw
+      }]} badges={["100% Free", "Client-Side", "Fun"]} />
 
  <ToolFeatureGuides features={[{
-      icon: PawPrint,
-      title: "20+ Questions",
-      description: "A vast library of animal trivia covering mammals, birds, reptiles, and insects."
-    }, {
-      icon: CheckCircle2,
-      title: "Instant Feedback",
-      description: "Know immediately if you are right or wrong, and learn the correct answer."
-    }, {
-      icon: RotateCcw,
-      title: "Score Tracking",
-      description: "Keep track of your correct answers and see your final score at the end."
-    }, {
-      icon: XCircle,
-      title: "Play Again",
-      description: "Restart the quiz anytime to improve your score and test your memory."
-    }]}>
+        icon: PawPrint,
+        title: "20+ Questions",
+        description: "A vast library of animal trivia covering mammals, birds, reptiles, and insects."
+      }, {
+        icon: CheckCircle2,
+        title: "Instant Feedback",
+        description: "Know immediately if you are right or wrong, and learn the correct answer."
+      }, {
+        icon: RotateCcw,
+        title: "Score Tracking",
+        description: "Keep track of your correct answers and see your final score at the end."
+      }, {
+        icon: XCircle,
+        title: "Play Again",
+        description: "Restart the quiz anytime to improve your score and test your memory."
+      }]}>
  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
  <p>Welcome to the ultimate Animal Quiz! This fun, interactive game is designed to test your knowledge of the animal kingdom. From the fastest land animals to the deepest sea creatures, this quiz covers a wide range of wildlife trivia.</p>
  <p>Whether you are a student looking to learn more about biology, a teacher seeking a fun classroom activity, or just a nature enthusiast, this quiz provides an engaging way to challenge yourself. The multiple-choice format makes it accessible for all ages.</p>
@@ -231,16 +232,16 @@ export default function AnimalQuizClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={[{
-      question: "Is this animal quiz free to play?",
-      answer: "Yes, the Animal Quiz is 100% free with no hidden fees, subscriptions, or sign-ups required."
-    }, {
-      question: "Do I need an internet connection to play?",
-      answer: "You need an internet connection to load the page initially, but once loaded, the quiz logic runs entirely in your browser."
-    }, {
-      question: "Can I play this quiz on my mobile phone?",
-      answer: "Absolutely! The interface is fully responsive and optimized for smartphones, tablets, and desktop computers."
-    }]} />
+        question: "Is this animal quiz free to play?",
+        answer: "Yes, the Animal Quiz is 100% free with no hidden fees, subscriptions, or sign-ups required."
+      }, {
+        question: "Do I need an internet connection to play?",
+        answer: "You need an internet connection to load the page initially, but once loaded, the quiz logic runs entirely in your browser."
+      }, {
+        question: "Can I play this quiz on my mobile phone?",
+        answer: "Absolutely! The interface is fully responsive and optimized for smartphones, tablets, and desktop computers."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/fun/animal-quiz" max={6} />
- </div>;
+ </div></div>;
 }

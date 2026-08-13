@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -147,8 +148,8 @@ export function KanbanClient() {
       setTasks(updatedTasks);
     }
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+      
 
       <ToolPageHeader icon={LayoutGrid} title="Customizable Visual Kanban Board" description="Organize tasks into workflow columns (To Do, In Progress, Done), create custom columns, and move task cards across swimlanes." actions={<div className="flex gap-2">
             <ActionButton onClick={handleClearDone} icon={Check} label="Clear Completed" variant="outline" size="default" />
@@ -191,8 +192,8 @@ export function KanbanClient() {
       {/* KANBAN BOARD SWIMLANES */}
       <div className="flex gap-4 overflow-x-auto pb-4 pt-2">
         {columns.map((col, colIdx) => {
-        const columnTasks = tasks.filter(t => t.columnId === col.id);
-        return <div key={col.id} className="min-w-[280px] w-[300px] shrink-0 bg-muted/20 border border-border/60 rounded-2xl p-4 flex flex-col max-h-[70vh]">
+          const columnTasks = tasks.filter(t => t.columnId === col.id);
+          return <div key={col.id} className="min-w-[280px] w-[300px] shrink-0 bg-muted/20 border border-border/60 rounded-2xl p-4 flex flex-col max-h-[70vh]">
               <div className={cn("mb-4 flex items-center justify-between pl-3 py-1", col.color)}>
                 <h3 className="font-bold text-base text-foreground">{col.title}</h3>
                 <span className="bg-primary/10 text-primary border border-primary/20 px-2.5 py-0.5 rounded-full text-xs font-black">
@@ -223,51 +224,51 @@ export function KanbanClient() {
                     </div>)}
               </div>
             </div>;
-      })}
+        })}
       </div>
 
       {/* HOW IT WORKS */}
       <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Add Task Cards",
-      description: "Type task titles and optional descriptions to add them to your To Do column.",
-      icon: Plus
-    }, {
-      step: "02",
-      title: "Move Swimlane Columns",
-      description: "Use left/right arrows on task cards to transition tasks between To Do, In Progress, and Done.",
-      icon: LayoutGrid
-    }, {
-      step: "03",
-      title: "Clear Completed Tasks",
-      description: "Click 'Clear Completed' to purge finished tasks from your board.",
-      icon: CheckCircle2
-    }]} badges={["Custom Swimlane Columns", "Auto-Saved", "100% Free"]} />
+        step: "01",
+        title: "Add Task Cards",
+        description: "Type task titles and optional descriptions to add them to your To Do column.",
+        icon: Plus
+      }, {
+        step: "02",
+        title: "Move Swimlane Columns",
+        description: "Use left/right arrows on task cards to transition tasks between To Do, In Progress, and Done.",
+        icon: LayoutGrid
+      }, {
+        step: "03",
+        title: "Clear Completed Tasks",
+        description: "Click 'Clear Completed' to purge finished tasks from your board.",
+        icon: CheckCircle2
+      }]} badges={["Custom Swimlane Columns", "Auto-Saved", "100% Free"]} />
 
       {/* FEATURE GUIDES */}
       <ToolFeatureGuides features={[{
-      icon: LayoutGrid,
-      title: "Custom Column Creation",
-      description: "Add personalized workflow columns (e.g. Backlog, Testing, Review) dynamically."
-    }, {
-      icon: Check,
-      title: "Batch Clear Completed Tasks",
-      description: "Purge completed swimlane tasks with a single click to maintain board focus."
-    }, {
-      icon: Shield,
-      title: "Confidential Local Storage",
-      description: "Saves all tasks and custom columns locally inside your browser."
-    }]} />
+        icon: LayoutGrid,
+        title: "Custom Column Creation",
+        description: "Add personalized workflow columns (e.g. Backlog, Testing, Review) dynamically."
+      }, {
+        icon: Check,
+        title: "Batch Clear Completed Tasks",
+        description: "Purge completed swimlane tasks with a single click to maintain board focus."
+      }, {
+        icon: Shield,
+        title: "Confidential Local Storage",
+        description: "Saves all tasks and custom columns locally inside your browser."
+      }]} />
 
       {/* FAQ ACCORDION */}
       <ToolFaqAccordion faqs={[{
-      question: "How do I move tasks between columns?",
-      answer: "Click the left or right arrow buttons at the bottom of any task card to move it into adjacent swimlanes."
-    }, {
-      question: "Is my Kanban board saved automatically?",
-      answer: "Yes, all task cards and custom column titles persist automatically in local storage."
-    }]} />
+        question: "How do I move tasks between columns?",
+        answer: "Click the left or right arrow buttons at the bottom of any task card to move it into adjacent swimlanes."
+      }, {
+        question: "Is my Kanban board saved automatically?",
+        answer: "Yes, all task cards and custom column titles persist automatically in local storage."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/productivity/kanban" max={6} />
-    </div>;
+    </div></div>;
 }

@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import {
  Clock,
@@ -209,7 +210,7 @@ export default function JwtDecoderClient() {
 
  return (
       <div className="relative max-w-6xl mx-auto space-y-8">
-      <GridPattern />
+      <ToolBackground />
 
  <TooltipProvider>
  <ToolPageHeader

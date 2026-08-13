@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -208,7 +209,7 @@ export default function DnsLookupClient() {
  />
 
  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <GridPattern />
+      <ToolBackground />
 
  <div className="md:col-span-2 space-y-6">
  <Card>

@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import {
  ActionButton,
@@ -242,7 +243,7 @@ function TimeZoneSelect({
 }) {
  return (
       <div className="relative space-y-2">
-      <GridPattern />
+      <ToolBackground />
 
  {label && <Label>{label}</Label>}
  <Select value={value} onValueChange={onValueChange}>

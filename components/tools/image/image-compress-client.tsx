@@ -1,178 +1,157 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
-import React, { useState, useRef, ChangeEvent } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
-import { Button } from"@/components/ui/button";
-import { Label } from"@/components/ui/label";
-import { Slider } from"@/components/ui/slider";
-import { Input } from"@/components/ui/input";
-import toast from"react-hot-toast";
-import { Upload, Download, Trash2, FileImage, SlidersHorizontal, ShieldCheck, Cpu, HardDrive, Zap } from"lucide-react";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import { RelatedTools } from"@/components/shared/related-tools";
-import { GridPattern } from"@/components/magicui/grid-pattern";
-
+import React, { useState, useRef, ChangeEvent } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
+import { Input } from "@/components/ui/input";
+import toast from "react-hot-toast";
+import { Upload, Download, Trash2, FileImage, SlidersHorizontal, ShieldCheck, Cpu, HardDrive, Zap } from "lucide-react";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { GridPattern } from "@/components/magicui/grid-pattern";
 interface CompressedImage {
- id: string;
- file: File;
- originalSize: number;
- compressedSize: number | null;
- compressedUrl: string | null;
- status:"pending"|"compressing"|"done"|"error";
- name: string;
+  id: string;
+  file: File;
+  originalSize: number;
+  compressedSize: number | null;
+  compressedUrl: string | null;
+  status: "pending" | "compressing" | "done" | "error";
+  name: string;
 }
-
 export default function ImageCompressClient() {
- const [images, setImages] = useState<CompressedImage[]>([]);
- const [quality, setQuality] = useState(80);
- const fileInputRef = useRef<HTMLInputElement>(null);
+  const [images, setImages] = useState<CompressedImage[]>([]);
+  const [quality, setQuality] = useState(80);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const formatSize = (bytes: number) => {
+    if (bytes === 0) return "0 B";
+    const k = 1024;
+    const sizes = ["B", "KB", "MB", "GB"];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + "" + sizes[i];
+  };
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const newFiles = Array.from(e.target.files).map(file => ({
+        id: Math.random().toString(36).substring(7),
+        file,
+        originalSize: file.size,
+        compressedSize: null,
+        compressedUrl: null,
+        status: "pending" as const,
+        name: file.name
+      }));
+      setImages(prev => [...prev, ...newFiles]);
+    }
+  };
+  const compressImage = async (image: CompressedImage, q: number): Promise<CompressedImage> => {
+    return new Promise(resolve => {
+      const reader = new FileReader();
+      reader.readAsDataURL(image.file);
+      reader.onload = event => {
+        const img = new Image();
+        img.src = event.target?.result as string;
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext("2d");
+          if (!ctx) {
+            resolve({
+              ...image,
+              status: "error"
+            });
+            return;
+          }
+          ctx.drawImage(img, 0, 0);
+          let format = "image/jpeg";
+          if (image.file.type === "image/webp") format = "image/webp";else if (image.file.type === "image/png") format = "image/png";
+          canvas.toBlob(blob => {
+            if (blob) {
+              resolve({
+                ...image,
+                compressedSize: blob.size,
+                compressedUrl: URL.createObjectURL(blob),
+                status: "done"
+              });
+            } else {
+              resolve({
+                ...image,
+                status: "error"
+              });
+            }
+          }, format, q / 100);
+        };
+        img.onerror = () => resolve({
+          ...image,
+          status: "error"
+        });
+      };
+      reader.onerror = () => resolve({
+        ...image,
+        status: "error"
+      });
+    });
+  };
+  const handleCompress = async () => {
+    if (images.length === 0) {
+      toast.error("Please upload images first.");
+      return;
+    }
+    const updatedImages = [...images];
+    for (let i = 0; i < updatedImages.length; i++) {
+      if (updatedImages[i].status !== "done") {
+        updatedImages[i] = {
+          ...updatedImages[i],
+          status: "compressing"
+        };
+        setImages([...updatedImages]);
+        updatedImages[i] = await compressImage(updatedImages[i], quality);
+        setImages([...updatedImages]);
+      }
+    }
+    toast.success("Compression complete!");
+  };
+  const handleDownload = (url: string, name: string) => {
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `compressed-${name}`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+  const handleRemove = (id: string) => {
+    setImages(images.filter(img => img.id !== id));
+  };
+  return <div className="relative max-w-6xl mx-auto space-y-8 px-4 py-8"><ToolBackground /><div className="relative z-10">
+      
 
- const formatSize = (bytes: number) => {
- if (bytes === 0) return"0 B";
- const k = 1024;
- const sizes = ["B","KB","MB","GB"];
- const i = Math.floor(Math.log(bytes) / Math.log(k));
- return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) +""+ sizes[i];
- };
-
- const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
- if (e.target.files) {
- const newFiles = Array.from(e.target.files).map((file) => ({
- id: Math.random().toString(36).substring(7),
- file,
- originalSize: file.size,
- compressedSize: null,
- compressedUrl: null,
- status:"pending"as const,
- name: file.name,
- }));
- setImages((prev) => [...prev, ...newFiles]);
- }
- };
-
- const compressImage = async (image: CompressedImage, q: number): Promise<CompressedImage> => {
- return new Promise((resolve) => {
- const reader = new FileReader();
- reader.readAsDataURL(image.file);
- reader.onload = (event) => {
- const img = new Image();
- img.src = event.target?.result as string;
- img.onload = () => {
- const canvas = document.createElement("canvas");
- canvas.width = img.width;
- canvas.height = img.height;
- const ctx = canvas.getContext("2d");
- if (!ctx) {
- resolve({ ...image, status:"error"});
- return;
- }
- ctx.drawImage(img, 0, 0);
- 
- let format ="image/jpeg";
- if (image.file.type ==="image/webp") format ="image/webp";
- else if (image.file.type ==="image/png") format ="image/png";
-
- canvas.toBlob(
- (blob) => {
- if (blob) {
- resolve({
- ...image,
- compressedSize: blob.size,
- compressedUrl: URL.createObjectURL(blob),
- status:"done",
- });
- } else {
- resolve({ ...image, status:"error"});
- }
- },
- format,
- q / 100
- );
- };
- img.onerror = () => resolve({ ...image, status:"error"});
- };
- reader.onerror = () => resolve({ ...image, status:"error"});
- });
- };
-
- const handleCompress = async () => {
- if (images.length === 0) {
- toast.error("Please upload images first.");
- return;
- }
-
- const updatedImages = [...images];
- for (let i = 0; i < updatedImages.length; i++) {
- if (updatedImages[i].status !=="done") {
- updatedImages[i] = { ...updatedImages[i], status:"compressing"};
- setImages([...updatedImages]);
- updatedImages[i] = await compressImage(updatedImages[i], quality);
- setImages([...updatedImages]);
- }
- }
- toast.success("Compression complete!");
- };
-
- const handleDownload = (url: string, name: string) => {
- const a = document.createElement("a");
- a.href = url;
- a.download = `compressed-${name}`;
- document.body.appendChild(a);
- a.click();
- document.body.removeChild(a);
- };
-
- const handleRemove = (id: string) => {
- setImages(images.filter((img) => img.id !== id));
- };
-
- return (
-      <div className="relative max-w-6xl mx-auto space-y-8 px-4 py-8">
-      <GridPattern />
-
- <ToolPageHeader
- title="Image Compressor"
- description="Compress and reduce image file size without losing quality."
- />
+ <ToolPageHeader title="Image Compressor" description="Compress and reduce image file size without losing quality." />
  <div className="mt-8 grid gap-8 md:grid-cols-2">
  <Card className="dark:bg-zinc-900/30">
  <CardHeader>
  <CardTitle>Settings & Upload</CardTitle>
  </CardHeader>
  <CardContent className="space-y-6">
- <div
- className="border-2 border-dashed border-zinc-300 dark:border-zinc-700 rounded-2xl p-8 text-center cursor-pointer hover:border-zinc-400 transition-colors"
- onClick={() => fileInputRef.current?.click()}
- >
- <Upload className="mx-auto h-12 w-12 text-zinc-400 mb-4"/>
+ <div className="border-2 border-dashed border-zinc-300 dark:border-zinc-700 rounded-2xl p-8 text-center cursor-pointer hover:border-zinc-400 transition-colors" onClick={() => fileInputRef.current?.click()}>
+ <Upload className="mx-auto h-12 w-12 text-zinc-400 mb-4" />
  <p className="text-zinc-600 dark:text-zinc-400">
  Click or drag & drop images here
  </p>
- <Input
- type="file"
- multiple
- accept="image/*"
- className="hidden"
- ref={fileInputRef}
- onChange={handleFileChange}
- />
+ <Input type="file" multiple accept="image/*" className="hidden" ref={fileInputRef} onChange={handleFileChange} />
  </div>
 
  <div className="space-y-4">
  <Label>Compression Quality: {quality}%</Label>
- <Slider
- value={[quality]}
- onValueChange={(val) => setQuality(val[0])}
- max={100}
- min={1}
- step={1}
- />
+ <Slider value={[quality]} onValueChange={val => setQuality(val[0])} max={100} min={1} step={1} />
  </div>
 
- <Button onClick={handleCompress} className="w-full"disabled={images.length === 0}>
+ <Button onClick={handleCompress} className="w-full" disabled={images.length === 0}>
  Compress Images
  </Button>
  </CardContent>
@@ -183,85 +162,84 @@ export default function ImageCompressClient() {
  <CardTitle>Results</CardTitle>
  </CardHeader>
  <CardContent className="space-y-4">
- {images.length === 0 ? (
- <div className="text-center text-zinc-500 py-8">No images uploaded yet.</div>
- ) : (
- <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2">
- {images.map((img) => (
- <div key={img.id} className="p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border dark:border-zinc-700 flex items-center justify-between">
+ {images.length === 0 ? <div className="text-center text-zinc-500 py-8">No images uploaded yet.</div> : <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2">
+ {images.map(img => <div key={img.id} className="p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg border dark:border-zinc-700 flex items-center justify-between">
  <div className="flex items-center gap-4 overflow-hidden">
  <div className="p-2 bg-zinc-200 dark:bg-zinc-700 rounded-md">
- <FileImage className="h-6 w-6 text-zinc-500 dark:text-zinc-400"/>
+ <FileImage className="h-6 w-6 text-zinc-500 dark:text-zinc-400" />
  </div>
  <div className="overflow-hidden">
  <p className="font-medium text-sm truncate">{img.name}</p>
  <p className="text-xs text-zinc-500">
  {formatSize(img.originalSize)}
- {img.compressedSize && (
- <>
+ {img.compressedSize && <>
  {""}→{""}
  <span className="text-green-600 dark:text-green-400 font-semibold">
  {formatSize(img.compressedSize)}
  </span>
  {""}(
- {Math.round(
- ((img.originalSize - img.compressedSize) / img.originalSize) * 100
- )}
+ {Math.round((img.originalSize - img.compressedSize) / img.originalSize * 100)}
  % saved)
- </>
- )}
+ </>}
  </p>
  </div>
  </div>
  <div className="flex items-center gap-2">
- {img.status ==="compressing"&& <span className="text-xs text-primary">Processing...</span>}
- {img.status ==="done"&& img.compressedUrl && (
- <Button
- variant="ghost"
- size="icon"
- onClick={() => handleDownload(img.compressedUrl!, img.name)}
- >
- <Download className="h-4 w-4"/>
- </Button>
- )}
- <Button variant="ghost"size="icon"onClick={() => handleRemove(img.id)}>
- <Trash2 className="h-4 w-4 text-red-500"/>
+ {img.status === "compressing" && <span className="text-xs text-primary">Processing...</span>}
+ {img.status === "done" && img.compressedUrl && <Button variant="ghost" size="icon" onClick={() => handleDownload(img.compressedUrl!, img.name)}>
+ <Download className="h-4 w-4" />
+ </Button>}
+ <Button variant="ghost" size="icon" onClick={() => handleRemove(img.id)}>
+ <Trash2 className="h-4 w-4 text-red-500" />
  </Button>
  </div>
- </div>
- ))}
- </div>
- )}
+ </div>)}
+ </div>}
  </CardContent>
  </Card>
  </div>
 
  {/* ─── How It Works ─── */}
- <ToolHowItWorks
- steps={[
- { step:"1", title:"Select or Drag Images", description:"Choose one or multiple JPEG, PNG, or WebP images from your device. You can add more files to the batch list at any time."},
- { step:"2", title:"Set Compression Quality", description:"Use the slider to adjust quality from 1% to 100%. Lower values yield smaller file sizes but more loss of details."},
- { step:"3", title:"Compress and Download", description:"Click Compress Images to process them instantly in your browser. Preview the size savings and download each output file."},
- ]}
- badges={[
-"100% Client-Side",
-"No Upload Limits",
-"Privacy Protected",
-"Free & No Watermark",
- ]}
- />
+ <ToolHowItWorks steps={[{
+        step: "1",
+        title: "Select or Drag Images",
+        description: "Choose one or multiple JPEG, PNG, or WebP images from your device. You can add more files to the batch list at any time."
+      }, {
+        step: "2",
+        title: "Set Compression Quality",
+        description: "Use the slider to adjust quality from 1% to 100%. Lower values yield smaller file sizes but more loss of details."
+      }, {
+        step: "3",
+        title: "Compress and Download",
+        description: "Click Compress Images to process them instantly in your browser. Preview the size savings and download each output file."
+      }]} badges={["100% Client-Side", "No Upload Limits", "Privacy Protected", "Free & No Watermark"]} />
 
  {/* ─── Feature Guides + SEO Content ─── */}
- <ToolFeatureGuides
- features={[
- { icon: SlidersHorizontal, title:"Adjustable Settings", description:"Fine-tune compression levels with a responsive slider to strike the perfect balance between quality and file size."},
- { icon: ShieldCheck, title:"100% Local Privacy", description:"Images never leave your machine. They are loaded directly into canvas memory and re-encoded locally without server APIs."},
- { icon: Zap, title:"Batch Performance", description:"Process multiple images in parallel using native browser execution, saving time when optimizing photo galleries."},
- { icon: Cpu, title:"HTML5 Canvas API", description:"Leverages standard web standards to process, resize, and re-rasterize image pixel data efficiently inside browser threads."},
- { icon: HardDrive, title:"Detailed Stats", description:"View the exact original file size, the compressed size, and the direct percentage of bytes saved for every image."},
- { icon: FileImage, title:"Multiple Formats", description:"Supports JPEG, PNG, and WebP compression with automatic fallback mechanisms depending on file type."},
- ]}
- >
+ <ToolFeatureGuides features={[{
+        icon: SlidersHorizontal,
+        title: "Adjustable Settings",
+        description: "Fine-tune compression levels with a responsive slider to strike the perfect balance between quality and file size."
+      }, {
+        icon: ShieldCheck,
+        title: "100% Local Privacy",
+        description: "Images never leave your machine. They are loaded directly into canvas memory and re-encoded locally without server APIs."
+      }, {
+        icon: Zap,
+        title: "Batch Performance",
+        description: "Process multiple images in parallel using native browser execution, saving time when optimizing photo galleries."
+      }, {
+        icon: Cpu,
+        title: "HTML5 Canvas API",
+        description: "Leverages standard web standards to process, resize, and re-rasterize image pixel data efficiently inside browser threads."
+      }, {
+        icon: HardDrive,
+        title: "Detailed Stats",
+        description: "View the exact original file size, the compressed size, and the direct percentage of bytes saved for every image."
+      }, {
+        icon: FileImage,
+        title: "Multiple Formats",
+        description: "Supports JPEG, PNG, and WebP compression with automatic fallback mechanisms depending on file type."
+      }]}>
  <div className="space-y-5 text-sm leading-relaxed text-muted-foreground">
  <h3 className="text-xl font-semibold text-foreground">How canvas.toBlob() Image Compression Works</h3>
  <p>
@@ -343,33 +321,23 @@ export default function ImageCompressClient() {
  </ToolFeatureGuides>
 
  {/* ─── FAQ ─── */}
- <ToolFaqAccordion
- faqs={[
- {
- question:"How does local image compression work?",
- answer:"The tool loads your image into a local HTML5 canvas, then encodes it back into your chosen format at a lower quality setting using native browser encoders. Because everything happens in WebAssembly and Javascript on your device, it is fast and private.",
- },
- {
- question:"Will compressing an image reduce its dimensions?",
- answer:"No, this compressor only adjusts the quality setting and compression parameters to reduce file size without altering the physical width or height of the image.",
- },
- {
- question:"What is the best format for compression?",
- answer:"WebP is generally the most efficient format for web compression, offering significant size savings while keeping transparency support. JPEG is excellent for standard photographs. PNG works best for screenshots or text graphics.",
- },
- {
- question:"Is there a file size limit or cost?",
- answer:"The tool is 100% free with no watermark or limits. The file size limit depends entirely on your device's memory. In general, images up to 50MB process easily.",
- },
- {
- question:"Are my private photos uploaded to any server?",
- answer:"No. Your images are processed entirely inside your browser. We never upload, save, or transmit your images to any server, making this tool perfectly secure for sensitive documents.",
- },
- ]}
- />
+ <ToolFaqAccordion faqs={[{
+        question: "How does local image compression work?",
+        answer: "The tool loads your image into a local HTML5 canvas, then encodes it back into your chosen format at a lower quality setting using native browser encoders. Because everything happens in WebAssembly and Javascript on your device, it is fast and private."
+      }, {
+        question: "Will compressing an image reduce its dimensions?",
+        answer: "No, this compressor only adjusts the quality setting and compression parameters to reduce file size without altering the physical width or height of the image."
+      }, {
+        question: "What is the best format for compression?",
+        answer: "WebP is generally the most efficient format for web compression, offering significant size savings while keeping transparency support. JPEG is excellent for standard photographs. PNG works best for screenshots or text graphics."
+      }, {
+        question: "Is there a file size limit or cost?",
+        answer: "The tool is 100% free with no watermark or limits. The file size limit depends entirely on your device's memory. In general, images up to 50MB process easily."
+      }, {
+        question: "Are my private photos uploaded to any server?",
+        answer: "No. Your images are processed entirely inside your browser. We never upload, save, or transmit your images to any server, making this tool perfectly secure for sensitive documents."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/image/compress" max={6} />
- </div>
- );
+ </div></div>;
 }
-

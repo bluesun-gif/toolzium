@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useRef, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -178,7 +179,7 @@ export default function ScreenRecorderClient() {
  if (!supported) {
  return (
       <div className="relative mx-auto max-w-3xl px-4 py-8 text-center">
-      <GridPattern />
+      <ToolBackground />
 
  <AlertTriangle className="mx-auto h-12 w-12 text-destructive mb-4"/>
  <h2 className="text-2xl font-bold mb-2">Browser Not Supported</h2>
@@ -223,7 +224,7 @@ export default function ScreenRecorderClient() {
 
  <Button 
  size="lg"
- className="w-full h-16 text-lg bg-red-600 hover:bg-red-700 text-white shadow-lg transition-all"
+ className="w-full h-16 text-lg bg-red-600 hover:bg-red-700 text-primary-foreground shadow-lg transition-all"
  onClick={startRecording}
  >
  <Video className="mr-2 h-6 w-6"/>
@@ -245,7 +246,7 @@ export default function ScreenRecorderClient() {
  className="w-full h-full object-contain"
  />
  {recordingState ==="recording"&& (
- <div className="absolute top-4 right-4 flex items-center gap-2 bg-black/60 text-white px-3 py-1.5 rounded-full backdrop-blur-md">
+ <div className="absolute top-4 right-4 flex items-center gap-2 bg-black/60 text-primary-foreground px-3 py-1.5 rounded-full backdrop-blur-md">
  <div className="h-3 w-3 rounded-full bg-red-500 animate-pulse"/>
  <span className="font-mono font-bold tracking-wider">{formatTime(time)}</span>
  </div>

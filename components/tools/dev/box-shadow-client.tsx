@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -183,8 +184,8 @@ export function BoxShadowClient() {
     const shadows = layers.map(l => `${l.inset ? "inset_" : ""}${l.hOffset}px_${l.vOffset}px_${l.blur}px_${l.spread}px_${l.color.replace(/\s/g, "")}`).join(",");
     return `shadow-[${shadows}]`;
   };
-  return <div className="relative space-y-6">
-      <GridPattern />
+  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Square} title="CSS Box Shadow Generator" description="Create beautiful box shadows for your web projects with layers, colors, and live preview." actions={<ResetButton onClick={() => loadPreset([defaultShadow])} label="Reset All" />} />
 
@@ -197,12 +198,12 @@ export function BoxShadowClient() {
  </CardHeader>
  <CardContent>
  <div className="w-full h-64 rounded-xl flex items-center justify-center transition-colors" style={{
-              backgroundColor: bgColor
-            }}>
+                backgroundColor: bgColor
+              }}>
  <div className="w-32 h-32 rounded-xl transition-all" style={{
-                backgroundColor: boxColor,
-                boxShadow: layers.map(l => `${l.inset ? "inset" : ""}${l.hOffset}px ${l.vOffset}px ${l.blur}px ${l.spread}px ${l.color}`).join(",")
-              }} />
+                  backgroundColor: boxColor,
+                  boxShadow: layers.map(l => `${l.inset ? "inset" : ""}${l.hOffset}px ${l.vOffset}px ${l.blur}px ${l.spread}px ${l.color}`).join(",")
+                }} />
  </div>
  <div className="flex gap-4 mt-4">
  <div className="flex-1 space-y-2">
@@ -276,8 +277,8 @@ export function BoxShadowClient() {
  <div className="flex items-center gap-2">
  <Label htmlFor="inset-mode">Inset</Label>
  <Switch id="inset-mode" checked={activeLayer.inset} onCheckedChange={c => updateActiveLayer({
-                    inset: c
-                  })} />
+                      inset: c
+                    })} />
  </div>
  </div>
 
@@ -288,8 +289,8 @@ export function BoxShadowClient() {
  <span className="text-xs text-muted-foreground">{activeLayer.hOffset}px</span>
  </div>
  <input type="range" min="-50" max="50" value={activeLayer.hOffset} onChange={e => updateActiveLayer({
-                    hOffset: parseInt(e.target.value)
-                  })} className="w-full" />
+                      hOffset: parseInt(e.target.value)
+                    })} className="w-full" />
  </div>
 
  <div className="space-y-2">
@@ -298,8 +299,8 @@ export function BoxShadowClient() {
  <span className="text-xs text-muted-foreground">{activeLayer.vOffset}px</span>
  </div>
  <input type="range" min="-50" max="50" value={activeLayer.vOffset} onChange={e => updateActiveLayer({
-                    vOffset: parseInt(e.target.value)
-                  })} className="w-full" />
+                      vOffset: parseInt(e.target.value)
+                    })} className="w-full" />
  </div>
 
  <div className="space-y-2">
@@ -308,8 +309,8 @@ export function BoxShadowClient() {
  <span className="text-xs text-muted-foreground">{activeLayer.blur}px</span>
  </div>
  <input type="range" min="0" max="100" value={activeLayer.blur} onChange={e => updateActiveLayer({
-                    blur: parseInt(e.target.value)
-                  })} className="w-full" />
+                      blur: parseInt(e.target.value)
+                    })} className="w-full" />
  </div>
 
  <div className="space-y-2">
@@ -318,15 +319,15 @@ export function BoxShadowClient() {
  <span className="text-xs text-muted-foreground">{activeLayer.spread}px</span>
  </div>
  <input type="range" min="-50" max="50" value={activeLayer.spread} onChange={e => updateActiveLayer({
-                    spread: parseInt(e.target.value)
-                  })} className="w-full" />
+                      spread: parseInt(e.target.value)
+                    })} className="w-full" />
  </div>
 
  <div className="space-y-2">
  <Label>Shadow Color (Hex/RGBA)</Label>
  <Input value={activeLayer.color} onChange={e => updateActiveLayer({
-                    color: e.target.value
-                  })} placeholder="rgba(0, 0, 0, 0.3)" />
+                      color: e.target.value
+                    })} placeholder="rgba(0, 0, 0, 0.3)" />
  </div>
  </div>
  </div>}
@@ -350,35 +351,35 @@ export function BoxShadowClient() {
  </div>
  
       <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Input Your Data",
-      description: "Enter your information in the input field above and configure any options.",
-      icon: Sparkles
-    }, {
-      step: "02",
-      title: "Process & Generate",
-      description: "The tool processes your input instantly and displays the results.",
-      icon: Zap
-    }, {
-      step: "03",
-      title: "Copy & Use",
-      description: "Copy the output with one click and use it wherever you need.",
-      icon: Copy
-    }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
 
       <ToolFeatureGuides features={[{
-      icon: Sparkles,
-      title: "Lightning Fast",
-      description: "Get results in milliseconds with our optimized client-side processing engine."
-    }, {
-      icon: Shield,
-      title: "Completely Private",
-      description: "All processing happens in your browser. Your data never leaves your device."
-    }, {
-      icon: Zap,
-      title: "No Signup Required",
-      description: "Use this tool instantly without creating an account or providing any personal information."
-    }]}>
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our CSS Box Shadow Generator?</h3>
           <p>
@@ -395,17 +396,17 @@ export function BoxShadowClient() {
       </ToolFeatureGuides>
 
       <ToolFaqAccordion faqs={[{
-      question: "Is this tool free to use?",
-      answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-    }, {
-      question: "Is my data secure?",
-      answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-    }, {
-      question: "Do I need to create an account?",
-      answer: "No account or registration is required. Simply open the tool and start using it immediately."
-    }]} />
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/dev/box-shadow" max={6} />
 
-  </div>;
+  </div></div>;
 }

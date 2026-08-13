@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -112,8 +113,8 @@ export function GroceryListClient() {
   })).filter(g => g.items.length > 0);
   const totalCost = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const checkedCost = items.filter(i => i.checked).reduce((sum, item) => sum + item.price * item.quantity, 0);
-  return <div className="relative space-y-6">
-      <GridPattern />
+  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={ShoppingCart} title="Grocery List Manager" description="Smart grocery list with categories, quantities, and price estimation." actions={<>
  <CopyButton getText={getListText} label="Share List" />
@@ -257,35 +258,35 @@ export function GroceryListClient() {
  </div>
  
       <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Input Your Data",
-      description: "Enter your information in the input field above and configure any options.",
-      icon: Sparkles
-    }, {
-      step: "02",
-      title: "Process & Generate",
-      description: "The tool processes your input instantly and displays the results.",
-      icon: Zap
-    }, {
-      step: "03",
-      title: "Copy & Use",
-      description: "Copy the output with one click and use it wherever you need.",
-      icon: Copy
-    }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
 
       <ToolFeatureGuides features={[{
-      icon: Sparkles,
-      title: "Lightning Fast",
-      description: "Get results in milliseconds with our optimized client-side processing engine."
-    }, {
-      icon: Shield,
-      title: "Completely Private",
-      description: "All processing happens in your browser. Your data never leaves your device."
-    }, {
-      icon: Zap,
-      title: "No Signup Required",
-      description: "Use this tool instantly without creating an account or providing any personal information."
-    }]}>
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Grocery List Manager?</h3>
           <p>
@@ -302,17 +303,17 @@ export function GroceryListClient() {
       </ToolFeatureGuides>
 
       <ToolFaqAccordion faqs={[{
-      question: "Is this tool free to use?",
-      answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-    }, {
-      question: "Is my data secure?",
-      answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-    }, {
-      question: "Do I need to create an account?",
-      answer: "No account or registration is required. Simply open the tool and start using it immediately."
-    }]} />
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/office/grocery-list" max={6} />
 
-  </div>;
+  </div></div>;
 }

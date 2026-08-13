@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -136,7 +137,7 @@ export default function SubdomainFinderClient() {
  <ToolPageHeader title="Subdomain Finder" description="Search global Certificate Transparency (CT) logs to enumerate and map all subdomains of any target domain instantly." icon={ShieldCheck} />
 
  <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-      <GridPattern />
+      <ToolBackground />
 
  {/* Left Control Panel */}
  <div className="lg:col-span-1 space-y-4">

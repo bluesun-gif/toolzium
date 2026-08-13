@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -157,8 +158,8 @@ export function ProductDescriptionClient() {
     navigator.clipboard.writeText(text);
     toast.success(`${label} copied to clipboard!`);
   };
-  return <div className="w-full min-h-screen pb-20 relative">
-      <GridPattern />
+  return <div className="w-full min-h-screen pb-20 relative"><ToolBackground /><div className="relative z-10">
+      
 
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader title="AI E-Commerce Product Description Generator" description="Generate high-converting e-commerce product listings, bullet points, SEO meta tags, and social captions for Shopify and Amazon." icon={ShoppingBag} />
@@ -220,7 +221,7 @@ export function ProductDescriptionClient() {
                 </div>
               </div>
 
-              <Button onClick={generateDescriptions} disabled={isGenerating || !productName.trim() || !featuresInput.trim()} className="w-full gap-2 mt-4 bg-primary hover:bg-primary/90 text-white font-semibold shadow-lg shadow-primary/20 rounded-xl h-12 text-base">
+              <Button onClick={generateDescriptions} disabled={isGenerating || !productName.trim() || !featuresInput.trim()} className="w-full gap-2 mt-4 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shadow-lg shadow-primary/20 rounded-xl h-12 text-base">
                 {isGenerating ? <RefreshCcw className="w-5 h-5 animate-spin" /> : <Sparkles className="w-5 h-5" />}
                 {isGenerating ? "Generating Copy..." : "Generate Product Description"}
               </Button>
@@ -230,12 +231,12 @@ export function ProductDescriptionClient() {
           {/* Right Workspace Card */}
           <div className="flex flex-col space-y-4">
             {result ? <motion.div initial={{
-            opacity: 0,
-            y: 15
-          }} animate={{
-            opacity: 1,
-            y: 0
-          }} className="space-y-3">
+              opacity: 0,
+              y: 15
+            }} animate={{
+              opacity: 1,
+              y: 0
+            }} className="space-y-3">
                 <GlassCard className="p-4 space-y-2 border-l-4 border-l-primary bg-card/70 backdrop-blur-md rounded-2xl">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-extrabold text-primary uppercase tracking-wider font-mono">
@@ -300,9 +301,9 @@ export function ProductDescriptionClient() {
                     <span className="text-[10px] text-muted-foreground">{item.timestamp} · {item.category}</span>
                   </div>
                   <Button variant="outline" size="sm" onClick={() => {
-              setResult(item.result);
-              setProductName(item.productName);
-            }} className="h-7 text-xs px-2.5 font-semibold">
+                setResult(item.result);
+                setProductName(item.productName);
+              }} className="h-7 text-xs px-2.5 font-semibold">
                     Reload
                   </Button>
                 </div>)}
@@ -310,35 +311,35 @@ export function ProductDescriptionClient() {
           </GlassCard>}
 
         <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Enter Product Specs",
-        description: "Input product title, category, and bullet point features.",
-        icon: ShoppingBag
-      }, {
-        step: "02",
-        title: "Select Copywriting Tone",
-        description: "Choose between Persuasive, Luxury, Technical, or Playful.",
-        icon: Sliders
-      }, {
-        step: "03",
-        title: "Copy E-Commerce Copy",
-        description: "Export formatted product listings and SEO meta tags.",
-        icon: CheckCircle2
-      }]} badges={["100% Free", "Shopify & Amazon Ready", "SEO Meta Tags"]} />
+          step: "01",
+          title: "Enter Product Specs",
+          description: "Input product title, category, and bullet point features.",
+          icon: ShoppingBag
+        }, {
+          step: "02",
+          title: "Select Copywriting Tone",
+          description: "Choose between Persuasive, Luxury, Technical, or Playful.",
+          icon: Sliders
+        }, {
+          step: "03",
+          title: "Copy E-Commerce Copy",
+          description: "Export formatted product listings and SEO meta tags.",
+          icon: CheckCircle2
+        }]} badges={["100% Free", "Shopify & Amazon Ready", "SEO Meta Tags"]} />
 
         <ToolFeatureGuides features={[{
-        icon: ShoppingBag,
-        title: "AIDA Framework Copywriting",
-        description: "Structures product descriptions using Attention, Interest, Desire, and Action principles."
-      }, {
-        icon: Tag,
-        title: "SEO Meta Description Generator",
-        description: "Creates search-engine-optimized meta descriptions tailored for Google Shopping rankings."
-      }, {
-        icon: CheckCircle2,
-        title: "Social Ad Captions",
-        description: "Generates accompanying social captions for Instagram and TikTok product ads."
-      }]}>
+          icon: ShoppingBag,
+          title: "AIDA Framework Copywriting",
+          description: "Structures product descriptions using Attention, Interest, Desire, and Action principles."
+        }, {
+          icon: Tag,
+          title: "SEO Meta Description Generator",
+          description: "Creates search-engine-optimized meta descriptions tailored for Google Shopping rankings."
+        }, {
+          icon: CheckCircle2,
+          title: "Social Ad Captions",
+          description: "Generates accompanying social captions for Instagram and TikTok product ads."
+        }]}>
           <div className="prose dark:prose-invert max-w-none">
             <h3>Boosting E-Commerce Conversion Rates</h3>
             <p>
@@ -348,15 +349,15 @@ export function ProductDescriptionClient() {
         </ToolFeatureGuides>
 
         <ToolFaqAccordion faqs={[{
-        question: "Can I use these descriptions for Shopify and Amazon?",
-        answer: "Yes! The output includes short bullet descriptions ideal for Amazon listings and full descriptions for Shopify storefronts."
-      }, {
-        question: "How long should a product description be?",
-        answer: "Ideal product descriptions range from 150 to 300 words, focusing on benefits rather than purely technical specs."
-      }]} />
+          question: "Can I use these descriptions for Shopify and Amazon?",
+          answer: "Yes! The output includes short bullet descriptions ideal for Amazon listings and full descriptions for Shopify storefronts."
+        }, {
+          question: "How long should a product description be?",
+          answer: "Ideal product descriptions range from 150 to 300 words, focusing on benefits rather than purely technical specs."
+        }]} />
 
         <RelatedTools currentToolUrl="/tools/ai/product-description" max={6} />
       </div>
-    </div>;
+    </div></div>;
 }
 export default ProductDescriptionClient;

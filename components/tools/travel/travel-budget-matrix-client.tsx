@@ -1,6 +1,7 @@
 "use client";
-import { Button } from"@/components/ui/button";
+import { ToolBackground } from"@/components/shared/tool-background";
 
+import { Button } from "@/components/ui/button";
 import React, { useState, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -91,8 +92,8 @@ export function TravelBudgetMatrixClient() {
     });
     return txt;
   };
-  return <div className="relative space-y-6">
-      <GridPattern />
+  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Globe} title="Travel Budget Currency Comparison Matrix" description="Compare travel budgets across multiple destination currencies." actions={<div className="flex gap-2">
  <ActionButton onClick={savePrefs} icon={Save} label="Save" variant="outline" />
@@ -130,11 +131,11 @@ export function TravelBudgetMatrixClient() {
  <CardContent>
  <div className="flex flex-wrap gap-2">
  {CURRENCIES.filter(c => c !== baseCurrency).map(c => {
-                const isSelected = targetCurrencies.includes(c);
-                return <Button key={c} onClick={() => toggleTarget(c)} className={cn(cn("px-3 py-1.5 rounded-full text-sm font-medium transition-colors border", isSelected ? "bg-primary text-primary-foreground border-primary" : "bg-background text-muted-foreground hover:bg-muted"))}>
+                  const isSelected = targetCurrencies.includes(c);
+                  return <Button key={c} onClick={() => toggleTarget(c)} className={cn(cn("px-3 py-1.5 rounded-full text-sm font-medium transition-colors border", isSelected ? "bg-primary text-primary-foreground border-primary" : "bg-background text-muted-foreground hover:bg-muted"))}>
  {c}
  </Button>;
-              })}
+                })}
  </div>
  </CardContent>
  </GlassCard>
@@ -154,29 +155,29 @@ export function TravelBudgetMatrixClient() {
  <div className="flex justify-between items-center mb-4">
  <div className="text-xl font-bold">{res.currency}</div>
  <div className="text-2xl font-semibold text-primary">{res.total.toLocaleString(undefined, {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2
-                    })}</div>
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                      })}</div>
  </div>
  <Separator className="my-2" />
  <div className="grid grid-cols-3 gap-2 text-center text-sm pt-2">
  <div>
  <div className="text-muted-foreground mb-1">7-Day Trip</div>
  <div className="font-medium">{res.day7.toLocaleString(undefined, {
-                        maximumFractionDigits: 2
-                      })} / day</div>
+                          maximumFractionDigits: 2
+                        })} / day</div>
  </div>
  <div className="border-l border-r px-2">
  <div className="text-muted-foreground mb-1">14-Day Trip</div>
  <div className="font-medium">{res.day14.toLocaleString(undefined, {
-                        maximumFractionDigits: 2
-                      })} / day</div>
+                          maximumFractionDigits: 2
+                        })} / day</div>
  </div>
  <div>
  <div className="text-muted-foreground mb-1">30-Day Trip</div>
  <div className="font-medium">{res.day30.toLocaleString(undefined, {
-                        maximumFractionDigits: 2
-                      })} / day</div>
+                          maximumFractionDigits: 2
+                        })} / day</div>
  </div>
  </div>
  </div>)}
@@ -189,35 +190,35 @@ export function TravelBudgetMatrixClient() {
  </div>
  
       <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Input Your Data",
-      description: "Enter your information in the input field above and configure any options.",
-      icon: Sparkles
-    }, {
-      step: "02",
-      title: "Process & Generate",
-      description: "The tool processes your input instantly and displays the results.",
-      icon: Zap
-    }, {
-      step: "03",
-      title: "Copy & Use",
-      description: "Copy the output with one click and use it wherever you need.",
-      icon: Copy
-    }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
 
       <ToolFeatureGuides features={[{
-      icon: Sparkles,
-      title: "Lightning Fast",
-      description: "Get results in milliseconds with our optimized client-side processing engine."
-    }, {
-      icon: Shield,
-      title: "Completely Private",
-      description: "All processing happens in your browser. Your data never leaves your device."
-    }, {
-      icon: Zap,
-      title: "No Signup Required",
-      description: "Use this tool instantly without creating an account or providing any personal information."
-    }]}>
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Travel Budget Currency Comparison Matrix?</h3>
           <p>
@@ -234,17 +235,17 @@ export function TravelBudgetMatrixClient() {
       </ToolFeatureGuides>
 
       <ToolFaqAccordion faqs={[{
-      question: "Is this tool free to use?",
-      answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-    }, {
-      question: "Is my data secure?",
-      answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-    }, {
-      question: "Do I need to create an account?",
-      answer: "No account or registration is required. Simply open the tool and start using it immediately."
-    }]} />
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/travel/travel-budget-matrix" max={6} />
 
-  </div>;
+  </div></div>;
 }

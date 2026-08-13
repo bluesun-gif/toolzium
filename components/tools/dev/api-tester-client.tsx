@@ -1,6 +1,7 @@
 "use client";
-import { cn } from"@/lib/utils";
+import { ToolBackground } from"@/components/shared/tool-background";
 
+import { cn } from "@/lib/utils";
 import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -172,8 +173,8 @@ export function ApiTesterClient() {
       toast.success("Loaded POST example");
     }
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-4 py-8">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8 px-4 py-8"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Globe} title="Client-Side API Tester" description="A lightweight, browser-based API request builder and tester. Debug REST endpoints, inspect headers, and view responses without leaving your browser." />
 
@@ -278,9 +279,9 @@ export function ApiTesterClient() {
  </CardHeader>
  <CardContent className="p-4 space-y-2">
  {history.map((h, i) => <div key={i} className="flex items-center justify-between text-xs p-2 hover:bg-muted/30 rounded cursor-pointer" onClick={() => {
-          setMethod(h.method);
-          setUrl(h.url);
-        }}>
+            setMethod(h.method);
+            setUrl(h.url);
+          }}>
  <div className="flex items-center gap-3">
  <span className="font-bold text-primary">{h.method}</span>
  <span className="font-mono truncate max-w-[200px] sm:max-w-md">{h.url}</span>
@@ -294,39 +295,39 @@ export function ApiTesterClient() {
  </GlassCard>}
 
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Configure Request",
-      description: "Set your HTTP method, URL, headers, and payload using the intuitive builder.",
-      icon: Code
-    }, {
-      step: "02",
-      title: "Send & Inspect",
-      description: "Execute the request directly from your browser and view the raw response.",
-      icon: Send
-    }, {
-      step: "03",
-      title: "Debug & Iterate",
-      description: "Analyze status codes, response times, and JSON payloads to fix API issues.",
-      icon: Globe
-    }]} badges={["100% Free", "No CORS Proxy", "Browser Native"]} />
+        step: "01",
+        title: "Configure Request",
+        description: "Set your HTTP method, URL, headers, and payload using the intuitive builder.",
+        icon: Code
+      }, {
+        step: "02",
+        title: "Send & Inspect",
+        description: "Execute the request directly from your browser and view the raw response.",
+        icon: Send
+      }, {
+        step: "03",
+        title: "Debug & Iterate",
+        description: "Analyze status codes, response times, and JSON payloads to fix API issues.",
+        icon: Globe
+      }]} badges={["100% Free", "No CORS Proxy", "Browser Native"]} />
 
  <ToolFeatureGuides features={[{
-      icon: Send,
-      title: "Full HTTP Method Support",
-      description: "Execute GET, POST, PUT, PATCH, DELETE, HEAD, and OPTIONS requests."
-    }, {
-      icon: Code,
-      title: "JSON Syntax Highlighting",
-      description: "Automatically format and colorize JSON responses for easy debugging."
-    }, {
-      icon: Lock,
-      title: "Auth Integration",
-      description: "Easily attach Bearer tokens, Basic Auth, or custom API keys to requests."
-    }, {
-      icon: History,
-      title: "Session History",
-      description: "Review your last 5 requests to quickly iterate on API endpoints."
-    }]}>
+        icon: Send,
+        title: "Full HTTP Method Support",
+        description: "Execute GET, POST, PUT, PATCH, DELETE, HEAD, and OPTIONS requests."
+      }, {
+        icon: Code,
+        title: "JSON Syntax Highlighting",
+        description: "Automatically format and colorize JSON responses for easy debugging."
+      }, {
+        icon: Lock,
+        title: "Auth Integration",
+        description: "Easily attach Bearer tokens, Basic Auth, or custom API keys to requests."
+      }, {
+        icon: History,
+        title: "Session History",
+        description: "Review your last 5 requests to quickly iterate on API endpoints."
+      }]}>
  <div className="prose prose-sm dark:prose-invert max-w-none mt-6">
  <h3>The Evolution of API Debugging in the Browser</h3>
  <p>Historically, debugging REST APIs required heavy, standalone desktop applications like Postman or Insomnia. While powerful, these tools introduce context-switching friction; developers must leave their code editor, open a separate application, recreate their request payloads, and manage complex workspace syncing. Modern browser capabilities, specifically the Fetch API, have advanced to the point where lightweight, client-side API testers can handle 90% of daily debugging tasks without ever leaving the web environment.</p>
@@ -337,17 +338,17 @@ export function ApiTesterClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={[{
-      question: "Why am I getting a CORS error?",
-      answer: "CORS (Cross-Origin Resource Sharing) is a browser security feature. If the API server does not explicitly allow requests from your current domain via the Access-Control-Allow-Origin header, the browser will block the response. This is a server-side configuration issue, not a bug in this tool."
-    }, {
-      question: "Can I send requests to local servers (localhost)?",
-      answer: "Yes, you can send requests to localhost or local network IPs, provided your browser allows mixed content (HTTPS page to HTTP local server) or you are running this tool from an HTTP context."
-    }, {
-      question: "Are my API keys safe?",
-      answer: "Yes. All requests are executed directly from your browser to the target server. No data, headers, or payloads are routed through our servers or any third-party proxy."
-    }]} />
+        question: "Why am I getting a CORS error?",
+        answer: "CORS (Cross-Origin Resource Sharing) is a browser security feature. If the API server does not explicitly allow requests from your current domain via the Access-Control-Allow-Origin header, the browser will block the response. This is a server-side configuration issue, not a bug in this tool."
+      }, {
+        question: "Can I send requests to local servers (localhost)?",
+        answer: "Yes, you can send requests to localhost or local network IPs, provided your browser allows mixed content (HTTPS page to HTTP local server) or you are running this tool from an HTTP context."
+      }, {
+        question: "Are my API keys safe?",
+        answer: "Yes. All requests are executed directly from your browser to the target server. No data, headers, or payloads are routed through our servers or any third-party proxy."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/dev/api-tester" max={6} />
- </div>;
+ </div></div>;
 }
 export default ApiTesterClient;

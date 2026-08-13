@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useRef } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -149,13 +150,13 @@ export function ColorExtractorClient() {
     toast.success(`Copied: ${text}`);
   };
   const cssPalette = `:root {\n${colors.map((c, i) => ` --color-${i + 1}: ${c.hex};`).join("\n")}\n}`;
-  return <div className="relative space-y-6">
-      <GridPattern />
+  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Pipette} title="Image Color Extractor" description="Upload an image to extract its dominant colors and create a color palette." actions={<ResetButton onClick={() => {
-      setImageUrl(null);
-      setColors([]);
-    }} label="Reset" />} />
+        setImageUrl(null);
+        setColors([]);
+      }} label="Reset" />} />
 
  <div className="grid md:grid-cols-2 gap-6">
  <div className="space-y-6">
@@ -196,16 +197,16 @@ export function ColorExtractorClient() {
  {/* Palette Strip */}
  <div className="flex h-16 rounded-lg overflow-hidden shadow-sm border border-border">
  {colors.map((c, i) => <div key={i} className="flex-1 cursor-pointer transition-transform hover:scale-105 origin-center" style={{
-                  backgroundColor: c.hex
-                }} onClick={() => copyToClipboard(c.hex)} title={`Copy ${c.hex}`} />)}
+                    backgroundColor: c.hex
+                  }} onClick={() => copyToClipboard(c.hex)} title={`Copy ${c.hex}`} />)}
  </div>
 
  {/* Color Swatches */}
  <div className="grid gap-3">
  {colors.map((c, i) => <div key={i} className="flex items-center gap-4 p-3 rounded-lg border border-border bg-card/50 hover:bg-muted/50 transition-colors">
  <div className="w-12 h-12 rounded-md shadow-sm border border-border/50 flex-shrink-0 cursor-pointer" style={{
-                    backgroundColor: c.hex
-                  }} onClick={() => copyToClipboard(c.hex)} />
+                      backgroundColor: c.hex
+                    }} onClick={() => copyToClipboard(c.hex)} />
  <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm font-mono">
  <Button onClick={() => copyToClipboard(c.hex)} className="text-left hover:text-primary truncate">{c.hex.toUpperCase()}</Button>
  <Button onClick={() => copyToClipboard(c.rgb)} className="text-left text-muted-foreground hover:text-primary truncate">{c.rgb}</Button>
@@ -233,35 +234,35 @@ export function ColorExtractorClient() {
  </div>
  
       <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Input Your Data",
-      description: "Enter your information in the input field above and configure any options.",
-      icon: Sparkles
-    }, {
-      step: "02",
-      title: "Process & Generate",
-      description: "The tool processes your input instantly and displays the results.",
-      icon: Zap
-    }, {
-      step: "03",
-      title: "Copy & Use",
-      description: "Copy the output with one click and use it wherever you need.",
-      icon: Copy
-    }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
 
       <ToolFeatureGuides features={[{
-      icon: Sparkles,
-      title: "Lightning Fast",
-      description: "Get results in milliseconds with our optimized client-side processing engine."
-    }, {
-      icon: Shield,
-      title: "Completely Private",
-      description: "All processing happens in your browser. Your data never leaves your device."
-    }, {
-      icon: Zap,
-      title: "No Signup Required",
-      description: "Use this tool instantly without creating an account or providing any personal information."
-    }]}>
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Image Color Extractor?</h3>
           <p>
@@ -278,17 +279,17 @@ export function ColorExtractorClient() {
       </ToolFeatureGuides>
 
       <ToolFaqAccordion faqs={[{
-      question: "Is this tool free to use?",
-      answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-    }, {
-      question: "Is my data secure?",
-      answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-    }, {
-      question: "Do I need to create an account?",
-      answer: "No account or registration is required. Simply open the tool and start using it immediately."
-    }]} />
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/image/color-extractor" max={6} />
 
-  </div>;
+  </div></div>;
 }

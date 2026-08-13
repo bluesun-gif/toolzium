@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
@@ -177,8 +178,8 @@ export function ShortenerClient() {
     localStorage.removeItem("toolzium_shortener_history");
     toast.success("Shortener history cleared!");
   };
-  return <div className="w-full min-h-screen pb-20 relative">
-      <GridPattern />
+  return <div className="w-full min-h-screen pb-20 relative"><ToolBackground /><div className="relative z-10">
+      
 
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader icon={Scissors} title="URL Shortener & Click Analytics Manager Studio" description="Transform long URLs into short, trackable links with real QR code generation, AI alias suggestions, custom slugs, and audience click analytics." />
@@ -191,10 +192,10 @@ export function ShortenerClient() {
                 <Scissors className="w-4 h-4 text-primary" /> Shorten URL Studio
               </Label>
               <div className="flex gap-1 bg-muted/60 p-1 rounded-xl border border-border">
-                <Button type="button" variant={!isBatchMode ? "default" : "ghost"} size="sm" onClick={() => setIsBatchMode(false)} className={cn("h-7 text-xs font-bold rounded-lg px-3 transition-all", !isBatchMode ? "bg-primary text-white shadow-sm" : "text-muted-foreground hover:text-foreground")}>
+                <Button type="button" variant={!isBatchMode ? "default" : "ghost"} size="sm" onClick={() => setIsBatchMode(false)} className={cn("h-7 text-xs font-bold rounded-lg px-3 transition-all", !isBatchMode ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}>
                   Single URL
                 </Button>
-                <Button type="button" variant={isBatchMode ? "default" : "ghost"} size="sm" onClick={() => setIsBatchMode(true)} className={cn("h-7 text-xs font-bold rounded-lg px-3 transition-all", isBatchMode ? "bg-primary text-white shadow-sm" : "text-muted-foreground hover:text-foreground")}>
+                <Button type="button" variant={isBatchMode ? "default" : "ghost"} size="sm" onClick={() => setIsBatchMode(true)} className={cn("h-7 text-xs font-bold rounded-lg px-3 transition-all", isBatchMode ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}>
                   Bulk Batch Mode
                 </Button>
               </div>
@@ -234,7 +235,7 @@ export function ShortenerClient() {
                   <textarea className="w-full rounded-xl border border-border bg-background p-3.5 text-xs sm:text-sm outline-none focus:ring-2 focus:ring-primary/50 font-mono text-foreground min-h-[160px]" placeholder={`https://example.com/page1\nhttps://example.com/page2\nhttps://example.com/page3`} value={batchInput} onChange={e => setBatchInput(e.target.value)} />
                 </div>}
 
-              <Button onClick={handleShorten} disabled={isShortening || !longUrl.trim() && !batchInput.trim()} className="w-full gap-2 mt-4 bg-primary hover:bg-primary/90 text-white font-bold shadow-lg shadow-primary/20 rounded-xl h-12 text-base">
+              <Button onClick={handleShorten} disabled={isShortening || !longUrl.trim() && !batchInput.trim()} className="w-full gap-2 mt-4 bg-primary hover:bg-primary/90 text-primary-foreground font-bold shadow-lg shadow-primary/20 rounded-xl h-12 text-base">
                 {isShortening ? <RefreshCcw className="w-5 h-5 animate-spin" /> : <Scissors className="w-5 h-5" />}
                 {isShortening ? "Creating Short Link..." : "Shorten URL"}
               </Button>
@@ -244,12 +245,12 @@ export function ShortenerClient() {
           {/* Right Workspace Results Card */}
           <div className="flex flex-col space-y-4">
             {activeResults.length > 0 ? <motion.div initial={{
-            opacity: 0,
-            y: 15
-          }} animate={{
-            opacity: 1,
-            y: 0
-          }} className="space-y-4">
+              opacity: 0,
+              y: 15
+            }} animate={{
+              opacity: 1,
+              y: 0
+            }} className="space-y-4">
                 <Label className="text-base font-bold text-foreground block px-1">
                   Newly Created Short Links ({activeResults.length})
                 </Label>
@@ -325,12 +326,12 @@ export function ShortenerClient() {
         {/* High-Contrast Analytics Report Modal */}
         {analyticsSlug && <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-md flex items-center justify-center p-4">
             <motion.div initial={{
-          scale: 0.95,
-          opacity: 0
-        }} animate={{
-          scale: 1,
-          opacity: 1
-        }} className="bg-card border border-border rounded-3xl p-6 max-w-lg w-full shadow-2xl space-y-4">
+            scale: 0.95,
+            opacity: 0
+          }} animate={{
+            scale: 1,
+            opacity: 1
+          }} className="bg-card border border-border rounded-3xl p-6 max-w-lg w-full shadow-2xl space-y-4">
               <div className="flex justify-between items-center border-b border-border pb-3">
                 <div>
                   <span className="text-[10px] font-bold text-primary uppercase tracking-widest">
@@ -339,9 +340,9 @@ export function ShortenerClient() {
                   <h3 className="text-lg font-extrabold text-foreground font-mono">/{analyticsSlug}</h3>
                 </div>
                 <Button variant="ghost" size="icon" onClick={() => {
-              setAnalyticsSlug(null);
-              setAnalyticsData(null);
-            }} className="rounded-full">
+                setAnalyticsSlug(null);
+                setAnalyticsData(null);
+              }} className="rounded-full">
                   <X className="w-4 h-4" />
                 </Button>
               </div>
@@ -381,12 +382,12 @@ export function ShortenerClient() {
         {/* High-Contrast QR Code Download Modal */}
         {qrModalUrl && <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-md flex items-center justify-center p-4">
             <motion.div initial={{
-          scale: 0.95,
-          opacity: 0
-        }} animate={{
-          scale: 1,
-          opacity: 1
-        }} className="bg-card border border-border rounded-3xl p-6 max-w-sm w-full shadow-2xl text-center space-y-4">
+            scale: 0.95,
+            opacity: 0
+          }} animate={{
+            scale: 1,
+            opacity: 1
+          }} className="bg-card border border-border rounded-3xl p-6 max-w-sm w-full shadow-2xl text-center space-y-4">
               <div className="flex justify-between items-center border-b border-border pb-2">
                 <span className="text-xs font-bold text-primary uppercase tracking-wider">
                   Scannable QR Code
@@ -402,13 +403,13 @@ export function ShortenerClient() {
               </div>
 
               <div className="flex gap-2">
-                <Button className="flex-1 bg-primary hover:bg-primary/90 text-white font-bold h-10 rounded-xl text-xs" onClick={() => {
-              const a = document.createElement("a");
-              a.href = qrModalUrl;
-              a.download = `qrcode_${Date.now()}.png`;
-              a.click();
-              toast.success("QR Code downloaded!");
-            }}>
+                <Button className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-10 rounded-xl text-xs" onClick={() => {
+                const a = document.createElement("a");
+                a.href = qrModalUrl;
+                a.download = `qrcode_${Date.now()}.png`;
+                a.click();
+                toast.success("QR Code downloaded!");
+              }}>
                   <Download className="w-3.5 h-3.5 mr-1.5" /> Download PNG
                 </Button>
               </div>
@@ -416,35 +417,35 @@ export function ShortenerClient() {
           </div>}
 
         <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Paste Destination URL",
-        description: "Input any long web page link, campaign URL, or affiliate link.",
-        icon: Link2
-      }, {
-        step: "02",
-        title: "Generate Custom Alias",
-        description: "Use AI to auto-generate a punchy memorable slug or type your custom alias.",
-        icon: Wand2
-      }, {
-        step: "03",
-        title: "Track & Download QR",
-        description: "Copy short URL, view real-time click analytics, or download PNG QR codes.",
-        icon: BarChart3
-      }]} badges={["Custom Slugs", "Real-Time Click Analytics", "High-Contrast QR Code"]} />
+          step: "01",
+          title: "Paste Destination URL",
+          description: "Input any long web page link, campaign URL, or affiliate link.",
+          icon: Link2
+        }, {
+          step: "02",
+          title: "Generate Custom Alias",
+          description: "Use AI to auto-generate a punchy memorable slug or type your custom alias.",
+          icon: Wand2
+        }, {
+          step: "03",
+          title: "Track & Download QR",
+          description: "Copy short URL, view real-time click analytics, or download PNG QR codes.",
+          icon: BarChart3
+        }]} badges={["Custom Slugs", "Real-Time Click Analytics", "High-Contrast QR Code"]} />
 
         <ToolFeatureGuides features={[{
-        icon: Scissors,
-        title: "Custom Back-Half Slugs",
-        description: "Create branded short links with custom aliases (e.g. toolzium.com/spring-sale)."
-      }, {
-        icon: BarChart3,
-        title: "Click Analytics Telemetry",
-        description: "Track click counts, referrer sources, and device breakdowns in real-time."
-      }, {
-        icon: QrCode,
-        title: "Scannable QR Codes",
-        description: "Auto-generates high-contrast QR codes for mobile users to scan and visit your links."
-      }]}>
+          icon: Scissors,
+          title: "Custom Back-Half Slugs",
+          description: "Create branded short links with custom aliases (e.g. toolzium.com/spring-sale)."
+        }, {
+          icon: BarChart3,
+          title: "Click Analytics Telemetry",
+          description: "Track click counts, referrer sources, and device breakdowns in real-time."
+        }, {
+          icon: QrCode,
+          title: "Scannable QR Codes",
+          description: "Auto-generates high-contrast QR codes for mobile users to scan and visit your links."
+        }]}>
           <div className="prose dark:prose-invert max-w-none mt-6">
             <h3>Why Short Links Matter for Digital Brands</h3>
             <p>
@@ -454,15 +455,15 @@ export function ShortenerClient() {
         </ToolFeatureGuides>
 
         <ToolFaqAccordion faqs={[{
-        question: "Do my short links expire?",
-        answer: "No! All short links created on Toolzium remain active indefinitely."
-      }, {
-        question: "Can I customize the alias?",
-        answer: "Yes! Type any custom slug or click 'AI Smart Alias' to auto-generate a punchy link name."
-      }]} />
+          question: "Do my short links expire?",
+          answer: "No! All short links created on Toolzium remain active indefinitely."
+        }, {
+          question: "Can I customize the alias?",
+          answer: "Yes! Type any custom slug or click 'AI Smart Alias' to auto-generate a punchy link name."
+        }]} />
 
         <RelatedTools currentToolUrl="/tools/url/shortener" max={6} />
       </div>
-    </div>;
+    </div></div>;
 }
 export default ShortenerClient;

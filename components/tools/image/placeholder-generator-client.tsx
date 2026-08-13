@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -65,8 +66,8 @@ export function PlaceholderGeneratorClient() {
     navigator.clipboard.writeText(svgContent);
     toast.success("SVG code copied to clipboard!");
   };
-  return <div className="w-full min-h-screen pb-20 relative">
-      <GridPattern />
+  return <div className="w-full min-h-screen pb-20 relative"><ToolBackground /><div className="relative z-10">
+      
 
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader icon={ImageIcon} title="Image Placeholder Generator Studio" description="Generate clean, custom image placeholders in PNG or SVG format. Custom dimensions, vibrant colors, custom labels, and instant download." />
@@ -120,32 +121,32 @@ export function PlaceholderGeneratorClient() {
                 <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block">Preset Sizes</Label>
                 <div className="flex flex-wrap gap-1.5">
                   {[{
-                  label: "Avatar 150x150",
-                  w: 150,
-                  h: 150
-                }, {
-                  label: "Banner 1200x630",
-                  w: 1200,
-                  h: 630
-                }, {
-                  label: "Card 800x450",
-                  w: 800,
-                  h: 450
-                }, {
-                  label: "Square 500x500",
-                  w: 500,
-                  h: 500
-                }].map((p, idx) => <Button key={idx} type="button" onClick={() => {
-                  setWidth(p.w);
-                  setHeight(p.h);
-                }} className="text-xs bg-muted/60 hover:bg-primary/10 hover:text-primary text-foreground px-2.5 py-1 rounded-xl border border-border transition-all font-semibold cursor-pointer">
+                    label: "Avatar 150x150",
+                    w: 150,
+                    h: 150
+                  }, {
+                    label: "Banner 1200x630",
+                    w: 1200,
+                    h: 630
+                  }, {
+                    label: "Card 800x450",
+                    w: 800,
+                    h: 450
+                  }, {
+                    label: "Square 500x500",
+                    w: 500,
+                    h: 500
+                  }].map((p, idx) => <Button key={idx} type="button" onClick={() => {
+                    setWidth(p.w);
+                    setHeight(p.h);
+                  }} className="text-xs bg-muted/60 hover:bg-primary/10 hover:text-primary text-foreground px-2.5 py-1 rounded-xl border border-border transition-all font-semibold cursor-pointer">
                       {p.label}
                     </Button>)}
                 </div>
               </div>
 
               <div className="flex gap-2 pt-2">
-                <Button onClick={handleDownload} className="flex-1 bg-primary hover:bg-primary/90 text-white font-bold h-12 rounded-xl shadow-lg shadow-primary/20 gap-2">
+                <Button onClick={handleDownload} className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-12 rounded-xl shadow-lg shadow-primary/20 gap-2">
                   <Download className="w-4 h-4" /> Download {format.toUpperCase()}
                 </Button>
                 <Button variant="outline" onClick={handleCopySvg} className="h-12 border-border font-semibold rounded-xl gap-2">
@@ -169,35 +170,35 @@ export function PlaceholderGeneratorClient() {
         </div>
 
         <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Set Dimensions",
-        description: "Input width and height in pixels or click a preset resolution.",
-        icon: ImageIcon
-      }, {
-        step: "02",
-        title: "Customize Design",
-        description: "Select background color, text color, and add custom label text.",
-        icon: Sparkles
-      }, {
-        step: "03",
-        title: "Download or Copy",
-        description: "Export as crisp PNG, standalone SVG image, or copy SVG code directly.",
-        icon: Download
-      }]} badges={["PNG & SVG Support", "100% Free", "Instant Client-Side"]} />
+          step: "01",
+          title: "Set Dimensions",
+          description: "Input width and height in pixels or click a preset resolution.",
+          icon: ImageIcon
+        }, {
+          step: "02",
+          title: "Customize Design",
+          description: "Select background color, text color, and add custom label text.",
+          icon: Sparkles
+        }, {
+          step: "03",
+          title: "Download or Copy",
+          description: "Export as crisp PNG, standalone SVG image, or copy SVG code directly.",
+          icon: Download
+        }]} badges={["PNG & SVG Support", "100% Free", "Instant Client-Side"]} />
 
         <ToolFeatureGuides features={[{
-        icon: ImageIcon,
-        title: "Custom Dimensions",
-        description: "Generate placeholders from 50x50 to 3000x3000 pixels instantly."
-      }, {
-        icon: Sparkles,
-        title: "Color Customization",
-        description: "Pick any HEX background and text color to match your design prototype."
-      }, {
-        icon: Download,
-        title: "Dual Export Formats",
-        description: "Download vector SVG files for responsive layouts or PNG images for standard mockups."
-      }]}>
+          icon: ImageIcon,
+          title: "Custom Dimensions",
+          description: "Generate placeholders from 50x50 to 3000x3000 pixels instantly."
+        }, {
+          icon: Sparkles,
+          title: "Color Customization",
+          description: "Pick any HEX background and text color to match your design prototype."
+        }, {
+          icon: Download,
+          title: "Dual Export Formats",
+          description: "Download vector SVG files for responsive layouts or PNG images for standard mockups."
+        }]}>
           <div className="prose dark:prose-invert max-w-none mt-6">
             <h3>Why Image Placeholders Matter in Design Workflows</h3>
             <p>
@@ -207,15 +208,15 @@ export function PlaceholderGeneratorClient() {
         </ToolFeatureGuides>
 
         <ToolFaqAccordion faqs={[{
-        question: "Is this placeholder generator free?",
-        answer: "Yes! Generate and download unlimited SVG/PNG placeholders free of charge."
-      }, {
-        question: "Can I use these images in commercial projects?",
-        answer: "Absolutely! All generated placeholders are royalty-free and ready for production use."
-      }]} />
+          question: "Is this placeholder generator free?",
+          answer: "Yes! Generate and download unlimited SVG/PNG placeholders free of charge."
+        }, {
+          question: "Can I use these images in commercial projects?",
+          answer: "Absolutely! All generated placeholders are royalty-free and ready for production use."
+        }]} />
 
         <RelatedTools currentToolUrl="/tools/image/placeholder-generator" max={6} />
       </div>
-    </div>;
+    </div></div>;
 }
 export default PlaceholderGeneratorClient;

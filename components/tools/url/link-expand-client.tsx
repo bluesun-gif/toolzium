@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useCallback, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -131,8 +132,8 @@ export function LinkExpandClient() {
     setBatchUrls("");
     setResults([]);
   };
-  return <div className="w-full min-h-screen pb-20 relative">
-      <GridPattern />
+  return <div className="w-full min-h-screen pb-20 relative"><ToolBackground /><div className="relative z-10">
+      
 
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader icon={Link2} title="Link Expander & URL Unshortener Studio" description="Reveal the final destination of shortened URLs from bit.ly, t.co, tinyurl, and custom short domains with real-time AI security audits." />
@@ -146,10 +147,10 @@ export function LinkExpandClient() {
               </CardTitle>
 
               <div className="flex items-center gap-2">
-                <Button variant={!isBatch ? "default" : "outline"} size="sm" onClick={() => setIsBatch(false)} className={cn("h-8 text-xs rounded-lg font-bold", !isBatch ? "bg-primary text-white" : "border-border")}>
+                <Button variant={!isBatch ? "default" : "outline"} size="sm" onClick={() => setIsBatch(false)} className={cn("h-8 text-xs rounded-lg font-bold", !isBatch ? "bg-primary text-primary-foreground" : "border-border")}>
                   Single URL
                 </Button>
-                <Button variant={isBatch ? "default" : "outline"} size="sm" onClick={() => setIsBatch(true)} className={cn("h-8 text-xs rounded-lg font-bold", isBatch ? "bg-primary text-white" : "border-border")}>
+                <Button variant={isBatch ? "default" : "outline"} size="sm" onClick={() => setIsBatch(true)} className={cn("h-8 text-xs rounded-lg font-bold", isBatch ? "bg-primary text-primary-foreground" : "border-border")}>
                   Batch Mode
                 </Button>
               </div>
@@ -166,7 +167,7 @@ export function LinkExpandClient() {
               </div>}
 
             <div className="flex gap-3">
-              <Button onClick={handleExpand} disabled={loading} className="flex-1 bg-primary hover:bg-primary/90 text-white font-bold h-12 rounded-xl shadow-lg shadow-primary/20">
+              <Button onClick={handleExpand} disabled={loading} className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-12 rounded-xl shadow-lg shadow-primary/20">
                 {loading ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : <Link2 className="w-5 h-5 mr-2" />}
                 {loading ? "Unshortening..." : `Expand ${isBatch ? "All Links" : "Short URL"}`}
               </Button>
@@ -222,9 +223,9 @@ export function LinkExpandClient() {
                 <History className="w-4 h-4 text-primary" /> Recent Link Expansion History ({history.length})
               </Label>
               <Button variant="ghost" size="sm" onClick={() => {
-            setHistory([]);
-            localStorage.removeItem("toolzium_link_expand_history");
-          }} className="h-7 text-xs text-muted-foreground hover:text-red-500 font-semibold">
+              setHistory([]);
+              localStorage.removeItem("toolzium_link_expand_history");
+            }} className="h-7 text-xs text-muted-foreground hover:text-red-500 font-semibold">
                 Clear History
               </Button>
             </div>
@@ -244,39 +245,39 @@ export function LinkExpandClient() {
           </GlassCard>}
 
         <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Paste Shortened URL",
-        description: "Enter any shortened link from bit.ly, t.co, TinyURL, or other providers into the input field.",
-        icon: Link2
-      }, {
-        step: "02",
-        title: "Analyze Redirects",
-        description: "Our engine follows the HTTP redirect chain to uncover the final destination URL and counts the hops.",
-        icon: Loader2
-      }, {
-        step: "03",
-        title: "Review Safety & Copy",
-        description: "Check the safety badge for suspicious patterns, then copy the expanded URL to your clipboard.",
-        icon: ShieldCheck
-      }]} badges={["100% Free", "Privacy-Focused", "Batch Processing"]} />
+          step: "01",
+          title: "Paste Shortened URL",
+          description: "Enter any shortened link from bit.ly, t.co, TinyURL, or other providers into the input field.",
+          icon: Link2
+        }, {
+          step: "02",
+          title: "Analyze Redirects",
+          description: "Our engine follows the HTTP redirect chain to uncover the final destination URL and counts the hops.",
+          icon: Loader2
+        }, {
+          step: "03",
+          title: "Review Safety & Copy",
+          description: "Check the safety badge for suspicious patterns, then copy the expanded URL to your clipboard.",
+          icon: ShieldCheck
+        }]} badges={["100% Free", "Privacy-Focused", "Batch Processing"]} />
 
         <ToolFeatureGuides features={[{
-        icon: Link2,
-        title: "Universal Unshortening",
-        description: "Supports all major URL shortening services including Bitly, TinyURL, t.co, ow.ly, and custom branded short domains."
-      }, {
-        icon: ShieldCheck,
-        title: "Malware & Phishing Detection",
-        description: "Client-side heuristics scan the final destination for suspicious TLDs, excessive subdomains, and known phishing keywords before you click."
-      }, {
-        icon: History,
-        title: "Batch Expansion",
-        description: "Process multiple shortened URLs simultaneously by switching to Batch Mode and pasting a list of links."
-      }, {
-        icon: Copy,
-        title: "One-Click Copy",
-        description: "Instantly copy the fully expanded, raw destination URL to your clipboard for safe sharing or bookmarking."
-      }]}>
+          icon: Link2,
+          title: "Universal Unshortening",
+          description: "Supports all major URL shortening services including Bitly, TinyURL, t.co, ow.ly, and custom branded short domains."
+        }, {
+          icon: ShieldCheck,
+          title: "Malware & Phishing Detection",
+          description: "Client-side heuristics scan the final destination for suspicious TLDs, excessive subdomains, and known phishing keywords before you click."
+        }, {
+          icon: History,
+          title: "Batch Expansion",
+          description: "Process multiple shortened URLs simultaneously by switching to Batch Mode and pasting a list of links."
+        }, {
+          icon: Copy,
+          title: "One-Click Copy",
+          description: "Instantly copy the fully expanded, raw destination URL to your clipboard for safe sharing or bookmarking."
+        }]}>
           <div className="prose dark:prose-invert max-w-none mt-6">
             <h3>Why Use a Link Expander?</h3>
             <p>
@@ -286,15 +287,15 @@ export function LinkExpandClient() {
         </ToolFeatureGuides>
 
         <ToolFaqAccordion faqs={[{
-        question: "Is it safe to expand links using this tool?",
-        answer: "Yes. The expansion process happens via secure API calls that only read HTTP headers of the redirect chain."
-      }, {
-        question: "What URL shorteners are supported?",
-        answer: "We support virtually all standard 301 and 302 redirect chains, including Bitly, TinyURL, Twitter's t.co, and YouTube's youtu.be."
-      }]} />
+          question: "Is it safe to expand links using this tool?",
+          answer: "Yes. The expansion process happens via secure API calls that only read HTTP headers of the redirect chain."
+        }, {
+          question: "What URL shorteners are supported?",
+          answer: "We support virtually all standard 301 and 302 redirect chains, including Bitly, TinyURL, Twitter's t.co, and YouTube's youtu.be."
+        }]} />
 
         <RelatedTools currentToolUrl="/tools/url/expand" max={6} />
       </div>
-    </div>;
+    </div></div>;
 }
 export default LinkExpandClient;

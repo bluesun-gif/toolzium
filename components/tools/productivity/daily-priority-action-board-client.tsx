@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -144,7 +145,7 @@ export function DailyPriorityActionBoardClient() {
  <span className="text-sm font-normal text-muted-foreground">{completedCount}/{bucketTasks.length}</span>
  </CardTitle>
  <div className="w-full bg-secondary h-2 rounded-full overflow-hidden mt-2">
-      <GridPattern />
+      <ToolBackground />
 
  <div className={cn("h-full transition-all duration-300", colorClass.replace("text-", "bg-"))} style={{
             width: progress + "%"

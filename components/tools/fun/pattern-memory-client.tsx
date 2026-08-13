@@ -1,6 +1,7 @@
 "use client";
-import { cn } from"@/lib/utils";
+import { ToolBackground } from"@/components/shared/tool-background";
 
+import { cn } from "@/lib/utils";
 import React, { useState, useMemo, useCallback, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -110,8 +111,8 @@ export function PatternMemoryClient() {
     if (selectedCells.includes(idx)) return "bg-yellow-500 shadow-md";
     return "bg-muted/50 hover:bg-muted border border-border/50";
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 pb-12">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8 pb-12"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Grid3X3} title="Pattern Memory" description="Memorize expanding grid patterns under pressure. Test your spatial working memory and endurance with our lives-based challenge." />
 
@@ -153,8 +154,8 @@ export function PatternMemoryClient() {
  </div>
 
  <div className={`grid gap-2 sm:gap-3 max-w-md mx-auto`} style={{
-          gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))`
-        }}>
+            gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))`
+          }}>
  {Array(totalCells).fill(0).map((_, idx) => <Button key={idx} className={cn(`aspect-square rounded-xl transition-all duration-300 ${getCellColor(idx)}`)} onClick={() => handleCellClick(idx)} disabled={phase !== "recall"} />)}
  </div>
 
@@ -167,39 +168,39 @@ export function PatternMemoryClient() {
  </GlassCard>
 
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Memorize the Pattern",
-      description: "A set of cells will light up on the grid. Memorize their exact positions before they disappear.",
-      icon: Grid3X3
-    }, {
-      step: "02",
-      title: "Recall & Select",
-      description: "Tap the cells you remember. You must select the exact same number of cells as were highlighted.",
-      icon: Zap
-    }, {
-      step: "03",
-      title: "Survive & Expand",
-      description: "Correct guesses advance you to the next level, adding more cells and eventually expanding the grid size.",
-      icon: Heart
-    }]} badges={["100% Free", "Spatial Memory", "No Signup"]} />
+        step: "01",
+        title: "Memorize the Pattern",
+        description: "A set of cells will light up on the grid. Memorize their exact positions before they disappear.",
+        icon: Grid3X3
+      }, {
+        step: "02",
+        title: "Recall & Select",
+        description: "Tap the cells you remember. You must select the exact same number of cells as were highlighted.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Survive & Expand",
+        description: "Correct guesses advance you to the next level, adding more cells and eventually expanding the grid size.",
+        icon: Heart
+      }]} badges={["100% Free", "Spatial Memory", "No Signup"]} />
 
  <ToolFeatureGuides features={[{
-      icon: Grid3X3,
-      title: "Dynamic Grid Expansion",
-      description: "The grid starts at 4x4, expands to 5x5 at level 8, and 6x6 at level 15, drastically increasing spatial complexity."
-    }, {
-      icon: Heart,
-      title: "Lives System",
-      description: "You have 3 lives to recover from mistakes, adding a layer of endurance and pressure to the cognitive challenge."
-    }, {
-      icon: Zap,
-      title: "Instant Feedback",
-      description: "Upon submission, correct selections glow green while missed or wrong cells flash red, providing clear error analysis."
-    }, {
-      icon: RotateCcw,
-      title: "Progressive Load",
-      description: "Each level adds one more cell to the pattern, systematically pushing your visuospatial sketchpad to its limits."
-    }]}>
+        icon: Grid3X3,
+        title: "Dynamic Grid Expansion",
+        description: "The grid starts at 4x4, expands to 5x5 at level 8, and 6x6 at level 15, drastically increasing spatial complexity."
+      }, {
+        icon: Heart,
+        title: "Lives System",
+        description: "You have 3 lives to recover from mistakes, adding a layer of endurance and pressure to the cognitive challenge."
+      }, {
+        icon: Zap,
+        title: "Instant Feedback",
+        description: "Upon submission, correct selections glow green while missed or wrong cells flash red, providing clear error analysis."
+      }, {
+        icon: RotateCcw,
+        title: "Progressive Load",
+        description: "Each level adds one more cell to the pattern, systematically pushing your visuospatial sketchpad to its limits."
+      }]}>
  <div className="prose prose-sm dark:prose-invert max-w-none mt-6">
  <h3>Visuospatial Pattern Recall</h3>
  <p>Pattern Memory is a sophisticated grid-based challenge designed to isolate and train your visuospatial working memory. Unlike sequential memory tasks that rely on temporal ordering, this tool requires you to encode a simultaneous, two-dimensional spatial configuration. When the pattern flashes, your brain must rapidly map the coordinates of the highlighted cells relative to the grid's boundaries. This process heavily engages the occipital lobe for visual processing and the parietal lobe for spatial orientation. As the pattern size increases with each level, the cognitive load scales non-linearly, forcing your brain to abandon simple point-memorization and adopt advanced strategies like geometric chunking or boundary-mapping.</p>
@@ -208,20 +209,20 @@ export function PatternMemoryClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={[{
-      question: "When does the grid expand?",
-      answer: "The grid expands from 4x4 to 5x5 when you reach Level 8, and from 5x5 to 6x6 when you reach Level 15."
-    }, {
-      question: "What happens if I select the wrong cells?",
-      answer: "You will lose one life. The game will show you which cells were correct (green) and which were incorrect (red) before resetting the pattern for another attempt."
-    }, {
-      question: "Do I get partial credit?",
-      answer: "No, you must identify all highlighted cells perfectly to advance to the next level. Partial matches will result in a lost life."
-    }, {
-      question: "How many cells are in the pattern?",
-      answer: "The pattern starts with 3 cells at Level 1, and adds exactly one more cell for every subsequent level."
-    }]} />
+        question: "When does the grid expand?",
+        answer: "The grid expands from 4x4 to 5x5 when you reach Level 8, and from 5x5 to 6x6 when you reach Level 15."
+      }, {
+        question: "What happens if I select the wrong cells?",
+        answer: "You will lose one life. The game will show you which cells were correct (green) and which were incorrect (red) before resetting the pattern for another attempt."
+      }, {
+        question: "Do I get partial credit?",
+        answer: "No, you must identify all highlighted cells perfectly to advance to the next level. Partial matches will result in a lost life."
+      }, {
+        question: "How many cells are in the pattern?",
+        answer: "The pattern starts with 3 cells at Level 1, and adds exactly one more cell for every subsequent level."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/fun/pattern-memory" max={6} />
- </div>;
+ </div></div>;
 }
 export default PatternMemoryClient;

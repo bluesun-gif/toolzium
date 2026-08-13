@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -118,7 +119,7 @@ export function EisenhowerWorkspaceClient() {
  const qTasks = filteredTasks.filter(t => t.quadrant === id);
  return (
  <div className={"border rounded-lg p-4 flex flex-col h-full bg-card shadow-sm"}>
-      <GridPattern />
+      <ToolBackground />
 
  <div className={"flex items-center justify-between mb-4"}>
  <h3 className={cn("font-semibold", colorClass)}>{title}</h3>

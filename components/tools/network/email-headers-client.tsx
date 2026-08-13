@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -231,7 +232,7 @@ export default function EmailHeadersClient() {
  <ToolPageHeader title="Email Header Analyzer"description="Paste raw email headers to trace path and analyze authentication."/>
  
  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-      <GridPattern />
+      <ToolBackground />
 
  <Card className="md:col-span-2">
  <CardHeader>

@@ -1,126 +1,138 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
-import { useState, useRef, ChangeEvent } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
-import TextareaField from"@/components/shared/form-fields/textarea-field";
-import { ResetButton, ActionButton, CopyButton } from"@/components/shared/action-buttons";
-import { Button } from"@/components/ui/button";
-import { Layers, Upload, Download, Copy, Image as ImageIcon, Code2, Sparkles, Shield, Zap } from"lucide-react";;
-import JSZip from"jszip";
-import { GridPattern } from"@/components/magicui/grid-pattern";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import { RelatedTools } from"@/components/shared/related-tools";
-
+import { useState, useRef, ChangeEvent } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import TextareaField from "@/components/shared/form-fields/textarea-field";
+import { ResetButton, ActionButton, CopyButton } from "@/components/shared/action-buttons";
+import { Button } from "@/components/ui/button";
+import { Layers, Upload, Download, Copy, Image as ImageIcon, Code2, Sparkles, Shield, Zap } from "lucide-react";
+;
+import JSZip from "jszip";
+import { GridPattern } from "@/components/magicui/grid-pattern";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 interface IconSize {
- name: string;
- filename: string;
- size: number;
- dataUrl: string | null;
+  name: string;
+  filename: string;
+  size: number;
+  dataUrl: string | null;
 }
-
-const ICON_SPECS = [
- { name:"Standard Favicon (16x16)", filename:"favicon-16x16.png", size: 16 },
- { name:"Standard Favicon (32x32)", filename:"favicon-32x32.png", size: 32 },
- { name:"High-DPI Favicon (48x48)", filename:"favicon-48x48.png", size: 48 },
- { name:"Apple Touch Icon (180x180)", filename:"apple-touch-icon.png", size: 180 },
- { name:"Android Chrome (192x192)", filename:"android-chrome-192x192.png", size: 192 },
- { name:"Android Chrome (512x512)", filename:"android-chrome-512x512.png", size: 512 },
-];
-
+const ICON_SPECS = [{
+  name: "Standard Favicon (16x16)",
+  filename: "favicon-16x16.png",
+  size: 16
+}, {
+  name: "Standard Favicon (32x32)",
+  filename: "favicon-32x32.png",
+  size: 32
+}, {
+  name: "High-DPI Favicon (48x48)",
+  filename: "favicon-48x48.png",
+  size: 48
+}, {
+  name: "Apple Touch Icon (180x180)",
+  filename: "apple-touch-icon.png",
+  size: 180
+}, {
+  name: "Android Chrome (192x192)",
+  filename: "android-chrome-192x192.png",
+  size: 192
+}, {
+  name: "Android Chrome (512x512)",
+  filename: "android-chrome-512x512.png",
+  size: 512
+}];
 export default function FaviconGeneratorClient() {
- const [sourceImage, setSourceImage] = useState<string | null>(null);
- const [icons, setIcons] = useState<IconSize[]>(
- ICON_SPECS.map((spec) => ({ ...spec, dataUrl: null }))
- );
- const [isProcessing, setIsProcessing] = useState<boolean>(false);
- const fileInputRef = useRef<HTMLInputElement>(null);
-
- const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
- const file = e.target.files?.[0];
- if (!file) return;
-
- const url = URL.createObjectURL(file);
- setSourceImage(url);
- generateFavicons(url);
- };
-
- const generateFavicons = (srcUrl: string) => {
- setIsProcessing(true);
- const img = new Image();
- img.onload = () => {
- const generated = ICON_SPECS.map((spec) => {
- const canvas = document.createElement("canvas");
- canvas.width = spec.size;
- canvas.height = spec.size;
- const ctx = canvas.getContext("2d");
- if (ctx) {
- ctx.imageSmoothingEnabled = true;
- ctx.imageSmoothingQuality ="high";
- ctx.drawImage(img, 0, 0, spec.size, spec.size);
- return {
- ...spec,
- dataUrl: canvas.toDataURL("image/png"),
- };
- }
- return { ...spec, dataUrl: null };
- });
-
- setIcons(generated);
- setIsProcessing(false);
- };
- img.src = srcUrl;
- };
-
- const handleDownloadZip = async () => {
- const zip = new JSZip();
- icons.forEach((icon) => {
- if (icon.dataUrl) {
- const base64Data = icon.dataUrl.replace(/^data:image\/png;base64,/,"");
- zip.file(icon.filename, base64Data, { base64: true });
- }
- });
-
- const htmlCode = htmlHeadSnippet;
- zip.file("head_tags.html", htmlCode);
-
- const zipBlob = await zip.generateAsync({ type:"blob"});
- const url = URL.createObjectURL(zipBlob);
- const a = document.createElement("a");
- a.href = url;
- a.download ="favicon_pack.zip";
- document.body.appendChild(a);
- a.click();
- document.body.removeChild(a);
- URL.revokeObjectURL(url);
- };
-
- const handleReset = () => {
- if (sourceImage) URL.revokeObjectURL(sourceImage);
- setSourceImage(null);
- setIcons(ICON_SPECS.map((spec) => ({ ...spec, dataUrl: null })));
- };
-
- const htmlHeadSnippet = `<!-- Favicon HTML Tags -->
+  const [sourceImage, setSourceImage] = useState<string | null>(null);
+  const [icons, setIcons] = useState<IconSize[]>(ICON_SPECS.map(spec => ({
+    ...spec,
+    dataUrl: null
+  })));
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    setSourceImage(url);
+    generateFavicons(url);
+  };
+  const generateFavicons = (srcUrl: string) => {
+    setIsProcessing(true);
+    const img = new Image();
+    img.onload = () => {
+      const generated = ICON_SPECS.map(spec => {
+        const canvas = document.createElement("canvas");
+        canvas.width = spec.size;
+        canvas.height = spec.size;
+        const ctx = canvas.getContext("2d");
+        if (ctx) {
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = "high";
+          ctx.drawImage(img, 0, 0, spec.size, spec.size);
+          return {
+            ...spec,
+            dataUrl: canvas.toDataURL("image/png")
+          };
+        }
+        return {
+          ...spec,
+          dataUrl: null
+        };
+      });
+      setIcons(generated);
+      setIsProcessing(false);
+    };
+    img.src = srcUrl;
+  };
+  const handleDownloadZip = async () => {
+    const zip = new JSZip();
+    icons.forEach(icon => {
+      if (icon.dataUrl) {
+        const base64Data = icon.dataUrl.replace(/^data:image\/png;base64,/, "");
+        zip.file(icon.filename, base64Data, {
+          base64: true
+        });
+      }
+    });
+    const htmlCode = htmlHeadSnippet;
+    zip.file("head_tags.html", htmlCode);
+    const zipBlob = await zip.generateAsync({
+      type: "blob"
+    });
+    const url = URL.createObjectURL(zipBlob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "favicon_pack.zip";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+  const handleReset = () => {
+    if (sourceImage) URL.revokeObjectURL(sourceImage);
+    setSourceImage(null);
+    setIcons(ICON_SPECS.map(spec => ({
+      ...spec,
+      dataUrl: null
+    })));
+  };
+  const htmlHeadSnippet = `<!-- Favicon HTML Tags -->
 <link rel="icon"type="image/png"sizes="16x16"href="/favicon-16x16.png">
 <link rel="icon"type="image/png"sizes="32x32"href="/favicon-32x32.png">
 <link rel="icon"type="image/png"sizes="48x48"href="/favicon-48x48.png">
 <link rel="apple-touch-icon"sizes="180x180"href="/apple-touch-icon.png">
 <link rel="icon"type="image/png"sizes="192x192"href="/android-chrome-192x192.png">
 <link rel="icon"type="image/png"sizes="512x512"href="/android-chrome-512x512.png">`;
+  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+      
 
- return (
-      <div className="relative max-w-6xl mx-auto space-y-8">
-      <GridPattern />
-
- <ToolPageHeader
- title="Favicon & App Icon Generator"
- description="Convert your logo or image into website favicons, Apple Touch icons, and Android PWA icons. Download complete icon zip packages with ready-to-paste HTML code."
- icon={Layers}
- />
+ <ToolPageHeader title="Favicon & App Icon Generator" description="Convert your logo or image into website favicons, Apple Touch icons, and Android PWA icons. Download complete icon zip packages with ready-to-paste HTML code." icon={Layers} />
 
  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
  {/* Left Column: Upload & Options */}
@@ -131,56 +143,36 @@ export default function FaviconGeneratorClient() {
  <CardDescription>Upload a square PNG, JPG, or WEBP logo (at least 512x512 recommended)</CardDescription>
  </CardHeader>
  <CardContent className="space-y-4">
- <input
- type="file"
- ref={fileInputRef}
- accept="image/*"
- className="hidden"
- onChange={handleFileChange}
- />
- {!sourceImage ? (
- <div
- className="border-2 border-dashed rounded-xl p-8 text-center cursor-pointer border-border hover:bg-muted/50 transition-colors"
- onClick={() => fileInputRef.current?.click()}
- >
- <Upload className="h-10 w-10 text-muted-foreground mx-auto mb-3"/>
+ <input type="file" ref={fileInputRef} accept="image/*" className="hidden" onChange={handleFileChange} />
+ {!sourceImage ? <div className="border-2 border-dashed rounded-xl p-8 text-center cursor-pointer border-border hover:bg-muted/50 transition-colors" onClick={() => fileInputRef.current?.click()}>
+ <Upload className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
  <p className="text-sm font-medium mb-1">Click to upload logo image</p>
  <p className="text-xs text-muted-foreground">PNG, JPG, SVG, WEBP supported</p>
- </div>
- ) : (
- <div className="space-y-4 text-center">
+ </div> : <div className="space-y-4 text-center">
  <div className="p-4 border rounded-xl bg-muted/20 inline-block">
- <img src={sourceImage} alt="Source logo"className="h-32 w-32 object-contain mx-auto rounded-lg shadow-sm"/>
+ <img src={sourceImage} alt="Source logo" className="h-32 w-32 object-contain mx-auto rounded-lg shadow-sm" />
  </div>
  <div className="flex gap-2 justify-center">
- <Button variant="outline"size="sm"onClick={() => fileInputRef.current?.click()}>
+ <Button variant="outline" size="sm" onClick={() => fileInputRef.current?.click()}>
  Replace Image
  </Button>
  <ResetButton onClick={handleReset} />
  </div>
- </div>
- )}
+ </div>}
  </CardContent>
  </GlassCard>
 
- {sourceImage && (
- <GlassCard>
+ {sourceImage && <GlassCard>
  <CardHeader className="flex flex-row items-center justify-between">
  <CardTitle className="flex items-center gap-2">
- <Code2 className="h-5 w-5"/> HTML Head Snippet
+ <Code2 className="h-5 w-5" /> HTML Head Snippet
  </CardTitle>
  <CopyButton getText={htmlHeadSnippet} />
  </CardHeader>
  <CardContent>
- <TextareaField
- value={htmlHeadSnippet}
- readOnly
- rows={7}
- className="font-mono text-xs"
- />
+ <TextareaField value={htmlHeadSnippet} readOnly rows={7} className="font-mono text-xs" />
  </CardContent>
- </GlassCard>
- )}
+ </GlassCard>}
  </div>
 
  {/* Right Column: Generated Icons Grid */}
@@ -191,106 +183,62 @@ export default function FaviconGeneratorClient() {
  <CardTitle>Generated Favicon Package</CardTitle>
  <CardDescription>Multi-size icons for browser tabs, bookmarks, and mobile apps</CardDescription>
  </div>
- {icons.some((i) => i.dataUrl) && (
- <ActionButton
- icon={Download}
- label="Download All ZIP"
- onClick={handleDownloadZip}
- variant="default"
- />
- )}
+ {icons.some(i => i.dataUrl) && <ActionButton icon={Download} label="Download All ZIP" onClick={handleDownloadZip} variant="default" />}
  </CardHeader>
  <CardContent className="pt-6">
- {!sourceImage ? (
- <div className="flex flex-col items-center justify-center min-h-[300px] text-center text-muted-foreground">
- <ImageIcon className="h-12 w-12 mb-3 opacity-30"/>
+ {!sourceImage ? <div className="flex flex-col items-center justify-center min-h-[300px] text-center text-muted-foreground">
+ <ImageIcon className="h-12 w-12 mb-3 opacity-30" />
  <p className="text-sm font-medium">Upload a logo to generate your favicon package</p>
- </div>
- ) : (
- <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
- {icons.map((icon) => (
- <div
- key={icon.filename}
- className="p-4 border rounded-xl bg-muted/20 flex items-center justify-between gap-4"
- >
+ </div> : <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+ {icons.map(icon => <div key={icon.filename} className="p-4 border rounded-xl bg-muted/20 flex items-center justify-between gap-4">
  <div className="flex items-center gap-3">
- {icon.dataUrl ? (
- <img
- src={icon.dataUrl}
- alt={icon.name}
- className="h-10 w-10 object-contain p-1 border rounded bg-background shrink-0"
- />
- ) : (
- <div className="h-10 w-10 border rounded bg-muted animate-pulse shrink-0"/>
- )}
+ {icon.dataUrl ? <img src={icon.dataUrl} alt={icon.name} className="h-10 w-10 object-contain p-1 border rounded bg-background shrink-0" /> : <div className="h-10 w-10 border rounded bg-muted animate-pulse shrink-0" />}
  <div>
  <p className="text-sm font-semibold">{icon.name}</p>
  <p className="text-xs text-muted-foreground font-mono">{icon.filename}</p>
  </div>
  </div>
 
- {icon.dataUrl && (
- <a
- href={icon.dataUrl}
- download={icon.filename}
- className="inline-flex items-center justify-center p-2 rounded-md hover:bg-muted text-foreground transition-colors"
- title={`Download ${icon.filename}`}
- >
- <Download className="h-4 w-4"/>
- </a>
- )}
- </div>
- ))}
- </div>
- )}
+ {icon.dataUrl && <a href={icon.dataUrl} download={icon.filename} className="inline-flex items-center justify-center p-2 rounded-md hover:bg-muted text-foreground transition-colors" title={`Download ${icon.filename}`}>
+ <Download className="h-4 w-4" />
+ </a>}
+ </div>)}
+ </div>}
  </CardContent>
  </GlassCard>
  </div>
  </div>
  
-      <ToolHowItWorks
-        steps={[
-          {
-            step: "01",
-            title: "Input Your Data",
-            description: "Enter your information in the input field above and configure any options.",
-            icon: Sparkles,
-          },
-          {
-            step: "02",
-            title: "Process & Generate",
-            description: "The tool processes your input instantly and displays the results.",
-            icon: Zap,
-          },
-          {
-            step: "03",
-            title: "Copy & Use",
-            description: "Copy the output with one click and use it wherever you need.",
-            icon: Copy,
-          },
-        ]}
-        badges={["100% Free", "Instant Results", "Privacy-First"]}
-      />
+      <ToolHowItWorks steps={[{
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
 
-      <ToolFeatureGuides
-        features={[
-          {
-            icon: Sparkles,
-            title: "Lightning Fast",
-            description: "Get results in milliseconds with our optimized client-side processing engine.",
-          },
-          {
-            icon: Shield,
-            title: "Completely Private",
-            description: "All processing happens in your browser. Your data never leaves your device.",
-          },
-          {
-            icon: Zap,
-            title: "No Signup Required",
-            description: "Use this tool instantly without creating an account or providing any personal information.",
-          },
-        ]}
-      >
+      <ToolFeatureGuides features={[{
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Favicon & App Icon Generator?</h3>
           <p>
@@ -306,25 +254,18 @@ export default function FaviconGeneratorClient() {
         </div>
       </ToolFeatureGuides>
 
-      <ToolFaqAccordion
-        faqs={[
-          {
-            question: "Is this tool free to use?",
-            answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits.",
-          },
-          {
-            question: "Is my data secure?",
-            answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server.",
-          },
-          {
-            question: "Do I need to create an account?",
-            answer: "No account or registration is required. Simply open the tool and start using it immediately.",
-          },
-        ]}
-      />
+      <ToolFaqAccordion faqs={[{
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/image/favicon-generator" max={6} />
 
-</div>
- );
+    </div></div>;
 }

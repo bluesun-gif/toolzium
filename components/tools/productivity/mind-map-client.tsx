@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -229,8 +230,8 @@ export function MindMapClient() {
       </div>;
   };
   const selectedNode = findNode(root, selectedId);
-  return <div className="relative max-w-6xl mx-auto space-y-8">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+      
 
       <ToolPageHeader icon={Network} title="Interactive Mind Map Builder Studio" description="Visualize ideas, brain-storm business structures, and map out project nodes in a canvas interface." actions={<div className="flex gap-2">
             <ActionButton onClick={exportJson} icon={Download} label="Export JSON" variant="outline" />
@@ -273,9 +274,9 @@ export function MindMapClient() {
                     <Label>Node Color Tag</Label>
                     <div className="flex flex-wrap gap-2">
                       {COLORS.map(c => <Button key={c} onClick={() => handleChangeColor(c)} className={cn(cn("w-7 h-7 rounded-full border-2 transition-transform hover:scale-110", selectedNode.color === c ? "ring-2 ring-primary ring-offset-2 ring-offset-background scale-110" : ""))} style={{
-                    backgroundColor: c,
-                    borderColor: c
-                  }} title={`Color ${c}`} />)}
+                      backgroundColor: c,
+                      borderColor: c
+                    }} title={`Color ${c}`} />)}
                     </div>
                   </div>
 
@@ -304,46 +305,46 @@ export function MindMapClient() {
 
       {/* HOW IT WORKS */}
       <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Select Any Node",
-      description: "Click on any node in the interactive canvas to open its Inspector panel.",
-      icon: MousePointerClick
-    }, {
-      step: "02",
-      title: "Add & Edit Sub-Topics",
-      description: "Edit titles, assign custom colors, and click 'Add Sub-Topic Node' to expand your tree.",
-      icon: Plus
-    }, {
-      step: "03",
-      title: "Export & Collapse",
-      description: "Collapse sub-branches or export your mind map to JSON / Markdown text outlines.",
-      icon: Network
-    }]} badges={["Interactive Canvas", "Color-Coded Nodes", "Markdown Outline Export"]} />
+        step: "01",
+        title: "Select Any Node",
+        description: "Click on any node in the interactive canvas to open its Inspector panel.",
+        icon: MousePointerClick
+      }, {
+        step: "02",
+        title: "Add & Edit Sub-Topics",
+        description: "Edit titles, assign custom colors, and click 'Add Sub-Topic Node' to expand your tree.",
+        icon: Plus
+      }, {
+        step: "03",
+        title: "Export & Collapse",
+        description: "Collapse sub-branches or export your mind map to JSON / Markdown text outlines.",
+        icon: Network
+      }]} badges={["Interactive Canvas", "Color-Coded Nodes", "Markdown Outline Export"]} />
 
       {/* FEATURE GUIDES */}
       <ToolFeatureGuides features={[{
-      icon: Network,
-      title: "Visual Tree Representation",
-      description: "Renders hierarchical connector lines and expanding/collapsing node branches."
-    }, {
-      icon: MousePointerClick,
-      title: "Real-Time Node Inspector",
-      description: "Edit text and color palettes instantly with instant live canvas updates."
-    }, {
-      icon: Shield,
-      title: "Local Storage Save",
-      description: "Saves mind map structures automatically to local storage with offline JSON export."
-    }]} />
+        icon: Network,
+        title: "Visual Tree Representation",
+        description: "Renders hierarchical connector lines and expanding/collapsing node branches."
+      }, {
+        icon: MousePointerClick,
+        title: "Real-Time Node Inspector",
+        description: "Edit text and color palettes instantly with instant live canvas updates."
+      }, {
+        icon: Shield,
+        title: "Local Storage Save",
+        description: "Saves mind map structures automatically to local storage with offline JSON export."
+      }]} />
 
       {/* FAQ ACCORDION */}
       <ToolFaqAccordion faqs={[{
-      question: "Can I expand or collapse mind map branches?",
-      answer: "Yes! Click the +/- icon on any parent node to collapse or expand its sub-tree branches."
-    }, {
-      question: "Is my mind map data saved?",
-      answer: "Yes, all mind maps persist in your browser's local storage and can be exported as JSON or Markdown outline files."
-    }]} />
+        question: "Can I expand or collapse mind map branches?",
+        answer: "Yes! Click the +/- icon on any parent node to collapse or expand its sub-tree branches."
+      }, {
+        question: "Is my mind map data saved?",
+        answer: "Yes, all mind maps persist in your browser's local storage and can be exported as JSON or Markdown outline files."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/productivity/mind-map" max={6} />
-    </div>;
+    </div></div>;
 }

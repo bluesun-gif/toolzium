@@ -1,6 +1,7 @@
 "use client";
-import { cn } from"@/lib/utils";
+import { ToolBackground } from"@/components/shared/tool-background";
 
+import { cn } from "@/lib/utils";
 import { useState, useRef, ChangeEvent, DragEvent } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -290,8 +291,8 @@ export default function ImageResizerClient() {
     document.body.removeChild(a);
   };
   const filteredPresets = activePlatformFilter === "All" ? SOCIAL_PRESETS : SOCIAL_PRESETS.filter(p => p.platform === activePlatformFilter);
-  return <div className="relative mx-auto max-w-6xl px-4 py-8 space-y-8">
-      <GridPattern />
+  return <div className="relative mx-auto max-w-6xl px-4 py-8 space-y-8"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader title="Social Media Image Resizer & Aspect Ratio Tool" description="Resize images for Facebook, Instagram, LinkedIn, X, and Pinterest in 1-click. High-precision 4-corner stretch, smart crop cover, or padded fit with zero quality loss." />
 
@@ -338,13 +339,13 @@ export default function ImageResizerClient() {
  <div className="lg:col-span-7 space-y-6">
  <GlassCard className="p-6">
  <div className={`border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all duration-200 ${isDragging ? "border-primary bg-primary/10 scale-[0.99]" : "border-primary/30 hover:border-primary/60 bg-muted/20"}`} onClick={() => fileInputRef.current?.click()} onDragOver={e => {
-            e.preventDefault();
-            setIsDragging(true);
-          }} onDragLeave={() => setIsDragging(false)} onDrop={e => {
-            e.preventDefault();
-            setIsDragging(false);
-            if (e.dataTransfer.files) handleFiles(e.dataTransfer.files);
-          }}>
+              e.preventDefault();
+              setIsDragging(true);
+            }} onDragLeave={() => setIsDragging(false)} onDrop={e => {
+              e.preventDefault();
+              setIsDragging(false);
+              if (e.dataTransfer.files) handleFiles(e.dataTransfer.files);
+            }}>
  <div className="p-3 rounded-full bg-primary/10 text-primary w-fit mx-auto mb-3">
  <Upload className="h-6 w-6" />
  </div>
@@ -478,35 +479,35 @@ export default function ImageResizerClient() {
  </div>
  
       <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Input Your Data",
-      description: "Enter your information in the input field above and configure any options.",
-      icon: Sparkles
-    }, {
-      step: "02",
-      title: "Process & Generate",
-      description: "The tool processes your input instantly and displays the results.",
-      icon: Zap
-    }, {
-      step: "03",
-      title: "Copy & Use",
-      description: "Copy the output with one click and use it wherever you need.",
-      icon: Copy
-    }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
 
       <ToolFeatureGuides features={[{
-      icon: Sparkles,
-      title: "Lightning Fast",
-      description: "Get results in milliseconds with our optimized client-side processing engine."
-    }, {
-      icon: Shield,
-      title: "Completely Private",
-      description: "All processing happens in your browser. Your data never leaves your device."
-    }, {
-      icon: Zap,
-      title: "No Signup Required",
-      description: "Use this tool instantly without creating an account or providing any personal information."
-    }]}>
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Social Media Image Resizer & Aspect Ratio Tool?</h3>
           <p>
@@ -523,17 +524,17 @@ export default function ImageResizerClient() {
       </ToolFeatureGuides>
 
       <ToolFaqAccordion faqs={[{
-      question: "Is this tool free to use?",
-      answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-    }, {
-      question: "Is my data secure?",
-      answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-    }, {
-      question: "Do I need to create an account?",
-      answer: "No account or registration is required. Simply open the tool and start using it immediately."
-    }]} />
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/image/image-resizer" max={6} />
 
-  </div>;
+  </div></div>;
 }

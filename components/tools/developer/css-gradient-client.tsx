@@ -1,7 +1,8 @@
 "use client";
-import { Button } from"@/components/ui/button";
-import { cn } from"@/lib/utils";
+import { ToolBackground } from"@/components/shared/tool-background";
 
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -65,8 +66,8 @@ export default function CssGradientClient() {
       background: `radial-gradient(circle, ${color1}, ${color2})`
     };
   }, [color1, color2, direction, type]);
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Layers} title="CSS Gradient Generator" description="Build beautiful linear and radial CSS gradients with a live preview and ready-to-copy code." />
 
@@ -137,39 +138,39 @@ export default function CssGradientClient() {
  </div>
 
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Pick Two Colors",
-      description: "Use the native pickers or type HEX values to define the start and end of your gradient.",
-      icon: Sparkles
-    }, {
-      step: "02",
-      title: "Choose Type & Direction",
-      description: "Switch between linear and radial, and pick a direction for linear gradients.",
-      icon: Move
-    }, {
-      step: "03",
-      title: "Copy the CSS",
-      description: "Copy the generated rule and paste it into your stylesheet or Tailwind arbitrary value.",
-      icon: Layers
-    }]} badges={["100% Free", "Client-Side", "No Signup"]} />
+        step: "01",
+        title: "Pick Two Colors",
+        description: "Use the native pickers or type HEX values to define the start and end of your gradient.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Choose Type & Direction",
+        description: "Switch between linear and radial, and pick a direction for linear gradients.",
+        icon: Move
+      }, {
+        step: "03",
+        title: "Copy the CSS",
+        description: "Copy the generated rule and paste it into your stylesheet or Tailwind arbitrary value.",
+        icon: Layers
+      }]} badges={["100% Free", "Client-Side", "No Signup"]} />
 
  <ToolFeatureGuides features={[{
-      icon: Layers,
-      title: "Linear & Radial",
-      description: "Supports both gradient types with full control over direction and shape."
-    }, {
-      icon: Eye,
-      title: "Live Preview",
-      description: "See exactly how your gradient will render before copying the code."
-    }, {
-      icon: Sparkles,
-      title: "Native Pickers",
-      description: "Uses the browser color picker for quick, intuitive color selection."
-    }, {
-      icon: Move,
-      title: "8 Directions",
-      description: "All standard linear gradient directions are available out of the box."
-    }]}>
+        icon: Layers,
+        title: "Linear & Radial",
+        description: "Supports both gradient types with full control over direction and shape."
+      }, {
+        icon: Eye,
+        title: "Live Preview",
+        description: "See exactly how your gradient will render before copying the code."
+      }, {
+        icon: Sparkles,
+        title: "Native Pickers",
+        description: "Uses the browser color picker for quick, intuitive color selection."
+      }, {
+        icon: Move,
+        title: "8 Directions",
+        description: "All standard linear gradient directions are available out of the box."
+      }]}>
  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
  <p>CSS gradients are one of the most efficient ways to add depth and visual interest to a user interface without loading any image assets. They are declared directly in your stylesheet, scale perfectly to any screen resolution, and typically cost the browser far less to render than a comparable PNG or SVG background.</p>
  <p>Linear gradients flow between two or more colors along a straight axis defined by a direction keyword like <code>to right</code> or <code>to bottom left</code>. You can also use angles (e.g., <code>45deg</code>) for more precise control. Radial gradients expand outward from a central point in a circle or ellipse, which is useful for spotlights, vignettes, and glowing effects.</p>
@@ -178,16 +179,16 @@ export default function CssGradientClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={[{
-      question: "Can I add more than two colors?",
-      answer: "This generator focuses on two-color gradients. To add more stops, simply insert extra color values between the two colors in the generated CSS, separated by commas."
-    }, {
-      question: "Do gradients work in all browsers?",
-      answer: "Yes. Linear and radial gradients are supported in all modern browsers including Chrome, Firefox, Safari, and Edge. No vendor prefixes are needed today."
-    }, {
-      question: "Can I use this with Tailwind?",
-      answer: "Yes. Paste the generated CSS into a custom utility, or use Tailwind's arbitrary value syntax like bg-[linear-gradient(to_right,#6366f1,#ec4899)]."
-    }]} />
+        question: "Can I add more than two colors?",
+        answer: "This generator focuses on two-color gradients. To add more stops, simply insert extra color values between the two colors in the generated CSS, separated by commas."
+      }, {
+        question: "Do gradients work in all browsers?",
+        answer: "Yes. Linear and radial gradients are supported in all modern browsers including Chrome, Firefox, Safari, and Edge. No vendor prefixes are needed today."
+      }, {
+        question: "Can I use this with Tailwind?",
+        answer: "Yes. Paste the generated CSS into a custom utility, or use Tailwind's arbitrary value syntax like bg-[linear-gradient(to_right,#6366f1,#ec4899)]."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/developer/css-gradient" max={6} />
- </div>;
+ </div></div>;
 }

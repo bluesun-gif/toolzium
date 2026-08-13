@@ -1,311 +1,246 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
-import {
- ActionButton,
- CopyButton,
- ExportCSVButton,
- ResetButton,
-} from"@/components/shared/action-buttons";
-import InputField from"@/components/shared/form-fields/input-field";
-import SelectField from"@/components/shared/form-fields/select-field";
-import SwitchRow from"@/components/shared/form-fields/switch-row";
-import TextareaField from"@/components/shared/form-fields/textarea-field";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import {
- Building2,
- Calendar,
- Copy,
- FileCheck2,
- FileText,
- Plus,
- Printer,
- RotateCcw,
- Trash2,
- ShieldCheck,
- DollarSign,
- FileSpreadsheet,
- Settings,
- Download,
- BookOpen,
- Shield,
- Receipt,
- Globe,
- Calculator,
- Building
-} from"lucide-react";
-import * as React from"react";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import { RelatedTools } from"@/components/shared/related-tools";
-
-import { Badge } from"@/components/ui/badge";
-import {
- CardContent,
- CardDescription,
- CardHeader,
- CardTitle,
-} from"@/components/ui/card";
-import { GlassCard } from"@/components/ui/glass-card";
-import { Label } from"@/components/ui/label";
-import { Separator } from"@/components/ui/separator";
-import { cn } from"@/lib/utils";
-import { GridPattern } from"@/components/magicui/grid-pattern";
+import { ActionButton, CopyButton, ExportCSVButton, ResetButton } from "@/components/shared/action-buttons";
+import InputField from "@/components/shared/form-fields/input-field";
+import SelectField from "@/components/shared/form-fields/select-field";
+import SwitchRow from "@/components/shared/form-fields/switch-row";
+import TextareaField from "@/components/shared/form-fields/textarea-field";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { Building2, Calendar, Copy, FileCheck2, FileText, Plus, Printer, RotateCcw, Trash2, ShieldCheck, DollarSign, FileSpreadsheet, Settings, Download, BookOpen, Shield, Receipt, Globe, Calculator, Building } from "lucide-react";
+import * as React from "react";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { Badge } from "@/components/ui/badge";
+import { CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { GlassCard } from "@/components/ui/glass-card";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
+import { GridPattern } from "@/components/magicui/grid-pattern";
 
 /* Types */
 type LineItem = {
- id: string;
- name: string;
- description?: string;
- qty: number;
- rate: number;
+  id: string;
+  name: string;
+  description?: string;
+  qty: number;
+  rate: number;
 };
-
 type Party = {
- name: string;
- email?: string;
- phone?: string;
- address?: string;
+  name: string;
+  email?: string;
+  phone?: string;
+  address?: string;
 };
-
 type InvoiceData = {
- invoiceNo: string;
- issueDate: string;
- dueDate: string;
- from: Party;
- to: Party;
- currency: string;
- currencyMode:"code"|"symbol";
- items: LineItem[];
- notes?: string;
- taxPercent: number;
- discountPercent: number;
- shipping: number;
- paid: boolean;
- amountPaid: number;
+  invoiceNo: string;
+  issueDate: string;
+  dueDate: string;
+  from: Party;
+  to: Party;
+  currency: string;
+  currencyMode: "code" | "symbol";
+  items: LineItem[];
+  notes?: string;
+  taxPercent: number;
+  discountPercent: number;
+  shipping: number;
+  paid: boolean;
+  amountPaid: number;
 };
 
 /* Helpers */
-function uid(prefix ="row") {
- return `${prefix}_${Math.random().toString(36).slice(2, 10)}`;
+function uid(prefix = "row") {
+  return `${prefix}_${Math.random().toString(36).slice(2, 10)}`;
 }
-
 function safeNum(n: unknown, fallback = 0): number {
- const v = typeof n ==="number"? n : Number(n);
- return Number.isFinite(v) ? v : fallback;
+  const v = typeof n === "number" ? n : Number(n);
+  return Number.isFinite(v) ? v : fallback;
 }
-
 function clamp(n: number, min: number, max: number) {
- return Math.min(max, Math.max(min, n));
+  return Math.min(max, Math.max(min, n));
 }
-
 function nextInvoiceNo() {
- return `INV-${new Date().getFullYear()}-${String(
- Math.floor(Math.random() * 9000) + 1000
- )}`;
+  return `INV-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 9000) + 1000)}`;
 }
-
-function fmtCurrency(
- amount: number,
- currency: string,
- mode:"code"|"symbol"
-) {
- const value = Number.isFinite(amount) ? amount : 0;
- if (mode ==="code") {
- try {
- return new Intl.NumberFormat(undefined, {
- style:"currency",
- currency,
- }).format(value);
- } catch {
- return `${currency} ${value.toFixed(2)}`;
- }
- }
- return `${currency}${value.toFixed(2)}`;
+function fmtCurrency(amount: number, currency: string, mode: "code" | "symbol") {
+  const value = Number.isFinite(amount) ? amount : 0;
+  if (mode === "code") {
+    try {
+      return new Intl.NumberFormat(undefined, {
+        style: "currency",
+        currency
+      }).format(value);
+    } catch {
+      return `${currency} ${value.toFixed(2)}`;
+    }
+  }
+  return `${currency}${value.toFixed(2)}`;
 }
-
-const DEFAULT_ITEMS: LineItem[] = [
- { id: uid(), name:"Product/Service", description:"", qty: 1, rate: 0 },
-];
-
+const DEFAULT_ITEMS: LineItem[] = [{
+  id: uid(),
+  name: "Product/Service",
+  description: "",
+  qty: 1,
+  rate: 0
+}];
 const DEFAULT_INVOICE: InvoiceData = {
- invoiceNo: nextInvoiceNo(),
- issueDate: new Date().toISOString().slice(0, 10),
- dueDate: new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10),
- from: { name:"Your Company", email:"", phone:"", address:""},
- to: { name:"Client Name", email:"", phone:"", address:""},
- currency:"BDT",
- currencyMode:"code",
- items: DEFAULT_ITEMS,
- notes:"Thank you for your business! Payment is due by the due date.",
- taxPercent: 0,
- discountPercent: 0,
- shipping: 0,
- paid: false,
- amountPaid: 0,
+  invoiceNo: nextInvoiceNo(),
+  issueDate: new Date().toISOString().slice(0, 10),
+  dueDate: new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10),
+  from: {
+    name: "Your Company",
+    email: "",
+    phone: "",
+    address: ""
+  },
+  to: {
+    name: "Client Name",
+    email: "",
+    phone: "",
+    address: ""
+  },
+  currency: "BDT",
+  currencyMode: "code",
+  items: DEFAULT_ITEMS,
+  notes: "Thank you for your business! Payment is due by the due date.",
+  taxPercent: 0,
+  discountPercent: 0,
+  shipping: 0,
+  paid: false,
+  amountPaid: 0
 };
-
 export default function SimpleInvoiceClient() {
- const [data, setData] = React.useState<InvoiceData>(DEFAULT_INVOICE);
+  const [data, setData] = React.useState<InvoiceData>(DEFAULT_INVOICE);
 
- // Restore & persist
- React.useEffect(() => {
- try {
- const saved = localStorage.getItem("tools:invoice");
- if (saved) setData(JSON.parse(saved) as InvoiceData);
- } catch {}
- }, []);
- React.useEffect(() => {
- try {
- localStorage.setItem("tools:invoice", JSON.stringify(data));
- } catch {}
- }, [data]);
+  // Restore & persist
+  React.useEffect(() => {
+    try {
+      const saved = localStorage.getItem("tools:invoice");
+      if (saved) setData(JSON.parse(saved) as InvoiceData);
+    } catch {}
+  }, []);
+  React.useEffect(() => {
+    try {
+      localStorage.setItem("tools:invoice", JSON.stringify(data));
+    } catch {}
+  }, [data]);
 
- // Derived totals
- const { subTotal, discountAmt, taxAmt, grandTotal, balanceDue } =
- React.useMemo(() => {
- const sub = data.items.reduce(
- (sum, it) => sum + safeNum(it.qty) * safeNum(it.rate),
- 0
- );
- const discPct = clamp(safeNum(data.discountPercent), 0, 100);
- const disc = (discPct / 100) * sub;
+  // Derived totals
+  const {
+    subTotal,
+    discountAmt,
+    taxAmt,
+    grandTotal,
+    balanceDue
+  } = React.useMemo(() => {
+    const sub = data.items.reduce((sum, it) => sum + safeNum(it.qty) * safeNum(it.rate), 0);
+    const discPct = clamp(safeNum(data.discountPercent), 0, 100);
+    const disc = discPct / 100 * sub;
+    const shipping = Math.max(0, safeNum(data.shipping));
+    const taxedBase = Math.max(0, sub - disc) + shipping;
+    const taxPct = clamp(safeNum(data.taxPercent), 0, 100);
+    const tax = taxPct / 100 * taxedBase;
+    const total = taxedBase + tax;
+    const paid = Math.max(0, safeNum(data.amountPaid));
+    const due = Math.max(0, total - paid);
+    return {
+      subTotal: sub,
+      discountAmt: disc,
+      taxAmt: tax,
+      grandTotal: total,
+      balanceDue: due
+    };
+  }, [data]);
 
- const shipping = Math.max(0, safeNum(data.shipping));
- const taxedBase = Math.max(0, sub - disc) + shipping;
+  /* Actions */
+  const resetAll = () => setData({
+    ...DEFAULT_INVOICE,
+    invoiceNo: nextInvoiceNo()
+  });
+  const addRow = () => setData(d => ({
+    ...d,
+    items: [...d.items, {
+      id: uid(),
+      name: "",
+      description: "",
+      qty: 1,
+      rate: 0
+    }]
+  }));
+  const cloneRow = (id: string) => setData(d => {
+    const it = d.items.find(r => r.id === id);
+    if (!it) return d;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const {
+      id: __,
+      ...rest
+    } = it;
+    return {
+      ...d,
+      items: [...d.items, {
+        ...rest,
+        id: uid(),
+        name: `${it.name} (copy)`
+      }]
+    };
+  });
+  const removeRow = (id: string) => setData(d => ({
+    ...d,
+    items: d.items.filter(r => r.id !== id)
+  }));
+  const updateRow = (id: string, patch: Partial<LineItem>) => setData(d => ({
+    ...d,
+    items: d.items.map(r => r.id === id ? {
+      ...r,
+      ...patch
+    } : r)
+  }));
+  const onPrint = () => window.print();
+  const CURRENCY_CODE_OPTIONS = [{
+    label: "BDT (৳)",
+    value: "BDT"
+  }, {
+    label: "USD ($)",
+    value: "USD"
+  }, {
+    label: "EUR (€)",
+    value: "EUR"
+  }, {
+    label: "INR (₹)",
+    value: "INR"
+  }, {
+    label: "GBP (£)",
+    value: "GBP"
+  }];
+  const CURRENCY_SYMBOL_PRESETS = [{
+    label: "৳ (BDT)",
+    value: "৳"
+  }, {
+    label: "$ (USD)",
+    value: "$"
+  }, {
+    label: "€ (EUR)",
+    value: "€"
+  }, {
+    label: "₹ (INR)",
+    value: "₹"
+  }, {
+    label: "£ (GBP)",
+    value: "£"
+  }];
+  const CSVRows: string[][] = [["Invoice No", data.invoiceNo], ["Issue Date", data.issueDate], ["Due Date", data.dueDate], ["Currency", `${data.currencyMode === "code" ? "Code" : "Symbol"}: ${data.currency}`], ["From", data.from.name], ["From Email", data.from.email || ""], ["From Phone", data.from.phone || ""], ["From Address", data.from.address || ""], ["To", data.to.name], ["To Email", data.to.email || ""], ["To Phone", data.to.phone || ""], ["To Address", data.to.address || ""], [""], ["Items:"], ["Name", "Description", "Qty", "Rate", "Amount"], ...data.items.map(it => [it.name || "", it.description || "", String(safeNum(it.qty)), String(safeNum(it.rate)), String(safeNum(it.qty) * safeNum(it.rate))]), [""], ["Subtotal", String(subTotal)], ["Discount %", String(data.discountPercent)], ["Discount Amount", String(discountAmt)], ["Shipping", String(data.shipping)], ["Tax %", String(data.taxPercent)], ["Tax Amount", String(taxAmt)], ["Grand Total", String(grandTotal)], ["Amount Paid", String(data.amountPaid)], ["Balance Due", String(balanceDue)]];
+  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+      
 
- const taxPct = clamp(safeNum(data.taxPercent), 0, 100);
- const tax = (taxPct / 100) * taxedBase;
-
- const total = taxedBase + tax;
-
- const paid = Math.max(0, safeNum(data.amountPaid));
- const due = Math.max(0, total - paid);
-
- return {
- subTotal: sub,
- discountAmt: disc,
- taxAmt: tax,
- grandTotal: total,
- balanceDue: due,
- };
- }, [data]);
-
- /* Actions */
- const resetAll = () =>
- setData({ ...DEFAULT_INVOICE, invoiceNo: nextInvoiceNo() });
-
- const addRow = () =>
- setData((d) => ({
- ...d,
- items: [
- ...d.items,
- { id: uid(), name:"", description:"", qty: 1, rate: 0 },
- ],
- }));
-
- const cloneRow = (id: string) =>
- setData((d) => {
- const it = d.items.find((r) => r.id === id);
- if (!it) return d;
- // eslint-disable-next-line @typescript-eslint/no-unused-vars
- const { id: __, ...rest } = it;
- return {
- ...d,
- items: [...d.items, { ...rest, id: uid(), name: `${it.name} (copy)` }],
- };
- });
-
- const removeRow = (id: string) =>
- setData((d) => ({ ...d, items: d.items.filter((r) => r.id !== id) }));
-
- const updateRow = (id: string, patch: Partial<LineItem>) =>
- setData((d) => ({
- ...d,
- items: d.items.map((r) => (r.id === id ? { ...r, ...patch } : r)),
- }));
-
- const onPrint = () => window.print();
-
- const CURRENCY_CODE_OPTIONS = [
- { label:"BDT (৳)", value:"BDT"},
- { label:"USD ($)", value:"USD"},
- { label:"EUR (€)", value:"EUR"},
- { label:"INR (₹)", value:"INR"},
- { label:"GBP (£)", value:"GBP"},
- ];
-
- const CURRENCY_SYMBOL_PRESETS = [
- { label:"৳ (BDT)", value:"৳"},
- { label:"$ (USD)", value:"$"},
- { label:"€ (EUR)", value:"€"},
- { label:"₹ (INR)", value:"₹"},
- { label:"£ (GBP)", value:"£"},
- ];
-
- const CSVRows: string[][] = [
- ["Invoice No", data.invoiceNo],
- ["Issue Date", data.issueDate],
- ["Due Date", data.dueDate],
- [
-"Currency",
- `${data.currencyMode ==="code"?"Code":"Symbol"}: ${data.currency}`,
- ],
- ["From", data.from.name],
- ["From Email", data.from.email ||""],
- ["From Phone", data.from.phone ||""],
- ["From Address", data.from.address ||""],
- ["To", data.to.name],
- ["To Email", data.to.email ||""],
- ["To Phone", data.to.phone ||""],
- ["To Address", data.to.address ||""],
- [""],
- ["Items:"],
- ["Name","Description","Qty","Rate","Amount"],
- ...data.items.map((it) => [
- it.name ||"",
- it.description ||"",
- String(safeNum(it.qty)),
- String(safeNum(it.rate)),
- String(safeNum(it.qty) * safeNum(it.rate)),
- ]),
- [""],
- ["Subtotal", String(subTotal)],
- ["Discount %", String(data.discountPercent)],
- ["Discount Amount", String(discountAmt)],
- ["Shipping", String(data.shipping)],
- ["Tax %", String(data.taxPercent)],
- ["Tax Amount", String(taxAmt)],
- ["Grand Total", String(grandTotal)],
- ["Amount Paid", String(data.amountPaid)],
- ["Balance Due", String(balanceDue)],
- ];
-
- return (
-      <div className="relative max-w-6xl mx-auto space-y-8">
-      <GridPattern />
-
- <ToolPageHeader
- icon={FileText}
- title="Simple Invoice"
- description="Create, print, and export a clean invoice fast."
- actions={
- <>
+ <ToolPageHeader icon={FileText} title="Simple Invoice" description="Create, print, and export a clean invoice fast." actions={<>
  <ResetButton onClick={resetAll} />
- <ExportCSVButton
- label="Export CSV"
- filename={`${data.invoiceNo}.csv`}
- getRows={() => CSVRows}
- />
- <ActionButton
- variant="default"
- icon={Printer}
- label="Print / PDF"
- onClick={onPrint}
- />
- </>
- }
- />
+ <ExportCSVButton label="Export CSV" filename={`${data.invoiceNo}.csv`} getRows={() => CSVRows} />
+ <ActionButton variant="default" icon={Printer} label="Print / PDF" onClick={onPrint} />
+ </>} />
 
  {/* Details */}
  <GlassCard>
@@ -319,208 +254,139 @@ export default function SimpleInvoiceClient() {
  {/* Meta */}
  <div className="space-y-4">
  <div className="flex items-end justify-between gap-2">
- <InputField
- label="Invoice No"
- value={data.invoiceNo}
- onChange={(e) =>
- setData({ ...data, invoiceNo: e.target.value })
- }
- className="w-full"
- />
- <ActionButton
- size="icon"
- icon={RotateCcw}
- onClick={() =>
- setData((d) => ({ ...d, invoiceNo: nextInvoiceNo() }))
- }
- />
+ <InputField label="Invoice No" value={data.invoiceNo} onChange={e => setData({
+                ...data,
+                invoiceNo: e.target.value
+              })} className="w-full" />
+ <ActionButton size="icon" icon={RotateCcw} onClick={() => setData(d => ({
+                ...d,
+                invoiceNo: nextInvoiceNo()
+              }))} />
  </div>
 
  <div className="grid grid-cols-2 gap-3">
- <InputField
- label="Issue Date"
- type="date"
- value={data.issueDate}
- onChange={(e) =>
- setData({ ...data, issueDate: e.target.value })
- }
- icon={Calendar}
- />
- <InputField
- label="Due Date"
- type="date"
- value={data.dueDate}
- onChange={(e) => setData({ ...data, dueDate: e.target.value })}
- icon={Calendar}
- />
+ <InputField label="Issue Date" type="date" value={data.issueDate} onChange={e => setData({
+                ...data,
+                issueDate: e.target.value
+              })} icon={Calendar} />
+ <InputField label="Due Date" type="date" value={data.dueDate} onChange={e => setData({
+                ...data,
+                dueDate: e.target.value
+              })} icon={Calendar} />
  </div>
 
  <div className="grid gap-3">
- <SelectField
- label="Currency Mode"
- value={data.currencyMode}
- onValueChange={(v) =>
- v &&
- setData((d) => ({
- ...d,
- currencyMode: v as"code"|"symbol",
- }))
- }
- options={[
- { label:"ISO Code (BDT/USD/EUR)", value:"code"},
- { label:"Symbol (৳/$/€/₹/£)", value:"symbol"},
- ]}
- />
- {data.currencyMode ==="code"? (
- <div className="grid grid-cols-[2fr_1fr] gap-2">
- <SelectField
- label="Currency Code"
- value={data.currency}
- onValueChange={(v) =>
- v &&
- setData((d) => ({
- ...d,
- currency: v.toString().toUpperCase(),
- }))
- }
- options={CURRENCY_CODE_OPTIONS}
- placeholder="Pick currency"
- />
- <InputField
- label="Custom"
- value={data.currency}
- onChange={(e) =>
- setData({
- ...data,
- currency: e.target.value.toUpperCase().slice(0, 3),
- })
- }
- placeholder="BDT"
- />
- </div>
- ) : (
- <div className="grid grid-cols-[2fr_1fr] gap-2">
- <SelectField
- label="Symbol"
- value={data.currency}
- onValueChange={(v) =>
- v && setData((d) => ({ ...d, currency: v.toString() }))
- }
- options={CURRENCY_SYMBOL_PRESETS}
- placeholder="Pick symbol"
- />
- <InputField
- label="Custom"
- value={data.currency}
- onChange={(e) =>
- setData({ ...data, currency: e.target.value.slice(0, 3) })
- }
- placeholder="৳"
- />
- </div>
- )}
+ <SelectField label="Currency Mode" value={data.currencyMode} onValueChange={v => v && setData(d => ({
+                ...d,
+                currencyMode: v as "code" | "symbol"
+              }))} options={[{
+                label: "ISO Code (BDT/USD/EUR)",
+                value: "code"
+              }, {
+                label: "Symbol (৳/$/€/₹/£)",
+                value: "symbol"
+              }]} />
+ {data.currencyMode === "code" ? <div className="grid grid-cols-[2fr_1fr] gap-2">
+ <SelectField label="Currency Code" value={data.currency} onValueChange={v => v && setData(d => ({
+                  ...d,
+                  currency: v.toString().toUpperCase()
+                }))} options={CURRENCY_CODE_OPTIONS} placeholder="Pick currency" />
+ <InputField label="Custom" value={data.currency} onChange={e => setData({
+                  ...data,
+                  currency: e.target.value.toUpperCase().slice(0, 3)
+                })} placeholder="BDT" />
+ </div> : <div className="grid grid-cols-[2fr_1fr] gap-2">
+ <SelectField label="Symbol" value={data.currency} onValueChange={v => v && setData(d => ({
+                  ...d,
+                  currency: v.toString()
+                }))} options={CURRENCY_SYMBOL_PRESETS} placeholder="Pick symbol" />
+ <InputField label="Custom" value={data.currency} onChange={e => setData({
+                  ...data,
+                  currency: e.target.value.slice(0, 3)
+                })} placeholder="৳" />
+ </div>}
  </div>
 
- <SwitchRow
- label="Mark as Paid"
- checked={data.paid}
- onCheckedChange={(v) => setData((d) => ({ ...d, paid: v }))}
- />
+ <SwitchRow label="Mark as Paid" checked={data.paid} onCheckedChange={v => setData(d => ({
+              ...d,
+              paid: v
+            }))} />
  </div>
 
  {/* From */}
  <div className="space-y-3">
  <div className="flex items-center gap-2">
- <Building2 className="h-4 w-4 text-muted-foreground"/>
+ <Building2 className="h-4 w-4 text-muted-foreground" />
  <span className="text-sm font-medium">From</span>
  </div>
- <InputField
- placeholder="Your Company"
- value={data.from.name}
- onChange={(e) =>
- setData({
- ...data,
- from: { ...data.from, name: e.target.value },
- })
- }
- />
- <InputField
- placeholder="Email"
- value={data.from.email ||""}
- onChange={(e) =>
- setData({
- ...data,
- from: { ...data.from, email: e.target.value },
- })
- }
- />
- <InputField
- placeholder="Phone"
- value={data.from.phone ||""}
- onChange={(e) =>
- setData({
- ...data,
- from: { ...data.from, phone: e.target.value },
- })
- }
- />
- <TextareaField
- placeholder="Address"
- value={data.from.address ||""}
- onValueChange={(v) =>
- setData({ ...data, from: { ...data.from, address: v } })
- }
- textareaClassName="min-h-[82px]"
- />
- <InputField
- label="Amount Paid"
- type="number"
- min={0}
- value={data.amountPaid}
- onChange={(e) =>
- setData({
- ...data,
- amountPaid: Math.max(0, Number(e.target.value) || 0),
- })
- }
- />
+ <InputField placeholder="Your Company" value={data.from.name} onChange={e => setData({
+              ...data,
+              from: {
+                ...data.from,
+                name: e.target.value
+              }
+            })} />
+ <InputField placeholder="Email" value={data.from.email || ""} onChange={e => setData({
+              ...data,
+              from: {
+                ...data.from,
+                email: e.target.value
+              }
+            })} />
+ <InputField placeholder="Phone" value={data.from.phone || ""} onChange={e => setData({
+              ...data,
+              from: {
+                ...data.from,
+                phone: e.target.value
+              }
+            })} />
+ <TextareaField placeholder="Address" value={data.from.address || ""} onValueChange={v => setData({
+              ...data,
+              from: {
+                ...data.from,
+                address: v
+              }
+            })} textareaClassName="min-h-[82px]" />
+ <InputField label="Amount Paid" type="number" min={0} value={data.amountPaid} onChange={e => setData({
+              ...data,
+              amountPaid: Math.max(0, Number(e.target.value) || 0)
+            })} />
  </div>
 
  {/* To */}
  <div className="space-y-3">
  <div className="flex items-center gap-2">
- <FileCheck2 className="h-4 w-4 text-muted-foreground"/>
+ <FileCheck2 className="h-4 w-4 text-muted-foreground" />
  <span className="text-sm font-medium">Bill To</span>
  </div>
- <InputField
- placeholder="Client Name"
- value={data.to.name}
- onChange={(e) =>
- setData({ ...data, to: { ...data.to, name: e.target.value } })
- }
- />
- <InputField
- placeholder="Email"
- value={data.to.email ||""}
- onChange={(e) =>
- setData({ ...data, to: { ...data.to, email: e.target.value } })
- }
- />
- <InputField
- placeholder="Phone"
- value={data.to.phone ||""}
- onChange={(e) =>
- setData({ ...data, to: { ...data.to, phone: e.target.value } })
- }
- />
- <TextareaField
- placeholder="Address"
- value={data.to.address ||""}
- onValueChange={(v) =>
- setData({ ...data, to: { ...data.to, address: v } })
- }
- textareaClassName="min-h-[150px]"
- />
+ <InputField placeholder="Client Name" value={data.to.name} onChange={e => setData({
+              ...data,
+              to: {
+                ...data.to,
+                name: e.target.value
+              }
+            })} />
+ <InputField placeholder="Email" value={data.to.email || ""} onChange={e => setData({
+              ...data,
+              to: {
+                ...data.to,
+                email: e.target.value
+              }
+            })} />
+ <InputField placeholder="Phone" value={data.to.phone || ""} onChange={e => setData({
+              ...data,
+              to: {
+                ...data.to,
+                phone: e.target.value
+              }
+            })} />
+ <TextareaField placeholder="Address" value={data.to.address || ""} onValueChange={v => setData({
+              ...data,
+              to: {
+                ...data.to,
+                address: v
+              }
+            })} textareaClassName="min-h-[150px]" />
  </div>
  </CardContent>
  </GlassCard>
@@ -542,61 +408,35 @@ export default function SimpleInvoiceClient() {
  <div className="col-span-1 text-right">Actions</div>
  </div>
 
- {data.items.map((it) => {
- const amount = safeNum(it.qty) * safeNum(it.rate);
- return (
- <div
- key={it.id}
- className="grid grid-cols-1 md:grid-cols-12 gap-2 border rounded-lg p-3"
- >
+ {data.items.map(it => {
+            const amount = safeNum(it.qty) * safeNum(it.rate);
+            return <div key={it.id} className="grid grid-cols-1 md:grid-cols-12 gap-2 border rounded-lg p-3">
  <div className="md:col-span-4 space-y-2">
  <Label className="md:hidden">Name</Label>
- <InputField
- value={it.name}
- onChange={(e) => updateRow(it.id, { name: e.target.value })}
- placeholder="Item name"
- />
+ <InputField value={it.name} onChange={e => updateRow(it.id, {
+                  name: e.target.value
+                })} placeholder="Item name" />
  </div>
 
  <div className="md:col-span-3 space-y-2">
  <Label className="md:hidden">Description</Label>
- <InputField
- value={it.description ||""}
- onChange={(e) =>
- updateRow(it.id, { description: e.target.value })
- }
- placeholder="Optional"
- />
+ <InputField value={it.description || ""} onChange={e => updateRow(it.id, {
+                  description: e.target.value
+                })} placeholder="Optional" />
  </div>
 
  <div className="md:col-span-2 space-y-2">
  <Label className="md:hidden">Qty</Label>
- <InputField
- type="number"
- inputMode="decimal"
- min={0}
- value={safeNum(it.qty)}
- onChange={(e) =>
- updateRow(it.id, {
- qty: Math.max(0, Number(e.target.value) || 0),
- })
- }
- />
+ <InputField type="number" inputMode="decimal" min={0} value={safeNum(it.qty)} onChange={e => updateRow(it.id, {
+                  qty: Math.max(0, Number(e.target.value) || 0)
+                })} />
  </div>
 
  <div className="md:col-span-2 space-y-2">
  <Label className="md:hidden">Rate</Label>
- <InputField
- type="number"
- inputMode="decimal"
- min={0}
- value={safeNum(it.rate)}
- onChange={(e) =>
- updateRow(it.id, {
- rate: Math.max(0, Number(e.target.value) || 0),
- })
- }
- />
+ <InputField type="number" inputMode="decimal" min={0} value={safeNum(it.rate)} onChange={e => updateRow(it.id, {
+                  rate: Math.max(0, Number(e.target.value) || 0)
+                })} />
  <p className="text-xs text-muted-foreground">
  Amount:{""}
  {fmtCurrency(amount, data.currency, data.currencyMode)}
@@ -604,26 +444,14 @@ export default function SimpleInvoiceClient() {
  </div>
 
  <div className="md:col-span-1 flex md:items-start gap-2">
- <ActionButton
- icon={Copy}
- size="icon"
- aria-label="Clone"
- onClick={() => cloneRow(it.id)}
- />
- <ActionButton
- icon={Trash2}
- size="icon"
- variant="destructive"
- aria-label="Remove"
- onClick={() => removeRow(it.id)}
- />
+ <ActionButton icon={Copy} size="icon" aria-label="Clone" onClick={() => cloneRow(it.id)} />
+ <ActionButton icon={Trash2} size="icon" variant="destructive" aria-label="Remove" onClick={() => removeRow(it.id)} />
  </div>
- </div>
- );
- })}
+ </div>;
+          })}
 
  <div className="flex justify-between">
- <ActionButton icon={Plus} label="Add Item"onClick={addRow} />
+ <ActionButton icon={Plus} label="Add Item" onClick={addRow} />
  <div className="text-sm text-muted-foreground hidden md:block pr-1">
  Subtotal:{""}
  {fmtCurrency(subTotal, data.currency, data.currencyMode)}
@@ -642,56 +470,26 @@ export default function SimpleInvoiceClient() {
  </CardHeader>
  <CardContent className="grid gap-6 lg:grid-cols-3">
  <div className="lg:col-span-2 space-y-3">
- <TextareaField
- label="Notes"
- value={data.notes ||""}
- onValueChange={(v) => setData({ ...data, notes: v })}
- placeholder="Optional notes, payment instructions, bank details, etc."
- textareaClassName="min-h-[320px]"
- />
+ <TextareaField label="Notes" value={data.notes || ""} onValueChange={v => setData({
+              ...data,
+              notes: v
+            })} placeholder="Optional notes, payment instructions, bank details, etc." textareaClassName="min-h-[320px]" />
  </div>
 
  <div className="space-y-3">
  <div className="grid grid-cols-2 gap-3">
- <InputField
- label="Discount %"
- type="number"
- min={0}
- max={100}
- value={safeNum(data.discountPercent)}
- onChange={(e) =>
- setData((d) => ({
- ...d,
- discountPercent: clamp(Number(e.target.value) || 0, 0, 100),
- }))
- }
- />
- <InputField
- label="Tax %"
- type="number"
- min={0}
- max={100}
- value={safeNum(data.taxPercent)}
- onChange={(e) =>
- setData((d) => ({
- ...d,
- taxPercent: clamp(Number(e.target.value) || 0, 0, 100),
- }))
- }
- />
- <InputField
- className="col-span-2"
- label="Shipping"
- type="number"
- min={0}
- value={safeNum(data.shipping)}
- onChange={(e) =>
- setData((d) => ({
- ...d,
- shipping: Math.max(0, Number(e.target.value) || 0),
- }))
- }
- />
+ <InputField label="Discount %" type="number" min={0} max={100} value={safeNum(data.discountPercent)} onChange={e => setData(d => ({
+                ...d,
+                discountPercent: clamp(Number(e.target.value) || 0, 0, 100)
+              }))} />
+ <InputField label="Tax %" type="number" min={0} max={100} value={safeNum(data.taxPercent)} onChange={e => setData(d => ({
+                ...d,
+                taxPercent: clamp(Number(e.target.value) || 0, 0, 100)
+              }))} />
+ <InputField className="col-span-2" label="Shipping" type="number" min={0} value={safeNum(data.shipping)} onChange={e => setData(d => ({
+                ...d,
+                shipping: Math.max(0, Number(e.target.value) || 0)
+              }))} />
  </div>
 
  <Separator />
@@ -712,11 +510,7 @@ export default function SimpleInvoiceClient() {
  <div className="flex justify-between">
  <span>Shipping</span>
  <span>
- {fmtCurrency(
- data.shipping || 0,
- data.currency,
- data.currencyMode
- )}
+ {fmtCurrency(data.shipping || 0, data.currency, data.currencyMode)}
  </span>
  </div>
  <div className="flex justify-between">
@@ -733,12 +527,7 @@ export default function SimpleInvoiceClient() {
  </span>
  </div>
 
- <div
- className={cn(
-"flex justify-between",
- data.paid ?"text-emerald-600":""
- )}
- >
+ <div className={cn("flex justify-between", data.paid ? "text-emerald-600" : "")}>
  <span>Balance Due</span>
  <span>
  {fmtCurrency(balanceDue, data.currency, data.currencyMode)}
@@ -747,16 +536,11 @@ export default function SimpleInvoiceClient() {
  </div>
 
  <div className="flex items-center justify-between">
- <Badge variant="secondary"className="w-fit">
+ <Badge variant="secondary" className="w-fit">
  All amounts in{""}
- {data.currencyMode ==="code"
- ? data.currency
- : `“${data.currency}”`}
+ {data.currencyMode === "code" ? data.currency : `“${data.currency}”`}
  </Badge>
- <CopyButton
- size="sm"
- getText={() => String(grandTotal.toFixed(2))}
- />
+ <CopyButton size="sm" getText={() => String(grandTotal.toFixed(2))} />
  </div>
  </div>
  </CardContent>
@@ -795,32 +579,20 @@ export default function SimpleInvoiceClient() {
  <div>
  <div className="text-xs text-muted-foreground">From</div>
  <div className="font-medium">{data.from.name}</div>
- {data.from.address && (
- <div className="text-sm whitespace-pre-wrap">
+ {data.from.address && <div className="text-sm whitespace-pre-wrap">
  {data.from.address}
- </div>
- )}
- {data.from.email && (
- <div className="text-sm">{data.from.email}</div>
- )}
- {data.from.phone && (
- <div className="text-sm">{data.from.phone}</div>
- )}
+ </div>}
+ {data.from.email && <div className="text-sm">{data.from.email}</div>}
+ {data.from.phone && <div className="text-sm">{data.from.phone}</div>}
  </div>
  <div>
  <div className="text-xs text-muted-foreground">Bill To</div>
  <div className="font-medium">{data.to.name}</div>
- {data.to.address && (
- <div className="text-sm whitespace-pre-wrap">
+ {data.to.address && <div className="text-sm whitespace-pre-wrap">
  {data.to.address}
- </div>
- )}
- {data.to.email && (
- <div className="text-sm">{data.to.email}</div>
- )}
- {data.to.phone && (
- <div className="text-sm">{data.to.phone}</div>
- )}
+ </div>}
+ {data.to.email && <div className="text-sm">{data.to.email}</div>}
+ {data.to.phone && <div className="text-sm">{data.to.phone}</div>}
  </div>
  </div>
 
@@ -836,29 +608,19 @@ export default function SimpleInvoiceClient() {
  </tr>
  </thead>
  <tbody>
- {data.items.map((it) => (
- <tr key={it.id} className="border-b last:border-0">
- <td className="py-2">{it.name ||"-"}</td>
+ {data.items.map(it => <tr key={it.id} className="border-b last:border-0">
+ <td className="py-2">{it.name || "-"}</td>
  <td className="py-2 text-muted-foreground">
- {it.description ||"-"}
+ {it.description || "-"}
  </td>
  <td className="py-2 text-right">{safeNum(it.qty)}</td>
  <td className="py-2 text-right">
- {fmtCurrency(
- safeNum(it.rate),
- data.currency,
- data.currencyMode
- )}
+ {fmtCurrency(safeNum(it.rate), data.currency, data.currencyMode)}
  </td>
  <td className="py-2 text-right">
- {fmtCurrency(
- safeNum(it.qty) * safeNum(it.rate),
- data.currency,
- data.currencyMode
- )}
+ {fmtCurrency(safeNum(it.qty) * safeNum(it.rate), data.currency, data.currencyMode)}
  </td>
- </tr>
- ))}
+ </tr>)}
  </tbody>
  </table>
  </div>
@@ -883,11 +645,7 @@ export default function SimpleInvoiceClient() {
  <div className="flex justify-between">
  <span className="text-muted-foreground">Shipping</span>
  <span>
- {fmtCurrency(
- data.shipping || 0,
- data.currency,
- data.currencyMode
- )}
+ {fmtCurrency(data.shipping || 0, data.currency, data.currencyMode)}
  </span>
  </div>
  <div className="flex justify-between">
@@ -907,19 +665,10 @@ export default function SimpleInvoiceClient() {
  <div className="flex justify-between">
  <span className="text-muted-foreground">Amount Paid</span>
  <span>
- {fmtCurrency(
- data.amountPaid || 0,
- data.currency,
- data.currencyMode
- )}
+ {fmtCurrency(data.amountPaid || 0, data.currency, data.currencyMode)}
  </span>
  </div>
- <div
- className={cn(
-"flex justify-between",
- data.paid ?"text-emerald-600":""
- )}
- >
+ <div className={cn("flex justify-between", data.paid ? "text-emerald-600" : "")}>
  <span>Balance Due</span>
  <span>
  {fmtCurrency(balanceDue, data.currency, data.currencyMode)}
@@ -928,12 +677,10 @@ export default function SimpleInvoiceClient() {
  </div>
  </div>
 
- {data.notes && (
- <div className="mt-6">
+ {data.notes && <div className="mt-6">
  <div className="text-xs text-muted-foreground mb-1">Notes</div>
  <div className="text-sm whitespace-pre-wrap">{data.notes}</div>
- </div>
- )}
+ </div>}
 
  <div className="mt-8 text-center text-xs text-muted-foreground">
  Generated with Toolzium — Simple Invoice
@@ -943,69 +690,49 @@ export default function SimpleInvoiceClient() {
  </GlassCard>
 
  {/* SECTION 3: HOW IT WORKS */}
- <ToolHowItWorks
- steps={[
- {
- step:"01",
- title:"Enter Business & Client Details",
- description:"Fill in your business name, address, and logo, then add your client's details. Set invoice number, date, due date, and payment terms.",
- icon: Building,
- },
- {
- step:"02",
- title:"Add Line Items",
- description:"Add services or products with description, quantity, unit price, and optional tax rate. The subtotal, tax, and total calculate automatically.",
- icon: Calculator,
- },
- {
- step:"03",
- title:"Download as PDF",
- description:"Generate a professional PDF invoice instantly. No watermarks, no account required. Download, print, or email directly to your client.",
- icon: Download,
- },
- ]}
- badges={[
-"PDF download",
-"No signup needed",
-"Professional format",
- ]}
- />
+ <ToolHowItWorks steps={[{
+        step: "01",
+        title: "Enter Business & Client Details",
+        description: "Fill in your business name, address, and logo, then add your client's details. Set invoice number, date, due date, and payment terms.",
+        icon: Building
+      }, {
+        step: "02",
+        title: "Add Line Items",
+        description: "Add services or products with description, quantity, unit price, and optional tax rate. The subtotal, tax, and total calculate automatically.",
+        icon: Calculator
+      }, {
+        step: "03",
+        title: "Download as PDF",
+        description: "Generate a professional PDF invoice instantly. No watermarks, no account required. Download, print, or email directly to your client.",
+        icon: Download
+      }]} badges={["PDF download", "No signup needed", "Professional format"]} />
 
  {/* SECTION 4: FEATURE GUIDES */}
- <ToolFeatureGuides
- features={[
- {
- icon: FileText,
- title:"Professional Invoice Format",
- description:"Generates invoices in a clean, professional format accepted by businesses worldwide. Includes all required fields: invoice number, dates, itemized list, taxes, and totals.",
- },
- {
- icon: Calculator,
- title:"Automatic Tax Calculation",
- description:"Set a tax rate (VAT, GST, sales tax) per line item or globally. Subtotal, tax amount, and grand total are calculated automatically and shown clearly.",
- },
- {
- icon: Download,
- title:"Instant PDF Export",
- description:"Download a print-ready PDF with one click. No watermarks, no premium plan needed. The PDF is generated client-side — your data never touches a server.",
- },
- {
- icon: DollarSign,
- title:"Multi-Currency Support",
- description:"Select your currency (USD, EUR, GBP, BDT, INR, AUD, CAD, and more) for correct symbol display throughout the invoice.",
- },
- {
- icon: Receipt,
- title:"Payment Terms & Notes",
- description:"Add payment terms (Net 30, Net 60, Due on Receipt), bank account details, and custom notes or thank-you messages at the bottom of the invoice.",
- },
- {
- icon: Shield,
- title:"Private — No Data Stored",
- description:"Invoice data is processed entirely in your browser. Nothing is saved to any server or database — your client details and pricing remain completely private.",
- },
- ]}
- >
+ <ToolFeatureGuides features={[{
+        icon: FileText,
+        title: "Professional Invoice Format",
+        description: "Generates invoices in a clean, professional format accepted by businesses worldwide. Includes all required fields: invoice number, dates, itemized list, taxes, and totals."
+      }, {
+        icon: Calculator,
+        title: "Automatic Tax Calculation",
+        description: "Set a tax rate (VAT, GST, sales tax) per line item or globally. Subtotal, tax amount, and grand total are calculated automatically and shown clearly."
+      }, {
+        icon: Download,
+        title: "Instant PDF Export",
+        description: "Download a print-ready PDF with one click. No watermarks, no premium plan needed. The PDF is generated client-side — your data never touches a server."
+      }, {
+        icon: DollarSign,
+        title: "Multi-Currency Support",
+        description: "Select your currency (USD, EUR, GBP, BDT, INR, AUD, CAD, and more) for correct symbol display throughout the invoice."
+      }, {
+        icon: Receipt,
+        title: "Payment Terms & Notes",
+        description: "Add payment terms (Net 30, Net 60, Due on Receipt), bank account details, and custom notes or thank-you messages at the bottom of the invoice."
+      }, {
+        icon: Shield,
+        title: "Private — No Data Stored",
+        description: "Invoice data is processed entirely in your browser. Nothing is saved to any server or database — your client details and pricing remain completely private."
+      }]}>
  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
  <h3 className="text-lg font-semibold">Invoice Guide — What Every Professional Invoice Must Include</h3>
  <p>
@@ -1026,26 +753,11 @@ export default function SimpleInvoiceClient() {
  </tr>
  </thead>
  <tbody>
- {[
- ["Invoice number","Yes","Sequential; used for tracking and accounting"],
- ["Invoice date","Yes","Date the invoice was issued"],
- ["Due date","Yes","When payment is expected (e.g., Net 30)"],
- ["Seller name & address","Yes","Your business details"],
- ["Client name & address","Yes","Bill-to details"],
- ["Line items with description","Yes","What was delivered/performed"],
- ["Quantity & unit price","Yes","Per item pricing"],
- ["Subtotal","Yes","Before tax"],
- ["Tax rate & amount","If applicable","VAT/GST number if VAT-registered"],
- ["Total amount due","Yes","The final amount to be paid"],
- ["Payment instructions","Recommended","Bank details, PayPal, Stripe link"],
- ["Terms & conditions","Recommended","Late payment fees, ownership terms"],
- ].map(([field, req, notes]) => (
- <tr key={field} className="odd:bg-muted/20">
+ {[["Invoice number", "Yes", "Sequential; used for tracking and accounting"], ["Invoice date", "Yes", "Date the invoice was issued"], ["Due date", "Yes", "When payment is expected (e.g., Net 30)"], ["Seller name & address", "Yes", "Your business details"], ["Client name & address", "Yes", "Bill-to details"], ["Line items with description", "Yes", "What was delivered/performed"], ["Quantity & unit price", "Yes", "Per item pricing"], ["Subtotal", "Yes", "Before tax"], ["Tax rate & amount", "If applicable", "VAT/GST number if VAT-registered"], ["Total amount due", "Yes", "The final amount to be paid"], ["Payment instructions", "Recommended", "Bank details, PayPal, Stripe link"], ["Terms & conditions", "Recommended", "Late payment fees, ownership terms"]].map(([field, req, notes]) => <tr key={field} className="odd:bg-muted/20">
  <td className="border p-2 font-medium text-xs">{field}</td>
  <td className="border p-2 text-xs">{req}</td>
  <td className="border p-2 text-muted-foreground text-xs">{notes}</td>
- </tr>
- ))}
+ </tr>)}
  </tbody>
  </table>
  </div>
@@ -1061,20 +773,11 @@ export default function SimpleInvoiceClient() {
  </tr>
  </thead>
  <tbody>
- {[
- ["Due on Receipt","Pay immediately upon receiving invoice","Small freelance jobs, new clients"],
- ["Net 7","Payment due within 7 days","Short-term project deliveries"],
- ["Net 15","Payment due within 15 days","Regular clients, smaller amounts"],
- ["Net 30","Payment due within 30 days","Standard B2B invoicing"],
- ["Net 60","Payment due within 60 days","Large enterprise clients"],
- ["2/10 Net 30","2% discount if paid within 10 days, else Net 30","Incentivizing early payment"],
- ].map(([term, meaning, best]) => (
- <tr key={term} className="odd:bg-muted/20">
+ {[["Due on Receipt", "Pay immediately upon receiving invoice", "Small freelance jobs, new clients"], ["Net 7", "Payment due within 7 days", "Short-term project deliveries"], ["Net 15", "Payment due within 15 days", "Regular clients, smaller amounts"], ["Net 30", "Payment due within 30 days", "Standard B2B invoicing"], ["Net 60", "Payment due within 60 days", "Large enterprise clients"], ["2/10 Net 30", "2% discount if paid within 10 days, else Net 30", "Incentivizing early payment"]].map(([term, meaning, best]) => <tr key={term} className="odd:bg-muted/20">
  <td className="border p-2 font-mono text-primary text-xs">{term}</td>
  <td className="border p-2 text-xs">{meaning}</td>
  <td className="border p-2 text-muted-foreground text-xs">{best}</td>
- </tr>
- ))}
+ </tr>)}
  </tbody>
  </table>
  </div>
@@ -1082,31 +785,22 @@ export default function SimpleInvoiceClient() {
  </ToolFeatureGuides>
 
  {/* SECTION 5: FAQ + RELATED TOOLS */}
- <ToolFaqAccordion
- faqs={[
- {
- question:"Is this invoice generator free?",
- answer:"Yes, completely free. There is no signup, no account, no watermarks, and no limits. Generate as many professional PDF invoices as you need.",
- },
- {
- question:"What should I include on a professional invoice?",
- answer:"A complete invoice should include: your business name and address, client name and address, unique invoice number, invoice date, due date, itemized list of services/products, subtotal, tax amount and rate, total due, and payment instructions. Optional but recommended: your VAT/tax registration number and late payment terms.",
- },
- {
- question:"What are Net 30 payment terms?",
- answer:"Net 30 means the client has 30 days from the invoice date to make payment. Net 15 gives 15 days, Net 60 gives 60 days. 'Due on Receipt' means immediate payment is expected. For freelancers, Net 15 or Due on Receipt is common for project deliverables; Net 30 is standard for B2B recurring services.",
- },
- {
- question:"Do I need to include tax on my invoice?",
- answer:"It depends on your jurisdiction and registration status. If you're VAT/GST registered, you must charge and show VAT on applicable invoices, including your VAT number. If you're under the VAT registration threshold, you don't charge VAT. Consult a local accountant to understand your specific obligations.",
- },
- {
- question:"Is my invoice data saved or stored?",
- answer:"No. All invoice generation runs in your browser. Your business details, client information, and pricing data are never sent to any server or stored in any database. Each session is completely private.",
- },
- ]}
- />
+ <ToolFaqAccordion faqs={[{
+        question: "Is this invoice generator free?",
+        answer: "Yes, completely free. There is no signup, no account, no watermarks, and no limits. Generate as many professional PDF invoices as you need."
+      }, {
+        question: "What should I include on a professional invoice?",
+        answer: "A complete invoice should include: your business name and address, client name and address, unique invoice number, invoice date, due date, itemized list of services/products, subtotal, tax amount and rate, total due, and payment instructions. Optional but recommended: your VAT/tax registration number and late payment terms."
+      }, {
+        question: "What are Net 30 payment terms?",
+        answer: "Net 30 means the client has 30 days from the invoice date to make payment. Net 15 gives 15 days, Net 60 gives 60 days. 'Due on Receipt' means immediate payment is expected. For freelancers, Net 15 or Due on Receipt is common for project deliverables; Net 30 is standard for B2B recurring services."
+      }, {
+        question: "Do I need to include tax on my invoice?",
+        answer: "It depends on your jurisdiction and registration status. If you're VAT/GST registered, you must charge and show VAT on applicable invoices, including your VAT number. If you're under the VAT registration threshold, you don't charge VAT. Consult a local accountant to understand your specific obligations."
+      }, {
+        question: "Is my invoice data saved or stored?",
+        answer: "No. All invoice generation runs in your browser. Your business details, client information, and pricing data are never sent to any server or stored in any database. Each session is completely private."
+      }]} />
  <RelatedTools currentToolUrl="/tools/office/invoice" max={6} />
- </div>
- );
+ </div></div>;
 }

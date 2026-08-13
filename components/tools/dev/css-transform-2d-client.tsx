@@ -1,6 +1,7 @@
 "use client";
-import { cn } from"@/lib/utils";
+import { ToolBackground } from"@/components/shared/tool-background";
 
+import { cn } from "@/lib/utils";
 import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -104,8 +105,8 @@ export function CssTransform2dClient() {
     question: "Are 2D transforms hardware accelerated?",
     answer: "Yes, modern browsers offload translate, scale, and rotate operations to the GPU compositor, ensuring buttery smooth 60fps animations without triggering expensive layout recalculations."
   }];
-  return <div className="relative max-w-6xl mx-auto space-y-8">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Move} title="CSS Transform 2D Generator" description="Visually build CSS 2D transforms with translate, rotate, scale, and skew controls, complete with origin mapping and live preview." />
 
@@ -151,9 +152,9 @@ export function CssTransform2dClient() {
  <Label className="text-xs font-bold">Transform Origin ({originX}% {originY}%)</Label>
  <div className="grid grid-cols-3 gap-1 w-24 h-24 mx-auto bg-muted/30 p-1 rounded-lg">
  {[0, 50, 100].map(y => [0, 50, 100].map(x => <Button key={`${x}-${y}`} className={cn(`rounded-full border ${originX === x && originY === y ? 'bg-primary border-primary' : 'bg-background border-border'}`)} onClick={() => {
-                setOriginX(x);
-                setOriginY(y);
-              }} />))}
+                  setOriginX(x);
+                  setOriginY(y);
+                }} />))}
  </div>
  </div>
  <div className="flex gap-2 pt-4">
@@ -171,11 +172,11 @@ export function CssTransform2dClient() {
  </CardHeader>
  <CardContent className="p-8 flex-1 flex items-center justify-center relative bg-[linear-gradient(45deg,_#f0f0f0_25%,_transparent_25%),_linear-gradient(-45deg,_#f0f0f0_25%,_transparent_25%),_linear-gradient(45deg,_transparent_75%,_#f0f0f0_75%),_linear-gradient(-45deg,_transparent_75%,_#f0f0f0_75%)] bg-[length:20px_20px] bg-[position:0_0,_0_10px,_10px_-10px,_-10px_0px] dark:bg-[linear-gradient(45deg,_#333_25%,_transparent_25%),_linear-gradient(-45deg,_#333_25%,_transparent_25%),_linear-gradient(45deg,_transparent_75%,_#333_75%),_linear-gradient(-45deg,_transparent_75%,_#333_75%)] bg-[length:20px_20px] bg-[position:0_0,_0_10px,_10px_-10px,_-10px_0px]">
  <div className="absolute w-32 h-32 border-2 border-dashed border-primary/30 rounded-xl" />
- <div className="w-32 h-32 bg-primary rounded-xl shadow-2xl transition-all ease-out flex items-center justify-center text-white font-bold" style={{
-            transform: `translate(${tx}px, ${ty}px) rotate(${rotate}deg) scale(${sx}, ${sy}) skew(${skewX}deg, ${skewY}deg)`,
-            transformOrigin: `${originX}% ${originY}%`,
-            transitionDuration: `${transDuration}s`
-          }}>
+ <div className="w-32 h-32 bg-primary rounded-xl shadow-2xl transition-all ease-out flex items-center justify-center text-primary-foreground font-bold" style={{
+              transform: `translate(${tx}px, ${ty}px) rotate(${rotate}deg) scale(${sx}, ${sy}) skew(${skewX}deg, ${skewY}deg)`,
+              transformOrigin: `${originX}% ${originY}%`,
+              transitionDuration: `${transDuration}s`
+            }}>
  BOX
  </div>
  </CardContent>
@@ -211,6 +212,6 @@ export function CssTransform2dClient() {
 
  <ToolFaqAccordion faqs={faqs} />
  <RelatedTools currentToolUrl="/tools/dev/css-transform-2d" />
- </div>;
+ </div></div>;
 }
 export default CssTransform2dClient;

@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -75,13 +76,13 @@ export function PackingWeightClient() {
     });
     return totals;
   }, [items, isKg]);
-  return <div className="relative space-y-6">
-      <GridPattern />
+  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Scale} title="Packing Weight Calculator" description="Estimate your luggage weight, organize items by category, and avoid overweight baggage fees." actions={<ResetButton onClick={() => {
-      setItems([]);
-      setLimit(isKg ? 23 : Math.round(23 * LB_IN_KG));
-    }} label="Reset List" />} />
+        setItems([]);
+        setLimit(isKg ? 23 : Math.round(23 * LB_IN_KG));
+      }} label="Reset List" />} />
 
  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
  <div className="lg:col-span-2 space-y-6">
@@ -159,9 +160,9 @@ export function PackingWeightClient() {
  <div className="flex items-center gap-2">
  <span className={cn("text-sm", !isKg && "font-semibold")}>lb</span>
  <Switch checked={isKg} onCheckedChange={c => {
-                  setIsKg(c);
-                  setLimit(c ? Math.round(limit / LB_IN_KG) : Math.round(limit * LB_IN_KG));
-                }} />
+                    setIsKg(c);
+                    setLimit(c ? Math.round(limit / LB_IN_KG) : Math.round(limit * LB_IN_KG));
+                  }} />
  <span className={cn("text-sm", isKg && "font-semibold")}>kg</span>
  </div>
  </div>
@@ -193,8 +194,8 @@ export function PackingWeightClient() {
  </div>
  <div className="h-4 bg-muted rounded-full overflow-hidden">
  <div className={cn("h-full transition-all", isOverLimit ? "bg-destructive" : "bg-primary")} style={{
-                  width: `${percentage}%`
-                }} />
+                    width: `${percentage}%`
+                  }} />
  </div>
  </div>
 
@@ -208,35 +209,35 @@ export function PackingWeightClient() {
  </div>
  
       <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Input Your Data",
-      description: "Enter your information in the input field above and configure any options.",
-      icon: Sparkles
-    }, {
-      step: "02",
-      title: "Process & Generate",
-      description: "The tool processes your input instantly and displays the results.",
-      icon: Zap
-    }, {
-      step: "03",
-      title: "Copy & Use",
-      description: "Copy the output with one click and use it wherever you need.",
-      icon: Copy
-    }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
 
       <ToolFeatureGuides features={[{
-      icon: Sparkles,
-      title: "Lightning Fast",
-      description: "Get results in milliseconds with our optimized client-side processing engine."
-    }, {
-      icon: Shield,
-      title: "Completely Private",
-      description: "All processing happens in your browser. Your data never leaves your device."
-    }, {
-      icon: Zap,
-      title: "No Signup Required",
-      description: "Use this tool instantly without creating an account or providing any personal information."
-    }]}>
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Packing Weight Calculator?</h3>
           <p>
@@ -253,17 +254,17 @@ export function PackingWeightClient() {
       </ToolFeatureGuides>
 
       <ToolFaqAccordion faqs={[{
-      question: "Is this tool free to use?",
-      answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-    }, {
-      question: "Is my data secure?",
-      answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-    }, {
-      question: "Do I need to create an account?",
-      answer: "No account or registration is required. Simply open the tool and start using it immediately."
-    }]} />
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/travel/packing-weight" max={6} />
 
-  </div>;
+  </div></div>;
 }

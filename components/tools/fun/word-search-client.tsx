@@ -1,6 +1,7 @@
 "use client";
-import { cn } from"@/lib/utils";
+import { ToolBackground } from"@/components/shared/tool-background";
 
+import { cn } from "@/lib/utils";
 import React, { useState, useEffect, useCallback } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -122,8 +123,8 @@ export default function WordSearchClient() {
       setSelectedCells(new Set());
     }
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Search} title="Word Search Generator" description="Generate custom word search puzzles and find the hidden words in the grid." />
 
@@ -145,16 +146,16 @@ export default function WordSearchClient() {
  <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-8">
  <div className="flex flex-col items-center">
  <div className="grid gap-1" style={{
-              gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))`
-            }}>
+                gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))`
+              }}>
  {grid.map((row, r) => row.map((char, c) => {
-                const cellId = `${r},${c}`;
-                const isSelected = selectedCells.has(cellId);
-                const isFound = Array.from(foundWords).some(w => placements.find(p => p.word === w)?.cells.includes(cellId));
-                return <Button key={cellId} onClick={() => toggleCell(r, c)} className={cn(`w-7 h-7 sm:w-9 sm:h-9 flex items-center justify-center font-bold text-sm sm:text-base rounded transition-all border ${isFound ? "bg-green-500/20 border-green-500 text-green-700 dark:text-green-400" : isSelected ? "bg-primary text-primary-foreground border-primary" : "bg-background border-border/50 hover:bg-muted"}`)}>
+                  const cellId = `${r},${c}`;
+                  const isSelected = selectedCells.has(cellId);
+                  const isFound = Array.from(foundWords).some(w => placements.find(p => p.word === w)?.cells.includes(cellId));
+                  return <Button key={cellId} onClick={() => toggleCell(r, c)} className={cn(`w-7 h-7 sm:w-9 sm:h-9 flex items-center justify-center font-bold text-sm sm:text-base rounded transition-all border ${isFound ? "bg-green-500/20 border-green-500 text-green-700 dark:text-green-400" : isSelected ? "bg-primary text-primary-foreground border-primary" : "bg-background border-border/50 hover:bg-muted"}`)}>
  {char}
  </Button>;
-              }))}
+                }))}
  </div>
  <Button onClick={checkSelection} className="mt-6 w-full max-w-xs gap-2">
  <CheckCircle2 className="w-4 h-4" /> Check Selection
@@ -174,39 +175,39 @@ export default function WordSearchClient() {
  </GlassCard>
 
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Pick a Theme",
-      description: "Choose Animals, Fruits, or Colors to generate your custom puzzle.",
-      icon: Grid3X3
-    }, {
-      step: "02",
-      title: "Select Letters",
-      description: "Click and highlight the cells in the grid that spell a hidden word.",
-      icon: Search
-    }, {
-      step: "03",
-      title: "Verify & Win",
-      description: "Hit 'Check Selection' to mark the word as found and clear the board.",
-      icon: CheckCircle2
-    }]} badges={["100% Free", "Client-Side", "Fun"]} />
+        step: "01",
+        title: "Pick a Theme",
+        description: "Choose Animals, Fruits, or Colors to generate your custom puzzle.",
+        icon: Grid3X3
+      }, {
+        step: "02",
+        title: "Select Letters",
+        description: "Click and highlight the cells in the grid that spell a hidden word.",
+        icon: Search
+      }, {
+        step: "03",
+        title: "Verify & Win",
+        description: "Hit 'Check Selection' to mark the word as found and clear the board.",
+        icon: CheckCircle2
+      }]} badges={["100% Free", "Client-Side", "Fun"]} />
 
  <ToolFeatureGuides features={[{
-      icon: Search,
-      title: "Dynamic Generation",
-      description: "Every time you switch themes or click reset, a brand new puzzle is created."
-    }, {
-      icon: Grid3X3,
-      title: "Multiple Themes",
-      description: "Choose from Animals, Fruits, or Colors to tailor the vocabulary."
-    }, {
-      icon: CheckCircle2,
-      title: "Smart Validation",
-      description: "The game checks your selected cells against all hidden word coordinates."
-    }, {
-      icon: RotateCcw,
-      title: "Endless Replay",
-      description: "Generate infinite variations of puzzles for continuous brain training."
-    }]}>
+        icon: Search,
+        title: "Dynamic Generation",
+        description: "Every time you switch themes or click reset, a brand new puzzle is created."
+      }, {
+        icon: Grid3X3,
+        title: "Multiple Themes",
+        description: "Choose from Animals, Fruits, or Colors to tailor the vocabulary."
+      }, {
+        icon: CheckCircle2,
+        title: "Smart Validation",
+        description: "The game checks your selected cells against all hidden word coordinates."
+      }, {
+        icon: RotateCcw,
+        title: "Endless Replay",
+        description: "Generate infinite variations of puzzles for continuous brain training."
+      }]}>
  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
  <p>Word searches are a beloved puzzle that combines visual scanning with vocabulary recall. They require you to disengage from the chaotic background noise of random letters and focus on specific sequential patterns.</p>
  <p>Our generator creates puzzles algorithmically, placing words horizontally and vertically, then filling the void with random letters. This ensures a perfectly balanced difficulty level every time you play.</p>
@@ -215,16 +216,16 @@ export default function WordSearchClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={[{
-      question: "How do I highlight a word?",
-      answer: "Click on each individual letter cell that makes up the word to highlight it, then click the 'Check Selection' button to verify."
-    }, {
-      question: "Are words placed diagonally?",
-      answer: "To ensure a smooth digital experience, words are currently placed only horizontally and vertically."
-    }, {
-      question: "Can I generate a new puzzle with the same theme?",
-      answer: "Yes! Simply click the 'New Grid' button to reshuffle the words and random letters for the current theme."
-    }]} />
+        question: "How do I highlight a word?",
+        answer: "Click on each individual letter cell that makes up the word to highlight it, then click the 'Check Selection' button to verify."
+      }, {
+        question: "Are words placed diagonally?",
+        answer: "To ensure a smooth digital experience, words are currently placed only horizontally and vertically."
+      }, {
+        question: "Can I generate a new puzzle with the same theme?",
+        answer: "Yes! Simply click the 'New Grid' button to reshuffle the words and random letters for the current theme."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/fun/word-search" max={6} />
- </div>;
+ </div></div>;
 }

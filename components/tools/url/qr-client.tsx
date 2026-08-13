@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
@@ -151,8 +152,8 @@ export function QrClient() {
     navigator.clipboard.writeText(payload);
     toast.success("Payload copied to clipboard!");
   };
-  return <div className="w-full min-h-screen pb-20 relative">
-      <GridPattern />
+  return <div className="w-full min-h-screen pb-20 relative"><ToolBackground /><div className="relative z-10">
+      
 
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader icon={QrCode} title="High-Resolution QR Code Studio" description="Create scannable, high-contrast QR codes for website URLs, Wi-Fi credentials, digital vCard contact cards, emails, and phone numbers." />
@@ -174,22 +175,22 @@ export function QrClient() {
             <div className="space-y-4 flex-1">
               {/* Type Selectors */}
               <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5 bg-muted/40 p-1.5 rounded-xl border border-border text-xs">
-                <Button type="button" onClick={() => setInputType("url")} className={cn(cn("py-2 px-2 rounded-lg flex flex-col items-center gap-1 transition-all font-semibold", inputType === "url" ? "bg-primary text-white shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
+                <Button type="button" onClick={() => setInputType("url")} className={cn(cn("py-2 px-2 rounded-lg flex flex-col items-center gap-1 transition-all font-semibold", inputType === "url" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
                   <Link2 className="w-3.5 h-3.5" /> URL
                 </Button>
-                <Button type="button" onClick={() => setInputType("text")} className={cn(cn("py-2 px-2 rounded-lg flex flex-col items-center gap-1 transition-all font-semibold", inputType === "text" ? "bg-primary text-white shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
+                <Button type="button" onClick={() => setInputType("text")} className={cn(cn("py-2 px-2 rounded-lg flex flex-col items-center gap-1 transition-all font-semibold", inputType === "text" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
                   <Sparkles className="w-3.5 h-3.5" /> Text
                 </Button>
-                <Button type="button" onClick={() => setInputType("wifi")} className={cn(cn("py-2 px-2 rounded-lg flex flex-col items-center gap-1 transition-all font-semibold", inputType === "wifi" ? "bg-primary text-white shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
+                <Button type="button" onClick={() => setInputType("wifi")} className={cn(cn("py-2 px-2 rounded-lg flex flex-col items-center gap-1 transition-all font-semibold", inputType === "wifi" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
                   <Wifi className="w-3.5 h-3.5" /> Wi-Fi
                 </Button>
-                <Button type="button" onClick={() => setInputType("vcard")} className={cn(cn("py-2 px-2 rounded-lg flex flex-col items-center gap-1 transition-all font-semibold", inputType === "vcard" ? "bg-primary text-white shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
+                <Button type="button" onClick={() => setInputType("vcard")} className={cn(cn("py-2 px-2 rounded-lg flex flex-col items-center gap-1 transition-all font-semibold", inputType === "vcard" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
                   <UserCheck className="w-3.5 h-3.5" /> vCard
                 </Button>
-                <Button type="button" onClick={() => setInputType("email")} className={cn(cn("py-2 px-2 rounded-lg flex flex-col items-center gap-1 transition-all font-semibold", inputType === "email" ? "bg-primary text-white shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
+                <Button type="button" onClick={() => setInputType("email")} className={cn(cn("py-2 px-2 rounded-lg flex flex-col items-center gap-1 transition-all font-semibold", inputType === "email" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
                   <Mail className="w-3.5 h-3.5" /> Email
                 </Button>
-                <Button type="button" onClick={() => setInputType("phone")} className={cn(cn("py-2 px-2 rounded-lg flex flex-col items-center gap-1 transition-all font-semibold", inputType === "phone" ? "bg-primary text-white shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
+                <Button type="button" onClick={() => setInputType("phone")} className={cn(cn("py-2 px-2 rounded-lg flex flex-col items-center gap-1 transition-all font-semibold", inputType === "phone" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
                   <Phone className="w-3.5 h-3.5" /> Phone
                 </Button>
               </div>
@@ -298,19 +299,19 @@ export function QrClient() {
           <div className="flex flex-col space-y-4">
             <GlassCard className="p-6 flex flex-col items-center justify-center text-center space-y-5 h-full min-h-[420px] bg-background border-border shadow-sm rounded-2xl">
               {qrDataUrl ? <motion.div initial={{
-              scale: 0.9,
-              opacity: 0
-            }} animate={{
-              scale: 1,
-              opacity: 1
-            }} className="space-y-5 flex flex-col items-center">
+                scale: 0.9,
+                opacity: 0
+              }} animate={{
+                scale: 1,
+                opacity: 1
+              }} className="space-y-5 flex flex-col items-center">
                   {/* High-Contrast White Card Wrapper for guaranteed scannability on all themes */}
                   <div className="p-5 rounded-2xl bg-white shadow-xl border border-slate-200 inline-block shadow-black/20">
                     <img src={qrDataUrl} alt="Scannable QR Code" className="w-56 h-56 rounded-lg" />
                   </div>
 
                   <div className="flex flex-wrap gap-2 justify-center">
-                    <Button onClick={handleDownloadPNG} size="sm" className="gap-1.5 text-xs bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl h-10 px-4">
+                    <Button onClick={handleDownloadPNG} size="sm" className="gap-1.5 text-xs bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl h-10 px-4">
                       <Download className="w-3.5 h-3.5" /> Download PNG
                     </Button>
                     <Button onClick={handleDownloadSVG} variant="outline" size="sm" className="gap-1.5 text-xs border-border font-semibold rounded-xl h-10 px-4">
@@ -332,35 +333,35 @@ export function QrClient() {
         </div>
 
         <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Select Content Preset",
-        description: "Choose between website URL, Wi-Fi network credentials, or vCard business contact.",
-        icon: QrCode
-      }, {
-        step: "02",
-        title: "Customize Design & Colors",
-        description: "Pick custom foreground/background colors and output resolution.",
-        icon: Sliders
-      }, {
-        step: "03",
-        title: "Download Vector or PNG",
-        description: "Save high-resolution PNG or vector SVG files ready for print and web.",
-        icon: CheckCircle2
-      }]} badges={["100% Scannable", "PNG & SVG Support", "Wi-Fi & vCard Ready"]} />
+          step: "01",
+          title: "Select Content Preset",
+          description: "Choose between website URL, Wi-Fi network credentials, or vCard business contact.",
+          icon: QrCode
+        }, {
+          step: "02",
+          title: "Customize Design & Colors",
+          description: "Pick custom foreground/background colors and output resolution.",
+          icon: Sliders
+        }, {
+          step: "03",
+          title: "Download Vector or PNG",
+          description: "Save high-resolution PNG or vector SVG files ready for print and web.",
+          icon: CheckCircle2
+        }]} badges={["100% Scannable", "PNG & SVG Support", "Wi-Fi & vCard Ready"]} />
 
         <ToolFeatureGuides features={[{
-        icon: QrCode,
-        title: "100% Standard Compliant",
-        description: "Generates ISO/IEC 18004 compliant QR codes guaranteed to scan on iOS and Android devices."
-      }, {
-        icon: Wifi,
-        title: "Automated Wi-Fi Join",
-        description: "Allows mobile users to instantly connect to your Wi-Fi network without typing passwords."
-      }, {
-        icon: Download,
-        title: "Print-Ready Vector SVG",
-        description: "Download scalable vector SVG graphics ideal for business cards, posters, and flyers."
-      }]}>
+          icon: QrCode,
+          title: "100% Standard Compliant",
+          description: "Generates ISO/IEC 18004 compliant QR codes guaranteed to scan on iOS and Android devices."
+        }, {
+          icon: Wifi,
+          title: "Automated Wi-Fi Join",
+          description: "Allows mobile users to instantly connect to your Wi-Fi network without typing passwords."
+        }, {
+          icon: Download,
+          title: "Print-Ready Vector SVG",
+          description: "Download scalable vector SVG graphics ideal for business cards, posters, and flyers."
+        }]}>
           <div className="prose dark:prose-invert max-w-none">
             <h3>How QR Code Technology Works</h3>
             <p>
@@ -370,15 +371,15 @@ export function QrClient() {
         </ToolFeatureGuides>
 
         <ToolFaqAccordion faqs={[{
-        question: "Do these QR codes ever expire?",
-        answer: "No! The generated QR codes encode static text directly into the matrix, so they will work forever with zero server dependency."
-      }, {
-        question: "Can I use SVG files for professional printing?",
-        answer: "Yes! SVG vector files scale infinitely without losing quality or becoming blurry."
-      }]} />
+          question: "Do these QR codes ever expire?",
+          answer: "No! The generated QR codes encode static text directly into the matrix, so they will work forever with zero server dependency."
+        }, {
+          question: "Can I use SVG files for professional printing?",
+          answer: "Yes! SVG vector files scale infinitely without losing quality or becoming blurry."
+        }]} />
 
         <RelatedTools currentToolUrl="/tools/url/qr" max={6} />
       </div>
-    </div>;
+    </div></div>;
 }
 export default QrClient;

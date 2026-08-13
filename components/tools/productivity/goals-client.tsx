@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -159,7 +160,7 @@ export function GoalsClient() {
   };
   const filteredGoals = filter === "All" ? goals : goals.filter(g => g.category === filter);
   return <div className="relative max-w-6xl mx-auto space-y-8">
-      <GridPattern />
+      <ToolBackground />
 
       <ToolPageHeader title="Interactive Goal Tracker & Milestone Planner" description="Set strategic long-term goals, break them down into actionable sub-milestones, and track progress percentage completion." icon={Target} actions={<ResetButton onClick={clearAll} label="Reset Goals" />} />
 

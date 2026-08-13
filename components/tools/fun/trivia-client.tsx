@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -96,7 +97,7 @@ export default function TriviaClient() {
  if (finished) {
  return (
       <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
-      <GridPattern />
+      <ToolBackground />
 
  <ToolPageHeader icon={Brain} title="Trivia Quiz"description="Test your general knowledge."/>
  <GlassCard>
@@ -148,7 +149,7 @@ export default function TriviaClient() {
  onClick={() => handleAnswer(i)}
  variant={variant}
  className={`h-16 text-base justify-start px-4 ${
- selected !== null && isCorrect ?"bg-green-600 hover:bg-green-700 text-white":""
+ selected !== null && isCorrect ?"bg-green-600 hover:bg-green-700 text-primary-foreground":""
  }`}
  disabled={selected !== null}
  >

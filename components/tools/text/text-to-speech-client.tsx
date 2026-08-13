@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback, useEffect, useRef } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -164,7 +165,7 @@ export function TextToSpeechClient() {
  if (!isSupported) {
  return (
       <div className="relative max-w-6xl mx-auto space-y-8 p-4">
-      <GridPattern />
+      <ToolBackground />
 
  <ToolPageHeader
  icon={Volume2}

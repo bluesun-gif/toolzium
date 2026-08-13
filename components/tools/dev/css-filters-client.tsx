@@ -1,6 +1,7 @@
 "use client";
-import { cn } from"@/lib/utils";
+import { ToolBackground } from"@/components/shared/tool-background";
 
+import { cn } from "@/lib/utils";
 import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -132,8 +133,8 @@ export function CssFiltersClient() {
  </div>
  <input type="range" min={min} max={max} value={value} onChange={e => onChange(Number(e.target.value))} className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary" />
  </div>;
-  return <div className="relative max-w-6xl mx-auto space-y-8 p-4 sm:p-6 lg:p-8">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8 p-4 sm:p-6 lg:p-8"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Sparkles} title="CSS Filters Playground" description="Experiment with CSS filter functions in real-time. Apply blur, contrast, sepia, and more to any element." />
 
@@ -190,11 +191,11 @@ export function CssFiltersClient() {
  </CardHeader>
  <CardContent className="p-8 flex items-center justify-center min-h-[300px] bg-muted/30">
  <div className="w-48 h-48 rounded-2xl relative" style={{
-              background: "linear-gradient(135deg, #f43f5e 0%, #8b5cf6 50%, #3b82f6 100%)",
-              filter: showOriginal ? "none" : filterString,
-              WebkitFilter: showOriginal ? "none" : filterString
-            }}>
- <div className="absolute inset-0 flex items-center justify-center text-white font-bold text-xl drop-shadow-lg">
+                background: "linear-gradient(135deg, #f43f5e 0%, #8b5cf6 50%, #3b82f6 100%)",
+                filter: showOriginal ? "none" : filterString,
+                WebkitFilter: showOriginal ? "none" : filterString
+              }}>
+ <div className="absolute inset-0 flex items-center justify-center text-primary-foreground font-bold text-xl drop-shadow-lg">
  Preview
  </div>
  </div>
@@ -212,9 +213,9 @@ export function CssFiltersClient() {
  <div className="flex items-center justify-between w-full">
  <CardTitle className={titleClass}>Generated CSS</CardTitle>
  <Button onClick={() => {
-                navigator.clipboard.writeText(cssCode);
-                toast.success("Copied!");
-              }} className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
+                  navigator.clipboard.writeText(cssCode);
+                  toast.success("Copied!");
+                }} className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
  <Copy className="w-3.5 h-3.5" /> Copy
  </Button>
  </div>
@@ -227,39 +228,39 @@ export function CssFiltersClient() {
  </div>
 
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Adjust Sliders",
-      description: "Tweak the 9 core filter functions to alter brightness, color, and blur.",
-      icon: SlidersHorizontal
-    }, {
-      step: "02",
-      title: "Add Drop Shadow",
-      description: "Enable the drop-shadow toggle to add depth that conforms to element shapes.",
-      icon: Sparkles
-    }, {
-      step: "03",
-      title: "Copy & Paste",
-      description: "Grab the generated CSS and apply it to your images, videos, or DOM elements.",
-      icon: Copy
-    }]} badges={["100% Free", "Client-Side Privacy", "No Signup"]} />
+        step: "01",
+        title: "Adjust Sliders",
+        description: "Tweak the 9 core filter functions to alter brightness, color, and blur.",
+        icon: SlidersHorizontal
+      }, {
+        step: "02",
+        title: "Add Drop Shadow",
+        description: "Enable the drop-shadow toggle to add depth that conforms to element shapes.",
+        icon: Sparkles
+      }, {
+        step: "03",
+        title: "Copy & Paste",
+        description: "Grab the generated CSS and apply it to your images, videos, or DOM elements.",
+        icon: Copy
+      }]} badges={["100% Free", "Client-Side Privacy", "No Signup"]} />
 
  <ToolFeatureGuides features={[{
-      icon: SlidersHorizontal,
-      title: "9 Core Filters",
-      description: "Full control over blur, brightness, contrast, grayscale, hue, invert, opacity, saturate, and sepia."
-    }, {
-      icon: Sparkles,
-      title: "Advanced Drop Shadow",
-      description: "Add dynamic drop shadows that follow the alpha channel of transparent PNGs and SVGs."
-    }, {
-      icon: Eye,
-      title: "Before & After",
-      description: "Toggle between the original and filtered state to compare your edits instantly."
-    }, {
-      icon: Sparkles,
-      title: "One-Click Presets",
-      description: "Apply popular filter combinations like Vintage, Cyberpunk, and Black & White."
-    }]}>
+        icon: SlidersHorizontal,
+        title: "9 Core Filters",
+        description: "Full control over blur, brightness, contrast, grayscale, hue, invert, opacity, saturate, and sepia."
+      }, {
+        icon: Sparkles,
+        title: "Advanced Drop Shadow",
+        description: "Add dynamic drop shadows that follow the alpha channel of transparent PNGs and SVGs."
+      }, {
+        icon: Eye,
+        title: "Before & After",
+        description: "Toggle between the original and filtered state to compare your edits instantly."
+      }, {
+        icon: Sparkles,
+        title: "One-Click Presets",
+        description: "Apply popular filter combinations like Vintage, Cyberpunk, and Black & White."
+      }]}>
  <div className="prose dark:prose-invert max-w-none">
  <h3>The Power of CSS Filters in Modern Web Development</h3>
  <p>CSS filters provide a powerful, hardware-accelerated way to apply visual effects directly to DOM elements, images, and videos without the need for external image editing software. Originally popularized by Instagram and modern photo-editing apps, CSS filters allow developers to dynamically alter the rendering of an element in real-time. The <code>filter</code> property accepts a chain of functions, including blur, brightness, contrast, grayscale, hue-rotate, invert, opacity, saturate, and sepia. Each function manipulates the pixel data mathematically, enabling everything from subtle vintage color grading to extreme cyberpunk neon transformations.</p>
@@ -269,17 +270,17 @@ export function CssFiltersClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={[{
-      question: "What is the difference between box-shadow and drop-shadow?",
-      answer: "box-shadow applies a shadow to the rectangular bounding box of an element. drop-shadow applies a shadow to the exact shape (alpha channel) of the element, making it perfect for transparent PNGs and SVGs."
-    }, {
-      question: "Do CSS filters affect performance?",
-      answer: "CSS filters are generally hardware-accelerated and very performant. However, applying heavy blur filters to very large, scrolling elements can cause repaints and lag on low-end mobile devices."
-    }, {
-      question: "Can I animate CSS filters?",
-      answer: "Yes! You can transition filter values using CSS transitions or keyframe animations to create smooth hover effects, loading states, and dynamic visual shifts."
-    }]} />
+        question: "What is the difference between box-shadow and drop-shadow?",
+        answer: "box-shadow applies a shadow to the rectangular bounding box of an element. drop-shadow applies a shadow to the exact shape (alpha channel) of the element, making it perfect for transparent PNGs and SVGs."
+      }, {
+        question: "Do CSS filters affect performance?",
+        answer: "CSS filters are generally hardware-accelerated and very performant. However, applying heavy blur filters to very large, scrolling elements can cause repaints and lag on low-end mobile devices."
+      }, {
+        question: "Can I animate CSS filters?",
+        answer: "Yes! You can transition filter values using CSS transitions or keyframe animations to create smooth hover effects, loading states, and dynamic visual shifts."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/dev/css-filters" max={6} />
- </div>;
+ </div></div>;
 }
 export default CssFiltersClient;

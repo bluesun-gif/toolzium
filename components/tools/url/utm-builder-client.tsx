@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -187,8 +188,8 @@ export function UTMBuilderClient() {
         </svg>
       </div>;
   };
-  return <div className="w-full min-h-screen pb-20 relative">
-      <GridPattern />
+  return <div className="w-full min-h-screen pb-20 relative"><ToolBackground /><div className="relative z-10">
+      
 
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader icon={Link2} title="UTM Campaign Builder & Link Tagging Studio" description="Build, track, and manage marketing campaign URLs with precise UTM parameters, AI tag suggestions, and bulk generation." />
@@ -197,10 +198,10 @@ export function UTMBuilderClient() {
           <CardHeader className="border-b border-border bg-muted/40 p-4">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex gap-2">
-                <Button variant={activeTab === "single" ? "default" : "outline"} size="sm" onClick={() => setActiveTab("single")} className={cn("rounded-xl font-bold text-xs h-9 px-4", activeTab === "single" ? "bg-primary text-white" : "border-border text-muted-foreground")}>
+                <Button variant={activeTab === "single" ? "default" : "outline"} size="sm" onClick={() => setActiveTab("single")} className={cn("rounded-xl font-bold text-xs h-9 px-4", activeTab === "single" ? "bg-primary text-primary-foreground" : "border-border text-muted-foreground")}>
                   Single URL Builder
                 </Button>
-                <Button variant={activeTab === "bulk" ? "default" : "outline"} size="sm" onClick={() => setActiveTab("bulk")} className={cn("rounded-xl font-bold text-xs h-9 px-4", activeTab === "bulk" ? "bg-primary text-white" : "border-border text-muted-foreground")}>
+                <Button variant={activeTab === "bulk" ? "default" : "outline"} size="sm" onClick={() => setActiveTab("bulk")} className={cn("rounded-xl font-bold text-xs h-9 px-4", activeTab === "bulk" ? "bg-primary text-primary-foreground" : "border-border text-muted-foreground")}>
                   Bulk Batch Generator
                 </Button>
               </div>
@@ -292,7 +293,7 @@ export function UTMBuilderClient() {
                   </div>
 
                   <div className="flex gap-2">
-                    <Button className="flex-1 bg-primary hover:bg-primary/90 text-white font-bold h-11 rounded-xl shadow-md shadow-primary/20" onClick={() => handleCopy(generatedUrl)} disabled={generatedUrl === "Invalid Base URL"}>
+                    <Button className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-11 rounded-xl shadow-md shadow-primary/20" onClick={() => handleCopy(generatedUrl)} disabled={generatedUrl === "Invalid Base URL"}>
                       <Copy className="w-4 h-4 mr-2" /> Copy Tagged URL
                     </Button>
                     <Button variant="outline" onClick={saveToHistory} className="h-11 rounded-xl border-border font-bold text-xs">
@@ -359,39 +360,39 @@ export function UTMBuilderClient() {
           </GlassCard>}
 
         <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Enter Base URL",
-        description: "Provide the destination URL for your marketing campaign or landing page.",
-        icon: Link2
-      }, {
-        step: "02",
-        title: "Define Parameters",
-        description: "Fill in the required Source, Medium, and Campaign fields to categorize your traffic.",
-        icon: History
-      }, {
-        step: "03",
-        title: "Copy & Track",
-        description: "Copy the generated URL and paste it into your ads, emails, or social posts.",
-        icon: Copy
-      }]} badges={["Bulk Generation", "CSV Export", "High-Contrast QR Code"]} />
+          step: "01",
+          title: "Enter Base URL",
+          description: "Provide the destination URL for your marketing campaign or landing page.",
+          icon: Link2
+        }, {
+          step: "02",
+          title: "Define Parameters",
+          description: "Fill in the required Source, Medium, and Campaign fields to categorize your traffic.",
+          icon: History
+        }, {
+          step: "03",
+          title: "Copy & Track",
+          description: "Copy the generated URL and paste it into your ads, emails, or social posts.",
+          icon: Copy
+        }]} badges={["Bulk Generation", "CSV Export", "High-Contrast QR Code"]} />
 
         <ToolFeatureGuides features={[{
-        icon: Link2,
-        title: "Real-Time Validation",
-        description: "Instantly see your URL construct with proper encoding and parameter appending."
-      }, {
-        icon: History,
-        title: "Local History",
-        description: "Automatically saves your last 15 generated links for quick retrieval and copying."
-      }, {
-        icon: Download,
-        title: "CSV Export",
-        description: "Export your entire link history into a spreadsheet for team sharing or agency reporting."
-      }, {
-        icon: QrCode,
-        title: "Instant QR Preview",
-        description: "Generates a visual QR matrix on the fly for quick mobile scanning and verification."
-      }]}>
+          icon: Link2,
+          title: "Real-Time Validation",
+          description: "Instantly see your URL construct with proper encoding and parameter appending."
+        }, {
+          icon: History,
+          title: "Local History",
+          description: "Automatically saves your last 15 generated links for quick retrieval and copying."
+        }, {
+          icon: Download,
+          title: "CSV Export",
+          description: "Export your entire link history into a spreadsheet for team sharing or agency reporting."
+        }, {
+          icon: QrCode,
+          title: "Instant QR Preview",
+          description: "Generates a visual QR matrix on the fly for quick mobile scanning and verification."
+        }]}>
           <div className="prose dark:prose-invert max-w-none mt-6">
             <h3>Precision Marketing Attribution</h3>
             <p>
@@ -401,16 +402,16 @@ export function UTMBuilderClient() {
         </ToolFeatureGuides>
 
         <ToolFaqAccordion faqs={[{
-        question: "Do I need all 5 UTM parameters?",
-        answer: "No. Only utm_source, utm_medium, and utm_campaign are strictly required for GA4 to track campaigns properly."
-      }, {
-        question: "Are spaces allowed in UTM parameters?",
-        answer: "It is best practice to avoid spaces. Use underscores (e.g. spring_sale) or hyphens instead."
-      }]} />
+          question: "Do I need all 5 UTM parameters?",
+          answer: "No. Only utm_source, utm_medium, and utm_campaign are strictly required for GA4 to track campaigns properly."
+        }, {
+          question: "Are spaces allowed in UTM parameters?",
+          answer: "It is best practice to avoid spaces. Use underscores (e.g. spring_sale) or hyphens instead."
+        }]} />
 
         <RelatedTools currentToolUrl="/tools/url/utm-builder" max={6} />
       </div>
-    </div>;
+    </div></div>;
 }
 export { UTMBuilderClient as UtmBuilderClient };
 export default UTMBuilderClient;

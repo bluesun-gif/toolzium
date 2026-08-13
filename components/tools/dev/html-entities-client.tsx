@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -359,8 +360,8 @@ export default function HtmlEntitiesClient() {
     navigator.clipboard.writeText(output);
     toast.success("Copied to clipboard!");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Code} title="HTML Entities Encoder/Decoder" description="Convert special characters to HTML entities and back with support for named, decimal, and hex formats" />
 
@@ -386,25 +387,25 @@ export default function HtmlEntitiesClient() {
  <div className="flex flex-wrap gap-4">
  <label className="flex items-center gap-2 cursor-pointer">
  <input type="checkbox" checked={options.named} onChange={e => setOptions(prev => ({
-                ...prev,
-                named: e.target.checked
-              }))} className="w-4 h-4 rounded border-border" />
+                  ...prev,
+                  named: e.target.checked
+                }))} className="w-4 h-4 rounded border-border" />
  <span className="text-sm">Named (&amp;lt;)</span>
  </label>
  <label className="flex items-center gap-2 cursor-pointer">
  <input type="checkbox" checked={options.decimal} onChange={e => setOptions(prev => ({
-                ...prev,
-                decimal: e.target.checked,
-                hex: false
-              }))} className="w-4 h-4 rounded border-border" />
+                  ...prev,
+                  decimal: e.target.checked,
+                  hex: false
+                }))} className="w-4 h-4 rounded border-border" />
  <span className="text-sm">Decimal (&#60;)</span>
  </label>
  <label className="flex items-center gap-2 cursor-pointer">
  <input type="checkbox" checked={options.hex} onChange={e => setOptions(prev => ({
-                ...prev,
-                hex: e.target.checked,
-                decimal: false
-              }))} className="w-4 h-4 rounded border-border" />
+                  ...prev,
+                  hex: e.target.checked,
+                  decimal: false
+                }))} className="w-4 h-4 rounded border-border" />
  <span className="text-sm">Hex (&#x3C;)</span>
  </label>
  </div>
@@ -464,9 +465,9 @@ export default function HtmlEntitiesClient() {
  <CardContent className="p-4">
  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
  {commonEntities.map((entity, idx) => <div key={idx} className="p-3 bg-muted/30 rounded-lg border border-border/40 hover:border-primary/50 hover:bg-muted/50 transition-all cursor-pointer group text-center" onClick={() => {
-            navigator.clipboard.writeText(entity.name);
-            toast.success(`Copied ${entity.name}`);
-          }}>
+              navigator.clipboard.writeText(entity.name);
+              toast.success(`Copied ${entity.name}`);
+            }}>
  <div className="text-2xl mb-1 text-foreground">{entity.char}</div>
  <div className="text-[10px] font-mono text-primary font-bold group-hover:underline truncate">
  {entity.name}
@@ -480,39 +481,39 @@ export default function HtmlEntitiesClient() {
  </GlassCard>
 
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Select Mode",
-      description: "Choose to encode raw text or decode existing HTML entities",
-      icon: Code
-    }, {
-      step: "02",
-      title: "Configure Format",
-      description: "Pick named, decimal, or hexadecimal output for encoding",
-      icon: Code
-    }, {
-      step: "03",
-      title: "Real-Time Output",
-      description: "Watch the conversion happen instantly with every keystroke",
-      icon: Copy
-    }]} badges={["Zero Latency", "XSS Prevention", "50+ Reference"]} />
+        step: "01",
+        title: "Select Mode",
+        description: "Choose to encode raw text or decode existing HTML entities",
+        icon: Code
+      }, {
+        step: "02",
+        title: "Configure Format",
+        description: "Pick named, decimal, or hexadecimal output for encoding",
+        icon: Code
+      }, {
+        step: "03",
+        title: "Real-Time Output",
+        description: "Watch the conversion happen instantly with every keystroke",
+        icon: Copy
+      }]} badges={["Zero Latency", "XSS Prevention", "50+ Reference"]} />
 
  <ToolFeatureGuides features={[{
-      icon: Code,
-      title: "Bidirectional Engine",
-      description: "Seamlessly encode text to entities or decode entities back to text"
-    }, {
-      icon: Code,
-      title: "Format Granularity",
-      description: "Toggle between named, decimal, and hexadecimal numeric formats"
-    }, {
-      icon: Code,
-      title: "Instant Computation",
-      description: "Powered by React useMemo for zero-latency, real-time previews"
-    }, {
-      icon: Code,
-      title: "Typographic Library",
-      description: "Quick-access clickable grid of 50+ common HTML entities"
-    }]}>
+        icon: Code,
+        title: "Bidirectional Engine",
+        description: "Seamlessly encode text to entities or decode entities back to text"
+      }, {
+        icon: Code,
+        title: "Format Granularity",
+        description: "Toggle between named, decimal, and hexadecimal numeric formats"
+      }, {
+        icon: Code,
+        title: "Instant Computation",
+        description: "Powered by React useMemo for zero-latency, real-time previews"
+      }, {
+        icon: Code,
+        title: "Typographic Library",
+        description: "Quick-access clickable grid of 50+ common HTML entities"
+      }]}>
  <div className="prose max-w-none dark:prose-invert">
  <h3>The Backbone of Safe Web Typography and Security</h3>
  <p>HTML entities are the backbone of safe and accurate text rendering on the web. Whenever you need to display reserved characters like <code>&lt;</code>, <code>&gt;</code>, or <code>&amp;</code> as literal text rather than executable markup, entities are strictly required. Our encoder/decoder handles this translation automatically, supporting all three standard entity formats defined by the W3C: named entities (like <code>&amp;lt;</code>), decimal numeric entities (like <code>&amp;#60;</code>), and hexadecimal numeric entities (like <code>&amp;#x3C;</code>).</p>
@@ -529,16 +530,16 @@ export default function HtmlEntitiesClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={[{
-      question: "What is the difference between Named, Decimal, and Hex entities?",
-      answer: "Named entities use human-readable aliases (e.g., &copy; for ©). Decimal entities use the base-10 Unicode code point (e.g., &#169;). Hexadecimal entities use the base-16 Unicode code point (e.g., &#xA9;). All three render exactly the same in the browser, but named entities are generally preferred for readability, while numeric entities are required for characters that don't have a named alias."
-    }, {
-      question: "Do I need to encode every single character?",
-      answer: "No. Standard alphanumeric characters (A-Z, 0-9) do not need encoding. You only strictly need to encode the 5 reserved HTML characters: & (ampersand), < (less than), > (greater than), \"(double quote), and ' (single quote). However, encoding extended Unicode characters ensures they render correctly regardless of the document's character encoding settings."
-    }, {
-      question: "Is this tool safe for sensitive data?",
-      answer: "Absolutely. This tool operates 100% client-side using JavaScript in your browser. Your text, code snippets, and sensitive data are never transmitted over the internet or stored on any server. It is completely safe to paste proprietary code, payloads, or sensitive strings for sanitization."
-    }]} />
+        question: "What is the difference between Named, Decimal, and Hex entities?",
+        answer: "Named entities use human-readable aliases (e.g., &copy; for ©). Decimal entities use the base-10 Unicode code point (e.g., &#169;). Hexadecimal entities use the base-16 Unicode code point (e.g., &#xA9;). All three render exactly the same in the browser, but named entities are generally preferred for readability, while numeric entities are required for characters that don't have a named alias."
+      }, {
+        question: "Do I need to encode every single character?",
+        answer: "No. Standard alphanumeric characters (A-Z, 0-9) do not need encoding. You only strictly need to encode the 5 reserved HTML characters: & (ampersand), < (less than), > (greater than), \"(double quote), and ' (single quote). However, encoding extended Unicode characters ensures they render correctly regardless of the document's character encoding settings."
+      }, {
+        question: "Is this tool safe for sensitive data?",
+        answer: "Absolutely. This tool operates 100% client-side using JavaScript in your browser. Your text, code snippets, and sensitive data are never transmitted over the internet or stored on any server. It is completely safe to paste proprietary code, payloads, or sensitive strings for sanitization."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/dev/html-entities" max={6} />
- </div>;
+ </div></div>;
 }

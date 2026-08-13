@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -99,8 +100,8 @@ export function WorldPlannerClient() {
     setSelectedHourUtc(12);
     toast.success("Reset to default");
   };
-  return <div className="relative space-y-6">
-      <GridPattern />
+  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Globe} title="World Clock & Meeting Planner" description="Compare times across multiple world cities to find ideal meeting slots." actions={<React.Fragment>
  <CopyButton getText={getCopyText} label="Copy Proposal" />
@@ -125,8 +126,8 @@ export function WorldPlannerClient() {
  </div>
  <div className="flex flex-wrap gap-2 pt-2">
  {COMMON_CITIES.map(c => <Button key={c.name} variant="outline" size="sm" onClick={() => {
-            if (cities.length < 6) setCities([...cities, c]);
-          }}>
+              if (cities.length < 6) setCities([...cities, c]);
+            }}>
  + {c.name} ({c.offset > 0 ? "+" : ""}{c.offset})
  </Button>)}
  </div>
@@ -153,16 +154,16 @@ export function WorldPlannerClient() {
  </div>
  <div className="flex h-10 w-full border rounded-md overflow-hidden bg-muted relative">
  {Array.from({
-              length: 24
-            }).map((_, i) => {
-              const localH = getLocalHour(i, city.offset);
-              const isSelected = i === selectedHourUtc;
-              return <div key={i} onClick={() => setSelectedHourUtc(i)} className={cn("flex-1 cursor-pointer border-r border-background/20 relative group", getHourColor(localH), isSelected ? "ring-2 ring-primary ring-inset z-10 opacity-100" : "opacity-70 hover:opacity-90")}>
- <div className="absolute inset-0 flex items-center justify-center text-[10px] text-white/90 font-medium">
+                length: 24
+              }).map((_, i) => {
+                const localH = getLocalHour(i, city.offset);
+                const isSelected = i === selectedHourUtc;
+                return <div key={i} onClick={() => setSelectedHourUtc(i)} className={cn("flex-1 cursor-pointer border-r border-background/20 relative group", getHourColor(localH), isSelected ? "ring-2 ring-primary ring-inset z-10 opacity-100" : "opacity-70 hover:opacity-90")}>
+ <div className="absolute inset-0 flex items-center justify-center text-[10px] text-primary-foreground/90 font-medium">
  {localH}
  </div>
  </div>;
-            })}
+              })}
  </div>
  </div>)}
  </CardContent>
@@ -183,35 +184,35 @@ export function WorldPlannerClient() {
  </GlassCard>
  
       <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Input Your Data",
-      description: "Enter your information in the input field above and configure any options.",
-      icon: Sparkles
-    }, {
-      step: "02",
-      title: "Process & Generate",
-      description: "The tool processes your input instantly and displays the results.",
-      icon: Zap
-    }, {
-      step: "03",
-      title: "Copy & Use",
-      description: "Copy the output with one click and use it wherever you need.",
-      icon: Copy
-    }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
 
       <ToolFeatureGuides features={[{
-      icon: Sparkles,
-      title: "Lightning Fast",
-      description: "Get results in milliseconds with our optimized client-side processing engine."
-    }, {
-      icon: Shield,
-      title: "Completely Private",
-      description: "All processing happens in your browser. Your data never leaves your device."
-    }, {
-      icon: Zap,
-      title: "No Signup Required",
-      description: "Use this tool instantly without creating an account or providing any personal information."
-    }]}>
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our World Clock & Meeting Planner?</h3>
           <p>
@@ -228,17 +229,17 @@ export function WorldPlannerClient() {
       </ToolFeatureGuides>
 
       <ToolFaqAccordion faqs={[{
-      question: "Is this tool free to use?",
-      answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-    }, {
-      question: "Is my data secure?",
-      answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-    }, {
-      question: "Do I need to create an account?",
-      answer: "No account or registration is required. Simply open the tool and start using it immediately."
-    }]} />
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/time/world-planner" max={6} />
 
-  </div>;
+  </div></div>;
 }

@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -60,8 +61,8 @@ export default function AnagramSolverClient() {
     setInput("");
     toast.success("Cleared!");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Shuffle} title="Anagram Solver" description="Generate all possible anagram rearrangements for your words and phrases instantly." />
  
@@ -93,9 +94,9 @@ export default function AnagramSolverClient() {
  {anagrams.map((word, i) => <div key={i} className="flex items-center justify-between bg-muted/50 px-3 py-2 rounded-lg border border-border/50 text-sm font-mono">
  <span>{word}</span>
  <Button onClick={() => {
-                navigator.clipboard.writeText(word);
-                toast.success("Copied!");
-              }} className="text-muted-foreground hover:text-primary">
+                  navigator.clipboard.writeText(word);
+                  toast.success("Copied!");
+                }} className="text-muted-foreground hover:text-primary">
  <Copy className="w-3 h-3" />
  </Button>
  </div>)}
@@ -105,39 +106,39 @@ export default function AnagramSolverClient() {
  </GlassCard>
 
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Enter Text",
-      description: "Type any word or phrase into the input field above.",
-      icon: Shuffle
-    }, {
-      step: "02",
-      title: "Generate",
-      description: "Our algorithm instantly calculates all possible letter combinations.",
-      icon: Shuffle
-    }, {
-      step: "03",
-      title: "Copy Results",
-      description: "Browse the grid and copy individual words or the entire list.",
-      icon: Copy
-    }]} badges={["100% Free", "Client-Side", "Fun"]} />
+        step: "01",
+        title: "Enter Text",
+        description: "Type any word or phrase into the input field above.",
+        icon: Shuffle
+      }, {
+        step: "02",
+        title: "Generate",
+        description: "Our algorithm instantly calculates all possible letter combinations.",
+        icon: Shuffle
+      }, {
+        step: "03",
+        title: "Copy Results",
+        description: "Browse the grid and copy individual words or the entire list.",
+        icon: Copy
+      }]} badges={["100% Free", "Client-Side", "Fun"]} />
 
  <ToolFeatureGuides features={[{
-      icon: Shuffle,
-      title: "Smart Permutations",
-      description: "Calculates exact mathematical permutations for short words."
-    }, {
-      icon: Shuffle,
-      title: "Random Sampling",
-      description: "Uses random shuffling for longer phrases to prevent browser freezing."
-    }, {
-      icon: Copy,
-      title: "Quick Copy",
-      description: "Copy individual anagrams or the entire list with a single click."
-    }, {
-      icon: Trash2,
-      title: "Instant Clear",
-      description: "Reset the tool and start a new word search immediately."
-    }]}>
+        icon: Shuffle,
+        title: "Smart Permutations",
+        description: "Calculates exact mathematical permutations for short words."
+      }, {
+        icon: Shuffle,
+        title: "Random Sampling",
+        description: "Uses random shuffling for longer phrases to prevent browser freezing."
+      }, {
+        icon: Copy,
+        title: "Quick Copy",
+        description: "Copy individual anagrams or the entire list with a single click."
+      }, {
+        icon: Trash2,
+        title: "Instant Clear",
+        description: "Reset the tool and start a new word search immediately."
+      }]}>
  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
  <p>An anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once. Our Anagram Solver is the perfect tool for word games like Scrabble, Words with Friends, or crossword puzzles.</p>
  <p>For words with 6 or fewer letters, the tool calculates every single mathematically possible arrangement. For longer phrases, generating millions of combinations would crash your browser, so the tool intelligently switches to a random sampling algorithm, providing you with a diverse selection of valid shuffles.</p>
@@ -146,16 +147,16 @@ export default function AnagramSolverClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={[{
-      question: "How many anagrams can a word have?",
-      answer: "The number of anagrams depends on the word's length and repeating letters. A 5-letter word with unique letters has 120 permutations (5!), while repeating letters reduce the total unique combinations."
-    }, {
-      question: "Why does it show random samples for long words?",
-      answer: "A 10-letter word has over 3.6 million permutations. Generating all of them would freeze your browser. The tool switches to random sampling to provide instant, useful results without crashing."
-    }, {
-      question: "Does it support phrases with spaces?",
-      answer: "Yes! The tool automatically strips spaces and punctuation, treating the entire phrase as a single pool of letters to rearrange."
-    }]} />
+        question: "How many anagrams can a word have?",
+        answer: "The number of anagrams depends on the word's length and repeating letters. A 5-letter word with unique letters has 120 permutations (5!), while repeating letters reduce the total unique combinations."
+      }, {
+        question: "Why does it show random samples for long words?",
+        answer: "A 10-letter word has over 3.6 million permutations. Generating all of them would freeze your browser. The tool switches to random sampling to provide instant, useful results without crashing."
+      }, {
+        question: "Does it support phrases with spaces?",
+        answer: "Yes! The tool automatically strips spaces and punctuation, treating the entire phrase as a single pool of letters to rearrange."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/fun/anagram-solver" max={6} />
- </div>;
+ </div></div>;
 }

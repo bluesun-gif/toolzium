@@ -1,6 +1,7 @@
 "use client";
-import { Button } from"@/components/ui/button";
+import { ToolBackground } from"@/components/shared/tool-background";
 
+import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -111,20 +112,20 @@ export function EmailSignatureClient() {
   const getPlainText = () => {
     return `${data.name}\n${data.title} | ${data.company}\nPhone: ${data.phone}\nEmail: ${data.email}\nWebsite: ${data.website}\nLinkedIn: ${data.linkedin}\nTwitter: ${data.twitter}`;
   };
-  return <div className="relative space-y-6">
-      <GridPattern />
+  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Mail} title="Email Signature Generator" description="Create professional HTML email signatures for your office needs." actions={<ResetButton onClick={() => setData({
-      name: "",
-      title: "",
-      company: "",
-      email: "",
-      phone: "",
-      website: "",
-      linkedin: "",
-      twitter: "",
-      photoUrl: ""
-    })} />} />
+        name: "",
+        title: "",
+        company: "",
+        email: "",
+        phone: "",
+        website: "",
+        linkedin: "",
+        twitter: "",
+        photoUrl: ""
+      })} />} />
 
  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
  <GlassCard>
@@ -177,8 +178,8 @@ export function EmailSignatureClient() {
  <Label>Theme Color</Label>
  <div className="flex gap-2 flex-wrap">
  {colors.map(c => <Button key={c.value} className={cn(cn("w-8 h-8 rounded-full border-2", themeColor === c.value ? "border-foreground" : "border-transparent"))} style={{
-                  backgroundColor: c.value
-                }} onClick={() => setThemeColor(c.value)} title={c.name} />)}
+                    backgroundColor: c.value
+                  }} onClick={() => setThemeColor(c.value)} title={c.name} />)}
  </div>
  </div>
  <div className="grid grid-cols-2 gap-4">
@@ -220,21 +221,21 @@ export function EmailSignatureClient() {
  </CardHeader>
  <CardContent>
  <div className="p-4 bg-background border rounded-md" dangerouslySetInnerHTML={{
-              __html: getSignatureHTML()
-            }} />
+                __html: getSignatureHTML()
+              }} />
  <div className="flex gap-2 mt-4 flex-wrap">
  <ActionButton onClick={() => {
-                const blob = new Blob([getSignatureHTML()], {
-                  type: "text/html"
-                });
-                const clipboardItem = new ClipboardItem({
-                  "text/html": blob,
-                  "text/plain": new Blob([getPlainText()], {
-                    type: "text/plain"
-                  })
-                });
-                navigator.clipboard.write([clipboardItem]).then(() => toast.success("Copied to clipboard!"));
-              }} icon={Copy} label="Copy Signature" />
+                  const blob = new Blob([getSignatureHTML()], {
+                    type: "text/html"
+                  });
+                  const clipboardItem = new ClipboardItem({
+                    "text/html": blob,
+                    "text/plain": new Blob([getPlainText()], {
+                      type: "text/plain"
+                    })
+                  });
+                  navigator.clipboard.write([clipboardItem]).then(() => toast.success("Copied to clipboard!"));
+                }} icon={Copy} label="Copy Signature" />
  <CopyButton getText={getPlainText} label="Copy Plain Text" />
  </div>
  </CardContent>
@@ -261,35 +262,35 @@ export function EmailSignatureClient() {
  </div>
  
       <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Input Your Data",
-      description: "Enter your information in the input field above and configure any options.",
-      icon: Sparkles
-    }, {
-      step: "02",
-      title: "Process & Generate",
-      description: "The tool processes your input instantly and displays the results.",
-      icon: Zap
-    }, {
-      step: "03",
-      title: "Copy & Use",
-      description: "Copy the output with one click and use it wherever you need.",
-      icon: Copy
-    }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
 
       <ToolFeatureGuides features={[{
-      icon: Sparkles,
-      title: "Lightning Fast",
-      description: "Get results in milliseconds with our optimized client-side processing engine."
-    }, {
-      icon: Shield,
-      title: "Completely Private",
-      description: "All processing happens in your browser. Your data never leaves your device."
-    }, {
-      icon: Zap,
-      title: "No Signup Required",
-      description: "Use this tool instantly without creating an account or providing any personal information."
-    }]}>
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our c.name?</h3>
           <p>
@@ -306,17 +307,17 @@ export function EmailSignatureClient() {
       </ToolFeatureGuides>
 
       <ToolFaqAccordion faqs={[{
-      question: "Is this tool free to use?",
-      answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-    }, {
-      question: "Is my data secure?",
-      answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-    }, {
-      question: "Do I need to create an account?",
-      answer: "No account or registration is required. Simply open the tool and start using it immediately."
-    }]} />
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/office/email-signature" max={6} />
 
-  </div>;
+  </div></div>;
 }

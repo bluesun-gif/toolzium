@@ -1,6 +1,7 @@
 "use client";
-import { cn } from"@/lib/utils";
+import { ToolBackground } from"@/components/shared/tool-background";
 
+import { cn } from "@/lib/utils";
 import React, { useState, useRef, ChangeEvent } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -161,8 +162,8 @@ export default function ImageResizeClient() {
     document.body.removeChild(a);
     toast.success("Downloaded resized photo!");
   };
-  return <div className="relative mx-auto max-w-6xl px-2 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-6 max-w-full overflow-hidden">
-      <GridPattern />
+  return <div className="relative mx-auto max-w-6xl px-2 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-6 max-w-full overflow-hidden"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader title="Social Media Photo Resizer & Aspect Ratio Studio" description="Resize photos instantly for Instagram, Facebook, LinkedIn, and YouTube with 1-click social media aspect ratio presets, 4-corner stretch, and live split comparison." />
 
@@ -212,9 +213,9 @@ export default function ImageResizeClient() {
  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 max-w-full">
  <div className="flex items-center justify-between sm:justify-start gap-2 w-full sm:w-auto">
  <Button variant="ghost" size="sm" onClick={() => {
-                setOriginalUrl(null);
-                setResizedUrl(null);
-              }} className="gap-1 text-xs text-muted-foreground hover:text-foreground p-1.5 h-8">
+                  setOriginalUrl(null);
+                  setResizedUrl(null);
+                }} className="gap-1 text-xs text-muted-foreground hover:text-foreground p-1.5 h-8">
  <ArrowLeft className="h-4 w-4" />
  Upload New
  </Button>
@@ -235,13 +236,13 @@ export default function ImageResizeClient() {
  {/* Social Ratio Presets - Horizontally Scrollable Bar (Zero Text Cut-off) */}
  <div className="flex items-center gap-1.5 p-1.5 rounded-xl border bg-background text-xs shadow-inner overflow-x-auto max-w-full scrollbar-thin">
  {SOCIAL_PRESETS.map(preset => {
-              const Icon = preset.icon;
-              const isActive = activePreset === preset.name;
-              return <Button key={preset.name} type="button" onClick={() => applyPreset(preset.name, preset.w, preset.h)} className={cn(`px-3 py-1.5 rounded-lg font-medium transition flex items-center gap-1.5 shrink-0 whitespace-nowrap text-xs ${isActive ? "bg-primary text-primary-foreground shadow-xs font-semibold" : "text-muted-foreground hover:text-foreground hover:bg-muted/50"}`)}>
+                const Icon = preset.icon;
+                const isActive = activePreset === preset.name;
+                return <Button key={preset.name} type="button" onClick={() => applyPreset(preset.name, preset.w, preset.h)} className={cn(`px-3 py-1.5 rounded-lg font-medium transition flex items-center gap-1.5 shrink-0 whitespace-nowrap text-xs ${isActive ? "bg-primary text-primary-foreground shadow-xs font-semibold" : "text-muted-foreground hover:text-foreground hover:bg-muted/50"}`)}>
  <Icon className="h-3.5 w-3.5 shrink-0" />
  <span>{preset.platform} ({preset.ratio})</span>
  </Button>;
-            })}
+              })}
  </div>
  </CardHeader>
 
@@ -260,29 +261,29 @@ export default function ImageResizeClient() {
  </div>
 
  <div ref={splitContainerRef} className="relative flex-1 rounded-2xl overflow-hidden border min-h-[300px] flex items-center justify-center select-none cursor-ew-resize touch-none shadow-inner bg-[#0f172a] text-[#f8fafc]/40 max-w-full" onMouseDown={e => {
-              setIsDraggingSlider(true);
-              handleSplitMove(e.clientX);
-            }} onMouseMove={e => {
-              if (isDraggingSlider) handleSplitMove(e.clientX);
-            }} onMouseUp={() => setIsDraggingSlider(false)} onMouseLeave={() => setIsDraggingSlider(false)} onTouchMove={e => {
-              if (e.touches[0]) handleSplitMove(e.touches[0].clientX);
-            }}>
+                setIsDraggingSlider(true);
+                handleSplitMove(e.clientX);
+              }} onMouseMove={e => {
+                if (isDraggingSlider) handleSplitMove(e.clientX);
+              }} onMouseUp={() => setIsDraggingSlider(false)} onMouseLeave={() => setIsDraggingSlider(false)} onTouchMove={e => {
+                if (e.touches[0]) handleSplitMove(e.touches[0].clientX);
+              }}>
  {/* Resized Result Layer */}
  {resizedUrl && <img src={resizedUrl} alt="Resized result" className="absolute inset-0 h-full w-full object-contain p-2 select-none pointer-events-none z-10" />}
 
  {/* Original Layer Clipped */}
  <div className="absolute inset-0 overflow-hidden z-20 pointer-events-none border-r-2 border-primary" style={{
-                width: `${sliderPos}%`
-              }}>
+                  width: `${sliderPos}%`
+                }}>
  <img src={originalUrl} alt="Original" className="absolute inset-0 h-full w-full object-contain p-2 select-none max-w-none" style={{
-                  width: splitContainerRef.current?.clientWidth || "100%"
-                }} />
+                    width: splitContainerRef.current?.clientWidth || "100%"
+                  }} />
  </div>
 
  {/* Split Handle */}
  <div className="absolute top-0 bottom-0 z-30 w-1 bg-primary cursor-ew-resize flex items-center justify-center shadow-lg" style={{
-                left: `${sliderPos}%`
-              }}>
+                  left: `${sliderPos}%`
+                }}>
  <div className="h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-md border-2 border-background">
  <Split className="h-3.5 w-3.5" />
  </div>
@@ -296,15 +297,15 @@ export default function ImageResizeClient() {
  <span className="font-semibold text-muted-foreground shrink-0 text-[11px]">Fit:</span>
  <div className="flex items-center gap-1 p-1 rounded-lg border bg-background w-full sm:w-auto">
  <Button type="button" onClick={() => {
-                  setFit("stretch");
-                  if (originalUrl && origW && origH) renderResizedImage(originalUrl, origW, origH, w, h, "stretch", fmt, quality);
-                }} className={cn(`flex-1 sm:flex-initial px-2.5 py-1 rounded-md font-medium transition text-[11px] ${fit === "stretch" ? "bg-primary text-primary-foreground shadow-xs font-semibold" : "text-muted-foreground"}`)}>
+                    setFit("stretch");
+                    if (originalUrl && origW && origH) renderResizedImage(originalUrl, origW, origH, w, h, "stretch", fmt, quality);
+                  }} className={cn(`flex-1 sm:flex-initial px-2.5 py-1 rounded-md font-medium transition text-[11px] ${fit === "stretch" ? "bg-primary text-primary-foreground shadow-xs font-semibold" : "text-muted-foreground"}`)}>
  4-Corner Stretch
  </Button>
  <Button type="button" onClick={() => {
-                  setFit("cover");
-                  if (originalUrl && origW && origH) renderResizedImage(originalUrl, origW, origH, w, h, "cover", fmt, quality);
-                }} className={cn(`flex-1 sm:flex-initial px-2.5 py-1 rounded-md font-medium transition text-[11px] ${fit === "cover" ? "bg-primary text-primary-foreground shadow-xs font-semibold" : "text-muted-foreground"}`)}>
+                    setFit("cover");
+                    if (originalUrl && origW && origH) renderResizedImage(originalUrl, origW, origH, w, h, "cover", fmt, quality);
+                  }} className={cn(`flex-1 sm:flex-initial px-2.5 py-1 rounded-md font-medium transition text-[11px] ${fit === "cover" ? "bg-primary text-primary-foreground shadow-xs font-semibold" : "text-muted-foreground"}`)}>
  Smart Crop
  </Button>
  </div>
@@ -314,9 +315,9 @@ export default function ImageResizeClient() {
  <span className="font-semibold text-muted-foreground shrink-0 text-[11px]">Format:</span>
  <div className="flex items-center gap-1">
  {["webp", "png", "jpeg"].map(format => <Button key={format} type="button" onClick={() => {
-                  setFmt(format as OutFormat);
-                  if (originalUrl && origW && origH) renderResizedImage(originalUrl, origW, origH, w, h, fit, format as OutFormat, quality);
-                }} className={cn(`px-2.5 py-1 rounded-lg border text-[11px] font-semibold uppercase transition ${fmt === format ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground"}`)}>
+                    setFmt(format as OutFormat);
+                    if (originalUrl && origW && origH) renderResizedImage(originalUrl, origW, origH, w, h, fit, format as OutFormat, quality);
+                  }} className={cn(`px-2.5 py-1 rounded-lg border text-[11px] font-semibold uppercase transition ${fmt === format ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground"}`)}>
  {format}
  </Button>)}
  </div>
@@ -327,35 +328,35 @@ export default function ImageResizeClient() {
  </Card>
  
       <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Input Your Data",
-      description: "Enter your information in the input field above and configure any options.",
-      icon: Sparkles
-    }, {
-      step: "02",
-      title: "Process & Generate",
-      description: "The tool processes your input instantly and displays the results.",
-      icon: Zap
-    }, {
-      step: "03",
-      title: "Copy & Use",
-      description: "Copy the output with one click and use it wherever you need.",
-      icon: Copy
-    }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
 
       <ToolFeatureGuides features={[{
-      icon: Sparkles,
-      title: "Lightning Fast",
-      description: "Get results in milliseconds with our optimized client-side processing engine."
-    }, {
-      icon: Shield,
-      title: "Completely Private",
-      description: "All processing happens in your browser. Your data never leaves your device."
-    }, {
-      icon: Zap,
-      title: "No Signup Required",
-      description: "Use this tool instantly without creating an account or providing any personal information."
-    }]}>
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Social Media Photo Resizer & Aspect Ratio Studio?</h3>
           <p>
@@ -372,17 +373,17 @@ export default function ImageResizeClient() {
       </ToolFeatureGuides>
 
       <ToolFaqAccordion faqs={[{
-      question: "Is this tool free to use?",
-      answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-    }, {
-      question: "Is my data secure?",
-      answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-    }, {
-      question: "Do I need to create an account?",
-      answer: "No account or registration is required. Simply open the tool and start using it immediately."
-    }]} />
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/image/image-resize" max={6} />
 
-  </div>;
+  </div></div>;
 }

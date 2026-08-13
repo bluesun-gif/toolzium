@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -89,8 +90,8 @@ export default function SvgOptimizerClient() {
     navigator.clipboard.writeText(getOutputContent());
     toast.success("Copied to clipboard!");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 p-4 sm:p-6 lg:p-8">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8 p-4 sm:p-6 lg:p-8"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Scissors} title="SVG Optimizer & React Converter" description="Minify SVG code, convert to React JSX components, and generate Base64 Data URIs instantly." />
 
@@ -104,9 +105,9 @@ export default function SvgOptimizerClient() {
  <div className="grid grid-cols-2 gap-3">
  {Object.entries(options).map(([key, val]) => <label key={key} className="flex items-center gap-2 text-xs cursor-pointer hover:text-primary transition-colors">
  <input type="checkbox" checked={val as boolean} onChange={e => setOptions({
-                ...options,
-                [key]: e.target.checked
-              })} className="rounded border-border accent-primary" />
+                  ...options,
+                  [key]: e.target.checked
+                })} className="rounded border-border accent-primary" />
  <span className="capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
  </label>)}
  </div>
@@ -128,13 +129,13 @@ export default function SvgOptimizerClient() {
  </div>
  
  <div className="h-48 flex items-center justify-center rounded-lg border border-border/50 p-4" style={{
-            backgroundImage: "linear-gradient(45deg, #ccc 25%, transparent 25%), linear-gradient(-45deg, #ccc 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #ccc 75%), linear-gradient(-45deg, transparent 75%, #ccc 75%)",
-            backgroundSize: "20px 20px",
-            backgroundPosition: "0 0, 0 10px, 10px -10px, -10px 0px"
-          }}>
+              backgroundImage: "linear-gradient(45deg, #ccc 25%, transparent 25%), linear-gradient(-45deg, #ccc 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #ccc 75%), linear-gradient(-45deg, transparent 75%, #ccc 75%)",
+              backgroundSize: "20px 20px",
+              backgroundPosition: "0 0, 0 10px, 10px -10px, -10px 0px"
+            }}>
  <div className="w-full h-full flex items-center justify-center max-w-[200px] max-h-[200px] text-foreground" dangerouslySetInnerHTML={{
-              __html: optimizedSvg
-            }} />
+                __html: optimizedSvg
+              }} />
  </div>
  </CardContent>
  </GlassCard>
@@ -161,39 +162,39 @@ export default function SvgOptimizerClient() {
  </GlassCard>
 
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Paste SVG",
-      description: "Drop your raw SVG code exported from Figma, Illustrator, or Sketch.",
-      icon: Code
-    }, {
-      step: "02",
-      title: "Configure",
-      description: "Select which optimizations to apply, like removing metadata or shortening hex codes.",
-      icon: Scissors
-    }, {
-      step: "03",
-      title: "Export",
-      description: "Copy the minified SVG, React component, or Base64 Data URI for your project.",
-      icon: FileCode
-    }]} badges={["100% Free", "Client-Side Privacy", "No Signup"]} />
+        step: "01",
+        title: "Paste SVG",
+        description: "Drop your raw SVG code exported from Figma, Illustrator, or Sketch.",
+        icon: Code
+      }, {
+        step: "02",
+        title: "Configure",
+        description: "Select which optimizations to apply, like removing metadata or shortening hex codes.",
+        icon: Scissors
+      }, {
+        step: "03",
+        title: "Export",
+        description: "Copy the minified SVG, React component, or Base64 Data URI for your project.",
+        icon: FileCode
+      }]} badges={["100% Free", "Client-Side Privacy", "No Signup"]} />
 
  <ToolFeatureGuides features={[{
-      icon: Scissors,
-      title: "Smart Minification",
-      description: "Strips comments, metadata, and collapses whitespace to reduce file size."
-    }, {
-      icon: FileCode,
-      title: "React Converter",
-      description: "Automatically converts attributes to camelCase for JSX compatibility."
-    }, {
-      icon: Sparkles,
-      title: "Data URI Generator",
-      description: "Embed SVGs directly in CSS to eliminate extra HTTP requests."
-    }, {
-      icon: CheckCircle,
-      title: "Visual Preview",
-      description: "Verify your optimized SVG renders correctly with a transparent checkerboard background."
-    }]}>
+        icon: Scissors,
+        title: "Smart Minification",
+        description: "Strips comments, metadata, and collapses whitespace to reduce file size."
+      }, {
+        icon: FileCode,
+        title: "React Converter",
+        description: "Automatically converts attributes to camelCase for JSX compatibility."
+      }, {
+        icon: Sparkles,
+        title: "Data URI Generator",
+        description: "Embed SVGs directly in CSS to eliminate extra HTTP requests."
+      }, {
+        icon: CheckCircle,
+        title: "Visual Preview",
+        description: "Verify your optimized SVG renders correctly with a transparent checkerboard background."
+      }]}>
  <div className="prose dark:prose-invert max-w-none">
  <h3>Optimizing SVGs for High-Performance Web Applications</h3>
  <p>Scalable Vector Graphics (SVG) are the gold standard for web icons, illustrations, and logos due to their infinite scalability and tiny file sizes. However, SVG files exported from design tools like Figma, Illustrator, or Sketch are often bloated with unnecessary metadata, redundant attributes, and excessive whitespace. This bloat not only increases your HTML payload but can also negatively impact rendering performance and DOM parsing speed. An enterprise-grade SVG optimization workflow is essential for maintaining a high-performance web application.</p>
@@ -203,16 +204,16 @@ export default function SvgOptimizerClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={[{
-      question: "Is it safe to remove the xmlns attribute?",
-      answer: "The primary xmlns='http://www.w3.org/2000/svg' is required for standalone SVG files. However, if you are embedding the SVG inline directly inside HTML5, it is technically optional, though keeping it is recommended for maximum compatibility."
-    }, {
-      question: "Why convert to a React component?",
-      answer: "React requires SVG attributes to be camelCased (e.g., strokeWidth instead of stroke-width) and uses className instead of class. This tool automates that translation so you can drop the code straight into your TSX files."
-    }, {
-      question: "When should I use a Data URI?",
-      answer: "Data URIs are perfect for small icons used as CSS background images. They prevent the browser from making an extra network request, though they increase the size of your CSS file slightly due to Base64 encoding overhead."
-    }]} />
+        question: "Is it safe to remove the xmlns attribute?",
+        answer: "The primary xmlns='http://www.w3.org/2000/svg' is required for standalone SVG files. However, if you are embedding the SVG inline directly inside HTML5, it is technically optional, though keeping it is recommended for maximum compatibility."
+      }, {
+        question: "Why convert to a React component?",
+        answer: "React requires SVG attributes to be camelCased (e.g., strokeWidth instead of stroke-width) and uses className instead of class. This tool automates that translation so you can drop the code straight into your TSX files."
+      }, {
+        question: "When should I use a Data URI?",
+        answer: "Data URIs are perfect for small icons used as CSS background images. They prevent the browser from making an extra network request, though they increase the size of your CSS file slightly due to Base64 encoding overhead."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/dev/svg-optimizer" max={6} />
- </div>;
+ </div></div>;
 }

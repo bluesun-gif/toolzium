@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -167,8 +168,8 @@ ${Object.entries(parsed.headers).map(([k, v]) => ` .header("${k}","${v}")`).join
     }
   };
   const codeOutput = generateCode();
-  return <div className="relative max-w-6xl mx-auto space-y-8 p-4 sm:p-6 lg:p-8">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8 p-4 sm:p-6 lg:p-8"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Terminal} title="cURL to Code Converter" description="Instantly translate cURL commands into production-ready HTTP client code for JS, Python, Go, PHP, and Rust." />
 
@@ -224,9 +225,9 @@ ${Object.entries(parsed.headers).map(([k, v]) => ` .header("${k}","${v}")`).join
  </Button>)}
  </div>
  <Button onClick={() => {
-                navigator.clipboard.writeText(codeOutput);
-                toast.success("Copied Code!");
-              }} className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
+                  navigator.clipboard.writeText(codeOutput);
+                  toast.success("Copied Code!");
+                }} className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
  <Copy className="w-3.5 h-3.5" /> Copy Code
  </Button>
  </div>
@@ -241,39 +242,39 @@ ${Object.entries(parsed.headers).map(([k, v]) => ` .header("${k}","${v}")`).join
  </div>
 
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Paste cURL",
-      description: "Drop your terminal command into the input box. Multi-line commands are supported.",
-      icon: Terminal
-    }, {
-      step: "02",
-      title: "Auto-Parse",
-      description: "The engine extracts the method, URL, headers, and payload automatically.",
-      icon: Zap
-    }, {
-      step: "03",
-      title: "Select Language",
-      description: "Choose your target language and copy the production-ready boilerplate code.",
-      icon: Code
-    }]} badges={["100% Free", "Client-Side Privacy", "No Signup"]} />
+        step: "01",
+        title: "Paste cURL",
+        description: "Drop your terminal command into the input box. Multi-line commands are supported.",
+        icon: Terminal
+      }, {
+        step: "02",
+        title: "Auto-Parse",
+        description: "The engine extracts the method, URL, headers, and payload automatically.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Select Language",
+        description: "Choose your target language and copy the production-ready boilerplate code.",
+        icon: Code
+      }]} badges={["100% Free", "Client-Side Privacy", "No Signup"]} />
 
  <ToolFeatureGuides features={[{
-      icon: Terminal,
-      title: "Smart Parser",
-      description: "Handles multi-line commands, escaped quotes, and various cURL flags seamlessly."
-    }, {
-      icon: Code,
-      title: "6 Languages",
-      description: "Generate idiomatic code for JS Fetch, Python Requests, Node Axios, Go, PHP, and Rust."
-    }, {
-      icon: Zap,
-      title: "Instant Analysis",
-      description: "Visual breakdown of detected HTTP method, headers, and JSON payloads."
-    }, {
-      icon: Globe,
-      title: "Production Ready",
-      description: "Includes error handling, async patterns, and proper content-type serialization."
-    }]}>
+        icon: Terminal,
+        title: "Smart Parser",
+        description: "Handles multi-line commands, escaped quotes, and various cURL flags seamlessly."
+      }, {
+        icon: Code,
+        title: "6 Languages",
+        description: "Generate idiomatic code for JS Fetch, Python Requests, Node Axios, Go, PHP, and Rust."
+      }, {
+        icon: Zap,
+        title: "Instant Analysis",
+        description: "Visual breakdown of detected HTTP method, headers, and JSON payloads."
+      }, {
+        icon: Globe,
+        title: "Production Ready",
+        description: "Includes error handling, async patterns, and proper content-type serialization."
+      }]}>
  <div className="prose dark:prose-invert max-w-none">
  <h3>Accelerate API Integration with Automated Code Generation</h3>
  <p>The cURL command-line tool is an indispensable utility for backend engineers, DevOps professionals, and API developers. It allows for the rapid testing of HTTP endpoints, authentication flows, and complex data payloads directly from the terminal. However, transitioning from a quick terminal test to production-ready application code often involves tedious manual translation. Developers must painstakingly map cURL flags to their programming language's specific HTTP client libraries, ensuring that headers, query parameters, request bodies, and authentication tokens are formatted correctly. This manual process is not only time-consuming but also highly prone to syntax errors and subtle bugs.</p>
@@ -283,16 +284,16 @@ ${Object.entries(parsed.headers).map(([k, v]) => ` .header("${k}","${v}")`).join
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={[{
-      question: "Does this support multipart/form-data?",
-      answer: "Currently, the parser focuses on JSON and standard string payloads. Multipart form data with file uploads requires more complex terminal syntax that is usually better handled directly in your code editor."
-    }, {
-      question: "Are my API keys safe?",
-      answer: "Yes. This tool runs 100% client-side in your browser. Your cURL commands and sensitive Bearer tokens are never sent to any external server."
-    }, {
-      question: "Can I convert WebSocket commands?",
-      answer: "No, cURL is designed for standard HTTP/HTTPS requests. WebSocket connections require different client libraries and persistent connection handling."
-    }]} />
+        question: "Does this support multipart/form-data?",
+        answer: "Currently, the parser focuses on JSON and standard string payloads. Multipart form data with file uploads requires more complex terminal syntax that is usually better handled directly in your code editor."
+      }, {
+        question: "Are my API keys safe?",
+        answer: "Yes. This tool runs 100% client-side in your browser. Your cURL commands and sensitive Bearer tokens are never sent to any external server."
+      }, {
+        question: "Can I convert WebSocket commands?",
+        answer: "No, cURL is designed for standard HTTP/HTTPS requests. WebSocket connections require different client libraries and persistent connection handling."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/dev/curl-converter" max={6} />
- </div>;
+ </div></div>;
 }

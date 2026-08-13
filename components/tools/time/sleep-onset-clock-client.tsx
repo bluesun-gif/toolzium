@@ -1,71 +1,68 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
-import { useState } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
-import { Input } from"@/components/ui/input";
-import { Label } from"@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { ActionButton } from"@/components/shared/action-buttons";
-import { Clock, Moon, Sun, Shield, Sparkles, Zap, Copy } from"lucide-react";
-import { GridPattern } from"@/components/magicui/grid-pattern";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import { RelatedTools } from"@/components/shared/related-tools";
+import { useState } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ActionButton } from "@/components/shared/action-buttons";
+import { Clock, Moon, Sun, Shield, Sparkles, Zap, Copy } from "lucide-react";
+import { GridPattern } from "@/components/magicui/grid-pattern";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 export function SleepOnsetClockClient() {
- const [latency, setLatency] = useState("15");
- const [mode, setMode] = useState("wake");
- const [targetTime, setTargetTime] = useState("07:00");
- 
- const cycleLength = 90; // minutes
+  const [latency, setLatency] = useState("15");
+  const [mode, setMode] = useState("wake");
+  const [targetTime, setTargetTime] = useState("07:00");
+  const cycleLength = 90; // minutes
 
- const formatTime = (date: Date) => {
- return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
- };
+  const formatTime = (date: Date) => {
+    return date.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+  const calculateCycles = () => {
+    const lat = parseInt(latency);
+    const results = [];
+    if (mode === "wake") {
+      const [hours, minutes] = targetTime.split(':').map(Number);
+      const wakeDate = new Date();
+      wakeDate.setHours(hours, minutes, 0, 0);
+      for (const cycles of [6, 5, 4]) {
+        const sleepDuration = cycles * cycleLength; // total minutes asleep
+        const bedTime = new Date(wakeDate.getTime() - (sleepDuration + lat) * 60000);
+        results.push({
+          cycles,
+          time: formatTime(bedTime),
+          isDebt: cycles < 5
+        });
+      }
+    } else {
+      const bedDate = new Date(); // sleep now
+      const fallAsleepDate = new Date(bedDate.getTime() + lat * 60000);
+      for (const cycles of [6, 5, 4]) {
+        const sleepDuration = cycles * cycleLength;
+        const wakeTime = new Date(fallAsleepDate.getTime() + sleepDuration * 60000);
+        results.push({
+          cycles,
+          time: formatTime(wakeTime),
+          isDebt: cycles < 5
+        });
+      }
+    }
+    return results;
+  };
+  const cycleResults = calculateCycles();
+  return <div className={"space-y-6"}><ToolBackground /><div className="relative z-10">
+      
 
- const calculateCycles = () => {
- const lat = parseInt(latency);
- const results = [];
- 
- if (mode ==="wake") {
- const [hours, minutes] = targetTime.split(':').map(Number);
- const wakeDate = new Date();
- wakeDate.setHours(hours, minutes, 0, 0);
-
- for (const cycles of [6, 5, 4]) {
- const sleepDuration = cycles * cycleLength; // total minutes asleep
- const bedTime = new Date(wakeDate.getTime() - (sleepDuration + lat) * 60000);
- results.push({ cycles, time: formatTime(bedTime), isDebt: cycles < 5 });
- }
- } else {
- const bedDate = new Date(); // sleep now
- const fallAsleepDate = new Date(bedDate.getTime() + lat * 60000);
-
- for (const cycles of [6, 5, 4]) {
- const sleepDuration = cycles * cycleLength;
- const wakeTime = new Date(fallAsleepDate.getTime() + sleepDuration * 60000);
- results.push({ cycles, time: formatTime(wakeTime), isDebt: cycles < 5 });
- }
- }
- return results;
- };
-
- const cycleResults = calculateCycles();
-
- return (
- <div className={"space-y-6"}>
-      <GridPattern />
-
- <ToolPageHeader
- icon={Clock}
- title="Sleep Onset Latency & Bedtime Clock"
- description="Calculate optimal sleep schedules based on your REM cycles and sleep onset latency."
- actions={
- <ActionButton onClick={() => setMode(mode ==="wake"?"sleep":"wake")} icon={mode ==="wake"? Moon : Sun} label={mode ==="wake"?"Switch to Sleep Now":"Switch to Wake Target"} />
- }
- />
+ <ToolPageHeader icon={Clock} title="Sleep Onset Latency & Bedtime Clock" description="Calculate optimal sleep schedules based on your REM cycles and sleep onset latency." actions={<ActionButton onClick={() => setMode(mode === "wake" ? "sleep" : "wake")} icon={mode === "wake" ? Moon : Sun} label={mode === "wake" ? "Switch to Sleep Now" : "Switch to Wake Target"} />} />
 
  <div className={"grid md:grid-cols-2 gap-6"}>
  <GlassCard>
@@ -78,7 +75,7 @@ export function SleepOnsetClockClient() {
  <Label>Sleep Latency (Time to fall asleep)</Label>
  <Select value={latency} onValueChange={setLatency}>
  <SelectTrigger>
- <SelectValue placeholder="Select latency"/>
+ <SelectValue placeholder="Select latency" />
  </SelectTrigger>
  <SelectContent>
  <SelectItem value="5">5 Minutes</SelectItem>
@@ -89,92 +86,69 @@ export function SleepOnsetClockClient() {
  </SelectContent>
  </Select>
  </div>
- {mode ==="wake"&& (
- <div className={"space-y-2"}>
+ {mode === "wake" && <div className={"space-y-2"}>
  <Label>Target Wake-up Time</Label>
- <Input type="time"value={targetTime} onChange={(e) => setTargetTime(e.target.value)} />
- </div>
- )}
+ <Input type="time" value={targetTime} onChange={e => setTargetTime(e.target.value)} />
+ </div>}
  </CardContent>
  </GlassCard>
 
  <GlassCard>
  <CardHeader>
- <CardTitle>{mode ==="wake"?"Optimal Bedtimes":"Optimal Wake-up Times"}</CardTitle>
+ <CardTitle>{mode === "wake" ? "Optimal Bedtimes" : "Optimal Wake-up Times"}</CardTitle>
  <CardDescription>
- {mode ==="wake"
- ?"To wake up at"+ targetTime +", try to be in bed by:"
- :"If you go to bed right now, set your alarm for:"}
+ {mode === "wake" ? "To wake up at" + targetTime + ", try to be in bed by:" : "If you go to bed right now, set your alarm for:"}
  </CardDescription>
  </CardHeader>
  <CardContent className={"space-y-4"}>
  <div className={"grid gap-4"}>
- {cycleResults.map((result, idx) => (
- <div key={idx} className={"flex items-center justify-between p-4 rounded-lg border bg-card"}>
+ {cycleResults.map((result, idx) => <div key={idx} className={"flex items-center justify-between p-4 rounded-lg border bg-card"}>
  <div>
  <div className={"text-2xl font-bold text-primary"}>{result.time}</div>
  <div className={"text-sm text-muted-foreground"}>{result.cycles} Cycles ({result.cycles * 1.5} Hours)</div>
  </div>
- {result.isDebt && (
- <div className={"flex items-center gap-1 text-xs font-semibold text-destructive bg-destructive/10 px-2 py-1 rounded-md"}>
+ {result.isDebt && <div className={"flex items-center gap-1 text-xs font-semibold text-destructive bg-destructive/10 px-2 py-1 rounded-md"}>
  <Shield className={"h-3 w-3"} /> Sleep Debt Warning
- </div>
- )}
- {!result.isDebt && (
- <div className={"flex items-center gap-1 text-xs font-semibold text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded-md"}>
+ </div>}
+ {!result.isDebt && <div className={"flex items-center gap-1 text-xs font-semibold text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded-md"}>
  Ideal
- </div>
- )}
- </div>
- ))}
+ </div>}
+ </div>)}
  </div>
  </CardContent>
  </GlassCard>
  </div>
  
-      <ToolHowItWorks
-        steps={[
-          {
-            step: "01",
-            title: "Input Your Data",
-            description: "Enter your information in the input field above and configure any options.",
-            icon: Sparkles,
-          },
-          {
-            step: "02",
-            title: "Process & Generate",
-            description: "The tool processes your input instantly and displays the results.",
-            icon: Zap,
-          },
-          {
-            step: "03",
-            title: "Copy & Use",
-            description: "Copy the output with one click and use it wherever you need.",
-            icon: Copy,
-          },
-        ]}
-        badges={["100% Free", "Instant Results", "Privacy-First"]}
-      />
+      <ToolHowItWorks steps={[{
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
 
-      <ToolFeatureGuides
-        features={[
-          {
-            icon: Sparkles,
-            title: "Lightning Fast",
-            description: "Get results in milliseconds with our optimized client-side processing engine.",
-          },
-          {
-            icon: Shield,
-            title: "Completely Private",
-            description: "All processing happens in your browser. Your data never leaves your device.",
-          },
-          {
-            icon: Zap,
-            title: "No Signup Required",
-            description: "Use this tool instantly without creating an account or providing any personal information.",
-          },
-        ]}
-      >
+      <ToolFeatureGuides features={[{
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Sleep Onset Latency & Bedtime Clock?</h3>
           <p>
@@ -190,25 +164,18 @@ export function SleepOnsetClockClient() {
         </div>
       </ToolFeatureGuides>
 
-      <ToolFaqAccordion
-        faqs={[
-          {
-            question: "Is this tool free to use?",
-            answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits.",
-          },
-          {
-            question: "Is my data secure?",
-            answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server.",
-          },
-          {
-            question: "Do I need to create an account?",
-            answer: "No account or registration is required. Simply open the tool and start using it immediately.",
-          },
-        ]}
-      />
+      <ToolFaqAccordion faqs={[{
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/time/sleep-onset-clock" max={6} />
 
-</div>
- );
+    </div></div>;
 }

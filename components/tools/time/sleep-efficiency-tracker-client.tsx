@@ -1,111 +1,99 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
-import { useState, useEffect } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
-import { Separator } from"@/components/ui/separator";
-import { Input } from"@/components/ui/input";
-import { Label } from"@/components/ui/label";
-import { ResetButton } from"@/components/shared/action-buttons";
-import { Moon, Activity, Clock, Shield, Sparkles, Zap, Copy } from"lucide-react";
-import { toast } from"react-hot-toast";
-import { GridPattern } from"@/components/magicui/grid-pattern";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import { RelatedTools } from"@/components/shared/related-tools";
-import { cn } from"@/lib/utils";
-
+import { useState, useEffect } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ResetButton } from "@/components/shared/action-buttons";
+import { Moon, Activity, Clock, Shield, Sparkles, Zap, Copy } from "lucide-react";
+import { toast } from "react-hot-toast";
+import { GridPattern } from "@/components/magicui/grid-pattern";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { cn } from "@/lib/utils";
 export function SleepEfficiencyTrackerClient() {
- const [bedTime, setBedTime] = useState("22:00");
- const [sleepTime, setSleepTime] = useState("22:30");
- const [wakeTime, setWakeTime] = useState("06:30");
- const [outOfBedTime, setOutOfBedTime] = useState("07:00");
- const [awakenings, setAwakenings] = useState("1");
- const [awakeTimeTotal, setAwakeTimeTotal] = useState("15");
- 
- useEffect(() => {
- const saved = localStorage.getItem("sleep-tracker-data");
- if (saved) {
- try {
- const data = JSON.parse(saved);
- setBedTime(data.bedTime ||"22:00");
- setSleepTime(data.sleepTime ||"22:30");
- setWakeTime(data.wakeTime ||"06:30");
- setOutOfBedTime(data.outOfBedTime ||"07:00");
- setAwakenings(data.awakenings ||"1");
- setAwakeTimeTotal(data.awakeTimeTotal ||"15");
- } catch (e) {}
- }
- }, []);
+  const [bedTime, setBedTime] = useState("22:00");
+  const [sleepTime, setSleepTime] = useState("22:30");
+  const [wakeTime, setWakeTime] = useState("06:30");
+  const [outOfBedTime, setOutOfBedTime] = useState("07:00");
+  const [awakenings, setAwakenings] = useState("1");
+  const [awakeTimeTotal, setAwakeTimeTotal] = useState("15");
+  useEffect(() => {
+    const saved = localStorage.getItem("sleep-tracker-data");
+    if (saved) {
+      try {
+        const data = JSON.parse(saved);
+        setBedTime(data.bedTime || "22:00");
+        setSleepTime(data.sleepTime || "22:30");
+        setWakeTime(data.wakeTime || "06:30");
+        setOutOfBedTime(data.outOfBedTime || "07:00");
+        setAwakenings(data.awakenings || "1");
+        setAwakeTimeTotal(data.awakeTimeTotal || "15");
+      } catch (e) {}
+    }
+  }, []);
+  const saveToStorage = () => {
+    localStorage.setItem("sleep-tracker-data", JSON.stringify({
+      bedTime,
+      sleepTime,
+      wakeTime,
+      outOfBedTime,
+      awakenings,
+      awakeTimeTotal
+    }));
+    toast.success("Preferences saved!");
+  };
+  const handleReset = () => {
+    setBedTime("22:00");
+    setSleepTime("22:30");
+    setWakeTime("06:30");
+    setOutOfBedTime("07:00");
+    setAwakenings("1");
+    setAwakeTimeTotal("15");
+    localStorage.removeItem("sleep-tracker-data");
+    toast.success("Reset to defaults");
+  };
+  const parseTime = (timeStr: string) => {
+    if (!timeStr) return 0;
+    const [hours, mins] = timeStr.split(":").map(Number);
+    return hours * 60 + mins;
+  };
+  const calculateDuration = (start: string, end: string) => {
+    if (!start || !end) return 0;
+    let s = parseTime(start);
+    let e = parseTime(end);
+    if (e < s) e += 24 * 60; // next day
+    return e - s;
+  };
+  const timeInBed = calculateDuration(bedTime, outOfBedTime);
+  const sleepLatency = calculateDuration(bedTime, sleepTime);
+  const totalSleepTimeRaw = calculateDuration(sleepTime, wakeTime);
+  const totalSleepTime = Math.max(0, totalSleepTimeRaw - Number(awakeTimeTotal));
+  const efficiency = timeInBed > 0 ? totalSleepTime / timeInBed * 100 : 0;
+  let rating = "Poor";
+  let colorClass = "text-red-500";
+  if (efficiency > 85) {
+    rating = "Excellent";
+    colorClass = "text-green-500";
+  } else if (efficiency >= 80) {
+    rating = "Good";
+    colorClass = "text-emerald-400";
+  } else if (efficiency >= 75) {
+    rating = "Fair";
+    colorClass = "text-yellow-500";
+  }
+  return <div className={"space-y-6"}><ToolBackground /><div className="relative z-10">
+      
 
- const saveToStorage = () => {
- localStorage.setItem("sleep-tracker-data", JSON.stringify({
- bedTime, sleepTime, wakeTime, outOfBedTime, awakenings, awakeTimeTotal
- }));
- toast.success("Preferences saved!");
- };
-
- const handleReset = () => {
- setBedTime("22:00");
- setSleepTime("22:30");
- setWakeTime("06:30");
- setOutOfBedTime("07:00");
- setAwakenings("1");
- setAwakeTimeTotal("15");
- localStorage.removeItem("sleep-tracker-data");
- toast.success("Reset to defaults");
- };
- 
- const parseTime = (timeStr: string) => {
- if (!timeStr) return 0;
- const [hours, mins] = timeStr.split(":").map(Number);
- return hours * 60 + mins;
- };
- 
- const calculateDuration = (start: string, end: string) => {
- if (!start || !end) return 0;
- let s = parseTime(start);
- let e = parseTime(end);
- if (e < s) e += 24 * 60; // next day
- return e - s;
- };
-
- const timeInBed = calculateDuration(bedTime, outOfBedTime);
- const sleepLatency = calculateDuration(bedTime, sleepTime);
- const totalSleepTimeRaw = calculateDuration(sleepTime, wakeTime);
- const totalSleepTime = Math.max(0, totalSleepTimeRaw - Number(awakeTimeTotal));
- 
- const efficiency = timeInBed > 0 ? (totalSleepTime / timeInBed) * 100 : 0;
- 
- let rating ="Poor";
- let colorClass ="text-red-500";
- if (efficiency > 85) {
- rating ="Excellent";
- colorClass ="text-green-500";
- } else if (efficiency >= 80) {
- rating ="Good";
- colorClass ="text-emerald-400";
- } else if (efficiency >= 75) {
- rating ="Fair";
- colorClass ="text-yellow-500";
- }
-
- return (
- <div className={"space-y-6"}>
-      <GridPattern />
-
- <ToolPageHeader 
- icon={Moon} 
- title="Sleep Efficiency & Quality Tracker"
- description="Calculate your sleep efficiency percentage and clinical rating."
- actions={
- <div className={"flex space-x-2"}>
- <ResetButton onClick={handleReset} label="Reset"/>
- </div>
- }
- />
+ <ToolPageHeader icon={Moon} title="Sleep Efficiency & Quality Tracker" description="Calculate your sleep efficiency percentage and clinical rating." actions={<div className={"flex space-x-2"}>
+ <ResetButton onClick={handleReset} label="Reset" />
+ </div>} />
  
  <div className={"grid gap-6 md:grid-cols-2"}>
  <GlassCard>
@@ -117,19 +105,19 @@ export function SleepEfficiencyTrackerClient() {
  <div className={"grid grid-cols-2 gap-4"}>
  <div className={"space-y-2"}>
  <Label>Time got into bed</Label>
- <Input type="time"value={bedTime} onChange={(e) => setBedTime(e.target.value)} onBlur={saveToStorage} />
+ <Input type="time" value={bedTime} onChange={e => setBedTime(e.target.value)} onBlur={saveToStorage} />
  </div>
  <div className={"space-y-2"}>
  <Label>Time fell asleep</Label>
- <Input type="time"value={sleepTime} onChange={(e) => setSleepTime(e.target.value)} onBlur={saveToStorage} />
+ <Input type="time" value={sleepTime} onChange={e => setSleepTime(e.target.value)} onBlur={saveToStorage} />
  </div>
  <div className={"space-y-2"}>
  <Label>Wake-up time</Label>
- <Input type="time"value={wakeTime} onChange={(e) => setWakeTime(e.target.value)} onBlur={saveToStorage} />
+ <Input type="time" value={wakeTime} onChange={e => setWakeTime(e.target.value)} onBlur={saveToStorage} />
  </div>
  <div className={"space-y-2"}>
  <Label>Time got out of bed</Label>
- <Input type="time"value={outOfBedTime} onChange={(e) => setOutOfBedTime(e.target.value)} onBlur={saveToStorage} />
+ <Input type="time" value={outOfBedTime} onChange={e => setOutOfBedTime(e.target.value)} onBlur={saveToStorage} />
  </div>
  </div>
  
@@ -138,11 +126,11 @@ export function SleepEfficiencyTrackerClient() {
  <div className={"grid grid-cols-2 gap-4"}>
  <div className={"space-y-2"}>
  <Label>Night awakenings (count)</Label>
- <Input type="number"min="0"value={awakenings} onChange={(e) => setAwakenings(e.target.value)} onBlur={saveToStorage} />
+ <Input type="number" min="0" value={awakenings} onChange={e => setAwakenings(e.target.value)} onBlur={saveToStorage} />
  </div>
  <div className={"space-y-2"}>
  <Label>Total awake time (mins)</Label>
- <Input type="number"min="0"value={awakeTimeTotal} onChange={(e) => setAwakeTimeTotal(e.target.value)} onBlur={saveToStorage} />
+ <Input type="number" min="0" value={awakeTimeTotal} onChange={e => setAwakeTimeTotal(e.target.value)} onBlur={saveToStorage} />
  </div>
  </div>
  </CardContent>
@@ -183,49 +171,36 @@ export function SleepEfficiencyTrackerClient() {
  </GlassCard>
  </div>
  
-      <ToolHowItWorks
-        steps={[
-          {
-            step: "01",
-            title: "Input Your Data",
-            description: "Enter your information in the input field above and configure any options.",
-            icon: Sparkles,
-          },
-          {
-            step: "02",
-            title: "Process & Generate",
-            description: "The tool processes your input instantly and displays the results.",
-            icon: Zap,
-          },
-          {
-            step: "03",
-            title: "Copy & Use",
-            description: "Copy the output with one click and use it wherever you need.",
-            icon: Copy,
-          },
-        ]}
-        badges={["100% Free", "Instant Results", "Privacy-First"]}
-      />
+      <ToolHowItWorks steps={[{
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
 
-      <ToolFeatureGuides
-        features={[
-          {
-            icon: Sparkles,
-            title: "Lightning Fast",
-            description: "Get results in milliseconds with our optimized client-side processing engine.",
-          },
-          {
-            icon: Shield,
-            title: "Completely Private",
-            description: "All processing happens in your browser. Your data never leaves your device.",
-          },
-          {
-            icon: Zap,
-            title: "No Signup Required",
-            description: "Use this tool instantly without creating an account or providing any personal information.",
-          },
-        ]}
-      >
+      <ToolFeatureGuides features={[{
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Sleep Efficiency & Quality Tracker?</h3>
           <p>
@@ -241,25 +216,18 @@ export function SleepEfficiencyTrackerClient() {
         </div>
       </ToolFeatureGuides>
 
-      <ToolFaqAccordion
-        faqs={[
-          {
-            question: "Is this tool free to use?",
-            answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits.",
-          },
-          {
-            question: "Is my data secure?",
-            answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server.",
-          },
-          {
-            question: "Do I need to create an account?",
-            answer: "No account or registration is required. Simply open the tool and start using it immediately.",
-          },
-        ]}
-      />
+      <ToolFaqAccordion faqs={[{
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/time/sleep-efficiency-tracker" max={6} />
 
-</div>
- );
+    </div></div>;
 }

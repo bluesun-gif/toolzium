@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -149,9 +150,9 @@ export function WordleClient() {
  if (guess) {
  letter = guess.word[j];
  state = guess.eval[j];
- if (state ==="correct") { bg ="bg-green-600"; text ="text-white"; border ="border-green-600"; }
- else if (state ==="present") { bg ="bg-yellow-500"; text ="text-white"; border ="border-yellow-500"; }
- else { bg ="bg-zinc-500"; text ="text-white"; border ="border-zinc-500"; }
+ if (state ==="correct") { bg ="bg-green-600"; text ="text-primary-foreground"; border ="border-green-600"; }
+ else if (state ==="present") { bg ="bg-yellow-500"; text ="text-primary-foreground"; border ="border-yellow-500"; }
+ else { bg ="bg-zinc-500"; text ="text-primary-foreground"; border ="border-zinc-500"; }
  } else if (isCurrent && current[j]) {
  letter = current[j];
  state ="tbd";
@@ -160,7 +161,7 @@ export function WordleClient() {
  
  return (
  <div key={j} className={`w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center text-2xl font-bold border-2 ${border} ${bg} ${text} transition-all duration-300`}>
-      <GridPattern />
+      <ToolBackground />
 
  {letter.toUpperCase()}
  </div>
@@ -183,8 +184,8 @@ export function WordleClient() {
  const state = keyStates[k];
  let bg ="bg-muted";
  let text ="text-foreground";
- if (state ==="correct") { bg ="bg-green-600"; text ="text-white"; }
- else if (state ==="present") { bg ="bg-yellow-500"; text ="text-white"; }
+ if (state ==="correct") { bg ="bg-green-600"; text ="text-primary-foreground"; }
+ else if (state ==="present") { bg ="bg-yellow-500"; text ="text-primary-foreground"; }
  else if (state ==="absent") { bg ="bg-zinc-700"; text ="text-zinc-400"; }
  return <Button key={k} variant="outline"size="sm"className={`${bg} ${text} border-none min-w-[2rem] px-2`} onClick={() => current.length < 5 && setCurrent(c => c + k)}>{k.toUpperCase()}</Button>;
  })}
@@ -232,7 +233,7 @@ export function WordleClient() {
  {stats.dist.map((count, i) => (
  <div key={i} className="flex items-center gap-2 text-xs">
  <span className="w-4 text-right">{i + 1}</span>
- <div className="flex-1 bg-muted rounded-sm h-5 flex items-center justify-end px-2 text-white font-bold"style={{ width: `${Math.max(10, (count / Math.max(...stats.dist, 1)) * 100)}%`, backgroundColor: won && guesses.length === i + 1 ?"#16a34a":"#6b7280"}}>{count}</div>
+ <div className="flex-1 bg-muted rounded-sm h-5 flex items-center justify-end px-2 text-primary-foreground font-bold"style={{ width: `${Math.max(10, (count / Math.max(...stats.dist, 1)) * 100)}%`, backgroundColor: won && guesses.length === i + 1 ?"#16a34a":"#6b7280"}}>{count}</div>
  </div>
  ))}
  </div>

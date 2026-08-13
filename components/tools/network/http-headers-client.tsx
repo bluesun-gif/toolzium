@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -181,7 +182,7 @@ export default function HttpHeadersClient() {
  const isPresent = headers.some(h => h.name === secHeader);
  return (
  <div key={secHeader} className="flex items-center justify-between">
-      <GridPattern />
+      <ToolBackground />
 
  <span className="truncate pr-2"title={secHeader}>{secHeader}</span>
  {isPresent ? (

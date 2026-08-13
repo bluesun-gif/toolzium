@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import {
  ActionButton,
@@ -387,7 +388,7 @@ export default function UnitPriceClient() {
 
  {/* Items */}
  <div className="grid gap-4">
-      <GridPattern />
+      <ToolBackground />
 
  {computed.rows.length === 0 && (
  <GlassCard className="p-6 text-sm text-muted-foreground">

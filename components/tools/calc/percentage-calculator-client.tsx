@@ -1,7 +1,8 @@
 "use client";
-import { Button } from"@/components/ui/button";
-import { cn } from"@/lib/utils";
+import { ToolBackground } from"@/components/shared/tool-background";
 
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -58,8 +59,8 @@ export default function PercentageCalculatorClient() {
     if (mode === "percent-of") return result.toFixed(2);
     return `${result.toFixed(2)}%`;
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Percent} title="Percentage Calculator" description="Calculate percentages, percentage changes, and find what percent one number is of another." />
 
@@ -72,10 +73,10 @@ export default function PercentageCalculatorClient() {
  <CardContent className="p-3 sm:p-4 space-y-4">
  <div className="flex gap-2 flex-wrap">
  {(Object.keys(modeLabels) as Mode[]).map(m => <Button key={m} onClick={() => {
-            setMode(m);
-            setValue1(0);
-            setValue2(0);
-          }} className={cn(`px-4 py-2 text-sm rounded-lg transition-colors ${mode === m ? "bg-primary text-primary-foreground" : "bg-muted/40 hover:bg-muted/60"}`)}>
+              setMode(m);
+              setValue1(0);
+              setValue2(0);
+            }} className={cn(`px-4 py-2 text-sm rounded-lg transition-colors ${mode === m ? "bg-primary text-primary-foreground" : "bg-muted/40 hover:bg-muted/60"}`)}>
  {modeLabels[m]}
  </Button>)}
  </div>
@@ -106,39 +107,39 @@ export default function PercentageCalculatorClient() {
  </GlassCard>
 
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Select Mode",
-      description: "Choose the type of percentage calculation you need.",
-      icon: Percent
-    }, {
-      step: "02",
-      title: "Enter Values",
-      description: "Input the numbers for your calculation.",
-      icon: Percent
-    }, {
-      step: "03",
-      title: "View Result",
-      description: "Get your answer instantly with the option to copy it.",
-      icon: Copy
-    }]} badges={["100% Free", "Client-Side", "Instant"]} />
+        step: "01",
+        title: "Select Mode",
+        description: "Choose the type of percentage calculation you need.",
+        icon: Percent
+      }, {
+        step: "02",
+        title: "Enter Values",
+        description: "Input the numbers for your calculation.",
+        icon: Percent
+      }, {
+        step: "03",
+        title: "View Result",
+        description: "Get your answer instantly with the option to copy it.",
+        icon: Copy
+      }]} badges={["100% Free", "Client-Side", "Instant"]} />
 
  <ToolFeatureGuides features={[{
-      icon: Percent,
-      title: "Three Calculation Modes",
-      description: "Find X% of Y, what % X is of Y, or percentage change between values."
-    }, {
-      icon: Copy,
-      title: "Instant Results",
-      description: "Calculations update in real-time as you type your values."
-    }, {
-      icon: Percent,
-      title: "Clear Labels",
-      description: "Input fields are clearly labeled based on your selected calculation mode."
-    }, {
-      icon: Copy,
-      title: "Copy Functionality",
-      description: "Copy results with one click for use in documents or spreadsheets."
-    }]}>
+        icon: Percent,
+        title: "Three Calculation Modes",
+        description: "Find X% of Y, what % X is of Y, or percentage change between values."
+      }, {
+        icon: Copy,
+        title: "Instant Results",
+        description: "Calculations update in real-time as you type your values."
+      }, {
+        icon: Percent,
+        title: "Clear Labels",
+        description: "Input fields are clearly labeled based on your selected calculation mode."
+      }, {
+        icon: Copy,
+        title: "Copy Functionality",
+        description: "Copy results with one click for use in documents or spreadsheets."
+      }]}>
  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
  <p>Percentage calculations are fundamental to everyday life, from calculating tips and discounts to analyzing financial data and statistical changes. This calculator provides three essential modes to handle the most common percentage problems you'll encounter.</p>
  <p>The"What is X% of Y?"mode finds a percentage of a value — useful for calculating sales tax, tips, or discounts. For example, 15% of $200 equals $30. The"X is what % of Y?"mode determines what percentage one number represents of another — perfect for understanding proportions like"45 is what percent of 180?"(answer: 25%).</p>
@@ -147,16 +148,16 @@ export default function PercentageCalculatorClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={[{
-      question: "How do I calculate a tip?",
-      answer: "Use 'What is X% of Y?' mode. Enter the tip percentage (e.g., 15) and the bill amount to get the tip value."
-    }, {
-      question: "Can I calculate percentage decrease?",
-      answer: "Yes, the percentage change mode handles both increases and decreases. A negative result indicates a decrease."
-    }, {
-      question: "What if I divide by zero?",
-      answer: "The calculator prevents division by zero errors and will show '—' for invalid calculations."
-    }]} />
+        question: "How do I calculate a tip?",
+        answer: "Use 'What is X% of Y?' mode. Enter the tip percentage (e.g., 15) and the bill amount to get the tip value."
+      }, {
+        question: "Can I calculate percentage decrease?",
+        answer: "Yes, the percentage change mode handles both increases and decreases. A negative result indicates a decrease."
+      }, {
+        question: "What if I divide by zero?",
+        answer: "The calculator prevents division by zero errors and will show '—' for invalid calculations."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/calc/percentage-calculator" max={6} />
- </div>;
+ </div></div>;
 }

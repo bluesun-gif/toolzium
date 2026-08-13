@@ -1,6 +1,7 @@
 "use client";
-import { cn } from"@/lib/utils";
+import { ToolBackground } from"@/components/shared/tool-background";
 
+import { cn } from "@/lib/utils";
 import React, { useState, useRef, ChangeEvent } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -252,8 +253,8 @@ export default function BgRemoveClient() {
     setResultUrl(null);
     setIsProcessing(false);
   };
-  return <div className="relative mx-auto max-w-6xl px-4 py-6 space-y-6">
-      <GridPattern />
+  return <div className="relative mx-auto max-w-6xl px-4 py-6 space-y-6"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader title="AI Background Remover Studio" description="Remove image backgrounds instantly with high-precision thresholding or HD Neural AI segmentation. Complete with interactive comparison slider and studio backdrop presets." />
 
@@ -383,13 +384,13 @@ export default function BgRemoveClient() {
  </div>
 
  <div ref={splitContainerRef} className="relative flex-1 rounded-2xl overflow-hidden border min-h-[340px] flex items-center justify-center select-none cursor-ew-resize touch-none shadow-inner" style={{
-                backgroundColor: bgPreviewColor === "transparent" ? "transparent" : bgPreviewColor
-              }} onMouseDown={e => {
-                setIsDraggingSlider(true);
-                handleSplitMove(e.clientX);
-              }} onMouseMove={e => {
-                if (isDraggingSlider) handleSplitMove(e.clientX);
-              }} onMouseUp={() => setIsDraggingSlider(false)} onMouseLeave={() => setIsDraggingSlider(false)} onTouchMove={e => handleSplitMove(e.touches[0].clientX)}>
+                  backgroundColor: bgPreviewColor === "transparent" ? "transparent" : bgPreviewColor
+                }} onMouseDown={e => {
+                  setIsDraggingSlider(true);
+                  handleSplitMove(e.clientX);
+                }} onMouseMove={e => {
+                  if (isDraggingSlider) handleSplitMove(e.clientX);
+                }} onMouseUp={() => setIsDraggingSlider(false)} onMouseLeave={() => setIsDraggingSlider(false)} onTouchMove={e => handleSplitMove(e.touches[0].clientX)}>
  {bgPreviewColor === "transparent" && <div className="absolute inset-0 pointer-events-none custom-checkerboard" />}
 
  {/* Result (Transparent) Layer */}
@@ -397,17 +398,17 @@ export default function BgRemoveClient() {
 
  {/* Original Image Clipped Layer */}
  <div className="absolute inset-0 overflow-hidden z-20 pointer-events-none border-r-2 border-primary" style={{
-                  width: `${sliderPos}%`
-                }}>
+                    width: `${sliderPos}%`
+                  }}>
  <img src={originalUrl} alt="Original image" className="absolute inset-0 h-full w-full object-contain p-3 select-none max-w-none" style={{
-                    width: splitContainerRef.current?.clientWidth || "100%"
-                  }} />
+                      width: splitContainerRef.current?.clientWidth || "100%"
+                    }} />
  </div>
 
  {/* Drag Handle Divider */}
  <div className="absolute top-0 bottom-0 z-30 w-1 bg-primary cursor-ew-resize flex items-center justify-center shadow-lg" style={{
-                  left: `${sliderPos}%`
-                }}>
+                    left: `${sliderPos}%`
+                  }}>
  <div className="h-9 w-9 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-md border-2 border-background">
  <Split className="h-4 w-4" />
  </div>
@@ -431,8 +432,8 @@ export default function BgRemoveClient() {
  <CheckCircle2 className="h-3.5 w-3.5" /> Transparent Result
  </p>
  <div className="relative flex-1 rounded-xl overflow-hidden border flex items-center justify-center transition-colors" style={{
-                  backgroundColor: bgPreviewColor === "transparent" ? "transparent" : bgPreviewColor
-                }}>
+                    backgroundColor: bgPreviewColor === "transparent" ? "transparent" : bgPreviewColor
+                  }}>
  {bgPreviewColor === "transparent" && <div className="absolute inset-0 pointer-events-none custom-checkerboard" />}
  <img src={resultUrl} alt="Transparent result" className="max-h-[340px] w-full object-contain p-2 relative z-10" />
  </div>
@@ -447,29 +448,29 @@ export default function BgRemoveClient() {
  <Palette className="h-3.5 w-3.5 text-primary" /> Backdrop:
  </span>
  {[{
-                  name: "Grid",
-                  color: "transparent"
-                }, {
-                  name: "White",
-                  color: "#ffffff"
-                }, {
-                  name: "Dark",
-                  color: "#0f172a"
-                }, {
-                  name: "Emerald",
-                  color: "#ecfdf5"
-                }, {
-                  name: "Blue",
-                  color: "#eff6ff"
-                }, {
-                  name: "Rose",
-                  color: "#fff1f2"
-                }].map(preset => <Button key={preset.name} type="button" onClick={() => setBgPreviewColor(preset.color)} className={cn(`px-2 py-1 rounded-lg text-xs font-medium border transition-all flex items-center gap-1.5 ${bgPreviewColor === preset.color ? "border-primary bg-primary/10 text-primary shadow-xs" : "border-transparent bg-background/60 hover:bg-background text-muted-foreground"}`)}>
+                    name: "Grid",
+                    color: "transparent"
+                  }, {
+                    name: "White",
+                    color: "#ffffff"
+                  }, {
+                    name: "Dark",
+                    color: "#0f172a"
+                  }, {
+                    name: "Emerald",
+                    color: "#ecfdf5"
+                  }, {
+                    name: "Blue",
+                    color: "#eff6ff"
+                  }, {
+                    name: "Rose",
+                    color: "#fff1f2"
+                  }].map(preset => <Button key={preset.name} type="button" onClick={() => setBgPreviewColor(preset.color)} className={cn(`px-2 py-1 rounded-lg text-xs font-medium border transition-all flex items-center gap-1.5 ${bgPreviewColor === preset.color ? "border-primary bg-primary/10 text-primary shadow-xs" : "border-transparent bg-background/60 hover:bg-background text-muted-foreground"}`)}>
  <span className="h-2.5 w-2.5 rounded-full border shadow-xs" style={{
-                    backgroundColor: preset.color === "transparent" ? "#ffffff" : preset.color,
-                    backgroundImage: preset.color === "transparent" ? "linear-gradient(45deg, #ccc 25%, transparent 25%), linear-gradient(-45deg, #ccc 25%, transparent 25%)" : "none",
-                    backgroundSize: "6px 6px"
-                  }} />
+                      backgroundColor: preset.color === "transparent" ? "#ffffff" : preset.color,
+                      backgroundImage: preset.color === "transparent" ? "linear-gradient(45deg, #ccc 25%, transparent 25%), linear-gradient(-45deg, #ccc 25%, transparent 25%)" : "none",
+                      backgroundSize: "6px 6px"
+                    }} />
  {preset.name}
  </Button>)}
  </div>
@@ -478,12 +479,12 @@ export default function BgRemoveClient() {
  {mode === "instant" && <div className="flex items-center gap-2 text-xs border rounded-lg px-3 py-1 bg-muted/20 w-full md:w-auto">
  <span className="text-muted-foreground font-semibold shrink-0">Tolerance: {tolerance}%</span>
  <input type="range" min="10" max="80" value={tolerance} onChange={e => {
-                  const val = Number(e.target.value);
-                  setTolerance(val);
-                  if (imageElementRef.current) {
-                    processInstantRemoval(imageElementRef.current, val);
-                  }
-                }} className="w-24 accent-primary cursor-pointer h-1.5 bg-muted rounded-lg" />
+                    const val = Number(e.target.value);
+                    setTolerance(val);
+                    if (imageElementRef.current) {
+                      processInstantRemoval(imageElementRef.current, val);
+                    }
+                  }} className="w-24 accent-primary cursor-pointer h-1.5 bg-muted rounded-lg" />
  </div>}
  </div>
  </>}
@@ -492,7 +493,7 @@ export default function BgRemoveClient() {
  </Card>
 
  <style dangerouslySetInnerHTML={{
-      __html: `
+        __html: `
  .custom-checkerboard {
  background-image: linear-gradient(45deg, rgba(0,0,0,0.06) 25%, transparent 25%),
  linear-gradient(-45deg, rgba(0,0,0,0.06) 25%, transparent 25%),
@@ -502,49 +503,49 @@ export default function BgRemoveClient() {
  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
  }
  `
-    }} />
+      }} />
 
  {/* ─── How It Works ─── */}
  <ToolHowItWorks steps={[{
-      step: "1",
-      title: "Upload Your Image",
-      description: "Drag and drop or click to upload any JPG, PNG, or WebP image. Sample images load instantly for a quick demo."
-    }, {
-      step: "2",
-      title: "AI Removes the Background",
-      description: "Our on-device AI model analyzes every pixel, isolates the subject, and removes the background in seconds — no upload to any server."
-    }, {
-      step: "3",
-      title: "Download Transparent PNG",
-      description: "Preview your result with any backdrop color. Download a crisp transparent PNG ready for design, e-commerce, or presentations."
-    }]} badges={["100% Client-Side", "No Upload", "No Signup", "Free Forever"]} />
+        step: "1",
+        title: "Upload Your Image",
+        description: "Drag and drop or click to upload any JPG, PNG, or WebP image. Sample images load instantly for a quick demo."
+      }, {
+        step: "2",
+        title: "AI Removes the Background",
+        description: "Our on-device AI model analyzes every pixel, isolates the subject, and removes the background in seconds — no upload to any server."
+      }, {
+        step: "3",
+        title: "Download Transparent PNG",
+        description: "Preview your result with any backdrop color. Download a crisp transparent PNG ready for design, e-commerce, or presentations."
+      }]} badges={["100% Client-Side", "No Upload", "No Signup", "Free Forever"]} />
 
  {/* ─── Feature Guides + SEO Content ─── */}
  <ToolFeatureGuides features={[{
-      icon: Cpu,
-      title: "On-Device AI",
-      description: "The entire AI model runs locally in your browser using WebAssembly. No cloud processing, no API keys, no cost per image."
-    }, {
-      icon: ShieldCheck,
-      title: "100% Private",
-      description: "Your images never leave your device. Unlike remove.bg and other services, there is no upload, no data collection, no storage."
-    }, {
-      icon: Zap,
-      title: "Instant Mode",
-      description: "Flood-fill based removal for simple solid backgrounds. Processes in under a second — perfect for product photos on white."
-    }, {
-      icon: Sparkles,
-      title: "AI Precision Mode",
-      description: "Deep learning model trained on millions of images handles complex scenes: hair, fur, transparent objects, and intricate edges."
-    }, {
-      icon: Palette,
-      title: "Backdrop Preview",
-      description: "Preview your cutout on any background color — white, dark, gradient, or a custom hex — before downloading."
-    }, {
-      icon: Eye,
-      title: "Split Comparison",
-      description: "Drag the split slider to compare original and background-removed images side by side with pixel-perfect precision."
-    }]}>
+        icon: Cpu,
+        title: "On-Device AI",
+        description: "The entire AI model runs locally in your browser using WebAssembly. No cloud processing, no API keys, no cost per image."
+      }, {
+        icon: ShieldCheck,
+        title: "100% Private",
+        description: "Your images never leave your device. Unlike remove.bg and other services, there is no upload, no data collection, no storage."
+      }, {
+        icon: Zap,
+        title: "Instant Mode",
+        description: "Flood-fill based removal for simple solid backgrounds. Processes in under a second — perfect for product photos on white."
+      }, {
+        icon: Sparkles,
+        title: "AI Precision Mode",
+        description: "Deep learning model trained on millions of images handles complex scenes: hair, fur, transparent objects, and intricate edges."
+      }, {
+        icon: Palette,
+        title: "Backdrop Preview",
+        description: "Preview your cutout on any background color — white, dark, gradient, or a custom hex — before downloading."
+      }, {
+        icon: Eye,
+        title: "Split Comparison",
+        description: "Drag the split slider to compare original and background-removed images side by side with pixel-perfect precision."
+      }]}>
  <div className="space-y-5 text-sm leading-relaxed text-muted-foreground">
  <h3 className="text-xl font-semibold text-foreground">How AI Background Removal Works</h3>
  <p>
@@ -624,22 +625,22 @@ export default function BgRemoveClient() {
 
  {/* ─── FAQ ─── */}
  <ToolFaqAccordion faqs={[{
-      question: "Does this tool upload my images to a server?",
-      answer: "No. The entire AI model runs locally in your browser using WebAssembly. Your images are processed on your device and never sent to any server. This is different from services like remove.bg which upload your files to their cloud."
-    }, {
-      question: "What is the difference between AI Mode and Instant Mode?",
-      answer: "Instant Mode uses a flood-fill algorithm — perfect for solid-color backgrounds like white product photo backdrops. It processes in under a second. AI Precision Mode uses a neural network for complex scenes involving hair, fur, transparent objects, or detailed backgrounds. AI Mode takes 5–15 seconds but produces much cleaner edges."
-    }, {
-      question: "What output format does the tool produce?",
-      answer: "The tool always downloads a transparent PNG file. PNG is the only widely-supported format that preserves alpha-channel transparency. If you need a smaller file for the web, you can convert the PNG to WebP using the Image Converter tool — WebP also supports transparency at roughly 30% smaller file sizes."
-    }, {
-      question: "Why does AI Mode take longer than other background removers?",
-      answer: "Commercial tools like remove.bg run their models on powerful GPU servers in the cloud. Our tool runs the same quality AI model directly in your browser on your CPU, which is slower but means your images stay private. Processing time depends on your device speed — modern laptops typically process a photo in 5–15 seconds."
-    }, {
-      question: "What image sizes and formats are supported?",
-      answer: "You can upload JPG, PNG, WebP, and most common image formats. There is no strict file size limit, but very large images (above 10MB) may take longer in AI Mode due to the pixel count. For best results, use images up to 4000×4000 pixels."
-    }]} />
+        question: "Does this tool upload my images to a server?",
+        answer: "No. The entire AI model runs locally in your browser using WebAssembly. Your images are processed on your device and never sent to any server. This is different from services like remove.bg which upload your files to their cloud."
+      }, {
+        question: "What is the difference between AI Mode and Instant Mode?",
+        answer: "Instant Mode uses a flood-fill algorithm — perfect for solid-color backgrounds like white product photo backdrops. It processes in under a second. AI Precision Mode uses a neural network for complex scenes involving hair, fur, transparent objects, or detailed backgrounds. AI Mode takes 5–15 seconds but produces much cleaner edges."
+      }, {
+        question: "What output format does the tool produce?",
+        answer: "The tool always downloads a transparent PNG file. PNG is the only widely-supported format that preserves alpha-channel transparency. If you need a smaller file for the web, you can convert the PNG to WebP using the Image Converter tool — WebP also supports transparency at roughly 30% smaller file sizes."
+      }, {
+        question: "Why does AI Mode take longer than other background removers?",
+        answer: "Commercial tools like remove.bg run their models on powerful GPU servers in the cloud. Our tool runs the same quality AI model directly in your browser on your CPU, which is slower but means your images stay private. Processing time depends on your device speed — modern laptops typically process a photo in 5–15 seconds."
+      }, {
+        question: "What image sizes and formats are supported?",
+        answer: "You can upload JPG, PNG, WebP, and most common image formats. There is no strict file size limit, but very large images (above 10MB) may take longer in AI Mode due to the pixel count. For best results, use images up to 4000×4000 pixels."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/image/bg-remove" max={6} />
- </div>;
+ </div></div>;
 }

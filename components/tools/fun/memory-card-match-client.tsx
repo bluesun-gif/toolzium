@@ -1,6 +1,7 @@
 "use client";
-import { cn } from"@/lib/utils";
+import { ToolBackground } from"@/components/shared/tool-background";
 
+import { cn } from "@/lib/utils";
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -106,8 +107,8 @@ export default function MemoryCardMatchClient() {
       }
     }
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Layers} title="Memory Card Match" description="Flip the cards and find the matching emoji pairs in this classic memory challenge." />
 
@@ -144,39 +145,39 @@ export default function MemoryCardMatchClient() {
  </GlassCard>
 
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Select Difficulty",
-      description: "Choose between Easy, Medium, or Hard to set the grid size.",
-      icon: Layers
-    }, {
-      step: "02",
-      title: "Flip Two Cards",
-      description: "Click any two cards to reveal the hidden emojis underneath.",
-      icon: Move
-    }, {
-      step: "03",
-      title: "Match All Pairs",
-      description: "Remember the positions and match every pair to win the game.",
-      icon: Trophy
-    }]} badges={["100% Free", "Client-Side", "Fun"]} />
+        step: "01",
+        title: "Select Difficulty",
+        description: "Choose between Easy, Medium, or Hard to set the grid size.",
+        icon: Layers
+      }, {
+        step: "02",
+        title: "Flip Two Cards",
+        description: "Click any two cards to reveal the hidden emojis underneath.",
+        icon: Move
+      }, {
+        step: "03",
+        title: "Match All Pairs",
+        description: "Remember the positions and match every pair to win the game.",
+        icon: Trophy
+      }]} badges={["100% Free", "Client-Side", "Fun"]} />
 
  <ToolFeatureGuides features={[{
-      icon: Layers,
-      title: "Three Difficulties",
-      description: "Scale the challenge from a 12-card Easy grid up to a 24-card Hard grid."
-    }, {
-      icon: Timer,
-      title: "Speed Tracking",
-      description: "A live stopwatch records exactly how fast you clear the board."
-    }, {
-      icon: Move,
-      title: "Move Counter",
-      description: "Keep track of your mistakes and efficiency with a live move counter."
-    }, {
-      icon: Trophy,
-      title: "Victory Screen",
-      description: "Celebrate your win with a summary of your time and moves."
-    }]}>
+        icon: Layers,
+        title: "Three Difficulties",
+        description: "Scale the challenge from a 12-card Easy grid up to a 24-card Hard grid."
+      }, {
+        icon: Timer,
+        title: "Speed Tracking",
+        description: "A live stopwatch records exactly how fast you clear the board."
+      }, {
+        icon: Move,
+        title: "Move Counter",
+        description: "Keep track of your mistakes and efficiency with a live move counter."
+      }, {
+        icon: Trophy,
+        title: "Victory Screen",
+        description: "Celebrate your win with a summary of your time and moves."
+      }]}>
  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
  <p>The Memory Card Match game is a timeless exercise in visual-spatial memory. By forcing your brain to hold onto the locations of hidden items, you actively train your working memory capacity.</p>
  <p>This version uses universally recognizable emojis, making it accessible and fun for players of all ages and language backgrounds. The three difficulty tiers allow for a smooth learning curve, starting with simple recall and progressing to complex grid mapping.</p>
@@ -185,16 +186,16 @@ export default function MemoryCardMatchClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={[{
-      question: "What happens if I click two cards that don't match?",
-      answer: "The cards will remain face-up for a brief moment (0.8 seconds) so you can memorize them, and then they will automatically flip back face-down."
-    }, {
-      question: "Can I change the difficulty in the middle of a game?",
-      answer: "Yes, selecting a new difficulty button will instantly reset the board and start a fresh game with the new grid size."
-    }, {
-      question: "Is there a time limit to finish the game?",
-      answer: "No, there is no maximum time limit. The timer simply counts up so you can track your personal bests."
-    }]} />
+        question: "What happens if I click two cards that don't match?",
+        answer: "The cards will remain face-up for a brief moment (0.8 seconds) so you can memorize them, and then they will automatically flip back face-down."
+      }, {
+        question: "Can I change the difficulty in the middle of a game?",
+        answer: "Yes, selecting a new difficulty button will instantly reset the board and start a fresh game with the new grid size."
+      }, {
+        question: "Is there a time limit to finish the game?",
+        answer: "No, there is no maximum time limit. The timer simply counts up so you can track your personal bests."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/fun/memory-card-match" max={6} />
- </div>;
+ </div></div>;
 }

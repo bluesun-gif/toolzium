@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import {
  ArrowLeftRight,
@@ -112,7 +113,7 @@ export default function DiffCheckerClient() {
 
  return (
       <div className="relative max-w-6xl mx-auto space-y-8">
-      <GridPattern />
+      <ToolBackground />
 
  <ToolPageHeader
  title="Diff Checker"

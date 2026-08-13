@@ -1,82 +1,70 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
-import { useState } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle } from"@/components/ui/card";
-import { Button } from"@/components/ui/button";
-import { Input } from"@/components/ui/input";
-import { Label } from"@/components/ui/label";
-import { ResetButton } from"@/components/shared/action-buttons";
-import { DollarSign, AlertTriangle, Scale, Calculator, Sparkles, Shield, Zap, Copy } from"lucide-react";
-import { toast } from"react-hot-toast";
-import { GridPattern } from"@/components/magicui/grid-pattern";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import { RelatedTools } from"@/components/shared/related-tools";
-
+import { useState } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ResetButton } from "@/components/shared/action-buttons";
+import { DollarSign, AlertTriangle, Scale, Calculator, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { toast } from "react-hot-toast";
+import { GridPattern } from "@/components/magicui/grid-pattern";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 export function ExchangeFeesClient() {
- const [amount, setAmount] = useState("1000");
- const [midMarketRate, setMidMarketRate] = useState("1.10");
- const [offeredRate, setOfferedRate] = useState("1.05");
- const [fixedFee, setFixedFee] = useState("5.00");
+  const [amount, setAmount] = useState("1000");
+  const [midMarketRate, setMidMarketRate] = useState("1.10");
+  const [offeredRate, setOfferedRate] = useState("1.05");
+  const [fixedFee, setFixedFee] = useState("5.00");
+  const [result, setResult] = useState<{
+    markupPercent: number;
+    markupLost: number;
+    totalLost: number;
+    effectiveRate: number;
+  } | null>(null);
+  const calculate = () => {
+    const amt = parseFloat(amount);
+    const mid = parseFloat(midMarketRate);
+    const off = parseFloat(offeredRate);
+    const fee = parseFloat(fixedFee) || 0;
+    if (isNaN(amt) || isNaN(mid) || isNaN(off)) {
+      toast.error("Please enter valid numbers.");
+      return;
+    }
+    const actualReceived = amt * off - fee;
+    const markupLost = amt * (mid - off);
+    const markupPercent = (mid - off) / mid * 100;
+    const totalLost = markupLost + fee;
+    let effectiveRate = 0;
+    if (amt > 0) {
+      effectiveRate = actualReceived / amt;
+    }
+    setResult({
+      markupPercent,
+      markupLost,
+      totalLost,
+      effectiveRate
+    });
+  };
+  const handleReset = () => {
+    setAmount("1000");
+    setMidMarketRate("1.10");
+    setOfferedRate("1.05");
+    setFixedFee("5.00");
+    setResult(null);
+    toast.success("Reset successful");
+  };
+  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+      
 
- const [result, setResult] = useState<{
- markupPercent: number;
- markupLost: number;
- totalLost: number;
- effectiveRate: number;
- } | null>(null);
-
- const calculate = () => {
- const amt = parseFloat(amount);
- const mid = parseFloat(midMarketRate);
- const off = parseFloat(offeredRate);
- const fee = parseFloat(fixedFee) || 0;
-
- if (isNaN(amt) || isNaN(mid) || isNaN(off)) {
- toast.error("Please enter valid numbers.");
- return;
- }
-
- const actualReceived = (amt * off) - fee;
- 
- const markupLost = amt * (mid - off);
- const markupPercent = ((mid - off) / mid) * 100;
- const totalLost = markupLost + fee;
- 
- let effectiveRate = 0;
- if (amt > 0) {
- effectiveRate = actualReceived / amt;
- }
-
- setResult({ markupPercent, markupLost, totalLost, effectiveRate });
- };
-
- const handleReset = () => {
- setAmount("1000");
- setMidMarketRate("1.10");
- setOfferedRate("1.05");
- setFixedFee("5.00");
- setResult(null);
- toast.success("Reset successful");
- };
-
- return (
-      <div className="relative space-y-6">
-      <GridPattern />
-
- <ToolPageHeader
- icon={DollarSign}
- title="Currency Exchange Fee Calculator"
- description="Uncover hidden exchange rate markups and total foreign transaction fees."
- actions={
- <div className="flex gap-2">
- <ResetButton onClick={handleReset} label="Reset"/>
- </div>
- }
- />
+ <ToolPageHeader icon={DollarSign} title="Currency Exchange Fee Calculator" description="Uncover hidden exchange rate markups and total foreign transaction fees." actions={<div className="flex gap-2">
+ <ResetButton onClick={handleReset} label="Reset" />
+ </div>} />
  
  <div className="grid gap-6 md:grid-cols-2">
  <GlassCard>
@@ -86,26 +74,25 @@ export function ExchangeFeesClient() {
  <CardContent className="space-y-4">
  <div className="space-y-2">
  <Label>Amount to Convert (Base Currency)</Label>
- <Input type="number"value={amount} onChange={(e) => setAmount(e.target.value)} />
+ <Input type="number" value={amount} onChange={e => setAmount(e.target.value)} />
  </div>
  <div className="space-y-2">
  <Label>True Mid-Market Rate (from Google/Xe)</Label>
- <Input type="number"step="0.0001"value={midMarketRate} onChange={(e) => setMidMarketRate(e.target.value)} />
+ <Input type="number" step="0.0001" value={midMarketRate} onChange={e => setMidMarketRate(e.target.value)} />
  </div>
  <div className="space-y-2">
  <Label>Rate Offered by Exchange/ATM</Label>
- <Input type="number"step="0.0001"value={offeredRate} onChange={(e) => setOfferedRate(e.target.value)} />
+ <Input type="number" step="0.0001" value={offeredRate} onChange={e => setOfferedRate(e.target.value)} />
  </div>
  <div className="space-y-2">
  <Label>Fixed Transaction Fee (Target Currency)</Label>
- <Input type="number"value={fixedFee} onChange={(e) => setFixedFee(e.target.value)} />
+ <Input type="number" value={fixedFee} onChange={e => setFixedFee(e.target.value)} />
  </div>
- <Button className="w-full mt-4"onClick={calculate}><Calculator className="w-4 h-4 mr-2"/> Calculate Fees</Button>
+ <Button className="w-full mt-4" onClick={calculate}><Calculator className="w-4 h-4 mr-2" /> Calculate Fees</Button>
  </CardContent>
  </GlassCard>
 
- {result && (
- <GlassCard>
+ {result && <GlassCard>
  <CardHeader>
  <CardTitle>Fee Breakdown</CardTitle>
  </CardHeader>
@@ -119,17 +106,17 @@ export function ExchangeFeesClient() {
  <div className="space-y-4">
  <div className="flex justify-between items-center border-b pb-2">
  <span className="text-sm font-medium flex items-center gap-2">
- <AlertTriangle className="w-4 h-4 text-amber-500"/> Hidden Markup
+ <AlertTriangle className="w-4 h-4 text-amber-500" /> Hidden Markup
  </span>
  <span className="text-sm font-bold">{result.markupPercent.toFixed(2)}% (${result.markupLost.toFixed(2)})</span>
  </div>
  <div className="flex justify-between items-center border-b pb-2">
  <span className="text-sm font-medium">Fixed Fee</span>
- <span className="text-sm font-bold">${parseFloat(fixedFee ||"0").toFixed(2)}</span>
+ <span className="text-sm font-bold">${parseFloat(fixedFee || "0").toFixed(2)}</span>
  </div>
  <div className="flex justify-between items-center border-b pb-2">
  <span className="text-sm font-medium flex items-center gap-2">
- <Scale className="w-4 h-4 text-primary"/> Effective Exchange Rate
+ <Scale className="w-4 h-4 text-primary" /> Effective Exchange Rate
  </span>
  <span className="text-sm font-bold">{result.effectiveRate.toFixed(4)}</span>
  </div>
@@ -144,53 +131,39 @@ export function ExchangeFeesClient() {
  </ul>
  </div>
  </CardContent>
- </GlassCard>
- )}
+ </GlassCard>}
  </div>
  
-      <ToolHowItWorks
-        steps={[
-          {
-            step: "01",
-            title: "Input Your Data",
-            description: "Enter your information in the input field above and configure any options.",
-            icon: Sparkles,
-          },
-          {
-            step: "02",
-            title: "Process & Generate",
-            description: "The tool processes your input instantly and displays the results.",
-            icon: Zap,
-          },
-          {
-            step: "03",
-            title: "Copy & Use",
-            description: "Copy the output with one click and use it wherever you need.",
-            icon: Copy,
-          },
-        ]}
-        badges={["100% Free", "Instant Results", "Privacy-First"]}
-      />
+      <ToolHowItWorks steps={[{
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
 
-      <ToolFeatureGuides
-        features={[
-          {
-            icon: Sparkles,
-            title: "Lightning Fast",
-            description: "Get results in milliseconds with our optimized client-side processing engine.",
-          },
-          {
-            icon: Shield,
-            title: "Completely Private",
-            description: "All processing happens in your browser. Your data never leaves your device.",
-          },
-          {
-            icon: Zap,
-            title: "No Signup Required",
-            description: "Use this tool instantly without creating an account or providing any personal information.",
-          },
-        ]}
-      >
+      <ToolFeatureGuides features={[{
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Currency Exchange Fee Calculator?</h3>
           <p>
@@ -206,25 +179,18 @@ export function ExchangeFeesClient() {
         </div>
       </ToolFeatureGuides>
 
-      <ToolFaqAccordion
-        faqs={[
-          {
-            question: "Is this tool free to use?",
-            answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits.",
-          },
-          {
-            question: "Is my data secure?",
-            answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server.",
-          },
-          {
-            question: "Do I need to create an account?",
-            answer: "No account or registration is required. Simply open the tool and start using it immediately.",
-          },
-        ]}
-      />
+      <ToolFaqAccordion faqs={[{
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/travel/exchange-fees" max={6} />
 
-</div>
- );
+    </div></div>;
 }

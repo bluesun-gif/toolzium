@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import { Braces, Download, Info, Table, Sparkles, Shield, Zap, Copy } from"lucide-react";
 import React from"react";
@@ -349,7 +350,7 @@ export default function CsvJsonClient() {
  <CardContent className="grid gap-4 lg:grid-cols-3">
  {/* Left: input */}
  <div className="lg:col-span-2 space-y-3">
-      <GridPattern />
+      <ToolBackground />
 
  <TextareaField
  id="input"

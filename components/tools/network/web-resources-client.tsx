@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useMemo } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -314,7 +315,7 @@ export default function WebResourcesClient() {
  />
 
  <div className="max-w-7xl mx-auto space-y-6 px-1">
-      <GridPattern />
+      <ToolBackground />
 
  {/* Search bar & info */}
  <div className="flex flex-col md:flex-row gap-4 items-center justify-between">

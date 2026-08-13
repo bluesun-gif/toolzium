@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useRef, useState, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -207,8 +208,8 @@ export default function WhiteboardClient() {
     link.click();
     toast.success("Image downloaded!");
   };
-  return <div className="relative mx-auto max-w-5xl px-4 py-8 flex flex-col h-[calc(100vh-80px)]">
-      <GridPattern />
+  return <div className="relative mx-auto max-w-5xl px-4 py-8 flex flex-col h-[calc(100vh-80px)]"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader title="Online Whiteboard" description="A simple, fast whiteboard for sketching, diagrams, and brainstorming." />
 
@@ -243,8 +244,8 @@ export default function WhiteboardClient() {
  <PopoverTrigger asChild>
  <Button variant="outline" className="gap-2 shrink-0">
  <div className="w-4 h-4 rounded-full border shadow-sm" style={{
-                backgroundColor: color
-              }} />
+                  backgroundColor: color
+                }} />
  <span className="hidden sm:inline">Color</span>
  </Button>
  </PopoverTrigger>
@@ -253,9 +254,9 @@ export default function WhiteboardClient() {
  <div className="font-medium text-sm">Preset Colors</div>
  <div className="flex flex-wrap gap-2">
  {COLORS.map(c => <Button key={c} className={cn(cn("w-8 h-8 rounded-full border-2 \\" + (color === c ? 'border-primary ring-2 ring-primary/30' : 'border-transparent hover:scale-110') + "transition-all"))} style={{
-                  backgroundColor: c,
-                  border: c === '#ffffff' ? '1px solid #e5e7eb' : ''
-                }} onClick={() => setColor(c)} />)}
+                    backgroundColor: c,
+                    border: c === '#ffffff' ? '1px solid #e5e7eb' : ''
+                  }} onClick={() => setColor(c)} />)}
  </div>
  <div className="pt-2 border-t flex items-center gap-2">
  <Palette className="w-4 h-4 text-muted-foreground" />
@@ -268,11 +269,11 @@ export default function WhiteboardClient() {
  {/* Brush Size */}
  <div className="flex items-center gap-3 bg-background dark:bg-zinc-900 rounded-md border px-3 py-2 shadow-sm shrink-0 flex-1 sm:flex-none sm:w-48">
  <div className="rounded-full bg-foreground shrink-0" style={{
-            width: brushSize,
-            height: brushSize,
-            minWidth: '4px',
-            minHeight: '4px'
-          }} />
+              width: brushSize,
+              height: brushSize,
+              minWidth: '4px',
+              minHeight: '4px'
+            }} />
  <Slider value={[brushSize]} min={1} max={30} step={1} onValueChange={([val]) => setBrushSize(val)} className="flex-1" />
  <span className="text-xs text-muted-foreground w-4 text-right">{brushSize}</span>
  </div>
@@ -301,43 +302,43 @@ export default function WhiteboardClient() {
 
  {/* Canvas Area */}
  <div ref={containerRef} className="flex-1 w-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden relative" style={{
-        touchAction: 'none'
-      }} // Prevent browser handling of touch
-      >
+          touchAction: 'none'
+        }} // Prevent browser handling of touch
+        >
  <canvas ref={canvasRef} className="absolute top-0 left-0 bg-background cursor-crosshair shadow-inner" onMouseDown={startDrawing} onMouseMove={draw} onMouseUp={stopDrawing} onMouseLeave={stopDrawing} onTouchStart={startDrawing} onTouchMove={draw} onTouchEnd={stopDrawing} onTouchCancel={stopDrawing} />
  </div>
  </Card>
  
       <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Input Your Data",
-      description: "Enter your information in the input field above and configure any options.",
-      icon: Sparkles
-    }, {
-      step: "02",
-      title: "Process & Generate",
-      description: "The tool processes your input instantly and displays the results.",
-      icon: Zap
-    }, {
-      step: "03",
-      title: "Copy & Use",
-      description: "Copy the output with one click and use it wherever you need.",
-      icon: Copy
-    }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
 
       <ToolFeatureGuides features={[{
-      icon: Sparkles,
-      title: "Lightning Fast",
-      description: "Get results in milliseconds with our optimized client-side processing engine."
-    }, {
-      icon: Shield,
-      title: "Completely Private",
-      description: "All processing happens in your browser. Your data never leaves your device."
-    }, {
-      icon: Zap,
-      title: "No Signup Required",
-      description: "Use this tool instantly without creating an account or providing any personal information."
-    }]}>
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Online Whiteboard?</h3>
           <p>
@@ -354,17 +355,17 @@ export default function WhiteboardClient() {
       </ToolFeatureGuides>
 
       <ToolFaqAccordion faqs={[{
-      question: "Is this tool free to use?",
-      answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-    }, {
-      question: "Is my data secure?",
-      answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-    }, {
-      question: "Do I need to create an account?",
-      answer: "No account or registration is required. Simply open the tool and start using it immediately."
-    }]} />
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/productivity/whiteboard" max={6} />
 
-  </div>;
+  </div></div>;
 }

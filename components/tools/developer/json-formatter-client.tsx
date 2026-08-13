@@ -1,7 +1,8 @@
 "use client";
-import { Button } from"@/components/ui/button";
-import { cn } from"@/lib/utils";
+import { ToolBackground } from"@/components/shared/tool-background";
 
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -49,8 +50,8 @@ export default function JsonFormatterClient() {
     setInput('{"user":{"id":1,"name":"Jane","tags":["dev","admin"],"active":true},"meta":{"version":"1.0.0"}}');
     toast.success("Sample loaded");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Braces} title="JSON Formatter & Validator" description="Format, minify, and validate JSON data instantly. Perfect for debugging API responses and config files." />
 
@@ -111,39 +112,39 @@ export default function JsonFormatterClient() {
  </div>
 
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Paste JSON",
-      description: "Drop any JSON string, API response, or config file into the input area.",
-      icon: AlignLeft
-    }, {
-      step: "02",
-      title: "Validate Automatically",
-      description: "The parser instantly checks syntax and highlights errors if the input is malformed.",
-      icon: Check
-    }, {
-      step: "03",
-      title: "Format or Minify",
-      description: "Choose readable formatting with indentation or compact minification for production use.",
-      icon: Sparkles
-    }]} badges={["100% Free", "Client-Side", "No Signup"]} />
+        step: "01",
+        title: "Paste JSON",
+        description: "Drop any JSON string, API response, or config file into the input area.",
+        icon: AlignLeft
+      }, {
+        step: "02",
+        title: "Validate Automatically",
+        description: "The parser instantly checks syntax and highlights errors if the input is malformed.",
+        icon: Check
+      }, {
+        step: "03",
+        title: "Format or Minify",
+        description: "Choose readable formatting with indentation or compact minification for production use.",
+        icon: Sparkles
+      }]} badges={["100% Free", "Client-Side", "No Signup"]} />
 
  <ToolFeatureGuides features={[{
-      icon: Braces,
-      title: "Strict Validation",
-      description: "Catches missing commas, trailing commas, unquoted keys, and other common JSON syntax errors."
-    }, {
-      icon: Sparkles,
-      title: "Pretty Print",
-      description: "Rebuilds JSON with consistent indentation for easier reading and code review."
-    }, {
-      icon: Shield,
-      title: "Private Processing",
-      description: "Everything happens locally in your browser. Your API keys and data never leave your device."
-    }, {
-      icon: Zap,
-      title: "Instant Feedback",
-      description: "Errors and output update in real time as you type, no button clicks required."
-    }]}>
+        icon: Braces,
+        title: "Strict Validation",
+        description: "Catches missing commas, trailing commas, unquoted keys, and other common JSON syntax errors."
+      }, {
+        icon: Sparkles,
+        title: "Pretty Print",
+        description: "Rebuilds JSON with consistent indentation for easier reading and code review."
+      }, {
+        icon: Shield,
+        title: "Private Processing",
+        description: "Everything happens locally in your browser. Your API keys and data never leave your device."
+      }, {
+        icon: Zap,
+        title: "Instant Feedback",
+        description: "Errors and output update in real time as you type, no button clicks required."
+      }]}>
  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
  <p>JSON (JavaScript Object Notation) has become the de facto standard for data interchange on the web. Despite its simplicity, raw JSON output from APIs is often minified into a single long line to save bandwidth, making it extremely difficult to read during debugging. This formatter bridges the gap by parsing the input with the native <code>JSON.parse()</code> function and rebuilding it with clean indentation.</p>
  <p>Validation is just as important as formatting. A single misplaced comma, a missing quote, or a trailing comma after the last element will cause JSON parsing to fail in strict environments. This tool uses the browser&apos;s built-in parser, which follows the official ECMA-404 specification exactly, so you get accurate error messages that match what your backend or frontend code will actually see.</p>
@@ -152,19 +153,19 @@ export default function JsonFormatterClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={[{
-      question: "Why is my JSON marked as invalid?",
-      answer: "Common issues include trailing commas, single quotes instead of double quotes, unquoted keys, or comments. JSON does not support comments; use JSONC-aware tools if you need them."
-    }, {
-      question: "Does this support large files?",
-      answer: "Yes, but very large JSON (10+ MB) may slow down the browser. For huge files, consider streaming parsers or splitting the data."
-    }, {
-      question: "Can it handle JSON5 or relaxed JSON?",
-      answer: "No. This tool uses strict ECMA-404 JSON. Features like comments, trailing commas, and unquoted keys will be flagged as errors."
-    }, {
-      question: "Is my data uploaded anywhere?",
-      answer: "No. Parsing and formatting happen entirely in your browser using the native JSON API. Nothing is transmitted."
-    }]} />
+        question: "Why is my JSON marked as invalid?",
+        answer: "Common issues include trailing commas, single quotes instead of double quotes, unquoted keys, or comments. JSON does not support comments; use JSONC-aware tools if you need them."
+      }, {
+        question: "Does this support large files?",
+        answer: "Yes, but very large JSON (10+ MB) may slow down the browser. For huge files, consider streaming parsers or splitting the data."
+      }, {
+        question: "Can it handle JSON5 or relaxed JSON?",
+        answer: "No. This tool uses strict ECMA-404 JSON. Features like comments, trailing commas, and unquoted keys will be flagged as errors."
+      }, {
+        question: "Is my data uploaded anywhere?",
+        answer: "No. Parsing and formatting happen entirely in your browser using the native JSON API. Nothing is transmitted."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/developer/json-formatter" max={6} />
- </div>;
+ </div></div>;
 }

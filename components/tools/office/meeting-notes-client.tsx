@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import {
  ActionButton,
@@ -243,7 +244,7 @@ export default function MeetingNotesClient() {
  </CardHeader>
  <CardContent className="grid gap-4 lg:grid-cols-3">
  <div className="space-y-3">
-      <GridPattern />
+      <ToolBackground />
 
  <InputField
  label="Title"

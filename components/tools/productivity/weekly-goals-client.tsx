@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -189,8 +190,8 @@ export function WeeklyGoalsClient() {
     setGoals(DEFAULT_WEEKLY_GOALS);
     toast.success("Reset weekly goals to default!");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+      
 
       <ToolPageHeader icon={Target} title="Weekly Goals & Milestone Planner" description="Set primary focus goals for the week, assign category tags, and track progress with daily actionable tasks." actions={<div className="flex gap-2">
             <ActionButton onClick={handleExport} icon={Download} label="Export Plan" variant="outline" />
@@ -238,8 +239,8 @@ export function WeeklyGoalsClient() {
       {/* GOALS DISPLAY CARDS */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {goals.map(goal => {
-        const progress = getProgress(goal);
-        return <GlassCard key={goal.id} className="flex flex-col h-full overflow-hidden">
+          const progress = getProgress(goal);
+          return <GlassCard key={goal.id} className="flex flex-col h-full overflow-hidden">
               <CardHeader className="pb-3">
                 <div className="flex justify-between items-start gap-2">
                   <div className="space-y-1.5 min-w-0">
@@ -264,8 +265,8 @@ export function WeeklyGoalsClient() {
                   </div>
                   <div className="w-full h-2 bg-muted/60 rounded-full overflow-hidden">
                     <div className={cn("h-full transition-all duration-300 rounded-full", progress >= 100 ? "bg-emerald-500" : "bg-primary")} style={{
-                  width: `${progress}%`
-                }} />
+                    width: `${progress}%`
+                  }} />
                   </div>
                 </div>
 
@@ -290,16 +291,16 @@ export function WeeklyGoalsClient() {
 
                 <div className="flex gap-2 pt-2 mt-auto">
                   <Input placeholder="Add sub-task milestone..." value={newTaskTexts[goal.id] || ""} onChange={e => setNewTaskTexts({
-                ...newTaskTexts,
-                [goal.id]: e.target.value
-              })} onKeyDown={e => e.key === "Enter" && addTask(goal.id)} className="h-9 text-xs" />
+                  ...newTaskTexts,
+                  [goal.id]: e.target.value
+                })} onKeyDown={e => e.key === "Enter" && addTask(goal.id)} className="h-9 text-xs" />
                   <Button size="icon" className="h-9 w-9 shrink-0" onClick={() => addTask(goal.id)}>
                     <Plus className="w-4 h-4" />
                   </Button>
                 </div>
               </CardContent>
             </GlassCard>;
-      })}
+        })}
 
         {goals.length === 0 && <div className="col-span-full py-12 text-center text-muted-foreground border border-dashed border-border/80 rounded-2xl">
             <Target className="w-10 h-10 mx-auto mb-3 opacity-40" />
@@ -310,46 +311,46 @@ export function WeeklyGoalsClient() {
 
       {/* HOW IT WORKS */}
       <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Set 3 Core Goals",
-      description: "Define up to 3 high-leverage focus areas for the current week across Work, Health, Personal, or Finance.",
-      icon: Target
-    }, {
-      step: "02",
-      title: "Add Daily Tasks",
-      description: "Break each goal down into smaller, actionable daily tasks to track progress.",
-      icon: Plus
-    }, {
-      step: "03",
-      title: "Check Off & Export",
-      description: "Check off completed milestones and export your weekly progress report to text.",
-      icon: CheckCircle2
-    }]} badges={["Max 3 Rule", "Category Badging", "Auto-Saved"]} />
+        step: "01",
+        title: "Set 3 Core Goals",
+        description: "Define up to 3 high-leverage focus areas for the current week across Work, Health, Personal, or Finance.",
+        icon: Target
+      }, {
+        step: "02",
+        title: "Add Daily Tasks",
+        description: "Break each goal down into smaller, actionable daily tasks to track progress.",
+        icon: Plus
+      }, {
+        step: "03",
+        title: "Check Off & Export",
+        description: "Check off completed milestones and export your weekly progress report to text.",
+        icon: CheckCircle2
+      }]} badges={["Max 3 Rule", "Category Badging", "Auto-Saved"]} />
 
       {/* FEATURE GUIDES */}
       <ToolFeatureGuides features={[{
-      icon: Target,
-      title: "Rule of 3 Focus Constraint",
-      description: "Encourages deep work and execution by capping active primary goals at 3."
-    }, {
-      icon: CheckSquare,
-      title: "Category Visual Distinction",
-      description: "Uses color-coded badges (Work, Health, Personal, Finance) for easy visual scannability."
-    }, {
-      icon: Download,
-      title: "Auto-Saved & Exportable",
-      description: "Saves goals locally in your browser and exports weekly summary reports."
-    }]} />
+        icon: Target,
+        title: "Rule of 3 Focus Constraint",
+        description: "Encourages deep work and execution by capping active primary goals at 3."
+      }, {
+        icon: CheckSquare,
+        title: "Category Visual Distinction",
+        description: "Uses color-coded badges (Work, Health, Personal, Finance) for easy visual scannability."
+      }, {
+        icon: Download,
+        title: "Auto-Saved & Exportable",
+        description: "Saves goals locally in your browser and exports weekly summary reports."
+      }]} />
 
       {/* FAQ ACCORDION */}
       <ToolFaqAccordion faqs={[{
-      question: "Why is there a limit of 3 weekly goals?",
-      answer: "Productivity research shows that setting more than 3 primary goals per week dilutes focus and reduces overall completion rates."
-    }, {
-      question: "Does my data persist when I close the tab?",
-      answer: "Yes! All goals and sub-tasks are stored in your browser's local storage automatically."
-    }]} />
+        question: "Why is there a limit of 3 weekly goals?",
+        answer: "Productivity research shows that setting more than 3 primary goals per week dilutes focus and reduces overall completion rates."
+      }, {
+        question: "Does my data persist when I close the tab?",
+        answer: "Yes! All goals and sub-tasks are stored in your browser's local storage automatically."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/productivity/weekly-goals" max={6} />
-    </div>;
+    </div></div>;
 }

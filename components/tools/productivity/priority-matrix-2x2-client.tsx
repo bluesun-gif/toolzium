@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -100,8 +101,8 @@ export function PriorityMatrixClient() {
     desc: "Low Impact, High Effort. Delegate or drop.",
     colorClass: "bg-red-100 dark:bg-red-900/30 border-red-300"
   }];
-  return <div className="relative space-y-6">
-      <GridPattern />
+  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Grid} title="Priority Matrix 2x2 Task Tracker" description="Organize tasks using an Impact vs Effort Matrix." actions={<>
  <ActionButton onClick={exportTasks} icon={Download} label="Export JSON" />
@@ -141,8 +142,8 @@ export function PriorityMatrixClient() {
  <div className="md:col-span-3">
  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 h-full">
  {quadrants.map(q => {
-            const qTasks = tasks.filter(t => t.quadrant === q.name);
-            return <div key={q.name} className={cn("rounded-xl border p-4 flex flex-col gap-3 min-h-[250px]", q.colorClass)}>
+              const qTasks = tasks.filter(t => t.quadrant === q.name);
+              return <div key={q.name} className={cn("rounded-xl border p-4 flex flex-col gap-3 min-h-[250px]", q.colorClass)}>
  <div>
  <h3 className="font-bold text-lg">{q.name}</h3>
  <p className="text-xs opacity-70">{q.desc}</p>
@@ -162,41 +163,41 @@ export function PriorityMatrixClient() {
  </div>}
  </div>
  </div>;
-          })}
+            })}
  </div>
  </div>
  </div>
  
       <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Input Your Data",
-      description: "Enter your information in the input field above and configure any options.",
-      icon: Sparkles
-    }, {
-      step: "02",
-      title: "Process & Generate",
-      description: "The tool processes your input instantly and displays the results.",
-      icon: Zap
-    }, {
-      step: "03",
-      title: "Copy & Use",
-      description: "Copy the output with one click and use it wherever you need.",
-      icon: Copy
-    }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
 
       <ToolFeatureGuides features={[{
-      icon: Sparkles,
-      title: "Lightning Fast",
-      description: "Get results in milliseconds with our optimized client-side processing engine."
-    }, {
-      icon: Shield,
-      title: "Completely Private",
-      description: "All processing happens in your browser. Your data never leaves your device."
-    }, {
-      icon: Zap,
-      title: "No Signup Required",
-      description: "Use this tool instantly without creating an account or providing any personal information."
-    }]}>
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Priority Matrix 2x2 Task Tracker?</h3>
           <p>
@@ -213,17 +214,17 @@ export function PriorityMatrixClient() {
       </ToolFeatureGuides>
 
       <ToolFaqAccordion faqs={[{
-      question: "Is this tool free to use?",
-      answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-    }, {
-      question: "Is my data secure?",
-      answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-    }, {
-      question: "Do I need to create an account?",
-      answer: "No account or registration is required. Simply open the tool and start using it immediately."
-    }]} />
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/productivity/priority-matrix-2x2" max={6} />
 
-  </div>;
+  </div></div>;
 }

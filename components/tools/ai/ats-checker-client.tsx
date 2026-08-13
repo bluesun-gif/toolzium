@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -139,8 +140,8 @@ export function AtsCheckerClient() {
       toast.error("Failed to analyze resume. Please try again.");
     }
   }, [resumeText, jobDescription, jobRole]);
-  return <div className="w-full min-h-screen pb-20 relative">
-      <GridPattern />
+  return <div className="w-full min-h-screen pb-20 relative"><ToolBackground /><div className="relative z-10">
+      
 
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader title="AI ATS Resume Keyword & Format Scanner" description="Audit your resume's ATS match score against target job postings, discover missing keywords, and optimize for recruiter screening algorithms." icon={FileSearch} />
@@ -181,7 +182,7 @@ export function AtsCheckerClient() {
                 <textarea className="w-full rounded-xl border border-border bg-background p-3 text-xs sm:text-sm outline-none focus:ring-2 focus:ring-primary/50 min-h-[100px] font-sans text-foreground" placeholder="Paste target job posting requirements..." value={jobDescription} onChange={e => setJobDescription(e.target.value)} />
               </div>
 
-              <Button onClick={analyzeResume} disabled={isAnalyzing || !resumeText.trim()} className="w-full gap-2 mt-4 bg-primary hover:bg-primary/90 text-white font-semibold shadow-lg shadow-primary/20 rounded-xl h-12 text-base">
+              <Button onClick={analyzeResume} disabled={isAnalyzing || !resumeText.trim()} className="w-full gap-2 mt-4 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shadow-lg shadow-primary/20 rounded-xl h-12 text-base">
                 {isAnalyzing ? <RefreshCcw className="w-5 h-5 animate-spin" /> : <Sparkles className="w-5 h-5" />}
                 {isAnalyzing ? "Scanning ATS Match..." : "Scan Resume ATS Score"}
               </Button>
@@ -191,12 +192,12 @@ export function AtsCheckerClient() {
           {/* Right Workspace Card */}
           <div className="flex flex-col space-y-4">
             {result ? <motion.div initial={{
-            opacity: 0,
-            y: 15
-          }} animate={{
-            opacity: 1,
-            y: 0
-          }} className="space-y-4">
+              opacity: 0,
+              y: 15
+            }} animate={{
+              opacity: 1,
+              y: 0
+            }} className="space-y-4">
                 <GlassCard className="p-6 flex flex-col items-center justify-center text-center space-y-3 bg-card/70 backdrop-blur-md border-border rounded-2xl">
                   <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">ATS Match Score</span>
                   <div className={`text-4xl font-extrabold px-6 py-3 rounded-2xl border font-mono ${result.score >= 80 ? "bg-primary/10 text-primary border-primary/30" : result.score >= 60 ? "bg-amber-500/10 text-amber-500 border-amber-500/30" : "bg-red-500/10 text-red-500 border-red-500/30"}`}>
@@ -261,8 +262,8 @@ export function AtsCheckerClient() {
                     <span className="text-[10px] text-muted-foreground">{item.timestamp} · Score: {item.result.score}/100</span>
                   </div>
                   <Button variant="outline" size="sm" onClick={() => {
-              setResult(item.result);
-            }} className="h-7 text-xs px-2.5 font-semibold">
+                setResult(item.result);
+              }} className="h-7 text-xs px-2.5 font-semibold">
                     Reload
                   </Button>
                 </div>)}
@@ -270,35 +271,35 @@ export function AtsCheckerClient() {
           </GlassCard>}
 
         <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Paste Resume & Job Post",
-        description: "Input your resume text and target job description.",
-        icon: FileText
-      }, {
-        step: "02",
-        title: "ATS Match Scan",
-        description: "Evaluates keyword density and section formatting compliance.",
-        icon: Sliders
-      }, {
-        step: "03",
-        title: "Optimize Keywords",
-        description: "Incorporate missing keywords to pass recruiter screening algorithms.",
-        icon: CheckCircle2
-      }]} badges={["100% Free", "ATS Score Gauge", "Keyword Gap Analyzer"]} />
+          step: "01",
+          title: "Paste Resume & Job Post",
+          description: "Input your resume text and target job description.",
+          icon: FileText
+        }, {
+          step: "02",
+          title: "ATS Match Scan",
+          description: "Evaluates keyword density and section formatting compliance.",
+          icon: Sliders
+        }, {
+          step: "03",
+          title: "Optimize Keywords",
+          description: "Incorporate missing keywords to pass recruiter screening algorithms.",
+          icon: CheckCircle2
+        }]} badges={["100% Free", "ATS Score Gauge", "Keyword Gap Analyzer"]} />
 
         <ToolFeatureGuides features={[{
-        icon: FileSearch,
-        title: "Keyword Density Auditor",
-        description: "Identifies essential skills and technology keywords missing from your resume."
-      }, {
-        icon: Award,
-        title: "ATS Compatibility Score",
-        description: "Calculates match percentages based on enterprise applicant tracking algorithms."
-      }, {
-        icon: CheckCircle2,
-        title: "Private Local Scanning",
-        description: "Processes your resume text strictly inside client browser memory."
-      }]}>
+          icon: FileSearch,
+          title: "Keyword Density Auditor",
+          description: "Identifies essential skills and technology keywords missing from your resume."
+        }, {
+          icon: Award,
+          title: "ATS Compatibility Score",
+          description: "Calculates match percentages based on enterprise applicant tracking algorithms."
+        }, {
+          icon: CheckCircle2,
+          title: "Private Local Scanning",
+          description: "Processes your resume text strictly inside client browser memory."
+        }]}>
           <div className="prose dark:prose-invert max-w-none">
             <h3>Understanding Applicant Tracking Systems (ATS)</h3>
             <p>
@@ -308,15 +309,15 @@ export function AtsCheckerClient() {
         </ToolFeatureGuides>
 
         <ToolFaqAccordion faqs={[{
-        question: "Is my resume saved or stored anywhere?",
-        answer: "No. Your resume text is processed strictly inside your web browser and AI execution endpoint."
-      }, {
-        question: "What ATS match score should I aim for?",
-        answer: "Aim for an ATS match score of 80% or higher for top-tier job applications."
-      }]} />
+          question: "Is my resume saved or stored anywhere?",
+          answer: "No. Your resume text is processed strictly inside your web browser and AI execution endpoint."
+        }, {
+          question: "What ATS match score should I aim for?",
+          answer: "Aim for an ATS match score of 80% or higher for top-tier job applications."
+        }]} />
 
         <RelatedTools currentToolUrl="/tools/ai/ats-checker" max={6} />
       </div>
-    </div>;
+    </div></div>;
 }
 export default AtsCheckerClient;

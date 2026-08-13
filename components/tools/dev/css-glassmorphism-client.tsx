@@ -1,6 +1,7 @@
 "use client";
-import { cn } from"@/lib/utils";
+import { ToolBackground } from"@/components/shared/tool-background";
 
+import { cn } from "@/lib/utils";
 import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -111,8 +112,8 @@ export function CssGlassmorphismClient() {
  </div>
  <input type="range" min={min} max={max} value={value} onChange={e => onChange(Number(e.target.value))} className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary" />
  </div>;
-  return <div className="relative max-w-6xl mx-auto space-y-8 p-4 sm:p-6 lg:p-8">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8 p-4 sm:p-6 lg:p-8"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Sparkles} title="CSS Glassmorphism Generator" description="Create stunning frosted-glass UI effects with real-time preview and production-ready CSS code." />
 
@@ -134,8 +135,8 @@ export function CssGlassmorphismClient() {
  <Label className="text-xs font-medium text-muted-foreground">Glass Color</Label>
  <div className="flex flex-wrap gap-2">
  {glassColors.map(c => <Button key={c.name} onClick={() => setGlassColor(c)} className={cn(`w-8 h-8 rounded-full border-2 transition-all ${glassColor.name === c.name ? "border-primary scale-110" : "border-transparent"}`)} style={{
-                backgroundColor: `rgba(${c.rgba}, 0.8)`
-              }} title={c.name} />)}
+                  backgroundColor: `rgba(${c.rgba}, 0.8)`
+                }} title={c.name} />)}
  </div>
  </div>
 
@@ -160,8 +161,8 @@ export function CssGlassmorphismClient() {
  </CardHeader>
  <CardContent className="p-0">
  <div className="h-[350px] flex items-center justify-center p-8 relative overflow-hidden" style={{
-              background: bgPreset.value
-            }}>
+                background: bgPreset.value
+              }}>
  <div className="p-8 max-w-sm w-full text-center space-y-4" style={previewCardStyle}>
  <h3 className="text-2xl font-bold">Glassmorphism</h3>
  <p className="text-sm opacity-90">This is a live preview of your frosted glass card floating over a vibrant background.</p>
@@ -178,9 +179,9 @@ export function CssGlassmorphismClient() {
  <div className="flex items-center justify-between w-full">
  <CardTitle className={titleClass}><Box className="w-4 h-4" /> Generated CSS</CardTitle>
  <Button onClick={() => {
-                navigator.clipboard.writeText(cssCode);
-                toast.success("Copied!");
-              }} className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
+                  navigator.clipboard.writeText(cssCode);
+                  toast.success("Copied!");
+                }} className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
  <Copy className="w-3.5 h-3.5" /> Copy
  </Button>
  </div>
@@ -193,39 +194,39 @@ export function CssGlassmorphismClient() {
  </div>
 
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Customize Effects",
-      description: "Adjust blur, opacity, and saturation sliders to craft your perfect frosted glass look.",
-      icon: SlidersHorizontal
-    }, {
-      step: "02",
-      title: "Choose Colors",
-      description: "Select a glass tint and a vibrant background preset to see how your UI adapts.",
-      icon: Palette
-    }, {
-      step: "03",
-      title: "Export Code",
-      description: "Copy the generated CSS with vendor prefixes and drop it straight into your project.",
-      icon: Copy
-    }]} badges={["100% Free", "Client-Side Privacy", "No Signup"]} />
+        step: "01",
+        title: "Customize Effects",
+        description: "Adjust blur, opacity, and saturation sliders to craft your perfect frosted glass look.",
+        icon: SlidersHorizontal
+      }, {
+        step: "02",
+        title: "Choose Colors",
+        description: "Select a glass tint and a vibrant background preset to see how your UI adapts.",
+        icon: Palette
+      }, {
+        step: "03",
+        title: "Export Code",
+        description: "Copy the generated CSS with vendor prefixes and drop it straight into your project.",
+        icon: Copy
+      }]} badges={["100% Free", "Client-Side Privacy", "No Signup"]} />
 
  <ToolFeatureGuides features={[{
-      icon: Sparkles,
-      title: "Real-Time Rendering",
-      description: "See your CSS changes instantly without page reloads or compilation steps."
-    }, {
-      icon: Layers,
-      title: "Vendor Prefixes",
-      description: "Automatically includes -webkit-backdrop-filter for Safari compatibility."
-    }, {
-      icon: Palette,
-      title: "Color Tinting",
-      description: "Apply subtle RGB tints to create colored glass effects."
-    }, {
-      icon: Box,
-      title: "Border Luminance",
-      description: "Fine-tune the inner border glow that gives glass its physical edge."
-    }]}>
+        icon: Sparkles,
+        title: "Real-Time Rendering",
+        description: "See your CSS changes instantly without page reloads or compilation steps."
+      }, {
+        icon: Layers,
+        title: "Vendor Prefixes",
+        description: "Automatically includes -webkit-backdrop-filter for Safari compatibility."
+      }, {
+        icon: Palette,
+        title: "Color Tinting",
+        description: "Apply subtle RGB tints to create colored glass effects."
+      }, {
+        icon: Box,
+        title: "Border Luminance",
+        description: "Fine-tune the inner border glow that gives glass its physical edge."
+      }]}>
  <div className="prose dark:prose-invert max-w-none">
  <h3>The Ultimate Guide to CSS Glassmorphism</h3>
  <p>Glassmorphism has taken the web design world by storm, offering a sleek, modern aesthetic that adds depth and hierarchy to user interfaces. Originating from early iterations of Apple's iOS and macOS design languages, this style relies heavily on the CSS <code>backdrop-filter</code> property to create a translucent, frosted-glass effect. By allowing the background to bleed through foreground elements, designers can create immersive, layered experiences that feel both tactile and futuristic.</p>
@@ -235,17 +236,17 @@ export function CssGlassmorphismClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={[{
-      question: "Does glassmorphism work on all browsers?",
-      answer: "Most modern browsers support backdrop-filter. Safari requires the -webkit- prefix, which this tool automatically generates. For older browsers, you should provide a solid fallback background color."
-    }, {
-      question: "Will this slow down my website?",
-      answer: "Backdrop-filter can be GPU-intensive. It is best used on smaller UI elements like cards, modals, or navigation bars rather than full-page backgrounds to maintain 60fps performance."
-    }, {
-      question: "How do I ensure text is readable?",
-      answer: "Adjust the opacity and saturation sliders. Increasing saturation and adding a subtle dark or light tint to the glass color helps maintain high contrast ratios for accessibility."
-    }]} />
+        question: "Does glassmorphism work on all browsers?",
+        answer: "Most modern browsers support backdrop-filter. Safari requires the -webkit- prefix, which this tool automatically generates. For older browsers, you should provide a solid fallback background color."
+      }, {
+        question: "Will this slow down my website?",
+        answer: "Backdrop-filter can be GPU-intensive. It is best used on smaller UI elements like cards, modals, or navigation bars rather than full-page backgrounds to maintain 60fps performance."
+      }, {
+        question: "How do I ensure text is readable?",
+        answer: "Adjust the opacity and saturation sliders. Increasing saturation and adding a subtle dark or light tint to the glass color helps maintain high contrast ratios for accessibility."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/dev/css-glassmorphism" max={6} />
- </div>;
+ </div></div>;
 }
 export default CssGlassmorphismClient;

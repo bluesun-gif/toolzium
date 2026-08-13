@@ -1,6 +1,7 @@
 "use client";
-import { cn } from"@/lib/utils";
+import { ToolBackground } from"@/components/shared/tool-background";
 
+import { cn } from "@/lib/utils";
 import React, { useState, useMemo, useCallback, useRef } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -714,8 +715,8 @@ export default function CssClippathClient() {
       toast.error('Minimum 3 points required');
     }
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Scissors} title="CSS Clip-Path Maker" description="Create custom shapes with visual point editing and 25+ preset polygons" />
 
@@ -771,12 +772,12 @@ export default function CssClippathClient() {
  <div className="space-y-1">
  <Label className="text-xs">Preview Size: {previewSize.width}px</Label>
  <Input type="range" min="200" max="450" value={previewSize.width} onChange={e => {
-              const size = parseInt(e.target.value);
-              setPreviewSize({
-                width: size,
-                height: size
-              });
-            }} />
+                const size = parseInt(e.target.value);
+                setPreviewSize({
+                  width: size,
+                  height: size
+                });
+              }} />
  </div>
  <div className="space-y-1">
  <Label className="text-xs">Background Color</Label>
@@ -829,39 +830,39 @@ export default function CssClippathClient() {
  </div>
 
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Choose Preset",
-      description: "Select from 25+ polygon shapes or start custom",
-      icon: Scissors
-    }, {
-      step: "02",
-      title: "Edit Points",
-      description: "Drag points to customize your shape",
-      icon: Scissors
-    }, {
-      step: "03",
-      title: "Copy CSS",
-      description: "Get the clip-path code for your project",
-      icon: Copy
-    }]} badges={["25+ Presets", "Visual Editing", "Live Preview"]} />
+        step: "01",
+        title: "Choose Preset",
+        description: "Select from 25+ polygon shapes or start custom",
+        icon: Scissors
+      }, {
+        step: "02",
+        title: "Edit Points",
+        description: "Drag points to customize your shape",
+        icon: Scissors
+      }, {
+        step: "03",
+        title: "Copy CSS",
+        description: "Get the clip-path code for your project",
+        icon: Copy
+      }]} badges={["25+ Presets", "Visual Editing", "Live Preview"]} />
 
  <ToolFeatureGuides features={[{
-      icon: Scissors,
-      title: "25+ Shape Presets",
-      description: "Start with triangles, stars, arrows, and more"
-    }, {
-      icon: Scissors,
-      title: "Visual Point Editor",
-      description: "Drag points to create custom shapes"
-    }, {
-      icon: Scissors,
-      title: "Live Preview",
-      description: "See your shape update in real-time"
-    }, {
-      icon: Scissors,
-      title: "Custom Color",
-      description: "Set any fill color for visual contrast"
-    }]}>
+        icon: Scissors,
+        title: "25+ Shape Presets",
+        description: "Start with triangles, stars, arrows, and more"
+      }, {
+        icon: Scissors,
+        title: "Visual Point Editor",
+        description: "Drag points to create custom shapes"
+      }, {
+        icon: Scissors,
+        title: "Live Preview",
+        description: "See your shape update in real-time"
+      }, {
+        icon: Scissors,
+        title: "Custom Color",
+        description: "Set any fill color for visual contrast"
+      }]}>
  <div className="prose max-w-none dark:prose-invert">
  <h3>Professional CSS Clip-Path Builder</h3>
  <p>CSS clip-path is a powerful property that lets you create custom shapes and masks, but the polygon syntax can be difficult to visualize. Our visual clip-path maker solves this by letting you build shapes visually with draggable points, while seeing the exact CSS code that creates them.</p>
@@ -878,16 +879,16 @@ export default function CssClippathClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={[{
-      question: "How many points can I use?",
-      answer: "You can use between 3 and 20 points. Three points is the minimum required to form a polygon, while 20 points provides enough detail for complex shapes without impacting performance."
-    }, {
-      question: "Does clip-path work in all browsers?",
-      answer: "CSS clip-path has excellent browser support in modern browsers. The generated CSS includes both standard clip-path and -webkit-clip-path prefixes for maximum compatibility."
-    }, {
-      question: "Can I use this for images?",
-      answer: "Absolutely! Apply the clip-path to any element - images, divs, buttons, etc. The shape will mask the element's content, creating custom-shaped images and containers."
-    }]} />
+        question: "How many points can I use?",
+        answer: "You can use between 3 and 20 points. Three points is the minimum required to form a polygon, while 20 points provides enough detail for complex shapes without impacting performance."
+      }, {
+        question: "Does clip-path work in all browsers?",
+        answer: "CSS clip-path has excellent browser support in modern browsers. The generated CSS includes both standard clip-path and -webkit-clip-path prefixes for maximum compatibility."
+      }, {
+        question: "Can I use this for images?",
+        answer: "Absolutely! Apply the clip-path to any element - images, divs, buttons, etc. The shape will mask the element's content, creating custom-shaped images and containers."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/dev/css-clippath" max={6} />
- </div>;
+ </div></div>;
 }

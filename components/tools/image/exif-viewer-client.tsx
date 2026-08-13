@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 import { useState, useRef, useCallback } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
@@ -342,7 +343,7 @@ export default function ExifViewerClient() {
  description="Extract and view EXIF metadata, camera settings, and GPS locations directly in your browser."
  />
  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <GridPattern />
+      <ToolBackground />
 
  <div className="md:col-span-1 space-y-6">
  <Card>

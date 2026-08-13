@@ -1,97 +1,75 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
-import React, { useState } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { Button } from"@/components/ui/button";
-import { Input } from"@/components/ui/input";
-import { AiOutputDisplay } from"@/components/shared/ai-output-display";
-import { Video, RefreshCw, Sparkles, Shield, Zap, Copy } from"lucide-react";
-import toast from"react-hot-toast";
-import { GridPattern } from"@/components/magicui/grid-pattern";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import { RelatedTools } from"@/components/shared/related-tools";
-
+import React, { useState } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { AiOutputDisplay } from "@/components/shared/ai-output-display";
+import { Video, RefreshCw, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import toast from "react-hot-toast";
+import { GridPattern } from "@/components/magicui/grid-pattern";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 export default function YoutubeScriptGeneratorClient() {
- const [topic, setTopic] = useState("How to Build a $10k/Month SaaS Business in 2026");
- const [targetAudience, setTargetAudience] = useState("Aspiring Solopreneurs & Software Engineers");
- const [videoLength, setVideoLength] = useState("8-10 Minutes");
- const [tone, setTone] = useState("High Energy & Educational");
- const [results, setResults] = useState<string[]>([]);
- const [loading, setLoading] = useState(false);
+  const [topic, setTopic] = useState("How to Build a $10k/Month SaaS Business in 2026");
+  const [targetAudience, setTargetAudience] = useState("Aspiring Solopreneurs & Software Engineers");
+  const [videoLength, setVideoLength] = useState("8-10 Minutes");
+  const [tone, setTone] = useState("High Energy & Educational");
+  const [results, setResults] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+  const generateScript = async () => {
+    if (!topic.trim()) return;
+    setLoading(true);
+    try {
+      const prompt = `Generate a full high-retention YouTube video script & outline for topic: '${topic}'. Target Audience: '${targetAudience}'. Length: '${videoLength}'. Tone: '${tone}'. Break down into 4 key visual sections: Section 1: 5-Second Curiosity Hook & Title Callback, Section 2: Problem Staking & Retention Bridge, Section 3: Step-by-Step Value Delivery & B-Roll Cues, Section 4: Outro & High-Converting CTA. Format as 4 distinct script section cards. No markdown asterisks.`;
+      const res = await fetch("/api/ai/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          prompt,
+          type: "cards"
+        })
+      });
+      if (!res.ok) throw new Error("AI API failed");
+      const data = await res.json();
+      if (data.results && data.results.length > 0) {
+        setResults(data.results);
+        toast.success("AI YouTube Script generated!");
+      } else {
+        throw new Error("No results");
+      }
+    } catch (err) {
+      toast.error("AI generation failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+  return <div className="relative space-y-6 max-w-4xl mx-auto px-4"><ToolBackground /><div className="relative z-10">
+      
 
- const generateScript = async () => {
- if (!topic.trim()) return;
-
- setLoading(true);
-
- try {
- const prompt = `Generate a full high-retention YouTube video script & outline for topic: '${topic}'. Target Audience: '${targetAudience}'. Length: '${videoLength}'. Tone: '${tone}'. Break down into 4 key visual sections: Section 1: 5-Second Curiosity Hook & Title Callback, Section 2: Problem Staking & Retention Bridge, Section 3: Step-by-Step Value Delivery & B-Roll Cues, Section 4: Outro & High-Converting CTA. Format as 4 distinct script section cards. No markdown asterisks.`;
-
- const res = await fetch("/api/ai/generate", {
- method:"POST",
- headers: {"Content-Type":"application/json"},
- body: JSON.stringify({ prompt, type:"cards"}),
- });
-
- if (!res.ok) throw new Error("AI API failed");
-
- const data = await res.json();
- if (data.results && data.results.length > 0) {
- setResults(data.results);
- toast.success("AI YouTube Script generated!");
- } else {
- throw new Error("No results");
- }
- } catch (err) {
- toast.error("AI generation failed. Please try again.");
- } finally {
- setLoading(false);
- }
- };
-
- return (
-      <div className="relative space-y-6 max-w-4xl mx-auto px-4">
-      <GridPattern />
-
- <ToolPageHeader
- icon={Video}
- title="AI YouTube Video Script & Outline Generator"
- description="Generate high-retention 5-second opening hooks, B-roll cues, step-by-step value scripts, and high-CTR calls to action using live AI."
- />
+ <ToolPageHeader icon={Video} title="AI YouTube Video Script & Outline Generator" description="Generate high-retention 5-second opening hooks, B-roll cues, step-by-step value scripts, and high-CTR calls to action using live AI." />
 
  <GlassCard className="p-6 space-y-4">
  <div className="space-y-2">
  <label className="text-xs font-bold text-foreground block">Video Topic / Title Idea:</label>
- <Input
- type="text"
- value={topic}
- onChange={(e) => setTopic(e.target.value)}
- placeholder="e.g. 7 Hidden Mac Features You Need to Use"
- className="h-11 font-medium"
- />
+ <Input type="text" value={topic} onChange={e => setTopic(e.target.value)} placeholder="e.g. 7 Hidden Mac Features You Need to Use" className="h-11 font-medium" />
  </div>
 
  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
  <div className="space-y-2">
  <label className="text-xs font-bold text-foreground block">Target Audience:</label>
- <Input
- type="text"
- value={targetAudience}
- onChange={(e) => setTargetAudience(e.target.value)}
- className="h-11"
- />
+ <Input type="text" value={targetAudience} onChange={e => setTargetAudience(e.target.value)} className="h-11" />
  </div>
 
  <div className="space-y-2">
  <label className="text-xs font-bold text-foreground block">Target Video Length:</label>
- <select
- value={videoLength}
- onChange={(e) => setVideoLength(e.target.value)}
- className="w-full h-11 px-3 rounded-xl border bg-background text-sm font-medium"
- >
+ <select value={videoLength} onChange={e => setVideoLength(e.target.value)} className="w-full h-11 px-3 rounded-xl border bg-background text-sm font-medium">
  <option value="3-5 Minutes">3-5 Minutes (Quick Guide)</option>
  <option value="8-10 Minutes">8-10 Minutes (Mid-Length Standard)</option>
  <option value="15+ Minutes">15+ Minutes (Deep Dive Masterclass)</option>
@@ -100,11 +78,7 @@ export default function YoutubeScriptGeneratorClient() {
 
  <div className="space-y-2">
  <label className="text-xs font-bold text-foreground block">Video Tone / Vibe:</label>
- <select
- value={tone}
- onChange={(e) => setTone(e.target.value)}
- className="w-full h-11 px-3 rounded-xl border bg-background text-sm font-medium"
- >
+ <select value={tone} onChange={e => setTone(e.target.value)} className="w-full h-11 px-3 rounded-xl border bg-background text-sm font-medium">
  <option value="High Energy & Educational">High Energy & Educational</option>
  <option value="Cinematic & Storytelling">Cinematic & Storytelling</option>
  <option value="Casual & Conversational">Casual & Conversational</option>
@@ -114,72 +88,46 @@ export default function YoutubeScriptGeneratorClient() {
  </div>
 
  <div className="flex justify-end pt-2">
- <Button
- onClick={generateScript}
- disabled={loading || !topic.trim()}
- className="gap-2 font-bold h-11 px-6 shadow-md"
- >
- <RefreshCw className={`h-4 w-4 ${loading ?"animate-spin":""}`} />
- {loading ?"AI Scripting Video...":"AI Generate YouTube Script"}
+ <Button onClick={generateScript} disabled={loading || !topic.trim()} className="gap-2 font-bold h-11 px-6 shadow-md">
+ <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
+ {loading ? "AI Scripting Video..." : "AI Generate YouTube Script"}
  </Button>
  </div>
  </GlassCard>
 
  {/* Output */}
- {results.length > 0 && (
- <AiOutputDisplay
- title="Generated High-Retention YouTube Video Script"
- subtitle="Complete with B-roll cues, hooks, and retention bridges"
- content={results}
- loading={loading}
- onRegenerate={generateScript}
- variant="cards"
- />
- )}
+ {results.length > 0 && <AiOutputDisplay title="Generated High-Retention YouTube Video Script" subtitle="Complete with B-roll cues, hooks, and retention bridges" content={results} loading={loading} onRegenerate={generateScript} variant="cards" />}
  
-      <ToolHowItWorks
-        steps={[
-          {
-            step: "01",
-            title: "Input Your Data",
-            description: "Enter your information in the input field above and configure any options.",
-            icon: Sparkles,
-          },
-          {
-            step: "02",
-            title: "Process & Generate",
-            description: "The tool processes your input instantly and displays the results.",
-            icon: Zap,
-          },
-          {
-            step: "03",
-            title: "Copy & Use",
-            description: "Copy the output with one click and use it wherever you need.",
-            icon: Copy,
-          },
-        ]}
-        badges={["100% Free", "Instant Results", "Privacy-First"]}
-      />
+      <ToolHowItWorks steps={[{
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
 
-      <ToolFeatureGuides
-        features={[
-          {
-            icon: Sparkles,
-            title: "Lightning Fast",
-            description: "Get results in milliseconds with our optimized client-side processing engine.",
-          },
-          {
-            icon: Shield,
-            title: "Completely Private",
-            description: "All processing happens in your browser. Your data never leaves your device.",
-          },
-          {
-            icon: Zap,
-            title: "No Signup Required",
-            description: "Use this tool instantly without creating an account or providing any personal information.",
-          },
-        ]}
-      >
+      <ToolFeatureGuides features={[{
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our AI YouTube Video Script & Outline Generator?</h3>
           <p>
@@ -195,25 +143,18 @@ export default function YoutubeScriptGeneratorClient() {
         </div>
       </ToolFeatureGuides>
 
-      <ToolFaqAccordion
-        faqs={[
-          {
-            question: "Is this tool free to use?",
-            answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits.",
-          },
-          {
-            question: "Is my data secure?",
-            answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server.",
-          },
-          {
-            question: "Do I need to create an account?",
-            answer: "No account or registration is required. Simply open the tool and start using it immediately.",
-          },
-        ]}
-      />
+      <ToolFaqAccordion faqs={[{
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/social/youtube-script-generator" max={6} />
 
-</div>
- );
+    </div></div>;
 }

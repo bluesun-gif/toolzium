@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -190,8 +191,8 @@ export function HabitTrackerClient() {
     localStorage.removeItem("toolzium-habit-tracker");
     toast.success("Reset habits!");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+      
 
       <ToolPageHeader title="Daily Habit & Routine Streak Tracker" description="Build positive routines, check off 14-day completion grids, and monitor current and all-time best streaks." icon={CalendarDays} actions={<ResetButton onClick={handleReset} label="Reset Habits" />} />
 
@@ -217,9 +218,9 @@ export function HabitTrackerClient() {
                 <Label className="text-xs font-semibold text-muted-foreground">Quick Suggestions</Label>
                 <div className="flex flex-wrap gap-1.5">
                   {PRESET_SUGGESTIONS.map(preset => <Button key={preset.name} type="button" onClick={() => {
-                  setNewHabitName(preset.name);
-                  setNewHabitEmoji(preset.emoji);
-                }} className="text-xs bg-muted/60 hover:bg-primary hover:text-white px-2.5 py-1 rounded-full transition-colors font-medium">
+                    setNewHabitName(preset.name);
+                    setNewHabitEmoji(preset.emoji);
+                  }} className="text-xs bg-muted/60 hover:bg-primary hover:text-primary-foreground px-2.5 py-1 rounded-full transition-colors font-medium">
                       {preset.emoji} {preset.name}
                     </Button>)}
                 </div>
@@ -271,11 +272,11 @@ export function HabitTrackerClient() {
                 </div>
 
                 {habits.map(habit => {
-              const {
-                currentStreak,
-                bestStreak
-              } = calculateStreaks(habit.completedDates);
-              return <div key={habit.id} className="grid grid-cols-[200px_1fr] gap-4 py-3 border-t border-border/60 group items-center px-2">
+                const {
+                  currentStreak,
+                  bestStreak
+                } = calculateStreaks(habit.completedDates);
+                return <div key={habit.id} className="grid grid-cols-[200px_1fr] gap-4 py-3 border-t border-border/60 group items-center px-2">
                       <div className="flex flex-col gap-1 min-w-0">
                         <div className="flex items-center gap-2">
                           <span className="text-lg shrink-0">{habit.emoji}</span>
@@ -296,14 +297,14 @@ export function HabitTrackerClient() {
 
                       <div className="grid grid-cols-14 gap-1 items-center">
                         {recentDays.map(day => {
-                    const isCompleted = habit.completedDates.includes(day.dateStr);
-                    return <Button key={day.dateStr} onClick={() => toggleHabit(habit.id, day.dateStr)} className={cn(cn("aspect-square rounded-lg flex items-center justify-center transition-all shadow-xs", isCompleted ? "bg-emerald-500 text-white shadow-emerald-500/20 scale-105" : "bg-muted/50 hover:bg-muted text-muted-foreground/30 border border-border/40"))} title={`${habit.name} on ${day.displayStr}`}>
-                              {isCompleted ? <CheckCircle2 className="h-4 w-4 text-white" /> : <Circle className="h-3 h-3 opacity-30" />}
+                      const isCompleted = habit.completedDates.includes(day.dateStr);
+                      return <Button key={day.dateStr} onClick={() => toggleHabit(habit.id, day.dateStr)} className={cn(cn("aspect-square rounded-lg flex items-center justify-center transition-all shadow-xs", isCompleted ? "bg-emerald-500 text-primary-foreground shadow-emerald-500/20 scale-105" : "bg-muted/50 hover:bg-muted text-muted-foreground/30 border border-border/40"))} title={`${habit.name} on ${day.displayStr}`}>
+                              {isCompleted ? <CheckCircle2 className="h-4 w-4 text-primary-foreground" /> : <Circle className="h-3 h-3 opacity-30" />}
                             </Button>;
-                  })}
+                    })}
                       </div>
                     </div>;
-            })}
+              })}
               </div>}
           </CardContent>
         </GlassCard>
@@ -311,46 +312,46 @@ export function HabitTrackerClient() {
 
       {/* HOW IT WORKS */}
       <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Define Daily Habits",
-      description: "Add habit titles and assign custom emoji badges.",
-      icon: CalendarDays
-    }, {
-      step: "02",
-      title: "Check Off Daily Tiles",
-      description: "Click the 14-day calendar grid tiles to log daily completion.",
-      icon: CheckCircle2
-    }, {
-      step: "03",
-      title: "Build Consecutive Streaks",
-      description: "Watch your current and all-time best streak numbers grow over time.",
-      icon: Trophy
-    }]} badges={["14-Day Grid View", "Current & Best Streaks", "100% Free"]} />
+        step: "01",
+        title: "Define Daily Habits",
+        description: "Add habit titles and assign custom emoji badges.",
+        icon: CalendarDays
+      }, {
+        step: "02",
+        title: "Check Off Daily Tiles",
+        description: "Click the 14-day calendar grid tiles to log daily completion.",
+        icon: CheckCircle2
+      }, {
+        step: "03",
+        title: "Build Consecutive Streaks",
+        description: "Watch your current and all-time best streak numbers grow over time.",
+        icon: Trophy
+      }]} badges={["14-Day Grid View", "Current & Best Streaks", "100% Free"]} />
 
       {/* FEATURE GUIDES */}
       <ToolFeatureGuides features={[{
-      icon: CalendarDays,
-      title: "14-Day Visual Grid Matrix",
-      description: "Monitors daily check-ins over a rolling 14-day historical window."
-    }, {
-      icon: Trophy,
-      title: "Streak Counter Engine",
-      description: "Calculates active consecutive day streaks and all-time personal bests."
-    }, {
-      icon: Shield,
-      title: "Private Browser Persistence",
-      description: "Saves habit check-ins securely in your local browser storage."
-    }]} />
+        icon: CalendarDays,
+        title: "14-Day Visual Grid Matrix",
+        description: "Monitors daily check-ins over a rolling 14-day historical window."
+      }, {
+        icon: Trophy,
+        title: "Streak Counter Engine",
+        description: "Calculates active consecutive day streaks and all-time personal bests."
+      }, {
+        icon: Shield,
+        title: "Private Browser Persistence",
+        description: "Saves habit check-ins securely in your local browser storage."
+      }]} />
 
       {/* FAQ ACCORDION */}
       <ToolFaqAccordion faqs={[{
-      question: "How are streaks calculated?",
-      answer: "Streaks count consecutive days where you checked off a habit. Missing a day resets the active streak counter."
-    }, {
-      question: "Is my habit data saved online?",
-      answer: "No, all habit entries remain strictly in your local browser storage."
-    }]} />
+        question: "How are streaks calculated?",
+        answer: "Streaks count consecutive days where you checked off a habit. Missing a day resets the active streak counter."
+      }, {
+        question: "Is my habit data saved online?",
+        answer: "No, all habit entries remain strictly in your local browser storage."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/productivity/habit-tracker" max={6} />
-    </div>;
+    </div></div>;
 }

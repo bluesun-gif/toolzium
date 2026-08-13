@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 import { Button } from"@/components/ui/button";
 
 import { BookOpen, Shield, Percent, DollarSign, Calculator, Globe, Receipt, BarChart3, ArrowUpDown, Info } from "lucide-react";
@@ -42,7 +43,7 @@ export default function VatCalculatorClient() {
   }
   const CSVRows: string[][] = [["Mode", "Input Price", "Rate %", "Net", "Tax", "Gross"], [mode === "add" ? "Add Tax" : "Remove Tax", numStr(price), String(rate), numStr(calc.net), numStr(calc.tax), numStr(calc.gross)]];
   return <div className="relative max-w-6xl mx-auto space-y-8">
-      <GridPattern />
+      <ToolBackground />
 
  {/* Header */}
  <ToolPageHeader icon={Percent} title="GST/VAT Calculator" description="Add tax to a net price or remove tax from a gross price." actions={<>

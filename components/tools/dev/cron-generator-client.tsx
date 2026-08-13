@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect, useCallback, useMemo } from"react";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
@@ -142,7 +143,7 @@ export function CronGeneratorClient() {
 
  return (
       <div className="relative max-w-4xl mx-auto">
-      <GridPattern />
+      <ToolBackground />
 
  <ToolPageHeader
  title="Cron Expression Generator"

@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -141,7 +142,7 @@ export function TzAlarmClient() {
 
  return (
       <div className="relative space-y-6">
-      <GridPattern />
+      <ToolBackground />
 
  <ToolPageHeader
  title="Timezone Alarm"

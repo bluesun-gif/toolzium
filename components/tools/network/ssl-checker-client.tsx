@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -146,7 +147,7 @@ ${result.name_value.split(/\r?\n/).map(n => '- ' + n).join('\n')}
  <ToolPageHeader title="SSL Certificate Checker" description="Verify SSL/TLS certificate details, expiration dates, and transparency logs." />
  
  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <GridPattern />
+      <ToolBackground />
 
  <div className="lg:col-span-2 space-y-6">
  <Card>

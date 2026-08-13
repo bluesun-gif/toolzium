@@ -1,6 +1,7 @@
 "use client";
-import { cn } from"@/lib/utils";
+import { ToolBackground } from"@/components/shared/tool-background";
 
+import { cn } from "@/lib/utils";
 import React, { useState, useMemo, useCallback, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -97,8 +98,8 @@ export function PatternTileMemoryClient() {
     });
     setTimeout(() => setIsShowingTarget(false), 2000);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Grid3x3} title="Pattern Tile Memory" description="Test your spatial recall and pattern recognition by recreating shuffled color grids in this engaging cognitive challenge." />
 
@@ -124,8 +125,8 @@ export function PatternTileMemoryClient() {
 
  <div className="flex justify-center">
  <div className="grid gap-2 w-full max-w-md aspect-square" style={{
-            gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))`
-          }}>
+              gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))`
+            }}>
  {(isShowingTarget ? targetGrid : playerGrid).map((color, idx) => <Button key={idx} onClick={() => handleTileClick(idx)} className={cn(`aspect-square rounded-lg transition-all duration-300 ${color} ${selectedTile === idx ? 'ring-4 ring-white scale-95' : 'hover:scale-105'} ${isShowingTarget ? 'cursor-default' : 'cursor-pointer'}`)} disabled={isShowingTarget || !isPlaying} />)}
  </div>
  </div>
@@ -140,8 +141,8 @@ export function PatternTileMemoryClient() {
  {stars > 0 && !isPlaying && <div className="text-center space-y-2">
  <div className="flex justify-center gap-1 text-yellow-500">
  {Array.from({
-              length: 3
-            }).map((_, i) => <Trophy key={i} className={`w-8 h-8 ${i < stars ? 'fill-yellow-500' : 'opacity-30'}`} />)}
+                length: 3
+              }).map((_, i) => <Trophy key={i} className={`w-8 h-8 ${i < stars ? 'fill-yellow-500' : 'opacity-30'}`} />)}
  </div>
  <p className="text-sm text-muted-foreground">Optimal moves: ~{gridSize * gridSize}. You used {moves}.</p>
  </div>}
@@ -149,39 +150,39 @@ export function PatternTileMemoryClient() {
  </GlassCard>
 
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Memorize the Pattern",
-      description: "Observe the target grid of colored tiles carefully before it shuffles.",
-      icon: Grid3x3
-    }, {
-      step: "02",
-      title: "Swap the Tiles",
-      description: "Click two tiles to swap their positions and recreate the original pattern.",
-      icon: RotateCcw
-    }, {
-      step: "03",
-      title: "Earn Stars",
-      description: "Complete the puzzle in the fewest moves possible to earn a 3-star rating.",
-      icon: Trophy
-    }]} badges={["100% Free", "Client-Side Privacy", "No Signup"]} />
+        step: "01",
+        title: "Memorize the Pattern",
+        description: "Observe the target grid of colored tiles carefully before it shuffles.",
+        icon: Grid3x3
+      }, {
+        step: "02",
+        title: "Swap the Tiles",
+        description: "Click two tiles to swap their positions and recreate the original pattern.",
+        icon: RotateCcw
+      }, {
+        step: "03",
+        title: "Earn Stars",
+        description: "Complete the puzzle in the fewest moves possible to earn a 3-star rating.",
+        icon: Trophy
+      }]} badges={["100% Free", "Client-Side Privacy", "No Signup"]} />
 
  <ToolFeatureGuides features={[{
-      icon: Grid3x3,
-      title: "Dynamic Scaling",
-      description: "Grids expand from 3x3 to 5x5 as you progress, increasing cognitive load."
-    }, {
-      icon: Timer,
-      title: "Precision Tracking",
-      description: "Monitor your exact move count and completion time for every puzzle."
-    }, {
-      icon: Lightbulb,
-      title: "Strategic Hints",
-      description: "Use hints to briefly reveal the target pattern at the cost of move penalties."
-    }, {
-      icon: Trophy,
-      title: "Star Rating System",
-      description: "Achieve perfect scores by solving puzzles near the mathematical optimal move count."
-    }]}>
+        icon: Grid3x3,
+        title: "Dynamic Scaling",
+        description: "Grids expand from 3x3 to 5x5 as you progress, increasing cognitive load."
+      }, {
+        icon: Timer,
+        title: "Precision Tracking",
+        description: "Monitor your exact move count and completion time for every puzzle."
+      }, {
+        icon: Lightbulb,
+        title: "Strategic Hints",
+        description: "Use hints to briefly reveal the target pattern at the cost of move penalties."
+      }, {
+        icon: Trophy,
+        title: "Star Rating System",
+        description: "Achieve perfect scores by solving puzzles near the mathematical optimal move count."
+      }]}>
  <div className="prose dark:prose-invert max-w-none">
  <h3>The Cognitive Science of Spatial Recall</h3>
  <p>Pattern Tile Memory is an engaging and visually stimulating cognitive game designed to test and improve your spatial memory, pattern recognition, and problem-solving skills. In a world where digital distractions constantly fragment our attention, exercises that demand focused visual recall are more valuable than ever. This tile-based memory challenge requires you to observe a specific arrangement of colored tiles, memorize their positions, and then recreate the exact pattern from a shuffled grid. The game dynamically scales in difficulty, offering 3x3, 4x4, and 5x5 grids to accommodate both beginners and advanced players seeking a rigorous mental workout.</p>
@@ -191,20 +192,20 @@ export function PatternTileMemoryClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={[{
-      question: "How is the star rating calculated?",
-      answer: "Stars are awarded based on your move efficiency. Completing the puzzle close to the mathematical minimum number of swaps earns 3 stars, while taking excessive moves will result in 1 or 2 stars."
-    }, {
-      question: "Does the game get harder over time?",
-      answer: "Yes. As you complete levels, the grid size will automatically increase from 3x3 to 4x4 and eventually 5x5, introducing more colors and tiles to memorize."
-    }, {
-      question: "Is my progress saved?",
-      answer: "The game tracks your current level and streak during your browser session. All processing happens locally on your device for maximum privacy."
-    }, {
-      question: "What happens if I use a hint?",
-      answer: "Using a hint briefly reveals the target pattern again but adds a 5-move penalty to your score, making it harder to achieve a 3-star rating."
-    }]} />
+        question: "How is the star rating calculated?",
+        answer: "Stars are awarded based on your move efficiency. Completing the puzzle close to the mathematical minimum number of swaps earns 3 stars, while taking excessive moves will result in 1 or 2 stars."
+      }, {
+        question: "Does the game get harder over time?",
+        answer: "Yes. As you complete levels, the grid size will automatically increase from 3x3 to 4x4 and eventually 5x5, introducing more colors and tiles to memorize."
+      }, {
+        question: "Is my progress saved?",
+        answer: "The game tracks your current level and streak during your browser session. All processing happens locally on your device for maximum privacy."
+      }, {
+        question: "What happens if I use a hint?",
+        answer: "Using a hint briefly reveals the target pattern again but adds a 5-move penalty to your score, making it harder to achieve a 3-star rating."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/fun/pattern-tile-memory" max={6} />
- </div>;
+ </div></div>;
 }
 export default PatternTileMemoryClient;

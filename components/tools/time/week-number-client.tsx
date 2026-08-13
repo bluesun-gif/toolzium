@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import {
  ActionButton,
@@ -321,7 +322,7 @@ export default function WeekNumberClient() {
  <CardContent className="grid gap-6 lg:grid-cols-2">
  {/* Left: Date + quick actions */}
  <div className="space-y-3">
-      <GridPattern />
+      <ToolBackground />
 
  <InputField
  id="wk-date"

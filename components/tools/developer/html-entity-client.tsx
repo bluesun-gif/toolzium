@@ -1,6 +1,7 @@
 "use client";
-import { Button } from"@/components/ui/button";
+import { ToolBackground } from"@/components/shared/tool-background";
 
+import { Button } from "@/components/ui/button";
 import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -35,8 +36,8 @@ export default function HtmlEntityClient() {
     setInput(output);
     toast.success(`Switched to ${mode === "encode" ? "decode" : "encode"} mode`);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Code} title="HTML Entity Encoder & Decoder" description="Convert special characters to safe HTML entities and back. Prevent XSS and preserve formatting." />
 
@@ -79,39 +80,39 @@ export default function HtmlEntityClient() {
  </div>
 
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Select Encode or Decode",
-      description: "Choose whether to convert raw characters into HTML entities or reverse the process.",
-      icon: Code
-    }, {
-      step: "02",
-      title: "Paste Your Text",
-      description: "Drop in HTML source code, user-submitted content, or encoded strings.",
-      icon: RefreshCw
-    }, {
-      step: "03",
-      title: "Copy the Result",
-      description: "Use the safe output in templates, emails, or anywhere untrusted text is rendered.",
-      icon: ArrowRight
-    }]} badges={["100% Free", "Client-Side", "No Signup"]} />
+        step: "01",
+        title: "Select Encode or Decode",
+        description: "Choose whether to convert raw characters into HTML entities or reverse the process.",
+        icon: Code
+      }, {
+        step: "02",
+        title: "Paste Your Text",
+        description: "Drop in HTML source code, user-submitted content, or encoded strings.",
+        icon: RefreshCw
+      }, {
+        step: "03",
+        title: "Copy the Result",
+        description: "Use the safe output in templates, emails, or anywhere untrusted text is rendered.",
+        icon: ArrowRight
+      }]} badges={["100% Free", "Client-Side", "No Signup"]} />
 
  <ToolFeatureGuides features={[{
-      icon: Code,
-      title: "Five Core Entities",
-      description: "Handles &, <, >, double quotes, and single quotes — the characters that break HTML structure."
-    }, {
-      icon: Shield,
-      title: "XSS Prevention",
-      description: "Escaping user input before rendering prevents cross-site scripting attacks."
-    }, {
-      icon: Globe,
-      title: "Numeric Decoding",
-      description: "Decodes both named entities and numeric references like &#169; and &#x00A9;."
-    }, {
-      icon: Zap,
-      title: "Live Conversion",
-      description: "Instant transformation as you type without any external dependencies."
-    }]}>
+        icon: Code,
+        title: "Five Core Entities",
+        description: "Handles &, <, >, double quotes, and single quotes — the characters that break HTML structure."
+      }, {
+        icon: Shield,
+        title: "XSS Prevention",
+        description: "Escaping user input before rendering prevents cross-site scripting attacks."
+      }, {
+        icon: Globe,
+        title: "Numeric Decoding",
+        description: "Decodes both named entities and numeric references like &#169; and &#x00A9;."
+      }, {
+        icon: Zap,
+        title: "Live Conversion",
+        description: "Instant transformation as you type without any external dependencies."
+      }]}>
  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
  <p>HTML uses angle brackets and ampersands as structural characters. When user-supplied content contains these symbols, browsers can misinterpret them as tags or entity references, which leads to broken layouts and, more dangerously, cross-site scripting (XSS) vulnerabilities. Entity encoding replaces unsafe characters with their named or numeric equivalents so the browser renders them as literal text.</p>
  <p>The five characters that must always be escaped in HTML text content are the ampersand (<code>&amp;</code>), less-than (<code>&lt;</code>), greater-than (<code>&gt;</code>), double quote (<code>&quot;</code>), and single quote (<code>&#39;</code>). Modern frameworks like React and Vue escape these automatically when interpolating values, but when you work with server-rendered templates, email generators, or raw DOM manipulation, you must do the escaping yourself.</p>
@@ -120,16 +121,16 @@ export default function HtmlEntityClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={[{
-      question: "Do I need to escape everything or just the five core characters?",
-      answer: "For text content, escaping the five core characters is sufficient. Inside attribute values, you should also be careful with attribute delimiters. For URLs inside href/src, use URL encoding instead."
-    }, {
-      question: "Is HTML entity encoding enough to prevent XSS?",
-      answer: "Encoding is one layer of defense. You must also validate input, use Content Security Policy headers, avoid innerHTML with user data, and sanitize rich content with libraries like DOMPurify."
-    }, {
-      question: "What's the difference between &apos; and &#39;?",
-      answer: "&apos; is XML/XHTML but not part of HTML4. &#39; (numeric) works universally across all HTML versions and is therefore the safer choice."
-    }]} />
+        question: "Do I need to escape everything or just the five core characters?",
+        answer: "For text content, escaping the five core characters is sufficient. Inside attribute values, you should also be careful with attribute delimiters. For URLs inside href/src, use URL encoding instead."
+      }, {
+        question: "Is HTML entity encoding enough to prevent XSS?",
+        answer: "Encoding is one layer of defense. You must also validate input, use Content Security Policy headers, avoid innerHTML with user data, and sanitize rich content with libraries like DOMPurify."
+      }, {
+        question: "What's the difference between &apos; and &#39;?",
+        answer: "&apos; is XML/XHTML but not part of HTML4. &#39; (numeric) works universally across all HTML versions and is therefore the safer choice."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/developer/html-entity" max={6} />
- </div>;
+ </div></div>;
 }

@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -251,8 +252,8 @@ export function YoutubeScriptClient() {
     a.click();
     toast.success("Downloaded SRT Teleprompter file!");
   };
-  return <div className="w-full min-h-screen pb-20 relative">
-      <GridPattern />
+  return <div className="w-full min-h-screen pb-20 relative"><ToolBackground /><div className="relative z-10">
+      
 
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader icon={Youtube} title="AI YouTube Script & Teleprompter Generator Studio" description="Craft viral YouTube titles, 15-second opening retention hooks, timestamp outlines, teleprompter-ready scripts, and YouTube SEO packages." />
@@ -322,7 +323,7 @@ export function YoutubeScriptClient() {
                 </div>
               </div>
 
-              <Button onClick={handleGenerate} disabled={isGenerating || !topic.trim()} className="w-full gap-2 mt-4 bg-primary hover:bg-primary/90 text-white font-bold shadow-lg shadow-primary/20 rounded-xl h-12 text-base">
+              <Button onClick={handleGenerate} disabled={isGenerating || !topic.trim()} className="w-full gap-2 mt-4 bg-primary hover:bg-primary/90 text-primary-foreground font-bold shadow-lg shadow-primary/20 rounded-xl h-12 text-base">
                 {isGenerating ? <RefreshCcw className="w-5 h-5 animate-spin" /> : <Sparkles className="w-5 h-5" />}
                 {isGenerating ? "Crafting Script with AI..." : "Generate YouTube Script"}
               </Button>
@@ -332,12 +333,12 @@ export function YoutubeScriptClient() {
           {/* Right Output Panel */}
           <div className="space-y-4">
             {script ? <motion.div initial={{
-            opacity: 0,
-            y: 15
-          }} animate={{
-            opacity: 1,
-            y: 0
-          }} className="space-y-4">
+              opacity: 0,
+              y: 15
+            }} animate={{
+              opacity: 1,
+              y: 0
+            }} className="space-y-4">
                 {/* Telemetry Bar */}
                 <GlassCard className="p-4 flex items-center justify-between bg-card border-border rounded-2xl shadow-sm">
                   <div className="flex items-center gap-3">
@@ -356,19 +357,19 @@ export function YoutubeScriptClient() {
 
                 {/* Output Tab Selection */}
                 <div className="flex gap-1 p-1 bg-muted/60 rounded-xl border border-border overflow-x-auto text-xs">
-                  <Button onClick={() => setActiveTab("teleprompter")} className={cn(cn("px-3 py-1.5 rounded-lg font-bold transition-all shrink-0 cursor-pointer", activeTab === "teleprompter" ? "bg-primary text-white shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
+                  <Button onClick={() => setActiveTab("teleprompter")} className={cn(cn("px-3 py-1.5 rounded-lg font-bold transition-all shrink-0 cursor-pointer", activeTab === "teleprompter" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
                     Teleprompter Script
                   </Button>
-                  <Button onClick={() => setActiveTab("titles")} className={cn(cn("px-3 py-1.5 rounded-lg font-bold transition-all shrink-0 cursor-pointer", activeTab === "titles" ? "bg-primary text-white shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
+                  <Button onClick={() => setActiveTab("titles")} className={cn(cn("px-3 py-1.5 rounded-lg font-bold transition-all shrink-0 cursor-pointer", activeTab === "titles" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
                     Viral Titles (5)
                   </Button>
-                  <Button onClick={() => setActiveTab("hooks")} className={cn(cn("px-3 py-1.5 rounded-lg font-bold transition-all shrink-0 cursor-pointer", activeTab === "hooks" ? "bg-primary text-white shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
+                  <Button onClick={() => setActiveTab("hooks")} className={cn(cn("px-3 py-1.5 rounded-lg font-bold transition-all shrink-0 cursor-pointer", activeTab === "hooks" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
                     Retention Hooks
                   </Button>
-                  <Button onClick={() => setActiveTab("outline")} className={cn(cn("px-3 py-1.5 rounded-lg font-bold transition-all shrink-0 cursor-pointer", activeTab === "outline" ? "bg-primary text-white shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
+                  <Button onClick={() => setActiveTab("outline")} className={cn(cn("px-3 py-1.5 rounded-lg font-bold transition-all shrink-0 cursor-pointer", activeTab === "outline" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
                     Timestamps
                   </Button>
-                  <Button onClick={() => setActiveTab("seo")} className={cn(cn("px-3 py-1.5 rounded-lg font-bold transition-all shrink-0 cursor-pointer", activeTab === "seo" ? "bg-primary text-white shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
+                  <Button onClick={() => setActiveTab("seo")} className={cn(cn("px-3 py-1.5 rounded-lg font-bold transition-all shrink-0 cursor-pointer", activeTab === "seo" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
                     YouTube SEO
                   </Button>
                 </div>
@@ -468,10 +469,10 @@ export function YoutubeScriptClient() {
                     <span className="text-[11px] text-muted-foreground">{item.timestamp} · {item.niche.toUpperCase()} · {item.result.estimatedDuration}</span>
                   </div>
                   <Button variant="outline" size="sm" onClick={() => {
-              setScript(item.result);
-              setTopic(item.topic);
-              setNiche(item.niche);
-            }} className="h-8 text-xs px-2.5 border-border font-semibold">
+                setScript(item.result);
+                setTopic(item.topic);
+                setNiche(item.niche);
+              }} className="h-8 text-xs px-2.5 border-border font-semibold">
                     Reload
                   </Button>
                 </div>)}
@@ -479,35 +480,35 @@ export function YoutubeScriptClient() {
           </GlassCard>}
 
         <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Enter Video Topic",
-        description: "Input your core topic, tutorial concept, or target keywords.",
-        icon: Video
-      }, {
-        step: "02",
-        title: "Select Duration & Tone",
-        description: "Choose target video length and engagement tone.",
-        icon: Sliders
-      }, {
-        step: "03",
-        title: "Copy Teleprompter Script",
-        description: "Export titles, timestamp outlines, and body scripts directly.",
-        icon: CheckCircle2
-      }]} badges={["100% Free", "Retention Hook Generator", "Teleprompter Ready"]} />
+          step: "01",
+          title: "Enter Video Topic",
+          description: "Input your core topic, tutorial concept, or target keywords.",
+          icon: Video
+        }, {
+          step: "02",
+          title: "Select Duration & Tone",
+          description: "Choose target video length and engagement tone.",
+          icon: Sliders
+        }, {
+          step: "03",
+          title: "Copy Teleprompter Script",
+          description: "Export titles, timestamp outlines, and body scripts directly.",
+          icon: CheckCircle2
+        }]} badges={["100% Free", "Retention Hook Generator", "Teleprompter Ready"]} />
 
         <ToolFeatureGuides features={[{
-        icon: Youtube,
-        title: "High-CTR Title Generator",
-        description: "Creates proven YouTube titles optimized for high Click-Through Rates (CTR)."
-      }, {
-        icon: Clock,
-        title: "Read-Time Teleprompter Meter",
-        description: "Calculates total word count and estimated spoken video duration."
-      }, {
-        icon: CheckCircle2,
-        title: "15-Second Retention Hooks",
-        description: "Crafts opening hooks designed to maximize audience retention in the first 30 seconds."
-      }]}>
+          icon: Youtube,
+          title: "High-CTR Title Generator",
+          description: "Creates proven YouTube titles optimized for high Click-Through Rates (CTR)."
+        }, {
+          icon: Clock,
+          title: "Read-Time Teleprompter Meter",
+          description: "Calculates total word count and estimated spoken video duration."
+        }, {
+          icon: CheckCircle2,
+          title: "15-Second Retention Hooks",
+          description: "Crafts opening hooks designed to maximize audience retention in the first 30 seconds."
+        }]}>
           <div className="prose dark:prose-invert max-w-none mt-6">
             <h3>Why Video Scripting Drives Channel Growth</h3>
             <p>
@@ -517,15 +518,15 @@ export function YoutubeScriptClient() {
         </ToolFeatureGuides>
 
         <ToolFaqAccordion faqs={[{
-        question: "How many words is a 10-minute video script?",
-        answer: "At an average speaking pace of 130 to 150 words per minute, a 10-minute video script is approximately 1,300 to 1,500 words."
-      }, {
-        question: "Can I use these scripts for YouTube Shorts?",
-        answer: "Yes! Select 'YouTube Shorts / Reel (60 sec)' for punchy, fast-paced scripts ideal for Shorts and Reels."
-      }]} />
+          question: "How many words is a 10-minute video script?",
+          answer: "At an average speaking pace of 130 to 150 words per minute, a 10-minute video script is approximately 1,300 to 1,500 words."
+        }, {
+          question: "Can I use these scripts for YouTube Shorts?",
+          answer: "Yes! Select 'YouTube Shorts / Reel (60 sec)' for punchy, fast-paced scripts ideal for Shorts and Reels."
+        }]} />
 
         <RelatedTools currentToolUrl="/tools/ai/youtube-script" max={6} />
       </div>
-    </div>;
+    </div></div>;
 }
 export default YoutubeScriptClient;

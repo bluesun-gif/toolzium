@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -167,8 +168,8 @@ export default function CssGridClient() {
     navigator.clipboard.writeText(generatedCSS);
     toast.success('CSS copied to clipboard!');
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={LayoutGrid} title="CSS Grid Generator" description="Build complex CSS Grid layouts visually with live preview and instant code generation" />
 
@@ -201,18 +202,18 @@ export default function CssGridClient() {
  <div className="space-y-1">
  <Label className="text-xs">Columns: {config.columns}</Label>
  <Input type="range" min="1" max="12" value={config.columns} onChange={e => {
-                const val = parseInt(e.target.value);
-                updateConfig('columns', val);
-                updateConfig('templateColumns', Array(val).fill('1fr').join(' '));
-              }} />
+                  const val = parseInt(e.target.value);
+                  updateConfig('columns', val);
+                  updateConfig('templateColumns', Array(val).fill('1fr').join(' '));
+                }} />
  </div>
  <div className="space-y-1">
  <Label className="text-xs">Rows: {config.rows}</Label>
  <Input type="range" min="1" max="12" value={config.rows} onChange={e => {
-                const val = parseInt(e.target.value);
-                updateConfig('rows', val);
-                updateConfig('templateRows', Array(val).fill('1fr').join(' '));
-              }} />
+                  const val = parseInt(e.target.value);
+                  updateConfig('rows', val);
+                  updateConfig('templateRows', Array(val).fill('1fr').join(' '));
+                }} />
  </div>
  <div className="space-y-1">
  <Label className="text-xs">Template Columns</Label>
@@ -304,24 +305,24 @@ export default function CssGridClient() {
  </CardHeader>
  <CardContent className="p-6">
  <div className="grid bg-muted/30 p-4 rounded-lg min-h-[400px]" style={{
-              gridTemplateColumns: config.templateColumns,
-              gridTemplateRows: config.templateRows,
-              columnGap: `${config.columnGap}px`,
-              rowGap: `${config.rowGap}px`,
-              gridTemplateAreas: config.templateAreas || undefined,
-              justifyItems: config.justifyItems,
-              alignItems: config.alignItems
-            } as any}>
+                gridTemplateColumns: config.templateColumns,
+                gridTemplateRows: config.templateRows,
+                columnGap: `${config.columnGap}px`,
+                rowGap: `${config.rowGap}px`,
+                gridTemplateAreas: config.templateAreas || undefined,
+                justifyItems: config.justifyItems,
+                alignItems: config.alignItems
+              } as any}>
  {cells.map(idx => {
-                const span = cellSpans[`cell-${idx}`];
-                return <div key={idx} className="bg-primary/20 border-2 border-primary/40 rounded-lg flex items-center justify-center text-sm font-bold text-primary cursor-pointer hover:bg-primary/30 transition-colors relative group min-h-[60px]" style={{
-                  gridColumn: span?.colSpan && span.colSpan > 1 ? `span ${span.colSpan}` : undefined,
-                  gridRow: span?.rowSpan && span.rowSpan > 1 ? `span ${span.rowSpan}` : undefined
-                }} onClick={() => {
-                  const currentColSpan = span?.colSpan || 1;
-                  const newColSpan = currentColSpan >= config.columns ? 1 : currentColSpan + 1;
-                  updateCellSpan(idx, 'colSpan', newColSpan);
-                }}>
+                  const span = cellSpans[`cell-${idx}`];
+                  return <div key={idx} className="bg-primary/20 border-2 border-primary/40 rounded-lg flex items-center justify-center text-sm font-bold text-primary cursor-pointer hover:bg-primary/30 transition-colors relative group min-h-[60px]" style={{
+                    gridColumn: span?.colSpan && span.colSpan > 1 ? `span ${span.colSpan}` : undefined,
+                    gridRow: span?.rowSpan && span.rowSpan > 1 ? `span ${span.rowSpan}` : undefined
+                  }} onClick={() => {
+                    const currentColSpan = span?.colSpan || 1;
+                    const newColSpan = currentColSpan >= config.columns ? 1 : currentColSpan + 1;
+                    updateCellSpan(idx, 'colSpan', newColSpan);
+                  }}>
  {idx + 1}
  <div className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity">
  <span className="text-[10px] bg-background/80 px-1.5 py-0.5 rounded">
@@ -329,7 +330,7 @@ export default function CssGridClient() {
  </span>
  </div>
  </div>;
-              })}
+                })}
  </div>
  </CardContent>
  </GlassCard>
@@ -354,39 +355,39 @@ export default function CssGridClient() {
  </div>
 
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Configure Grid",
-      description: "Set columns, rows, and spacing using controls",
-      icon: LayoutGrid
-    }, {
-      step: "02",
-      title: "Visualize Layout",
-      description: "See your grid update in real-time",
-      icon: LayoutGrid
-    }, {
-      step: "03",
-      title: "Copy CSS",
-      description: "Grab the generated code for your project",
-      icon: Copy
-    }]} badges={["Live Preview", "Preset Layouts", "Cell Spanning"]} />
+        step: "01",
+        title: "Configure Grid",
+        description: "Set columns, rows, and spacing using controls",
+        icon: LayoutGrid
+      }, {
+        step: "02",
+        title: "Visualize Layout",
+        description: "See your grid update in real-time",
+        icon: LayoutGrid
+      }, {
+        step: "03",
+        title: "Copy CSS",
+        description: "Grab the generated code for your project",
+        icon: Copy
+      }]} badges={["Live Preview", "Preset Layouts", "Cell Spanning"]} />
 
  <ToolFeatureGuides features={[{
-      icon: LayoutGrid,
-      title: "Visual Builder",
-      description: "See your grid layout update in real-time"
-    }, {
-      icon: LayoutGrid,
-      title: "Preset Layouts",
-      description: "Start with Holy Grail, Dashboard, and more"
-    }, {
-      icon: LayoutGrid,
-      title: "Cell Spanning",
-      description: "Click cells to make them span multiple columns/rows"
-    }, {
-      icon: LayoutGrid,
-      title: "Grid Areas",
-      description: "Define named areas for complex layouts"
-    }]}>
+        icon: LayoutGrid,
+        title: "Visual Builder",
+        description: "See your grid layout update in real-time"
+      }, {
+        icon: LayoutGrid,
+        title: "Preset Layouts",
+        description: "Start with Holy Grail, Dashboard, and more"
+      }, {
+        icon: LayoutGrid,
+        title: "Cell Spanning",
+        description: "Click cells to make them span multiple columns/rows"
+      }, {
+        icon: LayoutGrid,
+        title: "Grid Areas",
+        description: "Define named areas for complex layouts"
+      }]}>
  <div className="prose max-w-none dark:prose-invert">
  <h3>Professional CSS Grid Layout Builder</h3>
  <p>CSS Grid is the most powerful layout system available in CSS, but its syntax can be intimidating. Our visual grid generator eliminates the guesswork by letting you build layouts visually while seeing the exact CSS code that makes it work.</p>
@@ -403,16 +404,16 @@ export default function CssGridClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={[{
-      question: "Can I make cells span multiple columns?",
-      answer: "Yes! Click any cell in the preview to cycle through column spans. The cell will expand to cover multiple columns, and the generated CSS will include the proper grid-column property."
-    }, {
-      question: "What are grid template areas?",
-      answer: "Grid template areas let you name regions of your grid for semantic layouts. You define a pattern like 'header header' / 'main sidebar' and then assign items to those named areas."
-    }, {
-      question: "Does it support responsive grids?",
-      answer: "The generated CSS works perfectly with media queries. You can wrap the grid container in @media rules to change the template columns at different breakpoints."
-    }]} />
+        question: "Can I make cells span multiple columns?",
+        answer: "Yes! Click any cell in the preview to cycle through column spans. The cell will expand to cover multiple columns, and the generated CSS will include the proper grid-column property."
+      }, {
+        question: "What are grid template areas?",
+        answer: "Grid template areas let you name regions of your grid for semantic layouts. You define a pattern like 'header header' / 'main sidebar' and then assign items to those named areas."
+      }, {
+        question: "Does it support responsive grids?",
+        answer: "The generated CSS works perfectly with media queries. You can wrap the grid container in @media rules to change the template columns at different breakpoints."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/dev/css-grid" max={6} />
- </div>;
+ </div></div>;
 }

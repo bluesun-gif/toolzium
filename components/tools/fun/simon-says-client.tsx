@@ -1,6 +1,7 @@
 "use client";
-import { cn } from"@/lib/utils";
+import { ToolBackground } from"@/components/shared/tool-background";
 
+import { cn } from "@/lib/utils";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -116,8 +117,8 @@ export default function SimonSaysClient() {
     isPlayingRef.current = false;
     setIsShowing(false);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Gamepad2} title="Simon Says" description="Test your memory by repeating the increasingly fast sequence of colors and sounds." />
 
@@ -151,39 +152,39 @@ export default function SimonSaysClient() {
  </GlassCard>
 
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Start the Game",
-      description: "Click Start to begin at Level 1 with a single color flash.",
-      icon: Play
-    }, {
-      step: "02",
-      title: "Memorize & Repeat",
-      description: "Watch the sequence, then click the colors in the exact same order.",
-      icon: Gamepad2
-    }, {
-      step: "03",
-      title: "Survive the Speed",
-      description: "Each round adds a new color and speeds up. Beat your high score!",
-      icon: Trophy
-    }]} badges={["100% Free", "Client-Side", "Fun"]} />
+        step: "01",
+        title: "Start the Game",
+        description: "Click Start to begin at Level 1 with a single color flash.",
+        icon: Play
+      }, {
+        step: "02",
+        title: "Memorize & Repeat",
+        description: "Watch the sequence, then click the colors in the exact same order.",
+        icon: Gamepad2
+      }, {
+        step: "03",
+        title: "Survive the Speed",
+        description: "Each round adds a new color and speeds up. Beat your high score!",
+        icon: Trophy
+      }]} badges={["100% Free", "Client-Side", "Fun"]} />
 
  <ToolFeatureGuides features={[{
-      icon: Gamepad2,
-      title: "Classic Gameplay",
-      description: "Authentic Simon Says mechanics with progressive difficulty scaling."
-    }, {
-      icon: Trophy,
-      title: "Local High Scores",
-      description: "Your highest level is saved locally so you can track your progress over time."
-    }, {
-      icon: Play,
-      title: "Dynamic Speed",
-      description: "The delay between flashes shrinks as you advance, testing your reaction time."
-    }, {
-      icon: RotateCcw,
-      title: "Instant Restart",
-      description: "Game over? Jump right back in with a single click to try again."
-    }]}>
+        icon: Gamepad2,
+        title: "Classic Gameplay",
+        description: "Authentic Simon Says mechanics with progressive difficulty scaling."
+      }, {
+        icon: Trophy,
+        title: "Local High Scores",
+        description: "Your highest level is saved locally so you can track your progress over time."
+      }, {
+        icon: Play,
+        title: "Dynamic Speed",
+        description: "The delay between flashes shrinks as you advance, testing your reaction time."
+      }, {
+        icon: RotateCcw,
+        title: "Instant Restart",
+        description: "Game over? Jump right back in with a single click to try again."
+      }]}>
  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
  <p>Simon is an electronic game of memory skill, originally invented by Ralph H. Baer and Howard J. Morrison in 1978. The device creates a sequence of tones and lights that the player must repeat in order.</p>
  <p>Our web-based Simon Says captures the essence of the original hardware. It challenges your working memory and sequential processing. As the sequences grow longer and the tempo increases, you must rely on chunking—grouping the sequence into smaller, memorable patterns.</p>
@@ -192,16 +193,16 @@ export default function SimonSaysClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={[{
-      question: "Does the game get faster?",
-      answer: "Yes! The time delay between each color flash decreases as you reach higher levels, requiring faster reactions."
-    }, {
-      question: "Where is my high score saved?",
-      answer: "Your high score is saved in your browser's local storage. It will persist even if you close the tab, but it is not shared online."
-    }, {
-      question: "What happens if I click the wrong color?",
-      answer: "The game immediately ends, and your final level is recorded. You can then restart from Level 1."
-    }]} />
+        question: "Does the game get faster?",
+        answer: "Yes! The time delay between each color flash decreases as you reach higher levels, requiring faster reactions."
+      }, {
+        question: "Where is my high score saved?",
+        answer: "Your high score is saved in your browser's local storage. It will persist even if you close the tab, but it is not shared online."
+      }, {
+        question: "What happens if I click the wrong color?",
+        answer: "The game immediately ends, and your final level is recorded. You can then restart from Level 1."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/fun/simon-says" max={6} />
- </div>;
+ </div></div>;
 }

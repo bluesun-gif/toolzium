@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import {
  CopyButton,
@@ -242,7 +243,7 @@ export default function ClipboardCleanerClient() {
  />
 
  <div className="space-y-2">
-      <GridPattern />
+      <ToolBackground />
 
  <Label>Whitespace & Behavior</Label>
  <div className="flex flex-col gap-2 text-sm">

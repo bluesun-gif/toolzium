@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import {
  ActionButton,
@@ -190,7 +191,7 @@ export default function PasswordGeneratorClient() {
 
  {/* Quick Stats */}
  <div className="mb-4 grid gap-3 sm:grid-cols-4">
-      <GridPattern />
+      <ToolBackground />
 
  <Stat label="Batch Count"value={count} />
  <Stat label="Password Length"value={`${length} chars`} />

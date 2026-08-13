@@ -1,65 +1,56 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
-import { useState, useMemo } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
-import { Label } from"@/components/ui/label";
-import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { FileText, Search, CheckCircle, Sparkles, Shield, Zap, Copy } from"lucide-react";
-import toast from"react-hot-toast";
-import { GridPattern } from"@/components/magicui/grid-pattern";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import { RelatedTools } from"@/components/shared/related-tools";
-
-const WEAK_WORDS = ["responsible for","team player","hard worker","detail-oriented","synergy","think outside the box","go-to person","results-driven"];
-
+import { useState, useMemo } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { FileText, Search, CheckCircle, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import toast from "react-hot-toast";
+import { GridPattern } from "@/components/magicui/grid-pattern";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+const WEAK_WORDS = ["responsible for", "team player", "hard worker", "detail-oriented", "synergy", "think outside the box", "go-to person", "results-driven"];
 export function ResumeAnalyzerClient() {
- const [text, setText] = useState("");
-
- const stats = useMemo(() => {
- const words = text.trim().split(/\s+/).filter(w => w.length > 0);
- const wordCount = words.length;
- const bulletPoints = (text.match(/^[•\-\*]/gm) || []).length;
- 
- let weakWordMatches: string[] = [];
- const lowerText = text.toLowerCase();
- WEAK_WORDS.forEach(word => {
- if (lowerText.includes(word)) {
- weakWordMatches.push(word);
- }
- });
-
- const hasEducation = /education|university|college|degree/i.test(text);
- const hasExperience = /experience|work history|employment/i.test(text);
- const hasSkills = /skills|technologies|proficiencies/i.test(text);
-
- return {
- wordCount,
- bulletPoints,
- weakWordMatches,
- sections: { hasEducation, hasExperience, hasSkills }
- };
- }, [text]);
-
- const reportText = `Resume Analysis:
+  const [text, setText] = useState("");
+  const stats = useMemo(() => {
+    const words = text.trim().split(/\s+/).filter(w => w.length > 0);
+    const wordCount = words.length;
+    const bulletPoints = (text.match(/^[•\-\*]/gm) || []).length;
+    let weakWordMatches: string[] = [];
+    const lowerText = text.toLowerCase();
+    WEAK_WORDS.forEach(word => {
+      if (lowerText.includes(word)) {
+        weakWordMatches.push(word);
+      }
+    });
+    const hasEducation = /education|university|college|degree/i.test(text);
+    const hasExperience = /experience|work history|employment/i.test(text);
+    const hasSkills = /skills|technologies|proficiencies/i.test(text);
+    return {
+      wordCount,
+      bulletPoints,
+      weakWordMatches,
+      sections: {
+        hasEducation,
+        hasExperience,
+        hasSkills
+      }
+    };
+  }, [text]);
+  const reportText = `Resume Analysis:
 Word Count: ${stats.wordCount}
 Bullet Points: ${stats.bulletPoints}
-Weak Words Found: ${stats.weakWordMatches.length > 0 ? stats.weakWordMatches.join(",") :"None"}
+Weak Words Found: ${stats.weakWordMatches.length > 0 ? stats.weakWordMatches.join(",") : "None"}
 `;
+  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+      
 
- return (
-      <div className="relative space-y-6">
-      <GridPattern />
-
- <ToolPageHeader
- icon={FileText}
- title="Resume Analyzer"
- description="Paste your resume text for quick feedback on length, keywords, and structure."
- actions={<ResetButton onClick={() => setText("")} label="Reset"/>}
- />
+ <ToolPageHeader icon={FileText} title="Resume Analyzer" description="Paste your resume text for quick feedback on length, keywords, and structure." actions={<ResetButton onClick={() => setText("")} label="Reset" />} />
 
  <div className="grid md:grid-cols-2 gap-6">
  <GlassCard className="flex flex-col h-full">
@@ -68,22 +59,17 @@ Weak Words Found: ${stats.weakWordMatches.length > 0 ? stats.weakWordMatches.joi
  <CardDescription>Paste your resume contents below</CardDescription>
  </CardHeader>
  <CardContent className="flex-grow flex flex-col">
- <textarea
- value={text}
- onChange={(e) => setText(e.target.value)}
- placeholder="Paste resume here..."
- className="w-full flex-grow min-h-[300px] p-4 rounded-md border border-input bg-transparent text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
- />
+ <textarea value={text} onChange={e => setText(e.target.value)} placeholder="Paste resume here..." className="w-full flex-grow min-h-[300px] p-4 rounded-md border border-input bg-transparent text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring" />
  </CardContent>
  </GlassCard>
 
  <GlassCard>
  <CardHeader className="flex flex-row justify-between items-start">
  <div>
- <CardTitle className="flex items-center gap-2"><Search className="w-5 h-5"/> Analysis</CardTitle>
+ <CardTitle className="flex items-center gap-2"><Search className="w-5 h-5" /> Analysis</CardTitle>
  <CardDescription>Metrics and suggestions</CardDescription>
  </div>
- <CopyButton getText={() => reportText} label="Copy Report"/>
+ <CopyButton getText={() => reportText} label="Copy Report" />
  </CardHeader>
  <CardContent className="space-y-6">
  <div className="grid grid-cols-2 gap-4">
@@ -91,7 +77,7 @@ Weak Words Found: ${stats.weakWordMatches.length > 0 ? stats.weakWordMatches.joi
  <div className="text-3xl font-bold text-primary">{stats.wordCount}</div>
  <div className="text-sm text-muted-foreground">Words</div>
  <div className="text-xs mt-1">
- {stats.wordCount < 300 ?"Too short": stats.wordCount > 700 ?"Might be too long":"Optimal (400-700)"}
+ {stats.wordCount < 300 ? "Too short" : stats.wordCount > 700 ? "Might be too long" : "Optimal (400-700)"}
  </div>
  </div>
  <div className="bg-muted/50 p-4 rounded-lg text-center">
@@ -101,27 +87,21 @@ Weak Words Found: ${stats.weakWordMatches.length > 0 ? stats.weakWordMatches.joi
  </div>
 
  <div>
- <h4 className="font-semibold flex items-center gap-2 mb-2"><CheckCircle className="w-4 h-4 text-green-500"/> Section Check</h4>
+ <h4 className="font-semibold flex items-center gap-2 mb-2"><CheckCircle className="w-4 h-4 text-green-500" /> Section Check</h4>
  <ul className="text-sm space-y-1">
- <li className="flex justify-between">Experience <span>{stats.sections.hasExperience ?"✅ Found":"❌ Missing"}</span></li>
- <li className="flex justify-between">Education <span>{stats.sections.hasEducation ?"✅ Found":"❌ Missing"}</span></li>
- <li className="flex justify-between">Skills <span>{stats.sections.hasSkills ?"✅ Found":"❌ Missing"}</span></li>
+ <li className="flex justify-between">Experience <span>{stats.sections.hasExperience ? "✅ Found" : "❌ Missing"}</span></li>
+ <li className="flex justify-between">Education <span>{stats.sections.hasEducation ? "✅ Found" : "❌ Missing"}</span></li>
+ <li className="flex justify-between">Skills <span>{stats.sections.hasSkills ? "✅ Found" : "❌ Missing"}</span></li>
  </ul>
  </div>
 
  <div>
  <h4 className="font-semibold text-orange-500 mb-2">Weak/Overused Words</h4>
- {stats.weakWordMatches.length > 0 ? (
- <div className="flex flex-wrap gap-2">
- {stats.weakWordMatches.map(w => (
- <span key={w} className="px-2 py-1 bg-orange-500/10 text-orange-500 rounded text-xs font-medium">
+ {stats.weakWordMatches.length > 0 ? <div className="flex flex-wrap gap-2">
+ {stats.weakWordMatches.map(w => <span key={w} className="px-2 py-1 bg-orange-500/10 text-orange-500 rounded text-xs font-medium">
  {w}
- </span>
- ))}
- </div>
- ) : (
- <p className="text-sm text-muted-foreground">Good job! No common cliché words found.</p>
- )}
+ </span>)}
+ </div> : <p className="text-sm text-muted-foreground">Good job! No common cliché words found.</p>}
  </div>
  
  <div className="bg-blue-500/10 p-4 rounded-lg border border-blue-500/20">
@@ -132,49 +112,36 @@ Weak Words Found: ${stats.weakWordMatches.length > 0 ? stats.weakWordMatches.joi
  </GlassCard>
  </div>
  
-      <ToolHowItWorks
-        steps={[
-          {
-            step: "01",
-            title: "Input Your Data",
-            description: "Enter your information in the input field above and configure any options.",
-            icon: Sparkles,
-          },
-          {
-            step: "02",
-            title: "Process & Generate",
-            description: "The tool processes your input instantly and displays the results.",
-            icon: Zap,
-          },
-          {
-            step: "03",
-            title: "Copy & Use",
-            description: "Copy the output with one click and use it wherever you need.",
-            icon: Copy,
-          },
-        ]}
-        badges={["100% Free", "Instant Results", "Privacy-First"]}
-      />
+      <ToolHowItWorks steps={[{
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
 
-      <ToolFeatureGuides
-        features={[
-          {
-            icon: Sparkles,
-            title: "Lightning Fast",
-            description: "Get results in milliseconds with our optimized client-side processing engine.",
-          },
-          {
-            icon: Shield,
-            title: "Completely Private",
-            description: "All processing happens in your browser. Your data never leaves your device.",
-          },
-          {
-            icon: Zap,
-            title: "No Signup Required",
-            description: "Use this tool instantly without creating an account or providing any personal information.",
-          },
-        ]}
-      >
+      <ToolFeatureGuides features={[{
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Resume Analyzer?</h3>
           <p>
@@ -190,25 +157,18 @@ Weak Words Found: ${stats.weakWordMatches.length > 0 ? stats.weakWordMatches.joi
         </div>
       </ToolFeatureGuides>
 
-      <ToolFaqAccordion
-        faqs={[
-          {
-            question: "Is this tool free to use?",
-            answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits.",
-          },
-          {
-            question: "Is my data secure?",
-            answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server.",
-          },
-          {
-            question: "Do I need to create an account?",
-            answer: "No account or registration is required. Simply open the tool and start using it immediately.",
-          },
-        ]}
-      />
+      <ToolFaqAccordion faqs={[{
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/office/resume-analyzer" max={6} />
 
-</div>
- );
+    </div></div>;
 }

@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -133,8 +134,8 @@ export function FlexboxPlaygroundClient() {
  gap: ${gap};
 }`;
   };
-  return <div className="relative space-y-6">
-      <GridPattern />
+  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Layout} title="CSS Flexbox Playground" description="Interactive CSS Flexbox layout builder. Visually create flexbox layouts and generate CSS code." actions={<>
  <CopyButton getText={generateCSS} label="Copy CSS" />
@@ -211,26 +212,26 @@ export function FlexboxPlaygroundClient() {
  </CardHeader>
  <CardContent className="flex-1 overflow-auto bg-muted/30 p-4 relative">
  <div className="border-2 border-dashed border-primary/50 h-full w-full p-2 bg-background/50 rounded flex transition-all" style={{
-            flexDirection: flexDirection as any,
-            justifyContent: justifyContent as any,
-            alignItems: alignItems as any,
-            flexWrap: flexWrap as any,
-            gap: gap
-          }}>
+              flexDirection: flexDirection as any,
+              justifyContent: justifyContent as any,
+              alignItems: alignItems as any,
+              flexWrap: flexWrap as any,
+              gap: gap
+            }}>
  {items.map((item, index) => <div key={item.id} className={cn("flex items-center justify-center font-bold text-lg bg-primary/20 text-primary border-2 cursor-pointer transition-colors relative group", selectedItemId === item.id ? "border-primary bg-primary/40" : "border-primary/30")} style={{
-              width: item.width,
-              height: item.height,
-              flexGrow: item.flexGrow,
-              flexShrink: item.flexShrink,
-              flexBasis: item.flexBasis,
-              order: item.order as any,
-              alignSelf: item.alignSelf as any
-            }} onClick={() => setSelectedItemId(item.id)}>
+                width: item.width,
+                height: item.height,
+                flexGrow: item.flexGrow,
+                flexShrink: item.flexShrink,
+                flexBasis: item.flexBasis,
+                order: item.order as any,
+                alignSelf: item.alignSelf as any
+              }} onClick={() => setSelectedItemId(item.id)}>
  {index + 1}
  <Button className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 bg-destructive text-destructive-foreground rounded-full p-1 transition-opacity" onClick={e => {
-                e.stopPropagation();
-                removeItem(item.id);
-              }}>
+                  e.stopPropagation();
+                  removeItem(item.id);
+                }}>
  <Trash2 className="w-3 h-3" />
  </Button>
  </div>)}
@@ -297,35 +298,35 @@ export function FlexboxPlaygroundClient() {
  </GlassCard>
  
       <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Input Your Data",
-      description: "Enter your information in the input field above and configure any options.",
-      icon: Sparkles
-    }, {
-      step: "02",
-      title: "Process & Generate",
-      description: "The tool processes your input instantly and displays the results.",
-      icon: Zap
-    }, {
-      step: "03",
-      title: "Copy & Use",
-      description: "Copy the output with one click and use it wherever you need.",
-      icon: Copy
-    }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
 
       <ToolFeatureGuides features={[{
-      icon: Sparkles,
-      title: "Lightning Fast",
-      description: "Get results in milliseconds with our optimized client-side processing engine."
-    }, {
-      icon: Shield,
-      title: "Completely Private",
-      description: "All processing happens in your browser. Your data never leaves your device."
-    }, {
-      icon: Zap,
-      title: "No Signup Required",
-      description: "Use this tool instantly without creating an account or providing any personal information."
-    }]}>
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our CSS Flexbox Playground?</h3>
           <p>
@@ -342,17 +343,17 @@ export function FlexboxPlaygroundClient() {
       </ToolFeatureGuides>
 
       <ToolFaqAccordion faqs={[{
-      question: "Is this tool free to use?",
-      answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-    }, {
-      question: "Is my data secure?",
-      answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-    }, {
-      question: "Do I need to create an account?",
-      answer: "No account or registration is required. Simply open the tool and start using it immediately."
-    }]} />
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/dev/flexbox-playground" max={6} />
 
-  </div>;
+  </div></div>;
 }

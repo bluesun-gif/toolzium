@@ -1,77 +1,72 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
-import React, { useState } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
-import { Separator } from"@/components/ui/separator";
-import { Button } from"@/components/ui/button";
-import { Input } from"@/components/ui/input";
-import { Label } from"@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { ResetButton } from"@/components/shared/action-buttons";
-import { cn } from"@/lib/utils";
-import { Scale, User, BarChart3, Info, Sparkles, Shield, Zap, Copy } from"lucide-react";
-import toast from"react-hot-toast";
-import { GridPattern } from"@/components/magicui/grid-pattern";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import { RelatedTools } from"@/components/shared/related-tools";
-
-type Gender ="male"|"female";
-type HeightUnit ="cm"|"ft";
-
+import React, { useState } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ResetButton } from "@/components/shared/action-buttons";
+import { cn } from "@/lib/utils";
+import { Scale, User, BarChart3, Info, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import toast from "react-hot-toast";
+import { GridPattern } from "@/components/magicui/grid-pattern";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+type Gender = "male" | "female";
+type HeightUnit = "cm" | "ft";
 export function IdealWeightClient() {
- const [gender, setGender] = useState<Gender>("male");
- const [heightUnit, setHeightUnit] = useState<HeightUnit>("cm");
- const [cm, setCm] = useState("175");
- const [ft, setFt] = useState("5");
- const [inc, setInc] = useState("9");
- const [currentWeight, setCurrentWeight] = useState("");
+  const [gender, setGender] = useState<Gender>("male");
+  const [heightUnit, setHeightUnit] = useState<HeightUnit>("cm");
+  const [cm, setCm] = useState("175");
+  const [ft, setFt] = useState("5");
+  const [inc, setInc] = useState("9");
+  const [currentWeight, setCurrentWeight] = useState("");
+  const heightInInches = heightUnit === "cm" ? parseFloat(cm) / 2.54 : parseFloat(ft) * 12 + parseFloat(inc);
+  const heightInMeters = heightInInches * 0.0254;
+  const calculateWeights = () => {
+    if (isNaN(heightInInches) || heightInInches < 60) return null; // Formulas typically start at 5ft (60 inches)
 
- const heightInInches = heightUnit ==="cm"
- ? (parseFloat(cm) / 2.54) 
- : (parseFloat(ft) * 12 + parseFloat(inc));
- 
- const heightInMeters = heightInInches * 0.0254;
+    const over5ft = Math.max(0, heightInInches - 60);
+    let devine, robinson, miller, hamwi;
+    if (gender === "male") {
+      devine = 50 + 2.3 * over5ft;
+      robinson = 52 + 1.9 * over5ft;
+      miller = 56.2 + 1.41 * over5ft;
+      hamwi = 48 + 2.7 * over5ft;
+    } else {
+      devine = 45.5 + 2.3 * over5ft;
+      robinson = 49 + 1.7 * over5ft;
+      miller = 53.1 + 1.36 * over5ft;
+      hamwi = 45.5 + 2.2 * over5ft;
+    }
+    const minBMIWeight = 18.5 * (heightInMeters * heightInMeters);
+    const maxBMIWeight = 24.9 * (heightInMeters * heightInMeters);
+    return {
+      devine,
+      robinson,
+      miller,
+      hamwi,
+      minBMIWeight,
+      maxBMIWeight
+    };
+  };
+  const results = calculateWeights();
+  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+      
 
- const calculateWeights = () => {
- if (isNaN(heightInInches) || heightInInches < 60) return null; // Formulas typically start at 5ft (60 inches)
- 
- const over5ft = Math.max(0, heightInInches - 60);
-
- let devine, robinson, miller, hamwi;
- if (gender ==="male") {
- devine = 50 + 2.3 * over5ft;
- robinson = 52 + 1.9 * over5ft;
- miller = 56.2 + 1.41 * over5ft;
- hamwi = 48 + 2.7 * over5ft;
- } else {
- devine = 45.5 + 2.3 * over5ft;
- robinson = 49 + 1.7 * over5ft;
- miller = 53.1 + 1.36 * over5ft;
- hamwi = 45.5 + 2.2 * over5ft;
- }
-
- const minBMIWeight = 18.5 * (heightInMeters * heightInMeters);
- const maxBMIWeight = 24.9 * (heightInMeters * heightInMeters);
-
- return { devine, robinson, miller, hamwi, minBMIWeight, maxBMIWeight };
- };
-
- const results = calculateWeights();
-
- return (
-      <div className="relative space-y-6">
-      <GridPattern />
-
- <ToolPageHeader
- icon={Scale}
- title="Ideal Weight Calculator"
- description="Calculate ideal body weight using multiple scientific formulas"
- actions={<ResetButton onClick={() => { setCm("175"); setFt("5"); setInc("9"); setCurrentWeight(""); }} label="Reset"/>}
- />
+ <ToolPageHeader icon={Scale} title="Ideal Weight Calculator" description="Calculate ideal body weight using multiple scientific formulas" actions={<ResetButton onClick={() => {
+        setCm("175");
+        setFt("5");
+        setInc("9");
+        setCurrentWeight("");
+      }} label="Reset" />} />
 
  <div className="grid md:grid-cols-3 gap-6">
  <GlassCard className="md:col-span-1">
@@ -101,27 +96,23 @@ export function IdealWeightClient() {
  </Select>
  </div>
 
- {heightUnit ==="cm"? (
- <div className="space-y-2">
+ {heightUnit === "cm" ? <div className="space-y-2">
  <Label>Height (cm)</Label>
- <Input type="number"value={cm} onChange={(e) => setCm(e.target.value)} />
- </div>
- ) : (
- <div className="grid grid-cols-2 gap-2">
+ <Input type="number" value={cm} onChange={e => setCm(e.target.value)} />
+ </div> : <div className="grid grid-cols-2 gap-2">
  <div className="space-y-2">
  <Label>Feet</Label>
- <Input type="number"value={ft} onChange={(e) => setFt(e.target.value)} />
+ <Input type="number" value={ft} onChange={e => setFt(e.target.value)} />
  </div>
  <div className="space-y-2">
  <Label>Inches</Label>
- <Input type="number"value={inc} onChange={(e) => setInc(e.target.value)} />
+ <Input type="number" value={inc} onChange={e => setInc(e.target.value)} />
  </div>
- </div>
- )}
+ </div>}
 
  <div className="space-y-2">
  <Label>Current Weight (kg) - Optional</Label>
- <Input type="number"value={currentWeight} onChange={(e) => setCurrentWeight(e.target.value)} placeholder="e.g. 70"/>
+ <Input type="number" value={currentWeight} onChange={e => setCurrentWeight(e.target.value)} placeholder="e.g. 70" />
  </div>
  </CardContent>
  </GlassCard>
@@ -133,12 +124,9 @@ export function IdealWeightClient() {
  <CardDescription>Based on multiple scientific formulas</CardDescription>
  </CardHeader>
  <CardContent>
- {!results ? (
- <div className="text-center p-6 text-muted-foreground bg-muted/30 rounded-lg">
+ {!results ? <div className="text-center p-6 text-muted-foreground bg-muted/30 rounded-lg">
  Please enter a height of at least 5ft (152cm) to calculate ideal weight formulas.
- </div>
- ) : (
- <div className="space-y-6">
+ </div> : <div className="space-y-6">
  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
  <div className="bg-muted/30 p-4 rounded-lg text-center">
  <div className="text-sm text-muted-foreground mb-1">Devine</div>
@@ -167,74 +155,58 @@ export function IdealWeightClient() {
  </div>
  </div>
 
- {currentWeight && !isNaN(parseFloat(currentWeight)) && (
- <div className="p-4 rounded-lg bg-muted/30">
+ {currentWeight && !isNaN(parseFloat(currentWeight)) && <div className="p-4 rounded-lg bg-muted/30">
  <div className="flex items-center gap-2 mb-2 font-semibold">
- <User className="w-5 h-5 text-muted-foreground"/> Your Status
+ <User className="w-5 h-5 text-muted-foreground" /> Your Status
  </div>
  <p className="text-sm">
  Current weight: <strong>{currentWeight} kg</strong>. 
  Difference from Devine average: <strong>{(parseFloat(currentWeight) - results.devine).toFixed(1)} kg</strong>
  </p>
- </div>
- )}
+ </div>}
 
  <div className="flex items-start gap-2 text-xs text-muted-foreground mt-4">
- <Info className="w-4 h-4 mt-0.5 flex-shrink-0"/>
+ <Info className="w-4 h-4 mt-0.5 flex-shrink-0" />
  <p>
  Disclaimer: These formulas provide estimates based on population averages. They do not account for muscle mass, bone density, or body composition. Always consult with a healthcare professional for medical advice.
  </p>
  </div>
- </div>
- )}
+ </div>}
  </CardContent>
  </GlassCard>
  </div>
  </div>
  
-      <ToolHowItWorks
-        steps={[
-          {
-            step: "01",
-            title: "Input Your Data",
-            description: "Enter your information in the input field above and configure any options.",
-            icon: Sparkles,
-          },
-          {
-            step: "02",
-            title: "Process & Generate",
-            description: "The tool processes your input instantly and displays the results.",
-            icon: Zap,
-          },
-          {
-            step: "03",
-            title: "Copy & Use",
-            description: "Copy the output with one click and use it wherever you need.",
-            icon: Copy,
-          },
-        ]}
-        badges={["100% Free", "Instant Results", "Privacy-First"]}
-      />
+      <ToolHowItWorks steps={[{
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
 
-      <ToolFeatureGuides
-        features={[
-          {
-            icon: Sparkles,
-            title: "Lightning Fast",
-            description: "Get results in milliseconds with our optimized client-side processing engine.",
-          },
-          {
-            icon: Shield,
-            title: "Completely Private",
-            description: "All processing happens in your browser. Your data never leaves your device.",
-          },
-          {
-            icon: Zap,
-            title: "No Signup Required",
-            description: "Use this tool instantly without creating an account or providing any personal information.",
-          },
-        ]}
-      >
+      <ToolFeatureGuides features={[{
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Ideal Weight Calculator?</h3>
           <p>
@@ -250,25 +222,18 @@ export function IdealWeightClient() {
         </div>
       </ToolFeatureGuides>
 
-      <ToolFaqAccordion
-        faqs={[
-          {
-            question: "Is this tool free to use?",
-            answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits.",
-          },
-          {
-            question: "Is my data secure?",
-            answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server.",
-          },
-          {
-            question: "Do I need to create an account?",
-            answer: "No account or registration is required. Simply open the tool and start using it immediately.",
-          },
-        ]}
-      />
+      <ToolFaqAccordion faqs={[{
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/health/ideal-weight" max={6} />
 
-</div>
- );
+    </div></div>;
 }

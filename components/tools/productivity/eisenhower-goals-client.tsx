@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -74,7 +75,7 @@ export function EisenhowerGoalsClient() {
  const bucketTasks = tasks.filter(t => t.bucket === id);
  return (
  <div className={cn("flex flex-col h-full rounded-xl border-2 p-4", colorClass)}>
-      <GridPattern />
+      <ToolBackground />
 
  <div className="mb-4">
  <h3 className="text-lg font-bold">{title}</h3>

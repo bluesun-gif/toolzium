@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -112,7 +113,7 @@ export function PriorityActionPlannerClient() {
   const renderQuadrant = (q: Task["quadrant"], title: string, colorClass: string) => {
     const qTasks = tasks.filter(t => t.quadrant === q);
     return <div className={cn("p-4 rounded-xl border", colorClass)}>
-      <GridPattern />
+      <ToolBackground />
 
  <h3 className="font-semibold mb-3 flex items-center gap-2">
  {title} <span className="text-xs bg-background/50 px-2 py-0.5 rounded-full">{qTasks.length}</span>

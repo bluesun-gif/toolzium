@@ -1,6 +1,7 @@
 "use client";
-import { cn } from"@/lib/utils";
+import { ToolBackground } from"@/components/shared/tool-background";
 
+import { cn } from "@/lib/utils";
 import React, { useState, useMemo, useCallback, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -189,8 +190,8 @@ export function SudokuClient() {
       toast.success("Sudoku Solved!");
     }
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Grid3x3} title="Classic Sudoku" description="The definitive 9x9 logic puzzle experience with intelligent pencil notes, real-time error checking, and dynamic puzzle generation." />
 
@@ -204,9 +205,9 @@ export function SudokuClient() {
  <div className="flex flex-wrap gap-3 items-center justify-between">
  <div className="flex gap-2">
  {(['easy', 'medium', 'hard'] as Difficulty[]).map(d => <Button key={d} variant={difficulty === d ? "default" : "outline"} size="sm" onClick={() => {
-              setDifficulty(d);
-              generatePuzzle(d);
-            }}>
+                setDifficulty(d);
+                generatePuzzle(d);
+              }}>
  {d.charAt(0).toUpperCase() + d.slice(1)}
  </Button>)}
  </div>
@@ -221,12 +222,12 @@ export function SudokuClient() {
  <div className="flex flex-col lg:flex-row gap-6 items-center lg:items-start justify-center">
  <div className="grid grid-cols-9 border-2 border-foreground rounded-lg overflow-hidden max-w-[360px] w-full aspect-square">
  {grid.map((row, r) => row.map((cell, c) => {
-              const isSelected = selected?.r === r && selected?.c === c;
-              const isInitial = initial[r][c];
-              const isError = showErrors && errors.has(`${r}-${c}`);
-              const borderR = c === 2 || c === 5 ? 'border-r-2 border-r-foreground' : 'border-r border-r-border';
-              const borderB = r === 2 || r === 5 ? 'border-b-2 border-b-foreground' : 'border-b border-b-border';
-              return <Button key={`${r}-${c}`} onClick={() => handleCellClick(r, c)} className={cn(`relative flex items-center justify-center text-lg font-bold transition-colors
+                const isSelected = selected?.r === r && selected?.c === c;
+                const isInitial = initial[r][c];
+                const isError = showErrors && errors.has(`${r}-${c}`);
+                const borderR = c === 2 || c === 5 ? 'border-r-2 border-r-foreground' : 'border-r border-r-border';
+                const borderB = r === 2 || r === 5 ? 'border-b-2 border-b-foreground' : 'border-b border-b-border';
+                return <Button key={`${r}-${c}`} onClick={() => handleCellClick(r, c)} className={cn(`relative flex items-center justify-center text-lg font-bold transition-colors
  ${borderR} ${borderB}
  ${isSelected ? 'bg-primary/20' : 'bg-background hover:bg-muted/50'}
  ${isError ? 'text-red-500' : isInitial ? 'text-foreground' : 'text-primary'}
@@ -237,14 +238,14 @@ export function SudokuClient() {
  </span>) || null}
  </div>}
  </Button>;
-            }))}
+              }))}
  </div>
 
  <div className="space-y-4 w-full max-w-[200px]">
  <div className="grid grid-cols-3 gap-2">
  {Array.from({
-                length: 9
-              }, (_, i) => i + 1).map(num => <Button key={num} variant="outline" className="h-12 text-lg font-bold" onClick={() => handleNumberInput(num)}>
+                  length: 9
+                }, (_, i) => i + 1).map(num => <Button key={num} variant="outline" className="h-12 text-lg font-bold" onClick={() => handleNumberInput(num)}>
  {num}
  </Button>)}
  </div>
@@ -271,39 +272,39 @@ export function SudokuClient() {
  </GlassCard>
 
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Analyze the Grid",
-      description: "Scan the 9x9 board to identify missing numbers in rows, columns, and 3x3 boxes.",
-      icon: Grid3x3
-    }, {
-      step: "02",
-      title: "Use Pencil Notes",
-      description: "Toggle notes mode to mark potential candidates in empty cells and narrow down possibilities.",
-      icon: Pen
-    }, {
-      step: "03",
-      title: "Apply Logic",
-      description: "Place definitive numbers using deductive reasoning until the entire grid is perfectly filled.",
-      icon: CheckCircle2
-    }]} badges={["100% Free", "Client-Side Privacy", "No Signup"]} />
+        step: "01",
+        title: "Analyze the Grid",
+        description: "Scan the 9x9 board to identify missing numbers in rows, columns, and 3x3 boxes.",
+        icon: Grid3x3
+      }, {
+        step: "02",
+        title: "Use Pencil Notes",
+        description: "Toggle notes mode to mark potential candidates in empty cells and narrow down possibilities.",
+        icon: Pen
+      }, {
+        step: "03",
+        title: "Apply Logic",
+        description: "Place definitive numbers using deductive reasoning until the entire grid is perfectly filled.",
+        icon: CheckCircle2
+      }]} badges={["100% Free", "Client-Side Privacy", "No Signup"]} />
 
  <ToolFeatureGuides features={[{
-      icon: Grid3x3,
-      title: "Dynamic Generation",
-      description: "Every puzzle is mathematically generated on the fly, ensuring infinite unique challenges."
-    }, {
-      icon: Pen,
-      title: "Smart Pencil Notes",
-      description: "Track candidate numbers effortlessly with our integrated 3x3 sub-grid note system."
-    }, {
-      icon: CheckCircle2,
-      title: "Real-Time Validation",
-      description: "Instantly highlights conflicting numbers to prevent logical dead-ends and invalid states."
-    }, {
-      icon: Undo2,
-      title: "Infinite Undo",
-      description: "Experiment with complex hypothetical chains without fear, backed by a complete move history."
-    }]}>
+        icon: Grid3x3,
+        title: "Dynamic Generation",
+        description: "Every puzzle is mathematically generated on the fly, ensuring infinite unique challenges."
+      }, {
+        icon: Pen,
+        title: "Smart Pencil Notes",
+        description: "Track candidate numbers effortlessly with our integrated 3x3 sub-grid note system."
+      }, {
+        icon: CheckCircle2,
+        title: "Real-Time Validation",
+        description: "Instantly highlights conflicting numbers to prevent logical dead-ends and invalid states."
+      }, {
+        icon: Undo2,
+        title: "Infinite Undo",
+        description: "Experiment with complex hypothetical chains without fear, backed by a complete move history."
+      }]}>
  <div className="prose dark:prose-invert max-w-none">
  <h3>The Ultimate Logic Puzzle Engine</h3>
  <p>Sudoku is the world's most beloved logic-based number placement puzzle, and our premium online Sudoku engine delivers the definitive experience for purists and casual players alike. Originating from the concept of Latin squares, Sudoku requires no mathematical arithmetic—only pure deductive reasoning, pattern recognition, and logical elimination. Our platform generates mathematically unique, symmetrically balanced puzzles across three distinct difficulty tiers: Easy, Medium, and Hard. Whether you are looking for a gentle morning brain-teaser or a grueling logical labyrinth to test your limits, our dynamic generation algorithm ensures a fresh, solvable challenge every single time you click 'New Puzzle'.</p>
@@ -313,20 +314,20 @@ export function SudokuClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={[{
-      question: "Are the Sudoku puzzles uniquely solvable?",
-      answer: "Yes. Our generation algorithm guarantees that every puzzle has exactly one logical solution, eliminating the need for guessing."
-    }, {
-      question: "How do pencil notes work?",
-      answer: "Toggle the 'Notes' button, then select a cell and tap any number. Small candidate digits will appear in the cell. Placing a definitive number automatically clears notes in that cell."
-    }, {
-      question: "Can I turn off error highlighting?",
-      answer: "Absolutely. Click the 'Errors' toggle to disable real-time conflict highlighting for a more traditional, unassisted pen-and-paper experience."
-    }, {
-      question: "Is my game saved if I close the tab?",
-      answer: "The game maintains state during your active session. For long-term persistence, we recommend completing the puzzle in one sitting to maintain your flow state."
-    }]} />
+        question: "Are the Sudoku puzzles uniquely solvable?",
+        answer: "Yes. Our generation algorithm guarantees that every puzzle has exactly one logical solution, eliminating the need for guessing."
+      }, {
+        question: "How do pencil notes work?",
+        answer: "Toggle the 'Notes' button, then select a cell and tap any number. Small candidate digits will appear in the cell. Placing a definitive number automatically clears notes in that cell."
+      }, {
+        question: "Can I turn off error highlighting?",
+        answer: "Absolutely. Click the 'Errors' toggle to disable real-time conflict highlighting for a more traditional, unassisted pen-and-paper experience."
+      }, {
+        question: "Is my game saved if I close the tab?",
+        answer: "The game maintains state during your active session. For long-term persistence, we recommend completing the puzzle in one sitting to maintain your flow state."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/fun/sudoku" max={6} />
- </div>;
+ </div></div>;
 }
 export default SudokuClient;

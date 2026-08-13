@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 import { Button } from"@/components/ui/button";
 
 import { Calculator, Info, PiggyBank, BookOpen, Shield, Target, TrendingUp, Calendar, DollarSign, BarChart3, Zap } from "lucide-react";
@@ -62,7 +63,7 @@ export default function SavingsGoalClient() {
   }
   const CSVRows: string[][] = [["Month", "Deposit", "Interest", "End Balance"], ...schedule.map(r => [String(r.month), toMoney(r.deposit), toMoney(r.interest), toMoney(r.balance)])];
   return <div className="relative max-w-6xl mx-auto space-y-8">
-      <GridPattern />
+      <ToolBackground />
 
  {/* Header */}
  <ToolPageHeader icon={PiggyBank} title="Savings Goal" description="How much you need to save each month to reach your target by a date." actions={<>

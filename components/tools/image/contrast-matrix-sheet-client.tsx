@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -131,8 +132,8 @@ export function ContrastMatrixSheetClient() {
     css += "}\n";
     return css;
   };
-  return <div className="relative space-y-6">
-      <GridPattern />
+  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Palette} title="Contrast Compliance Color Matrix" description="Test your brand palette colors against each other for WCAG accessibility." actions={<div className="flex space-x-2">
  <CopyButton getText={getCssExport} label="Copy CSS" />
@@ -153,8 +154,8 @@ export function ContrastMatrixSheetClient() {
  {colors.map(color => <div key={color.id} className="flex flex-col space-y-2 p-3 bg-secondary/50 rounded-lg border">
  <div className="flex items-center gap-2">
  <div className="w-8 h-8 rounded border shadow-sm flex-shrink-0" style={{
-                backgroundColor: color.hex
-              }} />
+                  backgroundColor: color.hex
+                }} />
  <Input value={color.name} onChange={e => updateColor(color.id, "name", e.target.value)} className="h-8 text-sm" placeholder="Color Name" />
  <Button onClick={() => removeColor(color.id)} className="text-muted-foreground hover:text-destructive p-1" disabled={colors.length <= 3}>
  <Trash2 className="w-4 h-4" />
@@ -181,8 +182,8 @@ export function ContrastMatrixSheetClient() {
  {colors.map(c => <th key={c.id} className="p-2 border bg-muted font-medium text-center">
  <div className="flex flex-col items-center gap-1">
  <div className="w-4 h-4 rounded border" style={{
-                    backgroundColor: c.hex
-                  }} />
+                      backgroundColor: c.hex
+                    }} />
  <span className="text-xs truncate w-20">{c.name}</span>
  </div>
  </th>)}
@@ -193,22 +194,22 @@ export function ContrastMatrixSheetClient() {
  <th className="p-2 border bg-muted font-medium text-left">
  <div className="flex items-center gap-2">
  <div className="w-4 h-4 rounded border flex-shrink-0" style={{
-                    backgroundColor: bg.hex
-                  }} />
+                      backgroundColor: bg.hex
+                    }} />
  <span className="text-xs truncate">{bg.name}</span>
  </div>
  </th>
  {colors.map(fg => {
-                if (bg.id === fg.id) {
-                  return <td key={fg.id} className="p-2 border bg-secondary/30 text-center text-muted-foreground text-xs">-</td>;
-                }
-                const ratio = getContrastRatio(fg.hex, bg.hex);
-                const comp = getCompliance(ratio);
-                return <td key={fg.id} className="p-2 border text-center">
+                  if (bg.id === fg.id) {
+                    return <td key={fg.id} className="p-2 border bg-secondary/30 text-center text-muted-foreground text-xs">-</td>;
+                  }
+                  const ratio = getContrastRatio(fg.hex, bg.hex);
+                  const comp = getCompliance(ratio);
+                  return <td key={fg.id} className="p-2 border text-center">
  <div className="flex flex-col items-center justify-center p-2 rounded" style={{
-                    backgroundColor: bg.hex,
-                    color: fg.hex
-                  }}>
+                      backgroundColor: bg.hex,
+                      color: fg.hex
+                    }}>
  <span className="font-bold text-sm">Aa</span>
  <span className="text-xs font-mono mt-1 opacity-90">{ratio.toFixed(2)}</span>
  </div>
@@ -216,7 +217,7 @@ export function ContrastMatrixSheetClient() {
  {comp.text}
  </div>
  </td>;
-              })}
+                })}
  </tr>)}
  </tbody>
  </table>
@@ -224,35 +225,35 @@ export function ContrastMatrixSheetClient() {
  </GlassCard>
  
       <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Input Your Data",
-      description: "Enter your information in the input field above and configure any options.",
-      icon: Sparkles
-    }, {
-      step: "02",
-      title: "Process & Generate",
-      description: "The tool processes your input instantly and displays the results.",
-      icon: Zap
-    }, {
-      step: "03",
-      title: "Copy & Use",
-      description: "Copy the output with one click and use it wherever you need.",
-      icon: Copy
-    }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
 
       <ToolFeatureGuides features={[{
-      icon: Sparkles,
-      title: "Lightning Fast",
-      description: "Get results in milliseconds with our optimized client-side processing engine."
-    }, {
-      icon: Shield,
-      title: "Completely Private",
-      description: "All processing happens in your browser. Your data never leaves your device."
-    }, {
-      icon: Zap,
-      title: "No Signup Required",
-      description: "Use this tool instantly without creating an account or providing any personal information."
-    }]}>
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Contrast Compliance Color Matrix?</h3>
           <p>
@@ -269,17 +270,17 @@ export function ContrastMatrixSheetClient() {
       </ToolFeatureGuides>
 
       <ToolFaqAccordion faqs={[{
-      question: "Is this tool free to use?",
-      answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-    }, {
-      question: "Is my data secure?",
-      answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-    }, {
-      question: "Do I need to create an account?",
-      answer: "No account or registration is required. Simply open the tool and start using it immediately."
-    }]} />
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/image/contrast-matrix-sheet" max={6} />
 
-  </div>;
+  </div></div>;
 }

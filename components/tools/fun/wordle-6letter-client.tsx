@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -149,9 +150,9 @@ export function Wordle6LetterClient() {
  if (guess) {
  letter = guess.word[j];
  state = guess.eval[j];
- if (state ==="correct") { bg ="bg-blue-600"; text ="text-white"; border ="border-blue-600"; }
- else if (state ==="present") { bg ="bg-orange-500"; text ="text-white"; border ="border-orange-500"; }
- else { bg ="bg-zinc-500"; text ="text-white"; border ="border-zinc-500"; }
+ if (state ==="correct") { bg ="bg-blue-600"; text ="text-primary-foreground"; border ="border-blue-600"; }
+ else if (state ==="present") { bg ="bg-orange-500"; text ="text-primary-foreground"; border ="border-orange-500"; }
+ else { bg ="bg-zinc-500"; text ="text-primary-foreground"; border ="border-zinc-500"; }
  } else if (isCurrent && current[j]) {
  letter = current[j];
  state ="tbd";
@@ -160,7 +161,7 @@ export function Wordle6LetterClient() {
  
  return (
  <div key={j} className={`w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-xl font-bold border-2 ${border} ${bg} ${text} transition-all duration-300`}>
-      <GridPattern />
+      <ToolBackground />
 
  {letter.toUpperCase()}
  </div>
@@ -183,8 +184,8 @@ export function Wordle6LetterClient() {
  const state = keyStates[k];
  let bg ="bg-muted";
  let text ="text-foreground";
- if (state ==="correct") { bg ="bg-blue-600"; text ="text-white"; }
- else if (state ==="present") { bg ="bg-orange-500"; text ="text-white"; }
+ if (state ==="correct") { bg ="bg-blue-600"; text ="text-primary-foreground"; }
+ else if (state ==="present") { bg ="bg-orange-500"; text ="text-primary-foreground"; }
  else if (state ==="absent") { bg ="bg-zinc-700"; text ="text-zinc-400"; }
  return <Button key={k} variant="outline"size="sm"className={`${bg} ${text} border-none min-w-[2rem] px-2`} onClick={() => current.length < 6 && setCurrent(c => c + k)}>{k.toUpperCase()}</Button>;
  })}
@@ -232,7 +233,7 @@ export function Wordle6LetterClient() {
  {stats.dist.map((count, i) => (
  <div key={i} className="flex items-center gap-2 text-xs">
  <span className="w-4 text-right">{i + 1}</span>
- <div className="flex-1 bg-muted rounded-sm h-5 flex items-center justify-end px-2 text-white font-bold"style={{ width: `${Math.max(10, (count / Math.max(...stats.dist, 1)) * 100)}%`, backgroundColor: won && guesses.length === i + 1 ?"#2563eb":"#6b7280"}}>{count}</div>
+ <div className="flex-1 bg-muted rounded-sm h-5 flex items-center justify-end px-2 text-primary-foreground font-bold"style={{ width: `${Math.max(10, (count / Math.max(...stats.dist, 1)) * 100)}%`, backgroundColor: won && guesses.length === i + 1 ?"#2563eb":"#6b7280"}}>{count}</div>
  </div>
  ))}
  </div>

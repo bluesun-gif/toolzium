@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
@@ -255,8 +256,8 @@ ${xmlWrapperClose}`;
       return <span key={i}>{part}</span>;
     });
   };
-  return <div className="w-full min-h-screen pb-20 relative">
- <GridPattern />
+  return <div className="w-full min-h-screen pb-20 relative"><ToolBackground /><div className="relative z-10">
+ 
  <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
  
  {/* Header */}
@@ -391,7 +392,7 @@ ${xmlWrapperClose}`;
  <Label className="text-lg font-bold text-foreground mb-4">Raw Draft Prompt Input</Label>
  <div className="flex-1 flex flex-col mt-2">
  <textarea className="w-full flex-1 rounded-xl border border-border bg-background p-4 text-[15px] outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary resize-none font-medium text-muted-foreground shadow-inner" placeholder="e.g. Create a photorealistic image of a golden retriever dog in a sunset meadow..." value={rawPrompt} onChange={e => setRawPrompt(e.target.value)} />
- <Button onClick={handleOptimize} disabled={isOptimizing || !rawPrompt.trim()} className="w-full mt-4 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl h-12 text-base shadow-lg shadow-primary/20 transition-all active:scale-[0.98]">
+ <Button onClick={handleOptimize} disabled={isOptimizing || !rawPrompt.trim()} className="w-full mt-4 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl h-12 text-base shadow-lg shadow-primary/20 transition-all active:scale-[0.98]">
  {isOptimizing ? <RefreshCcw className="w-5 h-5 animate-spin mr-2" /> : <Wand2 className="w-5 h-5 mr-2" />}
  {isOptimizing ? `Optimizing...` : `Optimize (${targetModel.split(' ')[0].toUpperCase()})`}
  </Button>
@@ -409,10 +410,10 @@ ${xmlWrapperClose}`;
  
  <div className="p-5 pt-0 flex-1 overflow-y-auto">
  {result ? <motion.div initial={{
-                  opacity: 0
-                }} animate={{
-                  opacity: 1
-                }} className="h-full">
+                    opacity: 0
+                  }} animate={{
+                    opacity: 1
+                  }} className="h-full">
  <pre className="font-mono text-[13px] md:text-sm text-muted-foreground whitespace-pre-wrap leading-relaxed h-full">
  {renderHighlightedText(result.expandedSuperPrompt)}
  </pre>
@@ -444,10 +445,10 @@ ${xmlWrapperClose}`;
  </div>
  </div>
  <Button variant="outline" size="sm" onClick={() => {
-                  setResult(item.result);
-                  setRawPrompt(item.raw);
-                  setTargetModel(item.model);
-                }} className="h-8 px-3 border-border bg-muted shadow-sm font-semibold text-muted-foreground">
+                    setResult(item.result);
+                    setRawPrompt(item.raw);
+                    setTargetModel(item.model);
+                  }} className="h-8 px-3 border-border bg-muted shadow-sm font-semibold text-muted-foreground">
  Reload
  </Button>
  </div>)}
@@ -461,35 +462,35 @@ ${xmlWrapperClose}`;
  </div>
 
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Input Draft Idea",
-      description: "Write a simple, rough idea of what you want the AI to do.",
-      icon: Settings2
-    }, {
-      step: "02",
-      title: "Tweak Modifiers",
-      description: "Adjust depth, toggle XML tags, or add Few-Shot examples.",
-      icon: Wand2
-    }, {
-      step: "03",
-      title: "Deploy Meta-Prompt",
-      description: "Copy the perfectly formatted prompt tailored for your specific model.",
-      icon: Copy
-    }]} badges={["100% Free", "Claude 3.5 Ready", "Midjourney Optimized"]} />
+        step: "01",
+        title: "Input Draft Idea",
+        description: "Write a simple, rough idea of what you want the AI to do.",
+        icon: Settings2
+      }, {
+        step: "02",
+        title: "Tweak Modifiers",
+        description: "Adjust depth, toggle XML tags, or add Few-Shot examples.",
+        icon: Wand2
+      }, {
+        step: "03",
+        title: "Deploy Meta-Prompt",
+        description: "Copy the perfectly formatted prompt tailored for your specific model.",
+        icon: Copy
+      }]} badges={["100% Free", "Claude 3.5 Ready", "Midjourney Optimized"]} />
 
  <ToolFeatureGuides features={[{
-      icon: Sparkles,
-      title: "Model-Specific Syntax",
-      description: "Automatically formats system instructions and tags (like XML for Claude) depending on your target model."
-    }, {
-      icon: RefreshCcw,
-      title: "Dynamic Logic Engine",
-      description: "Sliders and toggles directly alter the prompt logic—no fake UI elements."
-    }, {
-      icon: Copy,
-      title: "1-Click Copy Workspace",
-      description: "A clean workspace to review and instantly copy your generated master prompt."
-    }]}>
+        icon: Sparkles,
+        title: "Model-Specific Syntax",
+        description: "Automatically formats system instructions and tags (like XML for Claude) depending on your target model."
+      }, {
+        icon: RefreshCcw,
+        title: "Dynamic Logic Engine",
+        description: "Sliders and toggles directly alter the prompt logic—no fake UI elements."
+      }, {
+        icon: Copy,
+        title: "1-Click Copy Workspace",
+        description: "A clean workspace to review and instantly copy your generated master prompt."
+      }]}>
  <div className="prose dark:prose-invert max-w-none">
  <h3>Why Optimize Your Prompts?</h3>
  <p>
@@ -499,15 +500,15 @@ ${xmlWrapperClose}`;
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={[{
-      question: "Does this work for Claude 3.5 Sonnet?",
-      answer: "Yes! If you select Claude and enable XML tags, the system will perfectly format the prompt using Anthropics recommended structural tags."
-    }, {
-      question: "How does the Detail Depth slider work?",
-      answer: "Increasing the depth slider instructs the engine to add exhaustive, multi-step execution parameters and edge-case handling to your output prompt."
-    }]} />
+        question: "Does this work for Claude 3.5 Sonnet?",
+        answer: "Yes! If you select Claude and enable XML tags, the system will perfectly format the prompt using Anthropics recommended structural tags."
+      }, {
+        question: "How does the Detail Depth slider work?",
+        answer: "Increasing the depth slider instructs the engine to add exhaustive, multi-step execution parameters and edge-case handling to your output prompt."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/ai/prompt-optimizer" />
 
- </div>;
+ </div></div>;
 }
 export default PromptOptimizerClient;

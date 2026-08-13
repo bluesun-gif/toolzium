@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import {
  ActionButton,
@@ -84,7 +85,7 @@ function Panel({
  className
  )}
  >
-      <GridPattern />
+      <ToolBackground />
 
  <div className="flex items-center justify-between border-b px-3 py-2">
  <div>

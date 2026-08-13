@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -113,8 +114,8 @@ export function NetWorthClient() {
       currency: 'USD'
     }).format(val);
   };
-  return <div className="relative space-y-6">
-      <GridPattern />
+  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Landmark} title="Net Worth Calculator" description="Track your assets and liabilities to calculate and monitor your overall net worth over time." actions={<div className="flex gap-2">
  <ActionButton onClick={handleSaveSnapshot} icon={Download} label="Save Snapshot" variant="outline" />
@@ -149,9 +150,9 @@ export function NetWorthClient() {
  <div className="space-y-2">
  <Label>Type</Label>
  <Select value={newItemType} onValueChange={(val: "asset" | "liability") => {
-              setNewItemType(val);
-              setNewItemCategory(val === "asset" ? ASSET_CATEGORIES[0] : LIABILITY_CATEGORIES[0]);
-            }}>
+                setNewItemType(val);
+                setNewItemCategory(val === "asset" ? ASSET_CATEGORIES[0] : LIABILITY_CATEGORIES[0]);
+              }}>
  <SelectTrigger><SelectValue /></SelectTrigger>
  <SelectContent>
  <SelectItem value="asset">Asset (+)</SelectItem>
@@ -197,9 +198,9 @@ export function NetWorthClient() {
  <CardContent>
  {assets.length === 0 ? <p className="text-muted-foreground text-sm">No assets added.</p> : <div className="space-y-4">
  {ASSET_CATEGORIES.map(cat => {
-              const catAssets = assets.filter(a => a.category === cat);
-              if (catAssets.length === 0) return null;
-              return <div key={cat} className="space-y-2">
+                const catAssets = assets.filter(a => a.category === cat);
+                if (catAssets.length === 0) return null;
+                return <div key={cat} className="space-y-2">
  <h4 className="font-semibold text-sm">{cat}</h4>
  {catAssets.map(asset => <div key={asset.id} className="flex justify-between items-center bg-secondary/20 p-2 rounded border text-sm">
  <span>{asset.name}</span>
@@ -211,7 +212,7 @@ export function NetWorthClient() {
  </div>
  </div>)}
  </div>;
-            })}
+              })}
  </div>}
  </CardContent>
  </GlassCard>
@@ -225,9 +226,9 @@ export function NetWorthClient() {
  <CardContent>
  {liabilities.length === 0 ? <p className="text-muted-foreground text-sm">No liabilities added.</p> : <div className="space-y-4">
  {LIABILITY_CATEGORIES.map(cat => {
-              const catLiabs = liabilities.filter(l => l.category === cat);
-              if (catLiabs.length === 0) return null;
-              return <div key={cat} className="space-y-2">
+                const catLiabs = liabilities.filter(l => l.category === cat);
+                if (catLiabs.length === 0) return null;
+                return <div key={cat} className="space-y-2">
  <h4 className="font-semibold text-sm">{cat}</h4>
  {catLiabs.map(liab => <div key={liab.id} className="flex justify-between items-center bg-secondary/20 p-2 rounded border text-sm">
  <span>{liab.name}</span>
@@ -239,7 +240,7 @@ export function NetWorthClient() {
  </div>
  </div>)}
  </div>;
-            })}
+              })}
  </div>}
  </CardContent>
  </GlassCard>
@@ -262,35 +263,35 @@ export function NetWorthClient() {
  </GlassCard>}
  
       <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Input Your Data",
-      description: "Enter your information in the input field above and configure any options.",
-      icon: Sparkles
-    }, {
-      step: "02",
-      title: "Process & Generate",
-      description: "The tool processes your input instantly and displays the results.",
-      icon: Zap
-    }, {
-      step: "03",
-      title: "Copy & Use",
-      description: "Copy the output with one click and use it wherever you need.",
-      icon: Copy
-    }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
 
       <ToolFeatureGuides features={[{
-      icon: Sparkles,
-      title: "Lightning Fast",
-      description: "Get results in milliseconds with our optimized client-side processing engine."
-    }, {
-      icon: Shield,
-      title: "Completely Private",
-      description: "All processing happens in your browser. Your data never leaves your device."
-    }, {
-      icon: Zap,
-      title: "No Signup Required",
-      description: "Use this tool instantly without creating an account or providing any personal information."
-    }]}>
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Net Worth Calculator?</h3>
           <p>
@@ -307,17 +308,17 @@ export function NetWorthClient() {
       </ToolFeatureGuides>
 
       <ToolFaqAccordion faqs={[{
-      question: "Is this tool free to use?",
-      answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-    }, {
-      question: "Is my data secure?",
-      answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-    }, {
-      question: "Do I need to create an account?",
-      answer: "No account or registration is required. Simply open the tool and start using it immediately."
-    }]} />
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/finance/net-worth" max={6} />
 
-  </div>;
+  </div></div>;
 }

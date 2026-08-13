@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -137,8 +138,8 @@ export function CodeExplainerClient() {
     setResult(item.resultMarkdown);
     toast.success("Loaded from history");
   };
-  return <div className="w-full min-h-screen pb-20 relative">
-      <GridPattern />
+  return <div className="w-full min-h-screen pb-20 relative"><ToolBackground /><div className="relative z-10">
+      
 
       {/* Required for Syntax Highlighting */}
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
@@ -183,12 +184,12 @@ export function CodeExplainerClient() {
                 </div>
 
                 {actionType === "convert" && <motion.div initial={{
-                opacity: 0,
-                height: 0
-              }} animate={{
-                opacity: 1,
-                height: "auto"
-              }}>
+                  opacity: 0,
+                  height: 0
+                }} animate={{
+                  opacity: 1,
+                  height: "auto"
+                }}>
                     <Label className="text-xs mb-1.5 block text-muted-foreground font-semibold">Target Language</Label>
                     <select className="w-full rounded-lg border border-primary/40 bg-primary/5 px-3 py-2 text-xs text-foreground font-medium outline-none focus:ring-2 focus:ring-primary/50" value={targetLanguage} onChange={e => setTargetLanguage(e.target.value)}>
                       <option value="python">Python</option>
@@ -222,7 +223,7 @@ export function CodeExplainerClient() {
                 </div>
               </div>
 
-              <Button onClick={handleGenerate} disabled={isProcessing || !code.trim()} className="w-full gap-2 mt-4 bg-primary hover:bg-primary/90 text-white font-bold shadow-lg shadow-primary/20 rounded-xl h-12 text-sm">
+              <Button onClick={handleGenerate} disabled={isProcessing || !code.trim()} className="w-full gap-2 mt-4 bg-primary hover:bg-primary/90 text-primary-foreground font-bold shadow-lg shadow-primary/20 rounded-xl h-12 text-sm">
                 {isProcessing ? <RefreshCcw className="w-5 h-5 animate-spin" /> : <Wand2 className="w-5 h-5" />}
                 {isProcessing ? "AI Engine Running..." : "Execute Code Analysis"}
               </Button>
@@ -270,10 +271,10 @@ export function CodeExplainerClient() {
                     <RefreshCcw className="w-10 h-10 text-primary animate-spin" />
                     <p className="text-sm font-bold text-foreground animate-pulse">Running advanced AI engine...</p>
                   </div> : result ? <motion.div initial={{
-                opacity: 0
-              }} animate={{
-                opacity: 1
-              }} className="p-5 sm:p-8">
+                  opacity: 0
+                }} animate={{
+                  opacity: 1
+                }} className="p-5 sm:p-8">
                     <div className="prose prose-sm sm:prose-base dark:prose-invert prose-pre:bg-[#0d1117] prose-pre:border prose-pre:border-border prose-pre:shadow-xl max-w-none prose-headings:text-foreground dark:prose-headings:text-slate-200 prose-a:text-primary">
                       <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
                         {result}
@@ -292,35 +293,35 @@ export function CodeExplainerClient() {
         </div>
 
         <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Paste Source Code",
-        description: "Input functions, loops, or complex architectures in any language.",
-        icon: Terminal
-      }, {
-        step: "02",
-        title: "Select Operation",
-        description: "Choose to Explain, Analyze Complexity, Find Bugs, Convert, or Write Tests.",
-        icon: Settings
-      }, {
-        step: "03",
-        title: "Execute AI Engine",
-        description: "Receive perfectly formatted markdown and syntax-highlighted code blocks.",
-        icon: Wand2
-      }]} badges={["LLM Powered", "Syntax Highlighting", "Groq AI Engine"]} />
+          step: "01",
+          title: "Paste Source Code",
+          description: "Input functions, loops, or complex architectures in any language.",
+          icon: Terminal
+        }, {
+          step: "02",
+          title: "Select Operation",
+          description: "Choose to Explain, Analyze Complexity, Find Bugs, Convert, or Write Tests.",
+          icon: Settings
+        }, {
+          step: "03",
+          title: "Execute AI Engine",
+          description: "Receive perfectly formatted markdown and syntax-highlighted code blocks.",
+          icon: Wand2
+        }]} badges={["LLM Powered", "Syntax Highlighting", "Groq AI Engine"]} />
 
         <ToolFeatureGuides features={[{
-        icon: Code2,
-        title: "Multi-Language Conversion",
-        description: "Port legacy logic into modern frameworks instantly with context-aware language translation."
-      }, {
-        icon: Cpu,
-        title: "Algorithmic Big-O Auditing",
-        description: "Identifies hidden nested loops and recursive bottlenecks, calculating precise Time & Space complexity."
-      }, {
-        icon: Bug,
-        title: "Automated Code Review",
-        description: "Acts as a Senior Engineer reviewing your PR, catching null-pointer exceptions and security flaws."
-      }]}>
+          icon: Code2,
+          title: "Multi-Language Conversion",
+          description: "Port legacy logic into modern frameworks instantly with context-aware language translation."
+        }, {
+          icon: Cpu,
+          title: "Algorithmic Big-O Auditing",
+          description: "Identifies hidden nested loops and recursive bottlenecks, calculating precise Time & Space complexity."
+        }, {
+          icon: Bug,
+          title: "Automated Code Review",
+          description: "Acts as a Senior Engineer reviewing your PR, catching null-pointer exceptions and security flaws."
+        }]}>
           <div className="prose dark:prose-invert max-w-none">
             <h3>Why use AI for Code Analysis?</h3>
             <p>
@@ -330,15 +331,15 @@ export function CodeExplainerClient() {
         </ToolFeatureGuides>
 
         <ToolFaqAccordion faqs={[{
-        question: "Which languages are supported?",
-        answer: "We support Python, TypeScript, JavaScript, Rust, Go, C++, Java, C#, and SQL."
-      }, {
-        question: "Are my code snippets saved or shared?",
-        answer: "No, your code is processed in real time and stored only locally in your browser's history."
-      }]} />
+          question: "Which languages are supported?",
+          answer: "We support Python, TypeScript, JavaScript, Rust, Go, C++, Java, C#, and SQL."
+        }, {
+          question: "Are my code snippets saved or shared?",
+          answer: "No, your code is processed in real time and stored only locally in your browser's history."
+        }]} />
 
         <RelatedTools currentToolUrl="/tools/ai/code-explainer" max={6} />
       </div>
-    </div>;
+    </div></div>;
 }
 export default CodeExplainerClient;

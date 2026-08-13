@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -144,9 +145,9 @@ export function WordleUnlimitedClient() {
  if (guess) {
  letter = guess.word[j];
  state = guess.eval[j];
- if (state ==="correct") { bg ="bg-green-600"; text ="text-white"; border ="border-green-600"; }
- else if (state ==="present") { bg ="bg-yellow-500"; text ="text-white"; border ="border-yellow-500"; }
- else { bg ="bg-zinc-500"; text ="text-white"; border ="border-zinc-500"; }
+ if (state ==="correct") { bg ="bg-green-600"; text ="text-primary-foreground"; border ="border-green-600"; }
+ else if (state ==="present") { bg ="bg-yellow-500"; text ="text-primary-foreground"; border ="border-yellow-500"; }
+ else { bg ="bg-zinc-500"; text ="text-primary-foreground"; border ="border-zinc-500"; }
  } else if (isCurrent && current[j]) {
  letter = current[j];
  state ="tbd";
@@ -155,7 +156,7 @@ export function WordleUnlimitedClient() {
  
  return (
  <div key={j} className={`w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-xl font-bold border-2 ${border} ${bg} ${text} transition-all duration-300`}>
-      <GridPattern />
+      <ToolBackground />
 
  {letter.toUpperCase()}
  </div>
@@ -178,8 +179,8 @@ export function WordleUnlimitedClient() {
  const state = keyStates[k];
  let bg ="bg-muted";
  let text ="text-foreground";
- if (state ==="correct") { bg ="bg-green-600"; text ="text-white"; }
- else if (state ==="present") { bg ="bg-yellow-500"; text ="text-white"; }
+ if (state ==="correct") { bg ="bg-green-600"; text ="text-primary-foreground"; }
+ else if (state ==="present") { bg ="bg-yellow-500"; text ="text-primary-foreground"; }
  else if (state ==="absent") { bg ="bg-zinc-700"; text ="text-zinc-400"; }
  return <Button key={k} variant="outline"size="sm"className={`${bg} ${text} border-none min-w-[2rem] px-2`} onClick={() => current.length < wordLen && setCurrent(c => c + k)}>{k.toUpperCase()}</Button>;
  })}

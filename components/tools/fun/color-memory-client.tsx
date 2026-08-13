@@ -1,6 +1,7 @@
 "use client";
-import { cn } from"@/lib/utils";
+import { ToolBackground } from"@/components/shared/tool-background";
 
+import { cn } from "@/lib/utils";
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -90,8 +91,8 @@ export default function ColorMemoryClient() {
     }
   };
   const gridCols = gridSize === 4 ? "grid-cols-4" : "grid-cols-6";
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Palette} title="Color Memory Game" description="Flip the tiles, match the colors, and test your memory with this classic grid game." />
 
@@ -124,39 +125,39 @@ export default function ColorMemoryClient() {
  </GlassCard>
 
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Choose Grid Size",
-      description: "Select either the 4x4 or 6x6 grid difficulty to begin your game.",
-      icon: Palette
-    }, {
-      step: "02",
-      title: "Flip Two Tiles",
-      description: "Click on any two face-down tiles to reveal their hidden colors.",
-      icon: Move
-    }, {
-      step: "03",
-      title: "Match & Win",
-      description: "Remember the locations and match all color pairs to win the game.",
-      icon: Timer
-    }]} badges={["100% Free", "Client-Side", "Fun"]} />
+        step: "01",
+        title: "Choose Grid Size",
+        description: "Select either the 4x4 or 6x6 grid difficulty to begin your game.",
+        icon: Palette
+      }, {
+        step: "02",
+        title: "Flip Two Tiles",
+        description: "Click on any two face-down tiles to reveal their hidden colors.",
+        icon: Move
+      }, {
+        step: "03",
+        title: "Match & Win",
+        description: "Remember the locations and match all color pairs to win the game.",
+        icon: Timer
+      }]} badges={["100% Free", "Client-Side", "Fun"]} />
 
  <ToolFeatureGuides features={[{
-      icon: Palette,
-      title: "Multiple Difficulties",
-      description: "Switch between a relaxed 4x4 grid or a challenging 6x6 grid."
-    }, {
-      icon: Timer,
-      title: "Live Timer",
-      description: "Track exactly how long it takes you to clear the board."
-    }, {
-      icon: Move,
-      title: "Move Counter",
-      description: "Monitor your efficiency by counting every pair of tiles you flip."
-    }, {
-      icon: RotateCcw,
-      title: "Instant Reset",
-      description: "Shuffle the board and start a fresh game at any time with one click."
-    }]}>
+        icon: Palette,
+        title: "Multiple Difficulties",
+        description: "Switch between a relaxed 4x4 grid or a challenging 6x6 grid."
+      }, {
+        icon: Timer,
+        title: "Live Timer",
+        description: "Track exactly how long it takes you to clear the board."
+      }, {
+        icon: Move,
+        title: "Move Counter",
+        description: "Monitor your efficiency by counting every pair of tiles you flip."
+      }, {
+        icon: RotateCcw,
+        title: "Instant Reset",
+        description: "Shuffle the board and start a fresh game at any time with one click."
+      }]}>
  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
  <p>The Color Memory Game is a digital take on the classic card-matching challenge. It is designed to test and improve your short-term visual memory, concentration, and pattern recognition skills.</p>
  <p>By flipping tiles and trying to recall where specific colors are hidden, you actively engage your brain's hippocampus, which is responsible for memory formation. The 4x4 grid is perfect for beginners or a quick mental warm-up, while the 6x6 grid offers a serious challenge for memory champions.</p>
@@ -165,16 +166,16 @@ export default function ColorMemoryClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={[{
-      question: "How do I win the Color Memory Game?",
-      answer: "You win by successfully matching all pairs of identical colors on the grid. The game ends when no face-down tiles remain."
-    }, {
-      question: "Can I play this game on a touchscreen device?",
-      answer: "Yes, the game is fully optimized for touch interactions on smartphones and tablets. Simply tap the tiles to flip them."
-    }, {
-      question: "Does the game save my high scores?",
-      answer: "To ensure complete privacy, the game does not save high scores to a server. Each session is a fresh start."
-    }]} />
+        question: "How do I win the Color Memory Game?",
+        answer: "You win by successfully matching all pairs of identical colors on the grid. The game ends when no face-down tiles remain."
+      }, {
+        question: "Can I play this game on a touchscreen device?",
+        answer: "Yes, the game is fully optimized for touch interactions on smartphones and tablets. Simply tap the tiles to flip them."
+      }, {
+        question: "Does the game save my high scores?",
+        answer: "To ensure complete privacy, the game does not save high scores to a server. Each session is a fresh start."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/fun/color-memory" max={6} />
- </div>;
+ </div></div>;
 }

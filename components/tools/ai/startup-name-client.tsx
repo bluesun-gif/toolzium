@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -189,8 +190,8 @@ export function StartupNameClient() {
     navigator.clipboard.writeText(text);
     toast.success(`${label} copied to clipboard!`);
   };
-  return <div className="w-full min-h-screen pb-20 relative">
-      <GridPattern />
+  return <div className="w-full min-h-screen pb-20 relative"><ToolBackground /><div className="relative z-10">
+      
 
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader title="AI Startup Name & Brand Generator Studio" description="Generate viral, brandable startup names, taglines, domain suggestions, and elevator pitches powered by AI." icon={Rocket} />
@@ -244,7 +245,7 @@ export function StartupNameClient() {
                 </div>
               </div>
 
-              <Button onClick={handleGenerate} disabled={isGenerating || !keywords.trim()} className="w-full gap-2 mt-4 bg-primary hover:bg-primary/90 text-white font-semibold shadow-lg shadow-primary/20 rounded-xl h-12 text-base">
+              <Button onClick={handleGenerate} disabled={isGenerating || !keywords.trim()} className="w-full gap-2 mt-4 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shadow-lg shadow-primary/20 rounded-xl h-12 text-base">
                 {isGenerating ? <RefreshCcw className="w-5 h-5 animate-spin" /> : <Sparkles className="w-5 h-5" />}
                 {isGenerating ? "Brainstorming AI Names..." : "Generate Brandable Startup Names"}
               </Button>
@@ -254,12 +255,12 @@ export function StartupNameClient() {
           {/* Right Output Workspace Card */}
           <div className="flex flex-col space-y-4">
             {suggestions.length > 0 ? <motion.div initial={{
-            opacity: 0,
-            y: 15
-          }} animate={{
-            opacity: 1,
-            y: 0
-          }} className="space-y-4">
+              opacity: 0,
+              y: 15
+            }} animate={{
+              opacity: 1,
+              y: 0
+            }} className="space-y-4">
                 <div className="flex justify-between items-center px-1">
                   <Label className="text-lg font-bold text-foreground">
                     Generated Brand Concepts ({suggestions.length})
@@ -320,9 +321,9 @@ export function StartupNameClient() {
                     <span className="text-[10px] text-muted-foreground">{item.timestamp} · {item.industry}</span>
                   </div>
                   <Button variant="outline" size="sm" onClick={() => {
-              setSuggestions(item.suggestions);
-              setKeywords(item.keywords);
-            }} className="h-7 text-xs px-2.5 font-semibold">
+                setSuggestions(item.suggestions);
+                setKeywords(item.keywords);
+              }} className="h-7 text-xs px-2.5 font-semibold">
                     Reload
                   </Button>
                 </div>)}
@@ -330,35 +331,35 @@ export function StartupNameClient() {
           </GlassCard>}
 
         <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Enter Keywords",
-        description: "Input core product keywords, niche terms, or concept idea.",
-        icon: Rocket
-      }, {
-        step: "02",
-        title: "Select Industry & TLD",
-        description: "Choose target industry sector and domain TLD preference (.ai, .com).",
-        icon: Sliders
-      }, {
-        step: "03",
-        title: "Review & Check Domain",
-        description: "Export brandable names, taglines, and verify domain availability.",
-        icon: CheckCircle2
-      }]} badges={["100% Free", "Domain Checkers", "AI Elevator Pitches"]} />
+          step: "01",
+          title: "Enter Keywords",
+          description: "Input core product keywords, niche terms, or concept idea.",
+          icon: Rocket
+        }, {
+          step: "02",
+          title: "Select Industry & TLD",
+          description: "Choose target industry sector and domain TLD preference (.ai, .com).",
+          icon: Sliders
+        }, {
+          step: "03",
+          title: "Review & Check Domain",
+          description: "Export brandable names, taglines, and verify domain availability.",
+          icon: CheckCircle2
+        }]} badges={["100% Free", "Domain Checkers", "AI Elevator Pitches"]} />
 
         <ToolFeatureGuides features={[{
-        icon: Rocket,
-        title: "Brandable Naming Engine",
-        description: "Combines linguistic prefixes, suffixes, and compound roots for memorable names."
-      }, {
-        icon: ExternalLink,
-        title: "1-Click Domain Lookups",
-        description: "Direct links to check domain registration status across .com, .io, and .ai TLDs."
-      }, {
-        icon: CheckCircle2,
-        title: "Tagline & Positioning",
-        description: "Generates complementary brand taglines for immediate pitch presentation."
-      }]}>
+          icon: Rocket,
+          title: "Brandable Naming Engine",
+          description: "Combines linguistic prefixes, suffixes, and compound roots for memorable names."
+        }, {
+          icon: ExternalLink,
+          title: "1-Click Domain Lookups",
+          description: "Direct links to check domain registration status across .com, .io, and .ai TLDs."
+        }, {
+          icon: CheckCircle2,
+          title: "Tagline & Positioning",
+          description: "Generates complementary brand taglines for immediate pitch presentation."
+        }]}>
           <div className="prose dark:prose-invert max-w-none">
             <h3>The Importance of a Strong Brand Name</h3>
             <p>
@@ -368,15 +369,15 @@ export function StartupNameClient() {
         </ToolFeatureGuides>
 
         <ToolFaqAccordion faqs={[{
-        question: "Are these startup names trademarked?",
-        answer: "Name suggestions are AI generated. Always perform a trademark search before launching."
-      }, {
-        question: "Which domain extension is best for tech startups?",
-        answer: ".com remains the gold standard for global consumer brands, while .io and .ai dominate developer and artificial intelligence startups."
-      }]} />
+          question: "Are these startup names trademarked?",
+          answer: "Name suggestions are AI generated. Always perform a trademark search before launching."
+        }, {
+          question: "Which domain extension is best for tech startups?",
+          answer: ".com remains the gold standard for global consumer brands, while .io and .ai dominate developer and artificial intelligence startups."
+        }]} />
 
         <RelatedTools currentToolUrl="/tools/ai/startup-name" max={6} />
       </div>
-    </div>;
+    </div></div>;
 }
 export default StartupNameClient;

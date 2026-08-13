@@ -1,6 +1,7 @@
 "use client";
-import { Button } from"@/components/ui/button";
+import { ToolBackground } from"@/components/shared/tool-background";
 
+import { Button } from "@/components/ui/button";
 import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -41,8 +42,8 @@ export default function Base64EncoderClient() {
     setInput("");
     toast.success("Cleared");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Binary} title="Base64 Encoder & Decoder" description="Encode text to Base64 or decode Base64 strings instantly in your browser. No data leaves your device." />
 
@@ -88,39 +89,39 @@ export default function Base64EncoderClient() {
  </div>
 
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Choose Mode",
-      description: "Select whether you want to encode plain text to Base64 or decode an existing Base64 string.",
-      icon: Binary
-    }, {
-      step: "02",
-      title: "Paste Your Data",
-      description: "Drop your text into the input box. Conversion happens instantly as you type.",
-      icon: RefreshCw
-    }, {
-      step: "03",
-      title: "Copy Result",
-      description: "Copy the encoded or decoded output with a single click and use it anywhere.",
-      icon: ArrowRight
-    }]} badges={["100% Free", "Client-Side", "No Signup"]} />
+        step: "01",
+        title: "Choose Mode",
+        description: "Select whether you want to encode plain text to Base64 or decode an existing Base64 string.",
+        icon: Binary
+      }, {
+        step: "02",
+        title: "Paste Your Data",
+        description: "Drop your text into the input box. Conversion happens instantly as you type.",
+        icon: RefreshCw
+      }, {
+        step: "03",
+        title: "Copy Result",
+        description: "Copy the encoded or decoded output with a single click and use it anywhere.",
+        icon: ArrowRight
+      }]} badges={["100% Free", "Client-Side", "No Signup"]} />
 
  <ToolFeatureGuides features={[{
-      icon: Binary,
-      title: "UTF-8 Safe",
-      description: "Correctly handles multibyte Unicode characters, emojis, and non-ASCII text without corruption."
-    }, {
-      icon: Lock,
-      title: "Private by Default",
-      description: "All encoding and decoding runs entirely in your browser. Nothing is ever sent to a server."
-    }, {
-      icon: Zap,
-      title: "Instant Conversion",
-      description: "Output updates live as you type thanks to reactive memoized computation."
-    }, {
-      icon: Shield,
-      title: "Error Handling",
-      description: "Invalid Base64 input is detected and flagged immediately without crashing the interface."
-    }]}>
+        icon: Binary,
+        title: "UTF-8 Safe",
+        description: "Correctly handles multibyte Unicode characters, emojis, and non-ASCII text without corruption."
+      }, {
+        icon: Lock,
+        title: "Private by Default",
+        description: "All encoding and decoding runs entirely in your browser. Nothing is ever sent to a server."
+      }, {
+        icon: Zap,
+        title: "Instant Conversion",
+        description: "Output updates live as you type thanks to reactive memoized computation."
+      }, {
+        icon: Shield,
+        title: "Error Handling",
+        description: "Invalid Base64 input is detected and flagged immediately without crashing the interface."
+      }]}>
  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
  <p>Base64 is one of the most widely used binary-to-text encoding schemes on the modern web. Originally designed to safely transmit binary data over media that only handle text, it remains essential today for embedding images in CSS and HTML, transmitting credentials in HTTP Basic Authentication, encoding binary attachments in JSON payloads, and safely storing byte sequences in text-only databases.</p>
  <p>The encoding process works by grouping input bytes into blocks of three (24 bits) and splitting them into four 6-bit groups. Each 6-bit value (0–63) is mapped to a character from a standardized 64-character alphabet consisting of A–Z, a–z, 0–9, plus (+), and slash (/). When the input length is not divisible by three, padding characters (=) are appended to maintain alignment. This predictable structure makes Base64 both reliable and easy to implement across programming languages.</p>
@@ -129,19 +130,19 @@ export default function Base64EncoderClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={[{
-      question: "Is Base64 encoding the same as encryption?",
-      answer: "No. Base64 is an encoding scheme, not encryption. It can be trivially reversed by anyone. Never use it to protect sensitive data."
-    }, {
-      question: "Why does my decoded output look garbled?",
-      answer: "This usually happens with non-ASCII characters. Our tool uses UTF-8 safe encoding and decoding to handle Unicode and emojis correctly."
-    }, {
-      question: "Can I encode files like images?",
-      answer: "This tool handles text input. For binary files like images, you would first need to convert the file bytes to a Base64 string, which is commonly done with FileReader in the browser."
-    }, {
-      question: "Is my data safe?",
-      answer: "Yes. All processing happens locally in your browser using the native btoa() and atob() functions. No data is transmitted to any server."
-    }]} />
+        question: "Is Base64 encoding the same as encryption?",
+        answer: "No. Base64 is an encoding scheme, not encryption. It can be trivially reversed by anyone. Never use it to protect sensitive data."
+      }, {
+        question: "Why does my decoded output look garbled?",
+        answer: "This usually happens with non-ASCII characters. Our tool uses UTF-8 safe encoding and decoding to handle Unicode and emojis correctly."
+      }, {
+        question: "Can I encode files like images?",
+        answer: "This tool handles text input. For binary files like images, you would first need to convert the file bytes to a Base64 string, which is commonly done with FileReader in the browser."
+      }, {
+        question: "Is my data safe?",
+        answer: "Yes. All processing happens locally in your browser using the native btoa() and atob() functions. No data is transmitted to any server."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/developer/base64-encoder" max={6} />
- </div>;
+ </div></div>;
 }

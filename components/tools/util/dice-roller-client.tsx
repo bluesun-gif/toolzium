@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useCallback, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -71,7 +72,7 @@ const Die = ({ value, rolling }: { value: number; rolling: boolean }) => {
  :"rotate(0deg) scale(1)",
  }}
  >
-      <GridPattern />
+      <ToolBackground />
 
  {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
  <div

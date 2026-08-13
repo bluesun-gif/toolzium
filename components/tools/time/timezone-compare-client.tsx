@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -96,8 +97,8 @@ export function TimezoneCompareClient() {
     setBaseTimeOffset(12 * 60);
     toast.success("Reset time zones!");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+      
 
       <ToolPageHeader icon={Globe} title="Time Zone Comparison Studio" description="Compare real-time meeting schedules across international time zones (EST, PST, GMT, IST, JST) with visual business hours indicators." actions={<div className="flex gap-2">
             <CopyButton getText={() => zones.map(z => `${z}: ${getZoneTime(z).text}`).join("\n")} label="Copy Times" />
@@ -151,69 +152,69 @@ export function TimezoneCompareClient() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {zones.map(zone => {
-            const {
-              text,
-              isBusiness,
-              isDark
-            } = getZoneTime(zone);
-            const label = TIMEZONES.find(t => t.value === zone)?.label || zone;
-            return <div key={zone} className={cn("p-5 rounded-2xl border relative flex flex-col items-center justify-center space-y-2 transition-all shadow-sm", isBusiness ? "bg-emerald-500/10 border-emerald-500/30 text-foreground" : isDark ? "bg-muted/40 border-border text-muted-foreground" : "bg-background/80 border-border text-foreground")}>
+              const {
+                text,
+                isBusiness,
+                isDark
+              } = getZoneTime(zone);
+              const label = TIMEZONES.find(t => t.value === zone)?.label || zone;
+              return <div key={zone} className={cn("p-5 rounded-2xl border relative flex flex-col items-center justify-center space-y-2 transition-all shadow-sm", isBusiness ? "bg-emerald-500/10 border-emerald-500/30 text-foreground" : isDark ? "bg-muted/40 border-border text-muted-foreground" : "bg-background/80 border-border text-foreground")}>
                   {zones.length > 1 && <Button onClick={() => removeZone(zone)} className="absolute top-3 right-3 text-muted-foreground hover:text-destructive transition-colors" title="Remove time zone">
                       <Trash2 className="w-4 h-4" />
                     </Button>}
                   <span className="text-xs font-bold text-center text-muted-foreground line-clamp-1">{label}</span>
                   <span className="text-3xl font-black text-foreground tracking-tight">{text}</span>
-                  <span className={cn("text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md", isBusiness ? "bg-emerald-500 text-white" : isDark ? "bg-muted text-muted-foreground" : "bg-primary/20 text-primary")}>
+                  <span className={cn("text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md", isBusiness ? "bg-emerald-500 text-primary-foreground" : isDark ? "bg-muted text-muted-foreground" : "bg-primary/20 text-primary")}>
                     {isBusiness ? "🟢 Business Hours" : isDark ? "🌙 Night" : "🌤️ Daytime"}
                   </span>
                 </div>;
-          })}
+            })}
           </div>
         </CardContent>
       </GlassCard>
 
       {/* HOW IT WORKS */}
       <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Add Target Cities",
-      description: "Select global time zones (New York, London, Tokyo, Sydney) to add to your side-by-side grid.",
-      icon: Globe
-    }, {
-      step: "02",
-      title: "Drag Time Slider",
-      description: "Move the 24-hour time slider to calculate exact meeting hours across regions.",
-      icon: Clock
-    }, {
-      step: "03",
-      title: "Spot Business Overlaps",
-      description: "Green badges highlight working business hours (9am - 5pm) in each destination.",
-      icon: Shield
-    }]} badges={["Side-by-Side Comparison", "Business Hours Detection", "100% Free"]} />
+        step: "01",
+        title: "Add Target Cities",
+        description: "Select global time zones (New York, London, Tokyo, Sydney) to add to your side-by-side grid.",
+        icon: Globe
+      }, {
+        step: "02",
+        title: "Drag Time Slider",
+        description: "Move the 24-hour time slider to calculate exact meeting hours across regions.",
+        icon: Clock
+      }, {
+        step: "03",
+        title: "Spot Business Overlaps",
+        description: "Green badges highlight working business hours (9am - 5pm) in each destination.",
+        icon: Shield
+      }]} badges={["Side-by-Side Comparison", "Business Hours Detection", "100% Free"]} />
 
       {/* FEATURE GUIDES */}
       <ToolFeatureGuides features={[{
-      icon: Globe,
-      title: "Global Timezone Support",
-      description: "Supports major financial centers and UTC offsets with automatic Daylight Saving adjustment."
-    }, {
-      icon: Clock,
-      title: "Visual Working Hour Highlights",
-      description: "Automatically highlights 9 AM - 5 PM business hours in green for easy meeting scheduling."
-    }, {
-      icon: Shield,
-      title: "Client-Side & Confidential",
-      description: "Calculated instantly in your browser without tracking or external API calls."
-    }]} />
+        icon: Globe,
+        title: "Global Timezone Support",
+        description: "Supports major financial centers and UTC offsets with automatic Daylight Saving adjustment."
+      }, {
+        icon: Clock,
+        title: "Visual Working Hour Highlights",
+        description: "Automatically highlights 9 AM - 5 PM business hours in green for easy meeting scheduling."
+      }, {
+        icon: Shield,
+        title: "Client-Side & Confidential",
+        description: "Calculated instantly in your browser without tracking or external API calls."
+      }]} />
 
       {/* FAQ ACCORDION */}
       <ToolFaqAccordion faqs={[{
-      question: "How does the business hours indicator work?",
-      answer: "Green badges automatically highlight cities where local time falls between 9:00 AM and 5:00 PM."
-    }, {
-      question: "Does this tool automatically handle Daylight Saving Time (DST)?",
-      answer: "Yes, standard Internationalization (Intl) browser APIs automatically compute real-time DST offsets."
-    }]} />
+        question: "How does the business hours indicator work?",
+        answer: "Green badges automatically highlight cities where local time falls between 9:00 AM and 5:00 PM."
+      }, {
+        question: "Does this tool automatically handle Daylight Saving Time (DST)?",
+        answer: "Yes, standard Internationalization (Intl) browser APIs automatically compute real-time DST offsets."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/time/timezone-compare" max={6} />
-    </div>;
+    </div></div>;
 }

@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -111,8 +112,8 @@ export function HabitPlannerClient() {
     const completed = days.filter(Boolean).length;
     return Math.round(completed / 7 * 100);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+      
 
       <ToolPageHeader icon={Calendar} title="Weekly Habit & Routine Planner" description="Track your daily habits, build routines, and maintain your weekly streaks with contrast-optimized check-ins." actions={<ResetButton onClick={resetWeek} label="Reset Week & Increment Streak" />} />
 
@@ -187,15 +188,15 @@ export function HabitPlannerClient() {
                           No habits added yet. Start by adding one on the left!
                         </td>
                       </tr> : habits.map(habit => {
-                    const rate = calculateCompletion(habit.days);
-                    return <tr key={habit.id} className="border-b border-border/40 hover:bg-muted/20 transition-colors">
+                      const rate = calculateCompletion(habit.days);
+                      return <tr key={habit.id} className="border-b border-border/40 hover:bg-muted/20 transition-colors">
                             <td className="py-3 px-3">
                               <div className="font-bold text-sm text-foreground">{habit.name}</div>
                               {habit.category && <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">{habit.category}</span>}
                             </td>
                             {habit.days.map((isDone, idx) => <td key={idx} className="text-center py-3 px-1">
-                                <Button onClick={() => toggleDay(habit.id, idx)} className={cn(cn("w-8 h-8 rounded-lg flex items-center justify-center transition-all mx-auto shadow-xs", isDone ? "bg-primary text-white shadow-md shadow-primary/20 scale-105" : "bg-muted/60 hover:bg-muted text-muted-foreground/30 border border-border/60"))} title={`Toggle ${DAYS[idx]}`}>
-                                  <CheckSquare className={cn("w-4 h-4", isDone ? "text-white" : "opacity-0")} />
+                                <Button onClick={() => toggleDay(habit.id, idx)} className={cn(cn("w-8 h-8 rounded-lg flex items-center justify-center transition-all mx-auto shadow-xs", isDone ? "bg-primary text-primary-foreground shadow-md shadow-primary/20 scale-105" : "bg-muted/60 hover:bg-muted text-muted-foreground/30 border border-border/60"))} title={`Toggle ${DAYS[idx]}`}>
+                                  <CheckSquare className={cn("w-4 h-4", isDone ? "text-primary-foreground" : "opacity-0")} />
                                 </Button>
                               </td>)}
                             <td className="text-center py-3 px-2 font-black text-sm text-primary">
@@ -207,7 +208,7 @@ export function HabitPlannerClient() {
                               </Button>
                             </td>
                           </tr>;
-                  })}
+                    })}
                   </tbody>
                 </table>
               </div>
@@ -218,46 +219,46 @@ export function HabitPlannerClient() {
 
       {/* HOW IT WORKS */}
       <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Add Daily Habits",
-      description: "List habits you want to build this week (e.g. Exercise, Reading, Water Intake).",
-      icon: Calendar
-    }, {
-      step: "02",
-      title: "Check Off Daily Progress",
-      description: "Click the day buttons (Mon-Sun) as you complete habits throughout the week.",
-      icon: CheckSquare
-    }, {
-      step: "03",
-      title: "Track Weekly Streaks",
-      description: "At the end of the week, click 'Reset Week' to log your completion streak count.",
-      icon: Sparkles
-    }]} badges={["7-Day Tracker", "Completion Rates", "Auto-Saved"]} />
+        step: "01",
+        title: "Add Daily Habits",
+        description: "List habits you want to build this week (e.g. Exercise, Reading, Water Intake).",
+        icon: Calendar
+      }, {
+        step: "02",
+        title: "Check Off Daily Progress",
+        description: "Click the day buttons (Mon-Sun) as you complete habits throughout the week.",
+        icon: CheckSquare
+      }, {
+        step: "03",
+        title: "Track Weekly Streaks",
+        description: "At the end of the week, click 'Reset Week' to log your completion streak count.",
+        icon: Sparkles
+      }]} badges={["7-Day Tracker", "Completion Rates", "Auto-Saved"]} />
 
       {/* FEATURE GUIDES */}
       <ToolFeatureGuides features={[{
-      icon: Calendar,
-      title: "7-Day Grid View",
-      description: "Visual grid layout showing Mon-Sun completion status across all active habits."
-    }, {
-      icon: Sparkles,
-      title: "Automatic Percentage Rate",
-      description: "Calculates real-time completion percentage for every habit in your routine."
-    }, {
-      icon: Shield,
-      title: "Local Storage Data Security",
-      description: "All habits and streak numbers are saved directly in your browser's local storage."
-    }]} />
+        icon: Calendar,
+        title: "7-Day Grid View",
+        description: "Visual grid layout showing Mon-Sun completion status across all active habits."
+      }, {
+        icon: Sparkles,
+        title: "Automatic Percentage Rate",
+        description: "Calculates real-time completion percentage for every habit in your routine."
+      }, {
+        icon: Shield,
+        title: "Local Storage Data Security",
+        description: "All habits and streak numbers are saved directly in your browser's local storage."
+      }]} />
 
       {/* FAQ ACCORDION */}
       <ToolFaqAccordion faqs={[{
-      question: "How does the habit streak counter work?",
-      answer: "Clicking 'Reset Week & Increment Streak' clears the current week's checkboxes and adds +1 to your total weekly streak count."
-    }, {
-      question: "Are my habits stored on external servers?",
-      answer: "No, all habit data is saved locally on your device for complete privacy."
-    }]} />
+        question: "How does the habit streak counter work?",
+        answer: "Clicking 'Reset Week & Increment Streak' clears the current week's checkboxes and adds +1 to your total weekly streak count."
+      }, {
+        question: "Are my habits stored on external servers?",
+        answer: "No, all habit data is saved locally on your device for complete privacy."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/productivity/habit-planner" max={6} />
-    </div>;
+    </div></div>;
 }

@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -187,8 +188,8 @@ export default function ColorPaletteClient() {
     question: "Can I export these colors to my React project?",
     answer: "Yes, the tool provides one-click export options for CSS custom properties (variables) and Tailwind CSS configuration objects, allowing you to paste the exact color system directly into your global styles or tailwind.config.js file."
   }];
-  return <div className="relative max-w-6xl mx-auto space-y-8 pb-12 px-4">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8 pb-12 px-4"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Palette} title="Color Palette Generator" description="Generate beautiful, mathematically harmonious color palettes with WCAG contrast checking and developer export tools." />
  
@@ -215,21 +216,21 @@ export default function ColorPaletteClient() {
  <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
  {customPalette.map((color, i) => <div key={i} className="space-y-2">
  <div className="h-32 rounded-xl border border-border shadow-inner relative group cursor-pointer" style={{
-              backgroundColor: color
-            }} onClick={() => copyHex(color)}>
+                backgroundColor: color
+              }} onClick={() => copyHex(color)}>
  <Button className="absolute top-2 right-2 p-1.5 bg-background/80 rounded-full opacity-0 group-hover:opacity-100 transition" onClick={e => {
-                e.stopPropagation();
-                toggleLock(i);
-              }}>
+                  e.stopPropagation();
+                  toggleLock(i);
+                }}>
  {locked[i] ? <Lock className="w-3 h-3" /> : <Unlock className="w-3 h-3" />}
  </Button>
  <div className="absolute bottom-2 left-2 right-2 text-center text-xs font-bold bg-background/90 py-1 rounded shadow">
  <span style={{
-                  color: getContrast(color, "#ffffff") > getContrast(color, "#000000") ? "#fff" : "#000",
-                  backgroundColor: color,
-                  padding: "2px 4px",
-                  borderRadius: "4px"
-                }}>{color.toUpperCase()}</span>
+                    color: getContrast(color, "#ffffff") > getContrast(color, "#000000") ? "#fff" : "#000",
+                    backgroundColor: color,
+                    padding: "2px 4px",
+                    borderRadius: "4px"
+                  }}>{color.toUpperCase()}</span>
  </div>
  </div>
  <div className="text-[10px] text-muted-foreground space-y-0.5 font-mono">
@@ -262,5 +263,5 @@ export default function ColorPaletteClient() {
 
  <ToolFaqAccordion faqs={faqs} />
  <RelatedTools currentToolUrl="/tools/dev/color-palette-generator" max={6} />
- </div>;
+ </div></div>;
 }

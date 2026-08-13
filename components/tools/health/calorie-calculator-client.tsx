@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -155,7 +156,7 @@ export default function CalorieCalculatorClient() {
  
  return (
       <div className="relative mt-4 space-y-2">
-      <GridPattern />
+      <ToolBackground />
 
  <div className="flex h-2.5 w-full overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-700">
  <div style={{ width: `\${pWidth}%` }} className="bg-blue-500"/>

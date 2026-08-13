@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -160,8 +161,8 @@ export function SocialBioClient() {
     navigator.clipboard.writeText(text);
     toast.success(`${label} copied to clipboard!`);
   };
-  return <div className="w-full min-h-screen pb-20 relative">
-      <GridPattern />
+  return <div className="w-full min-h-screen pb-20 relative"><ToolBackground /><div className="relative z-10">
+      
 
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader title="AI Social Media Bio & Creator Profile Generator" description="Craft high-converting, platform-tailored bios for X (Twitter), LinkedIn, Instagram, TikTok, and GitHub." icon={UserCheck} />
@@ -224,7 +225,7 @@ export function SocialBioClient() {
                 </div>
               </div>
 
-              <Button onClick={generateBios} disabled={isGenerating || !name.trim() || !profession.trim()} className="w-full gap-2 mt-4 bg-primary hover:bg-primary/90 text-white font-semibold shadow-lg shadow-primary/20 rounded-xl h-12 text-base">
+              <Button onClick={generateBios} disabled={isGenerating || !name.trim() || !profession.trim()} className="w-full gap-2 mt-4 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shadow-lg shadow-primary/20 rounded-xl h-12 text-base">
                 {isGenerating ? <RefreshCcw className="w-5 h-5 animate-spin" /> : <Sparkles className="w-5 h-5" />}
                 {isGenerating ? "Generating Social Bios..." : "Generate Platform Bios"}
               </Button>
@@ -234,12 +235,12 @@ export function SocialBioClient() {
           {/* Right Workspace Display */}
           <div className="flex flex-col space-y-4">
             {bios ? <motion.div initial={{
-            opacity: 0,
-            y: 15
-          }} animate={{
-            opacity: 1,
-            y: 0
-          }} className="space-y-3">
+              opacity: 0,
+              y: 15
+            }} animate={{
+              opacity: 1,
+              y: 0
+            }} className="space-y-3">
                 <GlassCard className="p-4 space-y-2 border-l-4 border-l-sky-500 bg-card/70 backdrop-blur-md rounded-2xl">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-extrabold text-sky-500 uppercase tracking-wider flex items-center gap-1.5 font-mono">
@@ -314,10 +315,10 @@ export function SocialBioClient() {
                     <span className="text-[10px] text-muted-foreground">{item.timestamp}</span>
                   </div>
                   <Button variant="outline" size="sm" onClick={() => {
-              setBios(item.bios);
-              setName(item.name);
-              setProfession(item.profession);
-            }} className="h-7 text-xs px-2.5 font-semibold">
+                setBios(item.bios);
+                setName(item.name);
+                setProfession(item.profession);
+              }} className="h-7 text-xs px-2.5 font-semibold">
                     Reload
                   </Button>
                 </div>)}
@@ -325,35 +326,35 @@ export function SocialBioClient() {
           </GlassCard>}
 
         <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Enter Role & Skills",
-        description: "Input your target title, primary skills, and persona vibe.",
-        icon: UserCheck
-      }, {
-        step: "02",
-        title: "Select Platform Vibe",
-        description: "Choose between Professional, Witty, Founder, or Minimalist.",
-        icon: Sliders
-      }, {
-        step: "03",
-        title: "Copy Platform Bios",
-        description: "Export pre-formatted bios with character count checks.",
-        icon: CheckCircle2
-      }]} badges={["100% Free", "Character Limit Enforced", "Multi-Platform Ready"]} />
+          step: "01",
+          title: "Enter Role & Skills",
+          description: "Input your target title, primary skills, and persona vibe.",
+          icon: UserCheck
+        }, {
+          step: "02",
+          title: "Select Platform Vibe",
+          description: "Choose between Professional, Witty, Founder, or Minimalist.",
+          icon: Sliders
+        }, {
+          step: "03",
+          title: "Copy Platform Bios",
+          description: "Export pre-formatted bios with character count checks.",
+          icon: CheckCircle2
+        }]} badges={["100% Free", "Character Limit Enforced", "Multi-Platform Ready"]} />
 
         <ToolFeatureGuides features={[{
-        icon: Twitter,
-        title: "X / Twitter 160-Char Limit Check",
-        description: "Ensures generated bios fit strictly within Twitter's 160-character bio boundary."
-      }, {
-        icon: Linkedin,
-        title: "LinkedIn Executive Summary",
-        description: "Crafts professional multi-line about sections designed for recruiter visibility."
-      }, {
-        icon: Instagram,
-        title: "Instagram Bulleted Bios",
-        description: "Uses clean emoji spacing for high visual appeal on mobile screens."
-      }]}>
+          icon: Twitter,
+          title: "X / Twitter 160-Char Limit Check",
+          description: "Ensures generated bios fit strictly within Twitter's 160-character bio boundary."
+        }, {
+          icon: Linkedin,
+          title: "LinkedIn Executive Summary",
+          description: "Crafts professional multi-line about sections designed for recruiter visibility."
+        }, {
+          icon: Instagram,
+          title: "Instagram Bulleted Bios",
+          description: "Uses clean emoji spacing for high visual appeal on mobile screens."
+        }]}>
           <div className="prose dark:prose-invert max-w-none">
             <h3>Optimizing Social Profiles for Authority</h3>
             <p>
@@ -363,15 +364,15 @@ export function SocialBioClient() {
         </ToolFeatureGuides>
 
         <ToolFaqAccordion faqs={[{
-        question: "What is the character limit for Twitter bios?",
-        answer: "Twitter / X bios allow a maximum of 160 characters."
-      }, {
-        question: "Can I use emojis in LinkedIn bios?",
-        answer: "Yes, subtle professional emojis (such as 💼, 📍, 💡) increase readability on desktop and mobile feeds."
-      }]} />
+          question: "What is the character limit for Twitter bios?",
+          answer: "Twitter / X bios allow a maximum of 160 characters."
+        }, {
+          question: "Can I use emojis in LinkedIn bios?",
+          answer: "Yes, subtle professional emojis (such as 💼, 📍, 💡) increase readability on desktop and mobile feeds."
+        }]} />
 
         <RelatedTools currentToolUrl="/tools/ai/social-bio" max={6} />
       </div>
-    </div>;
+    </div></div>;
 }
 export default SocialBioClient;

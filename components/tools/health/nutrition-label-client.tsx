@@ -1,117 +1,123 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
-import { useState } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
-import { Separator } from"@/components/ui/separator";
-import { Button } from"@/components/ui/button";
-import { Input } from"@/components/ui/input";
-import { Label } from"@/components/ui/label";
-import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { cn } from"@/lib/utils";
-import { FileText, Weight, Printer, Eye, Sparkles, Shield, Zap, Copy } from"lucide-react";
-import { toast } from"react-hot-toast";
-import { GridPattern } from"@/components/magicui/grid-pattern";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import { RelatedTools } from"@/components/shared/related-tools";
-
+import { useState } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { cn } from "@/lib/utils";
+import { FileText, Weight, Printer, Eye, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { toast } from "react-hot-toast";
+import { GridPattern } from "@/components/magicui/grid-pattern";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 type Nutrients = {
- servingSize: string;
- servingsPerContainer: string;
- calories: string;
- totalFat: string;
- saturatedFat: string;
- transFat: string;
- cholesterol: string;
- sodium: string;
- totalCarbs: string;
- dietaryFiber: string;
- totalSugars: string;
- addedSugars: string;
- protein: string;
- vitaminD: string;
- calcium: string;
- iron: string;
- potassium: string;
+  servingSize: string;
+  servingsPerContainer: string;
+  calories: string;
+  totalFat: string;
+  saturatedFat: string;
+  transFat: string;
+  cholesterol: string;
+  sodium: string;
+  totalCarbs: string;
+  dietaryFiber: string;
+  totalSugars: string;
+  addedSugars: string;
+  protein: string;
+  vitaminD: string;
+  calcium: string;
+  iron: string;
+  potassium: string;
 };
-
 const DV = {
- totalFat: 78, // g
- saturatedFat: 20, // g
- cholesterol: 300, // mg
- sodium: 2300, // mg
- totalCarbs: 275, // g
- dietaryFiber: 28, // g
- addedSugars: 50, // g
- vitaminD: 20, // mcg
- calcium: 1300, // mg
- iron: 18, // mg
- potassium: 4700 // mg
+  totalFat: 78,
+  // g
+  saturatedFat: 20,
+  // g
+  cholesterol: 300,
+  // mg
+  sodium: 2300,
+  // mg
+  totalCarbs: 275,
+  // g
+  dietaryFiber: 28,
+  // g
+  addedSugars: 50,
+  // g
+  vitaminD: 20,
+  // mcg
+  calcium: 1300,
+  // mg
+  iron: 18,
+  // mg
+  potassium: 4700 // mg
 };
-
 export function NutritionLabelClient() {
- const [data, setData] = useState<Nutrients>({
- servingSize:"1 cup (240ml)",
- servingsPerContainer:"About 4",
- calories:"120",
- totalFat:"2",
- saturatedFat:"0.5",
- transFat:"0",
- cholesterol:"5",
- sodium:"150",
- totalCarbs:"20",
- dietaryFiber:"3",
- totalSugars:"10",
- addedSugars:"5",
- protein:"4",
- vitaminD:"2",
- calcium:"260",
- iron:"1.8",
- potassium:"470"
- });
-
- const handleReset = () => {
- setData({
- servingSize:"1 cup (240ml)",
- servingsPerContainer:"About 4",
- calories:"120",
- totalFat:"2",
- saturatedFat:"0.5",
- transFat:"0",
- cholesterol:"5",
- sodium:"150",
- totalCarbs:"20",
- dietaryFiber:"3",
- totalSugars:"10",
- addedSugars:"5",
- protein:"4",
- vitaminD:"2",
- calcium:"260",
- iron:"1.8",
- potassium:"470"
- });
- toast.success("Reset to defaults");
- };
-
- const updateData = (key: keyof Nutrients, value: string) => {
- setData({ ...data, [key]: value });
- };
-
- const calcDV = (val: string, dv: number) => {
- const num = parseFloat(val);
- if (isNaN(num)) return 0;
- return Math.round((num / dv) * 100);
- };
-
- const printLabel = () => {
- window.print();
- };
-
- const getTextFormat = () => {
- return `Nutrition Facts
+  const [data, setData] = useState<Nutrients>({
+    servingSize: "1 cup (240ml)",
+    servingsPerContainer: "About 4",
+    calories: "120",
+    totalFat: "2",
+    saturatedFat: "0.5",
+    transFat: "0",
+    cholesterol: "5",
+    sodium: "150",
+    totalCarbs: "20",
+    dietaryFiber: "3",
+    totalSugars: "10",
+    addedSugars: "5",
+    protein: "4",
+    vitaminD: "2",
+    calcium: "260",
+    iron: "1.8",
+    potassium: "470"
+  });
+  const handleReset = () => {
+    setData({
+      servingSize: "1 cup (240ml)",
+      servingsPerContainer: "About 4",
+      calories: "120",
+      totalFat: "2",
+      saturatedFat: "0.5",
+      transFat: "0",
+      cholesterol: "5",
+      sodium: "150",
+      totalCarbs: "20",
+      dietaryFiber: "3",
+      totalSugars: "10",
+      addedSugars: "5",
+      protein: "4",
+      vitaminD: "2",
+      calcium: "260",
+      iron: "1.8",
+      potassium: "470"
+    });
+    toast.success("Reset to defaults");
+  };
+  const updateData = (key: keyof Nutrients, value: string) => {
+    setData({
+      ...data,
+      [key]: value
+    });
+  };
+  const calcDV = (val: string, dv: number) => {
+    const num = parseFloat(val);
+    if (isNaN(num)) return 0;
+    return Math.round(num / dv * 100);
+  };
+  const printLabel = () => {
+    window.print();
+  };
+  const getTextFormat = () => {
+    return `Nutrition Facts
 ${data.servingsPerContainer} servings per container
 Serving size: ${data.servingSize}
 Amount per serving
@@ -133,24 +139,15 @@ Calcium ${data.calcium}mg (${calcDV(data.calcium, DV.calcium)}%)
 Iron ${data.iron}mg (${calcDV(data.iron, DV.iron)}%)
 Potassium ${data.potassium}mg (${calcDV(data.potassium, DV.potassium)}%)
 `;
- };
+  };
+  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+      
 
- return (
-      <div className="relative space-y-6">
-      <GridPattern />
-
- <ToolPageHeader
- icon={FileText}
- title="Nutrition Label Maker"
- description="Create FDA-style nutrition labels with automatically calculated daily values."
- actions={
- <>
- <ActionButton onClick={printLabel} icon={Printer} label="Print"/>
- <CopyButton getText={getTextFormat} label="Copy Text"/>
- <ResetButton onClick={handleReset} label="Reset"/>
- </>
- }
- />
+ <ToolPageHeader icon={FileText} title="Nutrition Label Maker" description="Create FDA-style nutrition labels with automatically calculated daily values." actions={<>
+ <ActionButton onClick={printLabel} icon={Printer} label="Print" />
+ <CopyButton getText={getTextFormat} label="Copy Text" />
+ <ResetButton onClick={handleReset} label="Reset" />
+ </>} />
 
  <div className="grid md:grid-cols-2 gap-6">
  <GlassCard>
@@ -161,77 +158,77 @@ Potassium ${data.potassium}mg (${calcDV(data.potassium, DV.potassium)}%)
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
  <Label>Serving Size</Label>
- <Input value={data.servingSize} onChange={(e) => updateData('servingSize', e.target.value)} />
+ <Input value={data.servingSize} onChange={e => updateData('servingSize', e.target.value)} />
  </div>
  <div className="space-y-2">
  <Label>Servings Per Container</Label>
- <Input value={data.servingsPerContainer} onChange={(e) => updateData('servingsPerContainer', e.target.value)} />
+ <Input value={data.servingsPerContainer} onChange={e => updateData('servingsPerContainer', e.target.value)} />
  </div>
  <div className="space-y-2 col-span-2">
  <Label>Calories</Label>
- <Input value={data.calories} onChange={(e) => updateData('calories', e.target.value)} />
+ <Input value={data.calories} onChange={e => updateData('calories', e.target.value)} />
  </div>
  </div>
  <Separator />
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
  <Label>Total Fat (g)</Label>
- <Input value={data.totalFat} onChange={(e) => updateData('totalFat', e.target.value)} />
+ <Input value={data.totalFat} onChange={e => updateData('totalFat', e.target.value)} />
  </div>
  <div className="space-y-2">
  <Label>Saturated Fat (g)</Label>
- <Input value={data.saturatedFat} onChange={(e) => updateData('saturatedFat', e.target.value)} />
+ <Input value={data.saturatedFat} onChange={e => updateData('saturatedFat', e.target.value)} />
  </div>
  <div className="space-y-2">
  <Label>Trans Fat (g)</Label>
- <Input value={data.transFat} onChange={(e) => updateData('transFat', e.target.value)} />
+ <Input value={data.transFat} onChange={e => updateData('transFat', e.target.value)} />
  </div>
  <div className="space-y-2">
  <Label>Cholesterol (mg)</Label>
- <Input value={data.cholesterol} onChange={(e) => updateData('cholesterol', e.target.value)} />
+ <Input value={data.cholesterol} onChange={e => updateData('cholesterol', e.target.value)} />
  </div>
  <div className="space-y-2">
  <Label>Sodium (mg)</Label>
- <Input value={data.sodium} onChange={(e) => updateData('sodium', e.target.value)} />
+ <Input value={data.sodium} onChange={e => updateData('sodium', e.target.value)} />
  </div>
  <div className="space-y-2">
  <Label>Total Carbs (g)</Label>
- <Input value={data.totalCarbs} onChange={(e) => updateData('totalCarbs', e.target.value)} />
+ <Input value={data.totalCarbs} onChange={e => updateData('totalCarbs', e.target.value)} />
  </div>
  <div className="space-y-2">
  <Label>Dietary Fiber (g)</Label>
- <Input value={data.dietaryFiber} onChange={(e) => updateData('dietaryFiber', e.target.value)} />
+ <Input value={data.dietaryFiber} onChange={e => updateData('dietaryFiber', e.target.value)} />
  </div>
  <div className="space-y-2">
  <Label>Total Sugars (g)</Label>
- <Input value={data.totalSugars} onChange={(e) => updateData('totalSugars', e.target.value)} />
+ <Input value={data.totalSugars} onChange={e => updateData('totalSugars', e.target.value)} />
  </div>
  <div className="space-y-2">
  <Label>Added Sugars (g)</Label>
- <Input value={data.addedSugars} onChange={(e) => updateData('addedSugars', e.target.value)} />
+ <Input value={data.addedSugars} onChange={e => updateData('addedSugars', e.target.value)} />
  </div>
  <div className="space-y-2">
  <Label>Protein (g)</Label>
- <Input value={data.protein} onChange={(e) => updateData('protein', e.target.value)} />
+ <Input value={data.protein} onChange={e => updateData('protein', e.target.value)} />
  </div>
  </div>
  <Separator />
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
  <Label>Vitamin D (mcg)</Label>
- <Input value={data.vitaminD} onChange={(e) => updateData('vitaminD', e.target.value)} />
+ <Input value={data.vitaminD} onChange={e => updateData('vitaminD', e.target.value)} />
  </div>
  <div className="space-y-2">
  <Label>Calcium (mg)</Label>
- <Input value={data.calcium} onChange={(e) => updateData('calcium', e.target.value)} />
+ <Input value={data.calcium} onChange={e => updateData('calcium', e.target.value)} />
  </div>
  <div className="space-y-2">
  <Label>Iron (mg)</Label>
- <Input value={data.iron} onChange={(e) => updateData('iron', e.target.value)} />
+ <Input value={data.iron} onChange={e => updateData('iron', e.target.value)} />
  </div>
  <div className="space-y-2">
  <Label>Potassium (mg)</Label>
- <Input value={data.potassium} onChange={(e) => updateData('potassium', e.target.value)} />
+ <Input value={data.potassium} onChange={e => updateData('potassium', e.target.value)} />
  </div>
  </div>
  </CardContent>
@@ -328,57 +325,46 @@ Potassium ${data.potassium}mg (${calcDV(data.potassium, DV.potassium)}%)
  </GlassCard>
  </div>
  </div>
- <style dangerouslySetInnerHTML={{__html: `
+ <style dangerouslySetInnerHTML={{
+        __html: `
  @media print {
  body * { visibility: hidden; }
  .print-area, .print-area * { visibility: visible; }
  .print-area { position: absolute; left: 0; top: 0; width: 100%; }
  }
- `}} />
+ `
+      }} />
  
-      <ToolHowItWorks
-        steps={[
-          {
-            step: "01",
-            title: "Input Your Data",
-            description: "Enter your information in the input field above and configure any options.",
-            icon: Sparkles,
-          },
-          {
-            step: "02",
-            title: "Process & Generate",
-            description: "The tool processes your input instantly and displays the results.",
-            icon: Zap,
-          },
-          {
-            step: "03",
-            title: "Copy & Use",
-            description: "Copy the output with one click and use it wherever you need.",
-            icon: Copy,
-          },
-        ]}
-        badges={["100% Free", "Instant Results", "Privacy-First"]}
-      />
+      <ToolHowItWorks steps={[{
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
 
-      <ToolFeatureGuides
-        features={[
-          {
-            icon: Sparkles,
-            title: "Lightning Fast",
-            description: "Get results in milliseconds with our optimized client-side processing engine.",
-          },
-          {
-            icon: Shield,
-            title: "Completely Private",
-            description: "All processing happens in your browser. Your data never leaves your device.",
-          },
-          {
-            icon: Zap,
-            title: "No Signup Required",
-            description: "Use this tool instantly without creating an account or providing any personal information.",
-          },
-        ]}
-      >
+      <ToolFeatureGuides features={[{
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Nutrition Label Maker?</h3>
           <p>
@@ -394,25 +380,18 @@ Potassium ${data.potassium}mg (${calcDV(data.potassium, DV.potassium)}%)
         </div>
       </ToolFeatureGuides>
 
-      <ToolFaqAccordion
-        faqs={[
-          {
-            question: "Is this tool free to use?",
-            answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits.",
-          },
-          {
-            question: "Is my data secure?",
-            answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server.",
-          },
-          {
-            question: "Do I need to create an account?",
-            answer: "No account or registration is required. Simply open the tool and start using it immediately.",
-          },
-        ]}
-      />
+      <ToolFaqAccordion faqs={[{
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
 
       <RelatedTools currentToolUrl="/tools/health/nutrition-label" max={6} />
 
-</div>
- );
+    </div></div>;
 }

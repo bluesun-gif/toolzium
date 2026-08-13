@@ -1,7 +1,8 @@
 "use client";
-import { Button } from"@/components/ui/button";
-import { cn } from"@/lib/utils";
+import { ToolBackground } from"@/components/shared/tool-background";
 
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -80,8 +81,8 @@ export default function DiceProbabilityClient() {
       maxSum
     };
   }, [numDice, sides]);
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6">
-      <GridPattern />
+  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+      
 
  <ToolPageHeader icon={Dices} title="Dice Probability Calculator" description="Calculate exact probability distributions, expected values, and variances for any dice combination." />
 
@@ -130,57 +131,57 @@ export default function DiceProbabilityClient() {
  <CardContent className="p-6">
  <div className="flex items-end justify-between gap-1 h-64 w-full overflow-x-auto pb-8 relative">
  {stats.distribution.map(d => {
-            const heightPercent = d.prob / stats.maxProb * 100;
-            return <div key={d.sum} className="flex flex-col items-center flex-1 min-w-[20px] group relative h-full justify-end">
+              const heightPercent = d.prob / stats.maxProb * 100;
+              return <div key={d.sum} className="flex flex-col items-center flex-1 min-w-[20px] group relative h-full justify-end">
  <div className="absolute bottom-full mb-2 hidden group-hover:block bg-popover text-popover-foreground text-xs p-2 rounded shadow-lg z-10 whitespace-nowrap">
  Sum: {d.sum}<br />
  Ways: {d.ways}<br />
  Prob: {(d.prob * 100).toFixed(2)}%
  </div>
  <div className="w-full bg-primary/80 hover:bg-primary rounded-t transition-all" style={{
-                height: `${heightPercent}%`
-              }} />
+                  height: `${heightPercent}%`
+                }} />
  <span className="absolute -bottom-6 text-xs text-muted-foreground">{d.sum}</span>
  </div>;
-          })}
+            })}
  </div>
  </CardContent>
  </GlassCard>
 
  <ToolHowItWorks steps={[{
-      step: "01",
-      title: "Select Dice Count",
-      description: "Use the slider to choose how many dice you want to roll (from 1 to 6).",
-      icon: Dices
-    }, {
-      step: "02",
-      title: "Choose Dice Type",
-      description: "Pick your preferred dice type, from standard d6 to D&D style d20.",
-      icon: Calculator
-    }, {
-      step: "03",
-      title: "Analyze Results",
-      description: "View the interactive histogram and statistical breakdown instantly.",
-      icon: BarChart3
-    }]} badges={["100% Free", "Client-Side", "Fun"]} />
+        step: "01",
+        title: "Select Dice Count",
+        description: "Use the slider to choose how many dice you want to roll (from 1 to 6).",
+        icon: Dices
+      }, {
+        step: "02",
+        title: "Choose Dice Type",
+        description: "Pick your preferred dice type, from standard d6 to D&D style d20.",
+        icon: Calculator
+      }, {
+        step: "03",
+        title: "Analyze Results",
+        description: "View the interactive histogram and statistical breakdown instantly.",
+        icon: BarChart3
+      }]} badges={["100% Free", "Client-Side", "Fun"]} />
 
  <ToolFeatureGuides features={[{
-      icon: Dices,
-      title: "Multiple Dice Types",
-      description: "Support for d4, d6, d8, d10, d12, and d20 for tabletop RPGs and statistics."
-    }, {
-      icon: BarChart3,
-      title: "Visual Histogram",
-      description: "A dynamic bar chart visualizes the exact probability curve of your dice pool."
-    }, {
-      icon: Calculator,
-      title: "Exact Math",
-      description: "Calculates true combinations, expected value, and variance using dynamic programming."
-    }, {
-      icon: TrendingUp,
-      title: "Hover Tooltips",
-      description: "Hover over any bar to see the exact number of ways to roll that specific sum."
-    }]}>
+        icon: Dices,
+        title: "Multiple Dice Types",
+        description: "Support for d4, d6, d8, d10, d12, and d20 for tabletop RPGs and statistics."
+      }, {
+        icon: BarChart3,
+        title: "Visual Histogram",
+        description: "A dynamic bar chart visualizes the exact probability curve of your dice pool."
+      }, {
+        icon: Calculator,
+        title: "Exact Math",
+        description: "Calculates true combinations, expected value, and variance using dynamic programming."
+      }, {
+        icon: TrendingUp,
+        title: "Hover Tooltips",
+        description: "Hover over any bar to see the exact number of ways to roll that specific sum."
+      }]}>
  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
  <p>Understanding dice probability is crucial for tabletop gamers, statisticians, and game designers. When you roll multiple dice, the distribution of possible sums forms a bell curve, heavily favoring the middle numbers.</p>
  <p>This calculator uses dynamic programming to compute the exact number of ways to achieve every possible sum, rather than relying on Monte Carlo simulations. This means the percentages, expected values, and variances provided are mathematically exact.</p>
@@ -189,16 +190,16 @@ export default function DiceProbabilityClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={[{
-      question: "How is the expected value calculated?",
-      answer: "The expected value (mean) for 'n' dice with 's' sides is calculated using the formula: n * (s + 1) / 2."
-    }, {
-      question: "Why do middle numbers have higher probabilities?",
-      answer: "There are simply more combinations of individual dice rolls that add up to middle numbers than to extreme minimum or maximum numbers."
-    }, {
-      question: "Can I use this for board game strategy?",
-      answer: "Absolutely. Knowing the exact probability of rolling a specific sum can heavily inform risk assessment in games like Settlers of Catan or Risk."
-    }]} />
+        question: "How is the expected value calculated?",
+        answer: "The expected value (mean) for 'n' dice with 's' sides is calculated using the formula: n * (s + 1) / 2."
+      }, {
+        question: "Why do middle numbers have higher probabilities?",
+        answer: "There are simply more combinations of individual dice rolls that add up to middle numbers than to extreme minimum or maximum numbers."
+      }, {
+        question: "Can I use this for board game strategy?",
+        answer: "Absolutely. Knowing the exact probability of rolling a specific sum can heavily inform risk assessment in games like Settlers of Catan or Risk."
+      }]} />
 
  <RelatedTools currentToolUrl="/tools/fun/dice-probability" max={6} />
- </div>;
+ </div></div>;
 }
