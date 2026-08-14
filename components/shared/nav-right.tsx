@@ -235,7 +235,7 @@ export default function NavRight() {
                   return (
                     <CommandItem
                       key={`recent:${item.url}`}
-                      value={`${item.title} ${item.category}`}
+                      value={`${item.title} ${item.category} ${item.description ?? ""} ${item.url}`}
                       onSelect={() => go(item)}
                     >
                       <Icon className="mr-2 h-4 w-4" />
@@ -265,7 +265,7 @@ export default function NavRight() {
                   return (
                     <CommandItem
                       key={`popular:${item.url}`}
-                      value={`${item.title} ${item.category}`}
+                      value={`${item.title} ${item.category} ${item.description ?? ""} ${item.url}`}
                       onSelect={() => go(item)}
                     >
                       <Star className="mr-2 h-4 w-4" />
@@ -295,7 +295,7 @@ export default function NavRight() {
                 return (
                   <CommandItem
                     key={item.url}
-                    value={`${item.title} ${category}`}
+                    value={`${item.title} ${category} ${item.description ?? ""} ${item.url}`}
                     onSelect={() => go(item)}
                   >
                     <Icon className="mr-2 h-4 w-4" />
