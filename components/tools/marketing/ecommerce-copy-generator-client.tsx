@@ -14,8 +14,10 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { ModelSelector } from "@/components/shared/model-selector";
 export default function EcommerceCopyGeneratorClient() {
   const [product, setProduct] = useState("Wireless Noise-Canceling Ergonomic Headphones");
+  const [model, setModel] = useState("gpt4o");
   const [features, setFeatures] = useState("40-hour battery life, active noise cancellation, memory foam ear cups, Bluetooth 5.3");
   const [audience, setAudience] = useState("Remote workers, frequent travelers, audio enthusiasts");
   const [results, setResults] = useState<string[]>([]);
@@ -32,6 +34,7 @@ export default function EcommerceCopyGeneratorClient() {
         },
         body: JSON.stringify({
           prompt,
+            model,
           type: "cards"
         })
       });
@@ -53,6 +56,15 @@ export default function EcommerceCopyGeneratorClient() {
       
 
  <ToolPageHeader icon={ShoppingBag} title="Shopify & Amazon Product Listing AI Copy Generator" description="Generate high-converting Amazon product bullet points, Shopify descriptions, and high-search SEO product titles with live AI." />
+
+ <div className="mb-4">
+
+
+   <ModelSelector value={model} onChange={setModel} />
+
+
+ </div>
+
 
  <GlassCard className="p-6 space-y-4">
  <div className="space-y-2">

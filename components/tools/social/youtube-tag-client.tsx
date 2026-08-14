@@ -14,8 +14,10 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { ModelSelector } from "@/components/shared/model-selector";
 export default function YoutubeTagClient() {
   const [topic, setTopic] = useState("How to build a SaaS startup in 2026");
+  const [model, setModel] = useState("gpt4o");
   const [tags, setTags] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const generateTags = async () => {
@@ -52,6 +54,15 @@ export default function YoutubeTagClient() {
       
 
  <ToolPageHeader icon={Youtube} title="YouTube Video Tag & High-SEO Keyword Extractor" description="Extract and generate high-ranking, SEO-optimized tags and viral keywords for YouTube videos with live AI inference." />
+
+ <div className="mb-4">
+
+
+   <ModelSelector value={model} onChange={setModel} />
+
+
+ </div>
+
 
  <GlassCard className="p-6 space-y-4">
  <label className="text-sm font-bold text-foreground block">

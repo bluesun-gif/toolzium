@@ -14,9 +14,11 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { ModelSelector } from "@/components/shared/model-selector";
 const SAMPLE_JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFsZXggUml2ZXJhIiwiaWF0IjoxNTE2MjM5MDIyLCJyb2xlIjoiYWRtaW4ifQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
 export default function JwtInspectorClient() {
   const [token, setToken] = useState(SAMPLE_JWT);
+  const [model, setModel] = useState("gpt4o");
   const [headerJson, setHeaderJson] = useState("");
   const [payloadJson, setPayloadJson] = useState("");
   const [aiAnalysis, setAiAnalysis] = useState<string[]>([]);
@@ -46,6 +48,7 @@ export default function JwtInspectorClient() {
         },
         body: JSON.stringify({
           prompt,
+            model,
           type: "prose"
         })
       });
@@ -70,6 +73,15 @@ export default function JwtInspectorClient() {
       
 
  <ToolPageHeader icon={ShieldCheck} title="JWT Security Audit & Payload Inspector Studio" description="Decode JSON Web Tokens (JWT) locally and run live AI security risk audits for algorithm vulnerabilities and payload data leaks." />
+
+ <div className="mb-4">
+
+
+   <ModelSelector value={model} onChange={setModel} />
+
+
+ </div>
+
 
  <GlassCard className="p-5 space-y-4">
  <label className="text-xs font-bold text-foreground block">

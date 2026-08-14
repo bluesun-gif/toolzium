@@ -14,8 +14,10 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { ModelSelector } from "@/components/shared/model-selector";
 export default function CapRateCalculatorClient() {
   const [price, setPrice] = useState(450000);
+  const [model, setModel] = useState("gpt4o");
   const [rent, setRent] = useState(3800);
   const [expenses, setExpenses] = useState(1200);
   const [aiAnalysis, setAiAnalysis] = useState<string[]>([]);
@@ -35,6 +37,7 @@ export default function CapRateCalculatorClient() {
         },
         body: JSON.stringify({
           prompt,
+            model,
           type: "prose"
         })
       });
@@ -56,6 +59,15 @@ export default function CapRateCalculatorClient() {
       
 
  <ToolPageHeader icon={Building} title="AI Real Estate Cap Rate & Cash-on-Cash Investment Auditor" description="Calculate capitalization rate (Cap Rate), Net Operating Income (NOI), and audit rental property return quality with live AI." />
+
+ <div className="mb-4">
+
+
+   <ModelSelector value={model} onChange={setModel} />
+
+
+ </div>
+
 
  <GlassCard className="p-6 space-y-4">
  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

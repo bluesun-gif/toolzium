@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CopyButton } from "@/components/shared/action-buttons";
+import { ModelSelector } from "@/components/shared/model-selector";
 import toast from "react-hot-toast";
 import { Mail, Sparkles, RefreshCw, Target } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
@@ -38,6 +39,7 @@ function extractAfter(raw: string, marker: string): string {
 }
 export default function ColdEmailGeneratorClient() {
   const [product, setProduct] = useState("");
+  const [model, setModel] = useState("gpt4o");
   const [recipientRole, setRecipientRole] = useState("");
   const [painPoint, setPainPoint] = useState("");
   const [cta, setCta] = useState("");
@@ -117,6 +119,15 @@ BODY:
       
 
  <ToolPageHeader icon={Mail} title="Cold Email Generator" description="Generate Formal, Friendly, and AIDA cold email variants with subject lines." />
+
+ <div className="mb-4">
+
+
+   <ModelSelector value={model} onChange={setModel} />
+
+
+ </div>
+
 
  <GlassCard>
  <CardHeader className={headerClass}>

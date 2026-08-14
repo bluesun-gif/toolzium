@@ -14,8 +14,10 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { ModelSelector } from "@/components/shared/model-selector";
 export default function AiWorkoutGeneratorClient() {
   const [goal, setGoal] = useState("Hypertrophy & Muscle Building");
+  const [model, setModel] = useState("gpt4o");
   const [daysPerWeek, setDaysPerWeek] = useState("4");
   const [equipment, setEquipment] = useState("Full Commercial Gym (Barbells, Dumbbells, Cables)");
   const [experience, setExperience] = useState("Intermediate");
@@ -32,6 +34,7 @@ export default function AiWorkoutGeneratorClient() {
         },
         body: JSON.stringify({
           prompt,
+            model,
           type: "cards"
         })
       });
@@ -53,6 +56,15 @@ export default function AiWorkoutGeneratorClient() {
       
 
  <ToolPageHeader icon={Activity} title="AI Personal Workout Routine & Training Split Generator" description="Generate custom 3, 4, 5, or 6-day workout splits (Push-Pull-Legs, Upper-Lower, Full Body) with rep ranges and progressive overload rules using live AI." />
+
+ <div className="mb-4">
+
+
+   <ModelSelector value={model} onChange={setModel} />
+
+
+ </div>
+
 
  <GlassCard className="p-6 space-y-4">
  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

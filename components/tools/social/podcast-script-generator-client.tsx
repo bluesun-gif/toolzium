@@ -14,8 +14,10 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { ModelSelector } from "@/components/shared/model-selector";
 export default function PodcastScriptGeneratorClient() {
   const [topic, setTopic] = useState("The Future of AI & Autonomous Agents in 2026");
+  const [model, setModel] = useState("gpt4o");
   const [hostName, setHostName] = useState("Alex Rivers");
   const [guestName, setGuestName] = useState("Dr. Sarah Vance (AI Researcher)");
   const [format, setFormat] = useState("Interview Episode");
@@ -33,6 +35,7 @@ export default function PodcastScriptGeneratorClient() {
         },
         body: JSON.stringify({
           prompt,
+            model,
           type: "cards"
         })
       });
@@ -54,6 +57,15 @@ export default function PodcastScriptGeneratorClient() {
       
 
  <ToolPageHeader icon={Mic} title="AI Podcast Episode Script & Show Notes Studio" description="Generate episode intro scripts, guest interview question frameworks, sponsor reads, and publishing show notes using live AI." />
+
+ <div className="mb-4">
+
+
+   <ModelSelector value={model} onChange={setModel} />
+
+
+ </div>
+
 
  <GlassCard className="p-6 space-y-4">
  <div className="space-y-2">

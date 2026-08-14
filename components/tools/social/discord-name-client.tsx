@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { ModelSelector } from "@/components/shared/model-selector";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { MessageSquare, RefreshCw, Sparkles, Hash, Copy, Shield, BookOpen, Layers, Zap } from "lucide-react";
 import toast from "react-hot-toast";
@@ -38,6 +39,7 @@ const SERVER_TYPES = [{
 }];
 export default function DiscordNameClient() {
   const [serverType, setServerType] = useState("gaming");
+  const [model, setModel] = useState("gpt4o");
   const [keyword, setKeyword] = useState("");
   const [serverNames, setServerNames] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
@@ -84,6 +86,12 @@ export default function DiscordNameClient() {
       <ToolPageHeader icon={MessageSquare} title="Discord Server Name & Channel Layout Studio" description="Generate aesthetic Discord server names, channel symbols (│・welcome), category headers, and role layouts with live AI." actions={<ResetButton onClick={handleReset} label="Reset" />} />
 
       {/* INPUT CARD */}
+      <div className="mb-4">
+
+        <ModelSelector value={model} onChange={setModel} />
+
+      </div>
+
       <GlassCard>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-lg">

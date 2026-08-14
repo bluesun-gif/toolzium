@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { ModelSelector } from "@/components/shared/model-selector";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { Music, RefreshCw, Sparkles, Disc, Heart, Copy, Share2, ListMusic, Headphones, Zap, Shield, BookOpen, Layers } from "lucide-react";
 import toast from "react-hot-toast";
@@ -51,6 +52,7 @@ const VIBE_CATEGORIES = [{
 }];
 export default function SpotifyPlaylistClient() {
   const [vibe, setVibe] = useState("lofi");
+  const [model, setModel] = useState("gpt4o");
   const [customArtist, setCustomArtist] = useState("");
   const [playlists, setPlaylists] = useState<PlaylistIdea[]>([]);
   const [loading, setLoading] = useState(false);
@@ -65,6 +67,7 @@ export default function SpotifyPlaylistClient() {
         },
         body: JSON.stringify({
           prompt,
+            model,
           type: "json"
         })
       });
@@ -132,6 +135,12 @@ export default function SpotifyPlaylistClient() {
       <ToolPageHeader icon={Music} title="Spotify Playlist Title & Aesthetic Description Studio" description="Generate aesthetic Spotify playlist titles, mood descriptions, cover art text, and genre hashtag tags with live AI." actions={<ResetButton onClick={handleReset} label="Reset" />} />
 
       {/* INPUT & CONTROL PANEL */}
+      <div className="mb-4">
+
+        <ModelSelector value={model} onChange={setModel} />
+
+      </div>
+
       <GlassCard>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-lg">

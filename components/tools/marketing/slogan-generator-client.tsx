@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CopyButton } from "@/components/shared/action-buttons";
+import { ModelSelector } from "@/components/shared/model-selector";
 import toast from "react-hot-toast";
 import { Megaphone, Sparkles, RefreshCw, Lightbulb } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
@@ -20,6 +21,7 @@ const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
 const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
 export default function SloganGeneratorClient() {
   const [brandName, setBrandName] = useState("");
+  const [model, setModel] = useState("gpt4o");
   const [industry, setIndustry] = useState("");
   const [values, setValues] = useState("");
   const [loading, setLoading] = useState(false);
@@ -71,6 +73,15 @@ Return exactly 10 slogans, one per line, with no numbering and no extra text.`;
       
 
  <ToolPageHeader icon={Megaphone} title="Slogan Generator" description="Generate 10 brand slogans in different styles with one click." />
+
+ <div className="mb-4">
+
+
+   <ModelSelector value={model} onChange={setModel} />
+
+
+ </div>
+
 
  <GlassCard>
  <CardHeader className={headerClass}>

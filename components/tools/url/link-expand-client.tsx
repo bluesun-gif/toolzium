@@ -7,6 +7,7 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { ModelSelector } from "@/components/shared/model-selector";
 import { GlassCard } from "@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -25,6 +26,7 @@ interface ExpandedLink {
 }
 export function LinkExpandClient() {
   const [inputUrl, setInputUrl] = useState("https://bit.ly/3xExampleShortUrl");
+  const [model, setModel] = useState("gpt4o");
   const [batchUrls, setBatchUrls] = useState("");
   const [isBatch, setIsBatch] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -137,6 +139,15 @@ export function LinkExpandClient() {
 
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader icon={Link2} title="Link Expander & URL Unshortener Studio" description="Reveal the final destination of shortened URLs from bit.ly, t.co, tinyurl, and custom short domains with real-time AI security audits." />
+
+        <div className="mb-4">
+
+
+          <ModelSelector value={model} onChange={setModel} />
+
+
+        </div>
+
 
         <GlassCard className="p-0 bg-background border-border shadow-sm rounded-2xl">
           <CardHeader className="border-b border-border bg-muted/40 p-4">

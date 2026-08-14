@@ -7,6 +7,7 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { ModelSelector } from "@/components/shared/model-selector";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -26,6 +27,7 @@ interface MetaVariation {
 }
 export function AiMetaGeneratorClient() {
   const [topic, setTopic] = useState("");
+  const [model, setModel] = useState("gpt4o");
   const [pageType, setPageType] = useState("Homepage");
   const [audience, setAudience] = useState("");
   const [loading, setLoading] = useState(false);
@@ -116,6 +118,15 @@ Keywords: [comma-separated list of 5-7 relevant tags]`;
       
 
  <ToolPageHeader icon={Wand2} title="AI SEO Meta Tag Generator" description="Generate highly optimized, click-worthy title tags and meta descriptions powered by advanced AI language models." />
+
+ <div className="mb-4">
+
+
+   <ModelSelector value={model} onChange={setModel} />
+
+
+ </div>
+
 
  <GlassCard>
  <CardHeader className={headerClass}>

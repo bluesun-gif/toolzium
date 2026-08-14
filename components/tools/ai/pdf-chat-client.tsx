@@ -8,6 +8,7 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { ModelSelector } from "@/components/shared/model-selector";
 import { GlassCard } from "@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -28,6 +29,7 @@ interface Message {
 }
 export function PdfChatClient() {
   const [pdfText, setPdfText] = useState(`# Color Contrast Compliance Matrix\n\n| Background \\ Text | Primary | Secondary | Background | Surface |\n|---|---|---|---|---|\n| **Primary** | - | 4.41:1 (Fail) | 21.00:1 (AA) | 20.07:1 (AA) |\n| **Secondary** | 4.41:1 (Fail) | - | 4.76:1 (AA) | 4.55:1 (AA) |\n| **Background** | 21.00:1 (AA) | 4.76:1 (AA) | - | 1.05:1 (Fail) |\n| **Surface** | 20.07:1 (AA) | 4.55:1 (AA) | 1.05:1 (Fail) | - |\n\n## Key Summary & Audit Notes\n- **WCAG 2.1 Level AA Standard**: Requires contrast ratio of at least **4.5:1** for normal text and **3:1** for large text.\n- **Primary on Secondary**: Contrast ratio of **4.41:1** fails strict 4.5:1 AA standard by a minor fraction. Increase primary dark shade by 5%.\n- **Background Contrast**: Complies with AAA high-contrast standards (21.00:1 ratio).`);
+  const [model, setModel] = useState("gpt4o");
   const [fileName, setFileName] = useState("contrast-matrix.md");
   const [viewMode, setViewMode] = useState<"rendered" | "raw" | "edit">("rendered");
   const [zoomLevel, setZoomLevel] = useState<number>(100);
@@ -124,6 +126,7 @@ Instructions:
           },
           body: JSON.stringify({
             prompt,
+            model,
             type: "text"
           })
         });
@@ -176,6 +179,12 @@ Instructions:
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
           {/* Left Column: Interactive Document Viewer & File Opener */}
           <div className="lg:col-span-7 flex flex-col space-y-4">
+            <div className="mb-4">
+
+              <ModelSelector value={model} onChange={setModel} />
+
+            </div>
+
             <GlassCard className="p-0 overflow-hidden bg-background border-border shadow-md rounded-2xl flex flex-col h-full min-h-[620px]">
               {/* Document Toolbar Header */}
               <div className="border-b border-border bg-muted/40 p-3 sm:p-4 flex flex-wrap items-center justify-between gap-3 shrink-0">

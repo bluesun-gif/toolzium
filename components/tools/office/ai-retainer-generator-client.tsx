@@ -15,8 +15,10 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { ModelSelector } from "@/components/shared/model-selector";
 export default function AiRetainerGeneratorClient() {
   const [retainerTier, setRetainerTier] = useState("Growth Maintenance ($3,500/mo)");
+  const [model, setModel] = useState("gpt4o");
   const [servicesIncluded, setServicesIncluded] = useState("Weekly SEO audits, 2 high-converting landing page designs, 10 hours on-demand web development, priority SLA support response.");
   const [overageRate, setOverageRate] = useState("$125/hr for additional out-of-scope requests");
   const [results, setResults] = useState<string[]>([]);
@@ -33,6 +35,7 @@ export default function AiRetainerGeneratorClient() {
         },
         body: JSON.stringify({
           prompt,
+            model,
           type: "cards"
         })
       });
@@ -54,6 +57,15 @@ export default function AiRetainerGeneratorClient() {
       
 
  <ToolPageHeader icon={Briefcase} title="AI Client Retainer & Scope Proposal Generator" description="Craft recurring monthly client retainer proposals, service allocation tiers, SLA guarantees, and overage terms with live AI." />
+
+ <div className="mb-4">
+
+
+   <ModelSelector value={model} onChange={setModel} />
+
+
+ </div>
+
 
  <GlassCard className="p-6 space-y-4">
  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

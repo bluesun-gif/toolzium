@@ -9,6 +9,7 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { ModelSelector } from "@/components/shared/model-selector";
 import { GlassCard } from "@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -29,6 +30,7 @@ interface ShortenedLink {
 }
 export function ShortenerClient() {
   const [longUrl, setLongUrl] = useState("");
+  const [model, setModel] = useState("gpt4o");
   const [customAlias, setCustomAlias] = useState("");
   const [batchInput, setBatchInput] = useState("");
   const [isBatchMode, setIsBatchMode] = useState(false);
@@ -77,6 +79,7 @@ export function ShortenerClient() {
         },
         body: JSON.stringify({
           prompt,
+            model,
           type: "text"
         })
       });
@@ -186,6 +189,12 @@ export function ShortenerClient() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
           {/* Left Input Control Card */}
+          <div className="mb-4">
+
+            <ModelSelector value={model} onChange={setModel} />
+
+          </div>
+
           <GlassCard className="p-5 flex flex-col bg-background border-border shadow-sm rounded-2xl">
             <div className="flex flex-wrap justify-between items-center border-b border-border pb-3 mb-4 gap-2">
               <Label className="text-base font-bold text-foreground flex items-center gap-2">

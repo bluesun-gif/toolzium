@@ -13,12 +13,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { ModelSelector } from "@/components/shared/model-selector";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { Instagram, Sparkles, RefreshCw, PenTool, Copy, CheckCircle2, Shield, BookOpen, Layers } from "lucide-react";
 import toast from "react-hot-toast";
 const variantLabels = ["Professional", "Casual", "Witty", "Minimalist", "Emoji-heavy"];
 export default function InstagramBioClient() {
   const [brandName, setBrandName] = useState("Nova Studio");
+  const [model, setModel] = useState("gpt4o");
   const [niche, setNiche] = useState("Design & Tech");
   const [personality, setPersonality] = useState("Minimalist, bold, aesthetic");
   const [ctaLink, setCtaLink] = useState("toolzium.com");
@@ -87,6 +89,12 @@ Return ONLY the 5 bios separated by ||| with no labels.`;
       <ToolPageHeader icon={Instagram} title="Instagram Bio & Aesthetic Caption Generator" description="Generate 5 high-converting, aesthetic Instagram bio variants with character counter, emoji controls, and CTA link integration." actions={<ResetButton onClick={handleReset} label="Reset" />} />
 
       {/* INPUT CONTROL CARD */}
+      <div className="mb-4">
+
+        <ModelSelector value={model} onChange={setModel} />
+
+      </div>
+
       <GlassCard>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-lg">

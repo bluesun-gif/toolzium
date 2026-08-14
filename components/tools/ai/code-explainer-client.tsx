@@ -8,6 +8,7 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { ModelSelector } from "@/components/shared/model-selector";
 import { GlassCard } from "@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -28,6 +29,7 @@ interface AnalysisHistoryItem {
 }
 export function CodeExplainerClient() {
   const [code, setCode] = useState("");
+  const [model, setModel] = useState("gpt4o");
   const [aiModel, setAiModel] = useState("groq-llama-3.3");
   const [actionType, setActionType] = useState("explain");
   const [targetLanguage, setTargetLanguage] = useState("python");
@@ -150,6 +152,12 @@ export function CodeExplainerClient() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Left Column: Editor & Settings */}
           <div className="lg:col-span-5 space-y-4">
+            <div className="mb-4">
+
+              <ModelSelector value={model} onChange={setModel} />
+
+            </div>
+
             <GlassCard className="p-0 overflow-hidden bg-background border-border shadow-sm rounded-2xl">
               <CardHeader className="border-b border-border bg-muted/40 p-4">
                 <div className="flex justify-between items-center">

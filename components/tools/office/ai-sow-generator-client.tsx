@@ -15,8 +15,10 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { ModelSelector } from "@/components/shared/model-selector";
 export default function AiSowGeneratorClient() {
   const [projectTitle, setProjectTitle] = useState("E-Commerce Web Platform Overhaul");
+  const [model, setModel] = useState("gpt4o");
   const [clientName, setClientName] = useState("Vanguard Retail Brands");
   const [timeline, setTimeline] = useState("6 Weeks (Phased Delivery)");
   const [scopeDetails, setScopeDetails] = useState("Redesign Next.js storefront UI, integrate Stripe Checkout, optimize mobile performance to sub-1s load times, and configure Postgres database caching.");
@@ -34,6 +36,7 @@ export default function AiSowGeneratorClient() {
         },
         body: JSON.stringify({
           prompt,
+            model,
           type: "cards"
         })
       });
@@ -55,6 +58,15 @@ export default function AiSowGeneratorClient() {
       
 
  <ToolPageHeader icon={FileText} title="AI Statement of Work (SOW) Deliverables Generator" description="Generate professional client Statement of Work (SOW) documents with phased milestone deliverables, acceptance criteria, and out-of-scope boundaries using live AI." />
+
+ <div className="mb-4">
+
+
+   <ModelSelector value={model} onChange={setModel} />
+
+
+ </div>
+
 
  <GlassCard className="p-6 space-y-4">
  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

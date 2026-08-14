@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { ModelSelector } from "@/components/shared/model-selector";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { Tv, RefreshCw, Sparkles, Video, Copy, Shield, BookOpen, Layers, Zap } from "lucide-react";
 import toast from "react-hot-toast";
@@ -38,6 +39,7 @@ const GAME_CATEGORIES = [{
 }];
 export default function TwitchTitleClient() {
   const [game, setGame] = useState("valorant");
+  const [model, setModel] = useState("gpt4o");
   const [customGoal, setCustomGoal] = useState("");
   const [titles, setTitles] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
@@ -84,6 +86,12 @@ export default function TwitchTitleClient() {
       <ToolPageHeader icon={Tv} title="Twitch Stream Title & High-CTR Hook Generator" description="Generate high-converting Twitch stream titles, viewer engagement hooks, and command tags (!rank !sens) with live AI." actions={<ResetButton onClick={handleReset} label="Reset" />} />
 
       {/* CONTROL PANEL */}
+      <div className="mb-4">
+
+        <ModelSelector value={model} onChange={setModel} />
+
+      </div>
+
       <GlassCard>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-lg">

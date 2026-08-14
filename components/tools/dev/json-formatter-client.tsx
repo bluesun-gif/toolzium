@@ -19,11 +19,13 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AiOutputDisplay } from "@/components/shared/ai-output-display";
 import { Braces, Download, FileJson, Minimize2, Wand2, Sparkles, RefreshCw, ShieldCheck, Code2, CheckCircle2 } from "lucide-react";
 import { useRef, useState } from "react";
+import { ModelSelector } from "@/components/shared/model-selector";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 type IndentOpt = "2" | "4" | "tab";
 export default function JsonFormatterClient() {
   const [input, setInput] = useState<string>("");
+  const [model, setModel] = useState("gpt4o");
   const [output, setOutput] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [indent, setIndent] = useState<IndentOpt>("2");
@@ -110,6 +112,7 @@ export default function JsonFormatterClient() {
         },
         body: JSON.stringify({
           prompt,
+            model,
           type: "prose"
         })
       });
@@ -226,6 +229,12 @@ export default function JsonFormatterClient() {
  </>} />
 
  {/* Settings Bar */}
+ <div className="mb-4">
+
+   <ModelSelector value={model} onChange={setModel} />
+
+ </div>
+
  <GlassCard className="mb-4 p-4 sm:p-5 space-y-4">
  <div className="grid gap-4 md:grid-cols-3">
       <ToolBackground />

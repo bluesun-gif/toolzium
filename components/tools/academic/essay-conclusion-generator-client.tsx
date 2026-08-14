@@ -7,6 +7,7 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { ModelSelector } from "@/components/shared/model-selector";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,6 +22,7 @@ const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
 const textareaClass = "w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50 font-mono";
 export function EssayConclusionGeneratorClient() {
   const [thesis, setThesis] = useState("");
+  const [model, setModel] = useState("gpt4o");
   const [points, setPoints] = useState("");
   const [essayType, setEssayType] = useState("Argumentative");
   const [tone, setTone] = useState("Academic");
@@ -57,6 +59,7 @@ export function EssayConclusionGeneratorClient() {
         },
         body: JSON.stringify({
           prompt,
+            model,
           type: "list"
         })
       });
@@ -99,6 +102,15 @@ export function EssayConclusionGeneratorClient() {
       
 
  <ToolPageHeader icon={GraduationCap} title="AI Essay Conclusion Generator" description="Craft powerful, memorable endings for your essays. Synthesize your arguments and leave a lasting impression on your readers." />
+
+ <div className="mb-4">
+
+
+   <ModelSelector value={model} onChange={setModel} />
+
+
+ </div>
+
 
  <GlassCard>
  <CardHeader className={headerClass}>

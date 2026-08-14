@@ -14,8 +14,10 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { ModelSelector } from "@/components/shared/model-selector";
 export default function AiBmrCalculatorClient() {
   const [gender, setGender] = useState("male");
+  const [model, setModel] = useState("gpt4o");
   const [age, setAge] = useState(28);
   const [weightKg, setWeightKg] = useState(75);
   const [heightCm, setHeightCm] = useState(178);
@@ -38,6 +40,7 @@ export default function AiBmrCalculatorClient() {
         },
         body: JSON.stringify({
           prompt,
+            model,
           type: "prose"
         })
       });
@@ -59,6 +62,15 @@ export default function AiBmrCalculatorClient() {
       
 
  <ToolPageHeader icon={Activity} title="AI BMR & TDEE Metabolism Calculator Studio" description="Calculate Basal Metabolic Rate (BMR) and Total Daily Energy Expenditure (TDEE) with Mifflin-St Jeor equation and AI metabolic optimization." />
+
+ <div className="mb-4">
+
+
+   <ModelSelector value={model} onChange={setModel} />
+
+
+ </div>
+
 
  <GlassCard className="p-6 space-y-4">
  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">

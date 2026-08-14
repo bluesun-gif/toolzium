@@ -15,8 +15,10 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { ModelSelector } from "@/components/shared/model-selector";
 export default function AiContractorAgreementClient() {
   const [clientName, setClientName] = useState("Acme Technologies Inc.");
+  const [model, setModel] = useState("gpt4o");
   const [contractorName, setContractorName] = useState("Nexus Digital LLC");
   const [services, setServices] = useState("Full-Stack Web Development & Cloud Infrastructure Maintenance");
   const [paymentTerms, setPaymentTerms] = useState("$75/hr billed bi-weekly, Net 15 payment terms");
@@ -35,6 +37,7 @@ export default function AiContractorAgreementClient() {
         },
         body: JSON.stringify({
           prompt,
+            model,
           type: "cards"
         })
       });
@@ -56,6 +59,15 @@ export default function AiContractorAgreementClient() {
       
 
  <ToolPageHeader icon={ShieldCheck} title="AI Independent Contractor Agreement Studio" description="Draft custom contractor agreements, IP work-for-hire clauses, payment terms, and confidentiality terms powered by live AI." />
+
+ <div className="mb-4">
+
+
+   <ModelSelector value={model} onChange={setModel} />
+
+
+ </div>
+
 
  <GlassCard className="p-6 space-y-4">
  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

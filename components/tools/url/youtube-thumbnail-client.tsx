@@ -16,6 +16,7 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { ModelSelector } from "@/components/shared/model-selector";
 interface ThumbnailInfo {
   url: string;
   quality: string;
@@ -24,6 +25,7 @@ interface ThumbnailInfo {
 }
 export default function YoutubeThumbnailClient() {
   const [url, setUrl] = useState("");
+  const [model, setModel] = useState("gpt4o");
   const [videoId, setVideoId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [thumbnails, setThumbnails] = useState<ThumbnailInfo[]>([]);
@@ -87,6 +89,7 @@ export default function YoutubeThumbnailClient() {
         },
         body: JSON.stringify({
           prompt,
+            model,
           type: "text"
         })
       });
@@ -135,6 +138,12 @@ export default function YoutubeThumbnailClient() {
         <div className="grid gap-6 md:grid-cols-3">
           {/* Input Column */}
           <div className="md:col-span-1">
+            <div className="mb-4">
+
+              <ModelSelector value={model} onChange={setModel} />
+
+            </div>
+
             <GlassCard className="p-5 bg-background border-border shadow-sm rounded-2xl sticky top-24">
               <CardHeader className="p-0 pb-4 border-b border-border mb-4">
                 <CardTitle className="text-base font-bold text-foreground">Input YouTube URL</CardTitle>

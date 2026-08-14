@@ -8,6 +8,7 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { ModelSelector } from "@/components/shared/model-selector";
 import { GlassCard } from "@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -32,6 +33,7 @@ interface SavedQueryHistory {
 }
 export function SqlRegexBuilderClient() {
   const [description, setDescription] = useState("");
+  const [model, setModel] = useState("gpt4o");
   const [dialect, setDialect] = useState<"postgres" | "mysql" | "sqlite" | "bigquery">("postgres");
   const [targetColumn, setTargetColumn] = useState("email");
   const [tableName, setTableName] = useState("users");
@@ -118,6 +120,7 @@ export function SqlRegexBuilderClient() {
           },
           body: JSON.stringify({
             prompt,
+            model,
             type: "json"
           })
         });
@@ -167,6 +170,12 @@ export function SqlRegexBuilderClient() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
           {/* Left Control Card */}
+          <div className="mb-4">
+
+            <ModelSelector value={model} onChange={setModel} />
+
+          </div>
+
           <GlassCard className="p-5 flex flex-col bg-background border-border shadow-sm rounded-2xl">
             <div className="flex items-center gap-2 mb-4 border-b border-border pb-3">
               <Terminal className="w-5 h-5 text-primary" />

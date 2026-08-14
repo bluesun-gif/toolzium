@@ -14,8 +14,10 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { ModelSelector } from "@/components/shared/model-selector";
 export default function SaasPricingCalculatorClient() {
   const [productName, setProductName] = useState("FlowPulse API Monitor");
+  const [model, setModel] = useState("gpt4o");
   const [targetCustomer, setTargetCustomer] = useState("DevOps Teams & Mid-Market Engineering Depts");
   const [valueMetric, setValueMetric] = useState("API Endpoints Monitored & Alert Channels");
   const [results, setResults] = useState<string[]>([]);
@@ -32,6 +34,7 @@ export default function SaasPricingCalculatorClient() {
         },
         body: JSON.stringify({
           prompt,
+            model,
           type: "cards"
         })
       });
@@ -53,6 +56,15 @@ export default function SaasPricingCalculatorClient() {
       
 
  <ToolPageHeader icon={DollarSign} title="AI SaaS Pricing Strategy & Tier Matrix Calculator" description="Design optimal 3-tier SaaS pricing models (Starter, Pro, Enterprise), value metric limits, and expansion revenue strategies powered by live AI." />
+
+ <div className="mb-4">
+
+
+   <ModelSelector value={model} onChange={setModel} />
+
+
+ </div>
+
 
  <GlassCard className="p-6 space-y-4">
  <div className="space-y-2">

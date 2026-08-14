@@ -14,8 +14,10 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { ModelSelector } from "@/components/shared/model-selector";
 export default function TwitterThreadGeneratorClient() {
   const [topic, setTopic] = useState("10 Lessons I Learned Scaling a Next.js App to 1 Million Users");
+  const [model, setModel] = useState("gpt4o");
   const [targetAudience, setTargetAudience] = useState("Developers & Tech Founders");
   const [threadLength, setThreadLength] = useState("5 Tweets");
   const [results, setResults] = useState<string[]>([]);
@@ -32,6 +34,7 @@ export default function TwitterThreadGeneratorClient() {
         },
         body: JSON.stringify({
           prompt,
+            model,
           type: "cards"
         })
       });
@@ -53,6 +56,15 @@ export default function TwitterThreadGeneratorClient() {
       
 
  <ToolPageHeader icon={MessageSquare} title="AI X / Twitter Viral Thread Generator" description="Generate high-converting 1st-tweet opening hooks, actionable storytelling tweets, and viral CTA tweets powered by live AI." />
+
+ <div className="mb-4">
+
+
+   <ModelSelector value={model} onChange={setModel} />
+
+
+ </div>
+
 
  <GlassCard className="p-6 space-y-4">
  <div className="space-y-2">

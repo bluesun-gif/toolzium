@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CopyButton } from "@/components/shared/action-buttons";
+import { ModelSelector } from "@/components/shared/model-selector";
 import toast from "react-hot-toast";
 import { Code2, Sparkles, RefreshCw, ExternalLink } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
@@ -120,6 +121,7 @@ function getFallbackSchema(type: SchemaType, fields: Record<string, string>): st
 }
 export default function AiSchemaGeneratorClient() {
   const [schemaType, setSchemaType] = useState<SchemaType>("Article");
+  const [model, setModel] = useState("gpt4o");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [url, setUrl] = useState("");
@@ -231,6 +233,12 @@ Return ONLY valid JSON-LD. No explanations, no markdown fences.`;
  <ToolPageHeader icon={Code2} title="AI Schema Markup Generator" description="Generate valid JSON-LD structured data for Articles, FAQs, Products, Local Businesses, and more." />
 
  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+ <div className="mb-4">
+
+   <ModelSelector value={model} onChange={setModel} />
+
+ </div>
+
  <GlassCard>
  <CardHeader className={headerClass}>
  <CardTitle className={titleClass}>

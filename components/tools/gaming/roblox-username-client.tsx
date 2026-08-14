@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { ModelSelector } from "@/components/shared/model-selector";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { Gamepad2, RefreshCw, Sparkles, Shield, Copy, Search } from "lucide-react";
 import toast from "react-hot-toast";
@@ -38,6 +39,7 @@ const ROBLOX_STYLES = [{
 }];
 export default function RobloxUsernameClient() {
   const [style, setStyle] = useState("aesthetic");
+  const [model, setModel] = useState("gpt4o");
   const [useNumbers, setUseNumbers] = useState(true);
   const [useUnderscore, setUseUnderscore] = useState(false);
   const [allNames, setAllNames] = useState<string[]>([]);
@@ -109,6 +111,12 @@ export default function RobloxUsernameClient() {
       <ToolPageHeader icon={Gamepad2} title="Roblox 100+ Username & Display Name Generator" description="Generate 100+ cool, aesthetic, rare 4-letter, goth, and PvP Roblox usernames and display names with live AI." actions={<ResetButton onClick={handleReset} label="Reset" />} />
 
       {/* INPUT CARD */}
+      <div className="mb-4">
+
+        <ModelSelector value={model} onChange={setModel} />
+
+      </div>
+
       <GlassCard>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-lg">

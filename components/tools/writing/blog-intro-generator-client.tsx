@@ -10,6 +10,7 @@ import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CopyButton } from "@/components/shared/action-buttons";
+import { ModelSelector } from "@/components/shared/model-selector";
 import toast from "react-hot-toast";
 import { Newspaper, Sparkles, RefreshCw, HelpCircle, BarChart3, BookOpen } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
@@ -25,6 +26,7 @@ const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
 const inputClass = "w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50";
 export default function BlogIntroGeneratorClient() {
   const [topic, setTopic] = useState("");
+  const [model, setModel] = useState("gpt4o");
   const [audience, setAudience] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<BlogIntroResult | null>(null);
@@ -85,6 +87,15 @@ Return ONLY the 3 intros separated by ||| with no labels.`;
       
 
  <ToolPageHeader icon={Newspaper} title="Blog Intro Generator" description="Generate 3 blog introductions with question, statistic, and story hooks." />
+
+ <div className="mb-4">
+
+
+   <ModelSelector value={model} onChange={setModel} />
+
+
+ </div>
+
 
  <GlassCard>
  <CardHeader className={headerClass}>

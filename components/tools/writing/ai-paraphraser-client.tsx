@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { CopyButton } from "@/components/shared/action-buttons";
+import { ModelSelector } from "@/components/shared/model-selector";
 import toast from "react-hot-toast";
 import { Repeat, Sparkles, RefreshCw, FileText, PenTool } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
@@ -31,6 +32,7 @@ const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
 const inputClass = "w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50";
 export default function AiParaphraserClient() {
   const [text, setText] = useState("");
+  const [model, setModel] = useState("gpt4o");
   const [style, setStyle] = useState<ParaphraseStyle>("Standard");
   const [creativity, setCreativity] = useState<number[]>([50]);
   const [humanize, setHumanize] = useState(false);
@@ -88,6 +90,15 @@ ${text}`;
       
 
  <ToolPageHeader icon={Repeat} title="AI Paraphraser" description="Rewrite text in Formal, Casual, Academic, or Creative style while keeping the original meaning." />
+
+ <div className="mb-4">
+
+
+   <ModelSelector value={model} onChange={setModel} />
+
+
+ </div>
+
 
  <GlassCard>
  <CardHeader className={headerClass}>

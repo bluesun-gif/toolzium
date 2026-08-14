@@ -14,8 +14,10 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { ModelSelector } from "@/components/shared/model-selector";
 export default function StartupRunwayCalcClient() {
   const [cash, setCash] = useState(350000);
+  const [model, setModel] = useState("gpt4o");
   const [monthlyBurn, setMonthlyBurn] = useState(28000);
   const [monthlyRevenue, setMonthlyRevenue] = useState(12000);
   const [aiAnalysis, setAiAnalysis] = useState<string[]>([]);
@@ -34,6 +36,7 @@ export default function StartupRunwayCalcClient() {
         },
         body: JSON.stringify({
           prompt,
+            model,
           type: "prose"
         })
       });
@@ -55,6 +58,15 @@ export default function StartupRunwayCalcClient() {
       
 
  <ToolPageHeader icon={TrendingDown} title="AI Startup Runway & Net Burn Rate Calculator" description="Calculate startup cash runway months, net burn rate, fundraising urgency timelines, and audit Default Alive vs Default Dead status with live AI." />
+
+ <div className="mb-4">
+
+
+   <ModelSelector value={model} onChange={setModel} />
+
+
+ </div>
+
 
  <GlassCard className="p-6 space-y-4">
  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

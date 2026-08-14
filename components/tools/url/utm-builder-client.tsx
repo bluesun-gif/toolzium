@@ -7,6 +7,7 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { ModelSelector } from "@/components/shared/model-selector";
 import { GlassCard } from "@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -27,6 +28,7 @@ interface UtmHistoryItem {
 }
 export function UTMBuilderClient() {
   const [baseUrl, setBaseUrl] = useState("https://toolzium.com");
+  const [model, setModel] = useState("gpt4o");
   const [source, setSource] = useState("google");
   const [medium, setMedium] = useState("cpc");
   const [campaign, setCampaign] = useState("spring_sale_2026");
@@ -87,6 +89,7 @@ export function UTMBuilderClient() {
         },
         body: JSON.stringify({
           prompt,
+            model,
           type: "json"
         })
       });
@@ -193,6 +196,15 @@ export function UTMBuilderClient() {
 
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader icon={Link2} title="UTM Campaign Builder & Link Tagging Studio" description="Build, track, and manage marketing campaign URLs with precise UTM parameters, AI tag suggestions, and bulk generation." />
+
+        <div className="mb-4">
+
+
+          <ModelSelector value={model} onChange={setModel} />
+
+
+        </div>
+
 
         <GlassCard className="p-0 bg-background border-border shadow-sm rounded-2xl">
           <CardHeader className="border-b border-border bg-muted/40 p-4">

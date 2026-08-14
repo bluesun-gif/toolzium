@@ -14,11 +14,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ResetButton, CopyButton } from "@/components/shared/action-buttons";
+import { ModelSelector } from "@/components/shared/model-selector";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { Target, RefreshCw, Sparkles, Copy, Megaphone, Zap, Shield, BookOpen, Layers } from "lucide-react";
 import toast from "react-hot-toast";
 export default function AdCopyGeneratorClient() {
   const [productName, setProductName] = useState("ProClean Electric Toothbrush");
+  const [model, setModel] = useState("gpt4o");
   const [targetAudience, setTargetAudience] = useState("Coffee drinkers & busy professionals");
   const [offer, setOffer] = useState("50% OFF + Free Whitening Gel Today Only");
   const [adFramework, setAdFramework] = useState("PAS (Problem - Agitate - Solution)");
@@ -39,6 +41,7 @@ export default function AdCopyGeneratorClient() {
         },
         body: JSON.stringify({
           prompt,
+            model,
           type: "cards"
         })
       });
@@ -71,6 +74,12 @@ export default function AdCopyGeneratorClient() {
       <ToolPageHeader icon={Target} title="AI Facebook & Instagram Ad Copy Studio" description="Generate high-converting Meta primary text, headlines, and call-to-action variants using PAS, AIDA, and Social Proof frameworks." actions={<ResetButton onClick={handleReset} label="Reset" />} />
 
       {/* INPUT FORM */}
+      <div className="mb-4">
+
+        <ModelSelector value={model} onChange={setModel} />
+
+      </div>
+
       <GlassCard>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-lg">

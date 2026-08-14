@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { ModelSelector } from "@/components/shared/model-selector";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { Pickaxe, RefreshCw, Sparkles, Compass, Shield, BookOpen, Layers, Zap } from "lucide-react";
 import toast from "react-hot-toast";
@@ -35,6 +36,7 @@ const MINECRAFT_STYLES = [{
 }];
 export default function MinecraftSeedClient() {
   const [style, setStyle] = useState("fantasy");
+  const [model, setModel] = useState("gpt4o");
   const [keyword, setKeyword] = useState("");
   const [worldNames, setWorldNames] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
@@ -81,6 +83,12 @@ export default function MinecraftSeedClient() {
       <ToolPageHeader icon={Pickaxe} title="Minecraft Seed & World Name Generator" description="Generate fantasy Minecraft world titles, 100 Days Hardcore SMP names, and cottagecore village ideas with live AI." actions={<ResetButton onClick={handleReset} label="Reset" />} />
 
       {/* INPUT CARD */}
+      <div className="mb-4">
+
+        <ModelSelector value={model} onChange={setModel} />
+
+      </div>
+
       <GlassCard>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-lg">

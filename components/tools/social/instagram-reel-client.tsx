@@ -14,8 +14,10 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { ModelSelector } from "@/components/shared/model-selector";
 export default function InstagramReelClient() {
   const [topic, setTopic] = useState("AI Productivity Tools for Creators");
+  const [model, setModel] = useState("gpt4o");
   const [hooks, setHooks] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const generateReelHooks = async () => {
@@ -29,6 +31,7 @@ export default function InstagramReelClient() {
         },
         body: JSON.stringify({
           prompt,
+            model,
           type: "prose"
         })
       });
@@ -56,6 +59,15 @@ export default function InstagramReelClient() {
       
 
  <ToolPageHeader icon={Instagram} title="Instagram Reel Hook & Viral Caption Generator" description="Generate 3-second high-curiosity opening hooks and viral captions for Instagram Reels with live AI inference." />
+
+ <div className="mb-4">
+
+
+   <ModelSelector value={model} onChange={setModel} />
+
+
+ </div>
+
 
  <GlassCard className="p-6 space-y-4">
  <label className="text-sm font-bold text-foreground block">

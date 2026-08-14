@@ -9,6 +9,7 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { ModelSelector } from "@/components/shared/model-selector";
 import { GlassCard } from "@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -21,6 +22,7 @@ import toast from "react-hot-toast";
 type InputType = "url" | "text" | "email" | "phone" | "wifi" | "vcard";
 export function QrClient() {
   const [inputType, setInputType] = useState<InputType>("url");
+  const [model, setModel] = useState("gpt4o");
   const [urlInput, setUrlInput] = useState("https://toolzium.com");
   const [textInput, setTextInput] = useState("");
   const [emailInput, setEmailInput] = useState("");
@@ -106,6 +108,7 @@ export function QrClient() {
         },
         body: JSON.stringify({
           prompt,
+            model,
           type: "json"
         })
       });
@@ -160,6 +163,12 @@ export function QrClient() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
           {/* Left Input Options */}
+          <div className="mb-4">
+
+            <ModelSelector value={model} onChange={setModel} />
+
+          </div>
+
           <GlassCard className="p-5 flex flex-col bg-background border-border shadow-sm rounded-2xl">
             <div className="flex justify-between items-center border-b border-border pb-3 mb-4">
               <Label className="text-lg font-bold text-foreground flex items-center gap-2">

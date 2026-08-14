@@ -14,8 +14,10 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { ModelSelector } from "@/components/shared/model-selector";
 export default function RegexExplainerClient() {
   const [pattern, setPattern] = useState("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+  const [model, setModel] = useState("gpt4o");
   const [sampleText, setSampleText] = useState("Contact us at support@toolzium.com or alex@example.org");
   const [aiExplanation, setAiExplanation] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
@@ -31,6 +33,7 @@ export default function RegexExplainerClient() {
         },
         body: JSON.stringify({
           prompt,
+            model,
           type: "prose"
         })
       });
@@ -52,6 +55,15 @@ export default function RegexExplainerClient() {
       
 
  <ToolPageHeader icon={Code2} title="Regex Tester & AI Natural Language Explainer" description="Test regular expressions against live sample strings and generate plain-English breakdowns of regex syntax with live AI inference." />
+
+ <div className="mb-4">
+
+
+   <ModelSelector value={model} onChange={setModel} />
+
+
+ </div>
+
 
  <GlassCard className="p-6 space-y-4">
  <div className="space-y-2">

@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { ModelSelector } from "@/components/shared/model-selector";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { Shield, RefreshCw, Sparkles, Gamepad2, Copy, BookOpen, Layers, Zap } from "lucide-react";
 import toast from "react-hot-toast";
@@ -32,6 +33,7 @@ const STEAM_STYLES = [{
 }];
 export default function SteamBioClient() {
   const [style, setStyle] = useState("aesthetic");
+  const [model, setModel] = useState("gpt4o");
   const [favoriteGame, setFavoriteGame] = useState("");
   const [bios, setBios] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
@@ -78,6 +80,12 @@ export default function SteamBioClient() {
       <ToolPageHeader icon={Shield} title="Steam Profile Bio & Layout Decorator" description="Generate aesthetic Steam profile bios, hardware spec boxes, CS2/Dota 2 rank tags, and custom artwork spacers with live AI." actions={<ResetButton onClick={handleReset} label="Reset" />} />
 
       {/* INPUT CONTROL */}
+      <div className="mb-4">
+
+        <ModelSelector value={model} onChange={setModel} />
+
+      </div>
+
       <GlassCard>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-lg">

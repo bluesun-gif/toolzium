@@ -14,8 +14,10 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { ModelSelector } from "@/components/shared/model-selector";
 export default function YoutubeScriptGeneratorClient() {
   const [topic, setTopic] = useState("How to Build a $10k/Month SaaS Business in 2026");
+  const [model, setModel] = useState("gpt4o");
   const [targetAudience, setTargetAudience] = useState("Aspiring Solopreneurs & Software Engineers");
   const [videoLength, setVideoLength] = useState("8-10 Minutes");
   const [tone, setTone] = useState("High Energy & Educational");
@@ -33,6 +35,7 @@ export default function YoutubeScriptGeneratorClient() {
         },
         body: JSON.stringify({
           prompt,
+            model,
           type: "cards"
         })
       });
@@ -54,6 +57,15 @@ export default function YoutubeScriptGeneratorClient() {
       
 
  <ToolPageHeader icon={Video} title="AI YouTube Video Script & Outline Generator" description="Generate high-retention 5-second opening hooks, B-roll cues, step-by-step value scripts, and high-CTR calls to action using live AI." />
+
+ <div className="mb-4">
+
+
+   <ModelSelector value={model} onChange={setModel} />
+
+
+ </div>
+
 
  <GlassCard className="p-6 space-y-4">
  <div className="space-y-2">

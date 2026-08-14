@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { ModelSelector } from "@/components/shared/model-selector";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { Swords, RefreshCw, Sparkles, Shield, Copy, Search, Filter } from "lucide-react";
 import toast from "react-hot-toast";
@@ -103,6 +104,7 @@ function applySmallCaps(str: string): string {
 }
 export default function MlbbNameClient() {
   const [inputName, setInputName] = useState("ViperKey");
+  const [model, setModel] = useState("gpt4o");
   const [allNames, setAllNames] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [visibleCount, setVisibleCount] = useState(30);
@@ -173,6 +175,12 @@ export default function MlbbNameClient() {
       <ToolPageHeader icon={Swords} title="Mobile Legends (MLBB) 100+ Fancy Name & Symbol Generator" description="Generate 100+ cool Japanese Kanji, Gothic symbols, squad tags, and fancy font nicknames for Mobile Legends Bang Bang with AI." actions={<ResetButton onClick={handleReset} label="Reset" />} />
 
       {/* INPUT CARD */}
+      <div className="mb-4">
+
+        <ModelSelector value={model} onChange={setModel} />
+
+      </div>
+
       <GlassCard>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-lg">

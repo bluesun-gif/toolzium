@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CopyButton } from "@/components/shared/action-buttons";
+import { ModelSelector } from "@/components/shared/model-selector";
 import toast from "react-hot-toast";
 import { Music2, Sparkles, RefreshCw, Hash } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
@@ -23,6 +24,7 @@ const vibes = ["Funny", "Inspirational", "Educational", "Trending"] as const;
 type Vibe = (typeof vibes)[number];
 export default function TiktokCaptionClient() {
   const [topic, setTopic] = useState("");
+  const [model, setModel] = useState("gpt4o");
   const [vibe, setVibe] = useState<Vibe>("Trending");
   const [audience, setAudience] = useState("");
   const [loading, setLoading] = useState(false);
@@ -73,6 +75,15 @@ Return ONLY the 5 captions separated by ||| with no labels.`;
       
 
  <ToolPageHeader icon={Music2} title="TikTok Caption Generator" description="Generate 5 TikTok captions with hashtags and character counts." />
+
+ <div className="mb-4">
+
+
+   <ModelSelector value={model} onChange={setModel} />
+
+
+ </div>
+
 
  <GlassCard>
  <CardHeader className={headerClass}>

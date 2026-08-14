@@ -14,8 +14,10 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { ModelSelector } from "@/components/shared/model-selector";
 export default function AiMealPlannerClient() {
   const [targetCalories, setTargetCalories] = useState(2100);
+  const [model, setModel] = useState("gpt4o");
   const [dietType, setDietType] = useState("High Protein & Balanced Carbs");
   const [restrictions, setRestrictions] = useState("No Seafood / Dairy Friendly");
   const [mealsCount, setMealsCount] = useState("4");
@@ -32,6 +34,7 @@ export default function AiMealPlannerClient() {
         },
         body: JSON.stringify({
           prompt,
+            model,
           type: "cards"
         })
       });
@@ -53,6 +56,15 @@ export default function AiMealPlannerClient() {
       
 
  <ToolPageHeader icon={Activity} title="AI Daily Meal Plan & Macro Targets Generator" description="Custom 1-day meal plans mapped to your exact target calories, diet style (High Protein, Keto, Vegan), and dietary restrictions powered by live AI." />
+
+ <div className="mb-4">
+
+
+   <ModelSelector value={model} onChange={setModel} />
+
+
+ </div>
+
 
  <GlassCard className="p-6 space-y-4">
  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
