@@ -342,8 +342,9 @@ export default function ExifViewerClient() {
  title="EXIF & Image Metadata Viewer"
  description="Extract and view EXIF metadata, camera settings, and GPS locations directly in your browser."
  />
- <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <ToolBackground />
+ <div className="relative">
+ <ToolBackground />
+ <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-6">
 
  <div className="md:col-span-1 space-y-6">
  <Card>
@@ -629,7 +630,8 @@ export default function ExifViewerClient() {
  </Card>
  )}
  </div>
- 
+ </div>
+
       <ToolHowItWorks
         steps={[
           {
@@ -674,10 +676,10 @@ export default function ExifViewerClient() {
         ]}
       >
         <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use Our metadata.Software?</h3>
+          <h3>Why Use Our EXIF Viewer?</h3>
           <p>
             This free online tool is designed to help you get accurate results quickly and securely.
-            Whether you're a developer, designer, student, or professional, our metadata.Software provides
+            Whether you're a developer, designer, student, or professional, Toolzium's EXIF Viewer provides
             the functionality you need without any complexity or cost.
           </p>
           <p>
