@@ -217,6 +217,27 @@ export function AtsCheckerClient() {
                   </p>
                 </GlassCard>
 
+                <GlassCard className="p-4 space-y-3 bg-card/70 backdrop-blur-md rounded-2xl border-border">
+                  <span className="text-xs font-extrabold text-primary uppercase tracking-wider block">Keyword Match Rate</span>
+                  {(() => {
+                    const total = (result.matchedKeywords?.length || 0) + (result.missingKeywords?.length || 0);
+                    const pct = total > 0 ? Math.round(((result.matchedKeywords?.length || 0) / total) * 100) : 0;
+                    return (
+                      <>
+                        <div className="flex justify-between text-[11px] text-muted-foreground font-medium">
+                          <span>{result.matchedKeywords?.length || 0} matched</span>
+                          <span>{pct}%</span>
+                          <span>{result.missingKeywords?.length || 0} missing</span>
+                        </div>
+                        <div className="w-full h-2.5 rounded-full bg-muted overflow-hidden flex">
+                          <div className="h-full bg-primary transition-all" style={{ width: `${pct}%` }} />
+                          <div className="h-full bg-amber-500/70 transition-all" style={{ width: `${100 - pct}%` }} />
+                        </div>
+                      </>
+                    );
+                  })()}
+                </GlassCard>
+
                 <GlassCard className="p-4 space-y-2 bg-card/70 backdrop-blur-md rounded-2xl border-border">
                   <span className="text-xs font-extrabold text-primary uppercase tracking-wider block">Matched Keywords ({result.matchedKeywords.length})</span>
                   <div className="flex flex-wrap gap-1.5 pt-1">
