@@ -263,20 +263,20 @@ export default function BgRemoveClient() {
  {/* State A: Image Upload Box & Sample Cards (When no image is loaded) */}
  {!originalUrl && <>
  <CardHeader className="border-b border-border/40 bg-muted/20 pb-4">
- <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
- <CardTitle className="text-lg font-semibold flex items-center gap-2 tracking-tight">
- <Upload className="h-5 w-5 text-primary" />
- Upload Image Studio
+ <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+ <CardTitle className="text-base sm:text-lg font-semibold flex items-center gap-2 tracking-tight min-w-0">
+ <Upload className="h-5 w-5 text-primary shrink-0" />
+ <span className="truncate">Upload Image Studio</span>
  </CardTitle>
 
  {/* Engine Selector Pills */}
- <div className="flex items-center gap-1.5 p-1 rounded-xl border bg-background/80 shadow-inner">
- <Button type="button" onClick={() => setMode("instant")} className={cn(`px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-1.5 ${mode === "instant" ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground hover:text-foreground"}`)}>
- <Zap className="h-3.5 w-3.5" />
+ <div className="flex items-center gap-1.5 p-1 rounded-xl border bg-background/80 shadow-inner flex-wrap sm:ml-auto">
+ <Button type="button" onClick={() => setMode("instant")} className={cn(`px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-1.5 shrink-0 ${mode === "instant" ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground hover:text-foreground"}`)}>
+ <Zap className="h-3.5 w-3.5 shrink-0" />
  Instant Color Threshold
  </Button>
- <Button type="button" onClick={() => setMode("ai")} className={cn(`px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-1.5 ${mode === "ai" ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground hover:text-foreground"}`)}>
- <Sparkles className="h-3.5 w-3.5" />
+ <Button type="button" onClick={() => setMode("ai")} className={cn(`px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-1.5 shrink-0 ${mode === "ai" ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground hover:text-foreground"}`)}>
+ <Sparkles className="h-3.5 w-3.5 shrink-0" />
  HD Neural AI
  </Button>
  </div>
