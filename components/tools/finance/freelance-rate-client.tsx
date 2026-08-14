@@ -34,8 +34,9 @@ export function FreelanceRateClient() {
       totalBillableHours: 0
     };
 
-    // Total net target before taxes
-    const taxMultiplier = 1 / (1 - taxRate / 100);
+    // Total net target before taxes (clamp tax rate to <100% to avoid divide-by-zero)
+    const safeTaxRate = Math.min(Math.max(taxRate, 0), 99.9);
+    const taxMultiplier = 1 / (1 - safeTaxRate / 100);
     const grossIncomeNeeded = targetIncome * taxMultiplier;
 
     // Add expenses
@@ -163,45 +164,41 @@ export function FreelanceRateClient() {
  
       <ToolHowItWorks steps={[{
         step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
+        title: "Enter Your Numbers",
+        description: "Enter net income goal and billable hours in the fields above — everything calculates live as you type.",
         icon: Sparkles
       }, {
         step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
+        title: "Review the Result",
+        description: "Instantly see your hourly, daily, and weekly rates, with breakdowns and visual cues.",
         icon: Zap
       }, {
         step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
+        title: "Copy or Export",
+        description: "Copy any figure or export the full breakdown to use in a plan, invoice, or report.",
         icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      }]} badges={["100% Free", "Private & Local", "No Signup"]} />
 
-      <ToolFeatureGuides features={[{
+            <ToolFeatureGuides features={[{
         icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
+        title: "Tax-adjusted rates",
+        description: "Tax-adjusted rates"
       }, {
         icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
+        title: "Private & On-Device",
+        description: "Every calculation runs in your browser. Your financial inputs never leave your device or touch a server."
       }, {
         icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
+        title: "No Signup, Ever",
+        description: "Open the tool and get an answer in seconds — no account, no paywall, no usage cap."
       }]}>
         <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use Our Freelance Rate Calculator?</h3>
+          <h3>Why Use the Freelance Rate & Wage Calculator — Hourly & Annual Salary (2026)?</h3>
           <p>
-            This free online tool is designed to help you get accurate results quickly and securely.
-            Whether you're a developer, designer, student, or professional, our Freelance Rate Calculator provides
-            the functionality you need without any complexity or cost.
+            Convert a desired salary into the hourly rate you must charge, with tax and profit margin factored in.
           </p>
           <p>
-            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
-            privacy and zero latency. No data is ever transmitted to external servers, making it safe
-            for sensitive information.
+            Like all Toolzium calculators, it is free, private, and built to give you a paid-product experience without the subscription.
           </p>
         </div>
       </ToolFeatureGuides>

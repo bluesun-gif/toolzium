@@ -78,7 +78,7 @@ export default function CryptoDcaClient() {
  <p className="text-3xl font-extrabold text-emerald-500">${Math.round(futureValue).toLocaleString()}</p>
  </GlassCard>
 
- <GlassCard className="p-5 space-y-2 text-center border-primary/50/30 bg-purple-500/5">
+ <GlassCard className="p-5 space-y-2 text-center border-primary/30 bg-purple-500/5">
  <div className="flex justify-center text-primary">
  <Coins className="h-6 w-6" />
  </div>
@@ -89,45 +89,41 @@ export default function CryptoDcaClient() {
  
       <ToolHowItWorks steps={[{
         step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
+        title: "Enter Your Numbers",
+        description: "Enter amount, months, growth in the fields above — everything calculates live as you type.",
         icon: Sparkles
       }, {
         step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
+        title: "Review the Result",
+        description: "Instantly see your projected DCA portfolio value, with breakdowns and visual cues.",
         icon: Zap
       }, {
         step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
+        title: "Copy or Export",
+        description: "Copy any figure or export the full breakdown to use in a plan, invoice, or report.",
         icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      }]} badges={["100% Free", "Private & Local", "No Signup"]} />
 
-      <ToolFeatureGuides features={[{
+            <ToolFeatureGuides features={[{
         icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
+        title: "Future value of DCA",
+        description: "Future value of DCA"
       }, {
         icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
+        title: "Private & On-Device",
+        description: "Every calculation runs in your browser. Your financial inputs never leave your device or touch a server."
       }, {
         icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
+        title: "No Signup, Ever",
+        description: "Open the tool and get an answer in seconds — no account, no paywall, no usage cap."
       }]}>
         <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use Our Crypto Dollar-Cost-Averaging (DCA) & Profit Calculator?</h3>
+          <h3>Why Use the crypto-dca?</h3>
           <p>
-            This free online tool is designed to help you get accurate results quickly and securely.
-            Whether you're a developer, designer, student, or professional, our Crypto Dollar-Cost-Averaging (DCA) & Profit Calculator provides
-            the functionality you need without any complexity or cost.
+            DCA investors model what regular buys become over time, with compounding returns included.
           </p>
           <p>
-            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
-            privacy and zero latency. No data is ever transmitted to external servers, making it safe
-            for sensitive information.
+            Like all Toolzium calculators, it is free, private, and built to give you a paid-product experience without the subscription.
           </p>
         </div>
       </ToolFeatureGuides>
