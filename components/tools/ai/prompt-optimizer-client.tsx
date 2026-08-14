@@ -142,6 +142,17 @@ export function PromptOptimizerClient() {
     const input = rawPrompt.trim();
     const inputLower = input.toLowerCase();
 
+    // Friendly display names (no version numbers — users assume frontier quality)
+    const MODEL_LABELS: Record<string, string> = {
+      gpt4o: "GPT-4o",
+      "claude3.5": "Claude",
+      deepseek: "DeepSeek",
+      "gemini2.5": "Gemini",
+      midjourney: "Midjourney",
+      flux: "Flux",
+    };
+    const modelLabel = MODEL_LABELS[targetModel] || "GPT-4o";
+
     // Determine if image
     const isImg = targetModel.includes("midjourney") || targetModel.includes("dalle") || targetModel.includes("flux") || inputLower.includes("image") || inputLower.includes("photo");
     try {
@@ -150,76 +161,47 @@ export function PromptOptimizerClient() {
       const depthValue = detailDepth[0];
       const tempValue = creativeTemp[0];
       const domainName = domains.find(d => d.id === domain)?.name || "Expert";
+      const detailInstruction = depthValue > 75 ? "Provide an extremely exhaustive, comprehensive response covering edge cases, deep analysis, and complete architectural considerations. Break down every step with granular detail." : depthValue < 25 ? "Provide a very concise, direct, and brief response. No fluff." : "Provide a well-balanced, clear, and structured response.";
+      const toneInstruction = tempValue > 75 ? "Adopt a highly creative, lateral-thinking approach. Use vivid analogies and out-of-the-box reasoning." : tempValue < 25 ? "Adopt a strictly deterministic, analytical, and literal approach. Stick to the facts without deviation." : "Maintain a balanced, professional tone.";
+      const cotInstruction = includeCoT ? (includeXmlTags ? "\n<reasoning_protocol>\nBefore providing the final answer, open a <thinking> block to analyze the request step-by-step, evaluate constraints, and formulate a plan.\n</reasoning_protocol>" : "\nReasoning Protocol: Think step-by-step before providing your final answer to ensure correctness.") : "";
+      const fewShotInstruction = includeFewShot ? (includeXmlTags ? "\n<examples>\n<example>\n<input>Generate a Python script</input>\n<output>Here is the optimized script...</output>\n</example>\n</examples>" : "\nExamples: Use clear structure similar to high-quality reference materials.") : "";
+      const negativeInstruction = includeNegativePrompt ? (includeXmlTags ? "\n<constraints>\n- Do NOT use filler language (e.g.\"Certainly!\",\"Here is the...\").\n- Do NOT hallucinate facts.\n</constraints>" : "\nConstraints: Do NOT use filler language. Do NOT hallucinate.") : "";
+
+      // ===== MODEL-AWARE STRUCTURE =====
+      // Each model produces a structurally distinct prompt so the choice visibly matters.
       let finalPrompt = "";
 
-      // Dynamic generation logic ensuring EVERYTHING affects the output
-      if (isImg) {
-        const subject = input;
-        const style = depthValue > 75 ? "hyper-detailed, ultra-realistic, 8k resolution, cinematic lighting, octane render, unreal engine 5" : "high quality, detailed";
+      if (isImg && (targetModel === "midjourney" || targetModel === "flux")) {
+        const style = depthValue > 75 ? "hyper-detailed, ultra-realistic, 8k resolution, cinematic lighting, octane render" : "high quality, detailed";
         const mood = tempValue > 70 ? "surreal, dreamlike, highly creative atmosphere, vivid colors" : "realistic, grounded, natural lighting";
-        finalPrompt = `[SYSTEM_INSTRUCTION_V2]
-Create a highly detailed, professional meta-prompt that transforms user draft ideas into high-quality image generation instructions. Focus on clarity, composition, style, and tone for AI models like Midjourney and DALL-E 3.
-
-[SYSTEM_INSTRUCTION] {
- {action: 'GENERATE_PHOTOREALISTIC'},
- {action: 'SPECIFY_COMPOSITION'},
- {action: 'DEFINE_LIGHTING'},
- {action: 'SPECIFY_STYLE'}
-}
-
-[CORE_PROMPT_START]
-/imagine prompt: ${subject}. ${style}. ${mood}. Shot on 85mm lens, f/1.8 aperture, beautiful depth of field. 
-
-[PARAMETERS]
---ar 16:9 --v 6.0 --style raw ${tempValue > 50 ? "--stylize" + Math.round(tempValue * 5) : "--stylize 100"}
-`;
-        if (includeNegativePrompt) {
-          finalPrompt += `\n--no blurry, distorted, low quality, extra limbs, bad anatomy, text, watermark, signature, poorly drawn, out of frame\n`;
-        }
+        finalPrompt = `/imagine prompt: ${input}. ${style}. ${mood}. Shot on 85mm lens, f/1.8 aperture, beautiful depth of field.`;
+        if (includeNegativePrompt) finalPrompt += `\n--no blurry, distorted, low quality, extra limbs, bad anatomy, text, watermark`;
+        finalPrompt += `\n--ar 16:9 --style raw ${tempValue > 50 ? "--stylize " + Math.round(tempValue * 5) : "--stylize 100"}`;
+      } else if (isImg) {
+        // GPT/Gemini/Claude image prompts: structured natural-language spec
+        finalPrompt = `Create a detailed image-generation prompt for ${modelLabel}.\n\nSubject: ${input}\nStyle: ${depthValue > 75 ? "hyper-detailed, ultra-realistic, 8k" : "high quality, detailed"}\nMood: ${tempValue > 70 ? "surreal, vivid, creative" : "natural, grounded"}\n${includeNegativePrompt ? "Avoid: blurry, distorted, low quality, watermark" : ""}`;
+      } else if (targetModel === "claude3.5") {
+        // Claude: strong XML, Anthropic-style
+        const xmlOpen = includeXmlTags ? `<instructions>` : "";
+        const xmlClose = includeXmlTags ? `</instructions>` : "";
+        finalPrompt = `You are a Senior ${domainName} working with Claude.\n${xmlOpen}\n<role>Senior ${domainName}</role>\n<task>${input}</task>\n<approach>\n${detailInstruction}\n${toneInstruction}\n</approach>${cotInstruction}${fewShotInstruction}${negativeInstruction}\n${xmlClose}\n<user_query>${input}</user_query>`;
+      } else if (targetModel === "gemini2.5") {
+        // Gemini: concise, natural-language, step-based, minimal XML
+        finalPrompt = `You are a Senior ${domainName}. Help with this using Gemini's strengths in reasoning and multimodal understanding.\n\nTask: ${input}\n\nHow to approach:\n- ${detailInstruction}\n- ${toneInstruction}${cotInstruction ? "\n- Reason through the problem step by step before answering." : ""}${fewShotInstruction ? "\n- Ground your answer with a clear example." : ""}${negativeInstruction ? "\n- Avoid filler; be direct and accurate." : ""}\n\nUser request: ${input}`;
+      } else if (targetModel === "deepseek") {
+        // DeepSeek: reasoning-chain, markdown
+        finalPrompt = `# Task\n${input}\n\n## Role\nSenior ${domainName}\n\n## Reasoning Steps\n1. ${detailInstruction}\n2. ${toneInstruction}${cotInstruction ? "\n3. Think step-by-step (chain-of-thought) before concluding." : ""}\n\n## Execution\nProvide the final answer for: ${input}${fewShotInstruction ? "\n\n### Example\nInput → high-quality output." : ""}${negativeInstruction ? "\n\n### Constraints\nNo filler. No hallucination." : ""}`;
       } else {
-        // Text / Code logic
-        const xmlWrapperOpen = includeXmlTags ? `<system_prompt>\n<role>Senior ${domainName}</role>\n<instructions>\n` : `Act as a Senior ${domainName}.\nInstructions:\n`;
-        const xmlWrapperClose = includeXmlTags ? `</instructions>\n</system_prompt>\n\n<user_input>\n${input}\n</user_input>` : `\nUser Input: ${input}`;
-        const detailInstruction = depthValue > 75 ? "- Provide an extremely exhaustive, comprehensive response covering edge cases, deep analysis, and complete architectural considerations.\n- Break down every single step with granular detail." : depthValue < 25 ? "- Provide a very concise, direct, and brief response. No fluff." : "- Provide a well-balanced, clear, and structured response.";
-        const toneInstruction = tempValue > 75 ? "- Adopt a highly creative, lateral-thinking approach. Use vivid analogies and out-of-the-box reasoning." : tempValue < 25 ? "- Adopt a strictly deterministic, analytical, and literal approach. Stick to the facts without deviation." : "- Maintain a balanced, professional tone.";
-        const cotInstruction = includeCoT ? includeXmlTags ? `\n<reasoning_protocol>\nBefore providing the final answer, open a <thinking> block to analyze the request step-by-step, evaluate constraints, and formulate a plan.\n</reasoning_protocol>` : `\nReasoning Protocol: Think step-by-step before providing your final answer to ensure correctness.` : "";
-        const fewShotInstruction = includeFewShot ? includeXmlTags ? `\n<examples>\n<example>\n<input>Generate a Python script</input>\n<output>Here is the optimized script...</output>\n</example>\n</examples>` : `\nExamples: Use clear structure similar to high-quality reference materials.` : "";
-        const negativeInstruction = includeNegativePrompt ? includeXmlTags ? `\n<constraints>\n- Do NOT use filler language (e.g."Certainly!","Here is the...").\n- Do NOT hallucinate facts.\n</constraints>` : `\nConstraints: Do NOT use filler language. Do NOT hallucinate.` : "";
-        const getDomainSpecificInstructions = (d: string) => {
-          switch (d) {
-            case "software":
-              return "- Write clean, maintainable, and well-documented code.\n- Follow best practices for performance and security.";
-            case "webdev":
-              return "- Focus on responsive, accessible, and modern UI/UX.\n- Ensure cross-browser compatibility and semantic HTML.";
-            case "copywriting":
-              return "- Use persuasive, high-converting language.\n- Focus on user benefits and emotional triggers.";
-            case "seo":
-              return "- Optimize for search intent and readability.\n- Naturally integrate relevant keywords and LSI terms.";
-            case "business":
-              return "- Provide strategic, actionable executive insights.\n- Focus on ROI, scalability, and operational efficiency.";
-            case "datascience":
-              return "- Ensure statistical rigor and data accuracy.\n- Provide clear interpretations of data models and metrics.";
-            case "art":
-              return "- Focus on visual composition, color theory, and lighting.\n- Provide detailed aesthetic and stylistic direction.";
-            case "finance":
-              return "- Maintain strict accuracy in financial modeling.\n- Focus on risk assessment and clear metric reporting.";
-            case "legal":
-              return "- Use precise, unambiguous legal terminology.\n- Focus on compliance, liability protection, and clarity.";
-            default:
-              return "- Approach the problem with creative, lateral thinking.\n- Provide innovative and practical solutions.";
-          }
-        };
-        const domainSpecific = getDomainSpecificInstructions(domain);
-        finalPrompt = `${xmlWrapperOpen}
-${detailInstruction}
-${toneInstruction}
-${domainSpecific}${cotInstruction}${fewShotInstruction}${negativeInstruction}
-${xmlWrapperClose}`;
+        // GPT-4o (default): clean markdown with optional XML
+        const xmlOpen = includeXmlTags ? `<system_prompt>\n<role>Senior ${domainName}</role>\n<instructions>\n` : `Act as a Senior ${domainName}.\nInstructions:\n`;
+        const xmlClose = includeXmlTags ? `</instructions>\n</system_prompt>\n\n<user_input>\n${input}\n</user_input>` : `\nUser Input: ${input}`;
+        finalPrompt = `${xmlOpen}\n${detailInstruction}\n${toneInstruction}${cotInstruction}${fewShotInstruction}${negativeInstruction}\n${xmlClose}`;
       }
+
       const resObj: OptimizedResult = {
         expandedSuperPrompt: finalPrompt,
-        rolePrompt: "Senior" + domainName,
-        systemInstructions: `Optimized for ${targetModel.toUpperCase()} | Depth: ${depthValue}% | Creativity: ${tempValue}%`,
+        rolePrompt: "Senior " + domainName,
+        systemInstructions: `Optimized for ${modelLabel} | Depth: ${depthValue}% | Creativity: ${tempValue}%`,
         qualityScore: Math.min(99, 40 + depthValue * 0.2 + (includeXmlTags ? 10 : 0) + (includeCoT ? 15 : 0)),
         estimatedTokens: Math.round(finalPrompt.length / 3.5),
         isImagePrompt: isImg
@@ -234,7 +216,7 @@ ${xmlWrapperClose}`;
         timestamp: new Date().toLocaleTimeString()
       });
       setIsOptimizing(false);
-      toast.success(`Prompt optimized successfully!`);
+      toast.success(`Optimized for ${modelLabel}!`);
     } catch (err) {
       console.error("Optimization error:", err);
       setIsOptimizing(false);
@@ -302,12 +284,12 @@ ${xmlWrapperClose}`;
  <SelectValue placeholder="Select Model" />
  </SelectTrigger>
  <SelectContent>
- <SelectItem value="gpt4o">OpenAI ChatGPT (GPT-4o)</SelectItem>
- <SelectItem value="claude3.5">Anthropic Claude 3.5 Sonnet</SelectItem>
- <SelectItem value="deepseek">DeepSeek R1</SelectItem>
- <SelectItem value="gemini2.5">Google Gemini 2.5 Pro</SelectItem>
- <SelectItem value="midjourney">Midjourney v6</SelectItem>
- <SelectItem value="flux">Flux.1 Pro</SelectItem>
+ <SelectItem value="gpt4o">GPT-4o</SelectItem>
+ <SelectItem value="claude3.5">Claude</SelectItem>
+ <SelectItem value="deepseek">DeepSeek</SelectItem>
+ <SelectItem value="gemini2.5">Gemini</SelectItem>
+ <SelectItem value="midjourney">Midjourney</SelectItem>
+ <SelectItem value="flux">Flux</SelectItem>
  </SelectContent>
  </Select>
  </div>
