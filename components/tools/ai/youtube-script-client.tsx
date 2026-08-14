@@ -366,19 +366,19 @@ export function YoutubeScriptClient() {
 
                 {/* Output Tab Selection */}
                 <div className="flex gap-1 p-1 bg-muted/60 rounded-xl border border-border overflow-x-auto text-xs">
-                  <Button onClick={() => setActiveTab("teleprompter")} className={cn(cn("px-3 py-1.5 rounded-lg font-bold transition-all shrink-0 cursor-pointer", activeTab === "teleprompter" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
+                  <Button onClick={() => setActiveTab("teleprompter")} className={cn(cn("px-3 py-1.5 rounded-lg font-bold transition-all shrink-0 cursor-pointer", activeTab === "teleprompter" ? "bg-primary text-primary-foreground shadow-sm" : "text-foreground hover:text-primary hover:bg-muted/50"))}>
                     Teleprompter Script
                   </Button>
-                  <Button onClick={() => setActiveTab("titles")} className={cn(cn("px-3 py-1.5 rounded-lg font-bold transition-all shrink-0 cursor-pointer", activeTab === "titles" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
+                  <Button onClick={() => setActiveTab("titles")} className={cn(cn("px-3 py-1.5 rounded-lg font-bold transition-all shrink-0 cursor-pointer", activeTab === "titles" ? "bg-primary text-primary-foreground shadow-sm" : "text-foreground hover:text-primary hover:bg-muted/50"))}>
                     Viral Titles (5)
                   </Button>
-                  <Button onClick={() => setActiveTab("hooks")} className={cn(cn("px-3 py-1.5 rounded-lg font-bold transition-all shrink-0 cursor-pointer", activeTab === "hooks" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
+                  <Button onClick={() => setActiveTab("hooks")} className={cn(cn("px-3 py-1.5 rounded-lg font-bold transition-all shrink-0 cursor-pointer", activeTab === "hooks" ? "bg-primary text-primary-foreground shadow-sm" : "text-foreground hover:text-primary hover:bg-muted/50"))}>
                     Retention Hooks
                   </Button>
-                  <Button onClick={() => setActiveTab("outline")} className={cn(cn("px-3 py-1.5 rounded-lg font-bold transition-all shrink-0 cursor-pointer", activeTab === "outline" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
+                  <Button onClick={() => setActiveTab("outline")} className={cn(cn("px-3 py-1.5 rounded-lg font-bold transition-all shrink-0 cursor-pointer", activeTab === "outline" ? "bg-primary text-primary-foreground shadow-sm" : "text-foreground hover:text-primary hover:bg-muted/50"))}>
                     Timestamps
                   </Button>
-                  <Button onClick={() => setActiveTab("seo")} className={cn(cn("px-3 py-1.5 rounded-lg font-bold transition-all shrink-0 cursor-pointer", activeTab === "seo" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
+                  <Button onClick={() => setActiveTab("seo")} className={cn(cn("px-3 py-1.5 rounded-lg font-bold transition-all shrink-0 cursor-pointer", activeTab === "seo" ? "bg-primary text-primary-foreground shadow-sm" : "text-foreground hover:text-primary hover:bg-muted/50"))}>
                     YouTube SEO
                   </Button>
                 </div>

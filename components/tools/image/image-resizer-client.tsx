@@ -314,10 +314,10 @@ export default function ImageResizerClient() {
 
  {/* Preset Cards Grid */}
  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2.5">
- {filteredPresets.map((p, idx) => <Button key={idx} type="button" onClick={() => applyPreset(p)} className={cn(`p-3 rounded-xl border text-left transition-all hover:scale-[1.02] flex flex-col justify-between space-y-2 group bg-card/80 hover:border-primary/60 hover:shadow-sm ${targetWidth === p.w && targetHeight === p.h ? "border-primary ring-1 ring-primary bg-primary/5" : "border-border/70"}`)}>
+ {filteredPresets.map((p, idx) => <Button key={idx} type="button" onClick={() => applyPreset(p)} className={cn(`p-3 rounded-xl border text-left transition-all hover:scale-[1.02] flex flex-col justify-between space-y-2 group bg-card/80 hover:border-primary/60 hover:shadow-sm ${targetWidth === p.w && targetHeight === p.h ? "border-primary ring-1 ring-primary bg-primary text-primary-foreground" : "border-border/70"}`)}>
  <div>
- <span className="text-[11px] font-bold text-muted-foreground block truncate">{p.platform}</span>
- <span className="font-semibold text-xs text-foreground group-hover:text-primary transition-colors block line-clamp-1">
+ <span className={`text-[11px] font-bold block truncate ${targetWidth === p.w && targetHeight === p.h ? "text-primary-foreground" : "text-muted-foreground"}`}>{p.platform}</span>
+ <span className={`font-semibold text-xs block line-clamp-1 transition-colors ${targetWidth === p.w && targetHeight === p.h ? "text-primary-foreground" : "text-foreground group-hover:text-primary"}`}>
  {p.label.replace(p.platform, "").trim()}
  </span>
  </div>
@@ -409,17 +409,17 @@ export default function ImageResizerClient() {
  <Maximize2 className="h-3.5 w-3.5 text-primary" /> Canvas Fit Mode (Eliminate White Bars):
  </label>
  <div className="grid grid-cols-3 gap-1.5 p-1 rounded-xl border bg-muted/20">
- <Button type="button" onClick={() => setFitMode("stretch")} className={cn(`p-2 rounded-lg text-center transition ${fitMode === "stretch" ? "bg-primary text-white shadow-xs" : "text-muted-foreground hover:text-foreground"}`)}>
+ <Button type="button" onClick={() => setFitMode("stretch")} className={cn(`p-2 rounded-lg text-center transition ${fitMode === "stretch" ? "bg-primary text-primary-foreground shadow-xs" : "text-foreground hover:text-primary hover:bg-muted/50"}`)}>
  <span className="font-bold text-xs block">Stretch 4 Corners</span>
  <span className="text-[10px] opacity-80 block">No White Bars</span>
  </Button>
 
- <Button type="button" onClick={() => setFitMode("cover")} className={cn(`p-2 rounded-lg text-center transition ${fitMode === "cover" ? "bg-primary text-white shadow-xs" : "text-muted-foreground hover:text-foreground"}`)}>
+ <Button type="button" onClick={() => setFitMode("cover")} className={cn(`p-2 rounded-lg text-center transition ${fitMode === "cover" ? "bg-primary text-primary-foreground shadow-xs" : "text-foreground hover:text-primary hover:bg-muted/50"}`)}>
  <span className="font-bold text-xs block">Smart Crop Cover</span>
  <span className="text-[10px] opacity-80 block">Fill & Crop</span>
  </Button>
 
- <Button type="button" onClick={() => setFitMode("contain")} className={cn(`p-2 rounded-lg text-center transition ${fitMode === "contain" ? "bg-primary text-white shadow-xs" : "text-muted-foreground hover:text-foreground"}`)}>
+ <Button type="button" onClick={() => setFitMode("contain")} className={cn(`p-2 rounded-lg text-center transition ${fitMode === "contain" ? "bg-primary text-primary-foreground shadow-xs" : "text-foreground hover:text-primary hover:bg-muted/50"}`)}>
  <span className="font-bold text-xs block">Fit & Pad</span>
  <span className="text-[10px] opacity-80 block">With Background</span>
  </Button>

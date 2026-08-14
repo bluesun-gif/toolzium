@@ -201,10 +201,10 @@ export function ShortenerClient() {
                 <Scissors className="w-4 h-4 text-primary" /> Shorten URL Studio
               </Label>
               <div className="flex gap-1 bg-muted/60 p-1 rounded-xl border border-border">
-                <Button type="button" variant={!isBatchMode ? "default" : "ghost"} size="sm" onClick={() => setIsBatchMode(false)} className={cn("h-7 text-xs font-bold rounded-lg px-3 transition-all", !isBatchMode ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}>
+                <Button type="button" variant={!isBatchMode ? "default" : "ghost"} size="sm" onClick={() => setIsBatchMode(false)} className={cn("h-7 text-xs font-bold rounded-lg px-3 transition-all", !isBatchMode ? "bg-primary text-primary-foreground shadow-sm" : "text-foreground hover:text-primary hover:bg-muted/50")}>
                   Single URL
                 </Button>
-                <Button type="button" variant={isBatchMode ? "default" : "ghost"} size="sm" onClick={() => setIsBatchMode(true)} className={cn("h-7 text-xs font-bold rounded-lg px-3 transition-all", isBatchMode ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}>
+                <Button type="button" variant={isBatchMode ? "default" : "ghost"} size="sm" onClick={() => setIsBatchMode(true)} className={cn("h-7 text-xs font-bold rounded-lg px-3 transition-all", isBatchMode ? "bg-primary text-primary-foreground shadow-sm" : "text-foreground hover:text-primary hover:bg-muted/50")}>
                   Bulk Batch Mode
                 </Button>
               </div>

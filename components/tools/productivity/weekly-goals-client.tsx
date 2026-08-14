@@ -277,7 +277,7 @@ export function WeeklyGoalsClient() {
                   {goal.tasks.length === 0 ? <p className="text-xs text-muted-foreground text-center py-4 italic border border-dashed border-border/80 rounded-xl">
                       No tasks added yet. Add daily sub-tasks below!
                     </p> : goal.tasks.map(task => <div key={task.id} className="flex items-start gap-2 p-2 rounded-lg bg-muted/20 border border-border/50 hover:bg-muted/40 transition-colors group">
-                        <Button onClick={() => toggleTask(goal.id, task.id)} className={cn(cn("mt-0.5 shrink-0 transition-colors", task.completed ? "text-emerald-500" : "text-muted-foreground hover:text-foreground"))}>
+                        <Button onClick={() => toggleTask(goal.id, task.id)} className={cn(cn("mt-0.5 shrink-0 transition-colors", task.completed ? "text-emerald-500" : "text-foreground hover:text-primary hover:bg-muted/50"))}>
                           <CheckSquare className="w-4 h-4" />
                         </Button>
                         <span className={cn("text-xs font-medium flex-1 break-words leading-relaxed", task.completed ? "line-through text-muted-foreground" : "text-foreground")}>

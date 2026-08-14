@@ -271,11 +271,11 @@ export default function BgRemoveClient() {
 
  {/* Engine Selector Pills */}
  <div className="flex items-center gap-1.5 p-1 rounded-xl border bg-background/80 shadow-inner flex-wrap sm:ml-auto">
- <Button type="button" onClick={() => setMode("instant")} className={cn(`px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-1.5 shrink-0 ${mode === "instant" ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground hover:text-foreground"}`)}>
+ <Button type="button" onClick={() => setMode("instant")} className={cn(`px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-1.5 shrink-0 ${mode === "instant" ? "bg-primary text-primary-foreground shadow-xs" : "text-foreground hover:text-primary hover:bg-muted/50"}`)}>
  <Zap className="h-3.5 w-3.5 shrink-0" />
  Instant Color Threshold
  </Button>
- <Button type="button" onClick={() => setMode("ai")} className={cn(`px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-1.5 shrink-0 ${mode === "ai" ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground hover:text-foreground"}`)}>
+ <Button type="button" onClick={() => setMode("ai")} className={cn(`px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-1.5 shrink-0 ${mode === "ai" ? "bg-primary text-primary-foreground shadow-xs" : "text-foreground hover:text-primary hover:bg-muted/50"}`)}>
  <Sparkles className="h-3.5 w-3.5 shrink-0" />
  HD Neural AI
  </Button>
@@ -326,7 +326,7 @@ export default function BgRemoveClient() {
  <CardHeader className="border-b border-border/40 bg-muted/20 pb-3">
  <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
  <div className="flex items-center gap-3">
- <Button variant="ghost" size="sm" onClick={resetToUpload} className="gap-1 text-xs text-muted-foreground hover:text-foreground p-1.5 h-8">
+ <Button variant="ghost" size="sm" onClick={resetToUpload} className="gap-1 text-xs text-foreground hover:text-primary hover:bg-muted/50 p-1.5 h-8">
  <ArrowLeft className="h-4 w-4" />
  Upload New
  </Button>
@@ -342,11 +342,11 @@ export default function BgRemoveClient() {
  <div className="flex items-center gap-2 flex-wrap">
  {/* View Mode Pills */}
  <div className="flex items-center gap-1 p-1 rounded-lg border bg-background/80 text-xs">
- <Button type="button" onClick={() => setViewMode("split")} className={cn(`px-2.5 py-1 rounded-md font-medium transition flex items-center gap-1 ${viewMode === "split" ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground hover:text-foreground"}`)}>
+ <Button type="button" onClick={() => setViewMode("split")} className={cn(`px-2.5 py-1 rounded-md font-medium transition flex items-center gap-1 ${viewMode === "split" ? "bg-primary text-primary-foreground shadow-xs" : "text-foreground hover:text-primary hover:bg-muted/50"}`)}>
  <Split className="h-3 w-3" />
  Split Compare
  </Button>
- <Button type="button" onClick={() => setViewMode("side")} className={cn(`px-2.5 py-1 rounded-md font-medium transition flex items-center gap-1 ${viewMode === "side" ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground hover:text-foreground"}`)}>
+ <Button type="button" onClick={() => setViewMode("side")} className={cn(`px-2.5 py-1 rounded-md font-medium transition flex items-center gap-1 ${viewMode === "side" ? "bg-primary text-primary-foreground shadow-xs" : "text-foreground hover:text-primary hover:bg-muted/50"}`)}>
  <Layers className="h-3 w-3" />
  Side-by-Side
  </Button>

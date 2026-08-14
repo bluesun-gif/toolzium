@@ -215,7 +215,7 @@ export default function ImageResizeClient() {
  <Button variant="ghost" size="sm" onClick={() => {
                   setOriginalUrl(null);
                   setResizedUrl(null);
-                }} className="gap-1 text-xs text-muted-foreground hover:text-foreground p-1.5 h-8">
+                }} className="gap-1 text-xs text-foreground hover:text-primary hover:bg-muted/50 p-1.5 h-8">
  <ArrowLeft className="h-4 w-4" />
  Upload New
  </Button>
@@ -299,13 +299,13 @@ export default function ImageResizeClient() {
  <Button type="button" onClick={() => {
                     setFit("stretch");
                     if (originalUrl && origW && origH) renderResizedImage(originalUrl, origW, origH, w, h, "stretch", fmt, quality);
-                  }} className={cn(`flex-1 sm:flex-initial px-2.5 py-1 rounded-md font-medium transition text-[11px] ${fit === "stretch" ? "bg-primary text-primary-foreground shadow-xs font-semibold" : "text-muted-foreground"}`)}>
+                  }} className={cn(`flex-1 sm:flex-initial px-2.5 py-1 rounded-md font-medium transition text-[11px] ${fit === "stretch" ? "bg-primary text-primary-foreground shadow-xs font-semibold" : "text-foreground hover:text-primary hover:bg-muted/50"}`)}>
  4-Corner Stretch
  </Button>
  <Button type="button" onClick={() => {
                     setFit("cover");
                     if (originalUrl && origW && origH) renderResizedImage(originalUrl, origW, origH, w, h, "cover", fmt, quality);
-                  }} className={cn(`flex-1 sm:flex-initial px-2.5 py-1 rounded-md font-medium transition text-[11px] ${fit === "cover" ? "bg-primary text-primary-foreground shadow-xs font-semibold" : "text-muted-foreground"}`)}>
+                  }} className={cn(`flex-1 sm:flex-initial px-2.5 py-1 rounded-md font-medium transition text-[11px] ${fit === "cover" ? "bg-primary text-primary-foreground shadow-xs font-semibold" : "text-foreground hover:text-primary hover:bg-muted/50"}`)}>
  Smart Crop
  </Button>
  </div>
@@ -317,7 +317,7 @@ export default function ImageResizeClient() {
  {["webp", "png", "jpeg"].map(format => <Button key={format} type="button" onClick={() => {
                     setFmt(format as OutFormat);
                     if (originalUrl && origW && origH) renderResizedImage(originalUrl, origW, origH, w, h, fit, format as OutFormat, quality);
-                  }} className={cn(`px-2.5 py-1 rounded-lg border text-[11px] font-semibold uppercase transition ${fmt === format ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground"}`)}>
+                  }} className={cn(`px-2.5 py-1 rounded-lg border text-[11px] font-semibold uppercase transition ${fmt === format ? "bg-primary text-primary-foreground shadow-xs" : "text-foreground hover:text-primary hover:bg-muted/50"}`)}>
  {format}
  </Button>)}
  </div>

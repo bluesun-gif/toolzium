@@ -184,22 +184,22 @@ export function QrClient() {
             <div className="space-y-4 flex-1">
               {/* Type Selectors */}
               <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5 bg-muted/40 p-1.5 rounded-xl border border-border text-xs">
-                <Button type="button" onClick={() => setInputType("url")} className={cn(cn("py-2 px-2 rounded-lg flex flex-col items-center gap-1 transition-all font-semibold", inputType === "url" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
+                <Button type="button" onClick={() => setInputType("url")} className={cn(cn("py-2 px-2 rounded-lg flex flex-col items-center gap-1 transition-all font-semibold", inputType === "url" ? "bg-primary text-primary-foreground shadow-sm" : "text-foreground hover:text-primary hover:bg-muted/50"))}>
                   <Link2 className="w-3.5 h-3.5" /> URL
                 </Button>
-                <Button type="button" onClick={() => setInputType("text")} className={cn(cn("py-2 px-2 rounded-lg flex flex-col items-center gap-1 transition-all font-semibold", inputType === "text" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
+                <Button type="button" onClick={() => setInputType("text")} className={cn(cn("py-2 px-2 rounded-lg flex flex-col items-center gap-1 transition-all font-semibold", inputType === "text" ? "bg-primary text-primary-foreground shadow-sm" : "text-foreground hover:text-primary hover:bg-muted/50"))}>
                   <Sparkles className="w-3.5 h-3.5" /> Text
                 </Button>
-                <Button type="button" onClick={() => setInputType("wifi")} className={cn(cn("py-2 px-2 rounded-lg flex flex-col items-center gap-1 transition-all font-semibold", inputType === "wifi" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
+                <Button type="button" onClick={() => setInputType("wifi")} className={cn(cn("py-2 px-2 rounded-lg flex flex-col items-center gap-1 transition-all font-semibold", inputType === "wifi" ? "bg-primary text-primary-foreground shadow-sm" : "text-foreground hover:text-primary hover:bg-muted/50"))}>
                   <Wifi className="w-3.5 h-3.5" /> Wi-Fi
                 </Button>
-                <Button type="button" onClick={() => setInputType("vcard")} className={cn(cn("py-2 px-2 rounded-lg flex flex-col items-center gap-1 transition-all font-semibold", inputType === "vcard" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
+                <Button type="button" onClick={() => setInputType("vcard")} className={cn(cn("py-2 px-2 rounded-lg flex flex-col items-center gap-1 transition-all font-semibold", inputType === "vcard" ? "bg-primary text-primary-foreground shadow-sm" : "text-foreground hover:text-primary hover:bg-muted/50"))}>
                   <UserCheck className="w-3.5 h-3.5" /> vCard
                 </Button>
-                <Button type="button" onClick={() => setInputType("email")} className={cn(cn("py-2 px-2 rounded-lg flex flex-col items-center gap-1 transition-all font-semibold", inputType === "email" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
+                <Button type="button" onClick={() => setInputType("email")} className={cn(cn("py-2 px-2 rounded-lg flex flex-col items-center gap-1 transition-all font-semibold", inputType === "email" ? "bg-primary text-primary-foreground shadow-sm" : "text-foreground hover:text-primary hover:bg-muted/50"))}>
                   <Mail className="w-3.5 h-3.5" /> Email
                 </Button>
-                <Button type="button" onClick={() => setInputType("phone")} className={cn(cn("py-2 px-2 rounded-lg flex flex-col items-center gap-1 transition-all font-semibold", inputType === "phone" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
+                <Button type="button" onClick={() => setInputType("phone")} className={cn(cn("py-2 px-2 rounded-lg flex flex-col items-center gap-1 transition-all font-semibold", inputType === "phone" ? "bg-primary text-primary-foreground shadow-sm" : "text-foreground hover:text-primary hover:bg-muted/50"))}>
                   <Phone className="w-3.5 h-3.5" /> Phone
                 </Button>
               </div>
@@ -326,7 +326,7 @@ export function QrClient() {
                     <Button onClick={handleDownloadSVG} variant="outline" size="sm" className="gap-1.5 text-xs border-border font-semibold rounded-xl h-10 px-4">
                       <Download className="w-3.5 h-3.5" /> Download SVG
                     </Button>
-                    <Button onClick={handleCopyPayload} variant="ghost" size="sm" className="gap-1.5 text-xs text-muted-foreground hover:text-foreground font-semibold rounded-xl h-10">
+                    <Button onClick={handleCopyPayload} variant="ghost" size="sm" className="gap-1.5 text-xs text-foreground hover:text-primary hover:bg-muted/50 font-semibold rounded-xl h-10">
                       <Copy className="w-3.5 h-3.5" /> Copy Payload
                     </Button>
                   </div>

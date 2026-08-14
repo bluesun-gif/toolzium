@@ -197,7 +197,7 @@ export function ApiTesterClient() {
 
  <div className="border-b border-border/40">
  <div className="flex gap-4 text-sm">
- {(["params", "headers", "body", "auth"] as const).map(tab => <Button key={tab} onClick={() => setActiveTab(tab)} className={cn(`pb-2 border-b-2 transition-colors capitalize ${activeTab === tab ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-foreground'}`)}>
+ {(["params", "headers", "body", "auth"] as const).map(tab => <Button key={tab} onClick={() => setActiveTab(tab)} className={cn(`pb-2 border-b-2 transition-colors capitalize ${activeTab === tab ? 'border-primary text-primary' : 'border-transparent text-foreground hover:text-primary hover:bg-muted/50'}`)}>
  {tab}
  </Button>)}
  </div>

@@ -477,7 +477,7 @@ export function AspectCropperClient() {
                     <Button onClick={handleDownloadCrop} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-10 gap-2 shadow-lg shadow-primary/20">
                       <Download className="w-4 h-4" /> Download Cropped Image
                     </Button>
-                    <Button variant="outline" onClick={handleResetCrop} className="w-full h-9 gap-2 text-xs border-border text-muted-foreground hover:text-foreground">
+                    <Button variant="outline" onClick={handleResetCrop} className="w-full h-9 gap-2 text-xs border-border text-foreground hover:text-primary hover:bg-muted/50">
                       <RefreshCcw className="w-3.5 h-3.5" /> Reset Crop Box
                     </Button>
                   </div>

@@ -193,7 +193,7 @@ export function CookingTimerClient() {
  <CardContent className="p-6">
  <div className="flex justify-between items-start mb-4">
  <div className="font-semibold text-lg">{t.label}</div>
- <Button onClick={() => removeTimer(t.id)} className="text-muted-foreground hover:text-foreground">
+ <Button onClick={() => removeTimer(t.id)} className="text-foreground hover:text-primary hover:bg-muted/50">
  <X className="w-4 h-4" />
  </Button>
  </div>

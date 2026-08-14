@@ -204,15 +204,15 @@ Instructions:
 
                 {/* View Mode Switcher */}
                 <div className="flex items-center gap-1 bg-background border border-border p-1 rounded-xl text-xs font-semibold">
-                  <Button type="button" onClick={() => setViewMode("rendered")} className={cn(cn("px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5", viewMode === "rendered" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
+                  <Button type="button" onClick={() => setViewMode("rendered")} className={cn(cn("px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5", viewMode === "rendered" ? "bg-primary text-primary-foreground shadow-sm" : "text-foreground hover:text-primary hover:bg-muted/50"))}>
                     <Eye className="w-3.5 h-3.5" />
                     <span>Formatted View</span>
                   </Button>
-                  <Button type="button" onClick={() => setViewMode("raw")} className={cn(cn("px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5", viewMode === "raw" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
+                  <Button type="button" onClick={() => setViewMode("raw")} className={cn(cn("px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5", viewMode === "raw" ? "bg-primary text-primary-foreground shadow-sm" : "text-foreground hover:text-primary hover:bg-muted/50"))}>
                     <Code2 className="w-3.5 h-3.5" />
                     <span>Raw Code</span>
                   </Button>
-                  <Button type="button" onClick={() => setViewMode("edit")} className={cn(cn("px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5", viewMode === "edit" ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"))}>
+                  <Button type="button" onClick={() => setViewMode("edit")} className={cn(cn("px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5", viewMode === "edit" ? "bg-primary text-primary-foreground shadow-sm" : "text-foreground hover:text-primary hover:bg-muted/50"))}>
                     <FileCode className="w-3.5 h-3.5" />
                     <span>Edit Text</span>
                   </Button>
@@ -229,11 +229,11 @@ Instructions:
 
                 <div className="flex items-center gap-2">
                   <div className="flex items-center gap-1 bg-background border border-border px-2 py-1 rounded-lg">
-                    <Button onClick={() => setZoomLevel(z => Math.max(75, z - 15))} className="text-muted-foreground hover:text-foreground">
+                    <Button onClick={() => setZoomLevel(z => Math.max(75, z - 15))} className="text-foreground hover:text-primary hover:bg-muted/50">
                       <ZoomOut className="w-3.5 h-3.5" />
                     </Button>
                     <span className="text-[11px] font-mono font-bold w-10 text-center">{zoomLevel}%</span>
-                    <Button onClick={() => setZoomLevel(z => Math.min(175, z + 15))} className="text-muted-foreground hover:text-foreground">
+                    <Button onClick={() => setZoomLevel(z => Math.min(175, z + 15))} className="text-foreground hover:text-primary hover:bg-muted/50">
                       <ZoomIn className="w-3.5 h-3.5" />
                     </Button>
                   </div>

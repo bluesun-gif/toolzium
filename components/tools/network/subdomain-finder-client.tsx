@@ -166,7 +166,7 @@ export default function SubdomainFinderClient() {
  {history.length > 0 && <div className="mt-6">
  <Label className="text-xs text-muted-foreground uppercase font-semibold">Recent Scans</Label>
  <div className="mt-2 space-y-1">
- {history.map((h, i) => <Button key={i} type="button" onClick={() => handleHistoryClick(h)} className="w-full text-left text-sm px-2 py-1.5 rounded-md hover:bg-accent text-muted-foreground hover:text-foreground truncate transition-colors flex items-center gap-1.5">
+ {history.map((h, i) => <Button key={i} type="button" onClick={() => handleHistoryClick(h)} className="w-full text-left text-sm px-2 py-1.5 rounded-md hover:bg-accent text-foreground hover:text-primary hover:bg-muted/50 truncate transition-colors flex items-center gap-1.5">
  <History className="h-3 w-3 shrink-0" />
  {h}
  </Button>)}
