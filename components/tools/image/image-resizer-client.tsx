@@ -306,7 +306,7 @@ export default function ImageResizerClient() {
 
  {/* Platform Filter Buttons */}
  <div className="flex flex-wrap items-center gap-1">
- {["All", "Facebook", "Instagram", "LinkedIn", "Twitter", "Pinterest", "YouTube"].map(plat => <Button key={plat} type="button" onClick={() => setActivePlatformFilter(plat)} className={cn(`px-2.5 py-1 rounded-md text-xs font-semibold transition ${activePlatformFilter === plat ? "bg-primary text-primary-foreground shadow-xs" : "bg-muted/40 text-muted-foreground hover:text-foreground"}`)}>
+ {["All", "Facebook", "Instagram", "LinkedIn", "Twitter", "Pinterest", "YouTube"].map(plat => <Button key={plat} type="button" onClick={() => setActivePlatformFilter(plat)} className={cn(`px-2.5 py-1 rounded-md text-xs font-semibold transition ${activePlatformFilter === plat ? "bg-primary text-white shadow-xs" : "bg-muted/40 text-muted-foreground hover:text-foreground"}`)}>
  {plat}
  </Button>)}
  </div>
@@ -409,17 +409,17 @@ export default function ImageResizerClient() {
  <Maximize2 className="h-3.5 w-3.5 text-primary" /> Canvas Fit Mode (Eliminate White Bars):
  </label>
  <div className="grid grid-cols-3 gap-1.5 p-1 rounded-xl border bg-muted/20">
- <Button type="button" onClick={() => setFitMode("stretch")} className={cn(`p-2 rounded-lg text-center transition ${fitMode === "stretch" ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground hover:text-foreground"}`)}>
+ <Button type="button" onClick={() => setFitMode("stretch")} className={cn(`p-2 rounded-lg text-center transition ${fitMode === "stretch" ? "bg-primary text-white shadow-xs" : "text-muted-foreground hover:text-foreground"}`)}>
  <span className="font-bold text-xs block">Stretch 4 Corners</span>
  <span className="text-[10px] opacity-80 block">No White Bars</span>
  </Button>
 
- <Button type="button" onClick={() => setFitMode("cover")} className={cn(`p-2 rounded-lg text-center transition ${fitMode === "cover" ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground hover:text-foreground"}`)}>
+ <Button type="button" onClick={() => setFitMode("cover")} className={cn(`p-2 rounded-lg text-center transition ${fitMode === "cover" ? "bg-primary text-white shadow-xs" : "text-muted-foreground hover:text-foreground"}`)}>
  <span className="font-bold text-xs block">Smart Crop Cover</span>
  <span className="text-[10px] opacity-80 block">Fill & Crop</span>
  </Button>
 
- <Button type="button" onClick={() => setFitMode("contain")} className={cn(`p-2 rounded-lg text-center transition ${fitMode === "contain" ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground hover:text-foreground"}`)}>
+ <Button type="button" onClick={() => setFitMode("contain")} className={cn(`p-2 rounded-lg text-center transition ${fitMode === "contain" ? "bg-primary text-white shadow-xs" : "text-muted-foreground hover:text-foreground"}`)}>
  <span className="font-bold text-xs block">Fit & Pad</span>
  <span className="text-[10px] opacity-80 block">With Background</span>
  </Button>

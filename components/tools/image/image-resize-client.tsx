@@ -227,7 +227,7 @@ export default function ImageResizeClient() {
  </div>
  </div>
 
- <Button onClick={handleDownload} size="sm" className="gap-1.5 shadow-sm font-semibold h-9 w-full sm:w-auto justify-center">
+ <Button onClick={handleDownload} size="sm" className="gap-1.5 shadow-sm font-semibold h-9 w-full sm:w-auto justify-center text-white">
  <Download className="h-4 w-4" />
  Download Photo
  </Button>
@@ -238,7 +238,7 @@ export default function ImageResizeClient() {
  {SOCIAL_PRESETS.map(preset => {
                 const Icon = preset.icon;
                 const isActive = activePreset === preset.name;
-                return <Button key={preset.name} type="button" onClick={() => applyPreset(preset.name, preset.w, preset.h)} className={cn(`px-3 py-1.5 rounded-lg font-medium transition flex items-center gap-1.5 shrink-0 whitespace-nowrap text-xs ${isActive ? "bg-primary text-primary-foreground shadow-xs font-semibold" : "text-muted-foreground hover:text-foreground hover:bg-muted/50"}`)}>
+                return <Button key={preset.name} type="button" onClick={() => applyPreset(preset.name, preset.w, preset.h)} className={cn(`px-3 py-1.5 rounded-lg font-medium transition flex items-center gap-1.5 shrink-0 whitespace-nowrap text-xs ${isActive ? "bg-primary text-white shadow-xs font-semibold" : "text-muted-foreground hover:text-foreground hover:bg-muted/50"}`)}>
  <Icon className="h-3.5 w-3.5 shrink-0" />
  <span>{preset.platform} ({preset.ratio})</span>
  </Button>;
