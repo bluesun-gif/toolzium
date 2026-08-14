@@ -131,7 +131,7 @@ export function EssayConclusionGeneratorClient() {
  </div>
 
  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
- <div>
+ <div className="space-y-2">
  <Label>Essay Type</Label>
  <select className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm" value={essayType} onChange={e => setEssayType(e.target.value)}>
  <option>Argumentative</option>
@@ -141,7 +141,7 @@ export function EssayConclusionGeneratorClient() {
  <option>Analytical</option>
  </select>
  </div>
- <div>
+ <div className="space-y-2">
  <Label>Tone</Label>
  <select className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm" value={tone} onChange={e => setTone(e.target.value)}>
  <option>Academic</option>
@@ -150,9 +150,9 @@ export function EssayConclusionGeneratorClient() {
  <option>Urgent</option>
  </select>
  </div>
- <div>
+ <div className="space-y-2">
  <Label>Word Count: {wordCount}</Label>
- <input type="range" min="50" max="200" step="10" value={wordCount} onChange={e => setWordCount(parseInt(e.target.value))} className="w-full accent-primary mt-3" />
+ <input type="range" min="50" max="200" step="10" value={wordCount} onChange={e => setWordCount(parseInt(e.target.value))} className="w-full accent-primary mt-1" />
  </div>
  </div>
 
