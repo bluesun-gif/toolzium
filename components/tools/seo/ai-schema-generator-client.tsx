@@ -232,12 +232,9 @@ Return ONLY valid JSON-LD. No explanations, no markdown fences.`;
 
  <ToolPageHeader icon={Code2} title="AI Schema Markup Generator" description="Generate valid JSON-LD structured data for Articles, FAQs, Products, Local Businesses, and more." />
 
- <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
- <div className="mb-4">
+ <div className="space-y-6 relative z-10">
 
-   <ModelSelector value={model} onChange={setModel} />
-
- </div>
+  <ModelSelector value={model} onChange={setModel} />
 
  <GlassCard>
  <CardHeader className={headerClass}>

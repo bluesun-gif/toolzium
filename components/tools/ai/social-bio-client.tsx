@@ -170,13 +170,11 @@ export function SocialBioClient() {
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader title="AI Social Media Bio & Creator Profile Generator" description="Craft high-converting, platform-tailored bios for X (Twitter), LinkedIn, Instagram, TikTok, and GitHub." icon={UserCheck} />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-          {/* Left Control Card */}
-          <div className="mb-4">
+        <div className="space-y-6 relative z-10">
+          
 
-            <ModelSelector value={model} onChange={setModel} />
+          <ModelSelector value={model} onChange={setModel} />
 
-          </div>
 
           <GlassCard className="p-5 flex flex-col bg-background border-border shadow-sm rounded-2xl">
             <div className="flex items-center gap-2 mb-4 border-b border-border pb-3">

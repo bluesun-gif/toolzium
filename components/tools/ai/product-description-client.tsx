@@ -167,13 +167,11 @@ export function ProductDescriptionClient() {
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader title="AI E-Commerce Product Description Generator" description="Generate high-converting e-commerce product listings, bullet points, SEO meta tags, and social captions for Shopify and Amazon." icon={ShoppingBag} />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-          {/* Left Control Card */}
-          <div className="mb-4">
+        <div className="space-y-6 relative z-10">
+          
 
-            <ModelSelector value={model} onChange={setModel} />
+          <ModelSelector value={model} onChange={setModel} />
 
-          </div>
 
           <GlassCard className="p-5 flex flex-col bg-background border-border shadow-sm rounded-2xl">
             <div className="flex items-center gap-2 mb-4 border-b border-border pb-3">

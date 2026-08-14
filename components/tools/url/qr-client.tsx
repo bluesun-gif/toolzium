@@ -161,13 +161,11 @@ export function QrClient() {
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader icon={QrCode} title="High-Resolution QR Code Studio" description="Create scannable, high-contrast QR codes for website URLs, Wi-Fi credentials, digital vCard contact cards, emails, and phone numbers." />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-          {/* Left Input Options */}
-          <div className="mb-4">
+        <div className="space-y-6 relative z-10">
+          
 
-            <ModelSelector value={model} onChange={setModel} />
+          <ModelSelector value={model} onChange={setModel} />
 
-          </div>
 
           <GlassCard className="p-5 flex flex-col bg-background border-border shadow-sm rounded-2xl">
             <div className="flex justify-between items-center border-b border-border pb-3 mb-4">
