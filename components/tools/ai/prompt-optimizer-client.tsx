@@ -198,11 +198,36 @@ export function PromptOptimizerClient() {
         finalPrompt = `${xmlOpen}\n${detailInstruction}\n${toneInstruction}${cotInstruction}${fewShotInstruction}${negativeInstruction}\n${xmlClose}`;
       }
 
+      // ===== REAL QUALITY SCORE =====
+      // Computed from the actual generated prompt characteristics, not fixed.
+      const computeQualityScore = (p: string): number => {
+        let score = 0;
+        const len = p.length;
+        // Length adequacy (optimal 300-1200 chars)
+        if (len >= 300 && len <= 1200) score += 35;
+        else if (len >= 150) score += 20;
+        else if (len >= 50) score += 10;
+        else score += 2;
+        // Structural elements
+        if (/role|act as|you are/i.test(p)) score += 12;
+        if (/instruction|approach|task|step/i.test(p)) score += 12;
+        if (/constraint|do not|avoid|not use filler/i.test(p)) score += 10;
+        if (/example|few.?shot|<examples/i.test(p)) score += 8;
+        if (/reason|think|chain|<\s*thinking/i.test(p)) score += 8;
+        if (includeXmlTags || /<[a-z_]+>/.test(p)) score += 10;
+        // Clarity: penalize vague filler
+        const vague = (p.match(/\b(thing|stuff|something|etc\.?|good|nice|somehow)\b/gi) || []).length;
+        score -= vague * 3;
+        // Persona fit
+        if (domainName && domainName !== "Expert") score += 5;
+        return Math.max(5, Math.min(99, Math.round(score)));
+      };
+
       const resObj: OptimizedResult = {
         expandedSuperPrompt: finalPrompt,
         rolePrompt: "Senior " + domainName,
         systemInstructions: `Optimized for ${modelLabel} | Depth: ${depthValue}% | Creativity: ${tempValue}%`,
-        qualityScore: Math.min(99, 40 + depthValue * 0.2 + (includeXmlTags ? 10 : 0) + (includeCoT ? 15 : 0)),
+        qualityScore: computeQualityScore(finalPrompt),
         estimatedTokens: Math.round(finalPrompt.length / 3.5),
         isImagePrompt: isImg
       };
