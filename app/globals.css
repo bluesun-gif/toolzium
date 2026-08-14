@@ -163,6 +163,23 @@ button, input, select, textarea {
   min-width: 0;
 }
 
+/* Responsive data tables: on small screens let wide tables scroll horizontally
+   (instead of being clipped by the global overflow-x:hidden) so trailing columns
+   like "Typical Savings" stay reachable. Long tokens wrap to minimize scrolling. */
+@media (max-width: 640px) {
+  table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-spacing: 0;
+  }
+  table th,
+  table td {
+    overflow-wrap: anywhere;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
