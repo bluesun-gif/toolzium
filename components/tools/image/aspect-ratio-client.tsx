@@ -136,7 +136,6 @@ export function AspectRatioClient() {
     setDimW("");
     setDimH("");
   };
-  const previewRatio = ratioW && ratioH ? `${ratioW} / ${ratioH}` : dimW && dimH ? `${dimW} / ${dimH}` : "16 / 9";
   return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
       
 
@@ -182,15 +181,23 @@ export function AspectRatioClient() {
  </CardHeader>
  <CardContent>
  <div className="w-full h-48 bg-muted/50 border rounded-md flex items-center justify-center p-4">
- <div className="bg-primary/20 border-2 border-primary rounded-sm transition-all duration-300 flex items-center justify-center overflow-hidden text-primary font-medium shadow-sm" style={{
-                  aspectRatio: previewRatio,
-                  maxHeight: '100%',
-                  maxWidth: '100%',
-                  width: ratioW && ratioH && ratioW > ratioH ? '100%' : 'auto',
-                  height: ratioW && ratioH && ratioH >= ratioW ? '100%' : 'auto'
-                }}>
- {ratioW && ratioH ? `${ratioW}:${ratioH}` : dimW && dimH ? `${dimW}x${dimH}` : "16:9"}
- </div>
+ {(() => {
+                  const w = Number(ratioW) || (dimW ? Number(dimW) : 16);
+                  const h = Number(ratioH) || (dimH ? Number(dimH) : 9);
+                  const stage = 176; // available px (h-48 minus padding)
+                  const scale = stage / Math.max(w, h);
+                  const pw = Math.round(w * scale);
+                  const ph = Math.round(h * scale);
+                  const label = ratioW && ratioH ? `${ratioW}:${ratioH}` : dimW && dimH ? `${dimW}x${dimH}` : "16:9";
+                  return (
+                    <div
+                      className="bg-primary/20 border-2 border-primary rounded-sm transition-all duration-300 flex items-center justify-center overflow-hidden text-primary font-semibold shadow-sm"
+                      style={{ width: pw + 'px', height: ph + 'px' }}
+                    >
+                      {label}
+                    </div>
+                  );
+                })()}
  </div>
  </CardContent>
  </GlassCard>
