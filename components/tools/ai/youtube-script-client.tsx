@@ -261,13 +261,9 @@ export function YoutubeScriptClient() {
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader icon={Youtube} title="AI YouTube Script & Teleprompter Generator Studio" description="Craft viral YouTube titles, 15-second opening retention hooks, timestamp outlines, teleprompter-ready scripts, and YouTube SEO packages." />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-          {/* Left Input Control Panel */}
-          <div className="mb-4">
+        <div className="space-y-6 relative z-10">
 
-            <ModelSelector value={model} onChange={setModel} />
-
-          </div>
+          <ModelSelector value={model} onChange={setModel} />
 
           <GlassCard className="p-5 flex flex-col bg-background border-border shadow-sm rounded-2xl">
             <div className="flex justify-between items-center border-b border-border pb-3 mb-4">
