@@ -11,6 +11,12 @@ BATCH B02 SESSION ctrl-reserved STATUS claimed TIME 2026-08-14
 BATCH B03 SESSION ctrl-reserved STATUS claimed TIME 2026-08-14
 BATCH B04 SESSION ctrl-reserved STATUS claimed TIME 2026-08-14
 #
+B02 ses-02 active
+#
 # Current open batches for new sessions to claim (unreserved): B05, B06, B07, B08,
 # B09, B10, B11, B12.
 #
+B03 ses-03 active
+B04 ses-04 active
+B01 ses-01 active
+
