@@ -306,7 +306,7 @@ export default function ImageResizerClient() {
 
  {/* Platform Filter Buttons */}
  <div className="flex flex-wrap items-center gap-1">
- {["All", "Facebook", "Instagram", "LinkedIn", "Twitter", "Pinterest", "YouTube"].map(plat => <Button key={plat} type="button" onClick={() => setActivePlatformFilter(plat)} className={cn(`px-2.5 py-1 rounded-md text-xs font-semibold transition ${activePlatformFilter === plat ? "bg-primary text-white shadow-xs" : "bg-muted/40 text-muted-foreground hover:text-foreground"}`)}>
+ {plat => <Button key={plat} type="button" onClick={() => setActivePlatformFilter(plat)} className={cn(`px-2.5 py-1 rounded-md text-xs font-semibold transition ${activePlatformFilter === plat ? "bg-primary text-primary-foreground shadow-xs" : "bg-muted/40 text-foreground hover:text-primary"}`)}>
  {plat}
  </Button>)}
  </div>
