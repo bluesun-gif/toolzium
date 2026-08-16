@@ -1,51 +1,39 @@
-import { Metadata } from "next";
-import ClientComponent from "@/components/tools/text/translate-client";
-import { generateSEOMetadata } from "@/lib/seo-config";
 import JsonLd from "@/components/seo/json-ld";
+<<<<<<< HEAD
 export const metadata: Metadata = generateSEOMetadata({
   title: "Translate Text Online — Free Language Translator",
   description: "Translate text between 100+ languages online for free. Auto-detect source language, swap languages, listen with text-to-speech. Fast translation tool.",
+=======
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
+import ClientComponent from "@/components/tools/text/translate-client";
+
+export const metadata = buildMetadata({
+  title: "Translate Text",
+  description: "Translate text between 100+ languages online for free. Auto-detect source language, swap languages, and listen to translations with text-to-speech. Fast and accurate translation tool.",
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
   path: "/tools/text/translate",
+  keywords: ["source", "between", "translate", "swap", "language", "online", "free", "detect", "languages", "auto", "text"],
 });
 
-export default function TranslatePage() {
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "What languages are supported for translation?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "We support over 20 popular languages including English, Spanish, French, German, Chinese, Japanese, Arabic, and more."
-        }
-      },
-      {
-        "@type": "Question",
-        name: "Is the translation service free to use?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes, our tool provides free translations using a reliable third-party translation API (MyMemory)."
-        }
-      },
-      {
-        "@type": "Question",
-        name: "How is my privacy handled?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Translations happen directly between your browser and the translation API. We do not store your original text or translations on our servers, though your browser may save your local history."
-        }
-      }
-    ],
-  };
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "Translate Text",
+    description: "Translate text between 100+ languages online for free. Auto-detect source language, swap languages, and listen to translations with text-to-speech. Fast and accurate translation tool.",
+    path: "/tools/text/translate",
+    categoryName: "Text",
+    categoryPath: "/tools/text",
+  });
 
   return (
-    <>
-      <JsonLd data={faqSchema} />
+    <div className="max-w-6xl mx-auto space-y-8">
+      <JsonLd data={jsonLd as any} />
       <ClientComponent />
+<<<<<<< HEAD
     
       <RelatedTools currentToolUrl="/tools/text/translate" />
 </>
+=======
+    </div>
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
   );
 }

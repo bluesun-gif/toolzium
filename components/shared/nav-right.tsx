@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/tooltip";
 import { ToolsData } from "@/data/tools";
 import type { LucideIcon } from "lucide-react";
-import { ArrowRight, Facebook, Link2, Linkedin, Search, Star } from "lucide-react";
+import { ArrowRight, Link2, Linkedin, Search, Star } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -190,21 +190,6 @@ export default function NavRight() {
           className="hidden sm:flex h-9 w-9"
         >
           <Link
-            href="https://www.facebook.com/toolzium"
-            rel="noopener noreferrer"
-            target="_blank"
-            aria-label="Follow us on Facebook"
-          >
-            <Facebook className="size-4" />
-          </Link>
-        </Button>
-        <Button
-          variant="outline"
-          asChild
-          size="icon"
-          className="hidden sm:flex h-9 w-9"
-        >
-          <Link
             href="https://www.linkedin.com/in/tanvirahmadsohan/"
             rel="noopener noreferrer"
             target="_blank"
@@ -250,7 +235,7 @@ export default function NavRight() {
                   return (
                     <CommandItem
                       key={`recent:${item.url}`}
-                      value={`${item.title} ${item.category}`}
+                      value={`${item.title} ${item.category} ${item.description ?? ""} ${item.url}`}
                       onSelect={() => go(item)}
                     >
                       <Icon className="mr-2 h-4 w-4" />
@@ -280,7 +265,7 @@ export default function NavRight() {
                   return (
                     <CommandItem
                       key={`popular:${item.url}`}
-                      value={`${item.title} ${item.category}`}
+                      value={`${item.title} ${item.category} ${item.description ?? ""} ${item.url}`}
                       onSelect={() => go(item)}
                     >
                       <Star className="mr-2 h-4 w-4" />
@@ -310,7 +295,7 @@ export default function NavRight() {
                 return (
                   <CommandItem
                     key={item.url}
-                    value={`${item.title} ${category}`}
+                    value={`${item.title} ${category} ${item.description ?? ""} ${item.url}`}
                     onSelect={() => go(item)}
                   >
                     <Icon className="mr-2 h-4 w-4" />

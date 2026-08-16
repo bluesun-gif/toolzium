@@ -1,132 +1,150 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
-import { useState, useRef, useEffect } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
-import { Button } from"@/components/ui/button";
-import { Input } from"@/components/ui/input";
-import { Label } from"@/components/ui/label";
-import { Switch } from"@/components/ui/switch";
-import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Zap, Volume2, Play, Square, AlertTriangle } from"lucide-react";
-import { cn } from"@/lib/utils";
-
+import { useState, useRef, useEffect } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { Zap, Volume2, Play, Square, AlertTriangle, Sparkles, Shield, Copy } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { GridPattern } from "@/components/magicui/grid-pattern";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 const MORSE_MAP: Record<string, string> = {
- a:".-", b:"-...", c:"-.-.", d:"-..", e:".", f:"..-.", g:"--.", h:"....", i:"..", j:".---", k:"-.-", l:".-..", m:"--",
- n:"-.", o:"---", p:".--.", q:"--.-", r:".-.", s:"...", t:"-", u:"..-", v:"...-", w:".--", x:"-..-", y:"-.--", z:"--..",
-"0":"-----","1":".----","2":"..---","3":"...--","4":"....-","5":".....","6":"-....","7":"--...","8":"---..","9":"----.",
-"":"/",
+  a: ".-",
+  b: "-...",
+  c: "-.-.",
+  d: "-..",
+  e: ".",
+  f: "..-.",
+  g: "--.",
+  h: "....",
+  i: "..",
+  j: ".---",
+  k: "-.-",
+  l: ".-..",
+  m: "--",
+  n: "-.",
+  o: "---",
+  p: ".--.",
+  q: "--.-",
+  r: ".-.",
+  s: "...",
+  t: "-",
+  u: "..-",
+  v: "...-",
+  w: ".--",
+  x: "-..-",
+  y: "-.--",
+  z: "--..",
+  "0": "-----",
+  "1": ".----",
+  "2": "..---",
+  "3": "...--",
+  "4": "....-",
+  "5": ".....",
+  "6": "-....",
+  "7": "--...",
+  "8": "---..",
+  "9": "----.",
+  "": "/"
 };
-
 export function MorseFlashlightClient() {
- const [text, setText] = useState("");
- const [morse, setMorse] = useState("");
- const [wpm, setWpm] = useState(15);
- const [useAudio, setUseAudio] = useState(false);
- const [isPlaying, setIsPlaying] = useState(false);
- const [isFlashing, setIsFlashing] = useState(false);
- const audioCtxRef = useRef<AudioContext | null>(null);
- const playTimeoutRef = useRef<NodeJS.Timeout | null>(null);
- const stopFlagRef = useRef(false);
+  const [text, setText] = useState("");
+  const [morse, setMorse] = useState("");
+  const [wpm, setWpm] = useState(15);
+  const [useAudio, setUseAudio] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isFlashing, setIsFlashing] = useState(false);
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const playTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const stopFlagRef = useRef(false);
+  useEffect(() => {
+    let result = "";
+    for (const char of text.toLowerCase()) {
+      if (MORSE_MAP[char]) result += MORSE_MAP[char] + "";
+    }
+    setMorse(result.trim());
+  }, [text]);
+  const initAudio = () => {
+    if (!audioCtxRef.current) {
+      audioCtxRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+    }
+  };
+  const playBeep = (durationMs: number) => {
+    if (!audioCtxRef.current) return;
+    const osc = audioCtxRef.current.createOscillator();
+    const gain = audioCtxRef.current.createGain();
+    osc.type = "sine";
+    osc.frequency.value = 600;
+    osc.connect(gain);
+    gain.connect(audioCtxRef.current.destination);
+    osc.start();
+    gain.gain.setValueAtTime(1, audioCtxRef.current.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtxRef.current.currentTime + durationMs / 1000);
+    osc.stop(audioCtxRef.current.currentTime + durationMs / 1000);
+  };
+  const playMorse = async () => {
+    if (!morse || isPlaying) return;
+    if (useAudio) initAudio();
+    setIsPlaying(true);
+    stopFlagRef.current = false;
 
- useEffect(() => {
- let result ="";
- for (const char of text.toLowerCase()) {
- if (MORSE_MAP[char]) result += MORSE_MAP[char] +"";
- }
- setMorse(result.trim());
- }, [text]);
+    // Timing calculation based on standard PARIS word
+    const dotDuration = 1200 / wpm;
+    const dashDuration = dotDuration * 3;
+    const intraCharGap = dotDuration;
+    const interCharGap = dotDuration * 3;
+    const wordGap = dotDuration * 7;
+    const sleep = (ms: number) => new Promise(resolve => {
+      playTimeoutRef.current = setTimeout(resolve, ms);
+    });
+    for (let i = 0; i < morse.length; i++) {
+      if (stopFlagRef.current) break;
+      const char = morse[i];
+      if (char === ".") {
+        setIsFlashing(true);
+        if (useAudio) playBeep(dotDuration);
+        await sleep(dotDuration);
+        setIsFlashing(false);
+        await sleep(intraCharGap);
+      } else if (char === "-") {
+        setIsFlashing(true);
+        if (useAudio) playBeep(dashDuration);
+        await sleep(dashDuration);
+        setIsFlashing(false);
+        await sleep(intraCharGap);
+      } else if (char === "") {
+        await sleep(interCharGap);
+      } else if (char === "/") {
+        await sleep(wordGap);
+      }
+    }
+    setIsPlaying(false);
+    setIsFlashing(false);
+  };
+  const stopMorse = () => {
+    stopFlagRef.current = true;
+    if (playTimeoutRef.current) clearTimeout(playTimeoutRef.current);
+    setIsPlaying(false);
+    setIsFlashing(false);
+  };
+  const handleSos = () => {
+    setText("SOS");
+  };
+  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+      
 
- const initAudio = () => {
- if (!audioCtxRef.current) {
- audioCtxRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
- }
- };
-
- const playBeep = (durationMs: number) => {
- if (!audioCtxRef.current) return;
- const osc = audioCtxRef.current.createOscillator();
- const gain = audioCtxRef.current.createGain();
- osc.type ="sine";
- osc.frequency.value = 600;
- osc.connect(gain);
- gain.connect(audioCtxRef.current.destination);
- osc.start();
- gain.gain.setValueAtTime(1, audioCtxRef.current.currentTime);
- gain.gain.exponentialRampToValueAtTime(0.001, audioCtxRef.current.currentTime + durationMs / 1000);
- osc.stop(audioCtxRef.current.currentTime + durationMs / 1000);
- };
-
- const playMorse = async () => {
- if (!morse || isPlaying) return;
- if (useAudio) initAudio();
+ {isFlashing && <div className="fixed inset-0 z-50 bg-background pointer-events-none transition-colors duration-75"></div>}
  
- setIsPlaying(true);
- stopFlagRef.current = false;
- 
- // Timing calculation based on standard PARIS word
- const dotDuration = 1200 / wpm; 
- const dashDuration = dotDuration * 3;
- const intraCharGap = dotDuration;
- const interCharGap = dotDuration * 3;
- const wordGap = dotDuration * 7;
-
- const sleep = (ms: number) => new Promise(resolve => {
- playTimeoutRef.current = setTimeout(resolve, ms);
- });
-
- for (let i = 0; i < morse.length; i++) {
- if (stopFlagRef.current) break;
- 
- const char = morse[i];
- if (char ===".") {
- setIsFlashing(true);
- if (useAudio) playBeep(dotDuration);
- await sleep(dotDuration);
- setIsFlashing(false);
- await sleep(intraCharGap);
- } else if (char ==="-") {
- setIsFlashing(true);
- if (useAudio) playBeep(dashDuration);
- await sleep(dashDuration);
- setIsFlashing(false);
- await sleep(intraCharGap);
- } else if (char ==="") {
- await sleep(interCharGap);
- } else if (char ==="/") {
- await sleep(wordGap);
- }
- }
- setIsPlaying(false);
- setIsFlashing(false);
- };
-
- const stopMorse = () => {
- stopFlagRef.current = true;
- if (playTimeoutRef.current) clearTimeout(playTimeoutRef.current);
- setIsPlaying(false);
- setIsFlashing(false);
- };
-
- const handleSos = () => {
- setText("SOS");
- };
-
- return (
- <div className="space-y-6">
- {isFlashing && (
- <div className="fixed inset-0 z-50 bg-background pointer-events-none transition-colors duration-75"></div>
- )}
- 
- <ToolPageHeader
- icon={Zap}
- title="Morse Code Flashlight"
- description="Translate text to Morse code and play it visually or audibly."
- actions={
- <CopyButton getText={() => morse} label="Copy Morse"/>
- }
- />
+ <ToolPageHeader icon={Zap} title="Morse Code Flashlight" description="Translate text to Morse code and play it visually or audibly." actions={<CopyButton getText={() => morse} label="Copy Morse" />} />
 
  <div className="grid md:grid-cols-2 gap-6">
  <GlassCard>
@@ -137,49 +155,31 @@ export function MorseFlashlightClient() {
  <CardContent className="space-y-4">
  <div className="space-y-2">
  <Label>Text to Translate</Label>
- <Input 
- value={text} 
- onChange={(e) => setText(e.target.value)} 
- placeholder="Hello World"
- disabled={isPlaying}
- />
+ <Input value={text} onChange={e => setText(e.target.value)} placeholder="Hello World" disabled={isPlaying} />
  </div>
  
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
  <Label>Speed (WPM): {wpm}</Label>
- <input 
- type="range"
- min="5"
- max="40"
- value={wpm} 
- onChange={(e) => setWpm(parseInt(e.target.value))}
- disabled={isPlaying}
- className="w-full"
- />
+ <input type="range" min="5" max="40" value={wpm} onChange={e => setWpm(parseInt(e.target.value))} disabled={isPlaying} className="w-full" />
  </div>
  <div className="flex items-center space-x-2 pt-6">
- <Switch 
- id="audio-mode"
- checked={useAudio} 
- onCheckedChange={setUseAudio}
- disabled={isPlaying}
- />
- <Label htmlFor="audio-mode"className="flex items-center gap-2">
- <Volume2 className="w-4 h-4"/> Audio Beep
+ <Switch id="audio-mode" checked={useAudio} onCheckedChange={setUseAudio} disabled={isPlaying} />
+ <Label htmlFor="audio-mode" className="flex items-center gap-2">
+ <Volume2 className="w-4 h-4" /> Audio Beep
  </Label>
  </div>
  </div>
 
  <div className="flex gap-2 pt-4">
  <Button onClick={playMorse} disabled={isPlaying || !morse} className="flex-1">
- <Play className="w-4 h-4 mr-2"/> Play
+ <Play className="w-4 h-4 mr-2" /> Play
  </Button>
- <Button onClick={stopMorse} disabled={!isPlaying} variant="destructive"className="flex-1">
- <Square className="w-4 h-4 mr-2"/> Stop
+ <Button onClick={stopMorse} disabled={!isPlaying} variant="destructive" className="flex-1">
+ <Square className="w-4 h-4 mr-2" /> Stop
  </Button>
- <Button onClick={handleSos} variant="outline"disabled={isPlaying}>
- <AlertTriangle className="w-4 h-4 mr-2"/> SOS
+ <Button onClick={handleSos} variant="outline" disabled={isPlaying}>
+ <AlertTriangle className="w-4 h-4 mr-2" /> SOS
  </Button>
  </div>
  </CardContent>
@@ -197,6 +197,64 @@ export function MorseFlashlightClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
- );
+ 
+      <ToolHowItWorks steps={[{
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+
+      <ToolFeatureGuides features={[{
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
+        <div className="prose dark:prose-invert max-w-none">
+          <h3>Why Use Our Morse Code Flashlight?</h3>
+          <p>
+            This free online tool is designed to help you get accurate results quickly and securely.
+            Whether you're a developer, designer, student, or professional, our Morse Code Flashlight provides
+            the functionality you need without any complexity or cost.
+          </p>
+          <p>
+            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
+            privacy and zero latency. No data is ever transmitted to external servers, making it safe
+            for sensitive information.
+          </p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion faqs={[{
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
+
+      <RelatedTools currentToolUrl="/tools/util/morse-flashlight" max={6} />
+
+    </div></div>;
 }

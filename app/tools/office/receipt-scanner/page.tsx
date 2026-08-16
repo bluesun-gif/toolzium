@@ -35,10 +35,21 @@ export default function Page() {
     ]
   };
 
+
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      { "@type": "Question", name: "How does the Receipt Tracker work?", acceptedAnswer: { "@type": "Answer", text: "Toolzium's Receipt Tracker runs instantly in your browser. Manual receipt entry and tracking. Add store, date, amount, category, payment method. Filter and export as CSV. Total spending dashboard. No sign-up or software installation required." } },
+      { "@type": "Question", name: "Is the Receipt Tracker 100% free to use?", acceptedAnswer: { "@type": "Answer", text: "Yes, the Receipt Tracker is 100% free with unlimited usage and no account required." } },
+      { "@type": "Question", name: "Is my data secure when using the Receipt Tracker?", acceptedAnswer: { "@type": "Answer", text: "Yes, all processing occurs locally in your browser. Your data never leaves your device." } }
+    ]
+  };
   return (
     <div className="space-y-4">
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
+      <JsonLd data={faqLd} />
       <ReceiptScannerClient />
     
       <RelatedTools currentToolUrl="/tools/office/receipt-scanner" />

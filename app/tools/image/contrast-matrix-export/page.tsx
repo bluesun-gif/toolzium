@@ -35,10 +35,21 @@ export default function Page() {
     ]
   };
 
+
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      { "@type": "Question", name: "How does the Color Contrast Matrix Exporter work?", acceptedAnswer: { "@type": "Answer", text: "Toolzium's Color Contrast Matrix Exporter runs instantly in your browser. Generate accessible design system color contrast matrices. Check WCAG AA/AAA compliance for your palette. No sign-up or software installation required." } },
+      { "@type": "Question", name: "Is the Color Contrast Matrix Exporter 100% free to use?", acceptedAnswer: { "@type": "Answer", text: "Yes, the Color Contrast Matrix Exporter is 100% free with unlimited usage and no account required." } },
+      { "@type": "Question", name: "Is my data secure when using the Color Contrast Matrix Exporter?", acceptedAnswer: { "@type": "Answer", text: "Yes, all processing occurs locally in your browser. Your data never leaves your device." } }
+    ]
+  };
   return (
     <div className="space-y-4">
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
+      <JsonLd data={faqLd} />
       <ContrastMatrixExportClient />
     
       <RelatedTools currentToolUrl="/tools/image/contrast-matrix-export" />

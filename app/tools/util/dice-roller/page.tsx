@@ -1,43 +1,31 @@
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import DiceRollerClient from "@/components/tools/util/dice-roller-client";
+<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+=======
+
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
-  title: "Dice Roller — Toolzium",
-  description: "Roll virtual dice online. Support for up to 6 dice, statistics, and roll history. Fair random number generation.",
+  title: "Roll a Dice",
+  description: "Roll virtual dice online with realistic animations. Support for 1-6 dice, roll history, and statistics. Fair random dice roller for board games, RPGs, and decision making.",
   path: "/tools/util/dice-roller",
-  keywords: ["dice roller", "roll a dice", "virtual dice", "random numbers", "Toolzium", "online tools"],
+  keywords: ["virtual", "with", "animations", "statistics", "online", "history", "dice", "realistic", "roll", "support"],
 });
 
 export default function Page() {
-  const toolUrl = `${siteURL}/tools/util/dice-roller`;
-  const appLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "Dice Roller — Toolzium",
-    url: toolUrl,
-    applicationCategory: "UtilitiesApplication",
-    operatingSystem: "Web",
-    isAccessibleForFree: true,
-    inLanguage: ["en"],
-    description: "Roll virtual dice online with statistics and history tracking.",
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-    featureList: ["Roll up to 6 dice", "Visual dice representation", "Roll history log", "Roll statistics and distribution"],
-    creator: { "@type": "Organization", name: "Toolzium", url: "https://toolzium.com" },
-  };
-  const crumbsLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Tools", item: `${siteURL}/tools` },
-      { "@type": "ListItem", position: 2, name: "Utilities", item: `${siteURL}/tools#cat-utilities` },
-      { "@type": "ListItem", position: 3, name: "Dice Roller", item: toolUrl },
-    ],
-  };
+  const jsonLd = buildToolJsonLd({
+    name: "Roll a Dice",
+    description: "Roll virtual dice online with realistic animations. Support for 1-6 dice, roll history, and statistics. Fair random dice roller for board games, RPGs, and decision making.",
+    path: "/tools/util/dice-roller",
+    categoryName: "Util",
+    categoryPath: "/tools/util",
+  });
+
   return (
     <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={appLd} />
-      <JsonLd data={crumbsLd} />
+      <JsonLd data={jsonLd as any} />
       <DiceRollerClient />
     
       <RelatedTools currentToolUrl="/tools/util/dice-roller" />

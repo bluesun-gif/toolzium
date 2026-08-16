@@ -1,138 +1,31 @@
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import IdGeneratorClient from "@/components/tools/util/id-generator-client";
+<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+=======
+
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
-  title: "GUID / UUID / Order ID Generator",
-  description:
-    "Generate random GUIDs, UUIDs (v1, v4), NanoIDs, and readable Order IDs instantly. Batch generate, copy, and export. Secure and free.",
+  title: "ID Generator",
+  description: "Generate unique readable order IDs, reference numbers, and short identifiers. Create human-friendly IDs for orders, tickets, and tracking numbers.",
   path: "/tools/util/id-generator",
-  keywords: [
-    "GUID generator",
-    "UUID generator",
-    "UUID v1 generator",
-    "UUID v4 generator",
-    "random ID generator",
-    "short ID generator",
-    "order ID generator",
-    "unique ID generator",
-    "NanoID generator",
-    "MongoDB ObjectID generator",
-    "secure ID generator",
-    "transaction ID generator",
-    "batch ID generator",
-    "copy GUID online",
-    "generate multiple UUIDs",
-    "UUID export CSV",
-    "UUID export JSON",
-    "unique identifier generator",
-    "free online ID generator",
-    "Toolzium",
-    "utilities",
-    "online tools",
-    "Bangladesh",
-  ],
+  keywords: ["numbers", "identifiers", "human", "generate", "reference", "create", "orders", "unique", "order", "short", "friendly", "readable"],
 });
 
 export default function Page() {
-  const toolUrl = `${siteURL}/tools/util/id-generator`;
-
-  const appLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "GUID / UUID / Order ID Generator — Toolzium",
-    url: toolUrl,
-    applicationCategory: "UtilitiesApplication",
-    operatingSystem: "Web",
-    isAccessibleForFree: true,
-    inLanguage: ["en", "bn"],
-    description:
-      "Generate unique identifiers like GUID, UUID (v1/v4), NanoID, or short Order IDs. Copy instantly, batch generate, and export to CSV/JSON.",
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-    featureList: [
-      "Generate UUID v1 (timestamp-based) and UUID v4 (random-based)",
-      "Generate GUIDs compatible with Microsoft/Windows systems",
-      "Readable short Order IDs for invoices or e-commerce",
-      "NanoID and MongoDB ObjectID support",
-      "Customizable prefix and suffix for IDs",
-      "Batch generation of multiple IDs at once",
-      "One-click copy to clipboard",
-      "Export to CSV or JSON for bulk usage",
-      "Printable ID list in clean format",
-      "Mobile-friendly and privacy-first (runs locally in your browser)",
-    ],
-    creator: {
-      "@type": "Person",
-      name: "Toolzium",
-      url: "https://toolzium.com",
-    },
-    potentialAction: {
-      "@type": "CreateAction",
-      target: toolUrl,
-      name: "Generate unique IDs",
-    },
-  };
-
-  const crumbsLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Tools", item: `${siteURL}/tools` },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Utilities",
-        item: `${siteURL}/tools#cat-utilities`,
-      },
-      { "@type": "ListItem", position: 3, name: "GUID / Order ID Generator", item: toolUrl },
-    ],
-  };
-
-  const faqLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "What’s the difference between UUID v1 and UUID v4?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "UUID v1 is timestamp-based and includes device identifiers, while UUID v4 is completely random. Both are globally unique.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Can I generate multiple IDs at once?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. The tool supports batch generation of GUIDs, UUIDs, or Order IDs, and lets you export them to CSV or JSON.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Are the generated IDs secure?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. UUID v4 and NanoID use strong randomness for secure unique ID generation. Everything runs locally in your browser.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "What are Order IDs used for?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Order IDs are shorter, human-friendly identifiers often used in e-commerce invoices, receipts, or transaction references.",
-        },
-      },
-    ],
-  };
+  const jsonLd = buildToolJsonLd({
+    name: "ID Generator",
+    description: "Generate unique readable order IDs, reference numbers, and short identifiers. Create human-friendly IDs for orders, tickets, and tracking numbers.",
+    path: "/tools/util/id-generator",
+    categoryName: "Util",
+    categoryPath: "/tools/util",
+  });
 
   return (
     <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={appLd} />
-      <JsonLd data={crumbsLd} />
-      <JsonLd data={faqLd} />
-
+      <JsonLd data={jsonLd as any} />
       <IdGeneratorClient />
     
       <RelatedTools currentToolUrl="/tools/util/id-generator" />

@@ -1,102 +1,34 @@
-import { buildMetadata } from "@/lib/seo";
-import { siteURL } from "@/lib/constants";
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import PdfToImageClient from "@/components/tools/util/pdf-to-image-client";
 import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
-  title: "PDF to Image — Convert PDF to JPG/PNG Online | Toolzium",
-  description: "Convert PDF pages to high-quality JPG or PNG images. Choose DPI, preview pages, and download individually or as ZIP. Free online PDF to image converter.",
+  title: "PDF to Image Converter",
+  description: "Convert PDF pages to high-quality PNG or JPG images. Extract individual pages or all pages as zip. Fast, free, browser-based PDF image extractor.",
   path: "/tools/util/pdf-to-image",
+  keywords: ["pages", "convert", "browser", "free", "quality", "images", "extract", "fast", "individual", "high"],
 });
 
 export default function Page() {
-  const faq = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "What image formats are supported?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "PNG and JPG.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Can I choose the image quality?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes, select 72, 150, or 300 DPI.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Are my files uploaded?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "No, all conversion happens in your browser.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Can I convert specific pages?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes, preview all pages and download the ones you need.",
-        },
-      },
-    ],
-  };
-
-  const breadcrumbs = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: siteURL,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Utilities",
-        item: `${siteURL}/tools/util`,
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: "PDF to Image",
-        item: `${siteURL}/tools/util/pdf-to-image`,
-      },
-    ],
-  };
-
-  const softwareApp = {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
+  const jsonLd = buildToolJsonLd({
     name: "PDF to Image Converter",
-    description: "Convert PDF pages to high-quality JPG or PNG images. Choose DPI, preview pages, and download individually or as ZIP.",
-    applicationCategory: "UtilitiesApplication",
-    operatingSystem: "Any",
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "USD",
-    },
-  };
+    description: "Convert PDF pages to high-quality PNG or JPG images. Extract individual pages or all pages as zip. Fast, free, browser-based PDF image extractor.",
+    path: "/tools/util/pdf-to-image",
+    categoryName: "Util",
+    categoryPath: "/tools/util",
+  });
 
   return (
-    <>
-      <JsonLd data={faq} />
-      <JsonLd data={breadcrumbs} />
-      <JsonLd data={softwareApp} />
+    <div className="max-w-6xl mx-auto space-y-8">
+      <JsonLd data={jsonLd as any} />
       <PdfToImageClient />
+<<<<<<< HEAD
     
       <RelatedTools currentToolUrl="/tools/util/pdf-to-image" />
 </>
+=======
+    </div>
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
   );
 }

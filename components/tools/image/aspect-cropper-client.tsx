@@ -1,5 +1,9 @@
 "use client";
+<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+=======
+import { ToolBackground } from"@/components/shared/tool-background";
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -15,34 +19,57 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Slider } from "@/components/ui/slider";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { cn } from "@/lib/utils";
+<<<<<<< HEAD
 import { CheckCircle2, Crop, Download, FlipHorizontal, FlipVertical, Maximize, Maximize2, Move, RefreshCcw, RotateCcw, RotateCw, Sparkles, Upload, ZoomIn } from"lucide-react";
+=======
+import { Crop, Download, RotateCw, RotateCcw, FlipHorizontal, FlipVertical, Upload, RefreshCcw, ZoomIn, Move, Sparkles, CheckCircle2, Maximize2, Shield, Zap, Copy } from "lucide-react";
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 import { toast } from "react-hot-toast";
-
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 interface CropBox {
   x: number;
   y: number;
   width: number;
   height: number;
 }
-
-const PRESETS = [
-  { label: "1:1 Square (Instagram / Avatar)", value: 1 },
-  { label: "16:9 Landscape (YouTube / Banner)", value: 16 / 9 },
-  { label: "9:16 Portrait (TikTok / Reels / Story)", value: 9 / 16 },
-  { label: "4:5 Portrait (Instagram Feed)", value: 4 / 5 },
-  { label: "3:2 Classic Photo", value: 3 / 2 },
-  { label: "21:9 Ultrawide Banner", value: 21 / 9 },
-  { label: "Custom / Freeform", value: 0 }
-];
-
+const PRESETS = [{
+  label: "1:1 Square (Instagram / Avatar)",
+  value: 1
+}, {
+  label: "16:9 Landscape (YouTube / Banner)",
+  value: 16 / 9
+}, {
+  label: "9:16 Portrait (TikTok / Reels / Story)",
+  value: 9 / 16
+}, {
+  label: "4:5 Portrait (Instagram Feed)",
+  value: 4 / 5
+}, {
+  label: "3:2 Classic Photo",
+  value: 3 / 2
+}, {
+  label: "21:9 Ultrawide Banner",
+  value: 21 / 9
+}, {
+  label: "Custom / Freeform",
+  value: 0
+}];
 export function AspectCropperClient() {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
-  const [imageDimensions, setImageDimensions] = useState<{ width: number; height: number } | null>(null);
+  const [imageDimensions, setImageDimensions] = useState<{
+    width: number;
+    height: number;
+  } | null>(null);
   const [ratio, setRatio] = useState<number>(1);
-  
+
   // Crop box in canvas-display coordinates
-  const [cropBox, setCropBox] = useState<CropBox>({ x: 50, y: 50, width: 200, height: 200 });
-  
+  const [cropBox, setCropBox] = useState<CropBox>({
+    x: 50,
+    y: 50,
+    width: 200,
+    height: 200
+  });
+
   // Transform states
   const [rotation, setRotation] = useState<number>(0);
   const [flipH, setFlipH] = useState<boolean>(false);
@@ -56,8 +83,12 @@ export function AspectCropperClient() {
     startX: number;
     startY: number;
     initialCrop: CropBox;
-  }>({ type: null, startX: 0, startY: 0, initialCrop: cropBox });
-
+  }>({
+    type: null,
+    startX: 0,
+    startY: 0,
+    initialCrop: cropBox
+  });
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imgRef = useRef<HTMLImageElement | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -67,18 +98,21 @@ export function AspectCropperClient() {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (event) => {
+      reader.onload = event => {
         const src = event.target?.result as string;
         const img = new window.Image();
         img.onload = () => {
           imgRef.current = img;
-          setImageDimensions({ width: img.width, height: img.height });
+          setImageDimensions({
+            width: img.width,
+            height: img.height
+          });
           setImageSrc(src);
           setRotation(0);
           setFlipH(false);
           setFlipV(false);
           setZoom(1);
-          
+
           // Default initial crop centered
           const initialW = Math.min(250, img.width);
           const initialH = ratio > 0 ? initialW / ratio : initialW;
@@ -101,26 +135,22 @@ export function AspectCropperClient() {
     const canvas = canvasRef.current;
     const img = imgRef.current;
     if (!canvas || !img) return;
-
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     // Available container width
     const containerW = containerRef.current?.clientWidth || 600;
     const displayScale = Math.min(containerW / img.width, 500 / img.height, 1);
-
     const displayW = Math.round(img.width * displayScale);
     const displayH = Math.round(img.height * displayScale);
-
     canvas.width = displayW;
     canvas.height = displayH;
-
     ctx.save();
     ctx.clearRect(0, 0, displayW, displayH);
 
     // Apply rotation & flip transformations
     ctx.translate(displayW / 2, displayH / 2);
-    ctx.rotate((rotation * Math.PI) / 180);
+    ctx.rotate(rotation * Math.PI / 180);
     ctx.scale(flipH ? -1 * zoom : 1 * zoom, flipV ? -1 * zoom : 1 * zoom);
     ctx.drawImage(img, -displayW / 2, -displayH / 2, displayW, displayH);
     ctx.restore();
@@ -134,9 +164,8 @@ export function AspectCropperClient() {
     ctx.beginPath();
     ctx.rect(cropBox.x, cropBox.y, cropBox.width, cropBox.height);
     ctx.clip();
-
     ctx.translate(displayW / 2, displayH / 2);
-    ctx.rotate((rotation * Math.PI) / 180);
+    ctx.rotate(rotation * Math.PI / 180);
     ctx.scale(flipH ? -1 * zoom : 1 * zoom, flipV ? -1 * zoom : 1 * zoom);
     ctx.drawImage(img, -displayW / 2, -displayH / 2, displayW, displayH);
     ctx.restore();
@@ -144,7 +173,6 @@ export function AspectCropperClient() {
     // Draw Rule of Thirds grid lines inside crop box
     ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
     ctx.lineWidth = 1;
-
     const thirdW = cropBox.width / 3;
     const thirdH = cropBox.height / 3;
 
@@ -154,7 +182,7 @@ export function AspectCropperClient() {
     ctx.lineTo(cropBox.x + thirdW, cropBox.y + cropBox.height);
     ctx.moveTo(cropBox.x + thirdW * 2, cropBox.y);
     ctx.lineTo(cropBox.x + thirdW * 2, cropBox.y + cropBox.height);
-    
+
     // Horizontal third lines
     ctx.moveTo(cropBox.x, cropBox.y + thirdH);
     ctx.lineTo(cropBox.x + cropBox.width, cropBox.y + thirdH);
@@ -167,7 +195,6 @@ export function AspectCropperClient() {
     ctx.lineWidth = 2.5;
     ctx.strokeRect(cropBox.x, cropBox.y, cropBox.width, cropBox.height);
   }, [cropBox, rotation, flipH, flipV, zoom]);
-
   useEffect(() => {
     drawCanvas();
   }, [drawCanvas]);
@@ -176,16 +203,14 @@ export function AspectCropperClient() {
   const handlePresetChange = (newRatioVal: number) => {
     setRatio(newRatioVal);
     if (newRatioVal > 0) {
-      setCropBox((prev) => {
+      setCropBox(prev => {
         let newH = Math.round(prev.width / newRatioVal);
         const canvasH = canvasRef.current?.height || 400;
         let newW = prev.width;
-
         if (prev.y + newH > canvasH) {
           newH = canvasH - prev.y;
           newW = Math.round(newH * newRatioVal);
         }
-
         return {
           ...prev,
           width: Math.max(30, newW),
@@ -196,38 +221,36 @@ export function AspectCropperClient() {
   };
 
   // Start Move or Resize interaction
-  const handlePointerDown = (
-    e: React.PointerEvent<HTMLDivElement>,
-    type: "move" | "resize-tl" | "resize-tr" | "resize-bl" | "resize-br" | "resize-t" | "resize-b" | "resize-l" | "resize-r"
-  ) => {
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>, type: "move" | "resize-tl" | "resize-tr" | "resize-bl" | "resize-br" | "resize-t" | "resize-b" | "resize-l" | "resize-r") => {
     e.preventDefault();
     e.stopPropagation();
-
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
-
     setInteractionState({
       type,
       startX: e.clientX,
       startY: e.clientY,
-      initialCrop: { ...cropBox }
+      initialCrop: {
+        ...cropBox
+      }
     });
   };
 
   // Dynamic Pointer Movement logic
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!interactionState.type || !canvasRef.current) return;
-
     const deltaX = e.clientX - interactionState.startX;
     const deltaY = e.clientY - interactionState.startY;
-
     const canvasW = canvasRef.current.width;
     const canvasH = canvasRef.current.height;
     const initial = interactionState.initialCrop;
-
     if (interactionState.type === "move") {
       const newX = Math.max(0, Math.min(canvasW - initial.width, initial.x + deltaX));
       const newY = Math.max(0, Math.min(canvasH - initial.height, initial.y + deltaY));
-      setCropBox((prev) => ({ ...prev, x: newX, y: newY }));
+      setCropBox(prev => ({
+        ...prev,
+        x: newX,
+        y: newY
+      }));
     } else {
       let newX = initial.x;
       let newY = initial.y;
@@ -264,7 +287,6 @@ export function AspectCropperClient() {
           newW = Math.round(newH * ratio);
         }
       }
-
       setCropBox({
         x: Math.round(newX),
         y: Math.round(newY),
@@ -273,7 +295,6 @@ export function AspectCropperClient() {
       });
     }
   };
-
   const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
     if (interactionState.type) {
       try {
@@ -281,7 +302,12 @@ export function AspectCropperClient() {
       } catch {
         // Safe release fallback
       }
-      setInteractionState({ type: null, startX: 0, startY: 0, initialCrop: cropBox });
+      setInteractionState({
+        type: null,
+        startX: 0,
+        startY: 0,
+        initialCrop: cropBox
+      });
     }
   };
 
@@ -294,7 +320,6 @@ export function AspectCropperClient() {
     // Calculate scale factor between full image resolution and displayed canvas
     const scaleX = img.width / displayCanvas.width;
     const scaleY = img.height / displayCanvas.height;
-
     const sourceX = cropBox.x * scaleX;
     const sourceY = cropBox.y * scaleY;
     const sourceW = cropBox.width * scaleX;
@@ -304,39 +329,22 @@ export function AspectCropperClient() {
     const exportCanvas = document.createElement("canvas");
     exportCanvas.width = Math.round(sourceW);
     exportCanvas.height = Math.round(sourceH);
-
     const ctx = exportCanvas.getContext("2d");
     if (!ctx) return;
-
     ctx.save();
     ctx.translate(exportCanvas.width / 2, exportCanvas.height / 2);
-    ctx.rotate((rotation * Math.PI) / 180);
+    ctx.rotate(rotation * Math.PI / 180);
     ctx.scale(flipH ? -1 * zoom : 1 * zoom, flipV ? -1 * zoom : 1 * zoom);
-
-    ctx.drawImage(
-      img,
-      sourceX,
-      sourceY,
-      sourceW,
-      sourceH,
-      -exportCanvas.width / 2,
-      -exportCanvas.height / 2,
-      exportCanvas.width,
-      exportCanvas.height
-    );
+    ctx.drawImage(img, sourceX, sourceY, sourceW, sourceH, -exportCanvas.width / 2, -exportCanvas.height / 2, exportCanvas.width, exportCanvas.height);
     ctx.restore();
-
     const mimeType = exportFormat === "png" ? "image/png" : exportFormat === "jpeg" ? "image/jpeg" : "image/webp";
     const dataUrl = exportCanvas.toDataURL(mimeType, 0.95);
-
     const link = document.createElement("a");
     link.href = dataUrl;
     link.download = `cropped-image-${cropBox.width}x${cropBox.height}.${exportFormat}`;
     link.click();
-
     toast.success(`Cropped image saved as ${exportFormat.toUpperCase()}!`);
   };
-
   const handleResetCrop = () => {
     if (!canvasRef.current) return;
     const cW = canvasRef.current.width;
@@ -355,25 +363,11 @@ export function AspectCropperClient() {
     setZoom(1);
     toast.success("Crop box reset to center.");
   };
-
-  return (
-    <div className="w-full min-h-screen pb-20 relative">
-      <GridPattern
-        width={40}
-        height={40}
-        x={-1}
-        y={-1}
-        className={cn(
-          "absolute inset-0 h-full w-full stroke-border [mask-image:linear-gradient(to_bottom,white,transparent)]"
-        )}
-      />
+  return <div className="w-full min-h-screen pb-20 relative"><ToolBackground /><div className="relative z-10">
+      
 
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
-        <ToolPageHeader
-          title="Image Aspect Ratio Cropper"
-          description="Crop images to exact aspect ratios for social media, YouTube, Instagram, and web design with live interactive canvas controls."
-          icon={Crop}
-        />
+        <ToolPageHeader title="Image Aspect Ratio Cropper" description="Crop images to exact aspect ratios for social media, YouTube, Instagram, and web design with live interactive canvas controls." icon={Crop} />
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Controls Panel */}
@@ -390,20 +384,11 @@ export function AspectCropperClient() {
                 <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                   Upload Image
                 </Label>
-                <Label
-                  htmlFor="img-crop-upload"
-                  className="flex flex-col items-center justify-center w-full h-28 border-2 border-dashed border-border rounded-xl cursor-pointer hover:bg-muted/50 transition-colors"
-                >
+                <Label htmlFor="img-crop-upload" className="flex flex-col items-center justify-center w-full h-28 border-2 border-dashed border-border rounded-xl cursor-pointer hover:bg-muted/50 transition-colors">
                   <Upload className="w-6 h-6 text-primary mb-1.5" />
                   <span className="text-xs font-semibold text-foreground">Click to upload photo</span>
                   <span className="text-[10px] text-muted-foreground">PNG, JPG, WEBP supported</span>
-                  <input
-                    id="img-crop-upload"
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={handleImageUpload}
-                  />
+                  <input id="img-crop-upload" type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
                 </Label>
               </div>
 
@@ -412,58 +397,42 @@ export function AspectCropperClient() {
                 <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                   Aspect Ratio Preset
                 </Label>
-                <Select
-                  value={ratio.toString()}
-                  onValueChange={(val) => handlePresetChange(parseFloat(val))}
-                >
+                <Select value={ratio.toString()} onValueChange={val => handlePresetChange(parseFloat(val))}>
                   <SelectTrigger className="bg-background border-border text-foreground font-medium text-xs h-10">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {PRESETS.map((p) => (
-                      <SelectItem key={p.value} value={p.value.toString()} className="text-xs">
+                    {PRESETS.map(p => <SelectItem key={p.value} value={p.value.toString()} className="text-xs">
                         {p.label}
-                      </SelectItem>
-                    ))}
+                      </SelectItem>)}
                   </SelectContent>
                 </Select>
               </div>
 
               {/* Dimension Adjustments */}
-              {imageSrc && (
-                <div className="space-y-4 pt-4 border-t border-border/60">
+              {imageSrc && <div className="space-y-4 pt-4 border-t border-border/60">
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1">
                       <Label className="text-[11px] text-muted-foreground">Width (px)</Label>
-                      <Input
-                        type="number"
-                        value={cropBox.width}
-                        onChange={(e) => {
-                          const val = Math.max(30, parseInt(e.target.value) || 30);
-                          setCropBox((prev) => ({
-                            ...prev,
-                            width: val,
-                            height: ratio > 0 ? Math.round(val / ratio) : prev.height
-                          }));
-                        }}
-                        className="h-9 text-xs bg-background border-border"
-                      />
+                      <Input type="number" value={cropBox.width} onChange={e => {
+                      const val = Math.max(30, parseInt(e.target.value) || 30);
+                      setCropBox(prev => ({
+                        ...prev,
+                        width: val,
+                        height: ratio > 0 ? Math.round(val / ratio) : prev.height
+                      }));
+                    }} className="h-9 text-xs bg-background border-border" />
                     </div>
                     <div className="space-y-1">
                       <Label className="text-[11px] text-muted-foreground">Height (px)</Label>
-                      <Input
-                        type="number"
-                        value={cropBox.height}
-                        onChange={(e) => {
-                          const val = Math.max(30, parseInt(e.target.value) || 30);
-                          setCropBox((prev) => ({
-                            ...prev,
-                            height: val,
-                            width: ratio > 0 ? Math.round(val * ratio) : prev.width
-                          }));
-                        }}
-                        className="h-9 text-xs bg-background border-border"
-                      />
+                      <Input type="number" value={cropBox.height} onChange={e => {
+                      const val = Math.max(30, parseInt(e.target.value) || 30);
+                      setCropBox(prev => ({
+                        ...prev,
+                        height: val,
+                        width: ratio > 0 ? Math.round(val * ratio) : prev.width
+                      }));
+                    }} className="h-9 text-xs bg-background border-border" />
                     </div>
                   </div>
 
@@ -475,53 +444,23 @@ export function AspectCropperClient() {
                       </span>
                       <span className="font-mono text-foreground">{Math.round(zoom * 100)}%</span>
                     </div>
-                    <Slider
-                      value={[zoom]}
-                      min={0.5}
-                      max={3}
-                      step={0.05}
-                      onValueChange={(val) => setZoom(val[0])}
-                    />
+                    <Slider value={[zoom]} min={0.5} max={3} step={0.05} onValueChange={val => setZoom(val[0])} />
                   </div>
 
                   {/* Rotation & Flip Controls */}
                   <div className="space-y-2">
                     <Label className="text-xs font-semibold text-muted-foreground">Transforms</Label>
                     <div className="grid grid-cols-4 gap-2">
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        title="Rotate Left 90°"
-                        onClick={() => setRotation((prev) => (prev - 90) % 360)}
-                        className="h-9 w-full bg-background border-border"
-                      >
+                      <Button variant="outline" size="icon" title="Rotate Left 90°" onClick={() => setRotation(prev => (prev - 90) % 360)} className="h-9 w-full bg-background border-border">
                         <RotateCcw className="w-4 h-4" />
                       </Button>
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        title="Rotate Right 90°"
-                        onClick={() => setRotation((prev) => (prev + 90) % 360)}
-                        className="h-9 w-full bg-background border-border"
-                      >
+                      <Button variant="outline" size="icon" title="Rotate Right 90°" onClick={() => setRotation(prev => (prev + 90) % 360)} className="h-9 w-full bg-background border-border">
                         <RotateCw className="w-4 h-4" />
                       </Button>
-                      <Button
-                        variant={flipH ? "default" : "outline"}
-                        size="icon"
-                        title="Flip Horizontal"
-                        onClick={() => setFlipH(!flipH)}
-                        className="h-9 w-full bg-background border-border"
-                      >
+                      <Button variant={flipH ? "default" : "outline"} size="icon" title="Flip Horizontal" onClick={() => setFlipH(!flipH)} className="h-9 w-full bg-background border-border">
                         <FlipHorizontal className="w-4 h-4" />
                       </Button>
-                      <Button
-                        variant={flipV ? "default" : "outline"}
-                        size="icon"
-                        title="Flip Vertical"
-                        onClick={() => setFlipV(!flipV)}
-                        className="h-9 w-full bg-background border-border"
-                      >
+                      <Button variant={flipV ? "default" : "outline"} size="icon" title="Flip Vertical" onClick={() => setFlipV(!flipV)} className="h-9 w-full bg-background border-border">
                         <FlipVertical className="w-4 h-4" />
                       </Button>
                     </div>
@@ -530,10 +469,7 @@ export function AspectCropperClient() {
                   {/* Format & Export Actions */}
                   <div className="space-y-2 pt-2">
                     <Label className="text-xs font-semibold text-muted-foreground">Export Format</Label>
-                    <Select
-                      value={exportFormat}
-                      onValueChange={(val: "png" | "jpeg" | "webp") => setExportFormat(val)}
-                    >
+                    <Select value={exportFormat} onValueChange={(val: "png" | "jpeg" | "webp") => setExportFormat(val)}>
                       <SelectTrigger className="bg-background border-border text-foreground font-medium text-xs h-9">
                         <SelectValue />
                       </SelectTrigger>
@@ -546,22 +482,14 @@ export function AspectCropperClient() {
                   </div>
 
                   <div className="space-y-2 pt-2">
-                    <Button
-                      onClick={handleDownloadCrop}
-                      className="w-full bg-primary hover:bg-primary/90 text-white font-bold h-10 gap-2 shadow-lg shadow-primary/20"
-                    >
+                    <Button onClick={handleDownloadCrop} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-10 gap-2 shadow-lg shadow-primary/20">
                       <Download className="w-4 h-4" /> Download Cropped Image
                     </Button>
-                    <Button
-                      variant="outline"
-                      onClick={handleResetCrop}
-                      className="w-full h-9 gap-2 text-xs border-border text-muted-foreground hover:text-foreground"
-                    >
+                    <Button variant="outline" onClick={handleResetCrop} className="w-full h-9 gap-2 text-xs border-border text-foreground hover:text-primary hover:bg-muted/50">
                       <RefreshCcw className="w-3.5 h-3.5" /> Reset Crop Box
                     </Button>
                   </div>
-                </div>
-              )}
+                </div>}
             </GlassCard>
           </div>
 
@@ -577,99 +505,56 @@ export function AspectCropperClient() {
                     Drag inside box to move. Drag corners or edges to resize.
                   </p>
                 </div>
-                {imageDimensions && (
-                  <div className="text-[11px] font-mono bg-muted/60 text-muted-foreground px-2.5 py-1 rounded-md border border-border shrink-0">
+                {imageDimensions && <div className="text-[11px] font-mono bg-muted/60 text-muted-foreground px-2.5 py-1 rounded-md border border-border shrink-0">
                     Source: {imageDimensions.width} × {imageDimensions.height} px
-                  </div>
-                )}
+                  </div>}
               </div>
 
-              <div
-                ref={containerRef}
-                className="bg-muted/40 min-h-[460px] rounded-xl flex items-center justify-center p-4 overflow-hidden border border-border relative select-none"
-              >
-                {imageSrc ? (
-                  <div
-                    className="relative inline-block"
-                    onPointerMove={handlePointerMove}
-                    onPointerUp={handlePointerUp}
-                  >
+              <div ref={containerRef} className="bg-muted/40 min-h-[460px] rounded-xl flex items-center justify-center p-4 overflow-hidden border border-border relative select-none">
+                {imageSrc ? <div className="relative inline-block" onPointerMove={handlePointerMove} onPointerUp={handlePointerUp}>
                     {/* Rendered Canvas */}
                     <canvas ref={canvasRef} className="block rounded-lg shadow-md" />
 
                     {/* Interactive HTML Overlay Grab Handles */}
-                    <div
-                      className="absolute inset-0 pointer-events-auto"
-                      style={{
-                        width: canvasRef.current?.width || 0,
-                        height: canvasRef.current?.height || 0
-                      }}
-                    >
+                    <div className="absolute inset-0 pointer-events-auto" style={{
+                    width: canvasRef.current?.width || 0,
+                    height: canvasRef.current?.height || 0
+                  }}>
                       {/* Crop Box Body Draggable Container */}
-                      <div
-                        onPointerDown={(e) => handlePointerDown(e, "move")}
-                        style={{
-                          left: `${cropBox.x}px`,
-                          top: `${cropBox.y}px`,
-                          width: `${cropBox.width}px`,
-                          height: `${cropBox.height}px`
-                        }}
-                        className="absolute cursor-move border-2 border-primary group"
-                      >
+                      <div onPointerDown={e => handlePointerDown(e, "move")} style={{
+                      left: `${cropBox.x}px`,
+                      top: `${cropBox.y}px`,
+                      width: `${cropBox.width}px`,
+                      height: `${cropBox.height}px`
+                    }} className="absolute cursor-move border-2 border-primary group">
                         {/* Drag Label Overlay */}
-                        <div className="absolute top-2 left-2 bg-black/75 text-white text-[10px] font-mono px-2 py-0.5 rounded backdrop-blur border border-white/20 pointer-events-none flex items-center gap-1">
+                        <div className="absolute top-2 left-2 bg-black/75 text-primary-foreground text-[10px] font-mono px-2 py-0.5 rounded backdrop-blur border border-white/20 pointer-events-none flex items-center gap-1">
                           <Move className="w-3 h-3 text-primary" />
                           {cropBox.width} × {cropBox.height} px
                         </div>
 
                         {/* Corner Resize Handles */}
                         {/* Top-Left */}
-                        <div
-                          onPointerDown={(e) => handlePointerDown(e, "resize-tl")}
-                          className="absolute -top-2 -left-2 w-4 h-4 bg-primary border-2 border-white rounded-full cursor-nwse-resize hover:scale-125 transition-transform"
-                        />
+                        <div onPointerDown={e => handlePointerDown(e, "resize-tl")} className="absolute -top-2 -left-2 w-4 h-4 bg-primary border-2 border-white rounded-full cursor-nwse-resize hover:scale-125 transition-transform" />
                         {/* Top-Right */}
-                        <div
-                          onPointerDown={(e) => handlePointerDown(e, "resize-tr")}
-                          className="absolute -top-2 -right-2 w-4 h-4 bg-primary border-2 border-white rounded-full cursor-nesw-resize hover:scale-125 transition-transform"
-                        />
+                        <div onPointerDown={e => handlePointerDown(e, "resize-tr")} className="absolute -top-2 -right-2 w-4 h-4 bg-primary border-2 border-white rounded-full cursor-nesw-resize hover:scale-125 transition-transform" />
                         {/* Bottom-Left */}
-                        <div
-                          onPointerDown={(e) => handlePointerDown(e, "resize-bl")}
-                          className="absolute -bottom-2 -left-2 w-4 h-4 bg-primary border-2 border-white rounded-full cursor-nesw-resize hover:scale-125 transition-transform"
-                        />
+                        <div onPointerDown={e => handlePointerDown(e, "resize-bl")} className="absolute -bottom-2 -left-2 w-4 h-4 bg-primary border-2 border-white rounded-full cursor-nesw-resize hover:scale-125 transition-transform" />
                         {/* Bottom-Right */}
-                        <div
-                          onPointerDown={(e) => handlePointerDown(e, "resize-br")}
-                          className="absolute -bottom-2 -right-2 w-4 h-4 bg-primary border-2 border-white rounded-full cursor-nwse-resize hover:scale-125 transition-transform"
-                        />
+                        <div onPointerDown={e => handlePointerDown(e, "resize-br")} className="absolute -bottom-2 -right-2 w-4 h-4 bg-primary border-2 border-white rounded-full cursor-nwse-resize hover:scale-125 transition-transform" />
 
                         {/* Edge Resize Handles */}
                         {/* Top Edge */}
-                        <div
-                          onPointerDown={(e) => handlePointerDown(e, "resize-t")}
-                          className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-6 h-2 bg-primary border border-white rounded-sm cursor-ns-resize"
-                        />
+                        <div onPointerDown={e => handlePointerDown(e, "resize-t")} className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-6 h-2 bg-primary border border-white rounded-sm cursor-ns-resize" />
                         {/* Bottom Edge */}
-                        <div
-                          onPointerDown={(e) => handlePointerDown(e, "resize-b")}
-                          className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-6 h-2 bg-primary border border-white rounded-sm cursor-ns-resize"
-                        />
+                        <div onPointerDown={e => handlePointerDown(e, "resize-b")} className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-6 h-2 bg-primary border border-white rounded-sm cursor-ns-resize" />
                         {/* Left Edge */}
-                        <div
-                          onPointerDown={(e) => handlePointerDown(e, "resize-l")}
-                          className="absolute -left-1.5 top-1/2 -translate-y-1/2 w-2 h-6 bg-primary border border-white rounded-sm cursor-ew-resize"
-                        />
+                        <div onPointerDown={e => handlePointerDown(e, "resize-l")} className="absolute -left-1.5 top-1/2 -translate-y-1/2 w-2 h-6 bg-primary border border-white rounded-sm cursor-ew-resize" />
                         {/* Right Edge */}
-                        <div
-                          onPointerDown={(e) => handlePointerDown(e, "resize-r")}
-                          className="absolute -right-1.5 top-1/2 -translate-y-1/2 w-2 h-6 bg-primary border border-white rounded-sm cursor-ew-resize"
-                        />
+                        <div onPointerDown={e => handlePointerDown(e, "resize-r")} className="absolute -right-1.5 top-1/2 -translate-y-1/2 w-2 h-6 bg-primary border border-white rounded-sm cursor-ew-resize" />
                       </div>
                     </div>
-                  </div>
-                ) : (
-                  <div className="text-center text-muted-foreground flex flex-col items-center py-16 space-y-3">
+                  </div> : <div className="text-center text-muted-foreground flex flex-col items-center py-16 space-y-3">
                     <div className="p-4 bg-primary/10 rounded-full">
                       <Crop className="w-10 h-10 text-primary" />
                     </div>
@@ -677,35 +562,38 @@ export function AspectCropperClient() {
                       <p className="text-sm font-bold text-foreground">No Image Uploaded</p>
                       <p className="text-xs">Upload an image on the left controls panel to launch the interactive cropper.</p>
                     </div>
-                  </div>
-                )}
+                  </div>}
               </div>
             </GlassCard>
           </div>
         </div>
 
         {/* Feature & FAQ Content */}
-        <ToolHowItWorks
-          steps={[
-            { step: "01", title: "Upload Image", description: "Select any PNG, JPG, or WebP photo from your computer or phone." },
-            { step: "02", title: "Select Aspect Ratio", description: "Choose a preset (1:1, 16:9, 9:16, 4:5, 3:2, 21:9) or custom freeform cropping." },
-            { step: "03", title: "Interactive Canvas Drag", description: "Drag the crop box anywhere or pull corner grab handles to adjust crop dimensions." },
-            { step: "04", title: "Export High-Res Image", description: "Click Download Cropped Image to export your cropped photo in PNG, JPEG, or WebP." }
-          ]}
-        />
+        <ToolHowItWorks steps={[{
+          step: "01",
+          title: "Upload Image",
+          description: "Select any PNG, JPG, or WebP photo from your computer or phone."
+        }, {
+          step: "02",
+          title: "Select Aspect Ratio",
+          description: "Choose a preset (1:1, 16:9, 9:16, 4:5, 3:2, 21:9) or custom freeform cropping."
+        }, {
+          step: "03",
+          title: "Interactive Canvas Drag",
+          description: "Drag the crop box anywhere or pull corner grab handles to adjust crop dimensions."
+        }, {
+          step: "04",
+          title: "Export High-Res Image",
+          description: "Click Download Cropped Image to export your cropped photo in PNG, JPEG, or WebP."
+        }]} />
 
-        <ToolFeatureGuides
-          features={[
-            {
-              title: "Social Media Preset Dimensions",
-              description: "Presets automatically crop to 1:1 Square (Instagram/Avatar), 16:9 Landscape (YouTube), 9:16 Story/Reels, 4:5 Feed, 3:2 Photo, and 21:9 Ultrawide."
-            },
-            {
-              title: "100% Client-Side Privacy",
-              description: "Your photos and images are processed entirely inside your local web browser using HTML5 Canvas. Zero uploads to external servers."
-            }
-          ]}
-        />
+        <ToolFeatureGuides features={[{
+          title: "Social Media Preset Dimensions",
+          description: "Presets automatically crop to 1:1 Square (Instagram/Avatar), 16:9 Landscape (YouTube), 9:16 Story/Reels, 4:5 Feed, 3:2 Photo, and 21:9 Ultrawide."
+        }, {
+          title: "100% Client-Side Privacy",
+          description: "Your photos and images are processed entirely inside your local web browser using HTML5 Canvas. Zero uploads to external servers."
+        }]} />
 
         
 <ToolHowItWorks
@@ -789,8 +677,18 @@ export function AspectCropperClient() {
 />
 <RelatedTools currentToolUrl="/tools/image/aspect-cropper" />
       </div>
-    </div>
-  );
-}
+    
+      <ToolFaqAccordion faqs={[{
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
 
+    </div></div>;
+}
 export default AspectCropperClient;

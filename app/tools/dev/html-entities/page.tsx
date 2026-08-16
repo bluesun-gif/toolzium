@@ -1,25 +1,31 @@
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import HtmlEntitiesClient from "@/components/tools/dev/html-entities-client";
+<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+=======
+
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
-  title: "HTML Entity Encoder/Decoder | Toolzium",
-  description: "Encode and decode HTML entities easily. Convert special characters to HTML entities and vice versa.",
+  title: "HTML Entity Encoder",
+  description: "Encode and decode HTML entities. Named vs numeric toggle. Common entities reference table. Auto-detect mode. Batch processing.",
   path: "/tools/dev/html-entities",
-  keywords: ["html entities", "encode html", "decode html", "html special characters", "named entities", "numeric entities"],
+  keywords: ["table", "reference", "encode", "decode", "common", "numeric", "auto", "named", "toggle", "html", "entities"],
 });
 
 export default function Page() {
-  const toolUrl = `${siteURL}/tools/dev/html-entities`;
-  const appLd = { "@context": "https://schema.org", "@type": "WebApplication", name: "HTML Entity Encoder", url: toolUrl, description: "Encode and decode HTML entities easily.", applicationCategory: "DeveloperApplication", operatingSystem: "All", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" } };
-  const crumbsLd = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: siteURL }, { "@type": "ListItem", position: 2, name: "Developer Tools", item: `${siteURL}/tools#cat-dev` }, { "@type": "ListItem", position: 3, name: "HTML Entity Encoder", item: toolUrl }] };
-  const faqLd = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: [{ "@type": "Question", name: "What is an HTML entity?", acceptedAnswer: { "@type": "Answer", text: "An HTML entity is a snippet of text that begins with an ampersand (&) and ends with a semicolon (;). They are used to display reserved characters in HTML." } }] };
-  
+  const jsonLd = buildToolJsonLd({
+    name: "HTML Entity Encoder",
+    description: "Encode and decode HTML entities. Named vs numeric toggle. Common entities reference table. Auto-detect mode. Batch processing.",
+    path: "/tools/dev/html-entities",
+    categoryName: "Dev",
+    categoryPath: "/tools/dev",
+  });
+
   return (
-    <div className="space-y-4">
-      <JsonLd data={appLd} />
-      <JsonLd data={crumbsLd} />
-      <JsonLd data={faqLd} />
+    <div className="max-w-6xl mx-auto space-y-8">
+      <JsonLd data={jsonLd as any} />
       <HtmlEntitiesClient />
     
       <RelatedTools currentToolUrl="/tools/dev/html-entities" />

@@ -1,4 +1,5 @@
 "use client";
+<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -16,127 +17,121 @@ import { BarChart3, Brain, Heart, Pause, Play, PlayCircle, Square, Timer } from"
 import { cn } from"@/lib/utils";
 import toast from"react-hot-toast";
 
+=======
+import { ToolBackground } from"@/components/shared/tool-background";
+
+import React, { useState, useEffect, useRef } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
+import { Timer, Heart, Play, Pause, Square, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { cn } from "@/lib/utils";
+import toast from "react-hot-toast";
+import { GridPattern } from "@/components/magicui/grid-pattern";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export function MeditationTimerClient() {
- const [duration, setDuration] = useState<number>(5 * 60); // in seconds
- const [timeLeft, setTimeLeft] = useState<number>(5 * 60);
- const [isActive, setIsActive] = useState<boolean>(false);
- const [customMinutes, setCustomMinutes] = useState<string>("");
- const [sessionsCompleted, setSessionsCompleted] = useState<number>(0);
- const [breathingPhase, setBreathingPhase] = useState<"inhale"|"hold"|"exhale">("inhale");
- const audioCtxRef = useRef<AudioContext | null>(null);
+  const [duration, setDuration] = useState<number>(5 * 60); // in seconds
+  const [timeLeft, setTimeLeft] = useState<number>(5 * 60);
+  const [isActive, setIsActive] = useState<boolean>(false);
+  const [customMinutes, setCustomMinutes] = useState<string>("");
+  const [sessionsCompleted, setSessionsCompleted] = useState<number>(0);
+  const [breathingPhase, setBreathingPhase] = useState<"inhale" | "hold" | "exhale">("inhale");
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  useEffect(() => {
+    const savedSessions = localStorage.getItem("meditation-sessions");
+    if (savedSessions) {
+      setSessionsCompleted(parseInt(savedSessions, 10));
+    }
+  }, []);
+  const playTone = (frequency: number, durationMs: number) => {
+    if (!audioCtxRef.current) {
+      audioCtxRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+    }
+    const ctx = audioCtxRef.current;
+    const oscillator = ctx.createOscillator();
+    const gainNode = ctx.createGain();
+    oscillator.type = "sine";
+    oscillator.frequency.setValueAtTime(frequency, ctx.currentTime);
+    gainNode.gain.setValueAtTime(0, ctx.currentTime);
+    gainNode.gain.linearRampToValueAtTime(0.5, ctx.currentTime + 0.1);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + durationMs / 1000);
+    oscillator.connect(gainNode);
+    gainNode.connect(ctx.destination);
+    oscillator.start(ctx.currentTime);
+    oscillator.stop(ctx.currentTime + durationMs / 1000);
+  };
+  useEffect(() => {
+    let interval: NodeJS.Timeout | null = null;
+    let breathingInterval: NodeJS.Timeout | null = null;
+    if (isActive && timeLeft > 0) {
+      interval = setInterval(() => {
+        setTimeLeft(prev => prev - 1);
+      }, 1000);
+      breathingInterval = setInterval(() => {
+        setBreathingPhase(prev => {
+          if (prev === "inhale") return "hold";
+          if (prev === "hold") return "exhale";
+          return "inhale";
+        });
+      }, 4000);
+    } else if (isActive && timeLeft === 0) {
+      setIsActive(false);
+      playTone(432, 2000); // Gentle end bell
+      const newSessions = sessionsCompleted + 1;
+      setSessionsCompleted(newSessions);
+      localStorage.setItem("meditation-sessions", newSessions.toString());
+      toast.success("Meditation session completed!");
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+      if (breathingInterval) clearInterval(breathingInterval);
+    };
+  }, [isActive, timeLeft, sessionsCompleted]);
+  const toggleTimer = () => {
+    if (!isActive && timeLeft === duration) {
+      playTone(528, 2000); // Gentle start bell
+    }
+    setIsActive(!isActive);
+  };
+  const resetTimer = () => {
+    setIsActive(false);
+    setTimeLeft(duration);
+    setBreathingPhase("inhale");
+  };
+  const handlePreset = (minutes: number) => {
+    const secs = minutes * 60;
+    setDuration(secs);
+    setTimeLeft(secs);
+    setIsActive(false);
+    setBreathingPhase("inhale");
+  };
+  const handleCustomDuration = () => {
+    const mins = parseInt(customMinutes, 10);
+    if (!isNaN(mins) && mins > 0) {
+      handlePreset(mins);
+      setCustomMinutes("");
+    } else {
+      toast.error("Please enter a valid number of minutes.");
+    }
+  };
+  const formatTime = (seconds: number) => {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+  };
+  return <div className="relative space-y-6 max-w-4xl mx-auto"><ToolBackground /><div className="relative z-10">
+      
 
- useEffect(() => {
- const savedSessions = localStorage.getItem("meditation-sessions");
- if (savedSessions) {
- setSessionsCompleted(parseInt(savedSessions, 10));
- }
- }, []);
-
- const playTone = (frequency: number, durationMs: number) => {
- if (!audioCtxRef.current) {
- audioCtxRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
- }
- const ctx = audioCtxRef.current;
- const oscillator = ctx.createOscillator();
- const gainNode = ctx.createGain();
-
- oscillator.type ="sine";
- oscillator.frequency.setValueAtTime(frequency, ctx.currentTime);
- 
- gainNode.gain.setValueAtTime(0, ctx.currentTime);
- gainNode.gain.linearRampToValueAtTime(0.5, ctx.currentTime + 0.1);
- gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + durationMs / 1000);
-
- oscillator.connect(gainNode);
- gainNode.connect(ctx.destination);
-
- oscillator.start(ctx.currentTime);
- oscillator.stop(ctx.currentTime + durationMs / 1000);
- };
-
- useEffect(() => {
- let interval: NodeJS.Timeout | null = null;
- let breathingInterval: NodeJS.Timeout | null = null;
-
- if (isActive && timeLeft > 0) {
- interval = setInterval(() => {
- setTimeLeft((prev) => prev - 1);
- }, 1000);
- 
- breathingInterval = setInterval(() => {
- setBreathingPhase((prev) => {
- if (prev ==="inhale") return"hold";
- if (prev ==="hold") return"exhale";
- return"inhale";
- });
- }, 4000);
- } else if (isActive && timeLeft === 0) {
- setIsActive(false);
- playTone(432, 2000); // Gentle end bell
- const newSessions = sessionsCompleted + 1;
- setSessionsCompleted(newSessions);
- localStorage.setItem("meditation-sessions", newSessions.toString());
- toast.success("Meditation session completed!");
- }
-
- return () => {
- if (interval) clearInterval(interval);
- if (breathingInterval) clearInterval(breathingInterval);
- };
- }, [isActive, timeLeft, sessionsCompleted]);
-
- const toggleTimer = () => {
- if (!isActive && timeLeft === duration) {
- playTone(528, 2000); // Gentle start bell
- }
- setIsActive(!isActive);
- };
-
- const resetTimer = () => {
- setIsActive(false);
- setTimeLeft(duration);
- setBreathingPhase("inhale");
- };
-
- const handlePreset = (minutes: number) => {
- const secs = minutes * 60;
- setDuration(secs);
- setTimeLeft(secs);
- setIsActive(false);
- setBreathingPhase("inhale");
- };
-
- const handleCustomDuration = () => {
- const mins = parseInt(customMinutes, 10);
- if (!isNaN(mins) && mins > 0) {
- handlePreset(mins);
- setCustomMinutes("");
- } else {
- toast.error("Please enter a valid number of minutes.");
- }
- };
-
- const formatTime = (seconds: number) => {
- const m = Math.floor(seconds / 60);
- const s = seconds % 60;
- return `${m.toString().padStart(2,"0")}:${s.toString().padStart(2,"0")}`;
- };
-
- return (
- <div className="space-y-6 max-w-4xl mx-auto">
- <ToolPageHeader
- icon={Timer}
- title="Meditation Timer"
- description="A calming timer with presets and a guided breathing animation."
- actions={
- <ActionButton
- icon={Heart}
- label={`Sessions: ${sessionsCompleted}`}
- variant="outline"
- onClick={() => {}}
- />
- }
- />
+ <ToolPageHeader icon={Timer} title="Meditation Timer" description="A calming timer with presets and a guided breathing animation." actions={<ActionButton icon={Heart} label={`Sessions: ${sessionsCompleted}`} variant="outline" onClick={() => {}} />} />
 
  <div className="grid md:grid-cols-2 gap-6">
  <GlassCard>
@@ -146,29 +141,15 @@ export function MeditationTimerClient() {
  </CardHeader>
  <CardContent className="space-y-6">
  <div className="flex flex-wrap gap-2">
- {[1, 3, 5, 10, 15, 20, 30].map((mins) => (
- <Button
- key={mins}
- variant={duration === mins * 60 ?"default":"outline"}
- onClick={() => handlePreset(mins)}
- disabled={isActive}
- >
+ {[1, 3, 5, 10, 15, 20, 30].map(mins => <Button key={mins} variant={duration === mins * 60 ? "default" : "outline"} onClick={() => handlePreset(mins)} disabled={isActive}>
  {mins} min
- </Button>
- ))}
+ </Button>)}
  </div>
  
  <div className="flex gap-2 items-end">
  <div className="flex-1 space-y-2">
  <Label htmlFor="custom">Custom (minutes)</Label>
- <Input
- id="custom"
- type="number"
- min="1"
- value={customMinutes}
- onChange={(e) => setCustomMinutes(e.target.value)}
- disabled={isActive}
- />
+ <Input id="custom" type="number" min="1" value={customMinutes} onChange={e => setCustomMinutes(e.target.value)} disabled={isActive} />
  </div>
  <Button onClick={handleCustomDuration} disabled={isActive} variant="secondary">
  Set
@@ -183,25 +164,12 @@ export function MeditationTimerClient() {
  </div>
  
  <div className="flex justify-center gap-4">
- <Button 
- size="lg"
- onClick={toggleTimer}
- className={cn(
-"rounded-full w-16 h-16 transition-all",
- isActive ?"bg-amber-500 hover:bg-amber-600":"bg-emerald-600 hover:bg-emerald-700 text-white"
- )}
- >
- {isActive ? <Pause className="w-8 h-8"/> : <Play className="w-8 h-8 ml-1"/>}
+ <Button size="lg" onClick={toggleTimer} className={cn("rounded-full w-16 h-16 transition-all", isActive ? "bg-amber-500 hover:bg-amber-600" : "bg-emerald-600 hover:bg-emerald-700 text-primary-foreground")}>
+ {isActive ? <Pause className="w-8 h-8" /> : <Play className="w-8 h-8 ml-1" />}
  </Button>
  
- <Button
- size="lg"
- variant="outline"
- onClick={resetTimer}
- className="rounded-full w-16 h-16"
- disabled={timeLeft === duration && !isActive}
- >
- <Square className="w-6 h-6"/>
+ <Button size="lg" variant="outline" onClick={resetTimer} className="rounded-full w-16 h-16" disabled={timeLeft === duration && !isActive}>
+ <Square className="w-6 h-6" />
  </Button>
  </div>
  </div>
@@ -215,38 +183,23 @@ export function MeditationTimerClient() {
  </CardHeader>
  <CardContent className="flex flex-col items-center justify-center h-[350px]">
  <div className="relative w-64 h-64 flex items-center justify-center">
- <div
- className={cn(
-"absolute rounded-full bg-emerald-500/20 flex items-center justify-center transition-all duration-[4000ms] ease-in-out",
- !isActive ?"w-32 h-32 opacity-50":
- breathingPhase ==="inhale"?"w-64 h-64 opacity-100":
- breathingPhase ==="hold"?"w-64 h-64 opacity-80":
-"w-32 h-32 opacity-40"
- )}
- >
- <div
- className={cn(
-"rounded-full bg-emerald-500/40 flex items-center justify-center transition-all duration-[4000ms] ease-in-out",
- !isActive ?"w-24 h-24":
- breathingPhase ==="inhale"?"w-48 h-48":
- breathingPhase ==="hold"?"w-48 h-48":
-"w-24 h-24"
- )}
- >
+ <div className={cn("absolute rounded-full bg-emerald-500/20 flex items-center justify-center transition-all duration-[4000ms] ease-in-out", !isActive ? "w-32 h-32 opacity-50" : breathingPhase === "inhale" ? "w-64 h-64 opacity-100" : breathingPhase === "hold" ? "w-64 h-64 opacity-80" : "w-32 h-32 opacity-40")}>
+ <div className={cn("rounded-full bg-emerald-500/40 flex items-center justify-center transition-all duration-[4000ms] ease-in-out", !isActive ? "w-24 h-24" : breathingPhase === "inhale" ? "w-48 h-48" : breathingPhase === "hold" ? "w-48 h-48" : "w-24 h-24")}>
  <div className="w-16 h-16 rounded-full bg-emerald-600 flex items-center justify-center shadow-lg">
- <Heart className="w-8 h-8 text-white"/>
+ <Heart className="w-8 h-8 text-primary-foreground" />
  </div>
  </div>
  </div>
  </div>
  
  <div className="mt-8 text-xl font-medium text-muted-foreground uppercase tracking-widest h-8 transition-opacity duration-500">
- {isActive ? breathingPhase :"Ready"}
+ {isActive ? breathingPhase : "Ready"}
  </div>
  </CardContent>
  </GlassCard>
  </div>
  
+<<<<<<< HEAD
 <ToolHowItWorks
   steps={[
 {
@@ -329,3 +282,65 @@ export function MeditationTimerClient() {
 </div>
  );
 }
+=======
+      <ToolHowItWorks steps={[{
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+
+      <ToolFeatureGuides features={[{
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
+        <div className="prose dark:prose-invert max-w-none">
+          <h3>Why Use Our Meditation Timer?</h3>
+          <p>
+            This free online tool is designed to help you get accurate results quickly and securely.
+            Whether you're a developer, designer, student, or professional, our Meditation Timer provides
+            the functionality you need without any complexity or cost.
+          </p>
+          <p>
+            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
+            privacy and zero latency. No data is ever transmitted to external servers, making it safe
+            for sensitive information.
+          </p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion faqs={[{
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
+
+      <RelatedTools currentToolUrl="/tools/health/meditation-timer" max={6} />
+
+    </div></div>;
+}
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

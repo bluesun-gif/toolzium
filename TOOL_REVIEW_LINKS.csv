@@ -1,0 +1,57 @@
+No,Category,Tool Name,Preview Link
+1,Academic,Essay Conclusion Generator,http://localhost:3000/tools/academic/essay-conclusion-generator
+2,AI,ATS Checker,http://localhost:3000/tools/ai/ats-checker
+3,AI,Code Explainer,http://localhost:3000/tools/ai/code-explainer
+4,AI,PDF Chat,http://localhost:3000/tools/ai/pdf-chat
+5,AI,Product Description,http://localhost:3000/tools/ai/product-description
+6,AI,Social Bio,http://localhost:3000/tools/ai/social-bio
+7,AI,SQL Regex Builder,http://localhost:3000/tools/ai/sql-regex-builder
+8,AI,Startup Name,http://localhost:3000/tools/ai/startup-name
+9,AI,YouTube Script,http://localhost:3000/tools/ai/youtube-script
+10,AI,Prompt Optimizer,http://localhost:3000/tools/ai/prompt-optimizer
+11,Dev,JSON Formatter,http://localhost:3000/tools/dev/json-formatter
+12,Dev,JWT Inspector,http://localhost:3000/tools/dev/jwt-inspector
+13,Dev,Regex Explainer,http://localhost:3000/tools/dev/regex-explainer
+14,Finance,Cap Rate Calculator,http://localhost:3000/tools/finance/cap-rate-calculator
+15,Finance,SaaS Pricing Calculator,http://localhost:3000/tools/finance/saas-pricing-calculator
+16,Finance,Startup Runway Calculator,http://localhost:3000/tools/finance/startup-runway-calc
+17,Gaming,Free Fire Name,http://localhost:3000/tools/gaming/free-fire-name
+18,Gaming,GTA Name,http://localhost:3000/tools/gaming/gta-name
+19,Gaming,Minecraft Seed,http://localhost:3000/tools/gaming/minecraft-seed
+20,Gaming,MLBB Name,http://localhost:3000/tools/gaming/mlbb-name
+21,Gaming,Roblox Username,http://localhost:3000/tools/gaming/roblox-username
+22,Gaming,Steam Bio,http://localhost:3000/tools/gaming/steam-bio
+23,Health,AI BMR Calculator,http://localhost:3000/tools/health/ai-bmr-calculator
+24,Health,AI Calorie Deficit,http://localhost:3000/tools/health/ai-calorie-deficit
+25,Health,AI Meal Planner,http://localhost:3000/tools/health/ai-meal-planner
+26,Health,AI Workout Generator,http://localhost:3000/tools/health/ai-workout-generator
+27,Marketing,Cold Email Generator,http://localhost:3000/tools/marketing/cold-email-generator
+28,Marketing,Ecommerce Copy Generator,http://localhost:3000/tools/marketing/ecommerce-copy-generator
+29,Marketing,Slogan Generator,http://localhost:3000/tools/marketing/slogan-generator
+30,Office,AI Contractor Agreement,http://localhost:3000/tools/office/ai-contractor-agreement
+31,Office,AI Retainer Generator,http://localhost:3000/tools/office/ai-retainer-generator
+32,Office,AI SOW Generator,http://localhost:3000/tools/office/ai-sow-generator
+33,SEO,AI Meta Generator,http://localhost:3000/tools/seo/ai-meta-generator
+34,SEO,AI Schema Generator,http://localhost:3000/tools/seo/ai-schema-generator
+35,Social,Ad Copy Generator,http://localhost:3000/tools/social/ad-copy-generator
+36,Social,Discord Name,http://localhost:3000/tools/social/discord-name
+37,Social,Instagram Bio,http://localhost:3000/tools/social/instagram-bio
+38,Social,Instagram Reel,http://localhost:3000/tools/social/instagram-reel
+39,Social,LinkedIn Headline,http://localhost:3000/tools/social/linkedin-headline
+40,Social,Podcast Script Generator,http://localhost:3000/tools/social/podcast-script-generator
+41,Social,Spotify Playlist,http://localhost:3000/tools/social/spotify-playlist
+42,Social,TikTok Caption,http://localhost:3000/tools/social/tiktok-caption
+43,Social,Twitch Title,http://localhost:3000/tools/social/twitch-title
+44,Social,Twitter Thread Generator,http://localhost:3000/tools/social/twitter-thread-generator
+45,Social,YouTube Script Generator,http://localhost:3000/tools/social/youtube-script-generator
+46,Social,YouTube Tag,http://localhost:3000/tools/social/youtube-tag
+47,URL,Link Expand,http://localhost:3000/tools/url/link-expand
+48,URL,QR Code,http://localhost:3000/tools/url/qr
+49,URL,URL Shortener,http://localhost:3000/tools/url/shortener
+50,URL,UTM Builder,http://localhost:3000/tools/url/utm-builder
+51,URL,YouTube Thumbnail,http://localhost:3000/tools/url/youtube-thumbnail
+52,Writing,AI Elevator Pitch,http://localhost:3000/tools/writing/ai-elevator-pitch
+53,Writing,AI Paraphraser,http://localhost:3000/tools/writing/ai-paraphraser
+54,Writing,Blog Intro Generator,http://localhost:3000/tools/writing/blog-intro-generator
+55,Writing,Email Subject Generator,http://localhost:3000/tools/writing/email-subject-generator
+56,Writing,Resume Summary Generator,http://localhost:3000/tools/writing/resume-summary-generator

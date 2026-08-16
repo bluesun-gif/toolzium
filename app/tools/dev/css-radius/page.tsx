@@ -1,25 +1,31 @@
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import CssRadiusClient from "@/components/tools/dev/css-radius-client";
+<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+=======
+
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
-  title: "CSS Border-Radius Custom Shape Generator | Toolzium",
-  description: "Generate 8-point fancy blob and custom CSS border-radius shapes with live preview.",
+  title: "CSS Border-Radius Shape Generator",
+  description: "8-point fancy blob and custom CSS border-radius generator. Organic blobs, pills, badges, leaves, live animation preview.",
   path: "/tools/dev/css-radius",
-  keywords: ["css", "border-radius", "blob generator", "css shape generator", "web development tools"],
+  keywords: ["badges", "radius", "generator", "border", "leaves", "organic", "blob", "pills", "custom", "blobs", "point", "fancy"],
 });
 
 export default function Page() {
-  const toolUrl = siteURL + "/tools/dev/css-radius";
-  const appLd = { "@context": "https://schema.org", "@type": "WebApplication", name: "CSS Border-Radius Custom Shape Generator", url: toolUrl, description: "Generate 8-point fancy blob and custom CSS border-radius shapes with live preview.", applicationCategory: "DeveloperApplication", operatingSystem: "All", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" } };
-  const crumbsLd = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: siteURL }, { "@type": "ListItem", position: 2, name: "Developer Tools", item: siteURL + "/tools#cat-dev" }, { "@type": "ListItem", position: 3, name: "CSS Border-Radius Generator", item: toolUrl }] };
-  const faqLd = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: [{ "@type": "Question", name: "What is an 8-point border radius?", acceptedAnswer: { "@type": "Answer", text: "CSS border-radius supports up to 8 values, allowing you to specify horizontal and vertical radii for all 4 corners independently to create complex shapes." } }, { "@type": "Question", name: "How to use this generator?", acceptedAnswer: { "@type": "Answer", text: "Use the sliders to adjust the corner radii or choose a preset shape, then copy the generated CSS snippet." } }] };
-  
+  const jsonLd = buildToolJsonLd({
+    name: "CSS Border-Radius Shape Generator",
+    description: "8-point fancy blob and custom CSS border-radius generator. Organic blobs, pills, badges, leaves, live animation preview.",
+    path: "/tools/dev/css-radius",
+    categoryName: "Dev",
+    categoryPath: "/tools/dev",
+  });
+
   return (
-    <div className="space-y-4">
-      <JsonLd data={appLd} />
-      <JsonLd data={crumbsLd} />
-      <JsonLd data={faqLd} />
+    <div className="max-w-6xl mx-auto space-y-8">
+      <JsonLd data={jsonLd as any} />
       <CssRadiusClient />
     
       <RelatedTools currentToolUrl="/tools/dev/css-radius" />

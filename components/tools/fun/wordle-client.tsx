@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -11,6 +12,8 @@ import { Button } from"@/components/ui/button";
 import { Label } from"@/components/ui/label";
 import { RotateCcw, Trophy, Share2, Settings, Keyboard } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -147,9 +150,9 @@ export function WordleClient() {
  if (guess) {
  letter = guess.word[j];
  state = guess.eval[j];
- if (state ==="correct") { bg ="bg-green-600"; text ="text-white"; border ="border-green-600"; }
- else if (state ==="present") { bg ="bg-yellow-500"; text ="text-white"; border ="border-yellow-500"; }
- else { bg ="bg-zinc-500"; text ="text-white"; border ="border-zinc-500"; }
+ if (state ==="correct") { bg ="bg-green-600"; text ="text-primary-foreground"; border ="border-green-600"; }
+ else if (state ==="present") { bg ="bg-yellow-500"; text ="text-primary-foreground"; border ="border-yellow-500"; }
+ else { bg ="bg-zinc-500"; text ="text-primary-foreground"; border ="border-zinc-500"; }
  } else if (isCurrent && current[j]) {
  letter = current[j];
  state ="tbd";
@@ -158,6 +161,8 @@ export function WordleClient() {
  
  return (
  <div key={j} className={`w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center text-2xl font-bold border-2 ${border} ${bg} ${text} transition-all duration-300`}>
+      <ToolBackground />
+
  {letter.toUpperCase()}
  </div>
  );
@@ -171,7 +176,7 @@ export function WordleClient() {
  const renderKeyboard = () => {
  const rows = ["qwertyuiop","asdfghjkl","zxcvbnm"];
  return (
- <div className="flex flex-col gap-1.5 mt-6">
+      <div className="relative flex flex-col gap-1.5 mt-6">
  {rows.map((row, i) => (
  <div key={i} className="flex justify-center gap-1">
  {i === 2 && <Button variant="outline"size="sm"className="px-2 text-xs"onClick={() => setCurrent("")}>Enter</Button>}
@@ -179,8 +184,8 @@ export function WordleClient() {
  const state = keyStates[k];
  let bg ="bg-muted";
  let text ="text-foreground";
- if (state ==="correct") { bg ="bg-green-600"; text ="text-white"; }
- else if (state ==="present") { bg ="bg-yellow-500"; text ="text-white"; }
+ if (state ==="correct") { bg ="bg-green-600"; text ="text-primary-foreground"; }
+ else if (state ==="present") { bg ="bg-yellow-500"; text ="text-primary-foreground"; }
  else if (state ==="absent") { bg ="bg-zinc-700"; text ="text-zinc-400"; }
  return <Button key={k} variant="outline"size="sm"className={`${bg} ${text} border-none min-w-[2rem] px-2`} onClick={() => current.length < 5 && setCurrent(c => c + k)}>{k.toUpperCase()}</Button>;
  })}
@@ -195,7 +200,7 @@ export function WordleClient() {
  <div className="max-w-6xl mx-auto space-y-8">
  <ToolPageHeader icon={Trophy} title="Wordle Clone"description="Play the classic 5-letter word guessing game entirely offline in your browser."/>
  
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <div className="flex justify-between items-center w-full">
  <CardTitle className={titleClass}><Keyboard className="w-4 h-4"/> Daily Puzzle</CardTitle>
@@ -212,7 +217,7 @@ export function WordleClient() {
  <div className="flex flex-col gap-1.5">{renderGrid()}</div>
  {renderKeyboard()}
  </CardContent>
- </Card>
+ </GlassCard>
 
  {showStats && (
  <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4"onClick={() => setShowStats(false)}>
@@ -228,7 +233,7 @@ export function WordleClient() {
  {stats.dist.map((count, i) => (
  <div key={i} className="flex items-center gap-2 text-xs">
  <span className="w-4 text-right">{i + 1}</span>
- <div className="flex-1 bg-muted rounded-sm h-5 flex items-center justify-end px-2 text-white font-bold"style={{ width: `${Math.max(10, (count / Math.max(...stats.dist, 1)) * 100)}%`, backgroundColor: won && guesses.length === i + 1 ?"#16a34a":"#6b7280"}}>{count}</div>
+ <div className="flex-1 bg-muted rounded-sm h-5 flex items-center justify-end px-2 text-primary-foreground font-bold"style={{ width: `${Math.max(10, (count / Math.max(...stats.dist, 1)) * 100)}%`, backgroundColor: won && guesses.length === i + 1 ?"#16a34a":"#6b7280"}}>{count}</div>
  </div>
  ))}
  </div>
@@ -266,7 +271,7 @@ export function WordleClient() {
  { question:"Can I play more than once a day?", answer:"Absolutely. Unlike the official daily version, this clone allows you to play unlimited games. Simply click the refresh icon to start a new puzzle instantly."}
  ]} />
 
- <RelatedTools currentToolUrl="/tools/fun/wordle"max={6} />
+ <RelatedTools currentToolUrl="/tools/fun/wordle" max={6} />
  </div>
  );
 }

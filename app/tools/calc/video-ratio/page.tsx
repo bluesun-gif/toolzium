@@ -1,78 +1,31 @@
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import VideoRatioClient from "@/components/tools/calc/video-ratio-client";
+<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+=======
+
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
-  title: "Aspect Ratio Calculator for Video | Toolzium",
-  description:
-    "Calculate video aspect ratios and resolutions, and scale dimensions while maintaining ratio.",
+  title: "Video Aspect Ratio Calculator",
+  description: "Calculate video aspect ratios and resolutions. Presets for 4K, 1080p, 720p, Instagram, TikTok, YouTube Shorts. Scale calculator maintains ratio. Shows pixel count and megapixels.",
   path: "/tools/calc/video-ratio",
-  keywords: [
-    "aspect ratio",
-    "video resolution",
-    "scale video",
-    "aspect ratio calculator",
-  ],
+  keywords: ["tiktok", "youtube", "resolutions", "calculate", "shorts", "presets", "scale", "calculator", "instagram", "video", "ratios", "aspect"],
 });
 
 export default function Page() {
-  const toolUrl = `${siteURL}/tools/calc/video-ratio`;
-  const appLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "Aspect Ratio Calculator for Video",
-    url: toolUrl,
-    description: "Calculate video aspect ratios and resolutions.",
-    applicationCategory: "UtilitiesApplication",
-    operatingSystem: "All",
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  };
-  const crumbsLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: siteURL },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Calculators",
-        item: `${siteURL}/tools#cat-calc`,
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: "Aspect Ratio Calculator for Video",
-        item: toolUrl,
-      },
-    ],
-  };
-  const faqLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "What is an aspect ratio?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Aspect ratio is the proportional relationship between the width and height of a video or image.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "What is 1080p resolution?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "1080p is a high-definition video resolution of 1920x1080 pixels.",
-        },
-      },
-    ],
-  };
+  const jsonLd = buildToolJsonLd({
+    name: "Video Aspect Ratio Calculator",
+    description: "Calculate video aspect ratios and resolutions. Presets for 4K, 1080p, 720p, Instagram, TikTok, YouTube Shorts. Scale calculator maintains ratio. Shows pixel count and megapixels.",
+    path: "/tools/calc/video-ratio",
+    categoryName: "Calc",
+    categoryPath: "/tools/calc",
+  });
+
   return (
-    <div className="space-y-4">
-      <JsonLd data={appLd} />
-      <JsonLd data={crumbsLd} />
-      <JsonLd data={faqLd} />
+    <div className="max-w-6xl mx-auto space-y-8">
+      <JsonLd data={jsonLd as any} />
       <VideoRatioClient />
     
       <RelatedTools currentToolUrl="/tools/calc/video-ratio" />

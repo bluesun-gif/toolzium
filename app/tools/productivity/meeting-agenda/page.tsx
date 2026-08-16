@@ -33,10 +33,21 @@ export default function Page() {
     ] 
   };
   
+
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      { "@type": "Question", name: "How does the Meeting Agenda Builder work?", acceptedAnswer: { "@type": "Answer", text: "Toolzium's Meeting Agenda Builder runs instantly in your browser. Build structured meeting agendas. Topics with presenters and time allocation. Auto-calculate totals. Templates included. Copy formatted. No sign-up or software installation required." } },
+      { "@type": "Question", name: "Is the Meeting Agenda Builder 100% free to use?", acceptedAnswer: { "@type": "Answer", text: "Yes, the Meeting Agenda Builder is 100% free with unlimited usage and no account required." } },
+      { "@type": "Question", name: "Is my data secure when using the Meeting Agenda Builder?", acceptedAnswer: { "@type": "Answer", text: "Yes, all processing occurs locally in your browser. Your data never leaves your device." } }
+    ]
+  };
   return (
     <div className="space-y-4">
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
+      <JsonLd data={faqLd} />
       <MeetingAgendaClient />
     
       <RelatedTools currentToolUrl="/tools/productivity/meeting-agenda" />

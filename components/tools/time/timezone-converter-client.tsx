@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import {
  ActionButton,
@@ -51,6 +52,7 @@ import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import { RelatedTools } from"@/components/shared/related-tools";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 
 // Utils
 
@@ -240,7 +242,9 @@ function TimeZoneSelect({
  placeholder?: string;
 }) {
  return (
- <div className="space-y-2">
+      <div className="relative space-y-2">
+      <ToolBackground />
+
  {label && <Label>{label}</Label>}
  <Select value={value} onValueChange={onValueChange}>
  <SelectTrigger>
@@ -380,7 +384,7 @@ export default function TimezoneConverterClient() {
  const swapWithSource = (tz: string) => setSourceTz(tz);
 
  useEffect(() => {
- if (typeof window ==="undefined") return;
+  // Client-only effect
  const params = new URLSearchParams(window.location.search);
  const src = params.get("src");
  const date = params.get("date");
@@ -791,7 +795,7 @@ export default function TimezoneConverterClient() {
  },
  ]}
  />
- <RelatedTools currentToolUrl="/tools/time/timezone"max={6} />
+ <RelatedTools currentToolUrl="/tools/time/timezone" max={6} />
  </div>
  );
 }

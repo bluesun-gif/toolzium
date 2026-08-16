@@ -33,10 +33,21 @@ export default function Page() {
     ] 
   };
   
+
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      { "@type": "Question", name: "How does the Image Color Palette Contrast Matrix work?", acceptedAnswer: { "@type": "Answer", text: "Toolzium's Image Color Palette Contrast Matrix runs instantly in your browser. Test color contrast ratios across a design system palette to ensure WCAG AA and AAA accessibility compliance. No sign-up or software installation required." } },
+      { "@type": "Question", name: "Is the Image Color Palette Contrast Matrix 100% free to use?", acceptedAnswer: { "@type": "Answer", text: "Yes, the Image Color Palette Contrast Matrix is 100% free with unlimited usage and no account required." } },
+      { "@type": "Question", name: "Is my data secure when using the Image Color Palette Contrast Matrix?", acceptedAnswer: { "@type": "Answer", text: "Yes, all processing occurs locally in your browser. Your data never leaves your device." } }
+    ]
+  };
   return (
     <div className="space-y-4">
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
+      <JsonLd data={faqLd} />
       <ColorMatrixClient />
     
       <RelatedTools currentToolUrl="/tools/image/color-matrix" />

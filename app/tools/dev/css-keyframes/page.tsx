@@ -32,10 +32,21 @@ export default function Page() {
       { "@type": "ListItem", position: 3, name: "CSS Keyframe Animation Visual Generator", item: toolUrl }
     ]
   };
+
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      { "@type": "Question", name: "How does the CSS Keyframe Animation Generator work?", acceptedAnswer: { "@type": "Answer", text: "Toolzium's CSS Keyframe Animation Generator runs instantly in your browser. Visual CSS @keyframes animation generator. Custom keyframe steps, pulse, bounce, shake, flip, rotate, and timing controls. No sign-up or software installation required." } },
+      { "@type": "Question", name: "Is the CSS Keyframe Animation Generator 100% free to use?", acceptedAnswer: { "@type": "Answer", text: "Yes, the CSS Keyframe Animation Generator is 100% free with unlimited usage and no account required." } },
+      { "@type": "Question", name: "Is my data secure when using the CSS Keyframe Animation Generator?", acceptedAnswer: { "@type": "Answer", text: "Yes, all processing occurs locally in your browser. Your data never leaves your device." } }
+    ]
+  };
   return (
     <div className="space-y-4">
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
+      <JsonLd data={faqLd} />
       <CssKeyframesClient />
     
       <RelatedTools currentToolUrl="/tools/dev/css-keyframes" />

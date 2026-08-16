@@ -1,54 +1,37 @@
-import { Metadata } from "next";
-import MemeGeneratorClient from "@/components/tools/image/meme-generator-client";
-import { generateSEOMetadata } from "@/lib/seo-config";
 import JsonLd from "@/components/seo/json-ld";
+<<<<<<< HEAD
 import RelatedTools from "@/components/shared/related-tools";
+=======
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
+import MemeGeneratorClient from "@/components/tools/image/meme-generator-client";
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 
-export const metadata: Metadata = generateSEOMetadata({
-  title: "Meme Generator Online — Create Custom Memes Free",
-  description:
-    "Free online Meme Generator tool. Upload your own image or choose a template, add custom top and bottom text, customize styling, colors, and font size, and download your finished meme instantly.",
+export const metadata = buildMetadata({
+  title: "Meme Generator",
+  description: "Create custom memes online for free. Upload your own image or choose a template, customize text position, font size, and color. Download instant memes to share.",
   path: "/tools/image/meme-generator",
+  keywords: ["your", "text", "create", "upload", "online", "free", "template", "customize", "custom", "memes", "choose", "image"],
 });
 
-export default function MemeGeneratorPage() {
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "How do I create a custom meme?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Upload your image or pick a starter template, type in the desired Top and Bottom texts, adjust settings like font sizes, border thickness, text colors, and then click 'Download Meme' to export.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Do you add watermarks to the memes?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "No. Our Meme Generator is completely clean and will never add logos or watermarks to your generated images.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Are my uploaded photos secure?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. All image processing occurs entirely client-side using HTML5 Canvas inside your browser. No files are uploaded to servers, ensuring 100% privacy.",
-        },
-      },
-    ],
-  };
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "Meme Generator",
+    description: "Create custom memes online for free. Upload your own image or choose a template, customize text position, font size, and color. Download instant memes to share.",
+    path: "/tools/image/meme-generator",
+    categoryName: "Image",
+    categoryPath: "/tools/image",
+  });
 
   return (
-    <>
-      <JsonLd data={faqSchema} />
+    <div className="max-w-6xl mx-auto space-y-8">
+      <JsonLd data={jsonLd as any} />
       <MemeGeneratorClient />
+<<<<<<< HEAD
     
       <RelatedTools currentToolUrl="/tools/image/meme-generator" />
 </>
+=======
+    </div>
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
   );
 }

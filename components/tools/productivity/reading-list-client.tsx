@@ -1,4 +1,5 @@
 "use client";
+<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -17,137 +18,149 @@ import { BookMarked, BookOpen, CheckCircle2, Download, Edit, Plus, Search, Star,
 import toast from"react-hot-toast";
 import { cn } from"@/lib/utils";
 
+=======
+import { ToolBackground } from"@/components/shared/tool-background";
+
+import { useState, useEffect, useMemo } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { BookOpen, Plus, Star, Search, Download, Trash2, Edit, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import toast from "react-hot-toast";
+import { cn } from "@/lib/utils";
+import { GridPattern } from "@/components/magicui/grid-pattern";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 interface ReadingItem {
- id: string;
- title: string;
- author: string;
- type: string;
- status: string;
- rating: number;
- notes: string;
- dateAdded: string;
+  id: string;
+  title: string;
+  author: string;
+  type: string;
+  status: string;
+  rating: number;
+  notes: string;
+  dateAdded: string;
 }
-
 export function ReadingListClient() {
- const [items, setItems] = useState<ReadingItem[]>([]);
- 
- const [title, setTitle] = useState("");
- const [author, setAuthor] = useState("");
- const [type, setType] = useState("Book");
- const [status, setStatus] = useState("To Read");
- const [rating, setRating] = useState("0");
- const [notes, setNotes] = useState("");
+  const [items, setItems] = useState<ReadingItem[]>([]);
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [type, setType] = useState("Book");
+  const [status, setStatus] = useState("To Read");
+  const [rating, setRating] = useState("0");
+  const [notes, setNotes] = useState("");
+  const [search, setSearch] = useState("");
+  const [filterStatus, setFilterStatus] = useState("All");
+  const [sortOrder, setSortOrder] = useState("Date Added");
+  useEffect(() => {
+    const saved = localStorage.getItem("toolzium_reading_list");
+    if (saved) {
+      try {
+        setItems(JSON.parse(saved));
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }, []);
+  const saveToLocal = (data: ReadingItem[]) => {
+    setItems(data);
+    localStorage.setItem("toolzium_reading_list", JSON.stringify(data));
+  };
+  const handleAdd = () => {
+    if (!title) {
+      toast.error("Please enter a title");
+      return;
+    }
+    const newItem: ReadingItem = {
+      id: Math.random().toString(36).substring(7),
+      title,
+      author,
+      type,
+      status,
+      rating: parseInt(rating),
+      notes,
+      dateAdded: new Date().toISOString()
+    };
+    saveToLocal([newItem, ...items]);
+    setTitle("");
+    setAuthor("");
+    setNotes("");
+    setRating("0");
+    toast.success("Item added to list");
+  };
+  const handleDelete = (id: string) => {
+    saveToLocal(items.filter(i => i.id !== id));
+    toast.success("Item deleted");
+  };
+  const handleStatusChange = (id: string, newStatus: string) => {
+    saveToLocal(items.map(i => i.id === id ? {
+      ...i,
+      status: newStatus
+    } : i));
+  };
+  const handleReset = () => {
+    if (confirm("Are you sure you want to delete all items?")) {
+      saveToLocal([]);
+      toast.success("List cleared");
+    }
+  };
+  const handleExport = () => {
+    if (items.length === 0) {
+      toast.error("No data to export");
+      return;
+    }
+    const text = items.map(i => `${i.title} by ${i.author || "Unknown"}\nType: ${i.type}\nStatus: ${i.status}\nRating: ${i.rating}/5\nNotes: ${i.notes}\n`).join("\n---\n\n");
+    const blob = new Blob([text], {
+      type: "text/plain"
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "reading-list.txt";
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success("Exported to text file");
+  };
+  const filteredItems = useMemo(() => {
+    let result = items;
+    if (filterStatus !== "All") {
+      result = result.filter(i => i.status === filterStatus);
+    }
+    if (search) {
+      const q = search.toLowerCase();
+      result = result.filter(i => i.title.toLowerCase().includes(q) || i.author.toLowerCase().includes(q));
+    }
+    return [...result].sort((a, b) => {
+      if (sortOrder === "Title") return a.title.localeCompare(b.title);
+      return new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime();
+    });
+  }, [items, filterStatus, search, sortOrder]);
+  const stats = useMemo(() => {
+    const total = items.length;
+    const completed = items.filter(i => i.status === "Completed").length;
+    const reading = items.filter(i => i.status === "Reading").length;
+    return {
+      total,
+      completed,
+      reading
+    };
+  }, [items]);
+  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+      
 
- const [search, setSearch] = useState("");
- const [filterStatus, setFilterStatus] = useState("All");
- const [sortOrder, setSortOrder] = useState("Date Added");
-
- useEffect(() => {
- const saved = localStorage.getItem("toolzium_reading_list");
- if (saved) {
- try {
- setItems(JSON.parse(saved));
- } catch (e) {
- console.error(e);
- }
- }
- }, []);
-
- const saveToLocal = (data: ReadingItem[]) => {
- setItems(data);
- localStorage.setItem("toolzium_reading_list", JSON.stringify(data));
- };
-
- const handleAdd = () => {
- if (!title) {
- toast.error("Please enter a title");
- return;
- }
- const newItem: ReadingItem = {
- id: Math.random().toString(36).substring(7),
- title,
- author,
- type,
- status,
- rating: parseInt(rating),
- notes,
- dateAdded: new Date().toISOString(),
- };
- saveToLocal([newItem, ...items]);
- setTitle("");
- setAuthor("");
- setNotes("");
- setRating("0");
- toast.success("Item added to list");
- };
-
- const handleDelete = (id: string) => {
- saveToLocal(items.filter(i => i.id !== id));
- toast.success("Item deleted");
- };
- 
- const handleStatusChange = (id: string, newStatus: string) => {
- saveToLocal(items.map(i => i.id === id ? { ...i, status: newStatus } : i));
- };
-
- const handleReset = () => {
- if (confirm("Are you sure you want to delete all items?")) {
- saveToLocal([]);
- toast.success("List cleared");
- }
- };
-
- const handleExport = () => {
- if (items.length === 0) {
- toast.error("No data to export");
- return;
- }
- const text = items.map(i => `${i.title} by ${i.author ||"Unknown"}\nType: ${i.type}\nStatus: ${i.status}\nRating: ${i.rating}/5\nNotes: ${i.notes}\n`).join("\n---\n\n");
- const blob = new Blob([text], { type:"text/plain"});
- const url = URL.createObjectURL(blob);
- const a = document.createElement("a");
- a.href = url;
- a.download ="reading-list.txt";
- a.click();
- URL.revokeObjectURL(url);
- toast.success("Exported to text file");
- };
-
- const filteredItems = useMemo(() => {
- let result = items;
- if (filterStatus !=="All") {
- result = result.filter(i => i.status === filterStatus);
- }
- if (search) {
- const q = search.toLowerCase();
- result = result.filter(i => i.title.toLowerCase().includes(q) || i.author.toLowerCase().includes(q));
- }
- return [...result].sort((a, b) => {
- if (sortOrder ==="Title") return a.title.localeCompare(b.title);
- return new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime();
- });
- }, [items, filterStatus, search, sortOrder]);
-
- const stats = useMemo(() => {
- const total = items.length;
- const completed = items.filter(i => i.status ==="Completed").length;
- const reading = items.filter(i => i.status ==="Reading").length;
- return { total, completed, reading };
- }, [items]);
-
- return (
- <div className="space-y-6">
- <ToolPageHeader
- icon={BookOpen}
- title="Reading List Manager"
- description="Track your books, articles, and reading progress."
- actions={
- <>
- <ActionButton onClick={handleExport} icon={Download} label="Export"/>
- <ResetButton onClick={handleReset} label="Clear All"/>
- </>
- }
- />
+ <ToolPageHeader icon={BookOpen} title="Reading List Manager" description="Track your books, articles, and reading progress." actions={<>
+ <ActionButton onClick={handleExport} icon={Download} label="Export" />
+ <ResetButton onClick={handleReset} label="Clear All" />
+ </>} />
 
  <div className="grid md:grid-cols-3 gap-6">
  <GlassCard className="md:col-span-1">
@@ -157,11 +170,11 @@ export function ReadingListClient() {
  <CardContent className="space-y-4">
  <div className="space-y-2">
  <Label>Title</Label>
- <Input placeholder="Book or article title"value={title} onChange={e => setTitle(e.target.value)} />
+ <Input placeholder="Book or article title" value={title} onChange={e => setTitle(e.target.value)} />
  </div>
  <div className="space-y-2">
  <Label>Author</Label>
- <Input placeholder="Author name"value={author} onChange={e => setAuthor(e.target.value)} />
+ <Input placeholder="Author name" value={author} onChange={e => setAuthor(e.target.value)} />
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
@@ -187,25 +200,21 @@ export function ReadingListClient() {
  </Select>
  </div>
  </div>
- {status ==="Completed"&& (
- <div className="space-y-2">
+ {status === "Completed" && <div className="space-y-2">
  <Label>Rating (0-5)</Label>
  <Select value={rating} onValueChange={setRating}>
  <SelectTrigger><SelectValue /></SelectTrigger>
  <SelectContent>
- {[0,1,2,3,4,5].map(n => (
- <SelectItem key={n} value={n.toString()}>{n} Star{n!==1&&"s"}</SelectItem>
- ))}
+ {[0, 1, 2, 3, 4, 5].map(n => <SelectItem key={n} value={n.toString()}>{n} Star{n !== 1 && "s"}</SelectItem>)}
  </SelectContent>
  </Select>
- </div>
- )}
+ </div>}
  <div className="space-y-2">
  <Label>Notes (Optional)</Label>
- <Input placeholder="Thoughts, quotes..."value={notes} onChange={e => setNotes(e.target.value)} />
+ <Input placeholder="Thoughts, quotes..." value={notes} onChange={e => setNotes(e.target.value)} />
  </div>
  <Button onClick={handleAdd} className="w-full gap-2">
- <Plus className="w-4 h-4"/> Add to List
+ <Plus className="w-4 h-4" /> Add to List
  </Button>
  </CardContent>
  </GlassCard>
@@ -238,8 +247,8 @@ export function ReadingListClient() {
  <CardTitle>My List</CardTitle>
  <div className="flex items-center gap-2 w-full md:w-auto">
  <div className="relative flex-1 md:w-48">
- <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"/>
- <Input placeholder="Search..."className="pl-9"value={search} onChange={e => setSearch(e.target.value)} />
+ <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+ <Input placeholder="Search..." className="pl-9" value={search} onChange={e => setSearch(e.target.value)} />
  </div>
  <Select value={filterStatus} onValueChange={setFilterStatus}>
  <SelectTrigger className="w-[120px]"><SelectValue /></SelectTrigger>
@@ -261,12 +270,8 @@ export function ReadingListClient() {
  </div>
  </CardHeader>
  <CardContent>
- {filteredItems.length === 0 ? (
- <div className="text-center text-muted-foreground py-8">No items match your criteria.</div>
- ) : (
- <div className="space-y-4">
- {filteredItems.map(item => (
- <div key={item.id} className="p-4 rounded-lg border bg-card flex flex-col sm:flex-row justify-between gap-4">
+ {filteredItems.length === 0 ? <div className="text-center text-muted-foreground py-8">No items match your criteria.</div> : <div className="space-y-4">
+ {filteredItems.map(item => <div key={item.id} className="p-4 rounded-lg border bg-card flex flex-col sm:flex-row justify-between gap-4">
  <div className="flex-1 space-y-1">
  <div className="flex items-center gap-2">
  <h4 className="font-bold text-lg">{item.title}</h4>
@@ -274,18 +279,16 @@ export function ReadingListClient() {
  {item.type}
  </span>
  </div>
- <p className="text-sm text-muted-foreground">by {item.author ||"Unknown"}</p>
- {item.status ==="Completed"&& item.rating > 0 && (
- <div className="flex items-center gap-1 text-amber-500">
- {Array.from({ length: 5 }).map((_, i) => (
- <Star key={i} className={cn("w-3 h-3", i < item.rating ?"fill-current":"opacity-30")} />
- ))}
- </div>
- )}
+ <p className="text-sm text-muted-foreground">by {item.author || "Unknown"}</p>
+ {item.status === "Completed" && item.rating > 0 && <div className="flex items-center gap-1 text-amber-500">
+ {Array.from({
+                        length: 5
+                      }).map((_, i) => <Star key={i} className={cn("w-3 h-3", i < item.rating ? "fill-current" : "opacity-30")} />)}
+ </div>}
  {item.notes && <p className="text-sm mt-2 p-2 bg-muted rounded-md">{item.notes}</p>}
  </div>
  <div className="flex sm:flex-col items-center gap-2">
- <Select value={item.status} onValueChange={(val) => handleStatusChange(item.id, val)}>
+ <Select value={item.status} onValueChange={val => handleStatusChange(item.id, val)}>
  <SelectTrigger className="h-8 w-[110px] text-xs"><SelectValue /></SelectTrigger>
  <SelectContent>
  <SelectItem value="To Read">To Read</SelectItem>
@@ -293,19 +296,18 @@ export function ReadingListClient() {
  <SelectItem value="Completed">Completed</SelectItem>
  </SelectContent>
  </Select>
- <Button variant="ghost"size="icon"onClick={() => handleDelete(item.id)} className="h-8 w-8 text-destructive">
- <Trash2 className="w-4 h-4"/>
+ <Button variant="ghost" size="icon" onClick={() => handleDelete(item.id)} className="h-8 w-8 text-destructive">
+ <Trash2 className="w-4 h-4" />
  </Button>
  </div>
- </div>
- ))}
- </div>
- )}
+ </div>)}
+ </div>}
  </CardContent>
  </GlassCard>
  </div>
  </div>
  
+<<<<<<< HEAD
 <ToolHowItWorks
   steps={[
 {
@@ -388,3 +390,65 @@ export function ReadingListClient() {
 </div>
  );
 }
+=======
+      <ToolHowItWorks steps={[{
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+
+      <ToolFeatureGuides features={[{
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
+        <div className="prose dark:prose-invert max-w-none">
+          <h3>Why Use Our Reading List Manager?</h3>
+          <p>
+            This free online tool is designed to help you get accurate results quickly and securely.
+            Whether you're a developer, designer, student, or professional, our Reading List Manager provides
+            the functionality you need without any complexity or cost.
+          </p>
+          <p>
+            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
+            privacy and zero latency. No data is ever transmitted to external servers, making it safe
+            for sensitive information.
+          </p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion faqs={[{
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
+
+      <RelatedTools currentToolUrl="/tools/productivity/reading-list" max={6} />
+
+    </div></div>;
+}
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

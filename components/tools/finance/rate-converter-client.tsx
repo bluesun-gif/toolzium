@@ -1,87 +1,93 @@
 "use client";
+<<<<<<< HEAD
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+=======
+import { ToolBackground } from"@/components/shared/tool-background";
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 
-import React, { useState } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
-import { Separator } from"@/components/ui/separator";
-import { Input } from"@/components/ui/input";
-import { Label } from"@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Percent, ArrowLeftRight, Calculator } from"lucide-react";
-
+import React, { useState } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { Percent, ArrowLeftRight, Calculator, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { GridPattern } from "@/components/magicui/grid-pattern";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { cn } from "@/lib/utils";
 export function RateConverterClient() {
- const [rate, setRate] = useState("5");
- const [rateType, setRateType] = useState("nominal");
- const [frequency, setFrequency] = useState("12"); // Monthly default
- 
- const handleReset = () => {
- setRate("5");
- setRateType("nominal");
- setFrequency("12");
- };
+  const [rate, setRate] = useState("5");
+  const [rateType, setRateType] = useState("nominal");
+  const [frequency, setFrequency] = useState("12"); // Monthly default
 
- const calculateRates = () => {
- const r = parseFloat(rate) / 100;
- if (isNaN(r) || r < 0) return null;
- 
- const n = parseInt(frequency);
- let nominalRate = 0;
- let effectiveRate = 0;
- 
- if (rateType ==="nominal") {
- nominalRate = r;
- effectiveRate = Math.pow(1 + nominalRate / n, n) - 1;
- } else {
- effectiveRate = r;
- nominalRate = n * (Math.pow(1 + effectiveRate, 1 / n) - 1);
- }
- 
- const frequencies = [
- { label:"Daily", n: 365 },
- { label:"Weekly", n: 52 },
- { label:"Monthly", n: 12 },
- { label:"Quarterly", n: 4 },
- { label:"Semi-Annually", n: 2 },
- { label:"Annually", n: 1 }
- ];
+  const handleReset = () => {
+    setRate("5");
+    setRateType("nominal");
+    setFrequency("12");
+  };
+  const calculateRates = () => {
+    const r = parseFloat(rate) / 100;
+    if (isNaN(r) || r < 0) return null;
+    const n = parseInt(frequency);
+    let nominalRate = 0;
+    let effectiveRate = 0;
+    if (rateType === "nominal") {
+      nominalRate = r;
+      effectiveRate = Math.pow(1 + nominalRate / n, n) - 1;
+    } else {
+      effectiveRate = r;
+      nominalRate = n * (Math.pow(1 + effectiveRate, 1 / n) - 1);
+    }
+    const frequencies = [{
+      label: "Daily",
+      n: 365
+    }, {
+      label: "Weekly",
+      n: 52
+    }, {
+      label: "Monthly",
+      n: 12
+    }, {
+      label: "Quarterly",
+      n: 4
+    }, {
+      label: "Semi-Annually",
+      n: 2
+    }, {
+      label: "Annually",
+      n: 1
+    }];
+    return {
+      nominalRate,
+      effectiveRate,
+      conversions: frequencies.map(f => {
+        const nom = f.n === n && rateType === "nominal" ? r : rateType === "effective" ? f.n * (Math.pow(1 + effectiveRate, 1 / f.n) - 1) : f.n * (Math.pow(1 + nominalRate / n, n / f.n) - 1);
+        const eff = Math.pow(1 + nom / f.n, f.n) - 1;
+        return {
+          frequency: f.label,
+          nominal: (nom * 100).toFixed(4),
+          effective: (eff * 100).toFixed(4)
+        };
+      })
+    };
+  };
+  const results = calculateRates();
+  const getResultsText = () => {
+    if (!results) return "";
+    return results.conversions.map(c => `${c.frequency}: Nominal ${c.nominal}% | Effective (APY) ${c.effective}%`).join('\n');
+  };
+  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+      
 
- return {
- nominalRate,
- effectiveRate,
- conversions: frequencies.map(f => {
- const nom = f.n === n && rateType ==="nominal"? r : (rateType ==="effective"? f.n * (Math.pow(1 + effectiveRate, 1 / f.n) - 1) : f.n * (Math.pow(1 + (nominalRate/n), n/f.n) - 1));
- const eff = Math.pow(1 + nom / f.n, f.n) - 1;
- return {
- frequency: f.label,
- nominal: (nom * 100).toFixed(4),
- effective: (eff * 100).toFixed(4)
- };
- })
- };
- };
-
- const results = calculateRates();
- 
- const getResultsText = () => {
- if (!results) return"";
- return results.conversions.map(c => `${c.frequency}: Nominal ${c.nominal}% | Effective (APY) ${c.effective}%`).join('\n');
- };
-
- return (
- <div className="space-y-6">
- <ToolPageHeader
- icon={Percent}
- title="Interest Rate Converter"
- description="Convert between APR/Nominal and APY/Effective rates across different compounding frequencies."
- actions={
- <ResetButton onClick={handleReset} label="Reset"/>
- }
- />
+ <ToolPageHeader icon={Percent} title="Interest Rate Converter" description="Convert between APR/Nominal and APY/Effective rates across different compounding frequencies." actions={<ResetButton onClick={handleReset} label="Reset" />} />
  
  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
  <div className="lg:col-span-4 space-y-6">
@@ -93,13 +99,7 @@ export function RateConverterClient() {
  <CardContent className="space-y-4">
  <div className="space-y-2">
  <Label>Interest Rate (%)</Label>
- <Input 
- type="number"
- value={rate} 
- onChange={e => setRate(e.target.value)} 
- step="0.01"
- min="0"
- />
+ <Input type="number" value={rate} onChange={e => setRate(e.target.value)} step="0.01" min="0" />
  </div>
  <div className="space-y-2">
  <Label>Rate Type</Label>
@@ -135,7 +135,7 @@ export function RateConverterClient() {
  <GlassCard>
  <CardHeader>
  <CardTitle className="flex items-center gap-2 text-base">
- <Calculator className="w-4 h-4"/> Formulas
+ <Calculator className="w-4 h-4" /> Formulas
  </CardTitle>
  </CardHeader>
  <CardContent className="space-y-4 text-sm text-muted-foreground">
@@ -160,15 +160,14 @@ export function RateConverterClient() {
  <CardHeader className="flex flex-row items-center justify-between">
  <div>
  <CardTitle className="flex items-center gap-2">
- <ArrowLeftRight className="w-5 h-5"/> Conversion Results
+ <ArrowLeftRight className="w-5 h-5" /> Conversion Results
  </CardTitle>
  <CardDescription>Equivalent rates for different frequencies</CardDescription>
  </div>
- {results && <CopyButton getText={getResultsText} label="Copy Table"/>}
+ {results && <CopyButton getText={getResultsText} label="Copy Table" />}
  </CardHeader>
  <CardContent>
- {results ? (
- <div className="overflow-x-auto">
+ {results ? <div className="overflow-x-auto">
  <table className="w-full text-sm text-left">
  <thead className="text-xs text-muted-foreground uppercase bg-muted/50 rounded-t-lg">
  <tr>
@@ -179,35 +178,24 @@ export function RateConverterClient() {
  </thead>
  <tbody>
  {results.conversions.map((conv, idx) => {
- const isSelected = frequency === (
- conv.frequency ==="Daily"?"365":
- conv.frequency ==="Weekly"?"52":
- conv.frequency ==="Monthly"?"12":
- conv.frequency ==="Quarterly"?"4":
- conv.frequency ==="Semi-Annually"?"2":"1"
- );
- return (
- <tr key={idx} className={"border-b last:border-0"+ (isSelected ? 'bg-primary/10 font-medium' : '')}>
+                      const isSelected = frequency === (conv.frequency === "Daily" ? "365" : conv.frequency === "Weekly" ? "52" : conv.frequency === "Monthly" ? "12" : conv.frequency === "Quarterly" ? "4" : conv.frequency === "Semi-Annually" ? "2" : "1");
+                      return <tr key={idx} className={cn("border-b last:border-0", isSelected ? 'bg-primary/10 font-medium' : '')}>
  <td className="px-4 py-3">{conv.frequency} {isSelected && <span className="ml-2 text-xs bg-primary text-primary-foreground px-2 py-0.5 rounded-full">Input</span>}</td>
  <td className="px-4 py-3">{conv.nominal}%</td>
  <td className="px-4 py-3">{conv.effective}%</td>
- </tr>
- )
- })}
+ </tr>;
+                    })}
  </tbody>
  </table>
  <div className="mt-6 p-4 bg-muted/30 rounded-lg border text-sm">
  <strong>Summary: </strong> 
- A {rateType ==="nominal"?"Nominal (APR)":"Effective (APY)"} rate of <strong>{rate}%</strong> compounded <strong>
- {frequency ==="365"?"Daily": frequency ==="52"?"Weekly": frequency ==="12"?"Monthly": frequency ==="4"?"Quarterly": frequency ==="2"?"Semi-Annually":"Annually"}
+ A {rateType === "nominal" ? "Nominal (APR)" : "Effective (APY)"} rate of <strong>{rate}%</strong> compounded <strong>
+ {frequency === "365" ? "Daily" : frequency === "52" ? "Weekly" : frequency === "12" ? "Monthly" : frequency === "4" ? "Quarterly" : frequency === "2" ? "Semi-Annually" : "Annually"}
  </strong> is mathematically equivalent to a true Annual Percentage Yield (APY) of <strong>{(results.effectiveRate * 100).toFixed(4)}%</strong>.
  </div>
- </div>
- ) : (
- <div className="text-center py-12 text-muted-foreground">
+ </div> : <div className="text-center py-12 text-muted-foreground">
  Enter a valid interest rate to see conversions.
- </div>
- )}
+ </div>}
  </CardContent>
  
 
@@ -294,6 +282,60 @@ export function RateConverterClient() {
 </GlassCard>
  </div>
  </div>
- </div>
- );
+ 
+      <ToolHowItWorks steps={[{
+        step: "01",
+        title: "Enter Your Numbers",
+        description: "Enter a rate and basis in the fields above — everything calculates live as you type.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Review the Result",
+        description: "Instantly see your APR, APY, and periodic equivalents, with breakdowns and visual cues.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy or Export",
+        description: "Copy any figure or export the full breakdown to use in a plan, invoice, or report.",
+        icon: Copy
+      }]} badges={["100% Free", "Private & Local", "No Signup"]} />
+
+            <ToolFeatureGuides features={[{
+        icon: Sparkles,
+        title: "APR to APY",
+        description: "APR to APY"
+      }, {
+        icon: Shield,
+        title: "Private & On-Device",
+        description: "Every calculation runs in your browser. Your financial inputs never leave your device or touch a server."
+      }, {
+        icon: Zap,
+        title: "No Signup, Ever",
+        description: "Open the tool and get an answer in seconds — no account, no paywall, no usage cap."
+      }]}>
+        <div className="prose dark:prose-invert max-w-none">
+          <h3>Why Use the Interest Rate Converter?</h3>
+          <p>
+            Convert between nominal and effective rates so '12% APR' and '12.68% APY' finally mean the same thing.
+          </p>
+          <p>
+            Like all Toolzium calculators, it is free, private, and built to give you a paid-product experience without the subscription.
+          </p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion faqs={[{
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
+
+      <RelatedTools currentToolUrl="/tools/finance/rate-converter" max={6} />
+
+    </div></div>;
 }

@@ -33,10 +33,21 @@ export default function Page() {
     ] 
   };
   
+
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      { "@type": "Question", name: "How does the Color Palette from Image work?", acceptedAnswer: { "@type": "Answer", text: "Toolzium's Color Palette from Image runs instantly in your browser. Extract dominant colors from uploaded images. Hex, RGB, HSL values. Copy palette. Download as PNG swatch strip. CSS color names. No sign-up or software installation required." } },
+      { "@type": "Question", name: "Is the Color Palette from Image 100% free to use?", acceptedAnswer: { "@type": "Answer", text: "Yes, the Color Palette from Image is 100% free with unlimited usage and no account required." } },
+      { "@type": "Question", name: "Is my data secure when using the Color Palette from Image?", acceptedAnswer: { "@type": "Answer", text: "Yes, all processing occurs locally in your browser. Your data never leaves your device." } }
+    ]
+  };
   return (
     <div className="space-y-4">
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
+      <JsonLd data={faqLd} />
       <PaletteExtractClient />
     
       <RelatedTools currentToolUrl="/tools/image/palette-extract" />

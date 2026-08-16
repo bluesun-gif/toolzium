@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useCallback, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -32,6 +33,7 @@ import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import { RelatedTools } from"@/components/shared/related-tools";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 // Secure random number generator (1-6)
 const secureRandomDie = () => {
  const array = new Uint32Array(1);
@@ -63,14 +65,15 @@ const Die = ({ value, rolling }: { value: number; rolling: boolean }) => {
  const rotation = rolling ? Math.floor(Math.random() * 360) : 0;
 
  return (
- <div
- className="w-16 h-16 sm:w-24 sm:h-24 bg-background border-2 border-border rounded-xl shadow-md p-2 grid grid-cols-3 grid-rows-3 gap-1 transition-all duration-300"
+      <div className="relative w-16 h-16 sm:w-24 sm:h-24 bg-background border-2 border-border rounded-xl shadow-md p-2 grid grid-cols-3 grid-rows-3 gap-1 transition-all duration-300"
  style={{
  transform: rolling
  ? `rotate(${rotation}deg) scale(1.1)`
  :"rotate(0deg) scale(1)",
  }}
  >
+      <ToolBackground />
+
  {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
  <div
  key={i}
@@ -527,7 +530,7 @@ const DiceRollerClient = () => {
  },
  ]}
  />
- <RelatedTools currentToolUrl="/tools/util/dice-roller"max={6} />
+ <RelatedTools currentToolUrl="/tools/util/dice-roller" max={6} />
  </div>
  );
 };

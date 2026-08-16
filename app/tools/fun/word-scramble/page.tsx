@@ -1,15 +1,21 @@
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import WordScrambleClient from "@/components/tools/fun/word-scramble-client";
+<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+=======
+
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
-  title: "Word Scramble Game | Toolzium",
-  description: "Play a fun word scramble game. Choose categories, unscramble letters, and track your score and streak.",
+  title: "Word Scramble Game",
+  description: "Unscramble scrambled letters word game. Categories, timer per word, letter hint, score counter, streak tracker, sound effects.",
   path: "/tools/fun/word-scramble",
-  keywords: ["word scramble", "game", "puzzle", "fun", "brain teaser"],
+  keywords: ["score", "categories", "letter", "hint", "scrambled", "letters", "unscramble", "word", "game", "counter", "timer"],
 });
 
 export default function Page() {
+<<<<<<< HEAD
   const toolUrl = siteURL + "/tools/fun/word-scramble";
   const appLd = { "@context": "https://schema.org", "@type": "WebApplication", name: "Word Scramble Game", url: toolUrl, description: "Play a fun word scramble game. Choose categories, unscramble letters, and track your score and streak.", applicationCategory: "GameApplication", operatingSystem: "All", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" } };
   const crumbsLd = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: siteURL }, { "@type": "ListItem", position: 2, name: "Fun Tools", item: siteURL + "/tools#cat-fun" }, { "@type": "ListItem", position: 3, name: "Word Scramble", item: toolUrl }] };
@@ -17,4 +23,20 @@ export default function Page() {
   return (<div className="space-y-4"><JsonLd data={appLd} /><JsonLd data={crumbsLd} /><JsonLd data={faqLd} /><WordScrambleClient />
       <RelatedTools currentToolUrl="/tools/fun/word-scramble" />
 </div>);
+=======
+  const jsonLd = buildToolJsonLd({
+    name: "Word Scramble Game",
+    description: "Unscramble scrambled letters word game. Categories, timer per word, letter hint, score counter, streak tracker, sound effects.",
+    path: "/tools/fun/word-scramble",
+    categoryName: "Fun",
+    categoryPath: "/tools/fun",
+  });
+
+  return (
+    <div className="max-w-6xl mx-auto space-y-8">
+      <JsonLd data={jsonLd as any} />
+      <WordScrambleClient />
+    </div>
+  );
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 }

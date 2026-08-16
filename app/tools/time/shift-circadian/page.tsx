@@ -35,10 +35,21 @@ export default function Page() {
     ]
   };
 
+
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      { "@type": "Question", name: "How does the Shift Work Sleep Schedule & Circadian Calculator work?", acceptedAnswer: { "@type": "Answer", text: "Toolzium's Shift Work Sleep Schedule & Circadian Calculator runs instantly in your browser. Calculate optimal sleep and wake cycles for shift workers. No sign-up or software installation required." } },
+      { "@type": "Question", name: "Is the Shift Work Sleep Schedule & Circadian Calculator 100% free to use?", acceptedAnswer: { "@type": "Answer", text: "Yes, the Shift Work Sleep Schedule & Circadian Calculator is 100% free with unlimited usage and no account required." } },
+      { "@type": "Question", name: "Is my data secure when using the Shift Work Sleep Schedule & Circadian Calculator?", acceptedAnswer: { "@type": "Answer", text: "Yes, all processing occurs locally in your browser. Your data never leaves your device." } }
+    ]
+  };
   return (
     <div className="space-y-4">
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
+      <JsonLd data={faqLd} />
       <ShiftCircadianClient />
     
       <RelatedTools currentToolUrl="/tools/time/shift-circadian" />

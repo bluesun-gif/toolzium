@@ -1,128 +1,32 @@
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import TextToListClient from "@/components/tools/text/text-to-list-client";
+<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 import RelatedTools from "@/components/shared/related-tools";
+=======
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 
 export const metadata = buildMetadata({
   title: "Text to List",
-  description:
-    "Split text by commas, newlines, semicolons, or tabs into a clean list. Trim, dedupe, sort, change case, and add prefix/suffix or numbering. Export to CSV or TXT.",
+  description: "Convert comma-separated or newline-separated text into formatted lists. Split text by delimiters, clean entries, and export as array, JSON, or CSV. Text to list converter.",
   path: "/tools/text/to-list",
-  keywords: [
-    "text to list",
-    "split text",
-    "split by comma",
-    "split by newline",
-    "split by semicolon",
-    "split by tab",
-    "tokenize text",
-    "list maker",
-    "trim whitespace",
-    "remove empty items",
-    "remove duplicates",
-    "dedupe list",
-    "sort list A-Z",
-    "sort list Z-A",
-    "change case list",
-    "lowercase uppercase title case",
-    "add prefix",
-    "add suffix",
-    "add numbering",
-    "export list CSV",
-    "export list TXT",
-    "Toolzium",
-    "online tools",
-    "privacy friendly tools",
-    "Bangladesh",
-  ],
+  keywords: ["split", "separated", "comma", "into", "convert", "newline", "formatted", "lists", "text", "delimiters"],
 });
 
 export default function Page() {
-  const toolUrl = `${siteURL}/tools/text/to-list`;
-
-  const appLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "Text to List — Toolzium",
-    url: toolUrl,
-    applicationCategory: "UtilitiesApplication",
-    operatingSystem: "Web",
-    isAccessibleForFree: true,
-    inLanguage: ["en", "bn"],
-    description:
-      "Convert raw text into a clean list by splitting on commas, newlines, semicolons, or tabs. Trim, dedupe, sort, change case, add prefix/suffix or numbering, and export.",
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-    featureList: [
-      "Split text into a list by comma, newline, semicolon, or tab",
-      "Trim whitespace, collapse multiple spaces",
-      "Remove empty items and deduplicate entries",
-      "Sort ascending (A–Z) or descending (Z–A)",
-      "Change case: lowercase, UPPERCASE, Title Case",
-      "Add custom prefix, suffix, or sequential numbering",
-      "Export results to CSV or TXT; copy to clipboard",
-      "Privacy-first: runs locally in your browser",
-      "Fast, mobile-friendly UI",
-    ],
-    creator: {
-      "@type": "Person",
-      name: "Toolzium",
-      url: "https://toolzium.com",
-    },
-    potentialAction: {
-      "@type": "Action",
-      target: toolUrl,
-      name: "Convert text to a list",
-    },
-  };
-
-  const crumbsLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Tools", item: `${siteURL}/tools` },
-      { "@type": "ListItem", position: 2, name: "URL", item: `${siteURL}/tools#cat-text` },
-      { "@type": "ListItem", position: 3, name: "Text to List", item: toolUrl },
-    ],
-  };
-
-  const faqLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "Which delimiters are supported?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "You can split by comma, newline, semicolon, or tab. In many cases, mixed delimiters are also handled with a unified cleanup pipeline.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Can I remove duplicates and empty items?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. You can dedupe items case-sensitively or insensitively and automatically remove empty items created during splitting.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Can I export the final list?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. Export to CSV or TXT, or copy the cleaned list directly to your clipboard.",
-        },
-      },
-    ],
-  };
+  const jsonLd = buildToolJsonLd({
+    name: "Text to List",
+    description: "Convert comma-separated or newline-separated text into formatted lists. Split text by delimiters, clean entries, and export as array, JSON, or CSV. Text to list converter.",
+    path: "/tools/text/to-list",
+    categoryName: "Text",
+    categoryPath: "/tools/text",
+  });
 
   return (
     <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={appLd} />
-      <JsonLd data={crumbsLd} />
-      <JsonLd data={faqLd} />
-
+      <JsonLd data={jsonLd as any} />
       <TextToListClient />
     
       <RelatedTools currentToolUrl="/tools/text/to-list" />

@@ -1,48 +1,31 @@
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import TwoTruthsClient from "@/components/tools/fun/two-truths-client";
+<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+=======
+
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
-  title: "Two Truths and a Lie Generator | Toolzium",
-  description: "Play Two Truths and a Lie. Test your knowledge across categories like Science, History, Animals, and more. Keep track of your score.",
+  title: "Two Truths and a Lie",
+  description: "Party game with 50 sets of fun facts. Spot the lie. Score tracking. Timer mode. Categories: Science, History, Animals, Geography, Food.",
   path: "/tools/fun/two-truths",
-  keywords: ["two truths and a lie", "party game", "trivia game", "fun facts generator"],
+  keywords: ["mode", "sets", "with", "score", "categories", "science", "tracking", "facts", "spot", "game", "timer", "party"],
 });
 
 export default function Page() {
-  const toolUrl = `${siteURL}/tools/fun/two-truths`;
-  const appLd = { 
-    "@context": "https://schema.org", 
-    "@type": "WebApplication", 
-    name: "Two Truths and a Lie Generator", 
-    url: toolUrl, 
-    description: "Play Two Truths and a Lie across various categories.", 
-    applicationCategory: "EntertainmentApplication", 
-    operatingSystem: "All", 
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" } 
-  };
-  const crumbsLd = { 
-    "@context": "https://schema.org", 
-    "@type": "BreadcrumbList", 
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: siteURL }, 
-      { "@type": "ListItem", position: 2, name: "Fun Tools", item: `${siteURL}/tools#cat-fun` }, 
-      { "@type": "ListItem", position: 3, name: "Two Truths and a Lie", item: toolUrl }
-    ] 
-  };
-  const faqLd = { 
-    "@context": "https://schema.org", 
-    "@type": "FAQPage", 
-    mainEntity: [
-      { "@type": "Question", name: "How to play Two Truths and a Lie?", acceptedAnswer: { "@type": "Answer", text: "Read the three statements. Two are true, and one is a lie. Click on the statement you think is the lie to see if you are right." } }
-    ] 
-  };
-  
+  const jsonLd = buildToolJsonLd({
+    name: "Two Truths and a Lie",
+    description: "Party game with 50 sets of fun facts. Spot the lie. Score tracking. Timer mode. Categories: Science, History, Animals, Geography, Food.",
+    path: "/tools/fun/two-truths",
+    categoryName: "Fun",
+    categoryPath: "/tools/fun",
+  });
+
   return (
-    <div className="space-y-4">
-      <JsonLd data={appLd} />
-      <JsonLd data={crumbsLd} />
-      <JsonLd data={faqLd} />
+    <div className="max-w-6xl mx-auto space-y-8">
+      <JsonLd data={jsonLd as any} />
       <TwoTruthsClient />
     
       <RelatedTools currentToolUrl="/tools/fun/two-truths" />

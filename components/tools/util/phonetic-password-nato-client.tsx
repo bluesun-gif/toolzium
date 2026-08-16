@@ -1,97 +1,120 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
-import { useState, useEffect } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
-import { Input } from"@/components/ui/input";
-import { Label } from"@/components/ui/label";
-import { Switch } from"@/components/ui/switch";
-import { ActionButton, CopyButton } from"@/components/shared/action-buttons";
-import { Lock, Shield, RefreshCw } from"lucide-react";
-
+import { useState, useEffect } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { ActionButton, CopyButton } from "@/components/shared/action-buttons";
+import { Lock, Shield, RefreshCw, Sparkles, Zap, Copy } from "lucide-react";
+import { GridPattern } from "@/components/magicui/grid-pattern";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 const natoAlphabet: Record<string, string> = {
- a:"Alpha", b:"Bravo", c:"Charlie", d:"Delta", e:"Echo", f:"Foxtrot",
- g:"Golf", h:"Hotel", i:"India", j:"Juliett", k:"Kilo", l:"Lima",
- m:"Mike", n:"November", o:"Oscar", p:"Papa", q:"Quebec", r:"Romeo",
- s:"Sierra", t:"Tango", u:"Uniform", v:"Victor", w:"Whiskey", x:"X-ray",
- y:"Yankee", z:"Zulu",
-"0":"Zero","1":"One","2":"Two","3":"Three","4":"Four","5":"Five",
-"6":"Six","7":"Seven","8":"Eight","9":"Nine"
+  a: "Alpha",
+  b: "Bravo",
+  c: "Charlie",
+  d: "Delta",
+  e: "Echo",
+  f: "Foxtrot",
+  g: "Golf",
+  h: "Hotel",
+  i: "India",
+  j: "Juliett",
+  k: "Kilo",
+  l: "Lima",
+  m: "Mike",
+  n: "November",
+  o: "Oscar",
+  p: "Papa",
+  q: "Quebec",
+  r: "Romeo",
+  s: "Sierra",
+  t: "Tango",
+  u: "Uniform",
+  v: "Victor",
+  w: "Whiskey",
+  x: "X-ray",
+  y: "Yankee",
+  z: "Zulu",
+  "0": "Zero",
+  "1": "One",
+  "2": "Two",
+  "3": "Three",
+  "4": "Four",
+  "5": "Five",
+  "6": "Six",
+  "7": "Seven",
+  "8": "Eight",
+  "9": "Nine"
 };
-
 export function PhoneticPasswordClient() {
- const [length, setLength] = useState(12);
- const [useUpper, setUseUpper] = useState(true);
- const [useNumbers, setUseNumbers] = useState(true);
- const [useSymbols, setUseSymbols] = useState(false);
- const [password, setPassword] = useState("");
+  const [length, setLength] = useState(12);
+  const [useUpper, setUseUpper] = useState(true);
+  const [useNumbers, setUseNumbers] = useState(true);
+  const [useSymbols, setUseSymbols] = useState(false);
+  const [password, setPassword] = useState("");
+  const generatePassword = () => {
+    const lowers = "abcdefghijklmnopqrstuvwxyz";
+    const uppers = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const numbers = "0123456789";
+    const symbols = "!@#$%^&*";
+    let chars = lowers;
+    if (useUpper) chars += uppers;
+    if (useNumbers) chars += numbers;
+    if (useSymbols) chars += symbols;
+    let res = "";
+    for (let i = 0; i < length; i++) {
+      res += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    setPassword(res);
+  };
+  useEffect(() => {
+    generatePassword();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const getBreakdown = () => {
+    return password.split('').map(char => {
+      const lowerChar = char.toLowerCase();
+      const nato = natoAlphabet[lowerChar] || "Symbol";
+      const isUpper = char >= 'A' && char <= 'Z';
+      const type = char >= '0' && char <= '9' ? "Number" : nato === "Symbol" ? "Symbol" : isUpper ? "Uppercase" : "Lowercase";
+      return {
+        char,
+        nato,
+        type,
+        isUpper
+      };
+    });
+  };
+  const calculateEntropy = () => {
+    let pool = 26;
+    if (useUpper) pool += 26;
+    if (useNumbers) pool += 10;
+    if (useSymbols) pool += 8;
+    return Math.floor(password.length * Math.log2(pool));
+  };
+  const getCopyText = () => {
+    let text = "Password:" + password + "\n\nPhonetic Guide:\n";
+    getBreakdown().forEach(item => {
+      text += item.char + "-" + (item.isUpper ? "Capital" : "") + item.nato + "\n";
+    });
+    return text;
+  };
+  const breakdown = getBreakdown();
+  const entropy = calculateEntropy();
+  return <div className={"space-y-6"}><ToolBackground /><div className="relative z-10">
+      
 
- const generatePassword = () => {
- const lowers ="abcdefghijklmnopqrstuvwxyz";
- const uppers ="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
- const numbers ="0123456789";
- const symbols ="!@#$%^&*";
-
- let chars = lowers;
- if (useUpper) chars += uppers;
- if (useNumbers) chars += numbers;
- if (useSymbols) chars += symbols;
-
- let res ="";
- for (let i = 0; i < length; i++) {
- res += chars.charAt(Math.floor(Math.random() * chars.length));
- }
- setPassword(res);
- };
-
- useEffect(() => {
- generatePassword();
- // eslint-disable-next-line react-hooks/exhaustive-deps
- }, []);
-
- const getBreakdown = () => {
- return password.split('').map(char => {
- const lowerChar = char.toLowerCase();
- const nato = natoAlphabet[lowerChar] ||"Symbol";
- const isUpper = char >= 'A' && char <= 'Z';
- const type = (char >= '0' && char <= '9') ?"Number": (nato ==="Symbol"?"Symbol": (isUpper ?"Uppercase":"Lowercase"));
- return { char, nato, type, isUpper };
- });
- };
-
- const calculateEntropy = () => {
- let pool = 26;
- if (useUpper) pool += 26;
- if (useNumbers) pool += 10;
- if (useSymbols) pool += 8;
- return Math.floor(password.length * Math.log2(pool));
- };
-
- const getCopyText = () => {
- let text ="Password:"+ password +"\n\nPhonetic Guide:\n";
- getBreakdown().forEach(item => {
- text += item.char +"-"+ (item.isUpper ?"Capital":"") + item.nato +"\n";
- });
- return text;
- };
-
- const breakdown = getBreakdown();
- const entropy = calculateEntropy();
-
- return (
- <div className={"space-y-6"}>
- <ToolPageHeader
- icon={Lock}
- title="Phonetic Password Generator"
- description="Generate strong passwords with a NATO phonetic guide for easy verbal communication."
- actions={
- <>
- <ActionButton onClick={generatePassword} icon={RefreshCw} label="Regenerate"/>
- <CopyButton getText={getCopyText} label="Copy All"/>
- </>
- }
- />
+ <ToolPageHeader icon={Lock} title="Phonetic Password Generator" description="Generate strong passwords with a NATO phonetic guide for easy verbal communication." actions={<>
+ <ActionButton onClick={generatePassword} icon={RefreshCw} label="Regenerate" />
+ <CopyButton getText={getCopyText} label="Copy All" />
+ </>} />
  
  <div className={"grid md:grid-cols-3 gap-6"}>
  <div className={"space-y-6"}>
@@ -102,19 +125,28 @@ export function PhoneticPasswordClient() {
  <CardContent className={"space-y-4"}>
  <div className={"space-y-2"}>
  <Label>Length ({length})</Label>
- <Input type="range"min="8"max="32"value={length} onChange={e => setLength(Number(e.target.value))} onMouseUp={generatePassword} onTouchEnd={generatePassword} />
+ <Input type="range" min="8" max="32" value={length} onChange={e => setLength(Number(e.target.value))} onMouseUp={generatePassword} onTouchEnd={generatePassword} />
  </div>
  <div className={"flex items-center justify-between"}>
  <Label className={"cursor-pointer"}>Uppercase (A-Z)</Label>
- <Switch checked={useUpper} onCheckedChange={(v) => { setUseUpper(v); setTimeout(generatePassword, 50); }} />
+ <Switch checked={useUpper} onCheckedChange={v => {
+                  setUseUpper(v);
+                  setTimeout(generatePassword, 50);
+                }} />
  </div>
  <div className={"flex items-center justify-between"}>
  <Label className={"cursor-pointer"}>Numbers (0-9)</Label>
- <Switch checked={useNumbers} onCheckedChange={(v) => { setUseNumbers(v); setTimeout(generatePassword, 50); }} />
+ <Switch checked={useNumbers} onCheckedChange={v => {
+                  setUseNumbers(v);
+                  setTimeout(generatePassword, 50);
+                }} />
  </div>
  <div className={"flex items-center justify-between"}>
  <Label className={"cursor-pointer"}>Symbols (!@#$)</Label>
- <Switch checked={useSymbols} onCheckedChange={(v) => { setUseSymbols(v); setTimeout(generatePassword, 50); }} />
+ <Switch checked={useSymbols} onCheckedChange={v => {
+                  setUseSymbols(v);
+                  setTimeout(generatePassword, 50);
+                }} />
  </div>
  </CardContent>
  </GlassCard>
@@ -128,7 +160,7 @@ export function PhoneticPasswordClient() {
  <CardContent>
  <div className={"text-3xl font-bold"}>{entropy} bits</div>
  <div className={"text-sm text-muted-foreground mt-1"}>
- {entropy < 50 ?"Weak": entropy < 80 ?"Strong":"Very Strong"}
+ {entropy < 50 ? "Weak" : entropy < 80 ? "Strong" : "Very Strong"}
  </div>
  </CardContent>
  </GlassCard>
@@ -140,7 +172,7 @@ export function PhoneticPasswordClient() {
  <div className={"text-4xl tracking-widest font-mono text-center break-all select-all"}>
  {password}
  </div>
- <CopyButton getText={() => password} label="Copy Password Only"/>
+ <CopyButton getText={() => password} label="Copy Password Only" />
  </CardContent>
  </GlassCard>
 
@@ -151,20 +183,76 @@ export function PhoneticPasswordClient() {
  </CardHeader>
  <CardContent>
  <div className={"grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2"}>
- {breakdown.map((item, i) => (
- <div key={i} className={"flex items-center gap-3 p-2 rounded-md bg-muted/50 border"}>
+ {breakdown.map((item, i) => <div key={i} className={"flex items-center gap-3 p-2 rounded-md bg-muted/50 border"}>
  <div className={"font-mono font-bold text-lg w-6 text-center"}>{item.char}</div>
  <div className={"flex flex-col"}>
  <span className={"font-semibold text-sm"}>{item.nato}</span>
- <span className={"text-[10px] text-muted-foreground uppercase tracking-wider"}>{item.isUpper ?"Capital": item.type}</span>
+ <span className={"text-[10px] text-muted-foreground uppercase tracking-wider"}>{item.isUpper ? "Capital" : item.type}</span>
  </div>
- </div>
- ))}
+ </div>)}
  </div>
  </CardContent>
  </GlassCard>
  </div>
  </div>
- </div>
- );
+ 
+      <ToolHowItWorks steps={[{
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+
+      <ToolFeatureGuides features={[{
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
+        <div className="prose dark:prose-invert max-w-none">
+          <h3>Why Use Our Phonetic Password Generator?</h3>
+          <p>
+            This free online tool is designed to help you get accurate results quickly and securely.
+            Whether you're a developer, designer, student, or professional, our Phonetic Password Generator provides
+            the functionality you need without any complexity or cost.
+          </p>
+          <p>
+            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
+            privacy and zero latency. No data is ever transmitted to external servers, making it safe
+            for sensitive information.
+          </p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion faqs={[{
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
+
+      <RelatedTools currentToolUrl="/tools/util/phonetic-password-nato" max={6} />
+
+    </div></div>;
 }

@@ -35,10 +35,21 @@ export default function Page() {
     ]
   };
   
+
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      { "@type": "Question", name: "How does the Image & Palette Color Contrast Checker work?", acceptedAnswer: { "@type": "Answer", text: "Toolzium's Image & Palette Color Contrast Checker runs instantly in your browser. Check WCAG 2.1 accessibility color contrast ratios between text and background colors with AA/AAA pass/fail badges. No sign-up or software installation required." } },
+      { "@type": "Question", name: "Is the Image & Palette Color Contrast Checker 100% free to use?", acceptedAnswer: { "@type": "Answer", text: "Yes, the Image & Palette Color Contrast Checker is 100% free with unlimited usage and no account required." } },
+      { "@type": "Question", name: "Is my data secure when using the Image & Palette Color Contrast Checker?", acceptedAnswer: { "@type": "Answer", text: "Yes, all processing occurs locally in your browser. Your data never leaves your device." } }
+    ]
+  };
   return (
     <div className="space-y-4">
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
+      <JsonLd data={faqLd} />
       <ColorContrastClient />
     
       <RelatedTools currentToolUrl="/tools/image/color-contrast-checker" />

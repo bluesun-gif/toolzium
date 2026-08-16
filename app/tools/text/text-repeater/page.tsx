@@ -1,19 +1,23 @@
-import { buildMetadata } from "@/lib/seo";
-import { siteURL } from "@/lib/constants";
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import TextRepeaterClient from "@/components/tools/text/text-repeater-client";
 export const metadata = buildMetadata({
-  title: "Text Repeater — Repeat Text Online Free | Toolzium",
-  description: "Repeat any text multiple times with custom separators. Copy paste flood text, multiply strings, add line numbers. Free text repeater tool — no signup required.",
+  title: "Text Repeater",
+  description: "Repeat any text or string multiple times with custom delimiters (new line, space, comma, custom). Copy or download repeated text instantly.",
   path: "/tools/text/text-repeater",
-  keywords: ["text repeater", "repeat text", "text multiplier", "copy paste flood", "repeat word", "text repeat online", "repeat string", "duplicate text", "multiply text", "Toolzium"],
+  keywords: ["string", "with", "comma", "repeat", "times", "space", "delimiters", "line", "custom", "text", "multiple"],
 });
 
 export default function Page() {
-  return (
-    <>
-      <TextRepeaterClient />
+  const jsonLd = buildToolJsonLd({
+    name: "Text Repeater",
+    description: "Repeat any text or string multiple times with custom delimiters (new line, space, comma, custom). Copy or download repeated text instantly.",
+    path: "/tools/text/text-repeater",
+    categoryName: "Text",
+    categoryPath: "/tools/text",
+  });
 
+<<<<<<< HEAD
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -32,5 +36,12 @@ export default function Page() {
     
       <RelatedTools currentToolUrl="/tools/text/text-repeater" />
 </>
+=======
+  return (
+    <div className="max-w-6xl mx-auto space-y-8">
+      <JsonLd data={jsonLd as any} />
+      <TextRepeaterClient />
+    </div>
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
   );
 }

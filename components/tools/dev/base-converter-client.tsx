@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import {
  Calculator,
@@ -35,6 +36,7 @@ import { Badge } from"@/components/ui/badge";
 import { CardContent, CardDescription, CardHeader, CardTitle } from"@/components/ui/card";
 import { GlassCard } from"@/components/ui/glass-card";
 import { Separator } from"@/components/ui/separator";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 
 /* Types */
 
@@ -348,7 +350,9 @@ export default function BaseConverterClient() {
  };
 
  return (
- <div className="max-w-6xl mx-auto space-y-8">
+      <div className="relative max-w-6xl mx-auto space-y-8">
+      <ToolBackground />
+
  <ToolPageHeader
  title="Number Base Converter"
  description="Convert between binary, octal, decimal, hex — plus any base 2–36. Fractions supported."
@@ -821,7 +825,7 @@ export default function BaseConverterClient() {
  },
  ]}
  />
- <RelatedTools currentToolUrl="/tools/dev/base-converter"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/base-converter" max={6} />
  </div>
  );
 }

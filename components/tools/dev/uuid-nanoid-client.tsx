@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import {
  ActionButton,
@@ -39,6 +40,7 @@ import { CardContent, CardDescription, CardHeader, CardTitle } from"@/components
 import { GlassCard } from"@/components/ui/glass-card";
 import { Separator } from"@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from"@/components/ui/tabs";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 
 const STORAGE_KEY ="Toolzium:uuid-nanoid-v1";
 
@@ -219,7 +221,6 @@ const genUuidOnce = useCallback((): string => {
  }
 }, [uuidVersion, v5NamespacePreset, v5Namespace, v5Name, formatUuid]);
 
-
 const genNanoOnce = useCallback((): string => {
  const core =
  nanoAlphabet === DEFAULT_NANO_ALPHABET
@@ -227,7 +228,6 @@ const genNanoOnce = useCallback((): string => {
  : customAlphabet(nanoAlphabet, nanoSize)();
  return `${prefix}${core}${suffix}`;
 }, [nanoAlphabet, nanoSize, prefix, suffix]);
-
 
 const run = useCallback(() => {
  try {
@@ -300,7 +300,9 @@ const run = useCallback(() => {
  }, [validationInput, nanoAlphabet, nanoSize]);
 
  return (
- <div className="max-w-6xl mx-auto space-y-8">
+      <div className="relative max-w-6xl mx-auto space-y-8">
+      <ToolBackground />
+
  <ToolPageHeader
  icon={Hash}
  title="UUID & NanoID Generator"
@@ -789,7 +791,7 @@ const run = useCallback(() => {
  },
  ]}
  />
- <RelatedTools currentToolUrl="/tools/dev/uuid-nanoid"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/uuid-nanoid" max={6} />
  </div>
  );
 }

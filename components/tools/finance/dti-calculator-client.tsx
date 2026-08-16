@@ -1,4 +1,5 @@
 "use client";
+<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -14,86 +15,91 @@ import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
 import { Calculator, CreditCard, DollarSign, Percent, Shield, ShieldCheck, Wallet } from"lucide-react";
 import { cn } from"@/lib/utils";
 
+=======
+import { ToolBackground } from"@/components/shared/tool-background";
+
+import React, { useState } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { DollarSign, Calculator, Shield, Sparkles, Zap, Copy } from "lucide-react";
+;
+import { cn } from "@/lib/utils";
+import { GridPattern } from "@/components/magicui/grid-pattern";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export function DtiCalculatorClient() {
- const [income, setIncome] = useState("5000");
- const [housing, setHousing] = useState("1500");
- const [creditCards, setCreditCards] = useState("200");
- const [autoLoans, setAutoLoans] = useState("300");
- const [studentLoans, setStudentLoans] = useState("150");
- const [otherDebt, setOtherDebt] = useState("0");
+  const [income, setIncome] = useState("5000");
+  const [housing, setHousing] = useState("1500");
+  const [creditCards, setCreditCards] = useState("200");
+  const [autoLoans, setAutoLoans] = useState("300");
+  const [studentLoans, setStudentLoans] = useState("150");
+  const [otherDebt, setOtherDebt] = useState("0");
+  const calculateDTI = () => {
+    const grossIncome = parseFloat(income) || 0;
+    const housingDebt = parseFloat(housing) || 0;
+    const cardsDebt = parseFloat(creditCards) || 0;
+    const autoDebt = parseFloat(autoLoans) || 0;
+    const studentDebt = parseFloat(studentLoans) || 0;
+    const other = parseFloat(otherDebt) || 0;
+    if (grossIncome <= 0) return null;
+    const totalDebt = housingDebt + cardsDebt + autoDebt + studentDebt + other;
 
- const calculateDTI = () => {
- const grossIncome = parseFloat(income) || 0;
- const housingDebt = parseFloat(housing) || 0;
- const cardsDebt = parseFloat(creditCards) || 0;
- const autoDebt = parseFloat(autoLoans) || 0;
- const studentDebt = parseFloat(studentLoans) || 0;
- const other = parseFloat(otherDebt) || 0;
+    // Front-end: just housing
+    const frontEndDti = housingDebt / grossIncome * 100;
+    // Back-end: all debt
+    const backEndDti = totalDebt / grossIncome * 100;
+    let status = "High Risk";
+    let statusClass = "text-destructive";
+    if (backEndDti <= 36) {
+      status = "Ideal";
+      statusClass = "text-green-500";
+    } else if (backEndDti <= 43) {
+      status = "Acceptable";
+      statusClass = "text-yellow-500";
+    }
 
- if (grossIncome <= 0) return null;
+    // Maximum allowable housing for 36% rule (total debt shouldn't exceed 36% of income)
+    const otherDebtOnly = cardsDebt + autoDebt + studentDebt + other;
+    const maxHousing36 = grossIncome * 0.36 - otherDebtOnly;
+    const maxHousing43 = grossIncome * 0.43 - otherDebtOnly;
+    return {
+      totalDebt,
+      frontEndDti: frontEndDti.toFixed(1),
+      backEndDti: backEndDti.toFixed(1),
+      status,
+      statusClass,
+      maxHousing36: Math.max(0, maxHousing36).toFixed(2),
+      maxHousing43: Math.max(0, maxHousing43).toFixed(2)
+    };
+  };
+  const results = calculateDTI();
+  const handleReset = () => {
+    setIncome("5000");
+    setHousing("1500");
+    setCreditCards("200");
+    setAutoLoans("300");
+    setStudentLoans("150");
+    setOtherDebt("0");
+  };
+  const getResultsText = () => {
+    if (!results) return "";
+    return "Front-End DTI:" + results.frontEndDti + "%\nBack-End DTI:" + results.backEndDti + "%\nStatus:" + results.status;
+  };
+  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+      
 
- const totalDebt = housingDebt + cardsDebt + autoDebt + studentDebt + other;
- 
- // Front-end: just housing
- const frontEndDti = (housingDebt / grossIncome) * 100;
- // Back-end: all debt
- const backEndDti = (totalDebt / grossIncome) * 100;
- 
- let status ="High Risk";
- let statusClass ="text-destructive";
- if (backEndDti <= 36) {
- status ="Ideal";
- statusClass ="text-green-500";
- } else if (backEndDti <= 43) {
- status ="Acceptable";
- statusClass ="text-yellow-500";
- }
-
- // Maximum allowable housing for 36% rule (total debt shouldn't exceed 36% of income)
- const otherDebtOnly = cardsDebt + autoDebt + studentDebt + other;
- const maxHousing36 = (grossIncome * 0.36) - otherDebtOnly;
- const maxHousing43 = (grossIncome * 0.43) - otherDebtOnly;
-
- return {
- totalDebt,
- frontEndDti: frontEndDti.toFixed(1),
- backEndDti: backEndDti.toFixed(1),
- status,
- statusClass,
- maxHousing36: Math.max(0, maxHousing36).toFixed(2),
- maxHousing43: Math.max(0, maxHousing43).toFixed(2),
- };
- };
-
- const results = calculateDTI();
-
- const handleReset = () => {
- setIncome("5000");
- setHousing("1500");
- setCreditCards("200");
- setAutoLoans("300");
- setStudentLoans("150");
- setOtherDebt("0");
- };
-
- const getResultsText = () => {
- if (!results) return"";
- return"Front-End DTI:"+ results.frontEndDti +"%\nBack-End DTI:"+ results.backEndDti +"%\nStatus:"+ results.status;
- };
-
- return (
- <div className="space-y-6">
- <ToolPageHeader
- icon={Calculator}
- title="Debt-to-Income (DTI) Ratio Calculator"
- description="Calculate your DTI ratio for mortgage and loan eligibility."
- actions={
- <>
- <CopyButton getText={getResultsText} label="Copy Results"/>
- <ResetButton onClick={handleReset} label="Reset"/>
- </>
- }
- />
+ <ToolPageHeader icon={Calculator} title="Debt-to-Income (DTI) Ratio Calculator" description="Calculate your DTI ratio for mortgage and loan eligibility." actions={<>
+ <CopyButton getText={getResultsText} label="Copy Results" />
+ <ResetButton onClick={handleReset} label="Reset" />
+ </>} />
  
  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
  <GlassCard>
@@ -104,12 +110,7 @@ export function DtiCalculatorClient() {
  <CardContent className="space-y-4">
  <div className="space-y-2">
  <Label>Gross Monthly Income ($)</Label>
- <Input
- type="number"
- min="0"
- value={income}
- onChange={(e) => setIncome(e.target.value)}
- />
+ <Input type="number" min="0" value={income} onChange={e => setIncome(e.target.value)} />
  </div>
  
  <Separator />
@@ -117,48 +118,23 @@ export function DtiCalculatorClient() {
  
  <div className="space-y-2">
  <Label>Rent / Proposed Mortgage ($)</Label>
- <Input
- type="number"
- min="0"
- value={housing}
- onChange={(e) => setHousing(e.target.value)}
- />
+ <Input type="number" min="0" value={housing} onChange={e => setHousing(e.target.value)} />
  </div>
  <div className="space-y-2">
  <Label>Credit Card Min Payments ($)</Label>
- <Input
- type="number"
- min="0"
- value={creditCards}
- onChange={(e) => setCreditCards(e.target.value)}
- />
+ <Input type="number" min="0" value={creditCards} onChange={e => setCreditCards(e.target.value)} />
  </div>
  <div className="space-y-2">
  <Label>Auto Loan Payments ($)</Label>
- <Input
- type="number"
- min="0"
- value={autoLoans}
- onChange={(e) => setAutoLoans(e.target.value)}
- />
+ <Input type="number" min="0" value={autoLoans} onChange={e => setAutoLoans(e.target.value)} />
  </div>
  <div className="space-y-2">
  <Label>Student Loan Payments ($)</Label>
- <Input
- type="number"
- min="0"
- value={studentLoans}
- onChange={(e) => setStudentLoans(e.target.value)}
- />
+ <Input type="number" min="0" value={studentLoans} onChange={e => setStudentLoans(e.target.value)} />
  </div>
  <div className="space-y-2">
  <Label>Other Debt ($)</Label>
- <Input
- type="number"
- min="0"
- value={otherDebt}
- onChange={(e) => setOtherDebt(e.target.value)}
- />
+ <Input type="number" min="0" value={otherDebt} onChange={e => setOtherDebt(e.target.value)} />
  </div>
  </CardContent>
  </GlassCard>
@@ -168,13 +144,12 @@ export function DtiCalculatorClient() {
  <CardTitle>DTI Analysis</CardTitle>
  </CardHeader>
  <CardContent>
- {results ? (
- <div className="space-y-6">
+ {results ? <div className="space-y-6">
  <div className="text-center p-6 bg-primary/10 rounded-lg relative overflow-hidden">
  <div className="text-sm text-muted-foreground font-medium uppercase tracking-wider mb-1">
  Back-End DTI Ratio
  </div>
- <div className={"text-5xl font-bold"+ results.statusClass}>
+ <div className={cn("text-5xl font-bold", results.statusClass)}>
  {results.backEndDti}%
  </div>
  <div className="mt-2 text-sm font-medium">
@@ -198,7 +173,7 @@ export function DtiCalculatorClient() {
  
  <div className="space-y-3">
  <h4 className="font-semibold flex items-center gap-2">
- <Shield className="w-4 h-4 text-primary"/> 
+ <Shield className="w-4 h-4 text-primary" /> 
  Mortgage Eligibility Estimates
  </h4>
  <div className="text-sm text-muted-foreground">
@@ -214,16 +189,14 @@ export function DtiCalculatorClient() {
  </div>
  </div>
 
- </div>
- ) : (
- <div className="h-full flex items-center justify-center min-h-[200px] text-muted-foreground">
+ </div> : <div className="h-full flex items-center justify-center min-h-[200px] text-muted-foreground">
  Enter valid income to calculate DTI.
- </div>
- )}
+ </div>}
  </CardContent>
  </GlassCard>
  </div>
  
+<<<<<<< HEAD
 <ToolHowItWorks
   steps={[
 {
@@ -307,3 +280,61 @@ export function DtiCalculatorClient() {
 </div>
  );
 }
+=======
+      <ToolHowItWorks steps={[{
+        step: "01",
+        title: "Enter Your Numbers",
+        description: "Enter monthly debts and income in the fields above — everything calculates live as you type.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Review the Result",
+        description: "Instantly see your front-end, back-end, and total DTI %, with breakdowns and visual cues.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy or Export",
+        description: "Copy any figure or export the full breakdown to use in a plan, invoice, or report.",
+        icon: Copy
+      }]} badges={["100% Free", "Private & Local", "No Signup"]} />
+
+            <ToolFeatureGuides features={[{
+        icon: Sparkles,
+        title: "Front & back-end DTI",
+        description: "Front & back-end DTI"
+      }, {
+        icon: Shield,
+        title: "Private & On-Device",
+        description: "Every calculation runs in your browser. Your financial inputs never leave your device or touch a server."
+      }, {
+        icon: Zap,
+        title: "No Signup, Ever",
+        description: "Open the tool and get an answer in seconds — no account, no paywall, no usage cap."
+      }]}>
+        <div className="prose dark:prose-invert max-w-none">
+          <h3>Why Use the Debt-to-Income (DTI) Ratio Calculator?</h3>
+          <p>
+            Home buyers use DTI — the number lenders weigh most — to see if they qualify before applying for a mortgage.
+          </p>
+          <p>
+            Like all Toolzium calculators, it is free, private, and built to give you a paid-product experience without the subscription.
+          </p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion faqs={[{
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
+
+      <RelatedTools currentToolUrl="/tools/finance/dti-calculator" max={6} />
+
+    </div></div>;
+}
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

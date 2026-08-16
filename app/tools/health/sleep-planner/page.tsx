@@ -32,10 +32,21 @@ export default function Page() {
       { "@type": "ListItem", position: 3, name: "Sleep Cycle Calculator", item: toolUrl }
     ]
   };
+
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      { "@type": "Question", name: "How does the Sleep Cycle & Bedtime Calculator work?", acceptedAnswer: { "@type": "Answer", text: "Toolzium's Sleep Cycle & Bedtime Calculator runs instantly in your browser. Calculate optimal bedtime or wake-up times based on 90-minute REM sleep cycles. No sign-up or software installation required." } },
+      { "@type": "Question", name: "Is the Sleep Cycle & Bedtime Calculator 100% free to use?", acceptedAnswer: { "@type": "Answer", text: "Yes, the Sleep Cycle & Bedtime Calculator is 100% free with unlimited usage and no account required." } },
+      { "@type": "Question", name: "Is my data secure when using the Sleep Cycle & Bedtime Calculator?", acceptedAnswer: { "@type": "Answer", text: "Yes, all processing occurs locally in your browser. Your data never leaves your device." } }
+    ]
+  };
   return (
     <div className="space-y-4">
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
+      <JsonLd data={faqLd} />
       <SleepPlannerClient />
     
       <RelatedTools currentToolUrl="/tools/health/sleep-planner" />

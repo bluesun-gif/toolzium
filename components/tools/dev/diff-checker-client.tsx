@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import {
  ArrowLeftRight,
@@ -39,6 +40,7 @@ import { Separator } from"@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from"@/components/ui/tabs";
 import { cn } from"@/lib/utils";
 import { buildUnified, clamp, diffTokens, normalize, tokenize } from"@/lib/utils/dev/diff-checker";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 
 export default function DiffCheckerClient() {
  const [a, setA] = React.useState<string>("");
@@ -110,7 +112,9 @@ export default function DiffCheckerClient() {
  };
 
  return (
- <div className="max-w-6xl mx-auto space-y-8">
+      <div className="relative max-w-6xl mx-auto space-y-8">
+      <ToolBackground />
+
  <ToolPageHeader
  title="Diff Checker"
  description="Compare text inputs and see differences in split or unified view."
@@ -455,7 +459,7 @@ export default function DiffCheckerClient() {
  },
  ]}
  />
- <RelatedTools currentToolUrl="/tools/dev/diff-checker"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/diff-checker" max={6} />
  </div>
  );
 }

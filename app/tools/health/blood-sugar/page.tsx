@@ -32,10 +32,21 @@ export default function Page() {
       { "@type": "ListItem", position: 3, name: "Blood Sugar Tracker", item: toolUrl }
     ]
   };
+
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      { "@type": "Question", name: "How does the Blood Sugar Tracker work?", acceptedAnswer: { "@type": "Answer", text: "Toolzium's Blood Sugar Tracker runs instantly in your browser. Track blood glucose readings. Fasting, before/after meals, bedtime. Status indicators, target ranges, averages. Export CSV. No sign-up or software installation required." } },
+      { "@type": "Question", name: "Is the Blood Sugar Tracker 100% free to use?", acceptedAnswer: { "@type": "Answer", text: "Yes, the Blood Sugar Tracker is 100% free with unlimited usage and no account required." } },
+      { "@type": "Question", name: "Is my data secure when using the Blood Sugar Tracker?", acceptedAnswer: { "@type": "Answer", text: "Yes, all processing occurs locally in your browser. Your data never leaves your device." } }
+    ]
+  };
   return (
     <div className="space-y-4">
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
+      <JsonLd data={faqLd} />
       <BloodSugarClient />
     
       <RelatedTools currentToolUrl="/tools/health/blood-sugar" />

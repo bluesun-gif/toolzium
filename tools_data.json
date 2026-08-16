@@ -1,0 +1,2226 @@
+{
+  "/tools": {
+    "title": "All Tools",
+    "description": "Browse and search all available tools"
+  },
+  "/tools/ai/prompt-optimizer": {
+    "title": "AI Prompt Engineering & Optimizer Studio",
+    "description": "Transform simple ideas into master-grade prompts for ChatGPT, Claude 3.5, Gemini, and Midjourney with 1-click persona framing."
+  },
+  "/tools/ai/youtube-script": {
+    "title": "AI YouTube Video Script & High-CTR Hook Generator",
+    "description": "Generate viral YouTube video titles, 15-second opening hooks, video section outlines, and teleprompter-ready scripts."
+  },
+  "/tools/ai/startup-name": {
+    "title": "AI Startup & Business Name Generator Studio",
+    "description": "Generate brandable startup names, available domain ideas (.ai, .com, .io), taglines, and elevator pitches."
+  },
+  "/tools/ai/social-bio": {
+    "title": "AI Social Media Bio & Creator Profile Generator",
+    "description": "Generate high-converting, aesthetic bios for Instagram, TikTok, Twitter/X, and LinkedIn with 1-click vibe controls."
+  },
+  "/tools/ai/code-explainer": {
+    "title": "AI Code Explainer & Converter",
+    "description": "Understand complex code snippets with plain-English breakdowns and translate code across Python, TypeScript, Rust, Go, and C++."
+  },
+  "/tools/ai/sql-regex-builder": {
+    "title": "AI SQL & Regex Builder",
+    "description": "Convert natural language requirements into production-ready SQL queries and Regex expressions with explanations."
+  },
+  "/tools/ai/ats-checker": {
+    "title": "AI Resume & ATS Checker",
+    "description": "Calculate your ATS match score against target job descriptions, find missing keywords, and optimize your resume."
+  },
+  "/tools/ai/pdf-chat": {
+    "title": "AI Document Summarizer & Q&A",
+    "description": "Extract bullet summaries, key action points, and get direct answers from long documents, reports, and text."
+  },
+  "/tools/ai/product-description": {
+    "title": "AI Product Description Generator",
+    "description": "Generate SEO-optimized product titles, feature bullet points, emotional benefit hooks, and meta tags for Shopify, Amazon, and Etsy."
+  },
+  "/tools/url/shortener": {
+    "title": "URL Shortener",
+    "description": "Create short, custom URLs with analytics. Free link shortener with QR codes, click tracking, and custom slugs. Perfect for social media, marketing campaigns, and link management."
+  },
+  "/tools/url/utm-builder": {
+    "title": "UTM Builder",
+    "description": "Build campaign tracking URLs with UTM parameters for Google Analytics. Generate utm_source, utm_medium, utm_campaign, utm_term, and utm_content tags to track your marketing performance."
+  },
+  "/tools/url/expand": {
+    "title": "Link Expander",
+    "description": "Unshorten URLs and reveal the destination of shortened links safely. Check where bit.ly, tinyurl, and other short links lead before clicking. Preview redirects and inspect link safety."
+  },
+  "/tools/url/qr": {
+    "title": "QR Code Generator",
+    "description": "Create custom QR codes from URLs, text, contact info, WiFi credentials, and more. Download as PNG, SVG, or PDF. Customize colors, add logos, and generate high-resolution QR codes for free."
+  },
+  "/tools/url/youtube-thumbnail": {
+    "title": "YouTube Thumbnail Downloader",
+    "description": "Download high-resolution YouTube video thumbnails for free online. Support max resolution, standard, and medium qualities. Just paste the YouTube video link and download."
+  },
+  "/tools/text/base64": {
+    "title": "Base64 Encoder/Decoder",
+    "description": "Encode and decode Base64 strings and files online. Convert text, images, or any file to Base64 encoding. Free Base64 converter with support for UTF-8, ASCII, and binary data."
+  },
+  "/tools/text/case-converter": {
+    "title": "Case Converter",
+    "description": "Convert text to uppercase, lowercase, title case, sentence case, camelCase, snake_case, kebab-case, and more. Transform text formatting instantly for programming, writing, and data processing."
+  },
+  "/tools/text/slugify": {
+    "title": "Slugify Text",
+    "description": "Convert text into SEO-friendly URL slugs. Generate clean, lowercase, hyphenated slugs from any text. Perfect for creating blog URLs, file names, and web-safe identifiers."
+  },
+  "/tools/academic/essay-conclusion-generator": {
+    "title": "AI Essay Conclusion & Summary Generator",
+    "description": "Synthesize main arguments, restate thesis statements powerfully, and craft memorable closing paragraphs for academic papers with live AI."
+  },
+  "/tools/academic/flashcard-creator": {
+    "title": "AI Study Flashcard & Quiz Creator Studio",
+    "description": "Convert lecture notes, textbook passages, and articles into instant Q&A flashcards and revision study cards using live AI."
+  },
+  "/tools/academic/literature-summarizer": {
+    "title": "AI Literature Review & Academic Paper Summarizer",
+    "description": "Extract core research objectives, methodologies, sample sizes, empirical findings, and limitations from academic papers with live AI."
+  },
+  "/tools/writing/ai-paraphraser": {
+    "title": "AI Content Paraphraser & Tone Transformer Studio",
+    "description": "Rewrite sentences, paragraphs, and articles into professional, concise, or creative tones with live AI."
+  },
+  "/tools/writing/ai-grammar-polish": {
+    "title": "AI Grammar & Style Polish Studio",
+    "description": "Audit grammar errors, fix spelling mistakes, and polish style tone for emails, essays, and reports with live AI."
+  },
+  "/tools/writing/ai-elevator-pitch": {
+    "title": "AI Elevator Pitch & Value Proposition Studio",
+    "description": "Craft compelling 15 to 30-second elevator pitches and value propositions for investors, clients, and landing pages with live AI."
+  },
+  "/tools/writing/blog-intro-generator": {
+    "title": "AI Blog Post Intro & Opening Hook Generator",
+    "description": "Generate captivating opening paragraphs and high-retention hooks for articles, Medium posts, and tech blogs with live AI."
+  },
+  "/tools/writing/email-subject-generator": {
+    "title": "AI High Open-Rate Email Subject Line Generator",
+    "description": "Generate irresistible email subject lines for newsletter campaigns, sales outreach, and promotional announcements powered by live AI."
+  },
+  "/tools/writing/resume-summary-generator": {
+    "title": "AI Executive Resume Summary & Bullet Point Generator",
+    "description": "Craft high-impact resume professional summaries, experience bullet points, and ATS-friendly keywords powered by live AI."
+  },
+  "/tools/text/word-counter": {
+    "title": "Word Counter",
+    "description": "Count words, characters, sentences, paragraphs, and reading time instantly. Free online word counter with character count, keyword density, and readability analysis. Perfect for writers, students, and SEO."
+  },
+  "/tools/text/line-tools": {
+    "title": "Line Tools",
+    "description": "Sort, deduplicate, trim, and manipulate text lines. Remove duplicate lines, sort alphabetically, add line numbers, find and replace across multiple lines. Bulk text processing made easy."
+  },
+  "/tools/text/cleaner": {
+    "title": "Text Cleaner",
+    "description": "Remove extra spaces, line breaks, HTML tags, emojis, and special characters from text. Clean and format text for databases, CSV files, and data processing. Bulk text cleanup tool."
+  },
+  "/tools/text/to-list": {
+    "title": "Text to List",
+    "description": "Convert comma-separated or newline-separated text into formatted lists. Split text by delimiters, clean entries, and export as array, JSON, or CSV. Text to list converter."
+  },
+  "/tools/text/password-strength": {
+    "title": "Password Strength Checker",
+    "description": "Check password strength and security score. Analyze password entropy, detect weak passwords, and get suggestions for creating strong, secure passwords. Free password strength tester."
+  },
+  "/tools/text/fancy-text": {
+    "title": "Fancy Text Generator",
+    "description": "Generate fancy Unicode text styles — bold, italic, script, fraktur, double-struck, circled, squared, upside-down, strikethrough, underline, and more. Copy stylish text for social media bios, usernames, and posts."
+  },
+  "/tools/text/text-to-speech": {
+    "title": "Text to Speech Reader",
+    "description": "Convert text to clear, natural-sounding audio speech online. Select from multiple languages, voices, adjustments for speed and pitch. Completely free and secure."
+  },
+  "/tools/text/speech-to-text": {
+    "title": "Speech to Text Transcriber",
+    "description": "Convert speech and spoken voice to text in real-time. Free online voice transcriber with language selections, live editor, and text copy/download actions."
+  },
+  "/tools/text/character-counter": {
+    "title": "Character Counter",
+    "description": "Count characters, words, sentences, and paragraphs in real-time. Check social media character limits for Twitter/X, Instagram, LinkedIn, TikTok. Free character counter with keyword density analysis."
+  },
+  "/tools/text/translate": {
+    "title": "Translate Text",
+    "description": "Translate text between 100+ languages online for free. Auto-detect source language, swap languages, and listen to translations with text-to-speech. Fast and accurate translation tool."
+  },
+  "/tools/text/morse-code": {
+    "title": "Morse Code Translator",
+    "description": "Convert text to Morse code and Morse code to text instantly. Listen to Morse code audio beeps with adjustable speed. Supports letters, numbers, and punctuation. Free online Morse code translator."
+  },
+  "/tools/text/binary-text": {
+    "title": "Binary/Hex Text Converter",
+    "description": "Convert text to binary, hexadecimal, octal, and decimal — and back. Supports ASCII and Unicode. Live conversion with configurable separators. Free binary to text converter online."
+  },
+  "/tools/text/rot13": {
+    "title": "ROT13 / Caesar Cipher",
+    "description": "Encode and decode ROT13 text instantly. Apply any Caesar cipher shift from 1 to 25. Brute-force mode shows all possible shifts. Free online ROT13 encoder and decoder."
+  },
+  "/tools/text/reading-time": {
+    "title": "Reading Time Calculator",
+    "description": "Estimate reading and speaking time for any text. Shows word count, sentence count, paragraph count, and Flesch-Kincaid readability score. Adjustable WPM for slow, average, and fast readers."
+  },
+  "/tools/text/emoji-picker": {
+    "title": "Emoji Picker & Search",
+    "description": "Searchable emoji picker with categories: Smileys, People, Animals, Food, Travel, Activities, Objects, Symbols, Flags. Click to copy. Recently used section. Grid layout."
+  },
+  "/tools/text/markdown-table": {
+    "title": "Markdown Table Generator",
+    "description": "Create markdown tables visually. Set rows and columns up to 10x10. Edit cells inline. Column alignment options. Live markdown preview. Import from CSV. Copy output."
+  },
+  "/tools/text/text-diff": {
+    "title": "Text Diff Viewer",
+    "description": "Compare two texts side-by-side with highlighted additions, deletions, and unchanged lines. Line numbers, stats, swap, and unified diff mode. Copy diff output."
+  },
+  "/tools/text/text-stats": {
+    "title": "Text Statistics",
+    "description": "Advanced text analysis: word/sentence/paragraph count, avg word length, reading level (Flesch-Kincaid), lexical density, most frequent words, and more. Real-time."
+  },
+  "/tools/text/resume-builder": {
+    "title": "Resume Builder",
+    "description": "Build a resume in markdown format. Sections for contact, summary, experience, education, skills. Live preview. Copy markdown or download as .md file."
+  },
+  "/tools/text/pronunciation": {
+    "title": "Pronunciation Guide",
+    "description": "200 commonly mispronounced English words with phonetic spelling. Audio playback via Web Speech API. Categories: Food, Names, Places, Science."
+  },
+  "/tools/text/text-repeater": {
+    "title": "Text Repeater",
+    "description": "Repeat any text or string multiple times with custom delimiters (new line, space, comma, custom). Copy or download repeated text instantly."
+  },
+  "/tools/text/whitespace-remover": {
+    "title": "Whitespace Remover",
+    "description": "Remove extra spaces, leading/trailing whitespace, duplicate blank lines, and tab characters from text online. Clean up formatting instantly."
+  },
+  "/tools/pdf/merge": {
+    "title": "PDF Merge",
+    "description": "Combine multiple PDF files into one online for free."
+  },
+  "/tools/pdf/split": {
+    "title": "PDF Split",
+    "description": "Split PDFs into individual pages or page ranges."
+  },
+  "/tools/pdf/compress": {
+    "title": "PDF Compress",
+    "description": "Reduce PDF file size while maintaining document quality."
+  },
+  "/tools/pdf/pdf-to-word": {
+    "title": "PDF to Word",
+    "description": "Convert PDF documents into editable Word text files."
+  },
+  "/tools/pdf/image-pdf": {
+    "title": "Image to PDF",
+    "description": "Convert images to PDF and PDF pages to PNG images."
+  },
+  "/tools/pdf/protect": {
+    "title": "Protect & Lock PDF",
+    "description": "Add password protection and permissions to PDF documents."
+  },
+  "/tools/pdf/sign-fill": {
+    "title": "Sign & Fill PDF",
+    "description": "Fill forms and add digital signatures to PDF files."
+  },
+  "/tools/pdf/rotate": {
+    "title": "PDF Page Rotate",
+    "description": "Rotate selected PDF pages clockwise or counter-clockwise."
+  },
+  "/tools/image/convert": {
+    "title": "Image Convert",
+    "description": "Convert between JPG, PNG, WebP, AVIF"
+  },
+  "/tools/image/resize": {
+    "title": "Image Resize",
+    "description": "Resize, crop, or scale images easily"
+  },
+  "/tools/image/compress": {
+    "title": "Image Compressor",
+    "description": "Compress and reduce image file size online for free. Adjust quality, supports JPEG, PNG, WebP formats. Batch compression with before/after size comparison. 100% client-side, images never leave your browser."
+  },
+  "/tools/image/bg-remove": {
+    "title": "Background Remover",
+    "description": "Remove background from images instantly using AI. Get transparent PNG backgrounds for free online. Client-side processing with before/after comparison. No signup, no upload to servers."
+  },
+  "/tools/image/image-to-pdf": {
+    "title": "Image to PDF",
+    "description": "Convert images to PDF online for free. Support JPG, PNG, WebP to PDF conversion. Multiple image upload, drag-and-drop reordering, page size selection, and margin control. Client-side PDF generation."
+  },
+  "/tools/image/exif-viewer": {
+    "title": "EXIF Metadata Viewer",
+    "description": "View and extract EXIF metadata from photos — camera make, model, GPS coordinates, date taken, aperture, shutter speed, ISO, and more. 100% client-side, your images never leave your browser."
+  },
+  "/tools/image/meme-generator": {
+    "title": "Meme Generator",
+    "description": "Create custom memes online for free. Upload your own image or choose a template, customize text position, font size, and color. Download instant memes to share."
+  },
+  "/tools/image/aspect-ratio": {
+    "title": "Aspect Ratio Calculator",
+    "description": "Calculate and convert image aspect ratios. Enter width and height to find the ratio, or a ratio and one dimension to get the other. Social media presets for Instagram, YouTube, Twitter, and more."
+  },
+  "/tools/image/color-extractor": {
+    "title": "Image Color Extractor",
+    "description": "Upload an image and extract its dominant colors. Shows top 5-8 prominent colors with hex, RGB, and HSL values. Click to copy. Generate CSS color palettes from any image."
+  },
+  "/tools/image/favicon": {
+    "title": "Favicon Generator",
+    "description": "Generate favicons from text, emoji, or uploaded images. Pick colors and font size. Preview at multiple sizes (16, 32, 48, 180, 192, 512px). Download individual sizes as PNG."
+  },
+  "/tools/image/svg-to-png": {
+    "title": "SVG to PNG Converter",
+    "description": "Convert SVG files to PNG images. Upload or paste SVG code. Set dimensions, scale (1x-4x), transparent or custom background. Preview and download as PNG."
+  },
+  "/tools/image/pixel-art": {
+    "title": "Pixel Art Creator",
+    "description": "Simple pixel art drawing tool. Grid sizes 8x8 to 32x32. Color picker, pencil, eraser, fill tools. Undo/redo. Download as PNG. Preset color palettes."
+  },
+  "/tools/image/color-blind-palette": {
+    "title": "Color Blind Palette",
+    "description": "Generate color-blind friendly palettes. Simulate Protanopia, Deuteranopia, Tritanopia. WCAG contrast ratios. Safe color combinations. Copy hex values."
+  },
+  "/tools/image/font-pairing": {
+    "title": "Font Pairing Suggester",
+    "description": "20 curated Google Font pairings for design projects. Categories: Modern, Classic, Playful, Minimal, Bold. Live preview. Copy CSS imports."
+  },
+  "/tools/image/color-name": {
+    "title": "Color Name Finder",
+    "description": "Find the closest named color for any hex value. 140+ CSS named colors. Color picker, RGB/HSL values. Browse and search all colors."
+  },
+  "/tools/image/collage-layout": {
+    "title": "Photo Collage Layout",
+    "description": "Design photo collage layouts. Choose 2-9 photos with pre-designed templates. Upload images, customize gap and background. Download as PNG."
+  },
+  "/tools/image/watermark": {
+    "title": "Image Watermark",
+    "description": "Add text watermarks to images. Control font, color, opacity, position, rotation. Tiled repeat option. Download watermarked image."
+  },
+  "/tools/image/palette-extract": {
+    "title": "Color Palette from Image",
+    "description": "Extract dominant colors from uploaded images. Hex, RGB, HSL values. Copy palette. Download as PNG swatch strip. CSS color names."
+  },
+  "/tools/image/photo-grid": {
+    "title": "Photo Grid Maker",
+    "description": "Arrange photos into grid layouts. Upload 2-9 images. Multiple templates. Gap, border, background controls. Download as single PNG."
+  },
+  "/tools/image/annotator": {
+    "title": "Screenshot Annotator",
+    "description": "Annotate screenshots with rectangles, circles, arrows, freehand. Text labels. Color and line width controls. Undo/redo. Download PNG."
+  },
+  "/tools/image/watermark-creator": {
+    "title": "Image Watermark Creator",
+    "description": "Add text or image watermarks to photos. Font size, opacity, rotation, positions, tiling. Download watermarked PNG/JPEG."
+  },
+  "/tools/image/metadata-cleaner": {
+    "title": "Image Privacy & EXIF Cleaner",
+    "description": "Remove EXIF and metadata from images before sharing online. Detect camera model, GPS, date. One-click clean and download."
+  },
+  "/tools/image/color-swapper": {
+    "title": "Image Color Swapper",
+    "description": "Swap or replace specific colors in an image. Source and target color picker, tolerance threshold, canvas pixel replacement, download PNG."
+  },
+  "/tools/image/blur-image": {
+    "title": "Image Area Blur & Anonymizer",
+    "description": "Blur or pixelate sensitive parts of an image (faces, licenses, credit cards). Adjustable blur strength, click-and-drag selection."
+  },
+  "/tools/image/svg-path": {
+    "title": "SVG Path Visualizer & Inspector",
+    "description": "Visual SVG d path string inspector and editor. Explains M, L, C, Q, Z path commands. Interactive SVG preview with grid and zoom."
+  },
+  "/tools/image/color-threshold": {
+    "title": "Image Color Threshold & Binarizer",
+    "description": "Convert image to high-contrast black & white binary threshold image. Binary B&W, Otsu auto threshold, grayscale, document scan prep."
+  },
+  "/tools/image/image-ascii": {
+    "title": "Image to ASCII Art Generator",
+    "description": "Convert uploaded images into text-based ASCII art. Custom character palettes, width adjustment, color mode, copy & download text."
+  },
+  "/tools/image/color-swatch": {
+    "title": "Image Color Swatch Extractor",
+    "description": "Extract dominant color swatches & color palette from any uploaded image. HEX, RGB, HSL codes, color percentage distribution."
+  },
+  "/tools/image/aspect-cropper": {
+    "title": "Image Aspect Ratio Cropper",
+    "description": "Crop images to popular aspect ratios for social media & web. 1:1, 16:9, 9:16, 4:5, 3:2, 21:9. Download cropped PNG/JPEG."
+  },
+  "/tools/image/color-harmony": {
+    "title": "Color Palette Harmonizer & Generator",
+    "description": "Generate color harmony palettes based on color theory. Complementary, Analogous, Triadic, Tetradic, Monochromatic."
+  },
+  "/tools/image/color-contrast-checker": {
+    "title": "Image & Palette Color Contrast Checker",
+    "description": "Check WCAG 2.1 accessibility color contrast ratios between text and background colors with AA/AAA pass/fail badges."
+  },
+  "/tools/image/color-palette-export": {
+    "title": "Color Palette SVG & CSS Swatch Exporter",
+    "description": "Create custom 3 to 10-color design palettes and export as SVG swatch image, CSS Variables, Tailwind CSS config, or JSON."
+  },
+  "/tools/image/placeholder-generator": {
+    "title": "Placeholder Image Generator",
+    "description": "Generate custom placeholder images with custom dimensions, colors, text, and format (PNG, SVG, JPG, WEBP). Free online image placeholder tool for mockups."
+  },
+  "/tools/image/image-to-text": {
+    "title": "Image to Text (OCR)",
+    "description": "Extract text from images using OCR. Upload PNG, JPG, or WEBP images and convert to editable text. Browser-based optical character recognition — no upload to server."
+  },
+  "/tools/dev/json-formatter": {
+    "title": "JSON Formatter",
+    "description": "Format, validate, and beautify JSON data online. JSON pretty printer with syntax highlighting, error detection, minify/compress options. Free JSON formatter and validator for developers."
+  },
+  "/tools/dev/json-to-typescript": {
+    "title": "JSON to TypeScript Type & Interface Converter",
+    "description": "Convert raw JSON objects instantly into clean, nested TypeScript interfaces and type definitions."
+  },
+  "/tools/dev/sql-to-prisma": {
+    "title": "SQL Table to Prisma Schema Converter Studio",
+    "description": "Translate raw SQL CREATE TABLE statements into clean Prisma ORM models and schema definitions."
+  },
+  "/tools/dev/jwt-inspector": {
+    "title": "JWT Security Audit & Payload Inspector Studio",
+    "description": "Decode JSON Web Tokens (JWT) locally and run live AI security risk audits for algorithm vulnerabilities and payload data leaks."
+  },
+  "/tools/dev/regex-explainer": {
+    "title": "Regex Tester & AI Natural Language Explainer",
+    "description": "Test regular expressions against live sample strings and generate plain-English breakdowns of regex syntax with live AI inference."
+  },
+  "/tools/dev/env-scanner": {
+    "title": "Env Variables Security Risk & Secret Leak Scanner",
+    "description": "Audit .env files for leaked production API keys, hardcoded database credentials, and NEXT_PUBLIC prefix vulnerabilities with live AI inference."
+  },
+  "/tools/dev/code-auditor": {
+    "title": "AI Code Refactoring & Security Vulnerability Auditor",
+    "description": "Audit JavaScript, TypeScript, Python, and SQL code for security vulnerabilities, memory leaks, and performance refactoring with live AI inference."
+  },
+  "/tools/dev/jwt-decode": {
+    "title": "JWT Decoder",
+    "description": "Decode and inspect JWT (JSON Web Tokens) safely in your browser. View header, payload, and signature of JWT tokens. Validate token structure and debug authentication issues without sending data to servers."
+  },
+  "/tools/dev/regex-tester": {
+    "title": "Regex Tester",
+    "description": "Test and debug regular expressions online with real-time matching. RegEx tester with syntax highlighting, match groups, and test cases. Support for JavaScript, Python, PHP regex patterns."
+  },
+  "/tools/dev/hash-generator": {
+    "title": "Hash Generator",
+    "description": "Generate MD5, SHA1, SHA256, SHA512, and other cryptographic hashes online. Hash text, files, and passwords with multiple algorithms. Free hash calculator and checksum generator."
+  },
+  "/tools/dev/lorem-ipsum": {
+    "title": "Lorem Ipsum Generator",
+    "description": "Generate Lorem Ipsum placeholder text for design mockups and testing. Create paragraphs, sentences, or words of dummy text. Lorem Ipsum generator with word count control."
+  },
+  "/tools/dev/password-generator": {
+    "title": "Password Generator",
+    "description": "Generate strong, random passwords with custom length and character sets. Secure password generator with uppercase, lowercase, numbers, and special characters. Create cryptographically secure passwords."
+  },
+  "/tools/dev/uuid-nanoid": {
+    "title": "UUID / NanoID Generator",
+    "description": "Generate unique UUIDs (v4), NanoIDs, and short IDs online. Create universally unique identifiers for databases, APIs, and distributed systems. Bulk UUID generator with copy-to-clipboard."
+  },
+  "/tools/dev/timestamp-converter": {
+    "title": "Timestamp Converter",
+    "description": "Convert UNIX timestamps to human-readable dates and vice versa. Timestamp converter supporting milliseconds, seconds, and ISO 8601 formats. Time zone aware date converter."
+  },
+  "/tools/dev/color-converter": {
+    "title": "Color Converter",
+    "description": "Convert between HEX, RGB, HSL, and CMYK color formats. Color picker and converter with live preview. Extract colors from images and generate color palettes for web design."
+  },
+  "/tools/dev/diff-checker": {
+    "title": "Diff Checker",
+    "description": "Compare two text files and find differences line-by-line. Text diff tool with syntax highlighting for code comparison. Find changes, additions, and deletions between versions."
+  },
+  "/tools/dev/markdown-previewer": {
+    "title": "Markdown Previewer",
+    "description": "Preview Markdown syntax and convert to HTML in real-time. Markdown editor with GitHub-flavored markdown support, syntax highlighting, and export options. Live markdown renderer."
+  },
+  "/tools/dev/regex-library": {
+    "title": "Regex Library",
+    "description": "Collection of useful regular expression patterns for email, URL, phone, credit card validation, and more. Ready-to-use regex patterns with explanations and test cases."
+  },
+  "/tools/dev/api-tester": {
+    "title": "API Request Tester",
+    "description": "Test REST API endpoints without Postman. Send GET, POST, PUT, DELETE requests with custom headers, body, and authentication. Free online API testing tool for developers."
+  },
+  "/tools/dev/yaml-json": {
+    "title": "YAML to JSON Converter",
+    "description": "Convert YAML to JSON and JSON to YAML online. YAML parser and converter with syntax validation and formatting. Perfect for configuration files and data transformation."
+  },
+  "/tools/dev/csv-json": {
+    "title": "CSV to JSON Converter",
+    "description": "Convert CSV files to JSON format with automatic header detection. Transform tabular data to JSON arrays or objects. Supports custom delimiters and bulk CSV processing."
+  },
+  "/tools/dev/base-converter": {
+    "title": "Number Base Converter",
+    "description": "Convert numbers between binary, octal, decimal, and hexadecimal bases. Base converter with support for negative numbers and fractional values. Programmer's calculator for number systems."
+  },
+  "/tools/dev/color-palette": {
+    "title": "Color Palette Generator",
+    "description": "Generate beautiful color palettes and schemes online for free. Create complementary, analogous, triadic, and monochromatic palettes. Extract colors from images. Export as CSS variables, HEX, RGB, or HSL."
+  },
+  "/tools/dev/cron-generator": {
+    "title": "Cron Expression Generator",
+    "description": "Build and validate cron expressions visually. Generate cron schedules with a user-friendly UI, see next run times, and get human-readable descriptions. Supports standard 5-field and extended 6-field cron."
+  },
+  "/tools/dev/html-markdown": {
+    "title": "HTML to Markdown Converter",
+    "description": "Convert HTML to Markdown and Markdown to HTML instantly. Supports headings, links, images, lists, tables, code blocks, and more. Bidirectional converter with live preview. Free online tool."
+  },
+  "/tools/dev/color-blindness": {
+    "title": "Color Blindness Simulator",
+    "description": "Simulate how colors appear to people with color blindness. Test hex colors against Protanopia, Deuteranopia, Tritanopia, and Achromatopsia. Essential accessibility tool for designers and developers."
+  },
+  "/tools/dev/json-schema": {
+    "title": "JSON Schema Validator",
+    "description": "Validate JSON data against a JSON Schema. Real-time validation with error paths. Preset schemas for users, APIs, and configs. Checks types, required fields, enums, and constraints."
+  },
+  "/tools/dev/gradient-generator": {
+    "title": "CSS Gradient Generator",
+    "description": "Create CSS gradients visually. Linear and radial modes with multiple color stops. Adjustable angle. Live preview. Preset gradients. Copy CSS and Tailwind syntax. Random gradient button."
+  },
+  "/tools/dev/box-shadow": {
+    "title": "CSS Box Shadow Generator",
+    "description": "Visual CSS box-shadow editor with sliders for offset, blur, spread, and color. Multiple shadows, inset toggle. Preset shadows: subtle, neon glow, layered. Copy CSS and Tailwind output."
+  },
+  "/tools/dev/cron-explainer": {
+    "title": "Crontab Explainer",
+    "description": "Paste a cron expression and get a human-readable explanation. Shows next 5 run times. Color-coded fields. Common presets included. Validates syntax."
+  },
+  "/tools/dev/env-editor": {
+    "title": "Env Variables Editor",
+    "description": "Visual .env file editor. Paste content or add key-value pairs. Table and raw views. Duplicate key detection. Export as .env or JSON. Syntax validation."
+  },
+  "/tools/dev/string-escape": {
+    "title": "String Escape/Unescape",
+    "description": "Escape and unescape strings for HTML, URL, JavaScript, JSON, XML, SQL, CSS, Base64. Bidirectional conversion. Copy output instantly."
+  },
+  "/tools/dev/api-status": {
+    "title": "API Status Monitor",
+    "description": "Check if popular APIs and services are reachable. Pre-loaded services: Google, GitHub, AWS, Cloudflare, Vercel, NPM. Custom URL checking. Visual status indicators."
+  },
+  "/tools/dev/code-minifier": {
+    "title": "Code Minifier",
+    "description": "Minify HTML, CSS, and JavaScript code. Shows original vs minified size with savings percentage. Remove comments, whitespace, and newlines."
+  },
+  "/tools/dev/flexbox-playground": {
+    "title": "Flexbox Playground",
+    "description": "Interactive CSS Flexbox layout builder. Visual container with items. Controls for direction, justify, align, wrap, gap. Live CSS output."
+  },
+  "/tools/dev/css-grid": {
+    "title": "CSS Grid Generator",
+    "description": "Visual CSS Grid layout generator. Set columns, rows, gap. Define grid-template with fr, px, auto. Span cells. Generate and copy CSS."
+  },
+  "/tools/dev/html-entities": {
+    "title": "HTML Entity Encoder",
+    "description": "Encode and decode HTML entities. Named vs numeric toggle. Common entities reference table. Auto-detect mode. Batch processing."
+  },
+  "/tools/dev/regex-cheatsheet": {
+    "title": "Regex Cheat Sheet",
+    "description": "Comprehensive regex quick reference. Character classes, anchors, quantifiers, groups. Interactive test area. Common patterns library."
+  },
+  "/tools/dev/http-status": {
+    "title": "HTTP Status Codes",
+    "description": "Complete HTTP status code reference. 1xx-5xx grouped by category. Color-coded. Search by code or name. Quick lookup. Copy entries."
+  },
+  "/tools/dev/css-animation": {
+    "title": "CSS Animation Generator",
+    "description": "Generate CSS keyframe animations visually. Fade, slide, bounce, pulse, spin, shake. Duration, delay, timing controls. Live preview. Copy CSS."
+  },
+  "/tools/dev/sql-formatter": {
+    "title": "SQL Formatter",
+    "description": "Format and beautify SQL queries. Uppercase keywords, proper indentation. Handles SELECT, INSERT, UPDATE, DELETE, JOIN. Copy formatted SQL."
+  },
+  "/tools/dev/flexbox-generator": {
+    "title": "CSS Flexbox Generator",
+    "description": "Visual CSS flexbox layout generator. Flex direction, justify content, align items, flex wrap, gap. Add/remove items. Copy CSS."
+  },
+  "/tools/dev/keycode-info": {
+    "title": "Keycode & Event Viewer",
+    "description": "Inspect JavaScript keyboard event properties: key, code, keyCode, location, modifiers. Interactive virtual keyboard. Event history log."
+  },
+  "/tools/dev/curl-converter": {
+    "title": "cURL Code Converter",
+    "description": "Convert cURL command line requests into JS Fetch, Axios, Node.js, Python requests, Go, PHP, Rust code snippets."
+  },
+  "/tools/dev/ua-parser": {
+    "title": "User Agent Parser & Inspector",
+    "description": "Parse User-Agent strings. Browser, OS, device type, engine detection. Auto-detect current browser UA. Preset sample UA strings."
+  },
+  "/tools/dev/css-transform": {
+    "title": "CSS 3D Transform Generator",
+    "description": "Interactive 3D CSS transform generator. Sliders for rotateX, rotateY, rotateZ, scale, skew, translate, perspective. Live 3D preview."
+  },
+  "/tools/dev/css-clippath": {
+    "title": "CSS Clip-Path Maker",
+    "description": "Interactive CSS clip-path generator. Polygon, circle, ellipse, inset, star, hexagon, arrow. Live handles, CSS output."
+  },
+  "/tools/dev/css-filters": {
+    "title": "CSS Filter Effects Generator",
+    "description": "Visual generator for CSS filter effects. Blur, brightness, contrast, drop-shadow, grayscale, hue-rotate, invert, opacity, saturate, sepia."
+  },
+  "/tools/dev/css-shadow": {
+    "title": "CSS Box & Text Shadow Generator",
+    "description": "Visual generator for CSS box-shadow and text-shadow. Multiple shadow layers, inset toggle, presets (soft glow, neumorphism, material, neon)."
+  },
+  "/tools/dev/css-radius": {
+    "title": "CSS Border-Radius Shape Generator",
+    "description": "8-point fancy blob and custom CSS border-radius generator. Organic blobs, pills, badges, leaves, live animation preview."
+  },
+  "/tools/dev/css-transform-2d": {
+    "title": "CSS 2D Transform Matrix Generator",
+    "description": "Visual generator for CSS 2D transforms. Translate, scale, rotate, skew, transform-origin, presets, and live transition preview."
+  },
+  "/tools/dev/css-flexbox-builder": {
+    "title": "CSS Flexbox Layout Playground",
+    "description": "Interactive visual CSS Flexbox builder. Flex direction, wrap, justify-content, align-items, gap, item order & shrink, live CSS snippet."
+  },
+  "/tools/dev/css-grid-builder": {
+    "title": "CSS Grid Layout Visual Builder",
+    "description": "Interactive visual CSS Grid builder. Grid template columns, rows, gap, item positioning, column/row span, presets, live CSS snippet."
+  },
+  "/tools/dev/css-glassmorphism": {
+    "title": "CSS Glassmorphism & Backdrop Filter Generator",
+    "description": "Visual generator for CSS Glassmorphism effects. Backdrop blur, opacity, saturation, borders, shadows, live card preview."
+  },
+  "/tools/dev/css-keyframes": {
+    "title": "CSS Keyframe Animation Generator",
+    "description": "Visual CSS @keyframes animation generator. Custom keyframe steps, pulse, bounce, shake, flip, rotate, and timing controls."
+  },
+  "/tools/dev/css-typography": {
+    "title": "CSS Typography & Text Effect Generator",
+    "description": "Visual CSS typography generator. Text shadow 3D, WebKit text-stroke, gradients, uppercase/lowercase, letter spacing, presets."
+  },
+  "/tools/dev/css-transform-3d": {
+    "title": "CSS 3D Transform & Perspective Generator",
+    "description": "Visual generator for 3D CSS transforms and perspective. RotateX/Y/Z, translateZ, perspective origin, 3D card tilt presets."
+  },
+  "/tools/dev/css-keyframes-stack": {
+    "title": "CSS Keyframe Multi-Animation Stacker",
+    "description": "Visual multi-animation builder for chaining multiple @keyframes on a single CSS element with layer animation controls."
+  },
+  "/tools/dev/css-keyframes-builder": {
+    "title": "CSS Keyframe Visual Animation Builder",
+    "description": "Visual CSS keyframe animation timeline builder. Custom keyframes, cubic-bezier timing, property controls, and live element preview."
+  },
+  "/tools/dev/css-keyframes-speed": {
+    "title": "CSS Keyframe Visual Curve & Speed Builder",
+    "description": "Visual CSS keyframe animation timing curve builder. Cubic-bezier parameters, easing presets, speed duration, and live ball preview."
+  },
+  "/tools/dev/color-picker": {
+    "title": "Color Picker & Palette Generator",
+    "description": "Pick any color and get HEX, RGB, HSL codes instantly. Free online color picker with color name detection, complementary colors, and recent color history."
+  },
+  "/tools/dev/json-csv": {
+    "title": "JSON to CSV Converter",
+    "description": "Convert JSON arrays to CSV format instantly. Choose delimiters, flatten nested objects, download CSV files. Free online JSON to CSV converter — no signup."
+  },
+  "/tools/dev/markdown-editor": {
+    "title": "Markdown Editor",
+    "description": "Write and preview Markdown in real time. Free online Markdown editor with live HTML preview, toolbar, word count, and export to .md file. No signup required."
+  },
+  "/tools/seo/og-builder": {
+    "title": "OG Image Builder",
+    "description": "Create custom Open Graph images for social media sharing. Design OG images for Facebook, Twitter, LinkedIn previews. Free social media card generator with templates and customization."
+  },
+  "/tools/seo/og-preview": {
+    "title": "Open Graph Preview",
+    "description": "Preview how URLs appear on Facebook, Twitter, LinkedIn, and Slack. Test Open Graph and Twitter Card meta tags. Check social media link previews before sharing."
+  },
+  "/tools/seo/robots-generator": {
+    "title": "robots.txt Generator",
+    "description": "Generate robots.txt files for SEO and search engine crawling control. Create robots.txt with custom user-agent rules, disallow patterns, and sitemap references. Free robots.txt builder."
+  },
+  "/tools/seo/ai-meta-generator": {
+    "title": "AI High-CTR SEO Title & Meta Description Generator",
+    "description": "Generate search-optimized HTML title tags and meta descriptions tailored for maximum organic Google click-through rates with live AI."
+  },
+  "/tools/seo/ai-schema-generator": {
+    "title": "AI Schema.org JSON-LD Structured Data Generator",
+    "description": "Generate Google Rich Snippet JSON-LD structured data for Products, Local Businesses, Software, and FAQs with live AI."
+  },
+  "/tools/marketing/cold-email-generator": {
+    "title": "AI Cold Email & B2B Sales Outreach Sequence Generator",
+    "description": "Craft high-reply B2B cold email campaigns, personalized sales pitches, and follow-up templates powered by live AI."
+  },
+  "/tools/marketing/slogan-generator": {
+    "title": "AI Product Slogan & Brand Tagline Generator",
+    "description": "Brainstorm memorable brand slogans, catchy product taglines, and marketing motto ideas with live AI inference."
+  },
+  "/tools/seo/meta-generator": {
+    "title": "Meta Tags Generator",
+    "description": "Generate SEO meta tags for HTML head section. Create title, description, Open Graph, Twitter Cards, canonical tags with live preview. Free meta tag generator for better search rankings."
+  },
+  "/tools/seo/sitemap-generator": {
+    "title": "Sitemap.xml Generator",
+    "description": "Create XML sitemaps from URL lists for search engines. Generate sitemaps for Google, Bing, and other search engines. Add priority, change frequency, and last modified dates. Free sitemap builder."
+  },
+  "/tools/seo/schema-generator": {
+    "title": "Schema Markup Generator",
+    "description": "Generate JSON-LD structured data for rich snippets. Create schema markup for Articles, Products, Organizations, LocalBusiness, FAQ, and more. Improve SEO with structured data."
+  },
+  "/tools/calc/bmi": {
+    "title": "BMI Calculator",
+    "description": "Calculate Body Mass Index (BMI) instantly from height and weight. Free BMI calculator with health category classification. Check if you're underweight, normal, overweight, or obese based on WHO standards."
+  },
+  "/tools/calc/unit-converter": {
+    "title": "Unit Converter",
+    "description": "Convert units of length, weight, temperature, volume, area, speed, time, and more. Free online unit converter with support for metric, imperial, and US customary units."
+  },
+  "/tools/calc/date-diff": {
+    "title": "Date Difference Calculator",
+    "description": "Calculate days, weeks, months, and years between two dates. Find the exact time difference between dates with business days calculation. Free date calculator for planning and scheduling."
+  },
+  "/tools/calc/standard": {
+    "title": "Standard Calculator",
+    "description": "Free online calculator for basic arithmetic operations. Add, subtract, multiply, divide with keyboard support. Simple calculator for everyday math and quick calculations."
+  },
+  "/tools/calc/scientific": {
+    "title": "Scientific Calculator",
+    "description": "Advanced scientific calculator with trigonometric, logarithmic, and exponential functions. Calculate sin, cos, tan, log, square root, and more. Free online scientific calculator for students and engineers."
+  },
+  "/tools/calc/percentage": {
+    "title": "Percentage Calculator",
+    "description": "Calculate percentages, percentage increase/decrease, and percentage change. Find X% of Y, calculate tips, discounts, and markups. Free percentage calculator with multiple modes."
+  },
+  "/tools/calc/emi": {
+    "title": "Loan EMI Calculator",
+    "description": "Calculate monthly EMI payments for home loans, car loans, and personal loans. EMI calculator with interest rate, loan amount, tenure, and amortization schedule. Plan your loan repayment effectively."
+  },
+  "/tools/calc/currency": {
+    "title": "Currency Converter",
+    "description": "Convert currencies with live exchange rates. Real-time currency converter for 150+ currencies including USD, EUR, GBP, JPY, INR. Free forex calculator for international money exchange."
+  },
+  "/tools/calc/tip-split": {
+    "title": "Tip Calculator & Bill Splitter",
+    "description": "Calculate tips and split bills among friends. Tip calculator with percentage options (10%, 15%, 20%, custom). Free bill splitter for restaurants and group dining."
+  },
+  "/tools/calc/discount": {
+    "title": "Discount Calculator",
+    "description": "Calculate discounted prices and savings from original price. Find final price after discount, percentage off, and amount saved. Free discount calculator for shopping and sales."
+  },
+  "/tools/calc/gpa": {
+    "title": "GPA Calculator",
+    "description": "Calculate your GPA from courses, grades, and credit hours. Supports A-F grade scale with plus/minus. Add courses dynamically, view color-coded results, and export your GPA."
+  },
+  "/tools/calc/cgpa": {
+    "title": "CGPA Calculator",
+    "description": "Calculate Cumulative GPA across multiple semesters. Add semesters with GPA and credits, get CGPA with academic classification. Free CGPA calculator for students."
+  },
+  "/tools/calc/video-ratio": {
+    "title": "Video Aspect Ratio Calculator",
+    "description": "Calculate video aspect ratios and resolutions. Presets for 4K, 1080p, 720p, Instagram, TikTok, YouTube Shorts. Scale calculator maintains ratio. Shows pixel count and megapixels."
+  },
+  "/tools/calc/aspect-ratio": {
+    "title": "Aspect Ratio Calculator",
+    "description": "Calculate aspect ratios for any resolution. Lock ratio and compute missing dimension. Common presets: 16:9, 4:3, 21:9, 1:1, 9:16. Scale calculator."
+  },
+  "/tools/calc/number-words": {
+    "title": "Number to Words",
+    "description": "Convert numbers to words and back. Supports up to 999 billion. Currency mode (USD, EUR, GBP, INR). Ordinal numbers. Copy results."
+  },
+  "/tools/finance/credit-payoff": {
+    "title": "Credit Card Payoff Calculator",
+    "description": "Calculate credit card payoff timeline and total interest paid. Compare fixed monthly payment vs target debt-free duration."
+  },
+  "/tools/finance/debt-payoff-planner": {
+    "title": "Debt Snowball vs Avalanche Calculator",
+    "description": "Compare Debt Snowball (lowest balance first) vs Debt Avalanche (highest APR first) strategies. Payoff date and interest comparison."
+  },
+  "/tools/finance/paycheck-deductions": {
+    "title": "Paycheck Deductions & Take-Home Calculator",
+    "description": "Calculate net paycheck take-home after itemized federal/state taxes, FICA, pre-tax 401k/HSA, and voluntary deductions."
+  },
+  "/tools/finance/emergency-fund-planner": {
+    "title": "Emergency Fund Savings Planner",
+    "description": "Calculate recommended safety net emergency fund size and monthly savings target timeline for 3, 6, 9, or 12-month coverage."
+  },
+  "/tools/finance/freelance-tax-calc": {
+    "title": "Freelance Tax & Quarterly Estimate Calculator",
+    "description": "Calculate estimated 1099 self-employment tax, income tax, and recommended quarterly estimated tax payments for contractors."
+  },
+  "/tools/finance/emergency-goal-calc": {
+    "title": "Emergency Savings Goal Calculator",
+    "description": "Calculate monthly or weekly savings required to reach your emergency savings goal with high-yield APY interest accumulation."
+  },
+  "/tools/finance/budget-50-30-20": {
+    "title": "50/30/20 Rule Budget & Income Allocator",
+    "description": "Calculate income allocation according to the 50/30/20 budgeting rule (50% Needs, 30% Wants, 20% Savings/Debt Payoff)."
+  },
+  "/tools/finance/dti-calculator": {
+    "title": "Debt-to-Income (DTI) Ratio Calculator",
+    "description": "Calculate Front-End and Back-End Debt-to-Income (DTI) ratios for mortgage underwriting & loan approval limits."
+  },
+  "/tools/finance/auto-loan-calculator": {
+    "title": "Auto Loan Monthly Payment & Amortization Calculator",
+    "description": "Calculate auto loan monthly payments, trade-in deductions, sales tax, APY interest, and full monthly amortization schedule."
+  },
+  "/tools/finance/ltv-calculator": {
+    "title": "Loan-to-Value (LTV) & Home Equity Calculator",
+    "description": "Calculate Loan-to-Value (LTV), Combined LTV (CLTV), dollar equity, maximum HELOC limits, and PMI risk thresholds."
+  },
+  "/tools/finance/heloc-calculator": {
+    "title": "HELOC (Home Equity Line of Credit) Payment Calculator",
+    "description": "Calculate interest-only draw period and principal + interest repayment period monthly payments for Home Equity Lines of Credit."
+  },
+  "/tools/time/timezone": {
+    "title": "Time Zone Converter",
+    "description": "Convert time between different time zones worldwide. World clock and time zone calculator for scheduling international meetings. Compare times across multiple cities and countries."
+  },
+  "/tools/time/age": {
+    "title": "Age Calculator",
+    "description": "Calculate exact age in years, months, weeks, days, hours from date of birth. Free age calculator with next birthday countdown. Find your age down to the second."
+  },
+  "/tools/time/countdown": {
+    "title": "Countdown Timer",
+    "description": "Online countdown timer for events, meetings, and Pomodoro technique. Customizable timer with alarm sound. Track time remaining for deadlines and important dates."
+  },
+  "/tools/time/weekno": {
+    "title": "Week Number Calculator",
+    "description": "Find ISO week number for any date. Week number calculator with date range display. Useful for project planning and scheduling with week-based calendars."
+  },
+  "/tools/time/world-clock": {
+    "title": "World Clock",
+    "description": "View current time in multiple cities worldwide. Live-updating world clock with 30+ major timezones, day/night indicators, 12h/24h toggle, and UTC offsets. Save your favorite cities."
+  },
+  "/tools/time/meeting-planner": {
+    "title": "Meeting Planner",
+    "description": "Find the best meeting time across time zones. Visual 24-hour grid with working hours highlighted. Overlap detection. Copy invite text with converted times."
+  },
+  "/tools/time/timezone-compare": {
+    "title": "Time Zone Comparison",
+    "description": "Compare time across up to 8 time zones side by side. Slider to pick time. Business hours highlighted. UTC offsets shown."
+  },
+  "/tools/time/holidays": {
+    "title": "Holiday Calendar",
+    "description": "Public holidays for 10 countries. Filter by month and year. Countdown to next holiday. Mark favorites. Copy holiday list."
+  },
+  "/tools/time/cooking-timer": {
+    "title": "Cooking Timer",
+    "description": "Multiple simultaneous cooking timers. Presets: Egg, Pasta, Rice, Chicken. Audio alerts. Color-coded. Up to 6 concurrent timers."
+  },
+  "/tools/time/tz-alarm": {
+    "title": "Timezone Alarm",
+    "description": "Set alarms across timezones. Audio alerts. Snooze. Multiple alarms. Active/inactive toggle. Color-coded by region."
+  },
+  "/tools/time/shift-scheduler": {
+    "title": "Work Shift Scheduler",
+    "description": "Schedule employee work shifts over 7 days. Member shift assignment, weekly hours total, conflict detection, copy schedule."
+  },
+  "/tools/time/work-hours": {
+    "title": "Work Hours & Overtime Calculator",
+    "description": "Calculate daily and weekly work hours with break deductions and overtime. Net hours, overtime threshold, total pay estimation."
+  },
+  "/tools/time/world-planner": {
+    "title": "World Clock & Meeting Planner",
+    "description": "Compare times across multiple world cities to find ideal meeting slots. 24-hour timeline bar highlighting overlapping working hours."
+  },
+  "/tools/time/event-widget": {
+    "title": "Event Countdown Widget Creator",
+    "description": "Create customizable event countdown widgets. Live Days/Hours/Mins/Secs countdown, theme styling, embeddable HTML snippet."
+  },
+  "/tools/time/lunar-calendar": {
+    "title": "Lunar Calendar",
+    "description": "Moon phases for any month/year. Synodic period calculation. Moon emojis. Next full/new moon dates. Monthly calendar grid view."
+  },
+  "/tools/time/date-formatter": {
+    "title": "Date Formatter",
+    "description": "Convert any date to 15+ formats including ISO 8601, RFC 2822, Unix timestamp, and locale-specific formats (US, UK, Japan). Shows day of week, week number, and day of year."
+  },
+  "/tools/time/birthday-countdown": {
+    "title": "Birthday Countdown",
+    "description": "Live countdown to your next birthday with days, hours, minutes, seconds. Shows your exact age, zodiac sign, birthstone, birth day of week, and fun facts about your birth year."
+  },
+  "/tools/time/event-countdown": {
+    "title": "Event Countdown",
+    "description": "Create custom event countdowns with live days, hours, minutes, seconds display. Multiple simultaneous countdowns. Preset events: New Year, Christmas, Halloween. Color-coded. Saved locally."
+  },
+  "/tools/time/sun-calculator": {
+    "title": "Sunrise & Sunset Calculator",
+    "description": "Calculate sunrise, sunset, golden hour, twilight times, and day length for any global city or latitude/longitude coordinates."
+  },
+  "/tools/util/clipboard-cleaner": {
+    "title": "Clipboard Cleaner",
+    "description": "Remove formatting from copied text and paste as plain text. Strip HTML, Rich Text formatting, and hidden characters. Clean clipboard content for emails and documents."
+  },
+  "/tools/util/clipboard-manager": {
+    "title": "Clipboard Manager",
+    "description": "Save and manage clipboard snippets with categories. One-click copy, search, pin favorites. Import/export as JSON. Saved locally."
+  },
+  "/tools/util/electricity-monitor": {
+    "title": "Electricity Usage Monitor",
+    "description": "Track home electricity usage by appliance. Calculate daily/monthly kWh and cost. Preset appliances. Usage pie chart. Saving tips."
+  },
+  "/tools/util/random-picker": {
+    "title": "Random Picker",
+    "description": "Pick random winners from a list of names. Random name picker for contests, giveaways, and decision making. Fair and unbiased random selection tool."
+  },
+  "/tools/util/id-generator": {
+    "title": "ID Generator",
+    "description": "Generate unique readable order IDs, reference numbers, and short identifiers. Create human-friendly IDs for orders, tickets, and tracking numbers."
+  },
+  "/tools/util/pomodoro": {
+    "title": "Pomodoro Timer",
+    "description": "Pomodoro technique timer with 25-minute work sessions and 5-minute breaks. Productivity timer with sound notifications to boost focus and prevent burnout."
+  },
+  "/tools/util/unit-price": {
+    "title": "Unit Price Comparator",
+    "description": "Compare unit prices to find the best value. Calculate price per unit, ounce, kilogram, or liter. Smart shopping tool to compare product sizes and save money."
+  },
+  "/tools/util/stopwatch": {
+    "title": "Stopwatch",
+    "description": "Online stopwatch with millisecond precision, lap recording, and keyboard shortcuts. Start, stop, reset, and record split times. Free stopwatch timer for workouts, cooking, and productivity."
+  },
+  "/tools/util/coin-flip": {
+    "title": "Flip a Coin",
+    "description": "Flip a virtual coin online with realistic 3D animation. Fair and unbiased heads or tails coin flipper using cryptographic randomness. Track flip history and statistics."
+  },
+  "/tools/util/dice-roller": {
+    "title": "Roll a Dice",
+    "description": "Roll virtual dice online with realistic animations. Support for 1-6 dice, roll history, and statistics. Fair random dice roller for board games, RPGs, and decision making."
+  },
+  "/tools/util/random-number": {
+    "title": "Random Number Generator",
+    "description": "Generate cryptographically secure random numbers with custom range. Bulk generation, no-duplicate mode, sort options, and copy to clipboard. Free random number generator."
+  },
+  "/tools/util/typing-test": {
+    "title": "Typing Speed Test",
+    "description": "Test your typing speed and accuracy with real-time WPM tracking. Multiple difficulty levels, character-by-character highlighting, and detailed results. Free online typing test."
+  },
+  "/tools/util/screen-recorder": {
+    "title": "Screen Recorder",
+    "description": "Record your screen online for free. Capture entire screen, application window, or browser tab with optional microphone audio. Download as WebM video. 100% browser-based, no software to install."
+  },
+  "/tools/util/decision-maker": {
+    "title": "Decision Maker",
+    "description": "Can't decide? Simple mode randomly picks from your options with spin animation. Weighted mode scores options by pros, cons, and criteria weights. Decision history saved locally."
+  },
+  "/tools/util/phonetic-password": {
+    "title": "Phonetic Pronunciation Password Generator",
+    "description": "Generate strong passwords with NATO phonetic pronunciation guides (Alpha, Bravo, Charlie) and entropy security scores."
+  },
+  "/tools/util/password-entropy": {
+    "title": "Password Strength & Entropy Calculator",
+    "description": "Analyze password security, information entropy bits, and estimated crack times for online, fast offline, and supercomputer attacks."
+  },
+  "/tools/util/diceware-password": {
+    "title": "Diceware Wordlist Passphrase Generator",
+    "description": "Generate ultra-secure, human-memorable Diceware passphrases (e.g. correct-horse-battery-staple) with entropy bits calculations."
+  },
+  "/tools/util/pdf-merge": {
+    "title": "PDF Merge & Combine",
+    "description": "Merge multiple PDF files into a single document. Reorder pages, drag and drop PDFs, and combine online for free. 100% private client-side processing."
+  },
+  "/tools/util/pdf-to-image": {
+    "title": "PDF to Image Converter",
+    "description": "Convert PDF pages to high-quality PNG or JPG images. Extract individual pages or all pages as zip. Fast, free, browser-based PDF image extractor."
+  },
+  "/tools/productivity/ai-meeting-summarizer": {
+    "title": "AI Executive Meeting Notes & Action Item Summarizer",
+    "description": "Transform raw meeting transcripts, Zoom notes, and Slack huddle logs into executive summaries and action items with live AI."
+  },
+  "/tools/office/invoice": {
+    "title": "Invoice Generator",
+    "description": "Create professional invoices online for free. Simple invoice generator with customizable templates. Add items, calculate totals, and download as PDF. No signup required."
+  },
+  "/tools/academic/thesis-generator": {
+    "title": "AI Essay Outline & Thesis Statement Generator",
+    "description": "Generate strong, academic-grade thesis statements and structured 3-part essay outlines for research papers with live AI inference."
+  },
+  "/tools/academic/citation-generator": {
+    "title": "APA / MLA / Chicago Citation & Bibliography Generator",
+    "description": "Generate formatted APA 7th, MLA 9th, and Chicago style citations and bibliography entries for academic papers."
+  },
+  "/tools/office/todo": {
+    "title": "To-Do List (Offline)",
+    "description": "Private offline to-do list that works without internet. Local task manager with no signup or cloud sync. Your tasks stay on your device for complete privacy."
+  },
+  "/tools/office/meeting-notes": {
+    "title": "Meeting Notes Template",
+    "description": "Take structured meeting notes with timestamps and action items. Meeting minutes template for recording discussions, decisions, and next steps. Export notes as text or PDF."
+  },
+  "/tools/office/receipt-scanner": {
+    "title": "Receipt Tracker",
+    "description": "Manual receipt entry and tracking. Add store, date, amount, category, payment method. Filter and export as CSV. Total spending dashboard."
+  },
+  "/tools/office/resume-analyzer": {
+    "title": "Resume Analyzer",
+    "description": "Paste resume text for actionable feedback. Word count check, keyword density, weak word detection, action verb suggestions. ATS optimization tips."
+  },
+  "/tools/office/invoice-number": {
+    "title": "Invoice Number Generator",
+    "description": "Generate sequential invoice numbers with custom format. Prefix, separator, date inclusion, padding. Batch generation. Auto-increment counter."
+  },
+  "/tools/office/file-renamer": {
+    "title": "Batch File Renamer",
+    "description": "Preview file rename patterns. Add prefix/suffix, find and replace, sequential numbering, date prefix, case changes. Copy renamed list."
+  },
+  "/tools/office/sop-builder": {
+    "title": "SOP Template Builder",
+    "description": "Create Standard Operating Procedure documents. Numbered steps with sub-steps, safety warnings. Templates included. Export as markdown."
+  },
+  "/tools/office/cover-letter": {
+    "title": "Cover Letter Builder",
+    "description": "Build professional cover letters. Templates: Formal, Modern, Creative. Live preview. Fill in sections. Copy or download as text."
+  },
+  "/tools/office/business-card": {
+    "title": "Business Card Generator",
+    "description": "Design digital business cards. Color themes, layouts, templates. Live preview. Download as PNG. QR code for contact info."
+  },
+  "/tools/office/email-signature": {
+    "title": "Email Signature Generator",
+    "description": "Generate HTML email signatures. Color themes, layouts, social links. Live preview. Copy HTML or plain text. Professional templates."
+  },
+  "/tools/office/letter-template": {
+    "title": "Letter Template Generator",
+    "description": "Generate formal letter templates. Resignation, Recommendation, Complaint, Thank You. Auto-format structure. Copy and print-friendly."
+  },
+  "/tools/office/ai-contractor-agreement": {
+    "title": "AI Independent Contractor Agreement Studio",
+    "description": "Draft custom contractor agreements, IP work-for-hire clauses, payment terms, and confidentiality terms powered by live AI."
+  },
+  "/tools/office/ai-sow-generator": {
+    "title": "AI Statement of Work (SOW) Deliverables Generator",
+    "description": "Generate professional client Statement of Work (SOW) documents with phased milestone deliverables, acceptance criteria, and out-of-scope boundaries using live AI."
+  },
+  "/tools/office/ai-retainer-generator": {
+    "title": "AI Client Retainer & Scope Proposal Generator",
+    "description": "Craft recurring monthly client retainer proposals, service allocation tiers, SLA guarantees, and overage terms with live AI."
+  },
+  "/tools/office/contract-template": {
+    "title": "Contract Template",
+    "description": "Generate basic contract templates. NDA, Service, Freelance, Rental, Employment. Fill in parties and terms. Numbered sections. Copy text."
+  },
+  "/tools/office/nda-generator": {
+    "title": "NDA Generator",
+    "description": "Non-Disclosure Agreement generator. Unilateral or mutual, customizable parties, jurisdiction, duration. Copy formatted NDA."
+  },
+  "/tools/office/invoice-calc": {
+    "title": "Invoice Line Item Calculator",
+    "description": "Quick invoice total and tax breakdown calculator. Line items, quantities, discounts, tax rates (VAT/GST), shipping. Copy summary."
+  },
+  "/tools/office/po-generator": {
+    "title": "Purchase Order Generator",
+    "description": "Generate formal Purchase Orders (PO). Vendor & ship-to details, itemized table, payment terms, tax calculation, print-ready layout."
+  },
+  "/tools/office/packing-slip": {
+    "title": "Packing Slip Generator",
+    "description": "Generate professional ecommerce / warehouse Packing Slips. Order details, carrier info, SKU itemized table, print-ready layout."
+  },
+  "/tools/office/commercial-invoice": {
+    "title": "Commercial Invoice Generator",
+    "description": "Generate international trade Commercial Invoices. Exporter/Importer info, Incoterms, HS codes, declared values, print-ready layout."
+  },
+  "/tools/office/bol-generator": {
+    "title": "Bill of Lading (BOL) Generator",
+    "description": "Generate official Bill of Lading (BOL) shipping documents. Shipper/Consignee info, freight class, itemized handling units, print layout."
+  },
+  "/tools/office/proforma-invoice": {
+    "title": "Proforma Invoice Generator",
+    "description": "Generate preliminary Proforma Invoices for trade proposals. Seller/buyer info, itemized table, payment terms, print-ready layout."
+  },
+  "/tools/office/expense-tracker": {
+    "title": "Expense Tracker",
+    "description": "Track daily expenses by category with running totals and visual breakdowns. Add expenses with amounts, descriptions, and dates. Monthly summary with category-wise spending analysis. Data saved locally."
+  },
+  "/tools/office/timesheet": {
+    "title": "Timesheet Calculator",
+    "description": "Calculate weekly work hours with start/end times and break durations. Auto-computes daily hours, weekly total, and overtime (over 40h). Optional hourly rate for gross pay estimation."
+  },
+  "/tools/office/grocery-list": {
+    "title": "Grocery List Manager",
+    "description": "Smart grocery list with categories (Produce, Dairy, Meat, etc.). Add items with quantity, unit, and price. Check off while shopping. Total cost tracking. Multiple lists. Share as text."
+  },
+  "/tools/office/meeting-cost": {
+    "title": "Meeting Cost Calculator",
+    "description": "Calculate how much meetings cost based on attendees and salaries. Live ticking cost counter. Fun comparisons (X cups of coffee). Tips for efficient meetings."
+  },
+  "/tools/office/quote-generator": {
+    "title": "Price Quotation & Estimate Generator",
+    "description": "Generate professional price quotation estimates and business proposals. Itemized breakdown, tax rates, validity date, print view."
+  },
+  "/tools/office/completion-letter": {
+    "title": "Work Completion Letter Generator",
+    "description": "Generate formal Work Completion Certificates and Project Sign-off Letters. Contractor details, scope summary, deliverables list, print view."
+  },
+  "/tools/office/sla-generator": {
+    "title": "SLA Document Generator",
+    "description": "Generate formal Service Level Agreement (SLA) contracts. Uptime targets, P1-P3 support tiers, maintenance windows, print view."
+  },
+  "/tools/office/service-contract": {
+    "title": "Professional Service Contract Generator",
+    "description": "Generate formal Professional Service Contracts and Independent Contractor Agreements. Scope, fee terms, confidentiality, print view."
+  },
+  "/tools/office/nda-builder": {
+    "title": "Mutual Non-Disclosure Agreement (NDA) Generator",
+    "description": "Generate formal Mutual or One-Way Non-Disclosure Agreements (NDA). Disclosing/receiving parties, term length, governing state, print view."
+  },
+  "/tools/office/contractor-agreement": {
+    "title": "Independent Contractor Agreement Builder",
+    "description": "Generate formal Independent Contractor and Freelance Agreements. Milestones, flat fee/hourly rates, IP ownership, non-compete, print view."
+  },
+  "/tools/office/retainer-agreement": {
+    "title": "Professional Service Retainer Agreement Generator",
+    "description": "Generate formal Monthly Service Retainer Contracts. Retainer fee, included hours, overage rates, rollover terms, print view."
+  },
+  "/tools/office/msa-generator": {
+    "title": "Master Services Agreement (MSA) Generator",
+    "description": "Generate formal Master Services Agreements (MSA) for corporate contracts, invoicing terms, liability caps, and print view."
+  },
+  "/tools/office/consulting-agreement": {
+    "title": "Consulting Services Agreement Generator",
+    "description": "Generate formal Consulting Services and Client Engagement Contracts. Hourly rate/fixed fee/retainer terms, scope, print view."
+  },
+  "/tools/office/nda-scope-builder": {
+    "title": "Mutual NDA Scope & Term Builder",
+    "description": "Generator for Mutual and Unilateral Non-Disclosure Agreements with custom confidential information scope clauses and state laws."
+  },
+  "/tools/office/sow-contractor-builder": {
+    "title": "Independent Contractor SOW Builder",
+    "description": "Generator for Independent Contractor Statements of Work (SOW). Deliverables list, milestone schedules, acceptance criteria, print view."
+  },
+  "/tools/office/contractor-sow-builder": {
+    "title": "Contractor Scope of Work & Deliverables Builder",
+    "description": "Formal Statement of Work (SOW) document generator for independent contractors & freelancers. Deliverables timeline, milestone payments, print view."
+  },
+  "/tools/travel/distance": {
+    "title": "Distance Calculator",
+    "description": "Calculate distance and estimated travel time between cities on a map. Interactive distance calculator with driving, walking, and straight-line distance. Plan your trips and routes."
+  },
+  "/tools/travel/packing": {
+    "title": "Travel Packing Checklist",
+    "description": "Smart packing list generator for trips. Customizable travel checklist based on destination, duration, and season. Never forget essential items when traveling."
+  },
+  "/tools/travel/jet-lag": {
+    "title": "Jet Lag Calculator",
+    "description": "Estimate jet lag severity and recovery time based on timezone differences. Get personalized tips for sleep schedule adjustment, light exposure, and meal timing. Covers all major world timezones."
+  },
+  "/tools/travel/fuel-cost": {
+    "title": "Fuel Cost Calculator",
+    "description": "Calculate fuel cost for any trip. Enter distance, fuel efficiency, and fuel price. Compare multiple vehicles, toggle metric/imperial, and calculate round trip costs."
+  },
+  "/tools/travel/budget": {
+    "title": "Travel Budget Planner",
+    "description": "Plan travel budget with expense categories: flights, accommodation, food, transport, activities, and more. Daily and per-person cost breakdown. Visual pie chart. Save and export budgets."
+  },
+  "/tools/travel/packing-weight": {
+    "title": "Packing Weight Calculator",
+    "description": "Calculate luggage weight before traveling. Categorize items, set airline weight limits. Visual progress bar with over-limit warnings. Toggle kg/lb. Know before you go."
+  },
+  "/tools/travel/fuel-efficiency": {
+    "title": "Fuel Efficiency Converter",
+    "description": "Convert between MPG (US/UK), L/100km, and km/L. Vehicle type presets. Efficiency comparison chart. Tips for improving fuel economy."
+  },
+  "/tools/travel/checklist": {
+    "title": "Travel Checklist",
+    "description": "Pre-trip checklist generator. Select trip type: Business, Beach, Adventure, City, Winter. Auto-generate categorized lists. Track packing progress. Print-friendly."
+  },
+  "/tools/travel/visa-check": {
+    "title": "Visa Requirements Checker",
+    "description": "Check visa requirements between 50+ countries. Shows Visa Free, Visa on Arrival, eVisa, or Visa Required status with max stay duration."
+  },
+  "/tools/travel/flight-time": {
+    "title": "Flight Time Calculator",
+    "description": "Estimate flight duration between 50+ major cities. Great-circle distance, time zones, layover calculator. Round trip total time."
+  },
+  "/tools/travel/expenses": {
+    "title": "Travel Expense Tracker",
+    "description": "Track expenses during trips. Create trips with budget. Categories, multi-currency support. Dashboard with spending breakdown."
+  },
+  "/tools/travel/phrasebook": {
+    "title": "Travel Phrase Book",
+    "description": "Common travel phrases in 8 languages. Greetings, Directions, Food, Emergency. Phonetic pronunciation. Audio playback. Bookmark favorites."
+  },
+  "/tools/travel/documents": {
+    "title": "Travel Document Checklist",
+    "description": "Comprehensive travel document checklist. Domestic, International, Business, Family trips. Check off items. Progress tracking. Custom items."
+  },
+  "/tools/travel/exchange-history": {
+    "title": "Exchange Rate History",
+    "description": "Historical exchange rate trends. 30+ currencies. Line chart over 30-365 days. Min, max, average rates. Best time to exchange indicator."
+  },
+  "/tools/travel/offline-currency": {
+    "title": "Offline Currency Calculator",
+    "description": "Offline travel currency calculator. Set custom exchange rate, cheat sheet lookup table, tipping grid in foreign currency."
+  },
+  "/tools/travel/flight-duration": {
+    "title": "Flight Duration & Time Zone Calculator",
+    "description": "Calculate actual flight duration accounting for time zone shifts. Departure/arrival times, time diff, local arrival vs home time."
+  },
+  "/tools/travel/passport-photo": {
+    "title": "Passport Photo Crop & Grid",
+    "description": "Format photos for passport & visa applications. US, UK, EU, Schengen, India, China standards. Face alignment grid, 4x6 print sheet."
+  },
+  "/tools/travel/daily-budget": {
+    "title": "Daily Travel Budget Planner",
+    "description": "Plan and track daily vacation spending. Total budget, daily allowance limits, category breakdown, spent vs remaining progress bar."
+  },
+  "/tools/travel/visa-index": {
+    "title": "Travel Visa Requirements Index",
+    "description": "Quick visa requirement & passport power reference tool. Passport vs Destination lookup: Visa Free, VoA, eVisa, Visa Required."
+  },
+  "/tools/travel/baggage-calc": {
+    "title": "Airline Baggage Allowance & Fee Calculator",
+    "description": "Calculate total checked bag weight and potential excess baggage fees. Economy/Business class limits, overweight warnings, dimensional weight."
+  },
+  "/tools/travel/exchange-fees": {
+    "title": "Currency Exchange Fee Calculator",
+    "description": "Uncover hidden exchange rate markups and foreign transaction fees. Mid-market vs offered rate comparison, fee breakdown."
+  },
+  "/tools/travel/travel-daily-budget": {
+    "title": "Travel Daily Expense Budget Calculator",
+    "description": "Calculate daily travel expense budgets for domestic or international trips. Accommodation, dining, transport, activities breakdown."
+  },
+  "/tools/travel/travel-budget-planner": {
+    "title": "Travel Multi-Currency Budget Planner",
+    "description": "Multi-country travel budget planner. Select up to 4 destination countries & currencies, daily allowances, flight/hotel breakdown."
+  },
+  "/tools/finance/gold-price-tracker": {
+    "title": "Real-Time Gold & Metals Price Tracker",
+    "description": "Track real-time spot gold, silver, and platinum prices per Oz, Gram, Tola, and Kilo in USD, BDT, EUR, GBP, INR, AED, and SAR with instant live weight calculator."
+  },
+  "/tools/finance/savings-goal": {
+    "title": "Savings Goal Calculator",
+    "description": "Calculate how much to save monthly to reach your financial goals. Savings calculator with compound interest and target date. Plan your savings strategy effectively."
+  },
+  "/tools/finance/vat": {
+    "title": "GST/VAT Calculator",
+    "description": "Add or remove GST/VAT from prices. Tax calculator for sales tax, VAT, GST with custom rates. Calculate inclusive and exclusive tax amounts instantly."
+  },
+  "/tools/finance/salary-hourly": {
+    "title": "Salary to Hourly Converter",
+    "description": "Convert annual salary to hourly rate and vice versa. Salary calculator with work hours, overtime, and take-home pay estimation. Compare job offers and negotiate better."
+  },
+  "/tools/finance/compound-interest": {
+    "title": "Compound Interest Calculator",
+    "description": "Calculate compound interest with monthly contributions. See year-by-year breakdown of principal, interest earned, and total balance. Free compound interest calculator with formula display."
+  },
+  "/tools/finance/mortgage": {
+    "title": "Mortgage Calculator",
+    "description": "Calculate monthly mortgage payments with down payment, loan term, and interest rate. See total interest paid, total cost, and principal vs interest breakdown. Compare 15, 20, 25, and 30-year terms."
+  },
+  "/tools/finance/investment-return": {
+    "title": "Investment Return Calculator",
+    "description": "Calculate investment growth over time with initial investment, monthly contributions, and annual return rate. Year-by-year breakdown table showing balance, contributions, and returns."
+  },
+  "/tools/finance/debt-payoff": {
+    "title": "Debt Payoff Calculator",
+    "description": "Calculate debt payoff timeline and total interest. See how extra payments ($50, $100, $200/mo) accelerate payoff. Yearly amortization schedule with balance tracking."
+  },
+  "/tools/finance/net-salary": {
+    "title": "Net Salary Calculator",
+    "description": "Calculate take-home pay after taxes. US Federal tax brackets with effective rate calculation. Monthly and yearly net salary. Visual tax vs take-home breakdown. Custom tax rate option."
+  },
+  "/tools/finance/loan-comparison": {
+    "title": "Loan Comparison Calculator",
+    "description": "Compare up to 3 loan offers side by side. See monthly payment, total interest, and total cost for each. Highlights the cheapest option and shows potential savings."
+  },
+  "/tools/finance/electricity-cost": {
+    "title": "Electricity Cost Calculator",
+    "description": "Calculate electricity cost for appliances. Add devices with wattage and usage hours. Presets for fridge, AC, TV, PC. Monthly and yearly cost. Energy-saving tips included."
+  },
+  "/tools/finance/subscriptions": {
+    "title": "Subscription Tracker",
+    "description": "Track recurring subscriptions by category (streaming, software, gaming, etc.). Monthly and yearly totals. Sort by cost or date. Mark active/paused. Saved locally."
+  },
+  "/tools/finance/interest-compare": {
+    "title": "Interest Rate Comparison",
+    "description": "Compare savings growth across up to 4 different interest rates. Daily, monthly, quarterly, annual compounding. Projections over 1-30 years. Highlights best performer."
+  },
+  "/tools/finance/retirement": {
+    "title": "Retirement Calculator",
+    "description": "Calculate retirement savings projections. Year-by-year growth table. Monthly income using the 4% rule. Inflation-adjusted values. Visual progress tracking."
+  },
+  "/tools/finance/currency-chart": {
+    "title": "Currency Pair Chart",
+    "description": "Visual currency pair comparison with simulated historical charts. 30-day, 90-day, 1-year views. Rate trends, highs, lows. Swap currencies. 20+ currency pairs."
+  },
+  "/tools/finance/expense-splitter": {
+    "title": "Expense Splitter",
+    "description": "Split expenses among a group. Add people and expenses. Equal or custom splits. Calculates optimized settlements showing who owes whom."
+  },
+  "/tools/finance/tax-bracket": {
+    "title": "Tax Bracket Calculator",
+    "description": "Calculate income tax by brackets for US, UK, Canada, Australia, India. Bracket breakdown, effective rate, take-home pay. Visual bar chart."
+  },
+  "/tools/finance/expense-categories": {
+    "title": "Expense Categorizer",
+    "description": "Categorize expenses with pie chart breakdown. Set monthly budget limits per category. Progress bars and over-budget alerts. Saved locally."
+  },
+  "/tools/finance/paycheck": {
+    "title": "Paycheck Calculator",
+    "description": "Calculate take-home pay from gross salary. Federal and state tax, Social Security, Medicare. 401k and health insurance deductions."
+  },
+  "/tools/finance/budget-template": {
+    "title": "Budget Template Generator",
+    "description": "Generate monthly budget templates. Methods: 50/30/20, Zero-based, Envelope, 60/20/20. Auto-populate categories. Visual pie chart. Export."
+  },
+  "/tools/finance/rate-converter": {
+    "title": "Interest Rate Converter",
+    "description": "Convert between APR and APY. Nominal to effective rate. All compounding frequencies. Compare rates side by side. Formula display."
+  },
+  "/tools/finance/tax-withholding": {
+    "title": "Tax Withholding Estimator",
+    "description": "Estimate US federal tax withholding. Filing status, income, pay frequency. 2024 tax brackets. Effective rate and marginal bracket."
+  },
+  "/tools/finance/net-worth": {
+    "title": "Net Worth Calculator",
+    "description": "Calculate personal net worth. Track assets and liabilities by category. Pie chart allocation. Save snapshots over time. Growth comparison."
+  },
+  "/tools/finance/savings-spending": {
+    "title": "Savings vs Spending",
+    "description": "Compare saving vs spending habits. 50/30/20 rule analysis. Expense categories. Savings rate. Bar chart comparison. Monthly tracking."
+  },
+  "/tools/finance/invoice-tracker": {
+    "title": "Invoice Payment Tracker",
+    "description": "Track invoices and payment status. Filter by status. Color-coded badges. Outstanding totals. Overdue alerts. Export CSV. Mark as paid."
+  },
+  "/tools/finance/crypto-profit": {
+    "title": "Crypto Profit Calculator",
+    "description": "Calculate profit/loss from crypto trades. Buy/sell price, fees, ROI %. Popular coin presets. Visual profit cards."
+  },
+  "/tools/finance/crypto-dca-calc": {
+    "title": "Crypto Dollar-Cost-Averaging (DCA) & Profit Calculator",
+    "description": "Calculate compound returns and projected portfolio value when dollar-cost-averaging into Bitcoin, Ethereum, and Solana."
+  },
+  "/tools/marketing/ecommerce-copy-generator": {
+    "title": "Shopify & Amazon Product Listing AI Copy Generator",
+    "description": "Generate high-converting Amazon product bullet points, Shopify descriptions, and high-search SEO product titles with live AI."
+  },
+  "/tools/finance/saas-pricing-calculator": {
+    "title": "AI SaaS Pricing Strategy & Tier Matrix Calculator",
+    "description": "Design optimal 3-tier SaaS pricing models (Starter, Pro, Enterprise), value metric limits, and expansion revenue strategies powered by live AI."
+  },
+  "/tools/finance/cap-rate-calculator": {
+    "title": "AI Real Estate Cap Rate & Cash-on-Cash Investment Auditor",
+    "description": "Calculate capitalization rate (Cap Rate), Net Operating Income (NOI), and audit rental property return quality with live AI."
+  },
+  "/tools/finance/startup-runway-calc": {
+    "title": "AI Startup Runway & Net Burn Rate Calculator",
+    "description": "Calculate startup cash runway months, net burn rate, fundraising urgency timelines, and audit Default Alive vs Default Dead status with live AI."
+  },
+  "/tools/finance/mrr-churn-calc": {
+    "title": "SaaS Monthly Recurring Revenue (MRR) & Churn Rate Calculator",
+    "description": "Calculate SaaS metrics: Net MRR Growth, ARR, Churn Rate %, ARPU, and LTV metrics."
+  },
+  "/tools/finance/roas-calculator": {
+    "title": "Shopify & Amazon Profit Margin & Ad Spend (ROAS) Calculator",
+    "description": "Calculate return on ad spend (ROAS), net profit margins, and breakeven ROAS for e-commerce stores."
+  },
+  "/tools/finance/freelance-rate-calc": {
+    "title": "Freelance Hourly Rate & Project Pricing Calculator",
+    "description": "Calculate your minimum required hourly rate, day rate, and project pricing based on target annual income, taxes, and overhead."
+  },
+  "/tools/finance/tax-withholding-calc": {
+    "title": "Tax Withholding Calculator",
+    "description": "Estimate your paycheck federal tax withholding, net take-home pay, and effective tax rate based on W-4 filing parameters."
+  },
+  "/tools/finance/net-pay-calc": {
+    "title": "Salary / Net Pay Calculator",
+    "description": "Calculate your net take-home paycheck after federal taxes, FICA (Social Security & Medicare), 401(k) retirement savings, and health insurance."
+  },
+  "/tools/finance/freelance-rate": {
+    "title": "Freelance Rate Calculator",
+    "description": "Calculate required hourly and project rate for freelancers. Income targets, overhead expenses, billable hours, tax rate, profit margin."
+  },
+  "/tools/finance/emergency-fund": {
+    "title": "Emergency Fund Calculator",
+    "description": "Calculate required safety net emergency fund. Essential expenses, 3-12 month buffers, savings gap, months to goal estimate."
+  },
+  "/tools/finance/fire-calc": {
+    "title": "FIRE Financial Independence Calculator",
+    "description": "Calculate age of Financial Independence & Early Retirement. Required portfolio size, net worth growth projection table, Lean/Fat/Coast FIRE."
+  },
+  "/tools/finance/loan-amortization": {
+    "title": "Loan Amortization Schedule Calculator",
+    "description": "Detailed loan repayment amortization schedule. Monthly payment, total interest, monthly breakdown table, CSV export."
+  },
+  "/tools/finance/emergency-loan": {
+    "title": "Emergency Loan vs Savings Comparison",
+    "description": "Compare financial impact of using emergency savings vs taking a personal loan or credit card advance. Total interest paid vs interest lost."
+  },
+  "/tools/finance/compound-growth": {
+    "title": "Investment Compound Growth Visualizer",
+    "description": "Compound interest & investment growth projector. Deposit, monthly contribution, return %, frequency, breakdown chart & schedule."
+  },
+  "/tools/fun/quote-generator": {
+    "title": "Random Quote Generator",
+    "description": "Get inspired with random quotes from 50+ curated entries across inspirational, motivational, funny, philosophical, and life categories. Save favorites, copy, and share on Twitter."
+  },
+  "/tools/fun/truth-or-dare": {
+    "title": "Truth or Dare Generator",
+    "description": "Play truth or dare online! 120+ truths and dares with difficulty levels (Easy, Medium, Spicy), family-friendly and adult modes, player names, and history tracking."
+  },
+  "/tools/fun/would-you-rather": {
+    "title": "Would You Rather",
+    "description": "Play Would You Rather with 50+ dilemmas across funny, philosophical, and impossible categories. Choose between two options, see fun percentage stats, and track your choices."
+  },
+  "/tools/fun/magic-8-ball": {
+    "title": "Magic 8 Ball",
+    "description": "Ask the Magic 8 Ball any yes-or-no question and get a mystical answer! Classic billiard-style 8-ball with 20 authentic responses, shake animation, and question history."
+  },
+  "/tools/fun/name-generator": {
+    "title": "Random Name Generator",
+    "description": "Generate random names for characters, babies, usernames, and pen names. 200+ first names, fantasy names, and username patterns. Filter by gender, starting letter, and category."
+  },
+  "/tools/fun/zodiac": {
+    "title": "Zodiac Sign Finder",
+    "description": "Enter your birth date to find your Western zodiac sign, Chinese zodiac animal, element, ruling planet, compatible signs, personality traits, lucky numbers, and birthstone."
+  },
+  "/tools/fun/ascii-art": {
+    "title": "ASCII Art Generator",
+    "description": "Convert text to ASCII art with multiple font styles: Banner, Block, Standard. Preview in monospace, copy to clipboard. Fun text art for social media, comments, and messages."
+  },
+  "/tools/fun/dice-probability": {
+    "title": "Dice Probability Calculator",
+    "description": "Calculate dice roll probabilities. 1-6 dice with 4/6/8/10/12/20 sides. Exact, at least, at most conditions. Distribution chart. D&D and board game presets."
+  },
+  "/tools/fun/color-memory": {
+    "title": "Color Memory Game",
+    "description": "Classic memory card matching game. Flip cards to find matching color pairs. Track moves and time. Easy, Medium, Hard difficulties. Best score saved."
+  },
+  "/tools/fun/reaction-time": {
+    "title": "Reaction Time Test",
+    "description": "Measure your reaction time in milliseconds. Screen turns green at random intervals. Track best score and average. Fun ratings from Superhuman to Slow."
+  },
+  "/tools/fun/trivia": {
+    "title": "Trivia Generator",
+    "description": "100 fun facts across Science, History, Geography, Animals, Food, Space, Sports, Technology. Filter by category. Save favorites."
+  },
+  "/tools/fun/emoji-story": {
+    "title": "Emoji Story Generator",
+    "description": "Generate random emoji stories by category. Adventure, Romance, Mystery, Comedy, Sci-Fi, Horror. Silly text translations. Rate and share."
+  },
+  "/tools/fun/word-association": {
+    "title": "Word Association Game",
+    "description": "Word association chain game. 200 starting words. Timer mode (60 seconds). Chain history. High score tracking. Share chain as text."
+  },
+  "/tools/fun/number-guess": {
+    "title": "Number Guessing Game",
+    "description": "Classic number guessing game with Higher/Lower hints. Easy, Medium, Hard difficulty. Timer, best scores, streak counter."
+  },
+  "/tools/fun/two-truths": {
+    "title": "Two Truths and a Lie",
+    "description": "Party game with 50 sets of fun facts. Spot the lie. Score tracking. Timer mode. Categories: Science, History, Animals, Geography, Food."
+  },
+  "/tools/fun/rps": {
+    "title": "Rock Paper Scissors",
+    "description": "Play Rock Paper Scissors vs computer. Score tracker. Best of 3/5/7 mode. Win streak counter. Match history. Emoji buttons."
+  },
+  "/tools/fun/simon-says": {
+    "title": "Simon Says",
+    "description": "Classic Simon Says memory game. 4 colored panels with sound. Increasing difficulty. High score tracking. Speed increases every 5 levels."
+  },
+  "/tools/fun/wordle": {
+    "title": "Word Guess Game",
+    "description": "5-letter word guessing game (Wordle-style). 6 attempts, virtual keyboard, color-coded tiles, stats, daily/unlimited modes."
+  },
+  "/tools/fun/memory-match": {
+    "title": "Memory Match Game",
+    "description": "Classic card memory matching game. 16 or 24 cards. Animals, food, sports, flags, tech themes. Move counter, timer, best score tracking."
+  },
+  "/tools/fun/tic-tac-toe": {
+    "title": "Tic Tac Toe with AI",
+    "description": "Tic Tac Toe game with 2-Player mode & AI opponent (Easy, Medium, Unbeatable Minimax). Win line highlights, audio feedback, score tracking."
+  },
+  "/tools/fun/hangman": {
+    "title": "Hangman Word Game",
+    "description": "Classic Hangman word guessing game. 5 categories, SVG drawing, keyboard support, win streak counter, hinting, localStorage stats."
+  },
+  "/tools/fun/typing-challenge": {
+    "title": "Speed Typing Challenge",
+    "description": "Interactive speed typing test and WPM meter. 15s-120s tests, general English, code, quotes. Accuracy %, WPM score rating."
+  },
+  "/tools/fun/sudoku": {
+    "title": "Sudoku Puzzle & Solver",
+    "description": "Interactive 9x9 Sudoku puzzle generator and automatic solver. Easy, medium, hard levels, backtracking solver algorithm, timer."
+  },
+  "/tools/fun/word-scramble": {
+    "title": "Word Scramble Game",
+    "description": "Unscramble scrambled letters word game. Categories, timer per word, letter hint, score counter, streak tracker, sound effects."
+  },
+  "/tools/fun/pattern-memory": {
+    "title": "Pattern Memory Game",
+    "description": "Interactive visual pattern memory sequence game. 3x3 to 5x5 grid, sound effects, high score tracker, level progression."
+  },
+  "/tools/fun/word-search": {
+    "title": "Word Search Puzzle Generator",
+    "description": "Interactive Word Search puzzle grid generator and player. 10x10 to 15x15 grids, coding/animal/planet topics, printable PDF mode."
+  },
+  "/tools/fun/anagram-solver": {
+    "title": "Anagram Finder & Solver",
+    "description": "Find all possible valid English anagram words from input letters. Length filters, wildcards, Scrabble letter scores."
+  },
+  "/tools/fun/wordle-unlimited": {
+    "title": "Wordle Unlimited Game & Solver",
+    "description": "Play unlimited 5-letter Wordle puzzle games with streak tracking plus built-in hint solver to filter potential solution words."
+  },
+  "/tools/fun/sudoku-unlimited": {
+    "title": "Sudoku Unlimited Puzzle Generator & Solver",
+    "description": "Interactive 9x9 Sudoku puzzle generator & solver. Easy, Medium, Hard, Expert, pencil notes, error checking, hints, auto-solve."
+  },
+  "/tools/fun/wordle-6letter": {
+    "title": "6-Letter Wordle Challenge Game",
+    "description": "Play 6-letter Wordle puzzle challenge game. 6 attempts to guess a secret 6-letter word, streak tracker, statistics, new games."
+  },
+  "/tools/fun/memory-card-match": {
+    "title": "Memory Card Matching Game",
+    "description": "Interactive 3D memory card matching game. 4x4 & 6x6 grids, Emoji/Developer/Animal themes, move counter, timer, best scores."
+  },
+  "/tools/fun/tictactoe-ai": {
+    "title": "Tic-Tac-Toe AI Unbeatable Challenge",
+    "description": "Interactive Tic-Tac-Toe game featuring Minimax AI difficulty levels (Easy, Medium, Unbeatable Minimax) and 2-player mode."
+  },
+  "/tools/fun/connect4-ai": {
+    "title": "Connect 4 AI Challenge Game",
+    "description": "Interactive 7x6 Connect 4 grid game with AI opponent (Easy, Medium, Minimax Smart AI) and 2-player Pass & Play mode."
+  },
+  "/tools/fun/memory-sequence": {
+    "title": "Memory Tile Sequence Challenge",
+    "description": "Interactive Simon-says style tile sequence memory game. 3x3 and 4x4 grids, flash speed settings, move playback, best high scores."
+  },
+  "/tools/fun/memory-grid-flip": {
+    "title": "Memory Grid Flip Challenge",
+    "description": "Interactive memory grid pattern flip challenge game. Recall illuminated tile patterns across 20 increasingly complex levels."
+  },
+  "/tools/fun/pattern-tile-memory": {
+    "title": "Tile Sequence Pattern Memory Challenge",
+    "description": "Interactive spatial memory sequence puzzle game. 3x3, 4x4, and 5x5 tile grids, speed settings, streak multipliers, best high scores."
+  },
+  "/tools/network/my-ip": {
+    "title": "What Is My IP",
+    "description": "Instantly detect your public IPv4 and IPv6 address. See your location, ISP, time zone, and coordinates. Privacy-first — your IP is detected client-side and never stored."
+  },
+  "/tools/network/ip-lookup": {
+    "title": "IP Geolocation Lookup",
+    "description": "Look up any IP address to find its geographic location, ISP, ASN, time zone, currency, and more. Free IP geolocation tool with lookup history."
+  },
+  "/tools/network/whois": {
+    "title": "WHOIS Domain Lookup",
+    "description": "Look up domain registration details using the free RDAP protocol. Find registrar, registration date, expiration date, nameservers, and DNSSEC status for any domain."
+  },
+  "/tools/network/dns-lookup": {
+    "title": "DNS Lookup",
+    "description": "Query DNS records for any domain — A, AAAA, MX, NS, TXT, CNAME, SOA. Uses Google DNS-over-HTTPS for fast, accurate results with resolution time tracking."
+  },
+  "/tools/network/http-headers": {
+    "title": "HTTP Header Checker",
+    "description": "Check HTTP response headers for any URL. Analyze security headers like CSP, HSTS, X-Frame-Options, and get a security score. Find missing security headers."
+  },
+  "/tools/network/ssl-checker": {
+    "title": "SSL Certificate Checker",
+    "description": "Check SSL/TLS certificate details for any domain. See issuer, expiration date, days remaining, and certificate chain. Monitor your SSL certificates."
+  },
+  "/tools/network/email-headers": {
+    "title": "Email Header Analyzer",
+    "description": "Analyze email headers to trace delivery path, check SPF/DKIM/DMARC authentication, and identify spam. Paste raw headers and see the full hop-by-hop route."
+  },
+  "/tools/network/username-check": {
+    "title": "Username Checker",
+    "description": "Check username availability across 20+ social media platforms. Generate direct profile links for GitHub, Twitter, Instagram, YouTube, TikTok, Reddit, and more."
+  },
+  "/tools/network/mac-lookup": {
+    "title": "MAC Address Lookup",
+    "description": "Look up the manufacturer of any network device by its MAC address. Identify vendor, OUI prefix, and MAC type (unicast/multicast). Random MAC generator included."
+  },
+  "/tools/network/subdomain-finder": {
+    "title": "Subdomain Finder",
+    "description": "Find all registered subdomains for any domain using public Certificate Transparency (CT) logs. Fast, 100% free, and legal lookup."
+  },
+  "/tools/network/web-resources": {
+    "title": "Web & Security Directory",
+    "description": "Curated interactive directory of 30+ of the best search engines, threat registries, and threat databases."
+  },
+  "/tools/network/wifi-qr": {
+    "title": "WiFi QR Code Generator",
+    "description": "Generate QR codes for WiFi sharing. Enter SSID, password, and encryption type. Phones scan to auto-connect. Download QR as PNG. Print-friendly layout."
+  },
+  "/tools/network/speed-converter": {
+    "title": "Network Speed Converter",
+    "description": "Convert between network speed units (bps to Gbps). Download time estimates for common file sizes. Presets for dial-up, DSL, cable, fiber, and 5G speeds."
+  },
+  "/tools/network/bandwidth": {
+    "title": "Bandwidth Calculator",
+    "description": "Calculate transfer times and bandwidth requirements. Multi-file queue support. Presets for cloud backup, 4K streaming, and video calls. Reverse calculator included."
+  },
+  "/tools/network/subnet": {
+    "title": "Subnet Calculator",
+    "description": "Calculate subnet details from IP and CIDR. Network/broadcast address, usable hosts, wildcard mask, IP class. Binary representation. Common subnet reference table."
+  },
+  "/tools/network/port-reference": {
+    "title": "Port Number Reference",
+    "description": "Searchable reference of 50+ common network ports. Filter by category: Web, Database, Email, Remote Access. Shows protocol (TCP/UDP). Copy port info."
+  },
+  "/tools/network/dns-generator": {
+    "title": "DNS Record Generator",
+    "description": "Generate DNS records for common setups. A, AAAA, CNAME, MX, TXT, NS, SRV types. Presets for email and website. Output in BIND zone file format."
+  },
+  "/tools/network/cors-headers": {
+    "title": "CORS Header Generator",
+    "description": "Generate CORS headers for multiple platforms. Output in HTTP headers, Nginx, Apache, Express.js, Flask formats. Explain each header."
+  },
+  "/tools/health/ai-bmr-calculator": {
+    "title": "AI BMR & TDEE Metabolism Calculator Studio",
+    "description": "Calculate Basal Metabolic Rate (BMR) and Total Daily Energy Expenditure (TDEE) with Mifflin-St Jeor equation and AI metabolic optimization."
+  },
+  "/tools/health/ai-calorie-deficit": {
+    "title": "AI Calorie Deficit & Weight Loss Target Calculator",
+    "description": "Calculate daily caloric deficit targets, estimated target weight goal dates, and generate personalized fat loss plans with live AI."
+  },
+  "/tools/health/ai-workout-generator": {
+    "title": "AI Personal Workout Routine & Training Split Generator",
+    "description": "Generate custom 3, 4, 5, or 6-day workout splits (Push-Pull-Legs, Upper-Lower, Full Body) with rep ranges and progressive overload rules using live AI."
+  },
+  "/tools/health/ai-meal-planner": {
+    "title": "AI Daily Meal Plan & Macro Targets Generator",
+    "description": "Custom 1-day meal plans mapped to your exact target calories, diet style (High Protein, Keto, Vegan), and dietary restrictions powered by live AI."
+  },
+  "/tools/health/calorie-calculator": {
+    "title": "Calorie Calculator",
+    "description": "Calculate your daily calorie needs and TDEE (Total Daily Energy Expenditure) for free. Uses the Mifflin-St Jeor formula with activity level. Get macronutrient breakdown for weight loss, maintenance, or gain goals."
+  },
+  "/tools/health/sleep-calculator": {
+    "title": "Sleep Calculator",
+    "description": "Calculate the best times to sleep and wake up based on 90-minute sleep cycles. Color-coded recommendations help you get optimal rest. Accounts for 15 minutes to fall asleep."
+  },
+  "/tools/health/water-intake": {
+    "title": "Water Intake Calculator",
+    "description": "Calculate your personalized daily water intake based on weight, activity level, and climate. Track daily hydration with an interactive progress ring. Hourly drinking schedule included."
+  },
+  "/tools/health/bmr-calculator": {
+    "title": "BMR Calculator",
+    "description": "Calculate your Basal Metabolic Rate using Harris-Benedict and Mifflin-St Jeor equations. See daily calorie needs for sedentary, light, moderate, active, and very active lifestyles."
+  },
+  "/tools/health/body-fat": {
+    "title": "Body Fat Calculator",
+    "description": "Estimate body fat percentage using the US Navy method. Calculate fat mass, lean mass, and body fat category. Supports both metric and imperial measurements with visual progress indicators."
+  },
+  "/tools/health/heart-rate-zones": {
+    "title": "Heart Rate Zone Calculator",
+    "description": "Calculate heart rate training zones based on age and resting heart rate. Standard and Karvonen methods. 5 color-coded zones from Recovery to Maximum with target BPM ranges."
+  },
+  "/tools/health/due-date": {
+    "title": "Pregnancy Due Date Calculator",
+    "description": "Estimate your due date from last menstrual period using Naegele's rule. Shows current week, trimester, key milestones timeline, and conception date. For informational purposes only."
+  },
+  "/tools/health/meditation-timer": {
+    "title": "Meditation Timer",
+    "description": "Simple meditation timer with preset durations and breathing guide animation. Gentle bell sounds at start and end. Session counter. Box breathing pattern (4-4-4-4). Calm, focused design."
+  },
+  "/tools/health/screen-time": {
+    "title": "Screen Time Calculator",
+    "description": "Track and analyze daily screen time by device and app category. Daily and weekly totals. 20-20-20 rule reminder. Health tips based on usage level. Visual breakdown charts."
+  },
+  "/tools/health/macro-calculator": {
+    "title": "Macro Calculator",
+    "description": "Calculate daily macronutrient targets based on TDEE. Protein, carbs, and fat goals for weight loss, maintenance, or muscle gain. Preset splits: balanced, low-carb, high-protein, keto."
+  },
+  "/tools/health/blood-pressure": {
+    "title": "Blood Pressure Tracker",
+    "description": "Track blood pressure readings with systolic, diastolic, and heart rate. Auto-categorize: Normal, Elevated, High Stage 1/2, Crisis. Color-coded. 7-day and 30-day averages."
+  },
+  "/tools/health/ideal-weight": {
+    "title": "Ideal Weight Calculator",
+    "description": "Calculate ideal body weight using Devine, Robinson, Miller, and Hamwi formulas. BMI-based range. Metric and imperial support. Compare with current weight."
+  },
+  "/tools/health/hydration": {
+    "title": "Hydration Reminder",
+    "description": "Track daily water intake with visual fill animation. Quick-add buttons for glass, bottle, can. Daily goal tracking. 7-day history. Hydration tips."
+  },
+  "/tools/health/allergy-tracker": {
+    "title": "Allergy Tracker",
+    "description": "Track allergies and reactions. Log allergen, severity, symptoms, date. Categorize by type. Summary dashboard. Export data. Saved locally."
+  },
+  "/tools/health/workout-timer": {
+    "title": "Workout Timer",
+    "description": "Interval training timer with audio cues. Set work/rest durations and rounds. Presets for Tabata, HIIT, EMOM. Visual progress bar. Pause/Resume."
+  },
+  "/tools/health/symptom-diary": {
+    "title": "Symptom Diary",
+    "description": "Daily symptom tracking with severity (1-10), categories, time of day. Calendar view, trend analysis, export. Consult a healthcare provider."
+  },
+  "/tools/health/calorie-burn": {
+    "title": "Calorie Burn Calculator",
+    "description": "Calculate calories burned during 30+ activities using MET values. Enter weight and duration. Compare multiple activities side by side."
+  },
+  "/tools/health/nutrition-label": {
+    "title": "Nutrition Label Maker",
+    "description": "Create FDA-style nutrition facts labels. Auto-calculate % Daily Value. Preview styled label. Copy as text. Print-friendly layout."
+  },
+  "/tools/health/habit-score": {
+    "title": "Habit Score Calculator",
+    "description": "Rate daily habits and get a wellness score out of 100. Categories: Sleep, Nutrition, Exercise, Mental, Social. History and trends."
+  },
+  "/tools/health/blood-type": {
+    "title": "Blood Type Compatibility",
+    "description": "Blood type compatibility checker. Donation and receiving info. Visual compatibility matrix. Distribution statistics. Medical disclaimer."
+  },
+  "/tools/health/calorie-lookup": {
+    "title": "Calorie Lookup",
+    "description": "Look up calories in 150+ common foods. Protein, carbs, fat per serving. Meal planner to total daily intake. Search and sort."
+  },
+  "/tools/health/step-counter": {
+    "title": "Step Counter Log",
+    "description": "Log daily steps. Set goals (default 10K). Calculate calories burned and distance. Weekly/monthly totals. Streak counter. Bar chart history."
+  },
+  "/tools/health/vision-test": {
+    "title": "Vision Test",
+    "description": "Simple online vision screening. Snellen-style letter chart. Approximate visual acuity results. Color blindness dot patterns. Not medical advice."
+  },
+  "/tools/health/pregnancy-tracker": {
+    "title": "Pregnancy Tracker",
+    "description": "Track pregnancy milestones week by week. Due date calculator. Baby size comparisons. Trimester stages. Appointment reminders. Weight log."
+  },
+  "/tools/health/blood-sugar": {
+    "title": "Blood Sugar Tracker",
+    "description": "Track blood glucose readings. Fasting, before/after meals, bedtime. Status indicators, target ranges, averages. Export CSV."
+  },
+  "/tools/health/meal-planner": {
+    "title": "Meal Planner & Calorie Target",
+    "description": "Weekly meal plan and macro tracker. Weight loss, maintenance, muscle gain targets. Daily calories and macros (protein, carbs, fats)."
+  },
+  "/tools/health/fasting-tracker": {
+    "title": "Intermittent Fasting Tracker",
+    "description": "Track intermittent fasting protocols (16:8, 18:6, 20:4, 24h, 36h). Circular progress ring, fasting state indicators, history log."
+  },
+  "/tools/health/calorie-deficit": {
+    "title": "Calorie Deficit & Goal Date Estimator",
+    "description": "Calculate estimated target date to reach goal weight based on daily calorie deficit. BMR, TDEE, weekly rate, safe limits."
+  },
+  "/tools/health/protein-calc": {
+    "title": "Protein Intake & Muscle Target Calculator",
+    "description": "Calculate daily recommended protein intake based on body weight, goal, and activity level. Daily grams, calories, per-meal breakdown."
+  },
+  "/tools/health/hydration-tracker": {
+    "title": "Hydration & Daily Water Tracker",
+    "description": "Daily water intake goal and drink logger. Weight/climate intake target, animated container fill, history log, reminders."
+  },
+  "/tools/health/calorie-activity": {
+    "title": "Calorie Burn by Activity Calculator",
+    "description": "Calculate total calories burned across 30+ physical activities based on body weight and duration. MET values & food equivalents."
+  },
+  "/tools/health/indoor-cycling-calorie": {
+    "title": "Indoor Cycling Calorie Calculator",
+    "description": "Calculate calories burned during stationary indoor cycling and spinning workouts based on body weight, cadence (RPM), resistance level, and duration."
+  },
+  "/tools/health/calorie-burn-activity": {
+    "title": "Calorie Burn by Activity Calculator Studio",
+    "description": "Calculate exact calories burned across 30+ physical activities, sports, and exercise routines based on body weight and duration."
+  },
+  "/tools/productivity/ai-action-items": {
+    "title": "AI Meeting Action Items Extractor Studio",
+    "description": "Convert raw meeting transcripts and notes into clear owner assignments, deadlines, and task cards using live AI."
+  },
+  "/tools/productivity/ai-risk-matrix": {
+    "title": "AI Project Risk & Assumption Matrix Auditor",
+    "description": "Identify hidden project risks, technical debt, timeline bottlenecks, and mitigation plans with live AI."
+  },
+  "/tools/productivity/ai-status-report": {
+    "title": "AI Executive Weekly Status Report Generator",
+    "description": "Convert weekly task notes, completed tickets, and blockers into structured executive status reports for stakeholders with live AI."
+  },
+  "/tools/productivity/notepad": {
+    "title": "Online Notepad",
+    "description": "Free online notepad and text editor. Auto-saves to your browser with multiple tabs, dark mode, word count, and download as .txt. No signup required, works offline. Your notes never leave your device."
+  },
+  "/tools/productivity/whiteboard": {
+    "title": "Online Whiteboard",
+    "description": "Free online whiteboard and drawing tool. Freehand drawing, shapes, colors, brush sizes, undo/redo, and export as PNG. Perfect for brainstorming, diagrams, and quick sketches. Works in your browser."
+  },
+  "/tools/productivity/habit-tracker": {
+    "title": "Habit Tracker",
+    "description": "Build better habits with a visual streak tracker. Add custom habits, track daily completion with a heatmap, view current and best streaks, and see weekly stats. All data saved locally in your browser."
+  },
+  "/tools/productivity/eisenhower-matrix": {
+    "title": "Eisenhower Matrix",
+    "description": "Interactive 2x2 priority matrix for task management. Categorize tasks as Do First, Schedule, Delegate, or Eliminate. Color-coded quadrants with task tracking and localStorage persistence."
+  },
+  "/tools/productivity/flashcards": {
+    "title": "Flashcard Maker",
+    "description": "Create study flashcards with flip animations. Multiple deck management, shuffle mode, progress tracking, and JSON import/export. Perfect for students and self-learners."
+  },
+  "/tools/productivity/kanban": {
+    "title": "Kanban Board",
+    "description": "Simple kanban board with To Do, In Progress, and Done columns. Add tasks, move between columns, add custom columns, and track progress. All data saved locally."
+  },
+  "/tools/productivity/streaks": {
+    "title": "Habit Streak Counter",
+    "description": "Track daily habit streaks. Mark habits done, see current and longest streaks. 30-day heatmap calendar. Motivational messages at milestones. Multiple habits support."
+  },
+  "/tools/productivity/focus-timer": {
+    "title": "Focus Timer",
+    "description": "Distraction-free focus timer with Deep Work (90 min), Pomodoro (25 min), and Sprint (15 min) modes. Session counter, break timer, daily stats. Saved locally."
+  },
+  "/tools/productivity/journal": {
+    "title": "Daily Journal",
+    "description": "Simple daily journal with mood tracking (5 levels), tags, calendar view, and search. Word count per entry. Export entries. All saved locally."
+  },
+  "/tools/productivity/reading-list": {
+    "title": "Reading List Manager",
+    "description": "Manage books and articles. Track status (To Read, Reading, Completed), rate with stars, add notes. Search, filter, sort. Export list."
+  },
+  "/tools/productivity/gratitude": {
+    "title": "Gratitude Journal",
+    "description": "Daily gratitude entries. Write 3 things you are grateful for. Streak counter, inspirational prompts, monthly calendar view. Saved locally."
+  },
+  "/tools/productivity/goals": {
+    "title": "Goal Tracker",
+    "description": "Set and track goals with milestones. Categories: Personal, Professional, Health, Financial, Learning. Progress bars and completion tracking."
+  },
+  "/tools/productivity/weekly-planner": {
+    "title": "Weekly Planner",
+    "description": "Plan your week with visual calendar grid. 7-day view with time slots. Add events with colors. Export plan as text. Saved locally."
+  },
+  "/tools/productivity/affirmations": {
+    "title": "Daily Affirmations",
+    "description": "200 positive affirmations across 6 categories. Daily selection based on date. Morning/Evening modes. Custom affirmations. Favorites."
+  },
+  "/tools/productivity/standup": {
+    "title": "Daily Standup Generator",
+    "description": "Generate daily standup reports. Yesterday, Today, Blockers sections. Slack formatting. Save history by date. Quick templates."
+  },
+  "/tools/productivity/meeting-agenda": {
+    "title": "Meeting Agenda Builder",
+    "description": "Build structured meeting agendas. Topics with presenters and time allocation. Auto-calculate totals. Templates included. Copy formatted."
+  },
+  "/tools/productivity/bookmarks": {
+    "title": "Bookmark Manager",
+    "description": "Organize bookmarks with categories. Search, sort, favorites. Export/import JSON. Copy URLs. Custom folders. localStorage persistence."
+  },
+  "/tools/productivity/timeline": {
+    "title": "Project Timeline",
+    "description": "Visual project timeline planner. Add tasks with dates and status. Gantt-like bar chart. Progress tracking. Critical path. Copy summary."
+  },
+  "/tools/productivity/pomodoro-analytics": {
+    "title": "Pomodoro Analytics & Log",
+    "description": "Advanced Pomodoro timer with daily productivity logging. Work/break timers, task tagging, session logs, focus minutes, weekly chart."
+  },
+  "/tools/productivity/mind-map": {
+    "title": "Mind Map Builder",
+    "description": "Visual node-based mind map generator. Central topic + subnodes, node colors, visual lines, expand/collapse, text outline export."
+  },
+  "/tools/productivity/habit-planner": {
+    "title": "Weekly Habit & Routine Planner",
+    "description": "Weekly habit matrix and routine tracker. Mon-Sun checkbox grid, weekly completion rate %, overall streak tracker."
+  },
+  "/tools/productivity/meal-prep": {
+    "title": "Weekly Meal Prep & Grocery Planner",
+    "description": "Weekly meal prep calendar and consolidated grocery list generator. Plan Mon-Sun meals, auto-extract ingredient checklist."
+  },
+  "/tools/productivity/weekly-goals": {
+    "title": "Weekly Goals & Milestone Planner",
+    "description": "Weekly goal setting and milestone breakdown tool. Primary focus goals, daily sub-task checklists, progress bars, JSON export."
+  },
+  "/tools/productivity/colored-kanban": {
+    "title": "Color-Coded Category Kanban Board",
+    "description": "Visual Kanban task board with custom color tags and category badges. To Do, In Progress, Review, Completed columns."
+  },
+  "/tools/productivity/okr-planner": {
+    "title": "OKR Goals & Key Results Planner",
+    "description": "Structured OKR goal tracking framework. Objectives, key result progress bars, target values, deadlines, Markdown report export."
+  },
+  "/tools/gaming/roblox-username-generator": {
+    "title": "Roblox Username & Display Name Generator",
+    "description": "Generate cool, aesthetic, 4-letter rare, goth, and PvP Roblox usernames and display names with 1-click availability check."
+  },
+  "/tools/gaming/mlbb-name-generator": {
+    "title": "Mobile Legends (MLBB) Fancy Name & Symbol Generator",
+    "description": "Generate cool, aesthetic Japanese Kanji, Gothic symbols, squad tags, and fancy font nicknames for Mobile Legends Bang Bang."
+  },
+  "/tools/gaming/free-fire-name-generator": {
+    "title": "Free Fire (FF) Nickname & Boss Squad Tag Studio",
+    "description": "Generate cool Free Fire nicknames, Boss style symbols, V.I.P tags, and invisible space characters for Garena Free Fire."
+  },
+  "/tools/gaming/valorant-crosshair": {
+    "title": "Valorant Pro Crosshair Generator & Code Converter",
+    "description": "Browse pro player Valorant crosshair codes (TenZ, Tarik, Demon1, Aspas) with 1-click Valorant import string copying."
+  },
+  "/tools/gaming/gta-name-generator": {
+    "title": "GTA V License Plate & Crew Name Studio",
+    "description": "Generate badass GTA Online crew names, NoPixel RP gang tags, and custom vanity license plates with live AI inference."
+  },
+  "/tools/gaming/steam-bio-generator": {
+    "title": "Steam Profile Bio & Layout Decorator",
+    "description": "Generate aesthetic Steam profile bios, hardware spec boxes, CS2/Dota 2 rank tags, and custom artwork spacers."
+  },
+  "/tools/gaming/minecraft-seed-namer": {
+    "title": "Minecraft Seed & World Name Generator",
+    "description": "Generate fantasy Minecraft world titles, 100 Days Hardcore SMP names, and cottagecore village ideas."
+  },
+  "/tools/social/youtube-script-generator": {
+    "title": "AI YouTube Video Script & Outline Generator",
+    "description": "Generate high-retention 5-second opening hooks, B-roll cues, step-by-step value scripts, and high-CTR calls to action using live AI."
+  },
+  "/tools/social/twitter-thread-generator": {
+    "title": "AI X / Twitter Viral Thread Generator",
+    "description": "Generate high-converting 1st-tweet opening hooks, actionable storytelling tweets, and viral CTA tweets powered by live AI."
+  },
+  "/tools/social/ad-copy-generator": {
+    "title": "AI Facebook & Instagram Ad Copy Studio",
+    "description": "Generate high-converting Meta primary text, headlines, and call-to-action variants using PAS, AIDA, and Social Proof frameworks."
+  },
+  "/tools/social/podcast-script-generator": {
+    "title": "AI Podcast Episode Script & Show Notes Studio",
+    "description": "Generate episode intro scripts, guest interview question frameworks, sponsor reads, and publishing show notes using live AI."
+  },
+  "/tools/social/instagram-bio-generator": {
+    "title": "Instagram Bio & Aesthetic Caption Generator",
+    "description": "Generate aesthetic, line-break formatted Instagram bios, content creator profile copy, and brand layout templates."
+  },
+  "/tools/social/discord-name-generator": {
+    "title": "Discord Server Name & Channel Layout Studio",
+    "description": "Generate aesthetic Discord server names, channel symbols (│・welcome), category headers, and role layouts."
+  },
+  "/tools/social/twitch-title-generator": {
+    "title": "Twitch Stream Title & High-CTR Hook Generator",
+    "description": "Generate high-converting Twitch stream titles, viewer engagement hooks, and command tags for Valorant, GTA V, Minecraft, and Just Chatting."
+  },
+  "/tools/social/spotify-playlist-generator": {
+    "title": "Spotify Playlist Title & Aesthetic Description Studio",
+    "description": "Generate aesthetic Spotify playlist titles, mood descriptions, and lofi/indie/gym cover text."
+  },
+  "/tools/social/tiktok-caption-generator": {
+    "title": "TikTok Viral Caption & Hashtag Hook Studio",
+    "description": "Generate high-converting TikTok captions, viral opening hooks, storytime openers, and trending hashtag clusters."
+  },
+  "/tools/social/youtube-tag-extractor": {
+    "title": "YouTube Video Tag & High-SEO Keyword Extractor",
+    "description": "Extract and generate high-ranking, SEO-optimized tags and viral keywords for YouTube videos with live AI inference."
+  },
+  "/tools/social/tiktok-engagement-calc": {
+    "title": "TikTok Engagement & Creator Fund Calculator",
+    "description": "Calculate your TikTok engagement rate, estimated Creator Fund payouts, and sponsored post value."
+  },
+  "/tools/social/instagram-reel-hooks": {
+    "title": "Instagram Reel Hook & Viral Caption Generator",
+    "description": "Generate 3-second high-curiosity opening hooks and viral captions for Instagram Reels with live AI inference."
+  },
+  "/tools/social/video-downloader": {
+    "title": "Social Video Downloader",
+    "description": "Download videos from YouTube (4K), TikTok (no watermark), Instagram Reels, Twitter, Facebook, Reddit, Vimeo, Pinterest, and 15+ platforms. Free, no signup."
+  },
+  "/tools/social/linkedin-headline-generator": {
+    "title": "LinkedIn Viral Post & Headline Hook Generator",
+    "description": "Generate high-converting LinkedIn profile headlines, B2B hooks, and viral storytelling formats with live AI inference."
+  },
+  "/tools/calc/percentage-calculator": {
+    "title": "Percentage Calculator — Calculate Percent, Increase & Difference | Toolzium",
+    "description": "Free online percentage calculator. Calculate percentage of a number, percentage difference between numbers, percentage increase/decrease, and discount values with step-by-step formulas."
+  },
+  "/tools/dev/box-shadow-generator": {
+    "title": "CSS Box Shadow & Glassmorphism Generator — Live CSS Tool | Toolzium",
+    "description": "Create modern CSS box shadows, multi-layered drop shadows, and frosted Glassmorphism cards with real-time UI sliders. Copy production-ready CSS code instantly."
+  },
+  "/tools/dev/mesh-gradient": {
+    "title": "CSS Mesh & Fluid Gradient Generator Studio | Toolzium",
+    "description": "Design multi-color fluid mesh gradients with real-time canvas preview and 1-click CSS / Tailwind CSS export."
+  },
+  "/tools/dev/svg-optimizer": {
+    "title": "SVG Vector Path Optimizer & React JSX Minifier Studio | Toolzium",
+    "description": "Clean up SVG code, remove comments, minify vector paths, and convert raw SVG code into production-ready React/TypeScript JSX components."
+  },
+  "/tools/finance/currency-slang": {
+    "title": "Currency Slang Dictionary | Toolzium",
+    "description": "Dictionary of money and currency slang terms worldwide. Learn terms from the US, UK, Crypto, and more."
+  },
+  "/tools/fun/animal-quiz": {
+    "title": "Animal Trivia Quiz | Toolzium",
+    "description": "Test your knowledge with a fun trivia quiz about animals across different categories."
+  },
+  "/tools/fun/compound-words": {
+    "title": "Compound Words Game | Toolzium",
+    "description": "Test your vocabulary with this fun compound words puzzle game."
+  },
+  "/tools/fun/love-calculator": {
+    "title": "Love Calculator",
+    "description": "Calculate love compatibility between two names with our fun and deterministic love calculator."
+  },
+  "/tools/fun/morse-audio": {
+    "title": "Morse Code Audio | Toolzium",
+    "description": "Convert text to Morse code with audio playback. Listen and learn."
+  },
+  "/tools/health/cycling-calorie": {
+    "title": "Cycling & Biking Calorie & Power Calculator | Toolzium",
+    "description": "Calculate calories burned and estimated mechanical power output (Watts) during your cycling sessions based on intensity and terrain."
+  },
+  "/tools/health/elliptical-calorie": {
+    "title": "Elliptical Trainer Calorie Calculator | Toolzium",
+    "description": "Calculate calories burned during Elliptical Cross-Trainer workouts based on effort, weight, and duration."
+  },
+  "/tools/health/hiking-calorie": {
+    "title": "Hiking & Elevation Gain Calorie Calculator | Toolzium",
+    "description": "Calculate calories burned during hiking based on body weight, pack weight, distance, and elevation gain."
+  },
+  "/tools/health/jumprope-calorie": {
+    "title": "Jump Rope & HIIT Calorie Calculator | Toolzium",
+    "description": "Calculate total calories burned during jump rope and High-Intensity Interval Training (HIIT) workouts."
+  },
+  "/tools/health/pace-calorie": {
+    "title": "Running vs Walking Pace & Calorie Calculator | Toolzium",
+    "description": "Compare calories burned running vs walking the same distance. Calculate time saved and METs."
+  },
+  "/tools/health/recumbent-bike-calorie": {
+    "title": "Recumbent Exercise Bike Calorie Calculator | Toolzium",
+    "description": "Calculate calories burned on a recumbent stationary bike based on weight, duration, intensity, and cadence."
+  },
+  "/tools/health/rowing-calorie": {
+    "title": "Rowing Machine Calorie Calculator | Toolzium",
+    "description": "Calculate calories burned and average split pace during rowing machine (ergometer) workouts."
+  },
+  "/tools/health/sleep-planner": {
+    "title": "Sleep Cycle & Bedtime Calculator | Toolzium",
+    "description": "Calculate optimal bedtime or wake-up times based on 90-minute REM sleep cycles."
+  },
+  "/tools/health/sleep-quality": {
+    "title": "Sleep Quality Analyzer | Toolzium",
+    "description": "Analyze and score your sleep quality, calculate sleep efficiency, and track habits."
+  },
+  "/tools/health/stair-climbing-calorie": {
+    "title": "Stair Climbing & Step Workout Calorie Calculator | Toolzium",
+    "description": "Calculate calories burned during stair climbing and step workouts based on weight, duration, flights of stairs, and intensity."
+  },
+  "/tools/health/stair-stepper-calorie": {
+    "title": "Stair Stepper & StepMill Calorie Calculator | Toolzium",
+    "description": "Calculate total calories burned on stair steppers, StepMill gym machines."
+  },
+  "/tools/health/swimming-calorie": {
+    "title": "Swimming & Water Sports Calorie Calculator | Toolzium",
+    "description": "Calculate calories burned during swimming, water polo, kayaking, and other water sports based on your weight and duration."
+  },
+  "/tools/image/color-contrast-extractor": {
+    "title": "Color Contrast Ratio & Accessibility Analyzer | Toolzium",
+    "description": "Test color contrast ratios between text and background colors to ensure WCAG accessibility compliance."
+  },
+  "/tools/image/color-matrix": {
+    "title": "Image Color Palette Contrast Matrix | Toolzium",
+    "description": "Test color contrast ratios across a design system palette to ensure WCAG AA and AAA accessibility compliance."
+  },
+  "/tools/image/contrast-compliance-sheet": {
+    "title": "Color Contrast Ratio Compliance Sheet | Toolzium",
+    "description": "Design system WCAG accessibility contrast compliance test sheet. Generate matrix for your colors."
+  },
+  "/tools/image/contrast-matrix-export": {
+    "title": "Color Contrast Matrix Exporter | Toolzium",
+    "description": "Generate accessible design system color contrast matrices. Check WCAG AA/AAA compliance for your palette."
+  },
+  "/tools/image/contrast-matrix-sheet": {
+    "title": "Contrast Compliance Color Matrix Sheet Exporter | Toolzium",
+    "description": "Test brand palette colors against each other for WCAG 2.1 AA/AAA accessibility compliance."
+  },
+  "/tools/image/contrast-sheet-exporter": {
+    "title": "Color Palette Contrast Sheet Exporter | Toolzium",
+    "description": "Generate and export WCAG 2.1 design system color contrast sheets."
+  },
+  "/tools/image/contrast-table": {
+    "title": "Color Contrast Ratio Compliance Table | Toolzium",
+    "description": "Generate WCAG 2.1 accessibility contrast comparison tables for design systems."
+  },
+  "/tools/image/exif-inspector": {
+    "title": "Photo EXIF Metadata Inspector & Privacy GPS Stripper | Toolzium",
+    "description": "Inspect camera settings, aperture, ISO, and GPS location coordinates, and strip EXIF metadata 100% locally in your browser."
+  },
+  "/tools/image/favicon-generator": {
+    "title": "Favicon & App Icon Generator — Convert Image to Favicon.ico | Toolzium",
+    "description": "Generate website favicons, Apple Touch icons, Android PWA icons, and multi-resolution favicon.ico files online. Download ready-to-use icon zip packages with HTML head code."
+  },
+  "/tools/image/image-resizer": {
+    "title": "Image Resizer — Resize Images Online in KB / Pixels | Toolzium",
+    "description": "Free online image resizer. Resize single or bulk images by pixels or percentage, maintain aspect ratio, adjust quality, and target file size in KB. Instant 100% browser-based photo resizer."
+  },
+  "/tools/image/placeholder-image": {
+    "title": "Placeholder Image Generator — Create Dummy Images",
+    "description": "Generate placeholder images with custom dimensions, colors, and text. Create dummy images for mockups, wireframes, and development. Free online tool."
+  },
+  "/tools/network/bandwidth-calc": {
+    "title": "Bandwidth Calculator | Toolzium",
+    "description": "Calculate download and upload times based on file size and connection speed."
+  },
+  "/tools/productivity/ambient-noise": {
+    "title": "Ambient Focus Noise & Binaural Sound Generator Studio | Toolzium",
+    "description": "Synthesize Brown Noise, Pink Noise, White Noise, and 40Hz Binaural Beats in your browser for deep work, focus, and sleep."
+  },
+  "/tools/productivity/daily-priority-action-board": {
+    "title": "Daily Priority Task Action Board | Toolzium",
+    "description": "Manage your daily tasks using the Eisenhower Matrix methodology with this structured priority board."
+  },
+  "/tools/productivity/eisenhower-board": {
+    "title": "Eisenhower Matrix Board | Toolzium",
+    "description": "Prioritize your tasks using the Eisenhower Matrix methodology. Interactive board for task management."
+  },
+  "/tools/productivity/eisenhower-checklist": {
+    "title": "Eisenhower Urgency Matrix Checklist | Toolzium",
+    "description": "Organize tasks effectively using the Eisenhower Matrix methodology."
+  },
+  "/tools/productivity/eisenhower-goals": {
+    "title": "Eisenhower Goal & Action Planner | Toolzium",
+    "description": "Map goals to 4 actionable buckets: Do Now, Schedule, Delegate, Delete. Manage your productivity effectively."
+  },
+  "/tools/productivity/eisenhower-kanban": {
+    "title": "Eisenhower Kanban Board | Toolzium",
+    "description": "Manage your tasks using a hybrid Kanban board organized by the Eisenhower matrix (Urgent vs Important)."
+  },
+  "/tools/productivity/eisenhower-list": {
+    "title": "Eisenhower Matrix Planner | Toolzium",
+    "description": "Organize tasks using the 4-quadrant Eisenhower method."
+  },
+  "/tools/productivity/eisenhower-planner": {
+    "title": "Eisenhower Matrix Planner | Toolzium",
+    "description": "Organize your tasks by urgency and importance with the Eisenhower Matrix planner."
+  },
+  "/tools/productivity/eisenhower-workspace": {
+    "title": "Eisenhower Matrix Workspace | Toolzium",
+    "description": "Prioritize your tasks efficiently using the Eisenhower Matrix. Add, categorize, and export your tasks by urgency and importance."
+  },
+  "/tools/productivity/priority-action-planner": {
+    "title": "Priority Matrix Action Planner | Toolzium",
+    "description": "Eisenhower Priority Matrix action planner for daily workflows. Organize tasks by urgency and importance."
+  },
+  "/tools/productivity/priority-kanban": {
+    "title": "Priority Kanban Board | Toolzium",
+    "description": "Organize tasks by priority with this simple kanban board."
+  },
+  "/tools/productivity/priority-matrix": {
+    "title": "Priority Matrix | Toolzium",
+    "description": "Organize tasks by impact and effort using an Eisenhower-style priority matrix."
+  },
+  "/tools/productivity/priority-matrix-2x2": {
+    "title": "Priority Matrix 2x2 Task Tracker | Toolzium",
+    "description": "Organize tasks using a 2x2 Impact vs Effort Matrix to prioritize your work efficiently."
+  },
+  "/tools/productivity/priority-quadrant-board": {
+    "title": "Priority Quadrant Action Board | Toolzium",
+    "description": "Interactive 4-quadrant task board with priority sorting."
+  },
+  "/tools/text/lorem-ipsum": {
+    "title": "Lorem Ipsum Generator — Free Placeholder Dummy Text | Toolzium",
+    "description": "Generate custom Lorem Ipsum placeholder text by paragraphs, words, sentences, or lists. Includes HTML markup tag options, copy to clipboard, and instant preview. 100% free."
+  },
+  "/tools/text/markdown-studio": {
+    "title": "Interactive Markdown Editor & Live Preview Studio | Toolzium",
+    "description": "Write, format, and render Markdown documents in real-time with live HTML preview, reading time statistics, and 1-click export."
+  },
+  "/tools/text/palindrome-checker": {
+    "title": "Palindrome Checker",
+    "description": "Check if a word, phrase, or number is a palindrome. Ignores spaces and punctuation."
+  },
+  "/tools/time/circadian-shift-planner": {
+    "title": "Circadian Shift Planner | Toolzium",
+    "description": "Calculate optimal sleep schedules and light exposure windows for night shift workers."
+  },
+  "/tools/time/rem-bedtime-clock": {
+    "title": "REM Sleep Cycle & Bedtime Alarm Clock | Toolzium",
+    "description": "Calculate optimal bedtime and wake-up alarm times based on 90-minute REM sleep cycles."
+  },
+  "/tools/time/rem-latency-bedtime-clock": {
+    "title": "REM Sleep Cycle & Onset Latency Bedtime Clock | Toolzium",
+    "description": "Calculate optimal bedtime and wake-up alarm times based on 90-minute REM sleep cycles and sleep onset latency."
+  },
+  "/tools/time/rem-sleep-alarm": {
+    "title": "REM Sleep Cycle & Wakeup Alarm Calculator | Toolzium",
+    "description": "Calculate optimal bedtime and wake-up alarm times based on 90-minute REM sleep cycles."
+  },
+  "/tools/time/rem-sleep-clock": {
+    "title": "REM Sleep Cycle & Optimal Bedtime Clock | Toolzium",
+    "description": "Calculate optimal sleep & wake times based on 90-minute REM sleep cycles."
+  },
+  "/tools/time/shift-circadian": {
+    "title": "Shift Work Sleep Schedule & Circadian Calculator | Toolzium",
+    "description": "Calculate optimal sleep and wake cycles for shift workers."
+  },
+  "/tools/time/sleep-debt": {
+    "title": "Sleep Debt & Recovery Calculator | Toolzium",
+    "description": "Calculate accumulated sleep debt over a 7-day week and recovery plan."
+  },
+  "/tools/time/sleep-efficiency": {
+    "title": "Sleep Efficiency & Quality Score Calculator | Toolzium",
+    "description": "Calculate your Sleep Efficiency Percentage and Quality Score based on time in bed and actual time asleep."
+  },
+  "/tools/time/sleep-efficiency-tracker": {
+    "title": "Sleep Efficiency & Quality Tracker | Toolzium",
+    "description": "Calculate your sleep efficiency percentage, score, and get recommendations for better sleep hygiene."
+  },
+  "/tools/time/sleep-latency": {
+    "title": "Sleep Latency & Alarm Clock | Toolzium",
+    "description": "Sleep latency & sleep efficiency analyzer with custom alarm calculator."
+  },
+  "/tools/time/sleep-latency-calc": {
+    "title": "Sleep Latency & Sleep Onset Calculator | Toolzium",
+    "description": "Calculate optimal bedtimes based on sleep latency and 90-minute REM sleep cycles."
+  },
+  "/tools/time/sleep-log": {
+    "title": "Sleep Log & Circadian Rhythm Tracker | Toolzium",
+    "description": "Log and analyze daily sleep patterns, calculate average sleep duration, and track sleep consistency."
+  },
+  "/tools/time/sleep-onset-clock": {
+    "title": "Sleep Onset Latency & Bedtime Clock | Toolzium",
+    "description": "Calculate optimal bedtime and wake-up times accounting for personal sleep latency and 90-minute REM cycles."
+  },
+  "/tools/time/time-capsule": {
+    "title": "Time Capsule Message | Toolzium",
+    "description": "Create digital time capsule messages locked until a future date."
+  },
+  "/tools/travel/currency-card": {
+    "title": "Currency Quick Reference Card | Toolzium",
+    "description": "Generate a pocket-sized printable travel currency conversion cheat card."
+  },
+  "/tools/travel/currency-matrix": {
+    "title": "Multi-Currency Exchange Matrix | Toolzium",
+    "description": "View cross-rate exchange matrix for multiple currencies simultaneously. Great for multi-country travel planning."
+  },
+  "/tools/travel/currency-price-matrix": {
+    "title": "Currency Price Matrix | Toolzium",
+    "description": "Multi-item travel cost converter and comparison sheet."
+  },
+  "/tools/travel/exchange-table": {
+    "title": "Currency Exchange Comparison Table | Toolzium",
+    "description": "Quick currency exchange conversion reference table for traveler pockets."
+  },
+  "/tools/travel/exchange-trend": {
+    "title": "Currency Rate Trend Comparison Table | Toolzium",
+    "description": "Compare travel currency exchange rates and historical trend rates for top travel destinations."
+  },
+  "/tools/travel/multi-country-budget-sheet": {
+    "title": "Multi-Country Travel Budget & Currency Converter Sheet | Toolzium",
+    "description": "Multi-country travel budget planner and currency converter for international trips."
+  },
+  "/tools/travel/travel-budget-calc-sheet": {
+    "title": "Multi-Currency Travel Budget Calculator | Toolzium",
+    "description": "Multi-currency travel expense comparison and trip budgeting sheet."
+  },
+  "/tools/travel/travel-budget-matrix": {
+    "title": "Travel Budget Currency Comparison Matrix | Toolzium",
+    "description": "Compare travel budgets across multiple destination currencies."
+  },
+  "/tools/travel/travel-budget-sheet": {
+    "title": "Travel Budget Multi-Currency Comparison Sheet | Toolzium",
+    "description": "Multi-currency travel expense comparison and trip budgeting sheet."
+  },
+  "/tools/travel/trip-budget-matrix": {
+    "title": "Currency Trip Budget & Spending Matrix | Toolzium",
+    "description": "Comprehensive multi-destination travel budget converter matrix."
+  },
+  "/tools/url/shortener/analytics/[id]": {
+    "title": "Link Analytics Dashboard",
+    "description": "View detailed analytics for your shortened links including clicks, referrers, countries, and trends over time."
+  },
+  "/tools/url/shortener/interstitial/[id]": {
+    "title": "Safe Link Preview",
+    "description": "Preview this link before continuing. Tools Cube helps protect you from potentially harmful links."
+  },
+  "/tools/util/morse-flashlight": {
+    "title": "Morse Code Flashlight | Toolzium",
+    "description": "Convert text to Morse code and play it visually as screen flashes or audio beeps."
+  },
+  "/tools/util/nato-password-reader": {
+    "title": "NATO Password Generator & Phonetic Reader | Toolzium",
+    "description": "Generate secure passwords with NATO phonetic spelling guides for easy reading."
+  },
+  "/tools/util/nato-phonetic-password": {
+    "title": "NATO Phonetic Password Generator | Toolzium",
+    "description": "Generate secure passwords with NATO phonetic spelling soundout."
+  },
+  "/tools/util/phonetic-password-nato": {
+    "title": "Phonetic Password Generator & NATO Guide | Toolzium",
+    "description": "Generate secure passwords with NATO phonetic spelling breakdowns to easily communicate them."
+  },
+  "/tools/[category]": {
+    "title": "Tools Category | Toolzium",
+    "description": "Explore free online tools on Toolzium."
+  }
+}

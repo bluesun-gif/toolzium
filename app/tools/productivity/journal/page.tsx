@@ -35,10 +35,21 @@ export default function Page() {
     ] 
   };
   
+
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      { "@type": "Question", name: "How does the Daily Journal work?", acceptedAnswer: { "@type": "Answer", text: "Toolzium's Daily Journal runs instantly in your browser. Simple daily journal with mood tracking (5 levels), tags, calendar view, and search. Word count per entry. Export entries. All saved locally. No sign-up or software installation required." } },
+      { "@type": "Question", name: "Is the Daily Journal 100% free to use?", acceptedAnswer: { "@type": "Answer", text: "Yes, the Daily Journal is 100% free with unlimited usage and no account required." } },
+      { "@type": "Question", name: "Is my data secure when using the Daily Journal?", acceptedAnswer: { "@type": "Answer", text: "Yes, all processing occurs locally in your browser. Your data never leaves your device." } }
+    ]
+  };
   return (
     <div className="space-y-4">
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
+      <JsonLd data={faqLd} />
       <JournalClient />
     
       <RelatedTools currentToolUrl="/tools/productivity/journal" />

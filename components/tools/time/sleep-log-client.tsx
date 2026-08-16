@@ -1,4 +1,5 @@
 "use client";
+<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -16,117 +17,125 @@ import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
 import { BarChart2, Calendar, Download, Moon, PenLine, ShieldCheck, TrendingUp } from"lucide-react";
 import { toast } from"react-hot-toast";
 
+=======
+import { ToolBackground } from"@/components/shared/tool-background";
+
+import { useState, useEffect } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
+import { Moon, Calendar, BarChart2, Download, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { toast } from "react-hot-toast";
+import { GridPattern } from "@/components/magicui/grid-pattern";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 interface SleepEntry {
- id: string;
- date: string;
- bedtime: string;
- wakeTime: string;
- quality: string;
- mood: string;
- caffeineCutoff: string;
- hours: number;
+  id: string;
+  date: string;
+  bedtime: string;
+  wakeTime: string;
+  quality: string;
+  mood: string;
+  caffeineCutoff: string;
+  hours: number;
 }
-
 export function SleepLogClient() {
- const [entries, setEntries] = useState<SleepEntry[]>([]);
- const [date, setDate] = useState("");
- const [bedtime, setBedtime] = useState("");
- const [wakeTime, setWakeTime] = useState("");
- const [quality, setQuality] = useState("3");
- const [mood, setMood] = useState("Neutral");
- const [caffeineCutoff, setCaffeineCutoff] = useState("");
+  const [entries, setEntries] = useState<SleepEntry[]>([]);
+  const [date, setDate] = useState("");
+  const [bedtime, setBedtime] = useState("");
+  const [wakeTime, setWakeTime] = useState("");
+  const [quality, setQuality] = useState("3");
+  const [mood, setMood] = useState("Neutral");
+  const [caffeineCutoff, setCaffeineCutoff] = useState("");
+  useEffect(() => {
+    const saved = localStorage.getItem("sleep-log-entries");
+    if (saved) {
+      try {
+        setEntries(JSON.parse(saved));
+      } catch (e) {
+        // ignore
+      }
+    }
+  }, []);
+  const saveEntries = (newEntries: SleepEntry[]) => {
+    setEntries(newEntries);
+    localStorage.setItem("sleep-log-entries", JSON.stringify(newEntries));
+  };
+  const calculateHours = (start: string, end: string) => {
+    if (!start || !end) return 0;
+    const [h1, m1] = start.split(":").map(Number);
+    const [h2, m2] = end.split(":").map(Number);
+    let d1 = new Date();
+    d1.setHours(h1, m1, 0, 0);
+    let d2 = new Date();
+    d2.setHours(h2, m2, 0, 0);
+    if (d2 < d1) {
+      d2.setDate(d2.getDate() + 1);
+    }
+    return (d2.getTime() - d1.getTime()) / (1000 * 60 * 60);
+  };
+  const handleAdd = () => {
+    if (!date || !bedtime || !wakeTime) {
+      toast.error("Please fill in Date, Bedtime, and Wake Time.");
+      return;
+    }
+    const hours = calculateHours(bedtime, wakeTime);
+    const newEntry: SleepEntry = {
+      id: Date.now().toString(),
+      date,
+      bedtime,
+      wakeTime,
+      quality,
+      mood,
+      caffeineCutoff,
+      hours
+    };
+    saveEntries([...entries, newEntry]);
+    toast.success("Sleep log added");
+    setDate("");
+    setBedtime("");
+    setWakeTime("");
+  };
+  const handleExport = () => {
+    if (entries.length === 0) {
+      toast.error("No data to export");
+      return;
+    }
+    const header = "Date,Bedtime,Wake Time,Quality,Mood,Caffeine Cutoff,Hours\n";
+    const csv = entries.map(e => e.date + "," + e.bedtime + "," + e.wakeTime + "," + e.quality + "," + e.mood + "," + e.caffeineCutoff + "," + e.hours.toFixed(2)).join("\n");
+    const blob = new Blob([header + csv], {
+      type: "text/csv"
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "sleep-log.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+  const handleClear = () => {
+    if (confirm("Clear all entries?")) {
+      saveEntries([]);
+      toast.success("Log cleared");
+    }
+  };
+  const avgHours = entries.length ? (entries.reduce((acc, curr) => acc + curr.hours, 0) / entries.length).toFixed(1) : "0.0";
+  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+      
 
- useEffect(() => {
- const saved = localStorage.getItem("sleep-log-entries");
- if (saved) {
- try {
- setEntries(JSON.parse(saved));
- } catch (e) {
- // ignore
- }
- }
- }, []);
-
- const saveEntries = (newEntries: SleepEntry[]) => {
- setEntries(newEntries);
- localStorage.setItem("sleep-log-entries", JSON.stringify(newEntries));
- };
-
- const calculateHours = (start: string, end: string) => {
- if (!start || !end) return 0;
- const [h1, m1] = start.split(":").map(Number);
- const [h2, m2] = end.split(":").map(Number);
- let d1 = new Date();
- d1.setHours(h1, m1, 0, 0);
- let d2 = new Date();
- d2.setHours(h2, m2, 0, 0);
- if (d2 < d1) {
- d2.setDate(d2.getDate() + 1);
- }
- return (d2.getTime() - d1.getTime()) / (1000 * 60 * 60);
- };
-
- const handleAdd = () => {
- if (!date || !bedtime || !wakeTime) {
- toast.error("Please fill in Date, Bedtime, and Wake Time.");
- return;
- }
- const hours = calculateHours(bedtime, wakeTime);
- const newEntry: SleepEntry = {
- id: Date.now().toString(),
- date,
- bedtime,
- wakeTime,
- quality,
- mood,
- caffeineCutoff,
- hours,
- };
- saveEntries([...entries, newEntry]);
- toast.success("Sleep log added");
- setDate("");
- setBedtime("");
- setWakeTime("");
- };
-
- const handleExport = () => {
- if (entries.length === 0) {
- toast.error("No data to export");
- return;
- }
- const header ="Date,Bedtime,Wake Time,Quality,Mood,Caffeine Cutoff,Hours\n";
- const csv = entries.map(e => e.date +","+ e.bedtime +","+ e.wakeTime +","+ e.quality +","+ e.mood +","+ e.caffeineCutoff +","+ e.hours.toFixed(2)).join("\n");
- const blob = new Blob([header + csv], { type:"text/csv"});
- const url = URL.createObjectURL(blob);
- const a = document.createElement("a");
- a.href = url;
- a.download ="sleep-log.csv";
- a.click();
- URL.revokeObjectURL(url);
- };
-
- const handleClear = () => {
- if (confirm("Clear all entries?")) {
- saveEntries([]);
- toast.success("Log cleared");
- }
- };
-
- const avgHours = entries.length ? (entries.reduce((acc, curr) => acc + curr.hours, 0) / entries.length).toFixed(1) :"0.0";
-
- return (
- <div className="space-y-6">
- <ToolPageHeader
- icon={Moon}
- title="Sleep Log & Circadian Rhythm Tracker"
- description="Log and analyze your daily sleep patterns and consistency."
- actions={
- <>
- <ActionButton onClick={handleExport} icon={Download} label="Export CSV"variant="outline"/>
- <ResetButton onClick={handleClear} label="Clear Log"/>
- </>
- }
- />
+ <ToolPageHeader icon={Moon} title="Sleep Log & Circadian Rhythm Tracker" description="Log and analyze your daily sleep patterns and consistency." actions={<>
+ <ActionButton onClick={handleExport} icon={Download} label="Export CSV" variant="outline" />
+ <ResetButton onClick={handleClear} label="Clear Log" />
+ </>} />
 
  <div className="grid md:grid-cols-2 gap-6">
  <GlassCard>
@@ -137,22 +146,22 @@ export function SleepLogClient() {
  <CardContent className="space-y-4">
  <div className="space-y-2">
  <Label>Date</Label>
- <Input type="date"value={date} onChange={(e) => setDate(e.target.value)} />
+ <Input type="date" value={date} onChange={e => setDate(e.target.value)} />
  </div>
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
  <Label>Bedtime</Label>
- <Input type="time"value={bedtime} onChange={(e) => setBedtime(e.target.value)} />
+ <Input type="time" value={bedtime} onChange={e => setBedtime(e.target.value)} />
  </div>
  <div className="space-y-2">
  <Label>Wake Time</Label>
- <Input type="time"value={wakeTime} onChange={(e) => setWakeTime(e.target.value)} />
+ <Input type="time" value={wakeTime} onChange={e => setWakeTime(e.target.value)} />
  </div>
  </div>
  <div className="space-y-2">
  <Label>Sleep Quality (1-5)</Label>
  <Select value={quality} onValueChange={setQuality}>
- <SelectTrigger><SelectValue placeholder="Select quality"/></SelectTrigger>
+ <SelectTrigger><SelectValue placeholder="Select quality" /></SelectTrigger>
  <SelectContent>
  <SelectItem value="1">1 - Poor</SelectItem>
  <SelectItem value="2">2 - Fair</SelectItem>
@@ -165,7 +174,7 @@ export function SleepLogClient() {
  <div className="space-y-2">
  <Label>Mood upon Waking</Label>
  <Select value={mood} onValueChange={setMood}>
- <SelectTrigger><SelectValue placeholder="Select mood"/></SelectTrigger>
+ <SelectTrigger><SelectValue placeholder="Select mood" /></SelectTrigger>
  <SelectContent>
  <SelectItem value="Groggy">Groggy</SelectItem>
  <SelectItem value="Neutral">Neutral</SelectItem>
@@ -176,9 +185,9 @@ export function SleepLogClient() {
  </div>
  <div className="space-y-2">
  <Label>Caffeine Cutoff Time</Label>
- <Input type="time"value={caffeineCutoff} onChange={(e) => setCaffeineCutoff(e.target.value)} />
+ <Input type="time" value={caffeineCutoff} onChange={e => setCaffeineCutoff(e.target.value)} />
  </div>
- <Button className="w-full"onClick={handleAdd}>Add Entry</Button>
+ <Button className="w-full" onClick={handleAdd}>Add Entry</Button>
  </CardContent>
  </GlassCard>
 
@@ -201,12 +210,8 @@ export function SleepLogClient() {
  
  <div className="space-y-2">
  <h3 className="font-medium">Recent Logs</h3>
- {entries.length === 0 ? (
- <p className="text-sm text-muted-foreground">No entries yet.</p>
- ) : (
- <div className="space-y-2 max-h-64 overflow-y-auto">
- {entries.slice().reverse().map(e => (
- <div key={e.id} className="p-3 bg-muted/30 rounded border text-sm flex justify-between items-center">
+ {entries.length === 0 ? <p className="text-sm text-muted-foreground">No entries yet.</p> : <div className="space-y-2 max-h-64 overflow-y-auto">
+ {entries.slice().reverse().map(e => <div key={e.id} className="p-3 bg-muted/30 rounded border text-sm flex justify-between items-center">
  <div>
  <div className="font-medium">{e.date}</div>
  <div className="text-xs text-muted-foreground">{e.bedtime} - {e.wakeTime}</div>
@@ -215,15 +220,14 @@ export function SleepLogClient() {
  <div className="font-bold">{e.hours.toFixed(1)}h</div>
  <div className="text-xs text-muted-foreground">Quality: {e.quality}/5</div>
  </div>
- </div>
- ))}
- </div>
- )}
+ </div>)}
+ </div>}
  </div>
  </CardContent>
  </GlassCard>
  </div>
  
+<<<<<<< HEAD
 <ToolHowItWorks
   steps={[
 {
@@ -306,3 +310,65 @@ export function SleepLogClient() {
 </div>
  );
 }
+=======
+      <ToolHowItWorks steps={[{
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+
+      <ToolFeatureGuides features={[{
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
+        <div className="prose dark:prose-invert max-w-none">
+          <h3>Why Use Our Sleep Log & Circadian Rhythm Tracker?</h3>
+          <p>
+            This free online tool is designed to help you get accurate results quickly and securely.
+            Whether you're a developer, designer, student, or professional, our Sleep Log & Circadian Rhythm Tracker provides
+            the functionality you need without any complexity or cost.
+          </p>
+          <p>
+            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
+            privacy and zero latency. No data is ever transmitted to external servers, making it safe
+            for sensitive information.
+          </p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion faqs={[{
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
+
+      <RelatedTools currentToolUrl="/tools/time/sleep-log" max={6} />
+
+    </div></div>;
+}
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

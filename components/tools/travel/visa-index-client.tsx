@@ -1,61 +1,153 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
-import { useState } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { Globe, ExternalLink, TrendingUp, Award } from"lucide-react";
-
-const PASSPORT_RANKINGS = [
- { rank: 1, country:"Singapore", visaFree: 195, flag:"🇸🇬"},
- { rank: 2, country:"France", visaFree: 193, flag:"🇫🇷"},
- { rank: 2, country:"Germany", visaFree: 193, flag:"🇩🇪"},
- { rank: 2, country:"Italy", visaFree: 193, flag:"🇮🇹"},
- { rank: 2, country:"Japan", visaFree: 193, flag:"🇯🇵"},
- { rank: 2, country:"Spain", visaFree: 193, flag:"🇪🇸"},
- { rank: 7, country:"Austria", visaFree: 192, flag:"🇦🇹"},
- { rank: 7, country:"Finland", visaFree: 192, flag:"🇫🇮"},
- { rank: 7, country:"Ireland", visaFree: 192, flag:"🇮🇪"},
- { rank: 7, country:"Luxembourg", visaFree: 192, flag:"🇱🇺"},
- { rank: 7, country:"Netherlands", visaFree: 192, flag:"🇳🇱"},
- { rank: 7, country:"South Korea", visaFree: 192, flag:"🇰🇷"},
- { rank: 7, country:"Sweden", visaFree: 192, flag:"🇸🇪"},
- { rank: 14, country:"United Kingdom", visaFree: 191, flag:"🇬🇧"},
- { rank: 18, country:"United States", visaFree: 186, flag:"🇺🇸"},
- { rank: 25, country:"Canada", visaFree: 185, flag:"🇨🇦"},
- { rank: 42, country:"Malaysia", visaFree: 178, flag:"🇲🇾"},
- { rank: 52, country:"Brazil", visaFree: 172, flag:"🇧🇷"},
- { rank: 67, country:"China", visaFree: 158, flag:"🇨🇳"},
- { rank: 80, country:"Turkey", visaFree: 111, flag:"🇹🇷"},
- { rank: 88, country:"India", visaFree: 58, flag:"🇮🇳"},
- { rank: 95, country:"Bangladesh", visaFree: 41, flag:"🇧🇩"},
- { rank: 95, country:"Pakistan", visaFree: 33, flag:"🇵🇰"},
- { rank: 99, country:"Nigeria", visaFree: 28, flag:"🇳🇬"},
-].sort((a, b) => a.rank - b.rank);
-
+import { useState } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Globe, ExternalLink, TrendingUp, Award, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { GridPattern } from "@/components/magicui/grid-pattern";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+const PASSPORT_RANKINGS = [{
+  rank: 1,
+  country: "Singapore",
+  visaFree: 195,
+  flag: "🇸🇬"
+}, {
+  rank: 2,
+  country: "France",
+  visaFree: 193,
+  flag: "🇫🇷"
+}, {
+  rank: 2,
+  country: "Germany",
+  visaFree: 193,
+  flag: "🇩🇪"
+}, {
+  rank: 2,
+  country: "Italy",
+  visaFree: 193,
+  flag: "🇮🇹"
+}, {
+  rank: 2,
+  country: "Japan",
+  visaFree: 193,
+  flag: "🇯🇵"
+}, {
+  rank: 2,
+  country: "Spain",
+  visaFree: 193,
+  flag: "🇪🇸"
+}, {
+  rank: 7,
+  country: "Austria",
+  visaFree: 192,
+  flag: "🇦🇹"
+}, {
+  rank: 7,
+  country: "Finland",
+  visaFree: 192,
+  flag: "🇫🇮"
+}, {
+  rank: 7,
+  country: "Ireland",
+  visaFree: 192,
+  flag: "🇮🇪"
+}, {
+  rank: 7,
+  country: "Luxembourg",
+  visaFree: 192,
+  flag: "🇱🇺"
+}, {
+  rank: 7,
+  country: "Netherlands",
+  visaFree: 192,
+  flag: "🇳🇱"
+}, {
+  rank: 7,
+  country: "South Korea",
+  visaFree: 192,
+  flag: "🇰🇷"
+}, {
+  rank: 7,
+  country: "Sweden",
+  visaFree: 192,
+  flag: "🇸🇪"
+}, {
+  rank: 14,
+  country: "United Kingdom",
+  visaFree: 191,
+  flag: "🇬🇧"
+}, {
+  rank: 18,
+  country: "United States",
+  visaFree: 186,
+  flag: "🇺🇸"
+}, {
+  rank: 25,
+  country: "Canada",
+  visaFree: 185,
+  flag: "🇨🇦"
+}, {
+  rank: 42,
+  country: "Malaysia",
+  visaFree: 178,
+  flag: "🇲🇾"
+}, {
+  rank: 52,
+  country: "Brazil",
+  visaFree: 172,
+  flag: "🇧🇷"
+}, {
+  rank: 67,
+  country: "China",
+  visaFree: 158,
+  flag: "🇨🇳"
+}, {
+  rank: 80,
+  country: "Turkey",
+  visaFree: 111,
+  flag: "🇹🇷"
+}, {
+  rank: 88,
+  country: "India",
+  visaFree: 58,
+  flag: "🇮🇳"
+}, {
+  rank: 95,
+  country: "Bangladesh",
+  visaFree: 41,
+  flag: "🇧🇩"
+}, {
+  rank: 95,
+  country: "Pakistan",
+  visaFree: 33,
+  flag: "🇵🇰"
+}, {
+  rank: 99,
+  country: "Nigeria",
+  visaFree: 28,
+  flag: "🇳🇬"
+}].sort((a, b) => a.rank - b.rank);
 const COUNTRY_NAMES = PASSPORT_RANKINGS.map(p => p.country);
-
 export function VisaIndexClient() {
- const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const selectedData = PASSPORT_RANKINGS.find(p => p.country === selectedCountry);
+  return <div className="relative space-y-6 max-w-4xl mx-auto px-4"><ToolBackground /><div className="relative z-10">
+      
 
- const selectedData = PASSPORT_RANKINGS.find(p => p.country === selectedCountry);
-
- return (
- <div className="space-y-6 max-w-4xl mx-auto px-4">
- <ToolPageHeader
- icon={Globe}
- title="Passport Power Index"
- description="See how powerful your passport is — visa-free access rankings based on the Henley Passport Index."
- />
+ <ToolPageHeader icon={Globe} title="Passport Power Index" description="See how powerful your passport is — visa-free access rankings based on the Henley Passport Index." />
 
  <GlassCard className="p-6 space-y-5">
  <CardHeader className="p-0">
  <CardTitle>Top Passport Rankings (2024)</CardTitle>
  <CardDescription>
  Data sourced from the{""}
- <a href="https://www.henleypassportindex.com/"target="_blank"rel="noopener noreferrer"
- className="text-primary underline hover:opacity-80">
+ <a href="https://www.henleypassportindex.com/" target="_blank" rel="noopener noreferrer" className="text-primary underline hover:opacity-80">
  Henley Passport Index
  </a>{"—"}updated quarterly.
  </CardDescription>
@@ -65,7 +157,7 @@ export function VisaIndexClient() {
  <label className="text-sm font-bold text-foreground">Look up your passport:</label>
  <Select value={selectedCountry} onValueChange={setSelectedCountry}>
  <SelectTrigger className="h-11 max-w-sm">
- <SelectValue placeholder="Select your country…"/>
+ <SelectValue placeholder="Select your country…" />
  </SelectTrigger>
  <SelectContent>
  {COUNTRY_NAMES.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
@@ -73,8 +165,7 @@ export function VisaIndexClient() {
  </Select>
  </div>
 
- {selectedData && (
- <div className="p-5 rounded-xl border-2 border-primary/30 bg-primary/5 space-y-2">
+ {selectedData && <div className="p-5 rounded-xl border-2 border-primary/30 bg-primary/5 space-y-2">
  <div className="flex items-center gap-3">
  <span className="text-4xl">{selectedData.flag}</span>
  <div>
@@ -83,19 +174,13 @@ export function VisaIndexClient() {
  </div>
  </div>
  <div className="flex items-center gap-2 text-primary font-bold text-lg pt-1">
- <TrendingUp className="h-5 w-5"/>
+ <TrendingUp className="h-5 w-5" />
  {selectedData.visaFree} visa-free / visa-on-arrival destinations
  </div>
- <a
- href={`https://www.passportindex.org/passport/${selectedData.country.toLowerCase().replace(/ /g,"-")}/`}
- target="_blank"
- rel="noopener noreferrer"
- className="inline-flex items-center gap-1.5 text-sm text-primary hover:underline font-medium"
- >
- See full destination list <ExternalLink className="h-3.5 w-3.5"/>
+ <a href={`https://www.passportindex.org/passport/${selectedData.country.toLowerCase().replace(/ /g, "-")}/`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-primary hover:underline font-medium">
+ See full destination list <ExternalLink className="h-3.5 w-3.5" />
  </a>
- </div>
- )}
+ </div>}
 
  {/* Rankings table */}
  <div className="overflow-auto rounded-xl border">
@@ -108,12 +193,7 @@ export function VisaIndexClient() {
  </tr>
  </thead>
  <tbody>
- {PASSPORT_RANKINGS.map((p, i) => (
- <tr
- key={i}
- className={`border-b last:border-0 hover:bg-muted/30 transition-colors cursor-pointer ${selectedCountry === p.country ?"bg-primary/5":""}`}
- onClick={() => setSelectedCountry(p.country)}
- >
+ {PASSPORT_RANKINGS.map((p, i) => <tr key={i} className={`border-b last:border-0 hover:bg-muted/30 transition-colors cursor-pointer ${selectedCountry === p.country ? "bg-primary/5" : ""}`} onClick={() => setSelectedCountry(p.country)}>
  <td className="px-4 py-2.5 text-muted-foreground font-mono text-xs">#{p.rank}</td>
  <td className="px-4 py-2.5">
  <span className="mr-2">{p.flag}</span>
@@ -123,8 +203,7 @@ export function VisaIndexClient() {
  <span className="font-bold text-primary">{p.visaFree}</span>
  <span className="text-muted-foreground text-xs ml-1">countries</span>
  </td>
- </tr>
- ))}
+ </tr>)}
  </tbody>
  </table>
  </div>
@@ -134,18 +213,73 @@ export function VisaIndexClient() {
  </p>
 
  <div className="flex flex-wrap gap-3 pt-2">
- <a href="https://www.henleypassportindex.com/"target="_blank"rel="noopener noreferrer"
- className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border hover:border-primary/50 hover:bg-primary/5 transition-all text-sm font-medium">
- <Award className="h-4 w-4"/> Henley Passport Index (official)
+ <a href="https://www.henleypassportindex.com/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border hover:border-primary/50 hover:bg-primary/5 transition-all text-sm font-medium">
+ <Award className="h-4 w-4" /> Henley Passport Index (official)
  </a>
- <a href="https://www.passportindex.org/"target="_blank"rel="noopener noreferrer"
- className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border hover:border-primary/50 hover:bg-primary/5 transition-all text-sm font-medium">
- <Globe className="h-4 w-4"/> Passport Index.org
+ <a href="https://www.passportindex.org/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border hover:border-primary/50 hover:bg-primary/5 transition-all text-sm font-medium">
+ <Globe className="h-4 w-4" /> Passport Index.org
  </a>
  </div>
  </GlassCard>
- </div>
- );
-}
+ 
+      <ToolHowItWorks steps={[{
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
 
+      <ToolFeatureGuides features={[{
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
+        <div className="prose dark:prose-invert max-w-none">
+          <h3>Why Use Our Passport Power Index?</h3>
+          <p>
+            This free online tool is designed to help you get accurate results quickly and securely.
+            Whether you're a developer, designer, student, or professional, our Passport Power Index provides
+            the functionality you need without any complexity or cost.
+          </p>
+          <p>
+            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
+            privacy and zero latency. No data is ever transmitted to external servers, making it safe
+            for sensitive information.
+          </p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion faqs={[{
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
+
+      <RelatedTools currentToolUrl="/tools/travel/visa-index" max={6} />
+
+    </div></div>;
+}
 export default VisaIndexClient;

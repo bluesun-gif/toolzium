@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -11,6 +12,8 @@ import { Button } from"@/components/ui/button";
 import { Label } from"@/components/ui/label";
 import { RotateCcw, Trophy, Share2, Keyboard, Hexagon } from"lucide-react";
 import toast from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import { GlassCard } from"@/components/ui/glass-card";
 
 const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
 const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
@@ -147,9 +150,9 @@ export function Wordle6LetterClient() {
  if (guess) {
  letter = guess.word[j];
  state = guess.eval[j];
- if (state ==="correct") { bg ="bg-blue-600"; text ="text-white"; border ="border-blue-600"; }
- else if (state ==="present") { bg ="bg-orange-500"; text ="text-white"; border ="border-orange-500"; }
- else { bg ="bg-zinc-500"; text ="text-white"; border ="border-zinc-500"; }
+ if (state ==="correct") { bg ="bg-blue-600"; text ="text-primary-foreground"; border ="border-blue-600"; }
+ else if (state ==="present") { bg ="bg-orange-500"; text ="text-primary-foreground"; border ="border-orange-500"; }
+ else { bg ="bg-zinc-500"; text ="text-primary-foreground"; border ="border-zinc-500"; }
  } else if (isCurrent && current[j]) {
  letter = current[j];
  state ="tbd";
@@ -158,6 +161,8 @@ export function Wordle6LetterClient() {
  
  return (
  <div key={j} className={`w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-xl font-bold border-2 ${border} ${bg} ${text} transition-all duration-300`}>
+      <ToolBackground />
+
  {letter.toUpperCase()}
  </div>
  );
@@ -171,7 +176,7 @@ export function Wordle6LetterClient() {
  const renderKeyboard = () => {
  const rows = ["qwertyuiop","asdfghjkl","zxcvbnm"];
  return (
- <div className="flex flex-col gap-1.5 mt-6">
+      <div className="relative flex flex-col gap-1.5 mt-6">
  {rows.map((row, i) => (
  <div key={i} className="flex justify-center gap-1">
  {i === 2 && <Button variant="outline"size="sm"className="px-2 text-xs"onClick={() => setCurrent("")}>Enter</Button>}
@@ -179,8 +184,8 @@ export function Wordle6LetterClient() {
  const state = keyStates[k];
  let bg ="bg-muted";
  let text ="text-foreground";
- if (state ==="correct") { bg ="bg-blue-600"; text ="text-white"; }
- else if (state ==="present") { bg ="bg-orange-500"; text ="text-white"; }
+ if (state ==="correct") { bg ="bg-blue-600"; text ="text-primary-foreground"; }
+ else if (state ==="present") { bg ="bg-orange-500"; text ="text-primary-foreground"; }
  else if (state ==="absent") { bg ="bg-zinc-700"; text ="text-zinc-400"; }
  return <Button key={k} variant="outline"size="sm"className={`${bg} ${text} border-none min-w-[2rem] px-2`} onClick={() => current.length < 6 && setCurrent(c => c + k)}>{k.toUpperCase()}</Button>;
  })}
@@ -195,7 +200,7 @@ export function Wordle6LetterClient() {
  <div className="max-w-6xl mx-auto space-y-8">
  <ToolPageHeader icon={Hexagon} title="6-Letter Wordle"description="Step up the challenge with our 6-letter word puzzle featuring 7 attempts and extended vocabulary."/>
  
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <div className="flex justify-between items-center w-full">
  <CardTitle className={titleClass}><Hexagon className="w-4 h-4"/> 6-Letter Challenge</CardTitle>
@@ -212,7 +217,7 @@ export function Wordle6LetterClient() {
  <div className="flex flex-col gap-1">{renderGrid()}</div>
  {renderKeyboard()}
  </CardContent>
- </Card>
+ </GlassCard>
 
  {showStats && (
  <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4"onClick={() => setShowStats(false)}>
@@ -228,7 +233,7 @@ export function Wordle6LetterClient() {
  {stats.dist.map((count, i) => (
  <div key={i} className="flex items-center gap-2 text-xs">
  <span className="w-4 text-right">{i + 1}</span>
- <div className="flex-1 bg-muted rounded-sm h-5 flex items-center justify-end px-2 text-white font-bold"style={{ width: `${Math.max(10, (count / Math.max(...stats.dist, 1)) * 100)}%`, backgroundColor: won && guesses.length === i + 1 ?"#2563eb":"#6b7280"}}>{count}</div>
+ <div className="flex-1 bg-muted rounded-sm h-5 flex items-center justify-end px-2 text-primary-foreground font-bold"style={{ width: `${Math.max(10, (count / Math.max(...stats.dist, 1)) * 100)}%`, backgroundColor: won && guesses.length === i + 1 ?"#2563eb":"#6b7280"}}>{count}</div>
  </div>
  ))}
  </div>
@@ -266,7 +271,7 @@ export function Wordle6LetterClient() {
  { question:"What do the blue and orange colors mean?", answer:"Blue replaces the traditional Green to indicate a letter is in the correct spot. Orange replaces Yellow to indicate the letter is in the word but in the wrong spot."}
  ]} />
 
- <RelatedTools currentToolUrl="/tools/fun/wordle-6letter"max={6} />
+ <RelatedTools currentToolUrl="/tools/fun/wordle-6letter" max={6} />
  </div>
  );
 }

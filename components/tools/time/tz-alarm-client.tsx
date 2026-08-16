@@ -1,7 +1,11 @@
 "use client";
+<<<<<<< HEAD
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+=======
+import { ToolBackground } from"@/components/shared/tool-background";
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -13,8 +17,14 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Switch } from"@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { Clock, Globe, Bell, Trash2 } from"lucide-react";
+import { Clock, Globe, Bell, Trash2, Sparkles, Shield, Zap, Copy } from"lucide-react";
 import { toast } from"react-hot-toast";
+import { GridPattern } from"@/components/magicui/grid-pattern";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import { RelatedTools } from"@/components/shared/related-tools";
+import { cn } from"@/lib/utils";
 
 type Alarm = {
  id: string;
@@ -137,7 +147,9 @@ export function TzAlarmClient() {
  };
 
  return (
- <div className="space-y-6">
+      <div className="relative space-y-6">
+      <ToolBackground />
+
  <ToolPageHeader
  title="Timezone Alarm"
  description="Set alarms across different timezones reliably."
@@ -194,7 +206,7 @@ export function TzAlarmClient() {
  ) : (
  <div className="space-y-4">
  {alarms.map(alarm => (
- <div key={alarm.id} className={"flex items-center justify-between rounded-lg border p-4"+ (alarm.active ?"bg-card":"bg-muted/50 opacity-70")}>
+ <div key={alarm.id} className={cn("flex items-center justify-between rounded-lg border p-4", (alarm.active ?"bg-card":"bg-muted/50 opacity-70"))}>
  <div className="flex flex-col">
  <span className="text-2xl font-bold">{alarm.time}</span>
  <span className="text-sm font-medium">{alarm.label}</span>
@@ -298,7 +310,85 @@ export function TzAlarmClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+      <ToolHowItWorks
+        steps={[
+          {
+            step: "01",
+            title: "Input Your Data",
+            description: "Enter your information in the input field above and configure any options.",
+            icon: Sparkles,
+          },
+          {
+            step: "02",
+            title: "Process & Generate",
+            description: "The tool processes your input instantly and displays the results.",
+            icon: Zap,
+          },
+          {
+            step: "03",
+            title: "Copy & Use",
+            description: "Copy the output with one click and use it wherever you need.",
+            icon: Copy,
+          },
+        ]}
+        badges={["100% Free", "Instant Results", "Privacy-First"]}
+      />
+
+      <ToolFeatureGuides
+        features={[
+          {
+            icon: Sparkles,
+            title: "Lightning Fast",
+            description: "Get results in milliseconds with our optimized client-side processing engine.",
+          },
+          {
+            icon: Shield,
+            title: "Completely Private",
+            description: "All processing happens in your browser. Your data never leaves your device.",
+          },
+          {
+            icon: Zap,
+            title: "No Signup Required",
+            description: "Use this tool instantly without creating an account or providing any personal information.",
+          },
+        ]}
+      >
+        <div className="prose dark:prose-invert max-w-none">
+          <h3>Why Use Our Timezone Alarm?</h3>
+          <p>
+            This free online tool is designed to help you get accurate results quickly and securely.
+            Whether you're a developer, designer, student, or professional, our Timezone Alarm provides
+            the functionality you need without any complexity or cost.
+          </p>
+          <p>
+            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
+            privacy and zero latency. No data is ever transmitted to external servers, making it safe
+            for sensitive information.
+          </p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion
+        faqs={[
+          {
+            question: "Is this tool free to use?",
+            answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits.",
+          },
+          {
+            question: "Is my data secure?",
+            answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server.",
+          },
+          {
+            question: "Do I need to create an account?",
+            answer: "No account or registration is required. Simply open the tool and start using it immediately.",
+          },
+        ]}
+      />
+
+      <RelatedTools currentToolUrl="/tools/time/tz-alarm" max={6} />
+
+</div>
  );
 }
 

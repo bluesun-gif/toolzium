@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import {
  Clock,
@@ -42,6 +43,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { Separator } from"@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from"@/components/ui/tabs";
 import { TooltipProvider } from"@/components/ui/tooltip";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 
 export default function JwtDecoderClient() {
  const [token, setToken] = useState<string>("");
@@ -62,7 +64,7 @@ export default function JwtDecoderClient() {
  const tokenRef = useRef<HTMLTextAreaElement | null>(null);
 
  useEffect(() => {
- if (typeof window ==="undefined") return;
+  // Client-only effect
  const sp = new URLSearchParams(window.location.search);
  const t = sp.get("token");
  if (t) {
@@ -207,7 +209,9 @@ export default function JwtDecoderClient() {
  }
 
  return (
- <div className="max-w-6xl mx-auto space-y-8">
+      <div className="relative max-w-6xl mx-auto space-y-8">
+      <ToolBackground />
+
  <TooltipProvider>
  <ToolPageHeader
  icon={FileJson}
@@ -703,7 +707,7 @@ export default function JwtDecoderClient() {
  },
  ]}
  />
- <RelatedTools currentToolUrl="/tools/dev/jwt-decode"max={6} />
+ <RelatedTools currentToolUrl="/tools/dev/jwt-decode" max={6} />
  </div>
  );
 }

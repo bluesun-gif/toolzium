@@ -1,28 +1,28 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
-import React, { useState, useMemo, useCallback } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import { RelatedTools } from"@/components/shared/related-tools";
-import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
-import { Button } from"@/components/ui/button";
-import { Input } from"@/components/ui/input";
-import { Label } from"@/components/ui/label";
-import { Copy, RotateCcw, Database, Code2, Settings } from"lucide-react";
-import toast from"react-hot-toast";
-
-const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
-const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
-const titleClass ="text-xs sm:text-sm font-semibold flex items-center gap-2";
-const textareaClass ="w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50 font-mono";
-
+import React, { useState, useMemo, useCallback } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Copy, RotateCcw, Database, Code2, Settings } from "lucide-react";
+import toast from "react-hot-toast";
+import { GridPattern } from "@/components/magicui/grid-pattern";
+import { GlassCard } from "@/components/ui/glass-card";
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
+const textareaClass = "w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50 font-mono";
 const handleCopy = (text: string) => {
- navigator.clipboard.writeText(text);
- toast.success("Copied to clipboard!");
+  navigator.clipboard.writeText(text);
+  toast.success("Copied to clipboard!");
 };
-
 const SAMPLE_SQL = `CREATE TABLE users (
  id SERIAL PRIMARY KEY,
  email VARCHAR(255) UNIQUE NOT NULL,
@@ -35,174 +35,164 @@ CREATE TABLE profiles (
  bio TEXT,
  age INT
 );`;
-
 export function SqlToPrismaClient() {
- const [sqlInput, setSqlInput] = useState(SAMPLE_SQL);
- const [provider, setProvider] = useState("postgresql");
- const [mapSnake, setMapSnake] = useState(true);
+  const [sqlInput, setSqlInput] = useState(SAMPLE_SQL);
+  const [provider, setProvider] = useState("postgresql");
+  const [mapSnake, setMapSnake] = useState(true);
+  const capitalize = (s: string): string => s.charAt(0).toUpperCase() + s.slice(1).replace(/s$/, "");
+  const mapSqlType = (sqlType: string): string => {
+    const t = sqlType.toUpperCase();
+    if (t.includes("INT") || t.includes("SERIAL")) return t.includes("BIG") ? "BigInt" : "Int";
+    if (t.includes("VARCHAR") || t.includes("TEXT") || t.includes("CHAR")) return "String";
+    if (t.includes("BOOL")) return "Boolean";
+    if (t.includes("TIME") || t.includes("DATE")) return "DateTime";
+    if (t.includes("FLOAT") || t.includes("DECIMAL") || t.includes("REAL") || t.includes("NUMERIC")) return "Float";
+    if (t.includes("JSON")) return "Json";
+    if (t.includes("UUID")) return "String @db.Uuid";
+    return "String";
+  };
+  const parseSql = useCallback((sql: string) => {
+    const models: string[] = [];
+    let modelCount = 0;
+    let fieldCount = 0;
+    let relationCount = 0;
+    const tableRegex = /CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?[`"']?(\w+)[`"']?\s*\(([\s\S]*?)\)(?:\s*ENGINE\s*=\s*\w+)?;?/gi;
+    let match;
+    while ((match = tableRegex.exec(sql)) !== null) {
+      const rawTableName = match[1];
+      const modelName = capitalize(rawTableName);
+      const body = match[2];
+      modelCount++;
+      const fields: string[] = [];
+      const relations: string[] = [];
+      const indexes: string[] = [];
+      const lines = body.split(",").map(l => l.trim()).filter(l => l.length > 0);
+      for (const line of lines) {
+        const upperLine = line.toUpperCase();
+        if (upperLine.startsWith("PRIMARY KEY") || upperLine.startsWith("FOREIGN KEY") || upperLine.startsWith("UNIQUE") || upperLine.startsWith("INDEX") || upperLine.startsWith("KEY") || upperLine.startsWith("CONSTRAINT")) {
+          if (upperLine.includes("FOREIGN KEY")) {
+            const fkMatch = line.match(/FOREIGN\s+KEY\s*\((\w+)\)\s*REFERENCES\s+[`"']?(\w+)[`"']?\s*\((\w+)\)/i);
+            if (fkMatch) {
+              const col = fkMatch[1];
+              const refTable = capitalize(fkMatch[2]);
+              relationCount++;
+              relations.push(` ${col.replace(/_id$/i, "")} ${refTable} @relation(fields: [${col}], references: [${fkMatch[3]}])`);
+            }
+          }
+          continue;
+        }
+        const parts = line.replace(/^\s+|\s+$/g, "").split(/\s+/);
+        if (parts.length < 2) continue;
+        let colName = parts[0].replace(/[`"']/g, "");
+        let sqlType = parts[1].replace(/\(.*\)/, "");
+        let isPK = upperLine.includes("PRIMARY KEY");
+        let isUnique = upperLine.includes("UNIQUE");
+        let isNotNull = upperLine.includes("NOT NULL") || isPK;
+        let defaultVal = "";
+        const defMatch = line.match(/DEFAULT\s+([^,\s]+)/i);
+        if (defMatch) {
+          let val = defMatch[1];
+          if (val.toUpperCase() === "CURRENT_TIMESTAMP" || val.toUpperCase() === "NOW()") {
+            defaultVal = "@default(now())";
+          } else if (val.toUpperCase() === "TRUE" || val.toUpperCase() === "FALSE") {
+            defaultVal = `@default(${val.toLowerCase()})`;
+          } else if (!isNaN(Number(val))) {
+            defaultVal = `@default(${val})`;
+          } else {
+            defaultVal = `@default("${val.replace(/['"]/g, "")}")`;
+          }
+        }
+        if (colName.toLowerCase() === "created_at" && !defaultVal) defaultVal = "@default(now())";
+        if (colName.toLowerCase() === "updated_at") defaultVal = "@updatedAt";
+        let prismaType = mapSqlType(sqlType);
+        let attrs = "";
+        if (isPK) attrs += "@id";
+        if (upperLine.includes("AUTO_INCREMENT") || sqlType.toUpperCase().includes("SERIAL")) attrs += "@default(autoincrement())";
+        if (isUnique && !isPK) attrs += "@unique";
+        if (defaultVal) attrs += ` ${defaultVal}`;
+        if (!isNotNull && !isPK) prismaType += "?";
+        let mapAttr = "";
+        if (mapSnake && colName.includes("_")) {
+          mapAttr = ` @map("${colName}")`;
+          colName = colName.replace(/_([a-z])/g, g => g[1].toUpperCase());
+        }
+        fieldCount++;
+        fields.push(` ${colName} ${prismaType}${attrs}${mapAttr}`);
+      }
+      let modelMap = "";
+      if (mapSnake && rawTableName.includes("_")) {
+        modelMap = `\n @@map("${rawTableName}")`;
+      }
+      const allLines = [...fields, ...relations, ...indexes].join("\n");
+      models.push(`model ${modelName} {\n${allLines}${modelMap}\n}`);
+    }
+    return {
+      code: models.join("\n\n"),
+      models: modelCount,
+      fields: fieldCount,
+      relations: relationCount
+    };
+  }, [mapSnake]);
+  const result = useMemo(() => parseSql(sqlInput), [sqlInput, parseSql]);
+  const howItWorksSteps = [{
+    step: "01",
+    title: "Input SQL Schema",
+    description: "Paste your raw SQL CREATE TABLE statements, including foreign keys, indexes, and constraints.",
+    icon: Database
+  }, {
+    step: "02",
+    title: "Configure Mapping",
+    description: "Select your database provider and toggle automatic snake_case to camelCase field mapping with @map() directives.",
+    icon: Settings
+  }, {
+    step: "03",
+    title: "Generate Prisma Models",
+    description: "Instantly receive a fully formatted schema.prisma file with relations, defaults, and type mappings ready for prisma generate.",
+    icon: Code2
+  }];
+  const features = [{
+    icon: Database,
+    title: "Multi-Provider Support",
+    description: "Generates syntax compatible with PostgreSQL, MySQL, SQLite, and SQL Server database providers."
+  }, {
+    icon: Code2,
+    title: "Automatic Relation Mapping",
+    description: "Detects FOREIGN KEY constraints and translates them into Prisma @relation directives with proper field references."
+  }, {
+    icon: Settings,
+    title: "Smart Case Conversion",
+    description: "Automatically converts snake_case SQL columns to camelCase Prisma fields while preserving the original name via @map()."
+  }, {
+    icon: RotateCcw,
+    title: "Default & Constraint Parsing",
+    description: "Accurately maps PRIMARY KEY, UNIQUE, NOT NULL, and DEFAULT values (including CURRENT_TIMESTAMP) to Prisma attributes."
+  }];
+  const faqs = [{
+    question: "Does this support multi-table SQL dumps?",
+    answer: "Yes, the parser uses a global regex to identify multiple CREATE TABLE blocks within a single SQL string and generates a corresponding Prisma model for each."
+  }, {
+    question: "How are foreign keys handled?",
+    answer: "The tool detects FOREIGN KEY ... REFERENCES syntax and creates a Prisma relation field, linking the models together using the @relation attribute."
+  }, {
+    question: "What happens to snake_case column names?",
+    answer: "If the snake_case mapping toggle is enabled, columns like 'user_id' are converted to 'userId' in Prisma, with an @map(\"user_id\") attribute added to maintain database compatibility."
+  }];
+  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+      
 
- const capitalize = (s: string): string => s.charAt(0).toUpperCase() + s.slice(1).replace(/s$/,"");
- 
- const mapSqlType = (sqlType: string): string => {
- const t = sqlType.toUpperCase();
- if (t.includes("INT") || t.includes("SERIAL")) return t.includes("BIG") ?"BigInt":"Int";
- if (t.includes("VARCHAR") || t.includes("TEXT") || t.includes("CHAR")) return"String";
- if (t.includes("BOOL")) return"Boolean";
- if (t.includes("TIME") || t.includes("DATE")) return"DateTime";
- if (t.includes("FLOAT") || t.includes("DECIMAL") || t.includes("REAL") || t.includes("NUMERIC")) return"Float";
- if (t.includes("JSON")) return"Json";
- if (t.includes("UUID")) return"String @db.Uuid";
- return"String";
- };
-
- const parseSql = useCallback((sql: string) => {
- const models: string[] = [];
- let modelCount = 0;
- let fieldCount = 0;
- let relationCount = 0;
-
- const tableRegex = /CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?[`"']?(\w+)[`"']?\s*\(([\s\S]*?)\)(?:\s*ENGINE\s*=\s*\w+)?;?/gi;
- let match;
-
- while ((match = tableRegex.exec(sql)) !== null) {
- const rawTableName = match[1];
- const modelName = capitalize(rawTableName);
- const body = match[2];
- modelCount++;
- 
- const fields: string[] = [];
- const relations: string[] = [];
- const indexes: string[] = [];
- 
- const lines = body.split(",").map((l) => l.trim()).filter((l) => l.length > 0);
- 
- for (const line of lines) {
- const upperLine = line.toUpperCase();
- 
- if (upperLine.startsWith("PRIMARY KEY") || upperLine.startsWith("FOREIGN KEY") || upperLine.startsWith("UNIQUE") || upperLine.startsWith("INDEX") || upperLine.startsWith("KEY") || upperLine.startsWith("CONSTRAINT")) {
- if (upperLine.includes("FOREIGN KEY")) {
- const fkMatch = line.match(/FOREIGN\s+KEY\s*\((\w+)\)\s*REFERENCES\s+[`"']?(\w+)[`"']?\s*\((\w+)\)/i);
- if (fkMatch) {
- const col = fkMatch[1];
- const refTable = capitalize(fkMatch[2]);
- relationCount++;
- relations.push(` ${col.replace(/_id$/i,"")} ${refTable} @relation(fields: [${col}], references: [${fkMatch[3]}])`);
- }
- }
- continue;
- }
-
- const parts = line.replace(/^\s+|\s+$/g,"").split(/\s+/);
- if (parts.length < 2) continue;
- 
- let colName = parts[0].replace(/[`"']/g,"");
- let sqlType = parts[1].replace(/\(.*\)/,"");
- let isPK = upperLine.includes("PRIMARY KEY");
- let isUnique = upperLine.includes("UNIQUE");
- let isNotNull = upperLine.includes("NOT NULL") || isPK;
- let defaultVal ="";
- 
- const defMatch = line.match(/DEFAULT\s+([^,\s]+)/i);
- if (defMatch) {
- let val = defMatch[1];
- if (val.toUpperCase() ==="CURRENT_TIMESTAMP"|| val.toUpperCase() ==="NOW()") {
- defaultVal ="@default(now())";
- } else if (val.toUpperCase() ==="TRUE"|| val.toUpperCase() ==="FALSE") {
- defaultVal = `@default(${val.toLowerCase()})`;
- } else if (!isNaN(Number(val))) {
- defaultVal = `@default(${val})`;
- } else {
- defaultVal = `@default("${val.replace(/['"]/g,"")}")`;
- }
- }
-
- if (colName.toLowerCase() ==="created_at"&& !defaultVal) defaultVal ="@default(now())";
- if (colName.toLowerCase() ==="updated_at") defaultVal ="@updatedAt";
-
- let prismaType = mapSqlType(sqlType);
- 
- let attrs ="";
- if (isPK) attrs +="@id";
- if (upperLine.includes("AUTO_INCREMENT") || sqlType.toUpperCase().includes("SERIAL")) attrs +="@default(autoincrement())";
- if (isUnique && !isPK) attrs +="@unique";
- if (defaultVal) attrs += ` ${defaultVal}`;
- 
- if (!isNotNull && !isPK) prismaType +="?";
- 
- let mapAttr ="";
- if (mapSnake && colName.includes("_")) {
- mapAttr = ` @map("${colName}")`;
- colName = colName.replace(/_([a-z])/g, (g) => g[1].toUpperCase());
- }
-
- fieldCount++;
- fields.push(` ${colName} ${prismaType}${attrs}${mapAttr}`);
- }
-
- let modelMap ="";
- if (mapSnake && rawTableName.includes("_")) {
- modelMap = `\n @@map("${rawTableName}")`;
- }
-
- const allLines = [...fields, ...relations, ...indexes].join("\n");
- models.push(`model ${modelName} {\n${allLines}${modelMap}\n}`);
- }
-
- return { code: models.join("\n\n"), models: modelCount, fields: fieldCount, relations: relationCount };
- }, [mapSnake]);
-
- const result = useMemo(() => parseSql(sqlInput), [sqlInput, parseSql]);
-
- const howItWorksSteps = [
- { step:"01", title:"Input SQL Schema", description:"Paste your raw SQL CREATE TABLE statements, including foreign keys, indexes, and constraints.", icon: Database },
- { step:"02", title:"Configure Mapping", description:"Select your database provider and toggle automatic snake_case to camelCase field mapping with @map() directives.", icon: Settings },
- { step:"03", title:"Generate Prisma Models", description:"Instantly receive a fully formatted schema.prisma file with relations, defaults, and type mappings ready for prisma generate.", icon: Code2 },
- ];
-
- const features = [
- { icon: Database, title:"Multi-Provider Support", description:"Generates syntax compatible with PostgreSQL, MySQL, SQLite, and SQL Server database providers."},
- { icon: Code2, title:"Automatic Relation Mapping", description:"Detects FOREIGN KEY constraints and translates them into Prisma @relation directives with proper field references."},
- { icon: Settings, title:"Smart Case Conversion", description:"Automatically converts snake_case SQL columns to camelCase Prisma fields while preserving the original name via @map()."},
- { icon: RotateCcw, title:"Default & Constraint Parsing", description:"Accurately maps PRIMARY KEY, UNIQUE, NOT NULL, and DEFAULT values (including CURRENT_TIMESTAMP) to Prisma attributes."},
- ];
-
- const faqs = [
- { question:"Does this support multi-table SQL dumps?", answer:"Yes, the parser uses a global regex to identify multiple CREATE TABLE blocks within a single SQL string and generates a corresponding Prisma model for each."},
- { question:"How are foreign keys handled?", answer:"The tool detects FOREIGN KEY ... REFERENCES syntax and creates a Prisma relation field, linking the models together using the @relation attribute."},
- { question:"What happens to snake_case column names?", answer:"If the snake_case mapping toggle is enabled, columns like 'user_id' are converted to 'userId' in Prisma, with an @map(\"user_id\") attribute added to maintain database compatibility."},
- ];
-
-
-
- return (
- <div className="max-w-6xl mx-auto space-y-8">
- <ToolPageHeader
- icon={Database}
- title="SQL to Prisma Schema Converter"
- description="Translate raw SQL CREATE TABLE statements into clean, typed Prisma ORM models with automatic relation and constraint mapping."
- />
+ <ToolPageHeader icon={Database} title="SQL to Prisma Schema Converter" description="Translate raw SQL CREATE TABLE statements into clean, typed Prisma ORM models with automatic relation and constraint mapping." />
 
  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
- <CardTitle className={titleClass}><Database className="w-4 h-4"/> SQL Input</CardTitle>
+ <CardTitle className={titleClass}><Database className="w-4 h-4" /> SQL Input</CardTitle>
  </CardHeader>
  <CardContent className="p-4 space-y-4">
- <textarea
- className={textareaClass}
- rows={14}
- value={sqlInput}
- onChange={(e) => setSqlInput(e.target.value)}
- placeholder="Paste CREATE TABLE SQL here..."
- />
+ <textarea className={textareaClass} rows={14} value={sqlInput} onChange={e => setSqlInput(e.target.value)} placeholder="Paste CREATE TABLE SQL here..." />
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-1">
  <Label className="text-xs">Provider</Label>
- <select 
- className="w-full rounded-lg border border-border/70 bg-background/80 p-2 text-sm outline-none focus:ring-2 focus:ring-primary/50"
- value={provider} 
- onChange={(e) => setProvider(e.target.value)}
- >
+ <select className="w-full rounded-lg border border-border/70 bg-background/80 p-2 text-sm outline-none focus:ring-2 focus:ring-primary/50" value={provider} onChange={e => setProvider(e.target.value)}>
  <option value="postgresql">PostgreSQL</option>
  <option value="mysql">MySQL</option>
  <option value="sqlite">SQLite</option>
@@ -210,19 +200,19 @@ export function SqlToPrismaClient() {
  </select>
  </div>
  <div className="flex items-center gap-2 pt-6">
- <input type="checkbox"id="snake"checked={mapSnake} onChange={(e) => setMapSnake(e.target.checked)} className="rounded border-border"/>
- <Label htmlFor="snake"className="text-xs cursor-pointer">Map snake_case → camelCase</Label>
+ <input type="checkbox" id="snake" checked={mapSnake} onChange={e => setMapSnake(e.target.checked)} className="rounded border-border" />
+ <Label htmlFor="snake" className="text-xs cursor-pointer">Map snake_case → camelCase</Label>
  </div>
  </div>
  </CardContent>
- </Card>
+ </GlassCard>
 
- <Card className={cardClass}>
+ <GlassCard>
  <CardHeader className={headerClass}>
  <div className="flex items-center justify-between w-full">
- <CardTitle className={titleClass}><Code2 className="w-4 h-4"/> Prisma Output</CardTitle>
- <Button variant="ghost"size="sm"onClick={() => handleCopy(result.code)} className="h-7 px-2 text-xs">
- <Copy className="w-3 h-3 mr-1"/> Copy
+ <CardTitle className={titleClass}><Code2 className="w-4 h-4" /> Prisma Output</CardTitle>
+ <Button variant="ghost" size="sm" onClick={() => handleCopy(result.code)} className="h-7 px-2 text-xs">
+ <Copy className="w-3 h-3 mr-1" /> Copy
  </Button>
  </div>
  </CardHeader>
@@ -233,13 +223,13 @@ export function SqlToPrismaClient() {
  <span>{result.relations} Relations</span>
  </div>
  <pre className="w-full rounded-lg border border-border/70 bg-background p-4 text-xs text-cyan-400 overflow-x-auto h-80 leading-relaxed font-mono">
- {result.code ||"// No valid CREATE TABLE statements found."}
+ {result.code || "// No valid CREATE TABLE statements found."}
  </pre>
  </CardContent>
- </Card>
+ </GlassCard>
  </div>
 
- <ToolHowItWorks steps={howItWorksSteps} badges={["100% Free","Client-Side Parsing","Prisma v5+ Ready"]} />
+ <ToolHowItWorks steps={howItWorksSteps} badges={["100% Free", "Client-Side Parsing", "Prisma v5+ Ready"]} />
  
  <ToolFeatureGuides features={features}>
  <div className="prose prose-invert max-w-none mt-8">
@@ -251,9 +241,7 @@ export function SqlToPrismaClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={faqs} />
- <RelatedTools currentToolUrl="/tools/dev/sql-to-prisma"/>
- </div>
- );
+ <RelatedTools currentToolUrl="/tools/dev/sql-to-prisma" />
+ </div></div>;
 }
-
 export default SqlToPrismaClient;

@@ -1,4 +1,5 @@
 "use client";
+import { ToolBackground } from"@/components/shared/tool-background";
 
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
 import InputField from"@/components/shared/form-fields/input-field";
@@ -36,6 +37,7 @@ import {
 } from"lucide-react";
 import type * as React from"react";
 import { useEffect, useMemo, useState } from"react";
+import { GridPattern } from"@/components/magicui/grid-pattern";
 
 /* Types */
 type Mode ="countdown"|"pomodoro"|"event";
@@ -392,7 +394,9 @@ export default function CountdownTimerClient() {
  ];
 
  return (
- <div className="max-w-6xl mx-auto space-y-8">
+      <div className="relative max-w-6xl mx-auto space-y-8">
+      <ToolBackground />
+
  {/* Header */}
  <ToolPageHeader
  icon={AlarmClock}
@@ -768,7 +772,7 @@ export default function CountdownTimerClient() {
  },
  ]}
  />
- <RelatedTools currentToolUrl="/tools/time/countdown-timer"max={6} />
+ <RelatedTools currentToolUrl="/tools/time/countdown-timer" max={6} />
  </div>
  );
 }

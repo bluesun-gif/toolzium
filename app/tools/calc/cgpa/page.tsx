@@ -1,45 +1,32 @@
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import CgpaCalculatorClient from "@/components/tools/calc/cgpa-calculator-client";
+<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 import RelatedTools from "@/components/shared/related-tools";
+=======
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 
 export const metadata = buildMetadata({
   title: "CGPA Calculator",
-  description: "Calculate your Cumulative Grade Point Average (CGPA) semester by semester or course by course.",
+  description: "Calculate Cumulative GPA across multiple semesters. Add semesters with GPA and credits, get CGPA with academic classification. Free CGPA calculator for students.",
   path: "/tools/calc/cgpa",
-  keywords: ["CGPA Calculator", "GPA Calculator", "college GPA", "university GPA", "Toolzium", "online tools"],
+  keywords: ["across", "cgpa", "credits", "calculate", "with", "cumulative", "academic", "semesters", "classification", "multiple"],
 });
 
 export default function Page() {
-  const toolUrl = `${siteURL}/tools/calc/cgpa`;
-  const appLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "CGPA Calculator — Toolzium",
-    url: toolUrl,
-    applicationCategory: "UtilitiesApplication",
-    operatingSystem: "Web",
-    isAccessibleForFree: true,
-    inLanguage: ["en"],
-    description: "Calculate your Cumulative Grade Point Average (CGPA) semester by semester or course by course.",
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-    featureList: ["Add multiple semesters", "Calculate CGPA", "Course by course calculation", "Visual result"],
-    creator: { "@type": "Organization", name: "Toolzium", url: "https://toolzium.com" },
-  };
-  const crumbsLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Tools", item: `${siteURL}/tools` },
-      { "@type": "ListItem", position: 2, name: "Calculators", item: `${siteURL}/tools#cat-calculators` },
-      { "@type": "ListItem", position: 3, name: "CGPA Calculator", item: toolUrl },
-    ],
-  };
+  const jsonLd = buildToolJsonLd({
+    name: "CGPA Calculator",
+    description: "Calculate Cumulative GPA across multiple semesters. Add semesters with GPA and credits, get CGPA with academic classification. Free CGPA calculator for students.",
+    path: "/tools/calc/cgpa",
+    categoryName: "Calc",
+    categoryPath: "/tools/calc",
+  });
+
   return (
-    <div className="space-y-4">
-      <JsonLd data={appLd} />
-      <JsonLd data={crumbsLd} />
+    <div className="max-w-6xl mx-auto space-y-8">
+      <JsonLd data={jsonLd as any} />
       <CgpaCalculatorClient />
     
       <RelatedTools currentToolUrl="/tools/calc/cgpa" />

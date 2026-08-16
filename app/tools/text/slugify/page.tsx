@@ -1,126 +1,31 @@
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import SlugifyClient from "@/components/tools/text/slugify-client";
+<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+=======
+
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
-  title: "Slugify",
-  description:
-    "Create SEO-friendly slugs from text. Live/manual modes, delimiters, transliteration, stopwords, custom rules, casing, max length, and batch processing.",
+  title: "Slugify Text",
+  description: "Convert text into SEO-friendly URL slugs. Generate clean, lowercase, hyphenated slugs from any text. Perfect for creating blog URLs, file names, and web-safe identifiers.",
   path: "/tools/text/slugify",
-  keywords: [
-    "slugify",
-    "slug generator",
-    "SEO slug",
-    "URL slug",
-    "text to slug",
-    "create slug online",
-    "kebab-case",
-    "dash separated",
-    "underscore slug",
-    "no delimiter slug",
-    "lowercase slug",
-    "trim length slug",
-    "transliterate",
-    "remove diacritics",
-    "unicode to ascii",
-    "normalize accents",
-    "stopwords filter",
-    "custom replacements",
-    "find and replace rules",
-    "batch slugify",
-    "Toolzium",
-    "online tools",
-    "privacy friendly tools",
-    "Bangladesh",
-  ],
+  keywords: ["from", "into", "generate", "hyphenated", "convert", "slugs", "clean", "friendly", "lowercase", "text"],
 });
 
 export default function Page() {
-  const toolUrl = `${siteURL}/tools/text/slugify`;
-
-  const appLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "Slugify — Toolzium",
-    url: toolUrl,
-    applicationCategory: "UtilitiesApplication",
-    operatingSystem: "Web",
-    isAccessibleForFree: true,
-    inLanguage: ["en", "bn"],
-    description:
-      "Convert titles and phrases into clean, URL-safe slugs with live/manual modes, delimiter control, transliteration, stopwords, custom rules, casing, max length, and batch processing.",
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-    featureList: [
-      "Live & Manual modes for instant or controlled output",
-      "Delimiter options: dash (-), underscore (_), none (concat)",
-      "Casing controls: lowercase, preserve, or custom",
-      "Transliteration & diacritics removal (normalize to ASCII)",
-      "Stopwords filtering (remove common words)",
-      "Custom find → replace rules (regex/plain)",
-      "Max length trimming with smart word boundaries",
-      "Batch line-by-line slugify with copy/export",
-      "Unicode handling & whitespace normalization",
-      "Privacy-first: runs locally in your browser",
-    ],
-    creator: {
-      "@type": "Person",
-      name: "Toolzium",
-      url: "https://toolzium.com",
-    },
-    potentialAction: {
-      "@type": "CreateAction",
-      target: toolUrl,
-      name: "Generate an SEO-friendly slug",
-    },
-  };
-
-  const crumbsLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Tools", item: `${siteURL}/tools` },
-      { "@type": "ListItem", position: 2, name: "URL", item: `${siteURL}/tools#cat-text` },
-      { "@type": "ListItem", position: 3, name: "Slugify", item: toolUrl },
-    ],
-  };
-
-  const faqLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "What is a slug and why is it useful?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "A slug is the URL-friendly version of a title, typically lowercase with hyphens. It improves readability, consistency, and SEO.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Does it support transliteration and diacritics removal?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. Accented and non-ASCII characters can be normalized to ASCII, making slugs portable and safe across systems.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Can I process multiple slugs at once?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. Use batch mode to slugify line-by-line input and then copy or export the results.",
-        },
-      },
-    ],
-  };
+  const jsonLd = buildToolJsonLd({
+    name: "Slugify Text",
+    description: "Convert text into SEO-friendly URL slugs. Generate clean, lowercase, hyphenated slugs from any text. Perfect for creating blog URLs, file names, and web-safe identifiers.",
+    path: "/tools/text/slugify",
+    categoryName: "Text",
+    categoryPath: "/tools/text",
+  });
 
   return (
     <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={appLd} />
-      <JsonLd data={crumbsLd} />
-      <JsonLd data={faqLd} />
-
+      <JsonLd data={jsonLd as any} />
       <SlugifyClient />
     
       <RelatedTools currentToolUrl="/tools/text/slugify" />

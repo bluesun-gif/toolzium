@@ -1,123 +1,31 @@
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import ApiTesterClient from "@/components/tools/dev/api-tester-client";
+<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+=======
+
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
   title: "API Request Tester",
-  description:
-    "Test REST & GraphQL API endpoints online — like a mini Postman. Send GET, POST, PUT, DELETE requests with headers, body, and auth. View JSON responses, status, and timing.",
+  description: "Test REST API endpoints without Postman. Send GET, POST, PUT, DELETE requests with custom headers, body, and authentication. Free online API testing tool for developers.",
   path: "/tools/dev/api-tester",
-  keywords: [
-    "API tester",
-    "API request tester",
-    "test API online",
-    "REST client",
-    "GraphQL client",
-    "HTTP request tool",
-    "mini Postman",
-    "test endpoints",
-    "send GET POST PUT DELETE",
-    "API headers",
-    "API auth",
-    "JSON response viewer",
-    "developer tools",
-    "online API tester",
-    "Toolzium",
-    "Bangladesh",
-  ],
+  keywords: ["delete", "requests", "with", "endpoints", "without", "test", "postman", "headers", "post", "send", "custom", "rest"],
 });
 
 export default function Page() {
-  const toolUrl = `${siteURL}/tools/dev/api-tester`;
-
-  const appLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "API Request Tester — Toolzium",
-    url: toolUrl,
-    applicationCategory: "DeveloperApplication",
-    operatingSystem: "Web",
-    isAccessibleForFree: true,
-    inLanguage: ["en", "bn"],
-    description:
-      "Free online API request tester — send GET, POST, PUT, DELETE requests with headers, body, and authentication. View responses in JSON, XML, or raw text with status codes and timing.",
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-    featureList: [
-      "Send HTTP requests: GET, POST, PUT, PATCH, DELETE",
-      "Supports REST and GraphQL endpoints",
-      "Add custom headers, query params, and body (JSON, form, raw)",
-      "Authentication options (Bearer, Basic, API key)",
-      "JSON viewer with syntax highlighting",
-      "View response status, headers, and timing",
-      "Save and reuse requests",
-      "Export/Import requests (JSON format)",
-      "Dark/light mode",
-      "Works fully in browser, privacy-first",
-    ],
-    creator: {
-      "@type": "Person",
-      name: "Toolzium",
-      url: "https://toolzium.com",
-    },
-    potentialAction: {
-      "@type": "CommunicateAction",
-      target: toolUrl,
-      name: "Send API Request",
-    },
-  };
-
-  const crumbsLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Tools", item: `${siteURL}/tools` },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Developer",
-        item: `${siteURL}/tools#cat-developer`,
-      },
-      { "@type": "ListItem", position: 3, name: "API Request Tester", item: toolUrl },
-    ],
-  };
-
-  const faqLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "Does this support GraphQL queries?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. You can send GraphQL queries or mutations by selecting POST and providing a query body.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Can I add headers or authentication?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. You can add any custom headers and choose authentication options like Bearer tokens, Basic Auth, or API keys.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Is my request data stored?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "No. All requests are executed locally in your browser. Data is never stored on our servers.",
-        },
-      },
-    ],
-  };
+  const jsonLd = buildToolJsonLd({
+    name: "API Request Tester",
+    description: "Test REST API endpoints without Postman. Send GET, POST, PUT, DELETE requests with custom headers, body, and authentication. Free online API testing tool for developers.",
+    path: "/tools/dev/api-tester",
+    categoryName: "Dev",
+    categoryPath: "/tools/dev",
+  });
 
   return (
-    <div className="space-y-4">
-      <JsonLd data={appLd} />
-      <JsonLd data={crumbsLd} />
-      <JsonLd data={faqLd} />
-
+    <div className="max-w-6xl mx-auto space-y-8">
+      <JsonLd data={jsonLd as any} />
       <ApiTesterClient />
     
       <RelatedTools currentToolUrl="/tools/dev/api-tester" />

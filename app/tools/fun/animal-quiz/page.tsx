@@ -1,19 +1,41 @@
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import AnimalQuizClient from "@/components/tools/fun/animal-quiz-client";
+<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+=======
+
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
   title: "Animal Trivia Quiz | Toolzium",
   description: "Test your knowledge with a fun trivia quiz about animals across different categories.",
   path: "/tools/fun/animal-quiz",
-  keywords: ["animal quiz", "trivia", "fun quiz", "animal facts"],
+  keywords: ["across", "different", "with", "your", "categories", "knowledge", "animals", "test", "about", "trivia", "quiz"],
 });
 
 export default function Page() {
+<<<<<<< HEAD
   const toolUrl = `${siteURL}/tools/fun/animal-quiz`;
   const appLd = { "@context": "https://schema.org", "@type": "WebApplication", name: "Animal Trivia Quiz", url: toolUrl, description: "Test your knowledge with a fun trivia quiz about animals.", applicationCategory: "EntertainmentApplication", operatingSystem: "All", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" } };
   const crumbsLd = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: siteURL }, { "@type": "ListItem", position: 2, name: "Fun Tools", item: `${siteURL}/tools#cat-fun` }, { "@type": "ListItem", position: 3, name: "Animal Trivia Quiz", item: toolUrl }] };
   return (<div className="space-y-4"><JsonLd data={appLd} /><JsonLd data={crumbsLd} /><AnimalQuizClient />
       <RelatedTools currentToolUrl="/tools/fun/animal-quiz" />
 </div>);
+=======
+  const jsonLd = buildToolJsonLd({
+    name: "Animal Trivia Quiz",
+    description: "Test your knowledge with a fun trivia quiz about animals across different categories.",
+    path: "/tools/fun/animal-quiz",
+    categoryName: "Fun",
+    categoryPath: "/tools/fun",
+  });
+
+  return (
+    <div className="max-w-6xl mx-auto space-y-8">
+      <JsonLd data={jsonLd as any} />
+      <AnimalQuizClient />
+    </div>
+  );
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 }

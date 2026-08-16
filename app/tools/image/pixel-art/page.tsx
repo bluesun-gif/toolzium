@@ -35,10 +35,21 @@ export default function Page() {
     ]
   };
 
+
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      { "@type": "Question", name: "How does the Pixel Art Creator work?", acceptedAnswer: { "@type": "Answer", text: "Toolzium's Pixel Art Creator runs instantly in your browser. Simple pixel art drawing tool. Grid sizes 8x8 to 32x32. Color picker, pencil, eraser, fill tools. Undo/redo. Download as PNG. Preset color palettes. No sign-up or software installation required." } },
+      { "@type": "Question", name: "Is the Pixel Art Creator 100% free to use?", acceptedAnswer: { "@type": "Answer", text: "Yes, the Pixel Art Creator is 100% free with unlimited usage and no account required." } },
+      { "@type": "Question", name: "Is my data secure when using the Pixel Art Creator?", acceptedAnswer: { "@type": "Answer", text: "Yes, all processing occurs locally in your browser. Your data never leaves your device." } }
+    ]
+  };
   return (
     <div className="space-y-4">
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
+      <JsonLd data={faqLd} />
       <PixelArtClient />
     
       <RelatedTools currentToolUrl="/tools/image/pixel-art" />

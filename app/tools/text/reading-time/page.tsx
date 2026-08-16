@@ -1,48 +1,31 @@
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import ReadingTimeClient from "@/components/tools/text/reading-time-client";
+<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+=======
+
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
-  title: "Reading Time Calculator | Toolzium",
-  description: "Calculate reading and speaking time for any text, including word count and readability scores.",
+  title: "Reading Time Calculator",
+  description: "Estimate reading and speaking time for any text. Shows word count, sentence count, paragraph count, and Flesch-Kincaid readability score. Adjustable WPM for slow, average, and fast readers.",
   path: "/tools/text/reading-time",
-  keywords: ["reading time calculator", "speaking time", "word count", "readability score", "flesch-kincaid"],
+  keywords: ["shows", "time", "sentence", "estimate", "speaking", "count", "word", "paragraph", "reading", "text"],
 });
 
 export default function Page() {
-  const toolUrl = `${siteURL}/tools/text/reading-time`;
-  const appLd = { 
-    "@context": "https://schema.org", 
-    "@type": "WebApplication", 
-    name: "Reading Time Calculator", 
-    url: toolUrl, 
-    description: "Calculate reading and speaking time for any text, including word count and readability scores.", 
-    applicationCategory: "UtilitiesApplication", 
-    operatingSystem: "All", 
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" } 
-  };
-  const crumbsLd = { 
-    "@context": "https://schema.org", 
-    "@type": "BreadcrumbList", 
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: siteURL }, 
-      { "@type": "ListItem", position: 2, name: "Text Tools", item: `${siteURL}/tools#cat-text` }, 
-      { "@type": "ListItem", position: 3, name: "Reading Time Calculator", item: toolUrl }
-    ] 
-  };
-  const faqLd = { 
-    "@context": "https://schema.org", 
-    "@type": "FAQPage", 
-    mainEntity: [
-      { "@type": "Question", name: "How is reading time calculated?", acceptedAnswer: { "@type": "Answer", text: "Reading time is calculated based on the number of words in the text and the average reading speed." } }
-    ] 
-  };
-  
+  const jsonLd = buildToolJsonLd({
+    name: "Reading Time Calculator",
+    description: "Estimate reading and speaking time for any text. Shows word count, sentence count, paragraph count, and Flesch-Kincaid readability score. Adjustable WPM for slow, average, and fast readers.",
+    path: "/tools/text/reading-time",
+    categoryName: "Text",
+    categoryPath: "/tools/text",
+  });
+
   return (
     <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={appLd} />
-      <JsonLd data={crumbsLd} />
-      <JsonLd data={faqLd} />
+      <JsonLd data={jsonLd as any} />
       <ReadingTimeClient />
     
       <RelatedTools currentToolUrl="/tools/text/reading-time" />

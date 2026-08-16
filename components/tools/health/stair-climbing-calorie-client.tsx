@@ -1,4 +1,5 @@
 "use client";
+<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -14,95 +15,114 @@ import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { Activity, Calculator, ChevronsUp, Clock, Flame, Scale, TrendingUp } from"lucide-react";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
+=======
+import { ToolBackground } from"@/components/shared/tool-background";
+
+import React, { useState, useEffect } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Activity, Flame, Clock, Scale, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
+import { GridPattern } from "@/components/magicui/grid-pattern";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 
 // MET Values for different intensities
 const INTENSITIES = {
- slow: { label:"Slow Step Climbing (<50 steps/min)", met: 4.0, stepsPerMin: 40 },
- moderate: { label:"Moderate Pace (50-80 steps/min)", met: 8.8, stepsPerMin: 65 },
- fast: { label:"Fast Pace (80-120 steps/min)", met: 14.0, stepsPerMin: 100 },
- pack: { label:"Carrying Weight / Pack (e.g., 10-20lbs)", met: 9.0, stepsPerMin: 60 },
+  slow: {
+    label: "Slow Step Climbing (<50 steps/min)",
+    met: 4.0,
+    stepsPerMin: 40
+  },
+  moderate: {
+    label: "Moderate Pace (50-80 steps/min)",
+    met: 8.8,
+    stepsPerMin: 65
+  },
+  fast: {
+    label: "Fast Pace (80-120 steps/min)",
+    met: 14.0,
+    stepsPerMin: 100
+  },
+  pack: {
+    label: "Carrying Weight / Pack (e.g., 10-20lbs)",
+    met: 9.0,
+    stepsPerMin: 60
+  }
 };
-
 const STEPS_PER_FLIGHT = 16;
 const FEET_PER_FLIGHT = 10;
 const METERS_PER_FLIGHT = 3;
-
 export function StairClimbingCalorieClient() {
- const [weight, setWeight] = useState("150");
- const [weightUnit, setWeightUnit] = useState("lbs");
- const [inputType, setInputType] = useState("duration"); //"duration"or"flights"
- const [duration, setDuration] = useState("30");
- const [flights, setFlights] = useState("50");
- const [intensity, setIntensity] = useState("moderate");
- 
- const [results, setResults] = useState({
- calories: 0,
- met: 0,
- totalSteps: 0,
- elevationFt: 0,
- elevationM: 0,
- });
+  const [weight, setWeight] = useState("150");
+  const [weightUnit, setWeightUnit] = useState("lbs");
+  const [inputType, setInputType] = useState("duration"); //"duration"or"flights"
+  const [duration, setDuration] = useState("30");
+  const [flights, setFlights] = useState("50");
+  const [intensity, setIntensity] = useState("moderate");
+  const [results, setResults] = useState({
+    calories: 0,
+    met: 0,
+    totalSteps: 0,
+    elevationFt: 0,
+    elevationM: 0
+  });
+  const calculate = () => {
+    const w = parseFloat(weight);
+    if (isNaN(w) || w <= 0) return;
 
- const calculate = () => {
- const w = parseFloat(weight);
- if (isNaN(w) || w <= 0) return;
- 
- // Weight in kg
- const weightKg = weightUnit ==="lbs"? w * 0.453592 : w;
- 
- const selectedIntensity = INTENSITIES[intensity as keyof typeof INTENSITIES];
- let timeInMins = 0;
- let computedSteps = 0;
- let computedFlights = 0;
+    // Weight in kg
+    const weightKg = weightUnit === "lbs" ? w * 0.453592 : w;
+    const selectedIntensity = INTENSITIES[intensity as keyof typeof INTENSITIES];
+    let timeInMins = 0;
+    let computedSteps = 0;
+    let computedFlights = 0;
+    if (inputType === "duration") {
+      timeInMins = parseFloat(duration);
+      if (isNaN(timeInMins) || timeInMins <= 0) return;
+      computedSteps = timeInMins * selectedIntensity.stepsPerMin;
+      computedFlights = computedSteps / STEPS_PER_FLIGHT;
+    } else {
+      computedFlights = parseFloat(flights);
+      if (isNaN(computedFlights) || computedFlights <= 0) return;
+      computedSteps = computedFlights * STEPS_PER_FLIGHT;
+      timeInMins = computedSteps / selectedIntensity.stepsPerMin;
+    }
+    const metValue = selectedIntensity.met;
+    // Calories = MET * weight(kg) * time(hours)
+    const caloriesBurned = metValue * weightKg * (timeInMins / 60);
+    setResults({
+      calories: caloriesBurned,
+      met: metValue,
+      totalSteps: computedSteps,
+      elevationFt: computedFlights * FEET_PER_FLIGHT,
+      elevationM: computedFlights * METERS_PER_FLIGHT
+    });
+  };
+  useEffect(() => {
+    calculate();
+  }, [weight, weightUnit, inputType, duration, flights, intensity]);
+  const handleReset = () => {
+    setWeight("150");
+    setWeightUnit("lbs");
+    setInputType("duration");
+    setDuration("30");
+    setFlights("50");
+    setIntensity("moderate");
+  };
+  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+      
 
- if (inputType ==="duration") {
- timeInMins = parseFloat(duration);
- if (isNaN(timeInMins) || timeInMins <= 0) return;
- computedSteps = timeInMins * selectedIntensity.stepsPerMin;
- computedFlights = computedSteps / STEPS_PER_FLIGHT;
- } else {
- computedFlights = parseFloat(flights);
- if (isNaN(computedFlights) || computedFlights <= 0) return;
- computedSteps = computedFlights * STEPS_PER_FLIGHT;
- timeInMins = computedSteps / selectedIntensity.stepsPerMin;
- }
-
- const metValue = selectedIntensity.met;
- // Calories = MET * weight(kg) * time(hours)
- const caloriesBurned = metValue * weightKg * (timeInMins / 60);
-
- setResults({
- calories: caloriesBurned,
- met: metValue,
- totalSteps: computedSteps,
- elevationFt: computedFlights * FEET_PER_FLIGHT,
- elevationM: computedFlights * METERS_PER_FLIGHT,
- });
- };
-
- useEffect(() => {
- calculate();
- }, [weight, weightUnit, inputType, duration, flights, intensity]);
-
- const handleReset = () => {
- setWeight("150");
- setWeightUnit("lbs");
- setInputType("duration");
- setDuration("30");
- setFlights("50");
- setIntensity("moderate");
- };
-
- return (
- <div className="space-y-6">
- <ToolPageHeader
- icon={Activity}
- title="Stair Climbing Calorie Calculator"
- description="Estimate calories burned during your step workout or stairmaster session based on intensity and duration."
- actions={
- <ResetButton onClick={handleReset} label="Reset"/>
- }
- />
+ <ToolPageHeader icon={Activity} title="Stair Climbing Calorie Calculator" description="Estimate calories burned during your step workout or stairmaster session based on intensity and duration." actions={<ResetButton onClick={handleReset} label="Reset" />} />
 
  <div className="grid md:grid-cols-2 gap-6">
  <GlassCard>
@@ -113,13 +133,7 @@ export function StairClimbingCalorieClient() {
  <div className="space-y-2">
  <Label>Body Weight</Label>
  <div className="flex gap-2">
- <Input
- type="number"
- value={weight}
- onChange={(e) => setWeight(e.target.value)}
- placeholder="e.g. 150"
- className="flex-1"
- />
+ <Input type="number" value={weight} onChange={e => setWeight(e.target.value)} placeholder="e.g. 150" className="flex-1" />
  <Select value={weightUnit} onValueChange={setWeightUnit}>
  <SelectTrigger className="w-[100px]">
  <SelectValue />
@@ -139,9 +153,7 @@ export function StairClimbingCalorieClient() {
  <SelectValue />
  </SelectTrigger>
  <SelectContent>
- {Object.entries(INTENSITIES).map(([key, val]) => (
- <SelectItem key={key} value={key}>{val.label}</SelectItem>
- ))}
+ {Object.entries(INTENSITIES).map(([key, val]) => <SelectItem key={key} value={key}>{val.label}</SelectItem>)}
  </SelectContent>
  </Select>
  </div>
@@ -159,27 +171,13 @@ export function StairClimbingCalorieClient() {
  </Select>
  </div>
 
- {inputType ==="duration"? (
- <div className="space-y-2">
+ {inputType === "duration" ? <div className="space-y-2">
  <Label>Duration (Minutes)</Label>
- <Input
- type="number"
- value={duration}
- onChange={(e) => setDuration(e.target.value)}
- placeholder="e.g. 30"
- />
- </div>
- ) : (
- <div className="space-y-2">
+ <Input type="number" value={duration} onChange={e => setDuration(e.target.value)} placeholder="e.g. 30" />
+ </div> : <div className="space-y-2">
  <Label>Total Flights (1 flight = 16 steps)</Label>
- <Input
- type="number"
- value={flights}
- onChange={(e) => setFlights(e.target.value)}
- placeholder="e.g. 50"
- />
- </div>
- )}
+ <Input type="number" value={flights} onChange={e => setFlights(e.target.value)} placeholder="e.g. 50" />
+ </div>}
  </CardContent>
  </GlassCard>
 
@@ -192,7 +190,7 @@ export function StairClimbingCalorieClient() {
  
  <div className="flex items-center gap-4 p-4 bg-background rounded-lg border">
  <div className="p-3 bg-orange-500/10 rounded-full text-orange-500">
- <Flame className="w-8 h-8"/>
+ <Flame className="w-8 h-8" />
  </div>
  <div>
  <p className="text-sm text-muted-foreground">Calories Burned</p>
@@ -203,7 +201,7 @@ export function StairClimbingCalorieClient() {
  <div className="grid grid-cols-2 gap-4">
  <div className="p-4 bg-background rounded-lg border">
  <div className="flex items-center gap-2 mb-2 text-muted-foreground">
- <Activity className="w-4 h-4"/>
+ <Activity className="w-4 h-4" />
  <span className="text-sm font-medium">MET Value</span>
  </div>
  <p className="text-xl font-bold">{results.met.toFixed(1)}</p>
@@ -211,7 +209,7 @@ export function StairClimbingCalorieClient() {
  
  <div className="p-4 bg-background rounded-lg border">
  <div className="flex items-center gap-2 mb-2 text-muted-foreground">
- <Clock className="w-4 h-4"/>
+ <Clock className="w-4 h-4" />
  <span className="text-sm font-medium">Total Steps</span>
  </div>
  <p className="text-xl font-bold">{Math.round(results.totalSteps).toLocaleString()}</p>
@@ -230,6 +228,7 @@ export function StairClimbingCalorieClient() {
  </div>
  </div>
  
+<<<<<<< HEAD
 <ToolHowItWorks
   steps={[
 {
@@ -312,3 +311,65 @@ export function StairClimbingCalorieClient() {
 </div>
  );
 }
+=======
+      <ToolHowItWorks steps={[{
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+
+      <ToolFeatureGuides features={[{
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
+        <div className="prose dark:prose-invert max-w-none">
+          <h3>Why Use Our Stair Climbing Calorie Calculator?</h3>
+          <p>
+            This free online tool is designed to help you get accurate results quickly and securely.
+            Whether you're a developer, designer, student, or professional, our Stair Climbing Calorie Calculator provides
+            the functionality you need without any complexity or cost.
+          </p>
+          <p>
+            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
+            privacy and zero latency. No data is ever transmitted to external servers, making it safe
+            for sensitive information.
+          </p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion faqs={[{
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
+
+      <RelatedTools currentToolUrl="/tools/health/stair-climbing-calorie" max={6} />
+
+    </div></div>;
+}
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

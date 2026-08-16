@@ -1,45 +1,32 @@
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import SslCheckerClient from "@/components/tools/network/ssl-checker-client";
+<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 import RelatedTools from "@/components/shared/related-tools";
+=======
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 
 export const metadata = buildMetadata({
   title: "SSL Certificate Checker",
-  description: "Check the SSL/TLS certificate details of any website. View issuer, expiration date, SANs, and validity status instantly.",
+  description: "Check SSL/TLS certificate details for any domain. See issuer, expiration date, days remaining, and certificate chain. Monitor your SSL certificates.",
   path: "/tools/network/ssl-checker",
-  keywords: ["SSL checker", "certificate checker", "TLS certificate", "check SSL expiration", "crt.sh", "Toolzium", "online tools"],
+  keywords: ["check", "issuer", "certificate", "expiration", "domain", "details", "days", "chain", "remaining", "monitor", "date"],
 });
 
 export default function Page() {
-  const toolUrl = `${siteURL}/tools/network/ssl-checker`;
-  const appLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "SSL Certificate Checker — Toolzium",
-    url: toolUrl,
-    applicationCategory: "UtilitiesApplication",
-    operatingSystem: "Web",
-    isAccessibleForFree: true,
-    inLanguage: ["en"],
-    description: "Check the SSL/TLS certificate details of any website. View issuer, expiration date, SANs, and validity status instantly.",
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-    featureList: ["Check SSL certificate expiration", "View certificate issuer details", "Check certificate transparency logs"],
-    creator: { "@type": "Organization", name: "Toolzium", url: "https://toolzium.com" },
-  };
-  const crumbsLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Tools", item: `${siteURL}/tools` },
-      { "@type": "ListItem", position: 2, name: "Network & Security", item: `${siteURL}/tools#cat-network-security` },
-      { "@type": "ListItem", position: 3, name: "SSL Certificate Checker", item: toolUrl },
-    ],
-  };
+  const jsonLd = buildToolJsonLd({
+    name: "SSL Certificate Checker",
+    description: "Check SSL/TLS certificate details for any domain. See issuer, expiration date, days remaining, and certificate chain. Monitor your SSL certificates.",
+    path: "/tools/network/ssl-checker",
+    categoryName: "Network",
+    categoryPath: "/tools/network",
+  });
+
   return (
-    <div className="space-y-4">
-      <JsonLd data={appLd} />
-      <JsonLd data={crumbsLd} />
+    <div className="max-w-6xl mx-auto space-y-8">
+      <JsonLd data={jsonLd as any} />
       <SslCheckerClient />
     
       <RelatedTools currentToolUrl="/tools/network/ssl-checker" />

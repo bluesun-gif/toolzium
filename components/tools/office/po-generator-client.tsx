@@ -1,4 +1,5 @@
 "use client";
+<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -17,87 +18,118 @@ import { cn } from"@/lib/utils";
 import { Copy, Download, FileText, Plus, Printer, ShieldCheck, ShoppingBag, Trash2, Truck } from"lucide-react";
 import toast from"react-hot-toast";
 
+=======
+import { ToolBackground } from"@/components/shared/tool-background";
+
+import React, { useState, useMemo } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { cn } from "@/lib/utils";
+import { ShoppingBag, Plus, Copy, Printer, Trash2, Sparkles, Shield, Zap } from "lucide-react";
+import toast from "react-hot-toast";
+import { GridPattern } from "@/components/magicui/grid-pattern";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 type POItem = {
- id: string;
- itemNum: string;
- description: string;
- qty: number;
- unitPrice: number;
- taxPercent: number;
+  id: string;
+  itemNum: string;
+  description: string;
+  qty: number;
+  unitPrice: number;
+  taxPercent: number;
 };
-
 export function PurchaseOrderClient() {
- const [poNumber, setPoNumber] = useState("PO-1001");
- const [poDate, setPoDate] = useState(new Date().toISOString().split("T")[0]);
- const [vendorName, setVendorName] = useState("");
- const [vendorAddress, setVendorAddress] = useState("");
- const [vendorContact, setVendorContact] = useState("");
- const [shipToName, setShipToName] = useState("");
- const [shipToAddress, setShipToAddress] = useState("");
- const [paymentTerms, setPaymentTerms] = useState("Net 30");
- const [items, setItems] = useState<POItem[]>([{ id:"1", itemNum:"", description:"", qty: 1, unitPrice: 0, taxPercent: 0 }]);
+  const [poNumber, setPoNumber] = useState("PO-1001");
+  const [poDate, setPoDate] = useState(new Date().toISOString().split("T")[0]);
+  const [vendorName, setVendorName] = useState("");
+  const [vendorAddress, setVendorAddress] = useState("");
+  const [vendorContact, setVendorContact] = useState("");
+  const [shipToName, setShipToName] = useState("");
+  const [shipToAddress, setShipToAddress] = useState("");
+  const [paymentTerms, setPaymentTerms] = useState("Net 30");
+  const [items, setItems] = useState<POItem[]>([{
+    id: "1",
+    itemNum: "",
+    description: "",
+    qty: 1,
+    unitPrice: 0,
+    taxPercent: 0
+  }]);
+  const addItem = () => {
+    setItems([...items, {
+      id: Math.random().toString(36).substring(7),
+      itemNum: "",
+      description: "",
+      qty: 1,
+      unitPrice: 0,
+      taxPercent: 0
+    }]);
+  };
+  const updateItem = (id: string, field: keyof POItem, value: string | number) => {
+    setItems(items.map(item => item.id === id ? {
+      ...item,
+      [field]: value
+    } : item));
+  };
+  const removeItem = (id: string) => {
+    setItems(items.filter(item => item.id !== id));
+  };
+  const totals = useMemo(() => {
+    let subtotal = 0;
+    let taxTotal = 0;
+    items.forEach(item => {
+      const itemSubtotal = item.qty * item.unitPrice;
+      subtotal += itemSubtotal;
+      taxTotal += itemSubtotal * (item.taxPercent / 100);
+    });
+    return {
+      subtotal,
+      taxTotal,
+      grandTotal: subtotal + taxTotal
+    };
+  }, [items]);
+  const handlePrint = () => {
+    window.print();
+  };
+  const handleReset = () => {
+    setPoNumber("PO-1001");
+    setPoDate(new Date().toISOString().split("T")[0]);
+    setVendorName("");
+    setVendorAddress("");
+    setVendorContact("");
+    setShipToName("");
+    setShipToAddress("");
+    setPaymentTerms("Net 30");
+    setItems([{
+      id: "1",
+      itemNum: "",
+      description: "",
+      qty: 1,
+      unitPrice: 0,
+      taxPercent: 0
+    }]);
+    toast.success("Reset successfully");
+  };
+  const getPoSummary = () => {
+    return "PO Number:" + poNumber + "\nDate:" + poDate + "\nVendor:" + vendorName + "\nTotal: $" + totals.grandTotal.toFixed(2);
+  };
+  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+      
 
- const addItem = () => {
- setItems([...items, { id: Math.random().toString(36).substring(7), itemNum:"", description:"", qty: 1, unitPrice: 0, taxPercent: 0 }]);
- };
-
- const updateItem = (id: string, field: keyof POItem, value: string | number) => {
- setItems(items.map(item => item.id === id ? { ...item, [field]: value } : item));
- };
-
- const removeItem = (id: string) => {
- setItems(items.filter(item => item.id !== id));
- };
-
- const totals = useMemo(() => {
- let subtotal = 0;
- let taxTotal = 0;
- items.forEach(item => {
- const itemSubtotal = item.qty * item.unitPrice;
- subtotal += itemSubtotal;
- taxTotal += itemSubtotal * (item.taxPercent / 100);
- });
- return {
- subtotal,
- taxTotal,
- grandTotal: subtotal + taxTotal
- };
- }, [items]);
-
- const handlePrint = () => {
- window.print();
- };
-
- const handleReset = () => {
- setPoNumber("PO-1001");
- setPoDate(new Date().toISOString().split("T")[0]);
- setVendorName("");
- setVendorAddress("");
- setVendorContact("");
- setShipToName("");
- setShipToAddress("");
- setPaymentTerms("Net 30");
- setItems([{ id:"1", itemNum:"", description:"", qty: 1, unitPrice: 0, taxPercent: 0 }]);
- toast.success("Reset successfully");
- };
-
- const getPoSummary = () => {
- return"PO Number:"+ poNumber +"\nDate:"+ poDate +"\nVendor:"+ vendorName +"\nTotal: $"+ totals.grandTotal.toFixed(2);
- };
-
- return (
- <div className="space-y-6">
- <ToolPageHeader
- icon={ShoppingBag}
- title="Purchase Order Generator"
- description="Generate formal Purchase Orders with itemized tables and totals."
- actions={
- <React.Fragment>
- <ActionButton onClick={handlePrint} icon={Printer} label="Print"variant="outline"size="default"/>
- <ResetButton onClick={handleReset} label="Reset"/>
- </React.Fragment>
- }
- />
+ <ToolPageHeader icon={ShoppingBag} title="Purchase Order Generator" description="Generate formal Purchase Orders with itemized tables and totals." actions={<React.Fragment>
+ <ActionButton onClick={handlePrint} icon={Printer} label="Print" variant="outline" size="default" />
+ <ResetButton onClick={handleReset} label="Reset" />
+ </React.Fragment>} />
 
  <div className="grid md:grid-cols-2 gap-6 print:block">
  <GlassCard className="print:hidden">
@@ -108,11 +140,11 @@ export function PurchaseOrderClient() {
  <div className="grid grid-cols-2 gap-4">
  <div className="space-y-2">
  <Label>PO Number</Label>
- <Input value={poNumber} onChange={(e) => setPoNumber(e.target.value)} />
+ <Input value={poNumber} onChange={e => setPoNumber(e.target.value)} />
  </div>
  <div className="space-y-2">
  <Label>PO Date</Label>
- <Input type="date"value={poDate} onChange={(e) => setPoDate(e.target.value)} />
+ <Input type="date" value={poDate} onChange={e => setPoDate(e.target.value)} />
  </div>
  </div>
  
@@ -137,15 +169,15 @@ export function PurchaseOrderClient() {
  <h3 className="font-medium">Vendor Details</h3>
  <div className="space-y-2">
  <Label>Name</Label>
- <Input value={vendorName} onChange={(e) => setVendorName(e.target.value)} />
+ <Input value={vendorName} onChange={e => setVendorName(e.target.value)} />
  </div>
  <div className="space-y-2">
  <Label>Address</Label>
- <Input value={vendorAddress} onChange={(e) => setVendorAddress(e.target.value)} />
+ <Input value={vendorAddress} onChange={e => setVendorAddress(e.target.value)} />
  </div>
  <div className="space-y-2">
  <Label>Contact</Label>
- <Input value={vendorContact} onChange={(e) => setVendorContact(e.target.value)} />
+ <Input value={vendorContact} onChange={e => setVendorContact(e.target.value)} />
  </div>
  </div>
 
@@ -153,11 +185,11 @@ export function PurchaseOrderClient() {
  <h3 className="font-medium">Ship To</h3>
  <div className="space-y-2">
  <Label>Name</Label>
- <Input value={shipToName} onChange={(e) => setShipToName(e.target.value)} />
+ <Input value={shipToName} onChange={e => setShipToName(e.target.value)} />
  </div>
  <div className="space-y-2">
  <Label>Address</Label>
- <Input value={shipToAddress} onChange={(e) => setShipToAddress(e.target.value)} />
+ <Input value={shipToAddress} onChange={e => setShipToAddress(e.target.value)} />
  </div>
  </div>
  </div>
@@ -167,41 +199,39 @@ export function PurchaseOrderClient() {
  <div className="space-y-4">
  <div className="flex items-center justify-between">
  <h3 className="font-medium">Items</h3>
- <Button variant="outline"size="sm"onClick={addItem}>
- <Plus className="w-4 h-4 mr-2"/>
+ <Button variant="outline" size="sm" onClick={addItem}>
+ <Plus className="w-4 h-4 mr-2" />
  Add Item
  </Button>
  </div>
 
- {items.map((item, index) => (
- <div key={item.id} className="grid grid-cols-12 gap-2 items-end">
+ {items.map((item, index) => <div key={item.id} className="grid grid-cols-12 gap-2 items-end">
  <div className="col-span-2 space-y-1">
  <Label className="text-xs">Item #</Label>
- <Input value={item.itemNum} onChange={(e) => updateItem(item.id,"itemNum", e.target.value)} />
+ <Input value={item.itemNum} onChange={e => updateItem(item.id, "itemNum", e.target.value)} />
  </div>
  <div className="col-span-4 space-y-1">
  <Label className="text-xs">Description</Label>
- <Input value={item.description} onChange={(e) => updateItem(item.id,"description", e.target.value)} />
+ <Input value={item.description} onChange={e => updateItem(item.id, "description", e.target.value)} />
  </div>
  <div className="col-span-2 space-y-1">
  <Label className="text-xs">Qty</Label>
- <Input type="number"min="1"value={item.qty} onChange={(e) => updateItem(item.id,"qty", parseInt(e.target.value) || 0)} />
+ <Input type="number" min="1" value={item.qty} onChange={e => updateItem(item.id, "qty", parseInt(e.target.value) || 0)} />
  </div>
  <div className="col-span-2 space-y-1">
  <Label className="text-xs">Price</Label>
- <Input type="number"min="0"value={item.unitPrice} onChange={(e) => updateItem(item.id,"unitPrice", parseFloat(e.target.value) || 0)} />
+ <Input type="number" min="0" value={item.unitPrice} onChange={e => updateItem(item.id, "unitPrice", parseFloat(e.target.value) || 0)} />
  </div>
  <div className="col-span-1 space-y-1">
  <Label className="text-xs">Tax%</Label>
- <Input type="number"min="0"value={item.taxPercent} onChange={(e) => updateItem(item.id,"taxPercent", parseFloat(e.target.value) || 0)} />
+ <Input type="number" min="0" value={item.taxPercent} onChange={e => updateItem(item.id, "taxPercent", parseFloat(e.target.value) || 0)} />
  </div>
  <div className="col-span-1 pb-1">
- <Button variant="ghost"size="icon"onClick={() => removeItem(item.id)}>
- <Trash2 className="w-4 h-4 text-red-500"/>
+ <Button variant="ghost" size="icon" onClick={() => removeItem(item.id)}>
+ <Trash2 className="w-4 h-4 text-red-500" />
  </Button>
  </div>
- </div>
- ))}
+ </div>)}
  </div>
 
  </CardContent>
@@ -212,7 +242,7 @@ export function PurchaseOrderClient() {
  <CardHeader className="print:hidden">
  <CardTitle className="flex justify-between items-center">
  <span>Preview</span>
- <CopyButton getText={getPoSummary} label="Copy Summary"/>
+ <CopyButton getText={getPoSummary} label="Copy Summary" />
  </CardTitle>
  </CardHeader>
  <CardContent className="p-8 print:p-0">
@@ -231,14 +261,14 @@ export function PurchaseOrderClient() {
  <div className="grid grid-cols-2 gap-8 text-sm">
  <div>
  <h3 className="font-bold text-slate-700 uppercase mb-2 border-b pb-1">Vendor</h3>
- <p className="font-medium">{vendorName ||"Vendor Name"}</p>
- <p className="whitespace-pre-line">{vendorAddress ||"Vendor Address"}</p>
+ <p className="font-medium">{vendorName || "Vendor Name"}</p>
+ <p className="whitespace-pre-line">{vendorAddress || "Vendor Address"}</p>
  <p>{vendorContact}</p>
  </div>
  <div>
  <h3 className="font-bold text-slate-700 uppercase mb-2 border-b pb-1">Ship To</h3>
- <p className="font-medium">{shipToName ||"Ship To Name"}</p>
- <p className="whitespace-pre-line">{shipToAddress ||"Ship To Address"}</p>
+ <p className="font-medium">{shipToName || "Ship To Name"}</p>
+ <p className="whitespace-pre-line">{shipToAddress || "Ship To Address"}</p>
  </div>
  </div>
 
@@ -254,15 +284,13 @@ export function PurchaseOrderClient() {
  </tr>
  </thead>
  <tbody>
- {items.map((item, idx) => (
- <tr key={item.id} className="border-b">
+ {items.map((item, idx) => <tr key={item.id} className="border-b">
  <td className="py-2 px-3">{item.itemNum}</td>
  <td className="py-2 px-3">{item.description}</td>
  <td className="py-2 px-3 text-right">{item.qty}</td>
  <td className="py-2 px-3 text-right">${item.unitPrice.toFixed(2)}</td>
  <td className="py-2 px-3 text-right">${(item.qty * item.unitPrice).toFixed(2)}</td>
- </tr>
- ))}
+ </tr>)}
  </tbody>
  </table>
  </div>
@@ -289,6 +317,7 @@ export function PurchaseOrderClient() {
  </GlassCard>
  </div>
  
+<<<<<<< HEAD
 <ToolHowItWorks
   steps={[
 {
@@ -371,3 +400,65 @@ export function PurchaseOrderClient() {
 </div>
  );
 }
+=======
+      <ToolHowItWorks steps={[{
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+
+      <ToolFeatureGuides features={[{
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
+        <div className="prose dark:prose-invert max-w-none">
+          <h3>Why Use Our Purchase Order Generator?</h3>
+          <p>
+            This free online tool is designed to help you get accurate results quickly and securely.
+            Whether you're a developer, designer, student, or professional, our Purchase Order Generator provides
+            the functionality you need without any complexity or cost.
+          </p>
+          <p>
+            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
+            privacy and zero latency. No data is ever transmitted to external servers, making it safe
+            for sensitive information.
+          </p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion faqs={[{
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
+
+      <RelatedTools currentToolUrl="/tools/office/po-generator" max={6} />
+
+    </div></div>;
+}
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

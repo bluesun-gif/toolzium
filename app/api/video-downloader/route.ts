@@ -171,11 +171,20 @@ async function downloadYouTube(url: string, quality: string) {
   const videoId = extractYouTubeId(url);
   if (!videoId) throw new Error("Invalid YouTube URL — could not extract video ID.");
 
-  const data = await callYTPlayerAPI(videoId);
+  let data = await callYTPlayerAPI(videoId);
+
+  if (!data || !data.streamingData?.formats) {
+    try {
+      const fallbackResult = await downloadViaCobalt(url, "auto", quality);
+      if (fallbackResult) return fallbackResult;
+    } catch {
+      // Continue to error reporting below if fallback also fails
+    }
+  }
 
   if (!data) {
     throw new Error(
-      "YouTube is not returning download links right now. This can happen with age-restricted, private, or region-blocked videos. Try a different video or use 360p quality."
+      "YouTube download service is temporarily busy. Please try another video URL or select 360p quality."
     );
   }
 

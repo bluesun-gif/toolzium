@@ -1,119 +1,31 @@
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import BaseConverterClient from "@/components/tools/dev/base-converter-client";
+<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+=======
+
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
   title: "Number Base Converter",
-  description:
-    "Convert numbers between binary, octal, decimal, and hexadecimal instantly. Free online base converter with copy/export support.",
+  description: "Convert numbers between binary, octal, decimal, and hexadecimal bases. Base converter with support for negative numbers and fractional values. Programmer's calculator for number systems.",
   path: "/tools/dev/base-converter",
-  keywords: [
-    "number base converter",
-    "binary to decimal",
-    "decimal to binary",
-    "decimal to hex",
-    "hex to decimal",
-    "octal converter",
-    "binary converter",
-    "hexadecimal converter",
-    "base converter",
-    "programmer calculator",
-    "bitwise number converter",
-    "developer tools",
-    "Toolzium",
-    "Bangladesh",
-  ],
+  keywords: ["numbers", "decimal", "between", "with", "hexadecimal", "binary", "convert", "bases", "converter", "octal", "support", "base"],
 });
 
 export default function Page() {
-  const toolUrl = `${siteURL}/tools/dev/base-converter`;
-
-  const appLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "Number Base Converter — Toolzium",
-    url: toolUrl,
-    applicationCategory: "DeveloperApplication",
-    operatingSystem: "Web",
-    isAccessibleForFree: true,
-    inLanguage: ["en", "bn"],
-    description:
-      "Free online number base converter. Instantly convert numbers between binary, octal, decimal, and hexadecimal. Includes copy/export support and input validation.",
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-    featureList: [
-      "Convert binary ⇄ decimal ⇄ hex ⇄ octal",
-      "Supports negative numbers",
-      "Handles large integers",
-      "Instant conversion as you type",
-      "Copy or export results",
-      "Syntax validation & error messages",
-      "Mobile-friendly responsive UI",
-      "Runs fully in-browser, no signup",
-    ],
-    creator: {
-      "@type": "Person",
-      name: "Toolzium",
-      url: "https://toolzium.com",
-    },
-    potentialAction: {
-      "@type": "ConvertAction",
-      target: toolUrl,
-      name: "Convert numbers between binary, decimal, octal, and hex",
-    },
-  };
-
-  const crumbsLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Tools", item: `${siteURL}/tools` },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Developer",
-        item: `${siteURL}/tools#cat-developer`,
-      },
-      { "@type": "ListItem", position: 3, name: "Number Base Converter", item: toolUrl },
-    ],
-  };
-
-  const faqLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "Which number systems are supported?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "This tool supports binary, octal, decimal, and hexadecimal conversions.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Does it handle very large numbers?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. The converter can process large integers without losing accuracy.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Is my data stored anywhere?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "No. All conversions are performed locally in your browser. No data is uploaded or saved.",
-        },
-      },
-    ],
-  };
+  const jsonLd = buildToolJsonLd({
+    name: "Number Base Converter",
+    description: "Convert numbers between binary, octal, decimal, and hexadecimal bases. Base converter with support for negative numbers and fractional values. Programmer's calculator for number systems.",
+    path: "/tools/dev/base-converter",
+    categoryName: "Dev",
+    categoryPath: "/tools/dev",
+  });
 
   return (
     <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={appLd} />
-      <JsonLd data={crumbsLd} />
-      <JsonLd data={faqLd} />
-
+      <JsonLd data={jsonLd as any} />
       <BaseConverterClient />
     
       <RelatedTools currentToolUrl="/tools/dev/base-converter" />

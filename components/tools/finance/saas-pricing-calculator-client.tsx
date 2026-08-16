@@ -1,4 +1,5 @@
 "use client";
+<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -12,100 +13,103 @@ import { AiOutputDisplay } from"@/components/shared/ai-output-display";
 import { DollarSign, Layers, Receipt, RefreshCw, Target, TrendingUp } from"lucide-react";
 import toast from"react-hot-toast";
 
+=======
+import { ToolBackground } from"@/components/shared/tool-background";
+
+import React, { useState } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { AiOutputDisplay } from "@/components/shared/ai-output-display";
+import { DollarSign, RefreshCw, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import toast from "react-hot-toast";
+import { GridPattern } from "@/components/magicui/grid-pattern";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { ModelSelector } from "@/components/shared/model-selector";
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export default function SaasPricingCalculatorClient() {
- const [productName, setProductName] = useState("FlowPulse API Monitor");
- const [targetCustomer, setTargetCustomer] = useState("DevOps Teams & Mid-Market Engineering Depts");
- const [valueMetric, setValueMetric] = useState("API Endpoints Monitored & Alert Channels");
- const [results, setResults] = useState<string[]>([]);
- const [loading, setLoading] = useState(false);
+  const [productName, setProductName] = useState("FlowPulse API Monitor");
+  const [model, setModel] = useState("gpt4o");
+  const [targetCustomer, setTargetCustomer] = useState("DevOps Teams & Mid-Market Engineering Depts");
+  const [valueMetric, setValueMetric] = useState("API Endpoints Monitored & Alert Channels");
+  const [results, setResults] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+  const generatePricing = async () => {
+    if (!productName.trim()) return;
+    setLoading(true);
+    try {
+      const prompt = `Design a 3-tier SaaS pricing strategy (Starter, Pro, Enterprise) for '${productName}'. Target Customer: '${targetCustomer}'. Core Value Metric: '${valueMetric}'. Include monthly/annual price points, featured limits, add-ons, and revenue optimization recommendations. Format as 3 distinct pricing tier cards. No markdown asterisks.`;
+      const res = await fetch("/api/ai/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          prompt,
+            model,
+          type: "cards"
+        })
+      });
+      if (!res.ok) throw new Error("AI API failed");
+      const data = await res.json();
+      if (data.results && data.results.length > 0) {
+        setResults(data.results);
+        toast.success("AI SaaS Pricing model generated!");
+      } else {
+        throw new Error("No results");
+      }
+    } catch (err) {
+      toast.error("AI generation failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+  return <div className="relative space-y-6 max-w-4xl mx-auto px-4"><ToolBackground /><div className="relative z-10">
+      
 
- const generatePricing = async () => {
- if (!productName.trim()) return;
+ <ToolPageHeader icon={DollarSign} title="AI SaaS Pricing Strategy & Tier Matrix Calculator" description="Design optimal 3-tier SaaS pricing models (Starter, Pro, Enterprise), value metric limits, and expansion revenue strategies powered by live AI." />
 
- setLoading(true);
+ <div className="mb-4">
 
- try {
- const prompt = `Design a 3-tier SaaS pricing strategy (Starter, Pro, Enterprise) for '${productName}'. Target Customer: '${targetCustomer}'. Core Value Metric: '${valueMetric}'. Include monthly/annual price points, featured limits, add-ons, and revenue optimization recommendations. Format as 3 distinct pricing tier cards. No markdown asterisks.`;
 
- const res = await fetch("/api/ai/generate", {
- method:"POST",
- headers: {"Content-Type":"application/json"},
- body: JSON.stringify({ prompt, type:"cards"}),
- });
+   <ModelSelector value={model} onChange={setModel} />
 
- if (!res.ok) throw new Error("AI API failed");
 
- const data = await res.json();
- if (data.results && data.results.length > 0) {
- setResults(data.results);
- toast.success("AI SaaS Pricing model generated!");
- } else {
- throw new Error("No results");
- }
- } catch (err) {
- toast.error("AI generation failed. Please try again.");
- } finally {
- setLoading(false);
- }
- };
+ </div>
 
- return (
- <div className="space-y-6 max-w-4xl mx-auto px-4">
- <ToolPageHeader
- icon={DollarSign}
- title="AI SaaS Pricing Strategy & Tier Matrix Calculator"
- description="Design optimal 3-tier SaaS pricing models (Starter, Pro, Enterprise), value metric limits, and expansion revenue strategies powered by live AI."
- />
 
  <GlassCard className="p-6 space-y-4">
  <div className="space-y-2">
  <label className="text-xs font-bold text-foreground block">SaaS Product Name:</label>
- <Input
- type="text"
- value={productName}
- onChange={(e) => setProductName(e.target.value)}
- placeholder="e.g. MetricTrack AI"
- className="h-11"
- />
+ <Input type="text" value={productName} onChange={e => setProductName(e.target.value)} placeholder="e.g. MetricTrack AI" className="h-11" />
  </div>
 
  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
  <div className="space-y-2">
  <label className="text-xs font-bold text-foreground block">Target Customer Segment:</label>
- <Input
- type="text"
- value={targetCustomer}
- onChange={(e) => setTargetCustomer(e.target.value)}
- placeholder="e.g. Solopreneurs, SMBs, Enterprises"
- className="h-11"
- />
+ <Input type="text" value={targetCustomer} onChange={e => setTargetCustomer(e.target.value)} placeholder="e.g. Solopreneurs, SMBs, Enterprises" className="h-11" />
  </div>
 
  <div className="space-y-2">
  <label className="text-xs font-bold text-foreground block">Primary Value Metric (Scaling Axis):</label>
- <Input
- type="text"
- value={valueMetric}
- onChange={(e) => setValueMetric(e.target.value)}
- placeholder="e.g. Monthly Active Users, Storage GB"
- className="h-11"
- />
+ <Input type="text" value={valueMetric} onChange={e => setValueMetric(e.target.value)} placeholder="e.g. Monthly Active Users, Storage GB" className="h-11" />
  </div>
  </div>
 
  <div className="flex justify-end pt-2">
- <Button
- onClick={generatePricing}
- disabled={loading || !productName}
- className="gap-2 font-bold h-11 px-6 shadow-md"
- >
- <RefreshCw className={`h-4 w-4 ${loading ?"animate-spin":""}`} />
- {loading ?"AI Modeling Tiers...":"AI Generate SaaS Pricing Strategy"}
+ <Button onClick={generatePricing} disabled={loading || !productName} className="gap-2 font-bold h-11 px-6 shadow-md">
+ <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
+ {loading ? "AI Modeling Tiers..." : "AI Generate SaaS Pricing Strategy"}
  </Button>
  </div>
  </GlassCard>
 
  {/* Output */}
+<<<<<<< HEAD
  {results.length > 0 && (
  <AiOutputDisplay
  title="Generated 3-Tier SaaS Pricing Architecture"
@@ -200,3 +204,63 @@ export default function SaasPricingCalculatorClient() {
 </div>
  );
 }
+=======
+ {results.length > 0 && <AiOutputDisplay title="Generated 3-Tier SaaS Pricing Architecture" subtitle="Tier limits, feature gating, and expansion revenue levers" content={results} loading={loading} onRegenerate={generatePricing} variant="cards" />}
+ 
+      <ToolHowItWorks steps={[{
+        step: "01",
+        title: "Enter Your Numbers",
+        description: "Describe your SaaS product in the fields above — everything calculates live as you type.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Review the Result",
+        description: "Instantly see your a 3-tier AI pricing strategy, with breakdowns and visual cues.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy or Export",
+        description: "Copy any figure or export the full breakdown to use in a plan, invoice, or report.",
+        icon: Copy
+      }]} badges={["100% Free", "Private & Local", "No Signup"]} />
+
+            <ToolFeatureGuides features={[{
+        icon: Sparkles,
+        title: "Starter/Pro/Enterprise",
+        description: "Starter/Pro/Enterprise"
+      }, {
+        icon: Shield,
+        title: "Private & On-Device",
+        description: "Every calculation runs in your browser. Your financial inputs never leave your device or touch a server."
+      }, {
+        icon: Zap,
+        title: "No Signup, Ever",
+        description: "Open the tool and get an answer in seconds — no account, no paywall, no usage cap."
+      }]}>
+        <div className="prose dark:prose-invert max-w-none">
+          <h3>Why Use the AI SaaS Pricing Strategy & Tier Matrix Calculator?</h3>
+          <p>
+            Founders use AI to draft a defensible 3-tier pricing matrix instead of guessing at price points.
+          </p>
+          <p>
+            Like all Toolzium calculators, it is free, private, and built to give you a paid-product experience without the subscription.
+          </p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion faqs={[{
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
+
+      <RelatedTools currentToolUrl="/tools/finance/saas-pricing-calculator" max={6} />
+
+    </div></div>;
+}
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

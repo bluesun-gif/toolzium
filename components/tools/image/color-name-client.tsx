@@ -1,4 +1,5 @@
 "use client";
+<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -36,67 +37,136 @@ const COLORS = [
  { name:"Green", hex:"#008000"},
 ];
 
+=======
+import { ToolBackground } from"@/components/shared/tool-background";
+
+import React, { useState, useMemo } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { Palette, Search, Pipette, Droplet, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { GridPattern } from "@/components/magicui/grid-pattern";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+const COLORS = [{
+  name: "AliceBlue",
+  hex: "#f0f8ff"
+}, {
+  name: "AntiqueWhite",
+  hex: "#faebd7"
+}, {
+  name: "Aqua",
+  hex: "#00ffff"
+}, {
+  name: "Aquamarine",
+  hex: "#7fffd4"
+}, {
+  name: "Azure",
+  hex: "#f0ffff"
+}, {
+  name: "Beige",
+  hex: "#f5f5dc"
+}, {
+  name: "Bisque",
+  hex: "#ffe4c4"
+}, {
+  name: "Black",
+  hex: "#000000"
+}, {
+  name: "BlanchedAlmond",
+  hex: "#ffebcd"
+}, {
+  name: "Blue",
+  hex: "#0000ff"
+}, {
+  name: "BlueViolet",
+  hex: "#8a2be2"
+}, {
+  name: "Brown",
+  hex: "#a52a2a"
+}, {
+  name: "Crimson",
+  hex: "#dc143c"
+}, {
+  name: "Cyan",
+  hex: "#00ffff"
+}, {
+  name: "DarkBlue",
+  hex: "#00008b"
+}, {
+  name: "Red",
+  hex: "#ff0000"
+}, {
+  name: "White",
+  hex: "#ffffff"
+}, {
+  name: "Yellow",
+  hex: "#ffff00"
+}, {
+  name: "Green",
+  hex: "#008000"
+}];
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 function hexToRgb(hex: string) {
- const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
- return result ? {
- r: parseInt(result[1], 16),
- g: parseInt(result[2], 16),
- b: parseInt(result[3], 16)
- } : null;
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? {
+    r: parseInt(result[1], 16),
+    g: parseInt(result[2], 16),
+    b: parseInt(result[3], 16)
+  } : null;
 }
-
-function colorDistance(rgb1: { r: number, g: number, b: number }, rgb2: { r: number, g: number, b: number }) {
- return Math.sqrt(
- Math.pow(rgb1.r - rgb2.r, 2) +
- Math.pow(rgb1.g - rgb2.g, 2) +
- Math.pow(rgb1.b - rgb2.b, 2)
- );
+function colorDistance(rgb1: {
+  r: number;
+  g: number;
+  b: number;
+}, rgb2: {
+  r: number;
+  g: number;
+  b: number;
+}) {
+  return Math.sqrt(Math.pow(rgb1.r - rgb2.r, 2) + Math.pow(rgb1.g - rgb2.g, 2) + Math.pow(rgb1.b - rgb2.b, 2));
 }
-
 export function ColorNameFinderClient() {
- const [hexInput, setHexInput] = useState("#000000");
- const [searchTerm, setSearchTerm] = useState("");
+  const [hexInput, setHexInput] = useState("#000000");
+  const [searchTerm, setSearchTerm] = useState("");
+  const nearestColor = useMemo(() => {
+    const rgb = hexToRgb(hexInput);
+    if (!rgb) return null;
+    let minDistance = Infinity;
+    let closest = COLORS[0];
+    for (const color of COLORS) {
+      const cRgb = hexToRgb(color.hex);
+      if (cRgb) {
+        const dist = colorDistance(rgb, cRgb);
+        if (dist < minDistance) {
+          minDistance = dist;
+          closest = color;
+        }
+      }
+    }
+    return closest;
+  }, [hexInput]);
+  const filteredColors = useMemo(() => {
+    if (!searchTerm) return COLORS;
+    const lower = searchTerm.toLowerCase();
+    return COLORS.filter(c => c.name.toLowerCase().includes(lower) || c.hex.toLowerCase().includes(lower));
+  }, [searchTerm]);
+  const rgbStr = useMemo(() => {
+    const rgb = hexToRgb(hexInput);
+    if (!rgb) return "";
+    return `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+  }, [hexInput]);
+  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+      
 
- const nearestColor = useMemo(() => {
- const rgb = hexToRgb(hexInput);
- if (!rgb) return null;
- 
- let minDistance = Infinity;
- let closest = COLORS[0];
- 
- for (const color of COLORS) {
- const cRgb = hexToRgb(color.hex);
- if (cRgb) {
- const dist = colorDistance(rgb, cRgb);
- if (dist < minDistance) {
- minDistance = dist;
- closest = color;
- }
- }
- }
- return closest;
- }, [hexInput]);
-
- const filteredColors = useMemo(() => {
- if (!searchTerm) return COLORS;
- const lower = searchTerm.toLowerCase();
- return COLORS.filter(c => c.name.toLowerCase().includes(lower) || c.hex.toLowerCase().includes(lower));
- }, [searchTerm]);
-
- const rgbStr = useMemo(() => {
- const rgb = hexToRgb(hexInput);
- if (!rgb) return"";
- return `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
- }, [hexInput]);
-
- return (
- <div className="space-y-6">
- <ToolPageHeader
- icon={Palette}
- title="Color Name Finder"
- description="Find the closest named color for any hex value"
- actions={<ResetButton onClick={() => setHexInput("#000000")} label="Reset"/>}
- />
+ <ToolPageHeader icon={Palette} title="Color Name Finder" description="Find the closest named color for any hex value" actions={<ResetButton onClick={() => setHexInput("#000000")} label="Reset" />} />
 
  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
  <GlassCard>
@@ -107,39 +177,25 @@ export function ColorNameFinderClient() {
  <div className="space-y-2">
  <Label>Color Picker</Label>
  <div className="flex space-x-2">
- <Input
- type="color"
- value={hexInput}
- onChange={(e) => setHexInput(e.target.value)}
- className="w-16 h-10 p-1"
- />
- <Input
- type="text"
- value={hexInput}
- onChange={(e) => setHexInput(e.target.value)}
- placeholder="#000000"
- className="flex-1"
- />
+ <Input type="color" value={hexInput} onChange={e => setHexInput(e.target.value)} className="w-16 h-10 p-1" />
+ <Input type="text" value={hexInput} onChange={e => setHexInput(e.target.value)} placeholder="#000000" className="flex-1" />
  </div>
  </div>
  
- {nearestColor && (
- <div className="mt-6 p-4 rounded-lg bg-muted border flex items-center space-x-4">
- <div 
- className="w-16 h-16 rounded-full border shadow-sm"
- style={{ backgroundColor: nearestColor.hex }}
- />
+ {nearestColor && <div className="mt-6 p-4 rounded-lg bg-muted border flex items-center space-x-4">
+ <div className="w-16 h-16 rounded-full border shadow-sm" style={{
+                backgroundColor: nearestColor.hex
+              }} />
  <div className="flex-1 space-y-1">
  <p className="text-sm font-medium text-muted-foreground">Closest Match</p>
  <p className="text-xl font-bold">{nearestColor.name}</p>
  <p className="text-sm font-mono">{nearestColor.hex}</p>
  </div>
  <div className="flex flex-col space-y-2">
- <CopyButton getText={() => nearestColor.name} label="Copy Name"/>
- <CopyButton getText={() => nearestColor.hex} label="Copy Hex"/>
+ <CopyButton getText={() => nearestColor.name} label="Copy Name" />
+ <CopyButton getText={() => nearestColor.hex} label="Copy Hex" />
  </div>
- </div>
- )}
+ </div>}
  
  <div className="text-sm font-mono mt-4">
  <p>Input RGB: {rgbStr}</p>
@@ -153,36 +209,27 @@ export function ColorNameFinderClient() {
  </CardHeader>
  <CardContent className="space-y-4">
  <div className="relative">
- <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground"/>
- <Input
- placeholder="Search color name or hex..."
- value={searchTerm}
- onChange={(e) => setSearchTerm(e.target.value)}
- className="pl-9"
- />
+ <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+ <Input placeholder="Search color name or hex..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-9" />
  </div>
  
  <div className="max-h-[300px] overflow-y-auto border rounded-md divide-y">
- {filteredColors.map((color) => (
- <div key={color.name} className="flex items-center justify-between p-2 hover:bg-muted/50 cursor-pointer"onClick={() => setHexInput(color.hex)}>
+ {filteredColors.map(color => <div key={color.name} className="flex items-center justify-between p-2 hover:bg-muted/50 cursor-pointer" onClick={() => setHexInput(color.hex)}>
  <div className="flex items-center space-x-3">
- <div 
- className="w-6 h-6 rounded border shadow-sm"
- style={{ backgroundColor: color.hex }}
- />
+ <div className="w-6 h-6 rounded border shadow-sm" style={{
+                    backgroundColor: color.hex
+                  }} />
  <span className="font-medium text-sm">{color.name}</span>
  </div>
  <span className="text-xs font-mono text-muted-foreground">{color.hex}</span>
- </div>
- ))}
- {filteredColors.length === 0 && (
- <div className="p-4 text-center text-sm text-muted-foreground">No colors found.</div>
- )}
+ </div>)}
+ {filteredColors.length === 0 && <div className="p-4 text-center text-sm text-muted-foreground">No colors found.</div>}
  </div>
  </CardContent>
  </GlassCard>
  </div>
  
+<<<<<<< HEAD
 <ToolHowItWorks
   steps={[
 {
@@ -265,3 +312,65 @@ export function ColorNameFinderClient() {
 </div>
  );
 }
+=======
+      <ToolHowItWorks steps={[{
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+
+      <ToolFeatureGuides features={[{
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
+        <div className="prose dark:prose-invert max-w-none">
+          <h3>Why Use Our Color Name Finder?</h3>
+          <p>
+            This free online tool is designed to help you get accurate results quickly and securely.
+            Whether you're a developer, designer, student, or professional, our Color Name Finder provides
+            the functionality you need without any complexity or cost.
+          </p>
+          <p>
+            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
+            privacy and zero latency. No data is ever transmitted to external servers, making it safe
+            for sensitive information.
+          </p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion faqs={[{
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
+
+      <RelatedTools currentToolUrl="/tools/image/color-name" max={6} />
+
+    </div></div>;
+}
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

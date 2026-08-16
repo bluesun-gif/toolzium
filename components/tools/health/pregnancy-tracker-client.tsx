@@ -1,4 +1,5 @@
 "use client";
+<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -15,68 +16,64 @@ import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
 import { AlertTriangle, Baby, Calendar, ClipboardList, Heart, HeartPulse, ListChecks } from"lucide-react";
 import toast from"react-hot-toast";
 
+=======
+import { ToolBackground } from"@/components/shared/tool-background";
+
+import React, { useState, useEffect } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
+import { Heart, Calendar, AlertTriangle, ListChecks, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import toast from "react-hot-toast";
+import { GridPattern } from "@/components/magicui/grid-pattern";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export function PregnancyTrackerClient() {
- const [lmpDate, setLmpDate] = useState("");
- const [currentWeek, setCurrentWeek] = useState(0);
- const [dueDate, setDueDate] = useState("");
- const [daysRemaining, setDaysRemaining] = useState(0);
- const [trimester, setTrimester] = useState(0);
+  const [lmpDate, setLmpDate] = useState("");
+  const [currentWeek, setCurrentWeek] = useState(0);
+  const [dueDate, setDueDate] = useState("");
+  const [daysRemaining, setDaysRemaining] = useState(0);
+  const [trimester, setTrimester] = useState(0);
+  const calculateMilestones = () => {
+    if (!lmpDate) return;
+    const lmp = new Date(lmpDate);
+    if (isNaN(lmp.getTime())) {
+      toast.error("Invalid date");
+      return;
+    }
+    const edd = new Date(lmp.getTime() + 280 * 24 * 60 * 60 * 1000);
+    setDueDate(edd.toISOString().split("T")[0]);
+    const today = new Date();
+    const diffTime = Math.abs(today.getTime() - lmp.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const weeks = Math.floor(diffDays / 7);
+    setCurrentWeek(Math.min(Math.max(weeks, 0), 42));
+    const remaining = Math.ceil((edd.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+    setDaysRemaining(Math.max(remaining, 0));
+    if (weeks < 14) setTrimester(1);else if (weeks < 28) setTrimester(2);else setTrimester(3);
+  };
+  useEffect(() => {
+    calculateMilestones();
+  }, [lmpDate]);
+  const babySizes = ["Poppy seed", "Appleseed", "Sweet pea", "Blueberry", "Raspberry", "Green olive", "Prune", "Lime", "Plum", "Peach", "Lemon", "Apple", "Avocado", "Turnip", "Bell pepper", "Heirloom tomato", "Banana", "Carrot", "Papaya", "Grapefruit", "Cantaloupe", "Cauliflower", "Eggplant", "Squash", "Cabbage", "Coconut", "Jicama", "Pineapple", "Melon", "Romaine lettuce", "Winter squash", "Honeydew", "Swiss chard", "Rhubarb", "Watermelon", "Mini-watermelon", "Pumpkin", "Jack-o-lantern"];
+  const sizeIndex = Math.max(0, currentWeek - 4);
+  const currentSize = currentWeek >= 4 && currentWeek <= 41 ? babySizes[Math.min(sizeIndex, babySizes.length - 1)] : "Awaiting data";
+  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+      
 
- const calculateMilestones = () => {
- if (!lmpDate) return;
- 
- const lmp = new Date(lmpDate);
- if (isNaN(lmp.getTime())) {
- toast.error("Invalid date");
- return;
- }
-
- const edd = new Date(lmp.getTime() + 280 * 24 * 60 * 60 * 1000);
- setDueDate(edd.toISOString().split("T")[0]);
-
- const today = new Date();
- const diffTime = Math.abs(today.getTime() - lmp.getTime());
- const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
- const weeks = Math.floor(diffDays / 7);
- setCurrentWeek(Math.min(Math.max(weeks, 0), 42));
-
- const remaining = Math.ceil((edd.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
- setDaysRemaining(Math.max(remaining, 0));
-
- if (weeks < 14) setTrimester(1);
- else if (weeks < 28) setTrimester(2);
- else setTrimester(3);
- };
-
- useEffect(() => {
- calculateMilestones();
- }, [lmpDate]);
-
- const babySizes = [
-"Poppy seed","Appleseed","Sweet pea","Blueberry","Raspberry", 
-"Green olive","Prune","Lime","Plum","Peach", 
-"Lemon","Apple","Avocado","Turnip","Bell pepper", 
-"Heirloom tomato","Banana","Carrot","Papaya","Grapefruit", 
-"Cantaloupe","Cauliflower","Eggplant","Squash","Cabbage", 
-"Coconut","Jicama","Pineapple","Melon","Romaine lettuce", 
-"Winter squash","Honeydew","Swiss chard","Rhubarb","Watermelon", 
-"Mini-watermelon","Pumpkin","Jack-o-lantern"
- ];
- const sizeIndex = Math.max(0, currentWeek - 4);
- const currentSize = currentWeek >= 4 && currentWeek <= 41 ? babySizes[Math.min(sizeIndex, babySizes.length - 1)] :"Awaiting data";
-
- return (
- <div className="space-y-6">
- <ToolPageHeader
- icon={Heart}
- title="Pregnancy Tracker"
- description="Track your pregnancy journey, estimated due date, and baby development."
- actions={<ResetButton onClick={() => setLmpDate("")} label="Reset"/>}
- />
+ <ToolPageHeader icon={Heart} title="Pregnancy Tracker" description="Track your pregnancy journey, estimated due date, and baby development." actions={<ResetButton onClick={() => setLmpDate("")} label="Reset" />} />
 
  <GlassCard className="bg-yellow-50 border-yellow-200 text-yellow-900 mb-6">
  <CardContent className="pt-6 flex items-start gap-4">
- <AlertTriangle className="w-6 h-6 text-yellow-600 flex-shrink-0"/>
+ <AlertTriangle className="w-6 h-6 text-yellow-600 flex-shrink-0" />
  <p className="text-sm font-medium">
  Disclaimer: This tool provides general estimations and is NOT medical advice. Always consult your healthcare provider for medical information and care during your pregnancy.
  </p>
@@ -92,15 +89,10 @@ export function PregnancyTrackerClient() {
  <CardContent className="space-y-4">
  <div className="space-y-2">
  <Label>LMP Date</Label>
- <Input 
- type="date"
- value={lmpDate}
- onChange={(e) => setLmpDate(e.target.value)}
- />
+ <Input type="date" value={lmpDate} onChange={e => setLmpDate(e.target.value)} />
  </div>
  
- {dueDate && (
- <div className="mt-6 space-y-4">
+ {dueDate && <div className="mt-6 space-y-4">
  <div className="p-4 bg-muted rounded-md text-center">
  <p className="text-sm text-muted-foreground mb-1">Estimated Due Date</p>
  <p className="text-2xl font-bold text-primary">{dueDate}</p>
@@ -120,8 +112,7 @@ export function PregnancyTrackerClient() {
  <p className="font-semibold">{daysRemaining}</p>
  </div>
  </div>
- </div>
- )}
+ </div>}
  </CardContent>
  </GlassCard>
 
@@ -131,10 +122,9 @@ export function PregnancyTrackerClient() {
  <CardDescription>Current milestone insights</CardDescription>
  </CardHeader>
  <CardContent>
- {currentWeek > 0 ? (
- <div className="space-y-6">
+ {currentWeek > 0 ? <div className="space-y-6">
  <div className="flex items-center gap-4 p-4 border rounded-lg bg-primary/5">
- <Heart className="w-10 h-10 text-primary"/>
+ <Heart className="w-10 h-10 text-primary" />
  <div>
  <h4 className="font-semibold text-lg">Size Comparison</h4>
  <p className="text-sm text-muted-foreground">Your baby is about the size of a <strong className="text-foreground">{currentSize}</strong>.</p>
@@ -142,42 +132,34 @@ export function PregnancyTrackerClient() {
  </div>
  
  <div>
- <h4 className="font-semibold mb-2 flex items-center gap-2"><ListChecks className="w-4 h-4"/> Recommended Checklists</h4>
+ <h4 className="font-semibold mb-2 flex items-center gap-2"><ListChecks className="w-4 h-4" /> Recommended Checklists</h4>
  <ul className="text-sm space-y-2 text-muted-foreground ml-6 list-disc">
- {trimester === 1 && (
- <React.Fragment>
+ {trimester === 1 && <React.Fragment>
  <li>Schedule first prenatal visit</li>
  <li>Start taking prenatal vitamins</li>
  <li>Rest often and stay hydrated</li>
- </React.Fragment>
- )}
- {trimester === 2 && (
- <React.Fragment>
+ </React.Fragment>}
+ {trimester === 2 && <React.Fragment>
  <li>Schedule anatomy scan (around 20 weeks)</li>
  <li>Consider childbirth classes</li>
  <li>Start planning the nursery</li>
- </React.Fragment>
- )}
- {trimester === 3 && (
- <React.Fragment>
+ </React.Fragment>}
+ {trimester === 3 && <React.Fragment>
  <li>Pack your hospital bag</li>
  <li>Install car seat</li>
  <li>Finalize birth plan</li>
- </React.Fragment>
- )}
+ </React.Fragment>}
  </ul>
  </div>
- </div>
- ) : (
- <div className="text-center p-8 text-muted-foreground">
- <Calendar className="w-12 h-12 mx-auto mb-3 opacity-20"/>
+ </div> : <div className="text-center p-8 text-muted-foreground">
+ <Calendar className="w-12 h-12 mx-auto mb-3 opacity-20" />
  <p>Enter your LMP date to see development details.</p>
- </div>
- )}
+ </div>}
  </CardContent>
  </GlassCard>
  </div>
  
+<<<<<<< HEAD
 <ToolHowItWorks
   steps={[
 {
@@ -260,3 +242,65 @@ export function PregnancyTrackerClient() {
 </div>
  );
 }
+=======
+      <ToolHowItWorks steps={[{
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+
+      <ToolFeatureGuides features={[{
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
+        <div className="prose dark:prose-invert max-w-none">
+          <h3>Why Use Our Pregnancy Tracker?</h3>
+          <p>
+            This free online tool is designed to help you get accurate results quickly and securely.
+            Whether you're a developer, designer, student, or professional, our Pregnancy Tracker provides
+            the functionality you need without any complexity or cost.
+          </p>
+          <p>
+            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
+            privacy and zero latency. No data is ever transmitted to external servers, making it safe
+            for sensitive information.
+          </p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion faqs={[{
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
+
+      <RelatedTools currentToolUrl="/tools/health/pregnancy-tracker" max={6} />
+
+    </div></div>;
+}
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

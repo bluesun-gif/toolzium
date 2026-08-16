@@ -2690,6 +2690,20 @@ export const ToolsData = [
         popular: true,
       },
       {
+        title: "Tax Withholding Calculator",
+        url: "/tools/finance/tax-withholding-calc",
+        description:
+          "Estimate your paycheck federal tax withholding, net take-home pay, and effective tax rate based on W-4 filing parameters.",
+        popular: true,
+      },
+      {
+        title: "Salary / Net Pay Calculator",
+        url: "/tools/finance/net-pay-calc",
+        description:
+          "Calculate your net take-home paycheck after federal taxes, FICA (Social Security & Medicare), 401(k) retirement savings, and health insurance.",
+        popular: true,
+      },
+      {
         title: "Freelance Rate Calculator",
         url: "/tools/finance/freelance-rate",
         description:
@@ -2855,6 +2869,13 @@ export const ToolsData = [
         url: "/tools/fun/rps",
         description:
           "Play Rock Paper Scissors vs computer. Score tracker. Best of 3/5/7 mode. Win streak counter. Match history. Emoji buttons.",
+        popular: true,
+      },
+      {
+        title: "Dice Roller",
+        url: "/tools/fun/dice-roller",
+        description:
+          "Roll virtual dice with crisp, visible pips. Choose 1-6 dice, roll with a click or Space bar, and track your recent rolls. Free dice roller with local history.",
         popular: true,
       },
       {
@@ -3415,6 +3436,7 @@ export const ToolsData = [
           "Calculate total calories burned across 30+ physical activities based on body weight and duration. MET values & food equivalents.",
         popular: true,
       },
+<<<<<<< HEAD
                                                                         {
         title: "Cycling & Biking Calorie & Power Calculator",
         url: "/tools/health/cycling-calorie",
@@ -3494,6 +3516,23 @@ export const ToolsData = [
         popular: false,
       },
 ],
+=======
+      {
+        title: "Indoor Cycling Calorie Calculator",
+        url: "/tools/health/indoor-cycling-calorie",
+        description:
+          "Calculate calories burned during stationary indoor cycling and spinning workouts based on body weight, cadence (RPM), resistance level, and duration.",
+        popular: true,
+      },
+      {
+        title: "Calorie Burn by Activity Calculator Studio",
+        url: "/tools/health/calorie-burn-activity",
+        description:
+          "Calculate exact calories burned across 30+ physical activities, sports, and exercise routines based on body weight and duration.",
+        popular: true,
+      },
+    ],
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
   },
   {
     title: "Productivity",

@@ -1,4 +1,5 @@
 "use client";
+<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -16,93 +17,98 @@ import { ActionButton } from"@/components/shared/action-buttons";
 import { BarChart3, Download, FileText, Filter, Plus, Receipt, Tags } from"lucide-react";
 import { toast } from"react-hot-toast";
 
+=======
+import { ToolBackground } from"@/components/shared/tool-background";
+
+import React, { useState, useEffect } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ActionButton } from "@/components/shared/action-buttons";
+import { FileText, Plus, Download, Filter, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { toast } from "react-hot-toast";
+import { GridPattern } from "@/components/magicui/grid-pattern";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 type Receipt = {
- id: string;
- store: string;
- date: string;
- amount: number;
- category: string;
- paymentMethod: string;
+  id: string;
+  store: string;
+  date: string;
+  amount: number;
+  category: string;
+  paymentMethod: string;
 };
-
 export function ReceiptScannerClient() {
- const [receipts, setReceipts] = useState<Receipt[]>([]);
- const [store, setStore] = useState("");
- const [date, setDate] = useState("");
- const [amount, setAmount] = useState("");
- const [category, setCategory] = useState("Food");
- const [paymentMethod, setPaymentMethod] = useState("Card");
- 
- const [filterCategory, setFilterCategory] = useState("All");
+  const [receipts, setReceipts] = useState<Receipt[]>([]);
+  const [store, setStore] = useState("");
+  const [date, setDate] = useState("");
+  const [amount, setAmount] = useState("");
+  const [category, setCategory] = useState("Food");
+  const [paymentMethod, setPaymentMethod] = useState("Card");
+  const [filterCategory, setFilterCategory] = useState("All");
+  useEffect(() => {
+    const saved = localStorage.getItem("tz_receipts");
+    if (saved) {
+      try {
+        setReceipts(JSON.parse(saved));
+      } catch (e) {
+        // ignore
+      }
+    }
+  }, []);
+  const saveReceipts = (newReceipts: Receipt[]) => {
+    setReceipts(newReceipts);
+    localStorage.setItem("tz_receipts", JSON.stringify(newReceipts));
+  };
+  const handleAdd = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!store || !date || !amount) {
+      toast.error("Please fill required fields");
+      return;
+    }
+    const newReceipt: Receipt = {
+      id: Date.now().toString(),
+      store,
+      date,
+      amount: parseFloat(amount),
+      category,
+      paymentMethod
+    };
+    saveReceipts([...receipts, newReceipt]);
+    setStore("");
+    setAmount("");
+    toast.success("Receipt added");
+  };
+  const handleExport = () => {
+    if (receipts.length === 0) {
+      toast.error("No data to export");
+      return;
+    }
+    const headers = ["Store", "Date", "Amount", "Category", "Payment Method"];
+    const csvContent = [headers.join(","), ...receipts.map(r => `"${r.store}","${r.date}",${r.amount},"${r.category}","${r.paymentMethod}"`)].join("\n");
+    const blob = new Blob([csvContent], {
+      type: "text/csv;charset=utf-8;"
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "receipts.csv";
+    link.click();
+  };
+  const filtered = filterCategory === "All" ? receipts : receipts.filter(r => r.category === filterCategory);
+  const total = filtered.reduce((acc, curr) => acc + curr.amount, 0);
+  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+      
 
- useEffect(() => {
- const saved = localStorage.getItem("tz_receipts");
- if (saved) {
- try {
- setReceipts(JSON.parse(saved));
- } catch (e) {
- // ignore
- }
- }
- }, []);
-
- const saveReceipts = (newReceipts: Receipt[]) => {
- setReceipts(newReceipts);
- localStorage.setItem("tz_receipts", JSON.stringify(newReceipts));
- };
-
- const handleAdd = (e: React.FormEvent) => {
- e.preventDefault();
- if (!store || !date || !amount) {
- toast.error("Please fill required fields");
- return;
- }
- const newReceipt: Receipt = {
- id: Date.now().toString(),
- store,
- date,
- amount: parseFloat(amount),
- category,
- paymentMethod
- };
- saveReceipts([...receipts, newReceipt]);
- setStore("");
- setAmount("");
- toast.success("Receipt added");
- };
-
- const handleExport = () => {
- if (receipts.length === 0) {
- toast.error("No data to export");
- return;
- }
- const headers = ["Store","Date","Amount","Category","Payment Method"];
- const csvContent = [
- headers.join(","),
- ...receipts.map(r => `"${r.store}","${r.date}",${r.amount},"${r.category}","${r.paymentMethod}"`)
- ].join("\n");
- 
- const blob = new Blob([csvContent], { type:"text/csv;charset=utf-8;"});
- const url = URL.createObjectURL(blob);
- const link = document.createElement("a");
- link.href = url;
- link.download ="receipts.csv";
- link.click();
- };
-
- const filtered = filterCategory ==="All"? receipts : receipts.filter(r => r.category === filterCategory);
- const total = filtered.reduce((acc, curr) => acc + curr.amount, 0);
-
- return (
- <div className="space-y-6">
- <ToolPageHeader
- icon={FileText}
- title="Receipt Tracker"
- description="Manually enter and track your receipts and expenses."
- actions={
- <ActionButton onClick={handleExport} icon={Download} label="Export CSV"/>
- }
- />
+ <ToolPageHeader icon={FileText} title="Receipt Tracker" description="Manually enter and track your receipts and expenses." actions={<ActionButton onClick={handleExport} icon={Download} label="Export CSV" />} />
 
  <div className="grid md:grid-cols-3 gap-6">
  <GlassCard className="md:col-span-1">
@@ -114,15 +120,15 @@ export function ReceiptScannerClient() {
  <form onSubmit={handleAdd} className="space-y-4">
  <div className="space-y-2">
  <Label>Store Name</Label>
- <Input value={store} onChange={(e) => setStore(e.target.value)} required />
+ <Input value={store} onChange={e => setStore(e.target.value)} required />
  </div>
  <div className="space-y-2">
  <Label>Date</Label>
- <Input type="date"value={date} onChange={(e) => setDate(e.target.value)} required />
+ <Input type="date" value={date} onChange={e => setDate(e.target.value)} required />
  </div>
  <div className="space-y-2">
  <Label>Amount</Label>
- <Input type="number"step="0.01"value={amount} onChange={(e) => setAmount(e.target.value)} required />
+ <Input type="number" step="0.01" value={amount} onChange={e => setAmount(e.target.value)} required />
  </div>
  <div className="space-y-2">
  <Label>Category</Label>
@@ -149,8 +155,8 @@ export function ReceiptScannerClient() {
  </SelectContent>
  </Select>
  </div>
- <Button type="submit"className="w-full">
- <Plus className="w-4 h-4 mr-2"/> Add Entry
+ <Button type="submit" className="w-full">
+ <Plus className="w-4 h-4 mr-2" /> Add Entry
  </Button>
  </form>
  </CardContent>
@@ -164,7 +170,7 @@ export function ReceiptScannerClient() {
  <CardDescription>Total: ${total.toFixed(2)}</CardDescription>
  </div>
  <div className="flex items-center gap-2">
- <Filter className="w-4 h-4 text-muted-foreground"/>
+ <Filter className="w-4 h-4 text-muted-foreground" />
  <Select value={filterCategory} onValueChange={setFilterCategory}>
  <SelectTrigger className="w-[140px]"><SelectValue /></SelectTrigger>
  <SelectContent>
@@ -181,10 +187,7 @@ export function ReceiptScannerClient() {
  </div>
  </CardHeader>
  <CardContent>
- {filtered.length === 0 ? (
- <div className="text-center py-8 text-muted-foreground">No receipts found</div>
- ) : (
- <div className="overflow-x-auto">
+ {filtered.length === 0 ? <div className="text-center py-8 text-muted-foreground">No receipts found</div> : <div className="overflow-x-auto">
  <table className="w-full text-sm text-left">
  <thead className="text-xs text-muted-foreground uppercase bg-muted/50">
  <tr>
@@ -196,23 +199,21 @@ export function ReceiptScannerClient() {
  </tr>
  </thead>
  <tbody>
- {filtered.map(r => (
- <tr key={r.id} className="border-b last:border-0">
+ {filtered.map(r => <tr key={r.id} className="border-b last:border-0">
  <td className="px-4 py-3">{r.date}</td>
  <td className="px-4 py-3 font-medium">{r.store}</td>
  <td className="px-4 py-3">{r.category}</td>
  <td className="px-4 py-3">{r.paymentMethod}</td>
  <td className="px-4 py-3 text-right">${r.amount.toFixed(2)}</td>
- </tr>
- ))}
+ </tr>)}
  </tbody>
  </table>
- </div>
- )}
+ </div>}
  </CardContent>
  </GlassCard>
  </div>
  
+<<<<<<< HEAD
 <ToolHowItWorks
   steps={[
 {
@@ -295,3 +296,65 @@ export function ReceiptScannerClient() {
 </div>
  );
 }
+=======
+      <ToolHowItWorks steps={[{
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+
+      <ToolFeatureGuides features={[{
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
+        <div className="prose dark:prose-invert max-w-none">
+          <h3>Why Use Our Receipt Tracker?</h3>
+          <p>
+            This free online tool is designed to help you get accurate results quickly and securely.
+            Whether you're a developer, designer, student, or professional, our Receipt Tracker provides
+            the functionality you need without any complexity or cost.
+          </p>
+          <p>
+            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
+            privacy and zero latency. No data is ever transmitted to external servers, making it safe
+            for sensitive information.
+          </p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion faqs={[{
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
+
+      <RelatedTools currentToolUrl="/tools/office/receipt-scanner" max={6} />
+
+    </div></div>;
+}
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

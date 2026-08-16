@@ -1,145 +1,32 @@
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import DateDifferenceClient from "@/components/tools/calc/date-difference-client";
+<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 import RelatedTools from "@/components/shared/related-tools";
+=======
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 
 export const metadata = buildMetadata({
   title: "Date Difference Calculator",
-  description:
-    "Find the exact difference between two dates in days, weeks, months, and years. Weekday/business days, exclude holidays, timezone-safe, and leap-year aware.",
+  description: "Calculate days, weeks, months, and years between two dates. Find the exact time difference between dates with business days calculation. Free date calculator for planning and scheduling.",
   path: "/tools/calc/date-diff",
-  keywords: [
-    "date difference",
-    "days between dates",
-    "date duration calculator",
-    "date interval calculator",
-    "count days",
-    "count weeks",
-    "count months",
-    "count years",
-    "business days calculator",
-    "weekdays only",
-    "exclude weekends",
-    "exclude holidays",
-    "include end date",
-    "time difference",
-    "hours minutes seconds",
-    "timezone safe date",
-    "DST safe date",
-    "leap year aware",
-    "project timeline calculator",
-    "age in days",
-    "visa application days",
-    "deadline calculator",
-    "workdays calculator",
-    "school days calculator",
-    "Toolzium",
-    "calculators",
-    "online tools",
-    "Bangladesh",
-  ],
+  keywords: ["calculate", "between", "time", "difference", "weeks", "days", "find", "exact", "years", "dates", "months"],
 });
 
 export default function Page() {
-  const toolUrl = `${siteURL}/tools/calc/date-diff`;
-
-  const appLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "Date Difference Calculator — Toolzium",
-    url: toolUrl,
-    applicationCategory: "UtilitiesApplication",
-    operatingSystem: "Web",
-    isAccessibleForFree: true,
-    inLanguage: ["en", "bn"],
-    description:
-      "Calculate the precise difference between two dates and times. Get totals in days, weeks, months, and years. Supports business days, holiday exclusions, and timezone-safe math.",
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-    featureList: [
-      "Difference between two dates (start/end) with include-end toggle",
-      "Totals in days, weeks, months, years — plus hours, minutes, seconds (optional)",
-      "Business days / weekdays-only mode (exclude weekends)",
-      "Custom holiday list to exclude public holidays",
-      "Timezone-safe and DST-safe calculations",
-      "Leap-year aware date math",
-      "Quick presets: Today, Yesterday, Last 7/30/90 days, This/Last month",
-      "Copy/share results; export CSV/JSON; print-friendly view",
-      "Local autosave (privacy-friendly, no signup)",
-      "Responsive, mobile-friendly interface",
-    ],
-    creator: {
-      "@type": "Person",
-      name: "Toolzium",
-      url: "https://toolzium.com",
-    },
-    potentialAction: {
-      "@type": "CalculateAction",
-      target: toolUrl,
-      name: "Calculate days between two dates",
-    },
-  };
-
-  const crumbsLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Tools", item: `${siteURL}/tools` },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Calculators",
-        item: `${siteURL}/tools#cat-calculators`,
-      },
-      { "@type": "ListItem", position: 3, name: "Date Difference", item: toolUrl },
-    ],
-  };
-
-  const faqLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "How do I count the number of days between two dates?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Select a start and end date and the calculator will show the exact difference. You can also choose whether to include the end date.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Can I calculate business days only?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. Enable weekdays-only to exclude weekends, and optionally provide a holiday list to exclude specific dates.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Does the calculator handle leap years and timezones?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. The tool is leap-year aware and uses timezone/DST-safe calculations for consistent results.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Can I export or share the results?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "You can copy a formatted summary, share a permalink, or export to CSV/JSON for reports and archiving.",
-        },
-      },
-    ],
-  };
+  const jsonLd = buildToolJsonLd({
+    name: "Date Difference Calculator",
+    description: "Calculate days, weeks, months, and years between two dates. Find the exact time difference between dates with business days calculation. Free date calculator for planning and scheduling.",
+    path: "/tools/calc/date-diff",
+    categoryName: "Calc",
+    categoryPath: "/tools/calc",
+  });
 
   return (
     <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={appLd} />
-      <JsonLd data={crumbsLd} />
-      <JsonLd data={faqLd} />
-
+      <JsonLd data={jsonLd as any} />
       <DateDifferenceClient />
     
       <RelatedTools currentToolUrl="/tools/calc/date-diff" />

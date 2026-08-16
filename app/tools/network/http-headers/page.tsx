@@ -1,45 +1,32 @@
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import HttpHeadersClient from "@/components/tools/network/http-headers-client";
+<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 import RelatedTools from "@/components/shared/related-tools";
+=======
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 
 export const metadata = buildMetadata({
   title: "HTTP Header Checker",
-  description: "Check the HTTP response headers of any URL. Analyze security headers, caching directives, and server configuration for SEO and security.",
+  description: "Check HTTP response headers for any URL. Analyze security headers like CSP, HSTS, X-Frame-Options, and get a security score. Find missing security headers.",
   path: "/tools/network/http-headers",
-  keywords: ["HTTP Header Checker", "check headers", "security headers", "response headers", "Toolzium", "online tools"],
+  keywords: ["frame", "check", "security", "hsts", "options", "like", "headers", "http", "response", "analyze"],
 });
 
 export default function Page() {
-  const toolUrl = `${siteURL}/tools/network/http-headers`;
-  const appLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "HTTP Header Checker — Toolzium",
-    url: toolUrl,
-    applicationCategory: "UtilitiesApplication",
-    operatingSystem: "Web",
-    isAccessibleForFree: true,
-    inLanguage: ["en"],
-    description: "Check the HTTP response headers of any URL. Analyze security headers, caching directives, and server configuration for SEO and security.",
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-    featureList: ["Check HTTP headers", "Analyze security headers", "View server configuration"],
-    creator: { "@type": "Organization", name: "Toolzium", url: "https://toolzium.com" },
-  };
-  const crumbsLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Tools", item: `${siteURL}/tools` },
-      { "@type": "ListItem", position: 2, name: "Network & Security", item: `${siteURL}/tools#cat-network-security` },
-      { "@type": "ListItem", position: 3, name: "HTTP Header Checker", item: toolUrl },
-    ],
-  };
+  const jsonLd = buildToolJsonLd({
+    name: "HTTP Header Checker",
+    description: "Check HTTP response headers for any URL. Analyze security headers like CSP, HSTS, X-Frame-Options, and get a security score. Find missing security headers.",
+    path: "/tools/network/http-headers",
+    categoryName: "Network",
+    categoryPath: "/tools/network",
+  });
+
   return (
-    <div className="space-y-4">
-      <JsonLd data={appLd} />
-      <JsonLd data={crumbsLd} />
+    <div className="max-w-6xl mx-auto space-y-8">
+      <JsonLd data={jsonLd as any} />
       <HttpHeadersClient />
     
       <RelatedTools currentToolUrl="/tools/network/http-headers" />

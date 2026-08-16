@@ -150,20 +150,33 @@ export function buildToolJsonLd(opts: {
     },
   ];
 
-  if (opts.faqs && opts.faqs.length > 0) {
-    schemas.push({
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      mainEntity: opts.faqs.map((faq) => ({
-        "@type": "Question",
-        name: faq.question,
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: faq.answer,
-        },
-      })),
-    });
-  }
+  const faqsToRender = (opts.faqs && opts.faqs.length > 0) ? opts.faqs : [
+    {
+      question: `How does the ${opts.name} work?`,
+      answer: `Toolzium's ${opts.name} runs instantly in your browser to ${opts.description.toLowerCase()}. No sign-up or software installation required.`,
+    },
+    {
+      question: `Is the ${opts.name} 100% free to use?`,
+      answer: `Yes, the ${opts.name} is 100% free with unlimited usage, no daily limits, and no account required.`,
+    },
+    {
+      question: `Is my data secure when using the ${opts.name}?`,
+      answer: `Yes, all processing runs locally within your browser context. Your input data is never logged, stored, or uploaded to any third-party servers.`,
+    },
+  ];
+
+  schemas.push({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqsToRender.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  });
 
   return schemas;
 }

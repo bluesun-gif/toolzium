@@ -1,4 +1,5 @@
 "use client";
+<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -13,81 +14,86 @@ import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action
 import { Calculator, Clock, DollarSign, Target, TrendingUp } from"lucide-react";
 import { Separator } from"@/components/ui/separator";
 
+=======
+import { ToolBackground } from"@/components/shared/tool-background";
+
+import React, { useState } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { Calculator, DollarSign, Clock, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+import { GridPattern } from "@/components/magicui/grid-pattern";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export function FreelanceRateClient() {
- const [targetIncome, setTargetIncome] = useState(60000);
- const [expenses, setExpenses] = useState(5000);
- const [hoursPerWeek, setHoursPerWeek] = useState(30);
- const [vacationWeeks, setVacationWeeks] = useState(4);
- const [taxRate, setTaxRate] = useState(25);
- const [profitMargin, setProfitMargin] = useState(10);
+  const [targetIncome, setTargetIncome] = useState(60000);
+  const [expenses, setExpenses] = useState(5000);
+  const [hoursPerWeek, setHoursPerWeek] = useState(30);
+  const [vacationWeeks, setVacationWeeks] = useState(4);
+  const [taxRate, setTaxRate] = useState(25);
+  const [profitMargin, setProfitMargin] = useState(10);
+  const calculateRates = () => {
+    const workWeeks = 52 - vacationWeeks;
+    const totalBillableHours = workWeeks * hoursPerWeek;
+    if (totalBillableHours <= 0) return {
+      minHourly: 0,
+      recHourly: 0,
+      daily: 0,
+      weekly: 0,
+      totalGross: 0,
+      totalBillableHours: 0
+    };
 
- const calculateRates = () => {
- const workWeeks = 52 - vacationWeeks;
- const totalBillableHours = workWeeks * hoursPerWeek;
- 
- if (totalBillableHours <= 0) return { minHourly: 0, recHourly: 0, daily: 0, weekly: 0, totalGross: 0, totalBillableHours: 0 };
- 
- // Total net target before taxes
- const taxMultiplier = 1 / (1 - (taxRate / 100));
- const grossIncomeNeeded = targetIncome * taxMultiplier;
- 
- // Add expenses
- const totalRevenueNeeded = grossIncomeNeeded + expenses;
- 
- // Add profit margin
- const finalRevenueNeeded = totalRevenueNeeded * (1 + (profitMargin / 100));
- 
- const minHourly = totalRevenueNeeded / totalBillableHours;
- const recHourly = finalRevenueNeeded / totalBillableHours;
- const daily = recHourly * (hoursPerWeek / 5);
- const weekly = recHourly * hoursPerWeek;
- 
- return {
- minHourly: minHourly || 0,
- recHourly: recHourly || 0,
- daily: daily || 0,
- weekly: weekly || 0,
- totalGross: finalRevenueNeeded || 0,
- totalBillableHours
- };
- };
+    // Total net target before taxes (clamp tax rate to <100% to avoid divide-by-zero)
+    const safeTaxRate = Math.min(Math.max(taxRate, 0), 99.9);
+    const taxMultiplier = 1 / (1 - safeTaxRate / 100);
+    const grossIncomeNeeded = targetIncome * taxMultiplier;
 
- const results = calculateRates();
- 
- const formatCurrency = (val: number) =>"$"+ val.toFixed(2);
- 
- const getSummary = () => {
- return"Freelance Rate Calculation:\n"+
-"Target Net Income:"+ formatCurrency(targetIncome) +"\n"+
-"Recommended Hourly Rate:"+ formatCurrency(results.recHourly) +"\n"+
-"Minimum Hourly Rate:"+ formatCurrency(results.minHourly) +"\n"+
-"Daily Rate:"+ formatCurrency(results.daily) +"\n"+
-"Weekly Rate:"+ formatCurrency(results.weekly) +"\n"+
-"Billable Hours/Year:"+ results.totalBillableHours;
- };
+    // Add expenses
+    const totalRevenueNeeded = grossIncomeNeeded + expenses;
 
- const reset = () => {
- setTargetIncome(60000);
- setExpenses(5000);
- setHoursPerWeek(30);
- setVacationWeeks(4);
- setTaxRate(25);
- setProfitMargin(10);
- };
+    // Add profit margin
+    const finalRevenueNeeded = totalRevenueNeeded * (1 + profitMargin / 100);
+    const minHourly = totalRevenueNeeded / totalBillableHours;
+    const recHourly = finalRevenueNeeded / totalBillableHours;
+    const daily = recHourly * (hoursPerWeek / 5);
+    const weekly = recHourly * hoursPerWeek;
+    return {
+      minHourly: minHourly || 0,
+      recHourly: recHourly || 0,
+      daily: daily || 0,
+      weekly: weekly || 0,
+      totalGross: finalRevenueNeeded || 0,
+      totalBillableHours
+    };
+  };
+  const results = calculateRates();
+  const formatCurrency = (val: number) => "$" + val.toFixed(2);
+  const getSummary = () => {
+    return "Freelance Rate Calculation:\n" + "Target Net Income:" + formatCurrency(targetIncome) + "\n" + "Recommended Hourly Rate:" + formatCurrency(results.recHourly) + "\n" + "Minimum Hourly Rate:" + formatCurrency(results.minHourly) + "\n" + "Daily Rate:" + formatCurrency(results.daily) + "\n" + "Weekly Rate:" + formatCurrency(results.weekly) + "\n" + "Billable Hours/Year:" + results.totalBillableHours;
+  };
+  const reset = () => {
+    setTargetIncome(60000);
+    setExpenses(5000);
+    setHoursPerWeek(30);
+    setVacationWeeks(4);
+    setTaxRate(25);
+    setProfitMargin(10);
+  };
+  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+      
 
- return (
- <div className="space-y-6">
- <ToolPageHeader 
- icon={Calculator} 
- title="Freelance Rate Calculator"
- description="Calculate required hourly and project rate for freelancers."
- actions={
- <React.Fragment>
- <CopyButton getText={getSummary} label="Copy Results"/>
- <ResetButton onClick={reset} label="Reset Fields"/>
- </React.Fragment>
- } 
- />
+ <ToolPageHeader icon={Calculator} title="Freelance Rate Calculator" description="Calculate required hourly and project rate for freelancers." actions={<React.Fragment>
+ <CopyButton getText={getSummary} label="Copy Results" />
+ <ResetButton onClick={reset} label="Reset Fields" />
+ </React.Fragment>} />
  
  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
  <GlassCard className="lg:col-span-1">
@@ -97,27 +103,27 @@ export function FreelanceRateClient() {
  <CardContent className="space-y-4">
  <div className="space-y-2">
  <Label>Target Annual Net Income ($)</Label>
- <Input type="number"value={targetIncome} onChange={e => setTargetIncome(Number(e.target.value))} />
+ <Input type="number" value={targetIncome} onChange={e => setTargetIncome(Number(e.target.value))} />
  </div>
  <div className="space-y-2">
  <Label>Annual Expenses/Overhead ($)</Label>
- <Input type="number"value={expenses} onChange={e => setExpenses(Number(e.target.value))} />
+ <Input type="number" value={expenses} onChange={e => setExpenses(Number(e.target.value))} />
  </div>
  <div className="space-y-2">
  <Label>Billable Hours per Week</Label>
- <Input type="number"value={hoursPerWeek} onChange={e => setHoursPerWeek(Number(e.target.value))} />
+ <Input type="number" value={hoursPerWeek} onChange={e => setHoursPerWeek(Number(e.target.value))} />
  </div>
  <div className="space-y-2">
  <Label>Vacation Weeks per Year</Label>
- <Input type="number"value={vacationWeeks} onChange={e => setVacationWeeks(Number(e.target.value))} max={52} />
+ <Input type="number" value={vacationWeeks} onChange={e => setVacationWeeks(Number(e.target.value))} max={52} />
  </div>
  <div className="space-y-2">
  <Label>Estimated Tax Rate (%)</Label>
- <Input type="number"value={taxRate} onChange={e => setTaxRate(Number(e.target.value))} max={100} />
+ <Input type="number" value={taxRate} onChange={e => setTaxRate(Number(e.target.value))} max={100} />
  </div>
  <div className="space-y-2">
  <Label>Target Profit Margin (%)</Label>
- <Input type="number"value={profitMargin} onChange={e => setProfitMargin(Number(e.target.value))} />
+ <Input type="number" value={profitMargin} onChange={e => setProfitMargin(Number(e.target.value))} />
  </div>
  </CardContent>
  </GlassCard>
@@ -125,7 +131,7 @@ export function FreelanceRateClient() {
  <GlassCard className="lg:col-span-2">
  <CardHeader>
  <CardTitle>Your Rates</CardTitle>
- <CardDescription>{"Based on"+ results.totalBillableHours +"billable hours per year."}</CardDescription>
+ <CardDescription>{"Based on" + results.totalBillableHours + "billable hours per year."}</CardDescription>
  </CardHeader>
  <CardContent>
  <div className="p-6 bg-primary/10 rounded-xl mb-6 text-center">
@@ -148,7 +154,7 @@ export function FreelanceRateClient() {
  </div>
  </div>
  
- <Separator className="my-6"/>
+ <Separator className="my-6" />
  
  <div className="space-y-3">
  <h3 className="font-semibold text-lg">Financial Breakdown</h3>
@@ -157,8 +163,8 @@ export function FreelanceRateClient() {
  <span className="font-medium">{formatCurrency(targetIncome)}</span>
  </div>
  <div className="flex justify-between text-sm">
- <span className="text-muted-foreground">{"Estimated Taxes ("+ taxRate +"%)"}</span>
- <span className="font-medium">{formatCurrency((targetIncome / (1 - (taxRate / 100))) - targetIncome)}</span>
+ <span className="text-muted-foreground">{"Estimated Taxes (" + taxRate + "%)"}</span>
+ <span className="font-medium">{formatCurrency(targetIncome / (1 - taxRate / 100) - targetIncome)}</span>
  </div>
  <div className="flex justify-between text-sm">
  <span className="text-muted-foreground">Expenses</span>
@@ -173,6 +179,7 @@ export function FreelanceRateClient() {
  </GlassCard>
  </div>
  
+<<<<<<< HEAD
 <ToolHowItWorks
   steps={[
 {
@@ -256,3 +263,61 @@ export function FreelanceRateClient() {
 </div>
  );
 }
+=======
+      <ToolHowItWorks steps={[{
+        step: "01",
+        title: "Enter Your Numbers",
+        description: "Enter net income goal and billable hours in the fields above — everything calculates live as you type.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Review the Result",
+        description: "Instantly see your hourly, daily, and weekly rates, with breakdowns and visual cues.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy or Export",
+        description: "Copy any figure or export the full breakdown to use in a plan, invoice, or report.",
+        icon: Copy
+      }]} badges={["100% Free", "Private & Local", "No Signup"]} />
+
+            <ToolFeatureGuides features={[{
+        icon: Sparkles,
+        title: "Tax-adjusted rates",
+        description: "Tax-adjusted rates"
+      }, {
+        icon: Shield,
+        title: "Private & On-Device",
+        description: "Every calculation runs in your browser. Your financial inputs never leave your device or touch a server."
+      }, {
+        icon: Zap,
+        title: "No Signup, Ever",
+        description: "Open the tool and get an answer in seconds — no account, no paywall, no usage cap."
+      }]}>
+        <div className="prose dark:prose-invert max-w-none">
+          <h3>Why Use the Freelance Rate & Wage Calculator — Hourly & Annual Salary (2026)?</h3>
+          <p>
+            Convert a desired salary into the hourly rate you must charge, with tax and profit margin factored in.
+          </p>
+          <p>
+            Like all Toolzium calculators, it is free, private, and built to give you a paid-product experience without the subscription.
+          </p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion faqs={[{
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
+
+      <RelatedTools currentToolUrl="/tools/finance/freelance-rate" max={6} />
+
+    </div></div>;
+}
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

@@ -1,4 +1,5 @@
 "use client";
+<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -11,56 +12,60 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Separator } from"@/components/ui/separator";
 import { Button } from"@/components/ui/button";
+=======
+import { ToolBackground } from"@/components/shared/tool-background";
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 
+import React, { useState, useEffect, useMemo } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { DollarSign, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { GridPattern } from "@/components/magicui/grid-pattern";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
 export function MeetingCostClient() {
- const [attendees, setAttendees] = useState(5);
- const [avgSalary, setAvgSalary] = useState(100000);
- const [durationMins, setDurationMins] = useState(60);
- 
- const [isRunning, setIsRunning] = useState(false);
- const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  const [attendees, setAttendees] = useState(5);
+  const [avgSalary, setAvgSalary] = useState(100000);
+  const [durationMins, setDurationMins] = useState(60);
+  const [isRunning, setIsRunning] = useState(false);
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
 
- // Constants
- const HOURS_PER_YEAR = 2080;
- 
- const hourlyRate = avgSalary / HOURS_PER_YEAR;
- const minuteRate = hourlyRate / 60;
- const secondRate = minuteRate / 60;
- 
- const totalCost = (attendees * minuteRate * durationMins);
- const costPerMin = attendees * minuteRate;
- 
- useEffect(() => {
- let interval: NodeJS.Timeout | undefined;
- if (isRunning) {
- interval = setInterval(() => {
- setElapsedSeconds(prev => prev + 1);
- }, 1000);
- } else {
- clearInterval(interval);
- }
- return () => clearInterval(interval);
- }, [isRunning]);
+  // Constants
+  const HOURS_PER_YEAR = 2080;
+  const hourlyRate = avgSalary / HOURS_PER_YEAR;
+  const minuteRate = hourlyRate / 60;
+  const secondRate = minuteRate / 60;
+  const totalCost = attendees * minuteRate * durationMins;
+  const costPerMin = attendees * minuteRate;
+  useEffect(() => {
+    let interval: NodeJS.Timeout | undefined;
+    if (isRunning) {
+      interval = setInterval(() => {
+        setElapsedSeconds(prev => prev + 1);
+      }, 1000);
+    } else {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [isRunning]);
+  const liveCost = attendees * secondRate * elapsedSeconds;
+  const comparisons = useMemo(() => {
+    return {
+      coffee: Math.floor(totalCost / 4),
+      netflix: Math.floor(totalCost / 15.49)
+    };
+  }, [totalCost]);
+  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+      
 
- const liveCost = attendees * secondRate * elapsedSeconds;
-
- const comparisons = useMemo(() => {
- return {
- coffee: Math.floor(totalCost / 4),
- netflix: Math.floor(totalCost / 15.49)
- }
- }, [totalCost]);
-
- return (
- <div className="space-y-6">
- <ToolPageHeader
- title="Meeting Cost Calculator"
- description="Calculate the true financial cost of your meetings."
- icon={DollarSign}
- actions={
- <></>
- }
- />
+ <ToolPageHeader title="Meeting Cost Calculator" description="Calculate the true financial cost of your meetings." icon={DollarSign} actions={<></>} />
 
  <div className="grid md:grid-cols-2 gap-6">
  <GlassCard>
@@ -70,30 +75,15 @@ export function MeetingCostClient() {
  <CardContent className="space-y-4">
  <div className="space-y-2">
  <Label>Number of Attendees</Label>
- <Input
- type="number"
- min={1}
- value={attendees}
- onChange={(e) => setAttendees(Number(e.target.value) || 0)}
- />
+ <Input type="number" min={1} value={attendees} onChange={e => setAttendees(Number(e.target.value) || 0)} />
  </div>
  <div className="space-y-2">
  <Label>Average Annual Salary ($)</Label>
- <Input
- type="number"
- min={0}
- value={avgSalary}
- onChange={(e) => setAvgSalary(Number(e.target.value) || 0)}
- />
+ <Input type="number" min={0} value={avgSalary} onChange={e => setAvgSalary(Number(e.target.value) || 0)} />
  </div>
  <div className="space-y-2">
  <Label>Planned Duration (minutes)</Label>
- <Input
- type="number"
- min={1}
- value={durationMins}
- onChange={(e) => setDurationMins(Number(e.target.value) || 0)}
- />
+ <Input type="number" min={1} value={durationMins} onChange={e => setDurationMins(Number(e.target.value) || 0)} />
  </div>
  </CardContent>
  </GlassCard>
@@ -105,7 +95,7 @@ export function MeetingCostClient() {
  <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">Total Estimated Cost</p>
  <h2 className="text-5xl font-bold text-red-500">${totalCost.toFixed(2)}</h2>
  </div>
- <Separator className="my-6"/>
+ <Separator className="my-6" />
  <div className="grid grid-cols-2 gap-4 text-center">
  <div>
  <p className="text-sm text-muted-foreground">Cost per Minute</p>
@@ -116,17 +106,20 @@ export function MeetingCostClient() {
  <p className="text-xl font-semibold">${(totalCost / Math.max(1, attendees)).toFixed(2)}</p>
  </div>
  </div>
- <Separator className="my-6"/>
+ <Separator className="my-6" />
  <div className="text-center space-y-4">
  <div>
  <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">Live Cost Tracker</p>
  <h3 className="text-3xl font-mono font-bold text-orange-500">${liveCost.toFixed(4)}</h3>
  </div>
  <div className="flex justify-center gap-2">
- <Button variant={isRunning ?"destructive":"default"} onClick={() => setIsRunning(!isRunning)}>
- {isRunning ?"Stop Timer":"Start Meeting"}
+ <Button variant={isRunning ? "destructive" : "default"} onClick={() => setIsRunning(!isRunning)}>
+ {isRunning ? "Stop Timer" : "Start Meeting"}
  </Button>
- <Button variant="outline"onClick={() => { setIsRunning(false); setElapsedSeconds(0); }}>
+ <Button variant="outline" onClick={() => {
+                    setIsRunning(false);
+                    setElapsedSeconds(0);
+                  }}>
  Reset
  </Button>
  </div>
@@ -150,6 +143,7 @@ export function MeetingCostClient() {
  </div>
  </div>
  
+<<<<<<< HEAD
 <ToolHowItWorks
   steps={[
 {
@@ -232,3 +226,65 @@ export function MeetingCostClient() {
 </div>
  );
 }
+=======
+      <ToolHowItWorks steps={[{
+        step: "01",
+        title: "Input Your Data",
+        description: "Enter your information in the input field above and configure any options.",
+        icon: Sparkles
+      }, {
+        step: "02",
+        title: "Process & Generate",
+        description: "The tool processes your input instantly and displays the results.",
+        icon: Zap
+      }, {
+        step: "03",
+        title: "Copy & Use",
+        description: "Copy the output with one click and use it wherever you need.",
+        icon: Copy
+      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+
+      <ToolFeatureGuides features={[{
+        icon: Sparkles,
+        title: "Lightning Fast",
+        description: "Get results in milliseconds with our optimized client-side processing engine."
+      }, {
+        icon: Shield,
+        title: "Completely Private",
+        description: "All processing happens in your browser. Your data never leaves your device."
+      }, {
+        icon: Zap,
+        title: "No Signup Required",
+        description: "Use this tool instantly without creating an account or providing any personal information."
+      }]}>
+        <div className="prose dark:prose-invert max-w-none">
+          <h3>Why Use Our Meeting Cost Calculator?</h3>
+          <p>
+            This free online tool is designed to help you get accurate results quickly and securely.
+            Whether you're a developer, designer, student, or professional, our Meeting Cost Calculator provides
+            the functionality you need without any complexity or cost.
+          </p>
+          <p>
+            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
+            privacy and zero latency. No data is ever transmitted to external servers, making it safe
+            for sensitive information.
+          </p>
+        </div>
+      </ToolFeatureGuides>
+
+      <ToolFaqAccordion faqs={[{
+        question: "Is this tool free to use?",
+        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+      }, {
+        question: "Is my data secure?",
+        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+      }, {
+        question: "Do I need to create an account?",
+        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+      }]} />
+
+      <RelatedTools currentToolUrl="/tools/office/meeting-cost" max={6} />
+
+    </div></div>;
+}
+>>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
