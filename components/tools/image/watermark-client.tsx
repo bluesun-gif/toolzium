@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useRef, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Switch } from"@/components/ui/switch";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { Type, ImageIcon, Download, Settings } from"lucide-react";
+import { BadgeCheck, Download, ImageIcon, Settings, ShieldCheck, Type, Upload } from"lucide-react";
 import { cn } from"@/lib/utils";
 import toast from"react-hot-toast";
 
@@ -204,6 +207,86 @@ export function WatermarkClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Upload",
+    description:"Load your image.",
+    icon: Upload,
+  },
+{
+    step:"02",
+    title:"Add Mark",
+    description:"Place text or logo watermark.",
+    icon: BadgeCheck,
+  },
+{
+    step:"03",
+    title:"Export",
+    description:"Save the protected image.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Upload,
+    title:"Image Input",
+    description:"From your device.",
+  },
+{
+    icon: BadgeCheck,
+    title:"Watermark",
+    description:"Text or logo.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Marked image.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Privacy",
+    description:"Local processing.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An image watermark tool overlays a text or logo mark to signal ownership and discourage unauthorized use. While not copy-proof, a visible watermark makes misuse less convenient and attributes the work. This tool places, sizes, and exports the mark.</p>
+  <p>Adjustability matters. Position, scale, and opacity let you protect without ruining the image. Local processing keeps unpublished work private during marking.</p>
+  <p>Use it before sharing valuable images publicly. The tool's value is lightweight ownership marking without desktop software.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why watermark?",
+    answer:"Claim ownership, deter misuse.",
+  },
+{
+    question:"Text or logo?",
+    answer:"Either works.",
+  },
+{
+    question:"Adjustable?",
+    answer:"Position, size, opacity.",
+  },
+{
+    question:"Private?",
+    answer:"Yes, browser only.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  }
+  ]}
+/>
+</div>
  );
 }

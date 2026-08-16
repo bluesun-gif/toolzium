@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import {
  ActionButton,
@@ -18,17 +21,7 @@ import {
 } from"@/components/ui/card";
 import { GlassCard } from"@/components/ui/glass-card";
 import { Label } from"@/components/ui/label";
-import {
- AlarmClock,
- Check,
- ListTodo,
- Pause,
- Play,
- Plus,
- SquarePen,
- Trash2,
- Users,
-} from"lucide-react";
+import { AlarmClock, Check, Download, ListChecks, ListTodo, Pause, PenLine, Play, Plus, SquarePen, Trash2, UserCheck, Users } from"lucide-react";
 import { useEffect, useMemo, useState } from"react";
 
 // Types
@@ -598,6 +591,86 @@ export default function MeetingNotesClient() {
  </div>
  </CardContent>
  </GlassCard>
- </>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Capture",
+    description:"Record agenda and notes.",
+    icon: PenLine,
+  },
+{
+    step:"02",
+    title:"Assign",
+    description:"Note owners and actions.",
+    icon: UserCheck,
+  },
+{
+    step:"03",
+    title:"Summarize",
+    description:"Review key outcomes.",
+    icon: ListChecks,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: PenLine,
+    title:"Notes",
+    description:"Live capture.",
+  },
+{
+    icon: UserCheck,
+    title:"Action Items",
+    description:"Owner and due.",
+  },
+{
+    icon: ListChecks,
+    title:"Summary",
+    description:"Outcomes listed.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Share with team.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A meeting notes tool structures capture around decisions and action items, not just transcript. Meetings without clear notes lose their value as details fade. This tool records agenda, notes, and assigned tasks.</p>
+  <p>Action items with owners drive accountability. The note that &quot;someone will look into it&quot; becomes &quot;Jane by Friday,&quot; which actually gets done. Export lets you share the summary.</p>
+  <p>Use it in every meeting. The tool's value is turning discussion into tracked, shareable outcomes.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What to capture?",
+    answer:"Decisions and action items.",
+  },
+{
+    question:"Action items?",
+    answer:"Yes, with owners.",
+  },
+{
+    question:"Share?",
+    answer:"Export and send.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  }
+  ]}
+/>
+</>
  );
 }

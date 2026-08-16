@@ -1,10 +1,13 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect, useRef } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
 import { Card, CardContent } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
-import { Plus, X, Download, Copy, Trash2, Type, FileText, CheckCircle2, Clock } from"lucide-react";
+import { CheckCircle2, Clock, Copy, Download, FileText, PenLine, Plus, Save, ShieldCheck, Trash2, Type, X } from"lucide-react";
 import { Switch } from"@/components/ui/switch";
 import { Label } from"@/components/ui/label";
 import toast from"react-hot-toast";
@@ -279,6 +282,86 @@ export default function NotepadClient() {
  </div>
  </div>
  </Card>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Write",
+    description:"Type your notes.",
+    icon: PenLine,
+  },
+{
+    step:"02",
+    title:"Format",
+    description:"Light styling as needed.",
+    icon: Type,
+  },
+{
+    step:"03",
+    title:"Save",
+    description:"Store locally.",
+    icon: Save,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: PenLine,
+    title:"Notes",
+    description:"Plain writing.",
+  },
+{
+    icon: Type,
+    title:"Text",
+    description:"Simple editor.",
+  },
+{
+    icon: Save,
+    title:"Save",
+    description:"Local storage.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Private",
+    description:"On device.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An online notepad offers instant text capture without accounts or apps, good for scratch thoughts. Local storage means notes persist without cloud risk. This tool is a fast, private editor.</p>
+  <p>Quick capture prevents lost ideas. The notepad stays out of the way until you need it.</p>
+  <p>Use it for transient notes. The tool's value is frictionless, private writing.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why a notepad?",
+    answer:"Quick capture anywhere.",
+  },
+{
+    question:"Save?",
+    answer:"Local, no account.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Yes.",
+  },
+{
+    question:"Use case?",
+    answer:"Scratch notes.",
+  }
+  ]}
+/>
+</div>
  );
 }

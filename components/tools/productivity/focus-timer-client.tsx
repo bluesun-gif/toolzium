@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect, useRef } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -11,7 +14,7 @@ import { Switch } from"@/components/ui/switch";
 import { Label } from"@/components/ui/label";
 import { ResetButton } from"@/components/shared/action-buttons";
 import { cn } from"@/lib/utils";
-import { Timer, Play, Pause, RotateCcw, Volume2, VolumeX } from"lucide-react";
+import { BarChart3, Coffee, Pause, Play, PlayCircle, RotateCcw, Timer, Volume2, VolumeX } from"lucide-react";
 import toast from"react-hot-toast";
 
 type Mode ="focus"|"break";
@@ -157,6 +160,86 @@ export function FocusTimerClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Set Time",
+    description:"Choose a focus block.",
+    icon: Timer,
+  },
+{
+    step:"02",
+    title:"Start",
+    description:"Begin the countdown.",
+    icon: PlayCircle,
+  },
+{
+    step:"03",
+    title:"Break",
+    description:"Rest when done.",
+    icon: Coffee,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Timer,
+    title:"Intervals",
+    description:"Custom lengths.",
+  },
+{
+    icon: PlayCircle,
+    title:"Start",
+    description:"One-tap begin.",
+  },
+{
+    icon: Coffee,
+    title:"Breaks",
+    description:"Rest prompts.",
+  },
+{
+    icon: BarChart3,
+    title:"Log",
+    description:"See focus time.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A focus timer structures work into bounded intervals with breaks, the core of the Pomodoro technique. Time-boxing reduces procrastination by making sessions finite. This tool runs the countdown and prompts rests.</p>
+  <p>Breaks sustain energy; the timer ensures you take them. Logging focus time shows patterns and builds a streak.</p>
+  <p>Use it for deep work. The tool's value is time-boxed concentration that beats open-ended effort.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Pomodoro?",
+    answer:"Yes, supports intervals.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Deep work.",
+  },
+{
+    question:"Track?",
+    answer:"Logs sessions.",
+  }
+  ]}
+/>
+</div>
  );
 }

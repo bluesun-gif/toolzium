@@ -1,4 +1,5 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -14,21 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Slider } from "@/components/ui/slider";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { cn } from "@/lib/utils";
-import {
-  Crop,
-  Download,
-  RotateCw,
-  RotateCcw,
-  FlipHorizontal,
-  FlipVertical,
-  Upload,
-  RefreshCcw,
-  ZoomIn,
-  Move,
-  Sparkles,
-  CheckCircle2,
-  Maximize2
-} from "lucide-react";
+import { CheckCircle2, Crop, Download, FlipHorizontal, FlipVertical, Maximize, Maximize2, Move, RefreshCcw, RotateCcw, RotateCw, Sparkles, Upload, ZoomIn } from"lucide-react";
 import { toast } from "react-hot-toast";
 
 interface CropBox {
@@ -720,7 +707,87 @@ export function AspectCropperClient() {
           ]}
         />
 
-        <RelatedTools currentToolUrl="/tools/image/aspect-cropper" />
+        
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Upload",
+    description:"Load your image.",
+    icon: Upload,
+  },
+{
+    step:"02",
+    title:"Pick Ratio",
+    description:"Choose a target aspect ratio.",
+    icon: Crop,
+  },
+{
+    step:"03",
+    title:"Crop",
+    description:"Adjust and export.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Upload,
+    title:"Load Image",
+    description:"From device or paste.",
+  },
+{
+    icon: Crop,
+    title:"Ratio Presets",
+    description:"1:1, 16:9, 4:3, and more.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Cropped result.",
+  },
+{
+    icon: Maximize,
+    title:"Smart Fit",
+    description:"Keeps key content.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An aspect ratio cropper shapes images to fit where they will appear — square for profiles, 16:9 for video thumbnails, 4:3 for prints. Mismatched ratios get awkwardly cropped by platforms; pre-cropping avoids surprises. This tool offers presets and precise adjustment.</p>
+  <p>Presets save guesswork. Selecting the right ratio before uploading means your subject stays centered and nothing important is cut. The cropper keeps key content in frame as you adjust.</p>
+  <p>Use it before posting anywhere with fixed dimensions. The tool's value is delivering correctly shaped images the first time, so they display as intended across every platform.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why crop to ratio?",
+    answer:"Platforms need specific shapes.",
+  },
+{
+    question:"Presets?",
+    answer:"Common social and print ratios.",
+  },
+{
+    question:"Quality loss?",
+    answer:"Minimal at export.",
+  },
+{
+    question:"Free?",
+    answer:"Yes, no signup.",
+  },
+{
+    question:"Bulk?",
+    answer:"One image at a time here.",
+  }
+  ]}
+/>
+<RelatedTools currentToolUrl="/tools/image/aspect-cropper" />
       </div>
     </div>
   );

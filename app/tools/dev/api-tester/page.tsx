@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import ApiTesterClient from "@/components/tools/dev/api-tester-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "API Request Tester",
   description:
@@ -120,6 +119,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <ApiTesterClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/api-tester" />
+</div>
   );
 }

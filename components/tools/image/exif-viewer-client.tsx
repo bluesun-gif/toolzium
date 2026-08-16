@@ -1,9 +1,12 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 import { useState, useRef, useCallback } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
-import { UploadCloud, Camera, MapPin, Image as ImageIcon, Code, Clock, Info, Download, Copy, Trash2 } from"lucide-react";
+import { Camera, Clock, Code, Copy, Download, FileSearch, Image as ImageIcon, Info, MapPin, ShieldCheck, Trash2, Upload, UploadCloud } from"lucide-react";
 
 // The EXIF parsing function
 function parseExif(buffer: ArrayBuffer): { tags: Record<string, any>, error?: string } {
@@ -621,6 +624,86 @@ export default function ExifViewerClient() {
  )}
  </div>
  </div>
- </>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Upload",
+    description:"Load an image.",
+    icon: Upload,
+  },
+{
+    step:"02",
+    title:"View",
+    description:"See all metadata fields.",
+    icon: FileSearch,
+  },
+{
+    step:"03",
+    title:"Export",
+    description:"Copy or save the data.",
+    icon: Copy,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Upload,
+    title:"Image Input",
+    description:"From your device.",
+  },
+{
+    icon: FileSearch,
+    title:"Full View",
+    description:"All EXIF fields.",
+  },
+{
+    icon: Copy,
+    title:"Copy",
+    description:"Metadata as text.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Privacy",
+    description:"Local only.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An EXIF viewer displays the full metadata embedded in an image — camera, lens, exposure, date, and sometimes location. Photographers verify capture settings; others investigate a file's origin. This tool reads and presents every field.</p>
+  <p>Viewing is local and private, so inspecting a file never sends it anywhere. You can copy the metadata as text for records or analysis.</p>
+  <p>Use it to understand any image's embedded data. The tool's value is complete, private metadata visibility without uploading files.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What shows?",
+    answer:"Camera, settings, date, location.",
+  },
+{
+    question:"Use case?",
+    answer:"Verify, catalog, investigate.",
+  },
+{
+    question:"Private?",
+    answer:"Yes, no upload.",
+  },
+{
+    question:"Edit metadata?",
+    answer:"Viewing only here.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  }
+  ]}
+/>
+</>
  );
 }

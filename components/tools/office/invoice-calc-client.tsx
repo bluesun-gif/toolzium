@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Receipt, Plus, DollarSign, Copy, Trash2 } from"lucide-react";
+import { Calculator, Copy, DollarSign, Download, ListChecks, Percent, Plus, Receipt, Trash2 } from"lucide-react";
 import toast from"react-hot-toast";
 
 type LineItem = {
@@ -161,7 +164,87 @@ export function InvoiceCalcClient() {
  <div key={item.id} className="flex justify-between">
  <span>{item.description} (x{item.quantity})</span>
  <span>${(itemSub - discAmount).toFixed(2)}</span>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Items",
+    description:"Add quantities and rates.",
+    icon: ListChecks,
+  },
+{
+    step:"02",
+    title:"Apply Tax",
+    description:"Set tax and discounts.",
+    icon: Percent,
+  },
+{
+    step:"03",
+    title:"Total",
+    description:"See the invoice sum.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: ListChecks,
+    title:"Line Items",
+    description:"Qty and rate per row.",
+  },
+{
+    icon: Percent,
+    title:"Tax and Discount",
+    description:"Automatic math.",
+  },
+{
+    icon: Calculator,
+    title:"Totals",
+    description:"Accurate sum.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Ready invoice.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An invoice line item calculator computes accurate totals from quantities, rates, tax, and discounts — eliminating arithmetic errors that delay payment. Each row multiplies correctly and the grand total reconciles. This tool handles the math.</p>
+  <p>Tax and discount automation matters. Manual calculation invites mistakes that clients flag, slowing cash flow. The calculator applies rates consistently.</p>
+  <p>Use it when billing. The tool's value is error-free invoice math that speeds payment.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What does it do?",
+    answer:"Computes line totals and grand total.",
+  },
+{
+    question:"Tax handled?",
+    answer:"Yes, per rate.",
+  },
+{
+    question:"Discounts?",
+    answer:"Yes, applied automatically.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Export?",
+    answer:"Downloadable.",
+  }
+  ]}
+/>
+</div>
  );
  })}
  </div>

@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import TipSplitterClient from "@/components/tools/calc/tip-splitter-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Tip Splitter",
@@ -134,6 +135,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <TipSplitterClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/calc/tip-split" />
+</div>
   );
 }

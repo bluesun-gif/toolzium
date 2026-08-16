@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { CircadianShiftPlannerClient } from "@/components/tools/time/circadian-shift-planner-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Circadian Shift Planner | Toolzium",
@@ -22,6 +23,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <CircadianShiftPlannerClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/time/circadian-shift-planner" />
+</div>
   );
 }

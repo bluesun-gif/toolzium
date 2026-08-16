@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import ZodiacClient from "@/components/tools/fun/zodiac-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Zodiac Sign Finder | Toolzium",
   description: "Enter your birth date to find your Western zodiac sign and Chinese zodiac animal, along with personality traits and lucky numbers.",
@@ -45,6 +44,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <ZodiacClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/fun/zodiac" />
+</div>
   );
 }

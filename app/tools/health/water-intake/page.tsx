@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { WaterIntakeClient } from "@/components/tools/health/water-intake-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Water Intake Calculator — Daily Hydration Goal | Toolzium",
@@ -71,6 +72,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <WaterIntakeClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/health/water-intake" />
+</div>
   );
 }

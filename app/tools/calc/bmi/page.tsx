@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import BMICalculatorClient from "@/components/tools/calc/bmi-calculator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Free BMI Calculator & Healthy Weight Range | Toolzium",
@@ -112,6 +113,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <BMICalculatorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/calc/bmi" />
+</div>
   );
 }

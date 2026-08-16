@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import AiGrammarPolishClient from "@/components/tools/writing/ai-grammar-polish-client";
-
 export const metadata: Metadata = {
   title: "AI Grammar & Style Polish Studio | Toolzium",
   description:
@@ -8,5 +7,9 @@ export const metadata: Metadata = {
 };
 
 export default function AiGrammarPolishPage() {
-  return <AiGrammarPolishClient />;
+  return (
+    <><AiGrammarPolishClient />
+      <RelatedTools currentToolUrl="/tools/writing/ai-grammar-polish" />
+    </>
+  );
 }

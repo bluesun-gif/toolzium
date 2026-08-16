@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { PaycheckDeductionsClient } from "@/components/tools/finance/paycheck-deductions-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Paycheck Deductions & Take-Home Calculator | Toolzium",
@@ -22,6 +23,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <PaycheckDeductionsClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/finance/paycheck-deductions" />
+</div>
   );
 }

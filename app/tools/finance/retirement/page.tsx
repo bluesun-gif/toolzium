@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import { RetirementClient } from "@/components/tools/finance/retirement-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Retirement Calculator | Toolzium",
   description: "Calculate retirement savings projections. Find out total at retirement, monthly income, and more.",
@@ -22,6 +21,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <RetirementClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/finance/retirement" />
+</div>
   );
 }

@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import ColorConverterClient from "@/components/tools/dev/color-converter-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Color Converter",
   description:
@@ -146,6 +145,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <ColorConverterClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/color-converter" />
+</div>
   );
 }

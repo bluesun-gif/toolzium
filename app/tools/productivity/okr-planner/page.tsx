@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { OkrPlannerClient } from "@/components/tools/productivity/okr-planner-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "OKR (Objectives & Key Results) Planner | Toolzium",
@@ -37,6 +38,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <OkrPlannerClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/productivity/okr-planner" />
+</div>
   );
 }

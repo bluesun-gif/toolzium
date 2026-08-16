@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { PomodoroAnalyticsClient } from "@/components/tools/productivity/pomodoro-analytics-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Pomodoro Tracker & Log | Toolzium",
@@ -21,6 +22,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <PomodoroAnalyticsClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/productivity/pomodoro-analytics" />
+</div>
   );
 }

@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import RegexExplainerClient from "@/components/tools/dev/regex-explainer-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "Regex Tester & AI Natural Language Explainer | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function RegexExplainerPage() {
-  return <RegexExplainerClient />;
+  return (
+    <><RegexExplainerClient />
+      <RelatedTools currentToolUrl="/tools/dev/regex-explainer" />
+    </>
+  );
 }

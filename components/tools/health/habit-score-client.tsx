@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -6,7 +9,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
-import { Award, Activity, TrendingUp, Calendar } from"lucide-react";
+import { Activity, Award, Calculator, Calendar, ListChecks, SlidersHorizontal, TrendingUp } from"lucide-react";
 import { ResetButton } from"@/components/shared/action-buttons";
 
 export function HabitScoreClient() {
@@ -90,6 +93,86 @@ export function HabitScoreClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"List Habits",
+    description:"Add your daily habits.",
+    icon: ListChecks,
+  },
+{
+    step:"02",
+    title:"Weight",
+    description:"Score importance per habit.",
+    icon: SlidersHorizontal,
+  },
+{
+    step:"03",
+    title:"Compute",
+    description:"See your consistency score.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: ListChecks,
+    title:"Habit List",
+    description:"Track what matters.",
+  },
+{
+    icon: SlidersHorizontal,
+    title:"Weighting",
+    description:"Prioritize key habits.",
+  },
+{
+    icon: Calculator,
+    title:"Score",
+    description:"Single progress number.",
+  },
+{
+    icon: TrendingUp,
+    title:"Trend",
+    description:"Improve over time.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A habit score calculator converts daily behaviors into a single progress metric, making consistency visible. By listing habits and weighting their importance, you get a score reflecting how well you lived your intentions today. This tool turns vague &quot;be better&quot; goals into tracked actions.</p>
+  <p>Weighting is the insight. Not all habits matter equally; prioritizing the few that move your goals prevents dilution across too many. The score then reflects what truly counts, guiding focus. Small daily reps compound into large change, and the number makes that tangible.</p>
+  <p>Track daily for momentum. The score rewards showing up, not perfection, which sustains motivation better than all-or-nothing thinking. The tool's value is quantifying the behaviors that actually drive your outcomes, so effort becomes measurable.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is a habit score?",
+    answer:"A measure of how consistently you perform chosen habits.",
+  },
+{
+    question:"Why weight them?",
+    answer:"Some habits matter more to your goals.",
+  },
+{
+    question:"How to improve?",
+    answer:"Small, daily reps compound.",
+  },
+{
+    question:"Daily or weekly?",
+    answer:"Daily tracking builds momentum.",
+  },
+{
+    question:"Useful for goals?",
+    answer:"Yes, ties actions to outcomes.",
+  }
+  ]}
+/>
+</div>
  );
 }

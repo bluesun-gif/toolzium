@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import FlashcardCreatorClient from "@/components/tools/academic/flashcard-creator-client";
-
 export const metadata: Metadata = {
   title: "AI Study Flashcard & Quiz Creator Studio | Toolzium",
   description:
@@ -8,5 +7,9 @@ export const metadata: Metadata = {
 };
 
 export default function FlashcardCreatorPage() {
-  return <FlashcardCreatorClient />;
+  return (
+    <><FlashcardCreatorClient />
+      <RelatedTools currentToolUrl="/tools/academic/flashcard-creator" />
+    </>
+  );
 }

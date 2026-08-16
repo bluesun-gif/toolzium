@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import MarkdownPreviewerClient from "@/components/tools/dev/markdown-previewer-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Markdown Previewer",
@@ -125,6 +126,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <MarkdownPreviewerClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/markdown-previewer" />
+</div>
   );
 }

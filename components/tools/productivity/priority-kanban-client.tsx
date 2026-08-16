@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -7,7 +10,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { Layout, Plus, CheckSquare, Download, ChevronRight, ChevronLeft } from"lucide-react";
+import { CheckSquare, ChevronLeft, ChevronRight, Download, Flag, Kanban, Layout, MoveRight, Plus, StickyNote } from"lucide-react";
 import { toast } from"react-hot-toast";
 
 type Task = {
@@ -132,6 +135,86 @@ export function PriorityKanbanClient() {
  </GlassCard>
  ))}
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Cards",
+    description:"Create task cards.",
+    icon: StickyNote,
+  },
+{
+    step:"02",
+    title:"Tag",
+    description:"Mark priority level.",
+    icon: Flag,
+  },
+{
+    step:"03",
+    title:"Flow",
+    description:"Move across columns.",
+    icon: MoveRight,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: StickyNote,
+    title:"Cards",
+    description:"Task items.",
+  },
+{
+    icon: Flag,
+    title:"Priority",
+    description:"Level tags.",
+  },
+{
+    icon: MoveRight,
+    title:"Stages",
+    description:"Todo, doing, done.",
+  },
+{
+    icon: Kanban,
+    title:"Board",
+    description:"Drag and drop.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A priority kanban board adds urgency labels to a visual workflow so high-priority cards stand out as they move. Color or flag tags make importance visible at a glance. This tool combines status and priority.</p>
+  <p>Priority plus flow prevents low-value work from crowding the board. The tags keep the important items front and center.</p>
+  <p>Use it for project work. The tool's value is a priority-aware visual workflow.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Priority tags?",
+    answer:"High, medium, low labels.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Active work.",
+  },
+{
+    question:"Best with?",
+    answer:"Weekly triage.",
+  }
+  ]}
+/>
+</div>
  );
 }

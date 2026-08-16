@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useRef } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -257,6 +260,86 @@ export function ColorExtractorClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Upload",
+    description:"Load an image.",
+    icon: Upload,
+  },
+{
+    step:"02",
+    title:"Extract",
+    description:"Pull dominant colors.",
+    icon: Pipette,
+  },
+{
+    step:"03",
+    title:"Copy",
+    description:"Grab hex codes.",
+    icon: Copy,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Upload,
+    title:"Image Input",
+    description:"Photos or graphics.",
+  },
+{
+    icon: Pipette,
+    title:"Dominant Colors",
+    description:"Top palette from image.",
+  },
+{
+    icon: Copy,
+    title:"Hex Codes",
+    description:"One-click copy.",
+  },
+{
+    icon: Palette,
+    title:"Palette",
+    description:"Build themes fast.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An image color extractor pulls a palette from any picture, turning a photo or artwork into usable hex codes. Designers borrow palettes from inspiration; marketers match brand colors to imagery. This tool surfaces the dominant colors so you can reuse them consistently.</p>
+  <p>The output is practical: copy-ready hex values you can drop into CSS or design tools. Averaging the most representative pixels yields a coherent palette rather than noise.</p>
+  <p>Use it to derive themes from real visuals. The tool's value is converting an image's mood into an exact, reusable color set in seconds.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"How does it work?",
+    answer:"Analyzes pixel distribution.",
+  },
+{
+    question:"Use cases?",
+    answer:"Branding, theming, art.",
+  },
+{
+    question:"How many colors?",
+    answer:"Several dominant swatches.",
+  },
+{
+    question:"Exact?",
+    answer:"Representative averages.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  }
+  ]}
+/>
+</div>
  );
 }

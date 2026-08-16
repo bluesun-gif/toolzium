@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import CryptoDcaClient from "@/components/tools/finance/crypto-dca-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "Crypto Dollar-Cost-Averaging (DCA) & Profit Calculator | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function CryptoDcaPage() {
-  return <CryptoDcaClient />;
+  return (
+    <><CryptoDcaClient />
+      <RelatedTools currentToolUrl="/tools/finance/crypto-dca-calc" />
+    </>
+  );
 }

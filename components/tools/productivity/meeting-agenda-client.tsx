@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { FileText, Clock, Users, Copy, Plus, Trash2, ArrowUp, ArrowDown, Printer, Save } from"lucide-react";
+import { ArrowDown, ArrowDownWideNarrow, ArrowUp, Clock, Copy, Download, FileText, ListChecks, Plus, Printer, Save, Trash2, Users } from"lucide-react";
 import toast from"react-hot-toast";
 
 type AgendaItem = {
@@ -257,6 +260,86 @@ export function MeetingAgendaClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Items",
+    description:"List topics and owners.",
+    icon: ListChecks,
+  },
+{
+    step:"02",
+    title:"Order",
+    description:"Sequence the discussion.",
+    icon: ArrowDownWideNarrow,
+  },
+{
+    step:"03",
+    title:"Share",
+    description:"Export the agenda.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: ListChecks,
+    title:"Topics",
+    description:"With owners.",
+  },
+{
+    icon: ArrowDownWideNarrow,
+    title:"Order",
+    description:"Sequenced.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Send ahead.",
+  },
+{
+    icon: Clock,
+    title:"Timeboxes",
+    description:"Allocate minutes.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A meeting agenda builder structures discussion with topics, owners, and timeboxes so meetings stay on track. Agendas sent ahead let attendees prepare, cutting meeting length. This tool assembles and exports them.</p>
+  <p>Owners and timeboxes prevent sprawl. The agenda makes expectations explicit before the call.</p>
+  <p>Use it before every meeting. The tool's value is focused, prepared meetings that respect time.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why an agenda?",
+    answer:"Keeps meetings focused.",
+  },
+{
+    question:"Owners?",
+    answer:"Yes, assign each item.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Timeboxes?",
+    answer:"Yes, allocate.",
+  },
+{
+    question:"Use case?",
+    answer:"Any meeting.",
+  }
+  ]}
+/>
+</div>
  );
 }

@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import AiContractorAgreementClient from "@/components/tools/office/ai-contractor-agreement-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "AI Independent Contractor Agreement Studio | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function AiContractorAgreementPage() {
-  return <AiContractorAgreementClient />;
+  return (
+    <><AiContractorAgreementClient />
+      <RelatedTools currentToolUrl="/tools/office/ai-contractor-agreement" />
+    </>
+  );
 }

@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useRef, ChangeEvent } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -7,7 +10,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components
 import TextareaField from"@/components/shared/form-fields/textarea-field";
 import { ResetButton, ActionButton, CopyButton } from"@/components/shared/action-buttons";
 import { Button } from"@/components/ui/button";
-import { Layers, Upload, Download, Copy, Image as ImageIcon, Code2 } from"lucide-react";
+import { Code2, Copy, Download, Image, Image as ImageIcon, Layers, Smartphone, Upload } from"lucide-react";
 import JSZip from"jszip";
 
 interface IconSize {
@@ -240,6 +243,86 @@ export default function FaviconGeneratorClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Upload",
+    description:"Load a logo or image.",
+    icon: Upload,
+  },
+{
+    step:"02",
+    title:"Generate",
+    description:"Build all icon variants.",
+    icon: Image,
+  },
+{
+    step:"03",
+    title:"Download",
+    description:"Export the set.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Upload,
+    title:"Source",
+    description:"Logo or picture.",
+  },
+{
+    icon: Image,
+    title:"Variants",
+    description:"Favicon and app icons.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Ready package.",
+  },
+{
+    icon: Smartphone,
+    title:"App Ready",
+    description:"Mobile icon sizes.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A favicon and app icon generator produces the complete icon family a modern product needs — browser tabs, bookmarks, and home-screen app icons across devices. Manually creating each size is error-prone; this tool generates them from one source.</p>
+  <p>Covering both web and mobile ensures consistent branding everywhere the product appears. The exported package drops straight into a project.</p>
+  <p>Use it to brand a site or app uniformly. The tool's value is a full, correctly sized icon set from a single upload.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Favicon vs app?",
+    answer:"Different sizes for each use.",
+  },
+{
+    question:"Sizes?",
+    answer:"Covers web and mobile.",
+  },
+{
+    question:"Format?",
+    answer:"ICO and PNG.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  }
+  ]}
+/>
+</div>
  );
 }

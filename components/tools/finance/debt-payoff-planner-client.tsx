@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ResetButton, CopyButton } from"@/components/shared/action-buttons";
-import { DollarSign, Flame, Calendar, Copy, Plus, Trash2 } from"lucide-react";
+import { Calendar, CalendarDays, Copy, DollarSign, Flame, ListChecks, Plus, Trash2, TrendingDown, Wallet } from"lucide-react";
 
 type Debt = {
  id: string;
@@ -181,6 +184,87 @@ export function DebtPayoffPlannerClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Debts",
+    description:"Add each loan with rate and balance.",
+    icon: ListChecks,
+  },
+{
+    step:"02",
+    title:"Set Budget",
+    description:"Define how much you can pay monthly.",
+    icon: Wallet,
+  },
+{
+    step:"03",
+    title:"Plan",
+    description:"Get a month-by-month payoff schedule.",
+    icon: CalendarDays,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: ListChecks,
+    title:"Full Inventory",
+    description:"Organizes all debts in one place.",
+  },
+{
+    icon: Wallet,
+    title:"Budget Driven",
+    description:"Plans within your real monthly capacity.",
+  },
+{
+    icon: CalendarDays,
+    title:"Schedule View",
+    description:"Maps which debt clears and when.",
+  },
+{
+    icon: TrendingDown,
+    title:"Optimized Order",
+    description:"Suggests payoff sequence to save interest.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A debt payoff planner goes beyond a single calculation by laying out a month-by-month path to being debt-free. Where a calculator gives a total, a planner sequences your payments so you know exactly which debt to attack each period and what balance remains. That roadmap is what sustains motivation through a long payoff.</p>
+  <p>The planner starts with a full inventory: every balance, rate, and minimum. Then it applies your real monthly capacity — not an idealized number — so the schedule is achievable. It typically suggests paying extra toward the highest-rate debt while meeting minimums elsewhere, saving the most interest within your budget.</p>
+  <p>Flexibility is built in. Income fluctuates, expenses surprise, and priorities shift; re-running the planner with updated numbers produces a fresh schedule instantly. Keeping a modest emergency fund alongside the plan prevents a car repair from forcing new high-interest debt that undoes progress. The two work together rather than competing.</p>
+  <p>Discipline beats intensity. A steady, automated extra payment beats sporadic heroic efforts that burn out. Roll each cleared payment into the next debt so momentum compounds, and watch the schedule shorten as balances fall. The planner's value is turning an intimidating total into a sequence of small, dated wins — a project with milestones rather than a shadow you carry indefinitely.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"How is this different from a calculator?",
+    answer:"A planner builds a sequenced schedule over time, not just a final number.",
+  },
+{
+    question:"What if my budget changes?",
+    answer:"Re-run the plan with a new amount; the schedule updates immediately.",
+  },
+{
+    question:"Should I keep an emergency fund while paying debt?",
+    answer:"A small buffer prevents new debt from surprises; balance both.",
+  },
+{
+    question:"Can I prepay without penalty?",
+    answer:"Many loans allow it, but confirm terms to avoid fees.",
+  },
+{
+    question:"What if I have irregular income?",
+    answer:"Base the plan on a conservative month and apply surplus when you have it.",
+  }
+  ]}
+/>
+</div>
  );
 }

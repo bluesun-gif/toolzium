@@ -1,7 +1,9 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
-"use strict";
-"use client";
+
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -13,7 +15,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { Zap, Calculator, DollarSign, Plus, Trash2 } from"lucide-react";
+import { Calculator, DollarSign, Leaf, Plus, Trash2, Zap } from"lucide-react";
 
 interface Appliance {
  id: string;
@@ -166,6 +168,87 @@ export function ElectricityCostClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Usage",
+    description:"Add appliance watts and hours used.",
+    icon: Zap,
+  },
+{
+    step:"02",
+    title:"Set Rate",
+    description:"Input your price per kWh.",
+    icon: DollarSign,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See daily, monthly, and annual cost.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Zap,
+    title:"Appliance Level",
+    description:"Breaks cost down by device.",
+  },
+{
+    icon: DollarSign,
+    title:"Rate Aware",
+    description:"Uses your real tariff per kWh.",
+  },
+{
+    icon: Calculator,
+    title:"Time Views",
+    description:"Daily, monthly, and yearly totals.",
+  },
+{
+    icon: Leaf,
+    title:"Savings Hints",
+    description:"Highlights high-cost devices to target.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>Electricity bills feel mysterious until you connect usage to cost. The calculator does that by turning watts and hours into dollars using your real tariff. Instead of a lump sum, you see which appliances drive the bill, making savings concrete rather than wishful.</p>
+  <p>The math rests on the kilowatt-hour. Multiply an appliance's wattage by hours used, divide by 1000 for kWh, then multiply by your per-kWh rate. A 1000-watt heater running eight hours daily costs far more than a 10-watt LED left on all night. The device-level breakdown reveals surprises — often an old freezer or always-on server dwarfs the lights.</p>
+  <p>Rates shape everything. Time-of-use tariffs charge more during peak hours, so shifting laundry or dishwashing to off-peak periods cuts cost without changing behavior much. Fixed tariffs make efficiency upgrades the main lever: better insulation, efficient appliances, and eliminating standby load. The calculator models these shifts so you can prioritize.</p>
+  <p>Use the insight to act. Target the few devices responsible for most cost rather than chasing tiny savings everywhere. Smart power strips, a programmable thermostat, and unplugging idle electronics are high-impact and cheap. Track month to month to confirm improvements. Turning an opaque bill into a device-by-device map is the first step from confusion to control over your energy spending.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is a kWh?",
+    answer:"A kilowatt-hour is one kilowatt used for one hour, the standard billing unit.",
+  },
+{
+    question:"How do I find my rate?",
+    answer:"Check your utility bill for the price per kWh, including tiered or fixed charges.",
+  },
+{
+    question:"Why do appliances differ so much?",
+    answer:"Heating, cooling, and old devices draw far more than LEDs or modern electronics.",
+  },
+{
+    question:"Does standby use cost money?",
+    answer:"Yes, idle electronics add up; smart strips cut phantom load.",
+  },
+{
+    question:"How can I lower the bill?",
+    answer:"Shift usage to off-peak, upgrade to efficient devices, and improve insulation.",
+  }
+  ]}
+/>
+</div>
  );
 }

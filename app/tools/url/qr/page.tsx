@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import QRClient from "@/components/tools/url/qr-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Free QR Code Generator with Custom Logo & Colors | Toolzium",
   description:
@@ -114,6 +113,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <QRClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/url/qr" />
+</div>
   );
 }

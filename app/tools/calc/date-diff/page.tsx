@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import DateDifferenceClient from "@/components/tools/calc/date-difference-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Date Difference Calculator",
@@ -140,6 +141,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <DateDifferenceClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/calc/date-diff" />
+</div>
   );
 }

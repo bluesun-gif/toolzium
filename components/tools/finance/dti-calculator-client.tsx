@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Separator } from"@/components/ui/separator";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { DollarSign, Calculator, Shield } from"lucide-react";
+import { Calculator, CreditCard, DollarSign, Percent, Shield, ShieldCheck, Wallet } from"lucide-react";
 import { cn } from"@/lib/utils";
 
 export function DtiCalculatorClient() {
@@ -220,6 +223,87 @@ export function DtiCalculatorClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Income",
+    description:"Add your gross monthly income.",
+    icon: Wallet,
+  },
+{
+    step:"02",
+    title:"Enter Debts",
+    description:"List monthly debt payments.",
+    icon: CreditCard,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"Get your DTI percentage.",
+    icon: Percent,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Wallet,
+    title:"Gross Based",
+    description:"Uses gross income as lenders do.",
+  },
+{
+    icon: CreditCard,
+    title:"Debt Sum",
+    description:"Includes loans, cards, and housing.",
+  },
+{
+    icon: Percent,
+    title:"Ratio Output",
+    description:"Returns front-end and back-end DTI.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Threshold Guide",
+    description:"Shows typical lender cutoffs.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>Debt-to-income ratio is the number lenders weigh most when approving loans. It compares your monthly debt payments to gross monthly income, expressed as a percentage. A low DTI signals you have room for a new payment; a high one suggests you are stretched. Understanding it before applying saves rejection and surprises.</p>
+  <p>Two versions matter. The front-end ratio looks only at housing costs relative to income, while the back-end includes all debt payments — cards, loans, and housing together. Most mortgage decisions hinge on the back-end, though both are reviewed. The calculator returns both so you see your full picture as an underwriter would.</p>
+  <p>Improving DTI is straightforward in theory: lower debt or raise income. Paying down a credit card balance reduces the monthly obligation counted, and a raise increases the denominator. Because the ratio uses gross income, a promotion helps immediately even before taxes. Small debt reductions can move you below a key threshold that unlocks better loan terms.</p>
+  <p>Use the result to time applications. If your DTI sits above typical lender cutoffs, focus on debt paydown before house or loan shopping. Avoid taking new credit just before applying, since it raises the ratio. The calculator gives a clear target — get under it, and your borrowing power expands. Treat DTI as a dashboard gauge you can actively manage rather than a fixed verdict.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is a good DTI?",
+    answer:"Lenders often prefer below 36 percent, with some programs allowing up to 43 or 50.",
+  },
+{
+    question:"Front-end vs back-end?",
+    answer:"Front-end is housing-only; back-end includes all debt payments.",
+  },
+{
+    question:"Does DTI use gross or net?",
+    answer:"Gross monthly income, because that is the standard lenders apply.",
+  },
+{
+    question:"Which debts count?",
+    answer:"Minimum payments on loans, cards, and housing — not living expenses.",
+  },
+{
+    question:"How do I lower my DTI?",
+    answer:"Pay down debt or increase income; both reduce the ratio.",
+  }
+  ]}
+/>
+</div>
  );
 }

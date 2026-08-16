@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Button } from"@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
 import { Slider } from"@/components/ui/slider";
-import { Clock, Globe, Plus, Trash2 } from"lucide-react";
+import { Clock, Globe, Plus, ShieldCheck, Trash2, Users } from"lucide-react";
 
 const TIMEZONES = [
  { value:"UTC", label:"UTC"},
@@ -133,7 +136,87 @@ export function TimezoneCompareClient() {
  </button>
  <span className="text-sm font-medium text-center">{label}</span>
  <span className="text-3xl font-bold">{text}</span>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Zones",
+    description:"Pick cities.",
+    icon: Globe,
+  },
+{
+    step:"02",
+    title:"Pick Time",
+    description:"A reference moment.",
+    icon: Clock,
+  },
+{
+    step:"03",
+    title:"Compare",
+    description:"See all local times.",
+    icon: Users,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Globe,
+    title:"Zones",
+    description:"Multiple cities.",
+  },
+{
+    icon: Clock,
+    title:"Reference",
+    description:"A base time.",
+  },
+{
+    icon: Users,
+    title:"Compare",
+    description:"All conversions.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Clarity",
+    description:"No mental math.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A time zone comparison shows one moment across many cities at once, eliminating the mental math of conversions. For global teams and travel, seeing all local times together prevents mistakes. This tool handles the conversion.</p>
+  <p>Clarity avoids missed calls and wrong deadlines. The comparison makes coordination trivial.</p>
+  <p>Use it whenever zones differ. The tool's value is instant, multi-zone time clarity.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why compare?",
+    answer:"Coordinate across regions.",
+  },
+{
+    question:"Many zones?",
+    answer:"Add several.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Remote teams.",
+  }
+  ]}
+/>
+</div>
  );
  })}
  </div>

@@ -2,7 +2,6 @@ import { buildMetadata } from "@/lib/seo";
 import { siteURL } from "@/lib/constants";
 import JsonLd from "@/components/seo/json-ld";
 import MarkdownEditorClient from "@/components/tools/dev/markdown-editor-client";
-
 export const metadata = buildMetadata({
   title: "Markdown Editor — Live Preview & Export | Toolzium",
   description: "Write and preview Markdown in real time. Free online Markdown editor with live HTML preview, toolbar, word count, and export to .md file. No signup required.",
@@ -95,6 +94,8 @@ export default function Page() {
       <JsonLd data={breadcrumbData} />
       <JsonLd data={webAppSchema} />
       <MarkdownEditorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/markdown-editor" />
+</div>
   );
 }

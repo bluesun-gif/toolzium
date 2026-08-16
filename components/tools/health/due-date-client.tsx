@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useMemo } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Separator } from"@/components/ui/separator";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ResetButton } from"@/components/shared/action-buttons";
-import { HeartPulse, Calendar, Clock, Heart } from"lucide-react";
+import { Baby, Calculator, Calendar, Clock, Heart, HeartPulse, Settings2 } from"lucide-react";
 
 export function DueDateClient() {
  const [lmpDate, setLmpDate] = useState<string>(() => {
@@ -186,6 +189,86 @@ export function DueDateClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter LMP",
+    description:"Add last menstrual period date.",
+    icon: Calendar,
+  },
+{
+    step:"02",
+    title:"Adjust",
+    description:"Account for cycle length if needed.",
+    icon: Settings2,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See estimated due date.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Calendar,
+    title:"LMP Based",
+    description:"Standard obstetric method.",
+  },
+{
+    icon: Settings2,
+    title:"Cycle Aware",
+    description:"Adjusts for irregular lengths.",
+  },
+{
+    icon: Calculator,
+    title:"Date Estimate",
+    description:"Approximate delivery window.",
+  },
+{
+    icon: Baby,
+    title:"Trimester View",
+    description:"Shows pregnancy stages.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A due date calculator estimates delivery timing from the last menstrual period, the standard obstetric starting point. Pregnancy is counted as about 40 weeks from LMP, not from conception, which occurs roughly two weeks later. This tool adds that span to your date, giving an approximate due window.</p>
+  <p>Cycle length matters. The 40-week rule assumes a 28-day cycle; longer or shorter cycles shift ovulation and the true date. The calculator can adjust for this, improving the estimate. Still, only about 5 percent of babies arrive exactly on the date, so treat it as a range.</p>
+  <p>This supports, not replaces, prenatal care. Ultrasound dating refines the estimate, especially with irregular cycles. The tool's value is a quick, personalized expectation you can discuss with your provider, grounding the pregnancy timeline in a clear number.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"How is due date estimated?",
+    answer:"About 40 weeks from the last menstrual period.",
+  },
+{
+    question:"Accurate?",
+    answer:"An estimate; actual birth varies by weeks.",
+  },
+{
+    question:"What if cycles are irregular?",
+    answer:"Ultrasound dating is more precise.",
+  },
+{
+    question:"Why 40 weeks?",
+    answer:"Counted from LMP, not conception.",
+  },
+{
+    question:"Medical use?",
+    answer:"Confirm with your clinician.",
+  }
+  ]}
+/>
+</div>
  );
 }

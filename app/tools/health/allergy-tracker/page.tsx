@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { AllergyTrackerClient } from "@/components/tools/health/allergy-tracker-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Allergy Tracker | Toolzium",
@@ -22,6 +23,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <AllergyTrackerClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/health/allergy-tracker" />
+</div>
   );
 }

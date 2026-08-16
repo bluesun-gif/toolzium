@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { Target, Plus, CheckSquare, Download, Trash2 } from"lucide-react";
+import { CheckCircle2, CheckSquare, Download, ListTree, Plus, Target, Trash2, TrendingUp } from"lucide-react";
 import toast from"react-hot-toast";
 
 type Category ="Work"|"Health"|"Personal"|"Finance";
@@ -295,7 +298,87 @@ export function WeeklyGoalsClient() {
  <Button size="icon"className="h-9 w-9 shrink-0"onClick={() => addTask(goal.id)}>
  <Plus className="w-4 h-4"/>
  </Button>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Set Goals",
+    description:"Pick the week's targets.",
+    icon: Target,
+  },
+{
+    step:"02",
+    title:"Break Down",
+    description:"Add milestones.",
+    icon: ListTree,
+  },
+{
+    step:"03",
+    title:"Review",
+    description:"Check off as done.",
+    icon: CheckCircle2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Target,
+    title:"Goals",
+    description:"Weekly targets.",
+  },
+{
+    icon: ListTree,
+    title:"Milestones",
+    description:"Sub-steps.",
+  },
+{
+    icon: CheckCircle2,
+    title:"Complete",
+    description:"Mark done.",
+  },
+{
+    icon: TrendingUp,
+    title:"Progress",
+    description:"See movement.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A weekly goals planner sets a short, achievable horizon so targets feel doable and progress is visible by Friday. Breaking goals into milestones makes them concrete. This tool tracks the week.</p>
+  <p>Weekly scope prevents the overwhelm of long horizons while staying accountable. The planner makes the week manageable.</p>
+  <p>Use it Mondays. The tool's value is focused, milestone-based weekly progress.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why weekly?",
+    answer:"Short, achievable horizon.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use with?",
+    answer:"Daily board.",
+  },
+{
+    question:"Best cadence?",
+    answer:"Plan Mondays.",
+  }
+  ]}
+/>
+</div>
  </CardContent>
  </GlassCard>
  );

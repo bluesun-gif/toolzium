@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import VideoRatioClient from "@/components/tools/calc/video-ratio-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Aspect Ratio Calculator for Video | Toolzium",
   description:
@@ -75,6 +74,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <VideoRatioClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/calc/video-ratio" />
+</div>
   );
 }

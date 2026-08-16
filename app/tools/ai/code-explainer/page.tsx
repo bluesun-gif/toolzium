@@ -2,7 +2,6 @@ import { Metadata } from "next";
 import CodeExplainerClient from "@/components/tools/ai/code-explainer-client";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import JsonLd from "@/components/seo/json-ld";
-
 const TITLE = "AI Code Explainer & Multi-Language Converter — Free Developer Tool | Toolzium";
 const DESCRIPTION =
   "Understand complex code snippets instantly with plain-English breakdowns and translate code seamlessly across Python, TypeScript, Rust, Go, and C++.";
@@ -47,6 +46,8 @@ export default function CodeExplainerPage() {
     <>
       <JsonLd data={jsonLdData as any} />
       <CodeExplainerClient />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/ai/code-explainer" />
+</>
   );
 }

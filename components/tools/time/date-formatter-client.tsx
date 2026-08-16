@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -6,7 +9,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
-import { Calendar, Clock, ArrowRightLeft } from"lucide-react";
+import { ArrowRightLeft, Calendar, Clock, Copy, Globe, Type } from"lucide-react";
 import { CopyButton } from"@/components/shared/action-buttons";
 import { Separator } from"@/components/ui/separator";
 
@@ -165,6 +168,86 @@ export function DateFormatterClient() {
  </div>
  </div>
  )}
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Date",
+    description:"Type or pick a date.",
+    icon: Calendar,
+  },
+{
+    step:"02",
+    title:"Choose Style",
+    description:"Select a format.",
+    icon: Type,
+  },
+{
+    step:"03",
+    title:"Copy",
+    description:"Grab the formatted text.",
+    icon: Copy,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Calendar,
+    title:"Input",
+    description:"Any date.",
+  },
+{
+    icon: Type,
+    title:"Formats",
+    description:"ISO, long, custom.",
+  },
+{
+    icon: Copy,
+    title:"Copy",
+    description:"One click.",
+  },
+{
+    icon: Globe,
+    title:"Locales",
+    description:"Regional styles.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A date formatter converts one date representation into another — ISO, long form, or a custom pattern — so it fits wherever you need it. Developers and writers hit format mismatches constantly. This tool handles the conversion and copying.</p>
+  <p>Locale-aware output prevents ambiguity (is 03/04 March or April?). The formatter makes intent explicit.</p>
+  <p>Use it whenever a date needs reshaping. The tool's value is instant, correct date formatting.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What does it do?",
+    answer:"Rewrites a date in another format.",
+  },
+{
+    question:"ISO support?",
+    answer:"Yes, ISO 8601.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Docs, code, forms.",
+  }
+  ]}
+/>
+</div>
  );
 }

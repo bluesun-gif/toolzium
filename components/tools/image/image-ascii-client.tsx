@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useRef, useEffect, useCallback } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -11,7 +14,7 @@ import { Label } from"@/components/ui/label";
 import { Switch } from"@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Code, Upload, Download, Image as ImageIcon } from"lucide-react";
+import { Code, Copy, Download, Image as ImageIcon, SlidersHorizontal, Terminal, Upload } from"lucide-react";
 import toast from"react-hot-toast";
 
 const PALETTES = {
@@ -365,6 +368,86 @@ export function ImageAsciiClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Upload",
+    description:"Load an image.",
+    icon: Upload,
+  },
+{
+    step:"02",
+    title:"Convert",
+    description:"Map pixels to characters.",
+    icon: Terminal,
+  },
+{
+    step:"03",
+    title:"Copy",
+    description:"Grab the ASCII art.",
+    icon: Copy,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Upload,
+    title:"Image Input",
+    description:"From your device.",
+  },
+{
+    icon: Terminal,
+    title:"ASCII",
+    description:"Text-based rendering.",
+  },
+{
+    icon: Copy,
+    title:"Copy",
+    description:"Plain text output.",
+  },
+{
+    icon: SlidersHorizontal,
+    title:"Tunable",
+    description:"Density and chars.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An image to ASCII generator converts a picture into text characters, where darker pixels become denser symbols. The result is shareable as plain text — perfect for terminals, code comments, or novel posts. This tool maps pixels to a character ramp.</p>
+  <p>Tunable density controls fidelity. A finer charset yields recognizable detail; a sparse one gives a sketchy look. Adjusting lets you match the aesthetic you want.</p>
+  <p>Use it for creative text-based art. The tool's value is turning any image into portable, copy-paste ASCII in seconds.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is ASCII art?",
+    answer:"Image rendered in text characters.",
+  },
+{
+    question:"Use case?",
+    answer:"Fun, terminals, comments.",
+  },
+{
+    question:"Adjustable?",
+    answer:"Yes, detail and charset.",
+  },
+{
+    question:"Private?",
+    answer:"Local processing.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  }
+  ]}
+/>
+</div>
  );
 }

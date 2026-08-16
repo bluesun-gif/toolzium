@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { FileText, ShieldCheck, Copy, Printer } from"lucide-react";
+import { Copy, FileCheck2, FileText, Printer, Scale, ShieldCheck } from"lucide-react";
 import toast from"react-hot-toast";
 
 export function ConsultingAgreementClient() {
@@ -163,6 +166,86 @@ export function ConsultingAgreementClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Parties",
+    description:"Add client and consultant.",
+    icon: FileText,
+  },
+{
+    step:"02",
+    title:"Set Scope",
+    description:"Define services and fees.",
+    icon: Scale,
+  },
+{
+    step:"03",
+    title:"Generate",
+    description:"Build the agreement.",
+    icon: FileCheck2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: FileText,
+    title:"Parties",
+    description:"Identities and roles.",
+  },
+{
+    icon: Scale,
+    title:"Fees",
+    description:"Rate and payment terms.",
+  },
+{
+    icon: FileCheck2,
+    title:"Draft",
+    description:"Ready document.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Terms",
+    description:"Confidentiality included.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A consulting agreement generator builds the contract governing advisory engagements, covering services, fees, and confidentiality. Clear terms protect consultants from non-payment and scope creep. This tool structures the essentials.</p>
+  <p>Confidentiality is standard but vital; the generator includes it so client data is protected by contract. Fee and payment terms prevent collection issues.</p>
+  <p>Review with counsel before signing. The tool's value is a complete consulting contract draft in minutes.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is it?",
+    answer:"Contract for advisory services.",
+  },
+{
+    question:"Covers confidentiality?",
+    answer:"Yes, standard clause.",
+  },
+{
+    question:"Binding?",
+    answer:"Draft; legal review.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Use case?",
+    answer:"Independent consultants.",
+  }
+  ]}
+/>
+</div>
  );
 }

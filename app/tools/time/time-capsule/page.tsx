@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { TimeCapsuleClient } from "@/components/tools/time/time-capsule-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Time Capsule Message | Toolzium",
@@ -21,6 +22,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <TimeCapsuleClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/time/time-capsule" />
+</div>
   );
 }

@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { IndoorCyclingCalorieClient } from "@/components/tools/health/indoor-cycling-calorie-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Indoor Cycling & Spin Bike Calorie Calculator — Calories Burned (2026) | Toolzium",
@@ -71,6 +72,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <IndoorCyclingCalorieClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/health/indoor-cycling-calorie" />
+</div>
   );
 }

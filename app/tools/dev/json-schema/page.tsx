@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import { JsonSchemaClient } from "@/components/tools/dev/json-schema-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "JSON Schema Validator | Toolzium",
   description: "Validate JSON data against a JSON Schema instantly. Real-time validation, formatting, and helpful error messages.",
@@ -63,6 +62,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <JsonSchemaClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/json-schema" />
+</div>
   );
 }

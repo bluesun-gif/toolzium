@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import NotepadClient from "@/components/tools/productivity/notepad-client";
 import { generateSEOMetadata } from "@/lib/seo-config";
 import JsonLd from "@/components/seo/json-ld";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = generateSEOMetadata({
   title: "Online Notepad — Free Text Editor No Signup",
@@ -45,6 +46,8 @@ export default function NotepadPage() {
     <>
       <JsonLd data={faqSchema} />
       <NotepadClient />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/productivity/notepad" />
+</>
   );
 }

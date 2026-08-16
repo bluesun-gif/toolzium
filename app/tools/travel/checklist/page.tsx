@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { TravelChecklistClient } from "@/components/tools/travel/checklist-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Travel Checklist | Toolzium",
@@ -22,6 +23,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <TravelChecklistClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/travel/checklist" />
+</div>
   );
 }

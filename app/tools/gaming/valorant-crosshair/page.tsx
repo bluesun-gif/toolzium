@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import ValorantCrosshairClient from "@/components/tools/gaming/valorant-crosshair-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "Valorant Pro Crosshair Generator & Import Code Converter | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function ValorantCrosshairPage() {
-  return <ValorantCrosshairClient />;
+  return (
+    <><ValorantCrosshairClient />
+      <RelatedTools currentToolUrl="/tools/gaming/valorant-crosshair" />
+    </>
+  );
 }

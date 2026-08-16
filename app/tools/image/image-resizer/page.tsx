@@ -2,6 +2,7 @@ import { buildMetadata } from "@/lib/seo";
 import { siteURL } from "@/lib/constants";
 import JsonLd from "@/components/seo/json-ld";
 import ImageResizerClient from "@/components/tools/image/image-resizer-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 const TITLE = "Image Resizer — Resize Images Online in KB / Pixels | Toolzium";
 const DESCRIPTION = "Free online image resizer. Resize single or bulk images by pixels or percentage, maintain aspect ratio, adjust quality, and target file size in KB. Instant 100% browser-based photo resizer.";
@@ -64,6 +65,8 @@ export default function Page() {
     <>
       <JsonLd data={jsonLd as any} />
       <ImageResizerClient />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/image/image-resizer" />
+</>
   );
 }

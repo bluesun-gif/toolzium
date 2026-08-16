@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import MeetingNotesClient from "@/components/tools/office/meeting-notes-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Meeting Notes",
@@ -138,6 +139,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <MeetingNotesClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/office/meeting-notes" />
+</div>
   );
 }

@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useEffect, useRef, ChangeEvent } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ResetButton } from"@/components/shared/action-buttons";
-import { Image as ImageIcon, Download, Palette, Type } from"lucide-react";
+import { Download, Globe, Image, Image as ImageIcon, Palette, Type, Upload } from"lucide-react";
 import toast from"react-hot-toast";
 
 const SIZES = [16, 32, 48, 180, 192, 512];
@@ -173,6 +176,86 @@ export function FaviconGeneratorClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Upload",
+    description:"Load a source image.",
+    icon: Upload,
+  },
+{
+    step:"02",
+    title:"Generate",
+    description:"Create sized favicons.",
+    icon: Image,
+  },
+{
+    step:"03",
+    title:"Download",
+    description:"Get the icon set.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Upload,
+    title:"Source",
+    description:"Any image.",
+  },
+{
+    icon: Image,
+    title:"Multi-size",
+    description:"All required dimensions.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Icon package.",
+  },
+{
+    icon: Globe,
+    title:"Web Ready",
+    description:"For sites and apps.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A favicon generator turns one image into the full set of icon sizes browsers and devices expect — from the tiny tab icon to apple-touch icons. Supplying a single image and getting every dimension saves tedious manual resizing. This tool produces the package.</p>
+  <p>Correct sizes matter for crisp display across platforms; a missing or wrong-size icon looks broken in bookmarks and home screens. The generator handles the matrix automatically.</p>
+  <p>Use it when launching or rebranding a site. The tool's value is a complete, correctly sized favicon set from one source image.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What sizes?",
+    answer:"16, 32, 48, 180, and more.",
+  },
+{
+    question:"Use case?",
+    answer:"Browser tab and app icons.",
+  },
+{
+    question:"Format?",
+    answer:"ICO and PNG.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local processing.",
+  }
+  ]}
+/>
+</div>
  );
 }

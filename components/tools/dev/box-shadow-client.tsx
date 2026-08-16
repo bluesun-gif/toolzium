@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Switch } from"@/components/ui/switch";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Square, Plus, Trash2 } from"lucide-react";
+import { Code2, Copy, Layers, Palette, Plus, SlidersHorizontal, Sparkles, Square, Trash2 } from"lucide-react";
 import { cn } from"@/lib/utils";
 
 type ShadowLayer = {
@@ -289,6 +292,88 @@ export function BoxShadowClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Pick Shadow Layers",
+    description:"Add one or more shadow layers and choose inset or outer style.",
+    icon: Layers,
+  },
+{
+    step:"02",
+    title:"Adjust the Sliders",
+    description:"Set horizontal, vertical, blur, spread, and color for each layer.",
+    icon: SlidersHorizontal,
+  },
+{
+    step:"03",
+    title:"Copy the CSS",
+    description:"Grab the generated CSS or Tailwind snippet and drop it into your project.",
+    icon: Copy,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Layers,
+    title:"Multi-Layer Shadows",
+    description:"Stack several shadows to create depth, glow, or realistic elevation.",
+  },
+{
+    icon: Palette,
+    title:"Full Color Control",
+    description:"Use hex, RGB, or RGBA including alpha for soft, translucent shadows.",
+  },
+{
+    icon: Sparkles,
+    title:"One-Click Presets",
+    description:"Start from popular shadow presets and tweak from there.",
+  },
+{
+    icon: Code2,
+    title:"CSS + Tailwind Output",
+    description:"Copy clean CSS or ready-to-use Tailwind classes.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A well-placed box-shadow is one of the fastest ways to make a user interface feel tangible. Shadows communicate elevation: elements that float above the page appear clickable, while flat elements read as background. The CSS box-shadow property accepts up to four length values plus a color, and understanding each one gives you precise control.</p>
+  <p>The first two values are the horizontal and vertical offsets. A positive horizontal offset pushes the shadow right; a positive vertical offset pushes it down. Negative values move the shadow left or up. The third value is blur radius: zero produces a hard edge, while larger numbers create a soft gradient falloff. The fourth is spread radius, which enlarges or shrinks the shadow independently of the element's size. Finally, the color — typically a translucent black such as rgba(0,0,0,0.15) — determines intensity.</p>
+  <p>Inset shadows flip the effect inward, which is perfect for inputs, pressed buttons, and engraved panels. By combining an outer drop shadow with a subtle inset highlight you can simulate realistic material surfaces. Layering multiple shadows with commas lets you build glows, double borders, and neumorphic effects without extra markup.</p>
+  <p>Performance matters on busy pages. Shadows are cheap on modern browsers, but dozens of large blurred shadows inside scrollable lists can cost frames. Prefer a small number of well-tuned shadows over many heavy ones, and avoid animating blur radius where possible. When you need motion, animate transform and opacity instead.</p>
+  <p>Tailwind users can express the same result with utilities like shadow-md or arbitrary values such as shadow-[0_10px_15px_rgba(0,0,0,0.1)]. Our generator outputs both classic CSS and Tailwind so you can paste directly into your stack. Start from a preset, tune the sliders, and copy the snippet — no guesswork required.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What does box-shadow do in CSS?",
+    answer:"The CSS box-shadow property adds shadow effects around an element's frame. You control offset, blur, spread, color, and whether the shadow is inset.",
+  },
+{
+    question:"What is an inset shadow?",
+    answer:"An inset shadow is drawn inside the element rather than outside it, creating a pressed or engraved look. Toggle the inset option to use it.",
+  },
+{
+    question:"How do I make a soft shadow?",
+    answer:"Increase the blur radius and reduce opacity using an RGBA color. Larger blur with low alpha gives a smooth, natural falloff.",
+  },
+{
+    question:"Can I stack multiple shadows?",
+    answer:"Yes. Separate each shadow definition with a comma. Our generator lets you add and manage multiple layers visually.",
+  },
+{
+    question:"Does box-shadow affect layout size?",
+    answer:"No. Shadows are purely visual and do not change the element's box size or affect surrounding layout.",
+  }
+  ]}
+/>
+</div>
  );
 }

@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import CitationGeneratorClient from "@/components/tools/academic/citation-generator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Free Citation Generator (APA 7th, MLA 9th, Chicago, NLM) | Toolzium",
   description:
@@ -80,6 +79,8 @@ export default function CitationGeneratorPage() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <CitationGeneratorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/academic/citation-generator" />
+</div>
   );
 }

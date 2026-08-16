@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Label } from"@/components/ui/label";
 import { Input } from"@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Activity, Flame, Clock, Scale } from"lucide-react";
+import { Activity, Calculator, Clock, Flame, Scale } from"lucide-react";
 
 export function RowingCalorieClient() {
  const [weight, setWeight] = useState("70");
@@ -171,6 +174,86 @@ export function RowingCalorieClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Weight",
+    description:"Add body weight.",
+    icon: Scale,
+  },
+{
+    step:"02",
+    title:"Set Time",
+    description:"Input rowing duration.",
+    icon: Clock,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See calories burned.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Scale,
+    title:"Weight Based",
+    description:"Personalizes burn.",
+  },
+{
+    icon: Clock,
+    title:"Duration",
+    description:"Longer rows burn more.",
+  },
+{
+    icon: Calculator,
+    title:"Burn Estimate",
+    description:"Full-body session cost.",
+  },
+{
+    icon: Activity,
+    title:"Full Body",
+    description:"Engages many muscles.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A rowing calorie calculator captures a uniquely efficient, full-body workout. Rowing engages legs, core, and arms, so per-minute burn is high. This tool estimates cost from weight and duration, helping you value the session.</p>
+  <p>Intensity scales the number; hard intervals burn far more than easy rows. The calculator approximates this so you can plan training and fueling. Rowing is low-impact yet powerful, making it sustainable cardio.</p>
+  <p>Pair with a deficit for fat loss and log the burn. The tool's value is quantifying a time-efficient, joint-friendly workout's energy cost, supporting consistent training.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why high burn?",
+    answer:"Rowing is full-body effort.",
+  },
+{
+    question:"How estimated?",
+    answer:"Weight, time, intensity.",
+  },
+{
+    question:"Accurate?",
+    answer:"Approximate; monitors vary.",
+  },
+{
+    question:"Good cardio?",
+    answer:"Yes, efficient and low impact.",
+  },
+{
+    question:"Track it?",
+    answer:"Log to balance diet.",
+  }
+  ]}
+/>
+</div>
  );
 }

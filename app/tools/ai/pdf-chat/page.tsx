@@ -2,7 +2,6 @@ import { Metadata } from "next";
 import PdfChatClient from "@/components/tools/ai/pdf-chat-client";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import JsonLd from "@/components/seo/json-ld";
-
 const TITLE = "AI Document Intelligence & Interactive PDF Chat — Free Document Tool | Toolzium";
 const DESCRIPTION =
   "Upload any PDF, Word document, or text file to extract bullet summaries, action items, and chat directly with your document in real-time.";
@@ -52,6 +51,8 @@ export default function PdfChatPage() {
     <>
       <JsonLd data={jsonLdData as any} />
       <PdfChatClient />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/ai/pdf-chat" />
+</>
   );
 }

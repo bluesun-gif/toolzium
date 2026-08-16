@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useRef, ChangeEvent } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/
 import { Switch } from"@/components/ui/switch";
 import { Slider } from"@/components/ui/slider";
 import toast from"react-hot-toast";
-import { Upload, Trash2, ArrowUp, ArrowDown } from"lucide-react";
+import { ArrowDown, ArrowUp, Download, FileText, ShieldCheck, Trash2, Upload } from"lucide-react";
 import jsPDF from"jspdf";
 
 interface PdfImage {
@@ -226,6 +229,86 @@ export default function ImageToPdfClient() {
  </CardContent>
  </Card>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Upload",
+    description:"Add one or more images.",
+    icon: Upload,
+  },
+{
+    step:"02",
+    title:"Arrange",
+    description:"Order and set page size.",
+    icon: FileText,
+  },
+{
+    step:"03",
+    title:"Convert",
+    description:"Build and download PDF.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Upload,
+    title:"Multi Image",
+    description:"Combine several.",
+  },
+{
+    icon: FileText,
+    title:"Page Options",
+    description:"Size and order.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Single PDF.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Privacy",
+    description:"Local conversion.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An image to PDF converter assembles photos or scans into a single portable document — ideal for submitting receipts, forms, or portfolios. Combining images into one file is far easier to share than a zip of pictures. This tool orders them, sets page size, and exports.</p>
+  <p>Local conversion protects privacy; documents never leave your device. Page-size and order controls ensure the result matches what a recipient expects.</p>
+  <p>Use it to package images for sharing or submission. The tool's value is a clean, single PDF from any set of images, processed privately.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Many images?",
+    answer:"Yes, merged into one PDF.",
+  },
+{
+    question:"Order?",
+    answer:"Drag to rearrange.",
+  },
+{
+    question:"Page size?",
+    answer:"A4, letter, custom.",
+  },
+{
+    question:"Private?",
+    answer:"Yes, no upload.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  }
+  ]}
+/>
+</div>
  );
 }

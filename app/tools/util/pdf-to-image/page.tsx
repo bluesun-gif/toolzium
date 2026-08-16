@@ -2,6 +2,7 @@ import { buildMetadata } from "@/lib/seo";
 import { siteURL } from "@/lib/constants";
 import JsonLd from "@/components/seo/json-ld";
 import PdfToImageClient from "@/components/tools/util/pdf-to-image-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "PDF to Image — Convert PDF to JPG/PNG Online | Toolzium",
@@ -94,6 +95,8 @@ export default function Page() {
       <JsonLd data={breadcrumbs} />
       <JsonLd data={softwareApp} />
       <PdfToImageClient />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/util/pdf-to-image" />
+</>
   );
 }

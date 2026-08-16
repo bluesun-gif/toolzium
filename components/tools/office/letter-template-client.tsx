@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { FileText, Edit, Copy, Printer } from"lucide-react";
+import { Copy, Download, Edit, FileText, PenLine, Printer, ShieldCheck } from"lucide-react";
 import { toast } from"react-hot-toast";
 
 const TEMPLATES = {
@@ -172,6 +175,86 @@ export function LetterTemplateClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Pick Type",
+    description:"Choose a letter category.",
+    icon: FileText,
+  },
+{
+    step:"02",
+    title:"Fill Blanks",
+    description:"Enter the specifics.",
+    icon: PenLine,
+  },
+{
+    step:"03",
+    title:"Generate",
+    description:"Produce the letter.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: FileText,
+    title:"Categories",
+    description:"Many letter types.",
+  },
+{
+    icon: PenLine,
+    title:"Customize",
+    description:"Fill guided fields.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Ready document.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Structure",
+    description:"Proper formatting.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A letter template generator provides structured formats for common correspondence, so you write with the right tone and sections instead of from scratch. Filling guided blanks yields a coherent letter fast. This tool covers formal, request, and complaint types.</p>
+  <p>Proper structure helps. A clear opening, body, and close communicate better and get better responses. The generator enforces that shape.</p>
+  <p>Proofread before sending. The tool's value is a well-formatted letter draft for any situation.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Types?",
+    answer:"Formal, complaint, request, more.",
+  },
+{
+    question:"Editable?",
+    answer:"Yes, fill the blanks.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Review?",
+    answer:"Always proofread.",
+  },
+{
+    question:"Use case?",
+    answer:"Any correspondence.",
+  }
+  ]}
+/>
+</div>
  );
 }

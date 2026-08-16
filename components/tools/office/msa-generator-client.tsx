@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -11,7 +14,7 @@ import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
 import { cn } from"@/lib/utils";
-import { FileText, ShieldCheck, Printer } from"lucide-react";
+import { FileCheck2, FileText, Printer, Scale, ShieldCheck } from"lucide-react";
 import toast from"react-hot-toast";
 
 export function MSAGeneratorClient() {
@@ -173,6 +176,86 @@ export function MSAGeneratorClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Parties",
+    description:"Add the organizations.",
+    icon: FileText,
+  },
+{
+    step:"02",
+    title:"Set Terms",
+    description:"Define scope and governance.",
+    icon: Scale,
+  },
+{
+    step:"03",
+    title:"Generate",
+    description:"Build the agreement.",
+    icon: FileCheck2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: FileText,
+    title:"Parties",
+    description:"Identities.",
+  },
+{
+    icon: Scale,
+    title:"Terms",
+    description:"Scope and liability.",
+  },
+{
+    icon: FileCheck2,
+    title:"Draft",
+    description:"Master document.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Governance",
+    description:"Dispute and law.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An MSA generator creates the master services agreement that frames ongoing relationships, with statements of work attaching underneath. A solid MSA sets liability, governance, and terms once, so each project needs only a focused SOW. This tool builds that foundation.</p>
+  <p>Governance clauses matter. Defining dispute resolution and applicable law upfront prevents friction later. The generator includes them.</p>
+  <p>Review with counsel. The tool's value is a reusable master agreement draft that streamlines every subsequent engagement.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is an MSA?",
+    answer:"Master agreement framing future work.",
+  },
+{
+    question:"Why use one?",
+    answer:"SOWs attach under it.",
+  },
+{
+    question:"Binding?",
+    answer:"Draft; legal review.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Use with?",
+    answer:"Statements of work.",
+  }
+  ]}
+/>
+</div>
  );
 }

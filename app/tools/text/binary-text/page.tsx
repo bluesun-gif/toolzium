@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import BinaryTextClient from "@/components/tools/text/binary-text-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Binary & Hex Text Converter — Free Online Tool | Toolzium",
   description: "Convert text to Binary, Hexadecimal, Octal, and Decimal formats. Encode and decode text instantly with our free online tool.",
@@ -120,6 +119,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <BinaryTextClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/text/binary-text" />
+</div>
   );
 }

@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { SleepQualityClient } from "@/components/tools/health/sleep-quality-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Sleep Quality Analyzer | Toolzium",
@@ -55,6 +56,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <SleepQualityClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/health/sleep-quality" />
+</div>
   );
 }

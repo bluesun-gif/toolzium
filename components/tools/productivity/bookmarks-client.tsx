@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Label } from"@/components/ui/label";
 import { Button } from"@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton } from"@/components/shared/action-buttons";
-import { Bookmark, Plus, Search, Download, ArrowUp, ArrowDown, Star, Link as LinkIcon, Trash2, Upload } from"lucide-react";
+import { ArrowDown, ArrowUp, Bookmark, Download, FolderTree, Link as LinkIcon, Plus, Search, ShieldCheck, Star, Trash2, Upload } from"lucide-react";
 import { toast } from"react-hot-toast";
 
 interface BookmarkItem {
@@ -193,6 +196,86 @@ export function BookmarksClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Link",
+    description:"Save a URL with notes.",
+    icon: Bookmark,
+  },
+{
+    step:"02",
+    title:"Organize",
+    description:"Group into folders.",
+    icon: FolderTree,
+  },
+{
+    step:"03",
+    title:"Search",
+    description:"Find saved links fast.",
+    icon: Search,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Bookmark,
+    title:"Save",
+    description:"Quick add.",
+  },
+{
+    icon: FolderTree,
+    title:"Folders",
+    description:"Structure links.",
+  },
+{
+    icon: Search,
+    title:"Find",
+    description:"Instant lookup.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Private",
+    description:"Local storage.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A bookmark manager organizes saved links beyond the browser's limited bar, with folders and search so nothing is lost. Heavy readers accumulate hundreds of bookmarks; structure makes them usable. This tool handles saving, grouping, and finding.</p>
+  <p>Search is the payoff. Recalling a link by topic beats scrolling a long list. Local storage keeps data private without accounts.</p>
+  <p>Use it as your link hub. The tool's value is a searchable, private bookmark system.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why a manager?",
+    answer:"Tames browser bookmark chaos.",
+  },
+{
+    question:"Sync?",
+    answer:"Local, no account.",
+  },
+{
+    question:"Search?",
+    answer:"Yes, by text.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"On device.",
+  }
+  ]}
+/>
+</div>
  );
 }

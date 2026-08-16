@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useMemo } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { Switch } from"@/components/ui/switch";
 import { ResetButton } from"@/components/shared/action-buttons";
-import { Calculator, Activity, Flame } from"lucide-react";
+import { Activity, Calculator, Flame, TrendingUp, User } from"lucide-react";
 
 export function BmrCalculatorClient() {
  const [age, setAge] = useState<string>("25");
@@ -193,6 +196,86 @@ export function BmrCalculatorClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Metrics",
+    description:"Add age, sex, height, weight.",
+    icon: User,
+  },
+{
+    step:"02",
+    title:"Calculate",
+    description:"See resting calorie burn.",
+    icon: Calculator,
+  },
+{
+    step:"03",
+    title:"Apply",
+    description:"Use it as your baseline.",
+    icon: TrendingUp,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: User,
+    title:"Personalized",
+    description:"From your body data.",
+  },
+{
+    icon: Calculator,
+    title:"Resting Burn",
+    description:"Calories at complete rest.",
+  },
+{
+    icon: TrendingUp,
+    title:"Baseline",
+    description:"Foundation for diet planning.",
+  },
+{
+    icon: Activity,
+    title:"Next Step",
+    description:"Add activity for TDEE.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A BMR calculator reveals the calories your body burns at rest just to stay alive — breathing, circulation, cell repair. It is the metabolic floor beneath every diet decision. This tool estimates it from age, sex, height, and weight using standard formulas, giving you a baseline before layering in activity.</p>
+  <p>BMR is the anchor. Eating at or below it risks fatigue and muscle loss; eating above, with activity added, supports goals. Knowing BMR prevents the error of setting intake off an arbitrary number. The calculator provides the personalized floor so your plan starts from biology, not guesswork.</p>
+  <p>Treat it as an estimate. Real metabolism varies with genetics and composition, so refine using results over time. Pair BMR with an activity multiplier to get TDEE, then adjust intake accordingly. The tool's value is grounding nutrition in your actual resting burn, the first number worth knowing.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"BMR vs TDEE?",
+    answer:"BMR is rest only; TDEE adds activity.",
+  },
+{
+    question:"Why know BMR?",
+    answer:"It is the floor your intake should exceed.",
+  },
+{
+    question:"Accurate?",
+    answer:"Formula estimate with individual variance.",
+  },
+{
+    question:"Can I eat at BMR?",
+    answer:"That is very low; add activity needs.",
+  },
+{
+    question:"How to use it?",
+    answer:"Set diet relative to BMR plus movement.",
+  }
+  ]}
+/>
+</div>
  );
 }

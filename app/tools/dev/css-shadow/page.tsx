@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import CssShadowClient from "@/components/tools/dev/css-shadow-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "CSS Box-Shadow & Text-Shadow Generator | Toolzium",
   description: "Visual generator for CSS box-shadow and text-shadow with multiple layers, inset shadows, and presets.",
@@ -22,6 +21,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <CssShadowClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/css-shadow" />
+</div>
   );
 }

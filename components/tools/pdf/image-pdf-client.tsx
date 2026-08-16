@@ -1,10 +1,13 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
 import { GlassCard } from"@/components/ui/glass-card";
 import { Button } from"@/components/ui/button";
-import { FileText, Upload, Download, Trash2 } from"lucide-react";
+import { Download, FileImage, FileText, ImagePlus, ShieldCheck, Trash2, Upload } from"lucide-react";
 import { PDFDocument } from"pdf-lib";
 import toast from"react-hot-toast";
 
@@ -137,6 +140,87 @@ export default function ImagePdfClient() {
  </div>
  )}
  </GlassCard>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Images",
+    description:"Upload or drop images into the tool.",
+    icon: ImagePlus,
+  },
+{
+    step:"02",
+    title:"Arrange & Convert",
+    description:"Reorder pages and start conversion.",
+    icon: FileImage,
+  },
+{
+    step:"03",
+    title:"Download",
+    description:"Save the combined PDF to your device.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: ImagePlus,
+    title:"Batch Upload",
+    description:"Combine many images into one document.",
+  },
+{
+    icon: FileImage,
+    title:"Page Order",
+    description:"Drag to set the sequence of images.",
+  },
+{
+    icon: Download,
+    title:"Local Export",
+    description:"Download the PDF without uploading files.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Private",
+    description:"Processing stays in your browser.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>Converting images to PDF is a daily need for students, freelancers, and offices. Scanned documents, screenshots, and photos often need to become a single portable file for emailing or printing. This tool turns a folder of images into one PDF without sending anything to a server.</p>
+  <p>Begin by gathering your images. Drag them in or use the file picker, then arrange them in the sequence you want each page to appear. Order matters for multi-page scans — a misordered document confuses readers, so take a moment to verify before converting. Most formats including JPG and PNG are supported.</p>
+  <p>Privacy is the key advantage of a local converter. Online services upload your files to remote servers, which is risky for contracts, IDs, or confidential drafts. Because this tool processes everything in the browser, sensitive images never leave your device. That makes it safe for legal, medical, and financial documents.</p>
+  <p>Output quality follows your source. High-resolution photos produce crisp pages but larger files; compressed screenshots keep size down at some clarity cost. After conversion, download the PDF and open it to confirm page order and readability. Whether you are submitting assignments, archiving receipts, or sharing a portfolio, a clean image-to-PDF workflow saves time and protects your data.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Can I convert JPG to PDF?",
+    answer:"Yes. JPG, PNG, and most common image formats can be combined into a PDF.",
+  },
+{
+    question:"Are my images uploaded?",
+    answer:"No. Conversion runs locally in your browser, so files stay on your device.",
+  },
+{
+    question:"Can I reorder pages?",
+    answer:"Yes. Arrange the images in the order you want before converting.",
+  },
+{
+    question:"What size will the PDF be?",
+    answer:"It depends on image resolution; high-res scans create larger files.",
+  },
+{
+    question:"Can I make one image per page?",
+    answer:"Yes, each image becomes its own page in the final PDF by default.",
+  }
+  ]}
+/>
+</div>
  );
 }

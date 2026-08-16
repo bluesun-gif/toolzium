@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -6,7 +9,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Separator } from"@/components/ui/separator";
 import { Button } from"@/components/ui/button";
-import { Moon, Calendar, ChevronLeft, ChevronRight } from"lucide-react";
+import { Calendar, CalendarRange, ChevronLeft, ChevronRight, Moon, Orbit, Sparkles } from"lucide-react";
 
 export function LunarCalendarClient() {
  const [currentDate, setCurrentDate] = useState(new Date());
@@ -110,7 +113,87 @@ export function LunarCalendarClient() {
  <div key={"day-"+ day} className={"p-2 border rounded-md flex flex-col items-center gap-1 hover:bg-muted/50 transition-colors"}>
  <span className={"text-sm text-muted-foreground"}>{day}</span>
  <span className={"text-2xl"} title={phase.name}>{phase.emoji}</span>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Pick Month",
+    description:"Choose a month and year.",
+    icon: CalendarRange,
+  },
+{
+    step:"02",
+    title:"View",
+    description:"See moon phases.",
+    icon: Moon,
+  },
+{
+    step:"03",
+    title:"Track",
+    description:"Follow the cycle.",
+    icon: Orbit,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: CalendarRange,
+    title:"Month",
+    description:"Any period.",
+  },
+{
+    icon: Moon,
+    title:"Phases",
+    description:"New to full.",
+  },
+{
+    icon: Orbit,
+    title:"Cycle",
+    description:"Lunar rhythm.",
+  },
+{
+    icon: Sparkles,
+    title:"Context",
+    description:"Cultural dates.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A lunar calendar displays moon phases across a month, useful for festivals, tides, gardening, and tradition. The cycle repeats roughly every 29.5 days; the calendar maps it to dates. This tool shows phase per day.</p>
+  <p>Phase awareness supports activities tied to the moon. The visual cycle makes timing intuitive.</p>
+  <p>Use it for any moon-linked plan. The tool's value is a clear phase calendar.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What shows?",
+    answer:"Moon phases per day.",
+  },
+{
+    question:"Accurate?",
+    answer:"Astronomical model.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Festivals, tides, gardening.",
+  }
+  ]}
+/>
+</div>
  );
  })}
  </div>

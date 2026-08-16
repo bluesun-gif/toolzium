@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect, useRef, useMemo } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -7,7 +10,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components
 import { Separator } from"@/components/ui/separator";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
-import { Timer, CheckCircle, BarChart2, Settings, Play, Pause, Square } from"lucide-react";
+import { BarChart2, BarChart3, CheckCircle, CheckCircle2, Pause, Play, Settings, Square, Timer, TrendingUp } from"lucide-react";
 import toast from"react-hot-toast";
 
 type SessionType ="work"|"shortBreak"|"longBreak";
@@ -310,6 +313,86 @@ export function PomodoroAnalyticsClient() {
  )}
  </CardContent>
  </GlassCard>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Start Session",
+    description:"Begin a focus interval.",
+    icon: Timer,
+  },
+{
+    step:"02",
+    title:"Log",
+    description:"Auto-record completed blocks.",
+    icon: BarChart3,
+  },
+{
+    step:"03",
+    title:"Review",
+    description:"See your focus trends.",
+    icon: TrendingUp,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Timer,
+    title:"Intervals",
+    description:"Standard 25/5 blocks.",
+  },
+{
+    icon: BarChart3,
+    title:"Log",
+    description:"History of sessions.",
+  },
+{
+    icon: TrendingUp,
+    title:"Analytics",
+    description:"Focus over time.",
+  },
+{
+    icon: CheckCircle2,
+    title:"Consistency",
+    description:"Daily totals.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A Pomodoro tracker logs your focus intervals so you can see how much deep work you actually complete, not just intend. The technique's value is in repetition; the tracker makes the repetition visible. This tool records sessions and charts trends.</p>
+  <p>Trends reveal when you focus best and where time leaks. The analytics turn vague &quot;I worked hard&quot; into measured minutes.</p>
+  <p>Use it through your workday. The tool's value is quantified focus that guides better scheduling.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What does it track?",
+    answer:"Completed focus intervals and minutes.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Deep work measurement.",
+  },
+{
+    question:"Export?",
+    answer:"Review your log.",
+  }
+  ]}
+/>
+</div>
  );
 }

@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -7,7 +10,7 @@ import { CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Input } from"@/components/ui/input";
 import { Button } from"@/components/ui/button";
 import { Label } from"@/components/ui/label";
-import { Grid, Palette, Download, Plus, Trash2 } from"lucide-react";
+import { Download, Grid, Grid3x3, Palette, Plus, ShieldCheck, Trash2 } from"lucide-react";
 import { ActionButton, CopyButton } from"@/components/shared/action-buttons";
 import { toast } from"react-hot-toast";
 
@@ -206,7 +209,87 @@ export function ContrastMatrixExportClient() {
  <span className={"text-xs font-semibold px-2 py-0.5 rounded-full mt-1 bg-background/20 mix-blend-difference"}>
  {rating}
  </span>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Colors",
+    description:"Add a color set.",
+    icon: Palette,
+  },
+{
+    step:"02",
+    title:"Build",
+    description:"Generate pair-wise matrix.",
+    icon: Grid3x3,
+  },
+{
+    step:"03",
+    title:"Export",
+    description:"Download the matrix.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Palette,
+    title:"Color Set",
+    description:"Multiple swatches.",
+  },
+{
+    icon: Grid3x3,
+    title:"Matrix",
+    description:"Every pair compared.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Save as file.",
+  },
+{
+    icon: ShieldCheck,
+    title:"WCAG",
+    description:"Flags failing pairs.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A color contrast matrix export builds the full pair-wise contrast grid of a palette and lets you download it. Comparing every combination reveals unreadable pairs that single checks miss. This tool generates the matrix and saves it for sharing or records.</p>
+  <p>The grid exposes weak links across the whole palette at once. You might pass primary text but fail a secondary combination; the matrix catches it. Exporting preserves the audit.</p>
+  <p>Use it to validate and archive palette accessibility. The tool's value is comprehensive contrast auditing plus a saved artifact.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is a matrix?",
+    answer:"Contrast of every color pair.",
+  },
+{
+    question:"Export format?",
+    answer:"Image or data file.",
+  },
+{
+    question:"WCAG?",
+    answer:"Flags low pairs.",
+  },
+{
+    question:"Many colors?",
+    answer:"Scales to your set.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  }
+  ]}
+/>
+</div>
  </td>
  );
  })}

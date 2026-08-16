@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
 import InputField from"@/components/shared/form-fields/input-field";
@@ -13,7 +16,7 @@ import {
 } from"@/components/ui/card";
 import { GlassCard } from"@/components/ui/glass-card";
 import { Separator } from"@/components/ui/separator";
-import { Check, ClipboardList, Plus, Trash2 } from"lucide-react";
+import { Check, CheckCircle2, ClipboardList, Flag, ListPlus, Plus, Trash2, WifiOff } from"lucide-react";
 import { useEffect, useState } from"react";
 
 // Types
@@ -153,6 +156,86 @@ export default function TodoOfflineClient() {
  ))}
  </CardContent>
  </GlassCard>
- </>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Tasks",
+    description:"Create your list.",
+    icon: ListPlus,
+  },
+{
+    step:"02",
+    title:"Organize",
+    description:"Set priority and due dates.",
+    icon: Flag,
+  },
+{
+    step:"03",
+    title:"Track",
+    description:"Check off and review.",
+    icon: CheckCircle2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: ListPlus,
+    title:"Tasks",
+    description:"Quick add.",
+  },
+{
+    icon: Flag,
+    title:"Priority",
+    description:"Order by importance.",
+  },
+{
+    icon: CheckCircle2,
+    title:"Checklist",
+    description:"Mark done.",
+  },
+{
+    icon: WifiOff,
+    title:"Offline",
+    description:"Works without internet.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A to-do list helps you capture and prioritize tasks so important work is not forgotten. Offline operation means it works anywhere without accounts or connectivity. This tool handles entry, prioritization, and check-off.</p>
+  <p>Prioritization drives focus. Flagging what matters most ensures the right tasks get done first. Local storage keeps data private.</p>
+  <p>Use it daily to stay organized. The tool's value is a reliable, private task list that works without the internet.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why offline?",
+    answer:"Works without a connection.",
+  },
+{
+    question:"Sync?",
+    answer:"Local storage, no account.",
+  },
+{
+    question:"Priorities?",
+    answer:"Yes, flag important.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Yes, on device.",
+  }
+  ]}
+/>
+</>
  );
 }

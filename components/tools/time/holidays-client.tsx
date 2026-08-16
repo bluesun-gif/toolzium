@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useMemo } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Calendar, Globe, Star, Copy } from"lucide-react";
+import { Calendar, CalendarRange, Copy, Globe, ListChecks, Star } from"lucide-react";
 import { cn } from"@/lib/utils";
 
 const MOCK_HOLIDAYS = [
@@ -142,7 +145,87 @@ export function HolidaysClient() {
  <Star className={cn("w-5 h-5", isFav ?"fill-yellow-400 text-yellow-400":"text-muted-foreground")} />
  </Button>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Pick Year",
+    description:"Choose a year.",
+    icon: CalendarRange,
+  },
+{
+    step:"02",
+    title:"Select Region",
+    description:"Choose a country.",
+    icon: Globe,
+  },
+{
+    step:"03",
+    title:"View",
+    description:"See the holiday list.",
+    icon: ListChecks,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: CalendarRange,
+    title:"Year",
+    description:"Any year.",
+  },
+{
+    icon: Globe,
+    title:"Regions",
+    description:"Country-specific.",
+  },
+{
+    icon: ListChecks,
+    title:"List",
+    description:"All holidays.",
+  },
+{
+    icon: Star,
+    title:"Plan",
+    description:"Around time off.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A holiday calendar lists public holidays for a chosen year and region, essential for planning time off and business schedules. Different countries observe different days; selecting the region keeps it relevant. This tool shows the full list.</p>
+  <p>Knowing holidays ahead avoids scheduling conflicts. The calendar supports both personal and operational planning.</p>
+  <p>Use it when arranging leave or operations. The tool's value is a clear, region-aware holiday list.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Which countries?",
+    answer:"Major regions covered.",
+  },
+{
+    question:"Accurate?",
+    answer:"Standard public holidays.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Planning time off.",
+  }
+  ]}
+/>
+</div>
  );
  })}
  </div>

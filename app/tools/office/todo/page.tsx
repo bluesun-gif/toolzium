@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import TodoOfflineClient from "@/components/tools/office/todo-offline-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "To-Do (Offline)",
@@ -137,6 +138,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <TodoOfflineClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/office/todo" />
+</div>
   );
 }

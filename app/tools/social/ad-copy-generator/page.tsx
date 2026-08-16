@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import AdCopyGeneratorClient from "@/components/tools/social/ad-copy-generator-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "AI Facebook & Instagram Ad Copy Studio | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function AdCopyGeneratorPage() {
-  return <AdCopyGeneratorClient />;
+  return (
+    <><AdCopyGeneratorClient />
+      <RelatedTools currentToolUrl="/tools/social/ad-copy-generator" />
+    </>
+  );
 }

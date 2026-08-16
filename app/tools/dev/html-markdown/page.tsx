@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import { HtmlMarkdownClient } from "@/components/tools/dev/html-markdown-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "HTML to Markdown Converter — Free Online Tool | Toolzium",
   description: "Free online HTML to Markdown converter and vice versa. Instantly convert code with live preview, preserving formatting, tables, lists, and images.",
@@ -133,6 +132,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <HtmlMarkdownClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/html-markdown" />
+</div>
   );
 }

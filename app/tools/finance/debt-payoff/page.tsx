@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { DebtPayoffClient } from "@/components/tools/finance/debt-payoff-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Debt Payoff Calculator | Toolzium",
@@ -59,6 +60,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <DebtPayoffClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/finance/debt-payoff" />
+</div>
   );
 }

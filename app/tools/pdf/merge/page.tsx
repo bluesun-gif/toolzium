@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import PdfMergeClient from "@/components/tools/pdf/pdf-merge-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "PDF Merge Studio | Free Online PDF Combiner | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function PdfMergePage() {
-  return <PdfMergeClient />;
+  return (
+    <><PdfMergeClient />
+      <RelatedTools currentToolUrl="/tools/pdf/merge" />
+    </>
+  );
 }

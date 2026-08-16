@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -11,7 +14,7 @@ import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { Switch } from"@/components/ui/switch";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { CreditCard, Calendar, DollarSign, Plus, Trash2, ArrowUpDown } from"lucide-react";
+import { ArrowUpDown, Calendar, CreditCard, DollarSign, Eye, ListChecks, Plus, Trash2, Wallet } from"lucide-react";
 import toast from"react-hot-toast";
 
 interface Subscription {
@@ -217,6 +220,87 @@ export function SubscriptionsClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Subs",
+    description:"List each subscription and cost.",
+    icon: ListChecks,
+  },
+{
+    step:"02",
+    title:"Set Frequency",
+    description:"Mark monthly, yearly, or weekly.",
+    icon: Calendar,
+  },
+{
+    step:"03",
+    title:"Summarize",
+    description:"See total recurring spend.",
+    icon: Wallet,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: ListChecks,
+    title:"Full List",
+    description:"Centralizes all subscriptions.",
+  },
+{
+    icon: Calendar,
+    title:"Frequency Aware",
+    description:"Normalizes to monthly total.",
+  },
+{
+    icon: Wallet,
+    title:"Total Spend",
+    description:"Annualized recurring cost.",
+  },
+{
+    icon: Eye,
+    title:"Find Waste",
+    description:"Surfaces forgotten subs.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A subscription tracker reveals the silent drain of modern spending. Individually, a 10 dollar monthly app feels trivial; collectively, a dozen such charges cost more than a car payment. This tool lists every subscription, normalizes frequency, and totals the annual recurring cost so the real figure surfaces instead of hiding in plain sight.</p>
+  <p>Frequency normalization is the insight. A yearly 120 dollar charge and a monthly 12 dollar charge look different but equal 144 dollars yearly; the tracker converts all to a common basis so you compare and total accurately. Without it, annual and monthly charges blur into an unexamined stream of small debits.</p>
+  <p>The payoff is cutting waste. Most people carry forgotten trials, duplicate services, and unused apps that auto-renew. Seeing the full list and total often prompts immediate cancellations that fund meaningful savings. The tracker also flags free trials before they convert to charges, preventing surprise bills.</p>
+  <p>Privacy suits the data. Running locally means your spending list never leaves your device, unlike cloud aggregators that require bank access. Review subscriptions quarterly, especially after the holidays or a free-trial spree. The tool's value is turning invisible recurring charges into a single, actionable number you control.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why track subscriptions?",
+    answer:"Small recurring charges add up silently.",
+  },
+{
+    question:"Annual vs monthly?",
+    answer:"Tool normalizes both to compare.",
+  },
+{
+    question:"How to cut waste?",
+    answer:"Cancel unused or duplicate services.",
+  },
+{
+    question:"Is this private?",
+    answer:"Yes, runs locally in your browser.",
+  },
+{
+    question:"Free trials?",
+    answer:"Track them so they do not auto-charge.",
+  }
+  ]}
+/>
+</div>
  );
 }

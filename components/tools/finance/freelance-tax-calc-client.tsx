@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useMemo } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { DollarSign, Calculator, Calendar } from"lucide-react";
+import { Calculator, Calendar, DollarSign, Receipt, ShieldCheck } from"lucide-react";
 import { toast } from"react-hot-toast";
 
 export function FreelanceTaxCalcClient() {
@@ -190,6 +193,87 @@ export function FreelanceTaxCalcClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Income",
+    description:"Add expected self-employment revenue.",
+    icon: DollarSign,
+  },
+{
+    step:"02",
+    title:"Deduct Expenses",
+    description:"Subtract business costs and deductions.",
+    icon: Receipt,
+  },
+{
+    step:"03",
+    title:"Estimate",
+    description:"See quarterly tax payments due.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: DollarSign,
+    title:"Revenue Based",
+    description:"Starts from gross freelance income.",
+  },
+{
+    icon: Receipt,
+    title:"Deduction Aware",
+    description:"Subtract eligible business expenses.",
+  },
+{
+    icon: Calculator,
+    title:"Quarterly Split",
+    description:"Divides annual tax into four payments.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Penalty Avoidance",
+    description:"Helps avoid underpayment penalties.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>Freelancers face a tax reality employees never see: no withholding, plus self-employment tax on top. The quarterly estimate calculator turns projected income and deductions into four concrete payments, preventing the spring surprise of a massive bill and the penalties that follow underpayment.</p>
+  <p>The math starts with gross revenue minus legitimate business expenses. Software, a portion of rent for a home office, equipment, and client travel all reduce taxable income when properly documented. The calculator applies appropriate rates to the net, then splits the annual total into quarterly installments that match payment schedules.</p>
+  <p>Setting aside money continuously is the habit that makes this painless. Rather than scrambling each quarter, transfer a fraction of every payment received into a tax account. The estimate tells you the target fraction, so the discipline has a number behind it. This separation also clarifies true take-home pay.</p>
+  <p>This tool informs but does not replace professional advice. Tax rules vary by location and situation, and deductions have specific criteria; a professional confirms what applies to you. Use the calculator to plan cash flow and avoid penalties, then validate with an expert before filing. The goal is transforming tax from a yearly crisis into a managed, predictable obligation.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why pay quarterly?",
+    answer:"Tax authorities expect periodic payments; annual lump sums risk penalties.",
+  },
+{
+    question:"What expenses are deductible?",
+    answer:"Costs directly tied to work: software, home office, equipment, travel.",
+  },
+{
+    question:"What is self-employment tax?",
+    answer:"The payroll tax freelancers pay for Social Security and Medicare.",
+  },
+{
+    question:"Should I set aside a percentage?",
+    answer:"Commonly 25-30 percent of net income, but estimates are precise.",
+  },
+{
+    question:"Is this legal advice?",
+    answer:"No; consult a tax professional for your jurisdiction.",
+  }
+  ]}
+/>
+</div>
  );
 }

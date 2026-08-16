@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -7,7 +10,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { Calculator, RotateCcw, Activity } from"lucide-react";
+import { Activity, Calculator, RotateCcw, Target, TrendingUp, User } from"lucide-react";
 import toast from"react-hot-toast";
 
 type Gender ="male"|"female";
@@ -311,6 +314,86 @@ export default function CalorieCalculatorClient() {
  )}
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Stats",
+    description:"Add age, sex, height, weight.",
+    icon: User,
+  },
+{
+    step:"02",
+    title:"Set Goal",
+    description:"Maintain, lose, or gain.",
+    icon: Target,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See daily calorie target.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: User,
+    title:"Personalized",
+    description:"From your body data.",
+  },
+{
+    icon: Target,
+    title:"Goal Modes",
+    description:"Cut, maintain, bulk.",
+  },
+{
+    icon: Calculator,
+    title:"Daily Target",
+    description:"Clear eat number.",
+  },
+{
+    icon: TrendingUp,
+    title:"Adaptive",
+    description:"Adjust as you progress.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A calorie calculator converts your body and goal into a daily eating target, the cornerstone of any nutrition plan. It estimates energy expenditure from your stats, then adjusts for maintain, lose, or gain. This tool delivers a single, personalized number that removes the ambiguity sabotaging most diets.</p>
+  <p>Goal mode sets direction. Maintenance matches expenditure; a deficit drives fat loss; a surplus supports muscle gain. The calculator applies a sensible adjustment so the target is achievable, not extreme. Starting from your real expenditure beats copying someone else's plan.</p>
+  <p>Refine with feedback. Bodies differ, so if weight stalls, nudge intake and recheck trends. Pair the target with logging to confirm adherence. The tool's value is a defensible daily calorie number tailored to you, replacing vague eating rules with a measurable plan.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"How is target set?",
+    answer:"TDEE adjusted by goal.",
+  },
+{
+    question:"What is maintenance?",
+    answer:"Calories matching TDEE.",
+  },
+{
+    question:"Lose or gain?",
+    answer:"Deficit or surplus vs TDEE.",
+  },
+{
+    question:"Accurate?",
+    answer:"Estimate; refine with results.",
+  },
+{
+    question:"Track intake?",
+    answer:"Logging confirms adherence.",
+  }
+  ]}
+/>
+</div>
  );
 }

@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Package, Plus, Copy, Printer, Trash } from"lucide-react";
+import { Copy, Download, Hash, Package, Plus, Printer, ShieldCheck, Trash } from"lucide-react";
 import toast from"react-hot-toast";
 
 type Item = {
@@ -264,6 +267,86 @@ export function PackingSlipClient() {
  )}
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Items",
+    description:"List shipped products.",
+    icon: Package,
+  },
+{
+    step:"02",
+    title:"Set Details",
+    description:"Quantities and order info.",
+    icon: Hash,
+  },
+{
+    step:"03",
+    title:"Generate",
+    description:"Produce the slip.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Package,
+    title:"Items",
+    description:"Shipped contents.",
+  },
+{
+    icon: Hash,
+    title:"Order Info",
+    description:"Number and dates.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Printable slip.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Accuracy",
+    description:"Matches the order.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A packing slip generator creates the itemized list included in a shipment, helping recipients and warehouses verify contents. Unlike an invoice, it shows quantities without prices. This tool compiles order data into a printable slip.</p>
+  <p>Accuracy prevents fulfillment errors. A slip that matches the order reduces &quot;missing item&quot; complaints. Printable output fits shipping workflows.</p>
+  <p>Use it for every shipment. The tool's value is a correct, professional packing slip produced quickly.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is a packing slip?",
+    answer:"Lists contents of a shipment.",
+  },
+{
+    question:"Vs invoice?",
+    answer:"No prices; just items.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Use case?",
+    answer:"E-commerce fulfillment.",
+  },
+{
+    question:"Accurate?",
+    answer:"Matches order data.",
+  }
+  ]}
+/>
+</div>
  );
 }

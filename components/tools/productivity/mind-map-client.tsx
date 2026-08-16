@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -7,7 +10,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Network, Plus, Trash2, Download, Save, MousePointerClick } from"lucide-react";
+import { CircleDot, Download, GitBranch, Lightbulb, MousePointerClick, MoveRight, Network, Plus, Save, Trash2 } from"lucide-react";
 import toast from"react-hot-toast";
 
 type MindMapNode = {
@@ -279,6 +282,86 @@ export function MindMapClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Node",
+    description:"Create a central idea.",
+    icon: CircleDot,
+  },
+{
+    step:"02",
+    title:"Branch",
+    description:"Add connected nodes.",
+    icon: GitBranch,
+  },
+{
+    step:"03",
+    title:"Arrange",
+    description:"Position and link.",
+    icon: MoveRight,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: CircleDot,
+    title:"Nodes",
+    description:"Ideas.",
+  },
+{
+    icon: GitBranch,
+    title:"Branches",
+    description:"Sub-ideas.",
+  },
+{
+    icon: MoveRight,
+    title:"Arrange",
+    description:"Layout freely.",
+  },
+{
+    icon: Lightbulb,
+    title:"Brainstorm",
+    description:"Non-linear thinking.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A mind map builder supports non-linear thinking, linking ideas radially from a center. Unlike outlines, maps reveal relationships and spark association. This tool lets you add and arrange nodes.</p>
+  <p>Branching captures related thoughts without forcing order. The visual form aids recall and planning.</p>
+  <p>Use it to brainstorm or plan. The tool's value is a flexible idea map that outlines can't match.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is a mind map?",
+    answer:"Radial diagram of ideas.",
+  },
+{
+    question:"Use case?",
+    answer:"Brainstorming, planning.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Export?",
+    answer:"Save your map.",
+  }
+  ]}
+/>
+</div>
  );
 }

@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import DiscountFinderClient from "@/components/tools/calc/discount-finder-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Discount Finder",
@@ -137,6 +138,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <DiscountFinderClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/calc/discount" />
+</div>
   );
 }

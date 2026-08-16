@@ -1,11 +1,14 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect, useRef } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
 import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
-import { Volume2, VolumeX, Play, Pause, Sparkles, Zap, Radio, Moon, Sun, Headphones } from"lucide-react";
+import { Brain, Headphones, Moon, Pause, Play, PlayCircle, Radio, SlidersHorizontal, Sparkles, Sun, Volume2, VolumeX, Waves, Zap } from"lucide-react";
 import toast from"react-hot-toast";
 
 interface SoundTrack {
@@ -258,6 +261,86 @@ export default function AmbientNoiseClient() {
  </Card>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Pick Sounds",
+    description:"Choose ambient layers.",
+    icon: Waves,
+  },
+{
+    step:"02",
+    title:"Mix",
+    description:"Adjust volume per layer.",
+    icon: SlidersHorizontal,
+  },
+{
+    step:"03",
+    title:"Play",
+    description:"Focus with the mix.",
+    icon: PlayCircle,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Waves,
+    title:"Sound Layers",
+    description:"Rain, white noise, more.",
+  },
+{
+    icon: SlidersHorizontal,
+    title:"Mixer",
+    description:"Balance each layer.",
+  },
+{
+    icon: PlayCircle,
+    title:"Play",
+    description:"Continuous focus audio.",
+  },
+{
+    icon: Brain,
+    title:"Focus",
+    description:"Supports concentration.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An ambient noise studio generates background sound that masks distracting environments, helping many people concentrate. Layered sounds like rain or white noise create a consistent audio cushion. This tool lets you mix layers and volumes.</p>
+  <p>Binaural tones add a different dimension, played through headphones with slightly different frequencies per ear. The effect is subtle and personal; experimentation finds what works.</p>
+  <p>Use it during deep work. The tool's value is a customizable soundscape that improves focus without streaming services.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why ambient noise?",
+    answer:"Masks distractions, aids focus.",
+  },
+{
+    question:"Binaural?",
+    answer:"Different tones per ear, use headphones.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Headphones?",
+    answer:"Recommended for binaural.",
+  },
+{
+    question:"Private?",
+    answer:"Local playback.",
+  }
+  ]}
+/>
+</div>
  );
 }

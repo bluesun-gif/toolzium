@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import {
  ActionButton,
@@ -18,29 +21,7 @@ import { Separator } from"@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from"@/components/ui/tabs";
 import { cn } from"@/lib/utils";
 import { useMDXComponents } from"@/mdx-components";
-import {
- Bold,
- Code,
- Download,
- Eye,
- FileText,
- Github,
- Heading1,
- Heading2,
- Heading3,
- Image as ImageIcon,
- Italic,
- Link as LinkIcon,
- List,
- ListChecks,
- ListOrdered,
- Minus,
- Quote,
- Redo2,
- Strikethrough,
- Wand2,
- WrapText,
-} from"lucide-react";
+import { Bold, Braces, Code, Copy, Download, Eye, FileText, Github, Heading1, Heading2, Heading3, Image as ImageIcon, Italic, Link as LinkIcon, List, ListChecks, ListOrdered, Minus, PenLine, Quote, Redo2, Strikethrough, Wand2, WrapText } from"lucide-react";
 import * as React from"react";
 import type { Components } from"react-markdown";
 import ReactMarkdown from"react-markdown";
@@ -904,6 +885,88 @@ function Toolbar({
  ))}
  </div>
  ))}
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Write Markdown",
+    description:"Type or paste Markdown in the editor pane.",
+    icon: PenLine,
+  },
+{
+    step:"02",
+    title:"See Live Preview",
+    description:"Watch formatted HTML render as you type.",
+    icon: Eye,
+  },
+{
+    step:"03",
+    title:"Copy or Export",
+    description:"Grab the HTML or copy the Markdown.",
+    icon: Copy,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: PenLine,
+    title:"Split Editor",
+    description:"Edit on one side, preview on the other.",
+  },
+{
+    icon: Eye,
+    title:"Real-Time Render",
+    description:"Formatting updates with every keystroke.",
+  },
+{
+    icon: Braces,
+    title:"GitHub Flavored",
+    description:"Supports tables, task lists, and code fences.",
+  },
+{
+    icon: Copy,
+    title:"Export Options",
+    description:"Copy HTML or Markdown output easily.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>Markdown earned its place because it is readable as plain text yet renders into clean HTML. Writers, developers, and documentation teams rely on it for content that must live in many places — READMEs, wikis, blog posts, and chat systems. A live previewer closes the loop by showing the rendered result while you type, which prevents syntax mistakes before they ship.</p>
+  <p>The syntax is intentionally minimal. Hash symbols create headings, hyphens and asterisks build lists, and square brackets with parentheses form links. Code is wrapped in backticks for inline snippets or triple backticks for fenced blocks, which is essential for technical writing. GitHub Flavored Markdown extends this with tables, task lists, and strikethrough, covering most real-world needs.</p>
+  <p>A split view is the most productive setup. The left pane holds your source; the right shows formatted output updating in real time. This immediacy helps you spot a broken table or an unclosed code fence instantly instead of after publishing. It also trains muscle memory for the syntax without consulting a cheat sheet.</p>
+  <p>Export flexibility is the practical payoff. Once satisfied, copy the Markdown to commit to a repo, or copy the rendered HTML to paste into a content management system or email builder. Because the source is plain text, it diffs cleanly in version control and survives any platform that understands Markdown.</p>
+  <p>Keep privacy in mind for sensitive drafts. A local previewer parses everything in the browser, so confidential notes never leave the device. Use this tool to draft release notes, documentation, or README sections, preview them live, and export exactly the format each destination requires.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is Markdown?",
+    answer:"Markdown is a lightweight markup language that uses plain-text syntax for headings, lists, links, and code, which renders into formatted HTML.",
+  },
+{
+    question:"Does this support GitHub Flavored Markdown?",
+    answer:"Yes. It handles tables, task lists, strikethrough, and fenced code blocks in addition to standard Markdown.",
+  },
+{
+    question:"Is my text uploaded anywhere?",
+    answer:"No. Parsing happens locally in your browser, so your content stays on your device.",
+  },
+{
+    question:"Can I export the result as HTML?",
+    answer:"Yes. The preview can be copied as HTML for use in CMS platforms, emails, or documentation.",
+  },
+{
+    question:"Why use Markdown instead of a rich editor?",
+    answer:"Markdown keeps content portable and version-controllable. Plain text diffs cleanly and renders anywhere that supports the format.",
+  }
+  ]}
+/>
+</div>
  );
 }

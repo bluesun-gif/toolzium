@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { Button } from"@/components/ui/button";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { Moon, Calendar, BarChart2, Download } from"lucide-react";
+import { BarChart2, Calendar, Download, Moon, PenLine, ShieldCheck, TrendingUp } from"lucide-react";
 import { toast } from"react-hot-toast";
 
 interface SleepEntry {
@@ -220,6 +223,86 @@ export function SleepLogClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Log Night",
+    description:"Record sleep and wake.",
+    icon: Moon,
+  },
+{
+    step:"02",
+    title:"Add Notes",
+    description:"Mood, caffeine, screen.",
+    icon: PenLine,
+  },
+{
+    step:"03",
+    title:"Review",
+    description:"See rhythm trends.",
+    icon: TrendingUp,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Moon,
+    title:"Log",
+    description:"Nightly sleep.",
+  },
+{
+    icon: PenLine,
+    title:"Notes",
+    description:"Context factors.",
+  },
+{
+    icon: TrendingUp,
+    title:"Trends",
+    description:"Over time.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Rhythm",
+    description:"Circadian view.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A sleep log tracker records nightly sleep alongside context — caffeine, screens, mood — so you can correlate habits with rest quality. The rhythm view shows whether your schedule is consistent. This tool compiles the diary.</p>
+  <p>Correlation is the insight; the log connects late coffee to poor nights. Trends over weeks beat single-night guesses.</p>
+  <p>Use it as a sleep journal. The tool's value is pattern-aware rest tracking.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why log?",
+    answer:"Reveals patterns affecting rest.",
+  },
+{
+    question:"Notes help?",
+    answer:"Yes, link causes to quality.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Better sleep.",
+  }
+  ]}
+/>
+</div>
  );
 }

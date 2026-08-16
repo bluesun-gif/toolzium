@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { ColorExtractorClient } from "@/components/tools/image/color-extractor-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Image Color Extractor | Toolzium",
@@ -20,6 +21,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <ColorExtractorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/image/color-extractor" />
+</div>
   );
 }

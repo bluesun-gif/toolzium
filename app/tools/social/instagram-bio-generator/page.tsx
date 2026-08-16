@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import InstagramBioClient from "@/components/tools/social/instagram-bio-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "Instagram Bio & Aesthetic Caption Generator Studio | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function InstagramBioPage() {
-  return <InstagramBioClient />;
+  return (
+    <><InstagramBioClient />
+      <RelatedTools currentToolUrl="/tools/social/instagram-bio-generator" />
+    </>
+  );
 }

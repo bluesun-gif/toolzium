@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ResetButton } from"@/components/shared/action-buttons";
-import { Zap, Activity, Timer, Weight } from"lucide-react";
+import { Activity, Calculator, Dumbbell, Flame, Scale, Timer, Weight, Zap } from"lucide-react";
 
 // List of activities with MET values
 const activities = [
@@ -168,6 +171,86 @@ export function CalorieBurnClient() {
  </div>
  </CardContent>
  </GlassCard>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Choose Exercise",
+    description:"Select from the list.",
+    icon: Dumbbell,
+  },
+{
+    step:"02",
+    title:"Add Weight & Time",
+    description:"Input your stats.",
+    icon: Scale,
+  },
+{
+    step:"03",
+    title:"See Burn",
+    description:"Get estimated calories.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Dumbbell,
+    title:"Exercise Library",
+    description:"Broad coverage.",
+  },
+{
+    icon: Scale,
+    title:"Weight Aware",
+    description:"Personalizes the result.",
+  },
+{
+    icon: Calculator,
+    title:"Result",
+    description:"Calories for the workout.",
+  },
+{
+    icon: Flame,
+    title:"Energy View",
+    description:"Makes burn tangible.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A calorie burn calculator makes exercise's energy cost concrete. By combining activity type, your weight, and duration, it estimates calories used, helping you understand movement's role in your overall balance. This tool simplifies that math across many exercises so comparison is easy.</p>
+  <p>Three factors dominate. Intensity sets the rate, duration sets the total, and body weight scales both. The calculator surfaces these so you grasp why a heavy, long session burns more than a light, short one. That understanding helps you plan realistically.</p>
+  <p>Use the estimate to inform, not to overcompensate. A hard workout does not license a large binge; balance matters. Log burns alongside intake for a weekly picture. The tool's value is translating effort into a number you can weigh against food, closing the energy-balance loop.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What drives burn?",
+    answer:"Intensity, duration, and body weight.",
+  },
+{
+    question:"Why estimate?",
+    answer:"To balance diet and activity.",
+  },
+{
+    question:"Accurate?",
+    answer:"Approximate; useful for trends.",
+  },
+{
+    question:"High or low intensity?",
+    answer:"Both burn; pick sustainable.",
+  },
+{
+    question:"Track it?",
+    answer:"Log to see weekly totals.",
+  }
+  ]}
+/>
+</div>
  );
 }

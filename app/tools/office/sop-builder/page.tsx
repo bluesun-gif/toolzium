@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { SopBuilderClient } from "@/components/tools/office/sop-builder-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "SOP Template Builder | Toolzium",
@@ -21,6 +22,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <SopBuilderClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/office/sop-builder" />
+</div>
   );
 }

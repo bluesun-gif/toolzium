@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Label } from"@/components/ui/label";
 import { Input } from"@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { DollarSign, Calculator, PieChart } from"lucide-react";
+import { Calculator, DollarSign, Eye, PieChart, Target, Wallet } from"lucide-react";
 
 export function Budget503020Client() {
  const [income, setIncome] = useState("4000");
@@ -150,6 +153,87 @@ export function Budget503020Client() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Income",
+    description:"Add your take-home pay after taxes.",
+    icon: Wallet,
+  },
+{
+    step:"02",
+    title:"Allocate",
+    description:"The tool splits needs, wants, and savings automatically.",
+    icon: PieChart,
+  },
+{
+    step:"03",
+    title:"Review",
+    description:"See if your spending fits the 50/30/20 split.",
+    icon: Eye,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Wallet,
+    title:"Income Based",
+    description:"Works from net pay so the plan matches reality.",
+  },
+{
+    icon: PieChart,
+    title:"Clear Splits",
+    description:"50 percent needs, 30 percent wants, 20 percent savings.",
+  },
+{
+    icon: Eye,
+    title:"Visual Feedback",
+    description:"Highlights categories that drift from the rule.",
+  },
+{
+    icon: Target,
+    title:"Savings Focus",
+    description:"Protects the 20 percent savings bucket first.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>The 50/30/20 rule is a simple framework that makes budgeting approachable. After taxes, you allocate 50 percent of income to needs, 30 percent to wants, and 20 percent to savings and debt payoff. Its power is simplicity: you do not track every coffee, you track three buckets.</p>
+  <p>Start with net income, not gross. Taxes, insurance premiums, and pre-tax deductions already left your paycheck, so planning from take-home pay reflects money you can actually spend. The allocator divides it instantly, showing what 50 percent of your income looks like in real dollar terms.</p>
+  <p>Needs are the foundation. Housing, food, transportation, and minimum debt payments belong here. If your needs exceed 50 percent, the rule signals a structural problem — perhaps housing costs too much — that you may need to address directly rather than by trimming coffee. Wants are discretionary: dining out, hobbies, entertainment. The 20 percent savings bucket should be protected first, treated as a bill you pay yourself.</p>
+  <p>Flexibility keeps the system sustainable. High-cost cities may push needs above 50 percent, and that is acceptable as long as you understand the trade-off. The value is awareness, not perfection. Use the allocator monthly to spot drift, automate the savings transfer, and let the rule guide decisions without drowning in spreadsheets. Consistent habits built on this simple split outperform complex budgets most people abandon.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What counts as a need?",
+    answer:"Needs are essentials you cannot avoid: rent, groceries, insurance, minimum debt payments, utilities.",
+  },
+{
+    question:"Are subscriptions wants or needs?",
+    answer:"Most streaming and discretionary subscriptions are wants unless tied to work you cannot do without.",
+  },
+{
+    question:"What if I cannot save 20 percent?",
+    answer:"Save what you can and treat 20 percent as a target; even small consistent savings build security.",
+  },
+{
+    question:"Should retirement come from the 20 percent?",
+    answer:"Yes, retirement and emergency savings both live in the savings and debt category.",
+  },
+{
+    question:"Is the rule rigid?",
+    answer:"It is a guideline; adjust proportions if your cost of living demands a higher needs share.",
+  }
+  ]}
+/>
+</div>
  );
 }

@@ -2,7 +2,6 @@ import { buildMetadata } from "@/lib/seo";
 import { siteURL } from "@/lib/constants";
 import JsonLd from "@/components/seo/json-ld";
 import WhitespaceRemoverClient from "@/components/tools/text/whitespace-remover-client";
-
 const TITLE = "Whitespace Remover — Remove Extra Spaces & Blank Lines | Toolzium";
 const DESCRIPTION = "Remove extra spaces, blank lines, leading/trailing whitespace from text. Clean and trim text online for free. No signup required.";
 const URL = `${siteURL}/tools/text/whitespace-remover`;
@@ -92,6 +91,8 @@ export default function Page() {
     <div className="max-w-6xl mx-auto space-y-8">
       <JsonLd data={jsonLd} />
       <WhitespaceRemoverClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/text/whitespace-remover" />
+</div>
   );
 }

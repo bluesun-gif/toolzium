@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import TwitchTitleClient from "@/components/tools/social/twitch-title-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "Twitch Stream Title & High-CTR Hook Generator | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function TwitchTitlePage() {
-  return <TwitchTitleClient />;
+  return (
+    <><TwitchTitleClient />
+      <RelatedTools currentToolUrl="/tools/social/twitch-title-generator" />
+    </>
+  );
 }

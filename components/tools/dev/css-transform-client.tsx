@@ -1,7 +1,10 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
-import { Box, Sliders, Copy, RefreshCw } from"lucide-react";
+import { Box, Code2, Copy, Move, RefreshCw, RotateCw, Sliders, SlidersHorizontal } from"lucide-react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
 import { GlassCard } from"@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
@@ -183,6 +186,88 @@ export function CssTransformClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Choose Transform",
+    description:"Pick translate, rotate, scale, or skew from the panel.",
+    icon: Move,
+  },
+{
+    step:"02",
+    title:"Adjust Values",
+    description:"Set angles, distances, and factors with sliders.",
+    icon: SlidersHorizontal,
+  },
+{
+    step:"03",
+    title:"Copy CSS",
+    description:"Get the transform property or a full utility class.",
+    icon: Code2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Move,
+    title:"All Transform Types",
+    description:"Translate, rotate, scale, skew, and matrix.",
+  },
+{
+    icon: SlidersHorizontal,
+    title:"Live Sliders",
+    description:"Tune each value and see the result instantly.",
+  },
+{
+    icon: RotateCw,
+    title:"3D Support",
+    description:"Add perspective and rotateX/Y/Z.",
+  },
+{
+    icon: Code2,
+    title:"Clean Output",
+    description:"Copy a single transform declaration.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>The CSS transform property is the workhorse of modern interface motion. Unlike changing top or left, transform does not reflow the page — the browser promotes the element to its own layer and applies the change on the GPU. That makes transforms the right choice for animation and interaction.</p>
+  <p>Four core functions cover most needs. translate() moves an element along X and Y. rotate() turns it by an angle. scale() grows or shrinks it. skew() slants it along an axis. You can chain them in one declaration: transform: translateX(20px) rotate(15deg) scale(1.1). They apply left to right, and order matters when combining rotations with translations.</p>
+  <p>transform-origin changes the pivot. By default an element rotates around its center, but setting transform-origin: top left makes it swing from that corner. This is essential for realistic hinges, folding panels, and card flips. Pair it with perspective on the parent to enable three-dimensional effects like rotateX and rotateY.</p>
+  <p>Because transforms are visual only, they do not affect surrounding elements or scroll position. That is great for performance but means you cannot use transform to push content out of the way — use it for presentation, not layout. For hover lifts, a translateY(-4px) with a shadow change feels responsive and costs almost nothing.</p>
+  <p>When animating, prefer transform and opacity together. Avoid animating width, height, or margins, which force layout recalculation each frame. Our generator lets you compose a transform visually and copy the exact declaration. Start with a single function, preview it, then layer more once the base motion feels right.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What does CSS transform do?",
+    answer:"The transform property moves, rotates, scales, or skews an element without affecting document layout.",
+  },
+{
+    question:"Is transform better than changing top/left?",
+    answer:"Yes for animation. Transform is GPU-accelerated and does not trigger layout, so it is smoother than animating position.",
+  },
+{
+    question:"What is the transform-origin?",
+    answer:"It sets the point around which rotations and scaling happen, defaulting to the element's center.",
+  },
+{
+    question:"How do I combine transforms?",
+    answer:"List them space-separated in one transform property, e.g. transform: rotate(20deg) scale(1.2).",
+  },
+{
+    question:"What is perspective?",
+    answer:"Perspective adds depth so 3D transforms like rotateX look three-dimensional rather than flat.",
+  }
+  ]}
+/>
+</div>
  );
 }

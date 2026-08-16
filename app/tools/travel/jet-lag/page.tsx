@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { JetLagClient } from "@/components/tools/travel/jet-lag-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Jet Lag Calculator | Toolzium",
@@ -55,6 +56,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <JetLagClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/travel/jet-lag" />
+</div>
   );
 }

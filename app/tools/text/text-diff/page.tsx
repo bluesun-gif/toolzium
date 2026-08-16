@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import TextDiffClient from "@/components/tools/text/text-diff-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Text Diff Viewer | Toolzium",
   description: "Compare two blocks of text side-by-side with highlighting for additions, deletions, and unchanged lines. Support for inline diff mode and line numbers.",
@@ -67,6 +66,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <TextDiffClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/text/text-diff" />
+</div>
   );
 }

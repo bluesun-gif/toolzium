@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ResetButton } from"@/components/shared/action-buttons";
-import { Moon, Clock, Shield } from"lucide-react";
+import { Activity, Calculator, Clock, Moon, Shield, ShieldCheck } from"lucide-react";
 
 export function SleepLatencyClient() {
  const [time, setTime] = useState("07:00");
@@ -120,6 +123,86 @@ export function SleepLatencyClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Times",
+    description:"Lights-out and asleep.",
+    icon: Clock,
+  },
+{
+    step:"02",
+    title:"Compute",
+    description:"See onset latency.",
+    icon: Calculator,
+  },
+{
+    step:"03",
+    title:"Interpret",
+    description:"Understand the number.",
+    icon: Activity,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Clock,
+    title:"Times",
+    description:"Two endpoints.",
+  },
+{
+    icon: Calculator,
+    title:"Latency",
+    description:"Onset in minutes.",
+  },
+{
+    icon: Activity,
+    title:"Interpret",
+    description:"What it means.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Track",
+    description:"Over nights.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A sleep onset calculator measures the minutes from lights-out to actually sleeping, a key insomnia signal. Consistently long onset suggests a problem worth addressing. This tool computes and interprets the figure.</p>
+  <p>Tracking onset over time shows whether habits help. The number is more honest than guesswork.</p>
+  <p>Use it to understand your sleep. The tool's value is a precise onset metric for self-assessment.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is onset?",
+    answer:"Time from lights-out to sleep.",
+  },
+{
+    question:"Normal?",
+    answer:"Under 30 min is typical.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Sleep quality.",
+  }
+  ]}
+/>
+</div>
  );
 }

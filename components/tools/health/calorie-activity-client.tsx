@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Label } from"@/components/ui/label";
 import { Input } from"@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Activity, Flame } from"lucide-react";
+import { Activity, Calculator, Clock, Dumbbell, Flame, TrendingUp } from"lucide-react";
 
 const activities = [
  { name:"Running (6 mph)", met: 9.8, category:"Running"},
@@ -160,6 +163,86 @@ export function CalorieActivityClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Pick Activity",
+    description:"Select an exercise type.",
+    icon: Dumbbell,
+  },
+{
+    step:"02",
+    title:"Enter Data",
+    description:"Add duration and weight.",
+    icon: Clock,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See calories burned.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Dumbbell,
+    title:"Activity List",
+    description:"Many exercises covered.",
+  },
+{
+    icon: Clock,
+    title:"Duration Based",
+    description:"Longer burns more.",
+  },
+{
+    icon: Calculator,
+    title:"Burn Estimate",
+    description:"Calories for the session.",
+  },
+{
+    icon: TrendingUp,
+    title:"Context",
+    description:"Helps balance intake.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A calorie burn calculator estimates energy used during activity, useful for balancing intake and expenditure. It derives burn from metabolic equivalents (METs), your weight, and duration — standard inputs that approximate real cost. This tool covers many exercises so you can compare them and plan movement.</p>
+  <p>Weight and time scale the result. Heavier bodies expend more per minute, and longer sessions naturally burn more. The calculator makes these relationships visible, helping you choose activities that fit your goals and schedule rather than guessing which workout &quot;counts&quot; most.</p>
+  <p>Treat estimates as guidance. Wearables and formulas differ, so use the number to balance, not to justify overeating. Pair with a deficit target from a BMR tool for coherent planning. The calculator's value is quantifying movement's energy cost, closing the loop between eating and training.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"How is burn estimated?",
+    answer:"From MET values, weight, and time.",
+  },
+{
+    question:"Accurate?",
+    answer:"Approximate; devices vary.",
+  },
+{
+    question:"Does weight matter?",
+    answer:"Heavier bodies burn more per minute.",
+  },
+{
+    question:"Use for diet?",
+    answer:"Balance intake against burn.",
+  },
+{
+    question:"Best exercise?",
+    answer:"One you sustain consistently.",
+  }
+  ]}
+/>
+</div>
  );
 }

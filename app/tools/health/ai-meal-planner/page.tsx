@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import AiMealPlannerClient from "@/components/tools/health/ai-meal-planner-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "AI Daily Meal Plan & Macro Targets Generator | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function AiMealPlannerPage() {
-  return <AiMealPlannerClient />;
+  return (
+    <><AiMealPlannerClient />
+      <RelatedTools currentToolUrl="/tools/health/ai-meal-planner" />
+    </>
+  );
 }

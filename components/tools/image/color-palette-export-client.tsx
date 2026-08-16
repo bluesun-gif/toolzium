@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ActionButton, CopyButton } from"@/components/shared/action-buttons";
-import { Palette, Download, RefreshCw, Plus, Trash2 } from"lucide-react";
+import { Copy, Download, FileOutput, Palette, Plus, RefreshCw, Trash2 } from"lucide-react";
 
 const randomHex = () =>"#"+ Math.floor(Math.random() * 16777215).toString(16).padStart(6,"0");
 
@@ -133,6 +136,86 @@ export function ColorPaletteExportClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Build Palette",
+    description:"Add or generate colors.",
+    icon: Palette,
+  },
+{
+    step:"02",
+    title:"Choose Format",
+    description:"Pick an export type.",
+    icon: FileOutput,
+  },
+{
+    step:"03",
+    title:"Export",
+    description:"Download the file.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Palette,
+    title:"Palette",
+    description:"Your color set.",
+  },
+{
+    icon: FileOutput,
+    title:"Formats",
+    description:"JSON, CSS, SVG, more.",
+  },
+{
+    icon: Download,
+    title:"Download",
+    description:"Ready to use.",
+  },
+{
+    icon: Copy,
+    title:"Clipboard",
+    description:"Or copy directly.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A color palette exporter turns a working palette into production-ready files. Handing a designer a list of hex codes is friction; exporting CSS variables or a JSON token file drops straight into a codebase. This tool outputs the format your stack expects.</p>
+  <p>Format choice matters. CSS custom properties suit web; JSON tokens suit design systems; SVG or ASE suit graphic tools. The exporter bridges the gap between exploration and implementation.</p>
+  <p>Use it at the end of palette work. The tool's value is delivering colors in a usable, developer-friendly form instead of copy-pasting values manually.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Formats?",
+    answer:"CSS variables, JSON, SVG, ASE.",
+  },
+{
+    question:"Use case?",
+    answer:"Handoff to code or design.",
+  },
+{
+    question:"Dev ready?",
+    answer:"CSS vars drop into projects.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Large palettes?",
+    answer:"Handles many colors.",
+  }
+  ]}
+/>
+</div>
  );
 }

@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import { TextStatsClient } from "@/components/tools/text/text-stats-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Text Statistics & Analyzer | Toolzium",
   description: "Advanced text analysis tool for word count, readability score, reading time, and lexical density.",
@@ -20,6 +19,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <TextStatsClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/text/text-stats" />
+</div>
   );
 }

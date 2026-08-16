@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { RectangleHorizontal, Image as ImageIcon, Maximize, Copy } from"lucide-react";
+import { Calculator, Copy, Crop, Image, Image as ImageIcon, Maximize, RectangleHorizontal, Ruler } from"lucide-react";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
 import { cn } from"@/lib/utils";
 
@@ -242,6 +245,86 @@ export function AspectRatioClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Dimensions",
+    description:"Type width and height.",
+    icon: Ruler,
+  },
+{
+    step:"02",
+    title:"Pick Target",
+    description:"Choose a target ratio.",
+    icon: Crop,
+  },
+{
+    step:"03",
+    title:"Convert",
+    description:"See the matching size.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Ruler,
+    title:"Dimensions",
+    description:"Width and height input.",
+  },
+{
+    icon: Crop,
+    title:"Ratios",
+    description:"Common presets and custom.",
+  },
+{
+    icon: Calculator,
+    title:"Convert",
+    description:"Pixel-precise output.",
+  },
+{
+    icon: Image,
+    title:"Use Cases",
+    description:"Video, social, print.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An aspect ratio calculator solves a frequent design problem: given one dimension and a target ratio, what is the other? Video, social posts, and prints all demand specific shapes, and guessing leads to cropping. This tool computes the missing side precisely.</p>
+  <p>Ratios standardize communication. Knowing 16:9 is widescreen and 9:16 is vertical helps you plan content for the right surface. The calculator removes mental math so dimensions are exact before you build.</p>
+  <p>Use it when sizing any visual asset. The tool's value is precise, ratio-correct dimensions that prevent rework and awkward automatic crops.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What does it do?",
+    answer:"Finds a matching dimension from one side and a ratio.",
+  },
+{
+    question:"Common ratios?",
+    answer:"1:1, 16:9, 9:16, 4:3, 21:9.",
+  },
+{
+    question:"Why needed?",
+    answer:"Platforms demand exact shapes.",
+  },
+{
+    question:"Exact?",
+    answer:"Mathematical, rounded sensibly.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  }
+  ]}
+/>
+</div>
  );
 }

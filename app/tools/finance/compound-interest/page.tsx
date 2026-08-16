@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import CompoundInterestClient from "@/components/tools/finance/compound-interest-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Compound Interest Calculator",
@@ -40,6 +41,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <CompoundInterestClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/finance/compound-interest" />
+</div>
   );
 }

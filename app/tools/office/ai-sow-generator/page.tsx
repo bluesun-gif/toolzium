@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import AiSowGeneratorClient from "@/components/tools/office/ai-sow-generator-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "AI Statement of Work (SOW) Deliverables Generator | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function AiSowGeneratorPage() {
-  return <AiSowGeneratorClient />;
+  return (
+    <><AiSowGeneratorClient />
+      <RelatedTools currentToolUrl="/tools/office/ai-sow-generator" />
+    </>
+  );
 }

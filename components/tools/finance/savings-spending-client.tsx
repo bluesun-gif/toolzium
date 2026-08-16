@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
 import { cn } from"@/lib/utils";
-import { Wallet, TrendingUp, BarChart2, Lightbulb } from"lucide-react";
+import { BarChart2, Lightbulb, Receipt, Scale, TrendingUp, Wallet } from"lucide-react";
 import toast from"react-hot-toast";
 
 type Expenses = {
@@ -203,6 +206,87 @@ export function SavingsSpendingClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Income",
+    description:"Input take-home pay.",
+    icon: Wallet,
+  },
+{
+    step:"02",
+    title:"Enter Spending",
+    description:"Add monthly expenses.",
+    icon: Receipt,
+  },
+{
+    step:"03",
+    title:"Analyze",
+    description:"See savings rate and balance.",
+    icon: Scale,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Wallet,
+    title:"Income In",
+    description:"Uses net pay.",
+  },
+{
+    icon: Receipt,
+    title:"Spending Track",
+    description:"Captures all outflows.",
+  },
+{
+    icon: Scale,
+    title:"Ratio View",
+    description:"Savings rate vs spend.",
+  },
+{
+    icon: TrendingUp,
+    title:"Balance",
+    description:"Shows surplus or deficit.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A savings versus spending analyzer shows the core financial ratio everyone should know: what portion of income is kept versus spent. Salary alone says little; the gap between earning and spending is what builds security. This tool computes your savings rate and surplus or deficit, turning vague money habits into a clear number.</p>
+  <p>The savings rate is the metric that predicts financial outcomes more than income does. Two people earning the same amount diverge entirely based on what they keep. The analyzer reveals yours and shows how small spending shifts move it. A 10 percent rate builds slowly; 20 percent builds steadily; higher still accelerates independence.</p>
+  <p>Surplus versus deficit is the verdict. A surplus means assets grow; a deficit means debt grows or savings shrink. The tool makes this obvious so you can act before a deficit becomes a crisis. Cutting one recurring expense or raising income by a similar amount directly improves the ratio.</p>
+  <p>Use it monthly as a check-in. Compare your rate over time to spot creeping lifestyle inflation, where spending rises with income and savings stall. The analyzer's value is simplicity: one ratio that tells you, faster than any budget, whether your financial life is moving in the right direction.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is a savings rate?",
+    answer:"Share of income not spent, saved or invested.",
+  },
+{
+    question:"What is a good rate?",
+    answer:"Start at 10 to 20 percent; more accelerates goals.",
+  },
+{
+    question:"Deficit vs surplus?",
+    answer:"Surplus builds wealth; deficit drains it.",
+  },
+{
+    question:"How to raise savings?",
+    answer:"Cut spending or raise income.",
+  },
+{
+    question:"Does debt payoff count?",
+    answer:"It is a transfer, not savings; track separately.",
+  }
+  ]}
+/>
+</div>
  );
 }

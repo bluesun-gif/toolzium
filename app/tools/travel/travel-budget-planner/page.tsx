@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { TravelBudgetPlannerClient } from "@/components/tools/travel/travel-budget-planner-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Travel Multi-Currency Budget Planner | Toolzium",
@@ -20,6 +21,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <TravelBudgetPlannerClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/travel/travel-budget-planner" />
+</div>
   );
 }

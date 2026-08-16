@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ResetButton } from"@/components/shared/action-buttons";
-import { Activity, Flame, Timer, Scale } from"lucide-react";
+import { Activity, Calculator, Flame, Gauge, Scale, Timer, TrendingUp } from"lucide-react";
 
 export function PaceCalorieClient() {
  const [weight, setWeight] = useState<number>(150);
@@ -156,6 +159,86 @@ export function PaceCalorieClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Weight",
+    description:"Add body weight.",
+    icon: Scale,
+  },
+{
+    step:"02",
+    title:"Set Pace",
+    description:"Input speed or duration.",
+    icon: Gauge,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See calories burned.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Scale,
+    title:"Weight Based",
+    description:"Personalizes burn.",
+  },
+{
+    icon: Gauge,
+    title:"Pace Aware",
+    description:"Faster pace burns more.",
+  },
+{
+    icon: Calculator,
+    title:"Burn Estimate",
+    description:"Calories for the session.",
+  },
+{
+    icon: TrendingUp,
+    title:"Training Aid",
+    description:"Plan intensity.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A pace calorie calculator estimates burn from speed, weight, and duration, useful for runners and walkers. Faster paces burn more per minute, so the same route at higher speed costs more energy. This tool personalizes that estimate.</p>
+  <p>Pace and duration together define the session's cost. The calculator reflects how intensity scales burn, helping you plan training and fueling. Whether walking or running, the number informs balance with intake.</p>
+  <p>Use it to quantify cardio effort. The tool's value is a pace-aware energy estimate that makes training load and nutrition planning precise.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"How estimated?",
+    answer:"From weight, pace, time.",
+  },
+{
+    question:"Pace matters?",
+    answer:"Faster effort burns more per minute.",
+  },
+{
+    question:"Accurate?",
+    answer:"Approximate; devices vary.",
+  },
+{
+    question:"Walking or running?",
+    answer:"Both; intensity sets burn.",
+  },
+{
+    question:"Track it?",
+    answer:"Log to balance intake.",
+  }
+  ]}
+/>
+</div>
  );
 }

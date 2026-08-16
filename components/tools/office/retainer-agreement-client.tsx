@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { FileText, ShieldCheck, Printer } from"lucide-react";
+import { FileCheck2, FileText, Printer, Scale, ShieldCheck } from"lucide-react";
 import { Button } from"@/components/ui/button";
 
 export function RetainerAgreementClient() {
@@ -142,6 +145,86 @@ export function RetainerAgreementClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Parties",
+    description:"Add provider and client.",
+    icon: FileText,
+  },
+{
+    step:"02",
+    title:"Set Retainer",
+    description:"Define fee and scope.",
+    icon: Scale,
+  },
+{
+    step:"03",
+    title:"Generate",
+    description:"Build the agreement.",
+    icon: FileCheck2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: FileText,
+    title:"Parties",
+    description:"Identities.",
+  },
+{
+    icon: Scale,
+    title:"Fee Terms",
+    description:"Recurring and limits.",
+  },
+{
+    icon: FileCheck2,
+    title:"Draft",
+    description:"Ready document.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Clauses",
+    description:"Termination included.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A retainer agreement generator builds the contract for ongoing advisory relationships, defining a recurring fee and the work it covers. Clear retainers prevent scope creep and ensure steady engagement. This tool structures fee and scope.</p>
+  <p>Termination and limit clauses protect both sides. The generator includes them so expectations are explicit from the start.</p>
+  <p>Review with counsel. The tool's value is a complete retainer draft that supports predictable client work.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is a retainer?",
+    answer:"Ongoing fee for availability.",
+  },
+{
+    question:"Scope limits?",
+    answer:"Yes, define included work.",
+  },
+{
+    question:"Binding?",
+    answer:"Draft; legal review.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Use case?",
+    answer:"Agencies, lawyers, consultants.",
+  }
+  ]}
+/>
+</div>
  );
 }

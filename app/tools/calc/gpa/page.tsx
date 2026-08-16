@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import GpaCalculatorClient from "@/components/tools/calc/gpa-calculator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "GPA Calculator",
@@ -40,6 +41,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <GpaCalculatorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/calc/gpa" />
+</div>
   );
 }

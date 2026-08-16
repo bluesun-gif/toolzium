@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import HttpHeadersClient from "@/components/tools/network/http-headers-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "HTTP Header Checker",
@@ -40,6 +41,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <HttpHeadersClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/network/http-headers" />
+</div>
   );
 }

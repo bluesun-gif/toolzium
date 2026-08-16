@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import YoutubeScriptGeneratorClient from "@/components/tools/social/youtube-script-generator-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "AI YouTube Video Script & Outline Generator | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function YoutubeScriptGeneratorPage() {
-  return <YoutubeScriptGeneratorClient />;
+  return (
+    <><YoutubeScriptGeneratorClient />
+      <RelatedTools currentToolUrl="/tools/social/youtube-script-generator" />
+    </>
+  );
 }

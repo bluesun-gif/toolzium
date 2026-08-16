@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -11,7 +14,7 @@ import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
 import { cn } from"@/lib/utils";
-import { FileText, PieChart, DollarSign, Download, RefreshCw } from"lucide-react";
+import { DollarSign, Download, FileText, ListChecks, PieChart, RefreshCw, Sparkles } from"lucide-react";
 import toast from"react-hot-toast";
 
 type BudgetMethod ="50-30-20"|"zero-based"|"envelope"|"60-20-20";
@@ -187,6 +190,87 @@ export function BudgetTemplateClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Pick a Style",
+    description:"Choose monthly, zero-based, or category template.",
+    icon: FileText,
+  },
+{
+    step:"02",
+    title:"Customize",
+    description:"Add your own income and expense lines.",
+    icon: ListChecks,
+  },
+{
+    step:"03",
+    title:"Export",
+    description:"Download or copy the finished budget.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: FileText,
+    title:"Multiple Formats",
+    description:"Monthly, weekly, and zero-based templates included.",
+  },
+{
+    icon: ListChecks,
+    title:"Editable Lines",
+    description:"Add categories specific to your life.",
+  },
+{
+    icon: Download,
+    title:"Portable Output",
+    description:"Copy to sheets or download for offline use.",
+  },
+{
+    icon: Sparkles,
+    title:"Smart Defaults",
+    description:"Pre-filled common categories to start fast.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A budget template removes the blank-page paralysis that stops most people from planning. Instead of building a system from scratch, you start from a proven structure and adapt it. This generator offers monthly, weekly, and zero-based styles so the format matches how you think about money.</p>
+  <p>Zero-based budgeting assigns every dollar a purpose, so income minus allocations equals zero. It is powerful for gaining control but demands discipline. The monthly template is gentler, grouping spending into broad categories with target amounts. Weekly templates suit anyone paid weekly or managing tight cash flow who needs shorter cycles.</p>
+  <p>Customization is where templates become yours. Add lines for your real expenses — childcare, a side hustle, a specific debt — so the plan reflects life instead of a generic list. Smart defaults pre-fill rent, groceries, and transport, giving you a working draft in seconds that you refine rather than author.</p>
+  <p>Portability matters more than features. A template you can copy into a spreadsheet or print and tape to the fridge gets used; a clever app you forget loses. Export the result and review it weekly at first, then monthly once habits form. The goal is not a perfect document but a living plan that nudges better decisions. Start simple, stay consistent, and let the template evolve with your finances.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is zero-based budgeting?",
+    answer:"Every dollar is assigned a job so income minus allocated equals zero, maximizing intentionality.",
+  },
+{
+    question:"Should I budget weekly or monthly?",
+    answer:"Monthly suits stable income; weekly helps those paid weekly or with variable cash flow.",
+  },
+{
+    question:"How detailed should categories be?",
+    answer:"Enough to act on, not so many that tracking becomes a chore you quit.",
+  },
+{
+    question:"Can I use this for business?",
+    answer:"The structure works for simple freelancer finances, but separate business accounting is wiser.",
+  },
+{
+    question:"Do I need an app?",
+    answer:"No. A clear template you actually use beats a fancy app you ignore.",
+  }
+  ]}
+/>
+</div>
  );
 }

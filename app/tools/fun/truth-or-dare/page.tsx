@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import TruthOrDareClient from "@/components/tools/fun/truth-or-dare-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Truth or Dare Generator — Random Questions & Dares | Toolzium",
   description: "Generate random truth questions and dare challenges for your next party or game night. Features family-friendly and adult modes with multiple difficulties.",
@@ -69,6 +68,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <TruthOrDareClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/fun/truth-or-dare" />
+</div>
   );
 }

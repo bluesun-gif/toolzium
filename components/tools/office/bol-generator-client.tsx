@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Truck, Plus, Copy, FileText } from"lucide-react";
+import { Copy, Download, FileText, Plus, ShieldCheck, Ship, Truck } from"lucide-react";
 import { toast } from"react-hot-toast";
 
 interface HandlingUnit {
@@ -194,6 +197,86 @@ export function BolGeneratorClient() {
  </pre>
  </CardContent>
  </GlassCard>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Shipment",
+    description:"Add shipper, consignee, cargo.",
+    icon: Ship,
+  },
+{
+    step:"02",
+    title:"Set Terms",
+    description:"Define freight and parties.",
+    icon: FileText,
+  },
+{
+    step:"03",
+    title:"Generate",
+    description:"Produce the document.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Ship,
+    title:"Shipment Data",
+    description:"Cargo and route.",
+  },
+{
+    icon: FileText,
+    title:"Parties",
+    description:"Shipper and consignee.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Printable BOL.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Accuracy",
+    description:"Structured fields.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A bill of lading generator creates the critical shipping document that serves as both receipt and contract for transported goods. Accurate BOLs prevent cargo disputes and delays at ports. This tool structures shipper, consignee, and cargo data into a printable form.</p>
+  <p>Completeness avoids holdups. Missing consignee or cargo details can stall a shipment; the generator enforces the required fields. Printable output fits carrier workflows.</p>
+  <p>Confirm against carrier requirements before use. The tool's value is a correct, professional BOL produced quickly.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is a BOL?",
+    answer:"Receipt and contract for shipped goods.",
+  },
+{
+    question:"Who signs?",
+    answer:"Carrier and shipper.",
+  },
+{
+    question:"Use case?",
+    answer:"Freight and logistics.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Legal?",
+    answer:"Verify per carrier rules.",
+  }
+  ]}
+/>
+</div>
  );
 }

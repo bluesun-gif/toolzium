@@ -1,5 +1,4 @@
 import PalindromeCheckerClient from "@/components/tools/text/palindrome-checker-client";
-
 export const metadata = {
   title: "Palindrome Checker",
   description: "Check if a word, phrase, or number is a palindrome. Ignores spaces and punctuation.",
@@ -15,6 +14,8 @@ export default function PalindromeCheckerPage() {
         </p>
       </div>
       <PalindromeCheckerClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/text/palindrome-checker" />
+</div>
   );
 }

@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import { EmojiPickerClient } from "@/components/tools/text/emoji-picker-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Emoji Picker & Search | Toolzium",
   description: "Search and copy emojis easily. Browse by categories like Smileys, People, Animals, Food, and more.",
@@ -57,6 +56,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <EmojiPickerClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/text/emoji-picker" />
+</div>
   );
 }

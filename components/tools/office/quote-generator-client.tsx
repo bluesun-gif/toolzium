@@ -1,4 +1,7 @@
 "use client";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -193,6 +196,87 @@ export function QuoteGeneratorClient() {
  </div>
  </CardContent>
  </GlassCard>
- </div>
+ 
+
+<ToolHowItWorks
+  steps={[
+  {
+    step:"01",
+    title:"Enter Items",
+    description:"Add products or services.",
+    icon: ListChecks,
+  },
+  {
+    step:"02",
+    title:"Set Pricing",
+    description:"Rates, tax, validity.",
+    icon: Scale,
+  },
+  {
+    step:"03",
+    title:"Generate",
+    description:"Produce the quote.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+  {
+    icon: ListChecks,
+    title:"Line Items",
+    description:"What you offer.",
+  },
+  {
+    icon: Scale,
+    title:"Pricing",
+    description:"Rates and tax.",
+  },
+  {
+    icon: Download,
+    title:"Export",
+    description:"Send to client.",
+  },
+  {
+    icon: Clock,
+    title:"Validity",
+    description:"Quote expiration.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A price quotation generator produces the estimate you send before a client commits, detailing scope and cost. Clear quotes win work and prevent later disputes about what was agreed. This tool compiles line items and pricing.</p>
+  <p>Validity dates protect you from stale pricing. The quote sets expectations; acceptance then triggers a formal invoice.</p>
+  <p>Use it for every bid. The tool's value is a professional, clear quote that converts prospects efficiently.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+  {
+    question:"What is a quote?",
+    answer:"Estimated price for requested work.",
+  },
+  {
+    question:"Set validity?",
+    answer:"Yes, expires after a date.",
+  },
+  {
+    question:"Free?",
+    answer:"Yes.",
+  },
+  {
+    question:"Becomes invoice?",
+    answer:"On acceptance, invoice follows.",
+  },
+  {
+    question:"Export?",
+    answer:"Downloadable.",
+  }
+  ]}
+/>
+</div>
  );
 }

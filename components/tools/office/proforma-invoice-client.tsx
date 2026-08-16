@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { FileText, Plus, Copy, Printer, Trash2 } from"lucide-react";
+import { Copy, Download, FileText, Globe, Plus, Printer, Scale, Trash2 } from"lucide-react";
 import { toast } from"react-hot-toast";
 
 interface Item {
@@ -296,6 +299,86 @@ export function ProformaInvoiceClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Details",
+    description:"Add parties and goods.",
+    icon: FileText,
+  },
+{
+    step:"02",
+    title:"Set Terms",
+    description:"Prices, shipping, validity.",
+    icon: Scale,
+  },
+{
+    step:"03",
+    title:"Generate",
+    description:"Produce the proforma.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: FileText,
+    title:"Parties",
+    description:"Seller and buyer.",
+  },
+{
+    icon: Scale,
+    title:"Terms",
+    description:"Value and validity.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Shareable draft.",
+  },
+{
+    icon: Globe,
+    title:"Trade",
+    description:"Common in imports.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A proforma invoice generator creates an indicative document detailing price and terms before a sale is final — commonly used in international trade for customs and buyer approval. It is a quote, not a payment demand. This tool structures the details.</p>
+  <p>Clarity on validity and terms prevents confusion at the border. The proforma helps buyers arrange payment and customs pre-clearance.</p>
+  <p>Confirm trade requirements. The tool's value is a clear proforma that facilitates cross-border deals.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Proforma vs invoice?",
+    answer:"Proforma is a quote, not a demand for payment.",
+  },
+{
+    question:"Use case?",
+    answer:"Customs and buyer confirmation.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Binding?",
+    answer:"Indicative, not final.",
+  },
+{
+    question:"Export?",
+    answer:"Downloadable.",
+  }
+  ]}
+/>
+</div>
  );
 }

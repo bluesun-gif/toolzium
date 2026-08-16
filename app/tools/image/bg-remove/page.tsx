@@ -3,7 +3,6 @@ import BgRemoveClient from "@/components/tools/image/bg-remove-client";
 import { buildMetadata } from "@/lib/seo";
 import JsonLd from "@/components/seo/json-ld";
 import { siteURL } from "@/lib/constants";
-
 const title = "Background Remover — Remove Image Background Free Online";
 const description =
   "Remove background from any image instantly using AI in your browser. Get a transparent PNG in seconds. Free, private, no upload to servers — no signup required.";
@@ -121,6 +120,8 @@ export default function BgRemovePage() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <BgRemoveClient />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/image/bg-remove" />
+</>
   );
 }

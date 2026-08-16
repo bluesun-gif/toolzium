@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { Switch } from"@/components/ui/switch";
-import { Activity, Flame, Clock, Scale } from"lucide-react";
+import { Activity, Calculator, Clock, Flame, Scale, Waves } from"lucide-react";
 import toast from"react-hot-toast";
 
 type ActivityType ="freestyle_slow"|"freestyle_fast"|"breaststroke"|"backstroke"|"butterfly"|"treading"|"water_polo"|"kayaking";
@@ -167,6 +170,86 @@ export function SwimmingCalorieClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Weight",
+    description:"Add body weight.",
+    icon: Scale,
+  },
+{
+    step:"02",
+    title:"Set Stroke",
+    description:"Pick stroke and duration.",
+    icon: Waves,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See calories burned.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Scale,
+    title:"Weight Based",
+    description:"Personalizes burn.",
+  },
+{
+    icon: Waves,
+    title:"Stroke Aware",
+    description:"Different strokes vary.",
+  },
+{
+    icon: Calculator,
+    title:"Burn Estimate",
+    description:"Session cost.",
+  },
+{
+    icon: Activity,
+    title:"Full Body",
+    description:"Excellent cardio.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A swimming calorie calculator accounts for a sport where stroke choice changes the cost. Butterfly is far more demanding than breaststroke; the calculator factors this with weight and duration. This tool estimates the burn so swimmers can plan training and fueling.</p>
+  <p>Swimming is full-body and low-impact, ideal for many bodies and joints. The approximate cost helps balance intake and track effort across sessions. Intensity and stroke selection drive the number.</p>
+  <p>Use it to quantify a superb workout. The tool's value is a stroke-aware energy estimate that makes pool time measurable and purposeful.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Stroke matters?",
+    answer:"Yes, butterfly burns most, breast least.",
+  },
+{
+    question:"How estimated?",
+    answer:"Weight, time, stroke intensity.",
+  },
+{
+    question:"Accurate?",
+    answer:"Approximate.",
+  },
+{
+    question:"Great workout?",
+    answer:"Yes, full-body, low impact.",
+  },
+{
+    question:"Track it?",
+    answer:"Log to balance.",
+  }
+  ]}
+/>
+</div>
  );
 }

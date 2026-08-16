@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { CompoundGrowthClient } from "@/components/tools/finance/compound-growth-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Investment Compound Growth Visualizer | Toolzium",
@@ -21,6 +22,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <CompoundGrowthClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/finance/compound-growth" />
+</div>
   );
 }

@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useRef, ChangeEvent, DragEvent } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,19 +12,7 @@ import SwitchRow from"@/components/shared/form-fields/switch-row";
 import Stat from"@/components/shared/stat";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
-import {
- Scaling,
- Upload,
- Download,
- RefreshCw,
- Trash2,
- Image as ImageIcon,
- Sparkles,
- Crop,
- Maximize2,
- CheckCircle2,
- Zap,
-} from"lucide-react";
+import { CheckCircle2, Crop, Download, Image as ImageIcon, Maximize2, RefreshCw, Scaling, SlidersHorizontal, Sparkles, Trash2, Upload, Zap } from"lucide-react";
 import JSZip from"jszip";
 import { drawToCanvas, canvasEncode, FitMode, formatBytes, mimeFromFormat } from"@/lib/canvas";
 import toast from"react-hot-toast";
@@ -542,6 +533,86 @@ export default function ImageResizerClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Upload",
+    description:"Load your image.",
+    icon: Upload,
+  },
+{
+    step:"02",
+    title:"Pick Size",
+    description:"Choose a target dimension.",
+    icon: Crop,
+  },
+{
+    step:"03",
+    title:"Export",
+    description:"Resize and download.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Upload,
+    title:"Image Input",
+    description:"From your device.",
+  },
+{
+    icon: Crop,
+    title:"Presets",
+    description:"Common social sizes.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Resized result.",
+  },
+{
+    icon: SlidersHorizontal,
+    title:"Quality",
+    description:"Tune output.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An image resizer delivers pictures at the exact dimensions each platform expects, preventing awkward crops and blur. Supplying one photo and picking a preset yields a correctly sized export. This tool handles the resize and lets you tune quality.</p>
+  <p>Presets remove guesswork. Each network has favored shapes; pre-sizing keeps your subject framed and sharp. Quality controls balance file size against fidelity.</p>
+  <p>Use it before posting anywhere with fixed dimensions. The tool's value is correctly sized images that display as intended, every time.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why resize?",
+    answer:"Platforms need exact dimensions.",
+  },
+{
+    question:"Presets?",
+    answer:"Instagram, X, Facebook, more.",
+  },
+{
+    question:"Quality?",
+    answer:"Minimal loss at export.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  }
+  ]}
+/>
+</div>
  );
 }

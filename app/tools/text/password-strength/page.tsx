@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import PasswordStrengthClient from "@/components/tools/text/password-strength-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Password Strength",
   description:
@@ -122,6 +121,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <PasswordStrengthClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/text/password-strength" />
+</div>
   );
 }

@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import PomodoroFocusClient from "@/components/tools/util/pomodoro-focus-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Pomodoro Focus Timer",
@@ -144,6 +145,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <PomodoroFocusClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/util/pomodoro" />
+</div>
   );
 }

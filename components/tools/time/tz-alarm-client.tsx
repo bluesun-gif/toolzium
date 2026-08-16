@@ -1,4 +1,7 @@
 "use client";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -202,7 +205,88 @@ export function TzAlarmClient() {
  </div>
  <div className="flex items-center gap-4">
  <Button variant="outline"size="sm"onClick={() => snoozeAlarm(alarm.id)} disabled={alarm.active}>Snooze</Button>
- <Switch checked={alarm.active} onCheckedChange={(c) => toggleAlarm(alarm.id, c)} />
+ <Switch checked={alarm.active} onCheckedChange={(c) => toggleAlarm(alarm.id, c)}
+
+<ToolHowItWorks
+  steps={[
+  {
+    step:"01",
+    title:"Pick Zone",
+    description:"Target time zone.",
+    icon: Globe,
+  },
+  {
+    step:"02",
+    title:"Set Time",
+    description:"Alarm in that zone.",
+    icon: AlarmClock,
+  },
+  {
+    step:"03",
+    title:"Confirm",
+    description:"See your local equivalent.",
+    icon: Clock,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+  {
+    icon: Globe,
+    title:"Zone",
+    description:"Any region.",
+  },
+  {
+    icon: AlarmClock,
+    title:"Alarm",
+    description:"In target zone.",
+  },
+  {
+    icon: Clock,
+    title:"Local",
+    description:"Your equivalent.",
+  },
+  {
+    icon: Bell,
+    title:"Alert",
+    description:"Notify on time.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A timezone alarm lets you set a wake or reminder in a different zone and shows your local equivalent, so you never miscalculate for an overseas event. The conversion is automatic. This tool sets and confirms.</p>
+  <p>Avoiding 3am wake-ups for a noon call is the whole point. The alarm removes the risk.</p>
+  <p>Use it for foreign-scheduled events. The tool's value is zone-correct alarms.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+  {
+    question:"What does it do?",
+    answer:"Alarms set in another zone.",
+  },
+  {
+    question:"Shows local?",
+    answer:"Yes, converts for you.",
+  },
+  {
+    question:"Free?",
+    answer:"Yes.",
+  },
+  {
+    question:"Private?",
+    answer:"Local.",
+  },
+  {
+    question:"Use case?",
+    answer:"Wake for events abroad.",
+  }
+  ]}
+/>
+ />
  <Button variant="ghost"size="icon"onClick={() => removeAlarm(alarm.id)}>
  <Trash2 className="h-4 w-4 text-destructive"/>
  </Button>

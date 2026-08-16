@@ -1,11 +1,14 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
 import { GlassCard } from"@/components/ui/glass-card";
 import { Input } from"@/components/ui/input";
 import SelectField from"@/components/shared/form-fields/select-field";
-import { Coins, TrendingUp, DollarSign } from"lucide-react";
+import { Calendar, Coins, DollarSign, LineChart, TrendingUp } from"lucide-react";
 
 const ASSETS = [
  { value:"BTC", label:"₿ Bitcoin (BTC)"},
@@ -105,6 +108,87 @@ export default function CryptoDcaClient() {
  <p className="text-3xl font-extrabold text-primary">+{roiPercentage}%</p>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Set Amount",
+    description:"Choose a fixed amount to invest regularly.",
+    icon: Coins,
+  },
+{
+    step:"02",
+    title:"Pick Interval",
+    description:"Select weekly, biweekly, or monthly buys.",
+    icon: Calendar,
+  },
+{
+    step:"03",
+    title:"Project",
+    description:"Estimate accumulation across a time horizon.",
+    icon: LineChart,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Coins,
+    title:"Fixed Investing",
+    description:"Models disciplined recurring purchases.",
+  },
+{
+    icon: Calendar,
+    title:"Interval Flexibility",
+    description:"Weekly, biweekly, or monthly scheduling.",
+  },
+{
+    icon: LineChart,
+    title:"Volatility Smoothing",
+    description:"Shows how DCA averages entry prices.",
+  },
+{
+    icon: TrendingUp,
+    title:"Scenario View",
+    description:"Projects outcomes at assumed prices.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>Dollar-cost averaging is a strategy that replaces guesswork with consistency. Instead of timing the market, you invest a fixed amount at set intervals, buying more units when prices are low and fewer when high. Over time your average entry price smooths out, which is especially valuable in volatile assets like crypto.</p>
+  <p>The core benefit is behavioral. Trying to time bottoms leads to fear and missed opportunities; DCA removes the decision, automating discipline. During downturns you accumulate cheap units that later recover, and during rallies your existing holdings grow. This steadiness historically outperforms emotional trading for most people.</p>
+  <p>Fees deserve attention. Very small, very frequent buys can lose more to exchange and network costs than they gain in smoothing. Most investors use weekly or monthly cadences sized to keep fees reasonable while preserving the averaging effect. The calculator projects accumulation so you can see how consistency compounds units over a chosen horizon.</p>
+  <p>Treat projections as illustrations, not promises. Crypto can fall as easily as rise, and no calculator predicts direction. Use DCA as a risk-management approach, only with money you can afford to lose, and pair it with secure storage and skepticism of hype. The value of this tool is showing how a boring, repeatable plan behaves across scenarios — the opposite of chasing the next pump.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is dollar-cost averaging?",
+    answer:"Investing a fixed amount at regular intervals regardless of price, averaging your entry cost.",
+  },
+{
+    question:"Why use DCA for crypto?",
+    answer:"It removes emotion and avoids buying everything at a peak during volatile markets.",
+  },
+{
+    question:"Is DCA better than lump sum?",
+    answer:"Lump sum often wins in rising markets, but DCA reduces regret and timing risk.",
+  },
+{
+    question:"What fees should I consider?",
+    answer:"Exchange and network fees can erode small frequent buys, so size matters.",
+  },
+{
+    question:"Are projections guarantees?",
+    answer:"No. Crypto is highly volatile; models are illustrative, not predictions.",
+  }
+  ]}
+/>
+</div>
  );
 }

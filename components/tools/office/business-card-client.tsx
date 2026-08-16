@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useRef, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { CreditCard, Eye, Download, Scan } from"lucide-react";
+import { CreditCard, Download, Eye, Palette, Scan, Smartphone, User } from"lucide-react";
 import { cn } from"@/lib/utils";
 import toast from"react-hot-toast";
 
@@ -216,6 +219,86 @@ export function BusinessCardClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Info",
+    description:"Add name, title, contact.",
+    icon: User,
+  },
+{
+    step:"02",
+    title:"Style",
+    description:"Pick a layout and color.",
+    icon: Palette,
+  },
+{
+    step:"03",
+    title:"Export",
+    description:"Download print-ready file.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: User,
+    title:"Contact",
+    description:"Your details.",
+  },
+{
+    icon: Palette,
+    title:"Design",
+    description:"Themes and layouts.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Print-ready.",
+  },
+{
+    icon: Smartphone,
+    title:"Digital",
+    description:"Also save as image.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A business card generator turns your contact details into a polished, print-ready card without design software. Correct dimensions and clean layouts make a professional first impression. This tool handles the format and styling.</p>
+  <p>Digital export extends utility; a card image works in email signatures and profiles. Styling options keep branding consistent.</p>
+  <p>Use it when networking or rebranding. The tool's value is a professional card from simple inputs, ready to print or share.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Sizes?",
+    answer:"Standard 3.5 x 2 inches.",
+  },
+{
+    question:"Print ready?",
+    answer:"Yes, correct dimensions.",
+  },
+{
+    question:"Digital use?",
+    answer:"Export an image too.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  }
+  ]}
+/>
+</div>
  );
 }

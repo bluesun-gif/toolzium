@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import AiElevatorPitchClient from "@/components/tools/writing/ai-elevator-pitch-client";
-
 export const metadata: Metadata = {
   title: "AI Elevator Pitch & Value Proposition Studio | Toolzium",
   description:
@@ -8,5 +7,9 @@ export const metadata: Metadata = {
 };
 
 export default function AiElevatorPitchPage() {
-  return <AiElevatorPitchClient />;
+  return (
+    <><AiElevatorPitchClient />
+      <RelatedTools currentToolUrl="/tools/writing/ai-elevator-pitch" />
+    </>
+  );
 }

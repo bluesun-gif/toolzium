@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { CollageLayoutClient } from "@/components/tools/image/collage-layout-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Photo Collage Layout | Toolzium",
@@ -21,6 +22,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <CollageLayoutClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/image/collage-layout" />
+</div>
   );
 }

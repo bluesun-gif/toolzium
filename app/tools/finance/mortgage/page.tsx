@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import { MortgageClient } from "@/components/tools/finance/mortgage-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Mortgage Calculator | Toolzium",
   description: "Calculate your monthly mortgage payment, see amortization schedules, and understand total home loan costs.",
@@ -55,6 +54,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <MortgageClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/finance/mortgage" />
+</div>
   );
 }

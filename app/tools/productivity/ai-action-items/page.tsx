@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import AiActionItemsClient from "@/components/tools/productivity/ai-action-items-client";
-
 export const metadata: Metadata = {
   title: "AI Meeting Action Items Extractor Studio | Toolzium",
   description:
@@ -8,5 +7,9 @@ export const metadata: Metadata = {
 };
 
 export default function AiActionItemsPage() {
-  return <AiActionItemsClient />;
+  return (
+    <><AiActionItemsClient />
+      <RelatedTools currentToolUrl="/tools/productivity/ai-action-items" />
+    </>
+  );
 }

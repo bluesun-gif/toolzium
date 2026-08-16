@@ -2,7 +2,6 @@ import { buildMetadata } from "@/lib/seo";
 import { siteURL } from "@/lib/constants";
 import JsonLd from "@/components/seo/json-ld";
 import ColorPickerClient from "@/components/tools/dev/color-picker-client";
-
 const title = "Color Picker — HEX, RGB, HSL Color Chooser | Toolzium";
 const description = "Pick any color and get HEX, RGB, HSL codes instantly. Free online color picker with color name detection, complementary colors, and recent color history.";
 const url = siteURL + "/tools/dev/color-picker";
@@ -79,6 +78,8 @@ export default function Page() {
     <div className="max-w-6xl mx-auto space-y-8">
       <JsonLd data={jsonLd as any} />
       <ColorPickerClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/color-picker" />
+</div>
   );
 }

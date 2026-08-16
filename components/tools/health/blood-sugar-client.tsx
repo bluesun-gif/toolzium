@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { Activity, Plus, Filter, Download, Trash2 } from"lucide-react";
+import { Activity, Clock, Download, Droplet, Filter, LineChart, Plus, Trash2 } from"lucide-react";
 import { cn } from"@/lib/utils";
 
 interface Entry {
@@ -209,7 +212,87 @@ export function BloodSugarClient() {
  <Button variant="ghost"size="sm"onClick={() => removeEntry(entry.id)} className="text-destructive h-8 w-8 p-0">
  <Trash2 className="w-4 h-4"/>
  </Button>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Log Level",
+    description:"Enter glucose reading.",
+    icon: Droplet,
+  },
+{
+    step:"02",
+    title:"Add Context",
+    description:"Note fasting or post-meal.",
+    icon: Clock,
+  },
+{
+    step:"03",
+    title:"Track",
+    description:"See patterns and ranges.",
+    icon: LineChart,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Droplet,
+    title:"Glucose Log",
+    description:"Store each value.",
+  },
+{
+    icon: Clock,
+    title:"Meal Context",
+    description:"Fasting vs after food.",
+  },
+{
+    icon: LineChart,
+    title:"Trend",
+    description:"Watch over time.",
+  },
+{
+    icon: Activity,
+    title:"Range Flag",
+    description:"Shows in or out of range.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A blood sugar tracker makes glucose observable, which is essential for anyone managing metabolism. Single checks miss the arc of a day; logged series show how meals, activity, and timing move levels. This tool records each reading with context so patterns — not moments — inform your routine.</p>
+  <p>Context is everything. A post-meal spike differs from a fasting value, and both matter. The tracker tags readings so you distinguish normal responses from concerning ones. Trend charts reveal which foods or habits push you out of range, guiding adjustments within your plan.</p>
+  <p>This is a management aid, not a diagnosis. Follow your clinician's targets and bring logs to appointments for precise tuning. The tool's value is visibility: turning an invisible daily fluctuation into data you and your care team can use to stay in range.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is a normal range?",
+    answer:"Fasting roughly 70 to 99 mg/dL; targets vary individually.",
+  },
+{
+    question:"Why log context?",
+    answer:"Post-meal spikes differ from fasting levels.",
+  },
+{
+    question:"How often?",
+    answer:"As advised; diabetics may check multiple times daily.",
+  },
+{
+    question:"Is this medical?",
+    answer:"No, follow your clinician's plan.",
+  },
+{
+    question:"What helps control?",
+    answer:"Diet, activity, and medication as prescribed.",
+  }
+  ]}
+/>
+</div>
  );
  })}
  </div>

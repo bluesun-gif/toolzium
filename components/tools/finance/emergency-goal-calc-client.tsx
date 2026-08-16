@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -7,7 +10,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ResetButton, ActionButton } from"@/components/shared/action-buttons";
-import { DollarSign, Calculator, Calendar, TrendingUp } from"lucide-react";
+import { Calculator, Calendar, DollarSign, Receipt, ShieldCheck, Target, TrendingUp } from"lucide-react";
 
 export function EmergencyGoalCalcClient() {
  const [goalAmount, setGoalAmount] = useState("10000");
@@ -150,6 +153,87 @@ export function EmergencyGoalCalcClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Essentials",
+    description:"Add your core monthly expenses.",
+    icon: Receipt,
+  },
+{
+    step:"02",
+    title:"Set Goal",
+    description:"Choose months of buffer to aim for.",
+    icon: Target,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"Get the dollar target to save.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Receipt,
+    title:"Core Expense Based",
+    description:"Targets true essentials only.",
+  },
+{
+    icon: Target,
+    title:"Adjustable Goal",
+    description:"Slide months from 1 to 12.",
+  },
+{
+    icon: Calculator,
+    title:"Clear Total",
+    description:"Returns a single savings target.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Peace of Mind",
+    description:"Quantifies your safety buffer.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>The emergency savings goal calculator answers the first question every saver asks: how much is enough? By multiplying essential monthly expenses by a chosen number of months, it produces a single, defensible target. That clarity beats the anxiety of an undefined &quot;save more&quot; intention.</p>
+  <p>Anchoring to essentials is the key. Rent, groceries, insurance, and minimum debt payments define survival spending; dining out and subscriptions do not. Including only the former keeps the goal achievable and prevents the fund from ballooning into a second investment account. The calculator respects that discipline.</p>
+  <p>Choosing the months is a personal risk decision. A steady salaried worker may feel safe at three months; a freelancer with irregular income benefits from six or more. The tool lets you model both, showing how the target scales so you can pick a level matching your comfort and capacity.</p>
+  <p>Once you know the number, the abstract becomes actionable. You can measure progress, automate transfers, and celebrate milestones. Pair the target with a separate liquid account so the boundary between emergency and everyday money stays clear. The calculator's job is to replace guesswork with a specific, fundable figure that turns financial resilience into a concrete project.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"How is this different from the planner?",
+    answer:"The goal calculator focuses on the end number; the planner adds a funding schedule.",
+  },
+{
+    question:"One month or twelve?",
+    answer:"One month is a start; six is a common comfortable target for stability.",
+  },
+{
+    question:"Should I include debt payments?",
+    answer:"Yes, minimum payments on existing debt are essential obligations.",
+  },
+{
+    question:"What if my expenses vary?",
+    answer:"Use a conservative average or your highest recent month.",
+  },
+{
+    question:"When is the fund done?",
+    answer:"When it covers your chosen months of essentials without touching investments.",
+  }
+  ]}
+/>
+</div>
  );
 }

@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect, useCallback, useMemo } from"react";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
@@ -6,7 +9,7 @@ import ToolPageHeader from"@/components/shared/tool-page-header";
 import { CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { GlassCard } from"@/components/ui/glass-card";
 import { Separator } from"@/components/ui/separator";
-import { Clock, RefreshCcw, Info, Calendar } from"lucide-react";
+import { Calendar, Clock, Copy, Info, ListChecks, RefreshCcw } from"lucide-react";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
@@ -285,7 +288,89 @@ function CronFieldInput({ label, value, onChange }: { label: string, value: stri
  className="text-center font-mono"
  />
  <span className="text-xs text-muted-foreground font-medium">{label}</span>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Set the Schedule",
+    description:"Pick minute, hour, day, month, and weekday using simple inputs.",
+    icon: Calendar,
+  },
+{
+    step:"02",
+    title:"Preview Next Runs",
+    description:"See a plain-English description and upcoming execution times.",
+    icon: Clock,
+  },
+{
+    step:"03",
+    title:"Copy the Expression",
+    description:"Grab the cron string for crontab, CI, or cloud schedulers.",
+    icon: Copy,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Calendar,
+    title:"Visual Fields",
+    description:"Edit each cron field without memorizing syntax.",
+  },
+{
+    icon: Clock,
+    title:"Human Readable",
+    description:"Convert the expression into an easy-to-read sentence.",
+  },
+{
+    icon: ListChecks,
+    title:"Next Run List",
+    description:"Preview the next several execution timestamps.",
+  },
+{
+    icon: Copy,
+    title:"Multi-Platform",
+    description:"Works for standard cron, Quartz, and CI pipelines.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>Cron is the backbone of scheduled automation on servers, and a single misplaced character can mean a job never runs or runs far too often. A standard expression has five fields — minute, hour, day-of-month, month, and day-of-week — separated by spaces. Each field accepts numbers, ranges, lists, and step values.</p>
+  <p>The asterisk is the wildcard and means 'every'. A slash introduces a step: */15 in the minute field fires at 0, 15, 30, and 45 minutes. Commas build lists such as 1,15 for the 1st and 15th, while a hyphen defines a range like 9-17 for business hours. Combining these gives precise control — for instance '0 9-17 */2 * 1-5' runs at the top of every other hour on weekdays during work hours.</p>
+  <p>Reading cron in plain language prevents mistakes. Before shipping a schedule, translate it: 'At minute 0 past every 2nd hour from 9 through 17 on every day-of-week from Monday through Friday.' If that sentence does not match intent, fix the expression. Our generator shows this description plus a list of upcoming run times so you can confirm behavior visually.</p>
+  <p>Timezones cause the most production incidents. A server in UTC running '0 0 * * *' fires at midnight UTC, which may be the middle of your local day. Always document the timezone of the host and prefer UTC for portable infrastructure. Container schedulers and CI systems sometimes interpret fields slightly differently, so validate against the target platform.</p>
+  <p>Finally, keep schedules observable. Log each run, alert on failures, and avoid overlapping jobs by ensuring a previous run finishes before the next begins. With a validated expression copied from this tool, you remove the most common source of silent automation bugs.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is a cron expression?",
+    answer:"A cron expression is a string of five or six fields that defines when a command should run. Fields represent minute, hour, day of month, month, and day of week.",
+  },
+{
+    question:"What does * mean in cron?",
+    answer:"An asterisk means 'every' value for that field. For example, * in the hour field runs every hour.",
+  },
+{
+    question:"How do I run a job every 15 minutes?",
+    answer:"Use '*/15 * * * *' which means every 15 minutes of every hour, every day.",
+  },
+{
+    question:"What is the difference between cron and Quartz?",
+    answer:"Standard cron uses five fields. Quartz adds a seconds field at the start and supports more complex patterns.",
+  },
+{
+    question:"Why is my cron job not firing?",
+    answer:"Check timezone, server clock, and that the scheduler service is running. Also verify the expression with a validator before deploying.",
+  }
+  ]}
+/>
+</div>
  );
 }
 

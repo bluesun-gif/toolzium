@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { CoverLetterClient } from "@/components/tools/office/cover-letter-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Cover Letter Builder | Toolzium",
@@ -63,6 +64,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <CoverLetterClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/office/cover-letter" />
+</div>
   );
 }

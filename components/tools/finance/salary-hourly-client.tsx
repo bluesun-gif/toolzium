@@ -1,6 +1,9 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
-import { Calculator, Info, Timer } from"lucide-react";
+import { Calculator, Clock, Info, ArrowLeftRight, Timer, Wallet } from"lucide-react";
 import * as React from"react";
 import {
  ActionButton,
@@ -379,7 +382,88 @@ function ResultBox({
  <CopyButton size="sm"getText={copyText ?? value} />
  </div>
  <div className="text-lg font-semibold tabular-nums">{value}</div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Salary",
+    description:"Input annual or monthly salary.",
+    icon: Wallet,
+  },
+{
+    step:"02",
+    title:"Set Hours",
+    description:"Add typical working hours per week.",
+    icon: Clock,
+  },
+{
+    step:"03",
+    title:"Convert",
+    description:"See equivalent hourly rate.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Wallet,
+    title:"Salary In",
+    description:"Annual or monthly input.",
+  },
+{
+    icon: Clock,
+    title:"Hours Aware",
+    description:"Uses your real weekly hours.",
+  },
+{
+    icon: Calculator,
+    title:"Hourly Out",
+    description:"True equivalent rate.",
+  },
+{
+    icon: ArrowLeftRight,
+    title:"Bidirectional",
+    description:"Convert hourly to salary too.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A salary to hourly converter exposes the real value of your time, which raw salary hides. A 100k salary sounds impressive, but divide by 60-hour weeks and the hourly equivalent drops sharply. This tool converts between salary and hourly using your actual hours, so comparisons with freelance or hourly work are honest.</p>
+  <p>Hours are the lever. Two equal salaries feel identical until you account for weeks of 40 versus 55 hours; the latter's hourly rate is far lower despite the same pay. The converter makes this visible, helping you weigh total compensation against lifestyle and time. Unpaid overtime should be included for a truthful rate.</p>
+  <p>Bidirectional conversion aids negotiations. Going the other way, an hourly freelancer can translate a day rate into an equivalent salary to compare against employment. The tool bridges the two frames so you evaluate offers on time-adjusted terms, not just headline numbers that conceal the hours behind them.</p>
+  <p>Use it when comparing jobs, taking freelance gigs, or pricing contract work. Enter realistic hours including overtime to avoid overestimating your rate. The calculator's value is fairness to yourself: knowing what your time is actually worth per hour, not per year, leads to better career and pricing decisions.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why convert salary to hourly?",
+    answer:"To compare job offers and freelance rates fairly.",
+  },
+{
+    question:"What hours should I use?",
+    answer:"Real hours worked, including unpaid overtime.",
+  },
+{
+    question:"Does it include benefits?",
+    answer:"No, it is cash pay only.",
+  },
+{
+    question:"Hourly to salary?",
+    answer:"Yes, multiply by hours and weeks.",
+  },
+{
+    question:"Is overtime counted?",
+    answer:"Use actual hours for an honest rate.",
+  }
+  ]}
+/>
+</div>
  );
 }
 

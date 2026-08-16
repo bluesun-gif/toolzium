@@ -2,6 +2,7 @@ import { buildMetadata } from "@/lib/seo";
 import { siteURL } from "@/lib/constants";
 import JsonLd from "@/components/seo/json-ld";
 import SvgToPngClient from "@/components/tools/image/svg-to-png-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 const TITLE = "SVG to PNG Converter — Convert SVG Vector to HD PNG | Toolzium";
 const DESCRIPTION = "Convert SVG code or SVG vector files to high-resolution PNG images online. Custom resolution multiplier (1x, 2x, 4x, 8x HD), transparent or solid background, and instant PNG export. 100% free and client-side.";
@@ -63,6 +64,8 @@ export default function Page() {
     <>
       <JsonLd data={jsonLd as any} />
       <SvgToPngClient />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/image/svg-to-png" />
+</>
   );
 }

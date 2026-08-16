@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -6,7 +9,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { AiOutputDisplay } from"@/components/shared/ai-output-display";
-import { DollarSign, RefreshCw } from"lucide-react";
+import { DollarSign, Layers, Receipt, RefreshCw, Target, TrendingUp } from"lucide-react";
 import toast from"react-hot-toast";
 
 export default function SaasPricingCalculatorClient() {
@@ -113,6 +116,87 @@ export default function SaasPricingCalculatorClient() {
  variant="cards"
  />
  )}
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Costs",
+    description:"Input build, support, and overhead.",
+    icon: Receipt,
+  },
+{
+    step:"02",
+    title:"Set Value",
+    description:"Estimate customer value delivered.",
+    icon: Target,
+  },
+{
+    step:"03",
+    title:"Model Tiers",
+    description:"See revenue per plan and segment.",
+    icon: Layers,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Receipt,
+    title:"Cost Base",
+    description:"Anchors minimum viable price.",
+  },
+{
+    icon: Target,
+    title:"Value Anchor",
+    description:"Prices relative to delivered value.",
+  },
+{
+    icon: Layers,
+    title:"Tier Modeling",
+    description:"Compares plan structures.",
+  },
+{
+    icon: TrendingUp,
+    title:"Revenue View",
+    description:"Projects per-customer revenue.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A SaaS pricing calculator turns one of the hardest startup decisions into a structured model. Price too low and you leave money on the table; too high and you repel customers. This tool balances cost, delivered value, and tier structure to suggest defensible prices rather than guesses.</p>
+  <p>Cost sets the floor, not the target. Covering build, support, and overhead is necessary, but cost-plus pricing usually underprices because it ignores the value customers receive. The calculator layers value-based thinking on top, anchoring price to the outcome you deliver, which often justifies a multiple of cost.</p>
+  <p>Tiers capture segmentation. Different customers have different willingness to pay; a single price forces a compromise. Three tiers — entry, standard, premium — let small users start cheap and heavy users pay more, increasing total revenue without alienating either. The tool models how each tier contributes, revealing where revenue concentrates.</p>
+  <p>Revisit pricing as value and costs evolve. A price set at launch rarely stays optimal as the product matures and competition shifts. Use the calculator to test scenarios before changing, and to explain decisions internally. Its value is replacing pricing anxiety with a model grounded in economics, so you capture the worth you create.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"How to price a SaaS?",
+    answer:"Above cost, near value delivered, with tiered plans.",
+  },
+{
+    question:"Why tiers?",
+    answer:"Capture different willingness to pay across segments.",
+  },
+{
+    question:"Cost-plus vs value?",
+    answer:"Value pricing usually earns more than cost-plus.",
+  },
+{
+    question:"How many tiers?",
+    answer:"Three is a common, easy-to-compare structure.",
+  },
+{
+    question:"When to change price?",
+    answer:"When value or costs shift materially.",
+  }
+  ]}
+/>
+</div>
  );
 }

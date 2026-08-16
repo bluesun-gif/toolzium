@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect, useRef } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -7,7 +10,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components
 import { Badge } from"@/components/ui/badge";
 import { CopyButton, ResetButton, ActionButton } from"@/components/shared/action-buttons";
 import InputField from"@/components/shared/form-fields/input-field";
-import { ImageIcon, Download, Maximize } from"lucide-react";
+import { Code, Download, ImageIcon, Maximize, Palette, Ruler } from"lucide-react";
 import { cn } from"@/lib/utils";
 
 const keywords = [
@@ -262,6 +265,86 @@ export default function PlaceholderImageClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Set Size",
+    description:"Choose dimensions.",
+    icon: Ruler,
+  },
+{
+    step:"02",
+    title:"Style",
+    description:"Pick color and label.",
+    icon: Palette,
+  },
+{
+    step:"03",
+    title:"Generate",
+    description:"Create and download.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Ruler,
+    title:"Dimensions",
+    description:"Any width and height.",
+  },
+{
+    icon: Palette,
+    title:"Colors",
+    description:"Background and text.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"PNG or SVG.",
+  },
+{
+    icon: Code,
+    title:"Dev Ready",
+    description:"For mockups and layouts.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A placeholder image generator creates neutral stand-in graphics for layouts and prototypes, so designers can focus on structure before final assets exist. Showing the exact dimensions as a label prevents sizing mistakes. This tool produces them on demand.</p>
+  <p>Style options keep placeholders unobtrusive — muted colors and clear labels. Exporting as PNG or SVG fits any workflow.</p>
+  <p>Use it during design and development. The tool's value is instant, correctly sized stand-ins that make layouts testable early.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Use case?",
+    answer:"Wireframes and layout drafts.",
+  },
+{
+    question:"Label?",
+    answer:"Show size or custom text.",
+  },
+{
+    question:"Format?",
+    answer:"PNG or SVG.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  }
+  ]}
+/>
+</div>
  );
 }

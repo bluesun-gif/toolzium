@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useRef } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -6,7 +9,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Palette, Upload, Copy, Download, Image as ImageIcon } from"lucide-react";
+import { Copy, Download, Image as ImageIcon, Palette, Pipette, Upload } from"lucide-react";
 import toast from"react-hot-toast";
 
 type ColorInfo = {
@@ -304,6 +307,86 @@ export function PaletteExtractClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Upload",
+    description:"Load an image.",
+    icon: Upload,
+  },
+{
+    step:"02",
+    title:"Extract",
+    description:"Pull a color palette.",
+    icon: Pipette,
+  },
+{
+    step:"03",
+    title:"Copy",
+    description:"Grab the hex codes.",
+    icon: Copy,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Upload,
+    title:"Image Input",
+    description:"Photos or art.",
+  },
+{
+    icon: Pipette,
+    title:"Palette",
+    description:"Dominant colors.",
+  },
+{
+    icon: Copy,
+    title:"Copy",
+    description:"Hex codes ready.",
+  },
+{
+    icon: Palette,
+    title:"Theme",
+    description:"Build from visuals.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A palette extractor derives a coherent color set from any image, letting you borrow a photo's mood for your own design. Inspiration often comes visually; this tool converts it into exact hex values you can use immediately.</p>
+  <p>The output is practical — copy-ready codes that drop into CSS or design tools. Averaging representative pixels yields a harmonious set rather than noise.</p>
+  <p>Use it to base themes on real imagery. The tool's value is turning a picture's feeling into a precise, reusable palette.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"How many colors?",
+    answer:"Several dominant swatches.",
+  },
+{
+    question:"Use case?",
+    answer:"Branding, theming.",
+  },
+{
+    question:"Exact?",
+    answer:"Representative averages.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  }
+  ]}
+/>
+</div>
  );
 }

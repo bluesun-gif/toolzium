@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Separator } from"@/components/ui/separator";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ResetButton } from"@/components/shared/action-buttons";
-import { TrendingUp, DollarSign, Calculator, BarChart3 } from"lucide-react";
+import { BarChart3, Calculator, Coins, DollarSign, LineChart, Percent, TrendingUp } from"lucide-react";
 
 export function InvestmentReturnClient() {
  const [initialInvestment, setInitialInvestment] = useState<string>("10000");
@@ -217,6 +220,87 @@ export function InvestmentReturnClient() {
  </CardContent>
  </GlassCard>
  )}
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Set Principal",
+    description:"Enter starting investment.",
+    icon: Coins,
+  },
+{
+    step:"02",
+    title:"Add Return",
+    description:"Input expected annual return rate.",
+    icon: Percent,
+  },
+{
+    step:"03",
+    title:"Project",
+    description:"See growth over chosen years.",
+    icon: LineChart,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Coins,
+    title:"Lump Sum",
+    description:"Models a one-time investment.",
+  },
+{
+    icon: Percent,
+    title:"Rate Scenarios",
+    description:"Compare conservative vs aggressive returns.",
+  },
+{
+    icon: LineChart,
+    title:"Growth Curve",
+    description:"Visualizes compounding over time.",
+  },
+{
+    icon: TrendingUp,
+    title:"Contribution Option",
+    description:"Add periodic deposits too.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An investment return calculator translates a percentage into a future balance, which is the only way to grasp compounding's power. Enter a principal, an assumed annual return, and a time horizon, and the tool shows how the balance grows — not linearly, but accelerating as returns build on returns.</p>
+  <p>Rate assumptions drive everything. A 5 percent return and a 9 percent return look similar in a headline but diverge enormously over 30 years. The tool lets you model conservative and optimistic scenarios side by side, so you plan around realistic expectations rather than hopeful ones. Pairing with periodic contributions further compounds the effect.</p>
+  <p>Inflation is the silent factor. A nominal return ignores purchasing power; a 7 percent gain with 3 percent inflation is really 4 percent in real terms. The calculator models your stated rate, so subtract inflation mentally for true growth. This keeps expectations honest and prevents disappointment when nominal numbers underdeliver in spending power.</p>
+  <p>Use it for goal planning, not predictions. Whether saving for retirement, a home, or education, projecting the balance helps you set contribution targets. Diversified, low-cost investments held long term historically smooth volatility, but no tool forecasts direction. The calculator's job is to show what consistent, patient investing can compound into, motivating the habit that actually gets you there.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Is the return guaranteed?",
+    answer:"No, market returns vary; this models assumptions.",
+  },
+{
+    question:"What rate should I use?",
+    answer:"Use conservative estimates to avoid overestimating.",
+  },
+{
+    question:"Does it include inflation?",
+    answer:"Not by default; consider real return after inflation.",
+  },
+{
+    question:"Should I add contributions?",
+    answer:"Yes, regular contributions greatly boost outcomes.",
+  },
+{
+    question:"How long should I project?",
+    answer:"Longer horizons show compounding's full effect.",
+  }
+  ]}
+/>
+</div>
  );
 }

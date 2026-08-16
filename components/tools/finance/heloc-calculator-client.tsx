@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { DollarSign, Calculator, Home, Copy } from"lucide-react";
+import { AlertTriangle, Calculator, Copy, DollarSign, Home, Wallet } from"lucide-react";
 import toast from"react-hot-toast";
 
 export function HelocCalculatorClient() {
@@ -168,6 +171,87 @@ export function HelocCalculatorClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Limit",
+    description:"Input your HELOC credit limit and rate.",
+    icon: Home,
+  },
+{
+    step:"02",
+    title:"Set Draw",
+    description:"Add amount drawn and repayment type.",
+    icon: Wallet,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See payments during draw and repay.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Home,
+    title:"Home Equity Based",
+    description:"Models a home-secured line of credit.",
+  },
+{
+    icon: Wallet,
+    title:"Phase Aware",
+    description:"Separates draw-period and repayment-period costs.",
+  },
+{
+    icon: Calculator,
+    title:"Payment View",
+    description:"Shows interest-only vs amortizing.",
+  },
+{
+    icon: AlertTriangle,
+    title:"Risk Flag",
+    description:"Reminds that the home secures the debt.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A HELOC can be a flexible tool or a trap depending on how it is used. The calculator clarifies both phases: the draw period, when you may pay interest only, and the repayment period, when principal becomes due. Understanding the shift prevents the shock of a payment that jumps once the draw ends.</p>
+  <p>Variable rates define the risk. Because HELOCs usually track a benchmark, payments rise when rates climb, sometimes sharply. The calculator models payment under assumed rates, but the real lesson is caution: borrow less than the limit and plan for higher payments. Treating available credit as free money is the common mistake.</p>
+  <p>Structure determines cost. Interest-only payments during draw keep cash flow easy but defer principal, meaning you still owe the full amount afterward. Amortizing sooner, even optionally, reduces long-term cost. The tool shows both paths so you choose with eyes open rather than defaulting to the minimum.</p>
+  <p>Above all, remember the collateral. A HELOC is secured by your home, so missed payments carry consequences no credit card does. Use it for value-adding needs and a clear repayment plan, not ongoing consumption. The calculator's role is turning a complex, two-phase loan into a payment picture you can plan around responsibly.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is a HELOC?",
+    answer:"A home equity line of credit lets you borrow against home equity, usually with a variable rate.",
+  },
+{
+    question:"Draw vs repayment period?",
+    answer:"During draw you may pay interest only; repayment requires principal too.",
+  },
+{
+    question:"Why watch the rate?",
+    answer:"HELOCs are often variable, so payments rise if rates climb.",
+  },
+{
+    question:"What is the risk?",
+    answer:"Your home secures it; default can risk foreclosure.",
+  },
+{
+    question:"Is interest-only cheaper?",
+    answer:"Lower now, but you pay more overall and still owe principal later.",
+  }
+  ]}
+/>
+</div>
  );
 }

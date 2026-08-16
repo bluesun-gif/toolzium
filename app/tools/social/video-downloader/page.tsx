@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import VideoDownloaderClient from "@/components/tools/social/video-downloader-client";
-
 export const metadata: Metadata = {
   title: "Social Video Downloader — YouTube, TikTok, Instagram, Twitter | Toolzium",
   description:
@@ -20,5 +19,9 @@ export const metadata: Metadata = {
 };
 
 export default function VideoDownloaderPage() {
-  return <VideoDownloaderClient />;
+  return (
+    <><VideoDownloaderClient />
+      <RelatedTools currentToolUrl="/tools/social/video-downloader" />
+    </>
+  );
 }

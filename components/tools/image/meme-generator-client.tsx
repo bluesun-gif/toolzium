@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect, useRef } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -6,7 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from"@/comp
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
-import { Upload, Download, RefreshCw, Type, Image as ImageIcon } from"lucide-react";
+import { Download, Image as ImageIcon, Palette, RefreshCw, Type, Upload } from"lucide-react";
 import toast from"react-hot-toast";
 
 const PRESET_TEMPLATES = [
@@ -355,6 +358,86 @@ export default function MemeGeneratorClient() {
  </Card>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Upload",
+    description:"Load a background image.",
+    icon: Upload,
+  },
+{
+    step:"02",
+    title:"Add Text",
+    description:"Place top and bottom captions.",
+    icon: Type,
+  },
+{
+    step:"03",
+    title:"Export",
+    description:"Save your meme.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Upload,
+    title:"Image Input",
+    description:"Any picture.",
+  },
+{
+    icon: Type,
+    title:"Captions",
+    description:"Classic top and bottom.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Share-ready image.",
+  },
+{
+    icon: Palette,
+    title:"Styling",
+    description:"Font and color options.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A meme generator adds the classic top-and-bottom caption format to any image, turning a photo into shareable humor. The format is instantly recognizable, which is what makes memes spread. This tool places your text, styles it, and exports.</p>
+  <p>Styling controls keep captions legible on busy images — bold fonts and outlines against any background. Custom uploads mean the joke can attach to anything.</p>
+  <p>Use it for quick social humor. The tool's value is fast, styled meme creation without design software.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Text style?",
+    answer:"Bold impact font, classic look.",
+  },
+{
+    question:"Custom image?",
+    answer:"Yes, upload your own.",
+  },
+{
+    question:"Export?",
+    answer:"PNG download.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  }
+  ]}
+/>
+</div>
  );
 }

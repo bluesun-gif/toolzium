@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { BloodSugarClient } from "@/components/tools/health/blood-sugar-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Blood Sugar Tracker | Toolzium",
@@ -36,6 +37,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <BloodSugarClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/health/blood-sugar" />
+</div>
   );
 }

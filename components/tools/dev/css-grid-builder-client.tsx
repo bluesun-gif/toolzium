@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { CopyButton, ResetButton, ActionButton } from"@/components/shared/action-buttons";
-import { Layout, Grid, Copy, Plus, Trash2 } from"lucide-react";
+import { Code2, Copy, Grid, Layout, LayoutGrid, Move, Plus, Smartphone, Trash2 } from"lucide-react";
 import { cn } from"@/lib/utils";
 
 interface GridItem {
@@ -277,6 +280,88 @@ export function CssGridBuilderClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Define Columns & Rows",
+    description:"Set the number of tracks and their sizes with the visual editor.",
+    icon: LayoutGrid,
+  },
+{
+    step:"02",
+    title:"Place Items",
+    description:"Drag or assign items to specific grid areas.",
+    icon: Move,
+  },
+{
+    step:"03",
+    title:"Generate Code",
+    description:"Copy the final CSS grid template and area map.",
+    icon: Code2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: LayoutGrid,
+    title:"Visual Track Editor",
+    description:"Add, remove, and size rows and columns instantly.",
+  },
+{
+    icon: Move,
+    title:"Area Placement",
+    description:"Name areas and place children with grid-template-areas.",
+  },
+{
+    icon: Smartphone,
+    title:"Responsive Preview",
+    description:"See how the layout collapses on smaller screens.",
+  },
+{
+    icon: Code2,
+    title:"Clean CSS Output",
+    description:"Export production-ready grid CSS.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>CSS Grid transformed web layout by making two-dimensional positioning first-class. Before Grid, developers hacked rows and columns with floats and tables. Now a single container with display:grid and a few properties handles complex, gap-perfect layouts without extra markup.</p>
+  <p>The container defines tracks. grid-template-columns and grid-template-rows accept fixed sizes like 200px, flexible fractions like 1fr, and functions such as minmax(100px, 1fr). The fr unit distributes free space proportionally, so 1fr 2fr gives the second column twice the slack of the first. The gap property adds consistent spacing without margins.</p>
+  <p>Placement is where Grid shines. You can let items auto-flow, or explicitly assign them with grid-column and grid-row using line numbers. For readability, name areas with grid-template-areas and a small ASCII-like map — then each child simply references its area name. This makes rearranging a layout as easy as editing text.</p>
+  <p>Responsiveness comes from repeat() combined with auto-fit and minmax(). The pattern repeat(auto-fit, minmax(250px, 1fr)) creates as many 250px-minimum columns as fit the width and stretches them to fill the row. No media query needed for many card layouts. For bigger structural shifts, media queries can swap the entire area map.</p>
+  <p>Watch source order and accessibility. Grid can place items visually anywhere, but screen readers follow DOM order. Keep important content early in the markup and use Grid purely for visual arrangement. Use our builder to experiment visually, then copy the generated CSS into your stylesheet with confidence.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is CSS Grid?",
+    answer:"CSS Grid is a two-dimensional layout system that lets you align items in rows and columns simultaneously, ideal for full page layouts.",
+  },
+{
+    question:"Grid vs Flexbox — which should I use?",
+    answer:"Use Grid for two-dimensional layouts like page scaffolding. Use Flexbox for one-dimensional rows or columns such as nav bars and button groups.",
+  },
+{
+    question:"What are grid-template-areas?",
+    answer:"They let you name regions of the grid and place items by referencing those names, making layouts readable and easy to rearrange.",
+  },
+{
+    question:"How do I make a grid responsive?",
+    answer:"Use minmax(), auto-fit, and media queries. A common pattern is repeat(auto-fit, minmax(200px, 1fr)) for self-adjusting columns.",
+  },
+{
+    question:"Can I overlap grid items?",
+    answer:"Yes. Items placed in the same cell or area stack, and you control stacking order with z-index.",
+  }
+  ]}
+/>
+</div>
  );
 }

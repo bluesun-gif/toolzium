@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { TzAlarmClient } from "@/components/tools/time/tz-alarm-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Timezone Alarm | Toolzium",
@@ -22,6 +23,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <TzAlarmClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/time/tz-alarm" />
+</div>
   );
 }

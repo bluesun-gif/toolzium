@@ -1,7 +1,10 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
-import { Target, CheckSquare, BarChart2, Download, Plus, Trash2, Edit2 } from"lucide-react";
+import { BarChart2, CheckCircle2, CheckSquare, Download, Edit2, ListTree, Plus, Target, Trash2, TrendingUp } from"lucide-react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
 import { GlassCard } from"@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
@@ -271,7 +274,87 @@ export function OkrPlannerClient() {
  <Trash2 className="w-4 h-4"/>
  </Button>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Set Objective",
+    description:"Define the goal.",
+    icon: Target,
+  },
+{
+    step:"02",
+    title:"Add Key Results",
+    description:"List measurable outcomes.",
+    icon: ListTree,
+  },
+{
+    step:"03",
+    title:"Track",
+    description:"Update progress.",
+    icon: TrendingUp,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Target,
+    title:"Objective",
+    description:"The goal.",
+  },
+{
+    icon: ListTree,
+    title:"Key Results",
+    description:"Measurable.",
+  },
+{
+    icon: TrendingUp,
+    title:"Progress",
+    description:"Percent complete.",
+  },
+{
+    icon: CheckCircle2,
+    title:"Review",
+    description:"Period cadence.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An OKR planner structures goals as an objective with measurable key results, the framework used by high-performing teams. Measurable results prevent vague ambition. This tool tracks percent progress.</p>
+  <p>The discipline is quantifiable outcomes, not activity. The planner makes the gap between target and current visible each cycle.</p>
+  <p>Use it for quarterly goals. The tool's value is measurable, focused goal management.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What are OKRs?",
+    answer:"Objectives and key results.",
+  },
+{
+    question:"Measurable?",
+    answer:"Yes, key results are numbers.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Team or personal goals.",
+  }
+  ]}
+/>
+</div>
  );
  })
  )}

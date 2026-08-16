@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { WorldClockClient } from "@/components/tools/time/world-clock-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "World Clock | Toolzium",
@@ -22,6 +23,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <WorldClockClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/time/world-clock" />
+</div>
   );
 }

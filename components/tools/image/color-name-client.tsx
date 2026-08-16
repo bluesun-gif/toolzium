@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useMemo } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Separator } from"@/components/ui/separator";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Palette, Search, Pipette, Droplet } from"lucide-react";
+import { BookOpen, Copy, Droplet, Palette, Pipette, Search } from"lucide-react";
 import { cn } from"@/lib/utils";
 
 const COLORS = [
@@ -179,6 +182,86 @@ export function ColorNameFinderClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Color",
+    description:"Type or pick a color.",
+    icon: Palette,
+  },
+{
+    step:"02",
+    title:"Match",
+    description:"Find the closest named color.",
+    icon: Search,
+  },
+{
+    step:"03",
+    title:"Copy",
+    description:"Grab name and hex.",
+    icon: Copy,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Palette,
+    title:"Color Input",
+    description:"Hex, RGB, or picker.",
+  },
+{
+    icon: Search,
+    title:"Name Match",
+    description:"Closest standard name.",
+  },
+{
+    icon: Copy,
+    title:"Copy",
+    description:"Name and code.",
+  },
+{
+    icon: BookOpen,
+    title:"Reference",
+    description:"Large color dictionary.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A color name finder translates a hex or RGB value into a recognizable name — &quot;Tomato&quot; instead of #FF6347. Designers and developers use names to communicate colors unambiguously, avoiding the ambiguity of raw codes in discussions.</p>
+  <p>Matching to a large dictionary yields the closest standard name, useful for documentation and handoff. The tool returns both the name and the exact code so nothing is lost in translation.</p>
+  <p>Use it when discussing or documenting colors. The tool's value is human-readable color identification that speeds collaboration.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What does it do?",
+    answer:"Names any color you enter.",
+  },
+{
+    question:"Accurate?",
+    answer:"Closest from a large list.",
+  },
+{
+    question:"Use case?",
+    answer:"Communication, theming.",
+  },
+{
+    question:"Many names?",
+    answer:"Hundreds of standards.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  }
+  ]}
+/>
+</div>
  );
 }

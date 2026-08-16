@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import { AspectCropperClient } from "@/components/tools/image/aspect-cropper-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Image Aspect Ratio Cropper | Toolzium",
   description: "Crop images to exact aspect ratios for social media and web.",
@@ -21,6 +20,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <AspectCropperClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/image/aspect-cropper" />
+</div>
   );
 }

@@ -2,7 +2,6 @@ import { buildMetadata } from "@/lib/seo";
 import { siteURL } from "@/lib/constants";
 import JsonLd from "@/components/seo/json-ld";
 import LoremIpsumClient from "@/components/tools/text/lorem-ipsum-client";
-
 const TITLE = "Lorem Ipsum Generator — Free Placeholder Dummy Text | Toolzium";
 const DESCRIPTION = "Generate custom Lorem Ipsum placeholder text by paragraphs, words, sentences, or lists. Includes HTML markup tag options, copy to clipboard, and instant preview. 100% free.";
 const PATH = "/tools/text/lorem-ipsum";
@@ -63,6 +62,8 @@ export default function Page() {
     <div className="max-w-6xl mx-auto space-y-8">
       <JsonLd data={jsonLd as any} />
       <LoremIpsumClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/text/lorem-ipsum" />
+</div>
   );
 }

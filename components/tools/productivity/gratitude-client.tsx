@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -6,7 +9,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
-import { Heart, Calendar, Sparkles, ChevronLeft, ChevronRight, Save } from"lucide-react";
+import { BookOpen, Calendar, ChevronLeft, ChevronRight, Heart, PenLine, Save, Sparkles } from"lucide-react";
 import toast from"react-hot-toast";
 
 interface Entry {
@@ -179,6 +182,86 @@ export function GratitudeClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Entry",
+    description:"Note what you are grateful for.",
+    icon: PenLine,
+  },
+{
+    step:"02",
+    title:"Reflect",
+    description:"Write a line of why.",
+    icon: Heart,
+  },
+{
+    step:"03",
+    title:"Review",
+    description:"Look back over time.",
+    icon: BookOpen,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: PenLine,
+    title:"Entry",
+    description:"Daily notes.",
+  },
+{
+    icon: Heart,
+    title:"Reflect",
+    description:"Why it matters.",
+  },
+{
+    icon: BookOpen,
+    title:"History",
+    description:"Revisit entries.",
+  },
+{
+    icon: Sparkles,
+    title:"Mindset",
+    description:"Supports wellbeing.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A gratitude journal prompts you to name what is going well, a practice linked to better mood and perspective. Writing why deepens the effect beyond a list. This tool captures entries and lets you revisit them.</p>
+  <p>Consistency beats length. A brief daily note shifts attention toward the positive. The history view reinforces the habit.</p>
+  <p>Use it as a wind-down ritual. The tool's value is a simple, private gratitude practice.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Benefits?",
+    answer:"May lift mood and perspective.",
+  },
+{
+    question:"Daily?",
+    answer:"Consistency helps.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Evening reflection.",
+  }
+  ]}
+/>
+</div>
  );
 }

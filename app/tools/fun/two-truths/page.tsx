@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import TwoTruthsClient from "@/components/tools/fun/two-truths-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Two Truths and a Lie Generator | Toolzium",
   description: "Play Two Truths and a Lie. Test your knowledge across categories like Science, History, Animals, and more. Keep track of your score.",
@@ -45,6 +44,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <TwoTruthsClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/fun/two-truths" />
+</div>
   );
 }

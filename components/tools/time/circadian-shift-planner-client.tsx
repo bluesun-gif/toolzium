@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Moon, Sun, Clock, Calendar } from"lucide-react";
+import { Activity, Calendar, Clock, Moon, ShieldCheck, Sun } from"lucide-react";
 import toast from"react-hot-toast";
 
 export function CircadianShiftPlannerClient() {
@@ -143,6 +146,86 @@ export function CircadianShiftPlannerClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Shift",
+    description:"Add work hours.",
+    icon: Clock,
+  },
+{
+    step:"02",
+    title:"Set Sleep",
+    description:"Define sleep window.",
+    icon: Moon,
+  },
+{
+    step:"03",
+    title:"Review",
+    description:"See circadian alignment.",
+    icon: Activity,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Clock,
+    title:"Shifts",
+    description:"Your schedule.",
+  },
+{
+    icon: Moon,
+    title:"Sleep",
+    description:"Rest window.",
+  },
+{
+    icon: Activity,
+    title:"Alignment",
+    description:"Circadian view.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Health",
+    description:"Protects rhythm.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A circadian shift planner helps shift workers align sleep and wake to their body clock as much as possible, protecting energy and health. Irregular hours disrupt rhythm; planning sleep windows around them limits the damage. This tool visualizes alignment.</p>
+  <p>The health payoff is real: consistent sleep timing, even if shifted, beats chaotic timing. The planner makes the schedule explicit.</p>
+  <p>Use it if you work non-standard hours. The tool's value is a circadian-aware schedule that protects wellbeing.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is circadian?",
+    answer:"Your body's daily rhythm.",
+  },
+{
+    question:"Why plan shifts?",
+    answer:"Protect sleep and energy.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Shift workers.",
+  }
+  ]}
+/>
+</div>
  );
 }

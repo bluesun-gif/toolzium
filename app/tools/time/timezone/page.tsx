@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import TimeZoneConverterClient from "@/components/tools/time/timezone-converter-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Time Zone Converter",
@@ -141,6 +142,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <TimeZoneConverterClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/time/timezone" />
+</div>
   );
 }

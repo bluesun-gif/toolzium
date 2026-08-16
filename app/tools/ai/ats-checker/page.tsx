@@ -2,7 +2,6 @@ import { Metadata } from "next";
 import AtsCheckerClient from "@/components/tools/ai/ats-checker-client";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import JsonLd from "@/components/seo/json-ld";
-
 const TITLE = "AI Resume & ATS Compatibility Checker — Free Resume Score Tool | Toolzium";
 const DESCRIPTION =
   "Calculate your ATS match score against target job descriptions, find missing keywords, and optimize your resume to land interviews.";

@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -6,7 +9,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { AiOutputDisplay } from"@/components/shared/ai-output-display";
-import { Building, RefreshCw } from"lucide-react";
+import { Building, Building2, Calculator, RefreshCw, Scale, TrendingUp } from"lucide-react";
 import toast from"react-hot-toast";
 
 export default function CapRateCalculatorClient() {
@@ -132,6 +135,87 @@ export default function CapRateCalculatorClient() {
  variant="prose"
  />
  )}
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Property Data",
+    description:"Add price, income, and operating expenses.",
+    icon: Building2,
+  },
+{
+    step:"02",
+    title:"Compute",
+    description:"Get cap rate and cash-on-cash return.",
+    icon: Calculator,
+  },
+{
+    step:"03",
+    title:"Compare",
+    description:"Evaluate deals against your target return.",
+    icon: Scale,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Building2,
+    title:"NOI Focused",
+    description:"Uses net operating income for an apples-to-apples metric.",
+  },
+{
+    icon: Calculator,
+    title:"Cap Rate + CoC",
+    description:"Shows both cap rate and cash-on-cash return.",
+  },
+{
+    icon: Scale,
+    title:"Deal Screening",
+    description:"Quickly filter properties by return threshold.",
+  },
+{
+    icon: TrendingUp,
+    title:"Sensitivity",
+    description:"See how vacancies change the outcome.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>Real estate investors use cap rate to compare properties quickly without getting lost in financing details. Cap rate equals net operating income divided by purchase price, expressed as a percentage. It answers a simple question: what return does this asset produce on its own, before any loan?</p>
+  <p>Net operating income is the backbone. It is rental income minus operating expenses such as taxes, insurance, and maintenance, excluding mortgage payments and capital improvements. Two buildings with the same rent can have very different cap rates if one has higher costs, so NOI keeps the comparison honest.</p>
+  <p>Cap rate deliberately ignores leverage, which is both its strength and limit. By stripping out financing, you compare the underlying asset across markets. To see how your specific loan affects returns, cash-on-cash return divides cash flow by cash invested. An investor using heavy financing may accept a lower cap rate because leverage boosts personal return.</p>
+  <p>Use cap rate for screening, not as the only decision. A high rate can signal a struggling neighborhood; a low rate may reflect stable, appreciating areas. Pair it with vacancy assumptions and sensitivity checks — a small occupancy drop can erase thin margins. The calculator lets you test scenarios fast, so you walk into negotiations knowing which deals clear your return threshold and which to pass on.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is a cap rate?",
+    answer:"Capitalization rate is net operating income divided by property price, expressing return as a percentage.",
+  },
+{
+    question:"What is a good cap rate?",
+    answer:"It varies by market and risk; higher rates usually mean higher risk or lower growth areas.",
+  },
+{
+    question:"Cap rate vs cash-on-cash?",
+    answer:"Cap rate uses full price; cash-on-cash uses actual cash invested, factoring leverage.",
+  },
+{
+    question:"Does cap rate include my mortgage?",
+    answer:"No. Cap rate is unlevered; it ignores financing to compare properties directly.",
+  },
+{
+    question:"Why use NOI?",
+    answer:"Net operating income excludes debt service and capex, isolating the property's operating performance.",
+  }
+  ]}
+/>
+</div>
  );
 }

@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import OGPreviewClient from "@/components/tools/seo/og-preview-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Open Graph Preview",
   description:
@@ -136,6 +135,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <OGPreviewClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/seo/og-preview" />
+</div>
   );
 }

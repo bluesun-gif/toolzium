@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { ExpenseSplitterClient } from "@/components/tools/finance/expense-splitter-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Expense Splitter | Toolzium",
@@ -21,6 +22,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <ExpenseSplitterClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/finance/expense-splitter" />
+</div>
   );
 }

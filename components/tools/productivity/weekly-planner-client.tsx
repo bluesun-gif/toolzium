@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -11,7 +14,7 @@ import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
 import { cn } from"@/lib/utils";
-import { Calendar, Clock, Plus, Download, ChevronLeft, ChevronRight } from"lucide-react";
+import { Calendar, CalendarDays, CheckCircle2, ChevronLeft, ChevronRight, Clock, Download, LayoutGrid, MoveRight, Plus } from"lucide-react";
 import { toast } from"react-hot-toast";
 
 type Event = {
@@ -179,7 +182,87 @@ export function WeeklyPlannerClient() {
  {e.title}
  </div>
  ))}
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Items",
+    description:"Schedule the week.",
+    icon: CalendarDays,
+  },
+{
+    step:"02",
+    title:"Distribute",
+    description:"Spread across days.",
+    icon: LayoutGrid,
+  },
+{
+    step:"03",
+    title:"Adjust",
+    description:"Shift as needed.",
+    icon: MoveRight,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: CalendarDays,
+    title:"Week View",
+    description:"Seven days.",
+  },
+{
+    icon: LayoutGrid,
+    title:"Distribute",
+    description:"Balance load.",
+  },
+{
+    icon: MoveRight,
+    title:"Adjust",
+    description:"Drag to move.",
+  },
+{
+    icon: CheckCircle2,
+    title:"Complete",
+    description:"Check off.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A weekly planner distributes tasks across seven days so no single day is overloaded and nothing is forgotten. Planning the week upfront reduces daily decision fatigue. This tool provides the grid and check-off.</p>
+  <p>Balanced distribution is the insight; the planner shows load per day so you can smooth it.</p>
+  <p>Use it weekly. The tool's value is an even, manageable week instead of daily scrambling.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why plan weekly?",
+    answer:"Less daily decision fatigue.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Personal, work.",
+  },
+{
+    question:"Best with?",
+    answer:"Daily board.",
+  }
+  ]}
+/>
+</div>
  );
  })}
  </div>

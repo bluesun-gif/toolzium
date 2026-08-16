@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import MyIpClient from "@/components/tools/network/my-ip-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "What is My IP Address - Check Your Public IP",
   description: "Find out your public IPv4 and IPv6 address instantly. Get detailed information about your location, ISP, and network connection.",
@@ -87,6 +86,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <MyIpClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/network/my-ip" />
+</div>
   );
 }

@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { ResetButton, CopyButton } from"@/components/shared/action-buttons";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { DollarSign, Calculator, FileText } from"lucide-react";
+import { Calculator, DollarSign, Eye, FileText, ListChecks, Wallet } from"lucide-react";
 import toast from"react-hot-toast";
 
 type PayFrequency ="weekly"|"biweekly"|"semimonthly"|"monthly";
@@ -237,6 +240,87 @@ export function PaycheckDeductionsClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Gross",
+    description:"Input gross pay for the period.",
+    icon: Wallet,
+  },
+{
+    step:"02",
+    title:"List Deductions",
+    description:"Add tax, benefits, and voluntary items.",
+    icon: ListChecks,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See itemized take-home.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Wallet,
+    title:"Gross Input",
+    description:"Works for any pay period.",
+  },
+{
+    icon: ListChecks,
+    title:"Itemized",
+    description:"Shows each deduction separately.",
+  },
+{
+    icon: Calculator,
+    title:"Take-Home",
+    description:"Net after all deductions.",
+  },
+{
+    icon: Eye,
+    title:"Transparency",
+    description:"Reveals true cost of benefits.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A deductions calculator reveals where your paycheck goes before it reaches you. Many people are surprised by the gap between gross and net, and itemizing each deduction explains it. This tool lists tax, benefits, and voluntary withholdings separately so you see the true structure of your compensation.</p>
+  <p>Not all deductions are costs. Pre-tax retirement and health contributions reduce your taxable income, delivering value while lowering current tax. Post-tax deductions, like certain insurance, come from after-tax pay. Understanding the difference helps you evaluate benefit choices during enrollment rather than accepting defaults blindly.</p>
+  <p>Itemization supports better decisions. When you see each line, you can question whether a voluntary deduction is worth it, whether increasing a retirement contribution makes sense, or whether a benefit is redundant. The calculator makes these trade-offs visible instead of buried in a pay stub.</p>
+  <p>This tool estimates, not files taxes. Actual liability follows your jurisdiction's rules, and a professional confirms specifics. Use the calculator to model changes — say, raising a 401k contribution — and see the net effect on take-home immediately. The value is turning a confusing stub into a clear, decision-ready breakdown of your pay.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Are all deductions bad?",
+    answer:"No, some build retirement or cover insurance you need.",
+  },
+{
+    question:"Pre-tax vs post-tax?",
+    answer:"Pre-tax reduces taxable income; post-tax does not.",
+  },
+{
+    question:"Why itemize?",
+    answer:"Seeing each line helps you choose benefits wisely.",
+  },
+{
+    question:"Can I change them?",
+    answer:"Usually during open enrollment or life events.",
+  },
+{
+    question:"Does this file taxes?",
+    answer:"No, it estimates; actual filing follows tax rules.",
+  }
+  ]}
+/>
+</div>
  );
 }

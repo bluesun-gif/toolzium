@@ -1,7 +1,10 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
-import { Flame, Calendar, Trophy, Plus } from"lucide-react";
+import { Calendar, CheckCircle2, Flame, Plus, Star, TrendingUp, Trophy } from"lucide-react";
 import { GlassCard } from"@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
 
@@ -238,6 +241,86 @@ export function StreaksClient() {
  )}
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Habit",
+    description:"Name what to track.",
+    icon: Flame,
+  },
+{
+    step:"02",
+    title:"Mark",
+    description:"Check done each day.",
+    icon: CheckCircle2,
+  },
+{
+    step:"03",
+    title:"Watch",
+    description:"See the streak grow.",
+    icon: TrendingUp,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Flame,
+    title:"Streaks",
+    description:"Consecutive days.",
+  },
+{
+    icon: CheckCircle2,
+    title:"Daily",
+    description:"Quick check.",
+  },
+{
+    icon: TrendingUp,
+    title:"History",
+    description:"Long view.",
+  },
+{
+    icon: Star,
+    title:"Motivate",
+    description:"Don't break the chain.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A habit streak counter shows consecutive days of a behavior, leveraging the &quot;don't break the chain&quot; effect to sustain effort. Seeing the number grow is its own reward. This tool tracks and displays streaks.</p>
+  <p>A missed day isn't failure; the long view matters more. The counter keeps the perspective.</p>
+  <p>Use it for any habit. The tool's value is motivating, private streak tracking.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why streaks?",
+    answer:"Visual momentum motivates.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Missed day?",
+    answer:"Restarts, keep going.",
+  },
+{
+    question:"Use case?",
+    answer:"Any habit.",
+  }
+  ]}
+/>
+</div>
  );
 }

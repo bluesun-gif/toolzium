@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import TimestampConverterClient from "@/components/tools/dev/timestamp-converter-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Timestamp Converter",
   description:
@@ -156,6 +155,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <TimestampConverterClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/timestamp-converter" />
+</div>
   );
 }

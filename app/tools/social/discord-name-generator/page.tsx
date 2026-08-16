@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import DiscordNameClient from "@/components/tools/social/discord-name-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "Discord Server Name & Channel Layout Studio | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function DiscordNamePage() {
-  return <DiscordNameClient />;
+  return (
+    <><DiscordNameClient />
+      <RelatedTools currentToolUrl="/tools/social/discord-name-generator" />
+    </>
+  );
 }

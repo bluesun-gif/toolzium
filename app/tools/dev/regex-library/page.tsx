@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import RegexLibraryClient from "@/components/tools/dev/regex-library-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Regex Library",
   description:
@@ -129,6 +128,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <RegexLibraryClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/regex-library" />
+</div>
   );
 }

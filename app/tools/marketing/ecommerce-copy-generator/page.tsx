@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import EcommerceCopyGeneratorClient from "@/components/tools/marketing/ecommerce-copy-generator-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "Shopify & Amazon Product Listing AI Copy Generator | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function EcommerceCopyGeneratorPage() {
-  return <EcommerceCopyGeneratorClient />;
+  return (
+    <><EcommerceCopyGeneratorClient />
+      <RelatedTools currentToolUrl="/tools/marketing/ecommerce-copy-generator" />
+    </>
+  );
 }

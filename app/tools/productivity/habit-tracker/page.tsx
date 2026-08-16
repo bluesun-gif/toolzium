@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { HabitTrackerClient } from "@/components/tools/productivity/habit-tracker-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Habit Tracker — Build Good Habits Daily | Toolzium",
@@ -61,6 +62,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <HabitTrackerClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/productivity/habit-tracker" />
+</div>
   );
 }

@@ -2,7 +2,6 @@ import { buildMetadata } from "@/lib/seo";
 import { siteURL } from "@/lib/constants";
 import JsonLd from "@/components/seo/json-ld";
 import PercentageCalculatorClient from "@/components/tools/calc/percentage-calculator-client";
-
 const TITLE = "Percentage Calculator — Calculate Percent, Increase & Difference | Toolzium";
 const DESCRIPTION = "Free online percentage calculator. Calculate percentage of a number, percentage difference between numbers, percentage increase/decrease, and discount values with step-by-step formulas.";
 const PATH = "/tools/calc/percentage-calculator";
@@ -64,6 +63,8 @@ export default function Page() {
     <>
       <JsonLd data={jsonLd as any} />
       <PercentageCalculatorClient />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/calc/percentage-calculator" />
+</>
   );
 }

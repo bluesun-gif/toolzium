@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import HashGeneratorClient from "@/components/tools/dev/hash-generator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Hash Generator",
   description:
@@ -156,6 +155,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <HashGeneratorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/hash-generator" />
+</div>
   );
 }

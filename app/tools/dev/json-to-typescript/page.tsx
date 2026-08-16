@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import JsonToTypescriptClient from "@/components/tools/dev/json-to-typescript-client";
-
 export const metadata: Metadata = {
   title: "JSON to TypeScript Type & Interface Converter Studio | Toolzium",
   description:
@@ -11,6 +10,8 @@ export default function JsonToTypescriptPage() {
   return (
     <div className="max-w-6xl mx-auto space-y-8">
       <JsonToTypescriptClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/json-to-typescript" />
+</div>
   );
 }

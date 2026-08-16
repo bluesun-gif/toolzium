@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useRef, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { LayoutGrid, Upload, Download, Settings, Trash2 } from"lucide-react";
+import { Download, Images, LayoutGrid, Palette, Settings, Trash2, Upload } from"lucide-react";
 import { toast } from"react-hot-toast";
 import { Button } from"@/components/ui/button";
 
@@ -141,6 +144,86 @@ export function PhotoGridClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Photos",
+    description:"Upload several images.",
+    icon: Images,
+  },
+{
+    step:"02",
+    title:"Set Grid",
+    description:"Choose rows and columns.",
+    icon: LayoutGrid,
+  },
+{
+    step:"03",
+    title:"Export",
+    description:"Save the grid.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Images,
+    title:"Multi Photo",
+    description:"Combine images.",
+  },
+{
+    icon: LayoutGrid,
+    title:"Grid Options",
+    description:"Flexible layouts.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"One image.",
+  },
+{
+    icon: Palette,
+    title:"Styling",
+    description:"Gaps and background.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A photo grid maker arranges multiple images into a single tidy grid — perfect for contact sheets, comparisons, and social posts. Instead of posting images separately, one grid presents them cleanly. This tool offers flexible layouts and exports.</p>
+  <p>Layout control shapes impact. Choosing rows and columns and adjusting gaps produces a balanced composition. Styling keeps it on-brand.</p>
+  <p>Use it to present image sets cohesively. The tool's value is merging many photos into one polished, shareable grid.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Grid sizes?",
+    answer:"Configurable rows and columns.",
+  },
+{
+    question:"Rearrange?",
+    answer:"Drag to reorder.",
+  },
+{
+    question:"Export?",
+    answer:"High resolution.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  }
+  ]}
+/>
+</div>
  );
 }

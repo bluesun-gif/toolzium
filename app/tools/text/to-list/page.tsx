@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import TextToListClient from "@/components/tools/text/text-to-list-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Text to List",
@@ -123,6 +124,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <TextToListClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/text/to-list" />
+</div>
   );
 }

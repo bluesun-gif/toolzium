@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect, useCallback } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -11,7 +14,7 @@ import { Label } from"@/components/ui/label";
 import { Switch } from"@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Play, Sliders, Copy, RefreshCw } from"lucide-react";
+import { Code2, Copy, Play, PlayCircle, RefreshCw, Sliders, Timer, Wand2 } from"lucide-react";
 import { cn } from"@/lib/utils";
 
 const presets: Record<string, string> = {
@@ -213,6 +216,88 @@ export function CssKeyframesClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Pick an Effect",
+    description:"Choose a preset like fade, slide, bounce, or spin.",
+    icon: Wand2,
+  },
+{
+    step:"02",
+    title:"Tune Timing",
+    description:"Adjust duration, delay, and easing curve.",
+    icon: Timer,
+  },
+{
+    step:"03",
+    title:"Copy CSS",
+    description:"Export the @keyframes and animation rule.",
+    icon: Code2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Wand2,
+    title:"Animation Presets",
+    description:"Start from fade, slide, pulse, and more.",
+  },
+{
+    icon: Timer,
+    title:"Timing Controls",
+    description:"Set duration, delay, and iteration count.",
+  },
+{
+    icon: PlayCircle,
+    title:"Instant Preview",
+    description:"See the effect on a sample element.",
+  },
+{
+    icon: Code2,
+    title:"Ready CSS",
+    description:"Copy the full animation snippet.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>CSS animations bring interfaces to life, but the best motion is purposeful. A fade-in guides attention to new content; a subtle pulse signals a live element; a slide eases a panel into view. All of these are achievable with @keyframes and a single animation declaration, no JavaScript required.</p>
+  <p>The workflow starts with choosing what changes. Most effects animate transform, opacity, or both. A fade animates opacity from 0 to 1. A slide combines opacity with a translate() offset. A bounce adds intermediate keyframes that overshoot and settle, creating a playful feel. Define these inside @keyframes with percentage stops.</p>
+  <p>Timing shapes perception. Duration under 300ms feels snappy and is good for micro-interactions; 500ms to 1s suits larger transitions. The easing function determines whether motion accelerates, decelerates, or stays constant. cubic-bezier curves let you craft exactly the right feel — for example, a slight overshoot that mimics physical springs.</p>
+  <p>Repetition and direction add polish. Looping a loader with infinite iteration keeps it alive, while alternate direction makes a back-and-forth motion like a swinging arrow. Pair the animation with animation-fill-mode: forwards when you want the element to hold its final state after finishing.</p>
+  <p>Accessibility is non-negotiable. Some users experience discomfort from motion, so always wrap decorative animations in @media (prefers-reduced-motion: reduce) and disable or simplify them. Use our generator to prototype an effect, preview it live, and copy clean CSS into your project. Thoughtful animation improves UX; careless motion distracts from it.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Do I need JavaScript for CSS animations?",
+    answer:"No. @keyframes and the animation property run entirely in CSS, which is efficient and requires no scripting.",
+  },
+{
+    question:"How do I loop an animation?",
+    answer:"Set animation-iteration-count to infinite, or a specific number of repeats.",
+  },
+{
+    question:"What easing should I use?",
+    answer:"Use ease-in-out for organic motion, linear for constant speed, and cubic-bezier for custom curves.",
+  },
+{
+    question:"How do I make it run on hover?",
+    answer:"Apply the animation only on :hover, or toggle a class with JavaScript for more control.",
+  },
+{
+    question:"Are CSS animations accessible?",
+    answer:"They can be. Wrap non-essential motion in prefers-reduced-motion so sensitive users are not affected.",
+  }
+  ]}
+/>
+</div>
  );
 }

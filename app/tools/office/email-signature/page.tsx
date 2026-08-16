@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { EmailSignatureClient } from "@/components/tools/office/email-signature-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Email Signature Generator | Toolzium",
@@ -21,6 +22,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <EmailSignatureClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/office/email-signature" />
+</div>
   );
 }

@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Switch } from"@/components/ui/switch";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { FileText, ShieldCheck, Copy, Printer } from"lucide-react";
+import { Copy, FileCheck2, FileText, ListChecks, Printer, ShieldCheck } from"lucide-react";
 import { toast } from"react-hot-toast";
 
 export function ServiceContractClient() {
@@ -146,6 +149,86 @@ export function ServiceContractClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Parties",
+    description:"Add provider and client.",
+    icon: FileText,
+  },
+{
+    step:"02",
+    title:"Define Work",
+    description:"Scope, deliverables, fees.",
+    icon: ListChecks,
+  },
+{
+    step:"03",
+    title:"Generate",
+    description:"Build the contract.",
+    icon: FileCheck2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: FileText,
+    title:"Parties",
+    description:"Identities.",
+  },
+{
+    icon: ListChecks,
+    title:"Scope",
+    description:"Deliverables.",
+  },
+{
+    icon: FileCheck2,
+    title:"Draft",
+    description:"Ready document.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Terms",
+    description:"Payment and IP.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A service contract generator builds the agreement governing professional engagements, covering scope, deliverables, fees, and IP. Detailed contracts prevent the misunderstandings that derail projects. This tool assembles the essentials.</p>
+  <p>IP and payment terms are the frequent flashpoints; the generator includes explicit clauses so ownership and timing are clear.</p>
+  <p>Review with counsel before signing. The tool's value is a structured service contract draft that reduces project risk.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is it?",
+    answer:"Contract for professional services.",
+  },
+{
+    question:"Covers IP?",
+    answer:"Yes, assignment clause.",
+  },
+{
+    question:"Binding?",
+    answer:"Draft; review legally.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Use case?",
+    answer:"Consultants and agencies.",
+  }
+  ]}
+/>
+</div>
  );
 }

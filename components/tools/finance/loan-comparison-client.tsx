@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useMemo } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Button } from"@/components/ui/button";
 import { ResetButton } from"@/components/shared/action-buttons";
-import { Scale, Calculator, DollarSign, BarChart3, Plus, Trash2 } from"lucide-react";
+import { BarChart3, Calculator, CheckCircle2, DollarSign, ListChecks, Plus, Scale, Trash2, TrendingDown } from"lucide-react";
 import { cn } from"@/lib/utils";
 
 type LoanInput = {
@@ -183,7 +186,88 @@ export function LoanComparisonClient() {
  <span className="text-muted-foreground">Total Cost:</span>
  <span className="font-medium">${result?.totalPayment.toFixed(2) || '0.00'}</span>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Loans",
+    description:"Add terms, rates, and fees for each option.",
+    icon: ListChecks,
+  },
+{
+    step:"02",
+    title:"Compute",
+    description:"See monthly payment and total cost.",
+    icon: Calculator,
+  },
+{
+    step:"03",
+    title:"Decide",
+    description:"Pick the cheaper overall loan.",
+    icon: CheckCircle2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: ListChecks,
+    title:"Multiple Loans",
+    description:"Compare two or more side by side.",
+  },
+{
+    icon: Calculator,
+    title:"True Cost",
+    description:"Includes fees, not just rate.",
+  },
+{
+    icon: CheckCircle2,
+    title:"Clear Winner",
+    description:"Highlights lowest total cost.",
+  },
+{
+    icon: TrendingDown,
+    title:"Fee Aware",
+    description:"Exposes hidden origination charges.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>Loan comparison prevents the classic trap of choosing the lowest monthly payment and paying far more overall. This calculator lines up multiple loan offers with their rates, terms, and fees, then reveals the true total cost of each. That complete picture is what should drive the decision, not the headline rate alone.</p>
+  <p>Fees are the hidden variable. Two loans at the same rate can differ by hundreds in origination, closing, or service charges. The tool adds these to the interest so you compare like for like. A slightly higher rate with zero fees can beat a lower rate loaded with costs, and only a total-cost view exposes that.</p>
+  <p>Term length trades monthly comfort for lifetime cost. Extending a loan lowers each payment but stretches interest across more years, often costing more. The calculator shows both the monthly and the total, letting you choose consciously rather than defaulting to the easiest payment. For refinancing, it quantifies whether savings exceed the switch cost.</p>
+  <p>Use comparison before signing any loan, from auto to personal to mortgage. Enter every offer you receive, including pre-qualifications, and let the totals guide you. The discipline of comparing full costs — not just rates — is one of the simplest ways to save thousands over your borrowing life.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Rate or total cost?",
+    answer:"Total cost including fees is what matters.",
+  },
+{
+    question:"Why fees matter?",
+    answer:"Origination and closing fees change the real price.",
+  },
+{
+    question:"Longer term cheaper?",
+    answer:"Lower monthly, but higher total interest.",
+  },
+{
+    question:"Should I refinance?",
+    answer:"If savings exceed costs, yes.",
+  },
+{
+    question:"Is prepayment a factor?",
+    answer:"Some loans penalize early payoff; check terms.",
+  }
+  ]}
+/>
+</div>
  </CardContent>
  </GlassCard>
  );

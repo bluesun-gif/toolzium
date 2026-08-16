@@ -2,7 +2,6 @@ import { buildMetadata } from "@/lib/seo";
 import { siteURL } from "@/lib/constants";
 import JsonLd from "@/components/seo/json-ld";
 import PlaceholderGeneratorClient from "@/components/tools/image/placeholder-generator-client";
-
 export const metadata = buildMetadata({
   title: "Free Image Placeholder Generator — Custom Sizes & Colors | Toolzium",
   description: "Generate custom image placeholders in PNG or SVG format. Set exact width, height, background color, text color, and custom labels. Free online placeholder tool.",
@@ -30,6 +29,8 @@ export default function Page() {
           },
         }}
       />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/image/placeholder-generator" />
+</>
   );
 }

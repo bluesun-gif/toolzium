@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect, useMemo } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Separator } from"@/components/ui/separator";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ResetButton } from"@/components/shared/action-buttons";
-import { Clock, CalendarDays, Calculator, Banknote } from"lucide-react";
+import { Banknote, Calculator, CalendarDays, Clock, Download, Scale } from"lucide-react";
 import { cn } from"@/lib/utils";
 import toast from"react-hot-toast";
 
@@ -242,6 +245,86 @@ export function TimesheetClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Hours",
+    description:"Log time per day or task.",
+    icon: Clock,
+  },
+{
+    step:"02",
+    title:"Set Rate",
+    description:"Add hourly rate.",
+    icon: Scale,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See total pay.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Clock,
+    title:"Hours",
+    description:"Per day or task.",
+  },
+{
+    icon: Scale,
+    title:"Rate",
+    description:"Hourly amount.",
+  },
+{
+    icon: Calculator,
+    title:"Totals",
+    description:"Pay computed.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"For invoicing.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A timesheet calculator converts logged hours and rates into accurate pay, essential for freelancers and payroll. Manual totals invite errors that cost money. This tool computes the sum from structured entries.</p>
+  <p>Task-level tracking improves billing clarity and client trust. Export lets you roll the timesheet into an invoice.</p>
+  <p>Use it for every billing period. The tool's value is error-free time-based pay calculation.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What does it do?",
+    answer:"Computes pay from hours and rate.",
+  },
+{
+    question:"Track tasks?",
+    answer:"Yes, per task.",
+  },
+{
+    question:"Export?",
+    answer:"Yes, for billing.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Overtime?",
+    answer:"Set rates accordingly.",
+  }
+  ]}
+/>
+</div>
  );
 }

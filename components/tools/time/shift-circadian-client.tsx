@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ResetButton } from"@/components/shared/action-buttons";
-import { Moon, Sun, Clock, Calendar } from"lucide-react";
+import { Activity, Calendar, Clock, Moon, ShieldCheck, Sun } from"lucide-react";
 import { toast } from"react-hot-toast";
 
 export function ShiftCircadianClient() {
@@ -176,6 +179,86 @@ export function ShiftCircadianClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Shift",
+    description:"Add work hours.",
+    icon: Clock,
+  },
+{
+    step:"02",
+    title:"Set Sleep",
+    description:"Define rest window.",
+    icon: Moon,
+  },
+{
+    step:"03",
+    title:"Review",
+    description:"See circadian fit.",
+    icon: Activity,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Clock,
+    title:"Shifts",
+    description:"Your schedule.",
+  },
+{
+    icon: Moon,
+    title:"Sleep",
+    description:"Rest window.",
+  },
+{
+    icon: Activity,
+    title:"Fit",
+    description:"Circadian view.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Health",
+    description:"Protects rhythm.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A shift circadian calculator helps night and rotating workers schedule sleep that respects their body clock as much as possible, limiting fatigue and health risk. Irregular hours disrupt rhythm; planning sleep windows around them helps. This tool shows the fit.</p>
+  <p>Consistent sleep timing, even if shifted, beats chaos. The calculator makes the schedule explicit and defendable.</p>
+  <p>Use it if you work shifts. The tool's value is a circadian-aware plan that protects wellbeing.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why circadian?",
+    answer:"Aligns sleep to body clock.",
+  },
+{
+    question:"Shift workers?",
+    answer:"Especially useful.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Non-standard hours.",
+  }
+  ]}
+/>
+</div>
  );
 }

@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import PdfSignFillClient from "@/components/tools/pdf/pdf-sign-fill-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "Sign & Fill PDF Studio | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function PdfSignFillPage() {
-  return <PdfSignFillClient />;
+  return (
+    <><PdfSignFillClient />
+      <RelatedTools currentToolUrl="/tools/pdf/sign-fill" />
+    </>
+  );
 }

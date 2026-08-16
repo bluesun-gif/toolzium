@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { HeartRateZonesClient } from "@/components/tools/health/heart-rate-zones-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Heart Rate Zone Calculator | Toolzium",
@@ -22,6 +23,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <HeartRateZonesClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/health/heart-rate-zones" />
+</div>
   );
 }

@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -7,7 +10,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Textarea } from"@/components/ui/textarea";
 import { AiOutputDisplay } from"@/components/shared/ai-output-display";
-import { ShieldCheck, RefreshCw } from"lucide-react";
+import { FileCheck2, FileText, RefreshCw, Scale, ShieldCheck } from"lucide-react";
 import toast from"react-hot-toast";
 
 export default function AiContractorAgreementClient() {
@@ -139,6 +142,86 @@ export default function AiContractorAgreementClient() {
  variant="cards"
  />
  )}
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Details",
+    description:"Add parties and scope.",
+    icon: FileText,
+  },
+{
+    step:"02",
+    title:"Set Terms",
+    description:"Define payment and IP.",
+    icon: Scale,
+  },
+{
+    step:"03",
+    title:"Generate",
+    description:"Produce the agreement.",
+    icon: FileCheck2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: FileText,
+    title:"Guided Input",
+    description:"Structured questions.",
+  },
+{
+    icon: Scale,
+    title:"Terms",
+    description:"Payment, IP, duration.",
+  },
+{
+    icon: FileCheck2,
+    title:"Draft",
+    description:"Ready-to-review document.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Clarity",
+    description:"Plain-language clauses.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An AI contractor agreement studio builds a clean independent-contractor contract from structured inputs, saving the blank-page problem. It covers the essentials — parties, scope, payment, IP, and term — in plain language. This tool produces a draft you can refine.</p>
+  <p>Clarity prevents disputes. Vague scope and undefined IP ownership cause most contractor conflicts; the generator prompts for specifics so those points are explicit. Plain-language clauses reduce misunderstanding.</p>
+  <p>This is a starting draft, not legal advice; have counsel review before signing. The tool's value is a complete, structured agreement skeleton in minutes instead of hours.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is it?",
+    answer:"A contract between a company and a non-employee.",
+  },
+{
+    question:"Legally binding?",
+    answer:"Aid only; have a lawyer review.",
+  },
+{
+    question:"Covers IP?",
+    answer:"Yes, assignment clauses included.",
+  },
+{
+    question:"Free?",
+    answer:"Yes, generates a draft.",
+  },
+{
+    question:"Jurisdiction?",
+    answer:"Customize to your region.",
+  }
+  ]}
+/>
+</div>
  );
 }

@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useEffect, useRef } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Button } from"@/components/ui/button";
 import { ActionButton } from"@/components/shared/action-buttons";
-import { Timer, Play, Pause, Activity, RotateCcw, Volume2, VolumeX } from"lucide-react";
+import { Activity, BarChart3, Pause, Play, PlayCircle, Repeat, RotateCcw, Timer, Volume2, VolumeX } from"lucide-react";
 import { cn } from"@/lib/utils";
 
 type TimerState ="idle"|"work"|"rest"|"finished";
@@ -212,6 +215,86 @@ export function WorkoutTimerClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Set Intervals",
+    description:"Add work and rest durations.",
+    icon: Timer,
+  },
+{
+    step:"02",
+    title:"Start",
+    description:"Run the countdown.",
+    icon: PlayCircle,
+  },
+{
+    step:"03",
+    title:"Track",
+    description:"Log completed sessions.",
+    icon: BarChart3,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Timer,
+    title:"Intervals",
+    description:"Custom work/rest.",
+  },
+{
+    icon: PlayCircle,
+    title:"Easy Start",
+    description:"One-tap begin.",
+  },
+{
+    icon: BarChart3,
+    title:"Session Log",
+    description:"See consistency.",
+  },
+{
+    icon: Repeat,
+    title:"Circuits",
+    description:"Great for HIIT.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A workout timer structures interval training, where precise work and rest periods drive results. Guessing timing dilutes effort; this tool enforces intervals so each round is consistent. It supports HIIT, circuits, and Tabata-style sessions.</p>
+  <p>Rest matters as much as work; the timer ensures recovery is neither skipped nor overlong. Logging completed sessions builds a consistency streak that sustains training better than sporadic intense days.</p>
+  <p>Use it to make intervals exact and repeatable. The tool's value is removing timing guesswork, turning a vague &quot;do some intervals&quot; into a structured, trackable workout.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Use for HIIT?",
+    answer:"Yes, ideal for intervals.",
+  },
+{
+    question:"Custom times?",
+    answer:"Set any work/rest.",
+  },
+{
+    question:"Track sessions?",
+    answer:"Yes, builds habit.",
+  },
+{
+    question:"Rest important?",
+    answer:"Recovery improves quality.",
+  },
+{
+    question:"Tabata?",
+    answer:"20/10 presets work.",
+  }
+  ]}
+/>
+</div>
  );
 }

@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect, useRef } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { Timer, Plus, Play, Pause, Square, BellRing, X } from"lucide-react";
+import { Bell, BellRing, Pause, Play, PlayCircle, Plus, RotateCcw, Square, Timer, X } from"lucide-react";
 import toast from"react-hot-toast";
 
 type TimerState ="running"|"paused"|"stopped"|"done";
@@ -223,6 +226,86 @@ export function CookingTimerClient() {
  ))}
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Set Time",
+    description:"Pick minutes and seconds.",
+    icon: Timer,
+  },
+{
+    step:"02",
+    title:"Start",
+    description:"Begin the countdown.",
+    icon: PlayCircle,
+  },
+{
+    step:"03",
+    title:"Alert",
+    description:"Get notified at zero.",
+    icon: Bell,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Timer,
+    title:"Intervals",
+    description:"Custom lengths.",
+  },
+{
+    icon: PlayCircle,
+    title:"Start",
+    description:"One tap.",
+  },
+{
+    icon: Bell,
+    title:"Alert",
+    description:"Clear signal.",
+  },
+{
+    icon: RotateCcw,
+    title:"Reset",
+    description:"Quick restart.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A cooking timer counts down a set interval and alerts you at zero, freeing attention from watching the clock. Multiple dishes need staggered timers; set each and the tool notifies you. This tool keeps timing precise.</p>
+  <p>Precise timing improves results and reduces burning. The alert means you can step away safely.</p>
+  <p>Use it in the kitchen or for focus sprints. The tool's value is reliable, hands-off timing.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Multiple timers?",
+    answer:"Set one per task.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Kitchen, focus.",
+  },
+{
+    question:"Alert?",
+    answer:"Audible at end.",
+  }
+  ]}
+/>
+</div>
  );
 }

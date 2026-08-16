@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { ShieldCheck, FileText, Copy, Printer } from"lucide-react";
+import { Copy, EyeOff, FileCheck2, FileText, Printer, ShieldCheck } from"lucide-react";
 import toast from"react-hot-toast";
 
 export function NdaBuilderClient() {
@@ -155,6 +158,86 @@ export function NdaBuilderClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Parties",
+    description:"Add discloser and recipient.",
+    icon: FileText,
+  },
+{
+    step:"02",
+    title:"Set Scope",
+    description:"Define confidential info.",
+    icon: EyeOff,
+  },
+{
+    step:"03",
+    title:"Generate",
+    description:"Produce the NDA.",
+    icon: FileCheck2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: FileText,
+    title:"Parties",
+    description:"Identities.",
+  },
+{
+    icon: EyeOff,
+    title:"Confidentiality",
+    description:"What is protected.",
+  },
+{
+    icon: FileCheck2,
+    title:"Draft",
+    description:"Ready document.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Terms",
+    description:"Duration and remedies.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An NDA generator builds the confidentiality agreement that lets parties share sensitive information safely. Defining what is protected and for how long prevents later disputes. This tool structures discloser, recipient, and scope.</p>
+  <p>Type matters — one-way protects a single party; mutual protects both during collaboration. The generator lets you choose and includes duration and remedies.</p>
+  <p>Review with counsel before signing. The tool's value is a clear NDA draft that enables trust-based sharing.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is an NDA?",
+    answer:"Agreement protecting shared secrets.",
+  },
+{
+    question:"One-way or mutual?",
+    answer:"Choose the type.",
+  },
+{
+    question:"Binding?",
+    answer:"Draft; legal review.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Use case?",
+    answer:"Before sharing sensitive info.",
+  }
+  ]}
+/>
+</div>
  );
 }

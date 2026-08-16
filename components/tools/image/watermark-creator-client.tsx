@@ -1,10 +1,13 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect, useRef } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
 import { GlassCard } from"@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
-import { Image as ImageIcon, Text, Download, RefreshCw, Upload } from"lucide-react";
+import { BadgeCheck, Download, Image as ImageIcon, RefreshCw, ShieldCheck, Text, Upload } from"lucide-react";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
@@ -308,6 +311,86 @@ export function WatermarkCreatorClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Upload",
+    description:"Load the image.",
+    icon: Upload,
+  },
+{
+    step:"02",
+    title:"Design",
+    description:"Craft a watermark style.",
+    icon: BadgeCheck,
+  },
+{
+    step:"03",
+    title:"Apply",
+    description:"Apply and download.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Upload,
+    title:"Image Input",
+    description:"From your device.",
+  },
+{
+    icon: BadgeCheck,
+    title:"Style",
+    description:"Text, logo, tiled.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Protected result.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Privacy",
+    description:"Local processing.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An image watermark creator builds and applies ownership marks, including tiled patterns that are harder to crop out. A single corner logo is easy to remove; a subtle tiled watermark protects more thoroughly. This tool offers both styles.</p>
+  <p>Style and opacity balance protection with presentation. You can mark images strongly for public previews yet keep finals clean. Local processing safeguards unpublished work.</p>
+  <p>Use it to protect shareable images. The tool's value is flexible, private watermarking suited to different exposure levels.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Tiled option?",
+    answer:"Yes, repeat across the image.",
+  },
+{
+    question:"Why watermark?",
+    answer:"Ownership and deterrence.",
+  },
+{
+    question:"Opacity?",
+    answer:"Adjustable.",
+  },
+{
+    question:"Private?",
+    answer:"Yes.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  }
+  ]}
+/>
+</div>
  );
 }

@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { NetWorthClient } from "@/components/tools/finance/net-worth-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Net Worth Calculator | Toolzium",
@@ -67,6 +68,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <NetWorthClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/finance/net-worth" />
+</div>
   );
 }

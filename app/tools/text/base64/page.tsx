@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import Base64Client from "@/components/tools/text/base64-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Base64 Encode/Decode",
   description:
@@ -135,6 +134,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <Base64Client />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/text/base64" />
+</div>
   );
 }

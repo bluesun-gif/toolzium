@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import LineToolsClient from "@/components/tools/text/line-tools-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Line Tools",
   description:
@@ -135,6 +134,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <LineToolsClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/text/line-tools" />
+</div>
   );
 }

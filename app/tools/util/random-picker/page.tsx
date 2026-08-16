@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import RandomPickerClient from "@/components/tools/util/random-picker-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Random Picker",
@@ -137,6 +138,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <RandomPickerClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/util/random-picker" />
+</div>
   );
 }

@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import SubdomainFinderClient from "@/components/tools/network/subdomain-finder-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Subdomain Finder & Scanner",
@@ -43,6 +44,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <SubdomainFinderClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/network/subdomain-finder" />
+</div>
   );
 }

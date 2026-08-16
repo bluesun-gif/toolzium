@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -7,7 +10,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components
 import { Separator } from"@/components/ui/separator";
 import { Button } from"@/components/ui/button";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { CheckCircle, AlertTriangle, RefreshCw, Eye } from"lucide-react";
+import { AlertTriangle, CheckCircle, Contrast, Eye, Palette, RefreshCw, ShieldCheck } from"lucide-react";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 
@@ -228,6 +231,86 @@ export function ColorContrastClient() {
  </div>
  </CardContent>
  </GlassCard>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Colors",
+    description:"Add foreground and background.",
+    icon: Palette,
+  },
+{
+    step:"02",
+    title:"Check",
+    description:"See the contrast ratio.",
+    icon: Contrast,
+  },
+{
+    step:"03",
+    title:"Evaluate",
+    description:"Pass or fail WCAG levels.",
+    icon: ShieldCheck,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Palette,
+    title:"Two Colors",
+    description:"Text and background.",
+  },
+{
+    icon: Contrast,
+    title:"Ratio",
+    description:"Precise numeric ratio.",
+  },
+{
+    icon: ShieldCheck,
+    title:"WCAG",
+    description:"AA and AAA results.",
+  },
+{
+    icon: Eye,
+    title:"Preview",
+    description:"Sample text rendering.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A color contrast checker measures whether text is readable against its background — the core of visual accessibility. Low contrast makes content hard for many users, especially those with impaired vision or in bright light. This tool computes the precise ratio and rates it against WCAG.</p>
+  <p>WCAG sets the bar: 4.5:1 for normal text, 3:1 for large text, to meet AA. The checker tells you pass or fail instantly, so you fix colors before shipping rather than after complaints. A live preview shows real rendering.</p>
+  <p>Use it on every text-and-background pairing. The tool's value is objective, standards-based readability confirmation that protects usability and compliance.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is contrast ratio?",
+    answer:"Luminance difference between colors.",
+  },
+{
+    question:"WCAG levels?",
+    answer:"AA is 4.5:1 for text.",
+  },
+{
+    question:"Why important?",
+    answer:"Readability for all users.",
+  },
+{
+    question:"Large text?",
+    answer:"Needs 3:1, lower threshold.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  }
+  ]}
+/>
+</div>
  );
 }

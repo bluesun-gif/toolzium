@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { LunarCalendarClient } from "@/components/tools/time/lunar-calendar-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Lunar Calendar | Toolzium",
@@ -19,6 +20,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <LunarCalendarClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/time/lunar-calendar" />
+</div>
   );
 }

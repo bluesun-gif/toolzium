@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { NatoPasswordReaderClient } from "@/components/tools/util/nato-password-reader-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "NATO Password Generator & Phonetic Reader | Toolzium",
@@ -48,6 +49,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <NatoPasswordReaderClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/util/nato-password-reader" />
+</div>
   );
 }

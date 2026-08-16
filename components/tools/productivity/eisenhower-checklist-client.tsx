@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { CheckSquare, Plus, Download, Trash2 } from"lucide-react";
+import { BarChart3, CheckCircle2, CheckSquare, Download, Grid2x2, ListChecks, Plus, Trash2 } from"lucide-react";
 import { toast } from"react-hot-toast";
 
 type Quadrant ="q1"|"q2"|"q3"|"q4";
@@ -220,7 +223,87 @@ export function EisenhowerChecklistClient() {
  </ul>
  )}
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"List Items",
+    description:"Add tasks to check.",
+    icon: ListChecks,
+  },
+{
+    step:"02",
+    title:"Classify",
+    description:"Mark urgent and important.",
+    icon: Grid2x2,
+  },
+{
+    step:"03",
+    title:"Review",
+    description:"See your priority mix.",
+    icon: BarChart3,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: ListChecks,
+    title:"Checklist",
+    description:"Simple capture.",
+  },
+{
+    icon: Grid2x2,
+    title:"Classify",
+    description:"Two dimensions.",
+  },
+{
+    icon: BarChart3,
+    title:"Mix",
+    description:"Where time goes.",
+  },
+{
+    icon: CheckCircle2,
+    title:"Complete",
+    description:"Track done.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An Eisenhower checklist applies the urgent-important sort in a lightweight list form, good for fast triage without a full board. You toggle each task's dimensions and see where it lands. This tool keeps it simple.</p>
+  <p>Seeing the mix reveals imbalance — too much &quot;urgent not important&quot; signals reactivity. The checklist surfaces that quickly.</p>
+  <p>Use it for speedy sorting. The tool's value is the matrix method in minimal form.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Checklist vs board?",
+    answer:"Lighter, list-style.",
+  },
+{
+    question:"Classify how?",
+    answer:"Two toggles.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Quick triage.",
+  }
+  ]}
+/>
+</div>
  );
  })}
  </div>

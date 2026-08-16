@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { PriorityMatrixClient } from "@/components/tools/productivity/priority-matrix-2x2-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Priority Matrix 2x2 Task Tracker | Toolzium",
@@ -39,6 +40,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <PriorityMatrixClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/productivity/priority-matrix-2x2" />
+</div>
   );
 }

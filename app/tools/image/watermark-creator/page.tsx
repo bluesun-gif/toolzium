@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { WatermarkCreatorClient } from "@/components/tools/image/watermark-creator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Image Watermark Creator | Toolzium",
@@ -48,6 +49,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <WatermarkCreatorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/image/watermark-creator" />
+</div>
   );
 }

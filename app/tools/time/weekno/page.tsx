@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import WeekNumberClient from "@/components/tools/time/week-number-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "ISO Week Number",
@@ -139,6 +140,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <WeekNumberClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/time/weekno" />
+</div>
   );
 }

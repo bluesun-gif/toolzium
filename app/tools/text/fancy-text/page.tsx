@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import FancyTextClient from "@/components/tools/text/fancy-text-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Fancy Text Generator - Cool Fonts & Text Styles",
   description: "Generate fancy text, cool fonts, and weird unicode styles for Instagram, Twitter, Facebook, and Discord.",
@@ -50,6 +49,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <FancyTextClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/text/fancy-text" />
+</div>
   );
 }

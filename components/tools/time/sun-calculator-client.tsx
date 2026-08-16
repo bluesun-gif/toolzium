@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect, useMemo } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Sun, Moon, Globe, Clock } from"lucide-react";
+import { Calendar, Clock, Globe, MapPin, Moon, Sun } from"lucide-react";
 import toast from"react-hot-toast";
 
 const CITIES = [
@@ -145,6 +148,86 @@ export function SunCalculatorClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Location",
+    description:"Add city or coords.",
+    icon: MapPin,
+  },
+{
+    step:"02",
+    title:"Pick Date",
+    description:"Choose a day.",
+    icon: Calendar,
+  },
+{
+    step:"03",
+    title:"Compute",
+    description:"See sun times.",
+    icon: Sun,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: MapPin,
+    title:"Location",
+    description:"Any place.",
+  },
+{
+    icon: Calendar,
+    title:"Date",
+    description:"Any day.",
+  },
+{
+    icon: Sun,
+    title:"Sun Times",
+    description:"Rise and set.",
+  },
+{
+    icon: Globe,
+    title:"Accurate",
+    description:"Astronomical model.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A sunrise-sunset calculator returns sun times for any location and date, useful for photography, outdoor plans, and daylight awareness. Times shift with season and latitude; the tool handles the astronomy. This tool outputs rise and set.</p>
+  <p>Knowing daylight length aids scheduling and mood. The calculator makes it precise per place and day.</p>
+  <p>Use it for any sun-dependent plan. The tool's value is accurate, location-aware sun times.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What shows?",
+    answer:"Sunrise and sunset times.",
+  },
+{
+    question:"Accurate?",
+    answer:"Standard solar model.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Photography, plans.",
+  }
+  ]}
+/>
+</div>
  );
 }

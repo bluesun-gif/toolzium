@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ResetButton } from"@/components/shared/action-buttons";
-import { Activity, Flame, Clock, Scale } from"lucide-react";
+import { Activity, Calculator, Clock, Flame, Scale } from"lucide-react";
 
 export function EllipticalCalorieClient() {
  const [weight, setWeight] = useState("150");
@@ -196,6 +199,86 @@ export function EllipticalCalorieClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Weight",
+    description:"Add your body weight.",
+    icon: Scale,
+  },
+{
+    step:"02",
+    title:"Set Time",
+    description:"Input session duration.",
+    icon: Clock,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See estimated calories burned.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Scale,
+    title:"Weight Based",
+    description:"Personalizes burn.",
+  },
+{
+    icon: Clock,
+    title:"Duration",
+    description:"Longer sessions burn more.",
+  },
+{
+    icon: Calculator,
+    title:"Burn Estimate",
+    description:"Calories for the workout.",
+  },
+{
+    icon: Activity,
+    title:"Low Impact",
+    description:"Easy on joints.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An elliptical calorie calculator estimates energy used during a low-impact cardio session. It derives burn from your weight and duration at a typical elliptical intensity, a useful figure for balancing intake. This tool makes that estimate personal and quick.</p>
+  <p>Weight and time scale the result. Heavier bodies and longer sessions burn more, which the calculator reflects. Ellipticals are joint-friendly, making them sustainable for many, and the burn is comparable to running at similar effort despite the gentler feel.</p>
+  <p>Use the estimate to inform, not to overcompensate. Pair sessions with a sensible diet for fat loss. The tool's value is quantifying a low-impact workout's cost, supporting consistent, sustainable training.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"How is burn estimated?",
+    answer:"From weight, time, and activity intensity.",
+  },
+{
+    question:"Accurate?",
+    answer:"Approximate; machines vary.",
+  },
+{
+    question:"Good for weight loss?",
+    answer:"Yes, paired with a deficit.",
+  },
+{
+    question:"Versus running?",
+    answer:"Lower impact, similar burn at effort.",
+  },
+{
+    question:"Track it?",
+    answer:"Log to balance intake.",
+  }
+  ]}
+/>
+</div>
  );
 }

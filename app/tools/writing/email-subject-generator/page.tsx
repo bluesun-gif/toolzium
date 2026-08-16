@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import EmailSubjectGeneratorClient from "@/components/tools/writing/email-subject-generator-client";
-
 export const metadata: Metadata = {
   title: "AI High Open-Rate Email Subject Line Generator | Toolzium",
   description:
@@ -8,5 +7,9 @@ export const metadata: Metadata = {
 };
 
 export default function EmailSubjectGeneratorPage() {
-  return <EmailSubjectGeneratorClient />;
+  return (
+    <><EmailSubjectGeneratorClient />
+      <RelatedTools currentToolUrl="/tools/writing/email-subject-generator" />
+    </>
+  );
 }

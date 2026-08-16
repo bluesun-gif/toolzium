@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import SlugifyClient from "@/components/tools/text/slugify-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Slugify",
   description:
@@ -123,6 +122,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <SlugifyClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/text/slugify" />
+</div>
   );
 }

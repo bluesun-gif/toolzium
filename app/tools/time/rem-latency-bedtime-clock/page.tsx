@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { RemLatencyBedtimeClockClient } from "@/components/tools/time/rem-latency-bedtime-clock-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "REM Sleep Cycle & Onset Latency Bedtime Clock | Toolzium",
@@ -48,6 +49,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <RemLatencyBedtimeClockClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/time/rem-latency-bedtime-clock" />
+</div>
   );
 }

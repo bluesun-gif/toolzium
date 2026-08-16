@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { CopyButton, ResetButton, ActionButton } from"@/components/shared/action-buttons";
-import { Calendar, Clock, Users, Copy, AlertCircle, Plus, Trash2 } from"lucide-react";
+import { AlertCircle, Calendar, CalendarRange, Clock, Copy, ListChecks, Plus, ShieldCheck, Trash2, UserCheck, Users } from"lucide-react";
 import { cn } from"@/lib/utils";
 import toast from"react-hot-toast";
 
@@ -155,7 +158,87 @@ export function ShiftSchedulerClient() {
  <SelectItem value="Off">Off</SelectItem>
  </SelectContent>
  </Select>
- {conflict && <div className="text-[10px] text-red-500 mt-1 flex items-center justify-center"><AlertCircle className="w-3 h-3 mr-1"/> Conflict</div>}
+ {conflict && <div className="text-[10px] text-red-500 mt-1 flex items-center justify-center"><AlertCircle className="w-3 h-3 mr-1"/> Conflict
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Shifts",
+    description:"Define patterns and times.",
+    icon: CalendarRange,
+  },
+{
+    step:"02",
+    title:"Assign",
+    description:"Place on the calendar.",
+    icon: UserCheck,
+  },
+{
+    step:"03",
+    title:"Review",
+    description:"See coverage and rest.",
+    icon: ListChecks,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: CalendarRange,
+    title:"Patterns",
+    description:"Rotations, blocks.",
+  },
+{
+    icon: UserCheck,
+    title:"Assign",
+    description:"Who works when.",
+  },
+{
+    icon: ListChecks,
+    title:"Coverage",
+    description:"Gaps visible.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Rest Rules",
+    description:"Avoid overload.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A shift scheduler arranges work patterns across people and time, revealing coverage gaps and overloaded individuals before they become problems. Assigning shifts on a calendar makes rest rules enforceable. This tool shows coverage and rest.</p>
+  <p>Visibility prevents burnout and understaffing. The scheduler turns chaos into a fair, reviewable plan.</p>
+  <p>Use it for any shift team. The tool's value is balanced, gap-free scheduling.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What does it do?",
+    answer:"Plans and assigns shifts.",
+  },
+{
+    question:"Rotations?",
+    answer:"Yes, define patterns.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Teams, ops.",
+  }
+  ]}
+/>
+</div>}
  </td>
  );
  })}

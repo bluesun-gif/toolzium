@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { VisaCheckClient } from "@/components/tools/travel/visa-check-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Visa Requirements Checker | Toolzium",
@@ -21,6 +22,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <VisaCheckClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/travel/visa-check" />
+</div>
   );
 }

@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import SitemapGeneratorClient from "@/components/tools/seo/sitemap-generator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Sitemap.xml Generator",
   description:
@@ -131,6 +130,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <SitemapGeneratorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/seo/sitemap-generator" />
+</div>
   );
 }

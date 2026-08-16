@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import DnsLookupClient from "@/components/tools/network/dns-lookup-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "DNS Lookup Tool",
@@ -40,6 +41,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <DnsLookupClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/network/dns-lookup" />
+</div>
   );
 }

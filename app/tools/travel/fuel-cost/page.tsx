@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { FuelCostClient } from "@/components/tools/travel/fuel-cost-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Fuel Cost Calculator | Toolzium",
@@ -63,6 +64,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <FuelCostClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/travel/fuel-cost" />
+</div>
   );
 }

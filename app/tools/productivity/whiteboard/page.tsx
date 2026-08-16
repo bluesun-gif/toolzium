@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import WhiteboardClient from "@/components/tools/productivity/whiteboard-client";
 import { generateSEOMetadata } from "@/lib/seo-config";
 import JsonLd from "@/components/seo/json-ld";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = generateSEOMetadata({
   title: "Online Whiteboard — Free Drawing Tool",
@@ -45,6 +46,8 @@ export default function WhiteboardPage() {
     <>
       <JsonLd data={faqSchema} />
       <WhiteboardClient />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/productivity/whiteboard" />
+</>
   );
 }

@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useRef, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Label } from"@/components/ui/label";
 import { Switch } from"@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { Pen, Eraser, Download, Grid, Undo2, MousePointer } from"lucide-react";
+import { Brush, Download, Eraser, Grid, Grid3x3, MousePointer, Palette, Pen, Undo2 } from"lucide-react";
 import { toast } from"react-hot-toast";
 import { cn } from"@/lib/utils";
 
@@ -357,6 +360,86 @@ export function PixelArtClient() {
  </div>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Set Canvas",
+    description:"Choose grid size.",
+    icon: Grid3x3,
+  },
+{
+    step:"02",
+    title:"Draw",
+    description:"Paint pixels with colors.",
+    icon: Brush,
+  },
+{
+    step:"03",
+    title:"Export",
+    description:"Save your sprite.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Grid3x3,
+    title:"Canvas",
+    description:"Pixel grid size.",
+  },
+{
+    icon: Brush,
+    title:"Paint",
+    description:"Place colored pixels.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"PNG sprite.",
+  },
+{
+    icon: Palette,
+    title:"Colors",
+    description:"Limited palette.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A pixel art creator lets you paint on a grid to build retro-style sprites and icons, one colored square at a time. The constrained canvas forces clarity and charm that smooth art lacks. This tool provides the grid, brush, and palette.</p>
+  <p>Limited resolution is the aesthetic. Working at small sizes yields the crisp, blocky look associated with classic games. Exporting as PNG keeps edges sharp at any scale.</p>
+  <p>Use it for game assets and icons. The tool's value is approachable pixel-art creation without specialist software.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is pixel art?",
+    answer:"Art made of visible square pixels.",
+  },
+{
+    question:"Use case?",
+    answer:"Games, icons, retro style.",
+  },
+{
+    question:"Export?",
+    answer:"PNG, scalable.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  }
+  ]}
+/>
+</div>
  );
 }

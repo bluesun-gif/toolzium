@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import DiceRollerClient from "@/components/tools/util/dice-roller-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Dice Roller — Toolzium",
   description: "Roll virtual dice online. Support for up to 6 dice, statistics, and roll history. Fair random number generation.",
@@ -40,6 +39,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <DiceRollerClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/util/dice-roller" />
+</div>
   );
 }

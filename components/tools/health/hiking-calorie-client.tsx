@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useMemo } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -11,7 +14,7 @@ import { Label } from"@/components/ui/label";
 import { Switch } from"@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Activity, Flame, Compass, Scale } from"lucide-react";
+import { Activity, Calculator, Compass, Flame, Gauge, Mountain, Scale, TrendingUp } from"lucide-react";
 import { toast } from"react-hot-toast";
 
 export function HikingCalorieClient() {
@@ -202,6 +205,86 @@ export function HikingCalorieClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Data",
+    description:"Add weight, distance, elevation.",
+    icon: Mountain,
+  },
+{
+    step:"02",
+    title:"Set Pace",
+    description:"Choose hiking intensity.",
+    icon: Gauge,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See calories burned.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Mountain,
+    title:"Terrain Aware",
+    description:"Factors elevation gain.",
+  },
+{
+    icon: Gauge,
+    title:"Intensity",
+    description:"Pace and load included.",
+  },
+{
+    icon: Calculator,
+    title:"Burn Estimate",
+    description:"Energy for the hike.",
+  },
+{
+    icon: TrendingUp,
+    title:"Training View",
+    description:"Plan effort and fuel.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A hiking calorie calculator accounts for what flat estimates miss: elevation gain. Climbing adds significant energy cost, so a steep hike burns far more than a flat walk of equal distance. This tool factors weight, distance, and ascent to estimate the true burn.</p>
+  <p>Terrain and load shape the result. Rocky, loaded, or fast hiking intensifies effort, which the calculator approximates through intensity settings. Knowing the cost helps you fuel and recover properly on longer treks, preventing bonking mid-trail.</p>
+  <p>Use the estimate to plan nutrition and pacing. The tool's value is realism: a number that respects the hill, so your preparation matches the actual demand of the route.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why elevation matters?",
+    answer:"Climbing burns substantially more.",
+  },
+{
+    question:"How estimated?",
+    answer:"From weight, distance, and gain.",
+  },
+{
+    question:"Accurate?",
+    answer:"Approximate; packs vary.",
+  },
+{
+    question:"Fuel the hike?",
+    answer:"Bring water and snacks for long climbs.",
+  },
+{
+    question:"Track it?",
+    answer:"Log to balance intake.",
+  }
+  ]}
+/>
+</div>
  );
 }

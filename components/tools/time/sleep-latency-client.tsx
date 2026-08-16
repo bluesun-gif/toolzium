@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { Moon, AlarmClock, Heart, Clock } from"lucide-react";
+import { AlarmClock, Calculator, Clock, Heart, Moon, ShieldCheck } from"lucide-react";
 
 export function SleepLatencyClient() {
  const [bedTime, setBedTime] = useState("22:00");
@@ -139,6 +142,86 @@ export function SleepLatencyClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Set Alarm",
+    description:"Enter wake time.",
+    icon: AlarmClock,
+  },
+{
+    step:"02",
+    title:"Latency",
+    description:"Minutes to fall asleep.",
+    icon: Moon,
+  },
+{
+    step:"03",
+    title:"Compute",
+    description:"See when to be in bed.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: AlarmClock,
+    title:"Wake",
+    description:"Target time.",
+  },
+{
+    icon: Moon,
+    title:"Latency",
+    description:"Fall-asleep delay.",
+  },
+{
+    icon: Calculator,
+    title:"Bedtime",
+    description:"When to lie down.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Realistic",
+    description:"Includes latency.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A sleep latency alarm works backward from your wake time, subtracting your fall-asleep delay to tell you when to actually be in bed — not just when to fall asleep. Ignoring latency is why people feel shortchanged. This tool includes it.</p>
+  <p>Realistic bedtimes improve sleep duration. The calculator turns the delay into an actionable clock time.</p>
+  <p>Use it to plan rest. The tool's value is latency-aware bedtime calculation.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Latency?",
+    answer:"Time to fall asleep.",
+  },
+{
+    question:"Why include it?",
+    answer:"Makes bedtime accurate.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Planning sleep.",
+  }
+  ]}
+/>
+</div>
  );
 }

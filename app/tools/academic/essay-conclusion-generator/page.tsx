@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import EssayConclusionGeneratorClient from "@/components/tools/academic/essay-conclusion-generator-client";
-
 export const metadata: Metadata = {
   title: "AI Essay Conclusion & Summary Generator | Toolzium",
   description:
@@ -8,5 +7,9 @@ export const metadata: Metadata = {
 };
 
 export default function EssayConclusionGeneratorPage() {
-  return <EssayConclusionGeneratorClient />;
+  return (
+    <><EssayConclusionGeneratorClient />
+      <RelatedTools currentToolUrl="/tools/academic/essay-conclusion-generator" />
+    </>
+  );
 }

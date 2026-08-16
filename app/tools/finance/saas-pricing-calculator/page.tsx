@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import SaasPricingCalculatorClient from "@/components/tools/finance/saas-pricing-calculator-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "AI SaaS Pricing Strategy & Tier Matrix Calculator | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function SaasPricingCalculatorPage() {
-  return <SaasPricingCalculatorClient />;
+  return (
+    <><SaasPricingCalculatorClient />
+      <RelatedTools currentToolUrl="/tools/finance/saas-pricing-calculator" />
+    </>
+  );
 }

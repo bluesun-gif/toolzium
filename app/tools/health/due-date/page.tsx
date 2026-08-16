@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { DueDateClient } from "@/components/tools/health/due-date-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Pregnancy Due Date Calculator | Toolzium",
@@ -22,6 +23,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <DueDateClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/health/due-date" />
+</div>
   );
 }

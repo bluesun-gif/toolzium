@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect, useRef } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { Timer, Heart, Play, Pause, Square } from"lucide-react";
+import { BarChart3, Brain, Heart, Pause, Play, PlayCircle, Square, Timer } from"lucide-react";
 import { cn } from"@/lib/utils";
 import toast from"react-hot-toast";
 
@@ -243,6 +246,86 @@ export function MeditationTimerClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Set Duration",
+    description:"Choose session length.",
+    icon: Timer,
+  },
+{
+    step:"02",
+    title:"Start",
+    description:"Begin with optional interval bells.",
+    icon: PlayCircle,
+  },
+{
+    step:"03",
+    title:"Track",
+    description:"Log sessions over time.",
+    icon: BarChart3,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Timer,
+    title:"Flexible Length",
+    description:"From minutes to an hour.",
+  },
+{
+    icon: PlayCircle,
+    title:"Interval Bells",
+    description:"Gentle cues.",
+  },
+{
+    icon: BarChart3,
+    title:"Streak View",
+    description:"See consistency.",
+  },
+{
+    icon: Brain,
+    title:"Mindfulness",
+    description:"Supports calm.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A meditation timer structures a practice that is easy to skip without prompts. By setting a duration and optional interval bells, it removes friction from starting. This tool also logs sessions, turning sporadic attempts into a visible streak.</p>
+  <p>Consistency beats length. Five minutes daily outperforms an occasional long sit for building calm and focus. The timer's streak view motivates showing up, which is the real goal. Interval bells gently mark progress without breaking concentration.</p>
+  <p>Pair with any style — silence, breath, or guided. The tool's value is reducing the barrier to a habit with well-documented stress and focus benefits, making regularity achievable.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"How long to meditate?",
+    answer:"Even five minutes helps.",
+  },
+{
+    question:"Daily or occasional?",
+    answer:"Daily builds the habit.",
+  },
+{
+    question:"Benefits?",
+    answer:"Lower stress, better focus.",
+  },
+{
+    question:"Need silence?",
+    answer:"No, guided or quiet both work.",
+  },
+{
+    question:"Track streaks?",
+    answer:"Yes, consistency matters.",
+  }
+  ]}
+/>
+</div>
  );
 }

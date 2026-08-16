@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useMemo } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { Switch } from"@/components/ui/switch";
 import { ResetButton } from"@/components/shared/action-buttons";
-import { Ruler, User, TrendingDown } from"lucide-react";
+import { Activity, Calculator, Ruler, TrendingDown, TrendingUp, User } from"lucide-react";
 
 export function BodyFatClient() {
  const [gender, setGender] = useState<"male"|"female">("male");
@@ -196,6 +199,86 @@ export function BodyFatClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Measurements",
+    description:"Add gender, weight, and metrics.",
+    icon: Ruler,
+  },
+{
+    step:"02",
+    title:"Calculate",
+    description:"Estimate body fat percentage.",
+    icon: Calculator,
+  },
+{
+    step:"03",
+    title:"Interpret",
+    description:"See category and health range.",
+    icon: Activity,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Ruler,
+    title:"Measurement Based",
+    description:"Uses simple inputs.",
+  },
+{
+    icon: Calculator,
+    title:"BF% Estimate",
+    description:"Approximates composition.",
+  },
+{
+    icon: Activity,
+    title:"Category View",
+    description:"Essential to athletic ranges.",
+  },
+{
+    icon: TrendingUp,
+    title:"Progress Track",
+    description:"Monitor over time.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A body fat calculator estimates composition, a sharper lens than weight alone. The scale cannot tell muscle from fat; body fat percentage can. This tool uses simple measurements to approximate it, helping you track whether changes come from fat loss or muscle gain — the distinction that defines fitness progress.</p>
+  <p>Estimates vary by method. Home calculations are less precise than clinical tools like DEXA, but they reveal trends if measured consistently. The calculator provides a category view from essential to athletic, so you interpret the number in context rather than chasing an arbitrary figure.</p>
+  <p>Use it monthly, not daily, since fluctuation is normal. Pair with photos and strength gains for a fuller picture. The tool's value is moving beyond the scale to a metric that actually reflects body composition, guiding smarter training and nutrition choices.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why measure body fat?",
+    answer:"Weight alone hides muscle versus fat.",
+  },
+{
+    question:"Accurate?",
+    answer:"Estimates; DEXA is more precise.",
+  },
+{
+    question:"What is healthy?",
+    answer:"Ranges vary by age and sex.",
+  },
+{
+    question:"Better than scale?",
+    answer:"Yes, it shows composition change.",
+  },
+{
+    question:"How often?",
+    answer:"Monthly is enough to see trends.",
+  }
+  ]}
+/>
+</div>
  );
 }

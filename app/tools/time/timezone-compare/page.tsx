@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { TimezoneCompareClient } from "@/components/tools/time/timezone-compare-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Compare Time Zones — Free World Clock & Timezone Converter (2026) | Toolzium",
@@ -71,6 +72,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <TimezoneCompareClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/time/timezone-compare" />
+</div>
   );
 }

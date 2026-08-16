@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import TiktokCalcClient from "@/components/tools/social/tiktok-calc-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "TikTok Engagement & Creator Fund Earnings Calculator | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function TiktokCalcPage() {
-  return <TiktokCalcClient />;
+  return (
+    <><TiktokCalcClient />
+      <RelatedTools currentToolUrl="/tools/social/tiktok-engagement-calc" />
+    </>
+  );
 }

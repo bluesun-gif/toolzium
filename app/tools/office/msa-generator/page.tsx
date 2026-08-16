@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { MSAGeneratorClient } from "@/components/tools/office/msa-generator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Master Services Agreement (MSA) Generator | Toolzium",
@@ -21,6 +22,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <MSAGeneratorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/office/msa-generator" />
+</div>
   );
 }

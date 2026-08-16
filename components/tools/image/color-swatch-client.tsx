@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useRef } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -6,7 +9,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Palette, Upload, Copy, Download } from"lucide-react";
+import { Copy, Download, Palette, Pipette, Upload } from"lucide-react";
 import { toast } from"react-hot-toast";
 
 type Color = {
@@ -198,6 +201,86 @@ export function ColorSwatchClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Upload",
+    description:"Load an image.",
+    icon: Upload,
+  },
+{
+    step:"02",
+    title:"Extract",
+    description:"Pull swatches from pixels.",
+    icon: Pipette,
+  },
+{
+    step:"03",
+    title:"Use",
+    description:"Copy hex codes.",
+    icon: Copy,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Upload,
+    title:"Image Input",
+    description:"Photos or graphics.",
+  },
+{
+    icon: Pipette,
+    title:"Swatches",
+    description:"Grid of extracted colors.",
+  },
+{
+    icon: Copy,
+    title:"Copy",
+    description:"Hex per swatch.",
+  },
+{
+    icon: Palette,
+    title:"Palette",
+    description:"Build themes.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An image color swatch extractor presents a clean grid of the dominant colors in a picture, each with its hex code. Where a raw extractor may dump many shades, swatches organize the result into a usable palette you can copy immediately.</p>
+  <p>The grid format aids decision-making. You see the whole mood of an image at a glance and grab the specific swatches you need. Copy-ready codes drop into any design tool.</p>
+  <p>Use it to derive palettes from inspiration imagery. The tool's value is a tidy, copy-ready color set that turns a photo's feeling into exact values.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Swatch vs extractor?",
+    answer:"Swatches are a tidy grid of picks.",
+  },
+{
+    question:"Count?",
+    answer:"Several dominant colors.",
+  },
+{
+    question:"Use case?",
+    answer:"Quick palettes from art.",
+  },
+{
+    question:"Exact?",
+    answer:"Representative averages.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  }
+  ]}
+/>
+</div>
  );
 }

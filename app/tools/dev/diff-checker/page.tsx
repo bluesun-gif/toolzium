@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import DiffCheckerClient from "@/components/tools/dev/diff-checker-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Diff Checker",
   description:
@@ -148,6 +147,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <DiffCheckerClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/diff-checker" />
+</div>
   );
 }

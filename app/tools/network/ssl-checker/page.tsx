@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import SslCheckerClient from "@/components/tools/network/ssl-checker-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "SSL Certificate Checker",
@@ -40,6 +41,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <SslCheckerClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/network/ssl-checker" />
+</div>
   );
 }

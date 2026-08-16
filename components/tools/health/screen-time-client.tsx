@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { Monitor, Clock, BarChart3, AlertTriangle, Plus, Trash2 } from"lucide-react";
+import { AlertTriangle, BarChart3, Clock, Eye, Monitor, PieChart, Plus, Smartphone, Trash2 } from"lucide-react";
 import { cn } from"@/lib/utils";
 import toast from"react-hot-toast";
 
@@ -246,6 +249,86 @@ export function ScreenTimeClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Hours",
+    description:"Add daily screen use.",
+    icon: Smartphone,
+  },
+{
+    step:"02",
+    title:"Categorize",
+    description:"Split work, social, leisure.",
+    icon: PieChart,
+  },
+{
+    step:"03",
+    title:"Analyze",
+    description:"See weekly totals.",
+    icon: BarChart3,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Smartphone,
+    title:"Hour Log",
+    description:"Track daily use.",
+  },
+{
+    icon: PieChart,
+    title:"Category Split",
+    description:"Where time goes.",
+  },
+{
+    icon: BarChart3,
+    title:"Weekly View",
+    description:"Totals and trends.",
+  },
+{
+    icon: Eye,
+    title:"Awareness",
+    description:"Prompts balance.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A screen time calculator brings awareness to a habit most underestimate. By logging hours and categorizing them, you see where time actually goes — often surprising amounts in passive scrolling. This tool totals daily and weekly use, making the invisible visible.</p>
+  <p>Categorization is the insight. Separating work from leisure reveals whether &quot;I'm busy&quot; is productive or recreational. The weekly view shows trends, helping you set realistic boundaries rather than vague intentions to &quot;use less.&quot;</p>
+  <p>Awareness drives change. Noticing a 30-hour leisure week motivates small shifts — breaks, device-free meals, earlier bedtimes. The tool's value is honest measurement, the first step to a healthier digital balance.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why track screen time?",
+    answer:"Awareness helps set boundaries.",
+  },
+{
+    question:"Healthy amount?",
+    answer:"Varies; balance matters most.",
+  },
+{
+    question:"Work counts?",
+    answer:"Yes, but separate from leisure.",
+  },
+{
+    question:"Reduce it?",
+    answer:"Set app limits and breaks.",
+  },
+{
+    question:"Sleep impact?",
+    answer:"Screens before bed can hurt rest.",
+  }
+  ]}
+/>
+</div>
  );
 }

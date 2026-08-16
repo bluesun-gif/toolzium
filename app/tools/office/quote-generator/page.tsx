@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { QuoteGeneratorClient } from "@/components/tools/office/quote-generator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Price Quotation & Estimate Generator | Toolzium",
@@ -46,6 +47,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <QuoteGeneratorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/office/quote-generator" />
+</div>
   );
 }

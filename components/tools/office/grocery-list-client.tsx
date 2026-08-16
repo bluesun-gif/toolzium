@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { ShoppingCart, Plus, Check, DollarSign, Trash2 } from"lucide-react";
+import { Check, CheckCircle2, DollarSign, ListPlus, Plus, ShoppingCart, Smartphone, Tags, Trash2 } from"lucide-react";
 import { cn } from"@/lib/utils";
 import toast from"react-hot-toast";
 
@@ -302,6 +305,86 @@ export function GroceryListClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Items",
+    description:"Build your list.",
+    icon: ListPlus,
+  },
+{
+    step:"02",
+    title:"Categorize",
+    description:"Group by aisle or meal.",
+    icon: Tags,
+  },
+{
+    step:"03",
+    title:"Check Off",
+    description:"Mark as you shop.",
+    icon: CheckCircle2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: ListPlus,
+    title:"Items",
+    description:"Easy add.",
+  },
+{
+    icon: Tags,
+    title:"Categories",
+    description:"Organize by section.",
+  },
+{
+    icon: CheckCircle2,
+    title:"Checklist",
+    description:"Track in cart.",
+  },
+{
+    icon: Smartphone,
+    title:"Mobile",
+    description:"Shop from phone.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A grocery list manager organizes shopping so you buy what you need and avoid duplicate or impulsive purchases. Categorizing by aisle speeds the trip and reduces backtracking. This tool handles entry, grouping, and check-off.</p>
+  <p>Reusable lists save time week to week. Checking items as you go prevents double-buying and ensures nothing is missed.</p>
+  <p>Use it before every shop. The tool's value is a structured list that saves money and trips through the store.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why use one?",
+    answer:"Fewer forgotten items, less impulse buys.",
+  },
+{
+    question:"Categorize?",
+    answer:"Group by store section.",
+  },
+{
+    question:"Save lists?",
+    answer:"Reuse weekly.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  }
+  ]}
+/>
+</div>
  );
 }

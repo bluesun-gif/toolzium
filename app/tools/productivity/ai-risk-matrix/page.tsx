@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import AiRiskMatrixClient from "@/components/tools/productivity/ai-risk-matrix-client";
-
 export const metadata: Metadata = {
   title: "AI Project Risk & Assumption Matrix Auditor | Toolzium",
   description:
@@ -8,5 +7,9 @@ export const metadata: Metadata = {
 };
 
 export default function AiRiskMatrixPage() {
-  return <AiRiskMatrixClient />;
+  return (
+    <><AiRiskMatrixClient />
+      <RelatedTools currentToolUrl="/tools/productivity/ai-risk-matrix" />
+    </>
+  );
 }

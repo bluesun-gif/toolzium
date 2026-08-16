@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import LoremIpsumClient from "@/components/tools/dev/lorem-ipsum-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Lorem Ipsum Generator",
   description:
@@ -141,6 +140,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <LoremIpsumClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/lorem-ipsum" />
+</div>
   );
 }

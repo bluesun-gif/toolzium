@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { SpeedConverterClient } from "@/components/tools/network/speed-converter-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Network Speed Converter | Toolzium",
@@ -22,6 +23,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <SpeedConverterClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/network/speed-converter" />
+</div>
   );
 }

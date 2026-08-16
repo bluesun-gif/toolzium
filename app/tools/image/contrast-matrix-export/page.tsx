@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { ContrastMatrixExportClient } from "@/components/tools/image/contrast-matrix-export-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Color Contrast Matrix Exporter | Toolzium",
@@ -39,6 +40,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <ContrastMatrixExportClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/image/contrast-matrix-export" />
+</div>
   );
 }

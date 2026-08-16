@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton } from"@/components/shared/action-buttons";
-import { FileText, Plus, Download, Filter } from"lucide-react";
+import { BarChart3, Download, FileText, Filter, Plus, Receipt, Tags } from"lucide-react";
 import { toast } from"react-hot-toast";
 
 type Receipt = {
@@ -209,6 +212,86 @@ export function ReceiptScannerClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Receipt",
+    description:"Log amount and vendor.",
+    icon: Receipt,
+  },
+{
+    step:"02",
+    title:"Categorize",
+    description:"Tag and date entries.",
+    icon: Tags,
+  },
+{
+    step:"03",
+    title:"Review",
+    description:"See totals and history.",
+    icon: BarChart3,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Receipt,
+    title:"Log",
+    description:"Record each receipt.",
+  },
+{
+    icon: Tags,
+    title:"Categories",
+    description:"Organize spend.",
+  },
+{
+    icon: BarChart3,
+    title:"History",
+    description:"Spending over time.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"For expenses.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A receipt tracker builds a searchable record of purchases, useful for returns, warranties, and tax deductions. Loose receipts fade and disappear; logging them digitally preserves proof. This tool makes entry and review simple.</p>
+  <p>Categorization aids analysis and deduction claims. History view shows where money went, helping budgeting and expense reports.</p>
+  <p>Use it for every purchase you might need to justify. The tool's value is durable, organized receipt records.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why track receipts?",
+    answer:"Proof for returns and taxes.",
+  },
+{
+    question:"Categorize?",
+    answer:"Yes, by type.",
+  },
+{
+    question:"Export?",
+    answer:"Yes, for accounting.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  }
+  ]}
+/>
+</div>
  );
 }

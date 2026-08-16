@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect, useMemo } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { Receipt, DollarSign, PieChart, Trash2, Plus } from"lucide-react";
+import { BarChart3, DollarSign, Download, PieChart, Plus, Receipt, Tags, Trash2 } from"lucide-react";
 import { cn } from"@/lib/utils";
 import toast from"react-hot-toast";
 
@@ -205,7 +208,87 @@ export function ExpenseTrackerClient() {
  style={{ width: `${percentage}%` }}
  />
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Log Expense",
+    description:"Add amount and category.",
+    icon: Receipt,
+  },
+{
+    step:"02",
+    title:"Categorize",
+    description:"Tag business or personal.",
+    icon: Tags,
+  },
+{
+    step:"03",
+    title:"Review",
+    description:"See totals and trends.",
+    icon: BarChart3,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Receipt,
+    title:"Quick Log",
+    description:"Record each cost.",
+  },
+{
+    icon: Tags,
+    title:"Categories",
+    description:"Organize spending.",
+  },
+{
+    icon: BarChart3,
+    title:"Reports",
+    description:"Totals over time.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"For tax or reimbursement.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An expense tracker turns scattered spending into an organized record, essential for budgets and tax deductions. Logging each cost with a category reveals where money goes and what is deductible. This tool makes entry and review simple.</p>
+  <p>Categorization is the insight. Separating business from personal spending streamlines accounting and reimbursement. Reports show totals so you can spot trends and cut waste.</p>
+  <p>Use it consistently, not just at tax time. The tool's value is a clean expense history that saves money and stress.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why track?",
+    answer:"Controls spend and aids taxes.",
+  },
+{
+    question:"Business vs personal?",
+    answer:"Tag to separate them.",
+  },
+{
+    question:"Export?",
+    answer:"Yes, for accounting.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  }
+  ]}
+/>
+</div>
  );
  })}
  </div>

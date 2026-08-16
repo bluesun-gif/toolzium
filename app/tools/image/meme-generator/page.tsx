@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import MemeGeneratorClient from "@/components/tools/image/meme-generator-client";
 import { generateSEOMetadata } from "@/lib/seo-config";
 import JsonLd from "@/components/seo/json-ld";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = generateSEOMetadata({
   title: "Meme Generator Online — Create Custom Memes Free",
@@ -46,6 +47,8 @@ export default function MemeGeneratorPage() {
     <>
       <JsonLd data={faqSchema} />
       <MemeGeneratorClient />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/image/meme-generator" />
+</>
   );
 }

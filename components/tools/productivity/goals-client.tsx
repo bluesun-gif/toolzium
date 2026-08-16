@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ResetButton } from"@/components/shared/action-buttons";
-import { Target, CheckCircle, Calendar, TrendingUp, Plus, Trash2 } from"lucide-react";
+import { Calendar, CheckCircle, CheckCircle2, ListTree, Plus, Target, Trash2, TrendingUp } from"lucide-react";
 import { toast } from"react-hot-toast";
 
 type Milestone = { id: string; title: string; completed: boolean };
@@ -241,7 +244,87 @@ function GoalCard({ goal, progress, onDelete, onAddMilestone, onToggleMilestone,
  className="h-8 text-sm"
  />
  <Button size="sm"className="h-8"onClick={handleAdd}><Plus className="w-4 h-4"/></Button>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Set Goals",
+    description:"Define what you want.",
+    icon: Target,
+  },
+{
+    step:"02",
+    title:"Break Down",
+    description:"Add milestones.",
+    icon: ListTree,
+  },
+{
+    step:"03",
+    title:"Track",
+    description:"Update progress.",
+    icon: TrendingUp,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Target,
+    title:"Goals",
+    description:"Your objectives.",
+  },
+{
+    icon: ListTree,
+    title:"Milestones",
+    description:"Sub-steps.",
+  },
+{
+    icon: TrendingUp,
+    title:"Progress",
+    description:"Visual movement.",
+  },
+{
+    icon: CheckCircle2,
+    title:"Complete",
+    description:"Mark done.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A goal tracker turns intentions into monitored progress, the difference between wishing and achieving. Breaking goals into milestones makes them less daunting and measurable. This tool tracks movement visually.</p>
+  <p>Visible progress motivates; the tracker shows the climb so you keep climbing. Regular updates prevent goals from going stale.</p>
+  <p>Use it for personal and work objectives. The tool's value is accountable, milestone-based goal progress.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why track?",
+    answer:"Visible progress sustains effort.",
+  },
+{
+    question:"Milestones?",
+    answer:"Yes, break big goals.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use with?",
+    answer:"Weekly review.",
+  }
+  ]}
+/>
+</div>
  </CardContent>
  </GlassCard>
  );

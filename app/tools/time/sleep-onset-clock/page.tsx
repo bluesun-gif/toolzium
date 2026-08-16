@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { SleepOnsetClockClient } from "@/components/tools/time/sleep-onset-clock-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Sleep Onset Latency & Bedtime Clock | Toolzium",
@@ -21,6 +22,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <SleepOnsetClockClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/time/sleep-onset-clock" />
+</div>
   );
 }

@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import ThesisGeneratorClient from "@/components/tools/academic/thesis-generator-client";
-
 export const metadata: Metadata = {
   title: "AI Essay Outline & Thesis Statement Generator | Toolzium",
   description:
@@ -8,5 +7,9 @@ export const metadata: Metadata = {
 };
 
 export default function ThesisGeneratorPage() {
-  return <ThesisGeneratorClient />;
+  return (
+    <><ThesisGeneratorClient />
+      <RelatedTools currentToolUrl="/tools/academic/thesis-generator" />
+    </>
+  );
 }

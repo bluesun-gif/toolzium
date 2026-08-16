@@ -1,10 +1,13 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
 import { GlassCard } from"@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
-import { Grid, Plus, CheckSquare, Download, Trash2, ArrowRightLeft } from"lucide-react";
+import { ArrowRightLeft, CalendarRange, CheckSquare, Download, Grid, Grid2x2, ListPlus, Plus, Trash2, TrendingUp } from"lucide-react";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
@@ -184,6 +187,86 @@ export function EisenhowerPlannerClient() {
  bgClass="bg-gray-500/10"
  />
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Capture",
+    description:"List tasks.",
+    icon: ListPlus,
+  },
+{
+    step:"02",
+    title:"Classify",
+    description:"Urgent vs important.",
+    icon: Grid2x2,
+  },
+{
+    step:"03",
+    title:"Plan",
+    description:"Schedule and act.",
+    icon: CalendarRange,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: ListPlus,
+    title:"Capture",
+    description:"All tasks.",
+  },
+{
+    icon: Grid2x2,
+    title:"Matrix",
+    description:"Two axes.",
+  },
+{
+    icon: CalendarRange,
+    title:"Schedule",
+    description:"Time important work.",
+  },
+{
+    icon: TrendingUp,
+    title:"Review",
+    description:"Weekly check.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An Eisenhower planner pairs the matrix with scheduling, so classified tasks get time on the calendar. Classification without booking still lets important work slip. This tool closes that loop.</p>
+  <p>The habit of scheduling the important box is the differentiator. The planner makes it a step, not an afterthought.</p>
+  <p>Use it in reviews. The tool's value is matrix plus calendar in one flow.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Planner style?",
+    answer:"Matrix with scheduling.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Planning.",
+  },
+{
+    question:"Cadence?",
+    answer:"Weekly.",
+  }
+  ]}
+/>
+</div>
  );
 }

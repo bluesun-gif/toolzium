@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import SteamBioClient from "@/components/tools/gaming/steam-bio-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "Steam Profile Bio & Layout Decorator | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function SteamBioPage() {
-  return <SteamBioClient />;
+  return (
+    <><SteamBioClient />
+      <RelatedTools currentToolUrl="/tools/gaming/steam-bio-generator" />
+    </>
+  );
 }

@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { SleepCalculatorClient } from "@/components/tools/health/sleep-calculator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Sleep Calculator — Optimal Wake & Bedtimes | Toolzium",
@@ -71,6 +72,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <SleepCalculatorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/health/sleep-calculator" />
+</div>
   );
 }

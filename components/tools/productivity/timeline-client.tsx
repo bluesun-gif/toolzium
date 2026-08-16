@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { Separator } from"@/components/ui/separator";
 import { ActionButton, CopyButton } from"@/components/shared/action-buttons";
-import { BarChart3, Plus, Calendar, Copy, Trash2, ArrowUp, ArrowDown } from"lucide-react";
+import { ArrowDown, ArrowUp, BarChart3, Calendar, CalendarRange, Copy, Flag, GanttChart, GitCommitVertical, Plus, Trash2 } from"lucide-react";
 import { cn } from"@/lib/utils";
 
 type TaskStatus ="Not Started"|"In Progress"|"Complete";
@@ -313,6 +316,86 @@ export function TimelineClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Milestones",
+    description:"List key dates.",
+    icon: Flag,
+  },
+{
+    step:"02",
+    title:"Sequence",
+    description:"Order and link phases.",
+    icon: GitCommitVertical,
+  },
+{
+    step:"03",
+    title:"View",
+    description:"See the timeline.",
+    icon: GanttChart,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Flag,
+    title:"Milestones",
+    description:"Key points.",
+  },
+{
+    icon: GitCommitVertical,
+    title:"Sequence",
+    description:"Ordered phases.",
+  },
+{
+    icon: GanttChart,
+    title:"Timeline",
+    description:"Visual span.",
+  },
+{
+    icon: CalendarRange,
+    title:"Dates",
+    description:"Schedule view.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A project timeline lays milestones and phases along a date axis so dependencies and deadlines are obvious. Visual schedules surface clashes a list hides. This tool builds and displays the timeline.</p>
+  <p>Sequencing phases reveals what must finish before the next starts. The timeline makes critical paths visible.</p>
+  <p>Use it for any project. The tool's value is a clear, visual schedule that aids planning and status.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is it?",
+    answer:"Visual project schedule.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Planning, status.",
+  },
+{
+    question:"Export?",
+    answer:"Review on screen.",
+  }
+  ]}
+/>
+</div>
  );
 }

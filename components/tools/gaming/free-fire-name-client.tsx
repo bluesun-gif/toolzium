@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -6,7 +9,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { AiOutputDisplay } from"@/components/shared/ai-output-display";
-import { Flame, RefreshCw } from"lucide-react";
+import { Copy, Flame, RefreshCw, Sparkles, Swords, Type } from"lucide-react";
 import toast from"react-hot-toast";
 
 const FF_DECORATIONS = [
@@ -106,6 +109,88 @@ export default function FreeFireNameClient() {
  onRegenerate={generateFfNames}
  variant="cards"
  />
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Pick a Style",
+    description:"Choose a cool, stylish, or boss-themed nickname style.",
+    icon: Swords,
+  },
+{
+    step:"02",
+    title:"Add Symbols",
+    description:"Decorate the name with Unicode symbols and fancy fonts.",
+    icon: Sparkles,
+  },
+{
+    step:"03",
+    title:"Copy & Use",
+    description:"Copy the final nickname and paste it into Free Fire.",
+    icon: Copy,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Swords,
+    title:"Boss Squad Tags",
+    description:"Generate aggressive, squad-ready nicknames that stand out in matches.",
+  },
+{
+    icon: Sparkles,
+    title:"Symbol Decorations",
+    description:"Add Unicode arrows, crowns, and stylish brackets around your name.",
+  },
+{
+    icon: Type,
+    title:"Fancy Font Styles",
+    description:"Convert text into zalgo, small caps, and decorative font variants.",
+  },
+{
+    icon: Copy,
+    title:"One-Click Copy",
+    description:"Copy the finished nickname without extra formatting issues.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A memorable Free Fire nickname is part of your identity on the battlefield. With millions of players, a generic name gets lost in the lobby, while a sharp, decorated tag signals confidence and style. This generator helps you craft names that fit within the game's 14-character limit while still looking distinctive.</p>
+  <p>Start by choosing a theme. Boss and squad tags work well for competitive players who want an intimidating presence, while stylish and cute variants suit casual or content-creator profiles. The generator mixes your base word with Unicode decorations — crowns, arrows, brackets, and dividers — to frame the text without exceeding the character cap.</p>
+  <p>Font transformation adds flair. Small caps, zalgo, and mirrored styles change how the letters look while keeping them readable. Be cautious: heavily glitched fonts can become unreadable on mobile screens, so preview the result before committing. A clean, balanced decoration usually reads better than maximal effects.</p>
+  <p>Squad coordination matters in ranked play. Generating a shared visual style across your crew — same brackets, same divider — makes the team instantly recognizable. Copy each name and assign roles so the tags reflect leader, sniper, or rusher positions.</p>
+  <p>Respect the rules. Free Fire bans offensive or impersonating names, so keep content original and appropriate. Use the copy button to transfer the exact string, then paste it in the profile editor. With a polished nickname, your squad enters every match with a stronger first impression.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why use a stylish Free Fire nickname?",
+    answer:"A unique nickname helps your profile stand out in lobbies and leaderboards, and reflects your squad's identity.",
+  },
+{
+    question:"Will symbols show correctly in game?",
+    answer:"Most Unicode symbols render in Free Fire, though some decorative fonts may appear as boxes on older devices.",
+  },
+{
+    question:"Can I make a squad tag?",
+    answer:"Yes. Generate matching tags for your whole crew so the team looks coordinated.",
+  },
+{
+    question:"Are these names allowed by the game?",
+    answer:"Keep names appropriate and free of offensive language to avoid bans. Decorative formatting is generally fine.",
+  },
+{
+    question:"How long can a Free Fire name be?",
+    answer:"Free Fire nicknames are limited to 14 characters including spaces and symbols, so keep it short.",
+  }
+  ]}
+/>
+</div>
  );
 }

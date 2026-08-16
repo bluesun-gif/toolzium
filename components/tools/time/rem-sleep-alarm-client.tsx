@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ResetButton } from"@/components/shared/action-buttons";
-import { Clock, Moon, Sun, Shield } from"lucide-react";
+import { AlarmClock, Clock, Moon, Repeat, Shield, ShieldCheck, Sun } from"lucide-react";
 import toast from"react-hot-toast";
 
 export function RemSleepAlarmClient() {
@@ -110,6 +113,86 @@ export function RemSleepAlarmClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Set Bed",
+    description:"Enter bedtime.",
+    icon: Moon,
+  },
+{
+    step:"02",
+    title:"Cycles",
+    description:"Choose number of cycles.",
+    icon: Repeat,
+  },
+{
+    step:"03",
+    title:"Compute",
+    description:"See ideal wake times.",
+    icon: AlarmClock,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Moon,
+    title:"Bedtime",
+    description:"When you sleep.",
+  },
+{
+    icon: Repeat,
+    title:"Cycles",
+    description:"Pick 4 to 6.",
+  },
+{
+    icon: AlarmClock,
+    title:"Wake",
+    description:"Suggested times.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Align",
+    description:"Ends a cycle.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A REM wakeup calculator works forward from bedtime across chosen 90-minute cycles to suggest wake times that land at a cycle boundary, minimizing grogginess. More cycles mean more sleep; the tool shows the trade-off. This tool computes the options.</p>
+  <p>Waking at a cycle's end rather than mid-deep-sleep is the core sleep-hack. The calculator makes it precise.</p>
+  <p>Use it to set your alarm smartly. The tool's value is cycle-aligned wake times for easier mornings.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"How many cycles?",
+    answer:"Usually 4 to 6 per night.",
+  },
+{
+    question:"Why?",
+    answer:"Wake at cycle end, less groggy.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Setting alarm.",
+  }
+  ]}
+/>
+</div>
  );
 }

@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import { LtvCalculatorClient } from "@/components/tools/finance/ltv-calculator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Free LTV Calculator (2026) — Calculate Loan-to-Value & CLTV Ratio",
   description: "Free Loan-to-Value (LTV) and Combined LTV (CLTV) calculator. Estimate home equity, cash-out refinance limits, and PMI requirements instantly.",
@@ -85,6 +84,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <LtvCalculatorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/finance/ltv-calculator" />
+</div>
   );
 }

@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import CurrencyConverterClient from "@/components/tools/calc/currency-converter-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Currency Converter",
@@ -142,6 +143,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <CurrencyConverterClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/calc/currency" />
+</div>
   );
 }

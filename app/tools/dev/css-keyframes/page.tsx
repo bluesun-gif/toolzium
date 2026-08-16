@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { CssKeyframesClient } from "@/components/tools/dev/css-keyframes-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "CSS Keyframe Animation Visual Generator | Toolzium",
@@ -36,6 +37,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <CssKeyframesClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/css-keyframes" />
+</div>
   );
 }

@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -6,7 +9,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { Grid, Plus, Download, Trash2 } from"lucide-react";
+import { BarChart3, CheckCircle2, Download, Grid, Grid2x2, ListPlus, Plus, Trash2 } from"lucide-react";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { toast } from"react-hot-toast";
@@ -185,7 +188,87 @@ export function PriorityMatrixClient() {
  </div>
  )}
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Tasks",
+    description:"List your tasks.",
+    icon: ListPlus,
+  },
+{
+    step:"02",
+    title:"Classify",
+    description:"Urgent vs important.",
+    icon: Grid2x2,
+  },
+{
+    step:"03",
+    title:"Track",
+    description:"Monitor completion.",
+    icon: CheckCircle2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: ListPlus,
+    title:"Tasks",
+    description:"Capture all.",
+  },
+{
+    icon: Grid2x2,
+    title:"2x2",
+    description:"Four boxes.",
+  },
+{
+    icon: CheckCircle2,
+    title:"Track",
+    description:"Done status.",
+  },
+{
+    icon: BarChart3,
+    title:"Balance",
+    description:"Where time goes.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A 2x2 priority tracker applies the matrix in a lightweight, trackable form good for fast triage. You classify and watch completion per box. This tool keeps it simple.</p>
+  <p>Seeing the balance reveals over-investment in urgent-not-important work. The tracker surfaces that quickly.</p>
+  <p>Use it for speedy sorting. The tool's value is the matrix method in minimal form.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"2x2 vs board?",
+    answer:"Lighter, tracker style.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Quick triage.",
+  },
+{
+    question:"Best with?",
+    answer:"Weekly.",
+  }
+  ]}
+/>
+</div>
  );
  })}
  </div>

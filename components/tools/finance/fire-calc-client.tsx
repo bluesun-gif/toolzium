@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Separator } from"@/components/ui/separator";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
-import { Flame, TrendingUp, DollarSign, Copy } from"lucide-react";
+import { CalendarClock, Copy, DollarSign, Flame, Percent, TrendingUp, Wallet } from"lucide-react";
 import { ResetButton, CopyButton } from"@/components/shared/action-buttons";
 
 export function FireCalcClient() {
@@ -127,6 +130,87 @@ export function FireCalcClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Finances",
+    description:"Add income, spending, and savings rate.",
+    icon: Wallet,
+  },
+{
+    step:"02",
+    title:"Set Assumptions",
+    description:"Input expected return and withdrawal rate.",
+    icon: Percent,
+  },
+{
+    step:"03",
+    title:"Project",
+    description:"See your financial independence date.",
+    icon: CalendarClock,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Wallet,
+    title:"Savings Rate Aware",
+    description:"Models how saving more accelerates freedom.",
+  },
+{
+    icon: Percent,
+    title:"Return Modeling",
+    description:"Uses assumed market returns.",
+  },
+{
+    icon: CalendarClock,
+    title:"Independence Date",
+    description:"Estimates when you can retire.",
+  },
+{
+    icon: TrendingUp,
+    title:"Scenario Testing",
+    description:"Compare aggressive vs lean paths.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>FIRE is a framework for escaping the paycheck-to-paycheck treadmill by accumulating investments that eventually cover living expenses. The calculator projects your financial independence date by combining your savings rate, assumed returns, and a safe withdrawal rate. It turns a dream into a date you can track.</p>
+  <p>The savings rate is the most powerful lever. Saving half your income both builds assets quickly and reduces the total you need, because your expenses — the basis of the target — are lower. The calculator shows how a few percentage points of extra saving pulls the date years earlier, which is more motivating than abstract advice.</p>
+  <p>Withdrawal rate sets the finish line. The common 4 percent rule suggests you can withdraw 4 percent of your portfolio annually with low risk of depletion, implying a target of 25 times annual spending. Lower rates demand a bigger pile but add safety. The tool lets you test both, modeling how caution extends or compresses the timeline.</p>
+  <p>Treat outputs as planning, not prophecy. Markets fluctuate and spending changes, so revisit assumptions annually and keep a buffer. The calculator's real value is behavioral: seeing a concrete date makes the trade-off between today's spending and tomorrow's freedom tangible, helping you save consistently toward a definable goal.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is FIRE?",
+    answer:"Financial Independence, Retire Early: building enough invested assets to cover living costs.",
+  },
+{
+    question:"What withdrawal rate is safe?",
+    answer:"The 4 percent rule is common, though many use lower for caution.",
+  },
+{
+    question:"How does savings rate matter?",
+    answer:"Higher savings both grows assets faster and lowers the needed total.",
+  },
+{
+    question:"Are returns guaranteed?",
+    answer:"No; markets vary, so use conservative assumptions.",
+  },
+{
+    question:"Can I retire earlier than planned?",
+    answer:"Yes, if returns exceed assumptions or spending stays low.",
+  }
+  ]}
+/>
+</div>
  );
 }

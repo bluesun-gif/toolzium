@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
 import { GlassCard } from"@/components/ui/glass-card";
@@ -8,7 +11,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Layers, Play, Plus, Trash2 } from"lucide-react";
+import { Code2, Layers, Play, Plus, SlidersHorizontal, Timer, Trash2 } from"lucide-react";
 
 type AnimationLayer = {
  id: string;
@@ -207,6 +210,88 @@ export function CssKeyframesStackClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Layer Animations",
+    description:"Stack multiple keyframe effects on one element.",
+    icon: Layers,
+  },
+{
+    step:"02",
+    title:"Sequence Timing",
+    description:"Offset start delays so effects play in order.",
+    icon: Timer,
+  },
+{
+    step:"03",
+    title:"Export",
+    description:"Copy the combined animation shorthand.",
+    icon: Code2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Layers,
+    title:"Multi-Effect Stacking",
+    description:"Combine transforms, fades, and colors in one element.",
+  },
+{
+    icon: Timer,
+    title:"Delay Sequencing",
+    description:"Stagger animations with calculated delays.",
+  },
+{
+    icon: SlidersHorizontal,
+    title:"Per-Effect Tuning",
+    description:"Control duration and easing per layer.",
+  },
+{
+    icon: Code2,
+    title:"Compact Output",
+    description:"Get a single animation shorthand string.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>Sometimes a single keyframe is not enough. You may want an element to fade in, then gently float, then shift color — three distinct motions on one target. CSS supports this by listing multiple animations in the animation property, separated by commas, each referencing its own @keyframes.</p>
+  <p>The key to clean stacking is understanding the shorthand. For each animation you can specify name, duration, timing function, delay, iteration count, direction, fill mode, and play state. When several share a value you can shorten the list, but explicit values prevent confusion. For example: animation: fadeIn 0.6s ease, float 3s ease-in-out 0.6s infinite.</p>
+  <p>Sequencing uses delay. If fadeIn lasts 0.6s and you want float to begin after it, give float a delay of 0.6s. Chaining several effects this way creates orchestrated entrances without JavaScript. Just remember that total perceived time equals the longest chain, so keep sequences tight.</p>
+  <p>Property conflicts are the common pitfall. If both animations set transform, they fight; the later one in the list typically overrides. To avoid this, split responsibilities: one animation handles opacity, another handles translate, a third handles rotate. Non-overlapping properties compose cleanly and look intentional.</p>
+  <p>Performance stays healthy when you stick to transform and opacity. Stacking five layout-changing animations on a hero element can drop frames on mobile. Test on real devices and trim to what serves the design. Use this composer to layer effects, tune each one, and export a single copy-ready animation string that you can drop straight into your stylesheet.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Can one element have multiple animations?",
+    answer:"Yes. List them comma-separated in the animation property, each with its own name, duration, and timing.",
+  },
+{
+    question:"How do I sequence stacked animations?",
+    answer:"Give later animations a delay equal to the sum of earlier durations so they play one after another.",
+  },
+{
+    question:"Do stacked animations conflict?",
+    answer:"If two animate the same property, the last listed usually wins. Combine complementary properties to avoid clashes.",
+  },
+{
+    question:"What is the animation shorthand order?",
+    answer:"It is name duration timing-function delay iteration-count direction fill-mode play-state, but any omitted value uses its default.",
+  },
+{
+    question:"Is stacking animations slow?",
+    answer:"A few transform and opacity animations are fine. Avoid stacking many layout-triggering animations on one element.",
+  }
+  ]}
+/>
+</div>
  );
 }

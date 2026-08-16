@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Label } from"@/components/ui/label";
 import { Input } from"@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ResetButton } from"@/components/shared/action-buttons";
-import { CreditCard, DollarSign, AlertTriangle } from"lucide-react";
+import { AlertTriangle, Calendar, CreditCard, DollarSign, TrendingDown, Wallet } from"lucide-react";
 
 export function CreditPayoffClient() {
  const [balance, setBalance] = useState("5000");
@@ -172,6 +175,87 @@ export function CreditPayoffClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Balance",
+    description:"Add your current card balance and APR.",
+    icon: CreditCard,
+  },
+{
+    step:"02",
+    title:"Set Payment",
+    description:"Input monthly payment or target payoff time.",
+    icon: Wallet,
+  },
+{
+    step:"03",
+    title:"Compare",
+    description:"See interest saved by paying faster.",
+    icon: TrendingDown,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: CreditCard,
+    title:"APR Aware",
+    description:"Models how interest accrues on revolving debt.",
+  },
+{
+    icon: Wallet,
+    title:"Payment Scenarios",
+    description:"Compare minimum vs accelerated payments.",
+  },
+{
+    icon: TrendingDown,
+    title:"Interest Saved",
+    description:"Quantifies savings from paying more monthly.",
+  },
+{
+    icon: Calendar,
+    title:"Payoff Timeline",
+    description:"Shows months to debt-free under each plan.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>Credit card debt is expensive because interest compounds daily on revolving balances. The payoff calculator reveals the true cost of minimum payments, which often cover little more than interest, leaving the principal nearly untouched for years. Seeing the timeline shock is usually the motivation to act.</p>
+  <p>Two strategies dominate. The avalanche method attacks the highest APR card first while paying minimums elsewhere, mathematically minimizing total interest. The snowball method clears the smallest balance first, trading some interest for quick wins that build motivation. Both beat paying only minimums, which should be a last resort.</p>
+  <p>Payment size is the lever. Even a modest increase above the minimum can cut years and hundreds in interest off a balance. The calculator compares scenarios side by side, showing months saved and dollars saved, so you can find a payment that fits your budget while still making real progress.</p>
+  <p>Use the tool to build a plan and automate it. Set up automatic payments above the minimum on your priority card, redirect windfalls like tax refunds to the balance, and avoid adding new charges while paying down. Once one card is clear, roll its payment into the next. Consistent, slightly larger payments turn a discouraging balance into a finished goal far faster than the minimum ever could.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why pay more than the minimum?",
+    answer:"Minimum payments mostly cover interest, so the balance barely drops and costs far more long term.",
+  },
+{
+    question:"How is credit card interest calculated?",
+    answer:"It compounds daily on the average balance at the daily periodic rate derived from APR.",
+  },
+{
+    question:"Should I pay highest-rate cards first?",
+    answer:"The avalanche method targets highest APR first, saving the most interest mathematically.",
+  },
+{
+    question:"What is the snowball method?",
+    answer:"It pays smallest balances first for psychological wins, costing more interest but building momentum.",
+  },
+{
+    question:"Can I negotiate a lower APR?",
+    answer:"Sometimes; calling your issuer and citing good history can reduce your rate.",
+  }
+  ]}
+/>
+</div>
  );
 }

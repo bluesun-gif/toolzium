@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { AnnotatorClient } from "@/components/tools/image/annotator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Screenshot Annotator | Toolzium",
@@ -48,6 +49,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <AnnotatorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/image/annotator" />
+</div>
   );
 }

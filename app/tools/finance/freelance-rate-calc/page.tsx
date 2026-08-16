@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import FreelanceRateCalcClient from "@/components/tools/finance/freelance-rate-calc-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "Freelance Hourly Rate & Project Pricing Calculator | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function FreelanceRateCalcPage() {
-  return <FreelanceRateCalcClient />;
+  return (
+    <><FreelanceRateCalcClient />
+      <RelatedTools currentToolUrl="/tools/finance/freelance-rate-calc" />
+    </>
+  );
 }

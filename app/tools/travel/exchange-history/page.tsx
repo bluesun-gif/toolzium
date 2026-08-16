@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { ExchangeHistoryClient } from "@/components/tools/travel/exchange-history-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Currency Exchange Rate History | Toolzium",
@@ -19,6 +20,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <ExchangeHistoryClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/travel/exchange-history" />
+</div>
   );
 }

@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import Magic8BallClient from "@/components/tools/fun/magic-8-ball-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Magic 8 Ball | Toolzium",
   description: "Ask the Magic 8 Ball a question and discover your fate.",
@@ -22,6 +21,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <Magic8BallClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/fun/magic-8-ball" />
+</div>
   );
 }

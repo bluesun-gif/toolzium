@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Play, Sliders, Copy, RefreshCw, Plus, Trash2 } from"lucide-react";
+import { Code2, Copy, KeyRound, Play, PlayCircle, Plus, RefreshCw, Sliders, SlidersHorizontal, Trash2, Wind } from"lucide-react";
 import toast from"react-hot-toast";
 
 interface KeyframeStep {
@@ -309,6 +312,88 @@ export function CssKeyframesBuilderClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Keyframe Stops",
+    description:"Define 0%, 50%, 100% (or custom) points for your animation.",
+    icon: KeyRound,
+  },
+{
+    step:"02",
+    title:"Set Properties",
+    description:"Choose transforms, opacity, and colors at each stop.",
+    icon: SlidersHorizontal,
+  },
+{
+    step:"03",
+    title:"Generate & Copy",
+    description:"Get the @keyframes block plus the animation shorthand.",
+    icon: Code2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: KeyRound,
+    title:"Visual Timeline",
+    description:"Add and edit keyframe percentages visually.",
+  },
+{
+    icon: Wind,
+    title:"Transform Helpers",
+    description:"Quickly insert translate, rotate, scale, and opacity.",
+  },
+{
+    icon: PlayCircle,
+    title:"Live Preview",
+    description:"Watch the animation play as you build it.",
+  },
+{
+    icon: Code2,
+    title:"Copy-Ready CSS",
+    description:"Output @keyframes and animation properties.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>CSS keyframes let you animate without JavaScript, which keeps interactions smooth and code simple. A @keyframes block describes how an element's properties change over time, and the animation property decides duration, timing, and repetition. Mastering a few rules unlocks most UI motion you see on modern sites.</p>
+  <p>Inside @keyframes you define selectors at percentages. 0% is the start, 100% the end, and you can insert any intermediate stop such as 25% or 50%. At each stop you set the properties the element should have. The browser interpolates between them, so a rotate(0deg) at 0% and rotate(360deg) at 100% yields a full spin. Missing a property at a stop means it holds its previous value.</p>
+  <p>The animation shorthand combines several settings: name, duration, timing-function, delay, iteration-count, direction, fill-mode, and play-state. A common pattern is animation: spin 1s linear infinite. The timing function — ease, linear, or a cubic-bezier — controls acceleration. Use ease-in-out for natural motion and linear for mechanical, constant speed.</p>
+  <p>Performance hinges on property choice. Animating transform and opacity is cheap because they avoid layout and paint. Avoid animating width, height, top, or left, which trigger reflows. If you must move an element, prefer translate() over changing positional properties. Respect users who prefer reduced motion by wrapping animations in a prefers-reduced-motion media query.</p>
+  <p>Our builder visualizes each keyframe stop so you can see the motion as you edit. Add a stop, set a transform, preview the loop, then copy both the @keyframes and the animation declaration into your stylesheet. Start subtle — restrained animation guides attention without overwhelming the interface.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is a CSS keyframe?",
+    answer:"A @keyframes rule defines the styles an element should have at various points during an animation, from 0% (start) to 100% (end).",
+  },
+{
+    question:"How do I run the animation?",
+    answer:"Apply it with the animation property, e.g. animation: myAnim 2s ease infinite, referencing the keyframes name.",
+  },
+{
+    question:"What is animation-fill-mode?",
+    answer:"It controls which styles persist before or after the animation runs. Use forwards to keep the final keyframe's state.",
+  },
+{
+    question:"Why is my animation janky?",
+    answer:"Animate transform and opacity rather than layout properties like width or top. GPU-accelerated properties stay smooth.",
+  },
+{
+    question:"Can I pause an animation?",
+    answer:"Yes, set animation-play-state: paused, often toggled on hover or via JavaScript.",
+  }
+  ]}
+/>
+</div>
  );
 }

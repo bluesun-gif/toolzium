@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -7,7 +10,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { Activity, Flame, Clock, Scale } from"lucide-react";
+import { Activity, BarChart3, Bike, Calculator, Clock, Flame, Scale, TrendingUp } from"lucide-react";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
 
 export function CyclingCalorieClient() {
@@ -184,6 +187,86 @@ export function CyclingCalorieClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Ride",
+    description:"Add duration, weight, intensity.",
+    icon: Bike,
+  },
+{
+    step:"02",
+    title:"Calculate",
+    description:"See calories and power estimate.",
+    icon: Calculator,
+  },
+{
+    step:"03",
+    title:"Analyze",
+    description:"Compare effort levels.",
+    icon: BarChart3,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Bike,
+    title:"Cycling Focus",
+    description:"Tailored to riding.",
+  },
+{
+    icon: Calculator,
+    title:"Burn & Power",
+    description:"Estimates both metrics.",
+  },
+{
+    icon: BarChart3,
+    title:"Effort Compare",
+    description:"See intensity effects.",
+  },
+{
+    icon: TrendingUp,
+    title:"Training Aid",
+    description:"Plan rides by goal.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A cycling calorie and power calculator helps riders quantify training. It estimates energy burned from weight, duration, and intensity, and approximates power output, a key cycling metric. This tool tailors results to riding so cyclists can plan sessions and understand effort.</p>
+  <p>Intensity drives the number. Hard climbs burn far more than easy spins; the calculator shows this so you can target rides to goals — endurance, fat burn, or intensity. Power estimates add a training dimension even without a meter, guiding progression.</p>
+  <p>Pair with nutrition to fuel and recover. The tool's value is making cycling's cost and output tangible, turning rides into measurable training inputs rather than vague exercise.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"How is burn estimated?",
+    answer:"From weight, time, and intensity.",
+  },
+{
+    question:"What is power?",
+    answer:"Watts produced; estimate from effort.",
+  },
+{
+    question:"Indoor vs outdoor?",
+    answer:"Both; resistance differs.",
+  },
+{
+    question:"Accurate?",
+    answer:"Approximate without a meter.",
+  },
+{
+    question:"Use for fitness?",
+    answer:"Yes, balance with nutrition.",
+  }
+  ]}
+/>
+</div>
  );
 }

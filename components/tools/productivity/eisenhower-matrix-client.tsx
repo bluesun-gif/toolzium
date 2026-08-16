@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -7,7 +10,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components
 import { Input } from"@/components/ui/input";
 import { Button } from"@/components/ui/button";
 import { ResetButton } from"@/components/shared/action-buttons";
-import { LayoutGrid, Plus, Check, ArrowRight, Trash2 } from"lucide-react";
+import { ArrowRight, ArrowRightLeft, Check, CheckCircle2, Grid2x2, LayoutGrid, ListPlus, Plus, Trash2 } from"lucide-react";
 import { cn } from"@/lib/utils";
 import toast from"react-hot-toast";
 
@@ -184,7 +187,87 @@ export function EisenhowerMatrixClient() {
  )
  ))}
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Tasks",
+    description:"List everything.",
+    icon: ListPlus,
+  },
+{
+    step:"02",
+    title:"Place",
+    description:"Drop into quadrants.",
+    icon: Grid2x2,
+  },
+{
+    step:"03",
+    title:"Act",
+    description:"Follow the order.",
+    icon: CheckCircle2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: ListPlus,
+    title:"Tasks",
+    description:"Capture.",
+  },
+{
+    icon: Grid2x2,
+    title:"Quadrants",
+    description:"Urgent by important.",
+  },
+{
+    icon: CheckCircle2,
+    title:"Act",
+    description:"Do first box.",
+  },
+{
+    icon: ArrowRightLeft,
+    title:"Move",
+    description:"Re-sort.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>The Eisenhower matrix is the canonical prioritization tool: sort tasks by urgency and importance, then act on the four boxes in order. Its enduring value is exposing that busy and important are different. This tool gives you the grid.</p>
+  <p>The &quot;important, not urgent&quot; box is where progress is made; scheduling it is the habit that changes outcomes. The matrix makes that visible.</p>
+  <p>Use it often. The tool's value is a proven framework for choosing what truly matters.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Core idea?",
+    answer:"Urgency != importance.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Triage.",
+  },
+{
+    question:"Boxes?",
+    answer:"Do, schedule, delegate, delete.",
+  }
+  ]}
+/>
+</div>
  ))
  )}
  </CardContent>

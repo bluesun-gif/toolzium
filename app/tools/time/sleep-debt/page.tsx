@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { SleepDebtClient } from "@/components/tools/time/sleep-debt-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Sleep Debt & Recovery Calculator | Toolzium",
@@ -48,6 +49,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <SleepDebtClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/time/sleep-debt" />
+</div>
   );
 }

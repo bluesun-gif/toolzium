@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { HolidaysClient } from "@/components/tools/time/holidays-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Holiday Calendar | Toolzium",
@@ -20,6 +21,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <HolidaysClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/time/holidays" />
+</div>
   );
 }

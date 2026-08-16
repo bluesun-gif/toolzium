@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -7,7 +10,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
-import { Layout, Plus, CheckSquare, Download, Trash2, ArrowRight, ArrowLeft, ArrowUp, ArrowDown } from"lucide-react";
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, CheckSquare, Download, Grid2x2, Kanban, Layout, MoveRight, Plus, StickyNote, Trash2 } from"lucide-react";
 import { ActionButton } from"@/components/shared/action-buttons";
 import toast from"react-hot-toast";
 
@@ -181,6 +184,86 @@ export function EisenhowerKanbanClient() {
  </div>
  ))}
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Cards",
+    description:"Create task cards.",
+    icon: StickyNote,
+  },
+{
+    step:"02",
+    title:"Tag",
+    description:"Mark urgent and important.",
+    icon: Grid2x2,
+  },
+{
+    step:"03",
+    title:"Flow",
+    description:"Move across stages.",
+    icon: MoveRight,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: StickyNote,
+    title:"Cards",
+    description:"Task items.",
+  },
+{
+    icon: Grid2x2,
+    title:"Tags",
+    description:"Matrix dimensions.",
+  },
+{
+    icon: MoveRight,
+    title:"Stages",
+    description:"Flow columns.",
+  },
+{
+    icon: Kanban,
+    title:"Board",
+    description:"Drag and drop.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An Eisenhower kanban board combines visual workflow with priority tags, so cards flow across stages while carrying urgent-important classification. You see both status and importance at once. This tool merges the two methods.</p>
+  <p>Flow plus priority prevents the common failure of doing low-value work that happens to be visible. The board keeps importance in view.</p>
+  <p>Use it for active project work. The tool's value is status and priority in one visual system.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Board + matrix?",
+    answer:"Visual flow with priority tags.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Ongoing work.",
+  },
+{
+    question:"Best with?",
+    answer:"Weekly triage.",
+  }
+  ]}
+/>
+</div>
  );
 }

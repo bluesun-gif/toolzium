@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ActionButton, CopyButton } from"@/components/shared/action-buttons";
-import { CheckSquare, Plus, Filter, Download, ArrowRight, ArrowLeft, ArrowUp, ArrowDown, Trash2 } from"lucide-react";
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowRightLeft, ArrowUp, CheckCircle2, CheckSquare, Download, Filter, Grid2x2, ListPlus, Plus, Trash2 } from"lucide-react";
 import { toast } from"react-hot-toast";
 
 type Task = { id: string; text: string; completed: boolean; quadrant: string };
@@ -166,7 +169,87 @@ export function EisenhowerListClient() {
  </div>
  ))}
  {qTasks.length === 0 && <p className="text-xs text-center text-muted-foreground py-4">No tasks in this quadrant.</p>}
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Tasks",
+    description:"List your tasks.",
+    icon: ListPlus,
+  },
+{
+    step:"02",
+    title:"Sort",
+    description:"Urgent and important.",
+    icon: Grid2x2,
+  },
+{
+    step:"03",
+    title:"Decide",
+    description:"Act per quadrant.",
+    icon: CheckCircle2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: ListPlus,
+    title:"Tasks",
+    description:"Capture all.",
+  },
+{
+    icon: Grid2x2,
+    title:"Quadrants",
+    description:"Four boxes.",
+  },
+{
+    icon: CheckCircle2,
+    title:"Decide",
+    description:"Do, plan, delegate, drop.",
+  },
+{
+    icon: ArrowRightLeft,
+    title:"Re-sort",
+    description:"Adjust easily.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An Eisenhower matrix planner helps you decide what to do by sorting tasks into four boxes. The method's power is in the &quot;important, not urgent&quot; box, where goal-building work lives but rarely gets done without intention. This tool structures the decision.</p>
+  <p>Regular use trains the urgent-important distinction. The planner makes triage a habit rather than a struggle.</p>
+  <p>Use it weekly. The tool's value is a repeatable prioritization ritual.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is it?",
+    answer:"Planner using the matrix.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Planning sessions.",
+  },
+{
+    question:"Best cadence?",
+    answer:"Weekly.",
+  }
+  ]}
+/>
+</div>
  </CardContent>
  </GlassCard>
  );

@@ -1,4 +1,7 @@
 "use client";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 
 import React, { useState, useRef, ChangeEvent } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -444,7 +447,88 @@ export default function ImageResizeClient() {
  setFmt(format as OutFormat);
  if (originalUrl && origW && origH) renderResizedImage(originalUrl, origW, origH, w, h, fit, format as OutFormat, quality);
  }}
- className={`px-2.5 py-1 rounded-lg border text-[11px] font-semibold uppercase transition ${
+ className={`px-2.5 py-1 rounded-lg border text-[11px] f
+
+<ToolHowItWorks
+  steps={[
+  {
+    step:"01",
+    title:"Upload",
+    description:"Load your photo.",
+    icon: Upload,
+  },
+  {
+    step:"02",
+    title:"Pick Platform",
+    description:"Choose a network's size.",
+    icon: Smartphone,
+  },
+  {
+    step:"03",
+    title:"Export",
+    description:"Resize and download.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+  {
+    icon: Upload,
+    title:"Photo Input",
+    description:"From your device.",
+  },
+  {
+    icon: Smartphone,
+    title:"Platform Presets",
+    description:"Instagram, X, more.",
+  },
+  {
+    icon: Download,
+    title:"Export",
+    description:"Correctly sized.",
+  },
+  {
+    icon: Crop,
+    title:"Aspect Studio",
+    description:"Crop and fit.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A social media photo resizer delivers images at each platform's exact dimensions, avoiding awkward auto-crops. Instagram, X, and others expect different shapes; pre-sizing keeps your subject framed. This tool offers platform presets and an aspect studio.</p>
+  <p>Presets remove guesswork. Selecting a network sizes the export correctly so nothing important is cut. The aspect studio lets you fine-tune cropping within the target shape.</p>
+  <p>Use it before posting anywhere with fixed dimensions. The tool's value is correctly sized, well-composed images that display as intended on every platform.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+  {
+    question:"Why resize?",
+    answer:"Each platform needs exact sizes.",
+  },
+  {
+    question:"Presets?",
+    answer:"Common social dimensions.",
+  },
+  {
+    question:"Quality?",
+    answer:"Minimal loss.",
+  },
+  {
+    question:"Free?",
+    answer:"Yes.",
+  },
+  {
+    question:"Private?",
+    answer:"Local.",
+  }
+  ]}
+/>
+ont-semibold uppercase transition ${
  fmt === format ?"bg-primary text-primary-foreground shadow-xs":"text-muted-foreground"
  }`}
  >

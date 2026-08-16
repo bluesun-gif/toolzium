@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useMemo, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { Button } from"@/components/ui/button";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Utensils, Search, Plus, RotateCcw, Trash2 } from"lucide-react";
+import { Apple, Calculator, Plus, RotateCcw, Search, Trash2, Utensils } from"lucide-react";
 import { toast } from"react-hot-toast";
 
 type FoodItem = {
@@ -220,6 +223,86 @@ export function CalorieLookupClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Search Food",
+    description:"Find an item's calories.",
+    icon: Search,
+  },
+{
+    step:"02",
+    title:"Add to Plan",
+    description:"Build a meal around it.",
+    icon: Utensils,
+  },
+{
+    step:"03",
+    title:"Sum",
+    description:"See total meal calories.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Search,
+    title:"Food Database",
+    description:"Quick calorie lookup.",
+  },
+{
+    icon: Utensils,
+    title:"Meal Build",
+    description:"Assemble balanced plates.",
+  },
+{
+    icon: Calculator,
+    title:"Totals",
+    description:"Sum per meal or day.",
+  },
+{
+    icon: Apple,
+    title:"Nutrition",
+    description:"Supports planning.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A calorie lookup and meal planner pairs knowledge with structure. Knowing a food's energy value is the first step; assembling foods into a target-meeting meal is the second. This tool lets you search calories and build plates, so intention becomes a concrete plan rather than a hope.</p>
+  <p>Awareness changes behavior. Simply looking up values surfaces hidden calories in dressings, drinks, and snacks that derail diets. The planner then totals a meal, showing whether it fits your daily target. This closes the loop between knowing and doing.</p>
+  <p>Use it to pre-plan, not just log after eating. Building tomorrow's meals within your calorie budget prevents impulsive overeating. The tool's value is combining a food reference with a builder, making adherence practical and visible.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why look up calories?",
+    answer:"Awareness drives better choices.",
+  },
+{
+    question:"Accurate?",
+    answer:"Database values vary; brands differ.",
+  },
+{
+    question:"Plan meals?",
+    answer:"Combine foods to hit targets.",
+  },
+{
+    question:"Track daily?",
+    answer:"Sum meals for a total.",
+  },
+{
+    question:"Use with deficit?",
+    answer:"Yes, stay under target.",
+  }
+  ]}
+/>
+</div>
  );
 }

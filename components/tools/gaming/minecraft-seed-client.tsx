@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -6,7 +9,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { Button } from"@/components/ui/button";
 import SelectField from"@/components/shared/form-fields/select-field";
 import { AiOutputDisplay } from"@/components/shared/ai-output-display";
-import { Pickaxe, RefreshCw } from"lucide-react";
+import { Box, Copy, Dice5, Mountain, Pickaxe, RefreshCw } from"lucide-react";
 import toast from"react-hot-toast";
 
 const MINECRAFT_STYLES = [
@@ -98,6 +101,87 @@ export default function MinecraftSeedClient() {
  onRegenerate={generateWorldNames}
  variant="cards"
  />
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Choose Edition",
+    description:"Pick Java or Bedrock to match your game.",
+    icon: Box,
+  },
+{
+    step:"02",
+    title:"Generate Seed",
+    description:"Roll a random seed or enter keywords for a themed world.",
+    icon: Dice5,
+  },
+{
+    step:"03",
+    title:"Copy & Launch",
+    description:"Copy the seed and paste it when creating a world.",
+    icon: Copy,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Box,
+    title:"Edition Aware",
+    description:"Seeds behave differently across Java and Bedrock editions.",
+  },
+{
+    icon: Dice5,
+    title:"Random Rolls",
+    description:"Generate unlimited seeds until one feels right.",
+  },
+{
+    icon: Mountain,
+    title:"Biome Themes",
+    description:"Target seeds near villages, mountains, or oceans.",
+  },
+{
+    icon: Copy,
+    title:"Easy Copy",
+    description:"Copy the numeric seed with one click.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A Minecraft seed is the starting point of every adventure. That single number feeds the world generator, deciding where mountains rise, where oceans spread, and where villages spawn. Picking the right seed shapes your entire playthrough, which is why players spend time hunting for the perfect start.</p>
+  <p>Edition matters more than many realize. Java and Bedrock use separate generation code, so a seed that drops you next to a mansion in Java may drop you in open plains on Bedrock. Always generate and share seeds for the edition you actually play, or the result will not match your friends' worlds.</p>
+  <p>Theming helps you find what you want. If you love building, seek seeds with flat plains and nearby forests. If you prefer exploration, look for archipelago or mountain-rich starts. Some players want a village at spawn for instant trading; others want isolation for a solo base. Knowing your goal narrows the search.</p>
+  <p>Sharing is part of the fun. A great seed becomes a community recommendation, letting others experience the same landscape. Copy the exact number rather than describing it, since a single digit changes everything. Use the generator to roll fresh options or refine toward a biome you enjoy, then launch a world that starts strong from the first block.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is a Minecraft seed?",
+    answer:"A seed is a number that determines how the world generates. The same seed produces the same terrain on the same edition.",
+  },
+{
+    question:"Do Java and Bedrock seeds match?",
+    answer:"No. The two editions use different world-generation algorithms, so a Java seed will not yield the same world in Bedrock.",
+  },
+{
+    question:"Can I share a seed with friends?",
+    answer:"Yes. Give them the exact seed number and they can recreate the same starting area.",
+  },
+{
+    question:"What makes a good seed?",
+    answer:"Proximity to useful biomes, villages, and resources makes early game smoother and more fun.",
+  },
+{
+    question:"Are seeds safe to use?",
+    answer:"Seeds are just numbers; they contain no executable code and are completely safe.",
+  }
+  ]}
+/>
+</div>
  );
 }

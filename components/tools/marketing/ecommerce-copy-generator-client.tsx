@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -6,7 +9,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { AiOutputDisplay } from"@/components/shared/ai-output-display";
-import { ShoppingBag, RefreshCw } from"lucide-react";
+import { Copy, ListChecks, Package, RefreshCw, ShoppingBag, Wand2 } from"lucide-react";
 import toast from"react-hot-toast";
 
 export default function EcommerceCopyGeneratorClient() {
@@ -113,6 +116,87 @@ export default function EcommerceCopyGeneratorClient() {
  variant="cards"
  />
  )}
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Describe Product",
+    description:"Enter the product name and key selling points.",
+    icon: Package,
+  },
+{
+    step:"02",
+    title:"Choose Tone",
+    description:"Pick persuasive, luxury, or friendly copy style.",
+    icon: Wand2,
+  },
+{
+    step:"03",
+    title:"Generate & Copy",
+    description:"Get titles, bullets, and descriptions to use.",
+    icon: Copy,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Package,
+    title:"Product Focused",
+    description:"Generates copy centered on benefits, not just features.",
+  },
+{
+    icon: Wand2,
+    title:"Tone Options",
+    description:"Switch between styles for different audiences.",
+  },
+{
+    icon: ListChecks,
+    title:"Bullets & Titles",
+    description:"Produces scannable bullet points and SEO titles.",
+  },
+{
+    icon: Copy,
+    title:"Ready to Paste",
+    description:"Copy the copy straight into your store.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>E-commerce lives and dies by its copy. Shoppers cannot touch your product, so the words carry the weight of persuasion. This generator helps store owners move from bland feature lists to benefit-driven copy that actually sells.</p>
+  <p>Lead with the customer, not the spec sheet. A bullet that says 'sleeps cooler' beats 'gel-infused memory foam' because it answers the buyer's real question: what is in it for me? Map each feature to a benefit — weight to portability, warranty to peace of mind, material to comfort — and the copy starts selling itself.</p>
+  <p>Tone aligns with audience. A luxury skincare brand needs restrained, sensory language, while a budget electronics store benefits from energetic, value-forward phrasing. The generator lets you switch tones so the same product reads appropriately across market segments. Consistency between tone and brand builds trust.</p>
+  <p>Structure aids conversion. Shoppers scan, so lead with a strong title, follow with a one-line hook, then bullets for quick scanning, and a short paragraph for detail. Include variants, sizes, and use cases to pre-empt returns and questions. Generate a few versions and A/B test them; small wording changes often produce measurable lifts. Use the copy directly in your listing, confident it is both readable and search-friendly.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What makes good product copy?",
+    answer:"Strong copy leads with the customer's benefit, uses clear language, and answers objections before they arise.",
+  },
+{
+    question:"Should I write for SEO or readers?",
+    answer:"Both. Natural keywords in readable copy rank better than stuffed text.",
+  },
+{
+    question:"How long should a description be?",
+    answer:"Long enough to convey value and variants; 100-300 words works for most products.",
+  },
+{
+    question:"Can I regenerate for A/B tests?",
+    answer:"Yes. Generate multiple versions and test which converts better.",
+  },
+{
+    question:"Does tone affect sales?",
+    answer:"Yes. Luxury shoppers respond to different language than bargain hunters.",
+  }
+  ]}
+/>
+</div>
  );
 }

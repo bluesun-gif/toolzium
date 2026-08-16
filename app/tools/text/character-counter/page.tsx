@@ -2,7 +2,6 @@ import { Metadata } from "next";
 import ClientComponent from "@/components/tools/text/character-counter-client";
 import { generateSEOMetadata } from "@/lib/seo-config";
 import JsonLd from "@/components/seo/json-ld";
-
 export const metadata: Metadata = generateSEOMetadata({
   title: "Character Counter — Count Letters & Words Online",
   description: "Count characters, words, sentences, paragraphs in real-time. Check social media limits for Twitter/X, Instagram, LinkedIn, TikTok. Free character counter tool.",
@@ -45,6 +44,8 @@ export default function CharacterCounterPage() {
     <div className="max-w-6xl mx-auto space-y-8">
       <JsonLd data={faqSchema} />
       <ClientComponent />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/text/character-counter" />
+</div>
   );
 }

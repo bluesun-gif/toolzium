@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import UnitConverterClient from "@/components/tools/calc/unit-converter-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Unit Converter",
   description:
@@ -151,6 +150,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <UnitConverterClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/calc/unit-converter" />
+</div>
   );
 }

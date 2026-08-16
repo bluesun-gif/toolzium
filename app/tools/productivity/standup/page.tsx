@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { StandupClient } from "@/components/tools/productivity/standup-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Daily Standup Generator | Toolzium",
@@ -39,6 +40,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <StandupClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/productivity/standup" />
+</div>
   );
 }

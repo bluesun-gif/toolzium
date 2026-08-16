@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import CssClippathClient from "@/components/tools/dev/css-clippath-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "CSS Clip-Path Maker | Toolzium",
   description: "Interactive CSS clip-path generator. Create custom shapes, polygons, and complex paths for your web design.",
@@ -21,6 +20,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <CssClippathClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/css-clippath" />
+</div>
   );
 }

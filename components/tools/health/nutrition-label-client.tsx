@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
 import { cn } from"@/lib/utils";
-import { FileText, Weight, Printer, Eye } from"lucide-react";
+import { Apple, Download, Eye, FileText, LayoutGrid, Printer, Weight } from"lucide-react";
 import { toast } from"react-hot-toast";
 
 type Nutrients = {
@@ -328,6 +331,86 @@ Potassium ${data.potassium}mg (${calcDV(data.potassium, DV.potassium)}%)
  .print-area { position: absolute; left: 0; top: 0; width: 100%; }
  }
  `}} />
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Values",
+    description:"Add calories, macros, serving.",
+    icon: FileText,
+  },
+{
+    step:"02",
+    title:"Format",
+    description:"Arrange like a standard label.",
+    icon: LayoutGrid,
+  },
+{
+    step:"03",
+    title:"Generate",
+    description:"Create a clean label.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: FileText,
+    title:"Data Entry",
+    description:"Input your nutrition facts.",
+  },
+{
+    icon: LayoutGrid,
+    title:"Label Layout",
+    description:"Familiar format.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Save or share.",
+  },
+{
+    icon: Apple,
+    title:"Clarity",
+    description:"Communicates contents.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A nutrition label maker formats your product or recipe facts into a familiar label layout. By entering calories, macros, and serving size, you produce a clear, scannable panel. This tool helps makers, coaches, and small food businesses communicate contents professionally.</p>
+  <p>Clarity drives trust. A standard-format label lets consumers understand at a glance, which matters for homemade or small-batch items lacking commercial packaging. The tool arranges entries logically so the result reads like a real label.</p>
+  <p>For selling, confirm local regulations on claims and formatting. The tool's value is turning raw nutrition data into a presentable label that informs and builds credibility.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Who uses this?",
+    answer:"Makers, coaches, food businesses.",
+  },
+{
+    question:"Accurate?",
+    answer:"Reflects what you enter.",
+  },
+{
+    question:"Standard format?",
+    answer:"Mirrors common labels.",
+  },
+{
+    question:"Export?",
+    answer:"Download for use.",
+  },
+{
+    question:"Regulatory?",
+    answer:"Verify local rules for selling.",
+  }
+  ]}
+/>
+</div>
  );
 }

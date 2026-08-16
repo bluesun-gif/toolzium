@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import FreeFireNameClient from "@/components/tools/gaming/free-fire-name-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "Free Fire (FF) Nickname & Boss Squad Tag Studio | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function FreeFireNamePage() {
-  return <FreeFireNameClient />;
+  return (
+    <><FreeFireNameClient />
+      <RelatedTools currentToolUrl="/tools/gaming/free-fire-name-generator" />
+    </>
+  );
 }

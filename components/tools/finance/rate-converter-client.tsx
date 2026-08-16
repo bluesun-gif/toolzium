@@ -1,4 +1,7 @@
 "use client";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -206,7 +209,89 @@ export function RateConverterClient() {
  </div>
  )}
  </CardContent>
- </GlassCard>
+ 
+
+<ToolHowItWorks
+  steps={[
+  {
+    step:"01",
+    title:"Enter Rate",
+    description:"Input an annual or periodic rate.",
+    icon: Percent,
+  },
+  {
+    step:"02",
+    title:"Pick Bases",
+    description:"Choose annual, monthly, or daily basis.",
+    icon: Calendar,
+  },
+  {
+    step:"03",
+    title:"Convert",
+    description:"See the equivalent on another basis.",
+    icon: RefreshCw,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+  {
+    icon: Percent,
+    title:"Any Rate",
+    description:"Convert between nominal bases.",
+  },
+  {
+    icon: Calendar,
+    title:"Period Flex",
+    description:"Annual, monthly, daily conversion.",
+  },
+  {
+    icon: RefreshCw,
+    title:"Instant",
+    description:"Recalculates equivalents live.",
+  },
+  {
+    icon: Calculator,
+    title:"APY View",
+    description:"Shows effective annual yield.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An interest rate converter untangles the confusion of differently quoted rates. A loan at 12 percent compounded monthly is not the same as 12 percent compounded daily, and savings products quote APY while loans quote APR. This tool converts between bases so you compare offers on equal footing.</p>
+  <p>The key distinction is nominal versus effective rate. Nominal is the stated periodic rate; effective (APY) includes compounding, revealing the true annual cost or yield. Two products with identical nominal rates but different compounding frequencies are not equal, and conversion exposes the difference before you commit.</p>
+  <p>Basis choice matters for comparison. Monthly, daily, and annual quotations all describe the same underlying rate differently. The converter translates among them so a daily-compounded savings account and a monthly-compounded loan can be weighed directly. This prevents the common error of comparing apples to oranges.</p>
+  <p>Use it whenever evaluating credit or deposit products. Enter the quoted rate and basis, then see the equivalent on the basis your other options use. The tool's value is fairness: it strips marketing ambiguity from rate quotes so your decision rests on the real number, not the most flattering presentation.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+  {
+    question:"Why convert rate bases?",
+    answer:"Lenders quote different bases; conversion enables fair comparison.",
+  },
+  {
+    question:"Nominal vs effective?",
+    answer:"Effective includes compounding; nominal does not.",
+  },
+  {
+    question:"Daily vs monthly?",
+    answer:"More frequent compounding yields slightly more.",
+  },
+  {
+    question:"Is this for loans or savings?",
+    answer:"Both; the math is symmetric.",
+  },
+  {
+    question:"What is APY?",
+    answer:"Annual Percentage Yield reflects true annual return with compounding.",
+  }
+  ]}
+/>
+</GlassCard>
  </div>
  </div>
  </div>

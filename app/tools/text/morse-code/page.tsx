@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import MorseCodeClient from "@/components/tools/text/morse-code-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Morse Code Translator — Text to Morse Audio | Toolzium",
   description: "Free online morse code translator. Convert text to morse code or morse to text automatically. Play morse code audio with adjustable WPM speed.",
@@ -127,6 +126,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <MorseCodeClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/text/morse-code" />
+</div>
   );
 }

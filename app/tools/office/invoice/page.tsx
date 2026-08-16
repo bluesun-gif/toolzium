@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import SimpleInvoiceClient from "@/components/tools/office/simple-invoice-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Simple Invoice Generator — Create & Download Free PDFs",
@@ -122,6 +123,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <SimpleInvoiceClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/office/invoice" />
+</div>
   );
 }

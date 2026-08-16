@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import CssRadiusClient from "@/components/tools/dev/css-radius-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "CSS Border-Radius Custom Shape Generator | Toolzium",
   description: "Generate 8-point fancy blob and custom CSS border-radius shapes with live preview.",
@@ -22,6 +21,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <CssRadiusClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/css-radius" />
+</div>
   );
 }

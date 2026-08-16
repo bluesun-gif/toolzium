@@ -2,7 +2,6 @@ import { buildMetadata } from "@/lib/seo";
 import { siteURL } from "@/lib/constants";
 import JsonLd from "@/components/seo/json-ld";
 import TextRepeaterClient from "@/components/tools/text/text-repeater-client";
-
 export const metadata = buildMetadata({
   title: "Text Repeater — Repeat Text Online Free | Toolzium",
   description: "Repeat any text multiple times with custom separators. Copy paste flood text, multiply strings, add line numbers. Free text repeater tool — no signup required.",
@@ -30,6 +29,8 @@ export default function Page() {
           },
         }}
       />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/text/text-repeater" />
+</>
   );
 }

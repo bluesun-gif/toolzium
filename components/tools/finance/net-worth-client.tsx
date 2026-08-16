@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect, useMemo } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Separator } from"@/components/ui/separator";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Button } from"@/components/ui/button";
-import { Landmark, TrendingUp, PieChart, Download, Plus, Trash2 } from"lucide-react";
+import { Calculator, CreditCard, Download, Landmark, PieChart, Plus, Trash2, TrendingUp, Wallet } from"lucide-react";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
 import toast from"react-hot-toast";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
@@ -267,7 +270,88 @@ export function NetWorthClient() {
  </div>
  </div>
  ))}
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"List Assets",
+    description:"Add cash, investments, and property.",
+    icon: Wallet,
+  },
+{
+    step:"02",
+    title:"List Liabilities",
+    description:"Add loans and credit balances.",
+    icon: CreditCard,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See your net position.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Wallet,
+    title:"Asset Total",
+    description:"Sums everything you own.",
+  },
+{
+    icon: CreditCard,
+    title:"Liability Total",
+    description:"Sums everything you owe.",
+  },
+{
+    icon: Calculator,
+    title:"Net Position",
+    description:"Assets minus liabilities.",
+  },
+{
+    icon: TrendingUp,
+    title:"Trend Tracking",
+    description:"Compare over time.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>Net worth is the single clearest measure of financial health: everything you own minus everything you owe. Unlike a paycheck, which only shows monthly flow, net worth reveals the trajectory of your whole financial life. This calculator totals assets and subtracts liabilities to produce that number.</p>
+  <p>Assets include cash, investments, retirement accounts, property, and significant possessions. Liabilities include loans, credit balances, and mortgages. The subtraction yields net worth, which can be positive (building wealth) or negative (owed more than owned, common for young borrowers). Tracking it over time shows whether you are genuinely progressing.</p>
+  <p>The power is trend, not level. A negative net worth early in a career is normal; what matters is the direction as debts shrink and assets grow. The calculator lets you model paying down loans or investing surplus to see which moves net worth faster, guiding trade-offs between debt payoff and saving.</p>
+  <p>Update quarterly rather than obsessively. Markets and balances shift; a calm cadence captures the trend without noise. Use net worth as the scoreboard for big decisions: whether to aggressively pay debt, invest more, or hold cash. The tool's value is converting scattered accounts into one honest number that tells you if you are moving forward.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is net worth?",
+    answer:"Total assets minus total liabilities.",
+  },
+{
+    question:"Why track it?",
+    answer:"It shows financial progress beyond monthly cash flow.",
+  },
+{
+    question:"What counts as an asset?",
+    answer:"Cash, investments, property, and valuables you own.",
+  },
+{
+    question:"Do I include debt?",
+    answer:"Yes, liabilities subtract from assets.",
+  },
+{
+    question:"How often should I update?",
+    answer:"Quarterly is enough for most people.",
+  }
+  ]}
+/>
+</div>
  );
  })}
  </div>

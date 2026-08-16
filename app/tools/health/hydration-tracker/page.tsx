@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { HydrationTrackerClient } from "@/components/tools/health/hydration-tracker-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Hydration & Daily Water Tracker | Toolzium",
@@ -21,6 +22,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <HydrationTrackerClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/health/hydration-tracker" />
+</div>
   );
 }

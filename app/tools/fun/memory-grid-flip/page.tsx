@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import { MemoryGridFlipClient } from "@/components/tools/fun/memory-grid-flip-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Memory Grid Flip Challenge | Toolzium",
   description: "Interactive memory grid pattern flip challenge game.",
@@ -21,6 +20,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <MemoryGridFlipClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/fun/memory-grid-flip" />
+</div>
   );
 }

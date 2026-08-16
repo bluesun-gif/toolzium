@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { ReceiptScannerClient } from "@/components/tools/office/receipt-scanner-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Receipt Tracker | Toolzium",
@@ -39,6 +40,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <ReceiptScannerClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/office/receipt-scanner" />
+</div>
   );
 }

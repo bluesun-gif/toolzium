@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { ServiceContractClient } from "@/components/tools/office/service-contract-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Professional Service Contract Generator | Toolzium",
@@ -22,6 +23,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <ServiceContractClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/office/service-contract" />
+</div>
   );
 }

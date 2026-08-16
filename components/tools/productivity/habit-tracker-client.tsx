@@ -1,4 +1,7 @@
 "use client";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 
 import React, { useState, useEffect, useCallback, useMemo } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -343,7 +346,88 @@ export function HabitTrackerClient() {
  </div>
  )}
  </CardContent>
- </GlassCard>
+ 
+
+<ToolHowItWorks
+  steps={[
+  {
+    step:"01",
+    title:"Add Habits",
+    description:"List what to track.",
+    icon: ListPlus,
+  },
+  {
+    step:"02",
+    title:"Mark",
+    description:"Check done each day.",
+    icon: CheckCircle2,
+  },
+  {
+    step:"03",
+    title:"Review",
+    description:"See streaks and gaps.",
+    icon: Flame,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+  {
+    icon: ListPlus,
+    title:"Habits",
+    description:"Your list.",
+  },
+  {
+    icon: CheckCircle2,
+    title:"Daily",
+    description:"Quick check.",
+  },
+  {
+    icon: Flame,
+    title:"Streaks",
+    description:"Consistency view.",
+  },
+  {
+    icon: TrendingUp,
+    title:"Trends",
+    description:"Long-term.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A habit tracker makes consistency visible, the key to behavior change. Checking done each day and seeing streaks turns vague intentions into a measurable practice. This tool handles the marks and trends.</p>
+  <p>Streaks motivate but shouldn't shame; a missed day is a restart, not a failure. The tracker shows the long view so one gap stays small.</p>
+  <p>Use it for any habit. The tool's value is simple, private consistency tracking.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+  {
+    question:"Why track?",
+    answer:"Awareness builds consistency.",
+  },
+  {
+    question:"Streaks?",
+    answer:"Yes, motivate.",
+  },
+  {
+    question:"Free?",
+    answer:"Yes.",
+  },
+  {
+    question:"Private?",
+    answer:"Local.",
+  },
+  {
+    question:"Use case?",
+    answer:"Any habit.",
+  }
+  ]}
+/>
+</GlassCard>
  </div>
  </div>
  );

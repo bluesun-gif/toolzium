@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { NutritionLabelClient } from "@/components/tools/health/nutrition-label-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Nutrition Label Maker | Toolzium",
@@ -22,6 +23,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <NutritionLabelClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/health/nutrition-label" />
+</div>
   );
 }

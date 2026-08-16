@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -7,7 +10,7 @@ import { CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Globe, Clock, Calendar, Copy, Plus, X } from"lucide-react";
+import { Calendar, Clock, Copy, Globe, Plus, ShieldCheck, Users, X } from"lucide-react";
 import toast from"react-hot-toast";
 
 type City = {
@@ -153,7 +156,87 @@ export function WorldPlannerClient() {
  <div className="absolute inset-0 flex items-center justify-center text-[10px] text-white/90 font-medium">
  {localH}
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Zones",
+    description:"Pick participant cities.",
+    icon: Globe,
+  },
+{
+    step:"02",
+    title:"Set Slot",
+    description:"Choose a candidate time.",
+    icon: Clock,
+  },
+{
+    step:"03",
+    title:"Compare",
+    description:"See all local times.",
+    icon: Users,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Globe,
+    title:"Zones",
+    description:"Multiple cities.",
+  },
+{
+    icon: Clock,
+    title:"Slot",
+    description:"Candidate time.",
+  },
+{
+    icon: Users,
+    title:"Compare",
+    description:"All local times.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Fair",
+    description:"Flags odd hours.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A world clock meeting planner combines live city times with scheduling, showing a candidate meeting slot in every participant's local zone and flagging antisocial hours. It is the meeting-planner's companion for awareness. This tool compares them at once.</p>
+  <p>Fair scheduling protects attendance and wellbeing. The planner makes global coordination painless.</p>
+  <p>Use it before cross-region calls. The tool's value is fair, visible multi-zone timing.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Clock + planner?",
+    answer:"Live times plus scheduling.",
+  },
+{
+    question:"Avoid bad hours?",
+    answer:"Yes, flagged.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Remote meetings.",
+  }
+  ]}
+/>
+</div>
  );
  })}
  </div>

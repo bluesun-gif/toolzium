@@ -1,7 +1,10 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
-import { Grid, Palette, CheckCircle, Copy, Plus, Trash2, CheckCircle2, AlertTriangle, XCircle } from"lucide-react";
+import { AlertTriangle, CheckCircle, CheckCircle2, Contrast, Copy, Grid, Grid3x3, Palette, Plus, ShieldCheck, Trash2, XCircle } from"lucide-react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
 import { GlassCard } from"@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
@@ -208,7 +211,87 @@ export function ColorMatrixClient() {
  <span className="text-red-600 flex items-center gap-0.5"><XCircle className="w-3 h-3"/> Fail</span>
  )}
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Colors",
+    description:"Add a set of colors.",
+    icon: Palette,
+  },
+{
+    step:"02",
+    title:"Build",
+    description:"Generate pair-wise matrix.",
+    icon: Grid3x3,
+  },
+{
+    step:"03",
+    title:"Review",
+    description:"See all contrast pairs.",
+    icon: Contrast,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Palette,
+    title:"Color Set",
+    description:"Multiple swatches.",
+  },
+{
+    icon: Grid3x3,
+    title:"Matrix",
+    description:"Every pair compared.",
+  },
+{
+    icon: Contrast,
+    title:"Ratios",
+    description:"All combinations.",
+  },
+{
+    icon: ShieldCheck,
+    title:"WCAG",
+    description:"Flags failing pairs.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A color contrast matrix compares every pair in a palette, revealing which combinations are readable and which fail. Single checks miss problems; a matrix exposes the whole picture at once, essential when a palette is used across many text-background pairings.</p>
+  <p>The grid format makes weak pairs obvious. You might have safe primary text but a failing secondary combination that breaks accessibility elsewhere. The matrix flags every low-ratio pair so nothing ships broken.</p>
+  <p>Use it to validate complete palettes. The tool's value is comprehensive, pair-wise contrast auditing that a one-by-one checker cannot match.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is a matrix?",
+    answer:"Contrast of every color pair.",
+  },
+{
+    question:"Why useful?",
+    answer:"Audit full palettes at once.",
+  },
+{
+    question:"WCAG?",
+    answer:"Flags low pairs.",
+  },
+{
+    question:"Many colors?",
+    answer:"Scales to your set.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  }
+  ]}
+/>
+</div>
  )}
  </td>
  );

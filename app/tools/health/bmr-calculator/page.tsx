@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { BmrCalculatorClient } from "@/components/tools/health/bmr-calculator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "BMR Calculator | Basal Metabolic Rate Tool | Toolzium",
@@ -21,6 +22,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <BmrCalculatorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/health/bmr-calculator" />
+</div>
   );
 }

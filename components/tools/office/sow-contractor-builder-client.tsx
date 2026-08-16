@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -7,7 +10,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { FileText, ShieldCheck, Copy, Printer } from"lucide-react";
+import { CalendarRange, Copy, FileCheck2, FileText, ListChecks, Printer, Scale, ShieldCheck } from"lucide-react";
 import toast from"react-hot-toast";
 
 export function SowContractorBuilderClient() {
@@ -123,6 +126,86 @@ export function SowContractorBuilderClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Define Work",
+    description:"List contractor deliverables.",
+    icon: ListChecks,
+  },
+{
+    step:"02",
+    title:"Set Schedule",
+    description:"Milestones and payment.",
+    icon: CalendarRange,
+  },
+{
+    step:"03",
+    title:"Build",
+    description:"Create the SOW.",
+    icon: FileCheck2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: ListChecks,
+    title:"Deliverables",
+    description:"Itemized.",
+  },
+{
+    icon: CalendarRange,
+    title:"Timeline",
+    description:"Milestones.",
+  },
+{
+    icon: FileCheck2,
+    title:"SOW",
+    description:"Ready document.",
+  },
+{
+    icon: Scale,
+    title:"Payment",
+    description:"Terms and rates.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An independent contractor SOW builder defines the specific work a freelancer delivers, attaching to their agreement. Detailed SOWs prevent &quot;that wasn't included&quot; conflicts by making deliverables explicit. This tool itemizes work and schedule.</p>
+  <p>Milestones tied to payment clarify when and how the contractor is paid. The builder structures both for alignment.</p>
+  <p>Use as a draft with legal review. The tool's value is a precise contractor SOW that limits ambiguity.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is a contractor SOW?",
+    answer:"Scope for an independent worker.",
+  },
+{
+    question:"Why use?",
+    answer:"Prevents scope disputes.",
+  },
+{
+    question:"Binding?",
+    answer:"Draft; review.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Attach to?",
+    answer:"Contractor agreement.",
+  }
+  ]}
+/>
+</div>
  );
 }

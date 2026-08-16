@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Label } from"@/components/ui/label";
 import { Switch } from"@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { ShieldCheck, FileText, Printer } from"lucide-react";
+import { CalendarRange, EyeOff, FileCheck2, FileText, Printer, ShieldCheck } from"lucide-react";
 import toast from"react-hot-toast";
 
 export function NdaScopeBuilderClient() {
@@ -177,6 +180,86 @@ export function NdaScopeBuilderClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Define Info",
+    description:"Specify what is confidential.",
+    icon: EyeOff,
+  },
+{
+    step:"02",
+    title:"Set Term",
+    description:"Choose duration and exclusions.",
+    icon: CalendarRange,
+  },
+{
+    step:"03",
+    title:"Build",
+    description:"Create the NDA.",
+    icon: FileCheck2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: EyeOff,
+    title:"Scope",
+    description:"Precise definitions.",
+  },
+{
+    icon: CalendarRange,
+    title:"Term",
+    description:"Duration and exclusions.",
+  },
+{
+    icon: FileCheck2,
+    title:"Draft",
+    description:"Ready document.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Mutual",
+    description:"Both parties protected.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A mutual NDA scope builder focuses on the two clauses that cause the most trouble: what is confidential and for how long. Vague definitions invite disputes; precise ones protect both parties fairly. This tool forces clarity on scope and term.</p>
+  <p>Exclusions matter — publicly known information should not be covered. The builder includes standard carve-outs so the agreement is reasonable.</p>
+  <p>Review with counsel. The tool's value is a tightly scoped mutual NDA draft that balances protection and fairness.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is scope?",
+    answer:"Exactly what counts as confidential.",
+  },
+{
+    question:"Term length?",
+    answer:"Commonly 1 to 5 years.",
+  },
+{
+    question:"Exclusions?",
+    answer:"Public info excluded.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Binding?",
+    answer:"Draft; review.",
+  }
+  ]}
+/>
+</div>
  );
 }

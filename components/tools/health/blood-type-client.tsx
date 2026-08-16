@@ -1,11 +1,14 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
 import { GlassCard } from"@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { Heart, Droplets, AlertTriangle } from"lucide-react";
+import { AlertTriangle, BookOpen, Droplet, Droplets, GitCompare, Heart, ShieldCheck } from"lucide-react";
 import { Label } from"@/components/ui/label";
 
 type BloodType ="A+"|"A-"|"B+"|"B-"|"AB+"|"AB-"|"O+"|"O-";
@@ -95,6 +98,86 @@ export function BloodTypeClient() {
  </p>
  </CardContent>
  </GlassCard>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Types",
+    description:"Choose two blood types.",
+    icon: Droplet,
+  },
+{
+    step:"02",
+    title:"Compare",
+    description:"See donation compatibility.",
+    icon: GitCompare,
+  },
+{
+    step:"03",
+    title:"Learn",
+    description:"Understand ABO and Rh rules.",
+    icon: BookOpen,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Droplet,
+    title:"Type Input",
+    description:"All eight common types.",
+  },
+{
+    icon: GitCompare,
+    title:"Compatibility",
+    description:"Who can give to whom.",
+  },
+{
+    icon: BookOpen,
+    title:"Education",
+    description:"Explains the science.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Safety Note",
+    description:"Transfusion guidance only.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A blood type compatibility tool clarifies who can safely donate to whom, a question that matters in emergencies and planning. The ABO system (A, B, AB, O) and the Rh factor (positive or negative) together determine compatibility. This tool compares two types and shows the safe donation direction.</p>
+  <p>The rules are simple but easy to mix up. O negative is the universal donor; AB positive is the universal recipient. Rh negative recipients should generally receive Rh negative blood. The tool maps these so you don't rely on memory during stress. Education sections explain why, reinforcing the logic.</p>
+  <p>This is informational, not a substitute for clinical testing and professional transfusion decisions. Use it to understand the system and prepare, but always follow medical guidance for actual care. The tool's value is demystifying a topic surrounded by myth, leaving you with accurate, usable knowledge.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is universal donor?",
+    answer:"O negative can give to any ABO/Rh type.",
+  },
+{
+    question:"Universal recipient?",
+    answer:"AB positive can receive from any type.",
+  },
+{
+    question:"What is Rh?",
+    answer:"A plus or minus factor affecting compatibility.",
+  },
+{
+    question:"Does type affect personality?",
+    answer:"No, that is a myth; only transfusion matters.",
+  },
+{
+    question:"Is this medical advice?",
+    answer:"Informational; defer to professionals.",
+  }
+  ]}
+/>
+</div>
  );
 }

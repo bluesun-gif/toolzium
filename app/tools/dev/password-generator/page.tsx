@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import PasswordGeneratorClient from "@/components/tools/dev/password-generator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Free Strong Password Generator & Entropy Checker | Toolzium",
   description:
@@ -113,6 +112,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <PasswordGeneratorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/password-generator" />
+</div>
   );
 }

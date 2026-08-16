@@ -1,6 +1,9 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
-import { Braces, Download, Info, Table } from"lucide-react";
+import { ArrowRightLeft, Braces, Download, FileUp, Info, Table } from"lucide-react";
 import React from"react";
 import {
  ActionButton,
@@ -556,6 +559,88 @@ export default function CsvJsonClient() {
  />
  </CardContent>
  </GlassCard>
- </>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Paste or Upload",
+    description:"Drop in CSV text or load a file from your computer.",
+    icon: FileUp,
+  },
+{
+    step:"02",
+    title:"Convert",
+    description:"Turn rows into arrays or keyed objects automatically.",
+    icon: ArrowRightLeft,
+  },
+{
+    step:"03",
+    title:"Copy or Download",
+    description:"Grab the JSON output or save it as a file.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: FileUp,
+    title:"File & Text Input",
+    description:"Paste CSV or upload .csv directly.",
+  },
+{
+    icon: ArrowRightLeft,
+    title:"Object or Array Mode",
+    description:"Output arrays of arrays or arrays of objects.",
+  },
+{
+    icon: Table,
+    title:"Header Mapping",
+    description:"First row becomes keys in object mode.",
+  },
+{
+    icon: Download,
+    title:"Export File",
+    description:"Download the result as .json.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>CSV remains the lingua franca of spreadsheets and exports, while JSON dominates web APIs and configuration. Converting between them is a daily task for developers, analysts, and automation builders. Understanding the mapping avoids data loss and mismatched fields.</p>
+  <p>In CSV, the first row usually holds column names and each subsequent line is a record. When converting to JSON in object mode, that header row becomes the keys for every object, so a row like Name,Age with Jane,30 becomes &#123;&quot;Name&quot;:&quot;Jane&quot;,&quot;Age&quot;:&quot;30&quot;&#125;. Note that values arrive as strings — you may need to cast numbers and booleans downstream.</p>
+  <p>Array mode skips key mapping and emits each row as a list of values. This is useful when the consumer expects positional data or when the CSV has no meaningful header. Choose the mode based on what the target system expects; object mode is more readable, array mode is more compact.</p>
+  <p>Quoting rules matter. A field containing a comma must be wrapped in double quotes, and an embedded quote is escaped by doubling it (&quot;&quot;). A robust parser handles these cases; a naive split on commas breaks them. Our converter respects the RFC-style quoting so addresses, sentences, and formulas survive the trip.</p>
+  <p>Privacy is a real concern with online converters. Because this tool processes everything in the browser, your data never leaves the device — important for customer lists, financial exports, and internal reports. Paste or upload, convert, then download the JSON or copy it straight into your code. Clean, local conversion keeps sensitive data where it belongs.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"How does CSV convert to JSON?",
+    answer:"Each row becomes an item. In object mode the header row supplies keys; in array mode every row is a plain list of values.",
+  },
+{
+    question:"What if my CSV has commas inside values?",
+    answer:"Proper CSV wraps such values in quotes. Our parser respects quoted fields and escaped quotes.",
+  },
+{
+    question:"Can I convert JSON back to CSV?",
+    answer:"This tool focuses on CSV to JSON, but many editors and scripts handle the reverse using the header keys.",
+  },
+{
+    question:"Is my data uploaded to a server?",
+    answer:"No. Conversion runs entirely in your browser; nothing is sent elsewhere.",
+  },
+{
+    question:"Why use JSON instead of CSV?",
+    answer:"JSON nests structures and is the native format for most web APIs and JavaScript applications.",
+  }
+  ]}
+/>
+</>
  );
 }

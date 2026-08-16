@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import JwtDecoderClient from "@/components/tools/dev/jwt-decoder-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "JWT Decoder",
@@ -160,6 +161,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <JwtDecoderClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/jwt-decode" />
+</div>
   );
 }

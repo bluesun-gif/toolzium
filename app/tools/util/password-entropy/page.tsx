@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { PasswordEntropyClient } from "@/components/tools/util/password-entropy-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Password Strength & Entropy Calculator | Toolzium",
@@ -21,6 +22,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <PasswordEntropyClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/util/password-entropy" />
+</div>
   );
 }

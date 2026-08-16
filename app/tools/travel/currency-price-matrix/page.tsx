@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { CurrencyPriceMatrixClient } from "@/components/tools/travel/currency-price-matrix-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Currency Price Matrix | Toolzium",
@@ -22,6 +23,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <CurrencyPriceMatrixClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/travel/currency-price-matrix" />
+</div>
   );
 }

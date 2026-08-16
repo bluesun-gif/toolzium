@@ -2,7 +2,6 @@ import { Metadata } from "next";
 import SqlRegexBuilderClient from "@/components/tools/ai/sql-regex-builder-client";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import JsonLd from "@/components/seo/json-ld";
-
 const TITLE = "AI Natural Language to SQL & Regex Builder — Free Query Tool | Toolzium";
 const DESCRIPTION =
   "Convert plain English requirements into production-ready SQL queries and Regex expressions instantly with explanations.";
@@ -46,6 +45,8 @@ export default function SqlRegexBuilderPage() {
     <>
       <JsonLd data={jsonLdData as any} />
       <SqlRegexBuilderClient />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/ai/sql-regex-builder" />
+</>
   );
 }

@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { HydrationClient } from "@/components/tools/health/hydration-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Hydration Reminder | Toolzium",
@@ -39,6 +40,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <HydrationClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/health/hydration" />
+</div>
   );
 }

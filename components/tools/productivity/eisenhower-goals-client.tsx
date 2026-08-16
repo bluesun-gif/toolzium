@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { CheckSquare, Target, Calendar, Download, Plus, Trash2 } from"lucide-react";
+import { Calendar, CalendarRange, CheckSquare, Download, Grid2x2, Plus, Target, Trash2, TrendingUp } from"lucide-react";
 import toast from"react-hot-toast";
 
 type Task = { id: string; title: string; bucket: string; date: string; hours: string; owner: string; completed: boolean };
@@ -151,6 +154,86 @@ export function EisenhowerGoalsClient() {
  <BucketCol id="delegate"title="Delegate"description="Urgent & Not Important"colorClass="bg-orange-500/10 border-orange-500/30 text-orange-700 dark:text-orange-300"/>
  <BucketCol id="delete"title="Delete"description="Not Urgent & Not Important"colorClass="bg-red-500/10 border-red-500/30 text-red-700 dark:text-red-300"/>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Goals",
+    description:"List objectives.",
+    icon: Target,
+  },
+{
+    step:"02",
+    title:"Classify",
+    description:"Urgent vs important.",
+    icon: Grid2x2,
+  },
+{
+    step:"03",
+    title:"Plan",
+    description:"Schedule the important.",
+    icon: CalendarRange,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Target,
+    title:"Goals",
+    description:"Your objectives.",
+  },
+{
+    icon: Grid2x2,
+    title:"Matrix",
+    description:"Two dimensions.",
+  },
+{
+    icon: CalendarRange,
+    title:"Schedule",
+    description:"Time the important.",
+  },
+{
+    icon: TrendingUp,
+    title:"Progress",
+    description:"Track movement.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An Eisenhower planner applies the matrix to goals, not just tasks, so meaningful objectives get scheduled instead of perpetually postponed. Important-but-not-urgent goals die without a date. This tool classifies and schedules them.</p>
+  <p>The discipline is booking important work. The planner turns &quot;someday&quot; into calendar entries, making progress likely.</p>
+  <p>Use it in planning sessions. The tool's value is protecting long-term goals from daily urgency.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Goals vs tasks?",
+    answer:"Goals are bigger outcomes.",
+  },
+{
+    question:"Schedule important?",
+    answer:"Yes, or it gets skipped.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use with?",
+    answer:"Weekly review.",
+  }
+  ]}
+/>
+</div>
  );
 }

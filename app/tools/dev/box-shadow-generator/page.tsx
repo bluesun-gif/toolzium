@@ -2,6 +2,7 @@ import { buildMetadata } from "@/lib/seo";
 import { siteURL } from "@/lib/constants";
 import JsonLd from "@/components/seo/json-ld";
 import BoxShadowGeneratorClient from "@/components/tools/dev/box-shadow-generator-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 const TITLE = "CSS Box Shadow & Glassmorphism Generator — Live CSS Tool | Toolzium";
 const DESCRIPTION = "Create modern CSS box shadows, multi-layered drop shadows, and frosted Glassmorphism cards with real-time UI sliders. Copy production-ready CSS code instantly.";
@@ -64,6 +65,8 @@ export default function Page() {
     <>
       <JsonLd data={jsonLd as any} />
       <BoxShadowGeneratorClient />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/dev/box-shadow-generator" />
+</>
   );
 }

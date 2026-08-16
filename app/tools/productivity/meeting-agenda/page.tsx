@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { MeetingAgendaClient } from "@/components/tools/productivity/meeting-agenda-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Meeting Agenda Builder | Toolzium",
@@ -37,6 +38,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <MeetingAgendaClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/productivity/meeting-agenda" />
+</div>
   );
 }

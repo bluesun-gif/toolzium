@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useRef, useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -6,10 +9,7 @@ import { Card } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Slider } from"@/components/ui/slider";
 import { Popover, PopoverContent, PopoverTrigger } from"@/components/ui/popover";
-import { 
- Pencil, Square, Circle, Minus, Eraser, 
- Undo2, Redo2, Download, Trash2, Palette 
-} from"lucide-react";
+import { Circle, Download, Eraser, Group, Minus, Palette, PenTool, Pencil, Redo2, Shapes, ShieldCheck, Square, Trash2, Undo2 } from"lucide-react";
 import toast from"react-hot-toast";
 
 type ToolType ="pen"|"rectangle"|"circle"|"line"|"eraser";
@@ -362,6 +362,86 @@ export default function WhiteboardClient() {
  />
  </div>
  </Card>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Open Canvas",
+    description:"Start a blank board.",
+    icon: PenTool,
+  },
+{
+    step:"02",
+    title:"Draw",
+    description:"Sketch, add notes, shapes.",
+    icon: Shapes,
+  },
+{
+    step:"03",
+    title:"Arrange",
+    description:"Move and group items.",
+    icon: Group,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: PenTool,
+    title:"Draw",
+    description:"Free sketch.",
+  },
+{
+    icon: Shapes,
+    title:"Shapes",
+    description:"Boxes and lines.",
+  },
+{
+    icon: Group,
+    title:"Arrange",
+    description:"Organize items.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Private",
+    description:"Local canvas.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An online whiteboard gives a freeform canvas for sketching, diagramming, and explaining ideas that text can't capture. Visual thinking clarifies complex topics. This tool offers drawing, shapes, and arrangement.</p>
+  <p>Arranging items into groups turns a scribble into a map. The whiteboard supports both solo thinking and teaching.</p>
+  <p>Use it to think visually. The tool's value is a private canvas for ideas that words miss.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is it?",
+    answer:"Freeform visual canvas.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Brainstorm, explain.",
+  },
+{
+    question:"Export?",
+    answer:"Save your board.",
+  }
+  ]}
+/>
+</div>
  );
 }

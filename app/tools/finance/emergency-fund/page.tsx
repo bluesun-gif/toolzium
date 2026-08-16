@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { EmergencyFundClient } from "@/components/tools/finance/emergency-fund-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Emergency Fund Calculator | Toolzium",
@@ -22,6 +23,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <EmergencyFundClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/finance/emergency-fund" />
+</div>
   );
 }

@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useMemo } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -7,7 +10,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { Copy, Download, Calculator } from"lucide-react";
+import { Calculator, Clock, Coins, Copy, Download, Percent } from"lucide-react";
 
 interface YearData {
  year: number;
@@ -253,6 +256,87 @@ Final Balance: ${formatCurrency(results.finalBalance)}`;
  </Card>
  </div>
  </div>
- </>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Principal",
+    description:"Input the starting amount.",
+    icon: Coins,
+  },
+{
+    step:"02",
+    title:"Set Rate & Time",
+    description:"Add interest rate and number of years.",
+    icon: Percent,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See final balance and total interest.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Coins,
+    title:"Principal Flexibility",
+    description:"Works for savings, loans, or investments.",
+  },
+{
+    icon: Percent,
+    title:"Compounding Frequency",
+    description:"Models daily, monthly, or annual compounding.",
+  },
+{
+    icon: Calculator,
+    title:"Interest Breakdown",
+    description:"Separates contributions from earned interest.",
+  },
+{
+    icon: Clock,
+    title:"Time Impact",
+    description:"Shows how extra years multiply results.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>Compound interest is the mechanism behind both wealth building and debt spirals, which makes understanding it essential. The calculator shows what happens when interest is earned on interest rather than just the original amount. For savers this is a friend; for borrowers it is a quiet cost.</p>
+  <p>Frequency changes the outcome. Interest compounded monthly grows faster than annually because earnings begin earning sooner. The difference is small over one year but meaningful over decades, which is why the calculator lets you set the compounding period. Banks advertise annual percentage yield precisely because it reflects this effect.</p>
+  <p>For savings and investments, the lesson is to start now and stay invested. Each year of delay removes a compounding cycle that can never be recovered. For debt, the same math works in reverse: a high-rate balance compounds against you, so extra payments early save disproportionately. The interest breakdown separating your contributions from earnings makes this visible.</p>
+  <p>Use the calculator to set goals and model trade-offs. Comparing a 5 percent savings account to a 7 percent investment over 20 years illustrates why rate and time matter more than the initial sum. Whether planning a down payment or measuring loan cost, the tool turns an abstract formula into a number you can act on. Pair it with automated contributions so compounding does the heavy lifting automatically.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Compound vs simple interest?",
+    answer:"Simple interest pays only on principal; compound pays on principal plus accumulated interest.",
+  },
+{
+    question:"Does compounding frequency matter?",
+    answer:"More frequent compounding yields slightly more, all else equal.",
+  },
+{
+    question:"How do I maximize compounding?",
+    answer:"Start early, contribute regularly, and avoid withdrawing gains.",
+  },
+{
+    question:"Can I use this for loans?",
+    answer:"Yes, though for loans compounding works against you as debt grows.",
+  },
+{
+    question:"What rate should I use?",
+    answer:"Use the stated annual rate; the calculator handles the frequency conversion.",
+  }
+  ]}
+/>
+</>
  );
 }

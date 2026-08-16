@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { TimelineClient } from "@/components/tools/productivity/timeline-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Project Timeline | Toolzium",
@@ -48,6 +49,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <TimelineClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/productivity/timeline" />
+</div>
   );
 }

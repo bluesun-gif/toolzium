@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { Activity, Flame, Clock, Scale } from"lucide-react";
+import { Activity, Calculator, ChevronsUp, Clock, Flame, Scale, TrendingUp } from"lucide-react";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
 
 // MET Values for different intensities
@@ -226,6 +229,86 @@ export function StairClimbingCalorieClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Weight",
+    description:"Add body weight.",
+    icon: Scale,
+  },
+{
+    step:"02",
+    title:"Set Floors",
+    description:"Input flights or steps.",
+    icon: ChevronsUp,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See calories burned.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Scale,
+    title:"Weight Based",
+    description:"Personalizes burn.",
+  },
+{
+    icon: ChevronsUp,
+    title:"Floor Aware",
+    description:"Vertical work counted.",
+  },
+{
+    icon: Calculator,
+    title:"Burn Estimate",
+    description:"Cost of climbing.",
+  },
+{
+    icon: TrendingUp,
+    title:"Daily Boost",
+    description:"Small sessions add up.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A stair climbing calorie calculator captures the surprising cost of going vertical. Climbing against gravity burns notably more than walking flat, making stairs an efficient mini-workout. This tool estimates the burn from weight and steps, encouraging everyday movement.</p>
+  <p>Small sessions accumulate. Taking stairs routinely adds meaningful weekly activity without a gym. The calculator quantifies this so the effort feels worthwhile and trackable.</p>
+  <p>Pair with a deficit for fat loss. The tool's value is highlighting an easy, free activity's energy cost, nudging more movement into daily life.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why high burn?",
+    answer:"Vertical movement is demanding.",
+  },
+{
+    question:"How estimated?",
+    answer:"Weight, steps, intensity.",
+  },
+{
+    question:"Accurate?",
+    answer:"Approximate.",
+  },
+{
+    question:"Daily stairs?",
+    answer:"Great low-effort activity.",
+  },
+{
+    question:"Track it?",
+    answer:"Log to accumulate.",
+  }
+  ]}
+/>
+</div>
  );
 }

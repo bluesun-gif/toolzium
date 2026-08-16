@@ -2,6 +2,7 @@ import { buildMetadata } from "@/lib/seo";
 import { siteURL } from "@/lib/constants";
 import JsonLd from "@/components/seo/json-ld";
 import FaviconGeneratorClient from "@/components/tools/image/favicon-generator-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 const TITLE = "Favicon & App Icon Generator — Convert Image to Favicon.ico | Toolzium";
 const DESCRIPTION = "Generate website favicons, Apple Touch icons, Android PWA icons, and multi-resolution favicon.ico files online. Download ready-to-use icon zip packages with HTML head code.";
@@ -63,6 +64,8 @@ export default function Page() {
     <>
       <JsonLd data={jsonLd as any} />
       <FaviconGeneratorClient />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/image/favicon-generator" />
+</>
   );
 }

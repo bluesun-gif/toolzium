@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Button } from"@/components/ui/button";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { Heart, Calendar, AlertTriangle, ListChecks } from"lucide-react";
+import { AlertTriangle, Baby, Calendar, ClipboardList, Heart, HeartPulse, ListChecks } from"lucide-react";
 import toast from"react-hot-toast";
 
 export function PregnancyTrackerClient() {
@@ -174,6 +177,86 @@ export function PregnancyTrackerClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Date",
+    description:"Add due date or last period.",
+    icon: Calendar,
+  },
+{
+    step:"02",
+    title:"Track",
+    description:"Log symptoms and milestones.",
+    icon: ClipboardList,
+  },
+{
+    step:"03",
+    title:"View",
+    description:"See week-by-week progress.",
+    icon: Baby,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Calendar,
+    title:"Date Based",
+    description:"From due date or LMP.",
+  },
+{
+    icon: ClipboardList,
+    title:"Symptom Log",
+    description:"Record how you feel.",
+  },
+{
+    icon: Baby,
+    title:"Week View",
+    description:"Trimester milestones.",
+  },
+{
+    icon: HeartPulse,
+    title:"Health Notes",
+    description:"Share with clinician.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A pregnancy tracker organizes a transformative period into a clear week-by-week view. By entering your due date or last period, it maps trimesters and milestones, helping you anticipate changes. This tool also logs symptoms, creating a record to discuss with your clinician.</p>
+  <p>Logging matters. Symptoms vary widely and timing helps distinguish normal from concerning; a consistent diary improves appointments. The tracker structures this so notes are easy to keep and share, supporting better care.</p>
+  <p>This is informational, not medical guidance. Confirm everything with your provider, especially any symptom that worries you. The tool's value is turning an overwhelming nine months into an organized, reassuring timeline you can follow and discuss.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What does it track?",
+    answer:"Weeks, symptoms, and milestones.",
+  },
+{
+    question:"Accurate timing?",
+    answer:"Estimates; ultrasound refines.",
+  },
+{
+    question:"Log symptoms?",
+    answer:"Yes, useful for appointments.",
+  },
+{
+    question:"Medical advice?",
+    answer:"No, follow your provider.",
+  },
+{
+    question:"Weekly view?",
+    answer:"Yes, shows fetal development stage.",
+  }
+  ]}
+/>
+</div>
  );
 }

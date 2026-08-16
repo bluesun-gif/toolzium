@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import StandardCalculatorClient from "@/components/tools/calc/standard-calculator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Standard Calculator",
@@ -134,6 +135,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <StandardCalculatorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/calc/standard" />
+</div>
   );
 }

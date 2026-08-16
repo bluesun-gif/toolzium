@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { LetterTemplateClient } from "@/components/tools/office/letter-template-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Letter Template Generator | Toolzium",
@@ -22,6 +23,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <LetterTemplateClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/office/letter-template" />
+</div>
   );
 }

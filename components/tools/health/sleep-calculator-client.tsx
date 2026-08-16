@@ -1,7 +1,10 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useEffect, useMemo } from"react";
-import { Moon, Sun, Clock, Info, BedDouble } from"lucide-react";
+import { AlarmClock, BedDouble, Calculator, Clock, Info, Moon, Sun } from"lucide-react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
 import { CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { GlassCard } from"@/components/ui/glass-card";
@@ -248,7 +251,87 @@ export function SleepCalculatorClient() {
  {res.durationString} of sleep
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Wake",
+    description:"Add desired wake time.",
+    icon: AlarmClock,
+  },
+{
+    step:"02",
+    title:"Set Cycles",
+    description:"Choose number of 90-min cycles.",
+    icon: Moon,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See ideal bedtimes.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: AlarmClock,
+    title:"Wake Based",
+    description:"Works backward from wake.",
+  },
+{
+    icon: Moon,
+    title:"Sleep Cycles",
+    description:"90-minute cycle planning.",
+  },
+{
+    icon: Calculator,
+    title:"Bedtimes",
+    description:"Multiple options shown.",
+  },
+{
+    icon: Clock,
+    title:"Consistency",
+    description:"Encourages regular sleep.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A sleep calculator plans bedtime around sleep cycles rather than arbitrary hours. Since a full cycle is roughly 90 minutes, waking between cycles leaves you more refreshed than mid-cycle. This tool works backward from your wake time to suggest bedtimes hitting whole cycles.</p>
+  <p>Total duration still matters; adults generally need 7 to 9 hours, which the cycle count reflects. The calculator offers several bedtime options so you pick one fitting your schedule, aiming for whole cycles.</p>
+  <p>Consistency amplifies the benefit. Regular sleep timing stabilizes your rhythm beyond any single night's math. The tool's value is a practical bedtime plan that respects how sleep actually cycles, improving how you feel on waking.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why 90 minutes?",
+    answer:"A full sleep cycle is about 90 minutes.",
+  },
+{
+    question:"How much sleep?",
+    answer:"Adults often need 7 to 9 hours.",
+  },
+{
+    question:"Wake refreshed?",
+    answer:"Aligning to cycle ends helps.",
+  },
+{
+    question:"Exact?",
+    answer:"Estimates; individual varies.",
+  },
+{
+    question:"Consistency?",
+    answer:"Regular timing improves rest.",
+  }
+  ]}
+/>
+</div>
  );
  })}
  </div>

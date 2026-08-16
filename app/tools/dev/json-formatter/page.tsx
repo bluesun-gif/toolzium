@@ -3,7 +3,6 @@ import JsonLd from "@/components/seo/json-ld";
 import JSONFormatterClient from "@/components/tools/dev/json-formatter-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Free JSON Formatter, Prettifier & Validator | Toolzium",
   description:
@@ -116,6 +115,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <JSONFormatterClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/json-formatter" />
+</div>
   );
 }

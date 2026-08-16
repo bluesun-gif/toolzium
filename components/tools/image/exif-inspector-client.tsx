@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -6,18 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
 import toast from"react-hot-toast";
-import {
- ShieldCheck,
- Upload,
- Eye,
- Download,
- MapPin,
- Camera,
- FileImage,
- RefreshCw,
- Zap,
- Lock,
-} from"lucide-react";
+import { Camera, Download, Eye, FileImage, FileSearch, Lock, MapPin, RefreshCw, ShieldCheck, Upload, Zap } from"lucide-react";
 
 interface ExifData {
  fileName: string;
@@ -257,6 +249,86 @@ export default function ExifInspectorClient() {
  </Card>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Upload",
+    description:"Load a photo.",
+    icon: Upload,
+  },
+{
+    step:"02",
+    title:"Inspect",
+    description:"View EXIF and GPS data.",
+    icon: FileSearch,
+  },
+{
+    step:"03",
+    title:"Strip",
+    description:"Remove metadata and save.",
+    icon: ShieldCheck,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Upload,
+    title:"Photo Input",
+    description:"From your device.",
+  },
+{
+    icon: FileSearch,
+    title:"Inspect",
+    description:"Camera, date, GPS.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Strip",
+    description:"Remove sensitive data.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Clean image.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A photo EXIF inspector reveals the hidden data embedded in images — camera model, timestamp, and often precise GPS coordinates. Sharing photos without checking can leak your location. This tool shows that metadata and can strip it before you post.</p>
+  <p>Privacy is the priority. GPS in a casual photo can reveal home or routine; removing it protects you without losing the image. Local processing means the photo never uploads during inspection.</p>
+  <p>Use it before sharing any photo publicly. The tool's value is surfacing and erasing sensitive metadata, closing a common privacy gap.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is EXIF?",
+    answer:"Embedded camera and location data.",
+  },
+{
+    question:"Why strip GPS?",
+    answer:"Prevents location leaks.",
+  },
+{
+    question:"Private?",
+    answer:"Yes, local processing.",
+  },
+{
+    question:"Reversible?",
+    answer:"Stripping is permanent.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  }
+  ]}
+/>
+</div>
  );
 }

@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 import React, { useState, useMemo } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
 import { GlassCard } from"@/components/ui/glass-card";
@@ -7,7 +10,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { DollarSign } from"lucide-react";
+import { Calculator, Car, DollarSign, Percent, Receipt } from"lucide-react";
 
 type AmortizationRow = {
  month: number;
@@ -244,6 +247,87 @@ export function AutoLoanCalculatorClient() {
  </CardContent>
  </GlassCard>
  )}
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Loan Details",
+    description:"Input vehicle price, down payment, and loan term.",
+    icon: Car,
+  },
+{
+    step:"02",
+    title:"Set Interest Rate",
+    description:"Add the APR from your lender offer.",
+    icon: Percent,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See monthly payment and total interest.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Car,
+    title:"Total Cost View",
+    description:"Shows full price including interest, not just the sticker.",
+  },
+{
+    icon: Percent,
+    title:"APR Aware",
+    description:"Models how rate changes move your monthly payment.",
+  },
+{
+    icon: Calculator,
+    title:"Term Comparison",
+    description:"Compare 36, 48, and 60 month loans side by side.",
+  },
+{
+    icon: Receipt,
+    title:"Amortization",
+    description:"Breaks down principal versus interest over time.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>Buying a car is one of the largest financed purchases most people make, yet the monthly payment is where budgets feel it. An auto loan calculator turns a confusing offer into clear numbers you can compare. By entering the price, down payment, term, and APR, you see exactly what you will owe each month and over the life of the loan.</p>
+  <p>The two biggest levers are term length and interest rate. A longer term lowers the monthly payment but increases total interest dramatically — a 60-month loan can cost hundreds more than 36 months for the same car. The APR, meanwhile, compounds that difference; even one point of rate can mean thousands over the loan. The calculator lets you model both before you sign.</p>
+  <p>Down payment matters more than many realize. Putting 20 percent down not only shrinks the loan but can unlock better rates and avoid being upside-down, where you owe more than the car is worth. If a large down payment is not possible, the calculator shows how the payment changes so you can choose a term you can actually afford.</p>
+  <p>Always compare the full cost, not just the monthly figure. A dealer may emphasize a low payment achieved through a long term; the amortization view reveals the true price. Use the numbers to negotiate from strength, and consider getting pre-approved at a bank or credit union so you know your real rate. A few minutes of calculation can save years of overpayment.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is APR vs interest rate?",
+    answer:"The interest rate is the cost of borrowing; APR includes that plus fees, giving a fuller cost picture.",
+  },
+{
+    question:"Does a longer term lower my payment?",
+    answer:"Yes, spreading payments over more months reduces each one, but you pay more total interest.",
+  },
+{
+    question:"How much should I put down?",
+    answer:"A larger down payment lowers the loan amount and often secures a better rate.",
+  },
+{
+    question:"Should I buy new or used?",
+    answer:"Used cars cost less and depreciate slower initially, but rates can be higher than new-car promotions.",
+  },
+{
+    question:"Can I pay the loan off early?",
+    answer:"Often yes, but check for prepayment penalties in your contract before doing so.",
+  }
+  ]}
+/>
+</div>
  );
 }

@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -7,7 +10,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Calculator, DollarSign, Clock } from"lucide-react";
+import { Calculator, Clock, DollarSign, Target, TrendingUp } from"lucide-react";
 import { Separator } from"@/components/ui/separator";
 
 export function FreelanceRateClient() {
@@ -169,6 +172,87 @@ export function FreelanceRateClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Set Income Target",
+    description:"Enter the yearly take-home you want.",
+    icon: Target,
+  },
+{
+    step:"02",
+    title:"Estimate Billable",
+    description:"Input realistic weekly billable hours.",
+    icon: Clock,
+  },
+{
+    step:"03",
+    title:"Compute Rate",
+    description:"See the hourly rate to charge.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Target,
+    title:"Goal Based",
+    description:"Derives rate from desired income.",
+  },
+{
+    icon: Clock,
+    title:"Realistic Hours",
+    description:"Uses billable, not calendar, hours.",
+  },
+{
+    icon: Calculator,
+    title:"Clear Output",
+    description:"A rate you can quote confidently.",
+  },
+{
+    icon: TrendingUp,
+    title:"What-If Mode",
+    description:"Test different hour assumptions.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>Pricing freelance work starts with a simple question: what do I need to earn? This calculator reverses the usual guess by taking your income target and the hours you can actually bill, then deriving the rate required to hit it. The simplicity makes it easy to revisit often, which pricing should be.</p>
+  <p>The billable-hour input is honest accounting. Freelancers rarely bill a full 40-hour week once admin, outreach, and downtime are removed. Using realistic billable hours — perhaps 20 to 30 — produces a rate that reflects truth, not hope. Under counting here is the most common pricing error.</p>
+  <p>Seasonality deserves a buffer. Demand dips, clients delay, and invoices lag, so a rate built on best-case hours leaves you short in lean months. Adding a cushion or saving from busy periods smooths the ride. The what-if mode lets you see how fewer hours push the rate up, informing both pricing and how much work to pursue.</p>
+  <p>Use the number as a baseline, not a ceiling. As you gain testimonials and skill, raise rates confidently; good clients pay for reliability. Recompute whenever your income goal or available hours change. The calculator's role is removing the anxiety from pricing by grounding it in your actual financial needs.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"How is this different from the rate calc?",
+    answer:"It is a streamlined version focused on income goal and billable hours.",
+  },
+{
+    question:"What if I work part time?",
+    answer:"Enter your actual billable hours; the rate scales accordingly.",
+  },
+{
+    question:"Should rate include vacation?",
+    answer:"Yes, fewer working weeks mean higher per-hour needs.",
+  },
+{
+    question:"How do I handle slow months?",
+    answer:"Build a buffer into the rate to smooth uneven demand.",
+  },
+{
+    question:"When to raise rates?",
+    answer:"As demand and skill grow, typically annually.",
+  }
+  ]}
+/>
+</div>
  );
 }

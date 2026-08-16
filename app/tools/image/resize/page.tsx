@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import ImageResizeClient from "@/components/tools/image/image-resize-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Image Resize",
@@ -133,6 +134,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <ImageResizeClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/image/resize" />
+</div>
   );
 }

@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import SalaryHourlyClient from "@/components/tools/finance/salary-hourly-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Salary ↔ Hourly Pay Calculator",
@@ -132,6 +133,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <SalaryHourlyClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/finance/salary-hourly" />
+</div>
   );
 }

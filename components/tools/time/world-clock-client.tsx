@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Button } from"@/components/ui/button";
 import { Switch } from"@/components/ui/switch";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { Globe, Clock, Plus, X, Sun, Moon } from"lucide-react";
+import { Clock, Globe, Moon, Plus, RefreshCw, Sun, Users, X } from"lucide-react";
 import toast from"react-hot-toast";
 
 const ALL_CITIES = [
@@ -181,7 +184,87 @@ export function WorldClockClient() {
  <div className="text-3xl font-mono tracking-tight flex items-baseline gap-2">
  {mainTime}
  {!is24Hour && ampm && <span className="text-lg font-sans text-muted-foreground">{ampm}</span>}
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Cities",
+    description:"Pick time zones.",
+    icon: Globe,
+  },
+{
+    step:"02",
+    title:"View",
+    description:"See all current times.",
+    icon: Clock,
+  },
+{
+    step:"03",
+    title:"Update",
+    description:"Times tick live.",
+    icon: RefreshCw,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Globe,
+    title:"Cities",
+    description:"Multiple zones.",
+  },
+{
+    icon: Clock,
+    title:"Current",
+    description:"Live times.",
+  },
+{
+    icon: RefreshCw,
+    title:"Live",
+    description:"Updates continuously.",
+  },
+{
+    icon: Users,
+    title:"Compare",
+    description:"Side by side.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A world clock displays current time across chosen cities at once, keeping you aware of colleagues' and family's local hours. Live updates mean no stale reads. This tool shows them side by side.</p>
+  <p>Awareness prevents calling someone at 3am. The clock supports courteous global coordination.</p>
+  <p>Use it for always-on time awareness. The tool's value is live, multi-city time at a glance.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What shows?",
+    answer:"Current time per city.",
+  },
+{
+    question:"Live?",
+    answer:"Yes, updates.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Global awareness.",
+  }
+  ]}
+/>
+</div>
  </CardContent>
  </GlassCard>
  );

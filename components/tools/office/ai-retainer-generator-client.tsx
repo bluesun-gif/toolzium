@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -7,7 +10,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Textarea } from"@/components/ui/textarea";
 import { AiOutputDisplay } from"@/components/shared/ai-output-display";
-import { Briefcase, RefreshCw } from"lucide-react";
+import { Briefcase, FileCheck2, FileText, RefreshCw, Scale, Wand2 } from"lucide-react";
 import toast from"react-hot-toast";
 
 export default function AiRetainerGeneratorClient() {
@@ -113,6 +116,86 @@ export default function AiRetainerGeneratorClient() {
  variant="cards"
  />
  )}
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Describe Work",
+    description:"Summarize the engagement.",
+    icon: FileText,
+  },
+{
+    step:"02",
+    title:"Set Fee",
+    description:"Define retainer and scope.",
+    icon: Scale,
+  },
+{
+    step:"03",
+    title:"Generate",
+    description:"Create the proposal.",
+    icon: FileCheck2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: FileText,
+    title:"Scope Input",
+    description:"Describe deliverables.",
+  },
+{
+    icon: Scale,
+    title:"Fee Terms",
+    description:"Retainer and limits.",
+  },
+{
+    icon: FileCheck2,
+    title:"Proposal",
+    description:"Client-ready draft.",
+  },
+{
+    icon: Wand2,
+    title:"AI Assist",
+    description:"Polished language.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An AI retainer generator crafts a client proposal with clear recurring fees and scope boundaries, the foundation of predictable client work. Ambiguous retainers lead to scope creep; this tool forces explicit limits on hours and deliverables.</p>
+  <p>Fee structure matters. Defining the retainer amount, what is included, and overage handling protects both sides. The AI polishes the language so the proposal reads professionally.</p>
+  <p>Review with counsel before sending. The tool's value is a polished, scoped proposal draft that sets expectations and reduces friction.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is a retainer?",
+    answer:"Recurring fee for availability or work.",
+  },
+{
+    question:"Scope limits?",
+    answer:"Yes, define included hours.",
+  },
+{
+    question:"Binding?",
+    answer:"Draft; review legally.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Use case?",
+    answer:"Agencies and consultants.",
+  }
+  ]}
+/>
+</div>
  );
 }

@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import HtmlEntitiesClient from "@/components/tools/dev/html-entities-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "HTML Entity Encoder/Decoder | Toolzium",
   description: "Encode and decode HTML entities easily. Convert special characters to HTML entities and vice versa.",
@@ -22,6 +21,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <HtmlEntitiesClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/html-entities" />
+</div>
   );
 }

@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import OGBuilderClient from "@/components/tools/seo/og-builder-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "OG Image Builder",
   description:
@@ -134,6 +133,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <OGBuilderClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/seo/og-builder" />
+</div>
   );
 }

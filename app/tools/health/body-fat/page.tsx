@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { BodyFatClient } from "@/components/tools/health/body-fat-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Body Fat Calculator | Toolzium",
@@ -20,6 +21,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <BodyFatClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/health/body-fat" />
+</div>
   );
 }

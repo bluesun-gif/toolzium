@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { FlexboxGeneratorClient } from "@/components/tools/dev/flexbox-generator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "CSS Flexbox Layout Generator | Toolzium",
@@ -45,6 +46,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <FlexboxGeneratorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/flexbox-generator" />
+</div>
   );
 }

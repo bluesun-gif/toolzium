@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { PaceCalorieClient } from "@/components/tools/health/pace-calorie-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Running vs Walking Pace & Calorie Calculator | Toolzium",
@@ -22,6 +23,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <PaceCalorieClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/health/pace-calorie" />
+</div>
   );
 }

@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import TypingTestClient from "@/components/tools/util/typing-test-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Typing Speed Test Tool — Free WPM Keyboard Test",
   description:
@@ -110,6 +109,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <TypingTestClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/util/typing-test" />
+</div>
   );
 }

@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import AiMetaGeneratorClient from "@/components/tools/seo/ai-meta-generator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "AI Meta Generator — Free SEO Title & Meta Description Generator | Toolzium",
   description: "Generate search-optimized HTML title tags and meta descriptions tailored for maximum organic Google CTR with live AI inference.",
@@ -71,6 +70,8 @@ export default function AiMetaGeneratorPage() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <AiMetaGeneratorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/seo/ai-meta-generator" />
+</div>
   );
 }

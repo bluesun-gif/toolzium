@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import { EnvEditorClient } from "@/components/tools/dev/env-editor-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Environment Variables Editor | Toolzium",
   description: "Visual editor for .env files. Parse, edit, validate, and format your environment variables easily.",
@@ -67,6 +66,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <EnvEditorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/env-editor" />
+</div>
   );
 }

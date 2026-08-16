@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import WordCounterClient from "@/components/tools/text/word-counter-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Free Word Counter & Character Count Tool | Toolzium",
   description:
@@ -116,6 +115,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <WordCounterClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/text/word-counter" />
+</div>
   );
 }

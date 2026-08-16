@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import SavingsGoalClient from "@/components/tools/finance/savings-goal-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Savings Goal Calculator",
   description:
@@ -137,6 +136,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <SavingsGoalClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/finance/savings-goal" />
+</div>
   );
 }

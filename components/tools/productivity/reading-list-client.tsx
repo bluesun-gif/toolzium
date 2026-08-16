@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useEffect, useMemo } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { BookOpen, Plus, Star, Search, Download, Trash2, Edit } from"lucide-react";
+import { BookMarked, BookOpen, CheckCircle2, Download, Edit, Plus, Search, Star, Tags, Trash2 } from"lucide-react";
 import toast from"react-hot-toast";
 import { cn } from"@/lib/utils";
 
@@ -302,6 +305,86 @@ export function ReadingListClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Items",
+    description:"Save articles and books.",
+    icon: BookMarked,
+  },
+{
+    step:"02",
+    title:"Organize",
+    description:"Tag by topic or status.",
+    icon: Tags,
+  },
+{
+    step:"03",
+    title:"Track",
+    description:"Mark read and rate.",
+    icon: CheckCircle2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: BookMarked,
+    title:"Save",
+    description:"Quick add.",
+  },
+{
+    icon: Tags,
+    title:"Tags",
+    description:"Organize.",
+  },
+{
+    icon: CheckCircle2,
+    title:"Progress",
+    description:"Read status.",
+  },
+{
+    icon: Star,
+    title:"Rate",
+    description:"Note quality.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A reading list manager captures articles and books so nothing worthwhile is lost in browser tabs. Tagging by topic and tracking read status turns a backlog into a managed queue. This tool handles save, organize, and progress.</p>
+  <p>Progress tracking prevents the endless &quot;to-read&quot; pile. The list shows what you've consumed and what's next.</p>
+  <p>Use it as your reading hub. The tool's value is a private, organized reading queue.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why a list?",
+    answer:"Tames reading backlog.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Research, learning.",
+  },
+{
+    question:"Sync?",
+    answer:"Local, no account.",
+  }
+  ]}
+/>
+</div>
  );
 }

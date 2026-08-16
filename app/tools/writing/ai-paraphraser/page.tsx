@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import AiParaphraserClient from "@/components/tools/writing/ai-paraphraser-client";
-
 export const metadata: Metadata = {
   title: "AI Content Paraphraser & Tone Transformer Studio | Toolzium",
   description:
@@ -8,5 +7,9 @@ export const metadata: Metadata = {
 };
 
 export default function AiParaphraserPage() {
-  return <AiParaphraserClient />;
+  return (
+    <><AiParaphraserClient />
+      <RelatedTools currentToolUrl="/tools/writing/ai-paraphraser" />
+    </>
+  );
 }

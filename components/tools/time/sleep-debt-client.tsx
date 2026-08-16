@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ResetButton } from"@/components/shared/action-buttons";
-import { Moon, Clock, Flame, Shield } from"lucide-react";
+import { Calculator, Clock, Flame, Moon, Shield, Target, TrendingUp } from"lucide-react";
 
 export function SleepDebtClient() {
  const [targetSleep, setTargetSleep] = useState<number>(8);
@@ -152,6 +155,86 @@ export function SleepDebtClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Log Sleep",
+    description:"Enter nightly hours.",
+    icon: Moon,
+  },
+{
+    step:"02",
+    title:"Set Need",
+    description:"Your baseline requirement.",
+    icon: Target,
+  },
+{
+    step:"03",
+    title:"Compute",
+    description:"See debt and recovery.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Moon,
+    title:"Log",
+    description:"Per-night hours.",
+  },
+{
+    icon: Target,
+    title:"Baseline",
+    description:"Your need.",
+  },
+{
+    icon: Calculator,
+    title:"Debt",
+    description:"Accumulated gap.",
+  },
+{
+    icon: TrendingUp,
+    title:"Recovery",
+    description:"Catch-up plan.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A sleep debt calculator totals the gap between the sleep you got and what you needed, showing accumulated deficit and a catch-up path. Small nightly shortfalls compound into real impairment. This tool quantifies the debt.</p>
+  <p>Recovery planning matters; the calculator suggests how extra sleep restores balance. Awareness alone motivates better habits.</p>
+  <p>Use it to track rest. The tool's value is a clear picture of sleep shortfall and recovery.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is sleep debt?",
+    answer:"Shortfall vs your need.",
+  },
+{
+    question:"Recoverable?",
+    answer:"Partly, with extra sleep.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Tracking rest.",
+  }
+  ]}
+/>
+</div>
  );
 }

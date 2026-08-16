@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import MinecraftSeedClient from "@/components/tools/gaming/minecraft-seed-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "Minecraft Seed & World Name Generator | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function MinecraftSeedPage() {
-  return <MinecraftSeedClient />;
+  return (
+    <><MinecraftSeedClient />
+      <RelatedTools currentToolUrl="/tools/gaming/minecraft-seed-namer" />
+    </>
+  );
 }

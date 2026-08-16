@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -6,7 +9,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
-import { CheckCircle, Palette, Download, XCircle } from"lucide-react";
+import { CheckCircle, Download, FileSpreadsheet, Palette, ShieldCheck, XCircle } from"lucide-react";
 import { ActionButton, CopyButton } from"@/components/shared/action-buttons";
 import toast from"react-hot-toast";
 
@@ -203,7 +206,87 @@ export function ContrastComplianceSheetClient() {
  {comp.normalAA ?"AA Pass":"AA Fail"}
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Colors",
+    description:"Add your palette.",
+    icon: Palette,
+  },
+{
+    step:"02",
+    title:"Generate",
+    description:"Build a compliance sheet.",
+    icon: FileSpreadsheet,
+  },
+{
+    step:"03",
+    title:"Review",
+    description:"See WCAG verdicts.",
+    icon: ShieldCheck,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Palette,
+    title:"Palette Input",
+    description:"Your colors.",
+  },
+{
+    icon: FileSpreadsheet,
+    title:"Sheet",
+    description:"Organized report.",
+  },
+{
+    icon: ShieldCheck,
+    title:"WCAG",
+    description:"AA and AAA flags.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Save the report.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A contrast compliance sheet produces a formal, organized report of your palette's WCAG results — useful for accessibility documentation and sign-off. Where a matrix shows numbers, a sheet presents them as a reviewable deliverable. This tool generates it from your colors.</p>
+  <p>Documentation matters for teams and clients. A clear sheet proves due diligence on accessibility, reducing risk and rework. The report flags every failing pair against AA and AAA.</p>
+  <p>Use it when you need to evidence compliance. The tool's value is turning contrast checks into a shareable, professional report.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Sheet vs matrix?",
+    answer:"A formatted compliance report.",
+  },
+{
+    question:"WCAG levels?",
+    answer:"Reports AA and AAA.",
+  },
+{
+    question:"Use case?",
+    answer:"Accessibility documentation.",
+  },
+{
+    question:"Export?",
+    answer:"Yes, downloadable.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  }
+  ]}
+/>
+</div>
  </td>
  );
  })}

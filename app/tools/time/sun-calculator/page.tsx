@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { SunCalculatorClient } from "@/components/tools/time/sun-calculator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Sunrise & Sunset Calculator | Toolzium",
@@ -45,6 +46,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <SunCalculatorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/time/sun-calculator" />
+</div>
   );
 }

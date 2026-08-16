@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Input } from"@/components/ui/input";
 import { Button } from"@/components/ui/button";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { Calendar, Clock, Sparkles, Plus, Trash2 } from"lucide-react";
+import { Bell, Calendar, CalendarDays, Clock, Plus, Sparkles, Timer, Trash2 } from"lucide-react";
 import { ActionButton } from"@/components/shared/action-buttons";
 import { cn } from"@/lib/utils";
 import toast from"react-hot-toast";
@@ -244,6 +247,86 @@ export function EventCountdownClient() {
  )}
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Event",
+    description:"Name and date.",
+    icon: CalendarDays,
+  },
+{
+    step:"02",
+    title:"Set Time",
+    description:"Include the hour.",
+    icon: Clock,
+  },
+{
+    step:"03",
+    title:"Count",
+    description:"See time remaining.",
+    icon: Timer,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: CalendarDays,
+    title:"Event",
+    description:"What and when.",
+  },
+{
+    icon: Clock,
+    title:"Time",
+    description:"Precise to hour.",
+  },
+{
+    icon: Timer,
+    title:"Countdown",
+    description:"Live remaining.",
+  },
+{
+    icon: Bell,
+    title:"Remind",
+    description:"Plan ahead.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An event countdown shows exactly how long until a planned moment, useful for trips, launches, and deadlines. Including the time makes it precise to the hour. This tool computes the live remaining span.</p>
+  <p>Countdowns turn abstract future dates into tangible waits, helping you prepare. The readout updates as time passes.</p>
+  <p>Use it for anything you're looking forward to. The tool's value is a precise, live time-until display.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What does it show?",
+    answer:"Time until an event.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Trips, launches.",
+  },
+{
+    question:"Accurate?",
+    answer:"Calendar-based.",
+  }
+  ]}
+/>
+</div>
  );
 }

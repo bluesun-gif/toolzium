@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import ColorMemoryClient from "@/components/tools/fun/color-memory-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Color Memory Game | Toolzium",
   description: "Test your memory with this classic color matching card game.",
@@ -21,6 +20,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <ColorMemoryClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/fun/color-memory" />
+</div>
   );
 }

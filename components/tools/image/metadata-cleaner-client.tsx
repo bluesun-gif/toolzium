@@ -1,11 +1,14 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useRef } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
 import { GlassCard } from"@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
-import { ShieldCheck, Upload, Download, Trash2, Image as ImageIcon } from"lucide-react";
+import { Download, FileSearch, Image as ImageIcon, ShieldCheck, Trash2, Upload } from"lucide-react";
 import toast from"react-hot-toast";
 
 export function MetadataCleanerClient() {
@@ -196,6 +199,86 @@ export function MetadataCleanerClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Upload",
+    description:"Load photos.",
+    icon: Upload,
+  },
+{
+    step:"02",
+    title:"Scan",
+    description:"Detect embedded metadata.",
+    icon: FileSearch,
+  },
+{
+    step:"03",
+    title:"Clean",
+    description:"Strip and download.",
+    icon: ShieldCheck,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Upload,
+    title:"Photo Input",
+    description:"From your device.",
+  },
+{
+    icon: FileSearch,
+    title:"Scan",
+    description:"Find EXIF and GPS.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Clean",
+    description:"Remove all metadata.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Safe images.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An image metadata cleaner strips the hidden EXIF and GPS data embedded in photos before you share them. That data can reveal your location, device, and timing — information you may not intend to publish. This tool scans and removes it.</p>
+  <p>Privacy is the point. A casual photo can expose where you were; stripping metadata closes that gap. Local processing means files never upload during cleaning.</p>
+  <p>Use it on any photo before public sharing. The tool's value is effortless privacy protection baked into your workflow.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is removed?",
+    answer:"EXIF, GPS, camera data.",
+  },
+{
+    question:"Why clean?",
+    answer:"Prevent location and device leaks.",
+  },
+{
+    question:"Private?",
+    answer:"Yes, local.",
+  },
+{
+    question:"Reversible?",
+    answer:"No, data is gone.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  }
+  ]}
+/>
+</div>
  );
 }

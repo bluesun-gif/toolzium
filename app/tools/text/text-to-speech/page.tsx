@@ -2,7 +2,6 @@ import { Metadata } from "next";
 import TextToSpeechClient from "@/components/tools/text/text-to-speech-client";
 import { generateSEOMetadata } from "@/lib/seo-config";
 import JsonLd from "@/components/seo/json-ld";
-
 export const metadata: Metadata = generateSEOMetadata({
   title: "Text to Speech (TTS) Reader — Online Natural Voices",
   description:
@@ -46,6 +45,8 @@ export default function TextToSpeechPage() {
     <>
       <JsonLd data={faqSchema} />
       <TextToSpeechClient />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/text/text-to-speech" />
+</>
   );
 }

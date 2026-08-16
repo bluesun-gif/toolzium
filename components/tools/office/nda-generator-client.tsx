@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Lock, FileText, AlertTriangle } from"lucide-react";
+import { AlertTriangle, EyeOff, FileCheck2, FileText, Lock, ShieldCheck } from"lucide-react";
 import { cn } from"@/lib/utils";
 import toast from"react-hot-toast";
 
@@ -133,6 +136,86 @@ export function NdaGeneratorClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Parties",
+    description:"Add the organizations.",
+    icon: FileText,
+  },
+{
+    step:"02",
+    title:"Define Terms",
+    description:"Set scope and duration.",
+    icon: EyeOff,
+  },
+{
+    step:"03",
+    title:"Generate",
+    description:"Build the NDA.",
+    icon: FileCheck2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: FileText,
+    title:"Parties",
+    description:"Identities.",
+  },
+{
+    icon: EyeOff,
+    title:"Confidentiality",
+    description:"Protected info.",
+  },
+{
+    icon: FileCheck2,
+    title:"Draft",
+    description:"Ready document.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Clarity",
+    description:"Plain language.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An NDA generator produces a confidentiality agreement so businesses can exchange ideas and data without fear of misuse. Specifying protected information and term makes obligations explicit. This tool assembles the draft.</p>
+  <p>Mutual versus one-way selection fits the relationship. The generator includes standard terms in plain language for clarity.</p>
+  <p>Have counsel review before execution. The tool's value is a structured NDA that protects information efficiently.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"When needed?",
+    answer:"Before sharing proprietary data.",
+  },
+{
+    question:"Mutual option?",
+    answer:"Yes, both parties.",
+  },
+{
+    question:"Binding?",
+    answer:"Draft; review legally.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Duration?",
+    answer:"Set a term.",
+  }
+  ]}
+/>
+</div>
  );
 }

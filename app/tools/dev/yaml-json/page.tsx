@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import YamlJsonClient from "@/components/tools/dev/yaml-json-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "YAML ⇄ JSON Converter",
   description:
@@ -117,6 +116,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <YamlJsonClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/yaml-json" />
+</div>
   );
 }

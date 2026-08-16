@@ -2,7 +2,6 @@ import { Metadata } from "next";
 import ClientComponent from "@/components/tools/dev/color-palette-client";
 import { generateSEOMetadata } from "@/lib/seo-config";
 import JsonLd from "@/components/seo/json-ld";
-
 export const metadata: Metadata = generateSEOMetadata({
   title: "Color Palette Generator — Create Color Schemes Free",
   description: "Generate beautiful color palettes online. Complementary, analogous, triadic, monochromatic schemes. Extract colors from images. Export CSS, HEX, RGB, HSL.",
@@ -45,6 +44,8 @@ export default function ColorPalettePage() {
     <>
       <JsonLd data={faqSchema} />
       <ClientComponent />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/dev/color-palette" />
+</>
   );
 }

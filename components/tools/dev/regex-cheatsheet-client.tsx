@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useMemo } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Separator } from"@/components/ui/separator";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { BookOpen, Search, Copy, Code } from"lucide-react";
+import { BookOpen, Code, Copy, Lightbulb, PlayCircle, Search } from"lucide-react";
 import { toast } from"react-hot-toast";
 
 const REGEX_DATA = [
@@ -240,6 +243,88 @@ export function RegexCheatsheetClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Browse Patterns",
+    description:"Scan common tokens and ready-made patterns.",
+    icon: BookOpen,
+  },
+{
+    step:"02",
+    title:"Copy a Pattern",
+    description:"Grab a snippet that matches your need.",
+    icon: Copy,
+  },
+{
+    step:"03",
+    title:"Test It",
+    description:"Paste into your editor or a tester to validate.",
+    icon: PlayCircle,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: BookOpen,
+    title:"Token Reference",
+    description:"Anchors, character classes, quantifiers, and groups.",
+  },
+{
+    icon: Copy,
+    title:"Copy Snippets",
+    description:"One-click copy of common expressions.",
+  },
+{
+    icon: Search,
+    title:"Searchable List",
+    description:"Jump to the pattern you need quickly.",
+  },
+{
+    icon: Lightbulb,
+    title:"Use Cases",
+    description:"Email, phone, URL, and date patterns included.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>Regular expressions look intimidating until you learn they are built from a small set of composable pieces. A cheatsheet turns that alphabet into reusable patterns you can copy and adapt, saving hours of trial and error. The core building blocks are anchors, character classes, quantifiers, and groups.</p>
+  <p>Anchors position the match. The caret anchors to the start of a line and the dollar sign to the end, so ^abc matches only when abc begins the string. Character classes narrow what a position may hold: [a-z0-9] matches any lowercase letter or digit. The dot is a wildcard for any character except newline, while backslash escapes give you digits with d, words with w, and whitespace with s.</p>
+  <p>Quantifiers control repetition. An asterisk means zero or more, a plus means one or more, and a question mark makes something optional. Curly braces &#123;2,5&#125; set an exact range. Combine them with groups, written in parentheses, to repeat or capture a whole sub-pattern. Capturing groups let you extract parts of a match, while non-capturing groups (?:...) keep the structure without storing it.</p>
+  <p>Flavors differ between engines. JavaScript, Python, and PCRE each support slightly different features such as lookbehind or named groups, so always test against the engine your code uses. A cheatsheet that lists the common tokens with examples shortens the learning curve dramatically.</p>
+  <p>Use the reference to grab a vetted pattern for email, phone, or URL validation, then test it on real samples. Start simple, add constraints only as needed, and prefer readability over clever one-liners. With a solid reference beside you, regex becomes a precise tool rather than a mystery.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is a regular expression?",
+    answer:"A regular expression is a sequence of characters that defines a search pattern. It is used to match, extract, or replace text.",
+  },
+{
+    question:"What does the dot symbol match?",
+    answer:"A dot matches any single character except newline. Add the dotall flag to include newlines.",
+  },
+{
+    question:"What is a character class?",
+    answer:"Square brackets like [a-z] match any one character from the set, making patterns concise and readable.",
+  },
+{
+    question:"What do quantifiers do?",
+    answer:"Quantifiers such as *, +, and {n,m} control how many times the preceding element may repeat.",
+  },
+{
+    question:"Are regex flavors identical everywhere?",
+    answer:"No. JavaScript, Python, and PCRE differ in features like lookbehind and named groups, so test against your target engine.",
+  }
+  ]}
+/>
+</div>
  );
 }

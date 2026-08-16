@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Activity, Flame, Clock, Scale } from"lucide-react";
+import { Activity, Calculator, Clock, Flame, Scale } from"lucide-react";
 import toast from"react-hot-toast";
 
 const INTENSITIES: Record<string, number> = {
@@ -159,6 +162,86 @@ export function StairStepperCalorieClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Weight",
+    description:"Add body weight.",
+    icon: Scale,
+  },
+{
+    step:"02",
+    title:"Set Time",
+    description:"Input session minutes.",
+    icon: Clock,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See calories burned.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Scale,
+    title:"Weight Based",
+    description:"Personalizes burn.",
+  },
+{
+    icon: Clock,
+    title:"Duration",
+    description:"Longer burns more.",
+  },
+{
+    icon: Calculator,
+    title:"Burn Estimate",
+    description:"Machine session cost.",
+  },
+{
+    icon: Activity,
+    title:"Low Impact",
+    description:"Joint-friendly cardio.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A stair stepper calorie calculator estimates burn on a controlled, low-impact machine. It derives cost from weight and duration at typical intensities. This tool personalizes the figure, useful for consistent indoor cardio.</p>
+  <p>The StepMill offers steady effort without weather or terrain variables, making tracking easier. The calculator approximates cost so you can balance intake and monitor training.</p>
+  <p>Use it for sustainable cardio and log the burn. The tool's value is quantifying a convenient, joint-friendly workout's energy cost, supporting regular exercise.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"How estimated?",
+    answer:"Weight, time, intensity.",
+  },
+{
+    question:"Versus real stairs?",
+    answer:"Similar effort, controlled.",
+  },
+{
+    question:"Accurate?",
+    answer:"Approximate.",
+  },
+{
+    question:"Good cardio?",
+    answer:"Yes, sustained effort.",
+  },
+{
+    question:"Track it?",
+    answer:"Log to balance.",
+  }
+  ]}
+/>
+</div>
  );
 }

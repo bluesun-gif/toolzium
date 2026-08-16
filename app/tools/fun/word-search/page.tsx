@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import WordSearchClient from "@/components/tools/fun/word-search-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Word Search Puzzle Generator | Toolzium",
   description: "Create and play interactive word search puzzles online.",
@@ -21,6 +20,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <WordSearchClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/fun/word-search" />
+</div>
   );
 }

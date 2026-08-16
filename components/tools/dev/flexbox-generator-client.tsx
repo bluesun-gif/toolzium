@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Layout, Plus, Trash2, Copy } from"lucide-react";
+import { AlignVerticalSpaceAround, Code2, Copy, Layout, LayoutGrid, Plus, Smartphone, Trash2 } from"lucide-react";
 import { cn } from"@/lib/utils";
 
 interface FlexItem {
@@ -250,6 +253,88 @@ export function FlexboxGeneratorClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Set Container",
+    description:"Choose display, direction, wrap, and justification.",
+    icon: LayoutGrid,
+  },
+{
+    step:"02",
+    title:"Align Items",
+    description:"Control cross-axis and main-axis alignment.",
+    icon: AlignVerticalSpaceAround,
+  },
+{
+    step:"03",
+    title:"Copy CSS",
+    description:"Export the flex container and item rules.",
+    icon: Code2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: LayoutGrid,
+    title:"Container Controls",
+    description:"Tune direction, wrap, and justify-content.",
+  },
+{
+    icon: AlignVerticalSpaceAround,
+    title:"Alignment Helpers",
+    description:"Set align-items and align-self easily.",
+  },
+{
+    icon: Smartphone,
+    title:"Live Preview",
+    description:"See items reflow as you change settings.",
+  },
+{
+    icon: Code2,
+    title:"Copy CSS",
+    description:"Get the flexbox rules instantly.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>Flexbox solved the nightmare of vertical centering and equal-height columns that plagued early CSS. It is a one-dimensional system: you lay items out along a main axis (row or column) and control how they distribute and align. For components like nav bars, button groups, and card rows, nothing is simpler.</p>
+  <p>Two contexts matter. The container holds the flex properties; its children become flex items. The main axis follows flex-direction (row by default, or column). justify-content spaces items along that axis — flex-start, center, space-between, and friends. The cross axis is perpendicular, controlled by align-items for single lines and align-content for wrapped lines.</p>
+  <p>Wrapping extends flexibility. With flex-wrap: wrap, items that would overflow drop to the next line, which is ideal for responsive chip lists and galleries. Combined with flex-basis and flex-grow, items can size proportionally: flex: 1 makes every item claim equal remaining space, while flex: 2 gives one item double the share.</p>
+  <p>Alignment per item is possible through align-self, overriding the container's align-items for a specific child. This is handy when one element should sit at the bottom while siblings center. Pair flexbox with gap (supported in all modern browsers) to space items without margin hacks.</p>
+  <p>Use flexbox for one dimension and Grid for two. Mixing them is normal: a Grid page shell with Flexbox inside cards. Our generator exposes every common property with a live preview so you can dial in spacing and alignment, then copy the CSS. Small, deliberate flex rules produce clean, responsive components with minimal code.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is Flexbox?",
+    answer:"Flexbox is a one-dimensional layout model for distributing items in a row or column with powerful alignment and spacing control.",
+  },
+{
+    question:"justify-content vs align-items?",
+    answer:"justify-content positions items along the main axis; align-items positions them along the cross axis.",
+  },
+{
+    question:"When should I use Flexbox over Grid?",
+    answer:"Use Flexbox for a single row or column — nav bars, toolbars, card rows. Use Grid for full two-dimensional layouts.",
+  },
+{
+    question:"What does flex-wrap do?",
+    answer:"It allows items to wrap onto multiple lines when they exceed the container width instead of overflowing.",
+  },
+{
+    question:"How do I space items evenly?",
+    answer:"Use justify-content: space-between, space-around, or space-evenly depending on the gap pattern you want.",
+  }
+  ]}
+/>
+</div>
  );
 }

@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import UTMBuilderClient from "@/components/tools/url/utm-builder-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "UTM Builder",
   description:
@@ -129,6 +128,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <UTMBuilderClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/url/utm-builder" />
+</div>
   );
 }

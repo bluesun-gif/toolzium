@@ -2,7 +2,6 @@ import { Metadata } from "next";
 import PromptOptimizerClient from "@/components/tools/ai/prompt-optimizer-client";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import JsonLd from "@/components/seo/json-ld";
-
 const TITLE = "AI Prompt Engineering & Optimizer Studio | Toolzium";
 const DESCRIPTION = "Transform simple ideas into master-grade prompts for ChatGPT, Claude 3.5, Gemini, and Midjourney with 1-click persona framing.";
 const PATH = "/tools/ai/prompt-optimizer";
@@ -39,6 +38,8 @@ export default function PromptOptimizerPage() {
     <>
       <JsonLd data={jsonLdData as any} />
       <PromptOptimizerClient />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/ai/prompt-optimizer" />
+</>
   );
 }

@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import UnitPriceClient from "@/components/tools/util/unit-price-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Unit Price Compare",
@@ -139,6 +140,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <UnitPriceClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/util/unit-price" />
+</div>
   );
 }

@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { MultiCountryBudgetSheetClient } from "@/components/tools/travel/multi-country-budget-sheet-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Multi-Country Travel Budget & Currency Converter Sheet | Toolzium",
@@ -48,6 +49,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <MultiCountryBudgetSheetClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/travel/multi-country-budget-sheet" />
+</div>
   );
 }

@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useRef, useEffect, ChangeEvent } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import SwitchRow from"@/components/shared/form-fields/switch-row";
 import Stat from"@/components/shared/stat";
 import { ResetButton, ActionButton, CopyButton } from"@/components/shared/action-buttons";
 import { Button } from"@/components/ui/button";
-import { FileCode, Upload, Download, Copy, Image as ImageIcon } from"lucide-react";
+import { Copy, Download, FileCode, Image, Image as ImageIcon, Ruler, Upload } from"lucide-react";
 
 export default function SvgToPngClient() {
  const [svgInput, setSvgInput] = useState<string>("");
@@ -322,6 +325,86 @@ export default function SvgToPngClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Upload",
+    description:"Load an SVG file.",
+    icon: Upload,
+  },
+{
+    step:"02",
+    title:"Set Size",
+    description:"Choose export dimensions.",
+    icon: Ruler,
+  },
+{
+    step:"03",
+    title:"Convert",
+    description:"Render and download PNG.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Upload,
+    title:"SVG Input",
+    description:"Vector file.",
+  },
+{
+    icon: Ruler,
+    title:"Dimensions",
+    description:"Any export size.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Raster PNG.",
+  },
+{
+    icon: Image,
+    title:"Quality",
+    description:"Crisp at scale.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An SVG to PNG converter rasterizes vector graphics into widely compatible PNGs. SVGs are great for the web but some contexts — older editors, certain prints — need raster formats. This tool renders the vector at your chosen size and exports.</p>
+  <p>Rendering at scale keeps edges crisp; unlike upscaling a low-res photo, vector conversion stays sharp. Setting dimensions controls the output resolution.</p>
+  <p>Use it when a PNG is required. The tool's value is clean, sized raster output from any SVG.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why convert?",
+    answer:"PNG works where SVG does not.",
+  },
+{
+    question:"Quality?",
+    answer:"Renders sharp at chosen size.",
+  },
+{
+    question:"Size?",
+    answer:"Set any dimensions.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  }
+  ]}
+/>
+</div>
  );
 }

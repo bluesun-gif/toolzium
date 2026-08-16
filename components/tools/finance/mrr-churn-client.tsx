@@ -1,10 +1,13 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
 import { GlassCard } from"@/components/ui/glass-card";
 import { Input } from"@/components/ui/input";
-import { TrendingUp, Users, DollarSign, Activity } from"lucide-react";
+import { Activity, DollarSign, LineChart, TrendingDown, TrendingUp, Users } from"lucide-react";
 
 export default function MrrChurnClient() {
  const [startingMrr, setStartingMrr] = useState<number>(10000);
@@ -103,6 +106,87 @@ export default function MrrChurnClient() {
  <p className="text-2xl font-extrabold text-rose-500">{churnRate}%</p>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter MRR",
+    description:"Input monthly recurring revenue.",
+    icon: DollarSign,
+  },
+{
+    step:"02",
+    title:"Add Churn",
+    description:"Enter monthly churn percentage.",
+    icon: TrendingDown,
+  },
+{
+    step:"03",
+    title:"Project",
+    description:"See revenue trajectory over time.",
+    icon: LineChart,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: DollarSign,
+    title:"MRR Core",
+    description:"Tracks recurring revenue base.",
+  },
+{
+    icon: TrendingDown,
+    title:"Churn Impact",
+    description:"Shows how retention drives growth.",
+  },
+{
+    icon: LineChart,
+    title:"Trajectory",
+    description:"Projects with and without churn.",
+  },
+{
+    icon: Users,
+    title:"Expansion View",
+    description:"Models upsell offsetting losses.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>For a SaaS business, MRR and churn are the two numbers that decide survival. Monthly Recurring Revenue shows the base; churn shows how fast it leaks. This calculator combines them to project whether you are growing or slowly declining — a reality many founders miss until it is too late.</p>
+  <p>Churn's compounding effect is brutal. Losing 5 percent of customers monthly sounds minor but means losing nearly half your base annually, requiring constant new sales just to stand still. The tool makes this visible by projecting revenue with and without churn, so you see the hidden tax on growth that retention work would eliminate.</p>
+  <p>Expansion changes the math. If existing customers upgrade, net revenue retention can exceed 100 percent, meaning the base grows even with some churn. The calculator models upsell offsetting losses, illustrating why reducing churn and increasing expansion both beat pure acquisition on cost and durability.</p>
+  <p>Use it for planning and investor conversations. Track MRR and churn monthly, set retention targets, and model how small improvements compound into valuation. Acquisition gets attention, but retention is cheaper and more predictable. The calculator's value is framing churn not as a support metric but as the core growth lever it truly is.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is MRR?",
+    answer:"Monthly Recurring Revenue from active subscriptions.",
+  },
+{
+    question:"Why does churn matter?",
+    answer:"Even small churn compounds into large losses.",
+  },
+{
+    question:"How to reduce churn?",
+    answer:"Improve onboarding, support, and value delivery.",
+  },
+{
+    question:"What is net retention?",
+    answer:"Revenue kept plus expansion from existing users.",
+  },
+{
+    question:"Is this a forecast?",
+    answer:"It models assumptions you provide.",
+  }
+  ]}
+/>
+</div>
  );
 }

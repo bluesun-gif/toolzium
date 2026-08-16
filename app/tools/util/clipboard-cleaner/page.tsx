@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import ClipboardCleanerClient from "@/components/tools/util/clipboard-cleaner-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Clipboard Cleaner",
@@ -138,6 +139,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <ClipboardCleanerClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/util/clipboard-cleaner" />
+</div>
   );
 }

@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Switch } from"@/components/ui/switch";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { Moon, TrendingUp, Award, Calendar } from"lucide-react";
+import { Award, BedDouble, Calendar, Lightbulb, LineChart, Moon, Star, TrendingUp } from"lucide-react";
 import toast from"react-hot-toast";
 
 type LogEntry = {
@@ -266,6 +269,86 @@ export function SleepQualityClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Log Factors",
+    description:"Enter duration, awakenings, feel.",
+    icon: BedDouble,
+  },
+{
+    step:"02",
+    title:"Rate",
+    description:"Score your sleep quality.",
+    icon: Star,
+  },
+{
+    step:"03",
+    title:"Review",
+    description:"Spot patterns over time.",
+    icon: LineChart,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: BedDouble,
+    title:"Factor Log",
+    description:"Duration and disruptions.",
+  },
+{
+    icon: Star,
+    title:"Quality Score",
+    description:"Simple rating.",
+  },
+{
+    icon: LineChart,
+    title:"Trends",
+    description:"See what helps.",
+  },
+{
+    icon: Lightbulb,
+    title:"Tips",
+    description:"Improvement suggestions.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A sleep quality analyzer looks beyond hours to how restorative sleep is. Duration alone misleads; fragmented or late sleep feels poor despite length. This tool logs duration, awakenings, and a quality rating, revealing patterns behind good and bad nights.</p>
+  <p>Environment and consistency drive quality. Dark, cool rooms and regular timing help more than chasing extra hours at erratic times. The analyzer's trends show which habits correlate with better rest, guiding changes.</p>
+  <p>Persistent poor sleep warrants professional review. The tool's value is making restfulness measurable, so you can act on causes rather than just counting hours.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What affects quality?",
+    answer:"Duration, consistency, environment.",
+  },
+{
+    question:"Track it?",
+    answer:"Yes, patterns reveal causes.",
+  },
+{
+    question:"Score meaning?",
+    answer:"Self-rating of restfulness.",
+  },
+{
+    question:"Improve it?",
+    answer:"Dark, cool, consistent schedule.",
+  },
+{
+    question:"Medical?",
+    answer:"Persistent issues deserve review.",
+  }
+  ]}
+/>
+</div>
  );
 }

@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import TextCleanerClient from "@/components/tools/text/text-cleaner-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Text Cleaner",
@@ -125,6 +126,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <TextCleanerClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/text/cleaner" />
+</div>
   );
 }

@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import PackingChecklistClient from "@/components/tools/travel/packing-checklist-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Packing Checklist",
@@ -142,6 +143,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <PackingChecklistClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/travel/packing" />
+</div>
   );
 }

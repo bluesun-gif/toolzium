@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import YoutubeThumbnailClient from "@/components/tools/url/youtube-thumbnail-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "YouTube Thumbnail Downloader — Get High-Quality HD Covers",
   description:
@@ -108,6 +107,8 @@ export default function YoutubeThumbnailPage() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <YoutubeThumbnailClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/url/youtube-thumbnail" />
+</div>
   );
 }

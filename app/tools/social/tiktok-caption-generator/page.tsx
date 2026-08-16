@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import TikTokCaptionClient from "@/components/tools/social/tiktok-caption-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "TikTok Viral Caption & Hashtag Hook Studio | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function TikTokCaptionPage() {
-  return <TikTokCaptionClient />;
+  return (
+    <><TikTokCaptionClient />
+      <RelatedTools currentToolUrl="/tools/social/tiktok-caption-generator" />
+    </>
+  );
 }

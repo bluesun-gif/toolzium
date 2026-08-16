@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import PercentageCalculatorClient from "@/components/tools/calc/percentage-calculator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Percentage Calculator",
@@ -134,6 +135,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <PercentageCalculatorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/calc/percentage" />
+</div>
   );
 }

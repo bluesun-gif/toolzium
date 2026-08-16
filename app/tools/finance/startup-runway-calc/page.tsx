@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import StartupRunwayCalcClient from "@/components/tools/finance/startup-runway-calc-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "AI Startup Runway & Net Burn Rate Calculator | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function StartupRunwayCalcPage() {
-  return <StartupRunwayCalcClient />;
+  return (
+    <><StartupRunwayCalcClient />
+      <RelatedTools currentToolUrl="/tools/finance/startup-runway-calc" />
+    </>
+  );
 }

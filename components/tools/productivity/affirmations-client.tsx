@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Input } from"@/components/ui/input";
 import { Switch } from"@/components/ui/switch";
 import { Label } from"@/components/ui/label";
 import { CopyButton } from"@/components/shared/action-buttons";
-import { Sun, Heart, Shuffle, Plus, Moon } from"lucide-react";
+import { BookOpen, Heart, Moon, PenLine, Plus, Shuffle, Sparkles, Sun } from"lucide-react";
 import { cn } from"@/lib/utils";
 import toast from"react-hot-toast";
 
@@ -170,6 +173,86 @@ export function AffirmationsClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Choose Theme",
+    description:"Pick a focus area.",
+    icon: Heart,
+  },
+{
+    step:"02",
+    title:"Read",
+    description:"Review daily affirmations.",
+    icon: BookOpen,
+  },
+{
+    step:"03",
+    title:"Reflect",
+    description:"Note how you feel.",
+    icon: PenLine,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Heart,
+    title:"Themes",
+    description:"Confidence, calm, focus.",
+  },
+{
+    icon: BookOpen,
+    title:"Daily Set",
+    description:"Fresh each day.",
+  },
+{
+    icon: PenLine,
+    title:"Reflect",
+    description:"Track mood.",
+  },
+{
+    icon: Sparkles,
+    title:"Positive",
+    description:"Supports mindset.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A daily affirmations tool offers positive statements to reinforce a constructive mindset. Repeated regularly, affirmations can steady focus and confidence. This tool delivers a themed set each day with space to reflect.</p>
+  <p>Consistency matters more than intensity. A brief daily practice beats occasional long sessions. Reflection ties the statements to real feeling, deepening the effect.</p>
+  <p>Use it as a small daily ritual. The tool's value is a simple, private prompt for a steadier mindset.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What are affirmations?",
+    answer:"Positive statements repeated to shift mindset.",
+  },
+{
+    question:"Do they work?",
+    answer:"May support confidence and focus.",
+  },
+{
+    question:"Daily?",
+    answer:"Consistency helps.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  }
+  ]}
+/>
+</div>
  );
 }

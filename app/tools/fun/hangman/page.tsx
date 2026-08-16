@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import HangmanClient from "@/components/tools/fun/hangman-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Hangman Word Game | Toolzium",
   description: "Play classic Hangman word guessing game with various categories. Test your vocabulary and save your win streaks.",
@@ -57,6 +56,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <HangmanClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/fun/hangman" />
+</div>
   );
 }

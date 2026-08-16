@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -11,7 +14,7 @@ import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
 import { Textarea } from"@/components/ui/textarea";
-import { FileText, List, Copy, RotateCcw } from"lucide-react";
+import { Copy, FileText, FolderOpen, List, Regex, RotateCcw, ShieldCheck, Wand2 } from"lucide-react";
 
 export function FileRenamerClient() {
  const [input, setInput] = useState("");
@@ -149,6 +152,86 @@ export function FileRenamerClient() {
  )}
  </CardContent>
  </GlassCard>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Files",
+    description:"Load a set of files.",
+    icon: FolderOpen,
+  },
+{
+    step:"02",
+    title:"Set Pattern",
+    description:"Define rename rules.",
+    icon: Regex,
+  },
+{
+    step:"03",
+    title:"Apply",
+    description:"Rename in bulk.",
+    icon: Wand2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: FolderOpen,
+    title:"Batch",
+    description:"Many files at once.",
+  },
+{
+    icon: Regex,
+    title:"Patterns",
+    description:"Find and replace rules.",
+  },
+{
+    icon: Wand2,
+    title:"Preview",
+    description:"See results first.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Safe",
+    description:"Local processing.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A batch file renamer applies consistent naming across many files at once, saving tedious manual edits. Photographers, accountants, and developers all face messy filenames. This tool defines rules — add a prefix, replace spaces, number sequentially — and previews the result.</p>
+  <p>Preview prevents mistakes. Seeing the new names before applying avoids accidental overwrites. Local processing keeps files private.</p>
+  <p>Use it to impose order on any file set. The tool's value is consistent, instant renaming across hundreds of files.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What can it do?",
+    answer:"Add, remove, replace text in names.",
+  },
+{
+    question:"Preview?",
+    answer:"Yes, review before applying.",
+  },
+{
+    question:"Safe?",
+    answer:"Local, no upload.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Patterns?",
+    answer:"Supports rules and regex.",
+  }
+  ]}
+/>
+</div>
  );
 }

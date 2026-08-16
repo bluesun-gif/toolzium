@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import ReadingTimeClient from "@/components/tools/text/reading-time-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Reading Time Calculator | Toolzium",
   description: "Calculate reading and speaking time for any text, including word count and readability scores.",
@@ -45,6 +44,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <ReadingTimeClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/text/reading-time" />
+</div>
   );
 }

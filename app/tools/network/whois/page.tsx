@@ -3,7 +3,6 @@ import WhoisClient from "@/components/tools/network/whois-client";
 import { buildMetadata } from "@/lib/seo";
 import JsonLd from "@/components/seo/json-ld";
 import { siteURL } from "@/lib/constants";
-
 const title = "WHOIS Domain Lookup — Check Domain Registration Details | Toolzium";
 const description =
   "Free online WHOIS domain lookup tool. Check registrar info, domain registration date, expiry date, owner details, name servers, and raw RDAP records instantly.";
@@ -110,6 +109,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <WhoisClient />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/network/whois" />
+</>
   );
 }

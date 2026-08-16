@@ -1,11 +1,14 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
 import { GlassCard } from"@/components/ui/glass-card";
 import { Button } from"@/components/ui/button";
 import { Textarea } from"@/components/ui/textarea";
-import { FileText, Upload, Copy, Download, AlertTriangle } from"lucide-react";
+import { AlertTriangle, Copy, Download, FileText, FileUp, ShieldCheck, Upload } from"lucide-react";
 import toast from"react-hot-toast";
 
 export default function PdfToWordClient() {
@@ -260,6 +263,87 @@ export default function PdfToWordClient() {
  </div>
  )}
  </GlassCard>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Upload PDF",
+    description:"Load the PDF you want to convert.",
+    icon: FileUp,
+  },
+{
+    step:"02",
+    title:"Convert",
+    description:"Transform the PDF into an editable Word file.",
+    icon: FileText,
+  },
+{
+    step:"03",
+    title:"Download DOCX",
+    description:"Save the Word document locally.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: FileUp,
+    title:"Simple Upload",
+    description:"Add a PDF and start conversion quickly.",
+  },
+{
+    icon: FileText,
+    title:"Editable Output",
+    description:"Get a DOCX you can edit in Word or Google Docs.",
+  },
+{
+    icon: Download,
+    title:"Local Download",
+    description:"Receive the file without server uploads.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Private",
+    description:"Files are processed in your browser.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>Turning a PDF back into an editable Word document is a common bottleneck. PDFs are great for sharing but terrible for editing, so when you receive a contract or report that needs changes, conversion is the first step. This tool produces a DOCX you can open and edit anywhere.</p>
+  <p>Upload the PDF and let the converter extract its structure. Straightforward documents with standard fonts and clear headings convert cleanly, preserving paragraphs and basic formatting. Complex layouts — multi-column newsletters, forms, or designs with many images — may shift slightly and require a quick manual pass to realign.</p>
+  <p>Scanned PDFs are a special case. If the source is a flat image of text, true editing requires optical character recognition to read the letters. Without OCR, you get an image inside a Word file rather than selectable text. For best results, use PDFs that were created digitally rather than photographed.</p>
+  <p>Privacy is the differentiator. Many converters upload files to remote servers, exposing contracts and personal data. Local processing keeps everything on your device, which matters for legal and HR documents. After conversion, download the DOCX, open it in Word or Google Docs, and tidy any formatting. A reliable PDF-to-Word step turns static files back into working documents without compromising confidentiality.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Will the layout stay the same?",
+    answer:"Simple text layouts convert well; complex designs may need minor cleanup afterward.",
+  },
+{
+    question:"Can I edit the result?",
+    answer:"Yes. The output is a standard DOCX you can edit in any word processor.",
+  },
+{
+    question:"Are my documents uploaded?",
+    answer:"No. Conversion happens locally in your browser for privacy.",
+  },
+{
+    question:"Does it handle scanned PDFs?",
+    answer:"Image-based scans need OCR to become editable text; results vary by source quality.",
+  },
+{
+    question:"What format is the output?",
+    answer:"A .docx file compatible with Microsoft Word and Google Docs.",
+  }
+  ]}
+/>
+</div>
  );
 }

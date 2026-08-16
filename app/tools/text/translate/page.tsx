@@ -2,7 +2,6 @@ import { Metadata } from "next";
 import ClientComponent from "@/components/tools/text/translate-client";
 import { generateSEOMetadata } from "@/lib/seo-config";
 import JsonLd from "@/components/seo/json-ld";
-
 export const metadata: Metadata = generateSEOMetadata({
   title: "Translate Text Online — Free Language Translator",
   description: "Translate text between 100+ languages online for free. Auto-detect source language, swap languages, listen with text-to-speech. Fast translation tool.",
@@ -45,6 +44,8 @@ export default function TranslatePage() {
     <>
       <JsonLd data={faqSchema} />
       <ClientComponent />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/text/translate" />
+</>
   );
 }

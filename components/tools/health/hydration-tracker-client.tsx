@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ResetButton } from"@/components/shared/action-buttons";
-import { Droplet, Plus, CheckCircle } from"lucide-react";
+import { Bell, CheckCircle, Droplet, Droplets, GlassWater, PieChart, Plus } from"lucide-react";
 import { toast } from"react-hot-toast";
 
 export function HydrationTrackerClient() {
@@ -120,6 +123,86 @@ export function HydrationTrackerClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Set Goal",
+    description:"Enter your daily target.",
+    icon: Droplets,
+  },
+{
+    step:"02",
+    title:"Log Drinks",
+    description:"Record each glass or bottle.",
+    icon: GlassWater,
+  },
+{
+    step:"03",
+    title:"Monitor",
+    description:"See progress to goal.",
+    icon: PieChart,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Droplets,
+    title:"Goal Based",
+    description:"Your personal target.",
+  },
+{
+    icon: GlassWater,
+    title:"Quick Log",
+    description:"Tap to add a drink.",
+  },
+{
+    icon: PieChart,
+    title:"Progress",
+    description:"Visual fill to goal.",
+  },
+{
+    icon: Bell,
+    title:"Reminders",
+    description:"Prompt regular sips.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A hydration tracker turns a vague &quot;drink more water&quot; into a measured daily habit. By setting a personalized goal and logging each drink, you see progress fill toward target. This tool makes hydration visible, which is what sustains it.</p>
+  <p>Logging is the mechanism. Quick taps after each glass build an accurate picture, revealing patterns like afternoon slumps where intake lags. The visual progress bar motivates completion better than an abstract recommendation.</p>
+  <p>Use it alongside activity; sweaty sessions raise needs. The tool's value is accountability: a simple, tracked target that keeps hydration consistent, supporting focus and energy throughout the day.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why track water?",
+    answer:"Consistency supports energy and focus.",
+  },
+{
+    question:"How much?",
+    answer:"Weight and activity based.",
+  },
+{
+    question:"Coffee counts?",
+    answer:"Mildly; water is primary.",
+  },
+{
+    question:"Signs of low?",
+    answer:"Thirst, headache, dark urine.",
+  },
+{
+    question:"Overdo it?",
+    answer:"Unlikely but balance.",
+  }
+  ]}
+/>
+</div>
  );
 }

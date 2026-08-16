@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { ElectricityMonitorClient } from "@/components/tools/util/electricity-monitor-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Electricity Usage Monitor | Toolzium",
@@ -39,6 +40,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <ElectricityMonitorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/util/electricity-monitor" />
+</div>
   );
 }

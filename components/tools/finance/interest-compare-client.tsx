@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -19,14 +22,7 @@ import {
  SelectValue,
 } from"@/components/ui/select";
 import { ResetButton } from"@/components/shared/action-buttons";
-import {
- TrendingUp,
- Calculator,
- DollarSign,
- BarChart3,
- Plus,
- Trash2,
-} from"lucide-react";
+import { BarChart3, Calculator, DollarSign, Percent, Plus, Scale, Trash2, TrendingDown, TrendingUp } from"lucide-react";
 import { Button } from"@/components/ui/button";
 import { Separator } from"@/components/ui/separator";
 
@@ -268,7 +264,88 @@ export function InterestCompareClient() {
  maximumFractionDigits: 2,
  })}
  </span>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Amount",
+    description:"Input the loan or deposit amount.",
+    icon: DollarSign,
+  },
+{
+    step:"02",
+    title:"Add Rates",
+    description:"Enter two or more interest rates to compare.",
+    icon: Percent,
+  },
+{
+    step:"03",
+    title:"Compare",
+    description:"See total interest differ across rates.",
+    icon: Scale,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: DollarSign,
+    title:"Amount Flexible",
+    description:"Works for loans or savings.",
+  },
+{
+    icon: Percent,
+    title:"Multi-Rate",
+    description:"Compare several rates side by side.",
+  },
+{
+    icon: Scale,
+    title:"Total Difference",
+    description:"Shows lifetime interest gap.",
+  },
+{
+    icon: TrendingDown,
+    title:"Savings View",
+    description:"Reveals cost of a higher rate.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>Interest rate comparison is one of the highest-leverage checks before borrowing or saving. A single percentage point feels tiny in conversation but compounds into thousands over a loan's life. This tool lets you line up multiple rates and see the total interest difference in plain dollars.</p>
+  <p>The mechanics are straightforward: for a given principal and term, a higher rate multiplies into a larger total. What surprises people is the scale — on a long mortgage, a 0.5 percent difference can exceed the cost of a major appliance. Comparing up front turns that hidden cost into a visible number you can negotiate against.</p>
+  <p>Term length amplifies everything. Short loans blunt the gap between rates; long loans widen it dramatically. The tool models both so you understand whether a slightly higher rate on a short loan is trivial or whether a long loan demands aggressive rate shopping. For savings, the same logic works in your favor — a better rate quietly builds more wealth.</p>
+  <p>Use the comparison as a negotiation anchor. Walk into a lender or bank knowing the dollar cost of each rate tier, and ask them to match a competitor. For deposits, pick the highest insured rate that fits your access needs. The tool's value is making the invisible compound effect concrete before you sign, not after you have paid it.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why compare rates?",
+    answer:"Small rate differences compound into large sums over time.",
+  },
+{
+    question:"Does term length matter?",
+    answer:"Yes, longer terms magnify the gap between rates.",
+  },
+{
+    question:"APR vs nominal rate?",
+    answer:"Use APR for loans since it includes fees.",
+  },
+{
+    question:"How accurate is this?",
+    answer:"It models simple vs compound assumptions you set.",
+  },
+{
+    question:"Should I always pick the lowest?",
+    answer:"Lowest rate is usually best, but check fees and terms.",
+  }
+  ]}
+/>
+</div>
  );
  })}
  </div>

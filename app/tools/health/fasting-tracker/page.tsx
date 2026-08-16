@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { FastingTrackerClient } from "@/components/tools/health/fasting-tracker-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Intermittent Fasting Tracker | Toolzium",
@@ -22,6 +23,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <FastingTrackerClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/health/fasting-tracker" />
+</div>
   );
 }

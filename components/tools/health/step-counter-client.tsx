@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect, useMemo } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Separator } from"@/components/ui/separator";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Button } from"@/components/ui/button";
-import { Activity, TrendingUp, Target, Calendar, Plus } from"lucide-react";
+import { Activity, BarChart3, Calendar, Flame, Footprints, Plus, Target, TrendingUp } from"lucide-react";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
 import toast from"react-hot-toast";
 
@@ -236,6 +239,86 @@ export function StepCounterClient() {
  )}
  </CardContent>
  </GlassCard>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Steps",
+    description:"Add daily step count.",
+    icon: Footprints,
+  },
+{
+    step:"02",
+    title:"Set Goal",
+    description:"Choose a daily target.",
+    icon: Target,
+  },
+{
+    step:"03",
+    title:"Track",
+    description:"See progress and streaks.",
+    icon: BarChart3,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Footprints,
+    title:"Step Log",
+    description:"Record daily counts.",
+  },
+{
+    icon: Target,
+    title:"Goal Based",
+    description:"Common 10k target.",
+  },
+{
+    icon: BarChart3,
+    title:"Progress",
+    description:"Visual to goal.",
+  },
+{
+    icon: Flame,
+    title:"Active Calories",
+    description:"Estimate from steps.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A step counter turns movement into a tangible daily goal. Walking is the most accessible exercise, and counting steps makes it measurable and motivating. This tool logs counts against a target, showing progress and building streaks that sustain the habit.</p>
+  <p>The 10k benchmark is common but individual; any increase from baseline helps. The calculator estimates active calories from steps and weight, connecting walking to energy balance. Visual progress keeps momentum.</p>
+  <p>Use it to weave more movement into the day — errands, walks, stairs. The tool's value is making activity countable and rewarding, lowering the barrier to regular exercise.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"How many steps?",
+    answer:"Around 8k to 10k is common.",
+  },
+{
+    question:"Why count?",
+    answer:"Encourages daily movement.",
+  },
+{
+    question:"Calories from steps?",
+    answer:"Approximate from count and weight.",
+  },
+{
+    question:"Device needed?",
+    answer:"Phone or watch helps.",
+  },
+{
+    question:"Miss a day?",
+    answer:"Resume; consistency over time.",
+  }
+  ]}
+/>
+</div>
  );
 }

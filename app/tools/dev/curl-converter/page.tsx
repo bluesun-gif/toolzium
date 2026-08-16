@@ -2,7 +2,6 @@ import { buildMetadata } from "@/lib/seo";
 import { siteURL } from "@/lib/constants";
 import JsonLd from "@/components/seo/json-ld";
 import CurlConverterClient from "@/components/tools/dev/curl-converter-client";
-
 const TITLE = "cURL to Code Converter — Convert cURL to Fetch, Python & Node.js | Toolzium";
 const DESCRIPTION = "Convert cURL commands to executable code snippets in JavaScript Fetch, Python Requests, Node.js Axios, Go, PHP, and Rust. Instant 100% browser-based cURL parser.";
 const PATH = "/tools/dev/curl-converter";
@@ -63,6 +62,8 @@ export default function Page() {
     <>
       <JsonLd data={jsonLd as any} />
       <CurlConverterClient />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/dev/curl-converter" />
+</>
   );
 }

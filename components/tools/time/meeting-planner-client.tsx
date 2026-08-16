@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useMemo } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Label } from"@/components/ui/label";
 import { Button } from"@/components/ui/button";
 import { CopyButton } from"@/components/shared/action-buttons";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { Clock, Users, Calendar, Trash2 } from"lucide-react";
+import { Calendar, Clock, Globe, ShieldCheck, Trash2, Users } from"lucide-react";
 import { cn } from"@/lib/utils";
 
 type Participant = {
@@ -146,7 +149,87 @@ export function MeetingPlannerClient() {
  isWorkingHours ?"bg-green-500/20 text-green-700 dark:text-green-400":"bg-muted text-muted-foreground/50"
  )} title={`${label} in ${p.timezone}`}>
  {hour}
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Zones",
+    description:"Pick participant cities.",
+    icon: Globe,
+  },
+{
+    step:"02",
+    title:"Set Time",
+    description:"Choose a candidate slot.",
+    icon: Clock,
+  },
+{
+    step:"03",
+    title:"Compare",
+    description:"See local times for all.",
+    icon: Users,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Globe,
+    title:"Zones",
+    description:"Multiple cities.",
+  },
+{
+    icon: Clock,
+    title:"Slot",
+    description:"Candidate time.",
+  },
+{
+    icon: Users,
+    title:"Compare",
+    description:"All local times.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Avoid",
+    description:"Flags odd hours.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A time zone meeting planner shows a candidate meeting time in every participant's local zone, preventing the classic 3am invite. Adding cities and a slot reveals who gets a reasonable hour. This tool compares them at once.</p>
+  <p>Flagging antisocial hours protects team wellbeing and attendance. The planner makes global coordination painless.</p>
+  <p>Use it before scheduling across regions. The tool's value is fair, visible multi-zone timing.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why use one?",
+    answer:"Avoid 3am invites.",
+  },
+{
+    question:"Many zones?",
+    answer:"Add several.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Remote teams.",
+  }
+  ]}
+/>
+</div>
  </td>
  );
  })}

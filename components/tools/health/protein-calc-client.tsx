@@ -1,7 +1,10 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useMemo } from"react";
-import { Dumbbell, Target, Utensils, Copy } from"lucide-react";
+import { Calculator, Copy, Dumbbell, Scale, Target, Utensils } from"lucide-react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
 import { GlassCard } from"@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle } from"@/components/ui/card";
@@ -137,6 +140,86 @@ export function ProteinCalcClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Weight",
+    description:"Add body weight.",
+    icon: Scale,
+  },
+{
+    step:"02",
+    title:"Set Goal",
+    description:"Choose activity or goal.",
+    icon: Target,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See daily protein target.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Scale,
+    title:"Weight Based",
+    description:"Grams per kg of body weight.",
+  },
+{
+    icon: Target,
+    title:"Goal Aware",
+    description:"Sedentary to athlete ranges.",
+  },
+{
+    icon: Calculator,
+    title:"Daily Target",
+    description:"Grams per day.",
+  },
+{
+    icon: Dumbbell,
+    title:"Muscle Focus",
+    description:"Higher for training.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A protein calculator sets daily intake from body weight and goal, since needs scale with mass and activity. Sedentary adults need far less than trained athletes building muscle. This tool applies per-kilogram ranges so your target is personalized, not a generic slogan.</p>
+  <p>Goal drives the number. Resistance training and fat-loss phases raise needs to preserve or build muscle; the calculator reflects this. Spreading intake across meals improves utilization versus one large dose. The figure guides grocery and meal choices.</p>
+  <p>Treat it as a target, not a strict rule; whole-food sources suit most. The tool's value is a precise protein number tailored to your body and ambition, supporting muscle and recovery goals.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"How much protein?",
+    answer:"Typically 0.8 to 2.0 g per kg by goal.",
+  },
+{
+    question:"More for muscle?",
+    answer:"Yes, resistance training raises need.",
+  },
+{
+    question:"Too much?",
+    answer:"Very high intakes offer no extra benefit.",
+  },
+{
+    question:"Spread doses?",
+    answer:"Distribute across meals for uptake.",
+  },
+{
+    question:"Sources?",
+    answer:"Meat, dairy, legumes, supplements.",
+  }
+  ]}
+/>
+</div>
  );
 }

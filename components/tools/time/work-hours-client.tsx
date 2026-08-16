@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Separator } from"@/components/ui/separator";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Clock, Calendar, DollarSign, Copy } from"lucide-react";
+import { Calculator, Calendar, Clock, Copy, DollarSign, Scale, TrendingUp } from"lucide-react";
 import toast from"react-hot-toast";
 
 type DayLog = {
@@ -157,6 +160,86 @@ export function WorkHoursClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Shifts",
+    description:"Log daily hours.",
+    icon: Clock,
+  },
+{
+    step:"02",
+    title:"Set Threshold",
+    description:"Define overtime start.",
+    icon: Scale,
+  },
+{
+    step:"03",
+    title:"Compute",
+    description:"See regular and OT.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Clock,
+    title:"Hours",
+    description:"Per day.",
+  },
+{
+    icon: Scale,
+    title:"Threshold",
+    description:"OT boundary.",
+  },
+{
+    icon: Calculator,
+    title:"Totals",
+    description:"Regular and overtime.",
+  },
+{
+    icon: TrendingUp,
+    title:"Summary",
+    description:"Weekly view.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A work hours calculator totals logged time and splits it into regular and overtime using a threshold, essential for payroll and compliance. Manual math invites errors that cost money. This tool computes the split.</p>
+  <p>Accurate overtime totals protect workers and employers. The calculator applies the threshold consistently.</p>
+  <p>Use it for timesheets. The tool's value is error-free hours and OT computation.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What does it do?",
+    answer:"Splits regular and overtime.",
+  },
+{
+    question:"Threshold?",
+    answer:"Usually 40 hours.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Pay, compliance.",
+  }
+  ]}
+/>
+</div>
  );
 }

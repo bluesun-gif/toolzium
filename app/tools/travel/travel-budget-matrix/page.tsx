@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { TravelBudgetMatrixClient } from "@/components/tools/travel/travel-budget-matrix-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Travel Budget Currency Comparison Matrix | Toolzium",
@@ -39,6 +40,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <TravelBudgetMatrixClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/travel/travel-budget-matrix" />
+</div>
   );
 }

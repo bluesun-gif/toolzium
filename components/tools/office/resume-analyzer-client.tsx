@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useMemo } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -6,7 +9,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
 import { Label } from"@/components/ui/label";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { FileText, Search, CheckCircle } from"lucide-react";
+import { CheckCircle, FileText, ScanSearch, Search, Target, Wand2 } from"lucide-react";
 import toast from"react-hot-toast";
 
 const WEAK_WORDS = ["responsible for","team player","hard worker","detail-oriented","synergy","think outside the box","go-to person","results-driven"];
@@ -124,6 +127,86 @@ Weak Words Found: ${stats.weakWordMatches.length > 0 ? stats.weakWordMatches.joi
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Paste Resume",
+    description:"Add your resume text.",
+    icon: FileText,
+  },
+{
+    step:"02",
+    title:"Set Target",
+    description:"Enter a job description.",
+    icon: Target,
+  },
+{
+    step:"03",
+    title:"Analyze",
+    description:"See match and gaps.",
+    icon: ScanSearch,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: FileText,
+    title:"Resume Input",
+    description:"Your content.",
+  },
+{
+    icon: Target,
+    title:"Job Match",
+    description:"Compare to role.",
+  },
+{
+    icon: ScanSearch,
+    title:"Analysis",
+    description:"Keywords and gaps.",
+  },
+{
+    icon: Wand2,
+    title:"Tips",
+    description:"Improvement suggestions.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A resume analyzer compares your resume to a target job, surfacing keyword gaps and weak sections that hurt applicant-tracking screening. Tailoring to the role improves callback rates. This tool scores the match and suggests fixes.</p>
+  <p>Keyword alignment matters because many employers filter electronically. The analyzer reveals missing terms so you can incorporate them naturally.</p>
+  <p>Use it per application. The tool's value is data-driven resume tuning that increases relevance to each role.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What does it do?",
+    answer:"Scores resume against a job.",
+  },
+{
+    question:"Keyword match?",
+    answer:"Yes, highlights missing terms.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Guarantee interviews?",
+    answer:"No, advisory only.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  }
+  ]}
+/>
+</div>
  );
 }

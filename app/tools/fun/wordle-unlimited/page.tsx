@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import { WordleUnlimitedClient } from "@/components/tools/fun/wordle-unlimited-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Wordle Unlimited Game & Word Helper | Toolzium",
   description: "Play unlimited Wordle games and use the built-in solver to find 5-letter words.",
@@ -48,6 +47,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <WordleUnlimitedClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/fun/wordle-unlimited" />
+</div>
   );
 }

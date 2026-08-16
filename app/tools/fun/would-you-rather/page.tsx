@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import WouldYouRatherClient from "@/components/tools/fun/would-you-rather-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Would You Rather Generator | Toolzium",
   description: "Generate fun and challenging Would You Rather dilemmas.",
@@ -22,6 +21,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <WouldYouRatherClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/fun/would-you-rather" />
+</div>
   );
 }

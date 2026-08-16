@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Separator } from"@/components/ui/separator";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
-import { Moon, Sun, Clock, Sparkles } from"lucide-react";
+import { AlarmClock, Calculator, Clock, Moon, Repeat, Sparkles, Sun } from"lucide-react";
 import { ResetButton } from"@/components/shared/action-buttons";
 
 export function SleepPlannerClient() {
@@ -94,6 +97,86 @@ export function SleepPlannerClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Bedtime",
+    description:"Add when you plan to sleep.",
+    icon: Moon,
+  },
+{
+    step:"02",
+    title:"Set Cycles",
+    description:"Choose cycles to target.",
+    icon: Repeat,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See optimal wake times.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Moon,
+    title:"Bedtime Based",
+    description:"Works forward from sleep.",
+  },
+{
+    icon: Repeat,
+    title:"Cycle Count",
+    description:"Pick 4 to 6 cycles.",
+  },
+{
+    icon: Calculator,
+    title:"Wake Times",
+    description:"Multiple options.",
+  },
+{
+    icon: AlarmClock,
+    title:"Plan Ahead",
+    description:"Set alarms accordingly.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A sleep cycle calculator plans wake times from when you fall asleep, adding 90-minute cycle multiples. Ending a cycle rather than interrupting one reduces grogginess. This tool suggests several wake times so you can set alarms that align with your rhythm.</p>
+  <p>Cycle count sets total sleep; four to six covers most adults' needs. The calculator maps these to clock times, making planning concrete instead of guessing &quot;eight hours from now.&quot;</p>
+  <p>Use it to build a stable routine, the strongest predictor of good rest. The tool's value is a wake-time plan grounded in sleep architecture, helping you rise feeling alert.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Bedtime to wake?",
+    answer:"Adds cycle multiples to bedtime.",
+  },
+{
+    question:"How many cycles?",
+    answer:"4 to 6 covers typical need.",
+  },
+{
+    question:"Refreshed wake?",
+    answer:"Ending a cycle helps.",
+  },
+{
+    question:"Exact?",
+    answer:"Estimates; varies.",
+  },
+{
+    question:"Use nightly?",
+    answer:"Yes, builds routine.",
+  }
+  ]}
+/>
+</div>
  );
 }

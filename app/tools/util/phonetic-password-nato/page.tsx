@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { PhoneticPasswordClient } from "@/components/tools/util/phonetic-password-nato-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Phonetic Password Generator & NATO Guide | Toolzium",
@@ -20,6 +21,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <PhoneticPasswordClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/util/phonetic-password-nato" />
+</div>
   );
 }

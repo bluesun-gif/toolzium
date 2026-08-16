@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useMemo, useRef } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Separator } from"@/components/ui/separator";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Palette, Download, Copy, RefreshCw, Plus, X } from"lucide-react";
+import { Copy, Download, FileSpreadsheet, Palette, Plus, RefreshCw, ShieldCheck, X } from"lucide-react";
 import { toast } from"react-hot-toast";
 
 type BrandColor = {
@@ -209,7 +212,87 @@ export function ContrastSheetExporterClient() {
  <div className="mt-1 scale-90">{complianceBadge(ratio)}</div>
  </div>
  ) : (
- <div className="text-muted-foreground opacity-50">-</div>
+ <div className="text-muted-foreground opacity-50">-
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Colors",
+    description:"Add your palette.",
+    icon: Palette,
+  },
+{
+    step:"02",
+    title:"Generate",
+    description:"Build the contrast sheet.",
+    icon: FileSpreadsheet,
+  },
+{
+    step:"03",
+    title:"Export",
+    description:"Download the file.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Palette,
+    title:"Palette Input",
+    description:"Your colors.",
+  },
+{
+    icon: FileSpreadsheet,
+    title:"Sheet",
+    description:"Organized report.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Save result.",
+  },
+{
+    icon: ShieldCheck,
+    title:"WCAG",
+    description:"Compliance flags.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A contrast sheet exporter generates and downloads a palette's contrast report, bridging analysis and delivery. Once you have verified colors, exporting a clean sheet lets you hand it to developers or keep it for compliance records. This tool produces that file.</p>
+  <p>Delivery completes the workflow. Analysis without a shareable artifact loses value; the exporter ensures results travel with the project. WCAG verdicts are baked in.</p>
+  <p>Use it at the end of a contrast review. The tool's value is a downloadable, professional contrast report ready for handoff.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What does it export?",
+    answer:"A contrast report file.",
+  },
+{
+    question:"WCAG?",
+    answer:"Included verdicts.",
+  },
+{
+    question:"Use case?",
+    answer:"Handoff and records.",
+  },
+{
+    question:"Format?",
+    answer:"Spreadsheet-style.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  }
+  ]}
+/>
+</div>
  )}
  </td>
  )

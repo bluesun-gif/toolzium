@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { ExpensesClient } from "@/components/tools/travel/expenses-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Travel Expense Tracker | Toolzium",
@@ -20,6 +21,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <ExpensesClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/travel/expenses" />
+</div>
   );
 }

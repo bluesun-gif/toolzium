@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Button } from"@/components/ui/button";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { DollarSign, TrendingUp, TrendingDown, Copy } from"lucide-react";
+import { Bitcoin, Calculator, Copy, DollarSign, TrendingDown, TrendingUp } from"lucide-react";
 import { cn } from"@/lib/utils";
 
 export function CryptoProfitClient() {
@@ -151,6 +154,87 @@ export function CryptoProfitClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Buy Price",
+    description:"Input your purchase price and amount.",
+    icon: Bitcoin,
+  },
+{
+    step:"02",
+    title:"Enter Sell Price",
+    description:"Add the current or target price.",
+    icon: DollarSign,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See profit, loss, and percentage return.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Bitcoin,
+    title:"Entry Tracking",
+    description:"Records cost basis for accurate math.",
+  },
+{
+    icon: DollarSign,
+    title:"Return %",
+    description:"Shows gain or loss as a percentage.",
+  },
+{
+    icon: Calculator,
+    title:"Fee Inclusion",
+    description:"Optionally subtract trading fees.",
+  },
+{
+    icon: TrendingUp,
+    title:"Multi-Buy Support",
+    description:"Handles averaged entry prices.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A crypto profit calculator answers the question every holder eventually asks: how much did I actually make? It compares your entry cost to the current or target price, accounting for the amount held and any fees. The result is a clear profit, loss, and percentage return rather than a vague guess.</p>
+  <p>Cost basis is the foundation. Your true cost includes the purchase price plus any fees paid to acquire the asset. Selling at a higher price than that basis yields profit, but only after fees on the exit are subtracted. Ignoring fees inflates perceived gains, which matters for both planning and tax reporting.</p>
+  <p>Percentage return provides context that raw dollars miss. A 50 dollar profit on a 100 dollar position is far more meaningful than the same profit on 10,000. The calculator expresses both, helping you compare trades of different sizes and judge whether the gain justified the risk and holding period.</p>
+  <p>Remember that unrealized profit is not realized until you sell. Markets move fast, and paper gains can vanish, so decisions should reflect your plan rather than fear of missing more upside. Also consider tax implications, since many regions tax crypto disposals. Use the calculator to set target prices and stop-loss levels in advance, turning emotion into a numbers-based decision you can execute calmly.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"How is profit calculated?",
+    answer:"Subtract total cost basis and fees from proceeds to get net profit.",
+  },
+{
+    question:"Why track cost basis?",
+    answer:"It determines taxable gain and your true return after fees.",
+  },
+{
+    question:"Are fees important?",
+    answer:"Yes, repeated trading fees materially reduce net profit over time.",
+  },
+{
+    question:"What about taxes?",
+    answer:"Many jurisdictions tax crypto gains; consult a local professional for rules.",
+  },
+{
+    question:"Can price crash after profit?",
+    answer:"Unrealized profit is not real until sold; paper gains can reverse.",
+  }
+  ]}
+/>
+</div>
  );
 }

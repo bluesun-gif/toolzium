@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { ColorMatrixClient } from "@/components/tools/image/color-matrix-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Image Color Palette Contrast Matrix | Toolzium",
@@ -37,6 +38,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <ColorMatrixClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/image/color-matrix" />
+</div>
   );
 }

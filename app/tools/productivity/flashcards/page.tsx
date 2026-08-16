@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { FlashcardMakerClient } from "@/components/tools/productivity/flashcards-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Flashcard Maker | Toolzium",
@@ -20,6 +21,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <FlashcardMakerClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/productivity/flashcards" />
+</div>
   );
 }

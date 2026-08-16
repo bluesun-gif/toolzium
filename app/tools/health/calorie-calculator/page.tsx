@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import CalorieCalculatorClient from "@/components/tools/health/calorie-calculator-client";
 import { generateSEOMetadata } from "@/lib/seo-config";
 import JsonLd from "@/components/seo/json-ld";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = generateSEOMetadata({
   title: "Calorie Calculator — TDEE & Daily Calorie Needs",
@@ -45,6 +46,8 @@ export default function CalorieCalculatorPage() {
     <>
       <JsonLd data={faqSchema} />
       <CalorieCalculatorClient />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/health/calorie-calculator" />
+</>
   );
 }

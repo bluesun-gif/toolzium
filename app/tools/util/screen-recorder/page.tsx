@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import ClientComponent from "@/components/tools/util/screen-recorder-client";
 import { generateSEOMetadata } from "@/lib/seo-config";
 import JsonLd from "@/components/seo/json-ld";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = generateSEOMetadata({
   title: "Screen Recorder Online — Record Screen Free",
@@ -45,6 +46,8 @@ export default function ScreenRecorderPage() {
     <>
       <JsonLd data={faqSchema} />
       <ClientComponent />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/util/screen-recorder" />
+</>
   );
 }

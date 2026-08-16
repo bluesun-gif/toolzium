@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -6,7 +9,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { AiOutputDisplay } from"@/components/shared/ai-output-display";
-import { Activity, RefreshCw } from"lucide-react";
+import { Activity, CalendarRange, Dumbbell, RefreshCw, Repeat, Target } from"lucide-react";
 import toast from"react-hot-toast";
 
 export default function AiWorkoutGeneratorClient() {
@@ -130,6 +133,87 @@ export default function AiWorkoutGeneratorClient() {
  variant="cards"
  />
  )}
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Level",
+    description:"Pick experience and frequency.",
+    icon: Dumbbell,
+  },
+{
+    step:"02",
+    title:"Choose Goal",
+    description:"Muscle, strength, or endurance.",
+    icon: Target,
+  },
+{
+    step:"03",
+    title:"Generate",
+    description:"Get a structured weekly split.",
+    icon: CalendarRange,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Dumbbell,
+    title:"Level Aware",
+    description:"Beginner to advanced routines.",
+  },
+{
+    icon: Target,
+    title:"Goal Based",
+    description:"Hypertrophy, strength, endurance.",
+  },
+{
+    icon: CalendarRange,
+    title:"Weekly Split",
+    description:"Day-by-day training plan.",
+  },
+{
+    icon: Repeat,
+    title:"Progressive",
+    description:"Builds overload over weeks.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A workout generator turns the vague goal of getting fit into a concrete weekly plan. A training split organizes which muscles you hit on which days, preventing both undertraining and harmful overlap. This tool builds a routine from your level, frequency, and goal, so you train with purpose instead of wandering the gym.</p>
+  <p>Goal defines structure. Hypertrophy favors moderate reps and volume; strength leans heavy and low-rep; endurance uses lighter, longer sets. The generator aligns exercises and sets to the aim, so effort produces the right adaptation. Picking the honest level matters most — beginners need simpler, full-body plans, while advanced trainees can handle specialized splits.</p>
+  <p>Progression is the engine. The plan should increase load or reps over weeks; without overload, the body adapts and stalls. The tool provides a framework you extend as you grow. Frequency of three to five sessions fits most lifestyles and recovers well.</p>
+  <p>Adapt to your setting. Many routines modify for home equipment, keeping training accessible. Use the generator as a starting blueprint, log your lifts, and progress deliberately. Its value is replacing confusion with a structured, goal-matched plan that makes consistency — the true driver of results — easy to maintain.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is a split?",
+    answer:"How training days are divided across muscle groups.",
+  },
+{
+    question:"How often should I train?",
+    answer:"Three to five sessions weekly suits most.",
+  },
+{
+    question:"Beginner or advanced?",
+    answer:"Pick honestly; progression depends on it.",
+  },
+{
+    question:"Do I need a gym?",
+    answer:"Many routines adapt to home equipment.",
+  },
+{
+    question:"How do I progress?",
+    answer:"Add weight or reps gradually over time.",
+  }
+  ]}
+/>
+</div>
  );
 }

@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import PodcastScriptGeneratorClient from "@/components/tools/social/podcast-script-generator-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "AI Podcast Episode Script & Show Notes Studio | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function PodcastScriptGeneratorPage() {
-  return <PodcastScriptGeneratorClient />;
+  return (
+    <><PodcastScriptGeneratorClient />
+      <RelatedTools currentToolUrl="/tools/social/podcast-script-generator" />
+    </>
+  );
 }

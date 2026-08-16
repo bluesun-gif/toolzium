@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import MlbbNameClient from "@/components/tools/gaming/mlbb-name-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "Mobile Legends (MLBB) Fancy Name & Symbol Generator | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function MlbbNamePage() {
-  return <MlbbNameClient />;
+  return (
+    <><MlbbNameClient />
+      <RelatedTools currentToolUrl="/tools/gaming/mlbb-name-generator" />
+    </>
+  );
 }

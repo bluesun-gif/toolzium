@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import ClientComponent from "@/components/tools/image/image-to-pdf-client";
 import { generateSEOMetadata } from "@/lib/seo-config";
 import JsonLd from "@/components/seo/json-ld";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = generateSEOMetadata({
   title: "Image to PDF Converter — JPG PNG to PDF Free",
@@ -45,6 +46,8 @@ export default function ImageToPdfPage() {
     <>
       <JsonLd data={faqSchema} />
       <ClientComponent />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/image/image-to-pdf" />
+</>
   );
 }

@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -11,7 +14,7 @@ import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
 import { cn } from"@/lib/utils";
-import { FileText, ListOrdered, AlertTriangle, Download, Plus, Trash2 } from"lucide-react";
+import { AlertTriangle, Download, FileCheck2, FileText, ListOrdered, Plus, Trash2, Users, Workflow } from"lucide-react";
 import toast from"react-hot-toast";
 
 interface Step {
@@ -229,6 +232,86 @@ ${step.substeps && step.substeps.length > 0 ? step.substeps.map((sub, sidx) => `
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Define Process",
+    description:"Name the procedure.",
+    icon: Workflow,
+  },
+{
+    step:"02",
+    title:"Add Steps",
+    description:"List ordered actions.",
+    icon: ListOrdered,
+  },
+{
+    step:"03",
+    title:"Build",
+    description:"Assemble the SOP.",
+    icon: FileCheck2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Workflow,
+    title:"Process",
+    description:"The procedure name.",
+  },
+{
+    icon: ListOrdered,
+    title:"Steps",
+    description:"Ordered actions.",
+  },
+{
+    icon: FileCheck2,
+    title:"Document",
+    description:"Ready SOP.",
+  },
+{
+    icon: Users,
+    title:"Roles",
+    description:"Who does what.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An SOP builder documents how a process should be performed, ensuring consistency and easing training. Without SOPs, work varies by person and errors multiply. This tool structures the procedure into ordered steps with roles.</p>
+  <p>Roles clarify ownership so nothing falls between the cracks. A written SOP also onboards new team members faster.</p>
+  <p>Use it to standardize any repeatable process. The tool's value is a clear SOP that improves reliability and training.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is an SOP?",
+    answer:"Standard operating procedure.",
+  },
+{
+    question:"Why use one?",
+    answer:"Consistency and training.",
+  },
+{
+    question:"Roles?",
+    answer:"Assign owners per step.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Use case?",
+    answer:"Teams and operations.",
+  }
+  ]}
+/>
+</div>
  );
 }

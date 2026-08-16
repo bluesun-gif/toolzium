@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import AgeCalculatorClient from "@/components/tools/time/age-calculator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Age Calculator",
@@ -157,6 +158,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <AgeCalculatorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/time/age" />
+</div>
   );
 }

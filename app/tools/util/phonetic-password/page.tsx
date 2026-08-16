@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { PhoneticPasswordClient } from "@/components/tools/util/phonetic-password-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Phonetic Pronunciation Password Generator | Toolzium",
@@ -51,6 +52,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <PhoneticPasswordClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/util/phonetic-password" />
+</div>
   );
 }

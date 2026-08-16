@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useMemo } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -7,7 +10,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ResetButton } from"@/components/shared/action-buttons";
-import { Heart, Activity, Calculator } from"lucide-react";
+import { Activity, Calculator, Heart, HeartPulse, User } from"lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { cn } from"@/lib/utils";
 
@@ -156,6 +159,86 @@ export function HeartRateZonesClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Age",
+    description:"Add your age.",
+    icon: User,
+  },
+{
+    step:"02",
+    title:"Choose Method",
+    description:"Max HR formula or test.",
+    icon: HeartPulse,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See five training zones.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: User,
+    title:"Age Based",
+    description:"Estimates max heart rate.",
+  },
+{
+    icon: HeartPulse,
+    title:"Zone Breakdown",
+    description:"Five intensity zones.",
+  },
+{
+    icon: Calculator,
+    title:"BPM Ranges",
+    description:"Beats per zone.",
+  },
+{
+    icon: Activity,
+    title:"Training Aid",
+    description:"Match workout to goal.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A heart rate zone calculator maps effort into five bands, helping you train at the right intensity. It estimates maximum heart rate from age, then derives zones from easy recovery to near-maximal. This tool gives the beats-per-minute ranges so you can target a session's purpose.</p>
+  <p>Zones align training with goals. Lower zones build aerobic base; higher zones build speed and power. Knowing your numbers prevents the common mistake of training everything at medium effort, which yields mixed results. The calculator makes intentionality possible.</p>
+  <p>Estimates vary by individual; a fitness test refines them. Pair with a heart rate monitor for live guidance. The tool's value is translating &quot;work hard&quot; into precise, goal-matched intensity ranges that make every session purposeful.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What are HR zones?",
+    answer:"Intensity bands from easy to maximal.",
+  },
+{
+    question:"How is max HR estimated?",
+    answer:"Often 220 minus age.",
+  },
+{
+    question:"Which zone for fat burn?",
+    answer:"Lower zones, though total burn matters more.",
+  },
+{
+    question:"Accurate?",
+    answer:"Estimates; testing is precise.",
+  },
+{
+    question:"Use a monitor?",
+    answer:"Yes, for live feedback.",
+  }
+  ]}
+/>
+</div>
  );
 }

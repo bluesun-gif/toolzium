@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { CommercialInvoiceClient } from "@/components/tools/office/commercial-invoice-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Commercial Invoice Generator | Toolzium",
@@ -46,6 +47,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <CommercialInvoiceClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/office/commercial-invoice" />
+</div>
   );
 }

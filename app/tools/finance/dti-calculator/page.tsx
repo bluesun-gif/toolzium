@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { DtiCalculatorClient } from "@/components/tools/finance/dti-calculator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Debt-to-Income (DTI) Ratio Calculator | Toolzium",
@@ -36,6 +37,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <DtiCalculatorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/finance/dti-calculator" />
+</div>
   );
 }

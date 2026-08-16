@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { ContractorAgreementClient } from "@/components/tools/office/contractor-agreement-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Independent Contractor Agreement Builder | Toolzium",
@@ -39,6 +40,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <ContractorAgreementClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/office/contractor-agreement" />
+</div>
   );
 }

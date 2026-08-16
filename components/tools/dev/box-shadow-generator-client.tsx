@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import TextareaField from"@/components/shared/form-fields/textarea-field";
 import SwitchRow from"@/components/shared/form-fields/switch-row";
 import { ResetButton, CopyButton } from"@/components/shared/action-buttons";
 import { Button } from"@/components/ui/button";
-import { Sparkles, Layers, Box, Copy } from"lucide-react";
+import { Box, Code2, Copy, Layers, Palette, SlidersHorizontal, Sparkles } from"lucide-react";
 
 export default function BoxShadowGeneratorClient() {
  const [activeTab, setActiveTab] = useState<"shadow"|"glass">("shadow");
@@ -386,6 +389,88 @@ border-radius: ${glassRadius}px;`;
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Choose a Style",
+    description:"Start from a clean drop shadow or a frosted glassmorphism preset.",
+    icon: Sparkles,
+  },
+{
+    step:"02",
+    title:"Fine-Tune Layers",
+    description:"Adjust blur, spread, color, and opacity for each shadow layer.",
+    icon: SlidersHorizontal,
+  },
+{
+    step:"03",
+    title:"Export Code",
+    description:"Copy the CSS, Tailwind, or full glass card snippet.",
+    icon: Code2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Sparkles,
+    title:"Glassmorphism Presets",
+    description:"Generate frosted, blurred, translucent cards with backdrop blur.",
+  },
+{
+    icon: Layers,
+    title:"Layered Shadows",
+    description:"Combine multiple shadows for depth and glow.",
+  },
+{
+    icon: Palette,
+    title:"Accent Colors",
+    description:"Tint shadows and borders to match your brand.",
+  },
+{
+    icon: Copy,
+    title:"Multi-Format Export",
+    description:"Get CSS, Tailwind, or a complete card component.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>Glassmorphism became popular because it makes interfaces feel layered and modern without heavy imagery. The core recipe is a semi-transparent background, a backdrop blur that frosts whatever sits behind the element, a hairline border for definition, and a soft shadow for elevation. Getting the balance right is the difference between elegant glass and muddy gray boxes.</p>
+  <p>Start with the background: use rgba white or black at low alpha, such as rgba(255,255,255,0.1) on dark themes. Apply backdrop-filter: blur(10px) to frost the content behind the card. Because backdrop-filter is not universal, include a fallback solid or gradient background so the element still looks intentional where blur is unsupported.</p>
+  <p>Borders are what sell the effect. A 1px border with low-alpha white (rgba(255,255,255,0.18)) catches light on the edge, mimicking the rim of real glass. Skip the border and the shape reads flat. Pair this with a gentle outer shadow — something like 0 8px 32px rgba(0,0,0,0.12) — and the card appears to float above the page.</p>
+  <p>Layering helps realism. A bright inset highlight at the top and a darker outer shadow at the bottom simulates a light source from above. Our generator lets you stack layers and tint them, so you can match a brand palette instead of defaulting to gray.</p>
+  <p>Use glassmorphism sparingly. Too many blurred layers on one screen hurt readability and performance, especially on lower-end devices. Reserve it for hero cards, modals, and navigation bars where the effect draws focus. For body content, prefer solid surfaces. With the export options here you can copy a complete component and adapt it to your design system quickly.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is glassmorphism?",
+    answer:"Glassmorphism is a UI style using semi-transparent surfaces, blur, and subtle borders to mimic frosted glass. It relies on backdrop-filter and layered shadows.",
+  },
+{
+    question:"Does backdrop-filter work everywhere?",
+    answer:"Most modern browsers support it, though Safari needs the -webkit- prefix and some older browsers ignore it. Always provide a solid fallback background.",
+  },
+{
+    question:"How do I make a shadow softer?",
+    answer:"Increase blur and lower the color alpha. A blur of 20-40px with rgba(0,0,0,0.1) gives a gentle, natural shadow.",
+  },
+{
+    question:"Can I use this for buttons?",
+    answer:"Yes. Soft shadows on buttons signal interactivity; deepen the shadow on hover for a lift effect.",
+  },
+{
+    question:"Is the generated code responsive?",
+    answer:"The shadow values are fixed units, but you can wrap them in responsive utility classes or media queries to scale on small screens.",
+  }
+  ]}
+/>
+</div>
  );
 }

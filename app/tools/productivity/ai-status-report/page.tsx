@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import AiStatusReportClient from "@/components/tools/productivity/ai-status-report-client";
-
 export const metadata: Metadata = {
   title: "AI Executive Weekly Status Report Generator | Toolzium",
   description:
@@ -8,5 +7,9 @@ export const metadata: Metadata = {
 };
 
 export default function AiStatusReportPage() {
-  return <AiStatusReportClient />;
+  return (
+    <><AiStatusReportClient />
+      <RelatedTools currentToolUrl="/tools/productivity/ai-status-report" />
+    </>
+  );
 }

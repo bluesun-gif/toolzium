@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -13,14 +16,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Button } from"@/components/ui/button";
 import { ResetButton } from"@/components/shared/action-buttons";
-import {
- Heart,
- Activity,
- BarChart3,
- AlertTriangle,
- Trash2,
- Info,
-} from"lucide-react";
+import { Activity, AlertTriangle, BarChart3, Clock, Heart, HeartPulse, Info, LineChart, Trash2 } from"lucide-react";
 import { Separator } from"@/components/ui/separator";
 import { toast } from"react-hot-toast";
 
@@ -255,7 +251,87 @@ export function BloodPressureClient() {
  >
  <Trash2 className="h-4 w-4 text-destructive"/>
  </Button>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Reading",
+    description:"Add systolic and diastolic values.",
+    icon: Activity,
+  },
+{
+    step:"02",
+    title:"Add Context",
+    description:"Note time and condition.",
+    icon: Clock,
+  },
+{
+    step:"03",
+    title:"Monitor",
+    description:"See trends and categories.",
+    icon: LineChart,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Activity,
+    title:"Reading Log",
+    description:"Store each measurement.",
+  },
+{
+    icon: Clock,
+    title:"Time Aware",
+    description:"Morning vs evening matter.",
+  },
+{
+    icon: LineChart,
+    title:"Trend View",
+    description:"Track over days and weeks.",
+  },
+{
+    icon: HeartPulse,
+    title:"Category Flag",
+    description:"Shows normal, elevated, high.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A blood pressure tracker makes a vital sign observable over time. A single reading is noisy; a logged series reveals your real baseline and response to diet, stress, or medication. This tool records systolic and diastolic values with context, so trends — not isolated spikes — guide decisions.</p>
+  <p>Consistency improves signal. Measuring at the same time, seated and rested, reduces variation from activity and caffeine. The tracker charts these readings, highlighting categories from normal to elevated so you notice drift early. Timing notes capture morning versus evening differences clinicians care about.</p>
+  <p>This supports, not replaces, medical care. Persistent highs deserve professional evaluation; organized logs make those visits efficient. The tool's value is turning an invisible metric into a visible trend you can act on and discuss with confidence.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What do the numbers mean?",
+    answer:"Systolic over diastolic, in mmHg.",
+  },
+{
+    question:"When to measure?",
+    answer:"Same time daily, rested, seated.",
+  },
+{
+    question:"What is high?",
+    answer:"Consistently 130/80 or above warrants attention.",
+  },
+{
+    question:"Is one reading enough?",
+    answer:"No, trends matter more than singles.",
+  },
+{
+    question:"Medical use?",
+    answer:"Share logs with your clinician.",
+  }
+  ]}
+/>
+</div>
  );
  })}
  </div>

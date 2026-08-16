@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import EMICalculatorClient from "@/components/tools/calc/emi-calculator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Loan / EMI Calculator",
@@ -153,6 +154,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <EMICalculatorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/calc/emi" />
+</div>
   );
 }

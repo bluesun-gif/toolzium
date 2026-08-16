@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import CsvJsonClient from "@/components/tools/dev/csv-json-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "CSV ⇄ JSON Converter",
@@ -168,6 +169,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <CsvJsonClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/csv-json" />
+</div>
   );
 }

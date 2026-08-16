@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { EisenhowerListClient } from "@/components/tools/productivity/eisenhower-list-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Eisenhower Matrix Planner | Toolzium",
@@ -21,6 +22,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <EisenhowerListClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/productivity/eisenhower-list" />
+</div>
   );
 }

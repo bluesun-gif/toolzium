@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { ExchangeTableClient } from "@/components/tools/travel/exchange-table-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Currency Exchange Comparison Table | Toolzium",
@@ -48,6 +49,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <ExchangeTableClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/travel/exchange-table" />
+</div>
   );
 }

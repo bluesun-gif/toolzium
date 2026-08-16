@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { EisenhowerKanbanClient } from "@/components/tools/productivity/eisenhower-kanban-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Eisenhower Kanban Board | Toolzium",
@@ -52,6 +53,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <EisenhowerKanbanClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/productivity/eisenhower-kanban" />
+</div>
   );
 }

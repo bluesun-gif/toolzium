@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton } from"@/components/shared/action-buttons";
-import { Clock, Moon, Sun, Shield } from"lucide-react";
+import { AlarmClock, Calculator, Clock, Moon, Shield, ShieldCheck, Sun } from"lucide-react";
 export function SleepOnsetClockClient() {
  const [latency, setLatency] = useState("15");
  const [mode, setMode] = useState("wake");
@@ -124,6 +127,86 @@ export function SleepOnsetClockClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Set Wake",
+    description:"Enter wake time.",
+    icon: AlarmClock,
+  },
+{
+    step:"02",
+    title:"Latency",
+    description:"Your fall-asleep delay.",
+    icon: Moon,
+  },
+{
+    step:"03",
+    title:"Compute",
+    description:"See bedtime to be in bed.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: AlarmClock,
+    title:"Wake",
+    description:"Target time.",
+  },
+{
+    icon: Moon,
+    title:"Latency",
+    description:"Delay to sleep.",
+  },
+{
+    icon: Calculator,
+    title:"Bedtime",
+    description:"When to lie down.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Realistic",
+    description:"Includes delay.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A sleep onset clock subtracts your fall-asleep latency from the needed sleep duration to recommend a realistic bedtime — when to be in bed, not when to fall asleep. This distinction is why people feel shortchanged. This tool makes it explicit.</p>
+  <p>Realistic bedtimes improve total sleep. The clock turns latency into an actionable time.</p>
+  <p>Use it to plan rest. The tool's value is latency-aware bedtime suggestion.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Latency?",
+    answer:"Time to fall asleep.",
+  },
+{
+    question:"Why include?",
+    answer:"Accurate bedtime.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Sleep planning.",
+  }
+  ]}
+/>
+</div>
  );
 }

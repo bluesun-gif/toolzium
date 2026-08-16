@@ -1,11 +1,14 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useRef, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
 import { GlassCard } from"@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { Sliders, Upload, Download, RefreshCw } from"lucide-react";
+import { Download, RefreshCw, ShieldCheck, Sliders, SlidersHorizontal, Upload } from"lucide-react";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { toast } from"react-hot-toast";
@@ -196,6 +199,86 @@ export function ColorThresholdClient() {
  )}
  </CardContent>
  </GlassCard>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Upload",
+    description:"Load the image.",
+    icon: Upload,
+  },
+{
+    step:"02",
+    title:"Set Threshold",
+    description:"Choose a cutoff value.",
+    icon: SlidersHorizontal,
+  },
+{
+    step:"03",
+    title:"Apply",
+    description:"Binarize and export.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Upload,
+    title:"Image Input",
+    description:"From your device.",
+  },
+{
+    icon: SlidersHorizontal,
+    title:"Threshold",
+    description:"Tune the cutoff.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Black-and-white result.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Privacy",
+    description:"Local processing.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An image threshold tool converts a picture into a high-contrast two-tone version by a brightness cutoff. Useful for stamping, stencils, OCR prep, or graphic effects, it reduces visual noise to pure black and white. This tool lets you tune the cutoff and export.</p>
+  <p>The cutoff controls detail. A higher threshold keeps more dark areas; a lower one more light. Adjusting reveals the level that best serves your purpose, whether legibility or artistic.</p>
+  <p>Use it to simplify images for print or processing. The tool's value is fast, local binarization without heavy software.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is thresholding?",
+    answer:"Turns image to two tones by a cutoff.",
+  },
+{
+    question:"Use case?",
+    answer:"Prep for printing, OCR, art.",
+  },
+{
+    question:"Tunable?",
+    answer:"Yes, adjust the level.",
+  },
+{
+    question:"Private?",
+    answer:"Yes, browser only.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  }
+  ]}
+/>
+</div>
  );
 }

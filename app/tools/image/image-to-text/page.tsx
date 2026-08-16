@@ -3,7 +3,6 @@ import ImageToTextClient from "@/components/tools/image/image-to-text-client";
 import { buildMetadata } from "@/lib/seo";
 import JsonLd from "@/components/seo/json-ld";
 import { siteURL } from "@/lib/constants";
-
 const title = "Image to Text (OCR) — Extract Text from Images | Toolzium";
 const description =
   "Extract text from images using optical character recognition (OCR). Upload PNG, JPG, WEBP, or BMP files and convert them to editable text. Free, instant, and private.";
@@ -113,6 +112,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <ImageToTextClient />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/image/image-to-text" />
+</>
   );
 }

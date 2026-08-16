@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useRef, useEffect, MouseEvent } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { ShieldAlert, Upload, Download, EyeOff, X } from"lucide-react";
+import { Brush, Download, EyeOff, ShieldAlert, ShieldCheck, Upload, X } from"lucide-react";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
 import toast from"react-hot-toast";
 
@@ -270,6 +273,86 @@ export function BlurImageClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Upload",
+    description:"Load the image.",
+    icon: Upload,
+  },
+{
+    step:"02",
+    title:"Select Area",
+    description:"Paint regions to blur.",
+    icon: Brush,
+  },
+{
+    step:"03",
+    title:"Apply",
+    description:"Blur and download.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Upload,
+    title:"Load",
+    description:"From your device.",
+  },
+{
+    icon: Brush,
+    title:"Region Brush",
+    description:"Blur exactly what you mark.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Save anonymized image.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Privacy",
+    description:"Local processing.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An image blur tool anonymizes sensitive content before sharing. Faces, license plates, and documents leak identity; blurring those regions protects people while keeping the image useful. This tool lets you paint exactly what to obscure.</p>
+  <p>Irreversibility is a feature here — once blurred, pixels are gone, so nothing recoverable remains. That is what makes it safe for redaction. Local processing means the image never uploads, adding another privacy layer.</p>
+  <p>Use it whenever sharing captures that contain personal data. The tool's value is simple, private anonymization that prevents accidental exposure.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why blur?",
+    answer:"Hide faces, plates, documents.",
+  },
+{
+    question:"Reversible?",
+    answer:"No, blurred pixels are destroyed.",
+  },
+{
+    question:"Private?",
+    answer:"Yes, runs in browser.",
+  },
+{
+    question:"Precise?",
+    answer:"Brush the exact area.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  }
+  ]}
+/>
+</div>
  );
 }

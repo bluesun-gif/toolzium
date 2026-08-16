@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Button } from"@/components/ui/button";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { LayoutGrid, Plus, ArrowLeft, ArrowRight, Trash2, Check } from"lucide-react";
+import { ArrowLeft, ArrowRight, Check, Columns3, Kanban, LayoutGrid, MoveRight, Plus, StickyNote, Trash2 } from"lucide-react";
 import { cn } from"@/lib/utils";
 import toast from"react-hot-toast";
 
@@ -233,7 +236,87 @@ export function KanbanClient() {
  ))
  )}
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Cards",
+    description:"Create task cards.",
+    icon: StickyNote,
+  },
+{
+    step:"02",
+    title:"Columns",
+    description:"Set your stages.",
+    icon: Columns3,
+  },
+{
+    step:"03",
+    title:"Flow",
+    description:"Drag across stages.",
+    icon: MoveRight,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: StickyNote,
+    title:"Cards",
+    description:"Task items.",
+  },
+{
+    icon: Columns3,
+    title:"Stages",
+    description:"Todo, doing, done.",
+  },
+{
+    icon: MoveRight,
+    title:"Drag",
+    description:"Move cards.",
+  },
+{
+    icon: Kanban,
+    title:"Board",
+    description:"Visual workflow.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A kanban board visualizes work flowing through stages, making status obvious at a glance. Moving cards from to-do to done gives satisfying progress that lists lack. This tool supports custom columns and drag.</p>
+  <p>Limits on work-in-progress reveal overload. The board makes bottlenecks visible so you can act.</p>
+  <p>Use it for any project. The tool's value is a clear visual workflow system.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is kanban?",
+    answer:"Visual work board.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Projects.",
+  },
+{
+    question:"Best with?",
+    answer:"Weekly planning.",
+  }
+  ]}
+/>
+</div>
  );
  })}
  </div>

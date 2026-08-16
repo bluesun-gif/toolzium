@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useRef, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -11,7 +14,7 @@ import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
 import { cn } from"@/lib/utils";
-import { LayoutGrid, Image as ImageIcon, Download, Palette, Upload } from"lucide-react";
+import { Download, Image as ImageIcon, Images, LayoutGrid, Palette, Upload } from"lucide-react";
 import toast from"react-hot-toast";
 
 type LayoutType ="grid-2"|"grid-4"|"grid-9"|"row-3"|"col-3"|"magazine";
@@ -202,6 +205,86 @@ export function CollageLayoutClient() {
  </GlassCard>
  </div>
  <canvas ref={canvasRef} className="hidden"/>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Photos",
+    description:"Upload several images.",
+    icon: Images,
+  },
+{
+    step:"02",
+    title:"Pick Layout",
+    description:"Choose a grid or template.",
+    icon: LayoutGrid,
+  },
+{
+    step:"03",
+    title:"Export",
+    description:"Save the combined collage.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Images,
+    title:"Multi Photo",
+    description:"Combine several images.",
+  },
+{
+    icon: LayoutGrid,
+    title:"Templates",
+    description:"Grids and creative layouts.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"One merged image.",
+  },
+{
+    icon: Palette,
+    title:"Styling",
+    description:"Backgrounds and gaps.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A photo collage layout combines multiple images into one shareable composition — ideal for recaps, comparisons, and social posts. Instead of posting ten separate pictures, one collage tells the story cleanly. This tool offers grids and templates, then merges them.</p>
+  <p>Layout choice shapes impact. A grid reads as an organized set; a creative template feels editorial. The tool lets you pick and adjust spacing and backgrounds so the result matches your intent.</p>
+  <p>Use it for event recaps and product comparisons. The tool's value is turning a pile of photos into a single, polished image worth sharing.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"How many photos?",
+    answer:"Depends on the layout chosen.",
+  },
+{
+    question:"Rearrange?",
+    answer:"Yes, drag to reorder.",
+  },
+{
+    question:"Export size?",
+    answer:"High resolution.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local processing.",
+  }
+  ]}
+/>
+</div>
  );
 }

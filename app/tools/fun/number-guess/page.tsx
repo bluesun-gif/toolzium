@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import NumberGuessClient from "@/components/tools/fun/number-guess-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Number Guessing Game | Toolzium",
   description: "A fun and interactive number guessing game. Test your skills and try to guess the hidden number in the fewest attempts possible.",
@@ -39,6 +38,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <NumberGuessClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/fun/number-guess" />
+</div>
   );
 }

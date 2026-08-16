@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { EmergencyLoanClient } from "@/components/tools/finance/emergency-loan-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Emergency Loan vs Savings Comparison | Toolzium",
@@ -20,6 +21,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <EmergencyLoanClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/finance/emergency-loan" />
+</div>
   );
 }

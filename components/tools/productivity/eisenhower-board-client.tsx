@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Layout, Plus, CheckSquare, Download, Trash2, ArrowRight } from"lucide-react";
+import { ArrowRight, ArrowRightLeft, CheckCircle2, CheckSquare, Download, Grid2x2, Layout, ListPlus, Plus, Trash2 } from"lucide-react";
 import toast from"react-hot-toast";
 
 type Task = {
@@ -146,6 +149,86 @@ export function EisenhowerBoardClient() {
  </GlassCard>
  ))}
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Tasks",
+    description:"List what needs doing.",
+    icon: ListPlus,
+  },
+{
+    step:"02",
+    title:"Sort",
+    description:"Urgent vs important.",
+    icon: Grid2x2,
+  },
+{
+    step:"03",
+    title:"Act",
+    description:"Do, plan, delegate, drop.",
+    icon: CheckCircle2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: ListPlus,
+    title:"Tasks",
+    description:"Capture all.",
+  },
+{
+    icon: Grid2x2,
+    title:"Quadrants",
+    description:"Four-box matrix.",
+  },
+{
+    icon: CheckCircle2,
+    title:"Decide",
+    description:"Act on each box.",
+  },
+{
+    icon: ArrowRightLeft,
+    title:"Move",
+    description:"Re-sort easily.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An Eisenhower matrix board sorts tasks by urgency and importance into four boxes: do, schedule, delegate, eliminate. This classic method stops the urgent from crowding the important. This tool gives you the grid and drag sorting.</p>
+  <p>The insight is separating &quot;important&quot; from &quot;urgent.&quot; Important work builds your goals; urgent work just demands attention. The matrix makes the distinction visible.</p>
+  <p>Use it for regular triage. The tool's value is a clear prioritization framework that protects what matters.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is the matrix?",
+    answer:"Sorts by urgent and important.",
+  },
+{
+    question:"Four boxes?",
+    answer:"Do, schedule, delegate, eliminate.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Best use?",
+    answer:"Weekly triage.",
+  }
+  ]}
+/>
+</div>
  );
 }

@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { BusinessCardClient } from "@/components/tools/office/business-card-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Business Card Generator | Toolzium",
@@ -22,6 +23,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <BusinessCardClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/office/business-card" />
+</div>
   );
 }

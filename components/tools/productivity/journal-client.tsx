@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useEffect, useMemo } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Separator } from"@/components/ui/separator";
-import { BookOpen, Calendar, Search, Download } from"lucide-react";
+import { BookOpen, Calendar, Download, PenLine, Search, ShieldCheck } from"lucide-react";
 import { ActionButton } from"@/components/shared/action-buttons";
 
 interface JournalEntry {
@@ -177,6 +180,86 @@ export function JournalClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Write",
+    description:"Add today's entry.",
+    icon: PenLine,
+  },
+{
+    step:"02",
+    title:"Date",
+    description:"Auto-stamp the day.",
+    icon: Calendar,
+  },
+{
+    step:"03",
+    title:"Reflect",
+    description:"Revisit past entries.",
+    icon: BookOpen,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: PenLine,
+    title:"Entry",
+    description:"Free writing.",
+  },
+{
+    icon: Calendar,
+    title:"Dates",
+    description:"Chronological.",
+  },
+{
+    icon: BookOpen,
+    title:"History",
+    description:"Browse past.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Private",
+    description:"Local storage.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A daily journal gives a private space to think on paper, improving clarity and memory. Regular writing surfaces patterns you'd miss otherwise. This tool stores dated entries locally.</p>
+  <p>Revisiting past entries provides perspective that the moment lacks. Local storage keeps thoughts yours alone.</p>
+  <p>Use it as a personal practice. The tool's value is a private, chronological journal.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Benefits?",
+    answer:"Clarity and memory.",
+  },
+{
+    question:"Daily?",
+    answer:"As often as you like.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"On device.",
+  },
+{
+    question:"Use case?",
+    answer:"Reflection.",
+  }
+  ]}
+/>
+</div>
  );
 }

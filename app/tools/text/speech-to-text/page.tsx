@@ -2,7 +2,6 @@ import { Metadata } from "next";
 import SpeechToTextClient from "@/components/tools/text/speech-to-text-client";
 import { generateSEOMetadata } from "@/lib/seo-config";
 import JsonLd from "@/components/seo/json-ld";
-
 export const metadata: Metadata = generateSEOMetadata({
   title: "Speech to Text Transcriber — Free Voice Typing Online",
   description:
@@ -46,6 +45,8 @@ export default function SpeechToTextPage() {
     <>
       <JsonLd data={faqSchema} />
       <SpeechToTextClient />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/text/speech-to-text" />
+</>
   );
 }

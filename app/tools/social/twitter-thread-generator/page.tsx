@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import TwitterThreadGeneratorClient from "@/components/tools/social/twitter-thread-generator-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "AI X / Twitter Viral Thread Generator | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function TwitterThreadGeneratorPage() {
-  return <TwitterThreadGeneratorClient />;
+  return (
+    <><TwitterThreadGeneratorClient />
+      <RelatedTools currentToolUrl="/tools/social/twitter-thread-generator" />
+    </>
+  );
 }

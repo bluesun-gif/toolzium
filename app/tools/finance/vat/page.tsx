@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import VatCalculatorClient from "@/components/tools/finance/vat-calculator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "GST/VAT Calculator",
@@ -137,6 +138,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <VatCalculatorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/finance/vat" />
+</div>
   );
 }

@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Utensils, Target, Calendar, Download } from"lucide-react";
+import { Apple, Calendar, CalendarDays, Download, Target, Utensils } from"lucide-react";
 import toast from"react-hot-toast";
 
 type Meal = {
@@ -196,6 +199,86 @@ export function MealPlannerClient() {
  </div>
  </CardContent>
  </GlassCard>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Set Target",
+    description:"Enter daily calories and macros.",
+    icon: Target,
+  },
+{
+    step:"02",
+    title:"Choose Style",
+    description:"Pick diet preference.",
+    icon: Utensils,
+  },
+{
+    step:"03",
+    title:"Build",
+    description:"Get a daily meal map.",
+    icon: CalendarDays,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Target,
+    title:"Calorie Driven",
+    description:"Plans to your goal.",
+  },
+{
+    icon: Utensils,
+    title:"Diet Aware",
+    description:"Handles preferences.",
+  },
+{
+    icon: CalendarDays,
+    title:"Daily Map",
+    description:"Meals structured.",
+  },
+{
+    icon: Apple,
+    title:"Balanced",
+    description:"Whole-food focus.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A meal planner converts calorie and macro targets into a concrete day of eating, removing the daily &quot;what should I eat&quot; decision that derails diets. This tool maps meals to your goal and preferences, so intention becomes structure.</p>
+  <p>Flexibility sustains adherence. Swapping foods within targets keeps plans edible and realistic rather than rigid. The structure matters more than exact items; consistency with totals drives results. A shopping list from the plan reduces impulse buys.</p>
+  <p>Use it weekly to pre-decide, then log to confirm. The tool's value is eliminating decision fatigue, making a nutrition plan something you follow rather than negotiate with yourself each meal.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why plan meals?",
+    answer:"Reduces impulsive, off-target eating.",
+  },
+{
+    question:"Flexible?",
+    answer:"Swap foods within targets.",
+  },
+{
+    question:"Track after?",
+    answer:"Logging confirms adherence.",
+  },
+{
+    question:"Diet specific?",
+    answer:"Set preferences.",
+  },
+{
+    question:"Time saving?",
+    answer:"Yes, cuts daily decisions.",
+  }
+  ]}
+/>
+</div>
  );
 }

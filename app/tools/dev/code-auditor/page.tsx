@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import CodeAuditorClient from "@/components/tools/dev/code-auditor-client";
-
 export const metadata: Metadata = {
   title: "AI Code Refactoring & Security Vulnerability Auditor | Toolzium",
   description:
@@ -8,5 +7,9 @@ export const metadata: Metadata = {
 };
 
 export default function CodeAuditorPage() {
-  return <CodeAuditorClient />;
+  return (
+    <><CodeAuditorClient />
+      <RelatedTools currentToolUrl="/tools/dev/code-auditor" />
+    </>
+  );
 }

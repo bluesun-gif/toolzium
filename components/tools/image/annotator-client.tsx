@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useRef, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Separator } from"@/components/ui/separator";
-import { PenTool, Upload, Download, Undo2, Square, Circle, MoveRight, Type, Eraser } from"lucide-react";
+import { Circle, Download, Eraser, Eye, MoveRight, PenTool, Square, Type, Undo2, Upload } from"lucide-react";
 import { cn } from"@/lib/utils";
 
 type DrawTool ="rectangle"|"circle"|"arrow"|"freehand"|"text"|"blur";
@@ -412,6 +415,86 @@ export function AnnotatorClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Upload",
+    description:"Load your screenshot or image.",
+    icon: Upload,
+  },
+{
+    step:"02",
+    title:"Annotate",
+    description:"Add arrows, boxes, text, blur.",
+    icon: PenTool,
+  },
+{
+    step:"03",
+    title:"Export",
+    description:"Download the marked-up image.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Upload,
+    title:"Easy Load",
+    description:"Drag and drop images.",
+  },
+{
+    icon: PenTool,
+    title:"Markup Tools",
+    description:"Arrows, boxes, highlights.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Save annotated result.",
+  },
+{
+    icon: Eye,
+    title:"Privacy",
+    description:"Runs locally in browser.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A screenshot annotator lets you explain visuals clearly by marking them up. Whether for bug reports, tutorials, or feedback, arrows and boxes direct attention exactly where it belongs. This tool loads your image, offers markup and blur, then exports the result.</p>
+  <p>Privacy is a strength. Annotation runs locally in your browser, so sensitive screenshots never leave your device — important for redacting personal data before sharing. The blur tool anonymizes regions without deleting context.</p>
+  <p>Use it for crisp communication. A marked screenshot answers more in seconds than paragraphs of text. The tool's value is turning a raw capture into an explained, shareable image without cloud uploads.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What can I add?",
+    answer:"Arrows, rectangles, text, and blur regions.",
+  },
+{
+    question:"Is it private?",
+    answer:"Yes, processing happens on your device.",
+  },
+{
+    question:"Blur sensitive data?",
+    answer:"Yes, use the blur tool for redaction.",
+  },
+{
+    question:"Export format?",
+    answer:"PNG and JPEG supported.",
+  },
+{
+    question:"Free?",
+    answer:"Yes, no account needed.",
+  }
+  ]}
+/>
+</div>
  );
 }

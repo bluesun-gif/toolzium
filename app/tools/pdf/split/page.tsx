@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import PdfSplitClient from "@/components/tools/pdf/pdf-split-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "PDF Split & Extract Studio | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function PdfSplitPage() {
-  return <PdfSplitClient />;
+  return (
+    <><PdfSplitClient />
+      <RelatedTools currentToolUrl="/tools/pdf/split" />
+    </>
+  );
 }

@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { DailyBudgetClient } from "@/components/tools/travel/daily-budget-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Daily Travel Budget Planner | Toolzium",
@@ -21,6 +22,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <DailyBudgetClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/travel/daily-budget" />
+</div>
   );
 }

@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { HikingCalorieClient } from "@/components/tools/health/hiking-calorie-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Hiking & Elevation Gain Calorie Calculator | Toolzium",
@@ -44,6 +45,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <HikingCalorieClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/health/hiking-calorie" />
+</div>
   );
 }

@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import StringEscapeClient from "@/components/tools/dev/string-escape-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "String Escape & Unescape Tool | Toolzium",
   description: "Escape and unescape strings online for HTML, URL, JavaScript, JSON, XML, SQL, CSS, and Base64 formats.",
@@ -52,6 +51,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <StringEscapeClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/string-escape" />
+</div>
   );
 }

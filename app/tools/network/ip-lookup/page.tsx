@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import IpLookupClient from "@/components/tools/network/ip-lookup-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "IP Geolocation Lookup",
@@ -40,6 +41,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <IpLookupClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/network/ip-lookup" />
+</div>
   );
 }

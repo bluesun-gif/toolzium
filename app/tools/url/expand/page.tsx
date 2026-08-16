@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import LinkExpandClient from "@/components/tools/url/link-expand-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Link Expander",
@@ -140,6 +141,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <LinkExpandClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/url/expand" />
+</div>
   );
 }

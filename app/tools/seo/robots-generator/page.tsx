@@ -3,7 +3,6 @@ import JsonLd from "@/components/seo/json-ld";
 import RobotsGeneratorClient from "@/components/tools/seo/robots-generator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "robots.txt Generator",
   description:
@@ -132,6 +131,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <RobotsGeneratorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/seo/robots-generator" />
+</div>
   );
 }

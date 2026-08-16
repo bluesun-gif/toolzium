@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import SqlToPrismaClient from "@/components/tools/dev/sql-to-prisma-client";
-
 export const metadata: Metadata = {
   title: "SQL Table to Prisma Schema Converter Studio | Toolzium",
   description:
@@ -8,5 +7,9 @@ export const metadata: Metadata = {
 };
 
 export default function SqlToPrismaPage() {
-  return <SqlToPrismaClient />;
+  return (
+    <><SqlToPrismaClient />
+      <RelatedTools currentToolUrl="/tools/dev/sql-to-prisma" />
+    </>
+  );
 }

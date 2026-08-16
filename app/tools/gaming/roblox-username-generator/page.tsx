@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import RobloxUsernameClient from "@/components/tools/gaming/roblox-username-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "Roblox Username & Display Name Generator (Rare & Aesthetic) | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function RobloxUsernamePage() {
-  return <RobloxUsernameClient />;
+  return (
+    <><RobloxUsernameClient />
+      <RelatedTools currentToolUrl="/tools/gaming/roblox-username-generator" />
+    </>
+  );
 }

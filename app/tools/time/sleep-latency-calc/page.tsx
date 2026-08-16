@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { SleepLatencyClient } from "@/components/tools/time/sleep-latency-calc-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Sleep Latency & Sleep Onset Calculator | Toolzium",
@@ -51,6 +52,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <SleepLatencyClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/time/sleep-latency-calc" />
+</div>
   );
 }

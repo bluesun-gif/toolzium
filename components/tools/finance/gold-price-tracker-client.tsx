@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import SelectField from"@/components/shared/form-fields/select-field";
-import { RefreshCw, TrendingUp, Sparkles, DollarSign, Coins, ShieldCheck, Scale } from"lucide-react";
+import { Coins, DollarSign, Gem, LineChart, RefreshCw, Scale, ShieldCheck, Sparkles, TrendingUp } from"lucide-react";
 import toast from"react-hot-toast";
 
 interface MetalsData {
@@ -220,6 +223,87 @@ export default function GoldPriceTrackerClient() {
  </Badge>
  </div>
  </GlassCard>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Select Metal",
+    description:"Choose gold, silver, or platinum.",
+    icon: Gem,
+  },
+{
+    step:"02",
+    title:"Set Units",
+    description:"Pick grams, ounces, or tola.",
+    icon: Scale,
+  },
+{
+    step:"03",
+    title:"Track",
+    description:"View current and historical prices.",
+    icon: LineChart,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Gem,
+    title:"Multi-Metal",
+    description:"Tracks several precious metals.",
+  },
+{
+    icon: Scale,
+    title:"Unit Flexibility",
+    description:"Displays in your preferred weight.",
+  },
+{
+    icon: LineChart,
+    title:"History",
+    description:"Charts past price movement.",
+  },
+{
+    icon: RefreshCw,
+    title:"Updated Rates",
+    description:"Pulls recent market prices.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>Gold and precious metals have served as wealth preservation for centuries, and tracking their price is the first step to using them deliberately. This tracker shows current and historical rates across metals and units, giving context that a single quote cannot. Whether you hold metal or are considering it, visibility matters.</p>
+  <p>Units shape interpretation. Global markets quote gold per troy ounce, but many buyers think in grams or tola, so the tracker converts to your preferred weight to avoid confusion at purchase. Spot price is the wholesale benchmark; actual coins and bars carry dealer premiums and fabrication costs the tracker excludes, so budget above spot.</p>
+  <p>History provides perspective. A price chart reveals volatility and long-term trends, helping you avoid buying at a temporary peak out of fear or selling at a trough out of panic. Metals are cyclical and emotional; a calm, data-informed view supports better timing than headlines.</p>
+  <p>Treat gold as one component, not the whole strategy. It offers no yield and can lag growth assets, so most plans hold it as a hedge rather than a core. Use the tracker to monitor your position, set target buy zones, and stay rational. The tool's value is consistent, unit-aware visibility into an asset class that rewards patience and punishes impulsiveness.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why track gold prices?",
+    answer:"Gold is a store of value and hedge; tracking informs buying and selling.",
+  },
+{
+    question:"Is the price a forecast?",
+    answer:"No, it shows current and past market rates, not predictions.",
+  },
+{
+    question:"What units are common?",
+    answer:"Ounces globally, grams in many countries, tola in South Asia.",
+  },
+{
+    question:"Does this include premiums?",
+    answer:"Spot price excludes dealer premiums and minting costs.",
+  },
+{
+    question:"Is gold a good investment?",
+    answer:"It can diversify, but has no yield; balance within a broader plan.",
+  }
+  ]}
+/>
+</div>
  );
 }

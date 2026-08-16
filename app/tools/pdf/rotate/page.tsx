@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import PdfRotateClient from "@/components/tools/pdf/pdf-rotate-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "PDF Page Rotate Studio | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function PdfRotatePage() {
-  return <PdfRotateClient />;
+  return (
+    <><PdfRotateClient />
+      <RelatedTools currentToolUrl="/tools/pdf/rotate" />
+    </>
+  );
 }

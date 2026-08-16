@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { FileText, Eye, Copy, Download } from"lucide-react";
+import { Copy, Download, Eye, FileText, Star, Wand2 } from"lucide-react";
 import { Textarea } from"@/components/ui/textarea";
 
 export function CoverLetterClient() {
@@ -235,6 +238,86 @@ Contact: ${email ||"[Email]"} | ${phone ||"[Phone]"}`;
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Role",
+    description:"Add job and your background.",
+    icon: FileText,
+  },
+{
+    step:"02",
+    title:"Highlight",
+    description:"Note key achievements.",
+    icon: Star,
+  },
+{
+    step:"03",
+    title:"Generate",
+    description:"Build the letter.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: FileText,
+    title:"Guided",
+    description:"Structured prompts.",
+  },
+{
+    icon: Star,
+    title:"Achievements",
+    description:"Emphasize results.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Ready letter.",
+  },
+{
+    icon: Wand2,
+    title:"Tone",
+    description:"Professional polish.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A cover letter builder structures your application narrative, connecting your background to the role. A strong letter explains fit that a resume alone cannot. This tool prompts the key points and produces a polished draft.</p>
+  <p>Achievements over duties win attention. The builder emphasizes results, and tailoring per application improves response rates versus generic letters.</p>
+  <p>Use it as a starting point, then personalize. The tool's value is a clear, professional letter framework that saves time on every application.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What to include?",
+    answer:"Why you fit the role.",
+  },
+{
+    question:"Length?",
+    answer:"One page is standard.",
+  },
+{
+    question:"Customize?",
+    answer:"Yes, per application.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Tailor per job?",
+    answer:"Strongly recommended.",
+  }
+  ]}
+/>
+</div>
  );
 }

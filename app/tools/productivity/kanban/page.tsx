@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { KanbanClient } from "@/components/tools/productivity/kanban-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Kanban Board | Toolzium",
@@ -63,6 +64,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <KanbanClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/productivity/kanban" />
+</div>
   );
 }

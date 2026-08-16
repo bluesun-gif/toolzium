@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import UuidNanoidClient from "@/components/tools/dev/uuid-nanoid-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "UUID / NanoID Generator",
   description:
@@ -142,6 +141,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <UuidNanoidClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/uuid-nanoid" />
+</div>
   );
 }

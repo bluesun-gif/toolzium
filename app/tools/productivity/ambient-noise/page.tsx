@@ -1,4 +1,5 @@
 import AmbientNoiseClient from "@/components/tools/productivity/ambient-noise-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = {
   title: "Ambient Focus Noise & Binaural Sound Generator Studio | Toolzium",
@@ -6,5 +7,9 @@ export const metadata = {
 };
 
 export default function AmbientNoisePage() {
-  return <AmbientNoiseClient />;
+  return (
+    <><AmbientNoiseClient />
+      <RelatedTools currentToolUrl="/tools/productivity/ambient-noise" />
+    </>
+  );
 }

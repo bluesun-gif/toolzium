@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import { CssFlexboxBuilderClient } from "@/components/tools/dev/css-flexbox-builder-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "CSS Flexbox Layout Visual Builder | Toolzium",
   description: "Interactive visual CSS Flexbox playground to generate CSS layout code.",
@@ -44,6 +43,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <CssFlexboxBuilderClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/css-flexbox-builder" />
+</div>
   );
 }

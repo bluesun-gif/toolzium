@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { NdaScopeBuilderClient } from "@/components/tools/office/nda-scope-builder-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Mutual NDA Scope & Term Builder | Toolzium",
@@ -21,6 +22,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <NdaScopeBuilderClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/office/nda-scope-builder" />
+</div>
   );
 }

@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { Clock, Moon, Sun, Shield } from"lucide-react";
+import { AlarmClock, Calculator, Clock, Moon, Shield, ShieldCheck, Sun } from"lucide-react";
 
 export function RemLatencyBedtimeClockClient() {
  const [latency, setLatency] = useState("15");
@@ -154,6 +157,86 @@ export function RemLatencyBedtimeClockClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Set Wake",
+    description:"Enter target wake time.",
+    icon: AlarmClock,
+  },
+{
+    step:"02",
+    title:"Latency",
+    description:"Add fall-asleep delay.",
+    icon: Moon,
+  },
+{
+    step:"03",
+    title:"Compute",
+    description:"See cycle-aligned bedtimes.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: AlarmClock,
+    title:"Wake",
+    description:"Your target.",
+  },
+{
+    icon: Moon,
+    title:"Latency",
+    description:"Time to fall asleep.",
+  },
+{
+    icon: Calculator,
+    title:"Bedtimes",
+    description:"Multiple options.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Fresh Wake",
+    description:"Ends a cycle.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A REM bedtime clock factors in your fall-asleep latency and 90-minute cycles to suggest bedtimes that end a cycle at your wake time, so you rise refreshed. Latency shifts the math realistically. This tool computes several options.</p>
+  <p>Accounting for latency avoids the common error of ignoring time-to-sleep. The result aligns with your body's rhythm.</p>
+  <p>Use it to plan sleep precisely. The tool's value is latency-aware, cycle-aligned bedtimes.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Latency?",
+    answer:"Minutes to fall asleep.",
+  },
+{
+    question:"Why cycles?",
+    answer:"Wake at cycle end, feel fresh.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Better sleep.",
+  }
+  ]}
+/>
+</div>
  );
 }

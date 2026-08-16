@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import CapRateCalculatorClient from "@/components/tools/finance/cap-rate-calculator-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "AI Real Estate Cap Rate & Cash-on-Cash Investment Auditor | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function CapRateCalculatorPage() {
-  return <CapRateCalculatorClient />;
+  return (
+    <><CapRateCalculatorClient />
+      <RelatedTools currentToolUrl="/tools/finance/cap-rate-calculator" />
+    </>
+  );
 }

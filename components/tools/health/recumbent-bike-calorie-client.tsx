@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ResetButton } from"@/components/shared/action-buttons";
-import { Activity, Flame, Clock, Scale } from"lucide-react";
+import { Activity, Bike, Calculator, Clock, Flame, Scale } from"lucide-react";
 
 export function RecumbentBikeCalorieClient() {
  const [weight, setWeight] = useState("170");
@@ -180,6 +183,86 @@ export function RecumbentBikeCalorieClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Weight",
+    description:"Add body weight.",
+    icon: Scale,
+  },
+{
+    step:"02",
+    title:"Set Time",
+    description:"Input session length.",
+    icon: Clock,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See calories burned.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Scale,
+    title:"Weight Based",
+    description:"Personalizes burn.",
+  },
+{
+    icon: Clock,
+    title:"Duration",
+    description:"Longer burns more.",
+  },
+{
+    icon: Calculator,
+    title:"Burn Estimate",
+    description:"Session calories.",
+  },
+{
+    icon: Bike,
+    title:"Low Impact",
+    description:"Easy on joints.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A recumbent bike calorie calculator estimates energy used on a supportive, low-impact machine. It derives burn from weight and duration at typical intensities. This tool personalizes the figure, useful for those who find upright biking uncomfortable.</p>
+  <p>The recumbent position eases joints while still delivering cardio benefit, making it sustainable for many. The calculator approximates cost so you can balance intake and track training, just as with other cycling.</p>
+  <p>Use the estimate to inform nutrition and consistency. The tool's value is quantifying a gentle, accessible workout's energy cost, encouraging regular movement.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"How estimated?",
+    answer:"Weight, time, intensity.",
+  },
+{
+    question:"Versus upright?",
+    answer:"Similar, recumbent is gentler.",
+  },
+{
+    question:"Accurate?",
+    answer:"Approximate.",
+  },
+{
+    question:"Good for seniors?",
+    answer:"Often, due to support.",
+  },
+{
+    question:"Track it?",
+    answer:"Log to balance intake.",
+  }
+  ]}
+/>
+</div>
  );
 }

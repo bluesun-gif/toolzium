@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import MrrChurnClient from "@/components/tools/finance/mrr-churn-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "SaaS Monthly Recurring Revenue (MRR) & Churn Rate Calculator | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function MrrChurnPage() {
-  return <MrrChurnClient />;
+  return (
+    <><MrrChurnClient />
+      <RelatedTools currentToolUrl="/tools/finance/mrr-churn-calc" />
+    </>
+  );
 }

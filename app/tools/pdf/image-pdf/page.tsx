@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import ImagePdfClient from "@/components/tools/pdf/image-pdf-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "Image to PDF Converter | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function ImagePdfPage() {
-  return <ImagePdfClient />;
+  return (
+    <><ImagePdfClient />
+      <RelatedTools currentToolUrl="/tools/pdf/image-pdf" />
+    </>
+  );
 }

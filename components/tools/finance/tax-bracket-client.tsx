@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Separator } from"@/components/ui/separator";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { Calculator, DollarSign, BarChart3, Info } from"lucide-react";
+import { BarChart3, Calculator, DollarSign, Info, PieChart, Users } from"lucide-react";
 import { cn } from"@/lib/utils";
 
 const taxData = {
@@ -198,6 +201,87 @@ export function TaxBracketClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Income",
+    description:"Input taxable income.",
+    icon: DollarSign,
+  },
+{
+    step:"02",
+    title:"Select Filing",
+    description:"Choose filing status.",
+    icon: Users,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See marginal and effective rate.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: DollarSign,
+    title:"Income In",
+    description:"Uses taxable income.",
+  },
+{
+    icon: Users,
+    title:"Status Aware",
+    description:"Applies correct brackets.",
+  },
+{
+    icon: Calculator,
+    title:"Two Rates",
+    description:"Marginal vs effective shown.",
+  },
+{
+    icon: PieChart,
+    title:"Breakdown",
+    description:"Tax per bracket visualized.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A tax bracket calculator demystifies progressive taxation, where different portions of income are taxed at different rates. Many people wrongly assume all income is taxed at their top rate; this tool shows the marginal rate on the last dollar and the effective rate on the whole, which is what actually matters for planning.</p>
+  <p>Marginal versus effective is the key distinction. The marginal rate applies only to income in the highest bracket; the effective rate is total tax divided by total income, almost always lower. The calculator displays both, correcting the common fear that earning more pushes all income into a higher bracket and reduces take-home — that does not happen.</p>
+  <p>Brackets inform real decisions. Knowing your marginal rate helps evaluate whether a deduction is worth it, how much of a raise you keep, or whether to realize income this year or next. The tool visualizes tax per bracket so you see exactly where dollars fall, replacing anxiety with structure.</p>
+  <p>This is informational, not advice; jurisdictions differ and a professional confirms specifics. Use the calculator to estimate and to understand the system, then act with that clarity. Its value is removing the myth that taxes are a flat, punishing rate, replacing it with an accurate picture of what you actually pay.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Marginal vs effective?",
+    answer:"Marginal is the top bracket rate; effective is the overall average.",
+  },
+{
+    question:"Are all dollars taxed equally?",
+    answer:"No, progressive brackets tax higher income at higher rates.",
+  },
+{
+    question:"Does this include deductions?",
+    answer:"Use taxable income after deductions for accuracy.",
+  },
+{
+    question:"Why know your bracket?",
+    answer:"It informs decisions on extra income and deductions.",
+  },
+{
+    question:"Is this tax advice?",
+    answer:"No, consult a professional for your case.",
+  }
+  ]}
+/>
+</div>
  );
 }

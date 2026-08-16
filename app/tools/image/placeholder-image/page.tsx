@@ -2,6 +2,7 @@ import PlaceholderImageClient from "@/components/tools/image/placeholder-image-c
 import { buildMetadata } from "@/lib/seo";
 import JsonLd from "@/components/seo/json-ld";
 import { siteURL } from "@/lib/constants";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Placeholder Image Generator — Create Dummy Images",
@@ -85,6 +86,8 @@ export default function Page() {
     <>
       <JsonLd data={jsonLd as any} />
       <PlaceholderImageClient />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/image/placeholder-image" />
+</>
   );
 }

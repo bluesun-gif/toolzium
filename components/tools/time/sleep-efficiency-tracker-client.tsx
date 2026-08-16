@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Separator } from"@/components/ui/separator";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ResetButton } from"@/components/shared/action-buttons";
-import { Moon, Activity, Clock, Shield } from"lucide-react";
+import { Activity, Calculator, Clock, Moon, Shield, ShieldCheck, TrendingUp } from"lucide-react";
 import { toast } from"react-hot-toast";
 
 export function SleepEfficiencyTrackerClient() {
@@ -174,6 +177,86 @@ export function SleepEfficiencyTrackerClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Log Night",
+    description:"Record times and wakes.",
+    icon: Moon,
+  },
+{
+    step:"02",
+    title:"Compute",
+    description:"See efficiency per night.",
+    icon: Calculator,
+  },
+{
+    step:"03",
+    title:"Track",
+    description:"View trends over time.",
+    icon: TrendingUp,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Moon,
+    title:"Log",
+    description:"Nightly data.",
+  },
+{
+    icon: Calculator,
+    title:"Score",
+    description:"Per-night efficiency.",
+  },
+{
+    icon: TrendingUp,
+    title:"Trends",
+    description:"Over time.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Quality",
+    description:"Spot patterns.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A sleep efficiency tracker extends the calculator with history, logging each night's efficiency so you see whether rest quality is improving. Single nights mislead; trends reveal the truth. This tool charts the progression.</p>
+  <p>Patterns emerge over weeks — caffeine timing, late screens, or stress. The tracker makes them visible.</p>
+  <p>Use it as a sleep diary. The tool's value is trend-aware quality tracking.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Track vs calc?",
+    answer:"Adds history and trends.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Improving sleep.",
+  },
+{
+    question:"Score meaning?",
+    answer:"Higher is better.",
+  }
+  ]}
+/>
+</div>
  );
 }

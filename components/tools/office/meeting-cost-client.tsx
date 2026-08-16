@@ -1,7 +1,10 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 import React, { useState, useEffect, useMemo } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
-import { DollarSign } from"lucide-react";
+import { Calculator, Clock, DollarSign, TrendingDown, Users } from"lucide-react";
 import { GlassCard } from"@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Input } from"@/components/ui/input";
@@ -146,6 +149,86 @@ export function MeetingCostClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Attendees",
+    description:"Add count and salaries.",
+    icon: Users,
+  },
+{
+    step:"02",
+    title:"Set Time",
+    description:"Input duration.",
+    icon: Clock,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See total cost.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Users,
+    title:"Attendees",
+    description:"Number and rates.",
+  },
+{
+    icon: Clock,
+    title:"Duration",
+    description:"Meeting length.",
+  },
+{
+    icon: Calculator,
+    title:"Cost",
+    description:"Total payroll cost.",
+  },
+{
+    icon: TrendingDown,
+    title:"Insight",
+    description:"Encourages efficiency.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A meeting cost calculator puts a dollar figure on gathered time, often shocking teams into meeting hygiene. Multiplying attendees' hourly rates by duration reveals the real price of a recurring sync. This tool makes that visible.</p>
+  <p>The number drives behavior. Seeing a one-hour meeting with ten senior staff costs thousands justifies tighter agendas and fewer attendees. Cost awareness improves efficiency.</p>
+  <p>Use it to audit meeting culture. The tool's value is quantifying time so decisions about gatherings are economical.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why calculate?",
+    answer:"Reveals true cost of time.",
+  },
+{
+    question:"Salary based?",
+    answer:"Uses hourly equivalents.",
+  },
+{
+    question:"Useful?",
+    answer:"Justifies shorter meetings.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Accurate?",
+    answer:"Estimate from inputs.",
+  }
+  ]}
+/>
+</div>
  );
 }

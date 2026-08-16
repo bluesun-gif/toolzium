@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import AiWorkoutGeneratorClient from "@/components/tools/health/ai-workout-generator-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "AI Personal Workout Routine & Training Split Generator | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function AiWorkoutGeneratorPage() {
-  return <AiWorkoutGeneratorClient />;
+  return (
+    <><AiWorkoutGeneratorClient />
+      <RelatedTools currentToolUrl="/tools/health/ai-workout-generator" />
+    </>
+  );
 }

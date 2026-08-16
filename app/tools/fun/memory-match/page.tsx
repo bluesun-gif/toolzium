@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import { MemoryMatchClient } from "@/components/tools/fun/memory-match-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Memory Match Game | Toolzium",
   description: "Play the classic card memory matching game. Test your memory with different themes like animals, food, and flags.",
@@ -21,6 +20,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <MemoryMatchClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/fun/memory-match" />
+</div>
   );
 }

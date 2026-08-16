@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import ExifViewerClient from "@/components/tools/image/exif-viewer-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "EXIF & Image Metadata Viewer",
@@ -40,6 +41,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <ExifViewerClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/image/exif-viewer" />
+</div>
   );
 }

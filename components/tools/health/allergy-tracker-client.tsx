@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { AlertTriangle, Plus, Activity, Download, Trash2 } from"lucide-react";
+import { Activity, AlertTriangle, BarChart3, Bell, ClipboardList, Download, Plus, Search, Trash2 } from"lucide-react";
 import toast from"react-hot-toast";
 import { cn } from"@/lib/utils";
 
@@ -232,6 +235,86 @@ export function AllergyTrackerClient() {
  )}
  </CardContent>
  </GlassCard>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Log Symptoms",
+    description:"Record reactions and severity.",
+    icon: ClipboardList,
+  },
+{
+    step:"02",
+    title:"Note Triggers",
+    description:"Link symptoms to foods or environments.",
+    icon: Search,
+  },
+{
+    step:"03",
+    title:"Review",
+    description:"Spot patterns over time.",
+    icon: BarChart3,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: ClipboardList,
+    title:"Symptom Log",
+    description:"Track what and when.",
+  },
+{
+    icon: Search,
+    title:"Trigger Hunt",
+    description:"Connect reactions to causes.",
+  },
+{
+    icon: BarChart3,
+    title:"Patterns",
+    description:"Visualize frequency.",
+  },
+{
+    icon: Bell,
+    title:"Reminders",
+    description:"Log consistently.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An allergy tracker turns scattered reactions into recognizable patterns. Occasional symptoms feel random until you log them alongside foods, environments, and timing. This tool records each episode so connections — a food, a pollen season, a pet — emerge from data rather than memory, which is unreliable for intermittent events.</p>
+  <p>Logging discipline is the payoff. Capturing symptom, severity, and suspected trigger after every incident builds a timeline. Over weeks, frequency charts reveal what correlates with flares, guiding avoidance far better than guesswork. The tool structures this so the habit is easy.</p>
+  <p>This is not a diagnosis. Patterns inform a conversation with a clinician, not a replacement for one. Bringing organized notes to an appointment accelerates accurate testing and advice. The tracker's value is transforming vague discomfort into actionable evidence you and your doctor can use.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why track allergies?",
+    answer:"Patterns reveal triggers you can avoid.",
+  },
+{
+    question:"What should I log?",
+    answer:"Symptom, severity, time, and suspected cause.",
+  },
+{
+    question:"Is this medical advice?",
+    answer:"No, consult a clinician for diagnosis.",
+  },
+{
+    question:"How long to track?",
+    answer:"Several weeks captures season and diet cycles.",
+  },
+{
+    question:"Can I export?",
+    answer:"Keep notes to share with your doctor.",
+  }
+  ]}
+/>
+</div>
  );
 }

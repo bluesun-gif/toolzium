@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton } from"@/components/shared/action-buttons";
-import { Palette, Sparkles, Download } from"lucide-react";
+import { Copy, Download, Palette, ShieldCheck, Sparkles, Wand2 } from"lucide-react";
 import toast from"react-hot-toast";
 
 export function ColorHarmonyClient() {
@@ -85,6 +88,86 @@ export function ColorHarmonyClient() {
  </GlassCard>
  ))}
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Pick Base",
+    description:"Choose a starting color.",
+    icon: Palette,
+  },
+{
+    step:"02",
+    title:"Generate",
+    description:"Build harmonious schemes.",
+    icon: Wand2,
+  },
+{
+    step:"03",
+    title:"Refine",
+    description:"Adjust and copy.",
+    icon: Copy,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Palette,
+    title:"Base Color",
+    description:"Your anchor hue.",
+  },
+{
+    icon: Wand2,
+    title:"Schemes",
+    description:"Complementary, analogous, triadic.",
+  },
+{
+    icon: Copy,
+    title:"Export",
+    description:"Copy all hex codes.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Accessible",
+    description:"Optionally check contrast.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A color harmonizer generates balanced palettes from a single base hue using established color-theory relationships — complementary, analogous, triadic. Random colors clash; harmonized ones feel intentional. This tool builds schemes so your design looks coherent without design training.</p>
+  <p>Scheme choice sets the mood. Complementary pairs pop with contrast; analogous sets feel calm and unified. The generator lets you explore quickly, then copy the resulting hex codes into your project.</p>
+  <p>Use it to start any visual design. The tool's value is turning one color into a complete, harmonious palette grounded in theory rather than trial and error.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is harmony?",
+    answer:"Color relationships that look balanced.",
+  },
+{
+    question:"Scheme types?",
+    answer:"Complementary, analogous, triadic, more.",
+  },
+{
+    question:"Use case?",
+    answer:"Design and branding.",
+  },
+{
+    question:"Contrast?",
+    answer:"Can verify readability.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  }
+  ]}
+/>
+</div>
  );
 }

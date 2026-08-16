@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Label } from"@/components/ui/label";
 import { Button } from"@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { Receipt, Filter, DollarSign, Download, Trash2, CheckCircle, AlertCircle } from"lucide-react";
+import { AlertCircle, Bell, CheckCircle, CheckCircle2, DollarSign, Download, Eye, FileText, Filter, Receipt, Trash2 } from"lucide-react";
 import toast from"react-hot-toast";
 
 type Invoice = {
@@ -268,6 +271,87 @@ export function InvoiceTrackerClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Invoices",
+    description:"Enter invoice amounts and due dates.",
+    icon: FileText,
+  },
+{
+    step:"02",
+    title:"Mark Status",
+    description:"Track paid, sent, or overdue.",
+    icon: CheckCircle2,
+  },
+{
+    step:"03",
+    title:"Monitor",
+    description:"See outstanding totals and aging.",
+    icon: Eye,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: FileText,
+    title:"Invoice List",
+    description:"Centralizes all client invoices.",
+  },
+{
+    icon: CheckCircle2,
+    title:"Status Tags",
+    description:"Paid, pending, overdue at a glance.",
+  },
+{
+    icon: Eye,
+    title:"Outstanding View",
+    description:"Total unpaid and aging buckets.",
+  },
+{
+    icon: Bell,
+    title:"Overdue Alerts",
+    description:"Flags late payments clearly.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An invoice tracker is the cash-flow command center for freelancers and small businesses. Scattered invoices in email and spreadsheets lead to forgotten payments and awkward client conversations. Consolidating them in one view shows exactly what is owed, by whom, and for how long — the foundation of healthy cash flow.</p>
+  <p>Status tracking is the core. Marking each invoice sent, paid, or overdue turns a pile into a dashboard. The outstanding total tells you what is coming in; the aging buckets reveal which clients are slow, letting you prioritize follow-ups. A single overdue invoice can strand payroll, so visibility is not optional.</p>
+  <p>Prompt action recovers more. The tracker flags late payments so you can send a polite nudge before relationships sour or debts age beyond easy collection. Many freelancers lose income simply by forgetting to follow up; a visible overdue list removes that failure mode. Pair it with a consistent invoicing cadence.</p>
+  <p>Privacy suits sensitive financial data. Running locally means client details never leave your device, unlike some cloud tools. Use the tracker weekly to reconcile, monthly to forecast, and before tax time to report income accurately. The tool's value is turning reactive money-chasing into a calm, systematic routine that keeps cash flowing.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why track invoices?",
+    answer:"Visibility prevents missed payments and cash-flow gaps.",
+  },
+{
+    question:"What is aging?",
+    answer:"How long an invoice has been unpaid, grouped in buckets.",
+  },
+{
+    question:"Should I chase overdue ones?",
+    answer:"Yes, prompt follow-up recovers more than waiting.",
+  },
+{
+    question:"Does it send reminders?",
+    answer:"No, it is a tracker; you act on the flags.",
+  },
+{
+    question:"Is my data private?",
+    answer:"Yes, it runs locally in your browser.",
+  }
+  ]}
+/>
+</div>
  );
 }

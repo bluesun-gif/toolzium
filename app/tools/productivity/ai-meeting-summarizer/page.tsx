@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import AiMeetingSummarizerClient from "@/components/tools/productivity/ai-meeting-summarizer-client";
-
 export const metadata: Metadata = {
   title: "AI Executive Meeting Notes & Action Item Summarizer | Toolzium",
   description:
@@ -8,5 +7,9 @@ export const metadata: Metadata = {
 };
 
 export default function AiMeetingSummarizerPage() {
-  return <AiMeetingSummarizerClient />;
+  return (
+    <><AiMeetingSummarizerClient />
+      <RelatedTools currentToolUrl="/tools/productivity/ai-meeting-summarizer" />
+    </>
+  );
 }

@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Input } from"@/components/ui/input";
 import { Button } from"@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton } from"@/components/shared/action-buttons";
-import { Code, Eye, RefreshCw, Layers } from"lucide-react";
+import { Code, Copy, Eye, Layers, RefreshCw, Wand2 } from"lucide-react";
 import { Separator } from"@/components/ui/separator";
 
 const PRESETS = {
@@ -153,6 +156,86 @@ export function SvgPathClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Paste Path",
+    description:"Enter SVG path data.",
+    icon: Code,
+  },
+{
+    step:"02",
+    title:"Visualize",
+    description:"See the rendered shape.",
+    icon: Eye,
+  },
+{
+    step:"03",
+    title:"Edit",
+    description:"Adjust and copy.",
+    icon: Copy,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Code,
+    title:"Path Input",
+    description:"Paste d attribute.",
+  },
+{
+    icon: Eye,
+    title:"Preview",
+    description:"Live shape render.",
+  },
+{
+    icon: Copy,
+    title:"Copy",
+    description:"Updated path data.",
+  },
+{
+    icon: Wand2,
+    title:"Helpers",
+    description:"Simplify and tweak.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An SVG path visualizer renders path data as a live shape, turning abstract command strings into something you can see and fix. Editing SVG by hand is error-prone; seeing the result immediately prevents mistakes. This tool previews and lets you adjust.</p>
+  <p>Live preview is the key. Change a coordinate and the shape updates, so debugging a broken icon takes seconds. Copying the corrected data drops back into your project.</p>
+  <p>Use it when working with vector icons. The tool's value is visual, immediate feedback on SVG path editing.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is a path?",
+    answer:"SVG shape defined by commands.",
+  },
+{
+    question:"Use case?",
+    answer:"Icons and vector graphics.",
+  },
+{
+    question:"Edit live?",
+    answer:"Yes, preview updates.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  }
+  ]}
+/>
+</div>
  );
 }

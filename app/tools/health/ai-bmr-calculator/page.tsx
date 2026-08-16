@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import AiBmrCalculatorClient from "@/components/tools/health/ai-bmr-calculator-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "AI BMR & TDEE Metabolism Calculator Studio | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function AiBmrCalculatorPage() {
-  return <AiBmrCalculatorClient />;
+  return (
+    <><AiBmrCalculatorClient />
+      <RelatedTools currentToolUrl="/tools/health/ai-bmr-calculator" />
+    </>
+  );
 }

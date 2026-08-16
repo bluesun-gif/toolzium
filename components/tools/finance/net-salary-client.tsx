@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useMemo } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { Calculator, DollarSign, PieChart, ArrowDown } from"lucide-react";
+import { ArrowDown, Calculator, DollarSign, PieChart, PiggyBank, Receipt, Wallet } from"lucide-react";
 import { cn } from"@/lib/utils";
 
 const US_TAX_BRACKETS = [
@@ -198,6 +201,86 @@ export function NetSalaryClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Gross",
+    description:"Input gross annual or monthly pay.",
+    icon: Wallet,
+  },
+{
+    step:"02",
+    title:"Add Deductions",
+    description:"Include tax, insurance, retirement.",
+    icon: Receipt,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See take-home pay.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Wallet,
+    title:"Gross to Net",
+    description:"Converts headline pay to real income.",
+  },
+{
+    icon: Receipt,
+    title:"Deduction Aware",
+    description:"Accounts for tax and benefits.",
+  },
+{
+    icon: Calculator,
+    title:"Take-Home",
+    description:"Shows actual spendable amount.",
+  },
+{
+    icon: PiggyBank,
+    title:"Savings Base",
+    description:"Budgets from net, not gross.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A net salary calculator closes the gap between the number on a job offer and the money that actually lands in your account. Gross pay is a headline; take-home pay is what you live on. Converting between them prevents the common mistake of budgeting against income you never receive.</p>
+  <p>Deductions explain the gap. Income tax, social contributions, insurance, and retirement contributions all reduce gross to net. The tool subtracts these so you see spendable income clearly. Pre-tax benefits like health or retirement plans lower taxable income, which the calculator can reflect, showing their double benefit of coverage and tax savings.</p>
+  <p>Budgeting from net is essential. Plans built on gross inevitably overspend because they assume money that goes straight to taxes. Knowing true take-home lets you set realistic savings and expense targets. For job comparisons, net matters more than gross: a higher gross with heavier deductions may yield less. Use the calculator to compare offers on the only number that affects your life.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why gross differs from net?",
+    answer:"Taxes and deductions reduce take-home pay.",
+  },
+{
+    question:"Should I budget on gross?",
+    answer:"No, budget on net to avoid overspending.",
+  },
+{
+    question:"Are benefits deducted?",
+    answer:"Pre-tax benefits reduce taxable income.",
+  },
+{
+    question:"Does this handle bonuses?",
+    answer:"Model separately; bonuses are taxed differently.",
+  },
+{
+    question:"Is it location specific?",
+    answer:"Tax rules vary; enter your rates.",
+  }
+  ]}
+/>
+</div>
  );
 }

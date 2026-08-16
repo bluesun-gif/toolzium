@@ -2,7 +2,6 @@ import { buildMetadata } from "@/lib/seo";
 import { siteURL } from "@/lib/constants";
 import JsonLd from "@/components/seo/json-ld";
 import PdfMergeClient from "@/components/tools/util/pdf-merge-client";
-
 const title = "PDF Merge — Combine PDF Files Online Free | Toolzium";
 const description = "Merge multiple PDF files into one document. Drag and drop, reorder pages, and download the combined PDF. Free online PDF merger — no signup, no upload to server.";
 const url = `${siteURL}/tools/util/pdf-merge`;
@@ -114,6 +113,8 @@ export default function Page() {
       <JsonLd data={faq} />
       <JsonLd data={toolSchema} />
       <PdfMergeClient />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/util/pdf-merge" />
+</>
   );
 }

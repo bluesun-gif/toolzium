@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Users, DollarSign, Calculator, Copy, Plus, Trash2 } from"lucide-react";
+import { Calculator, CheckCircle2, Copy, DollarSign, Plus, Receipt, Trash2, Users, Wallet } from"lucide-react";
 import toast from"react-hot-toast";
 
 type Person = { id: string; name: string };
@@ -210,6 +213,87 @@ export function ExpenseSplitterClient() {
  )}
  </CardContent>
  </GlassCard>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Shared Costs",
+    description:"Enter the bill and who paid.",
+    icon: Receipt,
+  },
+{
+    step:"02",
+    title:"Assign Shares",
+    description:"Split equally or by custom weights.",
+    icon: Users,
+  },
+{
+    step:"03",
+    title:"Settle",
+    description:"See who owes whom and how much.",
+    icon: Wallet,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Receipt,
+    title:"Bill Entry",
+    description:"Handles one total or itemized costs.",
+  },
+{
+    icon: Users,
+    title:"Flexible Shares",
+    description:"Equal, percentage, or custom splits.",
+  },
+{
+    icon: Wallet,
+    title:"Net Balances",
+    description:"Computes who pays whom directly.",
+  },
+{
+    icon: CheckCircle2,
+    title:"Group Friendly",
+    description:"Works for trips, roommates, dinners.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>Splitting expenses fairly is a common source of friction among friends, roommates, and travel groups. The expense splitter removes the awkward mental math by recording who paid what and how costs should be shared, then computing exactly who owes whom. The result is a clean settlement instead of a vague &quot;you owe me something.&quot;</p>
+  <p>The tool handles both simple and complex cases. Equal splits suit a dinner where everyone ordered similarly; weighted splits suit a trip where one person covered flights while another covered meals. Recording each payer means the net balance reflects reality, so the person who fronted the most is repaid correctly.</p>
+  <p>Settlement logic is the quiet strength. Rather than a web of small debts, the splitter nets everything into direct transfers — A pays B a specific amount — minimizing the number of transactions. This clarity prevents the &quot;I thought you paid&quot; confusion that strains relationships.</p>
+  <p>Use it proactively, during the trip or right after the bill, while memory is fresh. Capture expenses as they happen rather than reconstructing weeks later from photos of receipts. Whether splitting rent, a vacation, or a group gift, the splitter turns a social chore into a fair, final number everyone can accept.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"How does unequal splitting work?",
+    answer:"Assign weights or percentages so someone paying more is accounted for fairly.",
+  },
+{
+    question:"Can it handle multiple payers?",
+    answer:"Yes, each expense records who fronted the money.",
+  },
+{
+    question:"What if someone paid for several things?",
+    answer:"Enter each or sum them; the tool nets all balances.",
+  },
+{
+    question:"Is this for roommates or trips?",
+    answer:"Both; any shared expense scenario works.",
+  },
+{
+    question:"Does it handle currency?",
+    answer:"Use one currency per session to keep math clean.",
+  }
+  ]}
+/>
+</div>
  );
 }

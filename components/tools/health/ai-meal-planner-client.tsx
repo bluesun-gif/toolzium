@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -6,7 +9,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { AiOutputDisplay } from"@/components/shared/ai-output-display";
-import { Activity, RefreshCw } from"lucide-react";
+import { Activity, Apple, CalendarDays, RefreshCw, Target, Utensils } from"lucide-react";
 import toast from"react-hot-toast";
 
 export default function AiMealPlannerClient() {
@@ -126,6 +129,87 @@ export default function AiMealPlannerClient() {
  variant="cards"
  />
  )}
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Set Goals",
+    description:"Enter calories and macro split.",
+    icon: Target,
+  },
+{
+    step:"02",
+    title:"Choose Style",
+    description:"Pick diet preference or restrictions.",
+    icon: Utensils,
+  },
+{
+    step:"03",
+    title:"Generate",
+    description:"Get a full day of meals.",
+    icon: CalendarDays,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Target,
+    title:"Macro Driven",
+    description:"Plans to your protein, carb, fat split.",
+  },
+{
+    icon: Utensils,
+    title:"Diet Aware",
+    description:"Handles vegetarian, keto, and more.",
+  },
+{
+    icon: CalendarDays,
+    title:"Daily Plan",
+    description:"Breakfast through dinner mapped.",
+  },
+{
+    icon: Apple,
+    title:"Nutrition First",
+    description:"Balanced, whole-food focus.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A meal planner converts calorie and macro targets into an actual day of eating, the step most people skip. Knowing you need 2000 calories means little without a structure to deliver them. This tool builds breakfast through dinner around your protein, carb, and fat split, so the math becomes meals.</p>
+  <p>Macros are the framework. Protein preserves muscle during deficits; carbs fuel training; fats support hormones. The planner distributes them across the day so no single meal is unbalanced. Setting a diet style — vegetarian, keto, or standard — keeps suggestions realistic and edible rather than theoretical.</p>
+  <p>The output is a template, not a prescription. Swap foods you dislike, respect allergies, and use local availability. The structure matters more than exact items; consistency with the macro targets drives results. Pair the plan with a shopping list to reduce impulsive choices.</p>
+  <p>Use it weekly, not as rigid dogma. Life varies, so adapt while honoring the totals. The planner's value is removing daily decision fatigue: instead of wondering what to eat, you follow a map built from your own goals, which is far more sustainable than willpower alone.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What are macros?",
+    answer:"Macronutrients: protein, carbohydrates, and fats.",
+  },
+{
+    question:"Can it fit my diet?",
+    answer:"Yes, set preferences and restrictions.",
+  },
+{
+    question:"Is the plan exact?",
+    answer:"It is a template; adjust to taste and availability.",
+  },
+{
+    question:"How do I hit macros?",
+    answer:"Distribute across meals using the targets.",
+  },
+{
+    question:"Should I track?",
+    answer:"Logging confirms you meet the plan.",
+  }
+  ]}
+/>
+</div>
  );
 }

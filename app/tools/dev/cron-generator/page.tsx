@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { CronGeneratorClient } from "@/components/tools/dev/cron-generator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Cron Expression Generator — Free Online Tool | Toolzium",
@@ -112,6 +113,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <CronGeneratorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/cron-generator" />
+</div>
   );
 }

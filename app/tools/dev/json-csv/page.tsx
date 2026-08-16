@@ -2,7 +2,6 @@ import { buildMetadata } from "@/lib/seo"
 import { siteURL } from "@/lib/constants"
 import JsonLd from "@/components/seo/json-ld"
 import JsonCsvClient from "@/components/tools/dev/json-csv-client"
-
 export const metadata = buildMetadata({
   title: "JSON to CSV Converter — Convert JSON to CSV Online | Toolzium",
   description: "Convert JSON arrays to CSV format instantly. Choose delimiters, flatten nested objects, download CSV files. Free online JSON to CSV converter — no signup.",
@@ -90,6 +89,8 @@ export default function Page() {
     <>
       <JsonLd data={jsonLd as any} />
       <JsonCsvClient />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/dev/json-csv" />
+</>
   )
 }

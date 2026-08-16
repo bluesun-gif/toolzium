@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import DistanceClient from "@/components/tools/travel/distance-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Distance & ETA",
@@ -132,6 +133,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <DistanceClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/travel/distance" />
+</div>
   );
 }

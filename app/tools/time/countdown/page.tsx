@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import CountdownTimerClient from "@/components/tools/time/countdown-timer-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Countdown & Pomodoro Timer",
@@ -139,6 +140,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <CountdownTimerClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/time/countdown" />
+</div>
   );
 }

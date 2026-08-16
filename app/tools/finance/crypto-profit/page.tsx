@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { CryptoProfitClient } from "@/components/tools/finance/crypto-profit-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Crypto Profit Calculator | Toolzium",
@@ -36,6 +37,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <CryptoProfitClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/finance/crypto-profit" />
+</div>
   );
 }

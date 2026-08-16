@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import MorseAudioClient from "@/components/tools/fun/morse-audio-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Morse Code Audio | Toolzium",
   description: "Convert text to Morse code with audio playback. Listen and learn.",
@@ -22,6 +21,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <MorseAudioClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/fun/morse-audio" />
+</div>
   );
 }

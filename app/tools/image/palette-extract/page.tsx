@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { PaletteExtractClient } from "@/components/tools/image/palette-extract-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Color Palette from Image | Toolzium",
@@ -37,6 +38,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <PaletteExtractClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/image/palette-extract" />
+</div>
   );
 }

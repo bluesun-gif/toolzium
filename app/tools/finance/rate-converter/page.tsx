@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { RateConverterClient } from "@/components/tools/finance/rate-converter-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Interest Rate Converter | Toolzium",
@@ -55,6 +56,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <RateConverterClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/finance/rate-converter" />
+</div>
   );
 }

@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import SchemaGeneratorClient from "@/components/tools/seo/schema-generator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Schema Markup Generator",
   description:
@@ -140,6 +139,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <SchemaGeneratorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/seo/schema-generator" />
+</div>
   );
 }

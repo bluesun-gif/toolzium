@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import WebResourcesClient from "@/components/tools/network/web-resources-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Web & Security Resources Directory",
@@ -43,6 +44,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <WebResourcesClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/network/web-resources" />
+</div>
   );
 }

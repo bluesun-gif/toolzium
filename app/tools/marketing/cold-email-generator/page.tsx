@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import ColdEmailGeneratorClient from "@/components/tools/marketing/cold-email-generator-client";
-
 export const metadata: Metadata = {
   title: "AI Cold Email & B2B Sales Outreach Sequence Generator | Toolzium",
   description:
@@ -8,5 +7,9 @@ export const metadata: Metadata = {
 };
 
 export default function ColdEmailGeneratorPage() {
-  return <ColdEmailGeneratorClient />;
+  return (
+    <><ColdEmailGeneratorClient />
+      <RelatedTools currentToolUrl="/tools/marketing/cold-email-generator" />
+    </>
+  );
 }

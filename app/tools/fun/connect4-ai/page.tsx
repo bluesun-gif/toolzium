@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import { Connect4AiClient } from "@/components/tools/fun/connect4-ai-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Connect 4 AI Challenge | Toolzium",
   description: "Play Connect 4 against a smart AI or a friend. Features interactive grid, multiple AI difficulties, and game statistics.",
@@ -67,6 +66,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <Connect4AiClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/fun/connect4-ai" />
+</div>
   );
 }

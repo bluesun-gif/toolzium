@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import AiSchemaGeneratorClient from "@/components/tools/seo/ai-schema-generator-client";
-
 export const metadata: Metadata = {
   title: "AI Schema.org JSON-LD Structured Data Generator | Toolzium",
   description:
@@ -8,5 +7,9 @@ export const metadata: Metadata = {
 };
 
 export default function AiSchemaGeneratorPage() {
-  return <AiSchemaGeneratorClient />;
+  return (
+    <><AiSchemaGeneratorClient />
+      <RelatedTools currentToolUrl="/tools/seo/ai-schema-generator" />
+    </>
+  );
 }

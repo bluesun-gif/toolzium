@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import { LoanAmortizationClient } from "@/components/tools/finance/loan-amortization-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Loan Amortization Schedule & Calculator | Toolzium",
   description: "Calculate your monthly loan payment and view a full itemized amortization schedule. See the impact of extra monthly principal payments.",
@@ -59,6 +58,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <LoanAmortizationClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/finance/loan-amortization" />
+</div>
   );
 }

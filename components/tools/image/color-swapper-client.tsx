@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useRef, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { Palette, Upload, Download, RefreshCw, Image as ImageIcon } from"lucide-react";
+import { Download, Image as ImageIcon, Palette, Pipette, RefreshCw, ShieldCheck, Upload } from"lucide-react";
 import toast from"react-hot-toast";
 
 export function ColorSwapperClient() {
@@ -212,6 +215,86 @@ export function ColorSwapperClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Upload",
+    description:"Load the image.",
+    icon: Upload,
+  },
+{
+    step:"02",
+    title:"Select",
+    description:"Pick source and target colors.",
+    icon: Pipette,
+  },
+{
+    step:"03",
+    title:"Swap",
+    description:"Replace and export.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Upload,
+    title:"Image Input",
+    description:"From your device.",
+  },
+{
+    icon: Pipette,
+    title:"Color Pick",
+    description:"Choose what to change.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Save swapped image.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Privacy",
+    description:"Local processing.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An image color swapper replaces a chosen color throughout a picture — handy for recoloring a product mockup, a logo variant, or a themed graphic without redrawing it. This tool samples the source color, swaps in a target, and exports the result.</p>
+  <p>Pixel matching does the work; similar shades are caught so the change looks natural rather than patchy. Local processing keeps images private.</p>
+  <p>Use it for quick recolors and A/B variants. The tool's value is editing color across an image in one action instead of manual selection.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What does it do?",
+    answer:"Replaces one color with another.",
+  },
+{
+    question:"Precise?",
+    answer:"Matches similar pixels.",
+  },
+{
+    question:"Use case?",
+    answer:"Recolor products, themes.",
+  },
+{
+    question:"Private?",
+    answer:"Yes, browser only.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  }
+  ]}
+/>
+</div>
  );
 }

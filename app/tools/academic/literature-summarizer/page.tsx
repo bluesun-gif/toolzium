@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import LiteratureSummarizerClient from "@/components/tools/academic/literature-summarizer-client";
-
 export const metadata: Metadata = {
   title: "AI Literature Review & Academic Paper Summarizer | Toolzium",
   description:
@@ -8,5 +7,9 @@ export const metadata: Metadata = {
 };
 
 export default function LiteratureSummarizerPage() {
-  return <LiteratureSummarizerClient />;
+  return (
+    <><LiteratureSummarizerClient />
+      <RelatedTools currentToolUrl="/tools/academic/literature-summarizer" />
+    </>
+  );
 }

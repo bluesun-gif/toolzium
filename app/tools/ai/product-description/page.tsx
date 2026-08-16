@@ -2,7 +2,6 @@ import ProductDescriptionClient from "@/components/tools/ai/product-description-
 import { Metadata } from "next";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import JsonLd from "@/components/seo/json-ld";
-
 const TITLE = "AI E-Commerce Product Description Generator — Shopify & Amazon Copy | Toolzium";
 const DESCRIPTION =
   "Free AI product description generator. Instantly create high-converting SEO product titles, Amazon bullet points, benefit hooks, and meta tags for Shopify, Amazon, Etsy, and WooCommerce.";
@@ -53,6 +52,8 @@ export default function ProductDescriptionPage() {
     <>
       <JsonLd data={jsonLdData as any} />
       <ProductDescriptionClient />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/ai/product-description" />
+</>
   );
 }

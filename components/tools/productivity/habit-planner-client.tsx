@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -7,7 +10,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components
 import { Input } from"@/components/ui/input";
 import { Button } from"@/components/ui/button";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { Calendar, CheckSquare, Sparkles, Download, Plus, Trash2 } from"lucide-react";
+import { Calendar, CalendarRange, CheckCircle2, CheckSquare, Download, ListPlus, Plus, Sparkles, Trash2, TrendingUp } from"lucide-react";
 
 interface Habit {
  id: string;
@@ -184,6 +187,86 @@ export function HabitPlannerClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"List Habits",
+    description:"Add habits to build.",
+    icon: ListPlus,
+  },
+{
+    step:"02",
+    title:"Schedule",
+    description:"Assign days and times.",
+    icon: CalendarRange,
+  },
+{
+    step:"03",
+    title:"Track",
+    description:"Check off each day.",
+    icon: CheckCircle2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: ListPlus,
+    title:"Habits",
+    description:"What to build.",
+  },
+{
+    icon: CalendarRange,
+    title:"Weekly Grid",
+    description:"Days and times.",
+  },
+{
+    icon: CheckCircle2,
+    title:"Check",
+    description:"Daily marks.",
+  },
+{
+    icon: TrendingUp,
+    title:"Streaks",
+    description:"See consistency.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A weekly habit planner schedules behaviors ahead of time so they actually happen, rather than relying on daily willpower. Assigning habits to specific days makes them appointments. This tool provides the grid and check-off.</p>
+  <p>Streaks reinforce consistency; the planner shows them so missing a day is visible and recoverable. Planning weekly reduces decision fatigue.</p>
+  <p>Use it Sundays for the week ahead. The tool's value is scheduled, tracked habits that become routines.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why weekly?",
+    answer:"Plan ahead, not daily.",
+  },
+{
+    question:"Streaks?",
+    answer:"Yes, motivate continuity.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Routine building.",
+  }
+  ]}
+/>
+</div>
  );
 }

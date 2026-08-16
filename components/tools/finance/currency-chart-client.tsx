@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect, useRef } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -7,7 +10,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components
 import { Separator } from"@/components/ui/separator";
 import { Button } from"@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { BarChart3, ArrowLeftRight, TrendingUp, DollarSign } from"lucide-react";
+import { ArrowLeftRight, BarChart3, Calendar, DollarSign, Eye, LineChart, RefreshCw, TrendingUp } from"lucide-react";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
 
 const CURRENCIES = [
@@ -164,6 +167,87 @@ export function CurrencyChartClient() {
  </div>
  </CardContent>
  </GlassCard>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Pick Pair",
+    description:"Select the two currencies to compare.",
+    icon: LineChart,
+  },
+{
+    step:"02",
+    title:"Set Range",
+    description:"Choose a time window to view.",
+    icon: Calendar,
+  },
+{
+    step:"03",
+    title:"Analyze",
+    description:"Read trends and recent moves.",
+    icon: Eye,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: LineChart,
+    title:"Historical View",
+    description:"Charts past exchange rate movement.",
+  },
+{
+    icon: Calendar,
+    title:"Range Control",
+    description:"Zoom from days to years.",
+  },
+{
+    icon: Eye,
+    title:"Trend Reading",
+    description:"Spot support and resistance patterns.",
+  },
+{
+    icon: RefreshCw,
+    title:"Updated Rates",
+    description:"Pulls recent market prices.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>Currency charts turn a single exchange number into a story. A pair like EUR to USD plotted over time reveals trends, volatility, and context that a snapshot rate cannot. For anyone sending money abroad, pricing in another currency, or traveling, the chart helps decide when a rate is favorable relative to recent history.</p>
+  <p>Exchange rates move for concrete reasons: interest rate differences, inflation, trade flows, and geopolitical events all push currencies. A chart does not predict these, but it shows how markets have reacted, helping you avoid converting at an unusual extreme. Comparing today's rate to a 30-day range answers whether now is typical or exceptional.</p>
+  <p>Reading charts builds discipline. The temptation to wait for a slightly better rate can backfire if you actually need the currency; conversely, panic-converting during a spike locks in a poor deal. A planned approach — convert what you need when the rate sits within your acceptable historical band — beats chasing perfection.</p>
+  <p>Be aware of the spread. The mid-market rate shown in charts is not what you receive; banks and apps add a margin. Factor that cost into decisions, especially for large transfers. Use the chart as context, set a target range, and execute when it is met. Visualizing history turns an anxious guess into a measured choice grounded in real market behavior.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What does a currency pair show?",
+    answer:"It shows how much of one currency equals one unit of another over time.",
+  },
+{
+    question:"Why do rates fluctuate?",
+    answer:"Supply, demand, interest rates, and macro events move exchange rates constantly.",
+  },
+{
+    question:"Is the chart a forecast?",
+    answer:"No. It shows history; future rates depend on unpredictable market forces.",
+  },
+{
+    question:"Should I wait for a better rate?",
+    answer:"Timing the market is hard; for needed conversions, hedge with a plan rather than guessing.",
+  },
+{
+    question:"Are rates the same everywhere?",
+    answer:"Banks and services add spreads, so the rate you get differs from mid-market.",
+  }
+  ]}
+/>
+</div>
  );
 }

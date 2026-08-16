@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { CheckCircle, FileText, Printer, FileOutput } from"lucide-react";
+import { CheckCircle, CheckCircle2, Download, FileOutput, FileText, Printer, ShieldCheck } from"lucide-react";
 import { Textarea } from"@/components/ui/textarea";
 
 export function CompletionLetterClient() {
@@ -154,6 +157,86 @@ export function CompletionLetterClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Project",
+    description:"Add work and parties.",
+    icon: FileText,
+  },
+{
+    step:"02",
+    title:"Confirm",
+    description:"State completion and handover.",
+    icon: CheckCircle2,
+  },
+{
+    step:"03",
+    title:"Generate",
+    description:"Produce the letter.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: FileText,
+    title:"Project Info",
+    description:"Scope and dates.",
+  },
+{
+    icon: CheckCircle2,
+    title:"Acceptance",
+    description:"Confirms done.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Ready letter.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Record",
+    description:"Useful for disputes.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A work completion letter generator produces the document that confirms a job is done and accepted — important for triggering final payment and limiting ongoing liability. Ambiguity about completion invites disputes; this tool states it clearly.</p>
+  <p>Acceptance language matters. Explicitly confirming handover protects both sides. The letter also serves as a record if questions arise later.</p>
+  <p>Use it at project closeout. The tool's value is a clear completion record that supports payment and closure.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is it?",
+    answer:"Confirms work finished and accepted.",
+  },
+{
+    question:"Why use one?",
+    answer:"Triggers payment, limits liability.",
+  },
+{
+    question:"Binding?",
+    answer:"Draft; review as needed.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Keep copy?",
+    answer:"Yes, for records.",
+  }
+  ]}
+/>
+</div>
  );
 }

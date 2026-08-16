@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import GoldPriceTrackerClient from "@/components/tools/finance/gold-price-tracker-client";
 import { generateSEOMetadata } from "@/lib/seo-config";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = generateSEOMetadata({
   title: "Real-Time Gold & Metals Price Tracker - Live Spot Rates 24K 22K 18K",
@@ -9,5 +10,9 @@ export const metadata: Metadata = generateSEOMetadata({
 });
 
 export default function GoldPriceTrackerPage() {
-  return <GoldPriceTrackerClient />;
+  return (
+    <><GoldPriceTrackerClient />
+      <RelatedTools currentToolUrl="/tools/finance/gold-price-tracker" />
+    </>
+  );
 }

@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { FileText, Plus, Copy } from"lucide-react";
+import { Copy, Download, FileText, Globe, Plus, Scale } from"lucide-react";
 
 type InvoiceItem = {
  id: string;
@@ -312,6 +315,86 @@ export function CommercialInvoiceClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Parties",
+    description:"Add seller, buyer, items.",
+    icon: FileText,
+  },
+{
+    step:"02",
+    title:"Set Terms",
+    description:"Prices, tax, shipping.",
+    icon: Scale,
+  },
+{
+    step:"03",
+    title:"Generate",
+    description:"Produce the invoice.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: FileText,
+    title:"Line Items",
+    description:"Products and amounts.",
+  },
+{
+    icon: Scale,
+    title:"Totals",
+    description:"Tax and shipping.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Printable invoice.",
+  },
+{
+    icon: Globe,
+    title:"Trade",
+    description:"International fields.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A commercial invoice generator creates the billing document central to B2B and international trade. Accurate invoices prevent payment delays and customs issues. This tool compiles parties, line items, tax, and shipping into a clean form.</p>
+  <p>Trade fields matter. Cross-border sales need correct values and terms for customs; the generator includes them. Totals compute automatically to avoid arithmetic errors.</p>
+  <p>Verify against local and customs requirements. The tool's value is a correct, professional invoice produced fast.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Use case?",
+    answer:"B2B and cross-border sales.",
+  },
+{
+    question:"Tax included?",
+    answer:"Yes, configurable.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Legal?",
+    answer:"Confirm local rules.",
+  },
+{
+    question:"Export?",
+    answer:"Downloadable.",
+  }
+  ]}
+/>
+</div>
  );
 }

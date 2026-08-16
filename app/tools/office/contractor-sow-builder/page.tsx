@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { ContractorSowBuilderClient } from "@/components/tools/office/contractor-sow-builder-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Contractor Scope of Work & Deliverables Builder | Toolzium",
@@ -48,6 +49,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <ContractorSowBuilderClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/office/contractor-sow-builder" />
+</div>
   );
 }

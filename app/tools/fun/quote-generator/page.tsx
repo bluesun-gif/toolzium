@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import QuoteGeneratorClient from "@/components/tools/fun/quote-generator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Random Quote Generator — Get Inspired | Toolzium",
   description: "Generate random inspirational, funny, motivational, philosophical, and life quotes. Discover new perspectives and share your favorite quotes with our free tool.",
@@ -81,6 +80,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <QuoteGeneratorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/fun/quote-generator" />
+</div>
   );
 }

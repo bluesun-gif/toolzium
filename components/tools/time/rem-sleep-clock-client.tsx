@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
 import { cn } from"@/lib/utils";
-import { Moon, Clock, Sun, Shield } from"lucide-react";
+import { Activity, ArrowRightLeft, Clock, Moon, Shield, ShieldCheck, Sun } from"lucide-react";
 import toast from"react-hot-toast";
 
 export function RemSleepClockClient() {
@@ -135,6 +138,86 @@ export function RemSleepClockClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Time",
+    description:"Bedtime or wake time.",
+    icon: Clock,
+  },
+{
+    step:"02",
+    title:"Direction",
+    description:"Compute the other end.",
+    icon: ArrowRightLeft,
+  },
+{
+    step:"03",
+    title:"View",
+    description:"See the cycle map.",
+    icon: Activity,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Clock,
+    title:"Input",
+    description:"Either endpoint.",
+  },
+{
+    icon: ArrowRightLeft,
+    title:"Both Ways",
+    description:"Bed to wake or reverse.",
+  },
+{
+    icon: Activity,
+    title:"Cycle Map",
+    description:"Visual rhythm.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Align",
+    description:"Cycle-aware.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A REM sleep clock maps your night in 90-minute cycles from whichever end you provide, showing where cycle boundaries fall. Whether you set bedtime or wake time, it computes the partner. This tool visualizes the rhythm.</p>
+  <p>Seeing the boundaries helps you pick a wake that avoids deep sleep. The clock turns the science into a simple schedule.</p>
+  <p>Use it for any sleep plan. The tool's value is a two-way, cycle-aware sleep map.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Bed or wake?",
+    answer:"Enter either, get the other.",
+  },
+{
+    question:"Why cycles?",
+    answer:"Align to feel fresh.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Sleep planning.",
+  }
+  ]}
+/>
+</div>
  );
 }

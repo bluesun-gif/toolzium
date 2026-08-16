@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -6,7 +9,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { AiOutputDisplay } from"@/components/shared/ai-output-display";
-import { Flame, RefreshCw } from"lucide-react";
+import { Calculator, Flame, RefreshCw, Target, TrendingDown, User } from"lucide-react";
 import toast from"react-hot-toast";
 
 export default function AiCalorieDeficitClient() {
@@ -156,6 +159,87 @@ export default function AiCalorieDeficitClient() {
  variant="prose"
  />
  )}
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Metrics",
+    description:"Add weight, height, age, sex.",
+    icon: User,
+  },
+{
+    step:"02",
+    title:"Set Goal",
+    description:"Choose weekly loss rate.",
+    icon: Target,
+  },
+{
+    step:"03",
+    title:"Get Target",
+    description:"See daily and weekly calorie goals.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: User,
+    title:"Metric Based",
+    description:"Personalized to your body.",
+  },
+{
+    icon: Target,
+    title:"Safe Rates",
+    description:"Suggests sustainable deficits.",
+  },
+{
+    icon: Calculator,
+    title:"Daily Target",
+    description:"Clear eat-less number.",
+  },
+{
+    icon: TrendingDown,
+    title:"Loss Preview",
+    description:"Projects timeline to goal.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A calorie deficit calculator answers the central weight-loss question: how much should I eat? A deficit means consuming less than you burn, so the body taps fat stores. This tool sets a daily target from your metrics and a chosen, safe loss rate, removing the guesswork that derails most attempts.</p>
+  <p>Size matters. A deficit of 300 to 700 calories below maintenance produces steady loss while preserving energy and muscle. Aggressive cuts feel productive but trigger fatigue, muscle loss, and binge cycles that undo progress. The calculator favors sustainable ranges so the change lasts.</p>
+  <p>The weekly rate sets the pace. Losing about 1 percent of body weight per week is broadly sustainable; faster rates often fail. The tool projects your timeline, helping you commit to a realistic schedule instead of an unrealistic sprint. Patience here outperforms intensity.</p>
+  <p>Pair the number with protein and resistance training to protect muscle, and track weight as a trend, not daily noise. The calculator gives the target; consistency hits it. Its value is a precise, personalized eat-less figure that turns vague intentions into a measurable daily plan.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is a calorie deficit?",
+    answer:"Eating fewer calories than you burn, forcing the body to use stored fat.",
+  },
+{
+    question:"How big a deficit is safe?",
+    answer:"Typically 300 to 700 calories below maintenance.",
+  },
+{
+    question:"Why not cut more?",
+    answer:"Large deficits cause muscle loss and rebound eating.",
+  },
+{
+    question:"How fast can I lose?",
+    answer:"About 1 percent of body weight weekly is sustainable.",
+  },
+{
+    question:"Do I need exercise?",
+    answer:"It helps but diet drives the deficit.",
+  }
+  ]}
+/>
+</div>
  );
 }

@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { CurrencyChartClient } from "@/components/tools/finance/currency-chart-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Currency Pair Chart | Toolzium",
@@ -22,6 +23,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <CurrencyChartClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/finance/currency-chart" />
+</div>
   );
 }

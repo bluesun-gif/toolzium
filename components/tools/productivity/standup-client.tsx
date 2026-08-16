@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { ListChecks, Calendar, Users, Plus, Trash2 } from"lucide-react";
+import { AlignLeft, Calendar, Clock, Copy, ListChecks, Plus, Trash2, Users } from"lucide-react";
 
 export function StandupClient() {
  const [name, setName] = useState("");
@@ -164,6 +167,86 @@ export function StandupClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Notes",
+    description:"Yesterday, today, blockers.",
+    icon: ListChecks,
+  },
+{
+    step:"02",
+    title:"Format",
+    description:"Structure the update.",
+    icon: AlignLeft,
+  },
+{
+    step:"03",
+    title:"Copy",
+    description:"Export for your team.",
+    icon: Copy,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: ListChecks,
+    title:"Three Prompts",
+    description:"Standard standup.",
+  },
+{
+    icon: AlignLeft,
+    title:"Format",
+    description:"Clean output.",
+  },
+{
+    icon: Copy,
+    title:"Copy",
+    description:"Paste to chat.",
+  },
+{
+    icon: Clock,
+    title:"Quick",
+    description:"Seconds to write.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A daily standup generator structures the classic three-question update — yesterday, today, blockers — so it is clear and concise for your team. The format prevents rambling. This tool assembles and lets you copy it.</p>
+  <p>Blockers surfaced early save days of stuck work. The generator makes that prompt automatic.</p>
+  <p>Use it each morning. The tool's value is a crisp, copy-ready standup in seconds.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is a standup?",
+    answer:"Brief team status update.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local until shared.",
+  },
+{
+    question:"Use case?",
+    answer:"Agile teams.",
+  },
+{
+    question:"Export?",
+    answer:"Copy text.",
+  }
+  ]}
+/>
+</div>
  );
 }

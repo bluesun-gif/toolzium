@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import IdGeneratorClient from "@/components/tools/util/id-generator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "GUID / UUID / Order ID Generator",
   description:
@@ -135,6 +134,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <IdGeneratorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/util/id-generator" />
+</div>
   );
 }

@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { StepCounterClient } from "@/components/tools/health/step-counter-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Step Counter & Pedometer Log | Toolzium",
@@ -67,6 +68,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <StepCounterClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/health/step-counter" />
+</div>
   );
 }

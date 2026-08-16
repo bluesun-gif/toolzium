@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import { CssTypographyClient } from "@/components/tools/dev/css-typography-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "CSS Typography & Text Effect Generator | Toolzium",
   description: "Visually generate and preview CSS typography and text effects. Customize text shadows, gradients, strokes, and more with live CSS code output.",
@@ -59,6 +58,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <CssTypographyClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/css-typography" />
+</div>
   );
 }

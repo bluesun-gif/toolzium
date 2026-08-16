@@ -2,7 +2,6 @@ import { Metadata } from "next";
 import YoutubeScriptClient from "@/components/tools/ai/youtube-script-client";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import JsonLd from "@/components/seo/json-ld";
-
 const TITLE = "AI YouTube Script Generator & Teleprompter Studio | Toolzium";
 const DESCRIPTION = "Generate viral YouTube video titles, 15-second opening retention hooks, video timestamp outlines, and teleprompter-ready scripts.";
 const PATH = "/tools/ai/youtube-script";
@@ -39,6 +38,8 @@ export default function YoutubeScriptPage() {
     <>
       <JsonLd data={jsonLdData as any} />
       <YoutubeScriptClient />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/ai/youtube-script" />
+</>
   );
 }

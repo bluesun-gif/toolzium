@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import LoveCalculatorClient from "@/components/tools/fun/love-calculator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Love Calculator",
   description: "Calculate love compatibility between two names with our fun and deterministic love calculator.",
@@ -40,6 +39,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <LoveCalculatorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/fun/love-calculator" />
+</div>
   );
 }

@@ -3,6 +3,7 @@ import ImageCompressClient from "@/components/tools/image/image-compress-client"
 import { buildMetadata } from "@/lib/seo";
 import JsonLd from "@/components/seo/json-ld";
 import { siteURL } from "@/lib/constants";
+import RelatedTools from "@/components/shared/related-tools";
 
 const title = "Image Compressor — Reduce Image Size Online Free";
 const description =
@@ -116,6 +117,8 @@ export default function ImageCompressorPage() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <ImageCompressClient />
-    </>
+    
+      <RelatedTools currentToolUrl="/tools/image/compress" />
+</>
   );
 }

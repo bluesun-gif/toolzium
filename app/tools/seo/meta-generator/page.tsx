@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import MetaGeneratorClient from "@/components/tools/seo/meta-generator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Meta Tags Generator",
   description:
@@ -132,6 +131,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <MetaGeneratorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/seo/meta-generator" />
+</div>
   );
 }

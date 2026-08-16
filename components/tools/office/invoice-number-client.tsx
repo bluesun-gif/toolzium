@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Hash, FileText, Copy, Settings } from"lucide-react";
+import { ArrowRightLeft, Copy, FileText, Hash, Settings, ShieldCheck } from"lucide-react";
 import { toast } from"react-hot-toast";
 
 export function InvoiceNumberClient() {
@@ -219,6 +222,86 @@ export function InvoiceNumberClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Set Format",
+    description:"Choose a numbering scheme.",
+    icon: Hash,
+  },
+{
+    step:"02",
+    title:"Sequence",
+    description:"Define start and increment.",
+    icon: ArrowRightLeft,
+  },
+{
+    step:"03",
+    title:"Generate",
+    description:"Produce the next number.",
+    icon: Copy,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Hash,
+    title:"Formats",
+    description:"Prefix, date, sequence.",
+  },
+{
+    icon: ArrowRightLeft,
+    title:"Sequence",
+    description:"Track the next number.",
+  },
+{
+    icon: Copy,
+    title:"Copy",
+    description:"Use immediately.",
+  },
+{
+    icon: ShieldCheck,
+    title:"No Gaps",
+    description:"Avoids duplicate numbers.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An invoice number generator produces consistent, non-repeating identifiers — important because duplicate or missing numbers confuse accounting and tax filings. A clear scheme (prefix plus sequence) keeps records orderly. This tool generates the next value.</p>
+  <p>Format choice aids retrieval. Date-based or prefixed numbers make invoices easy to find later. The generator tracks sequence so nothing repeats.</p>
+  <p>Use it as part of billing hygiene. The tool's value is clean, gap-free invoice numbering that satisfies bookkeeping and compliance.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why sequential?",
+    answer:"Avoids duplicate or missing numbers.",
+  },
+{
+    question:"Formats?",
+    answer:"INV-0001, date-based, more.",
+  },
+{
+    question:"Duplicate risk?",
+    answer:"Generator prevents repeats.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Use with?",
+    answer:"Any invoicing tool.",
+  }
+  ]}
+/>
+</div>
  );
 }

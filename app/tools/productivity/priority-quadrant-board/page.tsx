@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { PriorityQuadrantBoardClient } from "@/components/tools/productivity/priority-quadrant-board-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Priority Quadrant Action Board | Toolzium",
@@ -21,6 +22,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <PriorityQuadrantBoardClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/productivity/priority-quadrant-board" />
+</div>
   );
 }

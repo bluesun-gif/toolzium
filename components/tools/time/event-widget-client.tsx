@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Calendar } from"lucide-react";
+import { Calendar, Code, Eye, Palette, Settings2 } from"lucide-react";
 
 export function EventWidgetClient() {
  const [eventName, setEventName] = useState("My Awesome Event");
@@ -195,6 +198,86 @@ export function EventWidgetClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Configure",
+    description:"Set event and style.",
+    icon: Settings2,
+  },
+{
+    step:"02",
+    title:"Preview",
+    description:"See the widget.",
+    icon: Eye,
+  },
+{
+    step:"03",
+    title:"Copy",
+    description:"Grab embeddable code.",
+    icon: Code,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Settings2,
+    title:"Config",
+    description:"Event and look.",
+  },
+{
+    icon: Eye,
+    title:"Preview",
+    description:"Live sample.",
+  },
+{
+    icon: Code,
+    title:"Embed",
+    description:"Copy snippet.",
+  },
+{
+    icon: Palette,
+    title:"Style",
+    description:"Colors and size.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An event countdown widget creator builds a self-contained countdown you can embed or share, turning a date into a visible tracker on a page or profile. Configuration sets the event and style; preview confirms it. This tool outputs copy-ready code.</p>
+  <p>Embeddable countdowns add urgency and clarity to launches. The widget updates itself once placed.</p>
+  <p>Use it to promote an event. The tool's value is a styled, shareable countdown in minutes.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is it?",
+    answer:"A shareable countdown widget.",
+  },
+{
+    question:"Embed?",
+    answer:"Copy the code.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local until shared.",
+  },
+{
+    question:"Use case?",
+    answer:"Sites, bios.",
+  }
+  ]}
+/>
+</div>
  );
 }

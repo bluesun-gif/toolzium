@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { BloodTypeClient } from "@/components/tools/health/blood-type-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Blood Type Compatibility Checker | Toolzium",
@@ -20,6 +21,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <BloodTypeClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/health/blood-type" />
+</div>
   );
 }

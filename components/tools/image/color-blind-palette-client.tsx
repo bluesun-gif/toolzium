@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -6,7 +9,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
-import { Eye, Palette, Copy, Info } from"lucide-react";
+import { Copy, Eye, Info, Palette, ShieldCheck, Wand2 } from"lucide-react";
 import toast from"react-hot-toast";
 
 function getLuminance(r: number, g: number, b: number) {
@@ -204,7 +207,87 @@ export function ColorBlindPaletteClient() {
  Click to copy bg hex
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Colors",
+    description:"Add your base palette.",
+    icon: Palette,
+  },
+{
+    step:"02",
+    title:"Simulate",
+    description:"Preview color blindness views.",
+    icon: Eye,
+  },
+{
+    step:"03",
+    title:"Adjust",
+    description:"Get accessible alternatives.",
+    icon: Wand2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Palette,
+    title:"Palette Input",
+    description:"Your existing colors.",
+  },
+{
+    icon: Eye,
+    title:"Simulate",
+    description:"Protan, deutan, tritan.",
+  },
+{
+    icon: Wand2,
+    title:"Fix Suggestions",
+    description:"Accessible swaps.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Compliance",
+    description:"Supports WCAG goals.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A color blindness palette tool reveals how your design appears to the roughly 1 in 12 men and 1 in 200 women with color vision deficiency. Colors that look distinct to you may be indistinguishable to them, breaking charts and signals. This tool simulates those views and suggests fixes.</p>
+  <p>Simulation drives empathy and correctness. Seeing your palette through protan, deutan, and tritan filters exposes problems before launch. The tool then proposes accessible alternatives that preserve intent while remaining distinguishable.</p>
+  <p>Use it for any user-facing design. The tool's value is building inclusive palettes that work for everyone, supporting accessibility goals without guesswork.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What does it do?",
+    answer:"Shows how colors look to color-blind users.",
+  },
+{
+    question:"Types?",
+    answer:"Protanopia, deuteranopia, tritanopia.",
+  },
+{
+    question:"Why matter?",
+    answer:"Accessibility for many users.",
+  },
+{
+    question:"WCAG?",
+    answer:"Helps meet contrast guidance.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  }
+  ]}
+/>
+</div>
  );
  })
  ) : (

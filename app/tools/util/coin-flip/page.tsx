@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import CoinFlipClient from "@/components/tools/util/coin-flip-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Flip a Coin",
   description: "A virtual coin flipper with true randomness, history tracking, and statistics. Flip a coin online instantly.",
@@ -40,6 +39,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <CoinFlipClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/util/coin-flip" />
+</div>
   );
 }

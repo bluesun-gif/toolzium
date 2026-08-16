@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { EventWidgetClient } from "@/components/tools/time/event-widget-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Event Countdown Widget Creator | Toolzium",
@@ -46,6 +47,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <EventWidgetClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/time/event-widget" />
+</div>
   );
 }

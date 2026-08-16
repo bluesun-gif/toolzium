@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Separator } from"@/components/ui/separator";
 import { Button } from"@/components/ui/button";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
 import { cn } from"@/lib/utils";
-import { Eye, AlertTriangle, BarChart2, RotateCcw } from"lucide-react";
+import { AlertTriangle, BarChart2, Calculator, Eye, RotateCcw, Ruler, ShieldCheck } from"lucide-react";
 import toast from"react-hot-toast";
 
 export function VisionTestClient() {
@@ -112,6 +115,86 @@ export function VisionTestClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Set Distance",
+    description:"Position at recommended distance.",
+    icon: Ruler,
+  },
+{
+    step:"02",
+    title:"Read",
+    description:"Identify shown characters.",
+    icon: Eye,
+  },
+{
+    step:"03",
+    title:"Estimate",
+    description:"See approximate acuity.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Ruler,
+    title:"Distance Guide",
+    description:"Standard testing setup.",
+  },
+{
+    icon: Eye,
+    title:"Acuity Check",
+    description:"Reads letter rows.",
+  },
+{
+    icon: Calculator,
+    title:"Estimate",
+    description:"Approximate result.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Informational",
+    description:"Not a substitute for exam.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A vision test offers a rough, at-home screen of visual acuity, not a clinical diagnosis. By reading characters at a set distance, it estimates whether your sight may need attention. This tool provides an approximate check and guidance.</p>
+  <p>Screens cannot replace professional exams, which assess health beyond acuity. The test is a prompt: if you struggle, book an eye care visit. It is informational, useful for noticing changes between appointments.</p>
+  <p>Use it as a nudge, not reassurance. The tool's value is a quick self-screen that encourages timely professional care when something seems off.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Accurate?",
+    answer:"Rough screen estimate only.",
+  },
+{
+    question:"Replace eye exam?",
+    answer:"No, see a professional.",
+  },
+{
+    question:"When to get checked?",
+    answer:"Blurriness, headaches, strain.",
+  },
+{
+    question:"Screen distance?",
+    answer:"Follow on-screen guide.",
+  },
+{
+    question:"Children?",
+    answer:"Professional exams are key.",
+  }
+  ]}
+/>
+</div>
  );
 }

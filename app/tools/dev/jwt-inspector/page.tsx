@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import JwtInspectorClient from "@/components/tools/dev/jwt-inspector-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "JWT Security Audit & Payload Inspector Studio | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function JwtInspectorPage() {
-  return <JwtInspectorClient />;
+  return (
+    <><JwtInspectorClient />
+      <RelatedTools currentToolUrl="/tools/dev/jwt-inspector" />
+    </>
+  );
 }

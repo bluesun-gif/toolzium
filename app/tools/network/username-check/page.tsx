@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import UsernameCheckClient from "@/components/tools/network/username-check-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Username Availability Checker",
@@ -40,6 +41,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <UsernameCheckClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/network/username-check" />
+</div>
   );
 }

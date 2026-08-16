@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { DateFormatterClient } from "@/components/tools/time/date-formatter-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Date Formatter & Converter | Toolzium",
@@ -20,6 +21,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <DateFormatterClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/time/date-formatter" />
+</div>
   );
 }

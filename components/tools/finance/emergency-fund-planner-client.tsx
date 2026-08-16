@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -7,7 +10,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { Wallet, Shield, DollarSign } from"lucide-react";
+import { Calendar, DollarSign, PiggyBank, Receipt, Shield, TrendingUp, Wallet } from"lucide-react";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
 import { Separator } from"@/components/ui/separator";
 
@@ -198,6 +201,87 @@ export function EmergencyFundPlannerClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Set Essentials",
+    description:"Enter monthly must-pay expenses.",
+    icon: Receipt,
+  },
+{
+    step:"02",
+    title:"Choose Months",
+    description:"Pick 3-6 months of coverage.",
+    icon: Calendar,
+  },
+{
+    step:"03",
+    title:"Plan Funding",
+    description:"See monthly savings needed to hit target.",
+    icon: PiggyBank,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Receipt,
+    title:"Expense Driven",
+    description:"Builds the goal from real essential costs.",
+  },
+{
+    icon: Calendar,
+    title:"Flexible Timeline",
+    description:"Adjust months to match your risk.",
+  },
+{
+    icon: PiggyBank,
+    title:"Monthly Target",
+    description:"Tells you exactly what to save each month.",
+  },
+{
+    icon: TrendingUp,
+    title:"Progress View",
+    description:"Track toward the finish line.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An emergency fund planner turns a vague savings intention into a dated plan. Beyond stating the total you need, it calculates how much to set aside each month to arrive there, which is the difference between wishing and achieving. By anchoring the goal to essential expenses, the target reflects your actual life rather than a generic rule.</p>
+  <p>The planner starts with must-pay costs — housing, food, insurance, minimum debt — excluding discretionary spending that would inflate the goal unnecessarily. You then choose a coverage window, typically three to six months, longer for variable income. The tool divides the total by your chosen horizon to reveal the monthly contribution, making the habit concrete.</p>
+  <p>Flexibility keeps it realistic. If the suggested monthly amount strains your budget, extending the timeline lowers it, trading speed for affordability. The point is a plan you will follow, not a perfect one you abandon. Automating the transfer on payday removes the decision and builds the habit passively.</p>
+  <p>Keep the fund accessible and separate from checking so it is not spent on non-emergencies. A high-yield savings account preserves liquidity while earning a little. Revisit the plan after income or expense changes so the target stays accurate. The planner's value is converting an abstract safety net into a monthly action with a visible finish line.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Is this different from the basic calculator?",
+    answer:"Yes. The planner adds a monthly savings schedule to reach the target, not just the total.",
+  },
+{
+    question:"What if I cannot save the monthly amount?",
+    answer:"Extend the timeline; a longer horizon lowers the monthly requirement.",
+  },
+{
+    question:"Should I invest the fund?",
+    answer:"Keep it liquid and safe; investing risks needing it during a downturn.",
+  },
+{
+    question:"Where should it live?",
+    answer:"A separate high-yield savings account you do not touch for daily spending.",
+  },
+{
+    question:"Can I pause contributions?",
+    answer:"Yes, but resuming quickly limits the time you are unprotected.",
+  }
+  ]}
+/>
+</div>
  );
 }

@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import StopwatchClient from "@/components/tools/util/stopwatch-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Online Stopwatch - Precision Timer with Laps",
   description: "A free, accurate online stopwatch with millisecond precision, lap recording, and keyboard shortcuts. Use our stopwatch for timing tasks, sports, or study sessions.",
@@ -49,6 +48,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <StopwatchClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/util/stopwatch" />
+</div>
   );
 }

@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import SimonSaysClient from "@/components/tools/fun/simon-says-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Simon Says Game | Toolzium",
   description: "Classic Simon Says memory game to test and improve your memory.",
@@ -48,6 +47,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <SimonSaysClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/fun/simon-says" />
+</div>
   );
 }

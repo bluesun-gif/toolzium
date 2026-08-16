@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import SloganGeneratorClient from "@/components/tools/marketing/slogan-generator-client";
-
 export const metadata: Metadata = {
   title: "AI Product Slogan & Brand Tagline Generator | Toolzium",
   description:
@@ -8,5 +7,9 @@ export const metadata: Metadata = {
 };
 
 export default function SloganGeneratorPage() {
-  return <SloganGeneratorClient />;
+  return (
+    <><SloganGeneratorClient />
+      <RelatedTools currentToolUrl="/tools/marketing/slogan-generator" />
+    </>
+  );
 }

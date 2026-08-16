@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { RetainerAgreementClient } from "@/components/tools/office/retainer-agreement-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Professional Service Retainer Agreement Generator | Toolzium",
@@ -51,6 +52,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <RetainerAgreementClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/office/retainer-agreement" />
+</div>
   );
 }

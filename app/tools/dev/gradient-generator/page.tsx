@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import { GradientGeneratorClient } from "@/components/tools/dev/gradient-generator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Color Gradient Generator | Toolzium",
   description: "Create beautiful CSS gradients visually. Support for linear and radial gradients with adjustable angles and multiple color stops.",
@@ -22,6 +21,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <GradientGeneratorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/gradient-generator" />
+</div>
   );
 }

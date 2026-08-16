@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import { WordleClient } from "@/components/tools/fun/wordle-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Word Guess Game | Toolzium",
   description: "Play a 5-letter word guessing game. Test your vocabulary and logic skills.",
@@ -48,6 +47,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <WordleClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/fun/wordle" />
+</div>
   );
 }

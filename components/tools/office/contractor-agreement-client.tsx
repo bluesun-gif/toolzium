@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -11,7 +14,7 @@ import { Label } from"@/components/ui/label";
 import { Switch } from"@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { FileText, ShieldCheck, Printer, Copy } from"lucide-react";
+import { Copy, FileCheck2, FileText, Printer, Scale, ShieldCheck } from"lucide-react";
 import { toast } from"react-hot-toast";
 
 export function ContractorAgreementClient() {
@@ -190,6 +193,86 @@ export function ContractorAgreementClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Details",
+    description:"Add parties and scope.",
+    icon: FileText,
+  },
+{
+    step:"02",
+    title:"Define Terms",
+    description:"Payment, IP, term.",
+    icon: Scale,
+  },
+{
+    step:"03",
+    title:"Build",
+    description:"Assemble the agreement.",
+    icon: FileCheck2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: FileText,
+    title:"Guided",
+    description:"Step-by-step fields.",
+  },
+{
+    icon: Scale,
+    title:"Terms",
+    description:"Compensation and IP.",
+  },
+{
+    icon: FileCheck2,
+    title:"Document",
+    description:"Ready draft.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Clarity",
+    description:"Plain language.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A contractor agreement builder assembles the engagement contract for non-employee workers, covering scope, pay, and IP. Misclassifying or under-specifying contractor terms creates tax and ownership risk; this tool prompts the essentials.</p>
+  <p>IP handling is critical — define whether work product is assigned or licensed. The builder includes the clause so ownership is explicit.</p>
+  <p>Review with counsel before use. The tool's value is a structured contractor contract draft that covers the common pitfalls.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Contractor vs employee?",
+    answer:"Different tax and legal treatment.",
+  },
+{
+    question:"IP clause?",
+    answer:"Yes, assign or license.",
+  },
+{
+    question:"Binding?",
+    answer:"Draft; review legally.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Use case?",
+    answer:"Engaging freelancers.",
+  }
+  ]}
+/>
+</div>
  );
 }

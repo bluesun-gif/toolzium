@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import { SudokuUnlimitedClient } from "@/components/tools/fun/sudoku-unlimited-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Sudoku Unlimited Puzzle Generator & Solver | Toolzium",
   description: "Play, generate, and solve Sudoku puzzles with various difficulties, pencil notes, hints, and error checking.",
@@ -45,6 +44,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <SudokuUnlimitedClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/fun/sudoku-unlimited" />
+</div>
   );
 }

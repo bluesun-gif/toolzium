@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import CgpaCalculatorClient from "@/components/tools/calc/cgpa-calculator-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "CGPA Calculator",
@@ -40,6 +41,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <CgpaCalculatorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/calc/cgpa" />
+</div>
   );
 }

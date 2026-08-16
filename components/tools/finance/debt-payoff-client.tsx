@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Separator } from"@/components/ui/separator";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ResetButton } from"@/components/shared/action-buttons";
-import { CreditCard, Calculator, TrendingDown, Calendar, AlertCircle } from"lucide-react";
+import { AlertCircle, Calculator, Calendar, CreditCard, ListChecks, Shuffle, TrendingDown } from"lucide-react";
 import { Alert, AlertDescription, AlertTitle } from"@/components/ui/alert";
 
 export function DebtPayoffClient() {
@@ -349,6 +352,87 @@ export function DebtPayoffClient() {
  </GlassCard>
  </>
  )}
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"List Debts",
+    description:"Enter balances, rates, and minimums.",
+    icon: ListChecks,
+  },
+{
+    step:"02",
+    title:"Choose Strategy",
+    description:"Pick avalanche or snowball method.",
+    icon: Shuffle,
+  },
+{
+    step:"03",
+    title:"Project",
+    description:"See total interest and freedom date.",
+    icon: Calendar,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: ListChecks,
+    title:"Multi-Debt",
+    description:"Handles several loans and cards together.",
+  },
+{
+    icon: Shuffle,
+    title:"Method Choice",
+    description:"Compares avalanche versus snowball.",
+  },
+{
+    icon: Calendar,
+    title:"Payoff Date",
+    description:"Shows when you become debt-free.",
+  },
+{
+    icon: TrendingDown,
+    title:"Interest Saved",
+    description:"Quantifies savings from extra payments.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>Debt feels overwhelming because minimum payments stretch it into forever. A debt payoff calculator turns that fog into a plan by modeling every balance, rate, and payment together. The single most useful output is the debt-free date — a concrete goal that makes sacrifice feel purposeful.</p>
+  <p>Two strategies frame the approach. The avalanche method pays the highest-interest debt first, minimizing total interest and mathematically optimal. The snowball method pays the smallest balance first, sacrificing some interest for quick psychological wins that keep you motivated. Research shows behavior matters as much as math, so choose the one you will actually stick with.</p>
+  <p>Extra payments are the accelerator. Every dollar above the minimum attacks principal directly, and because interest is calculated on the remaining balance, early extra payments save disproportionately. The calculator shows the months and dollars saved, helping you find a sustainable extra amount rather than an unrealistic one that you abandon.</p>
+  <p>If minimums are genuinely unaffordable, proactive communication with lenders about hardship options protects credit and opens breathing room. Consolidation can help when it lowers rates, but watch for fees and longer terms that increase total cost. Use the plan to automate payments, roll cleared balances into the next debt, and track the date approaching. A clear finish line is what turns debt from a weight into a project with an end.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Avalanche vs snowball?",
+    answer:"Avalanche targets highest rate first saving interest; snowball clears smallest balances first for momentum.",
+  },
+{
+    question:"Should I consolidate debt?",
+    answer:"Consolidation can lower rate or simplify payments, but watch for fees and extended terms.",
+  },
+{
+    question:"How much extra should I pay?",
+    answer:"Pay as much above minimums as possible; even small extras cut years of interest.",
+  },
+{
+    question:"What if I cannot meet minimums?",
+    answer:"Contact lenders about hardship plans before missing payments to protect your credit.",
+  },
+{
+    question:"Is all debt bad?",
+    answer:"Some debt, like low-rate mortgages, can be reasonable; high-interest consumer debt usually is not.",
+  }
+  ]}
+/>
+</div>
  );
 }

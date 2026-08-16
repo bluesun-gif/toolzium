@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -6,7 +9,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { Badge } from"@/components/ui/badge";
 import { Button } from"@/components/ui/button";
 import SelectField from"@/components/shared/form-fields/select-field";
-import { Crosshair, Copy, Check, Sparkles } from"lucide-react";
+import { Check, Copy, Crosshair, Eye, SlidersHorizontal, Sparkles } from"lucide-react";
 import toast from"react-hot-toast";
 
 const PRO_CROSSHAIRS = [
@@ -85,6 +88,87 @@ export default function ValorantCrosshairClient() {
  ))}
  </div>
  </GlassCard>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Adjust Settings",
+    description:"Set color, lines, dots, and gaps visually.",
+    icon: Crosshair,
+  },
+{
+    step:"02",
+    title:"Preview",
+    description:"See the crosshair on a target backdrop.",
+    icon: Eye,
+  },
+{
+    step:"03",
+    title:"Copy Code",
+    description:"Generate the import code and paste into Valorant.",
+    icon: Copy,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Crosshair,
+    title:"Full Controls",
+    description:"Tune every crosshair parameter Valorant allows.",
+  },
+{
+    icon: Eye,
+    title:"Live Preview",
+    description:"Test visibility against different backgrounds.",
+  },
+{
+    icon: Copy,
+    title:"Import Codes",
+    description:"Export a shareable crosshair code.",
+  },
+{
+    icon: SlidersHorizontal,
+    title:"Fine Tuning",
+    description:"Adjust opacity, thickness, and length precisely.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>Crosshair choice is one of the most debated topics in Valorant, yet the goal is simple: a reticle you can find instantly under pressure. This generator lets you build a crosshair visually and export it as an import code, skipping manual setting-by-setting configuration in game.</p>
+  <p>Start with visibility. A crosshair must contrast with both bright and dark backgrounds, so color and outline matter more than style. Many players choose cyan or green with a thin black outline, or white with outline for maximum contrast. Test the preview against varied backdrops to confirm it never disappears.</p>
+  <p>Shape follows function. A classic four-line crosshair gives clear horizontal and vertical reference, while a center dot suits players who focus on pixel-perfect placement. Gap and length control how much screen the reticle covers; smaller, tighter crosshairs reduce visual clutter during flick shots. Adjust opacity so it is present but not distracting.</p>
+  <p>Sharing is built in. Once tuned, the import code lets teammates try your setup exactly, and you can import codes from professional players as a starting point. Treat their settings as a baseline, not gospel — hand size, sensitivity, and monitor differ for everyone. Use the copy button to move the code into Valorant, then refine through real matches until the crosshair feels like an extension of your aim.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is a Valorant crosshair code?",
+    answer:"It is a short string that imports a full crosshair configuration into the game's settings.",
+  },
+{
+    question:"Does crosshair affect aim?",
+    answer:"It does not change mechanics, but a clear crosshair improves target focus and consistency.",
+  },
+{
+    question:"Should I use a dot or lines?",
+    answer:"Personal preference varies; many players use a small crosshair with a center dot for precision.",
+  },
+{
+    question:"Can I copy pro players' crosshairs?",
+    answer:"Yes, using their shared codes, then tweak to your taste.",
+  },
+{
+    question:"Why tune crosshair color?",
+    answer:"High-contrast colors stay visible across maps and reduce eye strain during long sessions.",
+  }
+  ]}
+/>
+</div>
  );
 }

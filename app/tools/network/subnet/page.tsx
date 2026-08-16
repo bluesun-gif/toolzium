@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { SubnetCalculatorClient } from "@/components/tools/network/subnet-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Subnet Calculator | Toolzium",
@@ -48,6 +49,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <SubnetCalculatorClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/network/subnet" />
+</div>
   );
 }

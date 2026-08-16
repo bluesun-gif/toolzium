@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -7,7 +10,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components
 import { Input } from"@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { CopyButton } from"@/components/shared/action-buttons";
-import { BookOpen, Search, Globe } from"lucide-react";
+import { BookOpen, Globe, Lightbulb, Search } from"lucide-react";
 
 const SLANG_DATA = [
  { term:"Buck", meaning:"One US Dollar", origin:"US", category:"US Slang", example:"Can you lend me a buck?"},
@@ -97,6 +100,87 @@ export function CurrencySlangClient() {
  </div>
  )}
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Browse Terms",
+    description:"Explore slang for money worldwide.",
+    icon: BookOpen,
+  },
+{
+    step:"02",
+    title:"Search",
+    description:"Find a specific term quickly.",
+    icon: Search,
+  },
+{
+    step:"03",
+    title:"Learn",
+    description:"Read origin and usage notes.",
+    icon: Lightbulb,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: BookOpen,
+    title:"Global Coverage",
+    description:"Terms from US, UK, and many regions.",
+  },
+{
+    icon: Search,
+    title:"Quick Lookup",
+    description:"Jump straight to a word.",
+  },
+{
+    icon: Lightbulb,
+    title:"Context Notes",
+    description:"Explains where and why slang is used.",
+  },
+{
+    icon: Globe,
+    title:"Cultural Insight",
+    description:"Connects language to local finance culture.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>Money has a rich slang vocabulary that varies by country and community. A dictionary of currency slang helps travelers, writers, and curious minds understand informal references they encounter in speech, media, or online. Terms like buck, quid, or coin carry history and local color that formal names lack.</p>
+  <p>Slang emerges from practicality. Nicknames are faster to say and often reference the currency's design, a historical figure, or a cultural joke. The US dollar's buck traces to colonial deer-skin trading, while the UK's quid has murkier but similarly informal roots. Knowing these enriches understanding of everyday language.</p>
+  <p>Regional variation is the tricky part. The same word can mean different things across borders, and some slang is hyper-local. A term common in one city may puzzle someone from another region, so context matters. The dictionary flags origin and usage so you know when a word fits and when it might confuse.</p>
+  <p>Use this reference for flavor and clarity, not for financial transactions. Slang has no place in contracts, transfers, or bank forms where precise terms are required. But for conversation, content creation, or decoding a foreign film, it adds nuance. Browsing the collection also reveals how people relate to money emotionally and culturally — a small window into how different societies talk about value.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why do currencies have nicknames?",
+    answer:"Slang makes everyday talk easier and reflects local culture and history.",
+  },
+{
+    question:"Is buck only for dollars?",
+    answer:"Buck commonly means US dollar but similar slang exists for other currencies.",
+  },
+{
+    question:"Are these terms formal?",
+    answer:"No, they are informal; use them casually, not in contracts or banking.",
+  },
+{
+    question:"Do regions share slang?",
+    answer:"Some terms spread globally; others are strictly local.",
+  },
+{
+    question:"Can slang cause confusion?",
+    answer:"Yes, the same word can mean different amounts in different places, so clarify when needed.",
+  }
+  ]}
+/>
+</div>
  );
 }

@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import RegexTesterClient from "@/components/tools/dev/regex-tester-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Regex Tester",
   description:
@@ -160,6 +159,8 @@ export default function Page() {
       <JsonLd data={faqLd} />
 
       <RegexTesterClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/regex-tester" />
+</div>
   );
 }

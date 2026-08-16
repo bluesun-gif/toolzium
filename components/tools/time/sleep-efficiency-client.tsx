@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ResetButton } from"@/components/shared/action-buttons";
-import { Moon, Clock, Heart, Award } from"lucide-react";
+import { Activity, Award, Calculator, Clock, Heart, Moon, ShieldCheck } from"lucide-react";
 import { toast } from"react-hot-toast";
 
 export function SleepEfficiencyClient() {
@@ -160,6 +163,86 @@ export function SleepEfficiencyClient() {
  </GlassCard>
  )}
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Times",
+    description:"Time in bed vs asleep.",
+    icon: Clock,
+  },
+{
+    step:"02",
+    title:"Compute",
+    description:"See efficiency percentage.",
+    icon: Calculator,
+  },
+{
+    step:"03",
+    title:"Interpret",
+    description:"Understand the score.",
+    icon: Activity,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Clock,
+    title:"Times",
+    description:"Bed and asleep.",
+  },
+{
+    icon: Calculator,
+    title:"Percentage",
+    description:"Efficiency score.",
+  },
+{
+    icon: Activity,
+    title:"Interpret",
+    description:"What it means.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Track",
+    description:"Over nights.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A sleep efficiency calculator divides time actually asleep by time in bed, yielding a percentage that reflects sleep quality. Low scores signal restless nights even with enough hours. This tool computes and interprets the figure.</p>
+  <p>The score guides improvement — reducing time awake in bed raises efficiency. Tracking over nights reveals trends.</p>
+  <p>Use it to assess rest quality. The tool's value is a simple, meaningful sleep-quality metric.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is efficiency?",
+    answer:"Asleep time over time in bed.",
+  },
+{
+    question:"Good score?",
+    answer:"85% plus is healthy.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Sleep quality.",
+  }
+  ]}
+/>
+</div>
  );
 }

@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Calculator, DollarSign, BarChart2 } from"lucide-react";
+import { BarChart2, Calculator, DollarSign, ShieldCheck, SlidersHorizontal } from"lucide-react";
 
 // Simplified 2024 brackets for demonstration purposes
 const BRACKETS = {
@@ -270,6 +273,87 @@ export function TaxWithholdingClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Pay",
+    description:"Input income and filing details.",
+    icon: DollarSign,
+  },
+{
+    step:"02",
+    title:"Estimate",
+    description:"See expected annual tax.",
+    icon: Calculator,
+  },
+{
+    step:"03",
+    title:"Adjust",
+    description:"Set withholding to match.",
+    icon: SlidersHorizontal,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: DollarSign,
+    title:"Income Based",
+    description:"Estimates from your pay.",
+  },
+{
+    icon: Calculator,
+    title:"Annual Tax",
+    description:"Projects total liability.",
+  },
+{
+    icon: SlidersHorizontal,
+    title:"Withholding Tune",
+    description:"Aligns paycheck with liability.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Avoid Surprises",
+    description:"Prevents big refunds or bills.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A tax withholding estimator prevents the two unpleasant outcomes of poor paycheck withholding: a shocking tax bill or a large interest-free loan to the government via a big refund. Withholding is the amount taken from each paycheck toward year-end tax; this tool estimates your actual liability so you can align the two.</p>
+  <p>The refund myth distorts behavior. A large refund feels like a windfall but means you overpaid all year, handing the government an interest-free loan while your cash could have grown or paid debt. The estimator shows your true liability so you can reduce withholding and keep more per paycheck, improving monthly cash flow.</p>
+  <p>Under-withholding is the mirror risk. Too little taken can lead to a bill and penalties at filing. The tool helps you land in the sweet spot: enough withheld to avoid penalties, not so much you starve your own cash flow. Adjusting allowances or estimated payments after the estimate achieves this balance.</p>
+  <p>Recheck after income changes, marriage, or new dependents, since these shift liability. This is estimation, not advice; a professional confirms your specific situation. The calculator's value is control: replacing tax-season surprises with a calibrated withholding that matches your real obligation year-round.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why adjust withholding?",
+    answer:"To avoid a large bill or interest-free loan to government.",
+  },
+{
+    question:"Big refund good?",
+    answer:"It means you overpaid; that cash could have earned interest.",
+  },
+{
+    question:"Under-withholding risk?",
+    answer:"Can trigger penalties if too low.",
+  },
+{
+    question:"How often to check?",
+    answer:"After income or life changes.",
+  },
+{
+    question:"Is this advice?",
+    answer:"No, confirm with a tax professional.",
+  }
+  ]}
+/>
+</div>
  );
 }

@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -6,7 +9,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { AiOutputDisplay } from"@/components/shared/ai-output-display";
-import { Swords, Sparkles, RefreshCw } from"lucide-react";
+import { Copy, RefreshCw, Sparkles, Swords, Type } from"lucide-react";
 import toast from"react-hot-toast";
 
 const FANCY_MAPS: Record<string, (char: string) => string> = {
@@ -122,6 +125,87 @@ export default function MlbbNameClient() {
  onRegenerate={generateMlbbNames}
  variant="cards"
  />
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Base Name",
+    description:"Type the name you want to decorate.",
+    icon: Type,
+  },
+{
+    step:"02",
+    title:"Add Symbols",
+    description:"Wrap it with MLBB-supported Unicode symbols.",
+    icon: Sparkles,
+  },
+{
+    step:"03",
+    title:"Copy to Game",
+    description:"Copy and paste into your MLBB profile.",
+    icon: Copy,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Sparkles,
+    title:"Symbol Library",
+    description:"Curated symbols that render in Mobile Legends.",
+  },
+{
+    icon: Type,
+    title:"Fancy Fonts",
+    description:"Styled text variants for a unique look.",
+  },
+{
+    icon: Swords,
+    title:"Pro Player Style",
+    description:"Mimic the clean decoration top players use.",
+  },
+{
+    icon: Copy,
+    title:"Quick Copy",
+    description:"Transfer the name without formatting loss.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>In Mobile Legends, your name appears in every match, every leaderboard, and every friend request. A decorated name projects identity and style without affecting gameplay. This generator focuses on symbols and fonts that actually render inside MLBB's text system.</p>
+  <p>Choose decorations that read clearly. Brackets, thin dividers, and small crowns frame a name nicely, while excessive zalgo or stacked emoji often becomes unreadable on a phone screen. Top players tend to use restraint: a clean name with one or two accent symbols looks more professional than a wall of effects.</p>
+  <p>Font variants add personality. Small caps and spaced lettering change the visual rhythm of a name, making it feel custom. Test the result at the size it appears in-game — what looks cool in a generator may shrink into noise on a busy HUD. Balance flair with legibility.</p>
+  <p>Community recognition is the real benefit. A consistent, stylish tag helps teammates remember you across matches and makes content clips easier to attribute. When you change names, use the copy button to preserve exact spacing so the look survives the paste. With a sharp MLBB name, your account feels like a brand rather than a random string.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why decorate an MLBB name?",
+    answer:"A styled name helps you look polished in ranked and highlights your account in friend lists.",
+  },
+{
+    question:"Which symbols work in MLBB?",
+    answer:"Most standard Unicode brackets, arrows, and dividers render fine; avoid emoji that may show as boxes.",
+  },
+{
+    question:"Is there a character limit?",
+    answer:"MLBB usernames have a length limit, so keep decorations compact.",
+  },
+{
+    question:"Will a fancy name help me win?",
+    answer:"No, but it improves recognition and personal branding within the community.",
+  },
+{
+    question:"Can I change my name later?",
+    answer:"Yes, using an in-game name change card or diamonds, so you can refresh your style.",
+  }
+  ]}
+/>
+</div>
  );
 }

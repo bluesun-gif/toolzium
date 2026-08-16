@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Button } from"@/components/ui/button";
 import { Separator } from"@/components/ui/separator";
-import { CheckCircle, Eye, Copy, Sliders, AlertTriangle } from"lucide-react";
+import { AlertTriangle, CheckCircle, Contrast, Copy, Eye, Pipette, ShieldCheck, Sliders, Upload } from"lucide-react";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
 
 export function ColorContrastClient() {
@@ -164,6 +167,86 @@ export function ColorContrastClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Upload",
+    description:"Load an image or screenshot.",
+    icon: Upload,
+  },
+{
+    step:"02",
+    title:"Sample",
+    description:"Pick text and background pixels.",
+    icon: Pipette,
+  },
+{
+    step:"03",
+    title:"Analyze",
+    description:"See extracted contrast.",
+    icon: Contrast,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Upload,
+    title:"Image Input",
+    description:"Screenshots or designs.",
+  },
+{
+    icon: Pipette,
+    title:"Color Pick",
+    description:"Sample any pixel.",
+  },
+{
+    icon: Contrast,
+    title:"Ratio",
+    description:"Computed from samples.",
+  },
+{
+    icon: ShieldCheck,
+    title:"WCAG",
+    description:"Pass or fail.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A color contrast analyzer extracts real colors from an existing image or screenshot and evaluates their contrast. Unlike a checker where you type hex codes, this tool samples pixels directly — useful for auditing a design you did not build from scratch.</p>
+  <p>Sampling reveals the truth. A mockup may look fine but fail contrast once measured; picking the actual text and background pixels exposes the gap. The analyzer reports WCAG pass or fail from those samples.</p>
+  <p>Use it to audit legacy or third-party designs. The tool's value is measuring real rendered colors, turning subjective &quot;looks okay&quot; into a defensible accessibility verdict.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What differs from checker?",
+    answer:"Samples colors from an image.",
+  },
+{
+    question:"Use case?",
+    answer:"Audit existing designs.",
+  },
+{
+    question:"Accurate?",
+    answer:"From actual pixels.",
+  },
+{
+    question:"WCAG?",
+    answer:"Reports compliance.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  }
+  ]}
+/>
+</div>
  );
 }

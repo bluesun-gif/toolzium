@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -7,7 +10,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
-import { CheckSquare, Plus, Download } from"lucide-react";
+import { ArrowRightLeft, CheckCircle2, CheckSquare, Download, Grid2x2, ListPlus, Plus } from"lucide-react";
 import toast from"react-hot-toast";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
 
@@ -217,6 +220,86 @@ export function PriorityActionPlannerClient() {
  {renderQuadrant("eliminate","Eliminate (Not Urgent, Not Important)","bg-stone-500/10 border-stone-500/20 text-stone-700 dark:text-stone-400")}
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Tasks",
+    description:"List what needs doing.",
+    icon: ListPlus,
+  },
+{
+    step:"02",
+    title:"Prioritize",
+    description:"Sort by impact and effort.",
+    icon: Grid2x2,
+  },
+{
+    step:"03",
+    title:"Act",
+    description:"Work top priorities.",
+    icon: CheckCircle2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: ListPlus,
+    title:"Tasks",
+    description:"Capture all.",
+  },
+{
+    icon: Grid2x2,
+    title:"Matrix",
+    description:"Impact by effort.",
+  },
+{
+    icon: CheckCircle2,
+    title:"Act",
+    description:"On the vital few.",
+  },
+{
+    icon: ArrowRightLeft,
+    title:"Re-sort",
+    description:"Adjust easily.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A priority action planner sorts tasks by impact and effort so you spend energy where it matters, not just where it is easy. High-impact, low-effort items are quick wins; the matrix surfaces them. This tool helps you act on the vital few.</p>
+  <p>Effort-aware planning prevents burnout from low-value grind. The planner makes the trade-off explicit before you commit.</p>
+  <p>Use it in planning sessions. The tool's value is effort-aware prioritization that protects your best energy.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Matrix basis?",
+    answer:"Impact versus effort.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Planning.",
+  },
+{
+    question:"Best with?",
+    answer:"Weekly review.",
+  }
+  ]}
+/>
+</div>
  );
 }

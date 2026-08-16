@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -6,7 +9,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { AiOutputDisplay } from"@/components/shared/ai-output-display";
-import { Activity, RefreshCw } from"lucide-react";
+import { Activity, Calculator, RefreshCw, TrendingUp, User } from"lucide-react";
 import toast from"react-hot-toast";
 
 export default function AiBmrCalculatorClient() {
@@ -163,6 +166,87 @@ export default function AiBmrCalculatorClient() {
  variant="prose"
  />
  )}
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Details",
+    description:"Add age, sex, height, weight.",
+    icon: User,
+  },
+{
+    step:"02",
+    title:"Pick Activity",
+    description:"Choose your daily activity level.",
+    icon: Activity,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See BMR and TDEE instantly.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: User,
+    title:"Personalized",
+    description:"Uses your body metrics.",
+  },
+{
+    icon: Activity,
+    title:"Activity Levels",
+    description:"From sedentary to athlete.",
+  },
+{
+    icon: Calculator,
+    title:"BMR & TDEE",
+    description:"Shows both resting and total burn.",
+  },
+{
+    icon: TrendingUp,
+    title:"Goal Modes",
+    description:"Cut, maintain, or bulk targets.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A BMR and TDEE calculator translates your body into numbers that drive every nutrition decision. BMR is the calories you burn doing nothing; TDEE adds daily movement. Together they define the intake that maintains, cuts, or builds. This tool computes both from your age, sex, height, and weight using established formulas.</p>
+  <p>Activity level is the multiplier. Sedentary lifestyles yield a TDEE close to BMR; physically demanding days push it much higher. Choosing the right level prevents the common error of eating at a falsely high target and stalling progress. The calculator offers clear tiers so you pick honestly rather than optimistically.</p>
+  <p>Goal modes turn the number into action. To lose fat, eat below TDEE; to gain muscle, eat above. A modest deficit preserves energy and muscle better than an aggressive one. The tool frames these targets so you can choose a sustainable path instead of a crash diet that rebounds.</p>
+  <p>Treat output as an estimate. Genetics, hormones, and body composition cause real variation, so adjust based on measured results over weeks, not days. Use the calculator as a starting point, then refine with a food log and scale. Its value is replacing guesswork with a defensible calorie anchor for any fitness goal.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is BMR?",
+    answer:"Basal Metabolic Rate is calories burned at complete rest to sustain life.",
+  },
+{
+    question:"What is TDEE?",
+    answer:"Total Daily Energy Expenditure includes activity on top of BMR.",
+  },
+{
+    question:"Why does activity matter?",
+    answer:"More movement raises TDEE, changing your calorie target.",
+  },
+{
+    question:"Is BMR accurate?",
+    answer:"Formulas estimate; individual variation exists.",
+  },
+{
+    question:"How do I use TDEE?",
+    answer:"Eat below TDEE to lose, above to gain.",
+  }
+  ]}
+/>
+</div>
  );
 }

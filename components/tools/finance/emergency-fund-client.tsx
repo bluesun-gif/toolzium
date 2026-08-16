@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Shield, DollarSign, Target, Copy } from"lucide-react";
+import { Calendar, Copy, DollarSign, Receipt, Shield, ShieldCheck, Target, Wallet } from"lucide-react";
 import toast from"react-hot-toast";
 
 export function EmergencyFundClient() {
@@ -160,6 +163,87 @@ export function EmergencyFundClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Expenses",
+    description:"Add your essential monthly spending.",
+    icon: Receipt,
+  },
+{
+    step:"02",
+    title:"Set Months",
+    description:"Choose 3, 6, or more months of coverage.",
+    icon: Calendar,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See your target savings amount.",
+    icon: Wallet,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Receipt,
+    title:"Essential Based",
+    description:"Uses must-pay expenses, not total spending.",
+  },
+{
+    icon: Calendar,
+    title:"Coverage Choice",
+    description:"Models 3 to 12 months of buffer.",
+  },
+{
+    icon: Wallet,
+    title:"Target Amount",
+    description:"Returns a clear savings goal.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Risk Adjusted",
+    description:"Bigger buffer for variable income.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An emergency fund is the foundation of financial stability, yet many skip it and rely on credit when crises hit. The calculator defines your target by multiplying essential monthly expenses by a chosen number of months. The result is a concrete number rather than the vague idea that you should save something.</p>
+  <p>Base the fund on essentials, not lifestyle. Rent, food, insurance, and minimum debt payments belong; dining out and hobbies do not. This keeps the target realistic and reachable. Three months covers most short disruptions; six or more suits freelancers or anyone with variable income where gaps last longer.</p>
+  <p>Accessibility matters as much as amount. The fund should sit in a safe, liquid account you can reach immediately, not tied up in investments that could be down when you need them. Separating it from daily spending prevents accidental erosion. The calculator's target becomes a savings milestone you build toward automatically.</p>
+  <p>Start before optimizing. Even one month of expenses dramatically reduces panic when something breaks, and progress compounds motivation. Treat the fund as insurance, not an investment — its job is to keep you out of high-interest debt during bad luck. Once funded, redirect those contributions to other goals. Knowing the exact number turns an abstract safety habit into a finishable objective.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"How many months should I save?",
+    answer:"Three to six months of essentials is common; more if income is unstable.",
+  },
+{
+    question:"What counts as an emergency?",
+    answer:"Job loss, medical, or urgent repairs — not vacations or sales.",
+  },
+{
+    question:"Where should I keep it?",
+    answer:"A liquid, safe account you can access quickly, separate from daily spending.",
+  },
+{
+    question:"Do I include subscriptions?",
+    answer:"Only if essential; trim discretionary items from the target.",
+  },
+{
+    question:"Can I invest the fund?",
+    answer:"Keep it safe and accessible; investing risks needing it during a downturn.",
+  }
+  ]}
+/>
+</div>
  );
 }

@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ResetButton, ActionButton } from"@/components/shared/action-buttons";
-import { Activity, Flame, Clock, Scale } from"lucide-react";
+import { Activity, Calculator, Clock, Flame, Scale } from"lucide-react";
 import { cn } from"@/lib/utils";
 
 export function JumpropeCalorieClient() {
@@ -160,6 +163,86 @@ export function JumpropeCalorieClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Weight",
+    description:"Add body weight.",
+    icon: Scale,
+  },
+{
+    step:"02",
+    title:"Set Time",
+    description:"Input session minutes.",
+    icon: Clock,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See calories burned.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Scale,
+    title:"Weight Based",
+    description:"Personalizes burn.",
+  },
+{
+    icon: Clock,
+    title:"Duration",
+    description:"Short, intense sessions.",
+  },
+{
+    icon: Calculator,
+    title:"Burn Estimate",
+    description:"High per minute.",
+  },
+{
+    icon: Flame,
+    title:"HIIT Ready",
+    description:"Great for intervals.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A jump rope calorie calculator captures a surprisingly intense workout. Rope work is full-body and high-effort, burning a lot per minute, which makes it efficient for busy schedules. This tool estimates the cost from your weight and session time.</p>
+  <p>Intensity is the draw. Short, hard sessions rival longer moderate ones for calorie burn and cardiovascular benefit. The calculator approximates this so you can slot effective training into minutes. Beginners should ramp gradually given the demand.</p>
+  <p>Pair with a deficit for fat loss and log the burn to balance. The tool's value is highlighting an efficient, minimal-equipment workout's energy cost, encouraging consistent, time-efficient training.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why high burn?",
+    answer:"Jumping is intense, full-body effort.",
+  },
+{
+    question:"How estimated?",
+    answer:"Weight, time, intensity.",
+  },
+{
+    question:"Beginner friendly?",
+    answer:"Start slow; it is demanding.",
+  },
+{
+    question:"Accurate?",
+    answer:"Approximate; varies by effort.",
+  },
+{
+    question:"Use for fat loss?",
+    answer:"Yes, with a deficit.",
+  }
+  ]}
+/>
+</div>
  );
 }

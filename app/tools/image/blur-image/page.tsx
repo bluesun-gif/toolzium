@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { BlurImageClient } from "@/components/tools/image/blur-image-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Image Area Blur & Anonymizer | Toolzium",
@@ -39,6 +40,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <BlurImageClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/image/blur-image" />
+</div>
   );
 }

@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { InterestCompareClient } from "@/components/tools/finance/interest-compare-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Interest Rate Comparison | Toolzium",
@@ -66,6 +67,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <InterestCompareClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/finance/interest-compare" />
+</div>
   );
 }

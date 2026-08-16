@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Switch } from"@/components/ui/switch";
 import { ResetButton } from"@/components/shared/action-buttons";
-import { Clock, Moon, Sun, Shield } from"lucide-react";
+import { AlarmClock, Calculator, Clock, Moon, Shield, ShieldCheck, Sun } from"lucide-react";
 import { cn } from"@/lib/utils";
 
 export function RemBedtimeClockClient() {
@@ -94,6 +97,86 @@ export function RemBedtimeClockClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Set Wake",
+    description:"Enter wake time.",
+    icon: AlarmClock,
+  },
+{
+    step:"02",
+    title:"Cycle Length",
+    description:"Use ~90-minute cycles.",
+    icon: Moon,
+  },
+{
+    step:"03",
+    title:"Compute",
+    description:"See ideal bedtimes.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: AlarmClock,
+    title:"Wake",
+    description:"Your target.",
+  },
+{
+    icon: Moon,
+    title:"Cycles",
+    description:"90-min sleeps.",
+  },
+{
+    icon: Calculator,
+    title:"Bedtimes",
+    description:"Multiple options.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Wake Fresh",
+    description:"Align to cycle end.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A REM bedtime calculator works backward from your wake time using ~90-minute sleep cycles, suggesting bedtimes that end a cycle so you wake refreshed rather than mid-deep-sleep. Multiple options give flexibility. This tool computes them.</p>
+  <p>Waking at a cycle boundary reduces grogginess. The calculator turns sleep science into a simple schedule.</p>
+  <p>Use it to plan sleep. The tool's value is cycle-aligned bedtimes for easier mornings.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is REM?",
+    answer:"A sleep stage in 90-min cycles.",
+  },
+{
+    question:"Why align?",
+    answer:"Wake at cycle end, feel fresh.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Better mornings.",
+  }
+  ]}
+/>
+</div>
  );
 }

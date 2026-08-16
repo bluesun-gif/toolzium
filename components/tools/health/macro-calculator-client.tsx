@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { Salad, Calculator, BarChart3, Target } from"lucide-react";
+import { BarChart3, Calculator, PieChart, Salad, Target, User } from"lucide-react";
 
 export function MacroCalculatorClient() {
  const [gender, setGender] = useState("male");
@@ -196,6 +199,86 @@ export function MacroCalculatorClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Stats",
+    description:"Add weight, height, age, activity.",
+    icon: User,
+  },
+{
+    step:"02",
+    title:"Set Split",
+    description:"Choose protein, carb, fat ratio.",
+    icon: PieChart,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See daily macro targets.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: User,
+    title:"Personalized",
+    description:"From your body data.",
+  },
+{
+    icon: PieChart,
+    title:"Macro Split",
+    description:"Protein, carb, fat grams.",
+  },
+{
+    icon: Calculator,
+    title:"Daily Targets",
+    description:"Grams per macro.",
+  },
+{
+    icon: Target,
+    title:"Goal Aware",
+    description:"Cut, maintain, bulk.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A macro calculator breaks a calorie target into protein, carbohydrate, and fat grams, the composition that drives results. Calories set the total; macros set the quality. This tool derives gram targets from your stats and a chosen split, so you eat for purpose.</p>
+  <p>Prioritize protein. It preserves muscle during deficits and aids recovery during bulks, making it the anchor of any split. The calculator allocates it first, then divides remaining calories among carbs and fats based on your preference and goal. Cutting often leans higher protein.</p>
+  <p>Treat outputs as starting points, refining with how your body responds. Logging confirms adherence to the split. The tool's value is translating a calorie goal into actionable gram targets, the practical language of nutrition.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What are macros?",
+    answer:"Protein, carbohydrates, fats.",
+  },
+{
+    question:"Why track them?",
+    answer:"Composition matters, not just calories.",
+  },
+{
+    question:"Protein first?",
+    answer:"It preserves muscle; prioritize it.",
+  },
+{
+    question:"Split for cutting?",
+    answer:"Higher protein, moderate others.",
+  },
+{
+    question:"Accurate?",
+    answer:"Estimate; adjust to results.",
+  }
+  ]}
+/>
+</div>
  );
 }

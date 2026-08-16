@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { ShieldCheck, FileText, Copy, Printer } from"lucide-react";
+import { Activity, Copy, FileCheck2, FileText, Printer, ShieldCheck, Target } from"lucide-react";
 import { toast } from"react-hot-toast";
 import { cn } from"@/lib/utils";
 
@@ -154,6 +157,86 @@ export function SlaGeneratorClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Service",
+    description:"Define the service and metrics.",
+    icon: Activity,
+  },
+{
+    step:"02",
+    title:"Set Targets",
+    description:"Uptime and response goals.",
+    icon: Target,
+  },
+{
+    step:"03",
+    title:"Generate",
+    description:"Build the SLA.",
+    icon: FileCheck2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Activity,
+    title:"Service",
+    description:"What is covered.",
+  },
+{
+    icon: Target,
+    title:"Metrics",
+    description:"Uptime, response.",
+  },
+{
+    icon: FileCheck2,
+    title:"Draft",
+    description:"Ready document.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Remedies",
+    description:"Credits and penalties.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An SLA generator creates the service-level agreement defining committed performance — uptime, response times, and remedies for shortfalls. SLAs set accountability between provider and client. This tool structures metrics and consequences.</p>
+  <p>Measurable targets are the core. Defining uptime percentages and response windows makes performance auditable. Remedies like service credits incentivize meeting them.</p>
+  <p>Review with counsel. The tool's value is a clear SLA draft that aligns expectations and accountability.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is an SLA?",
+    answer:"Commitment on service levels.",
+  },
+{
+    question:"Metrics?",
+    answer:"Uptime, response, resolution.",
+  },
+{
+    question:"Remedies?",
+    answer:"Service credits for misses.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Binding?",
+    answer:"Draft; review.",
+  }
+  ]}
+/>
+</div>
  );
 }

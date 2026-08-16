@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -11,7 +14,7 @@ import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
 import { cn } from"@/lib/utils";
-import { Layout, Code, Copy, RotateCcw, Plus, Trash2 } from"lucide-react";
+import { AlignVerticalSpaceAround, Code, Code2, Copy, Layout, LayoutGrid, MousePointerClick, Plus, RotateCcw, Trash2 } from"lucide-react";
 import { toast } from"react-hot-toast";
 
 type FlexItem = {
@@ -266,6 +269,88 @@ export function FlexboxPlaygroundClient() {
  </pre>
  </CardContent>
  </GlassCard>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Open the Sandbox",
+    description:"Load the live flex container with sample items.",
+    icon: LayoutGrid,
+  },
+{
+    step:"02",
+    title:"Toggle Properties",
+    description:"Click property chips to apply flex-direction, wrap, and alignment.",
+    icon: MousePointerClick,
+  },
+{
+    step:"03",
+    title:"Inspect CSS",
+    description:"Read the generated CSS and copy it to your project.",
+    icon: Code2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: LayoutGrid,
+    title:"Live Sandbox",
+    description:"Experiment with a real flex container and visible items.",
+  },
+{
+    icon: MousePointerClick,
+    title:"One-Click Properties",
+    description:"Apply common flex values without writing code.",
+  },
+{
+    icon: AlignVerticalSpaceAround,
+    title:"Alignment Preview",
+    description:"See justify and align effects update instantly.",
+  },
+{
+    icon: Code2,
+    title:"Copy CSS",
+    description:"Grab the exact CSS for your stylesheet.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A flexbox playground is the fastest way to learn flex layout because it turns abstract properties into immediate visual feedback. Instead of guessing values, you toggle a chip and watch items reflow. That instant loop builds intuition far faster than reading specifications.</p>
+  <p>Start with the container. Setting display:flex establishes the flex context, and every direct child becomes a flex item. The flex-direction property chooses the main axis: row lays items horizontally, column stacks them vertically. Changing it flips how justify-content and align-items behave, which is the single most confusing part for beginners — keep the axis in mind and the rest follows.</p>
+  <p>Justify-content works along the main axis. flex-start packs items to the start, center groups them in the middle, and space-between pushes the first and last to the edges with equal gaps between. Align-items works across the cross axis, controlling vertical positioning in a row or horizontal in a column. The value center is the classic trick for perfectly centered content.</p>
+  <p>Wrapping unlocks multi-line layouts. With flex-wrap: wrap, items that would overflow drop to a new line, ideal for tag clouds, chip lists, and responsive galleries. You can then use align-content to space those lines. For individual control, flex-grow, flex-shrink, and flex-basis decide how each item shares free space.</p>
+  <p>Use the playground to prototype a navbar, a card row, or a footer, then copy the CSS it produces. Pair flexbox with gap to avoid margin hacks, and remember it shines for one-dimensional flows while Grid handles full page structure. Practice here until the properties feel automatic, and your layouts will become faster and cleaner.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is the flex container?",
+    answer:"The flex container is the parent element with display:flex. Its direct children become flex items that the flex properties arrange.",
+  },
+{
+    question:"What is the main axis?",
+    answer:"The main axis follows flex-direction: row runs left to right, column runs top to bottom. justify-content aligns items along it.",
+  },
+{
+    question:"How do I center an item both ways?",
+    answer:"Use justify-content: center and align-items: center on the container to center along both axes.",
+  },
+{
+    question:"Why are my items not wrapping?",
+    answer:"By default flex items stay on one line. Add flex-wrap: wrap to let them move to the next line when space runs out.",
+  },
+{
+    question:"Is flexbox responsive?",
+    answer:"Flexbox adapts well, but for full two-dimensional control combine it with media queries or use CSS Grid for page layout.",
+  }
+  ]}
+/>
+</div>
  );
 }

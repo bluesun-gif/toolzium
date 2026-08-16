@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { CurrencyMatrixClient } from "@/components/tools/travel/currency-matrix-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Multi-Currency Exchange Matrix | Toolzium",
@@ -45,6 +46,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <CurrencyMatrixClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/travel/currency-matrix" />
+</div>
   );
 }

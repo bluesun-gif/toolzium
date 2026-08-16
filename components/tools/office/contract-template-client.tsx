@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { FileText, AlertTriangle } from"lucide-react";
+import { AlertTriangle, Download, FileText, PenLine, ShieldCheck } from"lucide-react";
 
 export function ContractTemplateClient() {
  const [contractType, setContractType] = useState("nda");
@@ -118,6 +121,86 @@ export function ContractTemplateClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Choose Type",
+    description:"Pick a contract category.",
+    icon: FileText,
+  },
+{
+    step:"02",
+    title:"Fill Fields",
+    description:"Enter the specifics.",
+    icon: PenLine,
+  },
+{
+    step:"03",
+    title:"Generate",
+    description:"Produce the template.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: FileText,
+    title:"Categories",
+    description:"Many contract types.",
+  },
+{
+    icon: PenLine,
+    title:"Customize",
+    description:"Fill the blanks.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Save the result.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Structure",
+    description:"Standard clauses.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A contract template generator provides structured starting points across common agreement types, removing the blank-page problem. Filling guided fields yields a coherent document faster than drafting from zero. This tool covers service, sale, and employment categories.</p>
+  <p>Standard clauses are built in, reducing the chance of omitting essentials like termination or liability. You customize the specifics.</p>
+  <p>Treat output as a draft for legal review. The tool's value is a reliable contract skeleton tailored to the type you need.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Types?",
+    answer:"Service, sale, employment, more.",
+  },
+{
+    question:"Editable?",
+    answer:"Yes, fill the fields.",
+  },
+{
+    question:"Binding?",
+    answer:"Draft; legal review.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Reuse?",
+    answer:"Save as template.",
+  }
+  ]}
+/>
+</div>
  );
 }

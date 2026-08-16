@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { Layout, Plus, Download, ChevronRight, ChevronLeft } from"lucide-react";
+import { ChevronLeft, ChevronRight, Download, Kanban, Layout, MoveRight, Palette, Plus, StickyNote } from"lucide-react";
 import { cn } from"@/lib/utils";
 import toast from"react-hot-toast";
 
@@ -122,6 +125,86 @@ export function ColoredKanbanClient() {
  </GlassCard>
  ))}
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Cards",
+    description:"Create task cards.",
+    icon: StickyNote,
+  },
+{
+    step:"02",
+    title:"Color",
+    description:"Tag by category.",
+    icon: Palette,
+  },
+{
+    step:"03",
+    title:"Move",
+    description:"Drag across columns.",
+    icon: MoveRight,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: StickyNote,
+    title:"Cards",
+    description:"Task items.",
+  },
+{
+    icon: Palette,
+    title:"Color Tags",
+    description:"Visual categories.",
+  },
+{
+    icon: MoveRight,
+    title:"Columns",
+    description:"Todo, doing, done.",
+  },
+{
+    icon: Kanban,
+    title:"Board",
+    description:"Drag and drop.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A color-coded kanban board visualizes workflow across stages, with color grouping categories so you see type distribution instantly. Moving cards from to-do to done gives a sense of progress that lists lack. This tool supports drag-and-drop.</p>
+  <p>Color reduces cognitive load. Spotting all &quot;bug&quot; cards in red or &quot;idea&quot; cards in blue is faster than reading labels. The board makes bottlenecks visible.</p>
+  <p>Use it for any project. The tool's value is a visual, color-grouped workflow that clarifies status.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is kanban?",
+    answer:"Visual board of work stages.",
+  },
+{
+    question:"Color coding?",
+    answer:"Groups by type at a glance.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Projects and sprints.",
+  }
+  ]}
+/>
+</div>
  );
 }

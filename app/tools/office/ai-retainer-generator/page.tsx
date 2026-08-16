@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import AiRetainerGeneratorClient from "@/components/tools/office/ai-retainer-generator-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "AI Client Retainer & Scope Proposal Generator | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function AiRetainerGeneratorPage() {
-  return <AiRetainerGeneratorClient />;
+  return (
+    <><AiRetainerGeneratorClient />
+      <RelatedTools currentToolUrl="/tools/office/ai-retainer-generator" />
+    </>
+  );
 }

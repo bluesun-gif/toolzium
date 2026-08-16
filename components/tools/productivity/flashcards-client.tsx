@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Button } from"@/components/ui/button";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton } from"@/components/shared/action-buttons";
-import { BookOpen, RotateCcw, ChevronLeft, ChevronRight, Shuffle, Plus, Download, Upload } from"lucide-react";
+import { BookOpen, Brain, CheckCircle2, ChevronLeft, ChevronRight, Download, Plus, Repeat, RotateCcw, Shuffle, StickyNote, Upload } from"lucide-react";
 import { cn } from"@/lib/utils";
 import toast from"react-hot-toast";
 
@@ -327,6 +330,86 @@ export function FlashcardMakerClient() {
  .backface-hidden { backface-visibility: hidden; }
  .rotate-y-180 { transform: rotateY(180deg); }
  `}} />
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Cards",
+    description:"Create question and answer.",
+    icon: StickyNote,
+  },
+{
+    step:"02",
+    title:"Study",
+    description:"Flip and self-test.",
+    icon: Repeat,
+  },
+{
+    step:"03",
+    title:"Track",
+    description:"Mark what you know.",
+    icon: CheckCircle2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: StickyNote,
+    title:"Cards",
+    description:"Q and A pairs.",
+  },
+{
+    icon: Repeat,
+    title:"Flip",
+    description:"Test recall.",
+  },
+{
+    icon: CheckCircle2,
+    title:"Mastery",
+    description:"Mark known.",
+  },
+{
+    icon: Brain,
+    title:"Learning",
+    description:"Active recall.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A flashcard maker supports active recall, one of the most effective study methods. Testing yourself beats re-reading; flip cards force retrieval. This tool lets you build Q-and-A sets and track mastery.</p>
+  <p>Marking known cards focuses effort on the weak ones. Spaced repetition of those accelerates learning. The maker structures this simply.</p>
+  <p>Use it for any material to memorize. The tool's value is a private, effective study system.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why flashcards?",
+    answer:"Active recall aids memory.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Study and revision.",
+  },
+{
+    question:"Spaced?",
+    answer:"Review weak cards more.",
+  }
+  ]}
+/>
+</div>
  );
 }

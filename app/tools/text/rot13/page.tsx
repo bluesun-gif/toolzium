@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import Rot13Client from "@/components/tools/text/rot13-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "ROT13 & Caesar Cipher Decoder/Encoder — Free Online Tool | Toolzium",
   description: "Free online ROT13 and Caesar cipher tool. Encode, decode, and brute-force crack shift ciphers. Includes character frequency analysis. Works entirely in your browser.",
@@ -140,6 +139,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <Rot13Client />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/text/rot13" />
+</div>
   );
 }

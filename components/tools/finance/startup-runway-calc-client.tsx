@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -6,7 +9,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { AiOutputDisplay } from"@/components/shared/ai-output-display";
-import { TrendingDown, RefreshCw } from"lucide-react";
+import { CalendarClock, RefreshCw, TrendingDown, TrendingUp, Wallet } from"lucide-react";
 import toast from"react-hot-toast";
 
 export default function StartupRunwayCalcClient() {
@@ -134,6 +137,87 @@ export default function StartupRunwayCalcClient() {
  variant="prose"
  />
  )}
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Cash",
+    description:"Input current bank balance.",
+    icon: Wallet,
+  },
+{
+    step:"02",
+    title:"Enter Burn",
+    description:"Add monthly net cash outflow.",
+    icon: TrendingDown,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See months of runway left.",
+    icon: CalendarClock,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Wallet,
+    title:"Cash Position",
+    description:"Starting balance.",
+  },
+{
+    icon: TrendingDown,
+    title:"Burn Rate",
+    description:"Net monthly cash outflow.",
+  },
+{
+    icon: CalendarClock,
+    title:"Runway",
+    description:"Months until funds deplete.",
+  },
+{
+    icon: TrendingUp,
+    title:"Scenario",
+    description:"Models raising or cutting burn.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A runway calculator is mission-critical for any funded startup: it answers the one question that determines survival — how many months until the money runs out. Runway equals cash on hand divided by monthly net burn. This tool computes it and models how spending or funding changes the clock, turning anxiety into a number you can plan against.</p>
+  <p>Burn rate is the speed of the clock. Net burn is cash out minus cash in; gross burn is total spend. The calculator uses net burn because revenue offsets cost and extends life. A high burn with thin cash is dangerous; the tool makes the deadline explicit so founders act before panic forces bad deals.</p>
+  <p>Extending runway has two levers: cut costs or raise capital. The calculator shows how each month of reduced burn adds months of life, quantifying the trade-off between growth spending and survival. Many startups over-spend on growth that does not yet pay back, shortening runway fatally. Modeling scenarios prevents that.</p>
+  <p>Healthy runway is typically 12 to 18 months, giving room to hit milestones that justify the next raise. Use the calculator continuously, not just at fundraising. The value is discipline: a live countdown that keeps spending honest and ensures the company reaches its next milestone before the clock expires.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is runway?",
+    answer:"Months a startup survives at current burn before running out.",
+  },
+{
+    question:"What is burn rate?",
+    answer:"Net cash spent per month.",
+  },
+{
+    question:"How to extend runway?",
+    answer:"Cut costs or raise capital.",
+  },
+{
+    question:"What is a healthy runway?",
+    answer:"Often 12 to 18 months to reduce fundraising pressure.",
+  },
+{
+    question:"Does revenue help?",
+    answer:"Yes, it lowers net burn and extends runway.",
+  }
+  ]}
+/>
+</div>
  );
 }

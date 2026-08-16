@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -7,7 +10,7 @@ import { CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
-import { Droplets, Plus, BarChart3, RotateCcw } from"lucide-react";
+import { BarChart3, Bell, Droplets, Flame, Plus, RotateCcw, Scale } from"lucide-react";
 import { ResetButton } from"@/components/shared/action-buttons";
 import { cn } from"@/lib/utils";
 
@@ -165,7 +168,87 @@ export function HydrationClient() {
  <span className={cn("text-xs", isToday &&"font-bold text-primary")}>
  {isToday ?"Today": dayName}
  </span>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Weight",
+    description:"Add body weight.",
+    icon: Scale,
+  },
+{
+    step:"02",
+    title:"Set Activity",
+    description:"Factor exercise and climate.",
+    icon: Flame,
+  },
+{
+    step:"03",
+    title:"Get Target",
+    description:"See daily water goal.",
+    icon: Droplets,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Scale,
+    title:"Weight Based",
+    description:"Personalizes need.",
+  },
+{
+    icon: Flame,
+    title:"Activity Factor",
+    description:"More when active or hot.",
+  },
+{
+    icon: Droplets,
+    title:"Daily Goal",
+    description:"Clear water target.",
+  },
+{
+    icon: Bell,
+    title:"Reminders",
+    description:"Prompts to drink.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A hydration tool estimates daily water needs from body weight and lifestyle, then reminds you to drink. Needs scale with mass and rise with exercise or heat. This tool personalizes the target so you hydrate appropriately rather than following a generic rule.</p>
+  <p>Context adjusts the number. Active days and warm climates demand more; the calculator factors this so the goal reflects reality. About a fifth of intake comes from food, which the estimate implicitly accounts for in standard formulas.</p>
+  <p>Reminders turn knowledge into habit. Mild dehydration impairs focus and energy before thirst signals, so prompts help. The tool's value is a personalized, context-aware water target that supports consistent hydration.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"How much water?",
+    answer:"Roughly 30 to 35 ml per kg of body weight.",
+  },
+{
+    question:"More when active?",
+    answer:"Yes, especially in heat.",
+  },
+{
+    question:"Food counts?",
+    answer:"About 20 percent comes from food.",
+  },
+{
+    question:"Overhydrate risk?",
+    answer:"Rare but possible; balance.",
+  },
+{
+    question:"Signs of low?",
+    answer:"Thirst, dark urine, fatigue.",
+  }
+  ]}
+/>
+</div>
  );
  })}
  </div>

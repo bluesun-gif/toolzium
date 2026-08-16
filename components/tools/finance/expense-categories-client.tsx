@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { PieChart, DollarSign, AlertTriangle, Plus } from"lucide-react";
+import { AlertTriangle, DollarSign, ListChecks, PieChart, Plus, Tags, TrendingDown } from"lucide-react";
 import { toast } from"react-hot-toast";
 
 type Expense = {
@@ -202,7 +205,88 @@ export function ExpenseCategoriesClient() {
  <AlertTriangle className="w-3 h-3"/> Over budget by ${(spent - budget).toFixed(2)}
  </div>
  )}
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Expenses",
+    description:"List your spending items.",
+    icon: ListChecks,
+  },
+{
+    step:"02",
+    title:"Categorize",
+    description:"Assign each to a group automatically or manually.",
+    icon: Tags,
+  },
+{
+    step:"03",
+    title:"Summarize",
+    description:"See totals per category.",
+    icon: PieChart,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: ListChecks,
+    title:"Bulk Entry",
+    description:"Add many expenses quickly.",
+  },
+{
+    icon: Tags,
+    title:"Smart Groups",
+    description:"Buckets like housing, food, transport.",
+  },
+{
+    icon: PieChart,
+    title:"Visual Totals",
+    description:"Shows where money actually goes.",
+  },
+{
+    icon: TrendingDown,
+    title:"Find Leaks",
+    description:"Surfaces surprising categories.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>Categorizing expenses is the moment money stops being a mystery. A raw list of transactions tells you little; grouped totals reveal where your income actually disappears. This categorizer turns scattered spending into a structured picture you can act on, which is the foundation of any real budget.</p>
+  <p>Start by listing items, then assign each to a group: housing, food, transport, entertainment, and so on. Broad buckets are more useful than dozens of micro-categories that become busywork. The tool sums each group, showing the share of income it consumes and highlighting any category that quietly dominates.</p>
+  <p>The insight is behavioral. Most people underestimate discretionary spending until they see it totaled; a surprising entertainment or delivery number often explains why saving feels impossible. Categorizing exposes these leaks so you can decide consciously rather than wonder where the money went.</p>
+  <p>Use it as a monthly ritual, not a one-time exercise. Spending shifts with seasons, life changes, and habits, so a fresh categorization each month keeps the picture honest. Pair it with your budget so cuts target the right areas. The categorizer's value is turning vague worry into specific, fixable numbers you control.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why categorize expenses?",
+    answer:"Grouping reveals patterns and lets you target specific areas to cut.",
+  },
+{
+    question:"How many categories should I use?",
+    answer:"Enough to act on, typically eight to twelve broad groups.",
+  },
+{
+    question:"Can I use my own categories?",
+    answer:"Yes, custom groups fit unique spending.",
+  },
+{
+    question:"Does this connect to my bank?",
+    answer:"No, it is a manual tool that respects privacy.",
+  },
+{
+    question:"How often should I categorize?",
+    answer:"Monthly review catches drift; weekly is even better.",
+  }
+  ]}
+/>
+</div>
  );
  })}
  </CardContent>

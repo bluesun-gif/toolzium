@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import PdfCompressClient from "@/components/tools/pdf/pdf-compress-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "PDF Compress Studio | Reduce PDF Size | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function PdfCompressPage() {
-  return <PdfCompressClient />;
+  return (
+    <><PdfCompressClient />
+      <RelatedTools currentToolUrl="/tools/pdf/compress" />
+    </>
+  );
 }

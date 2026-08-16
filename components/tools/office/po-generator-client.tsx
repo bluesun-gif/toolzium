@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useMemo } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -11,7 +14,7 @@ import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
 import { cn } from"@/lib/utils";
-import { ShoppingBag, Plus, Copy, Printer, Trash2 } from"lucide-react";
+import { Copy, Download, FileText, Plus, Printer, ShieldCheck, ShoppingBag, Trash2, Truck } from"lucide-react";
 import toast from"react-hot-toast";
 
 type POItem = {
@@ -285,6 +288,86 @@ export function PurchaseOrderClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Buyer/Seller",
+    description:"Add parties and items.",
+    icon: FileText,
+  },
+{
+    step:"02",
+    title:"Set Terms",
+    description:"Quantities, prices, delivery.",
+    icon: Truck,
+  },
+{
+    step:"03",
+    title:"Generate",
+    description:"Produce the PO.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: FileText,
+    title:"Parties",
+    description:"Buyer and seller.",
+  },
+{
+    icon: Truck,
+    title:"Delivery",
+    description:"Terms and dates.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Printable PO.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Record",
+    description:"Tracking aid.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A purchase order generator creates the formal document a buyer sends to authorize a purchase, central to procurement control. A PO prevents unordered spending and clarifies exactly what was requested. This tool compiles parties, items, and delivery terms.</p>
+  <p>Approval and tracking improve with POs. Referencing a number ties receiving and payment together, reducing errors. Printable output fits existing workflows.</p>
+  <p>Confirm against your organization's policy. The tool's value is a correct, professional PO produced quickly.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is a PO?",
+    answer:"Buyer's official order document.",
+  },
+{
+    question:"Use case?",
+    answer:"Procurement and approvals.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Legal?",
+    answer:"Confirm internal policy.",
+  },
+{
+    question:"Export?",
+    answer:"Downloadable.",
+  }
+  ]}
+/>
+</div>
  );
 }

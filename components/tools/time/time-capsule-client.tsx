@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -11,7 +14,7 @@ import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
 import { cn } from"@/lib/utils";
-import { Lock, Key, Calendar, Sparkles, Download, Upload, Trash2 } from"lucide-react";
+import { Archive, Calendar, Download, Key, Lock, PenLine, Sparkles, Trash2, Upload } from"lucide-react";
 import toast from"react-hot-toast";
 
 type Capsule = {
@@ -255,7 +258,87 @@ export function TimeCapsuleClient() {
  <div className="flex justify-center">
  <Sparkles className="w-5 h-5 text-yellow-500"/>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Write",
+    description:"Compose a message.",
+    icon: PenLine,
+  },
+{
+    step:"02",
+    title:"Set Date",
+    description:"Choose unlock date.",
+    icon: Calendar,
+  },
+{
+    step:"03",
+    title:"Save",
+    description:"Store for the future.",
+    icon: Archive,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: PenLine,
+    title:"Message",
+    description:"Your words.",
+  },
+{
+    icon: Calendar,
+    title:"Future Date",
+    description:"When to open.",
+  },
+{
+    icon: Archive,
+    title:"Store",
+    description:"Local save.",
+  },
+{
+    icon: Sparkles,
+    title:"Fun",
+    description:"Future surprise.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A time capsule message lets you write to your future self or someone else, sealed until a chosen date. It is a small ritual of reflection or surprise. This tool stores the note locally until unlock.</p>
+  <p>Future-focused writing gains perspective you lack today. The capsule preserves a moment for later.</p>
+  <p>Use it for notes to the future. The tool's value is a private, date-locked message.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is it?",
+    answer:"A message to open later.",
+  },
+{
+    question:"Where stored?",
+    answer:"Locally on your device.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Notes to self, gifts.",
+  }
+  ]}
+/>
+</div>
  )}
  </CardContent>
  </GlassCard>

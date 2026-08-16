@@ -1,7 +1,10 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useEffect, useCallback, useMemo } from"react";
-import { Droplet, Info, Plus, Minus, RotateCcw, Clock, Activity, ThermometerSun, AlertCircle, GlassWater } from"lucide-react";
+import { Activity, AlertCircle, Bell, Clock, Droplet, Droplets, Flame, GlassWater, Info, Minus, Plus, RotateCcw, Scale, ThermometerSun } from"lucide-react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
 import { ResetButton } from"@/components/shared/action-buttons";
 import { CardContent, CardHeader, CardTitle } from"@/components/ui/card";
@@ -404,6 +407,86 @@ export function WaterIntakeClient() {
 
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Weight",
+    description:"Add body weight.",
+    icon: Scale,
+  },
+{
+    step:"02",
+    title:"Set Factors",
+    description:"Activity and climate.",
+    icon: Flame,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See daily water target.",
+    icon: Droplets,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Scale,
+    title:"Weight Based",
+    description:"Personalizes need.",
+  },
+{
+    icon: Flame,
+    title:"Activity Factor",
+    description:"More when active.",
+  },
+{
+    icon: Droplets,
+    title:"Daily Target",
+    description:"Clear water goal.",
+  },
+{
+    icon: Bell,
+    title:"Reminders",
+    description:"Prompt drinking.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A water intake calculator estimates daily needs from weight and lifestyle, then reminds you to drink. Needs rise with activity and heat; this tool personalizes the target so hydration matches your reality rather than a one-size rule.</p>
+  <p>About a fifth of fluid comes from food, which standard estimates implicitly account for. The calculator sets a clear goal; reminders turn it into habit, since mild dehydration impairs focus before thirst arrives.</p>
+  <p>Balance prevents both shortage and excess. The tool's value is a personalized, context-aware water target that supports steady hydration through the day.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"How much?",
+    answer:"Roughly 30 to 35 ml per kg.",
+  },
+{
+    question:"More when active?",
+    answer:"Yes, especially in heat.",
+  },
+{
+    question:"From food?",
+    answer:"About a fifth of intake.",
+  },
+{
+    question:"Overdo it?",
+    answer:"Unlikely but balance.",
+  },
+{
+    question:"Signs low?",
+    answer:"Thirst, dark urine.",
+  }
+  ]}
+/>
+</div>
  );
 }

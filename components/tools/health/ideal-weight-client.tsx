@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -11,7 +14,7 @@ import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ResetButton } from"@/components/shared/action-buttons";
 import { cn } from"@/lib/utils";
-import { Scale, User, BarChart3, Info } from"lucide-react";
+import { Activity, BarChart3, Calculator, Info, Ruler, Scale, TrendingUp, User } from"lucide-react";
 import toast from"react-hot-toast";
 
 type Gender ="male"|"female";
@@ -184,6 +187,86 @@ export function IdealWeightClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Stats",
+    description:"Add height, age, sex.",
+    icon: Ruler,
+  },
+{
+    step:"02",
+    title:"Calculate",
+    description:"See healthy weight range.",
+    icon: Calculator,
+  },
+{
+    step:"03",
+    title:"Interpret",
+    description:"Understand the range context.",
+    icon: Activity,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Ruler,
+    title:"Height Based",
+    description:"Uses standard formulas.",
+  },
+{
+    icon: Calculator,
+    title:"Range View",
+    description:"Healthy weight span.",
+  },
+{
+    icon: Activity,
+    title:"Context",
+    description:"Muscle and frame vary.",
+  },
+{
+    icon: TrendingUp,
+    title:"Goal Setting",
+    description:"Informs targets.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An ideal weight calculator estimates a healthy range from height, age, and sex using standard formulas. It returns a span, not a single number, acknowledging natural variation. This tool gives a reference point for goal setting without implying one &quot;correct&quot; weight.</p>
+  <p>Context is critical. Muscle mass, bone structure, and genetics shift where an individual sits in the range; athletes may exceed it while healthy. The calculator provides a frame, not a verdict, so interpret it alongside how you feel and perform.</p>
+  <p>Treat the range as informational, not a target to chase anxiously. Body composition often matters more than the scale. The tool's value is a sensible, personalized benchmark that informs realistic, healthy goals.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is ideal weight?",
+    answer:"A healthy range for your height, not a single number.",
+  },
+{
+    question:"Accurate?",
+    answer:"Formulas estimate; bodies differ.",
+  },
+{
+    question:"Muscle affects it?",
+    answer:"Yes, athletes weigh more at same health.",
+  },
+{
+    question:"Use for goals?",
+    answer:"As a reference, not obsession.",
+  },
+{
+    question:"Better metric?",
+    answer:"Body composition beats weight alone.",
+  }
+  ]}
+/>
+</div>
  );
 }

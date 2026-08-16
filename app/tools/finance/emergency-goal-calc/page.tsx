@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { EmergencyGoalCalcClient } from "@/components/tools/finance/emergency-goal-calc-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Emergency Savings Goal Calculator | Toolzium",
@@ -43,6 +44,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <EmergencyGoalCalcClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/finance/emergency-goal-calc" />
+</div>
   );
 }

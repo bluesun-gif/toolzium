@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -7,7 +10,7 @@ import { CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
-import { Palette, Download, Plus, Trash2 } from"lucide-react";
+import { Download, FileSpreadsheet, Grid3x3, Palette, Plus, ShieldCheck, Trash2 } from"lucide-react";
 import { CopyButton, ActionButton } from"@/components/shared/action-buttons";
 import toast from"react-hot-toast";
 
@@ -218,7 +221,87 @@ export function ContrastMatrixSheetClient() {
  </div>
  <div className={"text-[10px] font-bold mt-1 px-1 rounded inline-block"+ comp.class}>
  {comp.text}
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Colors",
+    description:"Add your palette.",
+    icon: Palette,
+  },
+{
+    step:"02",
+    title:"Build",
+    description:"Create the compliance matrix.",
+    icon: Grid3x3,
+  },
+{
+    step:"03",
+    title:"Review",
+    description:"Check every pair.",
+    icon: ShieldCheck,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Palette,
+    title:"Palette Input",
+    description:"Your colors.",
+  },
+{
+    icon: Grid3x3,
+    title:"Matrix",
+    description:"All pair contrasts.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Compliance",
+    description:"WCAG verdicts.",
+  },
+{
+    icon: FileSpreadsheet,
+    title:"Sheet",
+    description:"Report style.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A contrast compliance matrix reviews a complete palette by comparing each color against every other, flagging pairs that fail WCAG. A single pair of colors can hide many broken text-background combinations; this tool surfaces all of them in one view.</p>
+  <p>The matrix format makes weak pairs impossible to miss. You see exactly which foreground-background pairings are unreadable, guiding targeted fixes rather than guessing.</p>
+  <p>Use it for thorough palette accessibility review. The tool's value is exhaustive, pair-wise contrast checking that prevents shipped accessibility defects.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Matrix vs sheet?",
+    answer:"Two views of the same audit.",
+  },
+{
+    question:"WCAG?",
+    answer:"Flags failing pairs.",
+  },
+{
+    question:"Use case?",
+    answer:"Full palette review.",
+  },
+{
+    question:"Many colors?",
+    answer:"Handles sets.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  }
+  ]}
+/>
+</div>
  </td>
  );
  })}

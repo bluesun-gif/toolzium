@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { RemSleepClockClient } from "@/components/tools/time/rem-sleep-clock-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "REM Sleep Cycle & Optimal Bedtime Clock | Toolzium",
@@ -21,6 +22,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <RemSleepClockClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/time/rem-sleep-clock" />
+</div>
   );
 }

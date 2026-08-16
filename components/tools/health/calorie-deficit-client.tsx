@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -10,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Flame, Target, Calendar, AlertTriangle } from"lucide-react";
+import { AlertTriangle, Calculator, Calendar, Flame, Scale, Target, TrendingDown } from"lucide-react";
 import { toast } from"react-hot-toast";
 
 export function CalorieDeficitClient() {
@@ -190,6 +193,86 @@ export function CalorieDeficitClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter TDEE",
+    description:"Add maintenance calories.",
+    icon: Calculator,
+  },
+{
+    step:"02",
+    title:"Set Deficit",
+    description:"Choose cut percentage or amount.",
+    icon: TrendingDown,
+  },
+{
+    step:"03",
+    title:"Estimate",
+    description:"See target and weekly loss.",
+    icon: Scale,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Calculator,
+    title:"TDEE Based",
+    description:"Builds on your expenditure.",
+  },
+{
+    icon: TrendingDown,
+    title:"Deficit Size",
+    description:"Pick safe reduction.",
+  },
+{
+    icon: Scale,
+    title:"Weekly Loss",
+    description:"Projects fat loss rate.",
+  },
+{
+    icon: Target,
+    title:"Clear Target",
+    description:"Daily eat number.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A calorie deficit estimator sizes the gap between what you burn and what you eat, the mechanism behind fat loss. It starts from your maintenance calories and applies a chosen reduction, then projects weekly loss. This tool makes the deficit concrete so you set a sustainable cut instead of guessing.</p>
+  <p>Size governs success. A 300 to 700 calorie deficit produces steady loss while preserving energy and muscle; larger cuts backfire through fatigue and rebound. The estimator shows the trade-off, helping you pick a rate you can hold for months. Weekly loss projections keep expectations realistic.</p>
+  <p>Recalculate as you lighten, since a smaller body burns less. The tool's value is precision: a personalized, safe deficit number that turns the abstract idea of &quot;eat less&quot; into a specific daily target that actually works.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is a deficit?",
+    answer:"Eating below maintenance.",
+  },
+{
+    question:"Safe size?",
+    answer:"300 to 700 calories typically.",
+  },
+{
+    question:"Weekly loss?",
+    answer:"Roughly deficit times seven divided by 3500.",
+  },
+{
+    question:"Too aggressive?",
+    answer:"Causes burnout and muscle loss.",
+  },
+{
+    question:"Adjust?",
+    answer:"Recalculate as weight drops.",
+  }
+  ]}
+/>
+</div>
  );
 }

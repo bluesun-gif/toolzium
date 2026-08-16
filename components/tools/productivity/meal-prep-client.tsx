@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -6,7 +9,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
 import { Separator } from"@/components/ui/separator";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { ShoppingBag, Utensils, CheckSquare, Download } from"lucide-react";
+import { CalendarRange, CheckCircle2, CheckSquare, Download, ShoppingBag, ShoppingCart, Utensils } from"lucide-react";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { toast } from"react-hot-toast";
@@ -209,7 +212,87 @@ export function MealPrepClient() {
  </span>
  </div>
  ))}
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Plan Meals",
+    description:"Add meals per day.",
+    icon: Utensils,
+  },
+{
+    step:"02",
+    title:"List Items",
+    description:"Build the grocery list.",
+    icon: ShoppingCart,
+  },
+{
+    step:"03",
+    title:"Shop",
+    description:"Check off as you buy.",
+    icon: CheckCircle2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Utensils,
+    title:"Meals",
+    description:"Daily plan.",
+  },
+{
+    icon: ShoppingCart,
+    title:"Grocery",
+    description:"Auto list.",
+  },
+{
+    icon: CheckCircle2,
+    title:"Check",
+    description:"In-cart marks.",
+  },
+{
+    icon: CalendarRange,
+    title:"Weekly",
+    description:"Reusable.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A meal prep planner maps the week's meals and derives a grocery list, saving both money and daily decision fatigue. Planning ahead reduces impulse buys and takeout. This tool links meals to a checkable shopping list.</p>
+  <p>The list from meals means you buy only what you need. Checking items in-store prevents doubles.</p>
+  <p>Use it weekly. The tool's value is planned eating that cuts cost and stress.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why meal prep?",
+    answer:"Saves time and money.",
+  },
+{
+    question:"Grocery list?",
+    answer:"Yes, from meals.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Weekly planning.",
+  }
+  ]}
+/>
+</div>
  );
  })}
  </div>

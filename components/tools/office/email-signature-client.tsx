@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Mail, Eye, Code, Copy } from"lucide-react";
+import { Code, Copy, Eye, Mail, Palette, Smartphone, User } from"lucide-react";
 import toast from"react-hot-toast";
 
 export function EmailSignatureClient() {
@@ -236,6 +239,86 @@ export function EmailSignatureClient() {
  </GlassCard>
  </div>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Details",
+    description:"Add name, role, contact.",
+    icon: User,
+  },
+{
+    step:"02",
+    title:"Style",
+    description:"Pick a layout and color.",
+    icon: Palette,
+  },
+{
+    step:"03",
+    title:"Generate",
+    description:"Copy or download HTML.",
+    icon: Copy,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: User,
+    title:"Contact",
+    description:"Your information.",
+  },
+{
+    icon: Palette,
+    title:"Design",
+    description:"Themes.",
+  },
+{
+    icon: Copy,
+    title:"HTML",
+    description:"Paste into mail app.",
+  },
+{
+    icon: Smartphone,
+    title:"Responsive",
+    description:"Renders on mobile.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An email signature generator creates a professional sign-off with your contact details and branding, consistent across every message. HTML signatures support clickable links and look sharper than images. This tool produces copy-ready HTML.</p>
+  <p>Design consistency builds credibility; a clean signature reinforces brand on each send. Responsive output renders well on mobile where most email is read.</p>
+  <p>Use it to standardize team signatures. The tool's value is a polished, link-friendly signature without hand-coding HTML.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"HTML or image?",
+    answer:"HTML is better for links.",
+  },
+{
+    question:"Add social?",
+    answer:"Yes, icon links.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Works everywhere?",
+    answer:"Paste into most clients.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  }
+  ]}
+/>
+</div>
  );
 }

@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Button } from"@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { Layout, Plus, Filter, Download, Trash2, ArrowRight } from"lucide-react";
+import { ArrowRight, ArrowRightLeft, Download, Filter, Grid2x2, Layout, LayoutDashboard, ListPlus, Plus, Trash2 } from"lucide-react";
 import { ActionButton } from"@/components/shared/action-buttons";
 import { toast } from"react-hot-toast";
 
@@ -203,6 +206,86 @@ export function EisenhowerWorkspaceClient() {
  <QuadrantView id="q3"title="Delegate (Urgent, Not Important)"colorClass="text-orange-500"/>
  <QuadrantView id="q4"title="Eliminate (Not Urgent & Not Important)"colorClass="text-muted-foreground"/>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add",
+    description:"Create tasks.",
+    icon: ListPlus,
+  },
+{
+    step:"02",
+    title:"Classify",
+    description:"Set urgent and important.",
+    icon: Grid2x2,
+  },
+{
+    step:"03",
+    title:"Manage",
+    description:"Work the workspace.",
+    icon: LayoutDashboard,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: ListPlus,
+    title:"Tasks",
+    description:"Capture.",
+  },
+{
+    icon: Grid2x2,
+    title:"Matrix",
+    description:"Four boxes.",
+  },
+{
+    icon: LayoutDashboard,
+    title:"Workspace",
+    description:"Full view.",
+  },
+{
+    icon: ArrowRightLeft,
+    title:"Move",
+    description:"Re-sort.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An Eisenhower workspace is a fuller matrix environment for ongoing task management, combining capture, classification, and action in one place. It suits people who live in the method daily. This tool provides the complete view.</p>
+  <p>A single workspace reduces app-switching. The matrix stays present as work flows through it.</p>
+  <p>Use it as your priority hub. The tool's value is the matrix method embedded in a daily workspace.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Workspace?",
+    answer:"Full-featured matrix view.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Daily management.",
+  },
+{
+    question:"Best with?",
+    answer:"Weekly triage.",
+  }
+  ]}
+/>
+</div>
  );
 }

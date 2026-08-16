@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useMemo } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { DollarSign, Calculator, FileText, TrendingDown } from"lucide-react";
+import { Calculator, DollarSign, FileText, PiggyBank, Receipt, TrendingDown, Wallet } from"lucide-react";
 import { cn } from"@/lib/utils";
 
 export function PaycheckCalculatorClient() {
@@ -163,6 +166,87 @@ export function PaycheckCalculatorClient() {
  </CardContent>
  </GlassCard>
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Salary",
+    description:"Input gross pay and pay frequency.",
+    icon: Wallet,
+  },
+{
+    step:"02",
+    title:"Add Withholdings",
+    description:"Include tax and voluntary deductions.",
+    icon: Receipt,
+  },
+{
+    step:"03",
+    title:"Calculate",
+    description:"See net per pay period.",
+    icon: Calculator,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Wallet,
+    title:"Frequency Aware",
+    description:"Handles weekly, biweekly, semimonthly, monthly.",
+  },
+{
+    icon: Receipt,
+    title:"Deduction Detail",
+    description:"Breaks down each withholding.",
+  },
+{
+    icon: Calculator,
+    title:"Net Per Period",
+    description:"Shows take-home per check.",
+  },
+{
+    icon: PiggyBank,
+    title:"Annual View",
+    description:"Multiplies to yearly net.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A paycheck calculator translates salary into the amount that actually arrives in your bank account each period. Gross pay is what employers quote; net pay is what you budget with. This tool bridges them by subtracting withholdings so you plan on real money, not a headline figure.</p>
+  <p>Pay frequency changes the math. Weekly, biweekly, semimonthly, and monthly schedules all divide annual salary differently, and the per-check net varies even when annual pay is identical. The calculator handles each frequency so you see take-home per period, which is what matters for timing bills and expenses.</p>
+  <p>Withholdings explain the gap. Income tax, social contributions, insurance premiums, and retirement contributions all reduce gross to net. Voluntary deductions like retirement or health savings reduce taxable income while building value. The tool itemizes these so you understand where the money goes and can adjust elections if needed.</p>
+  <p>Annualizing helps with big-picture planning. Multiplying net per period by the number of periods gives yearly take-home, useful for savings goals and major purchases. Bonuses and commissions are taxed differently and should be modeled separately. Use the calculator whenever pay structure changes so your budget stays anchored to reality, not assumptions.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why per-period matters?",
+    answer:"Budgeting matches the rhythm of your paychecks.",
+  },
+{
+    question:"What are withholdings?",
+    answer:"Tax and benefits taken before you are paid.",
+  },
+{
+    question:"How do I annualize?",
+    answer:"Multiply net per period by number of periods.",
+  },
+{
+    question:"Do bonuses appear?",
+    answer:"Model separately; they are taxed differently.",
+  },
+{
+    question:"What if I am hourly?",
+    answer:"Enter average hours or use a separate hourly tool.",
+  }
+  ]}
+/>
+</div>
  );
 }

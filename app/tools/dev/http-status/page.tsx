@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import { HttpStatusClient } from "@/components/tools/dev/http-status-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "HTTP Status Code Reference | Toolzium",
   description: "Complete list of HTTP status codes with descriptions, categories, and common use cases.",
@@ -67,6 +66,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <HttpStatusClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/http-status" />
+</div>
   );
 }

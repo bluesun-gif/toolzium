@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import MacLookupClient from "@/components/tools/network/mac-lookup-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "MAC Address Lookup",
@@ -40,6 +41,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <MacLookupClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/network/mac-lookup" />
+</div>
   );
 }

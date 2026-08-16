@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -9,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/
 import { Label } from"@/components/ui/label";
 import { Input } from"@/components/ui/input";
 import { Switch } from"@/components/ui/switch";
-import { Type } from"lucide-react";
+import { Copy, Eye, Type, Wand2 } from"lucide-react";
 
 const pairings = [
  { id:"1", category:"Modern", heading:"Montserrat", body:"Roboto", url:"https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400&display=swap"},
@@ -119,6 +122,86 @@ export function FontPairingClient() {
  </GlassCard>
  ))}
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Pick Base",
+    description:"Choose a starting font.",
+    icon: Type,
+  },
+{
+    step:"02",
+    title:"Suggest",
+    description:"Get complementary pairings.",
+    icon: Wand2,
+  },
+{
+    step:"03",
+    title:"Preview",
+    description:"See them together.",
+    icon: Eye,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Type,
+    title:"Font Input",
+    description:"Your base typeface.",
+  },
+{
+    icon: Wand2,
+    title:"Suggestions",
+    description:"Harmonious pairs.",
+  },
+{
+    icon: Eye,
+    title:"Preview",
+    description:"Live sample.",
+  },
+{
+    icon: Copy,
+    title:"Copy",
+    description:"Grab font names.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A font pairing suggester recommends typeface combinations that work together, solving a common design hurdle. A single font can feel flat; pairing a distinctive heading font with a readable body font creates hierarchy and personality. This tool proposes harmonious pairs.</p>
+  <p>Suggestion beats random trial. Curated combinations avoid clashes — like two decorative fonts fighting each other — and ensure the body remains legible. A live preview confirms the feel.</p>
+  <p>Use it to start any typographic design. The tool's value is confident, tested font pairings without design expertise.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why pair fonts?",
+    answer:"Contrast adds hierarchy and interest.",
+  },
+{
+    question:"How suggested?",
+    answer:"Based on style relationships.",
+  },
+{
+    question:"Use case?",
+    answer:"Web and print design.",
+  },
+{
+    question:"Safe pairs?",
+    answer:"Curated combinations.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  }
+  ]}
+/>
+</div>
  );
 }

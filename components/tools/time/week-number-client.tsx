@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import {
  ActionButton,
@@ -19,16 +22,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { Label } from"@/components/ui/label";
 import { Separator } from"@/components/ui/separator";
 import { cn, pad } from"@/lib/utils";
-import {
- CalendarDays,
- CalendarRange,
- CalendarSearch,
- ChevronLeft,
- ChevronRight,
- Download,
- Info,
- type LucideIcon,
-} from"lucide-react";
+import { BookMarked, Calendar, CalendarDays, CalendarRange, CalendarSearch, ChevronLeft, ChevronRight, Download, Globe, Hash, Info, type LucideIcon } from"lucide-react";
 import type * as React from"react";
 import { useEffect, useMemo, useState } from"react";
 
@@ -554,6 +548,86 @@ function Stat({
  <Badge variant="secondary">ISO</Badge>
  </div>
  <div className="mt-1 text-2xl font-semibold tracking-tight">{value}</div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Date",
+    description:"Pick any day.",
+    icon: Calendar,
+  },
+{
+    step:"02",
+    title:"Choose System",
+    description:"ISO or other standard.",
+    icon: BookMarked,
+  },
+{
+    step:"03",
+    title:"Compute",
+    description:"See the week number.",
+    icon: Hash,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: Calendar,
+    title:"Date",
+    description:"Any day.",
+  },
+{
+    icon: BookMarked,
+    title:"Standard",
+    description:"ISO 8601 etc.",
+  },
+{
+    icon: Hash,
+    title:"Week No.",
+    description:"Result.",
+  },
+{
+    icon: Globe,
+    title:"Universal",
+    description:"Shared reference.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A week number calculator returns the ordinal week of a date under a chosen standard, most commonly ISO 8601 where weeks start Monday. Teams use week numbers to reference periods unambiguously. This tool computes it.</p>
+  <p>Week numbers simplify scheduling and reporting across regions. The calculator removes date ambiguity.</p>
+  <p>Use it for period references. The tool's value is a clear, standard week number.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is week number?",
+    answer:"Ordinal week of the year.",
+  },
+{
+    question:"ISO?",
+    answer:"Monday-start standard.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Planning, reports.",
+  }
+  ]}
+/>
+</div>
  );
 }

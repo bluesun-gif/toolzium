@@ -1,4 +1,5 @@
 import ExifInspectorClient from "@/components/tools/image/exif-inspector-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = {
   title: "Photo EXIF Metadata Inspector & Privacy GPS Stripper | Toolzium",
@@ -6,5 +7,9 @@ export const metadata = {
 };
 
 export default function ExifInspectorPage() {
-  return <ExifInspectorClient />;
+  return (
+    <><ExifInspectorClient />
+      <RelatedTools currentToolUrl="/tools/image/exif-inspector" />
+    </>
+  );
 }

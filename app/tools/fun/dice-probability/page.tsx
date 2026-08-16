@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/json-ld";
 import DiceProbabilityClient from "@/components/tools/fun/dice-probability-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-
 export const metadata = buildMetadata({
   title: "Dice Probability Calculator | Toolzium",
   description: "Calculate probabilities for dice rolls. Select number of dice and sides, and see the odds.",
@@ -22,6 +21,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <DiceProbabilityClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/fun/dice-probability" />
+</div>
   );
 }

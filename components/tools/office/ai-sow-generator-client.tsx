@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -7,7 +10,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Textarea } from"@/components/ui/textarea";
 import { AiOutputDisplay } from"@/components/shared/ai-output-display";
-import { FileText, RefreshCw } from"lucide-react";
+import { CalendarRange, FileCheck2, FileText, ListChecks, RefreshCw, ShieldCheck } from"lucide-react";
 import toast from"react-hot-toast";
 
 export default function AiSowGeneratorClient() {
@@ -125,6 +128,86 @@ export default function AiSowGeneratorClient() {
  variant="cards"
  />
  )}
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"List Deliverables",
+    description:"Add what you will produce.",
+    icon: ListChecks,
+  },
+{
+    step:"02",
+    title:"Set Timeline",
+    description:"Define milestones.",
+    icon: CalendarRange,
+  },
+{
+    step:"03",
+    title:"Generate",
+    description:"Build the SOW.",
+    icon: FileCheck2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: ListChecks,
+    title:"Deliverables",
+    description:"Itemized outputs.",
+  },
+{
+    icon: CalendarRange,
+    title:"Milestones",
+    description:"Schedule and acceptance.",
+  },
+{
+    icon: FileCheck2,
+    title:"SOW Draft",
+    description:"Ready document.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Acceptance",
+    description:"Criteria included.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An AI SOW generator documents exactly what a project will deliver, when, and how it is accepted — the document that prevents &quot;that wasn't in scope&quot; arguments. Itemizing deliverables and milestones makes expectations concrete. This tool builds that structure.</p>
+  <p>Acceptance criteria are key. Defining how work is approved stops endless revision loops. The generator includes them so both parties know when done means done.</p>
+  <p>Use it as a draft reviewed by counsel. The tool's value is a precise, dispute-reducing SOW in minutes.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is an SOW?",
+    answer:"Defines deliverables, timeline, and acceptance.",
+  },
+{
+    question:"Why use one?",
+    answer:"Prevents scope disputes.",
+  },
+{
+    question:"Binding?",
+    answer:"Draft; legal review advised.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Attach to contract?",
+    answer:"Usually referenced by a master agreement.",
+  }
+  ]}
+/>
+</div>
  );
 }

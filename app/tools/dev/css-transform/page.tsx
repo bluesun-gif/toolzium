@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { CssTransformClient } from "@/components/tools/dev/css-transform-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "CSS 3D Transform Generator | Toolzium",
@@ -22,6 +23,8 @@ export default function Page() {
       <JsonLd data={crumbsLd} />
       <JsonLd data={faqLd} />
       <CssTransformClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/dev/css-transform" />
+</div>
   );
 }

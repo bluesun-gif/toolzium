@@ -1,4 +1,7 @@
 "use client";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -8,7 +11,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { CheckSquare, Plus, Download, Trash2 } from"lucide-react";
+import { ArrowDownWideNarrow, Calendar, CheckCircle2, CheckSquare, Download, ListPlus, Plus, Trash2 } from"lucide-react";
 import { CopyButton, ActionButton } from"@/components/shared/action-buttons";
 import toast from"react-hot-toast";
 
@@ -244,6 +247,86 @@ export function DailyPriorityActionBoardClient() {
  {renderBucket("delegate","Delegate (Urgent, Not Important)","text-amber-500","bg-amber-500/5")}
  {renderBucket("eliminate","Eliminate (Not Urgent, Not Important)","text-muted-foreground dark:text-gray-400","bg-gray-500/5")}
  </div>
- </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"List Tasks",
+    description:"Add today's tasks.",
+    icon: ListPlus,
+  },
+{
+    step:"02",
+    title:"Rank",
+    description:"Order by importance.",
+    icon: ArrowDownWideNarrow,
+  },
+{
+    step:"03",
+    title:"Act",
+    description:"Work top-down.",
+    icon: CheckCircle2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: ListPlus,
+    title:"Tasks",
+    description:"Today's list.",
+  },
+{
+    icon: ArrowDownWideNarrow,
+    title:"Ranking",
+    description:"Importance order.",
+  },
+{
+    icon: CheckCircle2,
+    title:"Complete",
+    description:"Check off.",
+  },
+{
+    icon: Calendar,
+    title:"Daily",
+    description:"Fresh each day.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A daily priority board forces a ranked today-list so the most important work happens first. Without it, the day fills with easy, low-value tasks. This tool has you list and order, then work top-down.</p>
+  <p>Ranking by impact beats by urgency alone; urgent often crowds important. The board makes the choice explicit each morning.</p>
+  <p>Use it every morning. The tool's value is a focused daily plan that protects high-value work.</p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"Why daily?",
+    answer:"Keeps focus on today.",
+  },
+{
+    question:"Rank how?",
+    answer:"By impact and urgency.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use with?",
+    answer:"Pairs with weekly planning.",
+  }
+  ]}
+/>
+</div>
  );
 }

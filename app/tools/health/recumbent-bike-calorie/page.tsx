@@ -2,6 +2,7 @@ import JsonLd from "@/components/seo/json-ld";
 import { RecumbentBikeCalorieClient } from "@/components/tools/health/recumbent-bike-calorie-client";
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata = buildMetadata({
   title: "Recumbent Exercise Bike Calorie Calculator | Toolzium",
@@ -37,6 +38,8 @@ export default function Page() {
       <JsonLd data={appLd} />
       <JsonLd data={crumbsLd} />
       <RecumbentBikeCalorieClient />
-    </div>
+    
+      <RelatedTools currentToolUrl="/tools/health/recumbent-bike-calorie" />
+</div>
   );
 }

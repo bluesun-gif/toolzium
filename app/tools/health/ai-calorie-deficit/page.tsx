@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import AiCalorieDeficitClient from "@/components/tools/health/ai-calorie-deficit-client";
+import RelatedTools from "@/components/shared/related-tools";
 
 export const metadata: Metadata = {
   title: "AI Calorie Deficit & Weight Loss Target Calculator | Toolzium",
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function AiCalorieDeficitPage() {
-  return <AiCalorieDeficitClient />;
+  return (
+    <><AiCalorieDeficitClient />
+      <RelatedTools currentToolUrl="/tools/health/ai-calorie-deficit" />
+    </>
+  );
 }
