@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -16,28 +15,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
 import { AlignLeft, Calendar, Clock, Copy, ListChecks, Plus, Trash2, Users } from"lucide-react";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useEffect } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import { ListChecks, Calendar, Users, Plus, Trash2, Shield, BookOpen, Layers, CheckCircle2 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import toast from "react-hot-toast";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export function StandupClient() {
   const [name, setName] = useState("");
   const [yesterday, setYesterday] = useState<string[]>(["Finalized UI design specs", "Refactored API endpoint routing"]);
@@ -212,7 +189,6 @@ export function StandupClient() {
         answer: "Yes, your name is saved locally in your browser so you don't need to retype it every morning."
       }]} />
 
-<<<<<<< HEAD
  const renderSection = (title: string, arr: string[], setArr: (val: string[]) => void) => (
  <div className="space-y-2">
  <div className="flex justify-between items-center">
@@ -381,8 +357,3 @@ export function StandupClient() {
 </div>
  );
 }
-=======
-      <RelatedTools currentToolUrl="/tools/productivity/standup" max={6} />
-    </div></div>;
-}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

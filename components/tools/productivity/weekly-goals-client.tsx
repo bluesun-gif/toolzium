@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -19,29 +18,6 @@ import toast from"react-hot-toast";
 
 type Category ="Work"|"Health"|"Personal"|"Finance";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useEffect } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Target, Plus, CheckSquare, Download, Trash2, Shield, BookOpen, Layers, CheckCircle2 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import toast from "react-hot-toast";
-type Category = "Work" | "Health" | "Personal" | "Finance";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 interface Task {
   id: string;
   text: string;
@@ -373,7 +349,6 @@ export function WeeklyGoalsClient() {
         answer: "Yes! All goals and sub-tasks are stored in your browser's local storage automatically."
       }]} />
 
-<<<<<<< HEAD
  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
  {goals.map((goal) => {
  const progress = getProgress(goal);
@@ -551,8 +526,3 @@ export function WeeklyGoalsClient() {
  </div>
  );
 }
-=======
-      <RelatedTools currentToolUrl="/tools/productivity/weekly-goals" max={6} />
-    </div></div>;
-}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

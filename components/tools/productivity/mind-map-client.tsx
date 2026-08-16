@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -14,26 +13,6 @@ import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action
 import { CircleDot, Download, GitBranch, Lightbulb, MousePointerClick, MoveRight, Network, Plus, Save, Trash2 } from"lucide-react";
 import toast from"react-hot-toast";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useEffect } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Network, Plus, Trash2, Download, MousePointerClick, Shield, BookOpen, Layers, CheckCircle2 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import toast from "react-hot-toast";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 type MindMapNode = {
   id: string;
   text: string;
@@ -362,7 +341,6 @@ export function MindMapClient() {
         answer: "Yes, all mind maps persist in your browser's local storage and can be exported as JSON or Markdown outline files."
       }]} />
 
-<<<<<<< HEAD
  const generateOutline = (node: MindMapNode, depth: number = 0): string => {
  let out ="".repeat(depth) +"-"+ node.text +"\n";
  if (node.isExpanded) {
@@ -588,8 +566,3 @@ export function MindMapClient() {
 </div>
  );
 }
-=======
-      <RelatedTools currentToolUrl="/tools/productivity/mind-map" max={6} />
-    </div></div>;
-}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

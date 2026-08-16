@@ -1,12 +1,8 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import SimonSaysClient from "@/components/tools/fun/simon-says-client";
-<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-=======
-
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
   title: "Simon Says",
   description: "Classic Simon Says memory game. 4 colored panels with sound. Increasing difficulty. High score tracking. Speed increases every 5 levels.",

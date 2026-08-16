@@ -1,12 +1,8 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import UnitConverterClient from "@/components/tools/calc/unit-converter-client";
-<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-=======
-
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
   title: "Unit Converter",
   description: "Convert units of length, weight, temperature, volume, area, speed, time, and more. Free online unit converter with support for metric, imperial, and US customary units.",

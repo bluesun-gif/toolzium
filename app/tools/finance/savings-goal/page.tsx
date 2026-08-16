@@ -1,12 +1,8 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import SavingsGoalClient from "@/components/tools/finance/savings-goal-client";
-<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-=======
-
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
   title: "Savings Goal Calculator",
   description: "Calculate how much to save monthly to reach your financial goals. Savings calculator with compound interest and target date. Plan your savings strategy effectively.",

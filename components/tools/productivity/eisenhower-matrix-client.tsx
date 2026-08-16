@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -15,25 +14,6 @@ import { ArrowRight, ArrowRightLeft, Check, CheckCircle2, Grid2x2, LayoutGrid, L
 import { cn } from"@/lib/utils";
 import toast from"react-hot-toast";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useEffect } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { ResetButton } from "@/components/shared/action-buttons";
-import { LayoutGrid, Plus, Check, ArrowRight, Trash2, Sparkles, Shield, Zap, Copy } from "lucide-react";
-import { cn } from "@/lib/utils";
-import toast from "react-hot-toast";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 type Task = {
   id: string;
   text: string;
@@ -173,7 +153,6 @@ export function EisenhowerMatrixClient() {
  Move to {mq.name}
  </Button>)}
  </div>
-<<<<<<< HEAD
  
 <ToolHowItWorks
   steps={[
@@ -257,9 +236,6 @@ export function EisenhowerMatrixClient() {
 </div>
  ))
  )}
-=======
- </div>)}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
  </CardContent>
  </GlassCard>;
         })}

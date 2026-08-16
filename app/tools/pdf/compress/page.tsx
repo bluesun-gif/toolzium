@@ -10,27 +10,10 @@ export const metadata = buildMetadata({
   keywords: ["maintaining", "reduce", "document", "size", "while", "quality", "file"],
 });
 
-<<<<<<< HEAD
 export default function PdfCompressPage() {
   return (
     <><PdfCompressClient />
       <RelatedTools currentToolUrl="/tools/pdf/compress" />
     </>
-=======
-export default function Page() {
-  const jsonLd = buildToolJsonLd({
-    name: "PDF Compress",
-    description: "Reduce PDF file size while maintaining document quality.",
-    path: "/tools/pdf/compress",
-    categoryName: "Pdf",
-    categoryPath: "/tools/pdf",
-  });
-
-  return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
-      <PdfCompressClient />
-    </div>
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
   );
 }

@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -14,25 +13,6 @@ import { CheckCircle, Download, FileSpreadsheet, Palette, ShieldCheck, XCircle }
 import { ActionButton, CopyButton } from"@/components/shared/action-buttons";
 import toast from"react-hot-toast";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { CheckCircle, Palette, Download, XCircle, Sparkles, Shield, Zap, Copy } from "lucide-react";
-import { ActionButton, CopyButton } from "@/components/shared/action-buttons";
-import toast from "react-hot-toast";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { cn } from "@/lib/utils";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 type ColorConfig = {
   name: string;
   hex: string;
@@ -212,7 +192,6 @@ export function ContrastComplianceSheetClient() {
  {comp.normalAA ? "AA Pass" : "AA Fail"}
  </div>
  </div>
-<<<<<<< HEAD
  
 <ToolHowItWorks
   steps={[
@@ -299,12 +278,6 @@ export function ContrastComplianceSheetClient() {
  })}
  </tr>
  ))}
-=======
- </div>
- </td>;
-                  })}
- </tr>)}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
  </tbody>
  </table>
  </div>

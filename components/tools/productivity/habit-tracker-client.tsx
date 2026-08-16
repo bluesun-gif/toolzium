@@ -1,11 +1,7 @@
 "use client";
-<<<<<<< HEAD
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -358,7 +354,6 @@ export function HabitTrackerClient() {
         answer: "No, all habit entries remain strictly in your local browser storage."
       }]} />
 
-<<<<<<< HEAD
  // Check if the current streak is still active (completed today or yesterday)
  const yesterday = new Date();
  yesterday.setDate(yesterday.getDate() - 1);
@@ -663,8 +658,3 @@ export function HabitTrackerClient() {
  </div>
  );
 }
-=======
-      <RelatedTools currentToolUrl="/tools/productivity/habit-tracker" max={6} />
-    </div></div>;
-}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

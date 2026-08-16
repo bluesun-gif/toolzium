@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -13,25 +12,6 @@ import { Label } from"@/components/ui/label";
 import { Copy, Eye, Info, Palette, ShieldCheck, Wand2 } from"lucide-react";
 import toast from"react-hot-toast";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import { useState } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Eye, Palette, Copy, Info, Sparkles, Shield, Zap } from "lucide-react";
-;
-import toast from "react-hot-toast";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { cn } from "@/lib/utils";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 function getLuminance(r: number, g: number, b: number) {
   const [rs, gs, bs] = [r, g, b].map(c => {
     c = c / 255;
@@ -200,7 +180,6 @@ export function ColorBlindPaletteClient() {
  Click to copy bg hex
  </div>
  </div>
-<<<<<<< HEAD
  
 <ToolHowItWorks
   steps={[
@@ -286,10 +265,6 @@ export function ColorBlindPaletteClient() {
  })
  ) : (
  <div className="text-center p-8 text-muted-foreground">
-=======
- </div>;
-            }) : <div className="text-center p-8 text-muted-foreground">
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
  Enter valid hex codes to see simulation.
  </div>}
  </CardContent>

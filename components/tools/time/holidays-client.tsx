@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -32,79 +31,6 @@ const MOCK_HOLIDAYS = [
 const COUNTRIES = ["US","UK","Canada","India","Australia","Germany","France","Japan","Brazil","South Africa"];
 const MONTHS = ["All","January","February","March","April","May","June","July","August","September","October","November","December"];
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import { useState, useMemo } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Calendar, Globe, Star, Copy, Sparkles, Shield, Zap } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-const MOCK_HOLIDAYS = [{
-  name: "New Year's Day",
-  date: "2024-01-01",
-  type: "National",
-  country: "US"
-}, {
-  name: "Independence Day",
-  date: "2024-07-04",
-  type: "National",
-  country: "US"
-}, {
-  name: "Thanksgiving",
-  date: "2024-11-28",
-  type: "National",
-  country: "US"
-}, {
-  name: "Christmas Day",
-  date: "2024-12-25",
-  type: "Religious",
-  country: "US"
-}, {
-  name: "Boxing Day",
-  date: "2024-12-26",
-  type: "National",
-  country: "UK"
-}, {
-  name: "Canada Day",
-  date: "2024-07-01",
-  type: "National",
-  country: "Canada"
-}, {
-  name: "Diwali",
-  date: "2024-10-31",
-  type: "Religious",
-  country: "India"
-}, {
-  name: "Australia Day",
-  date: "2024-01-26",
-  type: "National",
-  country: "Australia"
-}, {
-  name: "Bastille Day",
-  date: "2024-07-14",
-  type: "National",
-  country: "France"
-}, {
-  name: "German Unity Day",
-  date: "2024-10-03",
-  type: "National",
-  country: "Germany"
-}];
-const COUNTRIES = ["US", "UK", "Canada", "India", "Australia", "Germany", "France", "Japan", "Brazil", "South Africa"];
-const MONTHS = ["All", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export function HolidaysClient() {
   const [country, setCountry] = useState("US");
   const [year, setYear] = useState("2024");
@@ -209,7 +135,6 @@ export function HolidaysClient() {
  <Star className={cn("w-5 h-5", isFav ? "fill-yellow-400 text-yellow-400" : "text-muted-foreground")} />
  </Button>
  </div>
-<<<<<<< HEAD
  
 <ToolHowItWorks
   steps={[
@@ -295,11 +220,6 @@ export function HolidaysClient() {
  })}
  </div>
  )}
-=======
- </div>;
-            })}
- </div>}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
  </CardContent>
  </GlassCard>
  

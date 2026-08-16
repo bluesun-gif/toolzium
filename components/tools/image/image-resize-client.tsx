@@ -1,11 +1,7 @@
 "use client";
-<<<<<<< HEAD
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 
 import { cn } from "@/lib/utils";
 import React, { useState, useRef, ChangeEvent } from "react";
@@ -320,7 +316,6 @@ export default function ImageResizeClient() {
  <div className="flex items-center gap-2">
  <span className="font-semibold text-muted-foreground shrink-0 text-[11px]">Format:</span>
  <div className="flex items-center gap-1">
-<<<<<<< HEAD
  {["webp","png","jpeg"].map((format) => (
  <button
  key={format}
@@ -414,12 +409,6 @@ ont-semibold uppercase transition ${
  fmt === format ?"bg-primary text-primary-foreground shadow-xs":"text-muted-foreground"
  }`}
  >
-=======
- {["webp", "png", "jpeg"].map(format => <Button key={format} type="button" onClick={() => {
-                    setFmt(format as OutFormat);
-                    if (originalUrl && origW && origH) renderResizedImage(originalUrl, origW, origH, w, h, fit, format as OutFormat, quality);
-                  }} className={cn(`px-2.5 py-1 rounded-lg border text-[11px] font-semibold uppercase transition ${fmt === format ? "bg-primary text-primary-foreground shadow-xs" : "text-foreground hover:text-primary hover:bg-muted/50"}`)}>
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
  {format}
  </Button>)}
  </div>

@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -13,25 +12,6 @@ import { Switch } from"@/components/ui/switch";
 import { Label } from"@/components/ui/label";
 import toast from"react-hot-toast";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useEffect, useRef } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Plus, X, Download, Copy, Trash2, Type, FileText, CheckCircle2, Clock, Shield, BookOpen, Layers } from "lucide-react";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import { cn } from "@/lib/utils";
-import toast from "react-hot-toast";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 interface Note {
   id: string;
   name: string;
@@ -295,7 +275,6 @@ export function NotepadClient() {
         answer: "Yes, click the 'Download .txt' button to save the current note as a text file."
       }]} />
 
-<<<<<<< HEAD
  const updateNoteName = (id: string, newName: string) => {
  setNotes(prev => prev.map(note => 
  note.id === id ? { ...note, name: newName ||"Untitled Note"} : note
@@ -543,8 +522,3 @@ export function NotepadClient() {
 </div>
  );
 }
-=======
-      <RelatedTools currentToolUrl="/tools/productivity/notepad" max={6} />
-    </div></div>;
-}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

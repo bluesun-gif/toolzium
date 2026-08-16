@@ -1,12 +1,8 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import ColorBlindnessClient from "@/components/tools/dev/color-blindness-client";
-<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-=======
-
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
   title: "Color Blindness Simulator",
   description: "Simulate how colors appear to people with color blindness. Test hex colors against Protanopia, Deuteranopia, Tritanopia, and Achromatopsia. Essential accessibility tool for designers and developers.",
@@ -15,7 +11,6 @@ export const metadata = buildMetadata({
 });
 
 export default function Page() {
-<<<<<<< HEAD
   const toolUrl = `${siteURL}/tools/dev/color-blindness`;
   const appLd = { "@context": "https://schema.org", "@type": "WebApplication", name: "Color Blindness Simulator", url: toolUrl, description: "Simulate how images and colors appear to people with different types of color blindness.", applicationCategory: "UtilitiesApplication", operatingSystem: "All", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" } };
   const crumbsLd = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: siteURL }, { "@type": "ListItem", position: 2, name: "Developer Tools", item: `${siteURL}/tools#cat-dev` }, { "@type": "ListItem", position: 3, name: "Color Blindness Simulator", item: toolUrl }] };
@@ -23,20 +18,4 @@ export default function Page() {
   return (<div className="space-y-4"><JsonLd data={appLd} /><JsonLd data={crumbsLd} /><JsonLd data={faqLd} /><ColorBlindnessClient />
       <RelatedTools currentToolUrl="/tools/dev/color-blindness" />
 </div>);
-=======
-  const jsonLd = buildToolJsonLd({
-    name: "Color Blindness Simulator",
-    description: "Simulate how colors appear to people with color blindness. Test hex colors against Protanopia, Deuteranopia, Tritanopia, and Achromatopsia. Essential accessibility tool for designers and developers.",
-    path: "/tools/dev/color-blindness",
-    categoryName: "Dev",
-    categoryPath: "/tools/dev",
-  });
-
-  return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
-      <ColorBlindnessClient />
-    </div>
-  );
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 }

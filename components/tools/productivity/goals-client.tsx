@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -20,73 +19,6 @@ import { toast } from"react-hot-toast";
 type Milestone = { id: string; title: string; completed: boolean };
 type Goal = { id: string; title: string; targetDate: string; category: string; milestones: Milestone[] };
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useEffect } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ResetButton } from "@/components/shared/action-buttons";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Target, CheckCircle, Calendar, TrendingUp, Plus, Trash2, Shield, BookOpen, Layers, CheckCircle2 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import toast from "react-hot-toast";
-type Milestone = {
-  id: string;
-  title: string;
-  completed: boolean;
-};
-type Goal = {
-  id: string;
-  title: string;
-  targetDate: string;
-  category: string;
-  milestones: Milestone[];
-};
-const DEFAULT_GOALS: Goal[] = [{
-  id: "g1",
-  title: "Launch Toolzium Web Platform",
-  targetDate: "2026-09-01",
-  category: "Professional",
-  milestones: [{
-    id: "m1",
-    title: "Complete UI Design DNA System",
-    completed: true
-  }, {
-    id: "m2",
-    title: "Build 50+ Web Tools",
-    completed: true
-  }, {
-    id: "m3",
-    title: "Deploy Production Pipeline",
-    completed: false
-  }]
-}, {
-  id: "g2",
-  title: "Run Half-Marathon (21km)",
-  targetDate: "2026-10-15",
-  category: "Health",
-  milestones: [{
-    id: "m4",
-    title: "Train 5km 3x Weekly",
-    completed: true
-  }, {
-    id: "m5",
-    title: "Complete 15km Long Run",
-    completed: false
-  }]
-}];
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export function GoalsClient() {
   const [goals, setGoals] = useState<Goal[]>(DEFAULT_GOALS);
   const [newTitle, setNewTitle] = useState("");
@@ -367,7 +299,6 @@ function GoalCard({
           {goal.milestones.length === 0 && <p className="text-xs text-muted-foreground text-center italic py-2">No sub-milestones yet.</p>}
         </div>
 
-<<<<<<< HEAD
  <div className="space-y-1">
  <div className="flex justify-between text-sm">
  <span className="flex items-center gap-1"><TrendingUp className="w-4 h-4"/> Progress</span>
@@ -489,14 +420,3 @@ function GoalCard({
  </GlassCard>
  );
 }
-=======
-        <div className="flex gap-2">
-          <Input placeholder="Add sub-milestone task..." value={msTitle} onChange={e => setMsTitle(e.target.value)} onKeyDown={e => e.key === "Enter" && handleAdd()} className="h-9 text-xs font-medium" />
-          <Button size="sm" className="h-9 px-3 font-bold" onClick={handleAdd}>
-            <Plus className="w-4 h-4" />
-          </Button>
-        </div>
-      </CardContent>
-    </GlassCard>;
-}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

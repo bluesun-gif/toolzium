@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -15,25 +14,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
 import { Calculator, DollarSign, Eye, PieChart, Target, Wallet } from"lucide-react";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { DollarSign, Calculator, PieChart, Sparkles, Shield, Zap, Copy } from "lucide-react";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export function Budget503020Client() {
   const [income, setIncome] = useState("4000");
   const [frequency, setFrequency] = useState("Monthly");
@@ -170,7 +150,6 @@ export function Budget503020Client() {
  </div>
  </div>
  
-<<<<<<< HEAD
 <ToolHowItWorks
   steps={[
 {
@@ -254,61 +233,3 @@ export function Budget503020Client() {
 </div>
  );
 }
-=======
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Enter Your Numbers",
-        description: "Enter your monthly take-home income in the fields above — everything calculates live as you type.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Review the Result",
-        description: "Instantly see your needs, wants, and savings splits in dollars and percent, with breakdowns and visual cues.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy or Export",
-        description: "Copy any figure or export the full breakdown to use in a plan, invoice, or report.",
-        icon: Copy
-      }]} badges={["100% Free", "Private & Local", "No Signup"]} />
-
-            <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Auto-allocates into 50/30/20 buckets",
-        description: "Auto-allocates into 50/30/20 buckets"
-      }, {
-        icon: Shield,
-        title: "Private & On-Device",
-        description: "Every calculation runs in your browser. Your financial inputs never leave your device or touch a server."
-      }, {
-        icon: Zap,
-        title: "No Signup, Ever",
-        description: "Open the tool and get an answer in seconds — no account, no paywall, no usage cap."
-      }]}>
-        <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use the 50/30/20 Rule Budget Calculator?</h3>
-          <p>
-            The 50/30/20 rule is the most recommended starter budgeting method — this calculator shows exactly how many dollars land in each bucket from your real income.
-          </p>
-          <p>
-            Like all Toolzium calculators, it is free, private, and built to give you a paid-product experience without the subscription.
-          </p>
-        </div>
-      </ToolFeatureGuides>
-
-      <ToolFaqAccordion faqs={[{
-        question: "Is this tool free to use?",
-        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-      }, {
-        question: "Is my data secure?",
-        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-      }, {
-        question: "Do I need to create an account?",
-        answer: "No account or registration is required. Simply open the tool and start using it immediately."
-      }]} />
-
-      <RelatedTools currentToolUrl="/tools/finance/budget-50-30-20" max={6} />
-
-    </div></div>;
-}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

@@ -23,12 +23,8 @@ export default function Page() {
     <div className="max-w-6xl mx-auto space-y-8">
       <JsonLd data={jsonLd as any} />
       <FaviconGeneratorClient />
-<<<<<<< HEAD
     
       <RelatedTools currentToolUrl="/tools/image/favicon-generator" />
 </>
-=======
-    </div>
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
   );
 }

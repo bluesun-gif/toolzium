@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -17,27 +16,6 @@ import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
 import { Activity, Clock, Download, Droplet, Filter, LineChart, Plus, Trash2 } from"lucide-react";
 import { cn } from"@/lib/utils";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useEffect } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
-import { Activity, Plus, Filter, Download, Trash2, Sparkles, Shield, Zap, Copy } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 interface Entry {
   id: string;
   reading: number;
@@ -225,7 +203,6 @@ export function BloodSugarClient() {
  <Button variant="ghost" size="sm" onClick={() => removeEntry(entry.id)} className="text-destructive h-8 w-8 p-0">
  <Trash2 className="w-4 h-4" />
  </Button>
-<<<<<<< HEAD
  
 <ToolHowItWorks
   steps={[
@@ -311,11 +288,6 @@ export function BloodSugarClient() {
  })}
  </div>
  )}
-=======
- </div>;
-              })}
- </div>}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
  </CardContent>
  </GlassCard>
  </div>

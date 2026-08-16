@@ -10,27 +10,10 @@ export const metadata = buildMetadata({
   keywords: ["noise", "deep", "your", "brown", "white", "browser", "binaural", "synthesize", "beats", "pink"],
 });
 
-<<<<<<< HEAD
 export default function AmbientNoisePage() {
   return (
     <><AmbientNoiseClient />
       <RelatedTools currentToolUrl="/tools/productivity/ambient-noise" />
     </>
-=======
-export default function Page() {
-  const jsonLd = buildToolJsonLd({
-    name: "Ambient Focus Noise & Binaural Sound Generator Studio",
-    description: "Synthesize Brown Noise, Pink Noise, White Noise, and 40Hz Binaural Beats in your browser for deep work, focus, and sleep.",
-    path: "/tools/productivity/ambient-noise",
-    categoryName: "Productivity",
-    categoryPath: "/tools/productivity",
-  });
-
-  return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
-      <AmbientNoiseClient />
-    </div>
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
   );
 }

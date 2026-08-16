@@ -10,27 +10,10 @@ export const metadata = buildMetadata({
   keywords: ["starter", "metric", "value", "saas", "enterprise", "expansion", "models", "pricing", "optimal", "tier", "limits", "design"],
 });
 
-<<<<<<< HEAD
 export default function SaasPricingCalculatorPage() {
   return (
     <><SaasPricingCalculatorClient />
       <RelatedTools currentToolUrl="/tools/finance/saas-pricing-calculator" />
     </>
-=======
-export default function Page() {
-  const jsonLd = buildToolJsonLd({
-    name: "AI SaaS Pricing Strategy & Tier Matrix Calculator",
-    description: "Design optimal 3-tier SaaS pricing models (Starter, Pro, Enterprise), value metric limits, and expansion revenue strategies powered by live AI.",
-    path: "/tools/finance/saas-pricing-calculator",
-    categoryName: "Finance",
-    categoryPath: "/tools/finance",
-  });
-
-  return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
-      <SaasPricingCalculatorClient />
-    </div>
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
   );
 }

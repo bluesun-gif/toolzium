@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -35,28 +34,6 @@ const AFFIRMATIONS = [
 "I am doing my best, and that is enough.",
 ];
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import { useState, useEffect } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
-import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Sun, Heart, Shuffle, Plus, Moon, Sparkles, Shield, BookOpen, Layers } from "lucide-react";
-import { cn } from "@/lib/utils";
-import toast from "react-hot-toast";
-const AFFIRMATIONS = ["I am capable of achieving my biggest goals.", "I choose peace, positivity, and gratitude today.", "My potential is limitless and growing every day.", "I attract abundance and meaningful success.", "I am worthy of respect, happiness, and peace.", "Every challenge is an opportunity to learn and evolve.", "I trust my intuition and inner clarity.", "I radiate positive, calm energy to everyone around me.", "My mind is clear, focused, and resilient.", "I overcome obstacles with calm confidence.", "I forgive myself for past mistakes and move forward.", "I am proud of the progress I make every day.", "My health, vitality, and energy are improving daily.", "I surround myself with supportive and uplifting people.", "I am doing my best, and that is more than enough."];
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export function AffirmationsClient() {
   const [currentAffirmations, setCurrentAffirmations] = useState<string[]>([]);
   const [favorites, setFavorites] = useState<string[]>([]);
@@ -233,7 +210,6 @@ export function AffirmationsClient() {
         answer: "All favorited and custom created affirmations are stored in your browser's local storage."
       }]} />
 
-<<<<<<< HEAD
  <GlassCard>
  <CardHeader>
  <CardTitle>Favorites</CardTitle>
@@ -341,8 +317,3 @@ export function AffirmationsClient() {
 </div>
  );
 }
-=======
-      <RelatedTools currentToolUrl="/tools/productivity/affirmations" max={6} />
-    </div></div>;
-}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

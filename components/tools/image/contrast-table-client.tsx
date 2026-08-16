@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -14,24 +13,6 @@ import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
 import { Calculator, CheckCircle, Palette, Plus, ShieldCheck, Table, Trash2, XCircle } from"lucide-react";
 import { toast } from"react-hot-toast";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import { useState } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Table, CheckCircle, Plus, Trash2, XCircle, Sparkles, Shield, Zap, Copy } from "lucide-react";
-import { toast } from "react-hot-toast";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 interface ColorItem {
   id: string;
   hex: string;
@@ -231,7 +212,6 @@ export function ContrastTableClient() {
  {isPass ? <CheckCircle className={"w-3 h-3 text-green-500"} /> : <XCircle className={"w-3 h-3 text-destructive"} />}
  <span className={isPass ? "font-semibold" : "text-destructive"}>{level}</span>
  </div>
-<<<<<<< HEAD
  
 <ToolHowItWorks
   steps={[
@@ -318,12 +298,6 @@ export function ContrastTableClient() {
  })}
  </tr>
  ))}
-=======
- </div>
- </td>;
-                })}
- </tr>)}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
  </tbody>
  </table>
  </CardContent>

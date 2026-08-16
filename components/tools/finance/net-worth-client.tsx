@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -17,28 +16,6 @@ import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
 import toast from"react-hot-toast";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useEffect, useMemo } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { Landmark, TrendingUp, PieChart, Download, Plus, Trash2, Sparkles, Shield, Zap, Copy } from "lucide-react";
-import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
-import toast from "react-hot-toast";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { cn } from "@/lib/utils";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 type Item = {
   id: string;
   name: string;
@@ -258,7 +235,6 @@ export function NetWorthClient() {
  <Trash2 className="w-4 h-4" />
  </Button>
  </div>
-<<<<<<< HEAD
  </div>
  ))}
  
@@ -347,12 +323,6 @@ export function NetWorthClient() {
  })}
  </div>
  )}
-=======
- </div>)}
- </div>;
-              })}
- </div>}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
  </CardContent>
  </GlassCard>
  </div>

@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -16,27 +15,6 @@ import { ActionButton } from"@/components/shared/action-buttons";
 import { ArrowDown, ArrowUp, Bookmark, Download, FolderTree, Link as LinkIcon, Plus, Search, ShieldCheck, Star, Trash2, Upload } from"lucide-react";
 import { toast } from"react-hot-toast";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useEffect } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Bookmark, Plus, Search, Download, ArrowUp, ArrowDown, Star, Link as LinkIcon, Trash2, Upload, ExternalLink, Shield, BookOpen, Layers } from "lucide-react";
-import { cn } from "@/lib/utils";
-import toast from "react-hot-toast";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 interface BookmarkItem {
   id: string;
   url: string;
@@ -332,7 +310,6 @@ export function BookmarksClient() {
         answer: "No, all bookmarks are saved strictly in your local browser storage for maximum security."
       }]} />
 
-<<<<<<< HEAD
  const importJSON = (e: React.ChangeEvent<HTMLInputElement>) => {
  const file = e.target.files?.[0];
  if (!file) return;
@@ -517,8 +494,3 @@ export function BookmarksClient() {
 </div>
  );
 }
-=======
-      <RelatedTools currentToolUrl="/tools/productivity/bookmarks" max={6} />
-    </div></div>;
-}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

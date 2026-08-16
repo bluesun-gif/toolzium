@@ -1,12 +1,8 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import WordSearchClient from "@/components/tools/fun/word-search-client";
-<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-=======
-
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
   title: "Word Search Puzzle Generator",
   description: "Interactive Word Search puzzle grid generator and player. 10x10 to 15x15 grids, coding/animal/planet topics, printable PDF mode.",

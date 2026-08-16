@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -15,27 +14,6 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { toast } from"react-hot-toast";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useEffect } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
-import { Grid, Plus, Download, Trash2, Sparkles, Shield, Zap, Copy } from "lucide-react";
-;
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { toast } from "react-hot-toast";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { cn } from "@/lib/utils";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 type Task = {
   id: string;
   title: string;
@@ -180,7 +158,6 @@ export function PriorityMatrixClient() {
  No tasks
  </div>}
  </div>
-<<<<<<< HEAD
  )}
  </div>
  
@@ -266,10 +243,6 @@ export function PriorityMatrixClient() {
 </div>
  );
  })}
-=======
- </div>;
-            })}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
  </div>
  </div>
  </div>

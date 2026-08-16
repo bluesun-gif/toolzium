@@ -1,11 +1,7 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 
 import {
  ActionButton,
@@ -25,11 +21,7 @@ import {
 } from"@/components/ui/card";
 import { GlassCard } from"@/components/ui/glass-card";
 import { Label } from"@/components/ui/label";
-<<<<<<< HEAD
 import { AlarmClock, Check, Download, ListChecks, ListTodo, Pause, PenLine, Play, Plus, SquarePen, Trash2, UserCheck, Users } from"lucide-react";
-=======
-import { AlarmClock, Check, ListTodo, Pause, Play, Plus, SquarePen, Trash2, Users, Sparkles, Shield, Zap, Copy } from"lucide-react";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 import { useEffect, useMemo, useState } from"react";
 import { GridPattern } from"@/components/magicui/grid-pattern";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";

@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -17,27 +16,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/
 import { Calendar, Clock, Globe, ShieldCheck, Trash2, Users } from"lucide-react";
 import { cn } from"@/lib/utils";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import { useState, useMemo } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { CopyButton } from "@/components/shared/action-buttons";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Clock, Users, Calendar, Trash2, Sparkles, Shield, Zap, Copy } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 type Participant = {
   id: string;
   name: string;
@@ -172,7 +150,6 @@ export function MeetingPlannerClient() {
                       return <td key={h} className="p-1 border-b border-l border-r first:border-l-0 last:border-r-0 relative">
  <div className={cn("h-8 rounded-sm flex items-center justify-center font-medium", isWorkingHours ? "bg-green-500/20 text-green-700 dark:text-green-400" : "bg-muted text-muted-foreground/50")} title={`${label} in ${p.timezone}`}>
  {hour}
-<<<<<<< HEAD
  
 <ToolHowItWorks
   steps={[
@@ -259,12 +236,6 @@ export function MeetingPlannerClient() {
  })}
  </tr>
  ))}
-=======
- </div>
- </td>;
-                    })}
- </tr>)}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
  </tbody>
  </table>
  </div>

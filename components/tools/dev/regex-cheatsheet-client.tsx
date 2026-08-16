@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -53,141 +52,6 @@ const REGEX_DATA = [
  ]}
 ];
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useMemo } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { BookOpen, Search, Copy, Code, Sparkles, Shield, Zap } from "lucide-react";
-import { toast } from "react-hot-toast";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-const REGEX_DATA = [{
-  category: "Character Classes",
-  entries: [{
-    pattern: "\\d",
-    desc: "Any digit",
-    example: "123"
-  }, {
-    pattern: "\\w",
-    desc: "Any word character (alphanumeric & underscore)",
-    example: "a_B1"
-  }, {
-    pattern: "\\s",
-    desc: "Any whitespace character",
-    example: ""
-  }, {
-    pattern: "\\D",
-    desc: "Any non-digit",
-    example: "a"
-  }, {
-    pattern: "\\W",
-    desc: "Any non-word character",
-    example: "!"
-  }, {
-    pattern: "\\S",
-    desc: "Any non-whitespace character",
-    example: "a"
-  }, {
-    pattern: ".",
-    desc: "Any character except newline",
-    example: "x"
-  }]
-}, {
-  category: "Anchors",
-  entries: [{
-    pattern: "^",
-    desc: "Start of string",
-    example: "^abc"
-  }, {
-    pattern: "$",
-    desc: "End of string",
-    example: "xyz$"
-  }, {
-    pattern: "\\b",
-    desc: "Word boundary",
-    example: "\\bword\\b"
-  }, {
-    pattern: "\\B",
-    desc: "Non-word boundary",
-    example: "word\\B"
-  }]
-}, {
-  category: "Quantifiers",
-  entries: [{
-    pattern: "*",
-    desc: "0 or more",
-    example: "a*"
-  }, {
-    pattern: "+",
-    desc: "1 or more",
-    example: "a+"
-  }, {
-    pattern: "?",
-    desc: "0 or 1",
-    example: "a?"
-  }, {
-    pattern: "{n}",
-    desc: "Exactly n",
-    example: "a{3}"
-  }, {
-    pattern: "{n,}",
-    desc: "n or more",
-    example: "a{3,}"
-  }, {
-    pattern: "{n,m}",
-    desc: "Between n and m",
-    example: "a{3,5}"
-  }]
-}, {
-  category: "Groups & Lookahead",
-  entries: [{
-    pattern: "(abc)",
-    desc: "Capture group",
-    example: "(abc)"
-  }, {
-    pattern: "(?:abc)",
-    desc: "Non-capturing group",
-    example: "(?:abc)"
-  }, {
-    pattern: "(?=abc)",
-    desc: "Positive lookahead",
-    example: "a(?=b)"
-  }, {
-    pattern: "(?!abc)",
-    desc: "Negative lookahead",
-    example: "a(?!b)"
-  }]
-}, {
-  category: "Common Patterns",
-  entries: [{
-    pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
-    desc: "Email Address",
-    example: "test@example.com"
-  }, {
-    pattern: "^\\+?[1-9]\\d{1,14}$",
-    desc: "E.164 Phone Number",
-    example: "+1234567890"
-  }, {
-    pattern: "^https?:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$",
-    desc: "URL",
-    example: "https://example.com"
-  }, {
-    pattern: "^(?:[0-9]{1,3}\\.){3}[0-9]{1,3}$",
-    desc: "IPv4 Address",
-    example: "192.168.1.1"
-  }]
-}];
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export function RegexCheatsheetClient() {
   const [search, setSearch] = useState("");
   const [testRegex, setTestRegex] = useState("");
@@ -342,7 +206,6 @@ export function RegexCheatsheetClient() {
  </div>
  </div>
  
-<<<<<<< HEAD
 <ToolHowItWorks
   steps={[
 {
@@ -427,65 +290,3 @@ export function RegexCheatsheetClient() {
 </div>
  );
 }
-=======
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
-
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
-        <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use Our Regex Cheat Sheet?</h3>
-          <p>
-            This free online tool is designed to help you get accurate results quickly and securely.
-            Whether you're a developer, designer, student, or professional, our Regex Cheat Sheet provides
-            the functionality you need without any complexity or cost.
-          </p>
-          <p>
-            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
-            privacy and zero latency. No data is ever transmitted to external servers, making it safe
-            for sensitive information.
-          </p>
-        </div>
-      </ToolFeatureGuides>
-
-      <ToolFaqAccordion faqs={[{
-        question: "Is this tool free to use?",
-        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-      }, {
-        question: "Is my data secure?",
-        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-      }, {
-        question: "Do I need to create an account?",
-        answer: "No account or registration is required. Simply open the tool and start using it immediately."
-      }]} />
-
-      <RelatedTools currentToolUrl="/tools/dev/regex-cheatsheet" max={6} />
-
-    </div></div>;
-}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

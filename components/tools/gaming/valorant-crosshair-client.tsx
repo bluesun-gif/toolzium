@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -22,65 +21,6 @@ const PRO_CROSSHAIRS = [
  { player:"Boaster (Fnatic)", code:"0;P;c;5;o;1;d;1;m;1;0b;0;1b;0", color:"#00ffff"},
 ];
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Crosshair, Copy, Check, Sparkles, Shield, BookOpen, Layers, Zap } from "lucide-react";
-import toast from "react-hot-toast";
-const PRO_CROSSHAIRS = [{
-  player: "TenZ (Sentinels)",
-  code: "0;s;1;P;c;5;h;0;m;1;0l;4;0o;2;0a;1;0f;0;1b;0",
-  color: "#00ffff",
-  team: "Sentinels"
-}, {
-  player: "Tarik (Sentinels)",
-  code: "0;P;c;1;h;0;0l;3;0o;2;0a;1;0f;0;1b;0",
-  color: "#00ff00",
-  team: "Sentinels"
-}, {
-  player: "Demon1 (NRG)",
-  code: "0;s;1;P;o;1;d;1;m;1;0b;0;1b;0",
-  color: "#ffffff",
-  team: "NRG"
-}, {
-  player: "Aspas (Leviatán)",
-  code: "0;P;c;5;o;1;d;1;z;3;0b;0;1b;0",
-  color: "#00ffff",
-  team: "Leviatán"
-}, {
-  player: "Chronicle (Fnatic)",
-  code: "0;P;c;7;h;0;0l;4;0o;2;0a;1;0f;0;1b;0",
-  color: "#ff00ff",
-  team: "Fnatic"
-}, {
-  player: "Boaster (Fnatic)",
-  code: "0;P;c;5;o;1;d;1;m;1;0b;0;1b;0",
-  color: "#00ffff",
-  team: "Fnatic"
-}, {
-  player: "Yay (Bleed Esports)",
-  code: "0;P;c;5;h;0;0l;4;0o;2;0a;1;0f;0;1b;0",
-  color: "#00ffff",
-  team: "Bleed"
-}, {
-  player: "Derke (Fnatic)",
-  code: "0;s;1;P;o;1;d;1;f;0;s;0;0t;1;0l;1;0o;1;0a;1;0f;0;1b;0",
-  color: "#ffffff",
-  team: "Fnatic"
-}];
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export default function ValorantCrosshairClient() {
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
   const copyCode = (code: string) => {
@@ -154,7 +94,6 @@ export default function ValorantCrosshairClient() {
         icon: Sparkles
       }]} badges={["VCT Pro Verified", "1-Click Import", "100% Free"]} />
 
-<<<<<<< HEAD
  <div className="flex justify-end">
  <Button
  variant="outline"
@@ -258,32 +197,3 @@ export default function ValorantCrosshairClient() {
 </div>
  );
 }
-=======
-      {/* FEATURE GUIDES */}
-      <ToolFeatureGuides features={[{
-        icon: Crosshair,
-        title: "Official VCT Pro Codes",
-        description: "Includes authentic in-game crosshair codes extracted directly from VCT tournaments."
-      }, {
-        icon: Sparkles,
-        title: "Instant In-Game Import",
-        description: "Paste codes directly into Valorant's native Crosshair Profile Import dialog."
-      }, {
-        icon: Shield,
-        title: "100% Free & Safe",
-        description: "Does not require third-party software, overlays, or Valorant account credentials."
-      }]} />
-
-      {/* FAQ ACCORDION */}
-      <ToolFaqAccordion faqs={[{
-        question: "How do I import a crosshair code into Valorant?",
-        answer: "In Valorant, go to Settings → Crosshair → Primary → click the down arrow icon ('Import Profile Code') next to Profile Code, paste the string (Ctrl+V), and click Import."
-      }, {
-        question: "What crosshair color do most pros use?",
-        answer: "Cyan (#00FFFF) and Green (#00FF00) are the most popular colors among pros because they provide maximum contrast against Valorant map textures like Ascent and Bind."
-      }]} />
-
-      <RelatedTools currentToolUrl="/tools/gaming/valorant-crosshair" max={6} />
-    </div></div>;
-}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

@@ -15,22 +15,7 @@ export default function Page() {
   const toolUrl = siteURL + "/tools/productivity/daily-priority-action-board";
   const appLd = { "@context": "https://schema.org", "@type": "WebApplication", name: "Daily Priority Task Action Board", url: toolUrl, description: "Manage your daily tasks using the Eisenhower Matrix methodology with this structured priority board.", applicationCategory: "ProductivityApplication", operatingSystem: "All" };
   const crumbsLd = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: siteURL }, { "@type": "ListItem", position: 2, name: "Productivity Tools", item: siteURL + "/tools#cat-productivity" }, { "@type": "ListItem", position: 3, name: "Daily Priority Action Board", item: toolUrl }] };
-<<<<<<< HEAD
   return (<div className="space-y-4"><JsonLd data={appLd} /><JsonLd data={crumbsLd} /><DailyPriorityActionBoardClient />
       <RelatedTools currentToolUrl="/tools/productivity/daily-priority-action-board" />
 </div>);
-=======
-
-  const faqLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      { "@type": "Question", name: "How does the Daily Priority Task Action Board work?", acceptedAnswer: { "@type": "Answer", text: "Toolzium's Daily Priority Task Action Board runs instantly in your browser. Manage your daily tasks using the Eisenhower Matrix methodology with this structured priority board. No sign-up or software installation required." } },
-      { "@type": "Question", name: "Is the Daily Priority Task Action Board 100% free to use?", acceptedAnswer: { "@type": "Answer", text: "Yes, the Daily Priority Task Action Board is 100% free with unlimited usage and no account required." } },
-      { "@type": "Question", name: "Is my data secure when using the Daily Priority Task Action Board?", acceptedAnswer: { "@type": "Answer", text: "Yes, all processing occurs locally in your browser. Your data never leaves your device." } }
-    ]
-  };
-  return (<div className="space-y-4"><JsonLd data={appLd} /><JsonLd data={crumbsLd} />
-      <JsonLd data={faqLd} /><DailyPriorityActionBoardClient /></div>);
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 }

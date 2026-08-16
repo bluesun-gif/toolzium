@@ -1,12 +1,8 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import FancyTextClient from "@/components/tools/text/fancy-text-client";
-<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-=======
-
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
   title: "Fancy Text Generator",
   description: "Generate fancy Unicode text styles — bold, italic, script, fraktur, double-struck, circled, squared, upside-down, strikethrough, underline, and more. Copy stylish text for social media bios, usernames, and posts.",

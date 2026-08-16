@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -20,43 +19,6 @@ const CREW_TYPES = [
  { value:"cop", label:"👮 LSPD & FIB Tactical Squad"},
 ];
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useEffect } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { ModelSelector } from "@/components/shared/model-selector";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Car, RefreshCw, Sparkles, Shield, BookOpen, Layers, Zap } from "lucide-react";
-import toast from "react-hot-toast";
-const CREW_TYPES = [{
-  value: "mafia",
-  label: "🕴️ Italian & Russian Mafia Syndicate"
-}, {
-  value: "street",
-  label: "🔥 Street Racing & Underground Tuners"
-}, {
-  value: "cartel",
-  label: "🌴 Sinaloa & Narco Cartel"
-}, {
-  value: "cop",
-  label: "👮 LSPD & FIB Tactical Operations"
-}, {
-  value: "biker",
-  label: "🏍️ Outlaw Motorcycle Club (MC)"
-}];
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export default function GtaNameClient() {
   const [crewType, setCrewType] = useState("mafia");
   const [model, setModel] = useState("gpt4o");
@@ -169,7 +131,6 @@ export default function GtaNameClient() {
           </div>
         </div>}
 
-<<<<<<< HEAD
  {/* Premium AI Output Display */}
  <AiOutputDisplay
  title="AI Generated GTA Crew Names & License Plates"
@@ -263,50 +224,3 @@ export default function GtaNameClient() {
 </div>
  );
 }
-=======
-      {/* HOW IT WORKS */}
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Select Crew Archetype",
-        description: "Choose Mafia Syndicate, Street Racers, Narco Cartel, FIB Ops, or Biker MC.",
-        icon: Car
-      }, {
-        step: "02",
-        title: "Generate Name & Plate",
-        description: "AI generates crew names together with legal 8-character GTA Online vanity license plates.",
-        icon: Sparkles
-      }, {
-        step: "03",
-        title: "Apply in Rockstar Social Club",
-        description: "Copy crew name into Rockstar Social Club and custom plate into iFruit / Los Santos Customs.",
-        icon: Shield
-      }]} badges={["8-Char Vanity Plates", "NoPixel RP Compatible", "100% Free"]} />
-
-      {/* FEATURE GUIDES */}
-      <ToolFeatureGuides features={[{
-        icon: Car,
-        title: "GTA License Plate Limit",
-        description: "Generates custom vanity plates restricted to 8 alphanumeric characters allowed by Los Santos Customs."
-      }, {
-        icon: Sparkles,
-        title: "Social Club & NoPixel Ready",
-        description: "Formatted for Rockstar Games Social Club crew creation and FiveM / NoPixel roleplay servers."
-      }, {
-        icon: Shield,
-        title: "100% Free & Fast",
-        description: "Generates unlimited crew names without linking Rockstar Social Club accounts."
-      }]} />
-
-      {/* FAQ ACCORDION */}
-      <ToolFaqAccordion faqs={[{
-        question: "How long can a custom GTA license plate be?",
-        answer: "GTA Online custom vanity plates allow up to 8 characters (letters and numbers only, no spaces or special symbols)."
-      }, {
-        question: "Can I use these crew names for FiveM / NoPixel RP?",
-        answer: "Yes! All generated gang tags and mafia titles are formatted for FiveM roleplay server gang registration."
-      }]} />
-
-      <RelatedTools currentToolUrl="/tools/gaming/gta-name-generator" max={6} />
-    </div></div>;
-}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

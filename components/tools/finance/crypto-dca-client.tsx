@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -17,31 +16,6 @@ const ASSETS = [
  { value:"SOL", label:"◎ Solana (SOL)"},
 ];
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { Input } from "@/components/ui/input";
-import SelectField from "@/components/shared/form-fields/select-field";
-import { Coins, TrendingUp, DollarSign, Sparkles, Shield, Zap, Copy } from "lucide-react";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-const ASSETS = [{
-  value: "BTC",
-  label: "₿ Bitcoin (BTC)"
-}, {
-  value: "ETH",
-  label: "Ξ Ethereum (ETH)"
-}, {
-  value: "SOL",
-  label: "◎ Solana (SOL)"
-}];
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export default function CryptoDcaClient() {
   const [asset, setAsset] = useState("BTC");
   const [monthlyInvest, setMonthlyInvest] = useState<number>(100);
@@ -107,7 +81,6 @@ export default function CryptoDcaClient() {
  </GlassCard>
  </div>
  
-<<<<<<< HEAD
 <ToolHowItWorks
   steps={[
 {
@@ -191,61 +164,3 @@ export default function CryptoDcaClient() {
 </div>
  );
 }
-=======
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Enter Your Numbers",
-        description: "Enter amount, months, growth in the fields above — everything calculates live as you type.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Review the Result",
-        description: "Instantly see your projected DCA portfolio value, with breakdowns and visual cues.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy or Export",
-        description: "Copy any figure or export the full breakdown to use in a plan, invoice, or report.",
-        icon: Copy
-      }]} badges={["100% Free", "Private & Local", "No Signup"]} />
-
-            <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Future value of DCA",
-        description: "Future value of DCA"
-      }, {
-        icon: Shield,
-        title: "Private & On-Device",
-        description: "Every calculation runs in your browser. Your financial inputs never leave your device or touch a server."
-      }, {
-        icon: Zap,
-        title: "No Signup, Ever",
-        description: "Open the tool and get an answer in seconds — no account, no paywall, no usage cap."
-      }]}>
-        <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use the crypto-dca?</h3>
-          <p>
-            DCA investors model what regular buys become over time, with compounding returns included.
-          </p>
-          <p>
-            Like all Toolzium calculators, it is free, private, and built to give you a paid-product experience without the subscription.
-          </p>
-        </div>
-      </ToolFeatureGuides>
-
-      <ToolFaqAccordion faqs={[{
-        question: "Is this tool free to use?",
-        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-      }, {
-        question: "Is my data secure?",
-        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-      }, {
-        question: "Do I need to create an account?",
-        answer: "No account or registration is required. Simply open the tool and start using it immediately."
-      }]} />
-
-      <RelatedTools currentToolUrl="/tools/finance/crypto-dca" max={6} />
-
-    </div></div>;
-}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

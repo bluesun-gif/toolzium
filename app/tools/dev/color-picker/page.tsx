@@ -1,12 +1,9 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import ColorPickerClient from "@/components/tools/dev/color-picker-client";
-<<<<<<< HEAD
 const title = "Color Picker — HEX, RGB, HSL Color Chooser | Toolzium";
 const description = "Pick any color and get HEX, RGB, HSL codes instantly. Free online color picker with color name detection, complementary colors, and recent color history.";
 const url = siteURL + "/tools/dev/color-picker";
-=======
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 
 export const metadata = buildMetadata({
   title: "Color Picker & Palette Generator",

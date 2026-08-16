@@ -10,27 +10,10 @@ export const metadata = buildMetadata({
   keywords: ["client", "retainer", "overage", "terms", "allocation", "craft", "service", "tiers", "monthly", "guarantees", "proposals", "recurring"],
 });
 
-<<<<<<< HEAD
 export default function AiRetainerGeneratorPage() {
   return (
     <><AiRetainerGeneratorClient />
       <RelatedTools currentToolUrl="/tools/office/ai-retainer-generator" />
     </>
-=======
-export default function Page() {
-  const jsonLd = buildToolJsonLd({
-    name: "AI Client Retainer & Scope Proposal Generator",
-    description: "Craft recurring monthly client retainer proposals, service allocation tiers, SLA guarantees, and overage terms with live AI.",
-    path: "/tools/office/ai-retainer-generator",
-    categoryName: "Office",
-    categoryPath: "/tools/office",
-  });
-
-  return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
-      <AiRetainerGeneratorClient />
-    </div>
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
   );
 }

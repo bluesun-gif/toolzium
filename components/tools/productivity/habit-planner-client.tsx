@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -13,26 +12,6 @@ import { Button } from"@/components/ui/button";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
 import { Calendar, CalendarRange, CheckCircle2, CheckSquare, Download, ListPlus, Plus, Sparkles, Trash2, TrendingUp } from"lucide-react";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useEffect } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Calendar, CheckSquare, Sparkles, Download, Plus, Trash2, Shield, BookOpen, Layers, CheckCircle2 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import toast from "react-hot-toast";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 interface Habit {
   id: string;
   name: string;
@@ -275,7 +254,6 @@ export function HabitPlannerClient() {
         answer: "No, all habit data is saved locally on your device for complete privacy."
       }]} />
 
-<<<<<<< HEAD
  <GlassCard>
  <CardHeader>
  <CardTitle>Progress</CardTitle>
@@ -435,8 +413,3 @@ export function HabitPlannerClient() {
 </div>
  );
 }
-=======
-      <RelatedTools currentToolUrl="/tools/productivity/habit-planner" max={6} />
-    </div></div>;
-}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

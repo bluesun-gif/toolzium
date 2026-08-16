@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -18,29 +17,6 @@ import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
 import { ArrowUpDown, Calendar, CreditCard, DollarSign, Eye, ListChecks, Plus, Trash2, Wallet } from"lucide-react";
 import toast from"react-hot-toast";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useEffect } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
-import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
-import { CreditCard, Calendar, DollarSign, Plus, Trash2, ArrowUpDown, Sparkles, Shield, Zap, Copy } from "lucide-react";
-import toast from "react-hot-toast";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { cn } from "@/lib/utils";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 interface Subscription {
   id: string;
   name: string;
@@ -227,7 +203,6 @@ export function SubscriptionsClient() {
  </div>
  </div>
  
-<<<<<<< HEAD
 <ToolHowItWorks
   steps={[
 {
@@ -311,61 +286,3 @@ export function SubscriptionsClient() {
 </div>
  );
 }
-=======
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Enter Your Numbers",
-        description: "List each subscription in the fields above — everything calculates live as you type.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Review the Result",
-        description: "Instantly see your monthly and yearly total spend, with breakdowns and visual cues.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy or Export",
-        description: "Copy any figure or export the full breakdown to use in a plan, invoice, or report.",
-        icon: Copy
-      }]} badges={["100% Free", "Private & Local", "No Signup"]} />
-
-            <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Monthly & yearly roll-up",
-        description: "Monthly & yearly roll-up"
-      }, {
-        icon: Shield,
-        title: "Private & On-Device",
-        description: "Every calculation runs in your browser. Your financial inputs never leave your device or touch a server."
-      }, {
-        icon: Zap,
-        title: "No Signup, Ever",
-        description: "Open the tool and get an answer in seconds — no account, no paywall, no usage cap."
-      }]}>
-        <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use the Subscription Tracker?</h3>
-          <p>
-            Find the subscriptions silently draining your account and see the true annual cost.
-          </p>
-          <p>
-            Like all Toolzium calculators, it is free, private, and built to give you a paid-product experience without the subscription.
-          </p>
-        </div>
-      </ToolFeatureGuides>
-
-      <ToolFaqAccordion faqs={[{
-        question: "Is this tool free to use?",
-        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-      }, {
-        question: "Is my data secure?",
-        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-      }, {
-        question: "Do I need to create an account?",
-        answer: "No account or registration is required. Simply open the tool and start using it immediately."
-      }]} />
-
-      <RelatedTools currentToolUrl="/tools/finance/subscriptions" max={6} />
-
-    </div></div>;
-}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

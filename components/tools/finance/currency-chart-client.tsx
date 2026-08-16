@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -13,26 +12,6 @@ import { Button } from"@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ArrowLeftRight, BarChart3, Calendar, DollarSign, Eye, LineChart, RefreshCw, TrendingUp } from"lucide-react";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { BarChart3, ArrowLeftRight, TrendingUp, TrendingDown, RefreshCw, DollarSign, Sparkles, Shield, Zap, Copy } from "lucide-react";
-import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { cn } from "@/lib/utils";
-const CURRENCIES = ["USD", "EUR", "GBP", "JPY", "AUD", "CAD", "CHF", "CNY", "INR", "BDT"];
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 
 type RatesResponse = {
   base: string;
@@ -212,7 +191,6 @@ export function CurrencyChartClient() {
  )}
  </CardContent>
  </GlassCard>
-<<<<<<< HEAD
  
 <ToolHowItWorks
   steps={[
@@ -296,62 +274,4 @@ export function CurrencyChartClient() {
 />
 </div>
  );
-=======
-
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Enter Your Numbers",
-        description: "Pick base and target currencies in the fields above — the live rate loads automatically.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Review the Result",
-        description: "Instantly see the real mid-market rate, source, and an illustrative trend path, with breakdowns and visual cues.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy or Export",
-        description: "Copy the live rate to use in a plan, invoice, or report with one click.",
-        icon: Copy
-      }]} badges={["100% Free", "Private & Local", "No Signup"]} />
-
-            <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Live Mid-Market Rates",
-        description: "Pulls real exchange rates from a live FX feed (open.er-api.com) with a fallback source — no guessed numbers."
-      }, {
-        icon: Shield,
-        title: "Private & On-Device",
-        description: "Every calculation runs in your browser. Your financial inputs never leave your device or touch a server."
-      }, {
-        icon: Zap,
-        title: "No Signup, Ever",
-        description: "Open the tool and get an answer in seconds — no account, no paywall, no usage cap."
-      }]}>
-        <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use the Live Currency Pair Chart?</h3>
-          <p>
-            Travelers and importers use this to track a currency pair and see the real mid-market rate before exchanging money — not a made-up number.
-          </p>
-          <p>
-            Like all Toolzium calculators, it is free, private, and built to give you a paid-product experience without the subscription.
-          </p>
-        </div>
-      </ToolFeatureGuides>
-
-      <ToolFaqAccordion faqs={[{
-        question: "Are the exchange rates real?",
-        answer: "Yes. The current rate is fetched live from open.er-api.com (with a fallback to exchangerate-api.com) when the page loads or you hit Refresh. The trend line is clearly labelled illustrative because free FX tiers do not include historical series."
-      }, {
-        question: "Is my data secure?",
-        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-      }, {
-        question: "Do I need to create an account?",
-        answer: "No account or registration is required. Simply open the tool and start using it immediately."
-      }]} />
-
-      <RelatedTools currentToolUrl="/tools/finance/currency-chart" max={6} />
-
-    </div></div>;
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 }

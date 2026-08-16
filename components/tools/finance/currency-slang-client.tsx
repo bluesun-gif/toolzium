@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -26,84 +25,6 @@ const SLANG_DATA = [
  { term:"Dosh", meaning:"Money", origin:"UK", category:"UK Slang", example:"I don't have enough dosh for that."},
 ];
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import { useState } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CopyButton } from "@/components/shared/action-buttons";
-import { BookOpen, Search, Globe, Sparkles, Shield, Zap, Copy } from "lucide-react";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-const SLANG_DATA = [{
-  term: "Buck",
-  meaning: "One US Dollar",
-  origin: "US",
-  category: "US Slang",
-  example: "Can you lend me a buck?"
-}, {
-  term: "Quid",
-  meaning: "One British Pound",
-  origin: "UK",
-  category: "UK Slang",
-  example: "That'll be ten quid."
-}, {
-  term: "HODL",
-  meaning: "Hold On for Dear Life; holding crypto instead of selling",
-  origin: "Internet",
-  category: "Crypto",
-  example: "Don't sell now, just HODL!"
-}, {
-  term: "Loonie",
-  meaning: "Canadian one-dollar coin",
-  origin: "Canada",
-  category: "General",
-  example: "I have a few loonies in my pocket."
-}, {
-  term: "Greenback",
-  meaning: "US paper money",
-  origin: "US",
-  category: "Historical",
-  example: "He paid in cold, hard greenbacks."
-}, {
-  term: "Fiver",
-  meaning: "Five pounds or five dollars",
-  origin: "UK/US",
-  category: "General",
-  example: "Can I borrow a fiver?"
-}, {
-  term: "Toonie",
-  meaning: "Canadian two-dollar coin",
-  origin: "Canada",
-  category: "General",
-  example: "A coffee costs about a toonie."
-}, {
-  term: "Whale",
-  meaning: "Someone who holds a massive amount of cryptocurrency",
-  origin: "Crypto",
-  category: "Crypto",
-  example: "A whale just moved 10,000 BTC."
-}, {
-  term: "Cabbage",
-  meaning: "Paper money (because it's green)",
-  origin: "US",
-  category: "US Slang",
-  example: "He's got a lot of cabbage."
-}, {
-  term: "Dosh",
-  meaning: "Money",
-  origin: "UK",
-  category: "UK Slang",
-  example: "I don't have enough dosh for that."
-}];
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export function CurrencySlangClient() {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
@@ -164,7 +85,6 @@ export function CurrencySlangClient() {
  No terms found matching your criteria.
  </div>}
  </div>
-<<<<<<< HEAD
  )}
  </div>
  
@@ -251,62 +171,3 @@ export function CurrencySlangClient() {
 </div>
  );
 }
-=======
- 
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Enter Your Numbers",
-        description: "Search or filter the dictionary in the fields above — everything calculates live as you type.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Review the Result",
-        description: "Instantly see your slang term, meaning, origin, and example, with breakdowns and visual cues.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy or Export",
-        description: "Copy any figure or export the full breakdown to use in a plan, invoice, or report.",
-        icon: Copy
-      }]} badges={["100% Free", "Private & Local", "No Signup"]} />
-
-            <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "100+ global money slang terms",
-        description: "100+ global money slang terms"
-      }, {
-        icon: Shield,
-        title: "Private & On-Device",
-        description: "Every calculation runs in your browser. Your financial inputs never leave your device or touch a server."
-      }, {
-        icon: Zap,
-        title: "No Signup, Ever",
-        description: "Open the tool and get an answer in seconds — no account, no paywall, no usage cap."
-      }]}>
-        <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use the Currency Slang Dictionary?</h3>
-          <p>
-            Writers and crypto newcomers use this to decode money slang — from 'quid' to 'HODL' — with real examples.
-          </p>
-          <p>
-            Like all Toolzium calculators, it is free, private, and built to give you a paid-product experience without the subscription.
-          </p>
-        </div>
-      </ToolFeatureGuides>
-
-      <ToolFaqAccordion faqs={[{
-        question: "Is this tool free to use?",
-        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-      }, {
-        question: "Is my data secure?",
-        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-      }, {
-        question: "Do I need to create an account?",
-        answer: "No account or registration is required. Simply open the tool and start using it immediately."
-      }]} />
-
-      <RelatedTools currentToolUrl="/tools/finance/currency-slang" max={6} />
-
-    </div></div>;
-}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

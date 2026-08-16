@@ -1,15 +1,9 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { ArrowRightLeft, Braces, Download, FileUp, Info, Table } from"lucide-react";
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import { Braces, Download, Info, Table, Sparkles, Shield, Zap, Copy } from"lucide-react";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 import React from"react";
 import {
  ActionButton,

@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -21,27 +20,6 @@ import { Activity, AlertTriangle, BarChart3, Clock, Heart, HeartPulse, Info, Lin
 import { Separator } from"@/components/ui/separator";
 import { toast } from"react-hot-toast";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useEffect } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { ResetButton } from "@/components/shared/action-buttons";
-import { Heart, Activity, BarChart3, AlertTriangle, Trash2, Info, Sparkles, Shield, Zap, Copy } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
-import { toast } from "react-hot-toast";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { cn } from "@/lib/utils";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 interface BPRecord {
   id: string;
   timestamp: number;
@@ -243,7 +221,6 @@ export function BloodPressureClient() {
  <Button variant="ghost" size="icon" onClick={() => handleDelete(record.id)}>
  <Trash2 className="h-4 w-4 text-destructive" />
  </Button>
-<<<<<<< HEAD
  
 <ToolHowItWorks
   steps={[
@@ -329,11 +306,6 @@ export function BloodPressureClient() {
  })}
  </div>
  )}
-=======
- </div>;
-                })}
- </div>}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
  </CardContent>
  </GlassCard>
  </div>

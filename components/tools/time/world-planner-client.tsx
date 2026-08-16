@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -14,26 +13,6 @@ import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action
 import { Calendar, Clock, Copy, Globe, Plus, ShieldCheck, Users, X } from"lucide-react";
 import toast from"react-hot-toast";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useEffect } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Globe, Clock, Calendar, Copy, Plus, X, Sparkles, Shield, Zap } from "lucide-react";
-;
-import toast from "react-hot-toast";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { cn } from "@/lib/utils";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 type City = {
   name: string;
   offset: number; // offset in hours from UTC
@@ -179,7 +158,6 @@ export function WorldPlannerClient() {
  <div className="absolute inset-0 flex items-center justify-center text-[10px] text-primary-foreground/90 font-medium">
  {localH}
  </div>
-<<<<<<< HEAD
  
 <ToolHowItWorks
   steps={[
@@ -266,12 +244,6 @@ export function WorldPlannerClient() {
  </div>
  </div>
  ))}
-=======
- </div>;
-              })}
- </div>
- </div>)}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
  </CardContent>
  </GlassCard>
  

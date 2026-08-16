@@ -1,12 +1,8 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import TypingTestClient from "@/components/tools/util/typing-test-client";
-<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-=======
-
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
   title: "Typing Speed Test",
   description: "Test your typing speed and accuracy with real-time WPM tracking. Multiple difficulty levels, character-by-character highlighting, and detailed results. Free online typing test.",

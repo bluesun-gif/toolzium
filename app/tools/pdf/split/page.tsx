@@ -10,27 +10,10 @@ export const metadata = buildMetadata({
   keywords: ["split", "pages", "into", "ranges", "page", "individual", "pdfs"],
 });
 
-<<<<<<< HEAD
 export default function PdfSplitPage() {
   return (
     <><PdfSplitClient />
       <RelatedTools currentToolUrl="/tools/pdf/split" />
     </>
-=======
-export default function Page() {
-  const jsonLd = buildToolJsonLd({
-    name: "PDF Split",
-    description: "Split PDFs into individual pages or page ranges.",
-    path: "/tools/pdf/split",
-    categoryName: "Pdf",
-    categoryPath: "/tools/pdf",
-  });
-
-  return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
-      <PdfSplitClient />
-    </div>
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
   );
 }

@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -17,28 +16,6 @@ import { toast } from"react-hot-toast";
 
 type Quadrant ="q1"|"q2"|"q3"|"q4";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import { useState, useEffect } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { CheckSquare, Plus, Download, Trash2, Sparkles, Shield, Zap, Copy } from "lucide-react";
-;
-import { toast } from "react-hot-toast";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { cn } from "@/lib/utils";
-type Quadrant = "q1" | "q2" | "q3" | "q4";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 interface Task {
   id: string;
   text: string;
@@ -222,7 +199,6 @@ export function EisenhowerChecklistClient() {
  </li>)}
  </ul>}
  </div>
-<<<<<<< HEAD
  
 <ToolHowItWorks
   steps={[
@@ -306,10 +282,6 @@ export function EisenhowerChecklistClient() {
 </div>
  );
  })}
-=======
- </div>;
-            })}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
  </div>
  </CardContent>
  </GlassCard>

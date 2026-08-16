@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -27,26 +26,6 @@ const PROMPTS = [
 "What's a challenge you're grateful for?"
 ];
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import { useState, useEffect } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { ResetButton } from "@/components/shared/action-buttons";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Heart, Calendar, Sparkles, ChevronLeft, ChevronRight, Save, Shield, BookOpen, Layers, CheckCircle2 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import toast from "react-hot-toast";
-const PROMPTS = ["What made you smile today?", "Who helped or supported you recently?", "What is a small personal win you experienced?", "What is something beautiful you observed in nature?", "What is a challenge that taught you a valuable lesson?", "What comfort or blessing do you often take for granted?"];
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export function GratitudeClient() {
   const [entries, setEntries] = useState<Record<string, string[]>>({});
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
@@ -234,7 +213,6 @@ export function GratitudeClient() {
         answer: "No, all entries remain stored 100% privately inside your local browser storage."
       }]} />
 
-<<<<<<< HEAD
  <div className="grid md:grid-cols-3 gap-6">
  <GlassCard className="md:col-span-2">
  <CardHeader className="flex flex-row items-center justify-between pb-2 border-b">
@@ -393,8 +371,3 @@ export function GratitudeClient() {
 </div>
  );
 }
-=======
-      <RelatedTools currentToolUrl="/tools/productivity/gratitude" max={6} />
-    </div></div>;
-}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

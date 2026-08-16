@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -13,24 +12,6 @@ import { Separator } from"@/components/ui/separator";
 
 type Mode ="wake"|"sleep";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import { Button } from "@/components/ui/button";
-import { useState, useEffect, useMemo } from "react";
-import { Moon, Sun, Clock, Info, BedDouble, Sparkles, Shield, Zap, Copy } from "lucide-react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { GlassCard } from "@/components/ui/glass-card";
-import { Separator } from "@/components/ui/separator";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { cn } from "@/lib/utils";
-type Mode = "wake" | "sleep";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 interface CycleResult {
   cycles: number;
   time: Date;
@@ -231,7 +212,6 @@ export function SleepCalculatorClient() {
  {res.durationString} of sleep
  </div>
  </div>
-<<<<<<< HEAD
  
 <ToolHowItWorks
   steps={[
@@ -315,10 +295,6 @@ export function SleepCalculatorClient() {
 </div>
  );
  })}
-=======
- </div>;
-                })}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
  </div>
  </CardContent>
  </GlassCard>

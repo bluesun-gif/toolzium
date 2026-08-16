@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -209,79 +208,6 @@ export default function MlbbNameClient() {
 />
 </div>
  );
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useEffect } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { ModelSelector } from "@/components/shared/model-selector";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Swords, RefreshCw, Sparkles, Shield, Copy, Search, Filter } from "lucide-react";
-import toast from "react-hot-toast";
-const SYMBOL_DECORATIONS = [{
-  prefix: "꧁༺",
-  suffix: "༻꧂"
-}, {
-  prefix: "★彡",
-  suffix: "彡★"
-}, {
-  prefix: "⚔️ ",
-  suffix: " ⚔️"
-}, {
-  prefix: "👑 ",
-  suffix: " 👑"
-}, {
-  prefix: "『",
-  suffix: "』"
-}, {
-  prefix: "×͜× ",
-  suffix: ""
-}, {
-  prefix: "⚡ ",
-  suffix: " ⚡"
-}, {
-  prefix: "꧁༒☬",
-  suffix: "☬༒꧂"
-}, {
-  prefix: "亗 ",
-  suffix: " 亗"
-}, {
-  prefix: "☯️ ",
-  suffix: " ☯️"
-}, {
-  prefix: "┊ ",
-  suffix: " ┊"
-}, {
-  prefix: "✦ ",
-  suffix: " ✦"
-}, {
-  prefix: "亗 『",
-  suffix: "』 亗"
-}, {
-  prefix: "〖",
-  suffix: "〗"
-}, {
-  prefix: "☠️ ",
-  suffix: " ☠️"
-}];
-function applyGothic(str: string): string {
-  return str.split("").map(c => {
-    const code = c.charCodeAt(0);
-    if (code >= 65 && code <= 90) return String.fromCodePoint(0x1d56c + (code - 65));
-    if (code >= 97 && code <= 122) return String.fromCodePoint(0x1d586 + (code - 97));
-    return c;
-  }).join("");
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 }
 function applySmallCaps(str: string): string {
   const smallMap: Record<string, string> = {

@@ -1,14 +1,7 @@
-<<<<<<< HEAD
 import { buildMetadata } from "@/lib/seo"
 import { siteURL } from "@/lib/constants"
 import JsonLd from "@/components/seo/json-ld"
 import JsonCsvClient from "@/components/tools/dev/json-csv-client"
-=======
-import JsonLd from "@/components/seo/json-ld";
-import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
-import JsonCsvClient from "@/components/tools/dev/json-csv-client";
-
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
   title: "JSON to CSV Converter",
   description: "Convert JSON arrays to CSV format instantly. Choose delimiters, flatten nested objects, download CSV files. Free online JSON to CSV converter — no signup.",
@@ -29,13 +22,8 @@ export default function Page() {
     <div className="max-w-6xl mx-auto space-y-8">
       <JsonLd data={jsonLd as any} />
       <JsonCsvClient />
-<<<<<<< HEAD
     
       <RelatedTools currentToolUrl="/tools/dev/json-csv" />
 </>
   )
-=======
-    </div>
-  );
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 }

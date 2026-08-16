@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -16,30 +15,6 @@ import { ActionButton, CopyButton } from"@/components/shared/action-buttons";
 import { toast } from"react-hot-toast";
 
 type ColorEntry = { id: string, name: string, hex: string };
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Grid, Palette, Download, Plus, Trash2, Sparkles, Shield, Zap, Copy } from "lucide-react";
-import { ActionButton, CopyButton } from "@/components/shared/action-buttons";
-import { toast } from "react-hot-toast";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-type ColorEntry = {
-  id: string;
-  name: string;
-  hex: string;
-};
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 
 // Utility to calculate contrast ratio
 const getLuminance = (hex: string) => {
@@ -217,7 +192,6 @@ export function ContrastMatrixExportClient() {
  <span className={"text-xs font-semibold px-2 py-0.5 rounded-full mt-1 bg-background/20 mix-blend-difference"}>
  {rating}
  </span>
-<<<<<<< HEAD
  
 <ToolHowItWorks
   steps={[
@@ -304,12 +278,6 @@ export function ContrastMatrixExportClient() {
  })}
  </tr>
  ))}
-=======
- </div>
- </td>;
-                })}
- </tr>)}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
  </tbody>
  </table>
  </CardContent>

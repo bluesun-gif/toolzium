@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -26,51 +25,6 @@ const TIMEZONES = [
  { value:"Australia/Sydney", label:"Sydney (AEST/AEDT)"},
 ];
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import { useState, useEffect } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Slider } from "@/components/ui/slider";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Globe, Plus, Trash2, Clock, Shield, BookOpen, Layers } from "lucide-react";
-import { cn } from "@/lib/utils";
-import toast from "react-hot-toast";
-const TIMEZONES = [{
-  value: "UTC",
-  label: "UTC (Coordinated Universal Time)"
-}, {
-  value: "America/New_York",
-  label: "New York (EST/EDT)"
-}, {
-  value: "America/Los_Angeles",
-  label: "Los Angeles (PST/PDT)"
-}, {
-  value: "Europe/London",
-  label: "London (GMT/BST)"
-}, {
-  value: "Europe/Paris",
-  label: "Paris (CET/CEST)"
-}, {
-  value: "Asia/Tokyo",
-  label: "Tokyo (JST)"
-}, {
-  value: "Asia/Kolkata",
-  label: "India (IST)"
-}, {
-  value: "Australia/Sydney",
-  label: "Sydney (AEST/AEDT)"
-}];
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export function TimezoneCompareClient() {
   const [zones, setZones] = useState<string[]>(["UTC", "America/New_York", "Europe/London", "Asia/Tokyo"]);
   const [selectedZone, setSelectedZone] = useState(TIMEZONES[0].value);
@@ -244,7 +198,6 @@ export function TimezoneCompareClient() {
         answer: "Yes, standard Internationalization (Intl) browser APIs automatically compute real-time DST offsets."
       }]} />
 
-<<<<<<< HEAD
  return (
  <div className="space-y-6">
  <ToolPageHeader
@@ -393,8 +346,3 @@ export function TimezoneCompareClient() {
  </div>
  );
 }
-=======
-      <RelatedTools currentToolUrl="/tools/time/timezone-compare" max={6} />
-    </div></div>;
-}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

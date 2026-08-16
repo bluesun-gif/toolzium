@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -17,26 +16,6 @@ import { ArrowLeft, ArrowRight, Check, Columns3, Kanban, LayoutGrid, MoveRight, 
 import { cn } from"@/lib/utils";
 import toast from"react-hot-toast";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useEffect } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import { LayoutGrid, Plus, ArrowLeft, ArrowRight, Trash2, Check, Shield, BookOpen, Layers, CheckCircle2 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import toast from "react-hot-toast";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 interface Task {
   id: string;
   title: string;
@@ -289,7 +268,6 @@ export function KanbanClient() {
         answer: "Yes, all task cards and custom column titles persist automatically in local storage."
       }]} />
 
-<<<<<<< HEAD
  return (
  <div className="space-y-6">
  <ToolPageHeader
@@ -486,8 +464,3 @@ export function KanbanClient() {
  </div>
  );
 }
-=======
-      <RelatedTools currentToolUrl="/tools/productivity/kanban" max={6} />
-    </div></div>;
-}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

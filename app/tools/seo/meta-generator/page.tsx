@@ -1,12 +1,8 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import MetaGeneratorClient from "@/components/tools/seo/meta-generator-client";
-<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-=======
-
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
   title: "Meta Tags Generator",
   description: "Generate SEO meta tags for HTML head section. Create title, description, Open Graph, Twitter Cards, canonical tags with live preview. Free meta tag generator for better search rankings.",

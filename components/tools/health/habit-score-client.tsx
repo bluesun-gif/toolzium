@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -13,23 +12,6 @@ import { Label } from"@/components/ui/label";
 import { Activity, Award, Calculator, Calendar, ListChecks, SlidersHorizontal, TrendingUp } from"lucide-react";
 import { ResetButton } from"@/components/shared/action-buttons";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import { useState } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Award, Activity, TrendingUp, Calendar, Sparkles, Shield, Zap, Copy } from "lucide-react";
-import { ResetButton } from "@/components/shared/action-buttons";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export function HabitScoreClient() {
   const [sleep, setSleep] = useState(7);
   const [exercise, setExercise] = useState(30);
@@ -101,7 +83,6 @@ export function HabitScoreClient() {
  </GlassCard>
  </div>
  
-<<<<<<< HEAD
 <ToolHowItWorks
   steps={[
 {
@@ -184,65 +165,3 @@ export function HabitScoreClient() {
 </div>
  );
 }
-=======
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
-
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
-        <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use Our Habit Score Calculator?</h3>
-          <p>
-            This free online tool is designed to help you get accurate results quickly and securely.
-            Whether you're a developer, designer, student, or professional, our Habit Score Calculator provides
-            the functionality you need without any complexity or cost.
-          </p>
-          <p>
-            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
-            privacy and zero latency. No data is ever transmitted to external servers, making it safe
-            for sensitive information.
-          </p>
-        </div>
-      </ToolFeatureGuides>
-
-      <ToolFaqAccordion faqs={[{
-        question: "Is this tool free to use?",
-        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-      }, {
-        question: "Is my data secure?",
-        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-      }, {
-        question: "Do I need to create an account?",
-        answer: "No account or registration is required. Simply open the tool and start using it immediately."
-      }]} />
-
-      <RelatedTools currentToolUrl="/tools/health/habit-score" max={6} />
-
-    </div></div>;
-}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -16,26 +15,6 @@ import { ResetButton } from"@/components/shared/action-buttons";
 import { BarChart3, Calculator, CheckCircle2, DollarSign, ListChecks, Plus, Scale, Trash2, TrendingDown } from"lucide-react";
 import { cn } from"@/lib/utils";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useMemo } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { ResetButton } from "@/components/shared/action-buttons";
-import { Scale, Calculator, DollarSign, BarChart3, Plus, Trash2, Sparkles, Shield, Zap, Copy } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 type LoanInput = {
   id: string;
   name: string;

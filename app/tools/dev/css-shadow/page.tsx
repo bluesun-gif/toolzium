@@ -1,12 +1,8 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import CssShadowClient from "@/components/tools/dev/css-shadow-client";
-<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-=======
-
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
   title: "CSS Box & Text Shadow Generator",
   description: "Visual generator for CSS box-shadow and text-shadow. Multiple shadow layers, inset toggle, presets (soft glow, neumorphism, material, neon).",

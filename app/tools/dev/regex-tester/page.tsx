@@ -1,12 +1,8 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import RegexTesterClient from "@/components/tools/dev/regex-tester-client";
-<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-=======
-
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
   title: "Regex Tester",
   description: "Test and debug regular expressions online with real-time matching. RegEx tester with syntax highlighting, match groups, and test cases. Support for JavaScript, Python, PHP regex patterns.",

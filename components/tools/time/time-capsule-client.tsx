@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -18,28 +17,6 @@ import { cn } from"@/lib/utils";
 import { Archive, Calendar, Download, Key, Lock, PenLine, Sparkles, Trash2, Upload } from"lucide-react";
 import toast from"react-hot-toast";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useEffect } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { cn } from "@/lib/utils";
-import { Lock, Key, Calendar, Sparkles, Download, Upload, Trash2, Shield, Zap, Copy } from "lucide-react";
-import toast from "react-hot-toast";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 type Capsule = {
   id: string;
   title: string;
@@ -249,7 +226,6 @@ export function TimeCapsuleClient() {
  <div className="flex justify-center">
  <Sparkles className="w-5 h-5 text-yellow-500" />
  </div>
-<<<<<<< HEAD
  
 <ToolHowItWorks
   steps={[
@@ -332,9 +308,6 @@ export function TimeCapsuleClient() {
 />
 </div>
  )}
-=======
- </div>}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
  </CardContent>
  </GlassCard>;
           })}

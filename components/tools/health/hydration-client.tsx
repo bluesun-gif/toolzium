@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -15,25 +14,6 @@ import { BarChart3, Bell, Droplets, Flame, Plus, RotateCcw, Scale } from"lucide-
 import { ResetButton } from"@/components/shared/action-buttons";
 import { cn } from"@/lib/utils";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import { useState, useEffect } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Droplets, Plus, BarChart3, RotateCcw, Sparkles, Shield, Zap, Copy } from "lucide-react";
-import { ResetButton } from "@/components/shared/action-buttons";
-import { cn } from "@/lib/utils";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export function HydrationClient() {
   const [goal, setGoal] = useState(2000); // ml
   const [intake, setIntake] = useState(0);
@@ -177,7 +157,6 @@ export function HydrationClient() {
  <span className={cn("text-xs", isToday && "font-bold text-primary")}>
  {isToday ? "Today" : dayName}
  </span>
-<<<<<<< HEAD
  
 <ToolHowItWorks
   steps={[
@@ -261,10 +240,6 @@ export function HydrationClient() {
 </div>
  );
  })}
-=======
- </div>;
-                })}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
  </div>
  </CardContent>
  </GlassCard>

@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -15,27 +14,6 @@ import { Download, FileSpreadsheet, Grid3x3, Palette, Plus, ShieldCheck, Trash2 
 import { CopyButton, ActionButton } from"@/components/shared/action-buttons";
 import toast from"react-hot-toast";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Palette, Download, Plus, Trash2, Sparkles, Shield, Zap, Copy } from "lucide-react";
-;
-import { CopyButton, ActionButton } from "@/components/shared/action-buttons";
-import toast from "react-hot-toast";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { cn } from "@/lib/utils";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 interface ColorItem {
   id: string;
   name: string;
@@ -233,7 +211,6 @@ export function ContrastMatrixSheetClient() {
  </div>
  <div className={cn("text-[10px] font-bold mt-1 px-1 rounded inline-block", comp.class)}>
  {comp.text}
-<<<<<<< HEAD
  
 <ToolHowItWorks
   steps={[
@@ -320,12 +297,6 @@ export function ContrastMatrixSheetClient() {
  })}
  </tr>
  ))}
-=======
- </div>
- </td>;
-                })}
- </tr>)}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
  </tbody>
  </table>
  </CardContent>

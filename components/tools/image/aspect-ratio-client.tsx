@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -35,77 +34,6 @@ const socialPresets = [
  { label:"Facebook Cover", w: 820, h: 312 },
 ];
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { RectangleHorizontal, Image as ImageIcon, Maximize, Copy, Sparkles, Shield, Zap } from "lucide-react";
-import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { cn } from "@/lib/utils";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-const presets = [{
-  label: "16:9 (Widescreen)",
-  w: 16,
-  h: 9
-}, {
-  label: "4:3 (Standard)",
-  w: 4,
-  h: 3
-}, {
-  label: "1:1 (Square)",
-  w: 1,
-  h: 1
-}, {
-  label: "21:9 (Ultrawide)",
-  w: 21,
-  h: 9
-}, {
-  label: "9:16 (Mobile/Stories)",
-  w: 9,
-  h: 16
-}, {
-  label: "3:2 (Photography)",
-  w: 3,
-  h: 2
-}];
-const socialPresets = [{
-  label: "Instagram Post (Square)",
-  w: 1080,
-  h: 1080
-}, {
-  label: "Instagram Portrait",
-  w: 1080,
-  h: 1350
-}, {
-  label: "Instagram/FB Story",
-  w: 1080,
-  h: 1920
-}, {
-  label: "Twitter Post",
-  w: 1200,
-  h: 675
-}, {
-  label: "YouTube Thumbnail",
-  w: 1280,
-  h: 720
-}, {
-  label: "Facebook Cover",
-  w: 820,
-  h: 312
-}];
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export function AspectRatioClient() {
   const [ratioW, setRatioW] = useState<number | "">(16);
   const [ratioH, setRatioH] = useState<number | "">(9);
@@ -275,7 +203,6 @@ export function AspectRatioClient() {
  </div>
  </div>
  
-<<<<<<< HEAD
 <ToolHowItWorks
   steps={[
 {
@@ -358,65 +285,3 @@ export function AspectRatioClient() {
 </div>
  );
 }
-=======
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
-
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
-        <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use Our Aspect Ratio Calculator?</h3>
-          <p>
-            This free online tool is designed to help you get accurate results quickly and securely.
-            Whether you're a developer, designer, student, or professional, our Aspect Ratio Calculator provides
-            the functionality you need without any complexity or cost.
-          </p>
-          <p>
-            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
-            privacy and zero latency. No data is ever transmitted to external servers, making it safe
-            for sensitive information.
-          </p>
-        </div>
-      </ToolFeatureGuides>
-
-      <ToolFaqAccordion faqs={[{
-        question: "Is this tool free to use?",
-        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-      }, {
-        question: "Is my data secure?",
-        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-      }, {
-        question: "Do I need to create an account?",
-        answer: "No account or registration is required. Simply open the tool and start using it immediately."
-      }]} />
-
-      <RelatedTools currentToolUrl="/tools/image/aspect-ratio" max={6} />
-
-    </div></div>;
-}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

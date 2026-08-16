@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -12,22 +11,6 @@ import { Separator } from"@/components/ui/separator";
 import { Button } from"@/components/ui/button";
 import { Calendar, CalendarRange, ChevronLeft, ChevronRight, Moon, Orbit, Sparkles } from"lucide-react";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import { Moon, Calendar, ChevronLeft, ChevronRight, Sparkles, Shield, Zap, Copy } from "lucide-react";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export function LunarCalendarClient() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const getMoonPhase = (year: number, month: number, day: number) => {
@@ -130,7 +113,6 @@ export function LunarCalendarClient() {
               return <div key={"day-" + day} className={"p-2 border rounded-md flex flex-col items-center gap-1 hover:bg-muted/50 transition-colors"}>
  <span className={"text-sm text-muted-foreground"}>{day}</span>
  <span className={"text-2xl"} title={phase.name}>{phase.emoji}</span>
-<<<<<<< HEAD
  
 <ToolHowItWorks
   steps={[
@@ -214,10 +196,6 @@ export function LunarCalendarClient() {
 </div>
  );
  })}
-=======
- </div>;
-            })}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
  </div>
  </CardContent>
  </GlassCard>

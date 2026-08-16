@@ -1,12 +1,8 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import ColorConverterClient from "@/components/tools/dev/color-converter-client";
-<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-=======
-
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
   title: "Color Converter",
   description: "Convert between HEX, RGB, HSL, and CMYK color formats. Color picker and converter with live preview. Extract colors from images and generate color palettes for web design.",

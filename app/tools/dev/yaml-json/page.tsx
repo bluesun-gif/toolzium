@@ -1,12 +1,8 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import YamlJsonClient from "@/components/tools/dev/yaml-json-client";
-<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-=======
-
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
   title: "YAML to JSON Converter",
   description: "Convert YAML to JSON and JSON to YAML online. YAML parser and converter with syntax validation and formatting. Perfect for configuration files and data transformation.",

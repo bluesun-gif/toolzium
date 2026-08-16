@@ -1,12 +1,8 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import AsciiArtClient from "@/components/tools/fun/ascii-art-client";
-<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-=======
-
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
   title: "ASCII Art Generator",
   description: "Convert text to ASCII art with multiple font styles: Banner, Block, Standard. Preview in monospace, copy to clipboard. Fun text art for social media, comments, and messages.",
@@ -15,7 +11,6 @@ export const metadata = buildMetadata({
 });
 
 export default function Page() {
-<<<<<<< HEAD
   const toolUrl = `${siteURL}/tools/fun/ascii-art`;
   const appLd = { "@context": "https://schema.org", "@type": "WebApplication", name: "ASCII Art Generator", url: toolUrl, description: "Convert text to ASCII art.", applicationCategory: "UtilitiesApplication", operatingSystem: "All", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" } };
   const crumbsLd = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: siteURL }, { "@type": "ListItem", position: 2, name: "Fun Tools", item: `${siteURL}/tools#cat-fun` }, { "@type": "ListItem", position: 3, name: "ASCII Art Generator", item: toolUrl }] };
@@ -23,20 +18,4 @@ export default function Page() {
   return (<div className="space-y-4"><JsonLd data={appLd} /><JsonLd data={crumbsLd} /><JsonLd data={faqLd} /><AsciiArtClient />
       <RelatedTools currentToolUrl="/tools/fun/ascii-art" />
 </div>);
-=======
-  const jsonLd = buildToolJsonLd({
-    name: "ASCII Art Generator",
-    description: "Convert text to ASCII art with multiple font styles: Banner, Block, Standard. Preview in monospace, copy to clipboard. Fun text art for social media, comments, and messages.",
-    path: "/tools/fun/ascii-art",
-    categoryName: "Fun",
-    categoryPath: "/tools/fun",
-  });
-
-  return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
-      <AsciiArtClient />
-    </div>
-  );
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 }

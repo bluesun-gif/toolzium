@@ -15,22 +15,7 @@ export default function Page() {
   const toolUrl = siteURL + "/tools/image/contrast-matrix-sheet";
   const appLd = { "@context": "https://schema.org", "@type": "WebApplication", name: "Contrast Compliance Color Matrix Sheet", url: toolUrl, description: "Test brand palette colors against each other for WCAG 2.1 AA/AAA accessibility compliance.", applicationCategory: "DesignApplication", operatingSystem: "All" };
   const crumbsLd = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: siteURL }, { "@type": "ListItem", position: 2, name: "Image Tools", item: siteURL + "/tools#cat-image" }, { "@type": "ListItem", position: 3, name: "Contrast Color Matrix", item: toolUrl }] };
-<<<<<<< HEAD
   return (<div className="space-y-4"><JsonLd data={appLd} /><JsonLd data={crumbsLd} /><ContrastMatrixSheetClient />
       <RelatedTools currentToolUrl="/tools/image/contrast-matrix-sheet" />
 </div>);
-=======
-
-  const faqLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      { "@type": "Question", name: "How does the Contrast Compliance Color Matrix Sheet Exporter work?", acceptedAnswer: { "@type": "Answer", text: "Toolzium's Contrast Compliance Color Matrix Sheet Exporter runs instantly in your browser. Test brand palette colors against each other for WCAG 2.1 AA/AAA accessibility compliance. No sign-up or software installation required." } },
-      { "@type": "Question", name: "Is the Contrast Compliance Color Matrix Sheet Exporter 100% free to use?", acceptedAnswer: { "@type": "Answer", text: "Yes, the Contrast Compliance Color Matrix Sheet Exporter is 100% free with unlimited usage and no account required." } },
-      { "@type": "Question", name: "Is my data secure when using the Contrast Compliance Color Matrix Sheet Exporter?", acceptedAnswer: { "@type": "Answer", text: "Yes, all processing occurs locally in your browser. Your data never leaves your device." } }
-    ]
-  };
-  return (<div className="space-y-4"><JsonLd data={appLd} /><JsonLd data={crumbsLd} />
-      <JsonLd data={faqLd} /><ContrastMatrixSheetClient /></div>);
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 }

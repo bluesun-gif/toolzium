@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -24,49 +23,6 @@ const QUADRANTS = [
  { id:"q4", title:"Eliminate", desc:"Not Urgent & Not Important"}
 ];
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useEffect } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { ActionButton, CopyButton } from "@/components/shared/action-buttons";
-import { CheckSquare, Plus, Filter, Download, ArrowRight, ArrowLeft, ArrowUp, ArrowDown, Trash2, Sparkles, Shield, Zap, Copy } from "lucide-react";
-import { toast } from "react-hot-toast";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { cn } from "@/lib/utils";
-type Task = {
-  id: string;
-  text: string;
-  completed: boolean;
-  quadrant: string;
-};
-const QUADRANTS = [{
-  id: "q1",
-  title: "Do First",
-  desc: "Urgent & Important"
-}, {
-  id: "q2",
-  title: "Schedule",
-  desc: "Not Urgent & Important"
-}, {
-  id: "q3",
-  title: "Delegate",
-  desc: "Urgent & Not Important"
-}, {
-  id: "q4",
-  title: "Eliminate",
-  desc: "Not Urgent & Not Important"
-}];
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export function EisenhowerListClient() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTaskTexts, setNewTaskTexts] = useState<Record<string, string>>({

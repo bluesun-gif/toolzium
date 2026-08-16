@@ -1,12 +1,8 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import JSONFormatterClient from "@/components/tools/dev/json-formatter-client";
-<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-=======
-
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
   title: "JSON Formatter",
   description: "Format, validate, and beautify JSON data online. JSON pretty printer with syntax highlighting, error detection, minify/compress options. Free JSON formatter and validator for developers.",

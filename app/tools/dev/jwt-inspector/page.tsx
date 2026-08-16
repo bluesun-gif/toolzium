@@ -10,27 +10,10 @@ export const metadata = buildMetadata({
   keywords: ["data", "security", "payload", "tokens", "algorithm", "decode", "audits", "risk", "locally", "live", "vulnerabilities", "json"],
 });
 
-<<<<<<< HEAD
 export default function JwtInspectorPage() {
   return (
     <><JwtInspectorClient />
       <RelatedTools currentToolUrl="/tools/dev/jwt-inspector" />
     </>
-=======
-export default function Page() {
-  const jsonLd = buildToolJsonLd({
-    name: "JWT Security Audit & Payload Inspector Studio",
-    description: "Decode JSON Web Tokens (JWT) locally and run live AI security risk audits for algorithm vulnerabilities and payload data leaks.",
-    path: "/tools/dev/jwt-inspector",
-    categoryName: "Dev",
-    categoryPath: "/tools/dev",
-  });
-
-  return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
-      <JwtInspectorClient />
-    </div>
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
   );
 }

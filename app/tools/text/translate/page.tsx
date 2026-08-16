@@ -1,16 +1,7 @@
 import JsonLd from "@/components/seo/json-ld";
-<<<<<<< HEAD
 export const metadata: Metadata = generateSEOMetadata({
   title: "Translate Text Online — Free Language Translator",
   description: "Translate text between 100+ languages online for free. Auto-detect source language, swap languages, listen with text-to-speech. Fast translation tool.",
-=======
-import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
-import ClientComponent from "@/components/tools/text/translate-client";
-
-export const metadata = buildMetadata({
-  title: "Translate Text",
-  description: "Translate text between 100+ languages online for free. Auto-detect source language, swap languages, and listen to translations with text-to-speech. Fast and accurate translation tool.",
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
   path: "/tools/text/translate",
   keywords: ["source", "between", "translate", "swap", "language", "online", "free", "detect", "languages", "auto", "text"],
 });
@@ -28,12 +19,8 @@ export default function Page() {
     <div className="max-w-6xl mx-auto space-y-8">
       <JsonLd data={jsonLd as any} />
       <ClientComponent />
-<<<<<<< HEAD
     
       <RelatedTools currentToolUrl="/tools/text/translate" />
 </>
-=======
-    </div>
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
   );
 }

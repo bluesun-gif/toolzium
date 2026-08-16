@@ -1,12 +1,8 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import DiceProbabilityClient from "@/components/tools/fun/dice-probability-client";
-<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-=======
-
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
   title: "Dice Probability Calculator",
   description: "Calculate dice roll probabilities. 1-6 dice with 4/6/8/10/12/20 sides. Exact, at least, at most conditions. Distribution chart. D&D and board game presets.",

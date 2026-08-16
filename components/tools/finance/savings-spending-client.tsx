@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -17,26 +16,6 @@ import { cn } from"@/lib/utils";
 import { BarChart2, Lightbulb, Receipt, Scale, TrendingUp, Wallet } from"lucide-react";
 import toast from"react-hot-toast";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useEffect } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { ResetButton } from "@/components/shared/action-buttons";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Wallet, TrendingUp, BarChart2, Shield, BookOpen, Layers, CheckCircle2 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import toast from "react-hot-toast";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 type Expenses = {
   housing: number;
   food: number;
@@ -264,7 +243,6 @@ export function SavingsSpendingClient() {
         description: "All financial data remains strictly in your browser's local storage."
       }]} />
 
-<<<<<<< HEAD
  <div className="space-y-2">
  <div className={"flex"+"justify-between"+"text-sm"}>
  <span>Savings</span>
@@ -362,17 +340,3 @@ export function SavingsSpendingClient() {
 </div>
  );
 }
-=======
-      {/* FAQ ACCORDION */}
-      <ToolFaqAccordion faqs={[{
-        question: "What is the 50/30/20 budget rule?",
-        answer: "The 50/30/20 rule suggests spending 50% of income on Needs (rent, food), 30% on Wants (entertainment, shopping), and 20% on Savings or Debt Paydown."
-      }, {
-        question: "Is my income data sent to any server?",
-        answer: "No, all calculations and budget entries remain 100% confidential in your local browser."
-      }]} />
-
-      <RelatedTools currentToolUrl="/tools/finance/savings-spending" max={6} />
-    </div></div>;
-}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

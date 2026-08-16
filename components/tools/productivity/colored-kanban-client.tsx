@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -17,27 +16,6 @@ import { ChevronLeft, ChevronRight, Download, Kanban, Layout, MoveRight, Palette
 import { cn } from"@/lib/utils";
 import toast from"react-hot-toast";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useEffect } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Layout, Plus, Download, ChevronRight, ChevronLeft, Trash2, Tag, CheckCircle2 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import toast from "react-hot-toast";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 type Task = {
   id: string;
   title: string;
@@ -302,7 +280,6 @@ export function ColoredKanbanClient() {
         icon: CheckCircle2
       }]} badges={["Light & Dark Theme Contrast", "Color Tagging", "Auto-Saved"]} />
 
-<<<<<<< HEAD
  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
  {["todo","inprogress","review","done"].map((col) => (
  <GlassCard key={col}>
@@ -406,32 +383,3 @@ export function ColoredKanbanClient() {
 </div>
  );
 }
-=======
-      {/* FEATURE GUIDES */}
-      <ToolFeatureGuides features={[{
-        icon: Layout,
-        title: "High Contrast Theme Engine",
-        description: "Optimized font colors and translucent backgrounds to ensure 100% legibility in both light and dark mode."
-      }, {
-        icon: Tag,
-        title: "Custom Category Badging",
-        description: "Assign distinct color badges (Red, Orange, Yellow, Green, Blue, Purple) to categorize work streams."
-      }, {
-        icon: Download,
-        title: "JSON Export & Persistence",
-        description: "Export task data to JSON backup files for offline archival."
-      }]} />
-
-      {/* FAQ ACCORDION */}
-      <ToolFaqAccordion faqs={[{
-        question: "Is my task data saved securely?",
-        answer: "Yes, all tasks are stored in your browser's local storage. No data is sent to external servers."
-      }, {
-        question: "Does this Kanban board support light and dark theme mode?",
-        answer: "Yes! Every color tag uses high-contrast translucent backgrounds with dark-text in light theme and light-text in dark theme."
-      }]} />
-
-      <RelatedTools currentToolUrl="/tools/productivity/colored-kanban" max={6} />
-    </div></div>;
-}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

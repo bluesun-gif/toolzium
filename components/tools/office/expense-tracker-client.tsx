@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -18,28 +17,6 @@ import { BarChart3, DollarSign, Download, PieChart, Plus, Receipt, Tags, Trash2 
 import { cn } from"@/lib/utils";
 import toast from"react-hot-toast";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useEffect, useMemo } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
-import { Receipt, DollarSign, PieChart, Trash2, Plus, Sparkles, Shield, Zap, Copy } from "lucide-react";
-import { cn } from "@/lib/utils";
-import toast from "react-hot-toast";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 type Expense = {
   id: string;
   amount: number;
@@ -196,7 +173,6 @@ export function ExpenseTrackerClient() {
                       width: `${percentage}%`
                     }} />
  </div>
-<<<<<<< HEAD
  
 <ToolHowItWorks
   steps={[
@@ -280,10 +256,6 @@ export function ExpenseTrackerClient() {
 </div>
  );
  })}
-=======
- </div>;
-              })}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
  </div>
  </CardContent>
  </GlassCard>

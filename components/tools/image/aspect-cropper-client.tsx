@@ -1,9 +1,5 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
@@ -19,11 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Slider } from "@/components/ui/slider";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { cn } from "@/lib/utils";
-<<<<<<< HEAD
 import { CheckCircle2, Crop, Download, FlipHorizontal, FlipVertical, Maximize, Maximize2, Move, RefreshCcw, RotateCcw, RotateCw, Sparkles, Upload, ZoomIn } from"lucide-react";
-=======
-import { Crop, Download, RotateCw, RotateCcw, FlipHorizontal, FlipVertical, Upload, RefreshCcw, ZoomIn, Move, Sparkles, CheckCircle2, Maximize2, Shield, Zap, Copy } from "lucide-react";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 import { toast } from "react-hot-toast";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 interface CropBox {

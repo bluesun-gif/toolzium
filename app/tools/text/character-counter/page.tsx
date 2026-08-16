@@ -1,16 +1,7 @@
 import JsonLd from "@/components/seo/json-ld";
-<<<<<<< HEAD
 export const metadata: Metadata = generateSEOMetadata({
   title: "Character Counter — Count Letters & Words Online",
   description: "Count characters, words, sentences, paragraphs in real-time. Check social media limits for Twitter/X, Instagram, LinkedIn, TikTok. Free character counter tool.",
-=======
-import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
-import ClientComponent from "@/components/tools/text/character-counter-client";
-
-export const metadata = buildMetadata({
-  title: "Character Counter",
-  description: "Count characters, words, sentences, and paragraphs in real-time. Check social media character limits for Twitter/X, Instagram, LinkedIn, TikTok. Free character counter with keyword density analysis.",
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
   path: "/tools/text/character-counter",
   keywords: ["character", "words", "check", "time", "characters", "social", "real", "count", "media", "paragraphs", "limits", "sentences"],
 });

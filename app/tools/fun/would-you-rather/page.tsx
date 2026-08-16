@@ -1,12 +1,8 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import WouldYouRatherClient from "@/components/tools/fun/would-you-rather-client";
-<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-=======
-
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
   title: "Would You Rather",
   description: "Play Would You Rather with 50+ dilemmas across funny, philosophical, and impossible categories. Choose between two options, see fun percentage stats, and track your choices.",

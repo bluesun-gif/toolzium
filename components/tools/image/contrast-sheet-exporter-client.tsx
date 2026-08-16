@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -15,25 +14,6 @@ import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action
 import { Copy, Download, FileSpreadsheet, Palette, Plus, RefreshCw, ShieldCheck, X } from"lucide-react";
 import { toast } from"react-hot-toast";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useMemo, useRef } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Palette, Download, Copy, RefreshCw, Plus, X, Sparkles, Shield, Zap } from "lucide-react";
-import { toast } from "react-hot-toast";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 type BrandColor = {
   id: string;
   name: string;
@@ -250,7 +230,6 @@ export function ContrastSheetExporterClient() {
                     }}>
  <span className="font-bold text-lg">{ratio.toFixed(2)}</span>
  <div className="mt-1 scale-90">{complianceBadge(ratio)}</div>
-<<<<<<< HEAD
  </div>
  ) : (
  <div className="text-muted-foreground opacity-50">-
@@ -340,12 +319,6 @@ export function ContrastSheetExporterClient() {
  })}
  </tr>
  ))}
-=======
- </div> : <div className="text-muted-foreground opacity-50">-</div>}
- </td>;
-                })}
- </tr>)}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
  </tbody>
  </table>
 

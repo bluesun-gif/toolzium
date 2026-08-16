@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -40,101 +39,6 @@ const foodEquivalents = [
  { name:"chocolate bar", calories: 210 }
 ];
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import { useState } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Activity, Flame, Sparkles, Shield, Zap, Copy } from "lucide-react";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-const activities = [{
-  name: "Running (6 mph)",
-  met: 9.8,
-  category: "Running"
-}, {
-  name: "Running (8 mph)",
-  met: 11.8,
-  category: "Running"
-}, {
-  name: "Cycling (12-14 mph)",
-  met: 8.0,
-  category: "Cycling"
-}, {
-  name: "Cycling (16-19 mph)",
-  met: 12.0,
-  category: "Cycling"
-}, {
-  name: "Swimming (freestyle, light)",
-  met: 5.8,
-  category: "Swimming"
-}, {
-  name: "Swimming (freestyle, vigorous)",
-  met: 9.8,
-  category: "Swimming"
-}, {
-  name: "Weightlifting (general)",
-  met: 3.5,
-  category: "Weightlifting"
-}, {
-  name: "Weightlifting (vigorous)",
-  met: 6.0,
-  category: "Weightlifting"
-}, {
-  name: "Walking (3 mph)",
-  met: 3.3,
-  category: "Walking"
-}, {
-  name: "Walking (4 mph)",
-  met: 5.0,
-  category: "Walking"
-}, {
-  name: "Yoga",
-  met: 2.5,
-  category: "Yoga"
-}, {
-  name: "Housework (general)",
-  met: 3.5,
-  category: "Housework"
-}, {
-  name: "Basketball (game)",
-  met: 8.0,
-  category: "Sports"
-}, {
-  name: "Tennis (singles)",
-  met: 8.0,
-  category: "Sports"
-}, {
-  name: "Soccer (competitive)",
-  met: 10.0,
-  category: "Sports"
-}];
-const foodEquivalents = [{
-  name: "slice of pizza",
-  calories: 285
-}, {
-  name: "apple",
-  calories: 95
-}, {
-  name: "can of soda",
-  calories: 150
-}, {
-  name: "burger",
-  calories: 500
-}, {
-  name: "chocolate bar",
-  calories: 210
-}];
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export function CalorieActivityClient() {
   const [weight, setWeight] = useState("150");
   const [weightUnit, setWeightUnit] = useState("lbs");
@@ -241,7 +145,6 @@ export function CalorieActivityClient() {
  </GlassCard>
  </div>
  
-<<<<<<< HEAD
 <ToolHowItWorks
   steps={[
 {
@@ -324,65 +227,3 @@ export function CalorieActivityClient() {
 </div>
  );
 }
-=======
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
-
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
-        <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use Our Calorie Burn Calculator?</h3>
-          <p>
-            This free online tool is designed to help you get accurate results quickly and securely.
-            Whether you're a developer, designer, student, or professional, our Calorie Burn Calculator provides
-            the functionality you need without any complexity or cost.
-          </p>
-          <p>
-            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
-            privacy and zero latency. No data is ever transmitted to external servers, making it safe
-            for sensitive information.
-          </p>
-        </div>
-      </ToolFeatureGuides>
-
-      <ToolFaqAccordion faqs={[{
-        question: "Is this tool free to use?",
-        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-      }, {
-        question: "Is my data secure?",
-        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-      }, {
-        question: "Do I need to create an account?",
-        answer: "No account or registration is required. Simply open the tool and start using it immediately."
-      }]} />
-
-      <RelatedTools currentToolUrl="/tools/health/calorie-activity" max={6} />
-
-    </div></div>;
-}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

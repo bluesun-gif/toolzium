@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -16,27 +15,6 @@ import { Label } from"@/components/ui/label";
 import { ActionButton } from"@/components/shared/action-buttons";
 import { toast } from"react-hot-toast";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useEffect } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Target, CheckSquare, BarChart2, Download, Plus, Trash2, Shield, BookOpen, Layers } from "lucide-react";
-import { cn } from "@/lib/utils";
-import toast from "react-hot-toast";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 type KeyResult = {
   id: string;
   name: string;
@@ -362,7 +340,6 @@ export function OkrPlannerClient() {
         answer: "Most productivity experts recommend 2 to 5 Key Results per Objective to maintain focus."
       }]} />
 
-<<<<<<< HEAD
  return (
  <div className="space-y-6">
  <ToolPageHeader
@@ -598,8 +575,3 @@ export function OkrPlannerClient() {
  </div>
  );
 }
-=======
-      <RelatedTools currentToolUrl="/tools/productivity/okr-planner" max={6} />
-    </div></div>;
-}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

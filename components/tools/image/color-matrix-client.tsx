@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -15,25 +14,6 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState } from "react";
-import { Grid, Palette, CheckCircle, Copy, Plus, Trash2, CheckCircle2, AlertTriangle, XCircle, Sparkles, Shield, Zap } from "lucide-react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 function hexToRgb(hex: string) {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return result ? {
@@ -218,7 +198,6 @@ export function ColorMatrixClient() {
  <div className="flex gap-1 text-[10px] font-bold uppercase">
  {isAAA ? <span className="text-green-600 flex items-center gap-0.5"><CheckCircle2 className="w-3 h-3" /> AAA</span> : isAA ? <span className="text-green-600 flex items-center gap-0.5"><CheckCircle2 className="w-3 h-3" /> AA</span> : isAALarge ? <span className="text-yellow-600 flex items-center gap-0.5"><AlertTriangle className="w-3 h-3" /> AA+</span> : <span className="text-red-600 flex items-center gap-0.5"><XCircle className="w-3 h-3" /> Fail</span>}
  </div>
-<<<<<<< HEAD
  
 <ToolHowItWorks
   steps={[
@@ -306,12 +285,6 @@ export function ColorMatrixClient() {
  })}
  </tr>
  ))}
-=======
- </div>}
- </td>;
-                })}
- </tr>)}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
  </tbody>
  </table>
  </CardContent>

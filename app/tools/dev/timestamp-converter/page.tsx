@@ -1,12 +1,8 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import TimestampConverterClient from "@/components/tools/dev/timestamp-converter-client";
-<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-=======
-
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
   title: "Timestamp Converter",
   description: "Convert UNIX timestamps to human-readable dates and vice versa. Timestamp converter supporting milliseconds, seconds, and ISO 8601 formats. Time zone aware date converter.",

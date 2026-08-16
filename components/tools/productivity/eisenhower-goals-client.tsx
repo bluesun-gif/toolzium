@@ -1,11 +1,7 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 
 import { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -15,11 +11,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-<<<<<<< HEAD
 import { Calendar, CalendarRange, CheckSquare, Download, Grid2x2, Plus, Target, Trash2, TrendingUp } from"lucide-react";
-=======
-import { CheckSquare, Target, Calendar, Download, Plus, Trash2, Sparkles, Shield, Zap, Copy } from"lucide-react";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 import toast from"react-hot-toast";
 import { GridPattern } from"@/components/magicui/grid-pattern";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -171,7 +163,6 @@ export function EisenhowerGoalsClient() {
  <BucketCol id="delete"title="Delete"description="Not Urgent & Not Important"colorClass="bg-red-500/10 border-red-500/30 text-red-700 dark:text-red-300"/>
  </div>
  
-<<<<<<< HEAD
 <ToolHowItWorks
   steps={[
 {
@@ -251,85 +242,6 @@ export function EisenhowerGoalsClient() {
   }
   ]}
 />
-=======
-      <ToolHowItWorks
-        steps={[
-          {
-            step: "01",
-            title: "Input Your Data",
-            description: "Enter your information in the input field above and configure any options.",
-            icon: Sparkles,
-          },
-          {
-            step: "02",
-            title: "Process & Generate",
-            description: "The tool processes your input instantly and displays the results.",
-            icon: Zap,
-          },
-          {
-            step: "03",
-            title: "Copy & Use",
-            description: "Copy the output with one click and use it wherever you need.",
-            icon: Copy,
-          },
-        ]}
-        badges={["100% Free", "Instant Results", "Privacy-First"]}
-      />
-
-      <ToolFeatureGuides
-        features={[
-          {
-            icon: Sparkles,
-            title: "Lightning Fast",
-            description: "Get results in milliseconds with our optimized client-side processing engine.",
-          },
-          {
-            icon: Shield,
-            title: "Completely Private",
-            description: "All processing happens in your browser. Your data never leaves your device.",
-          },
-          {
-            icon: Zap,
-            title: "No Signup Required",
-            description: "Use this tool instantly without creating an account or providing any personal information.",
-          },
-        ]}
-      >
-        <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use Our Eisenhower Planner?</h3>
-          <p>
-            This free online tool is designed to help you get accurate results quickly and securely.
-            Whether you're a developer, designer, student, or professional, our Eisenhower Planner provides
-            the functionality you need without any complexity or cost.
-          </p>
-          <p>
-            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
-            privacy and zero latency. No data is ever transmitted to external servers, making it safe
-            for sensitive information.
-          </p>
-        </div>
-      </ToolFeatureGuides>
-
-      <ToolFaqAccordion
-        faqs={[
-          {
-            question: "Is this tool free to use?",
-            answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits.",
-          },
-          {
-            question: "Is my data secure?",
-            answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server.",
-          },
-          {
-            question: "Do I need to create an account?",
-            answer: "No account or registration is required. Simply open the tool and start using it immediately.",
-          },
-        ]}
-      />
-
-      <RelatedTools currentToolUrl="/tools/productivity/eisenhower-goals" max={6} />
-
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 </div>
  );
 }

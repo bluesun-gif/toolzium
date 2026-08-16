@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -23,46 +22,6 @@ const ROBLOX_STYLES = [
  { value:"cute", label:"🌸 Cute & Kawaii"},
 ];
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useEffect } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { ModelSelector } from "@/components/shared/model-selector";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Gamepad2, RefreshCw, Sparkles, Shield, Copy, Search } from "lucide-react";
-import toast from "react-hot-toast";
-const ROBLOX_STYLES = [{
-  value: "aesthetic",
-  label: "✨ Aesthetic & Soft Girl/Boy"
-}, {
-  value: "clean",
-  label: "⚡ Clean & Short (4-5 Letters)"
-}, {
-  value: "goth",
-  label: "🖤 Dark & Goth / Edgy"
-}, {
-  value: "anime",
-  label: "⛩️ Anime & Otaku Vibe"
-}, {
-  value: "pvp",
-  label: "🔥 Hardcore Gamer & PvP Sweaty"
-}, {
-  value: "cute",
-  label: "🌸 Cute & Kawaii"
-}];
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export default function RobloxUsernameClient() {
   const [style, setStyle] = useState("aesthetic");
   const [model, setModel] = useState("gpt4o");
@@ -206,7 +165,6 @@ export default function RobloxUsernameClient() {
             </div>
           </div>
 
-<<<<<<< HEAD
  {/* Premium AI Output Display */}
  <AiOutputDisplay
  title="AI Generated Roblox Usernames"
@@ -300,64 +258,3 @@ export default function RobloxUsernameClient() {
 </div>
  );
 }
-=======
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-            {filteredNames.slice(0, visibleCount).map((item, idx) => <GlassCard key={idx} className="p-3.5 flex items-center justify-between hover:border-primary/40 transition-all">
-                <span className="font-bold text-sm text-foreground truncate pr-2 font-mono">{item}</span>
-                <CopyButton getText={() => item} label="Copy" />
-              </GlassCard>)}
-          </div>
-
-          {visibleCount < filteredNames.length && <div className="flex justify-center pt-4">
-              <Button variant="outline" onClick={() => setVisibleCount(prev => prev + 30)} className="font-bold gap-2 px-8 h-11 border-primary/30 text-primary hover:bg-primary/10">
-                Load 30 More Usernames ({filteredNames.length - visibleCount} Remaining)
-              </Button>
-            </div>}
-        </div>}
-
-      {/* HOW IT WORKS */}
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Select Roblox Style",
-        description: "Choose from Aesthetic, Clean 4-letter, Goth Edgy, Anime Otaku, or Cute Kawaii.",
-        icon: Gamepad2
-      }, {
-        step: "02",
-        title: "AI Generates 100+ Options",
-        description: "Produces 100+ valid Roblox username combinations adhering to Roblox character rules.",
-        icon: Sparkles
-      }, {
-        step: "03",
-        title: "Copy & Change Name",
-        description: "Copy your favorite username and paste directly into Roblox Account Settings.",
-        icon: Copy
-      }]} badges={["100+ Usernames", "Roblox Display Name Ready", "100% Free"]} />
-
-      {/* FEATURE GUIDES */}
-      <ToolFeatureGuides features={[{
-        icon: Gamepad2,
-        title: "100+ Unique Usernames",
-        description: "Generates large sets of clean usernames so you can find un-taken Roblox names easily."
-      }, {
-        icon: Sparkles,
-        title: "Roblox Username Rules Compliant",
-        description: "Adheres to Roblox's 3-20 character length limits, alphanumeric rules, and single-underscore restrictions."
-      }, {
-        icon: Shield,
-        title: "100% Free & Safe",
-        description: "Generates usernames instantly without asking for your Roblox password or Robux."
-      }]} />
-
-      {/* FAQ ACCORDION */}
-      <ToolFaqAccordion faqs={[{
-        question: "How do I change my Roblox username?",
-        answer: "Log into Roblox → Settings → Account Info → click the Edit icon next to Username (costs 1,000 Robux) or Display Name (Free once every 7 days!)."
-      }, {
-        question: "Can I use special symbols in my Roblox username?",
-        answer: "No, Roblox usernames only allow letters, numbers, and a single underscore inside the name. However, Display Names allow spaces and more flexibility!"
-      }]} />
-
-      <RelatedTools currentToolUrl="/tools/gaming/roblox-username-generator" max={6} />
-    </div></div>;
-}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

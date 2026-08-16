@@ -1,10 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-<<<<<<< HEAD
 import RelatedTools from "@/components/shared/related-tools";
-=======
-import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
-import { NotepadClient } from "@/components/tools/productivity/notepad-client";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 
 export const metadata = buildMetadata({
   title: "Online Notepad",
@@ -26,12 +21,8 @@ export default function Page() {
     <div className="max-w-6xl mx-auto space-y-8">
       <JsonLd data={jsonLd as any} />
       <NotepadClient />
-<<<<<<< HEAD
     
       <RelatedTools currentToolUrl="/tools/productivity/notepad" />
 </>
-=======
-    </div>
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
   );
 }

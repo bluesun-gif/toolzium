@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -17,27 +16,6 @@ import { BookOpen, Brain, CheckCircle2, ChevronLeft, ChevronRight, Download, Plu
 import { cn } from"@/lib/utils";
 import toast from"react-hot-toast";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useEffect } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import { BookOpen, RotateCcw, ChevronLeft, ChevronRight, Shuffle, Plus, Download, Upload, Shield, Layers, CheckCircle2 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import toast from "react-hot-toast";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 type Card = {
   id: string;
   front: string;
@@ -384,7 +362,6 @@ export function FlashcardMakerClient() {
 
       <RelatedTools currentToolUrl="/tools/productivity/flashcards" max={6} />
 
-<<<<<<< HEAD
  const prevCard = () => {
  if (currentIndex > 0) {
  setCurrentIndex(prev => prev - 1);
@@ -670,16 +647,3 @@ export function FlashcardMakerClient() {
 </div>
  );
 }
-=======
-      {/* CSS 3D FLIP STYLES */}
-      <style dangerouslySetInnerHTML={{
-        __html: `
-        .perspective-1000 { perspective: 1000px; }
-        .transform-style-3d { transform-style: preserve-3d; }
-        .backface-hidden { backface-visibility: hidden; }
-        .rotate-y-180 { transform: rotateY(180deg); }
-      `
-      }} />
-    </div></div>;
-}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

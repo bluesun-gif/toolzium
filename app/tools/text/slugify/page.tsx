@@ -1,12 +1,8 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import SlugifyClient from "@/components/tools/text/slugify-client";
-<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-=======
-
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
   title: "Slugify Text",
   description: "Convert text into SEO-friendly URL slugs. Generate clean, lowercase, hyphenated slugs from any text. Perfect for creating blog URLs, file names, and web-safe identifiers.",

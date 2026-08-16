@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -20,40 +19,6 @@ const STEAM_STYLES = [
  { value:"collector", label:"⭐ Level 100+ Game Collector"},
 ];
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useEffect } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { ModelSelector } from "@/components/shared/model-selector";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Shield, RefreshCw, Sparkles, Gamepad2, Copy, BookOpen, Layers, Zap } from "lucide-react";
-import toast from "react-hot-toast";
-const STEAM_STYLES = [{
-  value: "aesthetic",
-  label: "✨ Minimalist & Aesthetic Spacers"
-}, {
-  value: "pvp",
-  label: "🔥 CS2 / Dota 2 Sweat & Ranks"
-}, {
-  value: "anime",
-  label: "⛩️ Anime & Otaku Bio"
-}, {
-  value: "collector",
-  label: "⭐ Level 100+ Game Collector"
-}];
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export default function SteamBioClient() {
   const [style, setStyle] = useState("aesthetic");
   const [model, setModel] = useState("gpt4o");
@@ -168,7 +133,6 @@ export default function SteamBioClient() {
           </div>
         </div>}
 
-<<<<<<< HEAD
  {/* Premium AI Output Display */}
  <AiOutputDisplay
  title="AI Generated Steam Bios"
@@ -262,50 +226,3 @@ export default function SteamBioClient() {
 </div>
  );
 }
-=======
-      {/* HOW IT WORKS */}
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Select Steam Theme",
-        description: "Choose Minimalist Aesthetic, CS2/Dota 2 Ranked, Anime Otaku, or Level 100 Collector.",
-        icon: Gamepad2
-      }, {
-        step: "02",
-        title: "Generate Bio Layout",
-        description: "AI crafts bio boxes complete with ASCII symbols, spec blocks, and trade rules.",
-        icon: Sparkles
-      }, {
-        step: "03",
-        title: "Paste in Steam Edit Profile",
-        description: "Copy your chosen bio and paste directly into Steam Profile Summary.",
-        icon: Shield
-      }]} badges={["Steam Profile Box Ready", "ASCII Symbol Support", "100% Free"]} />
-
-      {/* FEATURE GUIDES */}
-      <ToolFeatureGuides features={[{
-        icon: Shield,
-        title: "Steam Summary Formatting",
-        description: "Uses clean Unicode symbols and line breaks optimized for Steam Community profile boxes."
-      }, {
-        icon: Gamepad2,
-        title: "Hardware Specs & Rank Blocks",
-        description: "Includes formatted slots for GPU, CPU, monitor refresh rate, and competitive ranks."
-      }, {
-        icon: Sparkles,
-        title: "Trade & Comment Guidance",
-        description: "Includes clear rules for profile visitors (e.g. 'Comment before adding', 'No random trades')."
-      }]} />
-
-      {/* FAQ ACCORDION */}
-      <ToolFaqAccordion faqs={[{
-        question: "Where do I paste this on Steam?",
-        answer: "Open Steam → Edit Profile → Profile Summary, and paste your bio directly into the text box."
-      }, {
-        question: "What is the character limit for a Steam profile summary?",
-        answer: "Steam profile summaries allow up to 1,000 characters."
-      }]} />
-
-      <RelatedTools currentToolUrl="/tools/gaming/steam-bio-generator" max={6} />
-    </div></div>;
-}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7

@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -17,28 +16,6 @@ import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
 import { AlertTriangle, DollarSign, ListChecks, PieChart, Plus, Tags, TrendingDown } from"lucide-react";
 import { toast } from"react-hot-toast";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useEffect } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
-import { PieChart, DollarSign, AlertTriangle, Plus, Sparkles, Shield, Zap, Copy } from "lucide-react";
-import { toast } from "react-hot-toast";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { cn } from "@/lib/utils";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 type Expense = {
   id: string;
   amount: number;
@@ -199,7 +176,6 @@ export function ExpenseCategoriesClient() {
  ${spent.toFixed(2)} / ${budget.toFixed(2)}
  </div>
  </div>
-<<<<<<< HEAD
  {isOver && (
  <div className="text-xs text-red-500 flex items-center gap-1">
  <AlertTriangle className="w-3 h-3"/> Over budget by ${(spent - budget).toFixed(2)}
@@ -289,13 +265,6 @@ export function ExpenseCategoriesClient() {
 </div>
  );
  })}
-=======
- {isOver && <div className="text-xs text-red-500 flex items-center gap-1">
- <AlertTriangle className="w-3 h-3" /> Over budget by ${(spent - budget).toFixed(2)}
- </div>}
- </div>;
-          })}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
  </CardContent>
  </GlassCard>
  

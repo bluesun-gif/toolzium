@@ -1,5 +1,4 @@
 "use client";
-<<<<<<< HEAD
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -16,26 +15,6 @@ import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
 import { Calculator, Copy, DollarSign, Download, ListChecks, Percent, Plus, Receipt, Trash2 } from"lucide-react";
 import toast from"react-hot-toast";
 
-=======
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import { useState } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Receipt, Plus, DollarSign, Copy, Trash2, Sparkles, Shield, Zap } from "lucide-react";
-import toast from "react-hot-toast";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 type LineItem = {
   id: string;
   description: string;
@@ -184,7 +163,6 @@ export function InvoiceCalcClient() {
                 return <div key={item.id} className="flex justify-between">
  <span>{item.description} (x{item.quantity})</span>
  <span>${(itemSub - discAmount).toFixed(2)}</span>
-<<<<<<< HEAD
  
 <ToolHowItWorks
   steps={[
@@ -268,10 +246,6 @@ export function InvoiceCalcClient() {
 </div>
  );
  })}
-=======
- </div>;
-              })}
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
  </div>
  <Separator />
  <div className="flex justify-between">

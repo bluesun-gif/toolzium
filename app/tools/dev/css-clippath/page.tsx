@@ -1,12 +1,8 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import CssClippathClient from "@/components/tools/dev/css-clippath-client";
-<<<<<<< HEAD
 import { siteURL } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
-=======
-
->>>>>>> e5dfa5f080d14c9e27147e3ad8e02f2a1e5817b7
 export const metadata = buildMetadata({
   title: "CSS Clip-Path Maker",
   description: "Interactive CSS clip-path generator. Polygon, circle, ellipse, inset, star, hexagon, arrow. Live handles, CSS output.",
