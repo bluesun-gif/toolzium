@@ -1,4 +1,10 @@
 "use client";
+
+import toast from "react-hot-toast";
+import { ResetButton } from "@/components/shared/action-buttons";
+import { Badge } from "@/components/ui/badge";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -13,7 +19,7 @@ import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { Separator } from"@/components/ui/separator";
 import { ActionButton, CopyButton } from"@/components/shared/action-buttons";
-import { ArrowDown, ArrowUp, BarChart3, Calendar, CalendarRange, Copy, Flag, GanttChart, GitCommitVertical, Plus, Trash2 } from"lucide-react";
+import { ArrowDown, ArrowUp, BarChart3, Calendar, CalendarRange, Copy, Flag, GanttChart, GitCommitVertical, Plus, Trash2, Grid } from "lucide-react";
 import { cn } from"@/lib/utils";
 
 type TaskStatus ="Not Started"|"In Progress"|"Complete";
@@ -146,7 +152,10 @@ export function TimelineClient() {
     });
     return summary;
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       <ToolPageHeader icon={BarChart3} title="Project Timeline & Gantt Chart Studio" description="Visualize and manage your project tasks in an interactive Gantt-style timeline with progress tracking." actions={<div className="flex gap-2">
@@ -400,6 +409,9 @@ export function TimelineClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default TimelineClient;

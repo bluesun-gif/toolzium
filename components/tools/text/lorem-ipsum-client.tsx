@@ -1,4 +1,8 @@
 "use client";
+
+import { Switch } from "@/components/ui/switch";
+import { Card } from "@/components/ui/card";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useMemo } from "react";
@@ -11,7 +15,7 @@ import SwitchRow from "@/components/shared/form-fields/switch-row";
 import Stat from "@/components/shared/stat";
 import { ResetButton, CopyButton, ActionButton } from "@/components/shared/action-buttons";
 import { Button } from "@/components/ui/button";
-import { AlignLeft, RefreshCw, Copy, FileText, Settings2, Shield, Zap, BookOpen, Type, Globe } from "lucide-react";
+import { AlignLeft, RefreshCw, Copy, FileText, Settings2, Shield, Zap, BookOpen, Type, Globe, Settings } from "lucide-react";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
@@ -89,7 +93,10 @@ export default function LoremIpsumClient() {
   }, [count, unit, startWithLorem, includeHtml, seed]);
   const wordCount = generatedText.trim() ? generatedText.trim().split(/\s+/).length : 0;
   const charCount = generatedText.length;
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Lorem Ipsum Generator" description="Generate custom placeholder dummy text for design mockups, wireframes, and layouts. Choose paragraphs, sentences, words, or lists with optional HTML tags." icon={AlignLeft} />
@@ -285,6 +292,7 @@ export default function LoremIpsumClient() {
         question: "Is Lorem Ipsum Latin? Does it mean anything?",
         answer: "Lorem Ipsum is derived from Latin but is deliberately scrambled to be meaningless. The original Cicero passage discusses the nature of good and evil in philosophy. The standard Lorem ipsum passage starting text was extracted, altered, and randomized so it reads as authentic-looking Latin while conveying no actual meaning, preventing readers from being influenced by the content during design review."
       }]} />
- <RelatedTools currentToolUrl="/tools/text/lorem-ipsum" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

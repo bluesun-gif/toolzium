@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
@@ -88,7 +89,10 @@ export function FuelCostClient() {
       costPerDist
     };
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Calculator} title="Fuel Cost Calculator" description="Calculate fuel cost for a trip and compare different vehicles." actions={<ResetButton onClick={handleReset} label="Reset" />} />
@@ -256,8 +260,9 @@ export function FuelCostClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/travel/fuel-cost" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default FuelCostClient;

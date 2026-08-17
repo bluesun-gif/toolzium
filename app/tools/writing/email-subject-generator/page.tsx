@@ -1,16 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import EmailSubjectGeneratorClient from "@/components/tools/writing/email-subject-generator-client";
-export const metadata: Metadata = {
-  title: "AI High Open-Rate Email Subject Line Generator | Toolzium",
-  description:
-    "Generate irresistible email subject lines for newsletter campaigns, sales outreach, and promotional announcements powered by live AI.",
-};
 
-export default function EmailSubjectGeneratorPage() {
+const TITLE = "Email Subject Generator | Toolzium";
+const DESCRIPTION = "Free online email subject generator generator and assistant. Fast, private, and 100% free forever.";
+const PATH = "/tools/writing/email-subject-generator";
+
+export const metadata = buildMetadata({
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
+});
+
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "Email Subject Generator",
+    description: DESCRIPTION,
+    path: PATH
+  });
+
   return (
-    <><EmailSubjectGeneratorClient />
-      <RelatedTools currentToolUrl="/tools/writing/email-subject-generator" />
+    <>
+      <JsonLd data={jsonLd} />
+      <EmailSubjectGeneratorClient />
     </>
   );
 }

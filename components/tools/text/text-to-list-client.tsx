@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
@@ -12,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CopyButton } from "@/components/shared/action-buttons";
 import toast from "react-hot-toast";
-import { List, Wand2, Copy } from "lucide-react";
+import { List, Wand2, Copy, Settings } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -68,7 +69,10 @@ export default function TextToListClient() {
     setOutput(result);
     toast.success(`Converted ${items.length} items`);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={List} title="Text to List Converter" description="Convert comma-separated, newline, or custom-delimited text into formatted lists." />
@@ -174,7 +178,7 @@ export default function TextToListClient() {
         question: "Does it handle empty entries?",
         answer: "Yes, empty entries created by consecutive delimiters are automatically filtered out."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/text/text-to-list" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
@@ -17,7 +18,7 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { cn, formatDateInput, formatTimeInput, getLocalTimeZone } from "@/lib/utils";
 import { clampDateString, diffYMD, msIn, nextBirthday, shortDate } from "@/lib/utils/time/age-calculator";
-import { Cake, Calendar, HeartPulse, Info, BookOpen, Shield, Clock, Heart, BarChart3, Baby, User, Milestone } from "lucide-react";
+import { Cake, Calendar, HeartPulse, Info, BookOpen, Shield, Clock, Heart, BarChart3, Baby, User, Milestone, Copy, Calculator } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 export default function AgeCalculatorClient() {
@@ -128,7 +129,10 @@ Next birthday: ${results?.until.exact} (${results?.until.days} days)` : "";
     setDobDate("");
     setDobTime("00:00");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  {/* HEADER */}
@@ -338,6 +342,7 @@ Next birthday: ${results?.until.exact} (${results?.until.days} days)` : "";
         question: "How do you calculate age for legal documents?",
         answer: "For most legal purposes, age is calculated as the number of complete years elapsed since birth. A person born on October 15 reaches their birthday age on October 15 of the corresponding year. In most jurisdictions, a person born on Feb 29 in a leap year becomes the relevant age on Feb 28 or Mar 1 in non-leap years — this varies by local law."
       }]} />
- <RelatedTools currentToolUrl="/tools/time/age" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

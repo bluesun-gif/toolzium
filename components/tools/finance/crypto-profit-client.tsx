@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -46,7 +48,10 @@ export function CryptoProfitClient() {
   const getSummary = () => {
     return "Crypto Trade Summary:\n" + "Investment: $" + totalInvestment.toFixed(2) + "\n" + "Exit Value: $" + netExitValue.toFixed(2) + "\n" + "Profit/Loss: $" + profitLoss.toFixed(2) + "(" + roi.toFixed(2) + "%)\n" + "Total Fees: $" + totalFees.toFixed(2);
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={DollarSign} title="Crypto Profit Calculator" description="Calculate ROI and net profit for cryptocurrency trades including exchange fees." actions={<ResetButton onClick={handleReset} />} />
@@ -214,6 +219,9 @@ export function CryptoProfitClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default CryptoProfitClient;

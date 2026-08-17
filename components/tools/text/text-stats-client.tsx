@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useMemo } from "react";
@@ -71,7 +74,10 @@ export function TextStatsClient() {
   const getStatsString = () => {
     return `Text Statistics:\nWords: ${stats.wordCount}\nCharacters (with spaces): ${stats.rawLength}\nCharacters (no spaces): ${stats.lengthNoSpaces}\nSentences: ${stats.sentenceCount}\nParagraphs: ${stats.paragraphCount}\nReading Level (Grade): ${stats.fleschKincaid}\nLexical Density: ${stats.lexicalDensity}%`;
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={BarChart3} title="Advanced Text Statistics" description="Analyze your text for word count, readability, lexical density, and more." actions={<>
@@ -279,6 +285,9 @@ export function TextStatsClient() {
         question: "What counts as a unique word?",
         answer: "Unique words are distinct word forms after converting to lowercase and removing punctuation. Hello, hello, and HELLO are counted as the same unique word. Inflected forms like run, runs, and running are counted as different unique words unless stemming is applied. The ratio of unique words to total words (type-token ratio) indicates vocabulary richness. A higher ratio suggests more varied and sophisticated vocabulary."
       }]} />
- <RelatedTools currentToolUrl="/tools/text/text-stats" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default TextStatsClient;

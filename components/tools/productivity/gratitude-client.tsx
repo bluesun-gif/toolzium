@@ -1,4 +1,8 @@
 "use client";
+
+import { ResetButton } from "@/components/shared/action-buttons";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -9,7 +13,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
-import { BookOpen, Calendar, ChevronLeft, ChevronRight, Heart, PenLine, Save, Sparkles } from"lucide-react";
+import { BookOpen, Calendar, ChevronLeft, ChevronRight, Heart, PenLine, Save, Sparkles, History } from "lucide-react";
 import toast from"react-hot-toast";
 
 interface Entry {
@@ -99,7 +103,10 @@ export function GratitudeClient() {
     setCurrentItems(["", "", ""]);
     toast.success("Reset journal entries!");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       <ToolPageHeader icon={Heart} title="Daily Gratitude Journal & Mindfulness Reflection" description="Reflect on 3 positive moments every day, track your daily journal streak, and cultivate long-term mindfulness." actions={<ResetButton onClick={handleReset} label="Reset Entries" />} />
@@ -172,48 +179,7 @@ export function GratitudeClient() {
       </div>
 
       {/* HOW IT WORKS */}
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Read Daily Reflection Prompt",
-        description: "Reflect on inspirational daily mindfulness prompts.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Write 3 Gratitude Points",
-        description: "List 3 things, people, or moments you feel grateful for today.",
-        icon: Heart
-      }, {
-        step: "03",
-        title: "Build Journal Streak",
-        description: "Save daily reflections to maintain your consecutive journal streak.",
-        icon: CheckCircle2
-      }]} badges={["3-Point Gratitude", "Reflection Streaks", "100% Private"]} />
-
-      {/* FEATURE GUIDES */}
-      <ToolFeatureGuides features={[{
-        icon: Heart,
-        title: "Daily Mindfulness Reflection",
-        description: "Encourages positive mental health through daily 3-point gratitude logging."
-      }, {
-        icon: Sparkles,
-        title: "Automatic Streak Counter",
-        description: "Tracks consecutive days of saved gratitude journal reflections."
-      }, {
-        icon: Shield,
-        title: "Private Browser Storage",
-        description: "Saves entries strictly in your local browser storage for maximum privacy."
-      }]} />
-
-      {/* FAQ ACCORDION */}
-      <ToolFaqAccordion faqs={[{
-        question: "Can I view past gratitude entries?",
-        answer: "Yes, use the left and right arrow buttons at the top of the journal card to navigate through past calendar dates."
-      }, {
-        question: "Are my personal journal entries stored online?",
-        answer: "No, all entries remain stored 100% privately inside your local browser storage."
-      }]} />
-
- <div className="grid md:grid-cols-3 gap-6">
+      <div className="grid md:grid-cols-3 gap-6">
  <GlassCard className="md:col-span-2">
  <CardHeader className="flex flex-row items-center justify-between pb-2 border-b">
  <div className="flex items-center gap-4">
@@ -368,6 +334,9 @@ export function GratitudeClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default GratitudeClient;

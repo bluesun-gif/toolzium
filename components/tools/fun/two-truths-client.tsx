@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { cn } from "@/lib/utils";
@@ -10,7 +11,7 @@ import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { MessageCircleQuestion, CheckCircle2, XCircle, RotateCcw, Lightbulb } from "lucide-react";
+import { MessageCircleQuestion, CheckCircle2, XCircle, RotateCcw, Lightbulb, History, Shuffle, Play } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -127,7 +128,10 @@ export default function TwoTruthsClient() {
     setShowResult(false);
     setGameOver(false);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={MessageCircleQuestion} title="Two Truths and a Lie" description="Can you spot the fake fact? Test your knowledge against 15 tricky sets of statements." />
@@ -232,7 +236,7 @@ export default function TwoTruthsClient() {
         question: "Do the questions change?",
         answer: "Currently, there is a curated list of 15 high-quality sets. We plan to expand the database with user-submitted facts in the future."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/fun/two-truths" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

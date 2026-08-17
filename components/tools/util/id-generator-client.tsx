@@ -1,7 +1,8 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
-import { Hash, Play, Shuffle, BookOpen, Shield, Key, Copy, Code2, Zap, Settings2, Database } from "lucide-react";
+import { Hash, Play, Shuffle, BookOpen, Shield, Key, Copy, Code2, Zap, Settings2, Database, Settings, Type } from "lucide-react";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
@@ -195,7 +196,10 @@ export default function IdGeneratorClient() {
     setRows([]);
   };
   const isSeparator = (v: unknown) => v === "newline" || v === "comma" || v === "space";
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Hash} title="GUID / Order ID" description="Generate UUIDs, ULIDs, NanoIDs, HEX strings, and readable order IDs." actions={<>
@@ -425,6 +429,7 @@ export default function IdGeneratorClient() {
         question: "Should I use UUID or auto-increment for database primary keys?",
         answer: "Auto-increment: simpler, smaller storage, better index performance, naturally ordered. Use for single-database apps. UUID: globally unique without central coordination, non-enumerable (doesn't expose record counts), better for distributed systems and APIs. Use for multi-database systems, APIs where IDs are public, or when you generate IDs client-side before insert."
       }]} />
- <RelatedTools currentToolUrl="/tools/util/id-generator" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

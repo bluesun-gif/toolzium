@@ -1,52 +1,28 @@
-import { Metadata } from "next";
-import SqlRegexBuilderClient from "@/components/tools/ai/sql-regex-builder-client";
-import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
+import SqlRegexBuilderClient from "@/components/tools/ai/sql-regex-builder-client";
+
 const TITLE = "AI Natural Language to SQL & Regex Builder — Free Query Tool | Toolzium";
-const DESCRIPTION =
-  "Convert plain English requirements into production-ready SQL queries and Regex expressions instantly with explanations.";
+const DESCRIPTION = "Convert plain English requirements into production-ready SQL queries and Regex expressions instantly with explanations.";
 const PATH = "/tools/ai/sql-regex-builder";
 
-export const metadata: Metadata = buildMetadata({
+export const metadata = buildMetadata({
   title: TITLE,
   description: DESCRIPTION,
-  path: PATH,
-  keywords: [
-    "AI SQL generator",
-    "text to SQL query",
-    "Regex generator online",
-    "PostgreSQL query builder",
-    "regular expression builder",
-    "SQL assistant",
-  ],
+  path: PATH
 });
 
-export default function SqlRegexBuilderPage() {
-  const jsonLdData = buildToolJsonLd({
-    name: "AI SQL & Regex Builder",
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "AI Natural Language to SQL & Regex Builder",
     description: DESCRIPTION,
-    path: PATH,
-    categoryName: "AI Tools",
-    categoryPath: "/tools/ai",
-    faqs: [
-      {
-        question: "Which SQL dialects are supported?",
-        answer: "Supports PostgreSQL, MySQL, SQLite, and Microsoft SQL Server (T-SQL).",
-      },
-      {
-        question: "Can I generate complex Regex patterns?",
-        answer:
-          "Yes, you can describe any string validation logic (emails, URLs, phone numbers, custom formats) and get exact Regex tokens.",
-      },
-    ],
+    path: PATH
   });
 
   return (
     <>
-      <JsonLd data={jsonLdData as any} />
+      <JsonLd data={jsonLd} />
       <SqlRegexBuilderClient />
-    
-      <RelatedTools currentToolUrl="/tools/ai/sql-regex-builder" />
-</>
+    </>
   );
 }

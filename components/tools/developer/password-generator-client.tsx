@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback } from "react";
@@ -11,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CopyButton } from "@/components/shared/action-buttons";
 import toast from "react-hot-toast";
-import { Lock, Shield, Key, RefreshCw } from "lucide-react";
+import { Lock, Shield, Key, RefreshCw, Copy, Settings } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -100,7 +101,10 @@ export default function PasswordGeneratorClient() {
     setPassword(pwd);
     toast.success("Password generated");
   }, [length, useUpper, useLower, useNumbers, useSymbols]);
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Lock} title="Secure Password Generator" description="Generate cryptographically strong random passwords using your browser's secure random API." />
@@ -237,7 +241,7 @@ export default function PasswordGeneratorClient() {
         question: "Should I use a password manager instead?",
         answer: "Yes. A password manager generates and stores unique strong passwords for every site, so you only need to remember one master password."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/developer/password-generator" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

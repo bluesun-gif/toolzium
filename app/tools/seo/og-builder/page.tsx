@@ -1,30 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
-import OGBuilderClient from "@/components/tools/seo/og-builder-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
+import OgBuilderClient from "@/components/tools/seo/og-builder-client";
+
+const TITLE = "Og Builder | Toolzium";
+const DESCRIPTION = "Free online og builder tool with instant calculation and privacy.";
+const PATH = "/tools/seo/og-builder";
+
 export const metadata = buildMetadata({
-  title: "OG Image Builder",
-  description: "Create custom Open Graph images for social media sharing. Design OG images for Facebook, Twitter, LinkedIn previews. Free social media card generator with templates and customization.",
-  path: "/tools/seo/og-builder",
-  keywords: ["facebook", "twitter", "create", "open", "sharing", "social", "graph", "images", "media", "custom", "design"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "OG Image Builder",
-    description: "Create custom Open Graph images for social media sharing. Design OG images for Facebook, Twitter, LinkedIn previews. Free social media card generator with templates and customization.",
-    path: "/tools/seo/og-builder",
-    categoryName: "Seo",
-    categoryPath: "/tools/seo",
+    name: "Og Builder",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
-      <OGBuilderClient />
-    
-      <RelatedTools currentToolUrl="/tools/seo/og-builder" />
-</div>
+    <>
+      <JsonLd data={jsonLd} />
+      <OgBuilderClient />
+    </>
   );
 }

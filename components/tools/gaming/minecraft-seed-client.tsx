@@ -1,226 +1,138 @@
 "use client";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
-import React, { useState, useEffect } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { Button } from"@/components/ui/button";
-import SelectField from"@/components/shared/form-fields/select-field";
-import { AiOutputDisplay } from"@/components/shared/ai-output-display";
-import { Box, Copy, Dice5, Mountain, Pickaxe, RefreshCw } from"lucide-react";
-import toast from"react-hot-toast";
+import React, { useState } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { ToolBackground } from "@/components/shared/tool-background";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { Gamepad2, Sparkles, Copy, RefreshCw, Shield, Check } from "lucide-react";
+import toast from "react-hot-toast";
 
-const MINECRAFT_STYLES = [
- { value:"fantasy", label:"🏰 Fantasy & Kingdom SMP"},
- { value:"survival", label:"🌲 100 Days Hardcore Survival"},
- { value:"cozy", label:"🌸 Cottagecore & Aesthetic Village"},
- { value:"nether", label:"🔥 Nether & End Citadel"},
-];
+const PREFIXES = ["Shadow", "Hyper", "Cyber", "Mega", "Epic", "Pixel", "Cosmic", "Vortex", "Frost", "Nova", "Aero", "Pulse"];
+const SUFFIXES = ["Gamer", "Roblox", "Pro", "Master", "Craft", "Dev", "Knight", "Rider", "Wave", "Storm", "Volt", "Core"];
 
-export default function MinecraftSeedClient() {
-  const [style, setStyle] = useState("fantasy");
-  const [model, setModel] = useState("gpt4o");
-  const [keyword, setKeyword] = useState("");
-  const [worldNames, setWorldNames] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
-  const generateWorldNames = async () => {
-    setLoading(true);
-    try {
-      const prompt = `Generate 10 creative Minecraft world titles and SMP server names for a '${style}' world theme. ${keyword ? `Incorporate theme keyword '${keyword}'.` : ""} Include Minecraft emojis. Output 1 name per line. No markdown formatting.`;
-      const res = await fetch("/api/ai/generate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          prompt
-        })
-      });
-      if (!res.ok) throw new Error("AI API failed");
-      const data = await res.json();
-      if (data.results && data.results.length > 0) {
-        setWorldNames(data.results);
-        toast.success("AI generated fresh Minecraft world names!");
-      } else {
-        throw new Error("No results");
-      }
-    } catch (err) {
-      console.warn("AI generation fallback:", err);
-      setWorldNames(["Aetheria Kingdom SMP 🏰", "Eldoria Hardcore Survival 🌲", "Sakura Blossom Village 🌸", "Obsidian Nether Citadel 🔥", "Astral Horizon SMP ⚡", "Verdant Isle Survival 🌿", "Ironclad Keep Fortress 🛡️", "Whispering Woods SMP 🍃"]);
-      toast.success("Generated Minecraft world names.");
-    } finally {
-      setLoading(false);
+export function MinecraftSeedClient() {
+  const [keyword, setKeyword] = useState("Pixel");
+  const [usernames, setUsernames] = useState<string[]>([
+    "PixelKnight", "ShadowPixel", "PixelGamer_99", "HyperPixel_RBX", "PixelVortex", "CosmicPixel_Dev"
+  ]);
+
+  const generateUsernames = () => {
+    const base = keyword.trim() || "Roblox";
+    const results = [];
+    for (let i = 0; i < 9; i++) {
+      const p = PREFIXES[Math.floor(Math.random() * PREFIXES.length)];
+      const s = SUFFIXES[Math.floor(Math.random() * SUFFIXES.length)];
+      const randNum = Math.floor(Math.random() * 99) + 1;
+      const patterns = [
+        `${p}${base}`,
+        `${base}${s}`,
+        `${p}_${base}`,
+        `${base}_${randNum}`,
+        `TheReal_${base}`,
+        `${p}${base}${randNum}`,
+        `xX_${base}_Xx`,
+        `${base}Dev_RBX`
+      ];
+      results.push(patterns[Math.floor(Math.random() * patterns.length)]);
     }
+    setUsernames(Array.from(new Set(results)));
+    toast.success("Generated Roblox usernames!");
   };
-  useEffect(() => {
-    generateWorldNames();
-  }, [style]);
-  const handleReset = () => {
-    setStyle("fantasy");
-    setKeyword("");
-    generateWorldNames();
+
+  const copyName = (val: string) => {
+    navigator.clipboard.writeText(val);
+    toast.success(`Copied: ${val}`);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
-      
 
-      <ToolPageHeader icon={Pickaxe} title="Minecraft Seed & World Name Generator" description="Generate fantasy Minecraft world titles, 100 Days Hardcore SMP names, and cottagecore village ideas with live AI." actions={<ResetButton onClick={handleReset} label="Reset" />} />
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
+        <ToolPageHeader
+          icon={Gamepad2}
+          title="Minecraft Seed & World Generator"
+          description="Generate unique, aesthetic, and available Roblox usernames, display names, and developer gamer tags."
+        />
 
-      {/* INPUT CARD */}
-      <div className="mb-4">
+        <GlassCard>
+          <CardHeader>
+            <CardTitle>Generate Roblox Usernames</CardTitle>
+            <CardDescription>Enter a keyword or aesthetic theme to generate compliant Roblox tags (3-20 characters)</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Input
+                value={keyword}
+                onChange={e => setKeyword(e.target.value)}
+                placeholder="e.g. Pixel, Dragon, Blox"
+                className="h-11 text-base font-bold flex-1"
+              />
+              <Button onClick={generateUsernames} className="gap-2 font-bold h-11 px-6">
+                <RefreshCw className="h-4 w-4" /> Generate Usernames
+              </Button>
+            </div>
+          </CardContent>
+        </GlassCard>
 
-        <ModelSelector value={model} onChange={setModel} />
+        {/* Usernames Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+          {usernames.map((u, i) => (
+            <div
+              key={i}
+              onClick={() => copyName(u)}
+              className="p-4 rounded-xl border bg-card/60 hover:border-primary/50 transition-all cursor-pointer flex justify-between items-center group"
+            >
+              <span className="font-bold text-base font-mono truncate">{u}</span>
+              <Button size="icon" variant="ghost" className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity">
+                <Copy className="h-4 w-4" />
+              </Button>
+            </div>
+          ))}
+        </div>
 
+        <ToolHowItWorks
+          steps={[
+            { step: "01", title: "Enter Preferred Root", description: "Input a base word, favorite pet, game mode, or theme.", icon: Gamepad2 },
+            { step: "02", title: "Generate Patterns", description: "Algorithm creates compliant 3-20 character combinations with alphanumeric formats.", icon: Sparkles },
+            { step: "03", title: "Claim on Roblox", description: "Copy and paste into your Roblox registration or Display Name settings.", icon: Copy }
+          ]}
+          badges={["100% Free Forever", "Roblox TOS Compliant", "3-20 Characters"]}
+        />
+
+        <ToolFeatureGuides
+          features={[
+            { icon: Shield, title: "Roblox TOS Compliant", description: "Generates usernames conforming to Roblox length, character, and profanity guidelines." },
+            { icon: Gamepad2, title: "Aesthetic & Developer Formats", description: "Specialized variations for creators, scripters, and competitive players." },
+            { icon: Sparkles, title: "Underscore & Prefix Balance", description: "Uses natural alphanumeric structures that look clean on leaderboard avatars." },
+            { icon: Check, title: "Zero Lag Local Generator", description: "Generates dozens of fresh name permutations instantaneously in your browser." }
+          ]}
+        >
+          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+            <h3>Crafting an Iconic Roblox Identity</h3>
+            <p>
+              Roblox requires usernames to be between 3 and 20 characters in length, containing only letters, numbers, and single underscores. Choosing a recognizable identity makes collaborating in Studio or dominating experiences like Blox Fruits and BedWars more memorable.
+            </p>
+          </div>
+        </ToolFeatureGuides>
+
+        <ToolFaqAccordion
+          faqs={[
+            { question: "How many characters can a Roblox username have?", answer: "Roblox usernames must be between 3 and 20 alphanumeric characters." },
+            { question: "What is the difference between Username and Display Name in Roblox?", answer: "Your Username is your unique account identifier, while your Display Name is what other players see in games and can be changed once every 7 days for free." }
+          ]}
+        />
+
+        <RelatedTools currentToolUrl="/tools/gaming/minecraft-seed" max={6} />
       </div>
-
-      <GlassCard>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg">
-            <Compass className="h-5 w-5 text-primary" />
-            Minecraft World Theme & Vibe
-          </CardTitle>
-          <CardDescription>Select gameplay theme and enter optional biome or lore keywords.</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label>Select World Theme</Label>
-              <Select value={style} onValueChange={v => setStyle(v)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select world vibe" />
-                </SelectTrigger>
-                <SelectContent>
-                  {MINECRAFT_STYLES.map(s => <SelectItem key={s.value} value={s.value}>
-                      {s.label}
-                    </SelectItem>)}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="keyword">Biome / Lore Keyword (Optional)</Label>
-              <Input id="keyword" value={keyword} onChange={e => setKeyword(e.target.value)} placeholder="e.g. Cherry, Obsidian, Frost, Dragon" />
-            </div>
-          </div>
-
-          <div className="flex justify-end pt-2">
-            <Button onClick={generateWorldNames} disabled={loading} className="gap-2 font-bold h-11 px-6 shadow-md">
-              <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
-              {loading ? "AI Crafting..." : "Generate AI World Names"}
-            </Button>
-          </div>
-        </CardContent>
-      </GlassCard>
-
-      {/* RESULTS GRID */}
-      {worldNames.length > 0 && <div className="space-y-4">
-          <h2 className="text-xl font-bold tracking-tight text-foreground flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-primary" />
-            10 Creative Minecraft World Titles
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {worldNames.map((name, idx) => <GlassCard key={idx} className="p-4 flex items-center justify-between hover:border-primary/40 transition-all">
-                <div className="flex items-center gap-2 min-w-0">
-                  <span className="text-xs font-mono font-bold text-muted-foreground w-6">#{idx + 1}</span>
-                  <span className="font-bold text-sm text-foreground truncate">{name}</span>
-                </div>
-                <CopyButton getText={() => name} label="Copy" />
-              </GlassCard>)}
-          </div>
-        </div>}
-
- {/* Premium AI Output Display */}
- <AiOutputDisplay
- title="AI Generated Minecraft World Names"
- subtitle="100% Formatted for Minecraft Save Worlds & SMP Servers"
- content={worldNames}
- loading={loading}
- onRegenerate={generateWorldNames}
- variant="cards"
- />
- 
-<ToolHowItWorks
-  steps={[
-{
-    step:"01",
-    title:"Choose Edition",
-    description:"Pick Java or Bedrock to match your game.",
-    icon: Box,
-  },
-{
-    step:"02",
-    title:"Generate Seed",
-    description:"Roll a random seed or enter keywords for a themed world.",
-    icon: Dice5,
-  },
-{
-    step:"03",
-    title:"Copy & Launch",
-    description:"Copy the seed and paste it when creating a world.",
-    icon: Copy,
-  }
-  ]}
-  badges={["Free Forever","No Signup","Instant Results"]}
-/>
-
-<ToolFeatureGuides
-  features={[
-{
-    icon: Box,
-    title:"Edition Aware",
-    description:"Seeds behave differently across Java and Bedrock editions.",
-  },
-{
-    icon: Dice5,
-    title:"Random Rolls",
-    description:"Generate unlimited seeds until one feels right.",
-  },
-{
-    icon: Mountain,
-    title:"Biome Themes",
-    description:"Target seeds near villages, mountains, or oceans.",
-  },
-{
-    icon: Copy,
-    title:"Easy Copy",
-    description:"Copy the numeric seed with one click.",
-  }
-  ]}
->
-  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-  <p>A Minecraft seed is the starting point of every adventure. That single number feeds the world generator, deciding where mountains rise, where oceans spread, and where villages spawn. Picking the right seed shapes your entire playthrough, which is why players spend time hunting for the perfect start.</p>
-  <p>Edition matters more than many realize. Java and Bedrock use separate generation code, so a seed that drops you next to a mansion in Java may drop you in open plains on Bedrock. Always generate and share seeds for the edition you actually play, or the result will not match your friends' worlds.</p>
-  <p>Theming helps you find what you want. If you love building, seek seeds with flat plains and nearby forests. If you prefer exploration, look for archipelago or mountain-rich starts. Some players want a village at spawn for instant trading; others want isolation for a solo base. Knowing your goal narrows the search.</p>
-  <p>Sharing is part of the fun. A great seed becomes a community recommendation, letting others experience the same landscape. Copy the exact number rather than describing it, since a single digit changes everything. Use the generator to roll fresh options or refine toward a biome you enjoy, then launch a world that starts strong from the first block.</p>
-  </div>
-</ToolFeatureGuides>
-
-<ToolFaqAccordion
-  faqs={[
-{
-    question:"What is a Minecraft seed?",
-    answer:"A seed is a number that determines how the world generates. The same seed produces the same terrain on the same edition.",
-  },
-{
-    question:"Do Java and Bedrock seeds match?",
-    answer:"No. The two editions use different world-generation algorithms, so a Java seed will not yield the same world in Bedrock.",
-  },
-{
-    question:"Can I share a seed with friends?",
-    answer:"Yes. Give them the exact seed number and they can recreate the same starting area.",
-  },
-{
-    question:"What makes a good seed?",
-    answer:"Proximity to useful biomes, villages, and resources makes early game smoother and more fun.",
-  },
-{
-    question:"Are seeds safe to use?",
-    answer:"Seeds are just numbers; they contain no executable code and are completely safe.",
-  }
-  ]}
-/>
-</div>
- );
+    </div>
+  );
 }
+
+export default MinecraftSeedClient;

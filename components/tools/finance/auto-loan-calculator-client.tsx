@@ -1,31 +1,24 @@
 "use client";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-import React, { useState, useMemo } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
-import { Input } from"@/components/ui/input";
-import { Label } from"@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Calculator, Car, DollarSign, Percent, Receipt } from"lucide-react";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { DollarSign, Sparkles, Shield, Zap, Copy } from "lucide-react";
-import { GridPattern } from "@/components/magicui/grid-pattern";
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { GlassCard } from "@/components/ui/glass-card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { CopyButton, ResetButton, ActionButton } from "@/components/shared/action-buttons";
+import { cn } from "@/lib/utils";
+import toast from "react-hot-toast";
+import { Calculator, Car, DollarSign, Percent, Receipt, Sparkles, Shield, Zap, Copy } from "lucide-react";
+
 type AmortizationRow = {
   month: number;
   payment: number;
@@ -117,7 +110,10 @@ export function AutoLoanCalculatorClient() {
   const getResultsText = () => {
     return "Monthly Payment: $" + monthlyPayment.toFixed(2) + "\n" + "Amount Financed: $" + amountFinanced.toFixed(2) + "\n" + "Total Interest: $" + totalInterest.toFixed(2) + "\n" + "Total Vehicle Cost: $" + totalCost.toFixed(2);
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={DollarSign} title="Auto Loan Monthly Payment Calculator" description="Calculate auto loan monthly payments, total interest, sales tax, and trade-in value." actions={<ResetButton onClick={handleReset} label="Reset" />} />
@@ -237,8 +233,10 @@ export function AutoLoanCalculatorClient() {
  </div>}
  </CardContent>
  </GlassCard>
- )}
+ }
+
  
+
 <ToolHowItWorks
   steps={[
 {
@@ -319,6 +317,9 @@ export function AutoLoanCalculatorClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default AutoLoanCalculatorClient;

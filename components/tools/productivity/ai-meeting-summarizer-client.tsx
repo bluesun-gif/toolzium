@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useCallback } from "react";
@@ -12,7 +15,7 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { FileText, Sparkles, Copy, CheckCircle2, Sliders, RefreshCcw, Calendar, Users, Target, Clock } from "lucide-react";
+import { FileText, Sparkles, Copy, CheckCircle2, Sliders, RefreshCcw, Calendar, Users, Target, Clock, Check, Type } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 interface MeetingSummary {
@@ -61,7 +64,10 @@ export function AiMeetingSummarizerClient() {
     navigator.clipboard.writeText(text);
     toast.success(`${label} copied to clipboard!`);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 p-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={FileText} title="AI Meeting Notes & Transcript Summarizer" description="Convert messy meeting transcripts, Zoom audio logs, and raw notes into executive summaries, key decisions, and action items." />
@@ -194,8 +200,9 @@ export function AiMeetingSummarizerClient() {
         question: "Is my meeting transcript uploaded to external servers?",
         answer: "No. All text processing occurs locally within your browser context."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/productivity/ai-meeting-summarizer" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default AiMeetingSummarizerClient;

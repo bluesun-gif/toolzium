@@ -1,32 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import CompoundInterestClient from "@/components/tools/finance/compound-interest-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "Compound Interest | Toolzium";
+const DESCRIPTION = "Free online compound interest tool with instant calculation and privacy.";
+const PATH = "/tools/finance/compound-interest";
 
 export const metadata = buildMetadata({
-  title: "Compound Interest Calculator",
-  description: "Calculate compound interest with monthly contributions. See year-by-year breakdown of principal, interest earned, and total balance. Free compound interest calculator with formula display.",
-  path: "/tools/finance/compound-interest",
-  keywords: ["compound", "with", "calculate", "interest", "year", "breakdown", "contributions", "principal", "earned", "monthly"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Compound Interest Calculator",
-    description: "Calculate compound interest with monthly contributions. See year-by-year breakdown of principal, interest earned, and total balance. Free compound interest calculator with formula display.",
-    path: "/tools/finance/compound-interest",
-    categoryName: "Finance",
-    categoryPath: "/tools/finance",
+    name: "Compound Interest",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <CompoundInterestClient />
-    
-      <RelatedTools currentToolUrl="/tools/finance/compound-interest" />
-</div>
+    </>
   );
 }

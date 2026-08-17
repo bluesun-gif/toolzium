@@ -1,30 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import ColorConverterClient from "@/components/tools/dev/color-converter-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
+
+const TITLE = "Color Converter | Toolzium";
+const DESCRIPTION = "Free online color converter tool with instant calculation and privacy.";
+const PATH = "/tools/dev/color-converter";
+
 export const metadata = buildMetadata({
-  title: "Color Converter",
-  description: "Convert between HEX, RGB, HSL, and CMYK color formats. Color picker and converter with live preview. Extract colors from images and generate color palettes for web design.",
-  path: "/tools/dev/color-converter",
-  keywords: ["preview", "between", "with", "convert", "picker", "converter", "color", "extract", "cmyk", "formats", "live"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
     name: "Color Converter",
-    description: "Convert between HEX, RGB, HSL, and CMYK color formats. Color picker and converter with live preview. Extract colors from images and generate color palettes for web design.",
-    path: "/tools/dev/color-converter",
-    categoryName: "Dev",
-    categoryPath: "/tools/dev",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <ColorConverterClient />
-    
-      <RelatedTools currentToolUrl="/tools/dev/color-converter" />
-</div>
+    </>
   );
 }

@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo } from "react";
@@ -101,7 +102,10 @@ export function CssTransform3dClient() {
     question: "Can I nest 3D transformed elements?",
     answer: "Yes, but every intermediate parent container between the perspective origin and the final 3D element must also have 'transform-style: preserve-3d' applied to maintain the 3D rendering context."
   }];
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Box} title="CSS Transform 3D Generator" description="Build immersive CSS 3D environments with perspective, tri-axis rotation, and translateZ controls, featuring a live depth preview." />
@@ -204,7 +208,9 @@ export function CssTransform3dClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={faqs} />
- <RelatedTools currentToolUrl="/tools/dev/css-transform-3d" />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default CssTransform3dClient;

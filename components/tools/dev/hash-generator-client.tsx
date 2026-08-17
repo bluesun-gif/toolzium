@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { ActionButton, CopyButton, ExportTextButton, ResetButton } from "@/components/shared/action-buttons";
@@ -7,7 +10,7 @@ import SwitchRow from "@/components/shared/form-fields/switch-row";
 import TextareaField from "@/components/shared/form-fields/textarea-field";
 import Stat from "@/components/shared/stat";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { Check, Code2, DownloadCloud, Globe, Hash, Lock, RefreshCw, RotateCcw, ShieldCheck, Sparkles, TimerReset as Timer, Upload, Zap, BookOpen, Shield, Key, Copy, AlertTriangle, CheckCircle } from "lucide-react";
+import { Check, Code2, DownloadCloud, Globe, Hash, Lock, RefreshCw, RotateCcw, ShieldCheck, Sparkles, TimerReset as Timer, Upload, Zap, BookOpen, Shield, Key, Copy, AlertTriangle, CheckCircle, Settings, Type } from "lucide-react";
 import type React from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
@@ -126,7 +129,10 @@ export default function HashGeneratorClient() {
     setError(null);
     toast.success("Reset successfully!");
   }
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Hash} title="Hash Generator" description="MD5, SHA‑1, SHA‑256/384/512 • Text or File • Hex/Base64 • Optional HMAC & Salt." actions={<>
@@ -391,6 +397,7 @@ export default function HashGeneratorClient() {
         question: "Is it safe to hash passwords with SHA-256?",
         answer: "No. SHA-256 is too fast for password hashing — attackers can compute billions per second. Use bcrypt, Argon2id, or scrypt instead. These are purpose-built password hashing functions with configurable cost factors that make brute-force attacks impractically slow, even with modern GPU hardware."
       }]} />
- <RelatedTools currentToolUrl="/tools/dev/hash-generator" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

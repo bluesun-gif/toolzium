@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useCallback } from "react";
@@ -63,7 +66,10 @@ export function AiActionItemsClient() {
     navigator.clipboard.writeText(text);
     toast.success(`${label} copied!`);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 p-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={CheckSquare} title="AI Action Item & Task Extractor" description="Transform unorganized meeting transcripts, emails, and project briefs into actionable Jira/Linear task lists." />
@@ -169,8 +175,9 @@ export function AiActionItemsClient() {
         question: "How are task priorities calculated?",
         answer: "Tasks containing strict deadlines or blocking language are automatically categorized as High priority."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/productivity/ai-action-items" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default AiActionItemsClient;

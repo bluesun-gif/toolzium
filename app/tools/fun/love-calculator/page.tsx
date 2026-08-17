@@ -1,30 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import LoveCalculatorClient from "@/components/tools/fun/love-calculator-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
+
+const TITLE = "Love Calculator | Toolzium";
+const DESCRIPTION = "Free online love calculator tool with instant calculation and privacy.";
+const PATH = "/tools/fun/love-calculator";
+
 export const metadata = buildMetadata({
-  title: "Love Calculator",
-  description: "Calculate love compatibility between two names with our fun and deterministic love calculator.",
-  path: "/tools/fun/love-calculator",
-  keywords: ["between", "calculate", "with", "names", "calculator", "compatibility", "deterministic", "love"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
     name: "Love Calculator",
-    description: "Calculate love compatibility between two names with our fun and deterministic love calculator.",
-    path: "/tools/fun/love-calculator",
-    categoryName: "Fun",
-    categoryPath: "/tools/fun",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <LoveCalculatorClient />
-    
-      <RelatedTools currentToolUrl="/tools/fun/love-calculator" />
-</div>
+    </>
   );
 }

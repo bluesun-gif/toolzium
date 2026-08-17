@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { Button } from "@/components/ui/button";
@@ -92,7 +93,10 @@ export function TravelBudgetMatrixClient() {
     });
     return txt;
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Globe} title="Travel Budget Currency Comparison Matrix" description="Compare travel budgets across multiple destination currencies." actions={<div className="flex gap-2">
@@ -244,8 +248,9 @@ export function TravelBudgetMatrixClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/travel/travel-budget-matrix" max={6} />
-
-  </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default TravelBudgetMatrixClient;

@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { Button } from "@/components/ui/button";
@@ -10,7 +11,7 @@ import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dices, BarChart3, Calculator, TrendingUp } from "lucide-react";
+import { Dices, BarChart3, Calculator, TrendingUp, Type } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -81,7 +82,10 @@ export default function DiceProbabilityClient() {
       maxSum
     };
   }, [numDice, sides]);
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Dices} title="Dice Probability Calculator" description="Calculate exact probability distributions, expected values, and variances for any dice combination." />
@@ -199,7 +203,7 @@ export default function DiceProbabilityClient() {
         question: "Can I use this for board game strategy?",
         answer: "Absolutely. Knowing the exact probability of rolling a specific sum can heavily inform risk assessment in games like Settlers of Catan or Risk."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/fun/dice-probability" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

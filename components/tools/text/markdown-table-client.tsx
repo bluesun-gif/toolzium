@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo } from "react";
@@ -12,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CopyButton } from "@/components/shared/action-buttons";
 import toast from "react-hot-toast";
-import { Table, Plus, Minus, Copy } from "lucide-react";
+import { Table, Plus, Minus, Copy, Grid } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -66,7 +67,10 @@ export default function MarkdownTableClient() {
     setCols(cols - 1);
     setData(data.map(row => row.slice(0, -1)));
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Table} title="Markdown Table Generator" description="Create Markdown tables visually with an interactive grid editor." />
@@ -176,7 +180,7 @@ export default function MarkdownTableClient() {
         question: "What's the maximum table size?",
         answer: "The tool supports up to 10 rows and 8 columns, which covers most documentation needs."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/text/markdown-table" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

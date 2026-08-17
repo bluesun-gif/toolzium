@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
@@ -14,7 +15,7 @@ import { Switch } from "@/components/ui/switch";
 import { CopyButton } from "@/components/shared/action-buttons";
 import { ModelSelector } from "@/components/shared/model-selector";
 import toast from "react-hot-toast";
-import { Repeat, Sparkles, RefreshCw, FileText, PenTool } from "lucide-react";
+import { Repeat, Sparkles, RefreshCw, FileText, PenTool, Copy, Type } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 type ParaphraseStyle = "Standard" | "Fluency" | "Formal" | "Creative" | "Shorten" | "Expand";
@@ -86,7 +87,10 @@ ${text}`;
       setLoading(false);
     }
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Repeat} title="AI Paraphraser" description="Rewrite text in Formal, Casual, Academic, or Creative style while keeping the original meaning." />
@@ -225,7 +229,7 @@ ${text}`;
         question: "Can it paraphrase long text?",
         answer: "Yes, though very long passages may work better when broken into smaller sections."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/writing/ai-paraphraser" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

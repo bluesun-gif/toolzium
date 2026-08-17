@@ -1,4 +1,8 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+import { Card } from "@/components/ui/card";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect, useCallback } from "react";
@@ -16,7 +20,7 @@ import { cn } from "@/lib/utils";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
-import { Sparkles, Copy, Code2, Zap, RefreshCcw, Layers, Wand2, Settings2, ShieldCheck } from "lucide-react";
+import { Sparkles, Copy, Code2, Zap, RefreshCcw, Layers, Wand2, Settings2, ShieldCheck, Settings, Sliders, History, Grid } from "lucide-react";
 import toast from "react-hot-toast";
 interface OptimizedResult {
   expandedSuperPrompt: string;
@@ -264,7 +268,10 @@ export function PromptOptimizerClient() {
       return <span key={i}>{part}</span>;
     });
   };
-  return <div className="w-full min-h-screen pb-20 relative"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
  
  <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
  
@@ -531,9 +538,9 @@ export function PromptOptimizerClient() {
         question: "How does the Detail Depth slider work?",
         answer: "Increasing the depth slider instructs the engine to add exhaustive, multi-step execution parameters and edge-case handling to your output prompt."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/ai/prompt-optimizer" />
-
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default PromptOptimizerClient;

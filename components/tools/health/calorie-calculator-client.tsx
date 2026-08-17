@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -10,12 +12,9 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { Activity, Calculator, RotateCcw, Target, TrendingUp, User } from"lucide-react";
+import { Activity, Calculator, RotateCcw, Target, TrendingUp, User, Settings } from "lucide-react";
 import toast from"react-hot-toast";
 import { GridPattern } from"@/components/magicui/grid-pattern";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import { RelatedTools } from"@/components/shared/related-tools";
 
 type Gender ="male"|"female";
@@ -320,7 +319,7 @@ export default function CalorieCalculatorClient() {
  </Card>
  )}
  </div>
- </div>
+ 
  
 <ToolHowItWorks
   steps={[
@@ -401,6 +400,7 @@ export default function CalorieCalculatorClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }

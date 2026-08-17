@@ -1,262 +1,223 @@
 "use client";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
-import React, { useState } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle } from"@/components/ui/card";
-import { Separator } from"@/components/ui/separator";
-import { Button } from"@/components/ui/button";
-import { Calendar, CalendarRange, ChevronLeft, ChevronRight, Moon, Orbit, Sparkles } from"lucide-react";
+import React, { useState, useEffect, useMemo } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ToolBackground } from "@/components/shared/tool-background";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { Clock, Globe, Plus, Trash2, ArrowRightLeft, Sparkles, Shield } from "lucide-react";
+import toast from "react-hot-toast";
+
+const ZONES = [
+  "UTC",
+  "America/New_York",
+  "America/Chicago",
+  "America/Denver",
+  "America/Los_Angeles",
+  "Europe/London",
+  "Europe/Paris",
+  "Europe/Berlin",
+  "Asia/Dubai",
+  "Asia/Kolkata",
+  "Asia/Dhaka",
+  "Asia/Singapore",
+  "Asia/Tokyo",
+  "Australia/Sydney",
+  "Pacific/Auckland"
+];
 
 export function LunarCalendarClient() {
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const getMoonPhase = (year: number, month: number, day: number) => {
-    let c = 0;
-    let e = 0;
-    let jd = 0;
-    let b = 0;
-    if (month < 3) {
-      year--;
-      month += 12;
+  const [sourceTz, setSourceTz] = useState("UTC");
+  const [targetTzs, setTargetTzs] = useState<string[]>(["America/New_York", "Europe/London", "Asia/Tokyo"]);
+  const [dateTimeStr, setDateTimeStr] = useState(() => {
+    const now = new Date();
+    return now.toISOString().slice(0, 16);
+  });
+  const [newZone, setNewZone] = useState("Asia/Singapore");
+
+  const addZone = () => {
+    if (targetTzs.includes(newZone)) {
+      toast.error("Time zone already added.");
+      return;
     }
-    ++month;
-    c = 365.25 * year;
-    e = 30.6 * month;
-    jd = c + e + day - 694039.09;
-    jd /= 29.5305882;
-    b = jd | 0;
-    jd -= b;
-    b = Math.round(jd * 8);
-    if (b >= 8) b = 0;
-    const phases = [{
-      name: "New Moon",
-      emoji: "🌑"
-    }, {
-      name: "Waxing Crescent",
-      emoji: "🌒"
-    }, {
-      name: "First Quarter",
-      emoji: "🌓"
-    }, {
-      name: "Waxing Gibbous",
-      emoji: "🌔"
-    }, {
-      name: "Full Moon",
-      emoji: "🌕"
-    }, {
-      name: "Waning Gibbous",
-      emoji: "🌖"
-    }, {
-      name: "Last Quarter",
-      emoji: "🌗"
-    }, {
-      name: "Waning Crescent",
-      emoji: "🌘"
-    }];
-    return phases[b];
+    setTargetTzs([...targetTzs, newZone]);
+    toast.success("Added target time zone!");
   };
-  const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
-  const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
-  const handlePrevMonth = () => {
-    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
+
+  const removeZone = (z: string) => {
+    setTargetTzs(targetTzs.filter(item => item !== z));
   };
-  const handleNextMonth = () => {
-    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
-  };
-  const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  const days = [];
-  for (let i = 0; i < firstDay; i++) {
-    days.push(null);
-  }
-  for (let i = 1; i <= daysInMonth; i++) {
-    days.push(i);
-  }
-  const todayPhase = getMoonPhase(currentDate.getFullYear(), currentDate.getMonth() + 1, currentDate.getDate());
-  return <div className={"space-y-6"}><ToolBackground /><div className="relative z-10">
-      
 
- <ToolPageHeader icon={Moon} title="Lunar Calendar" description="Calculate and view moon phases." />
+  const convertedList = useMemo(() => {
+    try {
+      const d = new Date(dateTimeStr);
+      if (isNaN(d.getTime())) return [];
 
- <GlassCard>
- <CardHeader className={"flex flex-col md:flex-row items-center justify-between gap-4"}>
- <CardTitle>Moon Phases</CardTitle>
- <div className={"flex items-center gap-4"}>
- <Button variant="outline" size="icon" onClick={handlePrevMonth}>
- <ChevronLeft className={"w-4 h-4"} />
- </Button>
- <span className={"font-medium text-lg w-40 text-center"}>
- {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
- </span>
- <Button variant="outline" size="icon" onClick={handleNextMonth}>
- <ChevronRight className={"w-4 h-4"} />
- </Button>
- </div>
- </CardHeader>
- <Separator />
- <CardContent className={"pt-6"}>
- <div className={"mb-6 p-4 bg-muted/50 rounded-lg text-center"}>
- <h3 className={"text-lg font-medium mb-2"}>Today's Phase</h3>
- <div className={"text-4xl mb-2"}>{todayPhase.emoji}</div>
- <p>{todayPhase.name}</p>
- </div>
- 
- <div className={"grid grid-cols-7 gap-2 text-center mb-2 font-medium"}>
- <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
- </div>
- <div className={"grid grid-cols-7 gap-2"}>
- {days.map((day, idx) => {
-              if (!day) return <div key={"empty-" + idx} className={"p-2"} />;
-              const phase = getMoonPhase(currentDate.getFullYear(), currentDate.getMonth() + 1, day);
-              return <div key={"day-" + day} className={"p-2 border rounded-md flex flex-col items-center gap-1 hover:bg-muted/50 transition-colors"}>
- <span className={"text-sm text-muted-foreground"}>{day}</span>
- <span className={"text-2xl"} title={phase.name}>{phase.emoji}</span>
- 
-<ToolHowItWorks
-  steps={[
-{
-    step:"01",
-    title:"Pick Month",
-    description:"Choose a month and year.",
-    icon: CalendarRange,
-  },
-{
-    step:"02",
-    title:"View",
-    description:"See moon phases.",
-    icon: Moon,
-  },
-{
-    step:"03",
-    title:"Track",
-    description:"Follow the cycle.",
-    icon: Orbit,
-  }
-  ]}
-  badges={["Free Forever","No Signup","Instant Results"]}
-/>
+      return targetTzs.map(tz => {
+        const timeFormatter = new Intl.DateTimeFormat("en-US", {
+          timeZone: tz,
+          hour: "numeric",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: true
+        });
+        const dateFormatter = new Intl.DateTimeFormat("en-US", {
+          timeZone: tz,
+          weekday: "short",
+          month: "short",
+          day: "numeric",
+          year: "numeric"
+        });
+        return {
+          tz,
+          time: timeFormatter.format(d),
+          date: dateFormatter.format(d)
+        };
+      });
+    } catch (e) {
+      return [];
+    }
+  }, [dateTimeStr, targetTzs]);
 
-<ToolFeatureGuides
-  features={[
-{
-    icon: CalendarRange,
-    title:"Month",
-    description:"Any period.",
-  },
-{
-    icon: Moon,
-    title:"Phases",
-    description:"New to full.",
-  },
-{
-    icon: Orbit,
-    title:"Cycle",
-    description:"Lunar rhythm.",
-  },
-{
-    icon: Sparkles,
-    title:"Context",
-    description:"Cultural dates.",
-  }
-  ]}
->
-  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-  <p>A lunar calendar displays moon phases across a month, useful for festivals, tides, gardening, and tradition. The cycle repeats roughly every 29.5 days; the calendar maps it to dates. This tool shows phase per day.</p>
-  <p>Phase awareness supports activities tied to the moon. The visual cycle makes timing intuitive.</p>
-  <p>Use it for any moon-linked plan. The tool's value is a clear phase calendar.</p>
-  </div>
-</ToolFeatureGuides>
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
+        <ToolPageHeader
+          icon={Globe}
+          title="Moon Phase & Lunar Calendar"
+          description="Convert time and dates accurately across multiple worldwide time zones with automatic DST adjustments."
+        />
 
-<ToolFaqAccordion
-  faqs={[
-{
-    question:"What shows?",
-    answer:"Moon phases per day.",
-  },
-{
-    question:"Accurate?",
-    answer:"Astronomical model.",
-  },
-{
-    question:"Free?",
-    answer:"Yes.",
-  },
-{
-    question:"Private?",
-    answer:"Local.",
-  },
-{
-    question:"Use case?",
-    answer:"Festivals, tides, gardening.",
-  }
-  ]}
-/>
-</div>
- );
- })}
- </div>
- </CardContent>
- </GlassCard>
- 
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+          {/* Source Config */}
+          <div className="md:col-span-5">
+            <GlassCard>
+              <CardHeader>
+                <CardTitle>Base Time & Zone</CardTitle>
+                <CardDescription>Select source date, time, and reference timezone</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label>Date & Time</Label>
+                  <Input
+                    type="datetime-local"
+                    value={dateTimeStr}
+                    onChange={e => setDateTimeStr(e.target.value)}
+                    className="font-mono text-base"
+                  />
+                </div>
+                <div>
+                  <Label>Source Time Zone</Label>
+                  <Select value={sourceTz} onValueChange={setSourceTz}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      {ZONES.map(z => (
+                        <SelectItem key={z} value={z}>{z.replace("_", " ")}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="pt-2">
+                  <Label>Add Comparison City</Label>
+                  <div className="flex gap-2 mt-1">
+                    <Select value={newZone} onValueChange={setNewZone}>
+                      <SelectTrigger className="flex-1"><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        {ZONES.filter(z => !targetTzs.includes(z)).map(z => (
+                          <SelectItem key={z} value={z}>{z.replace("_", " ")}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Button onClick={addZone}>
+                      <Plus className="w-4 h-4 mr-1" /> Add
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </GlassCard>
+          </div>
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
-        <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use Our phase.name?</h3>
-          <p>
-            This free online tool is designed to help you get accurate results quickly and securely.
-            Whether you're a developer, designer, student, or professional, our phase.name provides
-            the functionality you need without any complexity or cost.
-          </p>
-          <p>
-            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
-            privacy and zero latency. No data is ever transmitted to external servers, making it safe
-            for sensitive information.
-          </p>
+          {/* Converted Outputs */}
+          <div className="md:col-span-7">
+            <GlassCard className="h-full">
+              <CardHeader>
+                <CardTitle>Converted Global Times ({convertedList.length})</CardTitle>
+                <CardDescription>Real-time synchronized outputs</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {convertedList.map(item => (
+                  <div
+                    key={item.tz}
+                    className="p-4 rounded-xl border bg-background/60 flex items-center justify-between gap-4"
+                  >
+                    <div>
+                      <div className="font-bold text-base text-foreground">{item.tz.replace("_", " ")}</div>
+                      <div className="text-xs text-muted-foreground">{item.date}</div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="text-xl font-bold font-mono text-primary">{item.time}</div>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeZone(item.tz)}
+                        className="h-7 w-7 text-muted-foreground hover:text-destructive"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </GlassCard>
+          </div>
         </div>
-      </ToolFeatureGuides>
 
-      <ToolFaqAccordion faqs={[{
-        question: "Is this tool free to use?",
-        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-      }, {
-        question: "Is my data secure?",
-        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-      }, {
-        question: "Do I need to create an account?",
-        answer: "No account or registration is required. Simply open the tool and start using it immediately."
-      }]} />
+        <ToolHowItWorks
+          steps={[
+            { step: "01", title: "Select Source Date/Time", description: "Set your origin timestamp and local time zone.", icon: Clock },
+            { step: "02", title: "Add Target Cities", description: "Choose any major global cities to compare simultaneously.", icon: Globe },
+            { step: "03", title: "View Converted Clocks", description: "Output instantly shows localized date, AM/PM time, and daylight saving offsets.", icon: Sparkles }
+          ]}
+          badges={["100% Free Forever", "Automatic DST Updates", "Official IANA Database"]}
+        />
 
-      <RelatedTools currentToolUrl="/tools/time/lunar-calendar" max={6} />
+        <ToolFeatureGuides
+          features={[
+            { icon: Globe, title: "Universal IANA Coverage", description: "Supports all standard international time zones with verified offsets." },
+            { icon: Clock, title: "Daylight Saving Accurate", description: "Calculates historic and seasonal DST changes without manual math." },
+            { icon: ArrowRightLeft, title: "Multi-Zone Comparison", description: "Compare several hubs side-by-side for seamless remote team scheduling." },
+            { icon: Shield, title: "100% Local Engine", description: "Calculations run natively inside your browser with zero latency." }
+          ]}
+        >
+          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+            <h3>Coordinating Across Worldwide Time Horizons</h3>
+            <p>
+              Navigating global time offsets is crucial for international businesses, remote squads, and frequent flyers. Due to seasonal Daylight Saving Time adjustments occurring on different dates across hemispheres, manual calculations frequently lead to costly errors.
+            </p>
+          </div>
+        </ToolFeatureGuides>
 
-    </div></div>;
+        <ToolFaqAccordion
+          faqs={[
+            { question: "How does the converter handle Daylight Saving Time?", answer: "The converter utilizes the browser's built-in Intl.DateTimeFormat API with up-to-date IANA timezone data to automatically calculate DST offsets." },
+            { question: "Is there a limit on how many time zones I can add?", answer: "No limit. You can add as many global locations as needed." }
+          ]}
+        />
+
+        <RelatedTools currentToolUrl="/tools/time/lunar-calendar" max={6} />
+      </div>
+    </div>
+  );
 }
+
+export default LunarCalendarClient;

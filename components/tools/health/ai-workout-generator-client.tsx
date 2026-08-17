@@ -1,4 +1,8 @@
 "use client";
+
+import { ModelSelector } from "@/components/shared/model-selector";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -9,7 +13,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { AiOutputDisplay } from"@/components/shared/ai-output-display";
-import { Activity, CalendarRange, Dumbbell, RefreshCw, Repeat, Target } from"lucide-react";
+import { Activity, CalendarRange, Dumbbell, RefreshCw, Repeat, Target, Type } from "lucide-react";
 import toast from"react-hot-toast";
 
 export default function AiWorkoutGeneratorClient() {
@@ -49,7 +53,10 @@ export default function AiWorkoutGeneratorClient() {
       setLoading(false);
     }
   };
-  return <div className="relative space-y-6 max-w-4xl mx-auto px-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Activity} title="AI Personal Workout Routine & Training Split Generator" description="Generate custom 3, 4, 5, or 6-day workout splits (Push-Pull-Legs, Upper-Lower, Full Body) with rep ranges and progressive overload rules using live AI." />
@@ -197,6 +204,7 @@ export default function AiWorkoutGeneratorClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }

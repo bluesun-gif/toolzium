@@ -1,7 +1,8 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
-import { ArrowLeftRight, Globe, Sparkles, TrendingUp, BookOpen, Calculator, Clock, DollarSign, Shield, Zap } from "lucide-react";
+import { ArrowLeftRight, Globe, Sparkles, TrendingUp, BookOpen, Calculator, Clock, DollarSign, Shield, Zap, Copy, History, Type } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ActionButton, CopyButton, ExportCSVButton, ResetButton } from "@/components/shared/action-buttons";
 import InputField from "@/components/shared/form-fields/input-field";
@@ -301,7 +302,10 @@ export default function CurrencyConverterClient() {
  {c.symbol && <span className="ml-2 text-muted-foreground">{c.symbol}</span>}
  </div>
   })), []);
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  {/* Header */}
@@ -561,6 +565,7 @@ export default function CurrencyConverterClient() {
         question: "Is this currency converter free to use?",
         answer: "Yes. The tool is completely free, privacy-friendly, and requires no account or signup. Conversion history is stored only in your browser."
       }]} />
- <RelatedTools currentToolUrl="/tools/calc/currency" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

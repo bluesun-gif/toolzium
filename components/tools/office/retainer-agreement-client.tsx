@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -12,7 +14,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { FileCheck2, FileText, Printer, Scale, ShieldCheck } from"lucide-react";
+import { FileCheck2, FileText, Printer, Scale, ShieldCheck, Copy } from "lucide-react";
 import { Button } from"@/components/ui/button";
 
 export function RetainerAgreementClient() {
@@ -45,7 +47,10 @@ export function RetainerAgreementClient() {
     setRollover("Expire");
     setTerminationNotice("30");
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Professional Service Retainer Agreement Generator" description="Generate formal Monthly Service Retainer Contracts for freelancers & agencies." icon={FileText} actions={<>
@@ -200,6 +205,9 @@ export function RetainerAgreementClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default RetainerAgreementClient;

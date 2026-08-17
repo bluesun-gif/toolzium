@@ -1,30 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import CoinFlipClient from "@/components/tools/util/coin-flip-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
+
+const TITLE = "Coin Flip | Toolzium";
+const DESCRIPTION = "Free online coin flip tool with instant calculation and privacy.";
+const PATH = "/tools/util/coin-flip";
+
 export const metadata = buildMetadata({
-  title: "Flip a Coin",
-  description: "Flip a virtual coin online with realistic 3D animation. Fair and unbiased heads or tails coin flipper using cryptographic randomness. Track flip history and statistics.",
-  path: "/tools/util/coin-flip",
-  keywords: ["virtual", "flip", "with", "animation", "coin", "unbiased", "fair", "heads", "online", "realistic", "tails"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Flip a Coin",
-    description: "Flip a virtual coin online with realistic 3D animation. Fair and unbiased heads or tails coin flipper using cryptographic randomness. Track flip history and statistics.",
-    path: "/tools/util/coin-flip",
-    categoryName: "Util",
-    categoryPath: "/tools/util",
+    name: "Coin Flip",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <CoinFlipClient />
-    
-      <RelatedTools currentToolUrl="/tools/util/coin-flip" />
-</div>
+    </>
   );
 }

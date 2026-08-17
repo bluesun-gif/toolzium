@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
@@ -9,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Calculator, DollarSign, PieChart, ShieldCheck, Wallet, ArrowUpRight } from "lucide-react";
+import { Calculator, DollarSign, PieChart, ShieldCheck, Wallet, ArrowUpRight, Copy } from "lucide-react";
 import toast from "react-hot-toast";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
@@ -65,7 +66,10 @@ Net Take-Home Pay Per Paycheck: $${netPaycheck.toFixed(2)}
 Estimated Annual Net Income: $${netAnnual.toLocaleString("en-US", {
     maximumFractionDigits: 0
   })}`;
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       <ToolPageHeader icon={Wallet} title="Salary / Net Pay Calculator" description="Calculate your net take-home paycheck after federal taxes, FICA (Social Security & Medicare), 401(k) retirement savings, and health insurance." actions={<ResetButton onClick={handleReset} label="Reset" />} />
@@ -202,7 +206,7 @@ Estimated Annual Net Income: $${netAnnual.toLocaleString("en-US", {
         question: "How do pre-tax deductions save money on taxes?",
         answer: "Pre-tax contributions (like 401k or HSA) reduce your gross taxable income before federal income tax rates are applied."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/finance/net-pay-calc" max={6} />
-    </div></div>;
+    </div>
+    </div>
+);
 }

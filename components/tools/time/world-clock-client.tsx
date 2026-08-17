@@ -1,4 +1,9 @@
 "use client";
+
+import { cn } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -11,7 +16,7 @@ import { Button } from"@/components/ui/button";
 import { Switch } from"@/components/ui/switch";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { Clock, Globe, Moon, Plus, RefreshCw, Sun, Users, X } from"lucide-react";
+import { Clock, Globe, Moon, Plus, RefreshCw, Sun, Users, X, Sparkles, Zap, Copy, Shield } from "lucide-react";
 import toast from"react-hot-toast";
 
 const ALL_CITIES = [
@@ -88,7 +93,10 @@ export function WorldClockClient() {
   const removeCity = (id: string) => {
     saveCities(cities.filter(c => c.id !== id));
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="World Clock" description="Monitor time across different cities and timezones simultaneously." icon={Globe} actions={<div className="flex items-center space-x-2 bg-secondary/30 p-2 rounded-md">
@@ -172,87 +180,8 @@ export function WorldClockClient() {
  {mainTime}
  {!is24Hour && ampm && <span className="text-lg font-sans text-muted-foreground">{ampm}</span>}
  
-<ToolHowItWorks
-  steps={[
-{
-    step:"01",
-    title:"Add Cities",
-    description:"Pick time zones.",
-    icon: Globe,
-  },
-{
-    step:"02",
-    title:"View",
-    description:"See all current times.",
-    icon: Clock,
-  },
-{
-    step:"03",
-    title:"Update",
-    description:"Times tick live.",
-    icon: RefreshCw,
-  }
-  ]}
-  badges={["Free Forever","No Signup","Instant Results"]}
-/>
-
-<ToolFeatureGuides
-  features={[
-{
-    icon: Globe,
-    title:"Cities",
-    description:"Multiple zones.",
-  },
-{
-    icon: Clock,
-    title:"Current",
-    description:"Live times.",
-  },
-{
-    icon: RefreshCw,
-    title:"Live",
-    description:"Updates continuously.",
-  },
-{
-    icon: Users,
-    title:"Compare",
-    description:"Side by side.",
-  }
-  ]}
->
-  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-  <p>A world clock displays current time across chosen cities at once, keeping you aware of colleagues' and family's local hours. Live updates mean no stale reads. This tool shows them side by side.</p>
-  <p>Awareness prevents calling someone at 3am. The clock supports courteous global coordination.</p>
-  <p>Use it for always-on time awareness. The tool's value is live, multi-city time at a glance.</p>
-  </div>
-</ToolFeatureGuides>
-
-<ToolFaqAccordion
-  faqs={[
-{
-    question:"What shows?",
-    answer:"Current time per city.",
-  },
-{
-    question:"Live?",
-    answer:"Yes, updates.",
-  },
-{
-    question:"Free?",
-    answer:"Yes.",
-  },
-{
-    question:"Private?",
-    answer:"Local.",
-  },
-{
-    question:"Use case?",
-    answer:"Global awareness.",
-  }
-  ]}
-/>
 </div>
- </CardContent>
+</CardContent>
  </GlassCard>;
         })}
  </div>
@@ -263,7 +192,9 @@ export function WorldClockClient() {
  <p className="text-muted-foreground">Add cities to your world clock to see their current time.</p>
  </div>}
  
-      <ToolHowItWorks steps={[{
+      </div>
+
+<ToolHowItWorks steps={[{
         step: "01",
         title: "Input Your Data",
         description: "Enter your information in the input field above and configure any options.",
@@ -318,8 +249,8 @@ export function WorldClockClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/time/world-clock" max={6} />
-
-    </div></div>;
+    </div>
+);
 }
+
+export default WorldClockClient;

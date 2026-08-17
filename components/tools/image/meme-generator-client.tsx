@@ -1,4 +1,8 @@
 "use client";
+
+import { cn } from "@/lib/utils";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -9,7 +13,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from"@/comp
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
-import { Download, Image as ImageIcon, Palette, RefreshCw, Type, Upload } from"lucide-react";
+import { Download, Image as ImageIcon, Palette, RefreshCw, Type, Upload, Settings, Grid } from "lucide-react";
 import toast from"react-hot-toast";
 
 const PRESET_TEMPLATES = [
@@ -159,7 +163,10 @@ export default function MemeGeneratorClient() {
     setUppercase(true);
     toast.success("Settings reset");
   };
-  return <div className="relative mx-auto max-w-5xl px-4 py-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Meme Generator" description="Create custom memes instantly in your browser. Upload your own image, edit texts, customize fonts, and download watermark-free memes." />
@@ -353,6 +360,7 @@ export default function MemeGeneratorClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }

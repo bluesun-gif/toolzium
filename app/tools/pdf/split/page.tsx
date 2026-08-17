@@ -1,19 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import PdfSplitClient from "@/components/tools/pdf/pdf-split-client";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "PDF Split";
+const DESCRIPTION = "Split PDFs into individual pages or page ranges.";
+const PATH = "/tools/pdf/split";
 
 export const metadata = buildMetadata({
-  title: "PDF Split",
-  description: "Split PDFs into individual pages or page ranges.",
-  path: "/tools/pdf/split",
-  keywords: ["split", "pages", "into", "ranges", "page", "individual", "pdfs"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
-export default function PdfSplitPage() {
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "PDF Split",
+    description: DESCRIPTION,
+    path: PATH
+  });
+
   return (
-    <><PdfSplitClient />
-      <RelatedTools currentToolUrl="/tools/pdf/split" />
+    <>
+      <JsonLd data={jsonLd} />
+      <PdfSplitClient />
     </>
   );
 }

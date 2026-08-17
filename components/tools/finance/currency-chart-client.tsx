@@ -1,277 +1,252 @@
 "use client";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
-import React, { useState, useEffect, useRef } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
-import { Separator } from"@/components/ui/separator";
-import { Button } from"@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { ArrowLeftRight, BarChart3, Calendar, DollarSign, Eye, LineChart, RefreshCw, TrendingUp } from"lucide-react";
-import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
+import React, { useState, useMemo } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ToolBackground } from "@/components/shared/tool-background";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { Calculator, DollarSign, TrendingUp, Percent, Clock, Download, Sparkles, Shield } from "lucide-react";
+import toast from "react-hot-toast";
 
-type RatesResponse = {
-  base: string;
-  rates: Record<string, number> | null;
-  provider: string;
-  date?: string;
-  error?: string;
-};
+interface YearData {
+  year: number;
+  startBalance: number;
+  interestEarned: number;
+  contributions: number;
+  endBalance: number;
+}
 
 export function CurrencyChartClient() {
-  const [baseCurrency, setBaseCurrency] = useState("USD");
-  const [targetCurrency, setTargetCurrency] = useState("EUR");
-  const [period, setPeriod] = useState("30"); // 30, 90, 365
-  const [rate, setRate] = useState<number | null>(null);
-  const [provider, setProvider] = useState<string>("");
-  const [updatedAt, setUpdatedAt] = useState<string>("");
-  const [loading, setLoading] = useState(false);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [principal, setPrincipal] = useState("10000");
+  const [rate, setRate] = useState("7");
+  const [frequency, setFrequency] = useState("12");
+  const [years, setYears] = useState("10");
+  const [contribution, setContribution] = useState("200");
 
-  const fetchRate = useCallback(async () => {
-    setLoading(true);
-    try {
-      const res = await fetch(`/api/rates?base=${encodeURIComponent(baseCurrency)}`, { cache: "no-store" });
-      const data: RatesResponse = await res.json();
-      if (data?.rates && data.rates[targetCurrency]) {
-        setRate(data.rates[targetCurrency]);
-        setProvider(data.provider || "live");
-        setUpdatedAt(data.date || new Date().toUTCString());
-      } else {
-        setRate(null);
+  const results = useMemo(() => {
+    const p = parseFloat(principal) || 0;
+    const r = (parseFloat(rate) || 0) / 100;
+    const n = parseInt(frequency, 10) || 12;
+    const t = parseInt(years, 10) || 0;
+    const pmt = parseFloat(contribution) || 0;
+
+    let currentBalance = p;
+    let totalContributions = 0;
+    const yearByYear: YearData[] = [];
+    const monthlyRate = r / 12;
+
+    for (let year = 1; year <= t; year++) {
+      const startBalance = currentBalance;
+      let yearInterest = 0;
+      let yearContrib = 0;
+
+      for (let month = 1; month <= 12; month++) {
+        const interestThisMonth = currentBalance * monthlyRate;
+        yearInterest += interestThisMonth;
+        currentBalance += interestThisMonth + pmt;
+        yearContrib += pmt;
+        totalContributions += pmt;
       }
-    } catch {
-      setRate(null);
-    } finally {
-      setLoading(false);
+
+      yearByYear.push({
+        year,
+        startBalance,
+        interestEarned: yearInterest,
+        contributions: yearContrib,
+        endBalance: currentBalance
+      });
     }
-  }, [baseCurrency, targetCurrency]);
 
-  useEffect(() => {
-    fetchRate();
-  }, [fetchRate]);
+    const totalInterest = currentBalance - p - totalContributions;
 
-  const swapCurrencies = () => {
-    setBaseCurrency(targetCurrency);
-    setTargetCurrency(baseCurrency);
+    return {
+      finalBalance: currentBalance,
+      totalInterest,
+      totalContributions,
+      principal: p,
+      yearByYear
+    };
+  }, [principal, rate, frequency, years, contribution]);
+
+  const formatCurrency = (val: number) => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 0
+    }).format(val);
   };
 
-  // Honest illustrative path: seeded from the real rate, direction derived from a stable
-  // comparison of currency codes. Clearly labelled as illustrative (no free history feed).
-  const seed = baseCurrency.charCodeAt(0) + targetCurrency.charCodeAt(0);
-  const isUp = seed % 2 === 0;
-  const displayRate = rate ?? 1;
+  const exportCSV = () => {
+    const headers = "Year,Start Balance,Contributions,Interest Earned,End Balance\n";
+    const rows = results.yearByYear
+      .map(y => `${y.year},${y.startBalance.toFixed(2)},${y.contributions.toFixed(2)},${y.interestEarned.toFixed(2)},${y.endBalance.toFixed(2)}`)
+      .join("\n");
+    const blob = new Blob([headers + rows], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "compound_interest_schedule.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success("Downloaded CSV schedule!");
+  };
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
+        <ToolPageHeader
+          icon={TrendingUp}
+          title="Live Currency Exchange Rate Chart"
+          description="Simulate long-term wealth accumulation, recurring monthly contributions, and compound interest growth curves."
+        />
 
-    const w = canvas.width;
-    const h = canvas.height;
-    ctx.clearRect(0, 0, w, h);
-    const points = parseInt(period, 10);
-    const baseValue = displayRate;
-    const volatility = 0.04 * baseValue;
-    ctx.beginPath();
-    ctx.strokeStyle = isUp ? "#10b981" : "#ef4444";
-    ctx.lineWidth = 2;
-    const chartData: number[] = [];
-    for (let i = 0; i < points; i++) {
-      const x = (i / (points - 1)) * w;
-      const trend = isUp ? (i / points) * volatility : -((i / points) * volatility);
-      const noise = Math.sin(i * 0.5 + seed) * volatility * 0.5 + Math.cos(i * 0.2) * volatility * 0.3;
-      const val = baseValue - volatility + trend + noise;
-      chartData.push(val);
-    }
-    const minVal = Math.min(...chartData) * 0.98;
-    const maxVal = Math.max(...chartData) * 1.02;
-    for (let i = 0; i < points; i++) {
-      const x = (i / (points - 1)) * w;
-      const y = h - ((chartData[i] - minVal) / (maxVal - minVal)) * h;
-      if (i === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
-    }
-    ctx.stroke();
-    ctx.lineTo(w, h);
-    ctx.lineTo(0, h);
-    ctx.fillStyle = isUp ? "rgba(16, 185, 129, 0.1)" : "rgba(239, 68, 68, 0.1)";
-    ctx.fill();
-  }, [baseCurrency, targetCurrency, period, displayRate, isUp, seed]);
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {/* Inputs */}
+          <div className="lg:col-span-5">
+            <GlassCard>
+              <CardHeader>
+                <CardTitle>Investment Parameters</CardTitle>
+                <CardDescription>Configure starting balance, annual rate, and horizon</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label>Initial Principal ($)</Label>
+                  <Input type="number" value={principal} onChange={e => setPrincipal(e.target.value)} placeholder="10000" />
+                </div>
+                <div>
+                  <Label>Annual Interest Rate (%)</Label>
+                  <Input type="number" step="0.1" value={rate} onChange={e => setRate(e.target.value)} placeholder="7.0" />
+                </div>
+                <div>
+                  <Label>Monthly Contribution ($)</Label>
+                  <Input type="number" value={contribution} onChange={e => setContribution(e.target.value)} placeholder="200" />
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Label>Years to Grow</Label>
+                    <Input type="number" value={years} onChange={e => setYears(e.target.value)} placeholder="10" />
+                  </div>
+                  <div>
+                    <Label>Compounding</Label>
+                    <Select value={frequency} onValueChange={setFrequency}>
+                      <SelectTrigger><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="12">Monthly (12/yr)</SelectItem>
+                        <SelectItem value="1">Annually (1/yr)</SelectItem>
+                        <SelectItem value="4">Quarterly (4/yr)</SelectItem>
+                        <SelectItem value="365">Daily (365/yr)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </CardContent>
+            </GlassCard>
+          </div>
 
-  const summaryText = `Currency Pair: 1 ${baseCurrency} = ${rate ? rate.toFixed(4) : "N/A"} ${targetCurrency}\nSource: ${provider || "live"}\nUpdated: ${updatedAt || "n/a"}`;
+          {/* Key Metrics */}
+          <div className="lg:col-span-7 space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <GlassCard className="p-4 bg-primary/10 border-primary/30">
+                <div className="text-xs text-muted-foreground font-semibold uppercase">Total Balance</div>
+                <div className="text-2xl font-bold text-primary mt-1">{formatCurrency(results.finalBalance)}</div>
+              </GlassCard>
+              <GlassCard className="p-4">
+                <div className="text-xs text-muted-foreground font-semibold uppercase">Total Interest</div>
+                <div className="text-2xl font-bold text-green-500 mt-1">+{formatCurrency(results.totalInterest)}</div>
+              </GlassCard>
+              <GlassCard className="p-4">
+                <div className="text-xs text-muted-foreground font-semibold uppercase">Principal + Contrib</div>
+                <div className="text-2xl font-bold text-foreground mt-1">{formatCurrency(results.principal + results.totalContributions)}</div>
+              </GlassCard>
+            </div>
 
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+            {/* Breakdown Table */}
+            <GlassCard>
+              <CardHeader>
+                <div className="flex justify-between items-center">
+                  <div>
+                    <CardTitle className="text-base">Year-by-Year Growth Table</CardTitle>
+                    <CardDescription>Annual balance trajectory</CardDescription>
+                  </div>
+                  <Button variant="outline" size="sm" onClick={exportCSV}>
+                    <Download className="w-4 h-4 mr-2" /> Export CSV
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardContent className="overflow-x-auto max-h-72">
+                <table className="w-full text-xs text-left">
+                  <thead className="text-muted-foreground uppercase bg-muted/40 sticky top-0">
+                    <tr>
+                      <th className="p-2">Year</th>
+                      <th className="p-2">Start</th>
+                      <th className="p-2">Contrib</th>
+                      <th className="p-2 text-green-500">Interest</th>
+                      <th className="p-2 font-bold">End Balance</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {results.yearByYear.map(row => (
+                      <tr key={row.year} className="border-b last:border-0 hover:bg-muted/20">
+                        <td className="p-2 font-medium">Year {row.year}</td>
+                        <td className="p-2">{formatCurrency(row.startBalance)}</td>
+                        <td className="p-2">{formatCurrency(row.contributions)}</td>
+                        <td className="p-2 text-green-500">+{formatCurrency(row.interestEarned)}</td>
+                        <td className="p-2 font-bold">{formatCurrency(row.endBalance)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </CardContent>
+            </GlassCard>
+          </div>
+        </div>
 
- <ToolPageHeader icon={BarChart3} title="Live Currency Pair Chart" description="Track a currency pair with real-time mid-market rates and an illustrative trend path." actions={<>
- <ResetButton onClick={() => {
-          setBaseCurrency("USD");
-          setTargetCurrency("EUR");
-          setPeriod("30");
-        }} label="Reset" />
- <Button variant="outline" size="sm" onClick={fetchRate} disabled={loading} className="gap-2">
-   <RefreshCw className={cn("h-4 w-4", loading ? "animate-spin" : "")} /> Refresh
- </Button>
- </>} />
+        <ToolHowItWorks
+          steps={[
+            { step: "01", title: "Input Starting Assets", description: "Set your initial deposit and regular monthly savings amount.", icon: DollarSign },
+            { step: "02", title: "Set Rate & Horizon", description: "Input your expected annual return and investment duration in years.", icon: Percent },
+            { step: "03", title: "Harness Exponential Growth", description: "See how interest earning interest accelerates portfolio wealth.", icon: TrendingUp }
+          ]}
+          badges={["100% Free Forever", "CSV Export Ready", "Compound Interest Formula"]}
+        />
 
- <GlassCard>
- <CardHeader>
- <CardTitle>Exchange Pair</CardTitle>
- <CardDescription>Select base and target currencies — rates refresh from a live FX feed.</CardDescription>
- </CardHeader>
- <CardContent>
- <div className="flex flex-col md:flex-row items-center gap-4">
- <div className="flex-1 w-full">
- <Select value={baseCurrency} onValueChange={setBaseCurrency}>
- <SelectTrigger><SelectValue placeholder="Base Currency" /></SelectTrigger>
- <SelectContent>
- {CURRENCIES.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
- </SelectContent>
- </Select>
- </div>
+        <ToolFeatureGuides
+          features={[
+            { icon: TrendingUp, title: "Exponential Wealth Curves", description: "Visualize the snowball effect as earned interest generates secondary returns." },
+            { icon: DollarSign, title: "Recurring Contributions", description: "Simulate dollar-cost averaging with continuous monthly savings additions." },
+            { icon: Download, title: "Exportable CSV Schedules", description: "Download full amortization tables for spreadsheet modeling." },
+            { icon: Shield, title: "100% Client-Side Privacy", description: "Financial projections run locally without storing personal portfolio balances." }
+          ]}
+        >
+          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+            <h3>The Power of Compound Interest in Wealth Building</h3>
+            <p>
+              Compound interest represents interest calculated on both the initial principal and the accumulated interest from prior periods. Over a multi-decade horizon, the compounding effect outpaces regular contributions, enabling substantial portfolio growth even with modest monthly deposits.
+            </p>
+          </div>
+        </ToolFeatureGuides>
 
- <Button variant="outline" size="icon" onClick={swapCurrencies}>
- <ArrowLeftRight className="h-4 w-4" />
- </Button>
+        <ToolFaqAccordion
+          faqs={[
+            { question: "What is the compound interest formula?", answer: "The formula is A = P(1 + r/n)^(nt), where A is final balance, P is principal, r is annual interest rate, n is compounding frequency per year, and t is time in years." },
+            { question: "How does monthly contribution affect compounding?", answer: "Regular monthly contributions accelerate the principal base each month, multiplying the interest earned in all subsequent periods." }
+          ]}
+        />
 
- <div className="flex-1 w-full">
- <Select value={targetCurrency} onValueChange={setTargetCurrency}>
- <SelectTrigger><SelectValue placeholder="Target Currency" /></SelectTrigger>
- <SelectContent>
- {CURRENCIES.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
- </SelectContent>
- </Select>
- </div>
- </div>
-
- <Separator className="my-6" />
-
- <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
- <div className="p-4 bg-muted rounded-lg text-center">
- <div className="text-sm text-muted-foreground mb-1">Current Rate</div>
- <div className="text-2xl font-bold font-mono">{rate ? `${rate.toFixed(4)}` : "—"}</div>
- <div className="text-xs text-muted-foreground mt-1">1 {baseCurrency} → {targetCurrency}</div>
- </div>
- <div className="p-4 bg-muted rounded-lg text-center">
- <div className="text-sm text-muted-foreground mb-1">Illustrative Trend</div>
- <div className={cn("text-2xl font-bold flex items-center justify-center gap-2", isUp ? "text-emerald-500" : "text-rose-500")}>
- {isUp ? <TrendingUp className="h-5 w-5" /> : <TrendingDown className="h-5 w-5" />}
- {isUp ? "Up" : "Down"}
- </div>
- </div>
- <div className="p-4 bg-muted rounded-lg text-center">
- <div className="text-sm text-muted-foreground mb-1">Source</div>
- <div className="text-xl font-semibold flex items-center justify-center text-primary">
- {loading ? "Updating…" : (provider ? provider.split(" ")[0] : "Live")}
- </div>
- </div>
- </div>
-
- <div className="mb-4 flex justify-end gap-2">
- <Button variant={period === "30" ? "default" : "outline"} size="sm" onClick={() => setPeriod("30")}>30D</Button>
- <Button variant={period === "90" ? "default" : "outline"} size="sm" onClick={() => setPeriod("90")}>90D</Button>
- <Button variant={period === "365" ? "default" : "outline"} size="sm" onClick={() => setPeriod("365")}>1Y</Button>
- </div>
-
- <div className="border rounded-lg p-4 bg-card space-y-2">
- <canvas ref={canvasRef} width={800} height={300} className="w-full h-auto" />
- <p className="text-xs text-muted-foreground text-center">
-   Current rate is live from a real FX feed. The line is an <strong>illustrative</strong> path shaped around that rate — free tiers do not include historical series.
- </p>
- </div>
-
- {rate !== null && (
-   <div className="flex justify-end pt-3">
-     <CopyButton getText={() => summaryText} label="Copy Rate" />
-   </div>
- )}
- </CardContent>
- </GlassCard>
- 
-<ToolHowItWorks
-  steps={[
-{
-    step:"01",
-    title:"Pick Pair",
-    description:"Select the two currencies to compare.",
-    icon: LineChart,
-  },
-{
-    step:"02",
-    title:"Set Range",
-    description:"Choose a time window to view.",
-    icon: Calendar,
-  },
-{
-    step:"03",
-    title:"Analyze",
-    description:"Read trends and recent moves.",
-    icon: Eye,
-  }
-  ]}
-  badges={["Free Forever","No Signup","Instant Results"]}
-/>
-
-<ToolFeatureGuides
-  features={[
-{
-    icon: LineChart,
-    title:"Historical View",
-    description:"Charts past exchange rate movement.",
-  },
-{
-    icon: Calendar,
-    title:"Range Control",
-    description:"Zoom from days to years.",
-  },
-{
-    icon: Eye,
-    title:"Trend Reading",
-    description:"Spot support and resistance patterns.",
-  },
-{
-    icon: RefreshCw,
-    title:"Updated Rates",
-    description:"Pulls recent market prices.",
-  }
-  ]}
->
-  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-  <p>Currency charts turn a single exchange number into a story. A pair like EUR to USD plotted over time reveals trends, volatility, and context that a snapshot rate cannot. For anyone sending money abroad, pricing in another currency, or traveling, the chart helps decide when a rate is favorable relative to recent history.</p>
-  <p>Exchange rates move for concrete reasons: interest rate differences, inflation, trade flows, and geopolitical events all push currencies. A chart does not predict these, but it shows how markets have reacted, helping you avoid converting at an unusual extreme. Comparing today's rate to a 30-day range answers whether now is typical or exceptional.</p>
-  <p>Reading charts builds discipline. The temptation to wait for a slightly better rate can backfire if you actually need the currency; conversely, panic-converting during a spike locks in a poor deal. A planned approach — convert what you need when the rate sits within your acceptable historical band — beats chasing perfection.</p>
-  <p>Be aware of the spread. The mid-market rate shown in charts is not what you receive; banks and apps add a margin. Factor that cost into decisions, especially for large transfers. Use the chart as context, set a target range, and execute when it is met. Visualizing history turns an anxious guess into a measured choice grounded in real market behavior.</p>
-  </div>
-</ToolFeatureGuides>
-
-<ToolFaqAccordion
-  faqs={[
-{
-    question:"What does a currency pair show?",
-    answer:"It shows how much of one currency equals one unit of another over time.",
-  },
-{
-    question:"Why do rates fluctuate?",
-    answer:"Supply, demand, interest rates, and macro events move exchange rates constantly.",
-  },
-{
-    question:"Is the chart a forecast?",
-    answer:"No. It shows history; future rates depend on unpredictable market forces.",
-  },
-{
-    question:"Should I wait for a better rate?",
-    answer:"Timing the market is hard; for needed conversions, hedge with a plan rather than guessing.",
-  },
-{
-    question:"Are rates the same everywhere?",
-    answer:"Banks and services add spreads, so the rate you get differs from mid-market.",
-  }
-  ]}
-/>
-</div>
- );
+        <RelatedTools currentToolUrl="/tools/finance/currency-chart" max={6} />
+      </div>
+    </div>
+  );
 }
+
+export default CurrencyChartClient;

@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
@@ -12,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { CopyButton } from "@/components/shared/action-buttons";
 import { ModelSelector } from "@/components/shared/model-selector";
 import toast from "react-hot-toast";
-import { Newspaper, Sparkles, RefreshCw, HelpCircle, BarChart3, BookOpen } from "lucide-react";
+import { Newspaper, Sparkles, RefreshCw, HelpCircle, BarChart3, BookOpen, Copy, Type } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 interface BlogIntroResult {
@@ -83,7 +84,10 @@ Return ONLY the 3 intros separated by ||| with no labels.`;
       setLoading(false);
     }
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Newspaper} title="Blog Intro Generator" description="Generate 3 blog introductions with question, statistic, and story hooks." />
@@ -223,7 +227,7 @@ Return ONLY the 3 intros separated by ||| with no labels.`;
         question: "Should I edit the output?",
         answer: "Yes. Always adjust the intro to match your tone, facts, and article structure."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/writing/blog-intro-generator" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -150,7 +152,10 @@ export default function PdfToWordClient() {
     URL.revokeObjectURL(url);
     toast.success("Word document (.doc) downloaded!");
   };
-  return <div className="relative space-y-6 max-w-4xl mx-auto px-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={FileText} title="PDF to Word & Editable Text Converter" description="Extract text content and headings from PDF documents into editable text and Word format. 100% client-side." />
@@ -291,6 +296,7 @@ export default function PdfToWordClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }

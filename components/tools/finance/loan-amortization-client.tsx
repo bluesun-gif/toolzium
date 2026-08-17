@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo } from "react";
@@ -9,7 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { DollarSign, Calculator, Calendar, Copy, BookOpen, Shield, PieChart, TrendingDown, BarChart3, Table2, Download } from "lucide-react";
+import { DollarSign, Calculator, Calendar, Copy, BookOpen, Shield, PieChart, TrendingDown, BarChart3, Table2, Download, Type } from "lucide-react";
 import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
@@ -90,7 +91,10 @@ export function LoanAmortizationClient() {
     setTermUnit("years");
     setExtraPayment("0");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Calculator} title="Loan Amortization Schedule" description="Calculate your monthly payments, view the full amortization table, and see how extra payments save you money." actions={<ResetButton onClick={handleReset} label="Reset" />} />
@@ -380,6 +384,9 @@ export function LoanAmortizationClient() {
         question: "Can I use this for any loan type?",
         answer: "Yes. This calculator works for any standard amortizing loan: mortgages, auto loans, personal loans, student loans, or business loans. It uses the standard amortization formula that all banks use. It does not handle interest-only loans, balloon payments, or variable-rate loans (use the fixed rate for estimates)."
       }]} />
- <RelatedTools currentToolUrl="/tools/finance/loan-amortization" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default LoanAmortizationClient;

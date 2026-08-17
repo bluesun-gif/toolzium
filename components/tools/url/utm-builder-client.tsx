@@ -1,4 +1,7 @@
 "use client";
+
+import { Card } from "@/components/ui/card";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback, useEffect } from "react";
@@ -15,7 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { cn } from "@/lib/utils";
-import { Copy, Download, History, Link2, QrCode, Sparkles, RefreshCcw, Wand2, Trash2 } from "lucide-react";
+import { Copy, Download, History, Link2, QrCode, Sparkles, RefreshCcw, Wand2, Trash2, Type } from "lucide-react";
 import toast from "react-hot-toast";
 const SOURCES = ["google", "facebook", "twitter", "linkedin", "email", "newsletter", "bing", "reddit"];
 const MEDIUMS = ["cpc", "social", "email", "banner", "referral", "organic", "video", "display"];
@@ -191,7 +194,10 @@ export function UTMBuilderClient() {
         </svg>
       </div>;
   };
-  return <div className="w-full min-h-screen pb-20 relative"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
@@ -371,7 +377,8 @@ export function UTMBuilderClient() {
             </div>
           </GlassCard>}
 
-        <ToolHowItWorks steps={[{
+        </div>
+<ToolHowItWorks steps={[{
           step: "01",
           title: "Enter Base URL",
           description: "Provide the destination URL for your marketing campaign or landing page.",
@@ -420,10 +427,9 @@ export function UTMBuilderClient() {
           question: "Are spaces allowed in UTM parameters?",
           answer: "It is best practice to avoid spaces. Use underscores (e.g. spring_sale) or hyphens instead."
         }]} />
-
-        <RelatedTools currentToolUrl="/tools/url/utm-builder" max={6} />
-      </div>
-    </div></div>;
+    </div>
+    </div>
+);
 }
-export { UTMBuilderClient as UtmBuilderClient };
+
 export default UTMBuilderClient;

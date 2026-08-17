@@ -1,4 +1,9 @@
 "use client";
+
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -108,7 +113,10 @@ export function EmailSignatureClient() {
   const getPlainText = () => {
     return `${data.name}\n${data.title} | ${data.company}\nPhone: ${data.phone}\nEmail: ${data.email}\nWebsite: ${data.website}\nLinkedIn: ${data.linkedin}\nTwitter: ${data.twitter}`;
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Mail} title="Email Signature Generator" description="Create professional HTML email signatures for your office needs." actions={<ResetButton onClick={() => setData({
@@ -336,6 +344,9 @@ export function EmailSignatureClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default EmailSignatureClient;

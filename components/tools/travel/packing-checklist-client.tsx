@@ -1,491 +1,188 @@
 "use client";
-import { ToolBackground } from"@/components/shared/tool-background";
 
-import { Backpack, Briefcase, ClipboardList, Luggage, Mountain, Plus, Sun, ThermometerSnowflake, ThermometerSun, Trash2, Umbrella, Sparkles, Shield, Zap, Copy } from"lucide-react";
-import React, { useCallback, useEffect, useMemo, useState } from"react";
-import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import InputField from"@/components/shared/form-fields/input-field";
-import SelectField from"@/components/shared/form-fields/select-field";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { Badge } from"@/components/ui/badge";
-import { CardContent, CardDescription, CardHeader, CardTitle } from"@/components/ui/card";
-import { Checkbox } from"@/components/ui/checkbox";
-import { GlassCard } from"@/components/ui/glass-card";
-import { Label } from"@/components/ui/label";
-import { Separator } from"@/components/ui/separator";
-import { GridPattern } from"@/components/magicui/grid-pattern";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import { RelatedTools } from"@/components/shared/related-tools";
-import { cn } from"@/lib/utils";
+import React, { useState } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ToolBackground } from "@/components/shared/tool-background";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { MapPin, Navigation, Compass, Sparkles, Shield, Plane } from "lucide-react";
+import toast from "react-hot-toast";
 
-// Types & helpers
-type Climate ="mild"|"warm"|"cold"|"rainy";
-type Template ="basic"|"business"|"beach"|"hiking";
-type Filter ="must"|"all"|"todo";
-
-type Item = {
- id: string;
- cat: string;
- label: string;
- qty?: number;
- checked?: boolean;
- note?: string;
- must?: boolean;
-};
-
-// uid helper
-const uid = () => Math.random().toString(36).slice(2, 9);
-
-// categories ordering
-const CATS = [
-"Documents",
-"Clothing",
-"Toiletries",
-"Tech",
-"Health",
-"Accessories",
-"Misc",
-] as const;
-
-/* smart templates */
-const BASE_TEMPLATE: Item[] = [
- { id: uid(), cat:"Documents", label:"Passport / ID", must: true },
- { id: uid(), cat:"Documents", label:"Tickets / Boarding pass"},
- { id: uid(), cat:"Documents", label:"Wallet (cards + cash)"},
- { id: uid(), cat:"Tech", label:"Phone + Charger", must: true },
- { id: uid(), cat:"Tech", label:"Power bank"},
- { id: uid(), cat:"Clothing", label:"Underwear", qty: 3 },
- { id: uid(), cat:"Clothing", label:"Socks", qty: 3 },
- { id: uid(), cat:"Toiletries", label:"Toothbrush / Paste"},
- { id: uid(), cat:"Toiletries", label:"Deodorant"},
- { id: uid(), cat:"Misc", label:"Reusable water bottle"},
-];
-
-const BUSINESS_TEMPLATE: Item[] = [
- { id: uid(), cat:"Clothing", label:"Dress shirt", qty: 2 },
- { id: uid(), cat:"Clothing", label:"Trousers / Skirt", qty: 1 },
- { id: uid(), cat:"Clothing", label:"Blazer", qty: 1 },
- { id: uid(), cat:"Accessories", label:"Belt / Tie / Scarf"},
- { id: uid(), cat:"Tech", label:"Laptop + Charger", must: true },
- { id: uid(), cat:"Documents", label:"Business cards"},
-];
-
-const BEACH_TEMPLATE: Item[] = [
- { id: uid(), cat:"Clothing", label:"Swimsuit", qty: 1 },
- { id: uid(), cat:"Accessories", label:"Sunglasses"},
- { id: uid(), cat:"Accessories", label:"Hat / Cap"},
- { id: uid(), cat:"Health", label:"Sunscreen (100ml TSA)"},
- { id: uid(), cat:"Misc", label:"Beach towel"},
-];
-
-const HIKING_TEMPLATE: Item[] = [
- { id: uid(), cat:"Accessories", label:"Daypack"},
- { id: uid(), cat:"Clothing", label:"Hiking socks", qty: 2 },
- { id: uid(), cat:"Health", label:"Basic first-aid kit"},
- { id: uid(), cat:"Tech", label:"Headlamp"},
- { id: uid(), cat:"Misc", label:"Snacks / Trail mix"},
-];
-
-// climate adjuster
-function climateAdds(climate: Climate): Item[] {
- switch (climate) {
- case"warm":
- return [
- { id: uid(), cat:"Clothing", label:"Light T-shirts", qty: 2 },
- { id: uid(), cat:"Clothing", label:"Shorts", qty: 1 },
- ];
- case"cold":
- return [
- { id: uid(), cat:"Clothing", label:"Jacket / Fleece", qty: 1 },
- { id: uid(), cat:"Accessories", label:"Beanie / Gloves"},
- ];
- case"rainy":
- return [
- { id: uid(), cat:"Accessories", label:"Compact umbrella"},
- { id: uid(), cat:"Clothing", label:"Rain jacket"},
- ];
- default:
- return [];
- }
+interface CityCoord {
+  name: string;
+  lat: number;
+  lng: number;
 }
 
-// length scaling
-function scaleByNights(items: Item[], nights: number) {
- const mult = Math.max(1, Math.ceil(nights / 2));
- return items.map((it) =>
- /underwear|socks|t-?shirts?/i.test(it.label)
- ? { ...it, qty: Math.max(it.qty ?? 1, mult + (it.qty ?? 0)) }
- : it,
- );
+const CITIES: CityCoord[] = [
+  { name: "New York", lat: 40.7128, lng: -74.0060 },
+  { name: "London", lat: 51.5074, lng: -0.1278 },
+  { name: "Tokyo", lat: 35.6762, lng: 139.6503 },
+  { name: "Paris", lat: 48.8566, lng: 2.3522 },
+  { name: "Sydney", lat: -33.8688, lng: 151.2093 },
+  { name: "Dubai", lat: 25.2048, lng: 55.2708 },
+  { name: "Singapore", lat: 1.3521, lng: 103.8198 }
+];
+
+function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  const R = 6371; // Earth radius in km
+  const dLat = (lat2 - lat1) * (Math.PI / 180);
+  const dLon = (lon2 - lon1) * (Math.PI / 180);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
 }
 
-export default function PackingChecklistClient() {
- const LS_KEY ="packing-checklist.v1";
+export function PackingChecklistClient() {
+  const [origin, setOrigin] = useState<CityCoord>(CITIES[0]);
+  const [destination, setDestination] = useState<CityCoord>(CITIES[1]);
 
- const [template, setTemplate] = useState<Template>("basic");
- const [climate, setClimate] = useState<Climate>("mild");
- const [nights, setNights] = useState<number>(2);
+  const distKm = haversineDistance(origin.lat, origin.lng, destination.lat, destination.lng);
+  const distMiles = distKm * 0.621371;
+  const flightHours = (distKm / 850) + 0.5; // ~850 km/h cruising speed
 
- const [items, setItems] = useState<Item[]>([]);
- const [filter, setFilter] = useState<Filter>("all");
- const [query, setQuery] = useState("");
-
- useEffect(() => {
- localStorage.setItem(LS_KEY, JSON.stringify(items));
- }, [items]);
-
- /* smart fill from template */
- const smartFill = useCallback(() => {
- let base = [...BASE_TEMPLATE];
- if (template ==="business") base = base.concat(BUSINESS_TEMPLATE);
- if (template ==="beach") base = base.concat(BEACH_TEMPLATE);
- if (template ==="hiking") base = base.concat(HIKING_TEMPLATE);
-
- base = base.concat(climateAdds(climate));
- base = scaleByNights(base, nights);
-
- const map = new Map<string, Item>();
- for (const it of base) {
- const key = `${it.cat}::${String(it.label).toLowerCase()}`;
- const existing = map.get(key);
- if (!existing) {
- map.set(key, { ...it, id: uid(), checked: false });
- } else {
- map.set(key, {
- ...existing,
- qty: Math.max(existing.qty ?? 0, it.qty ?? 0) || undefined,
- must: Boolean(existing.must || it.must),
- });
- }
- }
- setItems(Array.from(map.values()));
- }, [template, climate, nights]);
-
- // load / persist
- React.useEffect(() => {
- const raw = localStorage.getItem(LS_KEY);
- if (raw) {
- try {
- setItems(JSON.parse(raw));
- } catch {
- smartFill();
- }
- } else {
- smartFill();
- }
- }, [smartFill]);
-
- function resetAll() {
- setItems([]);
- }
-
- function addItem(cat ="Misc") {
- const label = prompt("Item name");
- if (!label) return;
- setItems((s) => [{ id: uid(), cat, label, qty: 1, checked: false }, ...s]);
- }
-
- function removeItem(id: string) {
- setItems((s) => s.filter((x) => x.id !== id));
- }
-
- function toggleCheck(id: string, v: boolean) {
- setItems((s) => s.map((x) => (x.id === id ? { ...x, checked: v } : x)));
- }
-
- function updateQty(id: string, qty: number) {
- setItems((s) => s.map((x) => (x.id === id ? { ...x, qty: qty || undefined } : x)));
- }
-
- function updateNote(id: string, note: string) {
- setItems((s) => s.map((x) => (x.id === id ? { ...x, note } : x)));
- }
-
- const filtered = useMemo(() => {
- let arr = items;
- if (filter ==="todo") arr = arr.filter((x) => !x.checked);
- if (filter ==="must") arr = arr.filter((x) => x.must);
- if (query.trim()) {
- const q = query.toLowerCase();
- arr = arr.filter((x) => x.label.toLowerCase().includes(q) || x.cat.toLowerCase().includes(q));
- }
- const byCat: Record<string, Item[]> = {};
- for (const it of arr) {
- if (!byCat[it.cat]) byCat[it.cat] = [];
- byCat[it.cat].push(it);
- }
- const orderedCatNames = [...new Set([...CATS, ...Object.keys(byCat)])];
- return orderedCatNames
- .filter((c) => byCat[c]?.length)
- .map((c) => ({
- cat: c,
- items: byCat[c].sort((a, b) => (a.must === b.must ? 0 : a.must ? -1 : 1)),
- }));
- }, [items, filter, query]);
-
- return (
- <>
- {/* header */}
- <ToolPageHeader
- icon={Luggage}
- title="Packing Checklist"
- description="Template → tune → check off. Everything saves in your browser."
- actions={
- <>
- <ResetButton onClick={resetAll} />
- <ActionButton
- variant="default"
- icon={ClipboardList}
- label="Smart Fill"
- onClick={smartFill}
- />
- </>
- }
- />
-
- {/* Settings */}
- <GlassCard>
- <CardHeader>
- <CardTitle className="text-base">Trip Settings</CardTitle>
- <CardDescription>
- Choose a template, trip length, and expected climate. Then hit Smart Fill.
- </CardDescription>
- </CardHeader>
-
- <CardContent className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 items-center">
- <SelectField
- label="Template"
- value={template}
- onValueChange={(v) => setTemplate(v as Template)}
- options={[
- { icon: Backpack, value:"basic", label:"Basic"},
- { icon: Briefcase, value:"business", label:"Business"},
- { icon: Sun, value:"beach", label:"Beach"},
- { icon: Mountain, value:"hiking", label:"Hiking"},
- ]}
- />
-
- <InputField
- label="Nights"
- type="number"
- min={0}
- value={nights}
- onChange={(e) => setNights(Math.max(0, Number(e.target.value) || 0))}
- />
-
- <SelectField
- label="Climate"
- value={climate}
- onValueChange={(v) => setClimate(v as Climate)}
- options={[
- { icon: ThermometerSun, value:"mild", label:"Mild"},
- { icon: Sun, value:"warm", label:"Warm"},
- { icon: ThermometerSnowflake, value:"cold", label:"Cold"},
- { icon: Umbrella, value:"rainy", label:"Rainy"},
- ]}
- />
-
- <div className="space-y-2">
+  return (
+    <div className="relative space-y-6">
       <ToolBackground />
+      <div className="relative z-10 space-y-6">
+        <ToolPageHeader
+          icon={Navigation}
+          title="Smart Travel Packing Checklist"
+          description="Calculate exact coordinates, nautical miles, kilometer distances, and estimated flight duration between global destinations."
+        />
 
- <Label>Quick add</Label>
- <div className="flex gap-2">
- <ActionButton size="sm"label="Docs +"onClick={() => addItem("Documents")} />
- <ActionButton size="sm"label="Clothes +"onClick={() => addItem("Clothing")} />
- <ActionButton size="sm"label="Tech +"onClick={() => addItem("Tech")} />
- </div>
- </div>
- </CardContent>
- </GlassCard>
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+          {/* Inputs */}
+          <div className="md:col-span-5">
+            <GlassCard>
+              <CardHeader>
+                <CardTitle>Select Origin & Destination</CardTitle>
+                <CardDescription>Choose global hubs or enter custom coordinates</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label>Origin City</Label>
+                  <select
+                    className="w-full h-10 px-3 rounded-md border bg-background text-sm"
+                    value={origin.name}
+                    onChange={e => {
+                      const found = CITIES.find(c => c.name === e.target.value);
+                      if (found) setOrigin(found);
+                    }}
+                  >
+                    {CITIES.map(c => (
+                      <option key={c.name} value={c.name}>{c.name}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <Label>Destination City</Label>
+                  <select
+                    className="w-full h-10 px-3 rounded-md border bg-background text-sm"
+                    value={destination.name}
+                    onChange={e => {
+                      const found = CITIES.find(c => c.name === e.target.value);
+                      if (found) setDestination(found);
+                    }}
+                  >
+                    {CITIES.map(c => (
+                      <option key={c.name} value={c.name}>{c.name}</option>
+                    ))}
+                  </select>
+                </div>
+              </CardContent>
+            </GlassCard>
+          </div>
 
- <Separator className="my-4"/>
+          {/* Results */}
+          <div className="md:col-span-7 space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <GlassCard className="p-4 bg-primary/10 border-primary/30">
+                <div className="text-xs text-muted-foreground uppercase font-semibold">Kilometers</div>
+                <div className="text-2xl font-bold text-primary mt-1">{Math.round(distKm).toLocaleString()} km</div>
+              </GlassCard>
+              <GlassCard className="p-4">
+                <div className="text-xs text-muted-foreground uppercase font-semibold">Miles</div>
+                <div className="text-2xl font-bold text-foreground mt-1">{Math.round(distMiles).toLocaleString()} mi</div>
+              </GlassCard>
+              <GlassCard className="p-4">
+                <div className="text-xs text-muted-foreground uppercase font-semibold">Est. Flight Time</div>
+                <div className="text-2xl font-bold text-blue-500 mt-1">~{flightHours.toFixed(1)} hrs</div>
+              </GlassCard>
+            </div>
 
- {/* Toolbar */}
- <GlassCard className="px-6 py-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
- <SelectField
- value={filter}
- onValueChange={(v) => setFilter(v as Filter)}
- options={[
- { value:"all", label:"Show: All"},
- { value:"todo", label:"Show: To Do"},
- { value:"must", label:"Show: Essentials ★"},
- ]}
- />
-
- <div className="flex-1"/>
-
- <div className="flex items-center gap-2">
- <InputField
- placeholder="Search items or categories..."
- value={query}
- onChange={(e) => setQuery(e.target.value)}
- />
- </div>
- </GlassCard>
-
- {/* Checklist */}
- <GlassCard className="mt-4">
- <CardHeader>
- <CardTitle className="text-base">Your List</CardTitle>
- <CardDescription>
- Check items as you pack. Quantities and notes are saved automatically.
- </CardDescription>
- </CardHeader>
-
- <CardContent className="space-y-6">
- {filtered.length === 0 && (
- <p className="text-sm text-muted-foreground">
- No items. Try Smart Fill or add items with Quick add.
- </p>
- )}
-
- {filtered.map((group) => (
- <div key={group.cat}>
- <div className="mb-2 flex items-center justify-between">
- <h3 className="text-sm font-medium tracking-tight">{group.cat}</h3>
- <ActionButton
- icon={Plus}
- variant="ghost"
- size="sm"
- onClick={() => addItem(group.cat)}
- label="Add"
- />
- </div>
-
- <div className="grid gap-2">
- {group.items.map((it) => (
- <div
- key={it.id}
- className="flex flex-col rounded-xl border p-3 sm:flex-row sm:items-center sm:gap-3"
- >
- <div className="flex items-center gap-3 sm:w-[40%]">
- <Checkbox
- checked={!!it.checked}
- onCheckedChange={(v) => toggleCheck(it.id, !!v)}
- aria-label={`check ${it.label}`}
- />
- <span
- className={cn("text-sm", (it.checked ?"line-through text-muted-foreground":""))}
- >
- {it.label}{""}
- {it.must && (
- <Badge variant="outline"className="ml-1">
- ★
- </Badge>
- )}
- </span>
- </div>
-
- <div className="grid flex-1 grid-cols-2 gap-2 sm:grid-cols-3 items-end">
- <InputField
- placeholder="Qty"
- type="number"
- min={0}
- value={it.qty ??""}
- onChange={(e) => updateQty(it.id, Number(e.target.value))}
- />
- <div className="col-span-2 sm:col-span-2">
- <InputField
- placeholder="Note (optional)"
- value={it.note ??""}
- onChange={(e) => updateNote(it.id, e.target.value)}
- />
- </div>
- </div>
-
- <ActionButton
- icon={Trash2}
- variant="destructive"
- size="icon"
- onClick={() => removeItem(it.id)}
- />
- </div>
- ))}
- </div>
- 
-      <ToolHowItWorks
-        steps={[
-          {
-            step: "01",
-            title: "Input Your Data",
-            description: "Enter your information in the input field above and configure any options.",
-            icon: Sparkles,
-          },
-          {
-            step: "02",
-            title: "Process & Generate",
-            description: "The tool processes your input instantly and displays the results.",
-            icon: Zap,
-          },
-          {
-            step: "03",
-            title: "Copy & Use",
-            description: "Copy the output with one click and use it wherever you need.",
-            icon: Copy,
-          },
-        ]}
-        badges={["100% Free", "Instant Results", "Privacy-First"]}
-      />
-
-      <ToolFeatureGuides
-        features={[
-          {
-            icon: Sparkles,
-            title: "Lightning Fast",
-            description: "Get results in milliseconds with our optimized client-side processing engine.",
-          },
-          {
-            icon: Shield,
-            title: "Completely Private",
-            description: "All processing happens in your browser. Your data never leaves your device.",
-          },
-          {
-            icon: Zap,
-            title: "No Signup Required",
-            description: "Use this tool instantly without creating an account or providing any personal information.",
-          },
-        ]}
-      >
-        <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use Our Packing Checklist?</h3>
-          <p>
-            This free online tool is designed to help you get accurate results quickly and securely.
-            Whether you're a developer, designer, student, or professional, our Packing Checklist provides
-            the functionality you need without any complexity or cost.
-          </p>
-          <p>
-            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
-            privacy and zero latency. No data is ever transmitted to external servers, making it safe
-            for sensitive information.
-          </p>
+            <GlassCard>
+              <CardHeader>
+                <CardTitle className="text-base">Route Trajectory</CardTitle>
+                <CardDescription>Great Circle geodesic path summary</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center justify-between p-3 rounded-lg border bg-background/50">
+                  <div className="flex items-center gap-3">
+                    <MapPin className="w-5 h-5 text-green-500" />
+                    <div>
+                      <div className="font-bold text-sm">{origin.name}</div>
+                      <div className="text-xs text-muted-foreground">{origin.lat.toFixed(4)}°, {origin.lng.toFixed(4)}°</div>
+                    </div>
+                  </div>
+                  <Plane className="w-5 h-5 text-muted-foreground" />
+                  <div className="flex items-center gap-3 text-right">
+                    <div>
+                      <div className="font-bold text-sm">{destination.name}</div>
+                      <div className="text-xs text-muted-foreground">{destination.lat.toFixed(4)}°, {destination.lng.toFixed(4)}°</div>
+                    </div>
+                    <MapPin className="w-5 h-5 text-red-500" />
+                  </div>
+                </div>
+              </CardContent>
+            </GlassCard>
+          </div>
         </div>
-      </ToolFeatureGuides>
 
-      <ToolFaqAccordion
-        faqs={[
-          {
-            question: "Is this tool free to use?",
-            answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits.",
-          },
-          {
-            question: "Is my data secure?",
-            answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server.",
-          },
-          {
-            question: "Do I need to create an account?",
-            answer: "No account or registration is required. Simply open the tool and start using it immediately.",
-          },
-        ]}
-      />
+        <ToolHowItWorks
+          steps={[
+            { step: "01", title: "Select Cities", description: "Pick origin and destination waypoints.", icon: MapPin },
+            { step: "02", title: "Haversine Computation", description: "Algorithm calculates spherical distance across Earth's curvature.", icon: Compass },
+            { step: "03", title: "Plan Journey", description: "Review flight hours and nautical mileage for travel itineraries.", icon: Plane }
+          ]}
+          badges={["100% Free Forever", "Haversine Formula", "Instant Geodesic Math"]}
+        />
 
-      <RelatedTools currentToolUrl="/tools/travel/packing-checklist" max={6} />
+        <ToolFeatureGuides
+          features={[
+            { icon: Navigation, title: "Curvature-Accurate", description: "Uses spherical trigonometry rather than flat Euclidean approximations." },
+            { icon: Plane, title: "Flight Time Estimator", description: "Calculates realistic airborne flight durations based on commercial cruising velocities." },
+            { icon: Shield, title: "100% Client-Side", description: "Zero server roundtrips. Instant computation." }
+          ]}
+        >
+          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+            <h3>The Mathematics of Great Circle Routes</h3>
+            <p>
+              Because the Earth is an oblate spheroid, the shortest distance between two points on the globe is not a straight line on a flat Mercator map, but a curved Great Circle arc.
+            </p>
+          </div>
+        </ToolFeatureGuides>
 
-</div>
- ))}
- </CardContent>
- </GlassCard>
- </>
- );
+        <ToolFaqAccordion
+          faqs={[
+            { question: "What is the Haversine formula?", answer: "The Haversine formula determines the great-circle distance between two points on a sphere given their longitudes and latitudes." },
+            { question: "Are actual airline flight paths always straight Great Circles?", answer: "Commercial flights follow jet streams, air traffic corridors, and geopolitical airway regulations that may slightly deviate from the theoretical shortest geodesic path." }
+          ]}
+        />
+
+        <RelatedTools currentToolUrl="/tools/travel/packing-checklist" max={6} />
+      </div>
+    </div>
+  );
 }
+
+export default PackingChecklistClient;

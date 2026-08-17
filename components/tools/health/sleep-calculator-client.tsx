@@ -1,363 +1,182 @@
 "use client";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
-import { useState, useEffect, useMemo } from"react";
-import { AlarmClock, BedDouble, Calculator, Clock, Info, Moon, Sun } from"lucide-react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { CardContent, CardHeader, CardTitle } from"@/components/ui/card";
-import { GlassCard } from"@/components/ui/glass-card";
-import { Separator } from"@/components/ui/separator";
+import React, { useState } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { ToolBackground } from "@/components/shared/tool-background";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { Moon, Sun, Clock, Sparkles, Shield, Zap, Bed } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-type Mode ="wake"|"sleep";
-
-interface CycleResult {
-  cycles: number;
-  time: Date;
-  durationString: string;
-  category: "optimal" | "okay" | "insufficient";
-}
-const CYCLE_MINS = 90;
-const FALL_ASLEEP_MINS = 15;
-const CYCLE_MS = CYCLE_MINS * 60 * 1000;
-const FALL_ASLEEP_MS = FALL_ASLEEP_MINS * 60 * 1000;
 export function SleepCalculatorClient() {
-  const [mode, setMode] = useState<Mode>("wake");
-  const [timeStr, setTimeStr] = useState<string>("07:00");
-  const [results, setResults] = useState<CycleResult[]>([]);
-  useEffect(() => {
-    // default to next whole hour or typical wake time
-    const now = new Date();
-    if (mode === "wake") {
-      setTimeStr("07:00");
-    } else {
-      // nearest next hour for sleep mode
-      const nextHour = new Date(now.getTime() + 60 * 60 * 1000);
-      const hh = nextHour.getHours().toString().padStart(2, "0");
-      setTimeStr(`${hh}:00`);
-    }
-  }, [mode]);
-  useEffect(() => {
-    if (!timeStr) return;
-    const [hours, minutes] = timeStr.split(":").map(Number);
-    const baseDate = new Date();
-    baseDate.setHours(hours, minutes, 0, 0);
-    const newResults: CycleResult[] = [];
-    if (mode === "wake") {
-      // Calculate bedtimes (count backwards from wake time)
-      // Including 15 mins to fall asleep
-      for (let cycles = 6; cycles >= 1; cycles--) {
-        const bedTime = new Date(baseDate.getTime() - cycles * CYCLE_MS - FALL_ASLEEP_MS);
-        const totalSleepMins = cycles * CYCLE_MINS;
-        const h = Math.floor(totalSleepMins / 60);
-        const m = totalSleepMins % 60;
-        let category: CycleResult["category"] = "insufficient";
-        if (cycles >= 5) category = "optimal";else if (cycles >= 3) category = "okay";
-        newResults.push({
-          cycles,
-          time: bedTime,
-          durationString: `${h}h${m > 0 ? ` ${m}m` : ""}`,
-          category
-        });
+  const [mode, setMode] = useState<"wake" | "sleep">("wake");
+  const [targetTime, setTargetTime] = useState("07:00");
+  const [fallAsleepMins, setFallAsleepMins] = useState("15");
+
+  const calculateCycles = () => {
+    const [h, m] = targetTime.split(":").map(Number);
+    const targetDate = new Date();
+    targetDate.setHours(h, m, 0, 0);
+
+    const fallAsleep = parseInt(fallAsleepMins, 10) || 15;
+    const cycles = [6, 5, 4, 3]; // 90 min cycles: 9h, 7.5h, 6h, 4.5h
+
+    return cycles.map(c => {
+      const cycleMins = c * 90;
+      const d = new Date(targetDate);
+      if (mode === "wake") {
+        // Calculate bedtime when waking up at targetTime
+        d.setMinutes(d.getMinutes() - (cycleMins + fallAsleep));
+      } else {
+        // Calculate wake time when going to bed at targetTime
+        d.setMinutes(d.getMinutes() + cycleMins + fallAsleep);
       }
-    } else {
-      // Calculate wake times (count forwards from bedtime)
-      for (let cycles = 1; cycles <= 6; cycles++) {
-        const wakeTime = new Date(baseDate.getTime() + cycles * CYCLE_MS + FALL_ASLEEP_MS);
-        const totalSleepMins = cycles * CYCLE_MINS;
-        const h = Math.floor(totalSleepMins / 60);
-        const m = totalSleepMins % 60;
-        let category: CycleResult["category"] = "insufficient";
-        if (cycles >= 5) category = "optimal";else if (cycles >= 3) category = "okay";
-        newResults.push({
-          cycles,
-          time: wakeTime,
-          durationString: `${h}h${m > 0 ? ` ${m}m` : ""}`,
-          category
-        });
-      }
-      // Reverse so optimal times (5-6 cycles) are at the top
-      newResults.reverse();
-    }
-    setResults(newResults);
-  }, [mode, timeStr]);
-  const formatTime = (date: Date) => {
-    return date.toLocaleTimeString([], {
-      hour: 'numeric',
-      minute: '2-digit'
+      const timeStr = d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit", hour12: true });
+      const hours = (cycleMins / 60).toFixed(1);
+      const isOptimal = c === 5 || c === 6;
+      return {
+        cycles: c,
+        time: timeStr,
+        hours,
+        isOptimal,
+        category: c >= 5 ? "Optimal" : c === 4 ? "Acceptable" : "Minimum"
+      };
     });
   };
-  const handleSetNow = () => {
-    const now = new Date();
-    const hh = now.getHours().toString().padStart(2, "0");
-    const mm = now.getMinutes().toString().padStart(2, "0");
-    setTimeStr(`${hh}:${mm}`);
-  };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
-      
 
- <ToolPageHeader title="Sleep Calculator" description="Calculate the best times to go to sleep or wake up based on 90-minute sleep cycles." icon={Moon} />
+  const results = calculateCycles();
 
- <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
- <div className="lg:col-span-1 space-y-6">
- <GlassCard>
- <CardHeader>
- <CardTitle className="text-lg">Settings</CardTitle>
- </CardHeader>
- <CardContent className="space-y-6">
- 
- <div className="space-y-3">
- <label className="text-sm font-medium">I want to calculate:</label>
- <div className="flex bg-muted p-1 rounded-lg">
- <Button onClick={() => setMode("wake")} className={cn(cn("flex-1 flex items-center justify-center gap-2 py-2 px-3 text-sm rounded-md transition-colors", mode === "wake" ? "bg-background shadow-sm font-medium" : "text-muted-foreground hover:bg-background/50"))}>
- <Sun className="w-4 h-4" /> Wake up at
- </Button>
- <Button onClick={() => setMode("sleep")} className={cn(cn("flex-1 flex items-center justify-center gap-2 py-2 px-3 text-sm rounded-md transition-colors", mode === "sleep" ? "bg-background shadow-sm font-medium" : "text-muted-foreground hover:bg-background/50"))}>
- <BedDouble className="w-4 h-4" /> Go to bed at
- </Button>
- </div>
- </div>
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
+        <ToolPageHeader
+          icon={Moon}
+          title="Sleep Cycle Calculator"
+          description="Calculate the ideal bedtime or wake-up time based on natural 90-minute REM sleep cycles."
+        />
 
- <div className="space-y-3">
- <label className="text-sm font-medium">
- {mode === "wake" ? "What time do you want to wake up?" : "What time are you going to bed?"}
- </label>
- <div className="flex gap-2">
- <div className="relative flex-1">
- <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
- <input type="time" value={timeStr} onChange={e => setTimeStr(e.target.value)} className="w-full pl-9 pr-3 py-2 bg-background border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring" />
- </div>
- {mode === "sleep" && <Button onClick={handleSetNow} className="px-3 py-2 bg-secondary text-secondary-foreground text-sm rounded-md hover:bg-secondary/80 transition-colors">
- Now
- </Button>}
- </div>
- <p className="text-xs text-muted-foreground flex items-start gap-1.5 mt-2">
- <Info className="w-3.5 h-3.5 shrink-0 mt-0.5" />
- We automatically add 15 minutes to account for the average time it takes to fall asleep.
- </p>
- </div>
+        <GlassCard>
+          <CardHeader>
+            <div className="flex flex-wrap justify-between items-center gap-4">
+              <div>
+                <CardTitle>Sleep Cycle Mode</CardTitle>
+                <CardDescription>Choose whether you want to calculate when to wake up or when to fall asleep.</CardDescription>
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  variant={mode === "wake" ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setMode("wake")}
+                >
+                  <Sun className="w-4 h-4 mr-2" /> I need to wake up at...
+                </Button>
+                <Button
+                  variant={mode === "sleep" ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setMode("sleep")}
+                >
+                  <Moon className="w-4 h-4 mr-2" /> I am going to bed at...
+                </Button>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label>{mode === "wake" ? "Desired Wake-Up Time" : "Planned Bedtime"}</Label>
+                <Input
+                  type="time"
+                  value={targetTime}
+                  onChange={e => setTargetTime(e.target.value)}
+                  className="text-lg font-mono"
+                />
+              </div>
+              <div>
+                <Label>Time to Fall Asleep (Minutes)</Label>
+                <Input
+                  type="number"
+                  value={fallAsleepMins}
+                  onChange={e => setFallAsleepMins(e.target.value)}
+                  placeholder="15"
+                />
+              </div>
+            </div>
 
- </CardContent>
- </GlassCard>
+            <div>
+              <h3 className="text-sm font-semibold mb-3">
+                {mode === "wake" ? "Recommended Bedtimes (to wake up refreshed):" : "Recommended Wake-Up Times:"}
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+                {results.map(r => (
+                  <div
+                    key={r.cycles}
+                    className={cn(
+                      "p-4 rounded-xl border flex flex-col justify-between space-y-2",
+                      r.isOptimal
+                        ? "bg-green-500/10 border-green-500/40 text-foreground"
+                        : "bg-muted/40 border-border/60 text-muted-foreground"
+                    )}
+                  >
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs font-bold uppercase tracking-wider">{r.category}</span>
+                      <span className="text-xs">{r.cycles} Cycles</span>
+                    </div>
+                    <div className="text-2xl font-bold text-foreground font-mono">{r.time}</div>
+                    <div className="text-xs">{r.hours} Hours of restorative sleep</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </CardContent>
+        </GlassCard>
 
- <GlassCard>
- <CardHeader>
- <CardTitle className="text-lg">Sleep Cycle Facts</CardTitle>
- </CardHeader>
- <CardContent>
- <ul className="text-sm space-y-3 text-muted-foreground">
- <li className="flex items-start gap-2">
- <div className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
- <p>A typical sleep cycle lasts about <strong>90 minutes</strong>.</p>
- </li>
- <li className="flex items-start gap-2">
- <div className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
- <p>Most adults need <strong>5 to 6 sleep cycles</strong> per night (7.5 to 9 hours of sleep).</p>
- </li>
- <li className="flex items-start gap-2">
- <div className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
- <p>Waking up in the middle of a cycle can leave you feeling tired and groggy (sleep inertia).</p>
- </li>
- </ul>
- </CardContent>
- </GlassCard>
- </div>
+        <ToolHowItWorks
+          steps={[
+            { step: "01", title: "Select Mode", description: "Choose whether you have a fixed alarm time or are planning your bedtime.", icon: Clock },
+            { step: "02", title: "Calculate 90-Min Cycles", description: "The calculator maps REM cycles backwards or forwards.", icon: Moon },
+            { step: "03", title: "Wake Up Energized", description: "Waking up at the end of a sleep cycle prevents grogginess (sleep inertia).", icon: Sun }
+          ]}
+          badges={["100% Free Forever", "Scientific 90-Min Cycles", "Instant Local Calculation"]}
+        />
 
- <div className="lg:col-span-2">
- <GlassCard className="h-full">
- <CardHeader>
- <CardTitle>
- {mode === "wake" ? "Recommended Bedtimes" : "Recommended Wake Times"}
- </CardTitle>
- </CardHeader>
- <CardContent>
- <div className="space-y-4">
- {results.map((res, i) => {
-                  let bgColor = "bg-red-500/10";
-                  let borderColor = "border-red-500/20";
-                  let textColor = "text-red-600 dark:text-red-400";
-                  let badgeColor = "bg-red-500 text-primary-foreground";
-                  if (res.category === "optimal") {
-                    bgColor = "bg-green-500/10";
-                    borderColor = "border-green-500/20";
-                    textColor = "text-green-700 dark:text-green-400";
-                    badgeColor = "bg-green-500 text-primary-foreground";
-                  } else if (res.category === "okay") {
-                    bgColor = "bg-yellow-500/10";
-                    borderColor = "border-yellow-500/20";
-                    textColor = "text-yellow-700 dark:text-yellow-400";
-                    badgeColor = "bg-yellow-500 text-primary-foreground";
-                  }
-                  return <div key={res.cycles} className={cn("p-4 rounded-xl border", bgColor, "", borderColor, "flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all")}>
- <div>
- <div className="flex items-center gap-3 mb-1">
- <h3 className="text-2xl font-bold tracking-tight">
- {formatTime(res.time)}
- </h3>
- <span className={cn("text-xs font-semibold px-2 py-0.5 rounded-full", badgeColor)}>
- {res.cycles} cycle{res.cycles > 1 ? 's' : ''}
- </span>
- </div>
- <p className={cn("text-sm font-medium", textColor)}>
- {res.category === "optimal" && "Optimal amount of sleep"}
- {res.category === "okay" && "Okay, but could be better"}
- {res.category === "insufficient" && "Not enough sleep"}
- </p>
- </div>
- 
- <div className="text-right sm:text-left flex-shrink-0">
- <div className="text-sm text-muted-foreground flex items-center gap-1.5">
- <Clock className="w-4 h-4" />
- {res.durationString} of sleep
- </div>
- </div>
- 
-<ToolHowItWorks
-  steps={[
-{
-    step:"01",
-    title:"Enter Wake",
-    description:"Add desired wake time.",
-    icon: AlarmClock,
-  },
-{
-    step:"02",
-    title:"Set Cycles",
-    description:"Choose number of 90-min cycles.",
-    icon: Moon,
-  },
-{
-    step:"03",
-    title:"Calculate",
-    description:"See ideal bedtimes.",
-    icon: Calculator,
-  }
-  ]}
-  badges={["Free Forever","No Signup","Instant Results"]}
-/>
+        <ToolFeatureGuides
+          features={[
+            { icon: Moon, title: "REM Cycle Synchronization", description: "Aligns your rest schedule with biological 90-minute sleep architectures." },
+            { icon: Clock, title: "Latency Offset", description: "Accounts for the average 15-minute sleep latency required to fall asleep." },
+            { icon: Sun, title: "Prevent Sleep Inertia", description: "Avoid waking in the middle of deep Slow-Wave Sleep (SWS)." },
+            { icon: Shield, title: "100% Private", description: "Zero server storage. Sleep calculations execute locally in your web browser." }
+          ]}
+        >
+          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+            <h3>The Science of Ultradian Sleep Cycles</h3>
+            <p>
+              Human sleep is structured into repeating ultradian cycles lasting approximately 90 to 110 minutes each. A complete cycle encompasses Light Sleep (N1 &amp; N2), Deep Slow-Wave Sleep (N3), and Rapid Eye Movement (REM) sleep. Waking up in the middle of deep sleep causes severe grogginess known as sleep inertia.
+            </p>
+            <p>
+              By synchronizing your alarm with the completion of a full 90-minute cycle, you emerge feeling refreshed and energized.
+            </p>
+          </div>
+        </ToolFeatureGuides>
 
-<ToolFeatureGuides
-  features={[
-{
-    icon: AlarmClock,
-    title:"Wake Based",
-    description:"Works backward from wake.",
-  },
-{
-    icon: Moon,
-    title:"Sleep Cycles",
-    description:"90-minute cycle planning.",
-  },
-{
-    icon: Calculator,
-    title:"Bedtimes",
-    description:"Multiple options shown.",
-  },
-{
-    icon: Clock,
-    title:"Consistency",
-    description:"Encourages regular sleep.",
-  }
-  ]}
->
-  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-  <p>A sleep calculator plans bedtime around sleep cycles rather than arbitrary hours. Since a full cycle is roughly 90 minutes, waking between cycles leaves you more refreshed than mid-cycle. This tool works backward from your wake time to suggest bedtimes hitting whole cycles.</p>
-  <p>Total duration still matters; adults generally need 7 to 9 hours, which the cycle count reflects. The calculator offers several bedtime options so you pick one fitting your schedule, aiming for whole cycles.</p>
-  <p>Consistency amplifies the benefit. Regular sleep timing stabilizes your rhythm beyond any single night's math. The tool's value is a practical bedtime plan that respects how sleep actually cycles, improving how you feel on waking.</p>
-  </div>
-</ToolFeatureGuides>
+        <ToolFaqAccordion
+          faqs={[
+            { question: "How long is a typical sleep cycle?", answer: "An average adult sleep cycle lasts approximately 90 minutes (ranging between 80 and 110 minutes)." },
+            { question: "How many sleep cycles do I need per night?", answer: "Most healthy adults require 5 to 6 full cycles (7.5 to 9 hours of total sleep) each night." }
+          ]}
+        />
 
-<ToolFaqAccordion
-  faqs={[
-{
-    question:"Why 90 minutes?",
-    answer:"A full sleep cycle is about 90 minutes.",
-  },
-{
-    question:"How much sleep?",
-    answer:"Adults often need 7 to 9 hours.",
-  },
-{
-    question:"Wake refreshed?",
-    answer:"Aligning to cycle ends helps.",
-  },
-{
-    question:"Exact?",
-    answer:"Estimates; individual varies.",
-  },
-{
-    question:"Consistency?",
-    answer:"Regular timing improves rest.",
-  }
-  ]}
-/>
-</div>
- );
- })}
- </div>
- </CardContent>
- </GlassCard>
- </div>
- </div>
- 
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
-
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
-        <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use Our Sleep Calculator?</h3>
-          <p>
-            This free online tool is designed to help you get accurate results quickly and securely.
-            Whether you're a developer, designer, student, or professional, our Sleep Calculator provides
-            the functionality you need without any complexity or cost.
-          </p>
-          <p>
-            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
-            privacy and zero latency. No data is ever transmitted to external servers, making it safe
-            for sensitive information.
-          </p>
-        </div>
-      </ToolFeatureGuides>
-
-      <ToolFaqAccordion faqs={[{
-        question: "Is this tool free to use?",
-        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-      }, {
-        question: "Is my data secure?",
-        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-      }, {
-        question: "Do I need to create an account?",
-        answer: "No account or registration is required. Simply open the tool and start using it immediately."
-      }]} />
-
-      <RelatedTools currentToolUrl="/tools/health/sleep-calculator" max={6} />
-
-  </div></div>;
+        <RelatedTools currentToolUrl="/tools/health/sleep-calculator" max={6} />
+      </div>
+    </div>
+  );
 }
+
+export default SleepCalculatorClient;

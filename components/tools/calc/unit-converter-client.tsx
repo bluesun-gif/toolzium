@@ -1,7 +1,8 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
-import { ArrowLeftRight, BookOpen, Calculator, Globe, Info, Ruler, Scale, Settings, Shield, Sparkles, Table2, ThermometerSun, Zap } from "lucide-react";
+import { ArrowLeftRight, BookOpen, Calculator, Globe, Info, Ruler, Scale, Settings, Shield, Sparkles, Table2, ThermometerSun, Zap, Copy, Type } from "lucide-react";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
@@ -141,7 +142,10 @@ export default function UnitConverterClient() {
       value: fromBase(category, base, u)
     }));
   }, [amount, category, fromUnit]);
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  {/* header */}
@@ -403,6 +407,7 @@ export default function UnitConverterClient() {
         question: "Does this converter work offline?",
         answer: "Yes. All conversion factors are built into the tool and run in your browser. No API calls are made — the converter works fully offline once the page has loaded."
       }]} />
- <RelatedTools currentToolUrl="/tools/calc/unit-converter" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

@@ -1,32 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import SubdomainFinderClient from "@/components/tools/network/subdomain-finder-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "Subdomain Finder | Toolzium";
+const DESCRIPTION = "Free online subdomain finder tool with instant calculation and privacy.";
+const PATH = "/tools/network/subdomain-finder";
 
 export const metadata = buildMetadata({
-  title: "Subdomain Finder",
-  description: "Find all registered subdomains for any domain using public Certificate Transparency (CT) logs. Fast, 100% free, and legal lookup.",
-  path: "/tools/network/subdomain-finder",
-  keywords: ["transparency", "public", "free", "fast", "using", "find", "domain", "certificate", "legal", "registered", "logs", "subdomains"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
     name: "Subdomain Finder",
-    description: "Find all registered subdomains for any domain using public Certificate Transparency (CT) logs. Fast, 100% free, and legal lookup.",
-    path: "/tools/network/subdomain-finder",
-    categoryName: "Network",
-    categoryPath: "/tools/network",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <SubdomainFinderClient />
-    
-      <RelatedTools currentToolUrl="/tools/network/subdomain-finder" />
-</div>
+    </>
   );
 }

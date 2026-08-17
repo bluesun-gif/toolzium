@@ -1,30 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import PdfToImageClient from "@/components/tools/util/pdf-to-image-client";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "Pdf To Image | Toolzium";
+const DESCRIPTION = "Free online pdf to image tool with instant calculation and privacy.";
+const PATH = "/tools/util/pdf-to-image";
 
 export const metadata = buildMetadata({
-  title: "PDF to Image Converter",
-  description: "Convert PDF pages to high-quality PNG or JPG images. Extract individual pages or all pages as zip. Fast, free, browser-based PDF image extractor.",
-  path: "/tools/util/pdf-to-image",
-  keywords: ["pages", "convert", "browser", "free", "quality", "images", "extract", "fast", "individual", "high"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "PDF to Image Converter",
-    description: "Convert PDF pages to high-quality PNG or JPG images. Extract individual pages or all pages as zip. Fast, free, browser-based PDF image extractor.",
-    path: "/tools/util/pdf-to-image",
-    categoryName: "Util",
-    categoryPath: "/tools/util",
+    name: "Pdf To Image",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <PdfToImageClient />
-    
-      <RelatedTools currentToolUrl="/tools/util/pdf-to-image" />
-</>
+    </>
   );
 }

@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
@@ -131,7 +132,10 @@ export function SpeedConverterClient() {
     const remainingMinutes = minutes % 60;
     return `${hours}h ${remainingMinutes}m`;
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Activity} title="Network Speed Converter" description="Convert bandwidth speeds and estimate download times for common file sizes." />
@@ -292,8 +296,9 @@ export function SpeedConverterClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/network/speed-converter" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default SpeedConverterClient;

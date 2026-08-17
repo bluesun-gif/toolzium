@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback, useEffect } from "react";
@@ -9,7 +10,7 @@ import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { RotateCcw, Timer, Move, Grid3X3 } from "lucide-react";
+import { RotateCcw, Timer, Move, Grid3X3, Scale, Grid } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -130,7 +131,10 @@ export function MemoryGridFlipClient() {
       }
     }
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 pb-12"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Grid3X3} title="Memory Grid Flip" description="Test your spatial recall and working memory with this classic card-matching game. Flip cards, find pairs, and beat your best time." />
@@ -238,8 +242,9 @@ export function MemoryGridFlipClient() {
         question: "Can I play on mobile?",
         answer: "Absolutely. The grid is fully responsive and optimized for touch interactions, making it perfect for quick brain-training sessions on your phone or tablet."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/fun/memory-grid-flip" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default MemoryGridFlipClient;

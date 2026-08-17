@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -67,7 +69,10 @@ export function RemLatencyBedtimeClockClient() {
       setResults(newResults.reverse());
     }
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Clock} title="REM Sleep Cycle & Bedtime Clock" description="Calculate optimal bedtime and wake-up times based on 90-minute REM sleep cycles and sleep onset latency." />
@@ -217,6 +222,9 @@ export function RemLatencyBedtimeClockClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default RemLatencyBedtimeClockClient;

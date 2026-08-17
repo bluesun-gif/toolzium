@@ -1,30 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import MorseAudioClient from "@/components/tools/fun/morse-audio-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
+
+const TITLE = "Morse Audio | Toolzium";
+const DESCRIPTION = "Free online morse audio tool with instant calculation and privacy.";
+const PATH = "/tools/fun/morse-audio";
+
 export const metadata = buildMetadata({
-  title: "Morse Code Audio | Toolzium",
-  description: "Convert text to Morse code with audio playback. Listen and learn.",
-  path: "/tools/fun/morse-audio",
-  keywords: ["with", "learn", "convert", "audio", "morse", "playback", "text", "listen", "code"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Morse Code Audio",
-    description: "Convert text to Morse code with audio playback. Listen and learn.",
-    path: "/tools/fun/morse-audio",
-    categoryName: "Fun",
-    categoryPath: "/tools/fun",
+    name: "Morse Audio",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <MorseAudioClient />
-    
-      <RelatedTools currentToolUrl="/tools/fun/morse-audio" />
-</div>
+    </>
   );
 }

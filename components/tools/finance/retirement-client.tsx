@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState } from "react";
@@ -10,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { ResetButton } from "@/components/shared/action-buttons";
 import { Switch } from "@/components/ui/switch";
-import { Landmark, TrendingUp, Calendar, DollarSign, BookOpen, Shield, Target, PiggyBank, BarChart3 } from "lucide-react";
+import { Landmark, TrendingUp, Calendar, DollarSign, BookOpen, Shield, Target, PiggyBank, BarChart3, Calculator } from "lucide-react";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
@@ -39,7 +40,10 @@ export function RetirementClient() {
   const totalContributed = currentSavings + monthlyContribution * totalMonths;
   const totalInterest = totalAtRetirement - totalContributed;
   const monthlyIncome = totalAtRetirement * 0.04 / 12;
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Landmark} title="Retirement Calculator" description="Calculate retirement savings projections and monthly income based on the 4% rule." actions={<ResetButton onClick={() => {
@@ -256,6 +260,9 @@ export function RetirementClient() {
         question: "Should I use a Traditional or Roth retirement account?",
         answer: "Traditional (pre-tax): better if you're in a high tax bracket now and expect lower taxes in retirement. Roth (after-tax): better if you're young, in a lower bracket now, or expect higher taxes later. Many advisors recommend diversifying across both types for tax flexibility in retirement."
       }]} />
- <RelatedTools currentToolUrl="/tools/finance/retirement" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default RetirementClient;

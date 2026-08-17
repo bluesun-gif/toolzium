@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -11,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { Download, Images, LayoutGrid, Palette, Settings, Trash2, Upload } from"lucide-react";
+import { Download, Images, LayoutGrid, Palette, Settings, Trash2, Upload, Grid } from "lucide-react";
 import { toast } from"react-hot-toast";
 import { Button } from"@/components/ui/button";
 
@@ -79,7 +81,10 @@ export function PhotoGridClient() {
     link.click();
     toast.success("Grid downloaded!");
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={LayoutGrid} title="Photo Grid Maker" description="Combine photos into a grid" actions={<ResetButton onClick={() => setImages([])} label="Clear All" />} />
@@ -210,6 +215,9 @@ export function PhotoGridClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default PhotoGridClient;

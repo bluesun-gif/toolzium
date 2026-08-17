@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback, useEffect } from "react";
@@ -11,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Copy, RotateCcw, Search, Server, Globe, AlertCircle, CheckCircle, Info } from "lucide-react";
+import { Copy, RotateCcw, Search, Server, Globe, AlertCircle, CheckCircle, Info, Type } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -207,7 +208,10 @@ export function HttpStatusClient() {
         return "";
     }
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Server} title="HTTP Status Code Reference" description="A searchable, filterable encyclopedia of HTTP status codes, their meanings, and common real-world use cases." />
@@ -315,8 +319,9 @@ export function HttpStatusClient() {
         question: "Is 418 I'm a teapot a real status code?",
         answer: "Yes, it was defined in RFC 2324 in 1998 as an April Fools' joke for the Hyper Text Coffee Pot Control Protocol, but some servers still implement it as an easter egg."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/dev/http-status" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default HttpStatusClient;

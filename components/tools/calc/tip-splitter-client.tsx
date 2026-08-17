@@ -1,7 +1,8 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
-import { BookOpen, Calculator, Check, Copy, DollarSign, Download, Globe, Minus, Percent, Plus, Shield, Star, Users, UtensilsCrossed, Zap } from "lucide-react";
+import { BookOpen, Calculator, Check, Copy, DollarSign, Download, Globe, Minus, Percent, Plus, Shield, Star, Users, UtensilsCrossed, Zap, History, Type } from "lucide-react";
 import * as React from "react";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
@@ -204,7 +205,10 @@ export default function TipSplitterClient() {
   // History CSV rows
   const historyRows = React.useMemo<(string | number)[][]>(() => [["Time", "Bill", "Tax %", "Tip %", "Tip Base", "People", "Total"], ...history.map(r => [r.ts, r.bill, r.taxPct, r.tipPct, r.tipBase, r.people, r.total])], [history]);
   const summaryText = React.useMemo(() => `Subtotal: ${fmt(subtotal, currency)} | Tax: ${fmt(tax, currency)} | Tip: ${fmt(tipAmount, currency)} | Total: ${fmt(totalRounded, currency)} | Per-person: ${fmt(perPersonRounded, currency)}`, [subtotal, currency, tax, tipAmount, totalRounded, perPersonRounded]);
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  {/* Header */}
@@ -528,6 +532,7 @@ export default function TipSplitterClient() {
         question: "How is the tip calculated mathematically?",
         answer: "Tip Amount = Bill Total × (Tip Percentage / 100). Total with Tip = Bill Total + Tip Amount. Per Person = Total with Tip / Number of People. For example: $80 bill, 18% tip, 4 people → Tip = $14.40, Total = $94.40, Per person = $23.60."
       }]} />
- <RelatedTools currentToolUrl="/tools/calc/tip-split" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

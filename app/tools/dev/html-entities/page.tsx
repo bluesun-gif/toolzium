@@ -1,30 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import HtmlEntitiesClient from "@/components/tools/dev/html-entities-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
+
+const TITLE = "Html Entities | Toolzium";
+const DESCRIPTION = "Free online html entities tool with instant calculation and privacy.";
+const PATH = "/tools/dev/html-entities";
+
 export const metadata = buildMetadata({
-  title: "HTML Entity Encoder",
-  description: "Encode and decode HTML entities. Named vs numeric toggle. Common entities reference table. Auto-detect mode. Batch processing.",
-  path: "/tools/dev/html-entities",
-  keywords: ["table", "reference", "encode", "decode", "common", "numeric", "auto", "named", "toggle", "html", "entities"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "HTML Entity Encoder",
-    description: "Encode and decode HTML entities. Named vs numeric toggle. Common entities reference table. Auto-detect mode. Batch processing.",
-    path: "/tools/dev/html-entities",
-    categoryName: "Dev",
-    categoryPath: "/tools/dev",
+    name: "Html Entities",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <HtmlEntitiesClient />
-    
-      <RelatedTools currentToolUrl="/tools/dev/html-entities" />
-</div>
+    </>
   );
 }

@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -12,7 +14,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { BarChart2, Calculator, DollarSign, ShieldCheck, SlidersHorizontal } from"lucide-react";
+import { BarChart2, Calculator, DollarSign, ShieldCheck, SlidersHorizontal, Copy } from "lucide-react";
 
 // Simplified 2024 brackets for demonstration purposes
 const BRACKETS = {
@@ -149,7 +151,10 @@ export function TaxWithholdingClient() {
   const getCopyText = () => {
     return `Tax Estimate for $${income} / yr (${status}):\n- Gross Per Period: $${results.grossPerPeriod.toFixed(2)}\n- Tax Withheld: $${results.taxPerPeriod.toFixed(2)}\n- Net Pay: $${results.netPerPeriod.toFixed(2)}\n- Effective Tax Rate: ${results.effectiveRate.toFixed(1)}%`;
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Calculator} title="Tax Withholding Estimator" description="Estimate US federal tax withholding and view effective tax rates (2024)." actions={<>
@@ -365,6 +370,9 @@ export function TaxWithholdingClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default TaxWithholdingClient;

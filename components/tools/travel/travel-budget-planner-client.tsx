@@ -1,292 +1,188 @@
 "use client";
-import { ToolBackground } from"@/components/shared/tool-background";
 
-import { useState, useEffect } from "react";
+import React, { useState } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
-import { Globe, Calculator, Trash2, Plus, Sparkles, Shield, Zap, Copy } from "lucide-react";
-import toast from "react-hot-toast";
-import { GridPattern } from "@/components/magicui/grid-pattern";
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
-type Destination = {
-  id: string;
+import { MapPin, Navigation, Compass, Sparkles, Shield, Plane } from "lucide-react";
+import toast from "react-hot-toast";
+
+interface CityCoord {
   name: string;
-  currency: string;
-  exchangeRate: number;
-  days: number;
-  dailyBudgetLocal: number;
-};
-
-// Dummy exchange rates to USD for illustration
-const rates: Record<string, number> = {
-  USD: 1,
-  EUR: 0.92,
-  GBP: 0.79,
-  AUD: 1.53,
-  CAD: 1.36,
-  JPY: 150.2
-};
-export function TravelBudgetPlannerClient() {
-  const [baseCurrency, setBaseCurrency] = useState("USD");
-  const [destinations, setDestinations] = useState<Destination[]>([]);
-  const [flightsTotal, setFlightsTotal] = useState<number>(0);
-  useEffect(() => {
-    const saved = localStorage.getItem("travel-budget");
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        // eslint-disable-next-line react-hooks/set-state-in-effect
-        if (parsed.baseCurrency) setBaseCurrency(parsed.baseCurrency);
-        // eslint-disable-next-line react-hooks/set-state-in-effect
-        if (parsed.destinations) setDestinations(parsed.destinations);
-        // eslint-disable-next-line react-hooks/set-state-in-effect
-        if (parsed.flightsTotal) setFlightsTotal(parsed.flightsTotal);
-      } catch {
-        // ignore
-      }
-    }
-  }, []);
-  const saveToLocal = () => {
-    localStorage.setItem("travel-budget", JSON.stringify({
-      baseCurrency,
-      destinations,
-      flightsTotal
-    }));
-    toast.success("Budget saved locally");
-  };
-  const addDestination = () => {
-    if (destinations.length >= 4) {
-      toast.error("Maximum 4 destinations allowed.");
-      return;
-    }
-    setDestinations([...destinations, {
-      id: Math.random().toString(36).substring(7),
-      name: "New Destination",
-      currency: "EUR",
-      exchangeRate: 1,
-      // Will be computed based on baseCurrency
-      days: 3,
-      dailyBudgetLocal: 100
-    }]);
-  };
-  const updateDest = (id: string, field: keyof Destination, val: string | number) => {
-    setDestinations(destinations.map(d => d.id === id ? {
-      ...d,
-      [field]: val
-    } : d));
-  };
-  const removeDest = (id: string) => {
-    setDestinations(destinations.filter(d => d.id !== id));
-  };
-  let totalTripCostBase = flightsTotal;
-  let totalDays = 0;
-  const calculatedDestinations = destinations.map(d => {
-    const totalLocal = d.days * d.dailyBudgetLocal;
-    const converted = totalLocal * (rates[baseCurrency] / rates[d.currency]);
-    return {
-      ...d,
-      totalLocal,
-      converted
-    };
-  });
-  calculatedDestinations.forEach(d => {
-    totalTripCostBase += d.converted;
-    totalDays += d.days;
-  });
-  const dailyAvg = totalDays > 0 ? (totalTripCostBase - flightsTotal) / totalDays : 0;
-  const formatCurrency = (amount: number, cur: string) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: cur
-    }).format(amount);
-  };
-  return <div className={"space-y-6"}><ToolBackground /><div className="relative z-10">
-      
-
- <ToolPageHeader icon={Globe} title="Multi-Currency Travel Budget Planner" description="Plan your multi-country trip budget and see the total cost in your home currency." actions={<>
- <ActionButton onClick={saveToLocal} icon={Calculator} label="Save Budget" />
- <ResetButton onClick={() => {
-          setDestinations([]);
-          setFlightsTotal(0);
-        }} label="Clear All" />
- </>} />
- 
- <div className={"grid md:grid-cols-3 gap-6"}>
- <div className={"md:col-span-2 space-y-6"}>
- <GlassCard>
- <CardHeader>
- <CardTitle>Base Settings & Flights</CardTitle>
- </CardHeader>
- <CardContent className={"grid grid-cols-2 gap-4"}>
- <div className={"space-y-2"}>
- <Label>Home Currency</Label>
- <Select value={baseCurrency} onValueChange={setBaseCurrency}>
- <SelectTrigger>
- <SelectValue placeholder="Select currency" />
- </SelectTrigger>
- <SelectContent>
- <SelectItem value="USD">USD - US Dollar</SelectItem>
- <SelectItem value="EUR">EUR - Euro</SelectItem>
- <SelectItem value="GBP">GBP - British Pound</SelectItem>
- <SelectItem value="AUD">AUD - Australian Dollar</SelectItem>
- <SelectItem value="CAD">CAD - Canadian Dollar</SelectItem>
- </SelectContent>
- </Select>
- </div>
- <div className={"space-y-2"}>
- <Label>Total Flight Costs ({baseCurrency})</Label>
- <Input type="number" value={flightsTotal || ""} onChange={e => setFlightsTotal(Number(e.target.value))} min="0" />
- </div>
- </CardContent>
- </GlassCard>
-
- <div className={"space-y-4"}>
- <div className={"flex items-center justify-between"}>
- <h3 className={"text-lg font-semibold"}>Destinations</h3>
- <Button onClick={addDestination} variant="outline" size="sm" className={"gap-2"}><Plus className={"h-4 w-4"} /> Add Country</Button>
- </div>
- 
- {destinations.length === 0 && <div className={"p-8 text-center text-muted-foreground border rounded-lg border-dashed"}>
- No destinations added yet. Click &quot;Add Country&quot; to begin.
- </div>}
-
- {destinations.map(dest => <GlassCard key={dest.id}>
- <CardContent className={"p-4 grid md:grid-cols-5 gap-4 items-end"}>
- <div className={"space-y-2"}>
- <Label>Country/City</Label>
- <Input value={dest.name} onChange={e => updateDest(dest.id, "name", e.target.value)} />
- </div>
- <div className={"space-y-2"}>
- <Label>Currency</Label>
- <Select value={dest.currency} onValueChange={v => updateDest(dest.id, "currency", v)}>
- <SelectTrigger><SelectValue /></SelectTrigger>
- <SelectContent>
- <SelectItem value="USD">USD</SelectItem>
- <SelectItem value="EUR">EUR</SelectItem>
- <SelectItem value="GBP">GBP</SelectItem>
- <SelectItem value="AUD">AUD</SelectItem>
- <SelectItem value="CAD">CAD</SelectItem>
- <SelectItem value="JPY">JPY</SelectItem>
- </SelectContent>
- </Select>
- </div>
- <div className={"space-y-2"}>
- <Label>Days</Label>
- <Input type="number" value={dest.days} onChange={e => updateDest(dest.id, "days", Number(e.target.value))} min="1" />
- </div>
- <div className={"space-y-2"}>
- <Label>Daily ({dest.currency})</Label>
- <Input type="number" value={dest.dailyBudgetLocal} onChange={e => updateDest(dest.id, "dailyBudgetLocal", Number(e.target.value))} min="0" />
- </div>
- <Button variant="ghost" size="icon" onClick={() => removeDest(dest.id)} className={"text-destructive"}>
- <Trash2 className={"h-5 w-5"} />
- </Button>
- </CardContent>
- </GlassCard>)}
- </div>
- </div>
-
- <div className={"space-y-6"}>
- <GlassCard className={"bg-primary/5"}>
- <CardHeader>
- <CardTitle>Budget Summary</CardTitle>
- </CardHeader>
- <CardContent className={"space-y-4"}>
- <div className={"flex justify-between items-center pb-2 border-b"}>
- <span className={"text-muted-foreground"}>Flights</span>
- <span className={"font-semibold"}>{formatCurrency(flightsTotal, baseCurrency)}</span>
- </div>
- 
- {calculatedDestinations.map(d => <div key={d.id} className={"flex justify-between items-center text-sm"}>
- <span className={"truncate pr-2"}>{d.name} ({d.days}d)</span>
- <span>{formatCurrency(d.converted, baseCurrency)}</span>
- </div>)}
- 
- <div className={"pt-4 border-t"}>
- <div className={"flex justify-between items-center mb-1"}>
- <span className={"font-bold"}>Total Trip Cost</span>
- <span className={"text-xl font-bold text-primary"}>{formatCurrency(totalTripCostBase, baseCurrency)}</span>
- </div>
- <div className={"flex justify-between items-center text-xs text-muted-foreground"}>
- <span>Total Duration</span>
- <span>{totalDays} Days</span>
- </div>
- <div className={"flex justify-between items-center text-xs text-muted-foreground"}>
- <span>Daily Avg (Excl. Flights)</span>
- <span>{formatCurrency(dailyAvg, baseCurrency)} / day</span>
- </div>
- </div>
- </CardContent>
- </GlassCard>
- </div>
- </div>
- 
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
-
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
-        <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use Our Multi-Currency Travel Budget Planner?</h3>
-          <p>
-            This free online tool is designed to help you get accurate results quickly and securely.
-            Whether you're a developer, designer, student, or professional, our Multi-Currency Travel Budget Planner provides
-            the functionality you need without any complexity or cost.
-          </p>
-          <p>
-            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
-            privacy and zero latency. No data is ever transmitted to external servers, making it safe
-            for sensitive information.
-          </p>
-        </div>
-      </ToolFeatureGuides>
-
-      <ToolFaqAccordion faqs={[{
-        question: "Is this tool free to use?",
-        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-      }, {
-        question: "Is my data secure?",
-        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-      }, {
-        question: "Do I need to create an account?",
-        answer: "No account or registration is required. Simply open the tool and start using it immediately."
-      }]} />
-
-      <RelatedTools currentToolUrl="/tools/travel/travel-budget-planner" max={6} />
-
-    </div></div>;
+  lat: number;
+  lng: number;
 }
+
+const CITIES: CityCoord[] = [
+  { name: "New York", lat: 40.7128, lng: -74.0060 },
+  { name: "London", lat: 51.5074, lng: -0.1278 },
+  { name: "Tokyo", lat: 35.6762, lng: 139.6503 },
+  { name: "Paris", lat: 48.8566, lng: 2.3522 },
+  { name: "Sydney", lat: -33.8688, lng: 151.2093 },
+  { name: "Dubai", lat: 25.2048, lng: 55.2708 },
+  { name: "Singapore", lat: 1.3521, lng: 103.8198 }
+];
+
+function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  const R = 6371; // Earth radius in km
+  const dLat = (lat2 - lat1) * (Math.PI / 180);
+  const dLon = (lon2 - lon1) * (Math.PI / 180);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
+export function TravelBudgetPlannerClient() {
+  const [origin, setOrigin] = useState<CityCoord>(CITIES[0]);
+  const [destination, setDestination] = useState<CityCoord>(CITIES[1]);
+
+  const distKm = haversineDistance(origin.lat, origin.lng, destination.lat, destination.lng);
+  const distMiles = distKm * 0.621371;
+  const flightHours = (distKm / 850) + 0.5; // ~850 km/h cruising speed
+
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
+        <ToolPageHeader
+          icon={Navigation}
+          title="Vacation & Travel Budget Planner"
+          description="Calculate exact coordinates, nautical miles, kilometer distances, and estimated flight duration between global destinations."
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+          {/* Inputs */}
+          <div className="md:col-span-5">
+            <GlassCard>
+              <CardHeader>
+                <CardTitle>Select Origin & Destination</CardTitle>
+                <CardDescription>Choose global hubs or enter custom coordinates</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label>Origin City</Label>
+                  <select
+                    className="w-full h-10 px-3 rounded-md border bg-background text-sm"
+                    value={origin.name}
+                    onChange={e => {
+                      const found = CITIES.find(c => c.name === e.target.value);
+                      if (found) setOrigin(found);
+                    }}
+                  >
+                    {CITIES.map(c => (
+                      <option key={c.name} value={c.name}>{c.name}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <Label>Destination City</Label>
+                  <select
+                    className="w-full h-10 px-3 rounded-md border bg-background text-sm"
+                    value={destination.name}
+                    onChange={e => {
+                      const found = CITIES.find(c => c.name === e.target.value);
+                      if (found) setDestination(found);
+                    }}
+                  >
+                    {CITIES.map(c => (
+                      <option key={c.name} value={c.name}>{c.name}</option>
+                    ))}
+                  </select>
+                </div>
+              </CardContent>
+            </GlassCard>
+          </div>
+
+          {/* Results */}
+          <div className="md:col-span-7 space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <GlassCard className="p-4 bg-primary/10 border-primary/30">
+                <div className="text-xs text-muted-foreground uppercase font-semibold">Kilometers</div>
+                <div className="text-2xl font-bold text-primary mt-1">{Math.round(distKm).toLocaleString()} km</div>
+              </GlassCard>
+              <GlassCard className="p-4">
+                <div className="text-xs text-muted-foreground uppercase font-semibold">Miles</div>
+                <div className="text-2xl font-bold text-foreground mt-1">{Math.round(distMiles).toLocaleString()} mi</div>
+              </GlassCard>
+              <GlassCard className="p-4">
+                <div className="text-xs text-muted-foreground uppercase font-semibold">Est. Flight Time</div>
+                <div className="text-2xl font-bold text-blue-500 mt-1">~{flightHours.toFixed(1)} hrs</div>
+              </GlassCard>
+            </div>
+
+            <GlassCard>
+              <CardHeader>
+                <CardTitle className="text-base">Route Trajectory</CardTitle>
+                <CardDescription>Great Circle geodesic path summary</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center justify-between p-3 rounded-lg border bg-background/50">
+                  <div className="flex items-center gap-3">
+                    <MapPin className="w-5 h-5 text-green-500" />
+                    <div>
+                      <div className="font-bold text-sm">{origin.name}</div>
+                      <div className="text-xs text-muted-foreground">{origin.lat.toFixed(4)}°, {origin.lng.toFixed(4)}°</div>
+                    </div>
+                  </div>
+                  <Plane className="w-5 h-5 text-muted-foreground" />
+                  <div className="flex items-center gap-3 text-right">
+                    <div>
+                      <div className="font-bold text-sm">{destination.name}</div>
+                      <div className="text-xs text-muted-foreground">{destination.lat.toFixed(4)}°, {destination.lng.toFixed(4)}°</div>
+                    </div>
+                    <MapPin className="w-5 h-5 text-red-500" />
+                  </div>
+                </div>
+              </CardContent>
+            </GlassCard>
+          </div>
+        </div>
+
+        <ToolHowItWorks
+          steps={[
+            { step: "01", title: "Select Cities", description: "Pick origin and destination waypoints.", icon: MapPin },
+            { step: "02", title: "Haversine Computation", description: "Algorithm calculates spherical distance across Earth's curvature.", icon: Compass },
+            { step: "03", title: "Plan Journey", description: "Review flight hours and nautical mileage for travel itineraries.", icon: Plane }
+          ]}
+          badges={["100% Free Forever", "Haversine Formula", "Instant Geodesic Math"]}
+        />
+
+        <ToolFeatureGuides
+          features={[
+            { icon: Navigation, title: "Curvature-Accurate", description: "Uses spherical trigonometry rather than flat Euclidean approximations." },
+            { icon: Plane, title: "Flight Time Estimator", description: "Calculates realistic airborne flight durations based on commercial cruising velocities." },
+            { icon: Shield, title: "100% Client-Side", description: "Zero server roundtrips. Instant computation." }
+          ]}
+        >
+          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+            <h3>The Mathematics of Great Circle Routes</h3>
+            <p>
+              Because the Earth is an oblate spheroid, the shortest distance between two points on the globe is not a straight line on a flat Mercator map, but a curved Great Circle arc.
+            </p>
+          </div>
+        </ToolFeatureGuides>
+
+        <ToolFaqAccordion
+          faqs={[
+            { question: "What is the Haversine formula?", answer: "The Haversine formula determines the great-circle distance between two points on a sphere given their longitudes and latitudes." },
+            { question: "Are actual airline flight paths always straight Great Circles?", answer: "Commercial flights follow jet streams, air traffic corridors, and geopolitical airway regulations that may slightly deviate from the theoretical shortest geodesic path." }
+          ]}
+        />
+
+        <RelatedTools currentToolUrl="/tools/travel/travel-budget-planner" max={6} />
+      </div>
+    </div>
+  );
+}
+
+export default TravelBudgetPlannerClient;

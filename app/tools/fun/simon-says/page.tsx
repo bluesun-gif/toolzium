@@ -1,30 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import SimonSaysClient from "@/components/tools/fun/simon-says-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
+
+const TITLE = "Simon Says | Toolzium";
+const DESCRIPTION = "Free online simon says tool with instant calculation and privacy.";
+const PATH = "/tools/fun/simon-says";
+
 export const metadata = buildMetadata({
-  title: "Simon Says",
-  description: "Classic Simon Says memory game. 4 colored panels with sound. Increasing difficulty. High score tracking. Speed increases every 5 levels.",
-  path: "/tools/fun/simon-says",
-  keywords: ["simon", "memory", "with", "says", "panels", "sound", "colored", "increasing", "difficulty", "game", "high", "classic"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
     name: "Simon Says",
-    description: "Classic Simon Says memory game. 4 colored panels with sound. Increasing difficulty. High score tracking. Speed increases every 5 levels.",
-    path: "/tools/fun/simon-says",
-    categoryName: "Fun",
-    categoryPath: "/tools/fun",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <SimonSaysClient />
-    
-      <RelatedTools currentToolUrl="/tools/fun/simon-says" />
-</div>
+    </>
   );
 }

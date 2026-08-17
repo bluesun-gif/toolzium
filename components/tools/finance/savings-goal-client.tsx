@@ -1,8 +1,9 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 import { Button } from"@/components/ui/button";
 
-import { Calculator, Info, PiggyBank, BookOpen, Shield, Target, TrendingUp, Calendar, DollarSign, BarChart3, Zap } from "lucide-react";
+import { Calculator, Info, PiggyBank, BookOpen, Shield, Target, TrendingUp, Calendar, DollarSign, BarChart3, Zap, Type } from "lucide-react";
 import * as React from "react";
 import { ActionButton, ExportCSVButton, ResetButton } from "@/components/shared/action-buttons";
 import InputField from "@/components/shared/form-fields/input-field";

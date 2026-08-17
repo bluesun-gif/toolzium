@@ -1,32 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
-import TimeZoneConverterClient from "@/components/tools/time/timezone-converter-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
-import RelatedTools from "@/components/shared/related-tools";
+import TimezoneCompareClient from "@/components/tools/time/timezone-compare-client";
+
+const TITLE = "Timezone | Toolzium";
+const DESCRIPTION = "Free online timezone tool with instant calculation and privacy.";
+const PATH = "/tools/time/timezone";
 
 export const metadata = buildMetadata({
-  title: "Time Zone Converter",
-  description: "Convert time between different time zones worldwide. World clock and time zone calculator for scheduling international meetings. Compare times across multiple cities and countries.",
-  path: "/tools/time/timezone",
-  keywords: ["between", "worldwide", "time", "convert", "zone", "calculator", "zones", "clock", "different", "world"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Time Zone Converter",
-    description: "Convert time between different time zones worldwide. World clock and time zone calculator for scheduling international meetings. Compare times across multiple cities and countries.",
-    path: "/tools/time/timezone",
-    categoryName: "Time",
-    categoryPath: "/tools/time",
+    name: "Timezone",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
-      <TimeZoneConverterClient />
-    
-      <RelatedTools currentToolUrl="/tools/time/timezone" />
-</div>
+    <>
+      <JsonLd data={jsonLd} />
+      <TimezoneCompareClient />
+    </>
   );
 }

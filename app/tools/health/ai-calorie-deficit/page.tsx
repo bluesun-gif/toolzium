@@ -1,19 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import AiCalorieDeficitClient from "@/components/tools/health/ai-calorie-deficit-client";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "AI Calorie Deficit & Weight Loss Target Calculator";
+const DESCRIPTION = "Calculate daily caloric deficit targets, estimated target weight goal dates, and generate personalized fat loss plans with live AI.";
+const PATH = "/tools/health/ai-calorie-deficit";
 
 export const metadata = buildMetadata({
-  title: "AI Calorie Deficit & Weight Loss Target Calculator",
-  description: "Calculate daily caloric deficit targets, estimated target weight goal dates, and generate personalized fat loss plans with live AI.",
-  path: "/tools/health/ai-calorie-deficit",
-  keywords: ["weight", "daily", "calculate", "estimated", "generate", "personalized", "deficit", "dates", "caloric", "target", "goal", "targets"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
-export default function AiCalorieDeficitPage() {
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "AI Calorie Deficit & Weight Loss Target Calculator",
+    description: DESCRIPTION,
+    path: PATH
+  });
+
   return (
-    <><AiCalorieDeficitClient />
-      <RelatedTools currentToolUrl="/tools/health/ai-calorie-deficit" />
+    <>
+      <JsonLd data={jsonLd} />
+      <AiCalorieDeficitClient />
     </>
   );
 }

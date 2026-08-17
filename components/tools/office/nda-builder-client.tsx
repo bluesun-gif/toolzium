@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -13,7 +15,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Copy, EyeOff, FileCheck2, FileText, Printer, ShieldCheck } from"lucide-react";
+import { Copy, EyeOff, FileCheck2, FileText, Printer, ShieldCheck, Type } from "lucide-react";
 import toast from"react-hot-toast";
 
 export function NdaBuilderClient() {
@@ -47,7 +49,10 @@ export function NdaBuilderClient() {
   const handlePrint = () => {
     window.print();
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={ShieldCheck} title="NDA Generator" description="Generate formal Mutual or One-Way Non-Disclosure Agreements." actions={<>
@@ -219,6 +224,9 @@ export function NdaBuilderClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default NdaBuilderClient;

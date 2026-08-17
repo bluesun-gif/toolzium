@@ -1,30 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import MyIpClient from "@/components/tools/network/my-ip-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
+
+const TITLE = "My Ip | Toolzium";
+const DESCRIPTION = "Free online my ip tool with instant calculation and privacy.";
+const PATH = "/tools/network/my-ip";
+
 export const metadata = buildMetadata({
-  title: "What Is My IP",
-  description: "Instantly detect your public IPv4 and IPv6 address. See your location, ISP, time zone, and coordinates. Privacy-first — your IP is detected client-side and never stored.",
-  path: "/tools/network/my-ip",
-  keywords: ["first", "your", "public", "location", "time", "address", "detect", "zone", "privacy", "instantly", "coordinates"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "What Is My IP",
-    description: "Instantly detect your public IPv4 and IPv6 address. See your location, ISP, time zone, and coordinates. Privacy-first — your IP is detected client-side and never stored.",
-    path: "/tools/network/my-ip",
-    categoryName: "Network",
-    categoryPath: "/tools/network",
+    name: "My Ip",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <MyIpClient />
-    
-      <RelatedTools currentToolUrl="/tools/network/my-ip" />
-</div>
+    </>
   );
 }

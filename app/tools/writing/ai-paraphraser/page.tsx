@@ -1,16 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import AiParaphraserClient from "@/components/tools/writing/ai-paraphraser-client";
-export const metadata: Metadata = {
-  title: "AI Content Paraphraser & Tone Transformer Studio | Toolzium",
-  description:
-    "Rewrite sentences, paragraphs, and articles into professional, concise, or creative tones with live AI.",
-};
 
-export default function AiParaphraserPage() {
+const TITLE = "Ai Paraphraser | Toolzium";
+const DESCRIPTION = "Free online ai paraphraser generator and assistant. Fast, private, and 100% free forever.";
+const PATH = "/tools/writing/ai-paraphraser";
+
+export const metadata = buildMetadata({
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
+});
+
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "Ai Paraphraser",
+    description: DESCRIPTION,
+    path: PATH
+  });
+
   return (
-    <><AiParaphraserClient />
-      <RelatedTools currentToolUrl="/tools/writing/ai-paraphraser" />
+    <>
+      <JsonLd data={jsonLd} />
+      <AiParaphraserClient />
     </>
   );
 }

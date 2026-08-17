@@ -1,4 +1,8 @@
 "use client";
+
+import { cn } from "@/lib/utils";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -118,7 +122,10 @@ export function InvoiceTrackerClient() {
     if (status === "Paid") classes += "bg-green-100 text-green-800";else if (status === "Overdue") classes += "bg-red-100 text-red-800";else if (status === "Cancelled") classes += "bg-gray-100 text-gray-800";else classes += "bg-yellow-100 text-yellow-800"; // Pending
     return <span className={classes}>{status}</span>;
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Receipt} title="Invoice Tracker" description="Track pending invoices, payments, and outstanding balances locally." actions={<React.Fragment>
@@ -323,6 +330,9 @@ export function InvoiceTrackerClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default InvoiceTrackerClient;

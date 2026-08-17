@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo } from "react";
@@ -10,7 +11,7 @@ import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { CopyButton } from "@/components/shared/action-buttons";
-import { Hash } from "lucide-react";
+import { Hash, Copy, Type } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -71,7 +72,10 @@ export default function NumberWordsClient() {
     if (isNaN(num)) return "Please enter a valid number";
     return numberToWords(num);
   }, [input]);
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Hash} title="Number to Words Converter" description="Instantly convert numerical digits into their English word equivalents up to trillions." />
@@ -146,7 +150,7 @@ export default function NumberWordsClient() {
         question: "Can I convert currency amounts?",
         answer: "While it converts the raw numbers perfectly, you will need to manually append the currency name (e.g., 'Dollars' or 'Cents') to the final text."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/calc/number-words" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

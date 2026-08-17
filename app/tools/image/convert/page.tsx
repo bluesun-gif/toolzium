@@ -1,32 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import ImageConvertClient from "@/components/tools/image/image-convert-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "Convert | Toolzium";
+const DESCRIPTION = "Free online convert tool with instant calculation and privacy.";
+const PATH = "/tools/image/convert";
 
 export const metadata = buildMetadata({
-  title: "Image Convert",
-  description: "Convert between JPG, PNG, WebP, AVIF",
-  path: "/tools/image/convert",
-  keywords: ["webp", "convert", "between", "avif"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Image Convert",
-    description: "Convert between JPG, PNG, WebP, AVIF",
-    path: "/tools/image/convert",
-    categoryName: "Image",
-    categoryPath: "/tools/image",
+    name: "Convert",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <ImageConvertClient />
-    
-      <RelatedTools currentToolUrl="/tools/image/convert" />
-</div>
+    </>
   );
 }

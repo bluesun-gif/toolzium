@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback } from "react";
@@ -9,7 +12,7 @@ import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Shield, Braces, AlertTriangle, CheckCircle2, XCircle, Info, Copy } from "lucide-react";
+import { Shield, Braces, AlertTriangle, CheckCircle2, XCircle, Info, Copy, Upload } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -159,7 +162,10 @@ export default function CodeAuditorClient() {
     if (severity === 'warning') return 'bg-yellow-500/10 text-yellow-600 border-yellow-500/30';
     return 'bg-blue-500/10 text-primary border-blue-500/30';
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Shield} title="Code Auditor" description="Analyze your code for security vulnerabilities, best practice violations, and potential bugs - all client-side" />
@@ -305,7 +311,7 @@ export default function CodeAuditorClient() {
         question: "Can I use this for production code?",
         answer: "Yes! This tool is designed for production code review. However, it's a supplement to professional security audits, not a replacement for comprehensive penetration testing."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/dev/code-auditor" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

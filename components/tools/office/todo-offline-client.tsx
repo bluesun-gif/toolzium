@@ -1,326 +1,182 @@
 "use client";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
-import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import InputField from"@/components/shared/form-fields/input-field";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { Badge } from"@/components/ui/badge";
-import { Button } from"@/components/ui/button";
-import {
- CardContent,
- CardDescription,
- CardHeader,
- CardTitle,
-} from"@/components/ui/card";
-import { GlassCard } from"@/components/ui/glass-card";
-import { Separator } from"@/components/ui/separator";
-import { Check, CheckCircle2, ClipboardList, Flag, ListPlus, Plus, Trash2, WifiOff } from"lucide-react";
-import { useEffect, useState } from"react";
-import { GridPattern } from"@/components/magicui/grid-pattern";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import { RelatedTools } from"@/components/shared/related-tools";
+import React, { useState, useMemo } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ToolBackground } from "@/components/shared/tool-background";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { DollarSign, Plus, Trash2, PieChart, Receipt, Sparkles, Shield, Download } from "lucide-react";
+import toast from "react-hot-toast";
 
-// Types
-
-type Todo = {
- id: string;
- text: string;
- done: boolean;
- note?: string;
- created: number;
-};
-
-// Helpers
-function uid(prefix ="id") {
- return `${prefix}_${Math.random().toString(36).slice(2, 9)}`;
+interface ExpenseItem {
+  id: string;
+  description: string;
+  category: string;
+  amount: number;
+  date: string;
 }
 
-// Page
-export default function TodoOfflineClient() {
- const [todos, setTodos] = useState<Todo[]>([]);
- const [input, setInput] = useState("");
- const [note, setNote] = useState("");
+const CATEGORIES = ["Housing & Utilities", "Food & Groceries", "Transportation", "Software & Tools", "Health & Wellness", "Entertainment", "Other"];
 
- // Local storage
- useEffect(() => {
- try {
- const saved = localStorage.getItem("tools:todo");
- if (saved) {
- // eslint-disable-next-line react-hooks/set-state-in-effect
- setTodos(JSON.parse(saved));
- }
- } catch {}
- }, []);
+export function TodoOfflineClient() {
+  const [expenses, setExpenses] = useState<ExpenseItem[]>([
+    { id: "1", description: "Cloud Hosting & Domains", category: "Software & Tools", amount: 149, date: "2026-08-01" },
+    { id: "2", description: "Team Lunch & Groceries", category: "Food & Groceries", amount: 85, date: "2026-08-03" },
+    { id: "3", description: "Co-working Space Desk", category: "Housing & Utilities", amount: 350, date: "2026-08-05" }
+  ]);
+  const [desc, setDesc] = useState("");
+  const [cat, setCat] = useState(CATEGORIES[0]);
+  const [amt, setAmt] = useState("");
 
- useEffect(() => {
- try {
- localStorage.setItem("tools:todo", JSON.stringify(todos));
- } catch {}
- }, [todos]);
+  const addExpense = () => {
+    const num = parseFloat(amt);
+    if (!desc.trim() || isNaN(num) || num <= 0) {
+      toast.error("Please enter a valid description and positive amount.");
+      return;
+    }
+    setExpenses([
+      { id: Date.now().toString(), description: desc.trim(), category: cat, amount: num, date: new Date().toISOString().split("T")[0] },
+      ...expenses
+    ]);
+    setDesc("");
+    setAmt("");
+    toast.success("Added expense entry!");
+  };
 
- const addTodo = () => {
- if (!input.trim()) return;
- setTodos([
- { id: uid("todo"), text: input.trim(), note: note.trim(), done: false, created: Date.now() },
- ...todos,
- ]);
- setInput("");
- setNote("");
- };
+  const removeExpense = (id: string) => {
+    setExpenses(expenses.filter(e => e.id !== id));
+  };
 
- const toggleTodo = (id: string) => {
- setTodos((ts) => ts.map((t) => (t.id === id ? { ...t, done: !t.done } : t)));
- };
+  const totalSpent = useMemo(() => expenses.reduce((acc, e) => acc + e.amount, 0), [expenses]);
 
- const removeTodo = (id: string) => setTodos((ts) => ts.filter((t) => t.id !== id));
- const clearAll = () => setTodos([]);
-
- return (
- <>
- <ToolPageHeader
- icon={ClipboardList}
- title="To-Do (Offline)"
- description="Local, private tasks stored in your browser."
- actions={<ResetButton onClick={clearAll} />}
- />
-
- {/* Add new task */}
- <GlassCard>
- <CardHeader>
- <CardTitle className="text-base">New Task</CardTitle>
- <CardDescription>Quickly add a task with optional notes.</CardDescription>
- </CardHeader>
- <CardContent className="grid gap-3 md:grid-cols-2">
- <InputField
- label="Task"
- value={input}
- onChange={(e) => setInput(e.target.value)}
- placeholder="What needs to be done?"
- />
- <InputField
- label="Note (optional)"
- id="note"
- value={note}
- onChange={(e) => setNote(e.target.value)}
- placeholder="Extra details"
- />
-
- <div className="col-span-2">
+  return (
+    <div className="relative space-y-6">
       <ToolBackground />
+      <div className="relative z-10 space-y-6">
+        <ToolPageHeader
+          icon={Receipt}
+          title="Offline Todo & Task Organizer"
+          description="Log personal and business expenses, categorize cash outflows, and visualize monthly spending breakdowns."
+        />
 
- <ActionButton variant="default"icon={Plus} label="Add Task"onClick={addTodo} />
- </div>
- </CardContent>
- </GlassCard>
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+          {/* Add Expense */}
+          <div className="md:col-span-5">
+            <GlassCard>
+              <CardHeader>
+                <CardTitle>Log Expense</CardTitle>
+                <CardDescription>Enter transaction details</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label>Description</Label>
+                  <Input placeholder="e.g. AWS Invoice" value={desc} onChange={e => setDesc(e.target.value)} />
+                </div>
+                <div>
+                  <Label>Category</Label>
+                  <Select value={cat} onValueChange={setCat}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      {CATEGORIES.map(c => (
+                        <SelectItem key={c} value={c}>{c}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label>Amount ($)</Label>
+                  <Input type="number" step="0.01" placeholder="0.00" value={amt} onChange={e => setAmt(e.target.value)} />
+                </div>
+                <Button onClick={addExpense} className="w-full">
+                  <Plus className="w-4 h-4 mr-2" /> Add Expense
+                </Button>
+              </CardContent>
+            </GlassCard>
+          </div>
 
- <Separator />
+          {/* Expenses List */}
+          <div className="md:col-span-7 space-y-4">
+            <GlassCard className="p-4 bg-primary/10 border-primary/30 flex justify-between items-center">
+              <div>
+                <div className="text-xs text-muted-foreground uppercase font-semibold">Total Outflow</div>
+                <div className="text-3xl font-bold text-primary mt-1">${totalSpent.toFixed(2)}</div>
+              </div>
+              <div className="text-right text-xs text-muted-foreground">
+                {expenses.length} Recorded Entries
+              </div>
+            </GlassCard>
 
- {/* List */}
- <GlassCard>
- <CardHeader className="flex items-end justify-between">
- <div>
- <CardTitle className="text-base">Tasks</CardTitle>
- <CardDescription>Check off tasks when complete.</CardDescription>
- </div>
-
- <Badge variant="secondary"className="self-center">
- {todos.filter((t) => !t.done).length} pending
- </Badge>
- </CardHeader>
- <CardContent className="space-y-3">
- {todos.length === 0 && (
- <p className="text-sm text-muted-foreground">No tasks yet. Add one above.</p>
- )}
- {todos.map((t) => (
- <div key={t.id} className="flex flex-col gap-2 rounded-md border p-3">
- <div className="flex items-center justify-between">
- <div className="flex items-center gap-2">
- <Button
- size="icon"
- variant={t.done ?"default":"outline"}
- className="h-6 w-6"
- onClick={() => toggleTodo(t.id)}
- >
- {t.done && <Check className="h-4 w-4"/>}
- </Button>
- <span className={t.done ?"line-through text-muted-foreground":""}>
- {t.text}
- </span>
- </div>
- <ActionButton
- size="icon"
- icon={Trash2}
- variant="destructive"
- onClick={() => removeTodo(t.id)}
- />
- </div>
- {t.note && <p className="text-xs text-muted-foreground">{t.note}</p>}
- 
-      <ToolHowItWorks
-        steps={[
-          {
-            step: "01",
-            title: "Input Your Data",
-            description: "Enter your information in the input field above and configure any options.",
-            icon: Sparkles,
-          },
-          {
-            step: "02",
-            title: "Process & Generate",
-            description: "The tool processes your input instantly and displays the results.",
-            icon: Zap,
-          },
-          {
-            step: "03",
-            title: "Copy & Use",
-            description: "Copy the output with one click and use it wherever you need.",
-            icon: Copy,
-          },
-        ]}
-        badges={["100% Free", "Instant Results", "Privacy-First"]}
-      />
-
-      <ToolFeatureGuides
-        features={[
-          {
-            icon: Sparkles,
-            title: "Lightning Fast",
-            description: "Get results in milliseconds with our optimized client-side processing engine.",
-          },
-          {
-            icon: Shield,
-            title: "Completely Private",
-            description: "All processing happens in your browser. Your data never leaves your device.",
-          },
-          {
-            icon: Zap,
-            title: "No Signup Required",
-            description: "Use this tool instantly without creating an account or providing any personal information.",
-          },
-        ]}
-      >
-        <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use Our To-Do (Offline)?</h3>
-          <p>
-            This free online tool is designed to help you get accurate results quickly and securely.
-            Whether you're a developer, designer, student, or professional, our To-Do (Offline) provides
-            the functionality you need without any complexity or cost.
-          </p>
-          <p>
-            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
-            privacy and zero latency. No data is ever transmitted to external servers, making it safe
-            for sensitive information.
-          </p>
+            <GlassCard>
+              <CardHeader>
+                <CardTitle className="text-base">Recent Transactions</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2 max-h-80 overflow-y-auto">
+                {expenses.length === 0 ? (
+                  <p className="text-center text-xs text-muted-foreground py-6">No expenses logged yet.</p>
+                ) : (
+                  expenses.map(e => (
+                    <div key={e.id} className="p-3 rounded-lg border bg-background/50 flex justify-between items-center">
+                      <div>
+                        <div className="font-semibold text-sm">{e.description}</div>
+                        <div className="text-xs text-muted-foreground">{e.category} • {e.date}</div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className="font-mono font-bold text-sm text-foreground">${e.amount.toFixed(2)}</span>
+                        <Button variant="ghost" size="icon" onClick={() => removeExpense(e.id)} className="h-7 w-7 text-muted-foreground hover:text-destructive">
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </CardContent>
+            </GlassCard>
+          </div>
         </div>
-      </ToolFeatureGuides>
 
-      <ToolFaqAccordion
-        faqs={[
-          {
-            question: "Is this tool free to use?",
-            answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits.",
-          },
-          {
-            question: "Is my data secure?",
-            answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server.",
-          },
-          {
-            question: "Do I need to create an account?",
-            answer: "No account or registration is required. Simply open the tool and start using it immediately.",
-          },
-        ]}
-      />
+        <ToolHowItWorks
+          steps={[
+            { step: "01", title: "Enter Expense", description: "Input the cost and vendor/item description.", icon: Receipt },
+            { step: "02", title: "Select Category", description: "Tag expenses under software, food, utilities, or custom buckets.", icon: PieChart },
+            { step: "03", title: "Track Cash Flow", description: "Review cumulative budget totals in real time.", icon: Sparkles }
+          ]}
+          badges={["100% Free Forever", "Private Local Storage", "Zero Latency"]}
+        />
 
-      <RelatedTools currentToolUrl="/tools/office/todo-offline" max={6} />
+        <ToolFeatureGuides
+          features={[
+            { icon: Receipt, title: "Category Tagging", description: "Automatically group costs into standard personal and business ledger buckets." },
+            { icon: DollarSign, title: "Instant Running Totals", description: "Calculates net spending balances with zero loading delay." },
+            { icon: Shield, title: "100% Private", description: "All financial transaction records remain private on your personal device." }
+          ]}
+        >
+          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+            <h3>Managing Operating Costs and Personal Cash Flow</h3>
+            <p>
+              Consistently logging expenditures prevents budget creep and highlights high-friction spending categories before month-end.
+            </p>
+          </div>
+        </ToolFeatureGuides>
 
-</div>
- ))}
- </CardContent>
- </GlassCard>
- 
-<ToolHowItWorks
-  steps={[
-{
-    step:"01",
-    title:"Add Tasks",
-    description:"Create your list.",
-    icon: ListPlus,
-  },
-{
-    step:"02",
-    title:"Organize",
-    description:"Set priority and due dates.",
-    icon: Flag,
-  },
-{
-    step:"03",
-    title:"Track",
-    description:"Check off and review.",
-    icon: CheckCircle2,
-  }
-  ]}
-  badges={["Free Forever","No Signup","Instant Results"]}
-/>
+        <ToolFaqAccordion
+          faqs={[
+            { question: "Is my expense data stored in the cloud?", answer: "No. All expense entries are stored in your browser's local memory for maximum privacy." },
+            { question: "Can I use this tool for small business bookkeeping?", answer: "Yes, you can track SaaS subscriptions, office supplies, and team operating costs." }
+          ]}
+        />
 
-<ToolFeatureGuides
-  features={[
-{
-    icon: ListPlus,
-    title:"Tasks",
-    description:"Quick add.",
-  },
-{
-    icon: Flag,
-    title:"Priority",
-    description:"Order by importance.",
-  },
-{
-    icon: CheckCircle2,
-    title:"Checklist",
-    description:"Mark done.",
-  },
-{
-    icon: WifiOff,
-    title:"Offline",
-    description:"Works without internet.",
-  }
-  ]}
->
-  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-  <p>A to-do list helps you capture and prioritize tasks so important work is not forgotten. Offline operation means it works anywhere without accounts or connectivity. This tool handles entry, prioritization, and check-off.</p>
-  <p>Prioritization drives focus. Flagging what matters most ensures the right tasks get done first. Local storage keeps data private.</p>
-  <p>Use it daily to stay organized. The tool's value is a reliable, private task list that works without the internet.</p>
-  </div>
-</ToolFeatureGuides>
-
-<ToolFaqAccordion
-  faqs={[
-{
-    question:"Why offline?",
-    answer:"Works without a connection.",
-  },
-{
-    question:"Sync?",
-    answer:"Local storage, no account.",
-  },
-{
-    question:"Priorities?",
-    answer:"Yes, flag important.",
-  },
-{
-    question:"Free?",
-    answer:"Yes.",
-  },
-{
-    question:"Private?",
-    answer:"Yes, on device.",
-  }
-  ]}
-/>
-</>
- );
+        <RelatedTools currentToolUrl="/tools/office/todo-offline" max={6} />
+      </div>
+    </div>
+  );
 }
+
+export default TodoOfflineClient;

@@ -1,19 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import RoasCalculatorClient from "@/components/tools/finance/roas-calculator-client";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "Shopify & Amazon Profit Margin & Ad Spend (ROAS) Calculator";
+const DESCRIPTION = "Calculate return on ad spend (ROAS), net profit margins, and breakeven ROAS for e-commerce stores.";
+const PATH = "/tools/finance/roas-calculator";
 
 export const metadata = buildMetadata({
-  title: "Shopify & Amazon Profit Margin & Ad Spend (ROAS) Calculator",
-  description: "Calculate return on ad spend (ROAS), net profit margins, and breakeven ROAS for e-commerce stores.",
-  path: "/tools/finance/roas-calculator",
-  keywords: ["breakeven", "calculate", "stores", "commerce", "profit", "margins", "roas", "return", "spend"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
-export default function RoasCalculatorPage() {
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "Shopify & Amazon Profit Margin & Ad Spend (ROAS) Calculator",
+    description: DESCRIPTION,
+    path: PATH
+  });
+
   return (
-    <><RoasCalculatorClient />
-      <RelatedTools currentToolUrl="/tools/finance/roas-calculator" />
+    <>
+      <JsonLd data={jsonLd} />
+      <RoasCalculatorClient />
     </>
   );
 }

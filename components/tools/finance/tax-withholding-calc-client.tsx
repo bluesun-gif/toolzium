@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
@@ -10,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Calculator, DollarSign, PieChart, ShieldCheck, FileText, CheckCircle2, AlertCircle } from "lucide-react";
+import { Calculator, DollarSign, PieChart, ShieldCheck, FileText, CheckCircle2, AlertCircle, Copy } from "lucide-react";
 import toast from "react-hot-toast";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
@@ -74,7 +75,10 @@ Estimated Annual Federal Withholding: $${annualTax.toLocaleString()}
 Withholding Per Paycheck: $${payPeriodTax.toFixed(2)}
 Estimated Take-Home Per Paycheck: $${payPeriodNet.toFixed(2)}
 Effective Tax Rate: ${effectiveRate}%`;
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       <ToolPageHeader icon={Calculator} title="Tax Withholding Calculator" description="Estimate your paycheck federal tax withholding, net take-home pay, and effective tax rate based on W-4 filing parameters." actions={<ResetButton onClick={handleReset} label="Reset" />} />
@@ -225,7 +229,7 @@ Effective Tax Rate: ${effectiveRate}%`;
         question: "Is state income tax included in this calculation?",
         answer: "This tool focuses specifically on Federal Income Tax withholding. State tax rates vary by jurisdiction (0% in states like TX/FL up to 13%+ in CA)."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/finance/tax-withholding-calc" max={6} />
-    </div></div>;
+    </div>
+    </div>
+);
 }

@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
@@ -11,7 +14,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CopyButton } from "@/components/shared/action-buttons";
 import toast from "react-hot-toast";
-import { Scissors, FileText, Settings, Check } from "lucide-react";
+import { Scissors, FileText, Settings, Check, Copy } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -47,7 +50,10 @@ export default function WhitespaceRemoverClient() {
     setOutput(result);
     toast.success(`Applied: ${mode} whitespace removal`);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Scissors} title="Whitespace Remover" description="Strip, collapse, or trim unwanted spaces, tabs, and line breaks from your text data." />
@@ -131,7 +137,7 @@ export default function WhitespaceRemoverClient() {
         question: "Can I fix copied code indentation with this?",
         answer: "Yes. Using 'Remove Leading Spaces' will strip all indentation, allowing you to re-indent the code cleanly using your own IDE's formatting tools."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/text/whitespace-remover" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

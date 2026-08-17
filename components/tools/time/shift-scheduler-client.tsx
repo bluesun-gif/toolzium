@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -115,7 +117,10 @@ export function ShiftSchedulerClient() {
     });
     return txt;
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       <ToolPageHeader icon={Calendar} title="Employee Work Shift Scheduler" description="Schedule team shifts over a 7-day week, detect rest period conflicts (e.g. Night → Morning turnarounds), and calculate weekly hours." actions={<div className="flex gap-2">
@@ -199,135 +204,8 @@ export function ShiftSchedulerClient() {
         </CardContent>
       </GlassCard>
 
-      {/* HOW IT WORKS */}
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Add Team Roster",
-        description: "Input employee names to generate personalized 7-day schedule rows.",
-        icon: Users
-      }, {
-        step: "02",
-        title: "Assign Daily Shifts",
-        description: "Select Morning, Evening, Night, or Off shifts for Monday through Sunday.",
-        icon: Calendar
-      }, {
-        step: "03",
-        title: "Detect Turnaround Conflicts",
-        description: "Automatic alerts flag insufficient rest periods (Night shift followed directly by Morning shift).",
-        icon: AlertCircle
-      }]} badges={["Turnaround Conflict Alerts", "Automatic Total Hours", "100% Free"]} />
+      
 
-      {/* FEATURE GUIDES */}
-      <ToolFeatureGuides features={[{
-        icon: Calendar,
-        title: "7-Day Rotation Grid",
-        description: "Clear tabular matrix displaying Morning (8h), Evening (8h), Night (8h), and Off status."
-      }, {
-        icon: AlertCircle,
-        title: "Turnaround Fatigue Warning",
-        description: "Automatically detects illegal or fatiguing shift turnarounds (Night → Morning)."
-      }, {
-        icon: Shield,
-        title: "Local Roster Storage",
-        description: "Saves your team roster and shift schedule securely in your local browser."
-      }]} />
-
-      {/* FAQ ACCORDION */}
-      <ToolFaqAccordion faqs={[{
-        question: "How does the turnaround conflict warning work?",
-        answer: "The scheduler flags red warnings whenever an employee is assigned a Night shift followed immediately by a Morning shift on the next day."
-      }, {
-        question: "Can I copy the schedule for team messaging?",
-        answer: "Yes, click 'Copy Schedule' to export a clean text summary of all team members and their assigned daily shifts."
-      }]} />
-
- const getConflict = (shifts: ShiftType[], dayIdx: number) => {
- if (dayIdx > 0) {
- if (shifts[dayIdx - 1] ==="Night"&& shifts[dayIdx] ==="Morning") return true;
- }
- return false;
- };
-
- const calculateHours = (shifts: ShiftType[]) => {
- return shifts.reduce((acc, val) => acc + SHIFT_HOURS[val as keyof typeof SHIFT_HOURS], 0);
- };
-
- const generateSummaryText = () => {
- let txt ="Weekly Schedule\n\n";
- employees.forEach(e => {
- txt += e.name +"("+ calculateHours(e.shifts) +"h):";
- txt += e.shifts.map((s, i) => DAYS[i] +":"+ s.charAt(0)).join(",") +"\n";
- });
- return txt;
- };
-
- if (!isClient) return null;
-
- return (
- <div className="space-y-6">
- <ToolPageHeader
- icon={Calendar}
- title="Work Shift Scheduler"
- description="Schedule employee work shifts over a 7-day week."
- actions={
- <>
- <CopyButton getText={generateSummaryText} label="Copy Schedule"/>
- <ResetButton onClick={reset} label="Reset"/>
- </>
- }
- />
-
- <GlassCard>
- <CardHeader>
- <CardTitle>Manage Team</CardTitle>
- <CardDescription>Add employees to the schedule.</CardDescription>
- </CardHeader>
- <CardContent>
- <div className="flex gap-2 max-w-sm">
- <Input value={newName} onChange={(e) => setNewName(e.target.value)} placeholder="Employee Name"onKeyDown={(e) => e.key === 'Enter' && addEmployee()} />
- <Button onClick={addEmployee} variant="secondary"><Plus className="w-4 h-4 mr-2"/> Add</Button>
- </div>
- </CardContent>
- </GlassCard>
-
- <GlassCard>
- <CardHeader>
- <CardTitle>Weekly Schedule</CardTitle>
- <CardDescription>Assign shifts per day (Morning 8-4, Evening 4-12, Night 12-8, Off).</CardDescription>
- </CardHeader>
- <CardContent className="overflow-x-auto">
- {employees.length === 0 ? (
- <div className="text-center p-8 text-muted-foreground">No employees added yet.</div>
- ) : (
- <table className="w-full text-sm">
- <thead>
- <tr className="border-b">
- <th className="text-left py-2 px-4">Employee</th>
- {DAYS.map(d => <th key={d} className="py-2 px-2 text-center">{d}</th>)}
- <th className="py-2 px-4 text-center">Hours</th>
- <th className="py-2 px-4"></th>
- </tr>
- </thead>
- <tbody>
- {employees.map(emp => (
- <tr key={emp.id} className="border-b">
- <td className="py-3 px-4 font-medium">{emp.name}</td>
- {emp.shifts.map((shift, i) => {
- const conflict = getConflict(emp.shifts, i);
- return (
- <td key={i} className="py-3 px-2">
- <Select value={shift} onValueChange={(v) => updateShift(emp.id, i, v as ShiftType)}>
- <SelectTrigger className={"h-8 text-xs"+ (conflict ?"border-red-500":"")}>
- <SelectValue />
- </SelectTrigger>
- <SelectContent>
- <SelectItem value="Morning">Morning</SelectItem>
- <SelectItem value="Evening">Evening</SelectItem>
- <SelectItem value="Night">Night</SelectItem>
- <SelectItem value="Off">Off</SelectItem>
- </SelectContent>
- </Select>
- {conflict && <div className="text-[10px] text-red-500 mt-1 flex items-center justify-center"><AlertCircle className="w-3 h-3 mr-1"/> Conflict
 <ToolHowItWorks
   steps={[
 {
@@ -407,21 +285,9 @@ export function ShiftSchedulerClient() {
   }
   ]}
 />
-</div>}
- </td>
- );
- })}
- <td className="py-3 px-4 text-center font-bold">{calculateHours(emp.shifts)}h</td>
- <td className="py-3 px-4 text-right">
- <Button variant="ghost"size="icon"onClick={() => removeEmployee(emp.id)}><Trash2 className="w-4 h-4 text-destructive"/></Button>
- </td>
- </tr>
- ))}
- </tbody>
- </table>
- )}
- </CardContent>
- </GlassCard>
- </div>
- );
+    </div>
+    </div>
+);
 }
+
+export default ShiftSchedulerClient;

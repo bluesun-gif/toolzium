@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -10,7 +12,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { Activity, BarChart3, Bike, Calculator, Clock, Flame, Scale, TrendingUp } from"lucide-react";
+import { Activity, BarChart3, Bike, Calculator, Clock, Flame, Scale, TrendingUp, Copy } from "lucide-react";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
 
 export function CyclingCalorieClient() {
@@ -80,7 +82,10 @@ export function CyclingCalorieClient() {
     setIntensity("Moderate (10-12 mph)");
     setTerrain("Flat");
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Activity} title="Cycling & Biking Calorie & Power Calculator" description="Calculate calories burned and estimated mechanical power output during your cycling sessions." actions={<div className="flex gap-2">
@@ -263,6 +268,9 @@ export function CyclingCalorieClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default CyclingCalorieClient;

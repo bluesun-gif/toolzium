@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -12,7 +14,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Calendar, Clock, Globe, MapPin, Moon, Sun } from"lucide-react";
+import { Calendar, Clock, Globe, MapPin, Moon, Sun, Copy, Calculator } from "lucide-react";
 import toast from"react-hot-toast";
 
 const CITIES = [
@@ -62,7 +64,10 @@ export function SunCalculatorClient() {
   const getResultsText = () => {
     return "Sunrise:" + data.sunrise + "\nSunset:" + data.sunset + "\nDay Length:" + data.dayLength;
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Sun} title="Sunrise & Sunset Calculator" description="Calculate sunrise, sunset, dawn, dusk, golden hour, and day length." actions={<div className="flex space-x-2">
@@ -211,6 +216,9 @@ export function SunCalculatorClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default SunCalculatorClient;

@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo } from "react";
@@ -9,7 +12,7 @@ import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CopyButton } from "@/components/shared/action-buttons";
-import { RotateCw, Lock, Unlock, Zap } from "lucide-react";
+import { RotateCw, Lock, Unlock, Zap, Copy, Type } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -24,7 +27,10 @@ export default function Rot13Client() {
       return String.fromCharCode((c.charCodeAt(0) - base + 13) % 26 + base);
     });
   }, [text]);
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={RotateCw} title="ROT13 Encoder/Decoder" description="Apply the classic ROT13 letter substitution cipher to hide or reveal text instantly." />
@@ -102,7 +108,7 @@ export default function Rot13Client() {
         question: "How do I decode a ROT13 message?",
         answer: "Because the cipher is symmetric, you simply paste the encoded message back into the input box. The output will be the original decoded text."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/text/rot13" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

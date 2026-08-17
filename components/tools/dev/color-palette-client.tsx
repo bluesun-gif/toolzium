@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback, useEffect } from "react";
@@ -188,7 +189,10 @@ export default function ColorPaletteClient() {
     question: "Can I export these colors to my React project?",
     answer: "Yes, the tool provides one-click export options for CSS custom properties (variables) and Tailwind CSS configuration objects, allowing you to paste the exact color system directly into your global styles or tailwind.config.js file."
   }];
-  return <div className="relative max-w-6xl mx-auto space-y-8 pb-12 px-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Palette} title="Color Palette Generator" description="Generate beautiful, mathematically harmonious color palettes with WCAG contrast checking and developer export tools." />
@@ -262,6 +266,7 @@ export default function ColorPaletteClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={faqs} />
- <RelatedTools currentToolUrl="/tools/dev/color-palette-generator" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

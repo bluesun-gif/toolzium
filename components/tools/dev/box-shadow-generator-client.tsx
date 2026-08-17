@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -12,7 +14,7 @@ import TextareaField from"@/components/shared/form-fields/textarea-field";
 import SwitchRow from"@/components/shared/form-fields/switch-row";
 import { ResetButton, CopyButton } from"@/components/shared/action-buttons";
 import { Button } from"@/components/ui/button";
-import { Box, Code2, Copy, Layers, Palette, SlidersHorizontal, Sparkles } from"lucide-react";
+import { Box, Code2, Copy, Layers, Palette, SlidersHorizontal, Sparkles, Sliders } from "lucide-react";
 
 export default function BoxShadowGeneratorClient() {
   const [activeTab, setActiveTab] = useState<"shadow" | "glass">("shadow");
@@ -88,7 +90,10 @@ border-radius: ${glassRadius}px;`;
       setInset(false);
     }
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="CSS Box Shadow & Glassmorphism Generator" description="Design modern CSS box shadows, glow effects, and frosted glass elements with real-time interactive sliders. Copy clean CSS code instantly." icon={Sparkles} />
@@ -351,6 +356,7 @@ border-radius: ${glassRadius}px;`;
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }

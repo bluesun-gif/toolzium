@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { cn } from "@/lib/utils";
@@ -10,7 +11,7 @@ import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { RotateCcw, Timer, Play, Grid3X3, Zap } from "lucide-react";
+import { RotateCcw, Timer, Play, Grid3X3, Zap, Grid } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -102,7 +103,10 @@ export function MemoryMatchClient() {
     if (idx === activeTile) return "bg-green-400 shadow-[0_0_20px_rgba(74,222,128,0.8)] scale-105";
     return "bg-blue-600 hover:bg-blue-500 shadow-md";
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 pb-12"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Grid3X3} title="Memory Match" description="Test your sequential memory and reaction time. Watch the pattern, memorize it, and repeat it perfectly as the speed increases." />
@@ -203,8 +207,9 @@ export function MemoryMatchClient() {
         question: "Can I play without sound?",
         answer: "Yes, this tool is entirely visual. It uses color and animation to provide feedback, making it perfect for playing in quiet environments like offices or libraries."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/fun/memory-match" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default MemoryMatchClient;

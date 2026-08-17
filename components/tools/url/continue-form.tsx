@@ -1,5 +1,7 @@
 "use client";
 
+import { ToolBackground } from "@/components/shared/tool-background";
+
 import * as React from"react";
 import { ActionButton } from"@/components/shared/action-buttons";
 import { Checkbox } from"@/components/ui/checkbox";

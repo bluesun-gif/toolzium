@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback } from "react";
@@ -11,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Copy, RotateCcw, Code2, Settings, FileJson, FileType, CheckSquare } from "lucide-react";
+import { Copy, RotateCcw, Code2, Settings, FileJson, FileType, CheckSquare, Type } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -184,7 +185,10 @@ export function JsonToTypescriptClient() {
     question: "Is my JSON data sent to a server?",
     answer: "No, all parsing and TypeScript generation happens 100% locally in your browser. Your data never leaves your device."
   }];
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={FileJson} title="JSON to TypeScript Converter" description="Instantly convert raw JSON data into strictly-typed TypeScript interfaces and type aliases with deep nested object support." />
@@ -263,7 +267,9 @@ export function JsonToTypescriptClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={faqs} />
- <RelatedTools currentToolUrl="/tools/dev/json-to-typescript" />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default JsonToTypescriptClient;

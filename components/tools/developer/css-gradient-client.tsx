@@ -1,4 +1,7 @@
 "use client";
+
+import { Switch } from "@/components/ui/switch";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { Button } from "@/components/ui/button";
@@ -13,7 +16,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { CopyButton } from "@/components/shared/action-buttons";
 import toast from "react-hot-toast";
-import { Layers, Eye, Sparkles, Move } from "lucide-react";
+import { Layers, Eye, Sparkles, Move, Copy, Type } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -66,7 +69,10 @@ export default function CssGradientClient() {
       background: `radial-gradient(circle, ${color1}, ${color2})`
     };
   }, [color1, color2, direction, type]);
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Layers} title="CSS Gradient Generator" description="Build beautiful linear and radial CSS gradients with a live preview and ready-to-copy code." />
@@ -188,7 +194,7 @@ export default function CssGradientClient() {
         question: "Can I use this with Tailwind?",
         answer: "Yes. Paste the generated CSS into a custom utility, or use Tailwind's arbitrary value syntax like bg-[linear-gradient(to_right,#6366f1,#ec4899)]."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/developer/css-gradient" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

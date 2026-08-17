@@ -1,4 +1,8 @@
 "use client";
+
+import { cn } from "@/lib/utils";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -57,7 +61,10 @@ export function BmrCalculatorClient() {
     setEquation("mifflin");
   };
   const bmrValue = bmr ? Math.round(bmr) : 0;
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Calculator} title="BMR Calculator" description="Calculate your Basal Metabolic Rate and daily calorie needs." actions={<ResetButton onClick={reset} label="Reset" />} />
@@ -257,6 +264,9 @@ export function BmrCalculatorClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default BmrCalculatorClient;

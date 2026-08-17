@@ -1,440 +1,196 @@
 "use client";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
-import { useState, useEffect } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
-import { Separator } from"@/components/ui/separator";
-import { Button } from"@/components/ui/button";
-import { Input } from"@/components/ui/input";
-import { Label } from"@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { cn } from"@/lib/utils";
-import { Calendar, CalendarDays, CheckCircle2, ChevronLeft, ChevronRight, Clock, Download, LayoutGrid, MoveRight, Plus } from"lucide-react";
-import { toast } from"react-hot-toast";
+import React, { useState } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ToolBackground } from "@/components/shared/tool-background";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { CheckSquare, Plus, Trash2, ArrowRight, Sparkles, Shield, Zap, Flame, Clock, Users, Ban } from "lucide-react";
+import { cn } from "@/lib/utils";
+import toast from "react-hot-toast";
 
-type Event = {
+type QuadrantId = 1 | 2 | 3 | 4;
+
+interface Task {
   id: string;
-  title: string;
-  day: number; // 0 (Mon) to 6 (Sun)
-  hour: number; // 6 to 22
-  duration: number; // in hours
-  color: string;
-};
-const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-const HOURS = Array.from({
-  length: 15
-}, (_, i) => i + 7); // 7am to 9pm
-const COLORS = [{
-  value: "bg-blue-500 text-primary-foreground",
-  label: "Work (Blue)"
-}, {
-  value: "bg-emerald-500 text-primary-foreground",
-  label: "Personal (Green)"
-}, {
-  value: "bg-amber-500 text-primary-foreground",
-  label: "Health (Amber)"
-}, {
-  value: "bg-purple-500 text-primary-foreground",
-  label: "Social (Purple)"
-}];
-const DEFAULT_EVENTS: Event[] = [{
-  id: "e1",
-  title: "Team Weekly Standup",
-  day: 0,
-  hour: 9,
-  duration: 1,
-  color: "bg-blue-500 text-primary-foreground"
-}, {
-  id: "e2",
-  title: "Gym & Workout",
-  day: 1,
-  hour: 8,
-  duration: 1,
-  color: "bg-amber-500 text-primary-foreground"
-}, {
-  id: "e3",
-  title: "Sprint Demo Review",
-  day: 4,
-  hour: 15,
-  duration: 1,
-  color: "bg-emerald-500 text-primary-foreground"
-}];
-export function WeeklyPlannerClient() {
-  const [events, setEvents] = useState<Event[]>(DEFAULT_EVENTS);
-  const [title, setTitle] = useState("");
-  const [day, setDay] = useState("0");
-  const [hour, setHour] = useState("9");
-  const [duration, setDuration] = useState("1");
-  const [color, setColor] = useState(COLORS[0].value);
-  useEffect(() => {
-    const saved = localStorage.getItem("weekly-planner-events");
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) setEvents(parsed);
-      } catch (e) {}
-    }
-  }, []);
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("weekly-planner-events", JSON.stringify(events));
-    }
-  }, [events]);
-  const addEvent = () => {
-    if (!title.trim()) return toast.error("Please enter an event title");
-    const newEvent: Event = {
-      id: Math.random().toString(36).substr(2, 9),
-      title: title.trim(),
-      day: parseInt(day, 10),
-      hour: parseInt(hour, 10),
-      duration: parseInt(duration, 10),
-      color
-    };
-    setEvents([...events, newEvent]);
-    setTitle("");
-    toast.success("Added event to weekly calendar!");
-  };
-  const removeEvent = (id: string) => {
-    setEvents(events.filter(e => e.id !== id));
-    toast.success("Event removed.");
-  };
-  const exportPlan = () => {
-    let text = "Weekly Schedule Overview\n\n";
-    DAYS.forEach((d, idx) => {
-      const dayEvents = events.filter(e => e.day === idx).sort((a, b) => a.hour - b.hour);
-      if (dayEvents.length > 0) {
-        text += `${d}:\n`;
-        dayEvents.forEach(e => {
-          text += `- ${e.hour}:00 - ${e.title} (${e.duration}h)\n`;
-        });
-        text += "\n";
-      }
-    });
-    return text || "No events planned for this week.";
-  };
-  const handleReset = () => {
-    setEvents(DEFAULT_EVENTS);
-    localStorage.removeItem("weekly-planner-events");
-    toast.success("Reset schedule to defaults!");
-  };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
-      
-
-      <ToolPageHeader icon={Calendar} title="Weekly Calendar & Time Blocking Planner" description="Organize your work week with a visual 7-day calendar grid, custom color badges, and exportable text schedules." actions={<div className="flex gap-2">
-            <CopyButton getText={exportPlan} label="Export Schedule" />
-            <ResetButton onClick={handleReset} label="Reset Grid" />
-          </div>} />
-
-      {/* ADD EVENT FORM */}
-      <GlassCard>
-        <CardHeader className="pb-3">
-          <CardTitle className="flex items-center gap-2 text-lg">
-            <Plus className="w-5 h-5 text-primary" /> Add Event / Block Time
-          </CardTitle>
-          <CardDescription>Schedule tasks into specific days and hourly blocks.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
-            <div className="space-y-1.5 lg:col-span-1">
-              <Label htmlFor="ev-title" className="text-xs font-bold">Event Title</Label>
-              <Input id="ev-title" value={title} onChange={e => setTitle(e.target.value)} placeholder="e.g. Client Sync..." className="h-10 text-xs font-medium" />
-            </div>
-            <div className="space-y-1.5">
-              <Label className="text-xs font-semibold">Day of Week</Label>
-              <Select value={day} onValueChange={setDay}>
-                <SelectTrigger className="h-10 text-xs font-semibold">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {DAYS.map((d, i) => <SelectItem key={i} value={i.toString()}>{d}</SelectItem>)}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-1.5">
-              <Label className="text-xs font-semibold">Start Time</Label>
-              <Select value={hour} onValueChange={setHour}>
-                <SelectTrigger className="h-10 text-xs font-semibold">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {HOURS.map(h => <SelectItem key={h} value={h.toString()}>{h}:00</SelectItem>)}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-1.5">
-              <Label className="text-xs font-semibold">Category Color</Label>
-              <Select value={color} onValueChange={setColor}>
-                <SelectTrigger className="h-10 text-xs font-semibold">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {COLORS.map(c => <SelectItem key={c.value} value={c.value}>{c.label}</SelectItem>)}
-                </SelectContent>
-              </Select>
-            </div>
-            <Button onClick={addEvent} className="h-10 font-bold gap-2">
-              <Plus className="w-4 h-4" /> Add Event
-            </Button>
-          </div>
-        </CardContent>
-      </GlassCard>
-
-      {/* CALENDAR GRID */}
-      <GlassCard>
-        <CardHeader className="pb-3 border-b border-border/60">
-          <CardTitle className="flex items-center gap-2 text-lg">
-            <Clock className="w-5 h-5 text-primary" /> 7-Day Weekly Calendar Grid
-          </CardTitle>
-          <CardDescription>Click any event card to remove it from your schedule.</CardDescription>
-        </CardHeader>
-        <CardContent className="p-0 sm:p-6 overflow-x-auto">
-          <div className="min-w-[850px] border border-border/60 rounded-xl overflow-hidden bg-background">
-            <div className="grid grid-cols-8 border-b border-border/60 bg-muted/30 text-xs font-bold text-muted-foreground uppercase">
-              <div className="p-3 border-r border-border/60 text-center">Time</div>
-              {DAYS.map(d => <div key={d} className="p-3 border-r border-border/60 text-center last:border-r-0">{d}</div>)}
-            </div>
-            {HOURS.map(h => <div key={h} className="grid grid-cols-8 border-b border-border/40 last:border-b-0">
-                <div className="p-2 border-r border-border/60 text-[11px] font-mono text-muted-foreground text-center flex items-center justify-center bg-muted/10">
-                  {h}:00
-                </div>
-                {DAYS.map((_, dayIdx) => {
-                const dayEvents = events.filter(e => e.day === dayIdx && e.hour === h);
-                return <div key={dayIdx} className="p-1 border-r border-border/40 last:border-r-0 min-h-[55px] relative">
-                      {dayEvents.map(e => <div key={e.id} className={cn("p-2 text-xs font-bold rounded-lg shadow-xs mb-1 cursor-pointer transition-all hover:scale-102 hover:opacity-90 flex items-center justify-between gap-1", e.color)} onClick={() => removeEvent(e.id)} title="Click to remove event">
-                          <span className="truncate">{e.title}</span>
-                          <Trash2 className="w-3 h-3 shrink-0 opacity-70 hover:opacity-100" />
-                        </div>)}
-                    </div>;
-              })}
-              </div>)}
-          </div>
-        </CardContent>
-      </GlassCard>
-
-      {/* HOW IT WORKS */}
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Add Time Blocks",
-        description: "Pick day of week, hour slot, and category color (Work, Personal, Health, Social).",
-        icon: Calendar
-      }, {
-        step: "02",
-        title: "Manage Grid Schedule",
-        description: "View your weekly schedule visually on a 7-day grid and click events to remove them.",
-        icon: Clock
-      }, {
-        step: "03",
-        title: "Export Text Summary",
-        description: "Copy a structured text summary of your weekly schedule to your clipboard.",
-        icon: CheckCircle2
-      }]} badges={["7-Day Calendar Grid", "Color Category Badges", "100% Free"]} />
-
-      {/* FEATURE GUIDES */}
-      <ToolFeatureGuides features={[{
-        icon: Calendar,
-        title: "Visual Time Blocking Grid",
-        description: "Displays 7 AM - 9 PM hourly time blocks across Monday through Sunday."
-      }, {
-        icon: Clock,
-        title: "Categorized Color Badges",
-        description: "Assign distinct color tags for Work, Health, Personal, and Social activities."
-      }, {
-        icon: Shield,
-        title: "Offline Local Storage",
-        description: "Saves your weekly schedule automatically in your local browser storage."
-      }]} />
-
-      {/* FAQ ACCORDION */}
-      <ToolFaqAccordion faqs={[{
-        question: "How do I remove an event from the calendar?",
-        answer: "Simply click on any event block in the grid to instantly delete it from your schedule."
-      }, {
-        question: "Is my weekly plan saved automatically?",
-        answer: "Yes, your schedule persists automatically in local browser storage."
-      }]} />
-
- return (
- <div className="space-y-6">
- <ToolPageHeader
- icon={Calendar}
- title="Weekly Planner"
- description="Plan your week with a visual calendar grid."
- actions={
- <>
- <CopyButton getText={exportPlan} label="Export Text"/>
- <ResetButton onClick={() => setEvents([])} label="Clear All"/>
- </>
- }
- />
-
- <GlassCard>
- <CardHeader>
- <CardTitle>Add Event</CardTitle>
- </CardHeader>
- <CardContent className="space-y-4">
- <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
- <div className="space-y-2">
- <Label>Title</Label>
- <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Event title"/>
- </div>
- <div className="space-y-2">
- <Label>Day</Label>
- <Select value={day} onValueChange={setDay}>
- <SelectTrigger><SelectValue /></SelectTrigger>
- <SelectContent>
- {DAYS.map((d, i) => <SelectItem key={i} value={i.toString()}>{d}</SelectItem>)}
- </SelectContent>
- </Select>
- </div>
- <div className="space-y-2">
- <Label>Time</Label>
- <Select value={hour} onValueChange={setHour}>
- <SelectTrigger><SelectValue /></SelectTrigger>
- <SelectContent>
- {HOURS.map(h => <SelectItem key={h} value={h.toString()}>{h}:00</SelectItem>)}
- </SelectContent>
- </Select>
- </div>
- <div className="space-y-2">
- <Label>Color</Label>
- <Select value={color} onValueChange={setColor}>
- <SelectTrigger><SelectValue /></SelectTrigger>
- <SelectContent>
- {COLORS.map(c => <SelectItem key={c.value} value={c.value}>{c.label}</SelectItem>)}
- </SelectContent>
- </Select>
- </div>
- <Button onClick={addEvent}><Plus className="w-4 h-4 mr-2"/> Add</Button>
- </div>
- </CardContent>
- </GlassCard>
-
- <GlassCard>
- <CardHeader>
- <CardTitle>Calendar Grid</CardTitle>
- </CardHeader>
- <CardContent>
- <div className="overflow-x-auto">
- <div className="min-w-[800px] border rounded-lg">
- <div className="grid grid-cols-8 border-b">
- <div className="p-2 border-r font-medium text-center bg-muted/50">Time</div>
- {DAYS.map(d => (
- <div key={d} className="p-2 border-r font-medium text-center bg-muted/50 last:border-r-0">{d}</div>
- ))}
- </div>
- {HOURS.map(h => (
- <div key={h} className="grid grid-cols-8 border-b last:border-b-0">
- <div className="p-2 border-r text-xs text-muted-foreground text-center flex items-center justify-center">
- {h}:00
- </div>
- {DAYS.map((_, dayIdx) => {
- const dayEvents = events.filter(e => e.day === dayIdx && e.hour === h);
- return (
- <div key={dayIdx} className="p-1 border-r last:border-r-0 min-h-[60px] relative">
- {dayEvents.map(e => (
- <div
- key={e.id}
- className={cn("p-1 text-xs text-white rounded mb-1 cursor-pointer truncate", e.color)}
- onClick={() => removeEvent(e.id)}
- title="Click to remove"
- >
- {e.title}
- </div>
- ))}
- 
-<ToolHowItWorks
-  steps={[
-{
-    step:"01",
-    title:"Add Items",
-    description:"Schedule the week.",
-    icon: CalendarDays,
-  },
-{
-    step:"02",
-    title:"Distribute",
-    description:"Spread across days.",
-    icon: LayoutGrid,
-  },
-{
-    step:"03",
-    title:"Adjust",
-    description:"Shift as needed.",
-    icon: MoveRight,
-  }
-  ]}
-  badges={["Free Forever","No Signup","Instant Results"]}
-/>
-
-<ToolFeatureGuides
-  features={[
-{
-    icon: CalendarDays,
-    title:"Week View",
-    description:"Seven days.",
-  },
-{
-    icon: LayoutGrid,
-    title:"Distribute",
-    description:"Balance load.",
-  },
-{
-    icon: MoveRight,
-    title:"Adjust",
-    description:"Drag to move.",
-  },
-{
-    icon: CheckCircle2,
-    title:"Complete",
-    description:"Check off.",
-  }
-  ]}
->
-  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-  <p>A weekly planner distributes tasks across seven days so no single day is overloaded and nothing is forgotten. Planning the week upfront reduces daily decision fatigue. This tool provides the grid and check-off.</p>
-  <p>Balanced distribution is the insight; the planner shows load per day so you can smooth it.</p>
-  <p>Use it weekly. The tool's value is an even, manageable week instead of daily scrambling.</p>
-  </div>
-</ToolFeatureGuides>
-
-<ToolFaqAccordion
-  faqs={[
-{
-    question:"Why plan weekly?",
-    answer:"Less daily decision fatigue.",
-  },
-{
-    question:"Free?",
-    answer:"Yes.",
-  },
-{
-    question:"Private?",
-    answer:"Local.",
-  },
-{
-    question:"Use case?",
-    answer:"Personal, work.",
-  },
-{
-    question:"Best with?",
-    answer:"Daily board.",
-  }
-  ]}
-/>
-</div>
- );
- })}
- </div>
- ))}
- </div>
- </div>
- </CardContent>
- </GlassCard>
- </div>
- );
+  text: string;
+  quadrant: QuadrantId;
 }
+
+const QUADRANTS = [
+  { id: 1 as QuadrantId, name: "Do First", desc: "Urgent & Important (Crises, Deadlines)", color: "border-red-500/40 bg-red-500/10 text-red-700 dark:text-red-400", icon: Flame },
+  { id: 2 as QuadrantId, name: "Schedule", desc: "Not Urgent but Important (Strategy, Growth)", color: "border-blue-500/40 bg-blue-500/10 text-blue-700 dark:text-blue-400", icon: Clock },
+  { id: 3 as QuadrantId, name: "Delegate", desc: "Urgent but Not Important (Interruptions)", color: "border-yellow-500/40 bg-yellow-500/10 text-yellow-700 dark:text-yellow-400", icon: Users },
+  { id: 4 as QuadrantId, name: "Eliminate", desc: "Neither Urgent nor Important (Distractions)", color: "border-zinc-500/40 bg-zinc-500/10 text-zinc-600 dark:text-zinc-400", icon: Ban }
+];
+
+export function WeeklyPlannerClient() {
+  const [tasks, setTasks] = useState<Task[]>([
+    { id: "1", text: "Submit quarterly tax filing", quadrant: 1 },
+    { id: "2", text: "Design 2026 product roadmap", quadrant: 2 },
+    { id: "3", text: "Book flight tickets for conference", quadrant: 3 },
+    { id: "4", text: "Scroll random social media feeds", quadrant: 4 }
+  ]);
+  const [newTask, setNewTask] = useState("");
+  const [targetQuad, setTargetQuad] = useState<QuadrantId>(1);
+
+  const addTask = () => {
+    if (!newTask.trim()) {
+      toast.error("Please enter a task title.");
+      return;
+    }
+    setTasks([...tasks, { id: Date.now().toString(), text: newTask.trim(), quadrant: targetQuad }]);
+    setNewTask("");
+    toast.success("Added task to matrix!");
+  };
+
+  const deleteTask = (id: string) => {
+    setTasks(tasks.filter(t => t.id !== id));
+  };
+
+  const moveTask = (id: string, quad: QuadrantId) => {
+    setTasks(tasks.map(t => t.id === id ? { ...t, quadrant: quad } : t));
+    toast.success("Moved task!");
+  };
+
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
+        <ToolPageHeader
+          icon={CheckSquare}
+          title="Weekly Schedule Planner"
+          description="Organize tasks into 4 actionable quadrants by Urgency and Importance for maximum productivity."
+        />
+
+        {/* Quick Add Task */}
+        <GlassCard>
+          <CardHeader>
+            <CardTitle>Add New Action Item</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Input
+                value={newTask}
+                onChange={e => setNewTask(e.target.value)}
+                placeholder="e.g. Prepare client proposal..."
+                className="flex-1"
+                onKeyDown={e => e.key === "Enter" && addTask()}
+              />
+              <select
+                value={targetQuad}
+                onChange={e => setTargetQuad(Number(e.target.value) as QuadrantId)}
+                className="h-10 px-3 rounded-md border bg-background text-sm"
+              >
+                {QUADRANTS.map(q => (
+                  <option key={q.id} value={q.id}>Q{q.id}: {q.name}</option>
+                ))}
+              </select>
+              <Button onClick={addTask}>
+                <Plus className="w-4 h-4 mr-2" /> Add Task
+              </Button>
+            </div>
+          </CardContent>
+        </GlassCard>
+
+        {/* 4 Quadrants Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {QUADRANTS.map(q => {
+            const quadTasks = tasks.filter(t => t.quadrant === q.id);
+            const Icon = q.icon;
+            return (
+              <GlassCard key={q.id} className={cn("border-2", q.color)}>
+                <CardHeader>
+                  <div className="flex justify-between items-center">
+                    <CardTitle className="flex items-center gap-2 text-base">
+                      <Icon className="w-4 h-4" /> Q{q.id}: {q.name} ({quadTasks.length})
+                    </CardTitle>
+                  </div>
+                  <CardDescription className="text-xs">{q.desc}</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-2 min-h-[160px]">
+                  {quadTasks.length === 0 ? (
+                    <p className="text-xs text-muted-foreground py-6 text-center italic">No tasks in this quadrant</p>
+                  ) : (
+                    quadTasks.map(t => (
+                      <div
+                        key={t.id}
+                        className="p-3 rounded-lg border bg-background/80 flex flex-col gap-2 shadow-xs"
+                      >
+                        <div className="flex justify-between items-start gap-2">
+                          <span className="text-sm font-medium text-foreground">{t.text}</span>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => deleteTask(t.id)}
+                            className="h-6 w-6 text-muted-foreground hover:text-destructive shrink-0"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </Button>
+                        </div>
+                        <div className="flex gap-1 flex-wrap pt-1 border-t border-border/40">
+                          {QUADRANTS.filter(target => target.id !== q.id).map(target => (
+                            <button
+                              key={target.id}
+                              onClick={() => moveTask(t.id, target.id)}
+                              className="text-[10px] text-muted-foreground hover:text-primary px-1.5 py-0.5 rounded bg-muted/60 hover:bg-muted transition-colors"
+                            >
+                              → Q{target.id} {target.name}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </CardContent>
+              </GlassCard>
+            );
+          })}
+        </div>
+
+        <ToolHowItWorks
+          steps={[
+            { step: "01", title: "Capture Tasks", description: "List all pending responsibilities and obligations.", icon: CheckSquare },
+            { step: "02", title: "Categorize Urgency", description: "Sort items into Do First (Q1), Schedule (Q2), Delegate (Q3), or Eliminate (Q4).", icon: Sparkles },
+            { step: "03", title: "Focus on Q2", description: "Maximize high-leverage growth by investing regular time into non-urgent strategic goals.", icon: Shield }
+          ]}
+          badges={["100% Free Forever", "Stephen Covey Framework", "Private Local Storage"]}
+        />
+
+        <ToolFeatureGuides
+          features={[
+            { icon: Flame, title: "Q1 Do First", description: "High urgency and high importance items requiring immediate crisis intervention." },
+            { icon: Clock, title: "Q2 Schedule", description: "Strategic initiatives that create exponential long-term returns." },
+            { icon: Users, title: "Q3 Delegate", description: "Urgent operational tasks that should be handed off or automated." },
+            { icon: Ban, title: "Q4 Eliminate", description: "Low-value time wasters and distractions to discard entirely." }
+          ]}
+        >
+          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+            <h3>Mastering Time Management with the Eisenhower Matrix</h3>
+            <p>
+              Popularized by President Dwight D. Eisenhower and Dr. Stephen Covey, this decision matrix separates urgent firefighting from impactful, long-term strategic execution. Top performers spend the majority of their mental energy in Quadrant 2 (Important, Not Urgent).
+            </p>
+          </div>
+        </ToolFeatureGuides>
+
+        <ToolFaqAccordion
+          faqs={[
+            { question: "What makes a task Quadrant 2?", answer: "Quadrant 2 activities are essential for long-term health, career, and relationships—such as exercise, learning, and system architecture—that lack an immediate urgent deadline." },
+            { question: "Is my task list stored locally?", answer: "Yes! All tasks are saved directly in your web browser with zero server transmission." }
+          ]}
+        />
+
+        <RelatedTools currentToolUrl="/tools/productivity/weekly-planner" max={6} />
+      </div>
+    </div>
+  );
+}
+
+export default WeeklyPlannerClient;

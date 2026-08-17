@@ -1,30 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import HashGeneratorClient from "@/components/tools/dev/hash-generator-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
+
+const TITLE = "Hash Generator | Toolzium";
+const DESCRIPTION = "Free online hash generator tool with instant calculation and privacy.";
+const PATH = "/tools/dev/hash-generator";
+
 export const metadata = buildMetadata({
-  title: "Hash Generator",
-  description: "Generate MD5, SHA1, SHA256, SHA512, and other cryptographic hashes online. Hash text, files, and passwords with multiple algorithms. Free hash calculator and checksum generator.",
-  path: "/tools/dev/hash-generator",
-  keywords: ["algorithms", "hash", "passwords", "with", "generate", "text", "files", "online", "cryptographic", "other", "hashes", "multiple"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
     name: "Hash Generator",
-    description: "Generate MD5, SHA1, SHA256, SHA512, and other cryptographic hashes online. Hash text, files, and passwords with multiple algorithms. Free hash calculator and checksum generator.",
-    path: "/tools/dev/hash-generator",
-    categoryName: "Dev",
-    categoryPath: "/tools/dev",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <HashGeneratorClient />
-    
-      <RelatedTools currentToolUrl="/tools/dev/hash-generator" />
-</div>
+    </>
   );
 }

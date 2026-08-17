@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useEffect } from "react";
@@ -10,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { DollarSign, ShoppingBag, Globe, Copy, Sparkles, Shield, Zap } from "lucide-react";
+import { DollarSign, ShoppingBag, Globe, Copy, Sparkles, Shield, Zap, Calculator, Settings } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -98,7 +99,10 @@ export function CurrencyPriceMatrixClient() {
   const totalBase = totalDest / rate;
   const tipAmountDest = totalDest * (parseFloat(tipPercent) / 100 || 0);
   const tipAmountBase = tipAmountDest / rate;
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={DollarSign} title="Currency Price Matrix" description="Multi-item travel cost converter and comparison sheet." actions={<>
@@ -282,8 +286,9 @@ export function CurrencyPriceMatrixClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/travel/currency-price-matrix" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default CurrencyPriceMatrixClient;

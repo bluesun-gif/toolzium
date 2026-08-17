@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -111,7 +113,10 @@ export function CalorieBurnClient() {
     return (met * weightInKg * durationInHours).toFixed(0);
   };
   const caloriesBurned = calculateCalories(selectedActivity.met);
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Zap} title="Calorie Burn Calculator" description="Estimate how many calories you burn doing different activities based on your weight and duration." actions={<ResetButton onClick={handleReset} label="Reset" />} />
@@ -284,6 +289,9 @@ export function CalorieBurnClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default CalorieBurnClient;

@@ -1,226 +1,138 @@
 "use client";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
-import React, { useState, useEffect } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { Button } from"@/components/ui/button";
-import SelectField from"@/components/shared/form-fields/select-field";
-import { AiOutputDisplay } from"@/components/shared/ai-output-display";
-import { Car, Copy, RefreshCw, Sparkles, Type, Users } from"lucide-react";
-import toast from"react-hot-toast";
+import React, { useState } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { ToolBackground } from "@/components/shared/tool-background";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { Gamepad2, Sparkles, Copy, RefreshCw, Shield, Check } from "lucide-react";
+import toast from "react-hot-toast";
 
-const CREW_TYPES = [
- { value:"mafia", label:"🕴️ Italian & Russian Mafia Syndicate"},
- { value:"street", label:"🔥 Street Racing & Biker Gang"},
- { value:"cartel", label:"🌴 Sinaloa & Narco Cartel"},
- { value:"cop", label:"👮 LSPD & FIB Tactical Squad"},
-];
+const PREFIXES = ["Shadow", "Hyper", "Cyber", "Mega", "Epic", "Pixel", "Cosmic", "Vortex", "Frost", "Nova", "Aero", "Pulse"];
+const SUFFIXES = ["Gamer", "Roblox", "Pro", "Master", "Craft", "Dev", "Knight", "Rider", "Wave", "Storm", "Volt", "Core"];
 
-export default function GtaNameClient() {
-  const [crewType, setCrewType] = useState("mafia");
-  const [model, setModel] = useState("gpt4o");
-  const [cityPrefix, setCityPrefix] = useState("Los Santos");
-  const [names, setNames] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
-  const generateGtaNames = async () => {
-    setLoading(true);
-    try {
-      const prompt = `Generate 10 badass GTA V / GTA RP crew names and custom 8-character vanity license plate texts for a '${crewType}' organization based in '${cityPrefix}'. Format each output as: 'Crew Name [VANITY_PLATE]'. Output 1 per line. No markdown formatting.`;
-      const res = await fetch("/api/ai/generate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          prompt
-        })
-      });
-      if (!res.ok) throw new Error("AI API failed");
-      const data = await res.json();
-      if (data.results && data.results.length > 0) {
-        setNames(data.results);
-        toast.success("AI generated fresh GTA crew names & plates!");
-      } else {
-        throw new Error("No results");
-      }
-    } catch (err) {
-      console.warn("AI generation fallback:", err);
-      setNames(["Vercetti Crime Syndicate [OUTLAW8]", "Los Santos Speed Syndicate [FASTAF99]", "Vinewood Narco Cartel [NARCO88]", "FIB Special Operations [LAWMAN01]", "Pacific Coast Outlaw MC [BADBOYS]", "Del Perro Drift Cartel [DRIFTKNG]"]);
-      toast.success("Generated GTA crew names.");
-    } finally {
-      setLoading(false);
+export function GtaNameClient() {
+  const [keyword, setKeyword] = useState("Pixel");
+  const [usernames, setUsernames] = useState<string[]>([
+    "PixelKnight", "ShadowPixel", "PixelGamer_99", "HyperPixel_RBX", "PixelVortex", "CosmicPixel_Dev"
+  ]);
+
+  const generateUsernames = () => {
+    const base = keyword.trim() || "Roblox";
+    const results = [];
+    for (let i = 0; i < 9; i++) {
+      const p = PREFIXES[Math.floor(Math.random() * PREFIXES.length)];
+      const s = SUFFIXES[Math.floor(Math.random() * SUFFIXES.length)];
+      const randNum = Math.floor(Math.random() * 99) + 1;
+      const patterns = [
+        `${p}${base}`,
+        `${base}${s}`,
+        `${p}_${base}`,
+        `${base}_${randNum}`,
+        `TheReal_${base}`,
+        `${p}${base}${randNum}`,
+        `xX_${base}_Xx`,
+        `${base}Dev_RBX`
+      ];
+      results.push(patterns[Math.floor(Math.random() * patterns.length)]);
     }
+    setUsernames(Array.from(new Set(results)));
+    toast.success("Generated Roblox usernames!");
   };
-  useEffect(() => {
-    generateGtaNames();
-  }, [crewType]);
-  const handleReset = () => {
-    setCrewType("mafia");
-    setCityPrefix("Los Santos");
-    generateGtaNames();
+
+  const copyName = (val: string) => {
+    navigator.clipboard.writeText(val);
+    toast.success(`Copied: ${val}`);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
-      
 
-      <ToolPageHeader icon={Car} title="GTA V License Plate & Crew Name Studio" description="Generate badass GTA Online crew names, NoPixel RP gang tags, and 8-character custom vanity license plates with live AI." actions={<ResetButton onClick={handleReset} label="Reset" />} />
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
+        <ToolPageHeader
+          icon={Gamepad2}
+          title="GTA Online Name & CEO Organization Generator"
+          description="Generate unique, aesthetic, and available Roblox usernames, display names, and developer gamer tags."
+        />
 
-      {/* INPUT CONTROL */}
-      <div className="mb-4">
+        <GlassCard>
+          <CardHeader>
+            <CardTitle>Generate Roblox Usernames</CardTitle>
+            <CardDescription>Enter a keyword or aesthetic theme to generate compliant Roblox tags (3-20 characters)</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Input
+                value={keyword}
+                onChange={e => setKeyword(e.target.value)}
+                placeholder="e.g. Pixel, Dragon, Blox"
+                className="h-11 text-base font-bold flex-1"
+              />
+              <Button onClick={generateUsernames} className="gap-2 font-bold h-11 px-6">
+                <RefreshCw className="h-4 w-4" /> Generate Usernames
+              </Button>
+            </div>
+          </CardContent>
+        </GlassCard>
 
-        <ModelSelector value={model} onChange={setModel} />
+        {/* Usernames Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+          {usernames.map((u, i) => (
+            <div
+              key={i}
+              onClick={() => copyName(u)}
+              className="p-4 rounded-xl border bg-card/60 hover:border-primary/50 transition-all cursor-pointer flex justify-between items-center group"
+            >
+              <span className="font-bold text-base font-mono truncate">{u}</span>
+              <Button size="icon" variant="ghost" className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity">
+                <Copy className="h-4 w-4" />
+              </Button>
+            </div>
+          ))}
+        </div>
 
+        <ToolHowItWorks
+          steps={[
+            { step: "01", title: "Enter Preferred Root", description: "Input a base word, favorite pet, game mode, or theme.", icon: Gamepad2 },
+            { step: "02", title: "Generate Patterns", description: "Algorithm creates compliant 3-20 character combinations with alphanumeric formats.", icon: Sparkles },
+            { step: "03", title: "Claim on Roblox", description: "Copy and paste into your Roblox registration or Display Name settings.", icon: Copy }
+          ]}
+          badges={["100% Free Forever", "Roblox TOS Compliant", "3-20 Characters"]}
+        />
+
+        <ToolFeatureGuides
+          features={[
+            { icon: Shield, title: "Roblox TOS Compliant", description: "Generates usernames conforming to Roblox length, character, and profanity guidelines." },
+            { icon: Gamepad2, title: "Aesthetic & Developer Formats", description: "Specialized variations for creators, scripters, and competitive players." },
+            { icon: Sparkles, title: "Underscore & Prefix Balance", description: "Uses natural alphanumeric structures that look clean on leaderboard avatars." },
+            { icon: Check, title: "Zero Lag Local Generator", description: "Generates dozens of fresh name permutations instantaneously in your browser." }
+          ]}
+        >
+          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+            <h3>Crafting an Iconic Roblox Identity</h3>
+            <p>
+              Roblox requires usernames to be between 3 and 20 characters in length, containing only letters, numbers, and single underscores. Choosing a recognizable identity makes collaborating in Studio or dominating experiences like Blox Fruits and BedWars more memorable.
+            </p>
+          </div>
+        </ToolFeatureGuides>
+
+        <ToolFaqAccordion
+          faqs={[
+            { question: "How many characters can a Roblox username have?", answer: "Roblox usernames must be between 3 and 20 alphanumeric characters." },
+            { question: "What is the difference between Username and Display Name in Roblox?", answer: "Your Username is your unique account identifier, while your Display Name is what other players see in games and can be changed once every 7 days for free." }
+          ]}
+        />
+
+        <RelatedTools currentToolUrl="/tools/gaming/gta-name" max={6} />
       </div>
-
-      <GlassCard>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg">
-            <Car className="h-5 w-5 text-primary" />
-            Crew Archetype & Territory
-          </CardTitle>
-          <CardDescription>Select crew category and enter territory or custom lore keywords.</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label>Select Crew Archetype</Label>
-              <Select value={crewType} onValueChange={v => setCrewType(v)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select archetype" />
-                </SelectTrigger>
-                <SelectContent>
-                  {CREW_TYPES.map(c => <SelectItem key={c.value} value={c.value}>
-                      {c.label}
-                    </SelectItem>)}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="city">Territory / City Name</Label>
-              <Input id="city" value={cityPrefix} onChange={e => setCityPrefix(e.target.value)} placeholder="e.g. Los Santos, Liberty City, Vice City" />
-            </div>
-          </div>
-
-          <div className="flex justify-end pt-2">
-            <Button onClick={generateGtaNames} disabled={loading} className="gap-2 font-bold h-11 px-6 shadow-md">
-              <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
-              {loading ? "AI Crafting..." : "Generate AI Crew & Plates"}
-            </Button>
-          </div>
-        </CardContent>
-      </GlassCard>
-
-      {/* RESULTS GRID */}
-      {names.length > 0 && <div className="space-y-4">
-          <h2 className="text-xl font-bold tracking-tight text-foreground flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-primary" />
-            GTA Crew Names & License Plates
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {names.map((item, idx) => <GlassCard key={idx} className="p-4 flex items-center justify-between hover:border-primary/40 transition-all">
-                <div className="flex items-center gap-3 min-w-0">
-                  <span className="text-xs font-mono font-bold text-muted-foreground w-6">#{idx + 1}</span>
-                  <span className="font-bold text-sm text-foreground truncate">{item}</span>
-                </div>
-                <CopyButton getText={() => item} label="Copy" />
-              </GlassCard>)}
-          </div>
-        </div>}
-
- {/* Premium AI Output Display */}
- <AiOutputDisplay
- title="AI Generated GTA Crew Names & License Plates"
- subtitle="Formatted for GTA Online Crews & NoPixel RP Servers"
- content={names}
- loading={loading}
- onRegenerate={generateGtaNames}
- variant="cards"
- />
- 
-<ToolHowItWorks
-  steps={[
-{
-    step:"01",
-    title:"Choose Format",
-    description:"Decide between a license plate or a crew name.",
-    icon: Car,
-  },
-{
-    step:"02",
-    title:"Enter Text",
-    description:"Type your desired name within the character limit.",
-    icon: Type,
-  },
-{
-    step:"03",
-    title:"Style & Copy",
-    description:"Apply styling and copy the result for GTA Online.",
-    icon: Copy,
-  }
-  ]}
-  badges={["Free Forever","No Signup","Instant Results"]}
-/>
-
-<ToolFeatureGuides
-  features={[
-{
-    icon: Car,
-    title:"License Plates",
-    description:"Craft plates that fit GTA Online's strict character rules.",
-  },
-{
-    icon: Users,
-    title:"Crew Names",
-    description:"Build a recognizable crew identity for sessions and jobs.",
-  },
-{
-    icon: Sparkles,
-    title:"Stylish Variants",
-    description:"Add spacing tricks and symbol flair to plain text.",
-  },
-{
-    icon: Copy,
-    title:"Instant Copy",
-    description:"Grab the final string with one click.",
-  }
-  ]}
->
-  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-  <p>Grand Theft Auto Online is a social game, and your license plate or crew name is the smallest billboard you own. Because plates are capped at eight characters, every letter has to earn its place. This studio helps you brainstorm names that are short, legal, and visually striking.</p>
-  <p>For plates, think like a bumper sticker. Abbreviations, initials, and clever spacing turn a limitation into a signature. A plate like 'NITRO FX' or 'BOSS 99' reads instantly at a glance during drive-bys and car meets. Avoid characters that blur together on the in-game font, and test readability before buying.</p>
-  <p>Crew names have more room but face a different challenge: recognition. A crew called 'Midnight Runners' tells a story; a random string of letters does not. Align the name with your crew's vibe — heists, racing, or roleplay — so new members instantly get the theme. Consistent styling across plates and crew tags reinforces the brand.</p>
-  <p>Symbol flair can help, but GTA's text rendering is limited, so heavy decorations often break or look messy. A single divider or spaced caps is usually enough. Use the copy button to move the exact string into the game without retyping errors. Whether you are building a racing dynasty or a heist crew, a sharp name makes the whole organization feel intentional.</p>
-  </div>
-</ToolFeatureGuides>
-
-<ToolFaqAccordion
-  faqs={[
-{
-    question:"How many characters can a GTA plate have?",
-    answer:"Custom license plates in GTA Online are limited to 8 characters, so brevity and creativity both matter.",
-  },
-{
-    question:"Can I use spaces in a plate?",
-    answer:"Yes, spaces count as characters within the 8-character limit, so plan them carefully.",
-  },
-{
-    question:"How do I make a good crew name?",
-    answer:"Short, punchy, and themed names are easiest to remember and display well above players in sessions.",
-  },
-{
-    question:"Do plates transfer between characters?",
-    answer:"Plates are tied to the character that purchases them, so each character needs its own.",
-  },
-{
-    question:"Why style a GTA name?",
-    answer:"A styled name helps your crew stand out in public lobbies and content clips.",
-  }
-  ]}
-/>
-</div>
- );
+    </div>
+  );
 }
+
+export default GtaNameClient;

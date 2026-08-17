@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -54,7 +56,10 @@ export function ColorPaletteExportClient() {
     a.click();
     URL.revokeObjectURL(url);
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Color Palette Exporter" icon={Palette} description="Create and export beautiful color palettes for your projects." actions={<>
@@ -199,6 +204,9 @@ export function ColorPaletteExportClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default ColorPaletteExportClient;

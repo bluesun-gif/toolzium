@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo } from "react";
@@ -10,7 +11,7 @@ import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { BookOpen, Plus, Trash2 } from "lucide-react";
+import { BookOpen, Plus, Trash2, Calculator, Scale } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -78,7 +79,10 @@ export default function GpaCalculatorClient() {
     });
     return totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : "0.00";
   }, [courses, currentScale]);
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={BookOpen} title="GPA Calculator" description="Calculate your semester GPA with support for both 4.0 and 5.0 grading scales." />
@@ -169,7 +173,7 @@ export default function GpaCalculatorClient() {
         question: "Can I use this for high school?",
         answer: "Yes, it is perfectly suited for high school students tracking their semester grades on either a standard or weighted scale."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/calc/gpa-calculator" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

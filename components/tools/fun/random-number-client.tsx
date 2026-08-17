@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
@@ -11,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CopyButton } from "@/components/shared/action-buttons";
-import { Dices } from "lucide-react";
+import { Dices, Copy, Settings } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -55,7 +56,10 @@ export default function RandomNumberClient() {
     }
     setResults(nums);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Dices} title="Random Number Generator" description="Generate random integers within a custom range, with options for unique values and batch generation." />
@@ -155,7 +159,7 @@ export default function RandomNumberClient() {
         question: "What happens if I ask for 10 unique numbers between 1 and 5?",
         answer: "The tool will display an error because the range only contains 5 possible numbers, making it impossible to generate 10 unique ones."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/fun/random-number" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

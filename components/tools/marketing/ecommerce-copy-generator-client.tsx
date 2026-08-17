@@ -1,4 +1,9 @@
 "use client";
+
+import { ModelSelector } from "@/components/shared/model-selector";
+import { Switch } from "@/components/ui/switch";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -9,7 +14,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { AiOutputDisplay } from"@/components/shared/ai-output-display";
-import { Copy, ListChecks, Package, RefreshCw, ShoppingBag, Wand2 } from"lucide-react";
+import { Copy, ListChecks, Package, RefreshCw, ShoppingBag, Wand2, Type } from "lucide-react";
 import toast from"react-hot-toast";
 
 export default function EcommerceCopyGeneratorClient() {
@@ -49,7 +54,10 @@ export default function EcommerceCopyGeneratorClient() {
       setLoading(false);
     }
   };
-  return <div className="relative space-y-6 max-w-4xl mx-auto px-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={ShoppingBag} title="Shopify & Amazon Product Listing AI Copy Generator" description="Generate high-converting Amazon product bullet points, Shopify descriptions, and high-search SEO product titles with live AI." />
@@ -181,6 +189,7 @@ export default function EcommerceCopyGeneratorClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }

@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback } from "react";
@@ -11,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { GraduationCap, Sparkles, Copy, FileText, CheckCircle2, Sliders, RefreshCcw, Compass } from "lucide-react";
+import { GraduationCap, Sparkles, Copy, FileText, CheckCircle2, Sliders, RefreshCcw, Compass, Type } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -57,7 +58,10 @@ export function ThesisGeneratorClient() {
     navigator.clipboard.writeText(text);
     toast.success("Thesis statement copied!");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 p-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={GraduationCap} title="Thesis Statement Generator" description="Craft strong, precise, and academically sound thesis statements for argumentative, analytical, and expository essays." />
@@ -196,8 +200,9 @@ export function ThesisGeneratorClient() {
         question: "Does this tool store my essay topic?",
         answer: "No. All inputs and generated statements are processed strictly in your browser and are deleted when you leave the page."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/academic/thesis-generator" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default ThesisGeneratorClient;

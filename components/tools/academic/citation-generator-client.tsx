@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback, useEffect } from "react";
@@ -11,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Book, FileText, Globe, Plus, Trash2, Download, Copy, Library } from "lucide-react";
+import { Book, FileText, Globe, Plus, Trash2, Download, Copy, Library, Type } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -159,7 +160,10 @@ export function CitationGeneratorClient() {
     navigator.clipboard.writeText(text);
     toast.success("Bibliography copied to clipboard!");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 p-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Book} title="Academic Citation Generator" description="Create flawless bibliographies in APA, MLA, Chicago, and more. Manage your sources and export perfectly formatted references instantly." />
@@ -385,8 +389,9 @@ export function CitationGeneratorClient() {
         question: "Can I export to BibTeX?",
         answer: "Currently we support plain text export with rich formatting. A dedicated BibTeX/LaTeX export feature is on our roadmap for future updates."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/academic/citation-generator" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default CitationGeneratorClient;

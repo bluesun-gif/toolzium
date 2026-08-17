@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -14,9 +16,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/
 import { Calendar, CalendarRange, CheckSquare, Download, Grid2x2, Plus, Target, Trash2, TrendingUp } from"lucide-react";
 import toast from"react-hot-toast";
 import { GridPattern } from"@/components/magicui/grid-pattern";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import { RelatedTools } from"@/components/shared/related-tools";
 import { cn } from"@/lib/utils";
 
@@ -161,7 +160,7 @@ export function EisenhowerGoalsClient() {
  <BucketCol id="schedule"title="Schedule"description="Not Urgent & Important"colorClass="bg-blue-500/10 border-blue-500/30 text-primary"/>
  <BucketCol id="delegate"title="Delegate"description="Urgent & Not Important"colorClass="bg-orange-500/10 border-orange-500/30 text-orange-700 dark:text-orange-300"/>
  <BucketCol id="delete"title="Delete"description="Not Urgent & Not Important"colorClass="bg-red-500/10 border-red-500/30 text-red-700 dark:text-red-300"/>
- </div>
+ 
  
 <ToolHowItWorks
   steps={[
@@ -242,6 +241,9 @@ export function EisenhowerGoalsClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default EisenhowerGoalsClient;

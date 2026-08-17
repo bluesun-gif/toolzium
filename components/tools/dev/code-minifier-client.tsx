@@ -1,4 +1,7 @@
 "use client";
+
+import { Switch } from "@/components/ui/switch";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
@@ -8,7 +11,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from "@/component
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Minimize2, Code, BarChart3, BookOpen, Shield, Code2, Zap, FileCode, Layers, Globe, AlignLeft } from "lucide-react";
+import { Minimize2, Code, BarChart3, BookOpen, Shield, Code2, Zap, FileCode, Layers, Globe, AlignLeft, Copy, Settings, Type } from "lucide-react";
 import toast from "react-hot-toast";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
@@ -56,7 +59,10 @@ export function CodeMinifierClient() {
   const originalSize = new Blob([inputCode]).size;
   const minifiedSize = new Blob([minifiedCode]).size;
   const savings = originalSize > 0 ? ((originalSize - minifiedSize) / originalSize * 100).toFixed(1) : "0.0";
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Minimize2} title="Code Minifier" description="Minify your HTML, CSS, and JavaScript code to reduce file size and improve loading speed." actions={<>
@@ -257,6 +263,9 @@ export function CodeMinifierClient() {
         question: "How much does minification reduce file size?",
         answer: "Typically 15–50% for JavaScript, 15–40% for CSS, and 5–20% for HTML. Combined with Gzip or Brotli compression (automatic on most servers and CDNs), total transfer size reduction can exceed 80% compared to unoptimized source files."
       }]} />
- <RelatedTools currentToolUrl="/tools/dev/code-minifier" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default CodeMinifierClient;

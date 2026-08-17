@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useEffect } from "react";
@@ -175,7 +178,10 @@ export function ExchangeTrendClient() {
     toast.success("Preferences reset");
   };
   const currentRates = MOCK_RATES[baseCurrency] || MOCK_RATES["USD"];
-  return <div className={"space-y-6"}><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={TrendingUp} title="Currency Rate Trend Comparison Table" description="Compare travel currency exchange rates and historical trend rates." actions={<div className={"flex space-x-2"}>
@@ -289,8 +295,9 @@ export function ExchangeTrendClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/travel/exchange-trend" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default ExchangeTrendClient;

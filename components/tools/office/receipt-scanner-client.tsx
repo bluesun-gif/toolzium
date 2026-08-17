@@ -1,4 +1,8 @@
 "use client";
+
+import { Card } from "@/components/ui/card";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -13,7 +17,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton } from"@/components/shared/action-buttons";
-import { BarChart3, Download, FileText, Filter, Plus, Receipt, Tags } from"lucide-react";
+import { BarChart3, Download, FileText, Filter, Plus, Receipt, Tags, History } from "lucide-react";
 import { toast } from"react-hot-toast";
 
 type Receipt = {
@@ -83,7 +87,10 @@ export function ReceiptScannerClient() {
   };
   const filtered = filterCategory === "All" ? receipts : receipts.filter(r => r.category === filterCategory);
   const total = filtered.reduce((acc, curr) => acc + curr.amount, 0);
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={FileText} title="Receipt Tracker" description="Manually enter and track your receipts and expenses." actions={<ActionButton onClick={handleExport} icon={Download} label="Export CSV" />} />
@@ -270,6 +277,9 @@ export function ReceiptScannerClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default ReceiptScannerClient;

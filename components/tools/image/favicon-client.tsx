@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -30,7 +32,7 @@ export function FaviconGeneratorClient() {
     canvas.height = size;
     ctx.clearRect(0, 0, size, size);
     if (imageFile) {
-      const img = new Image();
+      const img = new (window as any).Image();
       img.onload = () => {
         ctx.drawImage(img, 0, 0, size, size);
       };
@@ -84,7 +86,10 @@ export function FaviconGeneratorClient() {
     setImageFile(null);
     toast.success("Reset generator");
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Favicon Generator" description="Generate favicons from text, emoji, or images in multiple standard sizes." icon={ImageIcon} actions={<ResetButton onClick={handleReset} label="Reset" />} />
@@ -254,6 +259,9 @@ export function FaviconGeneratorClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default FaviconGeneratorClient;

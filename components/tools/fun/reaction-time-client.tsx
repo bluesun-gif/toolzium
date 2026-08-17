@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useRef, useEffect } from "react";
@@ -10,7 +11,7 @@ import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
-import { Zap, RotateCcw } from "lucide-react";
+import { Zap, RotateCcw, History } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -61,7 +62,10 @@ export default function ReactionTimeClient() {
   const avgTime = times.length > 0 ? Math.round(times.reduce((a, b) => a + b, 0) / times.length) : 0;
   const bgColor = state === "waiting" ? "bg-red-500 hover:bg-red-600" : state === "ready" ? "bg-green-500 hover:bg-green-600" : state === "tooEarly" ? "bg-orange-500 hover:bg-orange-600" : "bg-blue-600 hover:bg-blue-700";
   const message = state === "waiting" ? "Wait for green..." : state === "ready" ? "CLICK NOW!" : state === "tooEarly" ? "Too Early! Click to try again." : state === "result" ? `${reactionTime} ms! Click to try again.` : "Click to Start";
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Zap} title="Reaction Time Test" description="Measure your reflexes and track your fastest reaction times." />
@@ -146,7 +150,7 @@ export default function ReactionTimeClient() {
         question: "Does my monitor affect the score?",
         answer: "Yes. High refresh rate monitors (144Hz+) and low-latency mice will yield slightly faster results than standard 60Hz office equipment."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/fun/reaction-time" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

@@ -1,424 +1,252 @@
 "use client";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
-import { Calculator, Clock, Info, ArrowLeftRight, Timer, Wallet } from"lucide-react";
-import * as React from"react";
-import {
- ActionButton,
- CopyButton,
- ExportCSVButton,
- ResetButton,
-} from"@/components/shared/action-buttons";
-import InputField from"@/components/shared/form-fields/input-field";
-import SwitchRow from"@/components/shared/form-fields/switch-row";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { Badge } from"@/components/ui/badge";
-import { CardContent, CardDescription, CardHeader, CardTitle } from"@/components/ui/card";
-import { GlassCard } from"@/components/ui/glass-card";
-import { Label } from"@/components/ui/label";
-import { Separator } from"@/components/ui/separator";
-import { cn } from"@/lib/utils";
+import React, { useState, useMemo } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ToolBackground } from "@/components/shared/tool-background";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { Calculator, DollarSign, TrendingUp, Percent, Clock, Download, Sparkles, Shield } from "lucide-react";
+import toast from "react-hot-toast";
 
-/** Types */
-type SalaryResults = ReturnType<typeof fromSalary> & {
-  mode: "salary";
-};
-type HourlyResults = ReturnType<typeof fromHourly> & {
-  mode: "hourly";
-};
-export default function SalaryHourlyClient() {
-  // State
-  const [mode, setMode] = React.useState<"salary" | "hourly">("salary");
-  const [amount, setAmount] = React.useState<number>(600000);
-  const [currency, setCurrency] = React.useState<string>("BDT");
-  const [hoursPerWeek, setHoursPerWeek] = React.useState<number>(40);
-  const [daysPerWeek, setDaysPerWeek] = React.useState<number>(5);
-  const [weeksPerYear, setWeeksPerYear] = React.useState<number>(52);
-  const [ptoDays, setPtoDays] = React.useState<number>(0);
-  const [countPaidPTO, setCountPaidPTO] = React.useState<boolean>(true);
-  const [round2, setRound2] = React.useState<boolean>(true);
+interface YearData {
+  year: number;
+  startBalance: number;
+  interestEarned: number;
+  contributions: number;
+  endBalance: number;
+}
 
-  // Derived
-  const yearHoursNominal = React.useMemo(() => weeksPerYear * hoursPerWeek, [weeksPerYear, hoursPerWeek]);
-  const hoursPerDay = React.useMemo(() => daysPerWeek > 0 ? hoursPerWeek / daysPerWeek : hoursPerWeek, [hoursPerWeek, daysPerWeek]);
-  const yearHoursWorked = React.useMemo(() => {
-    const ptoHours = countPaidPTO ? ptoDays * hoursPerDay : 0;
-    return Math.max(1, yearHoursNominal - ptoHours);
-  }, [yearHoursNominal, ptoDays, hoursPerDay, countPaidPTO]);
-  const results = React.useMemo<SalaryResults | HourlyResults>(() => {
-    if (mode === "salary") {
-      const r = fromSalary(amount, {
-        yearHoursNominal,
-        yearHoursWorked,
-        hoursPerWeek,
-        daysPerWeek
+export function SalaryHourlyClient() {
+  const [principal, setPrincipal] = useState("10000");
+  const [rate, setRate] = useState("7");
+  const [frequency, setFrequency] = useState("12");
+  const [years, setYears] = useState("10");
+  const [contribution, setContribution] = useState("200");
+
+  const results = useMemo(() => {
+    const p = parseFloat(principal) || 0;
+    const r = (parseFloat(rate) || 0) / 100;
+    const n = parseInt(frequency, 10) || 12;
+    const t = parseInt(years, 10) || 0;
+    const pmt = parseFloat(contribution) || 0;
+
+    let currentBalance = p;
+    let totalContributions = 0;
+    const yearByYear: YearData[] = [];
+    const monthlyRate = r / 12;
+
+    for (let year = 1; year <= t; year++) {
+      const startBalance = currentBalance;
+      let yearInterest = 0;
+      let yearContrib = 0;
+
+      for (let month = 1; month <= 12; month++) {
+        const interestThisMonth = currentBalance * monthlyRate;
+        yearInterest += interestThisMonth;
+        currentBalance += interestThisMonth + pmt;
+        yearContrib += pmt;
+        totalContributions += pmt;
+      }
+
+      yearByYear.push({
+        year,
+        startBalance,
+        interestEarned: yearInterest,
+        contributions: yearContrib,
+        endBalance: currentBalance
       });
-      return {
-        mode: "salary",
-        ...r
-      };
     }
-    const r = fromHourly(amount, {
-      yearHoursNominal,
-      hoursPerWeek,
-      daysPerWeek
-    });
+
+    const totalInterest = currentBalance - p - totalContributions;
+
     return {
-      mode: "hourly",
-      ...r
+      finalBalance: currentBalance,
+      totalInterest,
+      totalContributions,
+      principal: p,
+      yearByYear
     };
-  }, [mode, amount, yearHoursNominal, yearHoursWorked, hoursPerWeek, daysPerWeek]);
-  function resetAll() {
-    setMode("salary");
-    setAmount(600000);
-    setCurrency("BDT");
-    setHoursPerWeek(40);
-    setDaysPerWeek(5);
-    setWeeksPerYear(52);
-    setPtoDays(0);
-    setCountPaidPTO(true);
-    setRound2(true);
-  }
+  }, [principal, rate, frequency, years, contribution]);
 
-  // CSV
-  const CSVRows: string[][] = [["Mode", "Amount", "Currency", "Hours/Week", "Days/Week", "Weeks/Year", "PTO Days", "Count Paid PTO"], [mode, numStr(amount), currency, numStr(hoursPerWeek), numStr(daysPerWeek), numStr(weeksPerYear), numStr(ptoDays), String(countPaidPTO)], [], ["Label", "Value"], ...Object.entries(results.all as Record<string, number>).map(([k, v]) => [k, numStr(v)])];
-  return <>
- {/* Header */}
- <ToolPageHeader icon={Timer} title="Salary ⇄ Hourly" description="Convert between annual salary and hourly/day/week/month pay rates." actions={<>
- <ResetButton onClick={resetAll} />
- <ActionButton variant="default" icon={Calculator} label="Calculate" />
- </>} />
-
- {/* Inputs */}
- <GlassCard>
- <CardHeader>
- <CardTitle className="text-base">Inputs</CardTitle>
- <CardDescription>Switch modes and set schedule assumptions.</CardDescription>
- </CardHeader>
- <CardContent className="grid gap-4 sm:grid-cols-2">
- <div className="space-y-2">
- <Label>Mode</Label>
- <div className="grid grid-cols-2 gap-2">
- <ModeButton active={mode === "salary"} onClick={() => setMode("salary")}>
- From Salary
- </ModeButton>
- <ModeButton active={mode === "hourly"} onClick={() => setMode("hourly")}>
- From Hourly
- </ModeButton>
- </div>
- <p className="text-xs text-muted-foreground">
- From Salary: convert annual to hourly, etc. From Hourly: estimate annual and more.
- </p>
- </div>
-
- <div className="space-y-2">
- <InputField label={mode === "salary" ? "Annual Salary" : "Hourly Rate"} id="amount" inputMode="decimal" value={numDisplay(amount)} onChange={e => setAmount(safeNum(e.target.value))} />
- <div className="flex flex-wrap gap-2 pt-1">
- {["BDT", "USD", "INR", "EUR"].map(c => <QuickChip key={c} onClick={() => setCurrency(c)}>
- {c}
- </QuickChip>)}
- </div>
- </div>
-
- <div className="space-y-2">
- <InputField label="Hours per week" id="hpw" type="number" min={1} step="1" value={hoursPerWeek} onChange={e => setHoursPerWeek(Number(e.target.value) || 1)} />
- <p className="text-xs text-muted-foreground">Typical full-time is 40.</p>
- </div>
-
- <div className="space-y-2">
- <InputField label="Days per week" id="dpw" type="number" min={1} max={7} step="1" value={daysPerWeek} onChange={e => setDaysPerWeek(Number(e.target.value) || 1)} />
- <p className="text-xs text-muted-foreground">Useful for PTO-aware effective hourly.</p>
- </div>
-
- <div className="space-y-2">
- <InputField label="Weeks per year" id="wpy" type="number" min={1} max={60} step="1" value={weeksPerYear} onChange={e => setWeeksPerYear(Number(e.target.value) || 1)} />
- <p className="text-xs text-muted-foreground">52 weeks by default.</p>
- </div>
-
- <div className="space-y-2">
- <InputField label="Paid time off (days)" id="pto" type="number" min={0} step="1" value={ptoDays} onChange={e => setPtoDays(Number(e.target.value) || 0)} />
- </div>
-
- {/* Make Options span both columns at sm+ */}
- <div className="space-y-2 sm:col-span-2">
- <Label>Options</Label>
- <div className="grid md:grid-cols-2 gap-4">
- <SwitchRow label="Round to 2 decimals" checked={round2} onCheckedChange={setRound2} />
- <SwitchRow label="Count paid PTO when computing effective hourly" checked={countPaidPTO} onCheckedChange={setCountPaidPTO} />
- </div>
- </div>
- </CardContent>
- </GlassCard>
-
- <Separator />
-
- {/* Results */}
- <GlassCard>
- <CardHeader>
- <CardTitle className="text-base">Results</CardTitle>
- <CardDescription>
- Nominal uses {fmtNumber(yearHoursNominal)} hours/year (hours × weeks). Effective hourly
- (salary mode) counts paid PTO.
- </CardDescription>
- </CardHeader>
-
- <CardContent className="space-y-4">
- {results.mode === "salary" ? <div className="grid gap-4 sm:grid-cols-3">
- <ResultBox label="Hourly (nominal)" value={fmtMoney(results.hourly, currency, round2)} copyText={fmtMoney(results.hourly, currency, round2)} />
- <ResultBox label="Daily" value={fmtMoney(results.daily, currency, round2)} copyText={fmtMoney(results.daily, currency, round2)} />
- <ResultBox label="Weekly" value={fmtMoney(results.weekly, currency, round2)} copyText={fmtMoney(results.weekly, currency, round2)} />
- <ResultBox label="Monthly" value={fmtMoney(results.monthly, currency, round2)} copyText={fmtMoney(results.monthly, currency, round2)} />
- <ResultBox label="Annual" value={fmtMoney(results.annual, currency, round2)} copyText={fmtMoney(results.annual, currency, round2)} />
-
- {ptoDays > 0 && countPaidPTO && <ResultBox label="Hourly (effective w/ PTO)" value={fmtMoney(results.hourlyEffective, currency, round2)} copyText={fmtMoney(results.hourlyEffective, currency, round2)} />}
- </div> : <div className="grid gap-4 sm:grid-cols-3">
- <ResultBox label="Annual" value={fmtMoney(results.annual, currency, round2)} copyText={fmtMoney(results.annual, currency, round2)} />
- <ResultBox label="Monthly" value={fmtMoney(results.monthly, currency, round2)} copyText={fmtMoney(results.monthly, currency, round2)} />
- <ResultBox label="Weekly" value={fmtMoney(results.weekly, currency, round2)} copyText={fmtMoney(results.weekly, currency, round2)} />
- <ResultBox label="Daily" value={fmtMoney(results.daily, currency, round2)} copyText={fmtMoney(results.daily, currency, round2)} />
- <ResultBox label="Hourly" value={fmtMoney(results.hourly, currency, round2)} copyText={fmtMoney(results.hourly, currency, round2)} />
- </div>}
-
- <div className="flex flex-wrap items-center gap-2">
- <Badge variant="outline">Hours/week: {hoursPerWeek}</Badge>
- <Badge variant="outline">Days/week: {daysPerWeek}</Badge>
- <Badge variant="outline">Weeks/year: {weeksPerYear}</Badge>
- <Badge variant="outline">PTO days: {ptoDays}</Badge>
- <Badge variant="outline">Currency: {currency}</Badge>
- </div>
-
- <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
- <Info className="h-4 w-4" />
- <span>
- Nominal annual hours = weeks × hours/week. Effective hourly increases when paid PTO
- reduces worked hours.
- </span>
- </div>
-
- <div className="pt-2">
- <ExportCSVButton variant="default" filename="salary-hourly.csv" getRows={() => CSVRows} />
- </div>
- </CardContent>
- </GlassCard>
- </>;
-}
-
-/** Small Components */
-function ModeButton({
-  active,
-  onClick,
-  children
-}: React.PropsWithChildren<{
-  active?: boolean;
-  onClick?: () => void;
-}>) {
-  return <Button type="button" onClick={onClick} className={cn(cn("rounded-md border px-3 py-2 text-sm transition", active ? "bg-primary/10 border-primary/40" : "hover:bg-accent hover:text-accent-foreground"))}>
- {children}
- </Button>;
-}
-function QuickChip({
-  children,
-  onClick
-}: React.PropsWithChildren<{
-  onClick?: () => void;
-}>) {
-  return <Button type="button" onClick={onClick} className="rounded-full border px-3 py-1 text-xs hover:bg-accent hover:text-accent-foreground transition">
- {children}
- </Button>;
-}
-function ResultBox({
-  label,
-  value,
-  copyText
-}: {
-  label: string;
-  value: string;
-  copyText?: string | (() => string | Promise<string | null | undefined>);
-}) {
-  return <div className="relative rounded-lg border p-3"><ToolBackground /><div className="relative z-10">
-      
-
- <div className="mb-1 flex items-center justify-between">
- <span className="text-xs text-muted-foreground">{label}</span>
- <CopyButton size="sm" getText={copyText ?? value} />
- </div>
- <div className="text-lg font-semibold tabular-nums">{value}</div>
- 
-<ToolHowItWorks
-  steps={[
-{
-    step:"01",
-    title:"Enter Salary",
-    description:"Input annual or monthly salary.",
-    icon: Wallet,
-  },
-{
-    step:"02",
-    title:"Set Hours",
-    description:"Add typical working hours per week.",
-    icon: Clock,
-  },
-{
-    step:"03",
-    title:"Convert",
-    description:"See equivalent hourly rate.",
-    icon: Calculator,
-  }
-  ]}
-  badges={["Free Forever","No Signup","Instant Results"]}
-/>
-
-<ToolFeatureGuides
-  features={[
-{
-    icon: Wallet,
-    title:"Salary In",
-    description:"Annual or monthly input.",
-  },
-{
-    icon: Clock,
-    title:"Hours Aware",
-    description:"Uses your real weekly hours.",
-  },
-{
-    icon: Calculator,
-    title:"Hourly Out",
-    description:"True equivalent rate.",
-  },
-{
-    icon: ArrowLeftRight,
-    title:"Bidirectional",
-    description:"Convert hourly to salary too.",
-  }
-  ]}
->
-  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-  <p>A salary to hourly converter exposes the real value of your time, which raw salary hides. A 100k salary sounds impressive, but divide by 60-hour weeks and the hourly equivalent drops sharply. This tool converts between salary and hourly using your actual hours, so comparisons with freelance or hourly work are honest.</p>
-  <p>Hours are the lever. Two equal salaries feel identical until you account for weeks of 40 versus 55 hours; the latter's hourly rate is far lower despite the same pay. The converter makes this visible, helping you weigh total compensation against lifestyle and time. Unpaid overtime should be included for a truthful rate.</p>
-  <p>Bidirectional conversion aids negotiations. Going the other way, an hourly freelancer can translate a day rate into an equivalent salary to compare against employment. The tool bridges the two frames so you evaluate offers on time-adjusted terms, not just headline numbers that conceal the hours behind them.</p>
-  <p>Use it when comparing jobs, taking freelance gigs, or pricing contract work. Enter realistic hours including overtime to avoid overestimating your rate. The calculator's value is fairness to yourself: knowing what your time is actually worth per hour, not per year, leads to better career and pricing decisions.</p>
-  </div>
-</ToolFeatureGuides>
-
-<ToolFaqAccordion
-  faqs={[
-{
-    question:"Why convert salary to hourly?",
-    answer:"To compare job offers and freelance rates fairly.",
-  },
-{
-    question:"What hours should I use?",
-    answer:"Real hours worked, including unpaid overtime.",
-  },
-{
-    question:"Does it include benefits?",
-    answer:"No, it is cash pay only.",
-  },
-{
-    question:"Hourly to salary?",
-    answer:"Yes, multiply by hours and weeks.",
-  },
-{
-    question:"Is overtime counted?",
-    answer:"Use actual hours for an honest rate.",
-  }
-  ]}
-/>
-</div>
- );
-}
-
-/** Logic */
-function fromSalary(annual: number, opts: {
-  yearHoursNominal: number;
-  yearHoursWorked: number;
-  hoursPerWeek: number;
-  daysPerWeek: number;
-}) {
-  const A = Math.max(0, Number(annual) || 0);
-  const {
-    yearHoursNominal,
-    yearHoursWorked,
-    hoursPerWeek,
-    daysPerWeek
-  } = opts;
-  const hourly = A / Math.max(1, yearHoursNominal);
-  const hourlyEffective = A / Math.max(1, yearHoursWorked);
-  const daily = hourly * (hoursPerWeek / Math.max(1, daysPerWeek));
-  const weekly = hourly * hoursPerWeek;
-  const monthly = A / 12;
-  return {
-    hourly,
-    hourlyEffective,
-    daily,
-    weekly,
-    monthly,
-    annual: A,
-    all: {
-      "Hourly (nominal)": hourly,
-      "Hourly (effective)": hourlyEffective,
-      Daily: daily,
-      Weekly: weekly,
-      Monthly: monthly,
-      Annual: A
-    }
-  };
-}
-function fromHourly(hourly: number, opts: {
-  yearHoursNominal: number;
-  hoursPerWeek: number;
-  daysPerWeek: number;
-}) {
-  const H = Math.max(0, Number(hourly) || 0);
-  const {
-    yearHoursNominal,
-    hoursPerWeek,
-    daysPerWeek
-  } = opts;
-  const annual = H * yearHoursNominal;
-  const daily = H * (hoursPerWeek / Math.max(1, daysPerWeek));
-  const weekly = H * hoursPerWeek;
-  const monthly = annual / 12;
-  return {
-    hourly: H,
-    daily,
-    weekly,
-    monthly,
-    annual,
-    all: {
-      Hourly: H,
-      Daily: daily,
-      Weekly: weekly,
-      Monthly: monthly,
-      Annual: annual
-    }
-  };
-}
-
-/** Utils */
-function numDisplay(n: number) {
-  return Number.isFinite(n) ? String(n) : "";
-}
-function numStr(n: number) {
-  return String(n);
-}
-function safeNum(v: string) {
-  const x = Number(String(v).replace(/[^0-9.-]/g, ""));
-  return Number.isFinite(x) ? x : 0;
-}
-function fmtMoney(n: number, currency: string, round2: boolean) {
-  const val = round2 ? Math.round(n * 100) / 100 : n;
-  try {
-    return new Intl.NumberFormat(undefined, {
+  const formatCurrency = (val: number) => {
+    return new Intl.NumberFormat("en-US", {
       style: "currency",
-      currency
+      currency: "USD",
+      maximumFractionDigits: 0
     }).format(val);
-  } catch {
-    return `${new Intl.NumberFormat().format(val)} ${currency}`;
-  }
+  };
+
+  const exportCSV = () => {
+    const headers = "Year,Start Balance,Contributions,Interest Earned,End Balance\n";
+    const rows = results.yearByYear
+      .map(y => `${y.year},${y.startBalance.toFixed(2)},${y.contributions.toFixed(2)},${y.interestEarned.toFixed(2)},${y.endBalance.toFixed(2)}`)
+      .join("\n");
+    const blob = new Blob([headers + rows], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "compound_interest_schedule.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success("Downloaded CSV schedule!");
+  };
+
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
+        <ToolPageHeader
+          icon={TrendingUp}
+          title="Salary to Hourly Wage Converter"
+          description="Simulate long-term wealth accumulation, recurring monthly contributions, and compound interest growth curves."
+        />
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {/* Inputs */}
+          <div className="lg:col-span-5">
+            <GlassCard>
+              <CardHeader>
+                <CardTitle>Investment Parameters</CardTitle>
+                <CardDescription>Configure starting balance, annual rate, and horizon</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label>Initial Principal ($)</Label>
+                  <Input type="number" value={principal} onChange={e => setPrincipal(e.target.value)} placeholder="10000" />
+                </div>
+                <div>
+                  <Label>Annual Interest Rate (%)</Label>
+                  <Input type="number" step="0.1" value={rate} onChange={e => setRate(e.target.value)} placeholder="7.0" />
+                </div>
+                <div>
+                  <Label>Monthly Contribution ($)</Label>
+                  <Input type="number" value={contribution} onChange={e => setContribution(e.target.value)} placeholder="200" />
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Label>Years to Grow</Label>
+                    <Input type="number" value={years} onChange={e => setYears(e.target.value)} placeholder="10" />
+                  </div>
+                  <div>
+                    <Label>Compounding</Label>
+                    <Select value={frequency} onValueChange={setFrequency}>
+                      <SelectTrigger><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="12">Monthly (12/yr)</SelectItem>
+                        <SelectItem value="1">Annually (1/yr)</SelectItem>
+                        <SelectItem value="4">Quarterly (4/yr)</SelectItem>
+                        <SelectItem value="365">Daily (365/yr)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </CardContent>
+            </GlassCard>
+          </div>
+
+          {/* Key Metrics */}
+          <div className="lg:col-span-7 space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <GlassCard className="p-4 bg-primary/10 border-primary/30">
+                <div className="text-xs text-muted-foreground font-semibold uppercase">Total Balance</div>
+                <div className="text-2xl font-bold text-primary mt-1">{formatCurrency(results.finalBalance)}</div>
+              </GlassCard>
+              <GlassCard className="p-4">
+                <div className="text-xs text-muted-foreground font-semibold uppercase">Total Interest</div>
+                <div className="text-2xl font-bold text-green-500 mt-1">+{formatCurrency(results.totalInterest)}</div>
+              </GlassCard>
+              <GlassCard className="p-4">
+                <div className="text-xs text-muted-foreground font-semibold uppercase">Principal + Contrib</div>
+                <div className="text-2xl font-bold text-foreground mt-1">{formatCurrency(results.principal + results.totalContributions)}</div>
+              </GlassCard>
+            </div>
+
+            {/* Breakdown Table */}
+            <GlassCard>
+              <CardHeader>
+                <div className="flex justify-between items-center">
+                  <div>
+                    <CardTitle className="text-base">Year-by-Year Growth Table</CardTitle>
+                    <CardDescription>Annual balance trajectory</CardDescription>
+                  </div>
+                  <Button variant="outline" size="sm" onClick={exportCSV}>
+                    <Download className="w-4 h-4 mr-2" /> Export CSV
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardContent className="overflow-x-auto max-h-72">
+                <table className="w-full text-xs text-left">
+                  <thead className="text-muted-foreground uppercase bg-muted/40 sticky top-0">
+                    <tr>
+                      <th className="p-2">Year</th>
+                      <th className="p-2">Start</th>
+                      <th className="p-2">Contrib</th>
+                      <th className="p-2 text-green-500">Interest</th>
+                      <th className="p-2 font-bold">End Balance</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {results.yearByYear.map(row => (
+                      <tr key={row.year} className="border-b last:border-0 hover:bg-muted/20">
+                        <td className="p-2 font-medium">Year {row.year}</td>
+                        <td className="p-2">{formatCurrency(row.startBalance)}</td>
+                        <td className="p-2">{formatCurrency(row.contributions)}</td>
+                        <td className="p-2 text-green-500">+{formatCurrency(row.interestEarned)}</td>
+                        <td className="p-2 font-bold">{formatCurrency(row.endBalance)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </CardContent>
+            </GlassCard>
+          </div>
+        </div>
+
+        <ToolHowItWorks
+          steps={[
+            { step: "01", title: "Input Starting Assets", description: "Set your initial deposit and regular monthly savings amount.", icon: DollarSign },
+            { step: "02", title: "Set Rate & Horizon", description: "Input your expected annual return and investment duration in years.", icon: Percent },
+            { step: "03", title: "Harness Exponential Growth", description: "See how interest earning interest accelerates portfolio wealth.", icon: TrendingUp }
+          ]}
+          badges={["100% Free Forever", "CSV Export Ready", "Compound Interest Formula"]}
+        />
+
+        <ToolFeatureGuides
+          features={[
+            { icon: TrendingUp, title: "Exponential Wealth Curves", description: "Visualize the snowball effect as earned interest generates secondary returns." },
+            { icon: DollarSign, title: "Recurring Contributions", description: "Simulate dollar-cost averaging with continuous monthly savings additions." },
+            { icon: Download, title: "Exportable CSV Schedules", description: "Download full amortization tables for spreadsheet modeling." },
+            { icon: Shield, title: "100% Client-Side Privacy", description: "Financial projections run locally without storing personal portfolio balances." }
+          ]}
+        >
+          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+            <h3>The Power of Compound Interest in Wealth Building</h3>
+            <p>
+              Compound interest represents interest calculated on both the initial principal and the accumulated interest from prior periods. Over a multi-decade horizon, the compounding effect outpaces regular contributions, enabling substantial portfolio growth even with modest monthly deposits.
+            </p>
+          </div>
+        </ToolFeatureGuides>
+
+        <ToolFaqAccordion
+          faqs={[
+            { question: "What is the compound interest formula?", answer: "The formula is A = P(1 + r/n)^(nt), where A is final balance, P is principal, r is annual interest rate, n is compounding frequency per year, and t is time in years." },
+            { question: "How does monthly contribution affect compounding?", answer: "Regular monthly contributions accelerate the principal base each month, multiplying the interest earned in all subsequent periods." }
+          ]}
+        />
+
+        <RelatedTools currentToolUrl="/tools/finance/salary-hourly" max={6} />
+      </div>
+    </div>
+  );
 }
-function fmtNumber(n: number) {
-  return new Intl.NumberFormat().format(n);
-}
+
+export default SalaryHourlyClient;

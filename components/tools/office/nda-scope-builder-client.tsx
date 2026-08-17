@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -12,7 +14,7 @@ import { Label } from"@/components/ui/label";
 import { Switch } from"@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { CalendarRange, EyeOff, FileCheck2, FileText, Printer, ShieldCheck } from"lucide-react";
+import { CalendarRange, EyeOff, FileCheck2, FileText, Printer, ShieldCheck, Copy, Type } from "lucide-react";
 import toast from"react-hot-toast";
 
 export function NdaScopeBuilderClient() {
@@ -59,7 +61,10 @@ export function NdaScopeBuilderClient() {
     toast.success("Opening print dialog...");
     window.print();
   };
-  return <div className={"space-y-6"}><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={ShieldCheck} title="Mutual NDA Scope & Term Builder" description="Generate Mutual and Unilateral NDAs with custom confidentiality scope clauses." actions={<>
@@ -245,6 +250,9 @@ export function NdaScopeBuilderClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default NdaScopeBuilderClient;

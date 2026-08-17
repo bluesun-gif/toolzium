@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -11,7 +13,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ResetButton } from"@/components/shared/action-buttons";
-import { Bell, CheckCircle, Droplet, Droplets, GlassWater, PieChart, Plus } from"lucide-react";
+import { Bell, CheckCircle, Droplet, Droplets, GlassWater, PieChart, Plus, Settings } from "lucide-react";
 import { toast } from"react-hot-toast";
 
 export function HydrationTrackerClient() {
@@ -50,7 +52,10 @@ export function HydrationTrackerClient() {
     setCurrent(0);
     localStorage.setItem("hydrationCurrent", "0");
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Hydration & Daily Water Tracker" description="Track your water intake and achieve your daily hydration goals." icon={Droplet} actions={<div className="flex gap-2">
@@ -187,6 +192,9 @@ export function HydrationTrackerClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default HydrationTrackerClient;

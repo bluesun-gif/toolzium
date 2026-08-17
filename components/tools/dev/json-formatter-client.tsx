@@ -1,4 +1,9 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+import { Card } from "@/components/ui/card";
+import { Tabs } from "@/components/ui/tabs";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { ActionButton, CopyButton, ExportTextButton, PasteButton, ResetButton } from "@/components/shared/action-buttons";
@@ -17,7 +22,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AiOutputDisplay } from "@/components/shared/ai-output-display";
-import { Braces, Download, FileJson, Minimize2, Wand2, Sparkles, RefreshCw, ShieldCheck, Code2, CheckCircle2 } from "lucide-react";
+import { Braces, Download, FileJson, Minimize2, Wand2, Sparkles, RefreshCw, ShieldCheck, Code2, CheckCircle2, Copy, Settings, Type } from "lucide-react";
 import { useRef, useState } from "react";
 import { ModelSelector } from "@/components/shared/model-selector";
 import toast from "react-hot-toast";

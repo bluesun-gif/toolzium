@@ -1,10 +1,12 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState } from"react";
-import { Box, Code2, Copy, Move, RefreshCw, RotateCw, Sliders, SlidersHorizontal } from"lucide-react";
+import { Box, Code2, Copy, Move, RefreshCw, RotateCw, Sliders, SlidersHorizontal, Scale } from "lucide-react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
 import { GlassCard } from"@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
@@ -44,7 +46,10 @@ export function CssTransformClient() {
   };
   const transformStyle = "perspective(" + perspective + "px) rotateX(" + rotateX + "deg) rotateY(" + rotateY + "deg) rotateZ(" + rotateZ + "deg) scaleX(" + scaleX + ") scaleY(" + scaleY + ") scaleZ(" + scaleZ + ") skewX(" + skewX + "deg) skewY(" + skewY + "deg) translateX(" + translateX + "px) translateY(" + translateY + "px) translateZ(" + translateZ + "px)";
   const cssCode = "transform:" + transformStyle + ";\ntransform-origin:" + transformOrigin + ";";
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Box} title="CSS 3D Transform Generator" description="Interactive 3D CSS transform generator with live preview." actions={<ResetButton onClick={resetAll} label="Reset" />} />
@@ -263,6 +268,9 @@ export function CssTransformClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default CssTransformClient;

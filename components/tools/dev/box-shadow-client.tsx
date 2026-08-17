@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -12,7 +14,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Switch } from"@/components/ui/switch";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Code2, Copy, Layers, Palette, Plus, SlidersHorizontal, Sparkles, Square, Trash2 } from"lucide-react";
+import { Code2, Copy, Layers, Palette, Plus, SlidersHorizontal, Sparkles, Square, Trash2, Settings, Sliders } from "lucide-react";
 import { cn } from"@/lib/utils";
 
 type ShadowLayer = {
@@ -182,7 +184,10 @@ export function BoxShadowClient() {
     const shadows = layers.map(l => `${l.inset ? "inset_" : ""}${l.hOffset}px_${l.vOffset}px_${l.blur}px_${l.spread}px_${l.color.replace(/\s/g, "")}`).join(",");
     return `shadow-[${shadows}]`;
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Square} title="CSS Box Shadow Generator" description="Create beautiful box shadows for your web projects with layers, colors, and live preview." actions={<ResetButton onClick={() => loadPreset([defaultShadow])} label="Reset All" />} />
@@ -348,6 +353,8 @@ export function BoxShadowClient() {
  </div>
  </div>
  
+</div>
+
 <ToolHowItWorks
   steps={[
 {
@@ -429,8 +436,8 @@ export function BoxShadowClient() {
   }
   ]}
 />
-</div>
-</div>
-</div>
- );
+    </div>
+  );
 }
+
+export default BoxShadowClient;

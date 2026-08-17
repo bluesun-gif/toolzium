@@ -1,20 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
-import { SqlFormatterClient } from "@/components/tools/dev/sql-formatter-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
+import SqlFormatterClient from "@/components/tools/dev/sql-formatter-client";
+
+const TITLE = "SQL Formatter | Toolzium";
+const DESCRIPTION = "Format and beautify your SQL queries online.";
+const PATH = "/tools/dev/sql-formatter";
+
 export const metadata = buildMetadata({
-  title: "SQL Formatter | Toolzium",
-  description: "Format and beautify your SQL queries online.",
-  path: "/tools/dev/sql-formatter",
-  keywords: ["sql", "formatter", "beautifier", "developer tools", "sql format"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
-  const toolUrl = siteURL + "/tools/dev/sql-formatter";
-  const appLd = { "@context": "https://schema.org", "@type": "WebApplication", name: "SQL Formatter", url: toolUrl, description: "Format and beautify your SQL queries online.", applicationCategory: "UtilitiesApplication", operatingSystem: "All", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" } };
-  const crumbsLd = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: siteURL }, { "@type": "ListItem", position: 2, name: "Developer Tools", item: siteURL + "/tools#cat-dev" }, { "@type": "ListItem", position: 3, name: "SQL Formatter", item: toolUrl }] };
-  const faqLd = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: [{ "@type": "Question", name: "How do I format SQL?", acceptedAnswer: { "@type": "Answer", text: "Paste your raw SQL query into the input field and choose your formatting preferences to beautify it." } }] };
-  return (<div className="max-w-6xl mx-auto space-y-8"><JsonLd data={appLd} /><JsonLd data={crumbsLd} /><JsonLd data={faqLd} /><SqlFormatterClient />
-      <RelatedTools currentToolUrl="/tools/dev/sql-formatter" />
-</div>);
+  const jsonLd = buildToolJsonLd({
+    name: "SQL Formatter",
+    description: DESCRIPTION,
+    path: PATH
+  });
+
+  return (
+    <>
+      <JsonLd data={jsonLd} />
+      <SqlFormatterClient />
+    </>
+  );
 }

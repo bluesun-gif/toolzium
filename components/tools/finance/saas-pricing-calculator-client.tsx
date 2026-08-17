@@ -1,4 +1,8 @@
 "use client";
+
+import { ModelSelector } from "@/components/shared/model-selector";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -9,7 +13,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { AiOutputDisplay } from"@/components/shared/ai-output-display";
-import { DollarSign, Layers, Receipt, RefreshCw, Target, TrendingUp } from"lucide-react";
+import { DollarSign, Layers, Receipt, RefreshCw, Target, TrendingUp, Users, Calculator, Type } from "lucide-react";
 import toast from"react-hot-toast";
 
 export default function SaasPricingCalculatorClient() {
@@ -49,7 +53,10 @@ export default function SaasPricingCalculatorClient() {
       setLoading(false);
     }
   };
-  return <div className="relative space-y-6 max-w-4xl mx-auto px-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={DollarSign} title="AI SaaS Pricing Strategy & Tier Matrix Calculator" description="Design optimal 3-tier SaaS pricing models (Starter, Pro, Enterprise), value metric limits, and expansion revenue strategies powered by live AI." />
@@ -181,6 +188,7 @@ export default function SaasPricingCalculatorClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }

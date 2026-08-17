@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo } from "react";
@@ -12,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CopyButton } from "@/components/shared/action-buttons";
 import toast from "react-hot-toast";
-import { Shuffle, Copy, Trash2 } from "lucide-react";
+import { Shuffle, Copy, Trash2, Type } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -61,7 +62,10 @@ export default function AnagramSolverClient() {
     setInput("");
     toast.success("Cleared!");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Shuffle} title="Anagram Solver" description="Generate all possible anagram rearrangements for your words and phrases instantly." />
@@ -156,7 +160,7 @@ export default function AnagramSolverClient() {
         question: "Does it support phrases with spaces?",
         answer: "Yes! The tool automatically strips spaces and punctuation, treating the entire phrase as a single pool of letters to rearrange."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/fun/anagram-solver" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

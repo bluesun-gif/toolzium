@@ -1,528 +1,196 @@
 "use client";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
-import React, { useState, useEffect } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
-import { Separator } from"@/components/ui/separator";
-import { Button } from"@/components/ui/button";
-import { Input } from"@/components/ui/input";
-import { Label } from"@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { CheckCircle2, CheckSquare, Download, ListTree, Plus, Target, Trash2, TrendingUp } from"lucide-react";
-import toast from"react-hot-toast";
+import React, { useState } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ToolBackground } from "@/components/shared/tool-background";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { CheckSquare, Plus, Trash2, ArrowRight, Sparkles, Shield, Zap, Flame, Clock, Users, Ban } from "lucide-react";
+import { cn } from "@/lib/utils";
+import toast from "react-hot-toast";
 
-type Category ="Work"|"Health"|"Personal"|"Finance";
+type QuadrantId = 1 | 2 | 3 | 4;
 
 interface Task {
   id: string;
   text: string;
-  completed: boolean;
+  quadrant: QuadrantId;
 }
-interface Goal {
-  id: string;
-  title: string;
-  category: Category;
-  tasks: Task[];
-}
-const CATEGORY_COLORS: Record<Category, string> = {
-  Work: "bg-blue-500/15 text-blue-700 dark:text-blue-300 border-blue-500/30",
-  Health: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30",
-  Personal: "bg-purple-500/15 text-purple-700 dark:text-purple-300 border-purple-500/30",
-  Finance: "bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/30"
-};
-const DEFAULT_WEEKLY_GOALS: Goal[] = [{
-  id: "g1",
-  title: "Ship Product Feature Update",
-  category: "Work",
-  tasks: [{
-    id: "t1",
-    text: "Finalize frontend components",
-    completed: true
-  }, {
-    id: "t2",
-    text: "Run automated E2E tests",
-    completed: true
-  }, {
-    id: "t3",
-    text: "Deploy to staging server",
-    completed: false
-  }]
-}, {
-  id: "g2",
-  title: "Maintain 10k Daily Steps & Workout",
-  category: "Health",
-  tasks: [{
-    id: "t4",
-    text: "30-min morning cardio session",
-    completed: true
-  }, {
-    id: "t5",
-    text: "Strength training Monday/Wednesday/Friday",
-    completed: false
-  }]
-}];
+
+const QUADRANTS = [
+  { id: 1 as QuadrantId, name: "Do First", desc: "Urgent & Important (Crises, Deadlines)", color: "border-red-500/40 bg-red-500/10 text-red-700 dark:text-red-400", icon: Flame },
+  { id: 2 as QuadrantId, name: "Schedule", desc: "Not Urgent but Important (Strategy, Growth)", color: "border-blue-500/40 bg-blue-500/10 text-blue-700 dark:text-blue-400", icon: Clock },
+  { id: 3 as QuadrantId, name: "Delegate", desc: "Urgent but Not Important (Interruptions)", color: "border-yellow-500/40 bg-yellow-500/10 text-yellow-700 dark:text-yellow-400", icon: Users },
+  { id: 4 as QuadrantId, name: "Eliminate", desc: "Neither Urgent nor Important (Distractions)", color: "border-zinc-500/40 bg-zinc-500/10 text-zinc-600 dark:text-zinc-400", icon: Ban }
+];
+
 export function WeeklyGoalsClient() {
-  const [goals, setGoals] = useState<Goal[]>(DEFAULT_WEEKLY_GOALS);
-  const [newGoalTitle, setNewGoalTitle] = useState("");
-  const [newGoalCategory, setNewGoalCategory] = useState<Category>("Work");
-  const [newTaskTexts, setNewTaskTexts] = useState<Record<string, string>>({});
-  useEffect(() => {
-    const saved = localStorage.getItem("weeklyGoals");
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) setGoals(parsed);
-      } catch (e) {}
-    }
-  }, []);
-  useEffect(() => {
-    if (typeof window !== "undefined") localStorage.setItem("weeklyGoals", JSON.stringify(goals));
-  }, [goals]);
-  const addGoal = () => {
-    if (!newGoalTitle.trim()) {
-      toast.error("Goal title cannot be empty.");
+  const [tasks, setTasks] = useState<Task[]>([
+    { id: "1", text: "Submit quarterly tax filing", quadrant: 1 },
+    { id: "2", text: "Design 2026 product roadmap", quadrant: 2 },
+    { id: "3", text: "Book flight tickets for conference", quadrant: 3 },
+    { id: "4", text: "Scroll random social media feeds", quadrant: 4 }
+  ]);
+  const [newTask, setNewTask] = useState("");
+  const [targetQuad, setTargetQuad] = useState<QuadrantId>(1);
+
+  const addTask = () => {
+    if (!newTask.trim()) {
+      toast.error("Please enter a task title.");
       return;
     }
-    if (goals.length >= 3) {
-      toast.error("You can only have up to 3 primary weekly goals.");
-      return;
-    }
-    const newGoal: Goal = {
-      id: Date.now().toString(),
-      title: newGoalTitle.trim(),
-      category: newGoalCategory,
-      tasks: []
-    };
-    setGoals([...goals, newGoal]);
-    setNewGoalTitle("");
-    toast.success("Weekly goal added!");
+    setTasks([...tasks, { id: Date.now().toString(), text: newTask.trim(), quadrant: targetQuad }]);
+    setNewTask("");
+    toast.success("Added task to matrix!");
   };
-  const removeGoal = (id: string) => {
-    setGoals(goals.filter(g => g.id !== id));
-    toast.success("Goal removed.");
-  };
-  const addTask = (goalId: string) => {
-    const text = newTaskTexts[goalId]?.trim();
-    if (!text) return;
-    setGoals(goals.map(g => {
-      if (g.id === goalId) {
-        return {
-          ...g,
-          tasks: [...g.tasks, {
-            id: Date.now().toString(),
-            text,
-            completed: false
-          }]
-        };
-      }
-      return g;
-    }));
-    setNewTaskTexts({
-      ...newTaskTexts,
-      [goalId]: ""
-    });
-  };
-  const toggleTask = (goalId: string, taskId: string) => {
-    setGoals(goals.map(g => {
-      if (g.id === goalId) {
-        return {
-          ...g,
-          tasks: g.tasks.map(t => t.id === taskId ? {
-            ...t,
-            completed: !t.completed
-          } : t)
-        };
-      }
-      return g;
-    }));
-  };
-  const removeTask = (goalId: string, taskId: string) => {
-    setGoals(goals.map(g => {
-      if (g.id === goalId) {
-        return {
-          ...g,
-          tasks: g.tasks.filter(t => t.id !== taskId)
-        };
-      }
-      return g;
-    }));
-  };
-  const getProgress = (goal: Goal) => {
-    if (goal.tasks.length === 0) return 0;
-    const completed = goal.tasks.filter(t => t.completed).length;
-    return Math.round(completed / goal.tasks.length * 100);
-  };
-  const handleExport = () => {
-    let content = "Weekly Goals & Milestones Plan\n\n";
-    goals.forEach((g, i) => {
-      content += "Goal " + (i + 1) + ": " + g.title + " [" + g.category + "]\n";
-      content += "Progress: " + getProgress(g) + "%\n";
-      if (g.tasks.length > 0) {
-        g.tasks.forEach(t => {
-          content += (t.completed ? "  [X] " : "  [ ] ") + t.text + "\n";
-        });
-      } else {
-        content += "  No tasks added yet.\n";
-      }
-      content += "\n";
-    });
-    const blob = new Blob([content], {
-      type: "text/plain"
-    });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "weekly-goals-plan.txt";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    toast.success("Plan exported!");
-  };
-  const handleReset = () => {
-    setGoals(DEFAULT_WEEKLY_GOALS);
-    toast.success("Reset weekly goals to default!");
-  };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
-      
 
-      <ToolPageHeader icon={Target} title="Weekly Goals & Milestone Planner" description="Set primary focus goals for the week, assign category tags, and track progress with daily actionable tasks." actions={<div className="flex gap-2">
-            <ActionButton onClick={handleExport} icon={Download} label="Export Plan" variant="outline" />
-            <ResetButton onClick={handleReset} label="Reset Goals" />
-          </div>} />
+  const deleteTask = (id: string) => {
+    setTasks(tasks.filter(t => t.id !== id));
+  };
 
-      {/* INPUT CARD */}
-      <GlassCard>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg">
-            <Plus className="h-5 w-5 text-primary" />
-            Add Primary Weekly Goal (Max 3 Focus Areas)
-          </CardTitle>
-          <CardDescription>Limit your focus to 3 core weekly outcomes for maximum execution output.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-col sm:flex-row gap-4 items-end">
-            <div className="flex-1 space-y-2 min-w-[240px]">
-              <Label htmlFor="goal-title">Weekly Goal Title</Label>
-              <Input id="goal-title" value={newGoalTitle} onChange={e => setNewGoalTitle(e.target.value)} placeholder="e.g. Ship V1 feature release, Run 20km..." disabled={goals.length >= 3} onKeyDown={e => e.key === "Enter" && addGoal()} className="h-11 font-medium text-foreground" />
+  const moveTask = (id: string, quad: QuadrantId) => {
+    setTasks(tasks.map(t => t.id === id ? { ...t, quadrant: quad } : t));
+    toast.success("Moved task!");
+  };
+
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
+        <ToolPageHeader
+          icon={CheckSquare}
+          title="Weekly Goal Tracker"
+          description="Organize tasks into 4 actionable quadrants by Urgency and Importance for maximum productivity."
+        />
+
+        {/* Quick Add Task */}
+        <GlassCard>
+          <CardHeader>
+            <CardTitle>Add New Action Item</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Input
+                value={newTask}
+                onChange={e => setNewTask(e.target.value)}
+                placeholder="e.g. Prepare client proposal..."
+                className="flex-1"
+                onKeyDown={e => e.key === "Enter" && addTask()}
+              />
+              <select
+                value={targetQuad}
+                onChange={e => setTargetQuad(Number(e.target.value) as QuadrantId)}
+                className="h-10 px-3 rounded-md border bg-background text-sm"
+              >
+                {QUADRANTS.map(q => (
+                  <option key={q.id} value={q.id}>Q{q.id}: {q.name}</option>
+                ))}
+              </select>
+              <Button onClick={addTask}>
+                <Plus className="w-4 h-4 mr-2" /> Add Task
+              </Button>
             </div>
+          </CardContent>
+        </GlassCard>
 
-            <div className="w-full sm:w-48 space-y-2">
-              <Label>Category Tag</Label>
-              <Select value={newGoalCategory} onValueChange={(v: Category) => setNewGoalCategory(v)} disabled={goals.length >= 3}>
-                <SelectTrigger className="h-11">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Work">💼 Work</SelectItem>
-                  <SelectItem value="Health">🏃 Health</SelectItem>
-                  <SelectItem value="Personal">🧘 Personal</SelectItem>
-                  <SelectItem value="Finance">💰 Finance</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <Button onClick={addGoal} disabled={goals.length >= 3} className="h-11 px-6 font-bold gap-2">
-              <Plus className="w-4 h-4" /> Add Goal
-            </Button>
-          </div>
-        </CardContent>
-      </GlassCard>
-
-      {/* GOALS DISPLAY CARDS */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {goals.map(goal => {
-          const progress = getProgress(goal);
-          return <GlassCard key={goal.id} className="flex flex-col h-full overflow-hidden">
-              <CardHeader className="pb-3">
-                <div className="flex justify-between items-start gap-2">
-                  <div className="space-y-1.5 min-w-0">
-                    <span className={cn("inline-block px-2.5 py-0.5 text-xs font-bold rounded-full border mb-1", CATEGORY_COLORS[goal.category] || CATEGORY_COLORS.Work)}>
-                      {goal.category}
-                    </span>
-                    <CardTitle className="text-lg font-bold leading-snug text-foreground break-words">
-                      {goal.title}
+        {/* 4 Quadrants Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {QUADRANTS.map(q => {
+            const quadTasks = tasks.filter(t => t.quadrant === q.id);
+            const Icon = q.icon;
+            return (
+              <GlassCard key={q.id} className={cn("border-2", q.color)}>
+                <CardHeader>
+                  <div className="flex justify-between items-center">
+                    <CardTitle className="flex items-center gap-2 text-base">
+                      <Icon className="w-4 h-4" /> Q{q.id}: {q.name} ({quadTasks.length})
                     </CardTitle>
                   </div>
-                  <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-destructive shrink-0" onClick={() => removeGoal(goal.id)}>
-                    <Trash2 className="w-4 h-4" />
-                  </Button>
-                </div>
-              </CardHeader>
+                  <CardDescription className="text-xs">{q.desc}</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-2 min-h-[160px]">
+                  {quadTasks.length === 0 ? (
+                    <p className="text-xs text-muted-foreground py-6 text-center italic">No tasks in this quadrant</p>
+                  ) : (
+                    quadTasks.map(t => (
+                      <div
+                        key={t.id}
+                        className="p-3 rounded-lg border bg-background/80 flex flex-col gap-2 shadow-xs"
+                      >
+                        <div className="flex justify-between items-start gap-2">
+                          <span className="text-sm font-medium text-foreground">{t.text}</span>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => deleteTask(t.id)}
+                            className="h-6 w-6 text-muted-foreground hover:text-destructive shrink-0"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </Button>
+                        </div>
+                        <div className="flex gap-1 flex-wrap pt-1 border-t border-border/40">
+                          {QUADRANTS.filter(target => target.id !== q.id).map(target => (
+                            <button
+                              key={target.id}
+                              onClick={() => moveTask(t.id, target.id)}
+                              className="text-[10px] text-muted-foreground hover:text-primary px-1.5 py-0.5 rounded bg-muted/60 hover:bg-muted transition-colors"
+                            >
+                              → Q{target.id} {target.name}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </CardContent>
+              </GlassCard>
+            );
+          })}
+        </div>
 
-              <CardContent className="flex-1 flex flex-col pt-0 space-y-4">
-                <div className="space-y-1.5">
-                  <div className="flex justify-between text-xs font-bold text-muted-foreground">
-                    <span>Milestone Progress</span>
-                    <span className="text-primary">{progress}%</span>
-                  </div>
-                  <div className="w-full h-2 bg-muted/60 rounded-full overflow-hidden">
-                    <div className={cn("h-full transition-all duration-300 rounded-full", progress >= 100 ? "bg-emerald-500" : "bg-primary")} style={{
-                    width: `${progress}%`
-                  }} />
-                  </div>
-                </div>
+        <ToolHowItWorks
+          steps={[
+            { step: "01", title: "Capture Tasks", description: "List all pending responsibilities and obligations.", icon: CheckSquare },
+            { step: "02", title: "Categorize Urgency", description: "Sort items into Do First (Q1), Schedule (Q2), Delegate (Q3), or Eliminate (Q4).", icon: Sparkles },
+            { step: "03", title: "Focus on Q2", description: "Maximize high-leverage growth by investing regular time into non-urgent strategic goals.", icon: Shield }
+          ]}
+          badges={["100% Free Forever", "Stephen Covey Framework", "Private Local Storage"]}
+        />
 
-                <Separator />
+        <ToolFeatureGuides
+          features={[
+            { icon: Flame, title: "Q1 Do First", description: "High urgency and high importance items requiring immediate crisis intervention." },
+            { icon: Clock, title: "Q2 Schedule", description: "Strategic initiatives that create exponential long-term returns." },
+            { icon: Users, title: "Q3 Delegate", description: "Urgent operational tasks that should be handed off or automated." },
+            { icon: Ban, title: "Q4 Eliminate", description: "Low-value time wasters and distractions to discard entirely." }
+          ]}
+        >
+          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+            <h3>Mastering Time Management with the Eisenhower Matrix</h3>
+            <p>
+              Popularized by President Dwight D. Eisenhower and Dr. Stephen Covey, this decision matrix separates urgent firefighting from impactful, long-term strategic execution. Top performers spend the majority of their mental energy in Quadrant 2 (Important, Not Urgent).
+            </p>
+          </div>
+        </ToolFeatureGuides>
 
-                {/* TASKS LIST */}
-                <div className="flex-1 space-y-2 overflow-y-auto max-h-[260px] pr-1">
-                  {goal.tasks.length === 0 ? <p className="text-xs text-muted-foreground text-center py-4 italic border border-dashed border-border/80 rounded-xl">
-                      No tasks added yet. Add daily sub-tasks below!
-                    </p> : goal.tasks.map(task => <div key={task.id} className="flex items-start gap-2 p-2 rounded-lg bg-muted/20 border border-border/50 hover:bg-muted/40 transition-colors group">
-                        <Button onClick={() => toggleTask(goal.id, task.id)} className={cn(cn("mt-0.5 shrink-0 transition-colors", task.completed ? "text-emerald-500" : "text-foreground hover:text-primary hover:bg-muted/50"))}>
-                          <CheckSquare className="w-4 h-4" />
-                        </Button>
-                        <span className={cn("text-xs font-medium flex-1 break-words leading-relaxed", task.completed ? "line-through text-muted-foreground" : "text-foreground")}>
-                          {task.text}
-                        </span>
-                        <Button variant="ghost" size="icon" className="h-5 w-5 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-destructive" onClick={() => removeTask(goal.id, task.id)}>
-                          <Trash2 className="w-3 h-3" />
-                        </Button>
-                      </div>)}
-                </div>
+        <ToolFaqAccordion
+          faqs={[
+            { question: "What makes a task Quadrant 2?", answer: "Quadrant 2 activities are essential for long-term health, career, and relationships—such as exercise, learning, and system architecture—that lack an immediate urgent deadline." },
+            { question: "Is my task list stored locally?", answer: "Yes! All tasks are saved directly in your web browser with zero server transmission." }
+          ]}
+        />
 
-                <div className="flex gap-2 pt-2 mt-auto">
-                  <Input placeholder="Add sub-task milestone..." value={newTaskTexts[goal.id] || ""} onChange={e => setNewTaskTexts({
-                  ...newTaskTexts,
-                  [goal.id]: e.target.value
-                })} onKeyDown={e => e.key === "Enter" && addTask(goal.id)} className="h-9 text-xs" />
-                  <Button size="icon" className="h-9 w-9 shrink-0" onClick={() => addTask(goal.id)}>
-                    <Plus className="w-4 h-4" />
-                  </Button>
-                </div>
-              </CardContent>
-            </GlassCard>;
-        })}
-
-        {goals.length === 0 && <div className="col-span-full py-12 text-center text-muted-foreground border border-dashed border-border/80 rounded-2xl">
-            <Target className="w-10 h-10 mx-auto mb-3 opacity-40" />
-            <p className="font-semibold text-base">No weekly goals set.</p>
-            <p className="text-xs">Add up to 3 core goals above to plan your week.</p>
-          </div>}
+        <RelatedTools currentToolUrl="/tools/productivity/weekly-goals" max={6} />
       </div>
-
-      {/* HOW IT WORKS */}
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Set 3 Core Goals",
-        description: "Define up to 3 high-leverage focus areas for the current week across Work, Health, Personal, or Finance.",
-        icon: Target
-      }, {
-        step: "02",
-        title: "Add Daily Tasks",
-        description: "Break each goal down into smaller, actionable daily tasks to track progress.",
-        icon: Plus
-      }, {
-        step: "03",
-        title: "Check Off & Export",
-        description: "Check off completed milestones and export your weekly progress report to text.",
-        icon: CheckCircle2
-      }]} badges={["Max 3 Rule", "Category Badging", "Auto-Saved"]} />
-
-      {/* FEATURE GUIDES */}
-      <ToolFeatureGuides features={[{
-        icon: Target,
-        title: "Rule of 3 Focus Constraint",
-        description: "Encourages deep work and execution by capping active primary goals at 3."
-      }, {
-        icon: CheckSquare,
-        title: "Category Visual Distinction",
-        description: "Uses color-coded badges (Work, Health, Personal, Finance) for easy visual scannability."
-      }, {
-        icon: Download,
-        title: "Auto-Saved & Exportable",
-        description: "Saves goals locally in your browser and exports weekly summary reports."
-      }]} />
-
-      {/* FAQ ACCORDION */}
-      <ToolFaqAccordion faqs={[{
-        question: "Why is there a limit of 3 weekly goals?",
-        answer: "Productivity research shows that setting more than 3 primary goals per week dilutes focus and reduces overall completion rates."
-      }, {
-        question: "Does my data persist when I close the tab?",
-        answer: "Yes! All goals and sub-tasks are stored in your browser's local storage automatically."
-      }]} />
-
- <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
- {goals.map((goal) => {
- const progress = getProgress(goal);
- const categoryColors = {
- Work:"bg-blue-500/10 text-primary border-blue-500/20",
- Health:"bg-green-500/10 text-green-600 border-green-500/20",
- Personal:"bg-purple-500/10 text-primary border-primary/50/20",
- Finance:"bg-amber-500/10 text-amber-600 border-amber-500/20",
- };
-
- return (
- <GlassCard key={goal.id} className="flex flex-col h-full">
- <CardHeader className="pb-3">
- <div className="flex justify-between items-start">
- <div>
- <span className={"inline-block px-2 py-1 text-xs font-medium rounded-full border mb-2"+ categoryColors[goal.category]}>
- {goal.category}
- </span>
- <CardTitle className="text-xl leading-tight">{goal.title}</CardTitle>
- </div>
- <Button variant="ghost"size="icon"className="h-8 w-8 text-muted-foreground hover:text-destructive shrink-0"onClick={() => removeGoal(goal.id)}>
- <Trash2 className="w-4 h-4"/>
- </Button>
- </div>
- </CardHeader>
- <CardContent className="flex-1 flex flex-col pt-0 space-y-4">
- <div className="space-y-1">
- <div className="flex justify-between text-xs text-muted-foreground">
- <span>Progress</span>
- <span>{progress}%</span>
- </div>
- <div className="w-full h-2 bg-secondary rounded-full overflow-hidden">
- <div 
- className="h-full bg-primary transition-all duration-300"
- style={{ width: progress +"%"}}
- />
- </div>
- </div>
-
- <Separator />
-
- <div className="flex-1 space-y-2 overflow-y-auto max-h-[300px] pr-2 custom-scrollbar">
- {goal.tasks.length === 0 ? (
- <p className="text-sm text-muted-foreground text-center py-4">No tasks added yet. Break down your goal!</p>
- ) : (
- goal.tasks.map((task) => (
- <div key={task.id} className="flex items-start gap-2 group">
- <button 
- onClick={() => toggleTask(goal.id, task.id)}
- className={"mt-0.5 shrink-0 transition-colors"+ (task.completed ?"text-primary":"text-muted-foreground hover:text-foreground")}
- >
- <CheckSquare className="w-5 h-5"/>
- </button>
- <span className={"text-sm flex-1 break-words"+ (task.completed ?"line-through text-muted-foreground":"")}>
- {task.text}
- </span>
- <Button 
- variant="ghost"
- size="icon"
- className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
- onClick={() => removeTask(goal.id, task.id)}
- >
- <Trash2 className="w-3 h-3"/>
- </Button>
- </div>
- ))
- )}
- </div>
-
- <div className="flex gap-2 pt-2 mt-auto">
- <Input
- placeholder="Add a milestone/task..."
- value={newTaskTexts[goal.id] ||""}
- onChange={(e) => setNewTaskTexts({ ...newTaskTexts, [goal.id]: e.target.value })}
- onKeyDown={(e) => {
- if (e.key ==="Enter") addTask(goal.id);
- }}
- className="h-9"
- />
- <Button size="icon"className="h-9 w-9 shrink-0"onClick={() => addTask(goal.id)}>
- <Plus className="w-4 h-4"/>
- </Button>
- 
-<ToolHowItWorks
-  steps={[
-{
-    step:"01",
-    title:"Set Goals",
-    description:"Pick the week's targets.",
-    icon: Target,
-  },
-{
-    step:"02",
-    title:"Break Down",
-    description:"Add milestones.",
-    icon: ListTree,
-  },
-{
-    step:"03",
-    title:"Review",
-    description:"Check off as done.",
-    icon: CheckCircle2,
-  }
-  ]}
-  badges={["Free Forever","No Signup","Instant Results"]}
-/>
-
-<ToolFeatureGuides
-  features={[
-{
-    icon: Target,
-    title:"Goals",
-    description:"Weekly targets.",
-  },
-{
-    icon: ListTree,
-    title:"Milestones",
-    description:"Sub-steps.",
-  },
-{
-    icon: CheckCircle2,
-    title:"Complete",
-    description:"Mark done.",
-  },
-{
-    icon: TrendingUp,
-    title:"Progress",
-    description:"See movement.",
-  }
-  ]}
->
-  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-  <p>A weekly goals planner sets a short, achievable horizon so targets feel doable and progress is visible by Friday. Breaking goals into milestones makes them concrete. This tool tracks the week.</p>
-  <p>Weekly scope prevents the overwhelm of long horizons while staying accountable. The planner makes the week manageable.</p>
-  <p>Use it Mondays. The tool's value is focused, milestone-based weekly progress.</p>
-  </div>
-</ToolFeatureGuides>
-
-<ToolFaqAccordion
-  faqs={[
-{
-    question:"Why weekly?",
-    answer:"Short, achievable horizon.",
-  },
-{
-    question:"Free?",
-    answer:"Yes.",
-  },
-{
-    question:"Private?",
-    answer:"Local.",
-  },
-{
-    question:"Use with?",
-    answer:"Daily board.",
-  },
-{
-    question:"Best cadence?",
-    answer:"Plan Mondays.",
-  }
-  ]}
-/>
-</div>
- </CardContent>
- </GlassCard>
- );
- })}
- {goals.length === 0 && (
- <div className="col-span-full py-12 text-center text-muted-foreground">
- <Target className="w-12 h-12 mx-auto mb-4 opacity-20"/>
- <p>No goals set for this week yet. Start by adding one above!</p>
- </div>
- )}
- </div>
- </div>
- );
+    </div>
+  );
 }
+
+export default WeeklyGoalsClient;

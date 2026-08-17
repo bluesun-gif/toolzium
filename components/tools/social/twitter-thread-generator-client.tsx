@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
@@ -7,7 +8,7 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { AiOutputDisplay } from "@/components/shared/ai-output-display";
-import { MessageSquare, RefreshCw, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { MessageSquare, RefreshCw, Sparkles, Shield, Zap, Copy, Users, Type } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -52,7 +53,10 @@ export default function TwitterThreadGeneratorClient() {
       setLoading(false);
     }
   };
-  return <div className="relative space-y-6 max-w-4xl mx-auto px-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={MessageSquare} title="AI X / Twitter Viral Thread Generator" description="Generate high-converting 1st-tweet opening hooks, actionable storytelling tweets, and viral CTA tweets powered by live AI." />
@@ -154,8 +158,7 @@ export default function TwitterThreadGeneratorClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/social/twitter-thread-generator" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }

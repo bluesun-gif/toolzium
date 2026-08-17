@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -11,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ResetButton } from"@/components/shared/action-buttons";
-import { AlarmClock, Clock, Moon, Repeat, Shield, ShieldCheck, Sun } from"lucide-react";
+import { AlarmClock, Clock, Moon, Repeat, Shield, ShieldCheck, Sun, Calculator, Settings } from "lucide-react";
 import toast from"react-hot-toast";
 
 export function RemSleepAlarmClient() {
@@ -54,7 +56,10 @@ export function RemSleepAlarmClient() {
     return results;
   };
   const results = calculateTimes();
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Clock} title="REM Sleep Cycle & Wakeup Alarm Calculator" description="Calculate optimal bedtime and wake-up alarm times based on 90-minute REM sleep cycles." actions={<ResetButton onClick={handleReset} label="Reset" />} />
@@ -189,6 +194,9 @@ export function RemSleepAlarmClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default RemSleepAlarmClient;

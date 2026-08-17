@@ -1,17 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import MarkdownStudioClient from "@/components/tools/text/markdown-studio-client";
-export const metadata = {
-  title: "Interactive Markdown Editor & Live Preview Studio | Toolzium",
-  description: "Write, format, and render Markdown documents in real-time with live HTML preview, reading time statistics, and 1-click export.",
-  path: "/tools/text/markdown-studio",
-  keywords: ["preview", "render", "format", "with", "live", "time", "real", "markdown", "reading", "documents", "html", "write"],
+
+const TITLE = "Markdown Studio | Toolzium";
+const DESCRIPTION = "Free online markdown studio tool with instant calculation and privacy.";
+const PATH = "/tools/text/markdown-studio";
+
+export const metadata = buildMetadata({
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
-export default function MarkdownStudioPage() {
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "Markdown Studio",
+    description: DESCRIPTION,
+    path: PATH
+  });
+
   return (
-    <><MarkdownStudioClient />
-      <RelatedTools currentToolUrl="/tools/text/markdown-studio" />
+    <>
+      <JsonLd data={jsonLd} />
+      <MarkdownStudioClient />
     </>
   );
 }

@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -10,7 +12,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ResetButton, ActionButton } from"@/components/shared/action-buttons";
-import { Calculator, Calendar, DollarSign, Receipt, ShieldCheck, Target, TrendingUp } from"lucide-react";
+import { Calculator, Calendar, DollarSign, Receipt, ShieldCheck, Target, TrendingUp, Settings } from "lucide-react";
 
 export function EmergencyGoalCalcClient() {
   const [goalAmount, setGoalAmount] = useState("10000");
@@ -60,7 +62,10 @@ export function EmergencyGoalCalcClient() {
     };
   };
   const results = calculate();
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Calculator} title="Emergency Savings Goal Calculator" description="Calculate how much you need to save per month to reach your emergency savings goal." actions={<ResetButton onClick={handleReset} label="Reset" />} />
@@ -222,6 +227,9 @@ export function EmergencyGoalCalcClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default EmergencyGoalCalcClient;

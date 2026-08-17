@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
@@ -141,7 +142,10 @@ export default function PdfCompressClient() {
   const {
     label: presetLabel
   } = QUALITY_PRESETS[preset];
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={FileText} title="PDF Compress Studio" description="Genuinely reduce PDF file size by re-rendering pages at optimized resolution. 100% client-side — files never leave your browser." />
@@ -250,7 +254,7 @@ export default function PdfCompressClient() {
         question: "Will this help me email large PDFs?",
         answer: "Yes! Many email providers limit attachments to 20MB or 25MB. By compressing your PDF, you can easily fit within these limits and ensure your document reaches its destination."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/pdf/pdf-compress" />
- </div></div>;
+    </div>
+    </div>
+);
 }

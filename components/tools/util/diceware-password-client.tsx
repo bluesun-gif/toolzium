@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useEffect } from "react";
@@ -11,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ActionButton, CopyButton } from "@/components/shared/action-buttons";
-import { Lock, RefreshCw, Key, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { Lock, RefreshCw, Key, Sparkles, Shield, Zap, Copy, Settings } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -61,7 +62,10 @@ export function DicewarePasswordClient() {
     crackTime = "Months";
     colorClass = "text-yellow-500";
   }
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Lock} title="Diceware Wordlist Passphrase Generator" description="Generate ultra-secure, human-memorable Diceware passphrases." />
@@ -196,8 +200,9 @@ export function DicewarePasswordClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/util/diceware-password" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default DicewarePasswordClient;

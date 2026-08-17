@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
@@ -140,7 +141,10 @@ export function PhrasebookClient() {
     }
     return phrases;
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Globe} title="Travel Phrasebook" description="Common travel phrases in 8 languages." />
@@ -250,8 +254,9 @@ export function PhrasebookClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/travel/phrasebook" max={6} />
-
-  </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default PhrasebookClient;

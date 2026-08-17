@@ -1,4 +1,7 @@
 "use client";
+
+import { Switch } from "@/components/ui/switch";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback, useEffect, useRef } from "react";
@@ -115,7 +118,10 @@ export function MarkdownStudioClient() {
   }: any) => <Button variant="ghost" size="icon" onClick={onClick} title={label} className="h-8 w-8">
  <Icon className="h-4 w-4" />
  </Button>;
-  return <div className="relative max-w-7xl mx-auto space-y-8 p-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={FileText} title="Markdown Studio" description="Write, format, and preview your Markdown documents in real-time." />
@@ -236,8 +242,9 @@ export function MarkdownStudioClient() {
         question: "Is it free to use?",
         answer: "Yes, Markdown Studio is 100% free with no limits on document length or number of exports."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/text/markdown-studio" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default MarkdownStudioClient;

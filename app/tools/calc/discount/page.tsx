@@ -1,32 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import DiscountFinderClient from "@/components/tools/calc/discount-finder-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "Discount | Toolzium";
+const DESCRIPTION = "Free online discount tool with instant calculation and privacy.";
+const PATH = "/tools/calc/discount";
 
 export const metadata = buildMetadata({
-  title: "Discount Calculator",
-  description: "Calculate discounted prices and savings from original price. Find final price after discount, percentage off, and amount saved. Free discount calculator for shopping and sales.",
-  path: "/tools/calc/discount",
-  keywords: ["price", "from", "calculate", "final", "discount", "discounted", "original", "prices", "savings", "find", "after"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Discount Calculator",
-    description: "Calculate discounted prices and savings from original price. Find final price after discount, percentage off, and amount saved. Free discount calculator for shopping and sales.",
-    path: "/tools/calc/discount",
-    categoryName: "Calc",
-    categoryPath: "/tools/calc",
+    name: "Discount",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <DiscountFinderClient />
-    
-      <RelatedTools currentToolUrl="/tools/calc/discount" />
-</div>
+    </>
   );
 }

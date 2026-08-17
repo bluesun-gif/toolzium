@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback, useEffect } from "react";
@@ -11,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Copy, RotateCcw, Volume2, Search, Sliders, AudioLines } from "lucide-react";
+import { Copy, RotateCcw, Volume2, Search, Sliders, AudioLines, Type } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -362,7 +363,10 @@ export function PronunciationClient() {
     return Object.keys(DICTIONARY).filter((w: string) => w.includes(dictSearch.toLowerCase())).slice(0, 10);
   }, [dictSearch]);
   const ipaString = results.map((r: any) => r.ipa).join("");
-  return <div className="relative max-w-6xl mx-auto space-y-8 p-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={AudioLines} title="Pronunciation Guide" description="Learn how to pronounce words with IPA transcriptions and syllable breakdowns." />
@@ -508,8 +512,9 @@ export function PronunciationClient() {
         question: "Are the syllable breakdowns accurate?",
         answer: "Yes, they follow standard English phonological rules for dividing words into their constituent sound units."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/text/pronunciation" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default PronunciationClient;

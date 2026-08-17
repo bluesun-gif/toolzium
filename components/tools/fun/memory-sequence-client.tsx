@@ -1,4 +1,7 @@
 "use client";
+
+import { Switch } from "@/components/ui/switch";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback, useEffect } from "react";
@@ -97,7 +100,10 @@ export function MemorySequenceClient() {
     setUserInput([]);
     setSequence([]);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 pb-12"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Hash} title="Memory Sequence" description="Memorize and reproduce sequences of numbers and letters. Test your short-term recall and chunking strategies under time pressure." />
@@ -215,8 +221,9 @@ export function MemorySequenceClient() {
         question: "Can I use my keyboard?",
         answer: "Currently, input is restricted to the on-screen buttons to ensure a consistent experience across all devices, including touchscreens."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/fun/memory-sequence" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default MemorySequenceClient;

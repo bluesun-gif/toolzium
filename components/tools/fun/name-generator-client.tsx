@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
@@ -10,7 +11,7 @@ import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CopyButton } from "@/components/shared/action-buttons";
-import { User, Shuffle } from "lucide-react";
+import { User, Shuffle, Copy, Settings } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -53,7 +54,10 @@ export default function NameGeneratorClient() {
     }
     setResults(generated);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={User} title="Name Generator" description="Generate random character names for novels, RPGs, and games across multiple genres." />
@@ -158,7 +162,7 @@ export default function NameGeneratorClient() {
         question: "Will the generator repeat names?",
         answer: "If you generate a large batch, there is a chance of repeats since it draws randomly from a finite pool of 10 names per gender/category."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/fun/name-generator" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

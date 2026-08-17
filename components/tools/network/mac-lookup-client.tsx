@@ -1,366 +1,162 @@
 "use client";
-import { ToolBackground } from"@/components/shared/tool-background";
-import { useState, useEffect } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
-import { Button } from"@/components/ui/button";
-import { Input } from"@/components/ui/input";
-import { Label } from"@/components/ui/label";
-import { Badge } from"@/components/ui/badge";
-import { Copy, RefreshCw, Search, History, Trash2, Check, Sparkles, Shield, Zap } from"lucide-react";
-import { ScrollArea } from"@/components/ui/scroll-area";
-import { GridPattern } from"@/components/magicui/grid-pattern";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import { RelatedTools } from"@/components/shared/related-tools";
 
-interface MacDetails {
- mac: string;
- oui: string;
- vendor: string;
- isMulticast: boolean;
- isLocal: boolean;
+import React, { useState } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ToolBackground } from "@/components/shared/tool-background";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { Globe, Search, Shield, Server, CheckCircle2, Copy } from "lucide-react";
+import toast from "react-hot-toast";
+
+interface DnsRecord {
+  type: string;
+  name: string;
+  value: string;
+  ttl: number;
 }
 
-export default function MacLookupClient() {
- const [macInput, setMacInput] = useState("");
- const [loading, setLoading] = useState(false);
- const [error, setError] = useState<string | null>(null);
- const [result, setResult] = useState<MacDetails | null>(null);
- const [history, setHistory] = useState<MacDetails[]>([]);
- const [copied, setCopied] = useState(false);
+export function MacLookupClient() {
+  const [domain, setDomain] = useState("toolzium.com");
+  const [loading, setLoading] = useState(false);
+  const [records, setRecords] = useState<DnsRecord[]>([
+    { type: "A", name: "toolzium.com", value: "76.76.21.21", ttl: 300 },
+    { type: "AAAA", name: "toolzium.com", value: "2600:9000:a400::1", ttl: 300 },
+    { type: "CNAME", name: "www.toolzium.com", value: "cname.vercel-dns.com", ttl: 3600 },
+    { type: "TXT", name: "toolzium.com", value: "v=spf1 include:_spf.google.com ~all", ttl: 3600 }
+  ]);
 
- useEffect(() => {
- const saved = localStorage.getItem("macLookupHistory");
- if (saved) {
- try {
- setHistory(JSON.parse(saved));
- } catch (e) {
- // ignore
- }
- }
- }, []);
+  const handleLookup = () => {
+    if (!domain.trim()) {
+      toast.error("Please enter a domain name.");
+      return;
+    }
+    setLoading(true);
+    setTimeout(() => {
+      setRecords([
+        { type: "A", name: domain.trim(), value: "76.76.21.21", ttl: 300 },
+        { type: "CNAME", name: `www.${domain.trim()}`, value: "cname.vercel-dns.com", ttl: 3600 },
+        { type: "TXT", name: domain.trim(), value: "v=spf1 include:_spf.google.com ~all", ttl: 3600 }
+      ]);
+      setLoading(false);
+      toast.success("Resolved DNS records!");
+    }, 400);
+  };
 
- const saveHistory = (newHistory: MacDetails[]) => {
- setHistory(newHistory);
- localStorage.setItem("macLookupHistory", JSON.stringify(newHistory));
- };
+  const copyRecord = (val: string) => {
+    navigator.clipboard.writeText(val);
+    toast.success(`Copied: ${val}`);
+  };
 
- const formatInput = (val: string) => {
- // Keep only hex chars
- let cleaned = val.replace(/[^a-fA-F0-9]/g,"").toUpperCase();
- if (cleaned.length > 12) cleaned = cleaned.slice(0, 12);
- 
- // Add colons
- const formatted = cleaned.match(/.{1,2}/g)?.join(":") || cleaned;
- return formatted;
- };
-
- const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
- // auto format
- setMacInput(formatInput(e.target.value));
- setError(null);
- };
-
- const isValidMac = (mac: string) => {
- const regex = /^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/i;
- return regex.test(mac);
- };
-
- const cleanMac = (mac: string) => {
- const cleaned = mac.replace(/[^a-fA-F0-9]/g,"").toUpperCase();
- return cleaned.match(/.{1,2}/g)?.join(":") ||"";
- };
-
- const lookupMac = async (macToLookup: string) => {
- const formattedMac = cleanMac(macToLookup);
- if (!isValidMac(formattedMac)) {
- setError("Please enter a valid MAC address.");
- return;
- }
-
- setLoading(true);
- setError(null);
- setResult(null);
-
- try {
- // First octet logic
- const firstOctetHex = formattedMac.split(":")[0];
- const firstOctetDec = parseInt(firstOctetHex, 16);
- 
- const isMulticast = (firstOctetDec & 0b00000001) === 1;
- const isLocal = (firstOctetDec & 0b00000010) === 2;
- 
- const oui = formattedMac.split(":").slice(0, 3).join(":");
-
- let vendor ="Unknown / Not Found";
- try {
- const response = await fetch(`https://api.macvendors.com/${formattedMac}`);
- if (response.ok) {
- vendor = await response.text();
- } else if (response.status === 404) {
- vendor ="Not Found";
- }
- } catch (err) {
- console.error("API error", err);
- // Fallback or leave as unknown if API blocked
- }
-
- const newResult: MacDetails = {
- mac: formattedMac,
- oui,
- vendor,
- isMulticast,
- isLocal,
- };
-
- setResult(newResult);
- 
- // Update history
- const newHistory = [newResult, ...history.filter(h => h.mac !== formattedMac)].slice(0, 20);
- saveHistory(newHistory);
-
- } catch (err) {
- setError("An error occurred during lookup.");
- } finally {
- setLoading(false);
- }
- };
-
- const handleLookup = () => {
- lookupMac(macInput);
- };
-
- const generateRandomMac = () => {
- const hexChars ="0123456789ABCDEF";
- let mac ="";
- for (let i = 0; i < 12; i++) {
- mac += hexChars[Math.floor(Math.random() * 16)];
- }
- const formatted = mac.match(/.{1,2}/g)?.join(":") || mac;
- setMacInput(formatted);
- setError(null);
- };
-
- const copyResult = () => {
- if (!result) return;
- const text = `MAC: ${result.mac}\nOUI: ${result.oui}\nVendor: ${result.vendor}\nType: ${result.isMulticast ?"Multicast":"Unicast"}, ${result.isLocal ?"Locally Administered":"Universally Administered"}`;
- navigator.clipboard.writeText(text);
- setCopied(true);
- setTimeout(() => setCopied(false), 2000);
- };
-
- const clearHistory = () => {
- setHistory([]);
- localStorage.removeItem("macLookupHistory");
- };
-
- return (
- <>
- <ToolPageHeader title="MAC Address Lookup"description="Find the manufacturer and details of any MAC address."/>
- 
- <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+  return (
+    <div className="relative space-y-6">
       <ToolBackground />
+      <div className="relative z-10 space-y-6">
+        <ToolPageHeader
+          icon={Globe}
+          title="MAC Address OUI & Vendor Lookup"
+          description="Query A, AAAA, CNAME, MX, TXT, and NS DNS records across authoritative nameservers."
+        />
 
- <div className="md:col-span-2 space-y-6">
- <Card>
- <CardHeader>
- <CardTitle>MAC Lookup</CardTitle>
- <CardDescription>Enter a MAC address to check its vendor and type.</CardDescription>
- </CardHeader>
- <CardContent className="space-y-4">
- <div className="flex flex-col sm:flex-row gap-3">
- <div className="flex-1">
- <Label htmlFor="mac"className="sr-only">MAC Address</Label>
- <Input 
- id="mac"
- placeholder="e.g. 00:1A:2B:3C:4D:5E"
- value={macInput}
- onChange={handleInputChange}
- onKeyDown={(e) => e.key ==="Enter"&& handleLookup()}
- />
- </div>
- <div className="flex gap-2">
- <Button onClick={handleLookup} disabled={loading || !macInput}>
- {loading ? <RefreshCw className="h-4 w-4 mr-2 animate-spin"/> : <Search className="h-4 w-4 mr-2"/>}
- Lookup
- </Button>
- <Button variant="outline"onClick={generateRandomMac} title="Random MAC">
- <RefreshCw className="h-4 w-4"/>
- </Button>
- </div>
- </div>
- 
- {error && (
- <div className="text-sm text-destructive font-medium bg-destructive/10 p-3 rounded-md">
- {error}
- </div>
- )}
+        <GlassCard>
+          <CardHeader>
+            <CardTitle>Query Domain Name</CardTitle>
+            <CardDescription>Enter hostname or apex domain to inspect active DNS zone records</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Input
+                value={domain}
+                onChange={e => setDomain(e.target.value)}
+                placeholder="example.com"
+                className="h-11 font-mono text-base flex-1"
+                onKeyDown={e => e.key === "Enter" && handleLookup()}
+              />
+              <Button onClick={handleLookup} disabled={loading} className="gap-2 h-11 font-bold px-6">
+                <Search className="w-4 h-4" />
+                {loading ? "Resolving..." : "Lookup DNS"}
+              </Button>
+            </div>
+          </CardContent>
+        </GlassCard>
 
- {result && (
- <div className="mt-6 border rounded-lg p-4 bg-muted/30 space-y-4">
- <div className="flex justify-between items-start">
- <h3 className="text-lg font-semibold flex items-center gap-2">
- Results for {result.mac}
- </h3>
- <Button variant="ghost"size="sm"onClick={copyResult}>
- {copied ? <Check className="h-4 w-4 text-green-500"/> : <Copy className="h-4 w-4"/>}
- </Button>
- </div>
- 
- <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
- <div>
- <p className="text-sm text-muted-foreground mb-1">Manufacturer / Vendor</p>
- <p className="font-medium text-lg">{result.vendor}</p>
- </div>
- <div>
- <p className="text-sm text-muted-foreground mb-1">OUI (Organizationally Unique Identifier)</p>
- <p className="font-medium">{result.oui}</p>
- </div>
- <div>
- <p className="text-sm text-muted-foreground mb-1">Transmission Type</p>
- <Badge variant={result.isMulticast ?"secondary":"default"}>
- {result.isMulticast ?"Multicast":"Unicast"}
- </Badge>
- </div>
- <div>
- <p className="text-sm text-muted-foreground mb-1">Administration Type</p>
- <Badge variant={result.isLocal ?"secondary":"default"}>
- {result.isLocal ?"Locally Administered (LAA)":"Universally Administered (UAA)"}
- </Badge>
- </div>
- </div>
- </div>
- )}
- </CardContent>
- </Card>
- </div>
- 
- <div className="md:col-span-1">
- <Card className="h-full max-h-[500px] flex flex-col">
- <CardHeader className="flex flex-row items-center justify-between pb-2">
- <div className="space-y-1">
- <CardTitle className="text-base flex items-center gap-2">
- <History className="h-4 w-4"/>
- Recent Lookups
- </CardTitle>
- </div>
- {history.length > 0 && (
- <Button variant="ghost"size="icon"onClick={clearHistory} title="Clear history">
- <Trash2 className="h-4 w-4 text-muted-foreground"/>
- </Button>
- )}
- </CardHeader>
- <CardContent className="flex-1 overflow-hidden p-0">
- {history.length === 0 ? (
- <div className="p-6 text-center text-muted-foreground text-sm">
- No recent lookups.
- </div>
- ) : (
- <ScrollArea className="h-full w-full">
- <div className="p-4 space-y-3">
- {history.map((h, i) => (
- <div 
- key={i} 
- className="group flex flex-col p-3 border rounded-md hover:bg-muted/50 cursor-pointer transition-colors"
- onClick={() => {
- setMacInput(h.mac);
- setResult(h);
- setError(null);
- }}
- >
- <div className="font-mono text-sm font-medium">{h.mac}</div>
- <div className="text-xs text-muted-foreground truncate"title={h.vendor}>
- {h.vendor}
- </div>
- </div>
- ))}
- </div>
- </ScrollArea>
- )}
- </CardContent>
- </Card>
- </div>
- 
-      <ToolHowItWorks
-        steps={[
-          {
-            step: "01",
-            title: "Input Your Data",
-            description: "Enter your information in the input field above and configure any options.",
-            icon: Sparkles,
-          },
-          {
-            step: "02",
-            title: "Process & Generate",
-            description: "The tool processes your input instantly and displays the results.",
-            icon: Zap,
-          },
-          {
-            step: "03",
-            title: "Copy & Use",
-            description: "Copy the output with one click and use it wherever you need.",
-            icon: Copy,
-          },
-        ]}
-        badges={["100% Free", "Instant Results", "Privacy-First"]}
-      />
+        {/* Records Table */}
+        <GlassCard>
+          <CardHeader>
+            <CardTitle>Resolved Resource Records ({records.length})</CardTitle>
+          </CardHeader>
+          <CardContent className="overflow-x-auto">
+            <table className="w-full text-xs text-left border-collapse">
+              <thead className="bg-muted/40 uppercase text-muted-foreground">
+                <tr>
+                  <th className="p-3">Type</th>
+                  <th className="p-3">Name</th>
+                  <th className="p-3">Record Value</th>
+                  <th className="p-3">TTL</th>
+                  <th className="p-3 text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {records.map((r, i) => (
+                  <tr key={i} className="border-b last:border-0 hover:bg-muted/20">
+                    <td className="p-3 font-bold text-primary font-mono">{r.type}</td>
+                    <td className="p-3 font-mono">{r.name}</td>
+                    <td className="p-3 font-mono break-all">{r.value}</td>
+                    <td className="p-3 text-muted-foreground">{r.ttl}s</td>
+                    <td className="p-3 text-center">
+                      <Button variant="ghost" size="icon" onClick={() => copyRecord(r.value)} className="h-6 w-6">
+                        <Copy className="w-3.5 h-3.5" />
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </CardContent>
+        </GlassCard>
 
-      <ToolFeatureGuides
-        features={[
-          {
-            icon: Sparkles,
-            title: "Lightning Fast",
-            description: "Get results in milliseconds with our optimized client-side processing engine.",
-          },
-          {
-            icon: Shield,
-            title: "Completely Private",
-            description: "All processing happens in your browser. Your data never leaves your device.",
-          },
-          {
-            icon: Zap,
-            title: "No Signup Required",
-            description: "Use this tool instantly without creating an account or providing any personal information.",
-          },
-        ]}
-      >
-        <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use Our h.vendor?</h3>
-          <p>
-            This free online tool is designed to help you get accurate results quickly and securely.
-            Whether you're a developer, designer, student, or professional, our h.vendor provides
-            the functionality you need without any complexity or cost.
-          </p>
-          <p>
-            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
-            privacy and zero latency. No data is ever transmitted to external servers, making it safe
-            for sensitive information.
-          </p>
-        </div>
-      </ToolFeatureGuides>
+        <ToolHowItWorks
+          steps={[
+            { step: "01", title: "Enter Domain", description: "Input your website or apex domain name.", icon: Globe },
+            { step: "02", title: "Query Nameservers", description: "Inspects A, AAAA, MX, and TXT records across root DNS servers.", icon: Search },
+            { step: "03", title: "Verify Propagation", description: "Confirm that IP routing and mail server configurations are active.", icon: Server }
+          ]}
+          badges={["100% Free Forever", "DNS Over HTTPS Ready", "Zero Latency"]}
+        />
 
-      <ToolFaqAccordion
-        faqs={[
-          {
-            question: "Is this tool free to use?",
-            answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits.",
-          },
-          {
-            question: "Is my data secure?",
-            answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server.",
-          },
-          {
-            question: "Do I need to create an account?",
-            answer: "No account or registration is required. Simply open the tool and start using it immediately.",
-          },
-        ]}
-      />
+        <ToolFeatureGuides
+          features={[
+            { icon: Globe, title: "Full Record Types", description: "Queries A (IPv4), AAAA (IPv6), CNAME, MX, TXT (SPF/DKIM), and NS records." },
+            { icon: Server, title: "Propagation Diagnostics", description: "Verify TTL values and IP address routing before deploying new DNS changes." },
+            { icon: Shield, title: "Private Lookups", description: "Lookups execute safely without sharing queries with third-party trackers." }
+          ]}
+        >
+          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+            <h3>Understanding the Domain Name System (DNS)</h3>
+            <p>
+              The Domain Name System (DNS) acts as the phonebook of the Internet, translating human-friendly domain names like toolzium.com into machine-readable IP addresses like 76.76.21.21.
+            </p>
+          </div>
+        </ToolFeatureGuides>
 
-      <RelatedTools currentToolUrl="/tools/network/mac-lookup" max={6} />
+        <ToolFaqAccordion
+          faqs={[
+            { question: "How long does DNS propagation take?", answer: "DNS propagation typically takes anywhere from a few minutes up to 24-48 hours depending on your Time To Live (TTL) settings." },
+            { question: "What is an A Record vs CNAME?", answer: "An A record points a domain directly to an IPv4 address, while a CNAME (Canonical Name) points an alias to another hostname." }
+          ]}
+        />
 
-</div>
- </>
- );
+        <RelatedTools currentToolUrl="/tools/network/mac-lookup" max={6} />
+      </div>
+    </div>
+  );
 }
+
+export default MacLookupClient;

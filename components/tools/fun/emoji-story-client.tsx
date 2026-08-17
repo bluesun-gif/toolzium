@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo } from "react";
@@ -11,7 +14,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CopyButton } from "@/components/shared/action-buttons";
 import toast from "react-hot-toast";
-import { SmilePlus, Trash2 } from "lucide-react";
+import { SmilePlus, Trash2, Copy, Type } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -96,7 +99,10 @@ export default function EmojiStoryClient() {
     const regex = new RegExp(`\\b(${Object.keys(EMOJI_MAP).join('|')})\\b`, 'gi');
     return input.replace(regex, match => EMOJI_MAP[match.toLowerCase()]);
   }, [input]);
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={SmilePlus} title="Emoji Story Generator" description="Translate your sentences into fun emoji-filled stories instantly." />
@@ -180,7 +186,7 @@ export default function EmojiStoryClient() {
         question: "Can I use it for secret messages?",
         answer: "While fun, emoji translation is not a secure encryption method. Anyone can guess the original words based on context!"
       }]} />
-
- <RelatedTools currentToolUrl="/tools/fun/emoji-story" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

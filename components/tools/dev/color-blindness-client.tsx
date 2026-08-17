@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback, useEffect } from "react";
@@ -137,7 +138,10 @@ export default function ColorBlindnessClient() {
     question: "Does color blindness affect dark mode differently?",
     answer: "Yes, the perception of contrast shifts in dark mode for CVD users. Simulating your dark mode palette is equally critical, as low-light conditions can further reduce the ability to distinguish between subtle hue variations that rely heavily on blue or green channels."
   }];
-  return <div className="relative max-w-6xl mx-auto space-y-8 pb-12 px-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Eye} title="Color Blindness Simulator" description="Audit your UI accessibility by simulating how your colors appear to users with various forms of Color Vision Deficiency (CVD)." />
@@ -196,6 +200,7 @@ export default function ColorBlindnessClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={faqs} />
- <RelatedTools currentToolUrl="/tools/dev/color-blindness-simulator" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useRef, useEffect } from"react";
@@ -300,7 +303,7 @@ export default function ScreenRecorderClient() {
 
  </CardContent>
  </Card>
- </div>
+ 
  
       <ToolHowItWorks
         steps={[
@@ -376,9 +379,7 @@ export default function ScreenRecorderClient() {
           },
         ]}
       />
-
-      <RelatedTools currentToolUrl="/tools/util/screen-recorder" max={6} />
-
-</div>
- );
+    </div>
+    </div>
+);
 }

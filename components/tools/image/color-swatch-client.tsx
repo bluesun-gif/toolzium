@@ -1,4 +1,8 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -9,7 +13,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Copy, Download, Palette, Pipette, Upload } from"lucide-react";
+import { Copy, Download, Palette, Pipette, Upload, Grid } from "lucide-react";
 import { toast } from"react-hot-toast";
 
 type Color = {
@@ -130,7 +134,10 @@ export function ColorSwatchClient() {
     navigator.clipboard.writeText(text);
     toast.success("Copied to clipboard:" + text);
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Palette} title="Image Color Swatch Extractor" description="Extract prominent color palettes & swatches from any image." actions={<>
@@ -185,6 +192,8 @@ export function ColorSwatchClient() {
  </GlassCard>
  </div>
  
+</div>
+
 <ToolHowItWorks
   steps={[
 {
@@ -264,6 +273,8 @@ export function ColorSwatchClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+  );
 }
+
+export default ColorSwatchClient;

@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
-const nextConfig: any = { eslint: { ignoreDuringBuilds: true }, typescript: { ignoreBuildErrors: true },
+const nextConfig: any = {
+  typescript: { ignoreBuildErrors: true },
   serverExternalPackages: ["pino", "pino-pretty"],
   compress: true,
   images: {

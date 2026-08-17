@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useMemo } from "react";
@@ -183,7 +184,10 @@ export function PortReferenceClient() {
       return matchSearch && matchCat;
     });
   }, [search, category]);
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Globe} title="Port Number Reference" description="Searchable reference of common network ports and services." actions={<ResetButton onClick={() => {
@@ -306,8 +310,9 @@ export function PortReferenceClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/network/port-reference" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default PortReferenceClient;

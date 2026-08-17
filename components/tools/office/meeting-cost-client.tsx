@@ -1,31 +1,24 @@
 "use client";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-import React, { useState, useEffect, useMemo } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { Calculator, Clock, DollarSign, TrendingDown, Users } from"lucide-react";
-import { GlassCard } from"@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle } from"@/components/ui/card";
-import { Input } from"@/components/ui/input";
-import { Label } from"@/components/ui/label";
-import { Separator } from"@/components/ui/separator";
-import { Button } from"@/components/ui/button";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { DollarSign, Sparkles, Shield, Zap, Copy } from "lucide-react";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import { GridPattern } from "@/components/magicui/grid-pattern";
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { GlassCard } from "@/components/ui/glass-card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { CopyButton, ResetButton, ActionButton } from "@/components/shared/action-buttons";
+import { cn } from "@/lib/utils";
+import toast from "react-hot-toast";
+import { Calculator, Clock, DollarSign, TrendingDown, Users, Timer, Sparkles, Shield, Zap, Copy } from "lucide-react";
+
 export function MeetingCostClient() {
   const [attendees, setAttendees] = useState(5);
   const [avgSalary, setAvgSalary] = useState(100000);
@@ -58,7 +51,10 @@ export function MeetingCostClient() {
       netflix: Math.floor(totalCost / 15.49)
     };
   }, [totalCost]);
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Meeting Cost Calculator" description="Calculate the true financial cost of your meetings." icon={DollarSign} actions={<></>} />
@@ -139,6 +135,7 @@ export function MeetingCostClient() {
  </div>
  </div>
  
+
 <ToolHowItWorks
   steps={[
 {
@@ -218,6 +215,9 @@ export function MeetingCostClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default MeetingCostClient;

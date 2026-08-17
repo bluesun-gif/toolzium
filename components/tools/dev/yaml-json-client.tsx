@@ -1,7 +1,11 @@
 "use client";
+
+import { Switch } from "@/components/ui/switch";
+import { Tabs } from "@/components/ui/tabs";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
-import { Braces, Code2, Download, Info, Settings2, BookOpen, Shield, FileJson, Layers, ArrowLeftRight, Globe, Zap, AlignLeft } from "lucide-react";
+import { Braces, Code2, Download, Info, Settings2, BookOpen, Shield, FileJson, Layers, ArrowLeftRight, Globe, Zap, AlignLeft, Copy } from "lucide-react";
 import React from "react";
 import { ActionButton, CopyButton, ExportTextButton, ResetButton } from "@/components/shared/action-buttons";
 import InputField from "@/components/shared/form-fields/input-field";
@@ -210,7 +214,10 @@ endpoints:
     setYamlMultiDocs(false);
     setError(null);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="YAML ⇄ JSON" description="Convert YAML to JSON and back. Multi-doc YAML, pretty/minified JSON, sorting, and YAML flow style." icon={Code2} actions={<>
@@ -431,6 +438,7 @@ endpoints:
         question: "Is this converter safe for sensitive config files?",
         answer: "Yes. All conversion runs entirely in your browser using a JavaScript YAML parser. Your configuration files, environment variables, secrets, or API keys never leave your device — nothing is sent to any server."
       }]} />
- <RelatedTools currentToolUrl="/tools/dev/yaml-json" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

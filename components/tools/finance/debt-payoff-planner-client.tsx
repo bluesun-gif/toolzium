@@ -1,4 +1,8 @@
 "use client";
+
+import { Card } from "@/components/ui/card";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -90,7 +94,10 @@ export function DebtPayoffPlannerClient() {
     setExtraPayment(200);
   };
   const totalDebt = debts.reduce((s, d) => s + d.balance, 0);
-  return <div className={"space-y-6"}><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={DollarSign} title={"Debt Payoff Planner"} description={"Compare Debt Snowball vs Avalanche strategies to get debt-free faster."} actions={<div className={"flex space-x-2"}>
@@ -274,6 +281,9 @@ export function DebtPayoffPlannerClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default DebtPayoffPlannerClient;

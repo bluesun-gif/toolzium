@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -75,7 +77,10 @@ export function InvestmentReturnClient() {
       currency: 'USD'
     }).format(val);
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={TrendingUp} title="Investment Return Calculator" description="Calculate the future value of your investments with monthly contributions and compound interest." actions={<ResetButton onClick={handleReset} label="Reset" />} />
@@ -181,8 +186,10 @@ export function InvestmentReturnClient() {
  </div>
  </CardContent>
  </GlassCard>
- )}
+ }
+
  
+
 <ToolHowItWorks
   steps={[
 {
@@ -263,6 +270,9 @@ export function InvestmentReturnClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default InvestmentReturnClient;

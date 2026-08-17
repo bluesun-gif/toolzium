@@ -1,305 +1,245 @@
 "use client";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
-import { useState, useMemo } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
-import { Separator } from"@/components/ui/separator";
-import { Input } from"@/components/ui/input";
-import { Label } from"@/components/ui/label";
-import { Button } from"@/components/ui/button";
-import { CopyButton } from"@/components/shared/action-buttons";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { Calendar, Clock, Globe, ShieldCheck, Trash2, Users } from"lucide-react";
-import { cn } from"@/lib/utils";
+import React, { useState, useEffect } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ToolBackground } from "@/components/shared/tool-background";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { Users, Clock, Globe, Plus, Trash2, Calendar } from "lucide-react";
+import { cn } from "@/lib/utils";
+import toast from "react-hot-toast";
 
-type Participant = {
+interface Participant {
   id: string;
   name: string;
   timezone: string;
-};
-const commonTimezones = ["UTC", "America/New_York", "America/Chicago", "America/Denver", "America/Los_Angeles", "Europe/London", "Europe/Paris", "Asia/Kolkata", "Asia/Tokyo", "Australia/Sydney"];
+}
+
+const COMMON_TIMEZONES = [
+  "America/New_York",
+  "America/Chicago",
+  "America/Denver",
+  "America/Los_Angeles",
+  "Europe/London",
+  "Europe/Paris",
+  "Europe/Berlin",
+  "Asia/Tokyo",
+  "Asia/Singapore",
+  "Asia/Dubai",
+  "Australia/Sydney",
+  "Pacific/Auckland"
+];
+
 export function MeetingPlannerClient() {
-  const [participants, setParticipants] = useState<Participant[]>([{
-    id: "1",
-    name: "Me",
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
-  }, {
-    id: "2",
-    name: "Client",
-    timezone: "Europe/London"
-  }]);
+  const [participants, setParticipants] = useState<Participant[]>([
+    { id: "1", name: "You (Host)", timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || "America/New_York" },
+    { id: "2", name: "London Office", timezone: "Europe/London" },
+    { id: "3", name: "Tokyo Team", timezone: "Asia/Tokyo" }
+  ]);
   const [newName, setNewName] = useState("");
-  const [newTz, setNewTz] = useState("UTC");
+  const [newTz, setNewTz] = useState("America/New_York");
+  const [baseDate] = useState(new Date());
+
   const addParticipant = () => {
-    if (newName && newTz) {
-      setParticipants([...participants, {
-        id: Math.random().toString(),
-        name: newName,
-        timezone: newTz
-      }]);
-      setNewName("");
+    if (!newName.trim()) {
+      toast.error("Please enter participant name.");
+      return;
     }
+    setParticipants([
+      ...participants,
+      { id: Date.now().toString(), name: newName.trim(), timezone: newTz }
+    ]);
+    setNewName("");
+    toast.success("Added participant!");
   };
+
   const removeParticipant = (id: string) => {
+    if (participants.length <= 1) {
+      toast.error("Must have at least one participant.");
+      return;
+    }
     setParticipants(participants.filter(p => p.id !== id));
   };
-  const hours = Array.from({
-    length: 24
-  }, (_, i) => i);
 
-  // Helper to format hour in specific timezone
-  const getHourInTz = (utcHour: number, timezone: string) => {
-    const today = new Date();
-    today.setUTCHours(utcHour, 0, 0, 0);
-    const formatter = new Intl.DateTimeFormat('en-US', {
-      hour: 'numeric',
-      hour12: false,
-      timeZone: timezone
+  const getHourInTz = (utcHour: number, tz: string) => {
+    const d = new Date(baseDate);
+    d.setUTCHours(utcHour, 0, 0, 0);
+    const formatter = new Intl.DateTimeFormat("en-US", {
+      timeZone: tz,
+      hour: "numeric",
+      hour12: true
     });
-    const formatted = formatter.format(today);
-    const numericHour = parseInt(formatted);
-    // Is it working hours? (9 to 17)
-    const isWorkingHours = numericHour >= 9 && numericHour < 17;
+    const hour24Formatter = new Intl.DateTimeFormat("en-US", {
+      timeZone: tz,
+      hour: "numeric",
+      hour12: false
+    });
+    const hourNum = parseInt(hour24Formatter.format(d), 10);
+    const isWorkingHours = hourNum >= 9 && hourNum < 18;
     return {
-      hour: numericHour,
-      label: `${numericHour}:00`,
+      hour: formatter.format(d),
       isWorkingHours
     };
   };
-  const generateInviteText = () => {
-    let text = "Meeting Availability Proposal:\n\n";
-    text += "We can meet at one of these times:\n";
-    // suggest best time based on first participant's 9am
-    participants.forEach(p => {
-      text += `- ${p.name}: ${getHourInTz(14, p.timezone).label} (${p.timezone})\n`;
-    });
-    return text;
-  };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
-      
 
- <ToolPageHeader icon={Clock} title="Time Zone Meeting Planner" description="Find overlapping working hours across multiple time zones." actions={<CopyButton getText={generateInviteText} label="Copy Invite" />} />
- 
- <div className="grid gap-6 md:grid-cols-3">
- <GlassCard className="md:col-span-1">
- <CardHeader>
- <CardTitle>Participants</CardTitle>
- <CardDescription>Add people and their timezones</CardDescription>
- </CardHeader>
- <CardContent className="space-y-4">
- <div className="space-y-2">
- <Label>Name</Label>
- <Input value={newName} onChange={e => setNewName(e.target.value)} placeholder="e.g. Alice" />
- </div>
- <div className="space-y-2">
- <Label>Timezone</Label>
- <Select value={newTz} onValueChange={setNewTz}>
- <SelectTrigger><SelectValue /></SelectTrigger>
- <SelectContent>
- {commonTimezones.map(tz => <SelectItem key={tz} value={tz}>{tz}</SelectItem>)}
- </SelectContent>
- </Select>
- </div>
- <Button onClick={addParticipant} className="w-full" disabled={!newName}>Add Participant</Button>
- 
- <Separator className="my-4" />
- 
- <div className="space-y-3">
- {participants.map(p => <div key={p.id} className="flex items-center justify-between bg-muted/50 p-2 rounded-md">
- <div>
- <div className="font-medium text-sm">{p.name}</div>
- <div className="text-xs text-muted-foreground">{p.timezone}</div>
- </div>
- {participants.length > 1 && <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => removeParticipant(p.id)}>
- <Trash2 className="h-4 w-4" />
- </Button>}
- </div>)}
- </div>
- </CardContent>
- </GlassCard>
- 
- <GlassCard className="md:col-span-2 overflow-x-auto">
- <CardHeader>
- <CardTitle>Availability Grid</CardTitle>
- <CardDescription>Green indicates overlapping working hours (9 AM - 5 PM)</CardDescription>
- </CardHeader>
- <CardContent>
- <div className="min-w-[600px]">
- <table className="w-full text-xs text-center border-collapse">
- <thead>
- <tr>
- <th className="text-left p-2 border-b w-32">Participant</th>
- {hours.map(h => <th key={h} className="p-1 border-b font-normal text-muted-foreground">
- {h.toString().padStart(2, '0')}
- </th>)}
- </tr>
- </thead>
- <tbody>
- {participants.map(p => <tr key={p.id}>
- <td className="text-left p-2 font-medium border-b truncate" title={p.name}>{p.name}</td>
- {hours.map(h => {
-                      const {
-                        hour,
-                        label,
-                        isWorkingHours
-                      } = getHourInTz(h, p.timezone);
-                      return <td key={h} className="p-1 border-b border-l border-r first:border-l-0 last:border-r-0 relative">
- <div className={cn("h-8 rounded-sm flex items-center justify-center font-medium", isWorkingHours ? "bg-green-500/20 text-green-700 dark:text-green-400" : "bg-muted text-muted-foreground/50")} title={`${label} in ${p.timezone}`}>
- {hour}
- 
-<ToolHowItWorks
-  steps={[
-{
-    step:"01",
-    title:"Add Zones",
-    description:"Pick participant cities.",
-    icon: Globe,
-  },
-{
-    step:"02",
-    title:"Set Time",
-    description:"Choose a candidate slot.",
-    icon: Clock,
-  },
-{
-    step:"03",
-    title:"Compare",
-    description:"See local times for all.",
-    icon: Users,
-  }
-  ]}
-  badges={["Free Forever","No Signup","Instant Results"]}
-/>
+  const hours = Array.from({ length: 24 }, (_, i) => i);
 
-<ToolFeatureGuides
-  features={[
-{
-    icon: Globe,
-    title:"Zones",
-    description:"Multiple cities.",
-  },
-{
-    icon: Clock,
-    title:"Slot",
-    description:"Candidate time.",
-  },
-{
-    icon: Users,
-    title:"Compare",
-    description:"All local times.",
-  },
-{
-    icon: ShieldCheck,
-    title:"Avoid",
-    description:"Flags odd hours.",
-  }
-  ]}
->
-  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-  <p>A time zone meeting planner shows a candidate meeting time in every participant's local zone, preventing the classic 3am invite. Adding cities and a slot reveals who gets a reasonable hour. This tool compares them at once.</p>
-  <p>Flagging antisocial hours protects team wellbeing and attendance. The planner makes global coordination painless.</p>
-  <p>Use it before scheduling across regions. The tool's value is fair, visible multi-zone timing.</p>
-  </div>
-</ToolFeatureGuides>
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
+        <ToolPageHeader
+          icon={Users}
+          title="World Meeting Planner"
+          description="Find the perfect overlapping meeting time across multiple global time zones with green working-hour highlights."
+        />
 
-<ToolFaqAccordion
-  faqs={[
-{
-    question:"Why use one?",
-    answer:"Avoid 3am invites.",
-  },
-{
-    question:"Many zones?",
-    answer:"Add several.",
-  },
-{
-    question:"Free?",
-    answer:"Yes.",
-  },
-{
-    question:"Private?",
-    answer:"Local.",
-  },
-{
-    question:"Use case?",
-    answer:"Remote teams.",
-  }
-  ]}
-/>
-</div>
- </td>
- );
- })}
- </tr>
- ))}
- </tbody>
- </table>
- </div>
- </CardContent>
- </GlassCard>
- </div>
- 
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+        {/* Add Participant */}
+        <GlassCard>
+          <CardHeader>
+            <CardTitle>Add Team Member or Location</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <Label>Name / Location</Label>
+                <Input
+                  placeholder="e.g. Sarah (Design Lead)"
+                  value={newName}
+                  onChange={e => setNewName(e.target.value)}
+                />
+              </div>
+              <div>
+                <Label>Time Zone</Label>
+                <Select value={newTz} onValueChange={setNewTz}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    {COMMON_TIMEZONES.map(tz => (
+                      <SelectItem key={tz} value={tz}>{tz.replace("_", " ")}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex items-end">
+                <Button onClick={addParticipant} className="w-full">
+                  <Plus className="w-4 h-4 mr-2" /> Add Participant
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </GlassCard>
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
-        <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use Our p.name?</h3>
-          <p>
-            This free online tool is designed to help you get accurate results quickly and securely.
-            Whether you're a developer, designer, student, or professional, our p.name provides
-            the functionality you need without any complexity or cost.
-          </p>
-          <p>
-            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
-            privacy and zero latency. No data is ever transmitted to external servers, making it safe
-            for sensitive information.
-          </p>
-        </div>
-      </ToolFeatureGuides>
+        {/* Timeline Matrix */}
+        <GlassCard>
+          <CardHeader>
+            <CardTitle>Global 24-Hour Overlap Grid</CardTitle>
+            <CardDescription>
+              Green slots indicate normal business hours (9:00 AM – 6:00 PM) for each participant.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="overflow-x-auto">
+            <div className="min-w-[900px]">
+              <table className="w-full border-collapse text-xs text-center">
+                <thead>
+                  <tr className="bg-muted/50">
+                    <th className="p-2 text-left border-b w-44">Participant</th>
+                    {hours.map(h => (
+                      <th key={h} className="p-1 border-b border-l font-mono text-[10px]">
+                        {h}:00 UTC
+                      </th>
+                    ))}
+                    <th className="p-2 border-b w-12">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {participants.map(p => (
+                    <tr key={p.id} className="hover:bg-muted/20">
+                      <td className="p-2 text-left font-semibold border-b">
+                        <div className="truncate max-w-[160px]">{p.name}</div>
+                        <div className="text-[10px] text-muted-foreground font-normal">{p.timezone}</div>
+                      </td>
+                      {hours.map(h => {
+                        const { hour, isWorkingHours } = getHourInTz(h, p.timezone);
+                        return (
+                          <td key={h} className="p-1 border-b border-l">
+                            <div
+                              className={cn(
+                                "h-8 rounded flex items-center justify-center font-medium",
+                                isWorkingHours
+                                  ? "bg-green-500/20 text-green-700 dark:text-green-400 font-bold"
+                                  : "bg-muted/30 text-muted-foreground/50"
+                              )}
+                            >
+                              {hour}
+                            </div>
+                          </td>
+                        );
+                      })}
+                      <td className="p-2 border-b text-center">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => removeParticipant(p.id)}
+                          className="h-7 w-7 text-muted-foreground hover:text-destructive"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </GlassCard>
 
-      <ToolFaqAccordion faqs={[{
-        question: "Is this tool free to use?",
-        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-      }, {
-        question: "Is my data secure?",
-        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-      }, {
-        question: "Do I need to create an account?",
-        answer: "No account or registration is required. Simply open the tool and start using it immediately."
-      }]} />
+        <ToolHowItWorks
+          steps={[
+            { step: "01", title: "Add Locations", description: "Enter all participants along with their respective local time zones.", icon: Users },
+            { step: "02", title: "Identify Overlaps", description: "Scan the 24-hour grid for columns where all rows show green working hours.", icon: Globe },
+            { step: "03", title: "Schedule Event", description: "Select the optimal UTC hour that accommodates everyone fairly.", icon: Calendar }
+          ]}
+          badges={["100% Free Forever", "Automatic DST Handling", "Zero Latency Browser Engine"]}
+        />
 
-      <RelatedTools currentToolUrl="/tools/time/meeting-planner" max={6} />
+        <ToolFeatureGuides
+          features={[
+            { icon: Globe, title: "Worldwide Time Zones", description: "Supports standard IANA time zones with automatic daylight saving calculations." },
+            { icon: Users, title: "Multi-Person Matrix", description: "Add as many team members or regional offices as needed to compare schedules." },
+            { icon: Clock, title: "Working Hour Highlights", description: "Automatically colors business hours (9 AM – 6 PM) green for rapid scanning." },
+            { icon: Calendar, title: "UTC Normalized Axis", description: "Universal 24-hour UTC reference line ensures precise coordinate matching." }
+          ]}
+        >
+          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+            <h3>Coordinating Distributed Teams Across Global Boundaries</h3>
+            <p>
+              In modern distributed organizations, coordinating real-time meetings across San Francisco, London, Tokyo, and Sydney is a daily operational challenge. Converting time differences manually often leads to missed calls, scheduling conflicts, or requiring participants to join during inconvenient sleeping hours.
+            </p>
+            <p>
+              The Toolzium World Meeting Planner normalizes time zones onto a synchronous 24-hour UTC timeline. By visually illuminating the working hours of each participant, organizers can immediately locate fair overlapping windows or balance rotational meeting slots across sprints.
+            </p>
+          </div>
+        </ToolFeatureGuides>
 
-    </div></div>;
+        <ToolFaqAccordion
+          faqs={[
+            { question: "How does the tool handle Daylight Saving Time (DST)?", answer: "The tool uses the browser's native Intl.DateTimeFormat API with official IANA time zone rules, automatically adjusting for seasonal daylight saving shifts." },
+            { question: "Is there a limit on how many participants I can add?", answer: "No limit. You can add as many team members and international hubs as your project requires." },
+            { question: "Is my meeting data private?", answer: "Yes! All time calculations execute entirely inside your local web browser. No participant names or locations are sent to external servers." }
+          ]}
+        />
+    </div>
+    </div>
+  );
 }
+
+export default MeetingPlannerClient;

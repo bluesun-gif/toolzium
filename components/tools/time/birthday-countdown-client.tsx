@@ -1,7 +1,9 @@
 "use client";
+
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
+import { ToolBackground } from "@/components/shared/tool-background";
 
 import React, { useState, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
@@ -11,7 +13,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { Cake, CalendarDays, CalendarHeart, Clock, Star, Timer } from"lucide-react";
+import { Cake, CalendarDays, CalendarHeart, Clock, Star, Timer, Calendar } from "lucide-react";
 import { toast } from"react-hot-toast";
 
 interface Countdown {
@@ -121,7 +123,10 @@ export function BirthdayCountdownClient() {
     setBirthday("");
     localStorage.removeItem("tz_birthday");
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10">
       
 
  <ToolPageHeader icon={Cake} title="Birthday Countdown" description="Set your birthday and see a live countdown to your next birthday along with fun facts." actions={<>
@@ -309,6 +314,9 @@ export function BirthdayCountdownClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default BirthdayCountdownClient;

@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -7,7 +9,7 @@ import React, { useState } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
 import { GlassCard } from"@/components/ui/glass-card";
 import { Input } from"@/components/ui/input";
-import { Activity, DollarSign, LineChart, TrendingDown, TrendingUp, Users } from"lucide-react";
+import { Activity, DollarSign, LineChart, TrendingDown, TrendingUp, Users, Calculator } from "lucide-react";
 
 export default function MrrChurnClient() {
   const [startingMrr, setStartingMrr] = useState<number>(10000);
@@ -20,7 +22,10 @@ export default function MrrChurnClient() {
   const arr = endingMrr * 12;
   const arpu = activeCustomers > 0 ? (endingMrr / activeCustomers).toFixed(2) : "0.00";
   const churnRate = startingMrr > 0 ? (churnedMrr / startingMrr * 100).toFixed(2) : "0.00";
-  return <div className="relative space-y-6 max-w-4xl mx-auto px-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={TrendingUp} title="SaaS Monthly Recurring Revenue (MRR) & Churn Rate Calculator" description="Calculate SaaS metrics: Net MRR Growth, ARR, Churn Rate %, ARPU, and LTV metrics." />
@@ -157,6 +162,7 @@ export default function MrrChurnClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }

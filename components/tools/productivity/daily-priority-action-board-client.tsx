@@ -1,321 +1,196 @@
 "use client";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
-import React, { useState, useEffect } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle } from"@/components/ui/card";
-import { Button } from"@/components/ui/button";
-import { Input } from"@/components/ui/input";
-import { Label } from"@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { ArrowDownWideNarrow, Calendar, CheckCircle2, CheckSquare, Download, ListPlus, Plus, Trash2 } from"lucide-react";
-import { CopyButton, ActionButton } from"@/components/shared/action-buttons";
-import toast from"react-hot-toast";
+import React, { useState } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ToolBackground } from "@/components/shared/tool-background";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { CheckSquare, Plus, Trash2, ArrowRight, Sparkles, Shield, Zap, Flame, Clock, Users, Ban } from "lucide-react";
+import { cn } from "@/lib/utils";
+import toast from "react-hot-toast";
 
-type Priority ="do-first"|"schedule"|"delegate"|"eliminate";
+type QuadrantId = 1 | 2 | 3 | 4;
 
 interface Task {
   id: string;
-  title: string;
-  targetTime: string;
-  owner: string;
-  category: string;
-  priority: Priority;
-  completed: boolean;
+  text: string;
+  quadrant: QuadrantId;
 }
+
+const QUADRANTS = [
+  { id: 1 as QuadrantId, name: "Do First", desc: "Urgent & Important (Crises, Deadlines)", color: "border-red-500/40 bg-red-500/10 text-red-700 dark:text-red-400", icon: Flame },
+  { id: 2 as QuadrantId, name: "Schedule", desc: "Not Urgent but Important (Strategy, Growth)", color: "border-blue-500/40 bg-blue-500/10 text-blue-700 dark:text-blue-400", icon: Clock },
+  { id: 3 as QuadrantId, name: "Delegate", desc: "Urgent but Not Important (Interruptions)", color: "border-yellow-500/40 bg-yellow-500/10 text-yellow-700 dark:text-yellow-400", icon: Users },
+  { id: 4 as QuadrantId, name: "Eliminate", desc: "Neither Urgent nor Important (Distractions)", color: "border-zinc-500/40 bg-zinc-500/10 text-zinc-600 dark:text-zinc-400", icon: Ban }
+];
+
 export function DailyPriorityActionBoardClient() {
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [newTaskTitle, setNewTaskTitle] = useState("");
-  const [newTaskTime, setNewTaskTime] = useState("");
-  const [newTaskOwner, setNewTaskOwner] = useState("");
-  const [newTaskCategory, setNewTaskCategory] = useState("");
-  const [newTaskPriority, setNewTaskPriority] = useState<Priority>("do-first");
-  useEffect(() => {
-    const saved = localStorage.getItem("dailyPriorityTasks");
-    if (saved) {
-      try {
-        setTasks(JSON.parse(saved));
-      } catch (e) {
-        // ignore
-      }
-    }
-  }, []);
-  const saveTasks = (newTasks: Task[]) => {
-    setTasks(newTasks);
-    localStorage.setItem("dailyPriorityTasks", JSON.stringify(newTasks));
-  };
+  const [tasks, setTasks] = useState<Task[]>([
+    { id: "1", text: "Submit quarterly tax filing", quadrant: 1 },
+    { id: "2", text: "Design 2026 product roadmap", quadrant: 2 },
+    { id: "3", text: "Book flight tickets for conference", quadrant: 3 },
+    { id: "4", text: "Scroll random social media feeds", quadrant: 4 }
+  ]);
+  const [newTask, setNewTask] = useState("");
+  const [targetQuad, setTargetQuad] = useState<QuadrantId>(1);
+
   const addTask = () => {
-    if (!newTaskTitle.trim()) {
-      toast.error("Task title is required");
+    if (!newTask.trim()) {
+      toast.error("Please enter a task title.");
       return;
     }
-    const newTask: Task = {
-      id: Date.now().toString(),
-      title: newTaskTitle,
-      targetTime: newTaskTime,
-      owner: newTaskOwner,
-      category: newTaskCategory,
-      priority: newTaskPriority,
-      completed: false
-    };
-    saveTasks([...tasks, newTask]);
-    setNewTaskTitle("");
-    setNewTaskTime("");
-    setNewTaskOwner("");
-    setNewTaskCategory("");
-    toast.success("Task added");
+    setTasks([...tasks, { id: Date.now().toString(), text: newTask.trim(), quadrant: targetQuad }]);
+    setNewTask("");
+    toast.success("Added task to matrix!");
   };
-  const toggleTask = (id: string) => {
-    const newTasks = tasks.map(t => t.id === id ? {
-      ...t,
-      completed: !t.completed
-    } : t);
-    saveTasks(newTasks);
-  };
+
   const deleteTask = (id: string) => {
-    const newTasks = tasks.filter(t => t.id !== id);
-    saveTasks(newTasks);
+    setTasks(tasks.filter(t => t.id !== id));
   };
-  const getExportMarkdown = () => {
-    let md = "# Daily Priority Task Board\n\n";
-    const buckets: {
-      key: Priority;
-      label: string;
-    }[] = [{
-      key: "do-first",
-      label: "Do First (Urgent & Important)"
-    }, {
-      key: "schedule",
-      label: "Schedule Later (Not Urgent & Important)"
-    }, {
-      key: "delegate",
-      label: "Delegate (Urgent & Not Important)"
-    }, {
-      key: "eliminate",
-      label: "Eliminate (Not Urgent & Not Important)"
-    }];
-    buckets.forEach(bucket => {
-      md += "##" + bucket.label + "\n";
-      const bucketTasks = tasks.filter(t => t.priority === bucket.key);
-      if (bucketTasks.length === 0) {
-        md += "_No tasks_\n\n";
-      } else {
-        bucketTasks.forEach(t => {
-          md += "- [" + (t.completed ? "x" : "") + "]" + t.title + "";
-          const tags = [];
-          if (t.targetTime) tags.push("Time:" + t.targetTime);
-          if (t.owner) tags.push("Owner:" + t.owner);
-          if (t.category) tags.push("Cat:" + t.category);
-          if (tags.length > 0) md += "(" + tags.join(",") + ")";
-          md += "\n";
-        });
-        md += "\n";
-      }
-    });
-    return md;
+
+  const moveTask = (id: string, quad: QuadrantId) => {
+    setTasks(tasks.map(t => t.id === id ? { ...t, quadrant: quad } : t));
+    toast.success("Moved task!");
   };
-  const downloadMarkdown = () => {
-    const blob = new Blob([getExportMarkdown()], {
-      type: "text/markdown"
-    });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "priority-tasks.md";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    toast.success("Exported as Markdown");
-  };
-  const renderBucket = (priority: Priority, title: string, colorClass: string, bgClass: string) => {
-    const bucketTasks = tasks.filter(t => t.priority === priority);
-    const completedCount = bucketTasks.filter(t => t.completed).length;
-    const progress = bucketTasks.length === 0 ? 0 : completedCount / bucketTasks.length * 100;
-    return <GlassCard className={cn("h-full flex flex-col", bgClass)}>
- <CardHeader className="pb-2">
- <CardTitle className={cn("text-lg flex justify-between items-center", colorClass)}>
- <span>{title}</span>
- <span className="text-sm font-normal text-muted-foreground">{completedCount}/{bucketTasks.length}</span>
- </CardTitle>
- <div className="w-full bg-secondary h-2 rounded-full overflow-hidden mt-2">
+
+  return (
+    <div className="relative space-y-6">
       <ToolBackground />
+      <div className="relative z-10 space-y-6">
+        <ToolPageHeader
+          icon={CheckSquare}
+          title="Daily Priority Action Board"
+          description="Organize tasks into 4 actionable quadrants by Urgency and Importance for maximum productivity."
+        />
 
- <div className={cn("h-full transition-all duration-300", colorClass.replace("text-", "bg-"))} style={{
-            width: progress + "%"
-          }} />
- </div>
- </CardHeader>
- <CardContent className="flex-1 overflow-auto max-h-[300px] space-y-2">
- {bucketTasks.length === 0 ? <div className="text-sm text-muted-foreground text-center py-4">No tasks</div> : bucketTasks.map(t => <div key={t.id} className="flex items-start gap-2 bg-background/50 p-2 rounded-md border text-sm group">
- <Button onClick={() => toggleTask(t.id)} className={cn(cn("mt-0.5 flex-shrink-0 w-4 h-4 rounded-sm border flex items-center justify-center", t.completed ? "bg-primary border-primary text-primary-foreground" : "border-muted-foreground"))}>
- {t.completed && <CheckSquare className="w-3 h-3" />}
- </Button>
- <div className="flex-1 min-w-0">
- <div className={cn("font-medium transition-all", t.completed ? "line-through text-muted-foreground" : "")}>
- {t.title}
- </div>
- <div className="flex flex-wrap gap-1 mt-1">
- {t.targetTime && <span className="text-[10px] bg-secondary px-1.5 py-0.5 rounded text-secondary-foreground">{t.targetTime}</span>}
- {t.owner && <span className="text-[10px] bg-secondary px-1.5 py-0.5 rounded text-secondary-foreground">{t.owner}</span>}
- {t.category && <span className="text-[10px] bg-secondary px-1.5 py-0.5 rounded text-secondary-foreground">{t.category}</span>}
- </div>
- </div>
- <Button onClick={() => deleteTask(t.id)} className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-destructive transition-opacity">
- <Trash2 className="w-4 h-4" />
- </Button>
- </div>)}
- </CardContent>
- </GlassCard>;
-  };
-  const totalTasks = tasks.length;
-  const totalCompleted = tasks.filter(t => t.completed).length;
-  const overallProgress = totalTasks === 0 ? 0 : Math.round(totalCompleted / totalTasks * 100);
-  return <div className="relative space-y-6">
- <ToolPageHeader icon={CheckSquare} title="Daily Priority Action Board" description="Organize your day using the Eisenhower Matrix method." actions={<div className="flex space-x-2">
- <CopyButton getText={getExportMarkdown} label="Copy Markdown" />
- <ActionButton onClick={downloadMarkdown} icon={Download} label="Export" />
- </div>} />
+        {/* Quick Add Task */}
+        <GlassCard>
+          <CardHeader>
+            <CardTitle>Add New Action Item</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Input
+                value={newTask}
+                onChange={e => setNewTask(e.target.value)}
+                placeholder="e.g. Prepare client proposal..."
+                className="flex-1"
+                onKeyDown={e => e.key === "Enter" && addTask()}
+              />
+              <select
+                value={targetQuad}
+                onChange={e => setTargetQuad(Number(e.target.value) as QuadrantId)}
+                className="h-10 px-3 rounded-md border bg-background text-sm"
+              >
+                {QUADRANTS.map(q => (
+                  <option key={q.id} value={q.id}>Q{q.id}: {q.name}</option>
+                ))}
+              </select>
+              <Button onClick={addTask}>
+                <Plus className="w-4 h-4 mr-2" /> Add Task
+              </Button>
+            </div>
+          </CardContent>
+        </GlassCard>
 
- <GlassCard>
- <CardContent className="pt-6">
- <div className="flex flex-col md:flex-row gap-4 items-end">
- <div className="flex-1 space-y-2 w-full">
- <Label>New Task Title</Label>
- <Input value={newTaskTitle} onChange={e => setNewTaskTitle(e.target.value)} placeholder="What needs to be done?" onKeyDown={e => e.key === "Enter" && addTask()} />
- </div>
- <div className="w-full md:w-32 space-y-2">
- <Label>Priority</Label>
- <Select value={newTaskPriority} onValueChange={(val: Priority) => setNewTaskPriority(val)}>
- <SelectTrigger><SelectValue /></SelectTrigger>
- <SelectContent>
- <SelectItem value="do-first">Do First</SelectItem>
- <SelectItem value="schedule">Schedule</SelectItem>
- <SelectItem value="delegate">Delegate</SelectItem>
- <SelectItem value="eliminate">Eliminate</SelectItem>
- </SelectContent>
- </Select>
- </div>
- <div className="w-full md:w-24 space-y-2">
- <Label>Time</Label>
- <Input value={newTaskTime} onChange={e => setNewTaskTime(e.target.value)} placeholder="e.g. 10:00" />
- </div>
- <div className="w-full md:w-24 space-y-2">
- <Label>Owner</Label>
- <Input value={newTaskOwner} onChange={e => setNewTaskOwner(e.target.value)} placeholder="Who?" />
- </div>
- <div className="w-full md:w-24 space-y-2">
- <Label>Category</Label>
- <Input value={newTaskCategory} onChange={e => setNewTaskCategory(e.target.value)} placeholder="Tag" />
- </div>
- <Button onClick={addTask} className="w-full md:w-auto"><Plus className="w-4 h-4 mr-2" /> Add</Button>
- </div>
- </CardContent>
- </GlassCard>
+        {/* 4 Quadrants Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {QUADRANTS.map(q => {
+            const quadTasks = tasks.filter(t => t.quadrant === q.id);
+            const Icon = q.icon;
+            return (
+              <GlassCard key={q.id} className={cn("border-2", q.color)}>
+                <CardHeader>
+                  <div className="flex justify-between items-center">
+                    <CardTitle className="flex items-center gap-2 text-base">
+                      <Icon className="w-4 h-4" /> Q{q.id}: {q.name} ({quadTasks.length})
+                    </CardTitle>
+                  </div>
+                  <CardDescription className="text-xs">{q.desc}</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-2 min-h-[160px]">
+                  {quadTasks.length === 0 ? (
+                    <p className="text-xs text-muted-foreground py-6 text-center italic">No tasks in this quadrant</p>
+                  ) : (
+                    quadTasks.map(t => (
+                      <div
+                        key={t.id}
+                        className="p-3 rounded-lg border bg-background/80 flex flex-col gap-2 shadow-xs"
+                      >
+                        <div className="flex justify-between items-start gap-2">
+                          <span className="text-sm font-medium text-foreground">{t.text}</span>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => deleteTask(t.id)}
+                            className="h-6 w-6 text-muted-foreground hover:text-destructive shrink-0"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </Button>
+                        </div>
+                        <div className="flex gap-1 flex-wrap pt-1 border-t border-border/40">
+                          {QUADRANTS.filter(target => target.id !== q.id).map(target => (
+                            <button
+                              key={target.id}
+                              onClick={() => moveTask(t.id, target.id)}
+                              className="text-[10px] text-muted-foreground hover:text-primary px-1.5 py-0.5 rounded bg-muted/60 hover:bg-muted transition-colors"
+                            >
+                              → Q{target.id} {target.name}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </CardContent>
+              </GlassCard>
+            );
+          })}
+        </div>
 
- <div className="flex items-center gap-4">
- <div className="flex-1">
- <div className="flex justify-between mb-1">
- <span className="text-sm font-medium">Daily Progress</span>
- <span className="text-sm text-muted-foreground">{overallProgress}%</span>
- </div>
- <div className="w-full bg-secondary h-2.5 rounded-full overflow-hidden">
- <div className="h-full bg-primary transition-all duration-500" style={{
-            width: overallProgress + "%"
-          }} />
- </div>
- </div>
- </div>
+        <ToolHowItWorks
+          steps={[
+            { step: "01", title: "Capture Tasks", description: "List all pending responsibilities and obligations.", icon: CheckSquare },
+            { step: "02", title: "Categorize Urgency", description: "Sort items into Do First (Q1), Schedule (Q2), Delegate (Q3), or Eliminate (Q4).", icon: Sparkles },
+            { step: "03", title: "Focus on Q2", description: "Maximize high-leverage growth by investing regular time into non-urgent strategic goals.", icon: Shield }
+          ]}
+          badges={["100% Free Forever", "Stephen Covey Framework", "Private Local Storage"]}
+        />
 
- <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
- {renderBucket("do-first", "Do First (Urgent & Important)", "text-red-500", "bg-red-500/5")}
- {renderBucket("schedule", "Schedule Later (Not Urgent, Important)", "text-primary", "bg-blue-500/5")}
- {renderBucket("delegate", "Delegate (Urgent, Not Important)", "text-amber-500", "bg-amber-500/5")}
- {renderBucket("eliminate", "Eliminate (Not Urgent, Not Important)", "text-muted-foreground dark:text-gray-400", "bg-gray-500/5")}
- </div>
- 
-<ToolHowItWorks
-  steps={[
-{
-    step:"01",
-    title:"List Tasks",
-    description:"Add today's tasks.",
-    icon: ListPlus,
-  },
-{
-    step:"02",
-    title:"Rank",
-    description:"Order by importance.",
-    icon: ArrowDownWideNarrow,
-  },
-{
-    step:"03",
-    title:"Act",
-    description:"Work top-down.",
-    icon: CheckCircle2,
-  }
-  ]}
-  badges={["Free Forever","No Signup","Instant Results"]}
-/>
+        <ToolFeatureGuides
+          features={[
+            { icon: Flame, title: "Q1 Do First", description: "High urgency and high importance items requiring immediate crisis intervention." },
+            { icon: Clock, title: "Q2 Schedule", description: "Strategic initiatives that create exponential long-term returns." },
+            { icon: Users, title: "Q3 Delegate", description: "Urgent operational tasks that should be handed off or automated." },
+            { icon: Ban, title: "Q4 Eliminate", description: "Low-value time wasters and distractions to discard entirely." }
+          ]}
+        >
+          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+            <h3>Mastering Time Management with the Eisenhower Matrix</h3>
+            <p>
+              Popularized by President Dwight D. Eisenhower and Dr. Stephen Covey, this decision matrix separates urgent firefighting from impactful, long-term strategic execution. Top performers spend the majority of their mental energy in Quadrant 2 (Important, Not Urgent).
+            </p>
+          </div>
+        </ToolFeatureGuides>
 
-<ToolFeatureGuides
-  features={[
-{
-    icon: ListPlus,
-    title:"Tasks",
-    description:"Today's list.",
-  },
-{
-    icon: ArrowDownWideNarrow,
-    title:"Ranking",
-    description:"Importance order.",
-  },
-{
-    icon: CheckCircle2,
-    title:"Complete",
-    description:"Check off.",
-  },
-{
-    icon: Calendar,
-    title:"Daily",
-    description:"Fresh each day.",
-  }
-  ]}
->
-  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-  <p>A daily priority board forces a ranked today-list so the most important work happens first. Without it, the day fills with easy, low-value tasks. This tool has you list and order, then work top-down.</p>
-  <p>Ranking by impact beats by urgency alone; urgent often crowds important. The board makes the choice explicit each morning.</p>
-  <p>Use it every morning. The tool's value is a focused daily plan that protects high-value work.</p>
-  </div>
-</ToolFeatureGuides>
+        <ToolFaqAccordion
+          faqs={[
+            { question: "What makes a task Quadrant 2?", answer: "Quadrant 2 activities are essential for long-term health, career, and relationships—such as exercise, learning, and system architecture—that lack an immediate urgent deadline." },
+            { question: "Is my task list stored locally?", answer: "Yes! All tasks are saved directly in your web browser with zero server transmission." }
+          ]}
+        />
 
-<ToolFaqAccordion
-  faqs={[
-{
-    question:"Why daily?",
-    answer:"Keeps focus on today.",
-  },
-{
-    question:"Rank how?",
-    answer:"By impact and urgency.",
-  },
-{
-    question:"Free?",
-    answer:"Yes.",
-  },
-{
-    question:"Private?",
-    answer:"Local.",
-  },
-{
-    question:"Use with?",
-    answer:"Pairs with weekly planning.",
-  }
-  ]}
-/>
-</div>
- );
+        <RelatedTools currentToolUrl="/tools/productivity/daily-priority-action-board" max={6} />
+      </div>
+    </div>
+  );
 }
+
+export default DailyPriorityActionBoardClient;

@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
@@ -16,7 +17,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
 import { ModelSelector } from "@/components/shared/model-selector";
 import { GridPattern } from "@/components/magicui/grid-pattern";
-import { MessageSquare, RefreshCw, Sparkles, Hash, Copy, Shield, BookOpen, Layers, Zap } from "lucide-react";
+import { MessageSquare, RefreshCw, Sparkles, Hash, Copy, Shield, BookOpen, Layers, Zap, Settings, Type } from "lucide-react";
 import toast from "react-hot-toast";
 const SERVER_TYPES = [{
   value: "gaming",
@@ -80,7 +81,10 @@ export default function DiscordNameClient() {
     setKeyword("");
     generateDiscordNames();
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       <ToolPageHeader icon={MessageSquare} title="Discord Server Name & Channel Layout Studio" description="Generate aesthetic Discord server names, channel symbols (│・welcome), category headers, and role layouts with live AI." actions={<ResetButton onClick={handleReset} label="Reset" />} />
@@ -190,7 +194,7 @@ export default function DiscordNameClient() {
         question: "Can I use special symbols in Discord server names?",
         answer: "Yes! Discord supports most Unicode symbols such as ✦, ❖, ✧, and ⚔️. Avoid overly complex fonts that may break screen readers."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/social/discord-name-generator" max={6} />
-    </div></div>;
+    </div>
+    </div>
+);
 }

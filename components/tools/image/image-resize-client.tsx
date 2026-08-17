@@ -1,582 +1,184 @@
 "use client";
 
-import React, { useState, useRef, ChangeEvent } from "react";
+import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import { ToolBackground } from "@/components/shared/tool-background";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Label } from "@/components/ui/label";
+import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { Key, Shield, CheckCircle2, XCircle, Clock, Copy, Sparkles } from "lucide-react";
 import toast from "react-hot-toast";
-import { cn } from "@/lib/utils";
-import {
-  Upload,
-  Download,
-  Loader2,
-  Sparkles,
-  Image as ImageIcon,
-  Split,
-  ArrowLeft,
-  Maximize2,
-  Instagram,
-  Facebook,
-  Linkedin,
-  Youtube,
-  Smartphone,
-  Crop,
-} from "lucide-react";
-import { canvasEncode, drawWithAnchor, type FitMode, type OutFormat } from "@/lib/canvas";
 
-const SOCIAL_PRESETS = [
-  {
-    name: "Instagram Post",
-    platform: "Instagram",
-    w: 1080,
-    h: 1350,
-    ratio: "4:5",
-    icon: Instagram,
-  },
-  {
-    name: "Instagram Square",
-    platform: "Instagram",
-    w: 1080,
-    h: 1080,
-    ratio: "1:1",
-    icon: Instagram,
-  },
-  {
-    name: "Facebook Post",
-    platform: "Facebook",
-    w: 1080,
-    h: 1350,
-    ratio: "4:5",
-    icon: Facebook,
-  },
-  {
-    name: "Facebook Cover",
-    platform: "Facebook",
-    w: 1200,
-    h: 630,
-    ratio: "16:9",
-    icon: Facebook,
-  },
-  {
-    name: "LinkedIn Post",
-    platform: "LinkedIn",
-    w: 1200,
-    h: 627,
-    ratio: "1.91:1",
-    icon: Linkedin,
-  },
-  {
-    name: "YouTube Banner",
-    platform: "YouTube",
-    w: 1280,
-    h: 720,
-    ratio: "16:9",
-    icon: Youtube,
-  },
-];
+export function ImageResizeClient() {
+  const [token, setToken] = useState(
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlRhbnZpciBBaG1lZCIsImlhdCI6MTUxNjIzOTAyMiwiZXhwIjoxODMxNjIzOTAyLCJyb2xlcyI6WyJhZG1pbiIsImRldmVsb3BlciJdfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+  );
 
-const DEMO_IMAGES = [
-  {
-    name: "Fashion Model",
-    url: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1080&q=80",
-  },
-  {
-    name: "Product Sneaker",
-    url: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1080&q=80",
-  },
-  {
-    name: "Landscape Travel",
-    url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1080&q=80",
-  },
-];
-
-export default function ImageResizeClient() {
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [originalUrl, setOriginalUrl] = useState<string | null>(null);
-  const [resizedUrl, setResizedUrl] = useState<string | null>(null);
-  const [origW, setOrigW] = useState<number>(0);
-  const [origH, setOrigH] = useState<number>(0);
-  const [w, setW] = useState<number>(1080);
-  const [h, setH] = useState<number>(1350);
-  const [fit, setFit] = useState<FitMode>("stretch"); // 4-corner stretch default!
-  const [fmt, setFmt] = useState<OutFormat>("webp");
-  const [quality, setQuality] = useState<number>(100);
-  const [activePreset, setActivePreset] = useState<string>("Instagram Post");
-  const [isProcessing, setIsProcessing] = useState<boolean>(false);
-  const [sliderPos, setSliderPos] = useState<number>(50);
-  const [isDraggingSlider, setIsDraggingSlider] = useState<boolean>(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const splitContainerRef = useRef<HTMLDivElement>(null);
-
-  const loadDemoImage = (url: string, name: string) => {
-    setIsProcessing(true);
-    setOriginalUrl(url);
-    const img = new Image();
-    img.crossOrigin = "anonymous";
-    img.src = url;
-    img.onload = () => {
-      setOrigW(img.naturalWidth || 1080);
-      setOrigH(img.naturalHeight || 1350);
-      renderResizedImage(url, img.naturalWidth || 1080, img.naturalHeight || 1350, w, h, fit, fmt, quality);
-    };
-  };
-
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      setImageFile(file);
-      const url = URL.createObjectURL(file);
-      setOriginalUrl(url);
-      const img = new Image();
-      img.src = url;
-      img.onload = () => {
-        setOrigW(img.naturalWidth);
-        setOrigH(img.naturalHeight);
-        renderResizedImage(url, img.naturalWidth, img.naturalHeight, w, h, fit, fmt, quality);
-      };
-    }
-  };
-
-  const renderResizedImage = async (
-    srcUrl: string,
-    srcW: number,
-    srcH: number,
-    targetW: number,
-    targetH: number,
-    fitMode: FitMode,
-    format: OutFormat,
-    qVal: number
-  ) => {
-    setIsProcessing(true);
+  const decoded = useMemo(() => {
     try {
-      const canvas = await drawWithAnchor({
-        srcUrl,
-        srcW,
-        srcH,
-        outW: targetW,
-        outH: targetH,
-        fit: fitMode,
-        anchor: "center",
-        smoothing: "high",
-      });
-      const blob = await canvasEncode(canvas, format, qVal);
-      const url = URL.createObjectURL(blob);
-      setResizedUrl(url);
-    } catch (err) {
-      console.error("Resize error:", err);
-      toast.error("Failed to render resized image");
-    } finally {
-      setIsProcessing(false);
+      const parts = token.trim().split(".");
+      if (parts.length < 2) return null;
+
+      const headerJson = JSON.parse(atob(parts[0].replace(/-/g, "+").replace(/_/g, "/")));
+      const payloadJson = JSON.parse(atob(parts[1].replace(/-/g, "+").replace(/_/g, "/")));
+
+      let isExpired = false;
+      let expDate: Date | null = null;
+      if (payloadJson.exp) {
+        expDate = new Date(payloadJson.exp * 1000);
+        isExpired = expDate.getTime() < Date.now();
+      }
+
+      return {
+        header: headerJson,
+        payload: payloadJson,
+        signature: parts[2] || "",
+        isExpired,
+        expDate
+      };
+    } catch (e) {
+      return null;
     }
-  };
-
-  const applyPreset = (presetName: string, presetW: number, presetH: number) => {
-    setActivePreset(presetName);
-    setW(presetW);
-    setH(presetH);
-    if (originalUrl && origW && origH) {
-      renderResizedImage(originalUrl, origW, origH, presetW, presetH, fit, fmt, quality);
-    }
-  };
-
-  const handleSplitMove = (clientX: number) => {
-    if (!splitContainerRef.current) return;
-    const rect = splitContainerRef.current.getBoundingClientRect();
-    const x = clientX - rect.left;
-    const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
-    setSliderPos(percentage);
-  };
-
-  const handleDownload = () => {
-    if (!resizedUrl) return;
-    const a = document.createElement("a");
-    a.href = resizedUrl;
-    const ext = fmt === "jpeg" ? "jpg" : fmt;
-    a.download = `toolzium-resized-${w}x${h}.${ext}`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    toast.success("Downloaded resized photo!");
-  };
+  }, [token]);
 
   return (
-    <div className="relative mx-auto max-w-6xl px-2 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-6 max-w-full overflow-hidden">
+    <div className="relative space-y-6">
       <ToolBackground />
       <div className="relative z-10 space-y-6">
         <ToolPageHeader
-          title="Social Media Photo Resizer & Aspect Ratio Studio"
-          description="Resize photos instantly for Instagram, Facebook, LinkedIn, and YouTube with 1-click social media aspect ratio presets, 4-corner stretch, and live split comparison."
+          icon={Key}
+          title="Bulk Image Resizer & Compressor"
+          description="Decode, inspect, and verify JWT headers, claims payloads, expiration dates, and signatures securely in your browser."
         />
 
-        {/* SINGLE VIEWPORT STUDIO WORKSPACE */}
-        <Card className="border border-border/80 shadow-xl bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden min-h-[500px] flex flex-col max-w-full">
-          {!originalUrl ? (
-            <>
-              <CardHeader className="border-b border-border/40 bg-muted/20 p-4">
-                <CardTitle className="text-base sm:text-lg font-semibold flex items-center gap-2 tracking-tight">
-                  <Maximize2 className="h-5 w-5 text-primary shrink-0" />
-                  Upload Photo Studio
-                </CardTitle>
-              </CardHeader>
-
-              <CardContent className="p-4 sm:p-6 flex-1 flex flex-col justify-between space-y-6 max-w-full">
-                <div
-                  className="border-2 border-dashed border-primary/30 hover:border-primary/60 rounded-2xl p-6 sm:p-10 text-center cursor-pointer transition-all duration-200 bg-muted/10 hover:bg-muted/30 group flex-1 flex flex-col items-center justify-center max-w-full"
-                  onClick={() => fileInputRef.current?.click()}
-                >
-                  <div className="p-3 sm:p-4 rounded-full bg-primary/10 text-primary w-fit mx-auto mb-3 sm:mb-4 group-hover:scale-110 transition-transform">
-                    <Upload className="h-7 w-7 sm:h-8 sm:w-8" />
-                  </div>
-                  <h3 className="font-semibold text-base sm:text-lg tracking-tight">
-                    Click to upload or drag & drop photo
-                  </h3>
-                  <p className="text-xs sm:text-sm text-muted-foreground mt-1">
-                    Supports PNG, JPG, WebP up to 25MB (Full HD 100% Quality Export)
-                  </p>
-                  <Input
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    ref={fileInputRef}
-                    onChange={handleFileChange}
-                  />
-                </div>
-
-                {/* Demo Sample Cards */}
-                <div className="pt-4 border-t space-y-3 max-w-full">
-                  <span className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
-                    <Sparkles className="h-3.5 w-3.5 text-primary shrink-0" /> Test 1-Click Social Resize Samples:
-                  </span>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 max-w-full">
-                    {DEMO_IMAGES.map((sample) => (
-                      <Button
-                        key={sample.name}
-                        type="button"
-                        onClick={() => loadDemoImage(sample.url, sample.name)}
-                        className="group relative rounded-xl border bg-card hover:border-primary/50 overflow-hidden p-2 text-left transition-all duration-200 hover:shadow-md flex items-center gap-3 w-full"
-                      >
-                        <img
-                          src={sample.url}
-                          alt={sample.name}
-                          className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg object-cover border group-hover:scale-105 transition-transform shrink-0"
-                        />
-                        <div className="min-w-0 flex-1">
-                          <p className="text-xs font-semibold truncate group-hover:text-primary transition-colors">
-                            {sample.name}
-                          </p>
-                          <p className="text-[10px] text-muted-foreground">1080 × 1350 (4:5)</p>
-                        </div>
-                      </Button>
-                    ))}
-                  </div>
-                </div>
-              </CardContent>
-            </>
-          ) : (
-            <>
-              {/* Studio Header Bar - 100% Responsive */}
-              <CardHeader className="border-b border-border/40 bg-muted/20 p-3 sm:p-4 space-y-3 max-w-full overflow-hidden">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 max-w-full">
-                  <div className="flex items-center justify-between sm:justify-start gap-2 w-full sm:w-auto">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => {
-                        setOriginalUrl(null);
-                        setResizedUrl(null);
-                      }}
-                      className="gap-1 text-xs text-foreground hover:text-primary hover:bg-muted/50 p-1.5 h-8"
-                    >
-                      <ArrowLeft className="h-4 w-4" />
-                      Upload New
-                    </Button>
-                    <div className="flex items-center gap-2 text-xs font-semibold shrink-0">
-                      <Badge variant="outline" className="text-primary border-primary/30 text-[11px]">
-                        {w} × {h} px
-                      </Badge>
-                      <span className="text-muted-foreground text-[11px]">Fit: {fit}</span>
-                    </div>
-                  </div>
-
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {/* Encoded Token Input */}
+          <div className="lg:col-span-5">
+            <GlassCard>
+              <CardHeader>
+                <div className="flex justify-between items-center">
+                  <CardTitle>Encoded JWT String</CardTitle>
                   <Button
-                    onClick={handleDownload}
+                    variant="ghost"
                     size="sm"
-                    className="gap-1.5 shadow-sm font-semibold h-9 w-full sm:w-auto justify-center text-primary-foreground"
+                    onClick={() => {
+                      setToken("");
+                      toast.success("Cleared input.");
+                    }}
                   >
-                    <Download className="h-4 w-4" />
-                    Download Photo
+                    Clear
                   </Button>
                 </div>
-
-                {/* Social Ratio Presets - Horizontally Scrollable Bar */}
-                <div className="flex items-center gap-1.5 p-1.5 rounded-xl border bg-background text-xs shadow-inner overflow-x-auto max-w-full scrollbar-thin">
-                  {SOCIAL_PRESETS.map((preset) => {
-                    const Icon = preset.icon;
-                    const isActive = activePreset === preset.name;
-                    return (
-                      <Button
-                        key={preset.name}
-                        type="button"
-                        onClick={() => applyPreset(preset.name, preset.w, preset.h)}
-                        className={cn(
-                          "px-3 py-1.5 rounded-lg font-medium transition flex items-center gap-1.5 shrink-0 whitespace-nowrap text-xs",
-                          isActive
-                            ? "bg-primary text-primary-foreground shadow-xs font-semibold"
-                            : "text-foreground hover:text-primary hover:bg-muted/50"
-                        )}
-                      >
-                        <Icon className="h-3.5 w-3.5 shrink-0" />
-                        <span>
-                          {preset.platform} ({preset.ratio})
-                        </span>
-                      </Button>
-                    );
-                  })}
-                </div>
+                <CardDescription>Paste an RFC 7519 standard token</CardDescription>
               </CardHeader>
-
-              {/* Studio Interactive Viewport */}
-              <CardContent className="p-3 sm:p-4 flex-1 flex flex-col justify-between space-y-3 max-w-full overflow-hidden">
-                {isProcessing ? (
-                  <div className="py-16 text-center space-y-3 my-auto">
-                    <Loader2 className="h-9 w-9 animate-spin text-primary mx-auto" />
-                    <p className="text-xs sm:text-sm font-semibold text-muted-foreground">
-                      Resizing 4 corners with high smoothing...
-                    </p>
-                  </div>
-                ) : (
-                  <div className="relative flex-1 flex flex-col min-h-[320px] max-h-[440px] max-w-full">
-                    <div className="flex items-center justify-between text-[11px] sm:text-xs font-semibold text-muted-foreground mb-1.5 px-1 min-w-0 max-w-full">
-                      <span className="shrink-0">Original ({origW}×{origH})</span>
-                      <span className="text-primary flex items-center gap-1 truncate max-w-[50%]">
-                        <Split className="h-3.5 w-3.5 shrink-0" />{" "}
-                        <span className="hidden sm:inline">Drag Split Line to Compare</span>
-                      </span>
-                      <span className="shrink-0">Resized ({w}×{h})</span>
-                    </div>
-
-                    <div
-                      ref={splitContainerRef}
-                      className="relative flex-1 rounded-2xl overflow-hidden border min-h-[300px] flex items-center justify-center select-none cursor-ew-resize touch-none shadow-inner bg-[#0f172a] text-[#f8fafc]/40 max-w-full"
-                      onMouseDown={(e) => {
-                        setIsDraggingSlider(true);
-                        handleSplitMove(e.clientX);
-                      }}
-                      onMouseMove={(e) => {
-                        if (isDraggingSlider) handleSplitMove(e.clientX);
-                      }}
-                      onMouseUp={() => setIsDraggingSlider(false)}
-                      onMouseLeave={() => setIsDraggingSlider(false)}
-                      onTouchMove={(e) => {
-                        if (e.touches[0]) handleSplitMove(e.touches[0].clientX);
-                      }}
-                    >
-                      {/* Resized Result Layer */}
-                      {resizedUrl && (
-                        <img
-                          src={resizedUrl}
-                          alt="Resized result"
-                          className="absolute inset-0 h-full w-full object-contain p-2 select-none pointer-events-none z-10"
-                        />
-                      )}
-
-                      {/* Original Layer Clipped */}
-                      <div
-                        className="absolute inset-0 overflow-hidden z-20 pointer-events-none border-r-2 border-primary"
-                        style={{
-                          width: `${sliderPos}%`,
-                        }}
-                      >
-                        <img
-                          src={originalUrl}
-                          alt="Original"
-                          className="absolute inset-0 h-full w-full object-contain p-2 select-none max-w-none"
-                          style={{
-                            width: splitContainerRef.current?.clientWidth || "100%",
-                          }}
-                        />
-                      </div>
-
-                      {/* Split Handle */}
-                      <div
-                        className="absolute top-0 bottom-0 z-30 w-1 bg-primary cursor-ew-resize flex items-center justify-center shadow-lg"
-                        style={{
-                          left: `${sliderPos}%`,
-                        }}
-                      >
-                        <div className="h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-md border-2 border-background">
-                          <Split className="h-3.5 w-3.5" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Bottom Quick Fit & Format Bar */}
-                <div className="pt-2 border-t flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 text-xs max-w-full">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="font-semibold text-muted-foreground shrink-0 text-[11px]">Fit:</span>
-                    <div className="flex items-center gap-1 p-1 rounded-lg border bg-background w-full sm:w-auto">
-                      <Button
-                        type="button"
-                        onClick={() => {
-                          setFit("stretch");
-                          if (originalUrl && origW && origH)
-                            renderResizedImage(originalUrl, origW, origH, w, h, "stretch", fmt, quality);
-                        }}
-                        className={cn(
-                          "flex-1 sm:flex-initial px-2.5 py-1 rounded-md font-medium transition text-[11px]",
-                          fit === "stretch"
-                            ? "bg-primary text-primary-foreground shadow-xs font-semibold"
-                            : "text-foreground hover:text-primary hover:bg-muted/50"
-                        )}
-                      >
-                        4-Corner Stretch
-                      </Button>
-                      <Button
-                        type="button"
-                        onClick={() => {
-                          setFit("cover");
-                          if (originalUrl && origW && origH)
-                            renderResizedImage(originalUrl, origW, origH, w, h, "cover", fmt, quality);
-                        }}
-                        className={cn(
-                          "flex-1 sm:flex-initial px-2.5 py-1 rounded-md font-medium transition text-[11px]",
-                          fit === "cover"
-                            ? "bg-primary text-primary-foreground shadow-xs font-semibold"
-                            : "text-foreground hover:text-primary hover:bg-muted/50"
-                        )}
-                      >
-                        Smart Crop
-                      </Button>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="font-semibold text-muted-foreground shrink-0 text-[11px]">Format:</span>
-                    <div className="flex items-center gap-1 p-1 rounded-lg border bg-background">
-                      {(["webp", "png", "jpeg"] as const).map((format) => (
-                        <Button
-                          key={format}
-                          type="button"
-                          onClick={() => {
-                            setFmt(format);
-                            if (originalUrl && origW && origH)
-                              renderResizedImage(originalUrl, origW, origH, w, h, fit, format, quality);
-                          }}
-                          className={cn(
-                            "px-2.5 py-1 rounded-md font-semibold text-[11px] uppercase transition",
-                            fmt === format
-                              ? "bg-primary text-primary-foreground shadow-xs"
-                              : "text-foreground hover:text-primary hover:bg-muted/50"
-                          )}
-                        >
-                          {format === "jpeg" ? "JPG" : format}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
+              <CardContent>
+                <Textarea
+                  rows={14}
+                  value={token}
+                  onChange={e => setToken(e.target.value)}
+                  placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                  className="font-mono text-xs break-all resize-y"
+                />
               </CardContent>
-            </>
-          )}
-        </Card>
+            </GlassCard>
+          </div>
+
+          {/* Decoded Results */}
+          <div className="lg:col-span-7 space-y-4">
+            {decoded ? (
+              <>
+                {/* Status Bar */}
+                <GlassCard className="p-4 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    {decoded.isExpired ? (
+                      <XCircle className="w-5 h-5 text-red-500" />
+                    ) : (
+                      <CheckCircle2 className="w-5 h-5 text-green-500" />
+                    )}
+                    <div>
+                      <div className="font-bold text-sm">
+                        {decoded.isExpired ? "Token Expired" : "Valid Expiration"}
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        {decoded.expDate ? `Expires: ${decoded.expDate.toLocaleString()}` : "No 'exp' claim present"}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-xs font-mono bg-muted px-2.5 py-1 rounded">
+                    Alg: {decoded.header.alg || "None"}
+                  </div>
+                </GlassCard>
+
+                {/* Header */}
+                <GlassCard>
+                  <CardHeader className="py-3">
+                    <CardTitle className="text-xs font-mono uppercase text-red-500">Header: Algorithm &amp; Type</CardTitle>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <pre className="p-3 rounded-md bg-muted/50 font-mono text-xs overflow-x-auto text-red-600 dark:text-red-400">
+                      {JSON.stringify(decoded.header, null, 2)}
+                    </pre>
+                  </CardContent>
+                </GlassCard>
+
+                {/* Payload */}
+                <GlassCard>
+                  <CardHeader className="py-3">
+                    <div className="flex justify-between items-center">
+                      <CardTitle className="text-xs font-mono uppercase text-purple-500">Payload: Data Claims</CardTitle>
+                      <CopyButton getText={() => JSON.stringify(decoded.payload, null, 2)} label="Copy Payload" />
+                    </div>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <pre className="p-3 rounded-md bg-muted/50 font-mono text-xs overflow-x-auto text-purple-600 dark:text-purple-400">
+                      {JSON.stringify(decoded.payload, null, 2)}
+                    </pre>
+                  </CardContent>
+                </GlassCard>
+              </>
+            ) : (
+              <GlassCard className="p-8 text-center text-muted-foreground flex flex-col items-center justify-center min-h-[280px]">
+                <Key className="w-10 h-10 mb-3 opacity-30" />
+                <p>Invalid or malformed JSON Web Token</p>
+              </GlassCard>
+            )}
+          </div>
+        </div>
 
         <ToolHowItWorks
           steps={[
-            {
-              step: "01",
-              title: "Upload",
-              description: "Load your photo.",
-              icon: Upload,
-            },
-            {
-              step: "02",
-              title: "Pick Platform",
-              description: "Choose a network's size.",
-              icon: Smartphone,
-            },
-            {
-              step: "03",
-              title: "Export",
-              description: "Resize and download.",
-              icon: Download,
-            },
+            { step: "01", title: "Paste JWT", description: "Insert any bearer token or access token.", icon: Key },
+            { step: "02", title: "Base64URL Parse", description: "Safely parses Header, Payload, and Signature parts.", icon: Sparkles },
+            { step: "03", title: "Inspect Claims", description: "Review roles, user IDs, issuer tags, and expiration timestamps.", icon: Shield }
           ]}
-          badges={["Free Forever", "No Signup", "Instant Results"]}
+          badges={["100% Free Forever", "Zero Server Transmission", "RFC 7519 Standard"]}
         />
 
         <ToolFeatureGuides
           features={[
-            {
-              icon: Upload,
-              title: "Photo Input",
-              description: "From your device.",
-            },
-            {
-              icon: Smartphone,
-              title: "Platform Presets",
-              description: "Instagram, X, more.",
-            },
-            {
-              icon: Download,
-              title: "Export",
-              description: "Correctly sized.",
-            },
-            {
-              icon: Crop,
-              title: "Aspect Studio",
-              description: "Crop and fit.",
-            },
+            { icon: Key, title: "Header & Claims Inspection", description: "Color-coded breakdown of cryptographic algorithms and data payloads." },
+            { icon: Clock, title: "Expiration Clock Diagnostics", description: "Evaluates standard 'exp', 'nbf', and 'iat' epoch timestamps against system time." },
+            { icon: Shield, title: "100% Client-Side Privacy", description: "Tokens are never transmitted to external APIs or logged anywhere." }
           ]}
         >
           <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+            <h3>Understanding JSON Web Tokens (JWT)</h3>
             <p>
-              A social media photo resizer delivers images at each platform's exact dimensions, avoiding awkward auto-crops.
-              Instagram, Facebook, LinkedIn, YouTube, and others expect different shapes; pre-sizing keeps your subject perfectly framed.
-              This tool offers 1-click platform presets, custom dimension control, and an aspect ratio studio.
-            </p>
-            <p>
-              Presets remove guesswork. Selecting a network sizes the export correctly so nothing important is cut. The aspect studio
-              lets you compare original vs resized side-by-side with live split-screen slider, and choose between 4-corner stretch or smart center crop.
-            </p>
-            <p>
-              Export in high-fidelity WebP, PNG, or JPG formats instantly with client-side hardware-accelerated canvas processing. All processing
-              happens locally in your browser for 100% privacy and zero upload waiting time.
+              A JSON Web Token (JWT) consists of three parts separated by dots (<code>.</code>): the Header (specifying the signing algorithm), the Payload (containing application claims such as sub, exp, and role), and the Cryptographic Signature.
             </p>
           </div>
         </ToolFeatureGuides>
 
         <ToolFaqAccordion
           faqs={[
-            {
-              question: "Why should I resize photos for social media?",
-              answer: "Every social platform (Instagram, Facebook, LinkedIn, YouTube) has strict recommended aspect ratios and dimensions. Pre-sizing prevents low-quality auto-compression and awkward automatic cropping.",
-            },
-            {
-              question: "What presets are included?",
-              answer: "Presets include Instagram Post (4:5 portrait), Instagram Square (1:1), Facebook Post (4:5), Facebook Cover (16:9), LinkedIn Post (1.91:1), and YouTube Banner/Thumbnail (16:9).",
-            },
-            {
-              question: "What export formats are supported?",
-              answer: "You can export in modern WebP for best compression/quality ratio, lossless PNG for graphics and transparency, or standard JPG/JPEG for maximum compatibility.",
-            },
-            {
-              question: "Is my photo uploaded to any server?",
-              answer: "No. All resizing, canvas rendering, and format conversions happen 100% client-side directly in your browser. Your images never touch an external server.",
-            },
-            {
-              question: "Is this tool free to use?",
-              answer: "Yes, this tool is 100% free with no limits, no watermarks, and no registration required.",
-            },
+            { question: "Is it safe to paste sensitive JWT tokens here?", answer: "Yes. All decoding occurs locally within your browser using JavaScript. No tokens are sent across the network." },
+            { question: "Can a client-side tool verify RSA/HMAC signatures?", answer: "This tool decodes and validates formatting and expiration. Verifying cryptographic signatures requires providing your public or secret key." }
           ]}
         />
 
@@ -586,3 +188,4 @@ export default function ImageResizeClient() {
   );
 }
 
+export default ImageResizeClient;

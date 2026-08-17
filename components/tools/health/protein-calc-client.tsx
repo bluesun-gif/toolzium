@@ -1,10 +1,12 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import React, { useState, useMemo } from"react";
-import { Calculator, Copy, Dumbbell, Scale, Target, Utensils } from"lucide-react";
+import { Calculator, Copy, Dumbbell, Scale, Target, Utensils, Activity } from "lucide-react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
 import { GlassCard } from"@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle } from"@/components/ui/card";
@@ -40,7 +42,10 @@ export function ProteinCalcClient() {
       meals5: Math.round(dailyProtein / 5)
     };
   }, [weight, weightUnit, goal]);
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Dumbbell} title="Protein Intake Calculator" description="Calculate daily recommended protein intake based on body weight, goal, and activity level." actions={<ResetButton onClick={resetAll} label="Reset" />} />
@@ -203,6 +208,9 @@ export function ProteinCalcClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default ProteinCalcClient;

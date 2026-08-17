@@ -1,30 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import PasswordStrengthClient from "@/components/tools/text/password-strength-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
+
+const TITLE = "Password Strength | Toolzium";
+const DESCRIPTION = "Free online password strength tool with instant calculation and privacy.";
+const PATH = "/tools/text/password-strength";
+
 export const metadata = buildMetadata({
-  title: "Password Strength Checker",
-  description: "Check password strength and security score. Analyze password entropy, detect weak passwords, and get suggestions for creating strong, secure passwords. Free password strength tester.",
-  path: "/tools/text/password-strength",
-  keywords: ["strength", "suggestions", "passwords", "password", "check", "score", "security", "detect", "weak", "entropy", "analyze"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Password Strength Checker",
-    description: "Check password strength and security score. Analyze password entropy, detect weak passwords, and get suggestions for creating strong, secure passwords. Free password strength tester.",
-    path: "/tools/text/password-strength",
-    categoryName: "Text",
-    categoryPath: "/tools/text",
+    name: "Password Strength",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <PasswordStrengthClient />
-    
-      <RelatedTools currentToolUrl="/tools/text/password-strength" />
-</div>
+    </>
   );
 }

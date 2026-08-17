@@ -1,29 +1,28 @@
-import { buildMetadata } from "@/lib/seo"
-import { siteURL } from "@/lib/constants"
-import JsonLd from "@/components/seo/json-ld"
-import JsonCsvClient from "@/components/tools/dev/json-csv-client"
+import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
+import JsonCsvClient from "@/components/tools/dev/json-csv-client";
+
+const TITLE = "Json Csv | Toolzium";
+const DESCRIPTION = "Free online json csv tool with instant calculation and privacy.";
+const PATH = "/tools/dev/json-csv";
+
 export const metadata = buildMetadata({
-  title: "JSON to CSV Converter",
-  description: "Convert JSON arrays to CSV format instantly. Choose delimiters, flatten nested objects, download CSV files. Free online JSON to CSV converter — no signup.",
-  path: "/tools/dev/json-csv",
-  keywords: ["download", "flatten", "format", "objects", "convert", "files", "delimiters", "instantly", "arrays", "choose", "nested", "json"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "JSON to CSV Converter",
-    description: "Convert JSON arrays to CSV format instantly. Choose delimiters, flatten nested objects, download CSV files. Free online JSON to CSV converter — no signup.",
-    path: "/tools/dev/json-csv",
-    categoryName: "Dev",
-    categoryPath: "/tools/dev",
+    name: "Json Csv",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <JsonCsvClient />
-    
-      <RelatedTools currentToolUrl="/tools/dev/json-csv" />
-</>
-  )
+    </>
+  );
 }

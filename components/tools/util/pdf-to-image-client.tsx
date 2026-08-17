@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useCallback, useEffect } from "react";
@@ -9,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { ResetButton, ActionButton } from "@/components/shared/action-buttons";
-import { FileImage, UploadCloud, Download, AlertCircle, FileType, Image as ImageIcon, Settings, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { FileImage, UploadCloud, Download, AlertCircle, FileType, Image as ImageIcon, Settings, Sparkles, Shield, Zap, Copy, Upload } from "lucide-react";
 import { useDropzone } from "react-dropzone";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -194,7 +197,10 @@ export default function PdfToImageClient() {
     setProgress(0);
     setError(null);
   };
-  return <div className="relative container mx-auto max-w-5xl py-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="PDF to Image" description="Convert PDF pages to high-quality JPG or PNG images directly in your browser." icon={FileImage} />
@@ -377,8 +383,7 @@ export default function PdfToImageClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/util/pdf-to-image" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }

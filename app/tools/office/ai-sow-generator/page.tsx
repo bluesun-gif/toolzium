@@ -1,19 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import AiSowGeneratorClient from "@/components/tools/office/ai-sow-generator-client";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "AI Statement of Work (SOW) Deliverables Generator";
+const DESCRIPTION = "Generate professional client Statement of Work (SOW) documents with phased milestone deliverables, acceptance criteria, and out-of-scope boundaries using live AI.";
+const PATH = "/tools/office/ai-sow-generator";
 
 export const metadata = buildMetadata({
-  title: "AI Statement of Work (SOW) Deliverables Generator",
-  description: "Generate professional client Statement of Work (SOW) documents with phased milestone deliverables, acceptance criteria, and out-of-scope boundaries using live AI.",
-  path: "/tools/office/ai-sow-generator",
-  keywords: ["client", "acceptance", "with", "statement", "professional", "generate", "deliverables", "criteria", "milestone", "work", "phased", "documents"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
-export default function AiSowGeneratorPage() {
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "AI Statement of Work (SOW) Deliverables Generator",
+    description: DESCRIPTION,
+    path: PATH
+  });
+
   return (
-    <><AiSowGeneratorClient />
-      <RelatedTools currentToolUrl="/tools/office/ai-sow-generator" />
+    <>
+      <JsonLd data={jsonLd} />
+      <AiSowGeneratorClient />
     </>
   );
 }

@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
@@ -16,7 +17,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ResetButton, CopyButton } from "@/components/shared/action-buttons";
 import { ModelSelector } from "@/components/shared/model-selector";
 import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Target, RefreshCw, Sparkles, Copy, Megaphone, Zap, Shield, BookOpen, Layers } from "lucide-react";
+import { Target, RefreshCw, Sparkles, Copy, Megaphone, Zap, Shield, BookOpen, Layers, Type } from "lucide-react";
 import toast from "react-hot-toast";
 export default function AdCopyGeneratorClient() {
   const [productName, setProductName] = useState("ProClean Electric Toothbrush");
@@ -68,7 +69,10 @@ export default function AdCopyGeneratorClient() {
     setAdFramework("PAS (Problem - Agitate - Solution)");
     setResults([]);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       <ToolPageHeader icon={Target} title="AI Facebook & Instagram Ad Copy Studio" description="Generate high-converting Meta primary text, headlines, and call-to-action variants using PAS, AIDA, and Social Proof frameworks." actions={<ResetButton onClick={handleReset} label="Reset" />} />
@@ -192,7 +196,7 @@ export default function AdCopyGeneratorClient() {
         question: "What is the PAS framework in advertising?",
         answer: "PAS stands for Problem, Agitate, Solution. You state a customer pain point, agitate the emotional frustration, and introduce your product as the ultimate solution."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/social/ad-copy-generator" max={6} />
-    </div></div>;
+    </div>
+    </div>
+);
 }

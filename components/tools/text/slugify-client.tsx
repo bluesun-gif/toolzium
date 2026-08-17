@@ -1,4 +1,8 @@
 "use client";
+
+import { Switch } from "@/components/ui/switch";
+import { Separator } from "@/components/ui/separator";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo } from "react";
@@ -10,7 +14,7 @@ import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { CopyButton } from "@/components/shared/action-buttons";
-import { Link, PenTool, Settings, Zap } from "lucide-react";
+import { Link, PenTool, Settings, Zap, Copy, Type } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -37,7 +41,10 @@ export default function SlugifyClient() {
     s = s.replace(trimRegex, "");
     return s;
   }, [text, separator, removeNumbers]);
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Link} title="Slugify / URL Slug Generator" description="Convert any text into a clean, SEO-friendly URL slug instantly." />
@@ -132,7 +139,7 @@ export default function SlugifyClient() {
         question: "Can I use this for file names?",
         answer: "Yes. By switching the separator to an underscore and keeping numbers, you can generate clean, safe file names for uploaded assets."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/text/slugify" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

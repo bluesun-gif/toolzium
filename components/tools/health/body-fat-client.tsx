@@ -1,4 +1,8 @@
 "use client";
+
+import { cn } from "@/lib/utils";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -69,7 +73,10 @@ export function BodyFatClient() {
     setWaist("85");
     setHip("100");
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Ruler} title="Body Fat Calculator" description="Estimate your body fat percentage using the US Navy method." actions={<ResetButton onClick={reset} label="Reset" />} />
@@ -253,6 +260,9 @@ export function BodyFatClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default BodyFatClient;

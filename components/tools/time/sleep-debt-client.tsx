@@ -1,4 +1,8 @@
 "use client";
+
+import { cn } from "@/lib/utils";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -49,7 +53,10 @@ export function SleepDebtClient() {
     severity = "Severe";
     color = "text-red-500";
   }
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Moon} title="Sleep Debt & Recovery Calculator" description="Calculate accumulated sleep debt over a 7-day week and recovery plan." actions={<React.Fragment>
@@ -204,6 +211,9 @@ export function SleepDebtClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default SleepDebtClient;

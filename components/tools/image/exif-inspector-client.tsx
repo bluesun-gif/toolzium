@@ -1,4 +1,8 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -9,7 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
 import toast from"react-hot-toast";
-import { Camera, Download, Eye, FileImage, FileSearch, Lock, MapPin, RefreshCw, ShieldCheck, Upload, Zap } from"lucide-react";
+import { Camera, Download, Eye, FileImage, FileSearch, Lock, MapPin, RefreshCw, ShieldCheck, Upload, Zap, Grid } from "lucide-react";
 
 interface ExifData {
   fileName: string;
@@ -96,7 +100,10 @@ export default function ExifInspectorClient() {
     a.click();
     toast.success("Downloaded clean, privacy-safe photo!");
   };
-  return <div className="relative mx-auto max-w-6xl px-2 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-6 max-w-full overflow-hidden"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Photo EXIF Metadata Inspector & Privacy GPS Stripper" description="Inspect camera settings, aperture, ISO, and GPS location coordinates embedded in your photos, and strip metadata 100% locally in your browser before sharing." />
@@ -285,6 +292,7 @@ export default function ExifInspectorClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }

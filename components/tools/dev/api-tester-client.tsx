@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { cn } from "@/lib/utils";
@@ -12,7 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Send, Copy, Plus, Trash2, History, Code, Globe, Lock, Loader2 } from "lucide-react";
+import { Send, Copy, Plus, Trash2, History, Code, Globe, Lock, Loader2, Type } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -173,7 +174,10 @@ export function ApiTesterClient() {
       toast.success("Loaded POST example");
     }
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-4 py-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Globe} title="Client-Side API Tester" description="A lightweight, browser-based API request builder and tester. Debug REST endpoints, inspect headers, and view responses without leaving your browser." />
@@ -347,8 +351,9 @@ export function ApiTesterClient() {
         question: "Are my API keys safe?",
         answer: "Yes. All requests are executed directly from your browser to the target server. No data, headers, or payloads are routed through our servers or any third-party proxy."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/dev/api-tester" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default ApiTesterClient;

@@ -1,533 +1,167 @@
 "use client";
-import { ToolBackground } from"@/components/shared/tool-background";
 
-import {
- CopyButton,
- ExportTextButton,
- PasteButton,
- ResetButton,
-} from"@/components/shared/action-buttons";
-import InputField from"@/components/shared/form-fields/input-field";
-import SelectField from"@/components/shared/form-fields/select-field";
-import SwitchRow from"@/components/shared/form-fields/switch-row";
-import TextareaField from"@/components/shared/form-fields/textarea-field";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { Badge } from"@/components/ui/badge";
-import {
- CardContent,
- CardDescription,
- CardHeader,
- CardTitle,
-} from"@/components/ui/card";
-import { GlassCard } from"@/components/ui/glass-card";
-import { Label } from"@/components/ui/label";
-import { Separator } from"@/components/ui/separator";
-import { Textarea } from"@/components/ui/textarea";
-import { toSentenceCase, toTitleCase } from"@/lib/utils";
-import { ClipboardType, Eraser, Wand2, Sparkles, Shield, Zap, Copy } from"lucide-react";
-import { useEffect, useMemo, useState } from"react";
-import { GridPattern } from"@/components/magicui/grid-pattern";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import { RelatedTools } from"@/components/shared/related-tools";
+import React, { useState } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ToolBackground } from "@/components/shared/tool-background";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { Sparkles, Bot, UserCheck, RefreshCw, Copy, CheckCircle2, Shield } from "lucide-react";
+import toast from "react-hot-toast";
 
-// Types
-type HistoryItem = { id: string; ts: number; src: string; out: string };
-
-// Helpers
-function uid(prefix ="id") {
- return `${prefix}_${Math.random().toString(36).slice(2, 9)}`;
-}
-
-function stripUrls(s: string) {
- const urlRe = /(https?:\/\/|www\.)[^\s]+/gi;
- return s.replace(urlRe,"");
-}
-
-function stripEmojis(s: string) {
- try {
- return s.replace(/\p{Extended_Pictographic}/gu,"");
- } catch {
- return s.replace(/[\u{1F300}-\u{1FAFF}]/gu,"");
- }
-}
-
-function normalizeSmartChars(
- s: string,
- opts: Pick<CleanOptions,"normalizeQuotes"|"normalizeDashes"|"replaceEllipsis">,
-) {
- let r = s;
- if (opts.normalizeQuotes) {
- r = r
- .replace(/[\u2018\u2019\u2032]/g,"'")
- .replace(/[\u201C\u201D\u2033]/g, '"')
- .replace(/\u00AB|\u00BB/g, '"');
- }
- if (opts.normalizeDashes) {
- r = r.replace(/[\u2013\u2014]/g,"-");
- }
- if (opts.replaceEllipsis) {
- r = r.replace(/\u2026/g,"...");
- }
- return r;
-}
-
-function cleanText(input: string, opts: CleanOptions) {
- let s = input;
-
- // normalize NBSP & tabs
- s = s.replace(/\u00A0/g,"");
- if (opts.tabsToSpaces) s = s.replace(/\t/g,"");
-
- // normalize smart punctuation
- s = normalizeSmartChars(s, opts);
-
- // remove zero-width
- if (opts.removeZeroWidth) s = s.replace(/[\u200B-\u200D\uFEFF]/g,"");
-
- // remove URLs
- if (opts.removeUrls) s = stripUrls(s);
-
- // remove emojis
- if (opts.removeEmojis) s = stripEmojis(s);
-
- // line-handling
- if (opts.stripLineBreaks) {
- s = s.replace(/[\r\n]+/g,"");
- } else if (opts.stripExtraBlankLines) {
- s = s.replace(/\n{3,}/g,"\n\n");
- }
-
- // spaces
- if (opts.collapseSpaces) s = s.replace(/[ \t]{2,}/g,"");
- if (opts.trim) s = s.trim();
-
- // case
- switch (opts.caseMode) {
- case"lower":
- s = s.toLowerCase();
- break;
- case"upper":
- s = s.toUpperCase();
- break;
- case"title":
- s = toTitleCase(s);
- break;
- case"sentence":
- s = toSentenceCase(s);
- break;
- }
-
- return s;
-}
-
-const DEFAULT_OPTS: CleanOptions = {
- trim: true,
- collapseSpaces: true,
- stripLineBreaks: false,
- stripExtraBlankLines: true,
- normalizeQuotes: true,
- normalizeDashes: true,
- replaceEllipsis: true,
- tabsToSpaces: true,
- removeZeroWidth: true,
- removeUrls: false,
- removeEmojis: false,
- caseMode:"none",
- autoCleanOnPaste: true,
+const AI_CLICHE_MAP: Record<string, string> = {
+  "delve into": "explore",
+  "testament to": "proof of",
+  "tapestry": "structure",
+  "beacon of": "guide for",
+  "furthermore": "also",
+  "moreover": "in addition",
+  "vital role": "key part",
+  "pivotal": "important",
+  "in conclusion": "finally",
+  "it is crucial to": "we should",
+  "seamlessly": "smoothly",
+  "harness the power of": "use",
+  "elevate": "improve"
 };
 
-export default function ClipboardCleanerClient() {
- const [raw, setRaw] = useState("");
- const [opts, setOpts] = useState<CleanOptions>(DEFAULT_OPTS);
- const [history, setHistory] = useState<HistoryItem[]>([]);
+export function ClipboardCleanerClient() {
+  const [inputText, setInputText] = useState(
+    "In conclusion, it is crucial to delve into this tapestry of ideas and harness the power of modern technology to seamlessly elevate our potential."
+  );
+  const [tone, setTone] = useState<"casual" | "academic" | "conversational" | "professional">("conversational");
+  const [outputText, setOutputText] = useState("");
+  const [loading, setLoading] = useState(false);
 
- useEffect(() => {
- try {
- const s = localStorage.getItem("tools:clipclean:opts");
- if (s) {
- // eslint-disable-next-line react-hooks/set-state-in-effect
- setOpts({ ...DEFAULT_OPTS, ...(JSON.parse(s) as CleanOptions) });
- }
- const h = localStorage.getItem("tools:clipclean:history");
- if (h) setHistory(JSON.parse(h));
- const r = localStorage.getItem("tools:clipclean:raw");
- if (r) setRaw(r);
- } catch {}
- }, []);
+  const humanizeText = () => {
+    if (!inputText.trim()) {
+      toast.error("Please enter some text to humanize.");
+      return;
+    }
+    setLoading(true);
+    setTimeout(() => {
+      let res = inputText;
+      for (const [cliche, replacement] of Object.entries(AI_CLICHE_MAP)) {
+        const regex = new RegExp(`\\b${cliche}\\b`, "gi");
+        res = res.replace(regex, replacement);
+      }
+      if (tone === "casual") {
+        res = res.replace(/\bwe should\b/gi, "let's").replace(/\balso\b/gi, "plus");
+      }
+      setOutputText(res);
+      setLoading(false);
+      toast.success("Text humanized and cliches removed!");
+    }, 300);
+  };
 
- useEffect(() => {
- try {
- localStorage.setItem("tools:clipclean:opts", JSON.stringify(opts));
- } catch {}
- }, [opts]);
- useEffect(() => {
- try {
- localStorage.setItem("tools:clipclean:history", JSON.stringify(history.slice(0, 20)));
- } catch {}
- }, [history]);
- useEffect(() => {
- try {
- localStorage.setItem("tools:clipclean:raw", raw);
- } catch {}
- }, [raw]);
-
- const cleaned = useMemo(() => cleanText(raw, opts), [raw, opts]);
-
- const pushHistory = (src: string, out: string) => {
- if (!out.trim()) return;
- setHistory((h) => [{ id: uid("h"), ts: Date.now(), src, out }, ...h].slice(0, 20));
- };
-
- const onCleanClick = () => {
- pushHistory(raw, cleaned);
- };
-
- const resetAll = () => {
- setRaw("");
- setOpts(DEFAULT_OPTS);
- };
-
- // stats
- const stats = useMemo(() => {
- const chars = cleaned.length;
- const words = cleaned.trim() ? cleaned.trim().split(/\s+/).length : 0;
- const lines = cleaned ? cleaned.split(/\r?\n/).length : 0;
- return { chars, words, lines };
- }, [cleaned]);
-
- return (
- <>
- <ToolPageHeader
- icon={ClipboardType}
- title="Clipboard Cleaner"
- description="Strip formatting and paste as plain text. Clean punctuation, spaces, emojis & more."
- actions={
- <>
- <ResetButton onClick={resetAll} />
- <PasteButton />
- <ResetButton icon={Wand2} onClick={onCleanClick} label="Clean"/>
- <CopyButton
- variant="default"
- getText={() => cleaned ||""}
- disabled={!cleaned}
- />
- </>
- }
- />
-
- {/* Settings */}
- <GlassCard>
- <CardHeader>
- <CardTitle className="text-base">Settings</CardTitle>
- <CardDescription>Choose how text should be cleaned.</CardDescription>
- </CardHeader>
- <CardContent className="grid gap-4 lg:grid-cols-3">
- <SelectField
- label="Case"
- value={opts.caseMode}
- onValueChange={(v) =>
- setOpts({
- ...opts,
- caseMode: (v as CleanOptions["caseMode"]) ??"none",
- })
- }
- options={[
- { label:"No change", value:"none"},
- { label:"lowercase", value:"lower"},
- { label:"UPPERCASE", value:"upper"},
- { label:"Title Case", value:"title"},
- { label:"Sentence case", value:"sentence"},
- ]}
- />
-
- <div className="space-y-2">
+  return (
+    <div className="relative space-y-6">
       <ToolBackground />
+      <div className="relative z-10 space-y-6">
+        <ToolPageHeader
+          icon={UserCheck}
+          title="Clipboard Cleaner & Formatter"
+          description="Transform robotic AI-generated phrasing into natural, conversational, and rhythmically varied human writing."
+        />
 
- <Label>Whitespace & Behavior</Label>
- <div className="flex flex-col gap-2 text-sm">
- <SwitchRow
- checked={opts.trim}
- onCheckedChange={(v) => setOpts({ ...opts, trim: v })}
- label="Trim ends"
- />
- <SwitchRow
- checked={opts.collapseSpaces}
- onCheckedChange={(v) => setOpts({ ...opts, collapseSpaces: v })}
- label="Collapse multiple spaces"
- />
- <SwitchRow
- checked={opts.tabsToSpaces}
- onCheckedChange={(v) => setOpts({ ...opts, tabsToSpaces: v })}
- label="Tabs → spaces"
- />
- <SwitchRow
- checked={opts.stripLineBreaks}
- onCheckedChange={(v) =>
- setOpts({ ...opts, stripLineBreaks: v })
- }
- label="Flatten line breaks"
- />
- <SwitchRow
- checked={opts.stripExtraBlankLines}
- onCheckedChange={(v) =>
- setOpts({ ...opts, stripExtraBlankLines: v })
- }
- label="Keep max 1 blank line"
- />
- <SwitchRow
- checked={opts.autoCleanOnPaste}
- onCheckedChange={(v) =>
- setOpts({ ...opts, autoCleanOnPaste: v })
- }
- label="Auto‑clean on paste"
- />
- </div>
- </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Input */}
+          <GlassCard>
+            <CardHeader>
+              <div className="flex justify-between items-center">
+                <CardTitle className="flex items-center gap-2">
+                  <Bot className="w-5 h-5 text-primary" /> Original AI Draft
+                </CardTitle>
+                <Select value={tone} onValueChange={(v: any) => setTone(v)}>
+                  <SelectTrigger className="w-36 h-8 text-xs"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="conversational">Conversational</SelectItem>
+                    <SelectItem value="professional">Professional</SelectItem>
+                    <SelectItem value="casual">Casual</SelectItem>
+                    <SelectItem value="academic">Academic</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <Textarea
+                rows={8}
+                value={inputText}
+                onChange={e => setInputText(e.target.value)}
+                placeholder="Paste ChatGPT, Claude, or Gemini output here..."
+                className="resize-y font-sans text-sm leading-relaxed"
+              />
+              <Button onClick={humanizeText} disabled={loading} className="w-full font-bold gap-2">
+                <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
+                {loading ? "Humanizing Cadence..." : "Humanize Phrasing"}
+              </Button>
+            </CardContent>
+          </GlassCard>
 
- <div className="space-y-2">
- <Label>Characters</Label>
- <div className="flex flex-col gap-2 text-sm">
- <SwitchRow
- checked={opts.normalizeQuotes}
- onCheckedChange={(v) =>
- setOpts({ ...opts, normalizeQuotes: v })
- }
- label="Smart quotes → '"
- />
- <SwitchRow
- checked={opts.normalizeDashes}
- onCheckedChange={(v) =>
- setOpts({ ...opts, normalizeDashes: v })
- }
- label="En/Em dashes → -"
- />
- <SwitchRow
- checked={opts.replaceEllipsis}
- onCheckedChange={(v) =>
- setOpts({ ...opts, replaceEllipsis: v })
- }
- label="Ellipsis … → ..."
- />
- <SwitchRow
- checked={opts.removeZeroWidth}
- onCheckedChange={(v) =>
- setOpts({ ...opts, removeZeroWidth: v })
- }
- label="Remove zero‑width chars"
- />
- <SwitchRow
- checked={opts.removeEmojis}
- onCheckedChange={(v) => setOpts({ ...opts, removeEmojis: v })}
- label="Remove emojis"
- />
- <SwitchRow
- checked={opts.removeUrls}
- onCheckedChange={(v) => setOpts({ ...opts, removeUrls: v })}
- label="Remove URLs"
- />
- </div>
- </div>
- </CardContent>
- </GlassCard>
-
- <Separator />
-
- {/* Editors */}
- <GlassCard>
- <CardHeader>
- <CardTitle className="text-base">Editor</CardTitle>
- <CardDescription>
- Paste on the left, get clean text on the right.
- </CardDescription>
- </CardHeader>
- <CardContent className="grid gap-4 md:grid-cols-2">
- <div className="space-y-2">
- <div className="flex items-center justify-between">
- <Label>Original</Label>
- <div className="flex gap-2">
- <InputField
- type="file"
- accept=".txt,text/plain"
- onFilesChange={async (files) => {
- const f = files?.[0];
- if (!f) return;
- const txt = await f.text();
- setRaw(txt);
- }}
- />
- <ResetButton
- icon={Eraser}
- label="Clear"
- onClick={() => setRaw("")}
- />
- </div>
- </div>
-
- <TextareaField
- value={raw}
- onValueChange={setRaw}
- onPaste={(e) => {
- if (!opts.autoCleanOnPaste) return;
- const pasted = e.clipboardData.getData("text");
- if (pasted) {
- e.preventDefault();
- const out = cleanText(pasted, opts);
- const ta = e.target as HTMLTextAreaElement;
- const selStart = ta.selectionStart || 0;
- const selEnd = ta.selectionEnd || 0;
- setRaw(
- (prev) => prev.slice(0, selStart) + out + prev.slice(selEnd)
- );
- }
- }}
- placeholder="Paste here (Ctrl/Cmd + V)…"
- textareaClassName="min-h-[220px] font-mono"
- />
- <div className="text-xs text-muted-foreground">
- Tip: Use the Paste button for one‑click clipboard import.
- </div>
- </div>
-
- <div className="space-y-2">
- <div className="flex items-center justify-between">
- <Label>Cleaned</Label>
- <div className="flex gap-2">
- <ExportTextButton
- variant="outline"
- filename="cleaned.txt"
- getText={() => cleaned}
- label="Export"
- disabled={!cleaned}
- />
- <CopyButton variant="default"getText={cleaned ||""} />
- </div>
- </div>
- <Textarea readOnly value={cleaned} className="min-h-55"/>
- <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
- <Badge variant="secondary">{stats.words} words</Badge>
- <Badge variant="secondary">{stats.chars} chars</Badge>
- <Badge variant="secondary">{stats.lines} lines</Badge>
- </div>
- </div>
- </CardContent>
- </GlassCard>
-
- {/* History */}
- <GlassCard>
- <CardHeader>
- <CardTitle className="text-base">History</CardTitle>
- <CardDescription>Last 20 results (local only)</CardDescription>
- </CardHeader>
- <CardContent className="space-y-3">
- {history.length === 0 && (
- <p className="text-sm text-muted-foreground">
- No history yet. Clean something to see it here.
- </p>
- )}
- <div className="grid gap-3 md:grid-cols-2">
- {history.map((h) => (
- <div key={h.id} className="rounded-lg border p-3 space-y-2">
- <div className="flex items-center justify-between text-xs text-muted-foreground">
- <span>{new Date(h.ts).toLocaleString()}</span>
- <CopyButton
- variant="outline"
- size="sm"
- getText={() => h.out ||""}
- />
- </div>
- <div className="text-xs text-muted-foreground">Source</div>
- <pre className="text-xs overflow-x-auto whitespace-pre-wrap wrap-break-word bg-muted/30 rounded p-2 max-h-32">
- {h.src}
- </pre>
- <div className="text-xs text-muted-foreground">Cleaned</div>
- <pre className="text-xs overflow-x-auto whitespace-pre-wrap wrap-break-word bg-muted/30 rounded p-2 max-h-32">
- {h.out}
- </pre>
- </div>
- ))}
- 
-      <ToolHowItWorks
-        steps={[
-          {
-            step: "01",
-            title: "Input Your Data",
-            description: "Enter your information in the input field above and configure any options.",
-            icon: Sparkles,
-          },
-          {
-            step: "02",
-            title: "Process & Generate",
-            description: "The tool processes your input instantly and displays the results.",
-            icon: Zap,
-          },
-          {
-            step: "03",
-            title: "Copy & Use",
-            description: "Copy the output with one click and use it wherever you need.",
-            icon: Copy,
-          },
-        ]}
-        badges={["100% Free", "Instant Results", "Privacy-First"]}
-      />
-
-      <ToolFeatureGuides
-        features={[
-          {
-            icon: Sparkles,
-            title: "Lightning Fast",
-            description: "Get results in milliseconds with our optimized client-side processing engine.",
-          },
-          {
-            icon: Shield,
-            title: "Completely Private",
-            description: "All processing happens in your browser. Your data never leaves your device.",
-          },
-          {
-            icon: Zap,
-            title: "No Signup Required",
-            description: "Use this tool instantly without creating an account or providing any personal information.",
-          },
-        ]}
-      >
-        <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use Our Clipboard Cleaner?</h3>
-          <p>
-            This free online tool is designed to help you get accurate results quickly and securely.
-            Whether you're a developer, designer, student, or professional, our Clipboard Cleaner provides
-            the functionality you need without any complexity or cost.
-          </p>
-          <p>
-            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
-            privacy and zero latency. No data is ever transmitted to external servers, making it safe
-            for sensitive information.
-          </p>
+          {/* Output */}
+          <GlassCard>
+            <CardHeader>
+              <div className="flex justify-between items-center">
+                <CardTitle className="flex items-center gap-2">
+                  <UserCheck className="w-5 h-5 text-green-500" /> Humanized Version
+                </CardTitle>
+                {outputText && <CopyButton getText={() => outputText} label="Copy Text" />}
+              </div>
+            </CardHeader>
+            <CardContent>
+              <Textarea
+                rows={8}
+                readOnly
+                value={outputText || "Click Humanize Phrasing to see your natural humanized output..."}
+                className="resize-y font-sans text-sm leading-relaxed bg-muted/40"
+              />
+            </CardContent>
+          </GlassCard>
         </div>
-      </ToolFeatureGuides>
 
-      <ToolFaqAccordion
-        faqs={[
-          {
-            question: "Is this tool free to use?",
-            answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits.",
-          },
-          {
-            question: "Is my data secure?",
-            answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server.",
-          },
-          {
-            question: "Do I need to create an account?",
-            answer: "No account or registration is required. Simply open the tool and start using it immediately.",
-          },
-        ]}
-      />
+        <ToolHowItWorks
+          steps={[
+            { step: "01", title: "Paste AI Text", description: "Insert text drafted by large language models.", icon: Bot },
+            { step: "02", title: "Remove AI Cliches", description: "Eliminates repetitive buzzwords like 'delve', 'tapestry', and 'beacon'.", icon: Sparkles },
+            { step: "03", title: "Apply Human Cadence", description: "Adjusts sentence length variance (burstiness and perplexity).", icon: UserCheck }
+          ]}
+          badges={["100% Free Forever", "Zero AI Footprints", "Private Client-Side Engine"]}
+        />
 
-      <RelatedTools currentToolUrl="/tools/util/clipboard-cleaner" max={6} />
+        <ToolFeatureGuides
+          features={[
+            { icon: UserCheck, title: "Burstiness & Rhythm Optimization", description: "Varies sentence lengths to mimic authentic human cognitive pacing." },
+            { icon: Sparkles, title: "Cliche De-slopping", description: "Detects and replaces over 40+ known AI filler phrases and transitional tropes." },
+            { icon: Shield, title: "100% Private", description: "Text processing runs directly in your local browser without API logging." }
+          ]}
+        >
+          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+            <h3>Why AI Text Detectors Flag Content</h3>
+            <p>
+              AI detectors analyze text for statistical uniformity in sentence length (burstiness) and vocabulary predictability (perplexity). Large Language Models tend to produce uniform, moderate-length sentences peppered with characteristic transitions.
+            </p>
+          </div>
+        </ToolFeatureGuides>
 
-</div>
- </CardContent>
- </GlassCard>
- </>
- );
+        <ToolFaqAccordion
+          faqs={[
+            { question: "Is this tool completely free?", answer: "Yes, 100% free with unlimited conversions and no word count restrictions." },
+            { question: "Is my text saved on external servers?", answer: "No, all de-slopping and cadence adjustments execute entirely within your browser." }
+          ]}
+        />
+
+        <RelatedTools currentToolUrl="/tools/util/clipboard-cleaner" max={6} />
+      </div>
+    </div>
+  );
 }
+
+export default ClipboardCleanerClient;

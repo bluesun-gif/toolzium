@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useCallback } from "react";
@@ -61,7 +64,10 @@ export function AiRiskMatrixClient() {
     navigator.clipboard.writeText(text);
     toast.success(`${label} copied to clipboard!`);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 p-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={ShieldAlert} title="AI Project Risk Matrix & Mitigation Assessor" description="Evaluate project threats, score probability vs impact, and generate actionable risk mitigation strategies." />
@@ -176,8 +182,9 @@ export function AiRiskMatrixClient() {
         question: "Can I use this for security compliance audits?",
         answer: "Yes! Risk matrices provide standard documentation suitable for SOC2 and ISO27001 risk review requirements."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/productivity/ai-risk-matrix" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default AiRiskMatrixClient;

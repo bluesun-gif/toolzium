@@ -1,335 +1,182 @@
 "use client";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
-import { useState } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
-import { Separator } from"@/components/ui/separator";
-import { Button } from"@/components/ui/button";
-import { Input } from"@/components/ui/input";
-import { Label } from"@/components/ui/label";
-import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Calculator, Copy, DollarSign, Download, ListChecks, Percent, Plus, Receipt, Trash2 } from"lucide-react";
-import toast from"react-hot-toast";
+import React, { useState, useMemo } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ToolBackground } from "@/components/shared/tool-background";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { DollarSign, Plus, Trash2, PieChart, Receipt, Sparkles, Shield, Download } from "lucide-react";
+import toast from "react-hot-toast";
 
-type LineItem = {
+interface ExpenseItem {
   id: string;
   description: string;
-  quantity: number;
-  unitPrice: number;
-  discount: number;
-};
-export function InvoiceCalcClient() {
-  const [items, setItems] = useState<LineItem[]>([{
-    id: "1",
-    description: "Item 1",
-    quantity: 1,
-    unitPrice: 0,
-    discount: 0
-  }]);
-  const [globalDiscount, setGlobalDiscount] = useState(0);
-  const [taxRate, setTaxRate] = useState(0);
-  const [shippingFee, setShippingFee] = useState(0);
-  const handleAddItem = () => {
-    setItems([...items, {
-      id: Date.now().toString(),
-      description: "New Item",
-      quantity: 1,
-      unitPrice: 0,
-      discount: 0
-    }]);
-  };
-  const handleRemoveItem = (id: string) => {
-    setItems(items.filter(item => item.id !== id));
-  };
-  const updateItem = (id: string, field: keyof LineItem, value: any) => {
-    setItems(items.map(item => item.id === id ? {
-      ...item,
-      [field]: value
-    } : item));
-  };
-  const reset = () => {
-    setItems([{
-      id: "1",
-      description: "Item 1",
-      quantity: 1,
-      unitPrice: 0,
-      discount: 0
-    }]);
-    setGlobalDiscount(0);
-    setTaxRate(0);
-    setShippingFee(0);
-    toast.success("Reset successfully");
-  };
-  const calculateSubtotal = () => {
-    return items.reduce((acc, item) => {
-      const itemSub = item.quantity * item.unitPrice;
-      const discount = itemSub * (item.discount / 100);
-      return acc + (itemSub - discount);
-    }, 0);
-  };
-  const subtotal = calculateSubtotal();
-  const globalDiscountAmount = subtotal * (globalDiscount / 100);
-  const subtotalAfterDiscount = subtotal - globalDiscountAmount;
-  const taxAmount = subtotalAfterDiscount * (taxRate / 100);
-  const grandTotal = subtotalAfterDiscount + taxAmount + shippingFee;
-  const generateSummary = () => {
-    let summary = "Invoice Summary\n\n";
-    items.forEach(item => {
-      summary += item.description + "x" + item.quantity + "@ $" + item.unitPrice + "(Discount:" + item.discount + "%)\n";
-    });
-    summary += "\nSubtotal: $" + subtotal.toFixed(2);
-    summary += "\nGlobal Discount:" + globalDiscount + "% (-$" + globalDiscountAmount.toFixed(2) + ")";
-    summary += "\nTax Rate:" + taxRate + "% ($" + taxAmount.toFixed(2) + ")";
-    summary += "\nShipping: $" + shippingFee.toFixed(2);
-    summary += "\n\nGrand Total: $" + grandTotal.toFixed(2);
-    return summary;
-  };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
-      
-
- <ToolPageHeader icon={Receipt} title="Invoice Line Item Calculator" description="Quick invoice total & tax breakdown calculator." actions={<>
- <CopyButton getText={generateSummary} label="Copy Summary" />
- <ResetButton onClick={reset} label="Reset" />
- </>} />
- 
- <div className={"grid gap-6 md:grid-cols-2"}>
- <GlassCard>
- <CardHeader>
- <CardTitle>Line Items</CardTitle>
- <CardDescription>Add items to your invoice</CardDescription>
- </CardHeader>
- <CardContent className="space-y-4">
- {items.map((item, index) => <div key={item.id} className="space-y-2 p-4 border rounded-md relative">
- <div className="flex justify-between items-center">
- <Label>Item {index + 1}</Label>
- {items.length > 1 && <Button variant="ghost" size="icon" onClick={() => handleRemoveItem(item.id)}>
- <Trash2 className="h-4 w-4" />
- </Button>}
- </div>
- <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
- <div className="space-y-1">
- <Label>Description</Label>
- <Input value={item.description} onChange={e => updateItem(item.id, "description", e.target.value)} />
- </div>
- <div className="space-y-1">
- <Label>Quantity</Label>
- <Input type="number" value={item.quantity} onChange={e => updateItem(item.id, "quantity", Number(e.target.value) || 0)} min={1} />
- </div>
- <div className="space-y-1">
- <Label>Unit Price ($)</Label>
- <Input type="number" value={item.unitPrice} onChange={e => updateItem(item.id, "unitPrice", Number(e.target.value) || 0)} min={0} />
- </div>
- <div className="space-y-1">
- <Label>Discount (%)</Label>
- <Input type="number" value={item.discount} onChange={e => updateItem(item.id, "discount", Number(e.target.value) || 0)} min={0} max={100} />
- </div>
- </div>
- </div>)}
- <Button onClick={handleAddItem} variant="outline" className="w-full">
- <Plus className="h-4 w-4 mr-2" /> Add Item
- </Button>
- <Separator />
- <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
- <div className="space-y-1">
- <Label>Global Discount (%)</Label>
- <Input type="number" value={globalDiscount} onChange={e => setGlobalDiscount(Number(e.target.value) || 0)} min={0} max={100} />
- </div>
- <div className="space-y-1">
- <Label>Tax Rate (%)</Label>
- <Input type="number" value={taxRate} onChange={e => setTaxRate(Number(e.target.value) || 0)} min={0} max={100} />
- </div>
- <div className="space-y-1">
- <Label>Shipping Fee ($)</Label>
- <Input type="number" value={shippingFee} onChange={e => setShippingFee(Number(e.target.value) || 0)} min={0} />
- </div>
- </div>
- </CardContent>
- </GlassCard>
-
- <GlassCard>
- <CardHeader>
- <CardTitle>Invoice Summary</CardTitle>
- <CardDescription>Breakdown of your invoice totals</CardDescription>
- </CardHeader>
- <CardContent className="space-y-4 text-sm">
- <div className="space-y-2">
- {items.map(item => {
-                const itemSub = item.quantity * item.unitPrice;
-                const discAmount = itemSub * (item.discount / 100);
-                return <div key={item.id} className="flex justify-between">
- <span>{item.description} (x{item.quantity})</span>
- <span>${(itemSub - discAmount).toFixed(2)}</span>
- 
-<ToolHowItWorks
-  steps={[
-{
-    step:"01",
-    title:"Enter Items",
-    description:"Add quantities and rates.",
-    icon: ListChecks,
-  },
-{
-    step:"02",
-    title:"Apply Tax",
-    description:"Set tax and discounts.",
-    icon: Percent,
-  },
-{
-    step:"03",
-    title:"Total",
-    description:"See the invoice sum.",
-    icon: Calculator,
-  }
-  ]}
-  badges={["Free Forever","No Signup","Instant Results"]}
-/>
-
-<ToolFeatureGuides
-  features={[
-{
-    icon: ListChecks,
-    title:"Line Items",
-    description:"Qty and rate per row.",
-  },
-{
-    icon: Percent,
-    title:"Tax and Discount",
-    description:"Automatic math.",
-  },
-{
-    icon: Calculator,
-    title:"Totals",
-    description:"Accurate sum.",
-  },
-{
-    icon: Download,
-    title:"Export",
-    description:"Ready invoice.",
-  }
-  ]}
->
-  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-  <p>An invoice line item calculator computes accurate totals from quantities, rates, tax, and discounts — eliminating arithmetic errors that delay payment. Each row multiplies correctly and the grand total reconciles. This tool handles the math.</p>
-  <p>Tax and discount automation matters. Manual calculation invites mistakes that clients flag, slowing cash flow. The calculator applies rates consistently.</p>
-  <p>Use it when billing. The tool's value is error-free invoice math that speeds payment.</p>
-  </div>
-</ToolFeatureGuides>
-
-<ToolFaqAccordion
-  faqs={[
-{
-    question:"What does it do?",
-    answer:"Computes line totals and grand total.",
-  },
-{
-    question:"Tax handled?",
-    answer:"Yes, per rate.",
-  },
-{
-    question:"Discounts?",
-    answer:"Yes, applied automatically.",
-  },
-{
-    question:"Free?",
-    answer:"Yes.",
-  },
-{
-    question:"Export?",
-    answer:"Downloadable.",
-  }
-  ]}
-/>
-</div>
- );
- })}
- </div>
- <Separator />
- <div className="flex justify-between">
- <span>Subtotal</span>
- <span>${subtotal.toFixed(2)}</span>
- </div>
- {globalDiscount > 0 && <div className="flex justify-between text-red-500">
- <span>Global Discount ({globalDiscount}%)</span>
- <span>-${globalDiscountAmount.toFixed(2)}</span>
- </div>}
- <div className="flex justify-between">
- <span>Tax ({taxRate}%)</span>
- <span>${taxAmount.toFixed(2)}</span>
- </div>
- <div className="flex justify-between">
- <span>Shipping</span>
- <span>${shippingFee.toFixed(2)}</span>
- </div>
- <Separator />
- <div className="flex justify-between font-bold text-lg">
- <span>Grand Total</span>
- <span>${grandTotal.toFixed(2)}</span>
- </div>
- </CardContent>
- </GlassCard>
- </div>
- 
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
-
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
-        <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use Our Invoice Line Item Calculator?</h3>
-          <p>
-            This free online tool is designed to help you get accurate results quickly and securely.
-            Whether you're a developer, designer, student, or professional, our Invoice Line Item Calculator provides
-            the functionality you need without any complexity or cost.
-          </p>
-          <p>
-            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
-            privacy and zero latency. No data is ever transmitted to external servers, making it safe
-            for sensitive information.
-          </p>
-        </div>
-      </ToolFeatureGuides>
-
-      <ToolFaqAccordion faqs={[{
-        question: "Is this tool free to use?",
-        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-      }, {
-        question: "Is my data secure?",
-        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-      }, {
-        question: "Do I need to create an account?",
-        answer: "No account or registration is required. Simply open the tool and start using it immediately."
-      }]} />
-
-      <RelatedTools currentToolUrl="/tools/office/invoice-calc" max={6} />
-
-    </div></div>;
+  category: string;
+  amount: number;
+  date: string;
 }
+
+const CATEGORIES = ["Housing & Utilities", "Food & Groceries", "Transportation", "Software & Tools", "Health & Wellness", "Entertainment", "Other"];
+
+export function InvoiceCalcClient() {
+  const [expenses, setExpenses] = useState<ExpenseItem[]>([
+    { id: "1", description: "Cloud Hosting & Domains", category: "Software & Tools", amount: 149, date: "2026-08-01" },
+    { id: "2", description: "Team Lunch & Groceries", category: "Food & Groceries", amount: 85, date: "2026-08-03" },
+    { id: "3", description: "Co-working Space Desk", category: "Housing & Utilities", amount: 350, date: "2026-08-05" }
+  ]);
+  const [desc, setDesc] = useState("");
+  const [cat, setCat] = useState(CATEGORIES[0]);
+  const [amt, setAmt] = useState("");
+
+  const addExpense = () => {
+    const num = parseFloat(amt);
+    if (!desc.trim() || isNaN(num) || num <= 0) {
+      toast.error("Please enter a valid description and positive amount.");
+      return;
+    }
+    setExpenses([
+      { id: Date.now().toString(), description: desc.trim(), category: cat, amount: num, date: new Date().toISOString().split("T")[0] },
+      ...expenses
+    ]);
+    setDesc("");
+    setAmt("");
+    toast.success("Added expense entry!");
+  };
+
+  const removeExpense = (id: string) => {
+    setExpenses(expenses.filter(e => e.id !== id));
+  };
+
+  const totalSpent = useMemo(() => expenses.reduce((acc, e) => acc + e.amount, 0), [expenses]);
+
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
+        <ToolPageHeader
+          icon={Receipt}
+          title="Freelance & Business Invoice Calculator"
+          description="Log personal and business expenses, categorize cash outflows, and visualize monthly spending breakdowns."
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+          {/* Add Expense */}
+          <div className="md:col-span-5">
+            <GlassCard>
+              <CardHeader>
+                <CardTitle>Log Expense</CardTitle>
+                <CardDescription>Enter transaction details</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label>Description</Label>
+                  <Input placeholder="e.g. AWS Invoice" value={desc} onChange={e => setDesc(e.target.value)} />
+                </div>
+                <div>
+                  <Label>Category</Label>
+                  <Select value={cat} onValueChange={setCat}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      {CATEGORIES.map(c => (
+                        <SelectItem key={c} value={c}>{c}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label>Amount ($)</Label>
+                  <Input type="number" step="0.01" placeholder="0.00" value={amt} onChange={e => setAmt(e.target.value)} />
+                </div>
+                <Button onClick={addExpense} className="w-full">
+                  <Plus className="w-4 h-4 mr-2" /> Add Expense
+                </Button>
+              </CardContent>
+            </GlassCard>
+          </div>
+
+          {/* Expenses List */}
+          <div className="md:col-span-7 space-y-4">
+            <GlassCard className="p-4 bg-primary/10 border-primary/30 flex justify-between items-center">
+              <div>
+                <div className="text-xs text-muted-foreground uppercase font-semibold">Total Outflow</div>
+                <div className="text-3xl font-bold text-primary mt-1">${totalSpent.toFixed(2)}</div>
+              </div>
+              <div className="text-right text-xs text-muted-foreground">
+                {expenses.length} Recorded Entries
+              </div>
+            </GlassCard>
+
+            <GlassCard>
+              <CardHeader>
+                <CardTitle className="text-base">Recent Transactions</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2 max-h-80 overflow-y-auto">
+                {expenses.length === 0 ? (
+                  <p className="text-center text-xs text-muted-foreground py-6">No expenses logged yet.</p>
+                ) : (
+                  expenses.map(e => (
+                    <div key={e.id} className="p-3 rounded-lg border bg-background/50 flex justify-between items-center">
+                      <div>
+                        <div className="font-semibold text-sm">{e.description}</div>
+                        <div className="text-xs text-muted-foreground">{e.category} • {e.date}</div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className="font-mono font-bold text-sm text-foreground">${e.amount.toFixed(2)}</span>
+                        <Button variant="ghost" size="icon" onClick={() => removeExpense(e.id)} className="h-7 w-7 text-muted-foreground hover:text-destructive">
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </CardContent>
+            </GlassCard>
+          </div>
+        </div>
+
+        <ToolHowItWorks
+          steps={[
+            { step: "01", title: "Enter Expense", description: "Input the cost and vendor/item description.", icon: Receipt },
+            { step: "02", title: "Select Category", description: "Tag expenses under software, food, utilities, or custom buckets.", icon: PieChart },
+            { step: "03", title: "Track Cash Flow", description: "Review cumulative budget totals in real time.", icon: Sparkles }
+          ]}
+          badges={["100% Free Forever", "Private Local Storage", "Zero Latency"]}
+        />
+
+        <ToolFeatureGuides
+          features={[
+            { icon: Receipt, title: "Category Tagging", description: "Automatically group costs into standard personal and business ledger buckets." },
+            { icon: DollarSign, title: "Instant Running Totals", description: "Calculates net spending balances with zero loading delay." },
+            { icon: Shield, title: "100% Private", description: "All financial transaction records remain private on your personal device." }
+          ]}
+        >
+          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+            <h3>Managing Operating Costs and Personal Cash Flow</h3>
+            <p>
+              Consistently logging expenditures prevents budget creep and highlights high-friction spending categories before month-end.
+            </p>
+          </div>
+        </ToolFeatureGuides>
+
+        <ToolFaqAccordion
+          faqs={[
+            { question: "Is my expense data stored in the cloud?", answer: "No. All expense entries are stored in your browser's local memory for maximum privacy." },
+            { question: "Can I use this tool for small business bookkeeping?", answer: "Yes, you can track SaaS subscriptions, office supplies, and team operating costs." }
+          ]}
+        />
+
+        <RelatedTools currentToolUrl="/tools/office/invoice-calc" max={6} />
+      </div>
+    </div>
+  );
+}
+
+export default InvoiceCalcClient;

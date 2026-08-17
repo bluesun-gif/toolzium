@@ -1,5 +1,7 @@
 "use client";
 
+import { ToolBackground } from "@/components/shared/tool-background";
+
 import type { LucideIcon } from"lucide-react";
 
 export default function StatItem({

@@ -1,19 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import ImagePdfClient from "@/components/tools/pdf/image-pdf-client";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "Image to PDF";
+const DESCRIPTION = "Convert images to PDF and PDF pages to PNG images.";
+const PATH = "/tools/pdf/image-pdf";
 
 export const metadata = buildMetadata({
-  title: "Image to PDF",
-  description: "Convert images to PDF and PDF pages to PNG images.",
-  path: "/tools/pdf/image-pdf",
-  keywords: ["convert", "images", "pages"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
-export default function ImagePdfPage() {
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "Image to PDF",
+    description: DESCRIPTION,
+    path: PATH
+  });
+
   return (
-    <><ImagePdfClient />
-      <RelatedTools currentToolUrl="/tools/pdf/image-pdf" />
+    <>
+      <JsonLd data={jsonLd} />
+      <ImagePdfClient />
     </>
   );
 }

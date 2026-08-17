@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -38,7 +40,10 @@ export function SlaGeneratorClient() {
     setMaintenanceWindow("Sundays 2:00 AM - 4:00 AM UTC");
     setPenaltyTerms("5% service credit for every 1% below uptime target");
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={ShieldCheck} title="SLA Document Generator" description="Generate formal Service Level Agreement contracts with customizable terms." actions={<>
@@ -182,6 +187,9 @@ export function SlaGeneratorClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default SlaGeneratorClient;

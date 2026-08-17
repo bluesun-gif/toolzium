@@ -1,19 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import ValorantCrosshairClient from "@/components/tools/gaming/valorant-crosshair-client";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "Valorant Pro Crosshair Generator & Code Converter";
+const DESCRIPTION = "Browse pro player Valorant crosshair codes (TenZ, Tarik, Demon1, Aspas) with 1-click Valorant import string copying.";
+const PATH = "/tools/gaming/valorant-crosshair";
 
 export const metadata = buildMetadata({
-  title: "Valorant Pro Crosshair Generator & Code Converter",
-  description: "Browse pro player Valorant crosshair codes (TenZ, Tarik, Demon1, Aspas) with 1-click Valorant import string copying.",
-  path: "/tools/gaming/valorant-crosshair",
-  keywords: ["with", "tarik", "valorant", "browse", "tenz", "codes", "aspas", "click", "import", "crosshair", "player"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
-export default function ValorantCrosshairPage() {
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "Valorant Pro Crosshair Generator & Code Converter",
+    description: DESCRIPTION,
+    path: PATH
+  });
+
   return (
-    <><ValorantCrosshairClient />
-      <RelatedTools currentToolUrl="/tools/gaming/valorant-crosshair" />
+    <>
+      <JsonLd data={jsonLd} />
+      <ValorantCrosshairClient />
     </>
   );
 }

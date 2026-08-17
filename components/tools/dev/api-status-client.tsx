@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback, useEffect } from "react";
@@ -226,7 +227,10 @@ export default function ApiStatusClient() {
     question: "Are my custom endpoints stored securely?",
     answer: "Yes, all custom endpoints you add are stored exclusively in your browser's local storage. No data is ever transmitted to our servers, ensuring your internal infrastructure URLs remain completely private."
   }];
-  return <div className="relative max-w-6xl mx-auto space-y-8 pb-12 px-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Activity} title="API Status Checker" description="Monitor the real-time health, SLAs, and status pages of critical third-party APIs and cloud services." />
@@ -295,6 +299,7 @@ export default function ApiStatusClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={faqs} />
- <RelatedTools currentToolUrl="/tools/dev/api-status-checker" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

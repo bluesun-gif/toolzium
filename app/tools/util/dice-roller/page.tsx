@@ -1,30 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import DiceRollerClient from "@/components/tools/util/dice-roller-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
+
+const TITLE = "Dice Roller | Toolzium";
+const DESCRIPTION = "Free online dice roller tool with instant calculation and privacy.";
+const PATH = "/tools/util/dice-roller";
+
 export const metadata = buildMetadata({
-  title: "Roll a Dice",
-  description: "Roll virtual dice online with realistic animations. Support for 1-6 dice, roll history, and statistics. Fair random dice roller for board games, RPGs, and decision making.",
-  path: "/tools/util/dice-roller",
-  keywords: ["virtual", "with", "animations", "statistics", "online", "history", "dice", "realistic", "roll", "support"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Roll a Dice",
-    description: "Roll virtual dice online with realistic animations. Support for 1-6 dice, roll history, and statistics. Fair random dice roller for board games, RPGs, and decision making.",
-    path: "/tools/util/dice-roller",
-    categoryName: "Util",
-    categoryPath: "/tools/util",
+    name: "Dice Roller",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <DiceRollerClient />
-    
-      <RelatedTools currentToolUrl="/tools/util/dice-roller" />
-</div>
+    </>
   );
 }

@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
@@ -82,7 +83,10 @@ export function TripBudgetMatrixClient() {
     setDestinations(destinations.filter((_, i) => i !== index));
   };
   const tripLengths = [7, 14, 21, 30];
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Globe} title="Trip Budget Matrix" description="Comprehensive multi-destination travel budget converter matrix." actions={<ResetButton onClick={handleReset} label="Reset" />} />
@@ -216,8 +220,9 @@ export function TripBudgetMatrixClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/travel/trip-budget-matrix" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default TripBudgetMatrixClient;

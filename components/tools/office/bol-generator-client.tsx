@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -12,7 +14,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Copy, Download, FileText, Plus, ShieldCheck, Ship, Truck } from"lucide-react";
+import { Copy, Download, FileText, Plus, ShieldCheck, Ship, Truck, Type } from "lucide-react";
 import { toast } from"react-hot-toast";
 
 interface HandlingUnit {
@@ -78,7 +80,10 @@ export function BolGeneratorClient() {
     }]);
     toast.success("Reset successful");
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Truck} title="Bill of Lading Generator" description="Generate official Bill of Lading (BOL) logistics shipping documents." actions={<>
@@ -271,6 +276,9 @@ export function BolGeneratorClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default BolGeneratorClient;

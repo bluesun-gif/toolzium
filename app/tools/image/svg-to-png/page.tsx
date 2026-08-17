@@ -1,30 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import SvgToPngClient from "@/components/tools/image/svg-to-png-client";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "Svg To Png | Toolzium";
+const DESCRIPTION = "Free online svg to png tool with instant calculation and privacy.";
+const PATH = "/tools/image/svg-to-png";
 
 export const metadata = buildMetadata({
-  title: "SVG to PNG Converter",
-  description: "Convert SVG files to PNG images. Upload or paste SVG code. Set dimensions, scale (1x-4x), transparent or custom background. Preview and download as PNG.",
-  path: "/tools/image/svg-to-png",
-  keywords: ["preview", "paste", "convert", "files", "background", "upload", "scale", "transparent", "images", "custom", "code", "dimensions"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "SVG to PNG Converter",
-    description: "Convert SVG files to PNG images. Upload or paste SVG code. Set dimensions, scale (1x-4x), transparent or custom background. Preview and download as PNG.",
-    path: "/tools/image/svg-to-png",
-    categoryName: "Image",
-    categoryPath: "/tools/image",
+    name: "Svg To Png",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <SvgToPngClient />
-    
-      <RelatedTools currentToolUrl="/tools/image/svg-to-png" />
-</>
+    </>
   );
 }

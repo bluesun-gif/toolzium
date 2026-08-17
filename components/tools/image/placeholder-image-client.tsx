@@ -1,4 +1,8 @@
 "use client";
+
+import { Label } from "@/components/ui/label";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -10,7 +14,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components
 import { Badge } from"@/components/ui/badge";
 import { CopyButton, ResetButton, ActionButton } from"@/components/shared/action-buttons";
 import InputField from"@/components/shared/form-fields/input-field";
-import { Code, Download, ImageIcon, Maximize, Palette, Ruler } from"lucide-react";
+import { Code, Download, ImageIcon, Maximize, Palette, Ruler, Copy } from "lucide-react";
 import { cn } from"@/lib/utils";
 
 const keywords = [
@@ -90,7 +94,10 @@ export default function PlaceholderImageClient() {
     setText("");
     setFontSize(48);
   };
-  return <div className="relative max-w-6xl mx-auto px-4 py-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Placeholder Image Generator" description="Generate placeholder images with custom dimensions, colors, and text. Create dummy images for mockups, wireframes, and development." icon={ImageIcon} />
@@ -267,6 +274,7 @@ export default function PlaceholderImageClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }

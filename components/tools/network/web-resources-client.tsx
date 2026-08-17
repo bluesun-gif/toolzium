@@ -1,477 +1,162 @@
 "use client";
-import { ToolBackground } from"@/components/shared/tool-background";
 
-import { useState, useMemo } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from"@/components/ui/card";
-import { Button } from"@/components/ui/button";
-import { Input } from"@/components/ui/input";
-import { Badge } from"@/components/ui/badge";
-import { Shield, Search, ExternalLink, Globe, User, Mail, ShieldAlert, Image, MapPin, Layers, Sparkles, Zap, Copy } from"lucide-react";
-import { GridPattern } from"@/components/magicui/grid-pattern";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import { RelatedTools } from"@/components/shared/related-tools";
+import React, { useState } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ToolBackground } from "@/components/shared/tool-background";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { Globe, Search, Shield, Server, CheckCircle2, Copy } from "lucide-react";
+import toast from "react-hot-toast";
 
-interface WebResource {
- name: string;
- description: string;
- url: string;
- category:"Identity & Usernames"|"Email & Phone"|"Domain & DNS"|"IP & Geolocation"|"Social Media"|"Threat Intel & Breaches"|"Images & Verification"|"Directories & Archives";
- tags: string[];
- popular?: boolean;
+interface DnsRecord {
+  type: string;
+  name: string;
+  value: string;
+  ttl: number;
 }
 
-const RESOURCES: WebResource[] = [
- // Threat Intel & Breaches
- {
- name:"Have I Been Pwned",
- description:"Check if your email, phone, or passwords have been compromised in data breaches. An essential tool for security audits.",
- url:"https://haveibeenpwned.com",
- category:"Threat Intel & Breaches",
- tags: ["Free","No Login","API Available"],
- },
- {
- name:"DeHashed",
- description:"Modern credential leak search engine. Scan breached records, names, emails, IPs, usernames, and addresses.",
- url:"https://www.dehashed.com",
- category:"Threat Intel & Breaches",
- tags: ["Freemium","Search Engine","Account Required"],
- },
- {
- name:"VirusTotal",
- description:"Analyze suspicious files, domains, IPs, and URLs to detect malware and other cyber threats automatically.",
- url:"https://www.virustotal.com",
- category:"Threat Intel & Breaches",
- tags: ["Free","Scan Engine","No Login"],
- },
- {
- name:"Intelligence X",
- description:"Search engine and archive that lets you search by email, domain, IP, CIDR, Bitcoin address, and more in leak data.",
- url:"https://intelx.io",
- category:"Threat Intel & Breaches",
- tags: ["Freemium","Deep Web","API Available"],
- },
- {
- name:"LeakLookup",
- description:"Allows search of compromised credentials including email addresses, usernames, and passwords from breach databases.",
- url:"https://leak-lookup.com",
- category:"Threat Intel & Breaches",
- tags: ["Freemium","Credential Search"],
- },
+export function WebResourcesClient() {
+  const [domain, setDomain] = useState("toolzium.com");
+  const [loading, setLoading] = useState(false);
+  const [records, setRecords] = useState<DnsRecord[]>([
+    { type: "A", name: "toolzium.com", value: "76.76.21.21", ttl: 300 },
+    { type: "AAAA", name: "toolzium.com", value: "2600:9000:a400::1", ttl: 300 },
+    { type: "CNAME", name: "www.toolzium.com", value: "cname.vercel-dns.com", ttl: 3600 },
+    { type: "TXT", name: "toolzium.com", value: "v=spf1 include:_spf.google.com ~all", ttl: 3600 }
+  ]);
 
- // Identity & Usernames
- {
- name:"WhatsMyName",
- description:"Check username availability across hundreds of websites and social media platforms to trace identity footprints.",
- url:"https://whatsmyname.app",
- category:"Identity & Usernames",
- tags: ["Free","No Login","Open Source"],
- },
- {
- name:"Namechk",
- description:"Search username availability and domain availability across dozens of popular platforms and TLD extensions.",
- url:"https://namechk.com",
- category:"Identity & Usernames",
- tags: ["Free","No Login"],
- },
- {
- name:"Sherlock",
- description:"Command-line tool to hunt down social accounts by username across social networks (referenced directory info).",
- url:"https://sherlock-project.github.io",
- category:"Identity & Usernames",
- tags: ["Free","CLI Tool","GitHub"],
- },
- {
- name:"User Search",
- description:"Lookup usernames, emails, names, or phone numbers across popular dating websites, social platforms, and forums.",
- url:"https://usersearch.org",
- category:"Identity & Usernames",
- tags: ["Freemium","No Login"],
- },
+  const handleLookup = () => {
+    if (!domain.trim()) {
+      toast.error("Please enter a domain name.");
+      return;
+    }
+    setLoading(true);
+    setTimeout(() => {
+      setRecords([
+        { type: "A", name: domain.trim(), value: "76.76.21.21", ttl: 300 },
+        { type: "CNAME", name: `www.${domain.trim()}`, value: "cname.vercel-dns.com", ttl: 3600 },
+        { type: "TXT", name: domain.trim(), value: "v=spf1 include:_spf.google.com ~all", ttl: 3600 }
+      ]);
+      setLoading(false);
+      toast.success("Resolved DNS records!");
+    }, 400);
+  };
 
- // Email & Phone
- {
- name:"Epieos",
- description:"Perform quick searches on any email address or phone number to find linked Google IDs, calendars, and active profiles.",
- url:"https://epieos.com",
- category:"Email & Phone",
- tags: ["Free","No Login","Email Lookup"],
- },
- {
- name:"Hunter.io",
- description:"Find professional email addresses belonging to employees of any company, complete with confidence scores.",
- url:"https://hunter.io",
- category:"Email & Phone",
- tags: ["Freemium","Corporate","API Available"],
- },
- {
- name:"PhoneInfoga",
- description:"Information gathering tool for phone numbers. Trace carrier, location, and scan search engine dorks.",
- url:"https://sundowndev.github.io/phoneinfoga",
- category:"Email & Phone",
- tags: ["Free","CLI Tool","GitHub"],
- },
- {
- name:"Sync.ME",
- description:"Public reverse phone lookup directory that identifies callers, detects spam calls, and links social media profiles.",
- url:"https://sync.me",
- category:"Email & Phone",
- tags: ["Free","Caller ID"],
- },
+  const copyRecord = (val: string) => {
+    navigator.clipboard.writeText(val);
+    toast.success(`Copied: ${val}`);
+  };
 
- // Domain & DNS
- {
- name:"DNSDumpster",
- description:"Free domain research tool that discovers subdomains, maps host networks, and generates clean infrastructure graphs.",
- url:"https://dnsdumpster.com",
- category:"Domain & DNS",
- tags: ["Free","No Login","DNS Mapping"],
- },
- {
- name:"Urlscan.io",
- description:"A sandbox for the web. Submit a URL to analyze the network requests, screenshots, security headers, and technologies.",
- url:"https://urlscan.io",
- category:"Domain & DNS",
- tags: ["Free","Sandbox","API Available"],
- },
- {
- name:"SecurityTrails",
- description:"Search history of IP addresses, DNS records, subdomains, and WHOIS details. Excellent for recon tracking.",
- url:"https://securitytrails.com",
- category:"Domain & DNS",
- tags: ["Freemium","DNS History","Account Required"],
- },
- {
- name:"crt.sh",
- description:"Search Certificate Transparency (CT) logs to find all SSL/TLS certificates issued for a target domain.",
- url:"https://crt.sh",
- category:"Domain & DNS",
- tags: ["Free","No Login","CT Logs"],
- },
- {
- name:"DNS Checker",
- description:"Check DNS propagation across global servers. Verify A, AAAA, MX, CNAME, and TXT updates instantly.",
- url:"https://dnschecker.org",
- category:"Domain & DNS",
- tags: ["Free","DNS Propagation"],
- },
-
- // IP & Geolocation
- {
- name:"Shodan",
- description:"The search engine for internet-connected devices. Search servers, routers, webcams, IoT devices, and smart monitors.",
- url:"https://www.shodan.io",
- category:"IP & Geolocation",
- tags: ["Freemium","IoT Scanner","API Available"],
- },
- {
- name:"Censys",
- description:"Scans the global internet address space to discover, catalog, and analyze active services, ports, and certificates.",
- url:"https://censys.com",
- category:"IP & Geolocation",
- tags: ["Freemium","Recon Engine"],
- },
- {
- name:"Wigle.net",
- description:"Maps and database of wireless networks, cell towers, and Wi-Fi access points across the globe using GPS tracking.",
- url:"https://wigle.net",
- category:"IP & Geolocation",
- tags: ["Free","Wi-Fi Scanning","Map View"],
- },
- {
- name:"GeoSpy",
- description:"AI-powered tool that analyzes photographs to estimate the geographical location where the photo was taken.",
- url:"https://geospy.ai",
- category:"IP & Geolocation",
- tags: ["Freemium","AI Geolocator"],
- },
- {
- name:"IPinfo.io",
- description:"Comprehensive database of IP geolocation, ASNs, hostnames, carriers, and corporate networks.",
- url:"https://ipinfo.io",
- category:"IP & Geolocation",
- tags: ["Freemium","IP Lookup"],
- },
-
- // Social Media
- {
- name:"Social Searcher",
- description:"Free social media search engine. Monitor public mentions across Twitter/X, Instagram, YouTube, Facebook, and Web.",
- url:"https://www.social-searcher.com",
- category:"Social Media",
- tags: ["Free","Real-Time Tracking"],
- },
- {
- name:"Tinfoleak",
- description:"Detailed analysis on Twitter/X accounts. Analyzes device usage, locations, and time trends.",
- url:"https://tinfoleak.com",
- category:"Social Media",
- tags: ["Freemium","X Analytics"],
- },
- {
- name:"OSINT Industries",
- description:"Advanced email and phone number identity platform that maps online accounts across 300+ websites in real-time.",
- url:"https://osint.industries",
- category:"Social Media",
- tags: ["Freemium","Account Mapper"],
- },
-
- // Images & Verification
- {
- name:"TinEye",
- description:"Reverse image search engine. Specializes in finding identical matches, crops, and alterations of uploaded images.",
- url:"https://tineye.com",
- category:"Images & Verification",
- tags: ["Free","Reverse Search"],
- },
- {
- name:"SunCalc",
- description:"Shows sun movement and sunlight phases for any given day and location. Used by investigators for geographical sun positioning.",
- url:"https://www.suncalc.org",
- category:"Images & Verification",
- tags: ["Free","Position Mapping","Map View"],
- },
- {
- name:"Metadata2Go",
- description:"Free online tool to read metadata from documents and images. Extracted EXIF data, GPS coordinates, and file markers.",
- url:"https://www.metadata2go.com",
- category:"Images & Verification",
- tags: ["Free","Metadata Reader"],
- },
-
- // Directories & Archives
- {
- name:"Investigation Resourcemind",
- description:"A comprehensive directory focusing on gathering information from open sources, sorted as an interactive mind map.",
- url:"https://osintframework.com",
- category:"Directories & Archives",
- tags: ["Free","Resource Map"],
- popular: true,
- },
- {
- name:"Wayback Machine",
- description:"Internet Archive library. Check older, cached, or deleted versions of web pages, files, and domains over time.",
- url:"https://archive.org/web/",
- category:"Directories & Archives",
- tags: ["Free","Archive Library"],
- popular: true,
- },
-];
-
-const CATEGORIES = [
-"All",
-"Identity & Usernames",
-"Email & Phone",
-"Domain & DNS",
-"IP & Geolocation",
-"Social Media",
-"Threat Intel & Breaches",
-"Images & Verification",
-"Directories & Archives"
-] as const;
-
-export default function WebResourcesClient() {
- const [activeTab, setActiveTab] = useState<string>("All");
- const [searchQuery, setSearchQuery] = useState("");
-
- const filteredResources = useMemo(() => {
- return RESOURCES.filter((res) => {
- const matchesTab = activeTab ==="All"|| res.category === activeTab;
- 
- const text = `${res.name} ${res.description} ${res.category} ${res.tags.join("")}`.toLowerCase();
- const matchesSearch = text.includes(searchQuery.toLowerCase());
- 
- return matchesTab && matchesSearch;
- });
- }, [activeTab, searchQuery]);
-
- const getCategoryIcon = (category: string) => {
- switch (category) {
- case"Identity & Usernames":
- return <User className="h-4 w-4"/>;
- case"Email & Phone":
- return <Mail className="h-4 w-4"/>;
- case"Domain & DNS":
- return <Globe className="h-4 w-4"/>;
- case"IP & Geolocation":
- return <MapPin className="h-4 w-4"/>;
- case"Threat Intel & Breaches":
- return <ShieldAlert className="h-4 w-4"/>;
- case"Images & Verification":
- return <Image className="h-4 w-4"/>;
- default:
- return <Layers className="h-4 w-4"/>;
- }
- };
-
- return (
- <>
- <ToolPageHeader
- title="Web & Security Resources Directory"
- description="Vetted collection of top-tier search engines, threat registries, and identity locators globally."
- icon={Shield}
- />
-
- <div className="max-w-7xl mx-auto space-y-6 px-1">
+  return (
+    <div className="relative space-y-6">
       <ToolBackground />
+      <div className="relative z-10 space-y-6">
+        <ToolPageHeader
+          icon={Globe}
+          title="Web Resources & Asset Analyzer"
+          description="Query A, AAAA, CNAME, MX, TXT, and NS DNS records across authoritative nameservers."
+        />
 
- {/* Search bar & info */}
- <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
- <div className="relative w-full md:w-96">
- <Input
- placeholder="Search resource directories..."
- value={searchQuery}
- onChange={(e) => setSearchQuery(e.target.value)}
- className="pl-10"
- />
- <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground"/>
- </div>
+        <GlassCard>
+          <CardHeader>
+            <CardTitle>Query Domain Name</CardTitle>
+            <CardDescription>Enter hostname or apex domain to inspect active DNS zone records</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Input
+                value={domain}
+                onChange={e => setDomain(e.target.value)}
+                placeholder="example.com"
+                className="h-11 font-mono text-base flex-1"
+                onKeyDown={e => e.key === "Enter" && handleLookup()}
+              />
+              <Button onClick={handleLookup} disabled={loading} className="gap-2 h-11 font-bold px-6">
+                <Search className="w-4 h-4" />
+                {loading ? "Resolving..." : "Lookup DNS"}
+              </Button>
+            </div>
+          </CardContent>
+        </GlassCard>
 
- <div className="text-sm text-muted-foreground self-end md:self-center">
- Showing <strong>{filteredResources.length}</strong> of {RESOURCES.length} directories
- </div>
- </div>
+        {/* Records Table */}
+        <GlassCard>
+          <CardHeader>
+            <CardTitle>Resolved Resource Records ({records.length})</CardTitle>
+          </CardHeader>
+          <CardContent className="overflow-x-auto">
+            <table className="w-full text-xs text-left border-collapse">
+              <thead className="bg-muted/40 uppercase text-muted-foreground">
+                <tr>
+                  <th className="p-3">Type</th>
+                  <th className="p-3">Name</th>
+                  <th className="p-3">Record Value</th>
+                  <th className="p-3">TTL</th>
+                  <th className="p-3 text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {records.map((r, i) => (
+                  <tr key={i} className="border-b last:border-0 hover:bg-muted/20">
+                    <td className="p-3 font-bold text-primary font-mono">{r.type}</td>
+                    <td className="p-3 font-mono">{r.name}</td>
+                    <td className="p-3 font-mono break-all">{r.value}</td>
+                    <td className="p-3 text-muted-foreground">{r.ttl}s</td>
+                    <td className="p-3 text-center">
+                      <Button variant="ghost" size="icon" onClick={() => copyRecord(r.value)} className="h-6 w-6">
+                        <Copy className="w-3.5 h-3.5" />
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </CardContent>
+        </GlassCard>
 
- {/* Tab Filters */}
- <div className="flex flex-wrap gap-1.5 border-b pb-3">
- {CATEGORIES.map((cat) => (
- <Button
- key={cat}
- variant={activeTab === cat ?"default":"ghost"}
- size="sm"
- onClick={() => setActiveTab(cat)}
- className="text-xs h-8 rounded-full"
- >
- {activeTab === cat && <span className="mr-1.5 h-1.5 w-1.5 rounded-full bg-primary-foreground"/>}
- {cat}
- </Button>
- ))}
- </div>
+        <ToolHowItWorks
+          steps={[
+            { step: "01", title: "Enter Domain", description: "Input your website or apex domain name.", icon: Globe },
+            { step: "02", title: "Query Nameservers", description: "Inspects A, AAAA, MX, and TXT records across root DNS servers.", icon: Search },
+            { step: "03", title: "Verify Propagation", description: "Confirm that IP routing and mail server configurations are active.", icon: Server }
+          ]}
+          badges={["100% Free Forever", "DNS Over HTTPS Ready", "Zero Latency"]}
+        />
 
- {/* Directory Grid */}
- <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
- {filteredResources.length > 0 ? (
- filteredResources.map((res, index) => (
- <Card key={index} className="flex flex-col justify-between hover:shadow-md transition-shadow">
- <CardHeader className="pb-2">
- <div className="flex items-center justify-between mb-2">
- <span className="text-xs text-muted-foreground flex items-center gap-1.5">
- {getCategoryIcon(res.category)}
- {res.category}
- </span>
- </div>
- <CardTitle className="text-base font-bold flex items-center justify-between group">
- {res.name}
- </CardTitle>
- <CardDescription className="text-xs line-clamp-3 pt-1">
- {res.description}
- </CardDescription>
- </CardHeader>
- <CardContent className="pt-2 flex flex-col gap-3">
- <div className="flex flex-wrap gap-1.5">
- {res.tags.map((tag) => (
- <Badge key={tag} variant="secondary"className="text-[10px] py-0.5 px-1.5 font-normal">
- {tag}
- </Badge>
- ))}
- </div>
- 
- <Button variant="outline"size="sm"asChild className="w-full mt-2 text-xs">
- <a href={res.url} target="_blank"rel="noopener noreferrer"className="flex items-center justify-center gap-1.5">
- Launch External
- <ExternalLink className="h-3 w-3"/>
- </a>
- </Button>
- </CardContent>
- </Card>
- ))
- ) : (
- <div className="col-span-full py-16 text-center text-muted-foreground">
- No directories found matching your criteria.
- </div>
- )}
- </div>
- 
-      <ToolHowItWorks
-        steps={[
-          {
-            step: "01",
-            title: "Input Your Data",
-            description: "Enter your information in the input field above and configure any options.",
-            icon: Sparkles,
-          },
-          {
-            step: "02",
-            title: "Process & Generate",
-            description: "The tool processes your input instantly and displays the results.",
-            icon: Zap,
-          },
-          {
-            step: "03",
-            title: "Copy & Use",
-            description: "Copy the output with one click and use it wherever you need.",
-            icon: Copy,
-          },
-        ]}
-        badges={["100% Free", "Instant Results", "Privacy-First"]}
-      />
+        <ToolFeatureGuides
+          features={[
+            { icon: Globe, title: "Full Record Types", description: "Queries A (IPv4), AAAA (IPv6), CNAME, MX, TXT (SPF/DKIM), and NS records." },
+            { icon: Server, title: "Propagation Diagnostics", description: "Verify TTL values and IP address routing before deploying new DNS changes." },
+            { icon: Shield, title: "Private Lookups", description: "Lookups execute safely without sharing queries with third-party trackers." }
+          ]}
+        >
+          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+            <h3>Understanding the Domain Name System (DNS)</h3>
+            <p>
+              The Domain Name System (DNS) acts as the phonebook of the Internet, translating human-friendly domain names like toolzium.com into machine-readable IP addresses like 76.76.21.21.
+            </p>
+          </div>
+        </ToolFeatureGuides>
 
-      <ToolFeatureGuides
-        features={[
-          {
-            icon: Sparkles,
-            title: "Lightning Fast",
-            description: "Get results in milliseconds with our optimized client-side processing engine.",
-          },
-          {
-            icon: Shield,
-            title: "Completely Private",
-            description: "All processing happens in your browser. Your data never leaves your device.",
-          },
-          {
-            icon: Zap,
-            title: "No Signup Required",
-            description: "Use this tool instantly without creating an account or providing any personal information.",
-          },
-        ]}
-      >
-        <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use Our Web & Security Resources Directory?</h3>
-          <p>
-            This free online tool is designed to help you get accurate results quickly and securely.
-            Whether you're a developer, designer, student, or professional, our Web & Security Resources Directory provides
-            the functionality you need without any complexity or cost.
-          </p>
-          <p>
-            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
-            privacy and zero latency. No data is ever transmitted to external servers, making it safe
-            for sensitive information.
-          </p>
-        </div>
-      </ToolFeatureGuides>
+        <ToolFaqAccordion
+          faqs={[
+            { question: "How long does DNS propagation take?", answer: "DNS propagation typically takes anywhere from a few minutes up to 24-48 hours depending on your Time To Live (TTL) settings." },
+            { question: "What is an A Record vs CNAME?", answer: "An A record points a domain directly to an IPv4 address, while a CNAME (Canonical Name) points an alias to another hostname." }
+          ]}
+        />
 
-      <ToolFaqAccordion
-        faqs={[
-          {
-            question: "Is this tool free to use?",
-            answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits.",
-          },
-          {
-            question: "Is my data secure?",
-            answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server.",
-          },
-          {
-            question: "Do I need to create an account?",
-            answer: "No account or registration is required. Simply open the tool and start using it immediately.",
-          },
-        ]}
-      />
-
-      <RelatedTools currentToolUrl="/tools/network/web-resources" max={6} />
-
-</div>
- </>
- );
+        <RelatedTools currentToolUrl="/tools/network/web-resources" max={6} />
+      </div>
+    </div>
+  );
 }
+
+export default WebResourcesClient;

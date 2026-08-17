@@ -1,19 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import AiContractorAgreementClient from "@/components/tools/office/ai-contractor-agreement-client";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "AI Independent Contractor Agreement Studio";
+const DESCRIPTION = "Draft custom contractor agreements, IP work-for-hire clauses, payment terms, and confidentiality terms powered by live AI.";
+const PATH = "/tools/office/ai-contractor-agreement";
 
 export const metadata = buildMetadata({
-  title: "AI Independent Contractor Agreement Studio",
-  description: "Draft custom contractor agreements, IP work-for-hire clauses, payment terms, and confidentiality terms powered by live AI.",
-  path: "/tools/office/ai-contractor-agreement",
-  keywords: ["contractor", "terms", "powered", "payment", "draft", "agreements", "confidentiality", "work", "custom", "hire", "clauses"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
-export default function AiContractorAgreementPage() {
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "AI Independent Contractor Agreement Studio",
+    description: DESCRIPTION,
+    path: PATH
+  });
+
   return (
-    <><AiContractorAgreementClient />
-      <RelatedTools currentToolUrl="/tools/office/ai-contractor-agreement" />
+    <>
+      <JsonLd data={jsonLd} />
+      <AiContractorAgreementClient />
     </>
   );
 }

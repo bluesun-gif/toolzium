@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo } from "react";
@@ -9,7 +10,7 @@ import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Tag, Copy } from "lucide-react";
+import { Tag, Copy, Calculator } from "lucide-react";
 import { CopyButton } from "@/components/shared/action-buttons";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -34,7 +35,10 @@ export default function DiscountFinderClient() {
       totalSavings
     };
   }, [originalPrice, discountPercent, taxPercent]);
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Tag} title="Discount Calculator" description="Calculate discounts, final prices, and total savings with optional tax." />
@@ -162,7 +166,7 @@ export default function DiscountFinderClient() {
         question: "What if there's no tax?",
         answer: "Simply leave the tax field at 0%, and the calculator will show the price after discount as the final price."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/calc/discount-finder" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

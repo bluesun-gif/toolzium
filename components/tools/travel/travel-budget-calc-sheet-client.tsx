@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
@@ -9,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { ResetButton, CopyButton } from "@/components/shared/action-buttons";
-import { DollarSign, Globe, Calculator, Copy, Plus, Trash, Sparkles, Shield, Zap } from "lucide-react";
+import { DollarSign, Globe, Calculator, Copy, Plus, Trash, Sparkles, Shield, Zap, Settings } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -77,7 +78,10 @@ export function TravelBudgetCalcSheetClient() {
   const getCopyText = () => {
     return expenses.map(e => e.category + ":" + e.amountLocal + "" + destCurrency + "(" + (e.amountLocal / exchangeRate).toFixed(2) + "" + homeCurrency + ")").join("\n") + "\nTotal:" + totalLocal + "" + destCurrency + "(" + totalHome.toFixed(2) + "" + homeCurrency + ")";
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Globe} title="Multi-Currency Travel Budget Calculator Sheet" description="Multi-currency travel expense comparison and trip budgeting sheet." actions={<React.Fragment>
@@ -195,8 +199,9 @@ export function TravelBudgetCalcSheetClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/travel/travel-budget-calc-sheet" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default TravelBudgetCalcSheetClient;

@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback } from "react";
@@ -11,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Type, Copy, RotateCcw, AlignLeft, AlignCenter, AlignRight, AlignJustify, Sparkles, Palette } from "lucide-react";
+import { Type, Copy, RotateCcw, AlignLeft, AlignCenter, AlignRight, AlignJustify, Sparkles, Palette, Plus } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -160,7 +161,10 @@ export function CssTypographyClient() {
     css += `}`;
     return css;
   }, [fontFamily, fontSize, sizeUnit, fontWeight, lineHeight, letterSpacing, wordSpacing, textTransform, textDecoration, textAlign, fontStyle, shadowX, shadowY, shadowBlur, shadowColor, textColor, bgColor]);
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-4 py-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Type} title="CSS Typography Playground" description="Interactive CSS typography editor with complete control over font properties, shadows, and spacing. Generate perfect CSS for your web fonts." />
@@ -382,8 +386,9 @@ export function CssTypographyClient() {
         question: "Can I use custom fonts not listed here?",
         answer: "Yes, you can manually type any valid CSS font-family string into the generated CSS output, provided the font is loaded via @font-face or a CDN in your project."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/dev/css-typography" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default CssTypographyClient;

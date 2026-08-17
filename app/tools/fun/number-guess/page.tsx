@@ -1,30 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import NumberGuessClient from "@/components/tools/fun/number-guess-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
+
+const TITLE = "Number Guess | Toolzium";
+const DESCRIPTION = "Free online number guess tool with instant calculation and privacy.";
+const PATH = "/tools/fun/number-guess";
+
 export const metadata = buildMetadata({
-  title: "Number Guessing Game",
-  description: "Classic number guessing game with Higher/Lower hints. Easy, Medium, Hard difficulty. Timer, best scores, streak counter.",
-  path: "/tools/fun/number-guess",
-  keywords: ["easy", "with", "hints", "medium", "number", "higher", "guessing", "lower", "hard", "difficulty", "game", "classic"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Number Guessing Game",
-    description: "Classic number guessing game with Higher/Lower hints. Easy, Medium, Hard difficulty. Timer, best scores, streak counter.",
-    path: "/tools/fun/number-guess",
-    categoryName: "Fun",
-    categoryPath: "/tools/fun",
+    name: "Number Guess",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <NumberGuessClient />
-    
-      <RelatedTools currentToolUrl="/tools/fun/number-guess" />
-</div>
+    </>
   );
 }

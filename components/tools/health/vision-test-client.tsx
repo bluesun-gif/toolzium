@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -11,7 +13,7 @@ import { Separator } from"@/components/ui/separator";
 import { Button } from"@/components/ui/button";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
 import { cn } from"@/lib/utils";
-import { AlertTriangle, BarChart2, Calculator, Eye, RotateCcw, Ruler, ShieldCheck } from"lucide-react";
+import { AlertTriangle, BarChart2, Calculator, Eye, RotateCcw, Ruler, ShieldCheck, Check } from "lucide-react";
 import toast from"react-hot-toast";
 
 export function VisionTestClient() {
@@ -53,7 +55,10 @@ export function VisionTestClient() {
     setSnellenResult(null);
     toast.success("Test reset");
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Vision Test" description="Simple online vision screening tool (not medical advice)." icon={Eye} actions={<ResetButton onClick={handleReset} label="Reset" />} />
@@ -206,6 +211,9 @@ export function VisionTestClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default VisionTestClient;

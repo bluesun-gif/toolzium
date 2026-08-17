@@ -1,4 +1,9 @@
 "use client";
+
+import { cn } from "@/lib/utils";
+import { Label } from "@/components/ui/label";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -10,7 +15,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { CircleDot, Download, GitBranch, Lightbulb, MousePointerClick, MoveRight, Network, Plus, Save, Trash2 } from"lucide-react";
+import { CircleDot, Download, GitBranch, Lightbulb, MousePointerClick, MoveRight, Network, Plus, Save, Trash2, Copy } from "lucide-react";
 import toast from"react-hot-toast";
 
 type MindMapNode = {
@@ -226,7 +231,10 @@ export function MindMapClient() {
       </div>;
   };
   const selectedNode = findNode(root, selectedId);
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       <ToolPageHeader icon={Network} title="Interactive Mind Map Builder Studio" description="Visualize ideas, brain-storm business structures, and map out project nodes in a canvas interface." actions={<div className="flex gap-2">
@@ -299,191 +307,8 @@ export function MindMapClient() {
         </div>
       </div>
 
-      {/* HOW IT WORKS */}
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Select Any Node",
-        description: "Click on any node in the interactive canvas to open its Inspector panel.",
-        icon: MousePointerClick
-      }, {
-        step: "02",
-        title: "Add & Edit Sub-Topics",
-        description: "Edit titles, assign custom colors, and click 'Add Sub-Topic Node' to expand your tree.",
-        icon: Plus
-      }, {
-        step: "03",
-        title: "Export & Collapse",
-        description: "Collapse sub-branches or export your mind map to JSON / Markdown text outlines.",
-        icon: Network
-      }]} badges={["Interactive Canvas", "Color-Coded Nodes", "Markdown Outline Export"]} />
+      
 
-      {/* FEATURE GUIDES */}
-      <ToolFeatureGuides features={[{
-        icon: Network,
-        title: "Visual Tree Representation",
-        description: "Renders hierarchical connector lines and expanding/collapsing node branches."
-      }, {
-        icon: MousePointerClick,
-        title: "Real-Time Node Inspector",
-        description: "Edit text and color palettes instantly with instant live canvas updates."
-      }, {
-        icon: Shield,
-        title: "Local Storage Save",
-        description: "Saves mind map structures automatically to local storage with offline JSON export."
-      }]} />
-
-      {/* FAQ ACCORDION */}
-      <ToolFaqAccordion faqs={[{
-        question: "Can I expand or collapse mind map branches?",
-        answer: "Yes! Click the +/- icon on any parent node to collapse or expand its sub-tree branches."
-      }, {
-        question: "Is my mind map data saved?",
-        answer: "Yes, all mind maps persist in your browser's local storage and can be exported as JSON or Markdown outline files."
-      }]} />
-
- const generateOutline = (node: MindMapNode, depth: number = 0): string => {
- let out ="".repeat(depth) +"-"+ node.text +"\n";
- if (node.isExpanded) {
- for (let child of node.children) {
- out += generateOutline(child, depth + 1);
- }
- }
- return out;
- };
-
- const exportJson = () => {
- const blob = new Blob([JSON.stringify(root, null, 2)], { type:"application/json"});
- const url = URL.createObjectURL(blob);
- const a = document.createElement("a");
- a.href = url;
- a.download ="mindmap.json";
- a.click();
- toast.success("Exported JSON");
- };
-
- const renderNode = (node: MindMapNode) => {
- const isSelected = node.id === selectedId;
- return (
- <div key={node.id} className="flex flex-col items-center">
- <div className="flex items-center gap-4">
- <div 
- onClick={() => setSelectedId(node.id)}
- className={"relative p-3 rounded-lg cursor-pointer border-2 transition-all min-w-[120px] text-center shadow-sm"+ (isSelected ?"ring-2 ring-ring ring-offset-2":"")}
- style={{ backgroundColor: node.color +"20", borderColor: node.color, color:"var(--foreground)"}}
- >
- <div className="font-medium truncate max-w-[200px]">{node.text ||"Empty"}</div>
- {node.children.length > 0 && (
- <button 
- onClick={(e) => toggleExpand(node.id, e)}
- className="absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-background border flex items-center justify-center text-xs shadow-sm hover:bg-muted"
- style={{ borderColor: node.color }}
- >
- {node.isExpanded ?"-":"+"}
- </button>
- )}
- </div>
- </div>
- 
- {node.isExpanded && node.children.length > 0 && (
- <div className="flex gap-4 mt-6 relative pt-4">
- <div className="absolute top-0 left-1/2 w-px h-4 -translate-x-1/2"style={{ backgroundColor: node.color }} />
- <div className="absolute top-4 left-0 right-0 h-px"style={{ backgroundColor: node.color }} />
- {node.children.map(child => (
- <div key={child.id} className="relative pt-4">
- <div className="absolute top-0 left-1/2 w-px h-4 -translate-x-1/2"style={{ backgroundColor: node.color }} />
- {renderNode(child)}
- </div>
- ))}
- </div>
- )}
- </div>
- );
- };
-
- const selectedNode = findNode(root, selectedId);
-
- return (
- <div className="space-y-6">
- <ToolPageHeader 
- icon={Network} 
- title="Mind Map Builder"
- description="Visualize your ideas with an interactive mind map."
- actions={
- <>
- <ActionButton onClick={exportJson} icon={Download} label="Export JSON"/>
- <ResetButton onClick={() => saveToLocal(DEFAULT_MAP)} label="Clear All"/>
- </>
- }
- />
-
- <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
- <GlassCard className="lg:col-span-3 overflow-hidden flex flex-col h-[600px]">
- <CardHeader>
- <CardTitle className="flex justify-between items-center text-sm font-normal text-muted-foreground">
- <span>Canvas (Drag to scroll)</span>
- </CardTitle>
- </CardHeader>
- <CardContent className="flex-1 overflow-auto bg-muted/10 relative p-8 cursor-grab active:cursor-grabbing rounded-b-xl border-t">
- <div className="min-w-max min-h-max p-8 flex justify-center items-start">
- {renderNode(root)}
- </div>
- </CardContent>
- </GlassCard>
-
- <div className="space-y-6">
- <GlassCard>
- <CardHeader>
- <CardTitle className="flex items-center gap-2"><MousePointerClick className="w-5 h-5"/> Editor</CardTitle>
- <CardDescription>Select a node to edit</CardDescription>
- </CardHeader>
- <CardContent className="space-y-4">
- {selectedNode ? (
- <>
- <div className="space-y-2">
- <label className="text-sm font-medium">Node Text</label>
- <Input value={selectedNode.text} onChange={handleChangeText} placeholder="Enter text..."/>
- </div>
- 
- <div className="space-y-2">
- <label className="text-sm font-medium">Color</label>
- <div className="flex flex-wrap gap-2">
- {COLORS.map(c => (
- <button
- key={c}
- onClick={() => handleChangeColor(c)}
- className={"w-8 h-8 rounded-full border-2 transition-transform hover:scale-110"+ (selectedNode.color === c ?"ring-2 ring-ring ring-offset-2":"")}
- style={{ backgroundColor: c, borderColor: c }}
- />
- ))}
- </div>
- </div>
-
- <div className="flex flex-col gap-2 pt-2 border-t">
- <Button onClick={handleAddChild} className="w-full justify-start"variant="secondary">
- <Plus className="w-4 h-4 mr-2"/> Add Child Node
- </Button>
- <Button onClick={handleDelete} className="w-full justify-start text-red-500 hover:text-red-600 hover:bg-red-500/10"variant="ghost"disabled={selectedId ==="root"}>
- <Trash2 className="w-4 h-4 mr-2"/> Delete Node
- </Button>
- </div>
- </>
- ) : (
- <div className="text-sm text-muted-foreground text-center py-4">Click a node on the canvas</div>
- )}
- </CardContent>
- </GlassCard>
-
- <GlassCard>
- <CardHeader>
- <CardTitle>Export</CardTitle>
- </CardHeader>
- <CardContent>
- <CopyButton getText={() => generateOutline(root)} label="Copy as Text Outline"/>
- </CardContent>
- </GlassCard>
- </div>
- </div>
- 
 <ToolHowItWorks
   steps={[
 {
@@ -563,6 +388,9 @@ export function MindMapClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default MindMapClient;

@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo } from "react";
@@ -443,7 +444,10 @@ export function RegexLibraryClient() {
     question: "Do I need to escape backslashes in my code?",
     answer: "If you are defining the regex as a string (e.g., new RegExp('...')), you must double the backslashes (\\\\). If using literal syntax (/.../), single backslashes are fine."
   }];
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Code2} title="Regex Pattern Library" description="Searchable collection of 50+ production-ready regular expressions with live testing, examples, and one-click copying." />
@@ -526,7 +530,9 @@ export function RegexLibraryClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={faqs} />
- <RelatedTools currentToolUrl="/tools/dev/regex-library" />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default RegexLibraryClient;

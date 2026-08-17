@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useCallback, useEffect } from "react";
@@ -9,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Copy, RefreshCw, Trash2, BookOpen, Shield, Shuffle, Hash, BarChart3, List, Zap, Settings2, Code2 } from "lucide-react";
+import { Copy, RefreshCw, Trash2, BookOpen, Shield, Shuffle, Hash, BarChart3, List, Zap, Settings2, Code2, Settings, History } from "lucide-react";
 import toast from "react-hot-toast";
 import { cn } from "@/lib/utils";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -106,7 +107,10 @@ export default function RandomNumberClient() {
   const clearHistory = () => {
     setHistory([]);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Random Number Generator" description="Generate cryptographically secure random numbers within a specified range." />
@@ -334,6 +338,7 @@ export default function RandomNumberClient() {
         question: "What does 'no duplicates' mean in random number generation?",
         answer: "'No duplicates' (also called sampling without replacement) ensures each number appears at most once in the output. This is equivalent to drawing balls from a lottery machine — once drawn, the ball isn't returned. With duplicates allowed (sampling with replacement), the same number can appear multiple times — like rolling a die multiple times."
       }]} />
- <RelatedTools currentToolUrl="/tools/util/random-number" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

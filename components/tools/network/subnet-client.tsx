@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useMemo } from "react";
@@ -55,7 +56,10 @@ export function SubnetCalculatorClient() {
   const cidrOptions = Array.from({
     length: 23
   }, (_, i) => 8 + i);
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Network} title="Subnet Calculator" description="Calculate subnet details from an IP address and CIDR notation." />
@@ -195,8 +199,9 @@ export function SubnetCalculatorClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/network/subnet" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default SubnetCalculatorClient;

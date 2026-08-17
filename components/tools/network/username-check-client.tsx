@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo } from "react";
@@ -13,7 +14,7 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
-import { Github, Twitter, Instagram, Youtube, Linkedin, Twitch, Facebook, Search, ExternalLink, Copy, CheckCircle2, Gamepad2, Music, Video, BookOpen, MessageCircle, Sparkles, Shield, Zap } from "lucide-react";
+import { Github, Twitter, Instagram, Youtube, Linkedin, Twitch, Facebook, Search, ExternalLink, Copy, CheckCircle2, Gamepad2, Music, Video, BookOpen, MessageCircle, Sparkles, Shield, Zap, Check } from "lucide-react";
 type Platform = {
   id: string;
   name: string;
@@ -137,7 +138,10 @@ export default function UsernameCheckClient() {
     const links = filteredPlatforms.map(p => p.urlFormat.replace("{username}", username)).join("\n");
     copyToClipboard(links, "all");
   };
-  return <div className="relative w-full max-w-4xl mx-auto space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Username Checker & Link Generator" description="Check username availability and generate direct profile links across 20+ social media and online platforms." />
@@ -268,8 +272,7 @@ export default function UsernameCheckClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/network/username-check" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }

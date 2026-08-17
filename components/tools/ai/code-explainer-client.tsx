@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect, useMemo, useCallback } from "react";
@@ -15,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { cn } from "@/lib/utils";
-import { Code2, Sparkles, Copy, CheckCircle2, RefreshCcw, Terminal, Trash2, History, Wand2, FileCode, Cpu, Bug, Settings, ChevronRight } from "lucide-react";
+import { Code2, Sparkles, Copy, CheckCircle2, RefreshCcw, Terminal, Trash2, History, Wand2, FileCode, Cpu, Bug, Settings, ChevronRight, Type } from "lucide-react";
 import toast from "react-hot-toast";
 import ReactMarkdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
@@ -140,7 +143,10 @@ export function CodeExplainerClient() {
     setResult(item.resultMarkdown);
     toast.success("Loaded from history");
   };
-  return <div className="w-full min-h-screen pb-20 relative"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       {/* Required for Syntax Highlighting */}
@@ -300,7 +306,8 @@ export function CodeExplainerClient() {
           </div>
         </div>
 
-        <ToolHowItWorks steps={[{
+        </div>
+<ToolHowItWorks steps={[{
           step: "01",
           title: "Paste Source Code",
           description: "Input functions, loops, or complex architectures in any language.",
@@ -345,9 +352,9 @@ export function CodeExplainerClient() {
           question: "Are my code snippets saved or shared?",
           answer: "No, your code is processed in real time and stored only locally in your browser's history."
         }]} />
-
-        <RelatedTools currentToolUrl="/tools/ai/code-explainer" max={6} />
-      </div>
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default CodeExplainerClient;

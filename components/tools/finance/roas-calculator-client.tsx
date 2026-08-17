@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -18,7 +20,10 @@ export default function RoasCalculatorClient() {
   const roasPercentage = adSpend > 0 ? (revenue / adSpend * 100).toFixed(0) : "0";
   const netProfit = revenue - adSpend - cogs - shippingCost;
   const netMargin = revenue > 0 ? (netProfit / revenue * 100).toFixed(1) : "0.0";
-  return <div className="relative space-y-6 max-w-4xl mx-auto px-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={ShoppingBag} title="Shopify & Amazon Profit Margin & Ad Spend (ROAS) Calculator" description="Calculate return on ad spend (ROAS), net profit margins, and breakeven ROAS for e-commerce stores." />
@@ -154,6 +159,7 @@ export default function RoasCalculatorClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }

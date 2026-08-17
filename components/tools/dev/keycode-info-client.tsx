@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
@@ -117,7 +118,10 @@ export default function KeycodeInfoClient() {
       toast.success("Event JSON copied!");
     }
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Keyboard} title="JavaScript Keycode Reference" description="Press any key to instantly view detailed KeyboardEvent data including key, code, keyCode, and modifier states." />
@@ -279,7 +283,7 @@ export default function KeycodeInfoClient() {
         question: "Why does the tool prevent default actions for some keys?",
         answer: "To provide a smooth testing experience, the tool intercepts keys like Tab, Space, and F1-F12 (which normally trigger browser navigation or find menus) and prevent their default behavior while the listener is active. You can toggle the listener off to use your browser normally."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/dev/keycode-info" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

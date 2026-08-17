@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -11,7 +13,7 @@ import { Separator } from"@/components/ui/separator";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Button } from"@/components/ui/button";
-import { Activity, BarChart3, Calendar, Flame, Footprints, Plus, Target, TrendingUp } from"lucide-react";
+import { Activity, BarChart3, Calendar, Flame, Footprints, Plus, Target, TrendingUp, Check, Settings, History } from "lucide-react";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
 import toast from"react-hot-toast";
 
@@ -112,7 +114,10 @@ export function StepCounterClient() {
       progress
     };
   }, [entries, goal, strideLength]);
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Activity} title="Step Counter & Pedometer Log" description="Log your daily steps, track calories burned, and monitor your streaks." actions={<ResetButton onClick={handleClear} label="Clear All Data" />} />
@@ -303,6 +308,9 @@ export function StepCounterClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default StepCounterClient;

@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from "@/components/shared/tool-background";
 
 import React, { useState, useEffect, useCallback } from "react";
@@ -227,9 +228,7 @@ export default function DiceRollerClient() {
           { question: "Does it work with the keyboard?", answer: "Absolutely. Press the Space bar anywhere on the page to roll instantly." },
           { question: "Is my roll history saved?", answer: "Your last 20 rolls are stored in your browser's local storage and persist between visits." },
         ]} />
-
-        <RelatedTools currentToolUrl="/tools/fun/dice-roller" max={6} />
-      </div>
     </div>
-  );
+    </div>
+);
 }

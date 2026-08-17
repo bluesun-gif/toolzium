@@ -1,4 +1,8 @@
 "use client";
+
+import { cn } from "@/lib/utils";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -41,7 +45,10 @@ export function FontPairingClient() {
   }) => {
     return `@import url('${p.url}');\n\nh1 {\n font-family: '${p.heading}', sans-serif;\n}\n\np {\n font-family: '${p.body}', sans-serif;\n}`;
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Type} title="Font Pairing Suggester" description="Discover beautiful font pairings for your next design project." actions={<ResetButton onClick={() => {
@@ -204,6 +211,9 @@ export function FontPairingClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default FontPairingClient;

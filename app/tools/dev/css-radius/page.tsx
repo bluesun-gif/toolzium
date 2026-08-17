@@ -1,30 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import CssRadiusClient from "@/components/tools/dev/css-radius-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
+
+const TITLE = "Css Radius | Toolzium";
+const DESCRIPTION = "Free online css radius tool with instant calculation and privacy.";
+const PATH = "/tools/dev/css-radius";
+
 export const metadata = buildMetadata({
-  title: "CSS Border-Radius Shape Generator",
-  description: "8-point fancy blob and custom CSS border-radius generator. Organic blobs, pills, badges, leaves, live animation preview.",
-  path: "/tools/dev/css-radius",
-  keywords: ["badges", "radius", "generator", "border", "leaves", "organic", "blob", "pills", "custom", "blobs", "point", "fancy"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "CSS Border-Radius Shape Generator",
-    description: "8-point fancy blob and custom CSS border-radius generator. Organic blobs, pills, badges, leaves, live animation preview.",
-    path: "/tools/dev/css-radius",
-    categoryName: "Dev",
-    categoryPath: "/tools/dev",
+    name: "Css Radius",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <CssRadiusClient />
-    
-      <RelatedTools currentToolUrl="/tools/dev/css-radius" />
-</div>
+    </>
   );
 }

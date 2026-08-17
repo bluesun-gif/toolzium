@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
@@ -115,7 +116,10 @@ export function DailyBudgetClient() {
     a.click();
     URL.revokeObjectURL(url);
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Wallet} title="Daily Travel Budget Planner" description="Plan and track daily vacation spending." actions={<React.Fragment>
@@ -255,7 +259,9 @@ export function DailyBudgetClient() {
  </CardContent>
  </GlassCard>
  
-      <ToolHowItWorks steps={[{
+      
+
+<ToolHowItWorks steps={[{
         step: "01",
         title: "Input Your Data",
         description: "Enter your information in the input field above and configure any options.",
@@ -310,8 +316,9 @@ export function DailyBudgetClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/travel/daily-budget" max={6} />
-
-    </div></div>;
+</div>
+</div>
+  );
 }
+
+export default DailyBudgetClient;

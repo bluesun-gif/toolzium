@@ -1,4 +1,8 @@
 "use client";
+
+import { ModelSelector } from "@/components/shared/model-selector";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -9,7 +13,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { AiOutputDisplay } from"@/components/shared/ai-output-display";
-import { Activity, Apple, CalendarDays, RefreshCw, Target, Utensils } from"lucide-react";
+import { Activity, Apple, CalendarDays, RefreshCw, Target, Utensils, Type } from "lucide-react";
 import toast from"react-hot-toast";
 
 export default function AiMealPlannerClient() {
@@ -49,7 +53,10 @@ export default function AiMealPlannerClient() {
       setLoading(false);
     }
   };
-  return <div className="relative space-y-6 max-w-4xl mx-auto px-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Activity} title="AI Daily Meal Plan & Macro Targets Generator" description="Custom 1-day meal plans mapped to your exact target calories, diet style (High Protein, Keto, Vegan), and dietary restrictions powered by live AI." />
@@ -192,6 +199,7 @@ export default function AiMealPlannerClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }

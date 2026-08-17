@@ -1,32 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import RandomPickerClient from "@/components/tools/util/random-picker-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "Random Picker | Toolzium";
+const DESCRIPTION = "Free online random picker tool with instant calculation and privacy.";
+const PATH = "/tools/util/random-picker";
 
 export const metadata = buildMetadata({
-  title: "Random Picker",
-  description: "Pick random winners from a list of names. Random name picker for contests, giveaways, and decision making. Fair and unbiased random selection tool.",
-  path: "/tools/util/random-picker",
-  keywords: ["from", "giveaways", "random", "list", "names", "winners", "picker", "contests", "decision", "name", "pick"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
     name: "Random Picker",
-    description: "Pick random winners from a list of names. Random name picker for contests, giveaways, and decision making. Fair and unbiased random selection tool.",
-    path: "/tools/util/random-picker",
-    categoryName: "Util",
-    categoryPath: "/tools/util",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <RandomPickerClient />
-    
-      <RelatedTools currentToolUrl="/tools/util/random-picker" />
-</div>
+    </>
   );
 }

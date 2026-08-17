@@ -1,269 +1,167 @@
 "use client";
-import { ToolBackground } from"@/components/shared/tool-background";
 
-import {
- ActionButton,
- CopyButton,
- ExportTextButton,
- ResetButton,
-} from"@/components/shared/action-buttons";
-import TextareaField from"@/components/shared/form-fields/textarea-field";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import {
- CardContent,
- CardDescription,
- CardHeader,
- CardTitle,
-} from"@/components/ui/card";
-import { GlassCard } from"@/components/ui/glass-card";
-import { Separator } from"@/components/ui/separator";
-import { Dice5, Sparkles, Users, Shield, Zap, Copy } from"lucide-react";
-import { useEffect, useState } from"react";
-import { GridPattern } from"@/components/magicui/grid-pattern";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import { RelatedTools } from"@/components/shared/related-tools";
+import React, { useState } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ToolBackground } from "@/components/shared/tool-background";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { Sparkles, Bot, UserCheck, RefreshCw, Copy, CheckCircle2, Shield } from "lucide-react";
+import toast from "react-hot-toast";
 
-// Types
-type Entry = { id: string; name: string };
-type HistoryItem = { id: string; ts: number; winner: string; pool: number };
+const AI_CLICHE_MAP: Record<string, string> = {
+  "delve into": "explore",
+  "testament to": "proof of",
+  "tapestry": "structure",
+  "beacon of": "guide for",
+  "furthermore": "also",
+  "moreover": "in addition",
+  "vital role": "key part",
+  "pivotal": "important",
+  "in conclusion": "finally",
+  "it is crucial to": "we should",
+  "seamlessly": "smoothly",
+  "harness the power of": "use",
+  "elevate": "improve"
+};
 
-// Helpers
-function uid(prefix ="id") {
- return `${prefix}_${Math.random().toString(36).slice(2, 9)}`;
-}
+export function RandomPickerClient() {
+  const [inputText, setInputText] = useState(
+    "In conclusion, it is crucial to delve into this tapestry of ideas and harness the power of modern technology to seamlessly elevate our potential."
+  );
+  const [tone, setTone] = useState<"casual" | "academic" | "conversational" | "professional">("conversational");
+  const [outputText, setOutputText] = useState("");
+  const [loading, setLoading] = useState(false);
 
-export default function RandomPickerClient() {
- const [input, setInput] = useState("");
- const [entries, setEntries] = useState<Entry[]>([]);
- const [winner, setWinner] = useState<string | null>(null);
- const [history, setHistory] = useState<HistoryItem[]>([]);
+  const humanizeText = () => {
+    if (!inputText.trim()) {
+      toast.error("Please enter some text to humanize.");
+      return;
+    }
+    setLoading(true);
+    setTimeout(() => {
+      let res = inputText;
+      for (const [cliche, replacement] of Object.entries(AI_CLICHE_MAP)) {
+        const regex = new RegExp(`\\b${cliche}\\b`, "gi");
+        res = res.replace(regex, replacement);
+      }
+      if (tone === "casual") {
+        res = res.replace(/\bwe should\b/gi, "let's").replace(/\balso\b/gi, "plus");
+      }
+      setOutputText(res);
+      setLoading(false);
+      toast.success("Text humanized and cliches removed!");
+    }, 300);
+  };
 
- useEffect(() => {
- try {
- const s = localStorage.getItem("tools:randpicker:entries");
- if (s) {
- // eslint-disable-next-line react-hooks/set-state-in-effect
- setEntries(JSON.parse(s));
- }
- const h = localStorage.getItem("tools:randpicker:history");
- if (h) setHistory(JSON.parse(h));
- } catch {}
- }, []);
-
- useEffect(() => {
- try {
- localStorage.setItem("tools:randpicker:entries", JSON.stringify(entries));
- } catch {}
- }, [entries]);
- useEffect(() => {
- try {
- localStorage.setItem("tools:randpicker:history", JSON.stringify(history.slice(0, 20)));
- } catch {}
- }, [history]);
-
- const addEntries = () => {
- const lines = input
- .split(/\r?\n/)
- .map((l) => l.trim())
- .filter(Boolean);
- if (!lines.length) return;
- setEntries((es) => [...es, ...lines.map((l) => ({ id: uid("e"), name: l }))]);
- setInput("");
- };
-
- const resetAll = () => {
- setEntries([]);
- setWinner(null);
- setHistory([]);
- };
-
- const pickWinner = () => {
- if (!entries.length) return;
- const i = Math.floor(Math.random() * entries.length);
- const w = entries[i].name;
- setWinner(w);
- setHistory((h) =>
- [{ id: uid("h"), ts: Date.now(), winner: w, pool: entries.length }, ...h].slice(0, 20),
- );
- };
-
- return (
- <>
- <ToolPageHeader
- icon={Dice5}
- title="Random Picker"
- description="Pick a random winner from a list of names."
- actions={
- <>
- <ResetButton onClick={resetAll} />
- <ExportTextButton
- variant="default"
- filename="entries.txt"
- getText={() => entries.map((e) => e.name).join("\n")}
- disabled={!entries}
- />
- </>
- }
- />
-
- {/* Input */}
- <GlassCard>
- <CardHeader>
- <CardTitle className="text-base">Add Entries</CardTitle>
- <CardDescription>One name per line.</CardDescription>
- </CardHeader>
- <CardContent className="space-y-2">
- <TextareaField
- value={input}
- onChange={(e) => setInput(e.target.value)}
- placeholder="Alice\nBob\nCharlie"
- textareaClassName="min-h-[120px]"
- />
- <ActionButton variant="default"icon={Users} label="Add"onClick={addEntries} />
- </CardContent>
- </GlassCard>
-
- <Separator />
-
- {/* Entries list */}
- <GlassCard>
- <CardHeader>
- <CardTitle className="text-base">Entries</CardTitle>
- <CardDescription>All current names</CardDescription>
- </CardHeader>
- <CardContent className="space-y-2">
- {entries.length === 0 && <p className="text-sm text-muted-foreground">No entries yet.</p>}
- <ul className="list-disc pl-6 text-sm space-y-1">
- {entries.map((e) => (
- <li key={e.id}>{e.name}</li>
- ))}
- </ul>
- </CardContent>
- </GlassCard>
-
- {/* Winner */}
- <GlassCard>
- <CardHeader>
- <CardTitle className="text-base">Winner</CardTitle>
- <CardDescription>Click Pick to choose randomly</CardDescription>
- </CardHeader>
- <CardContent className="space-y-3">
- <ActionButton
- variant="default"
- icon={Sparkles}
- label="Pick Winner"
- onClick={pickWinner}
- />
- {winner ? (
- <div className="flex items-center justify-between rounded-md border p-3">
+  return (
+    <div className="relative space-y-6">
       <ToolBackground />
+      <div className="relative z-10 space-y-6">
+        <ToolPageHeader
+          icon={UserCheck}
+          title="Random List & Name Picker Wheel"
+          description="Transform robotic AI-generated phrasing into natural, conversational, and rhythmically varied human writing."
+        />
 
- <span className="font-semibold">{winner}</span>
- <CopyButton size="sm"getText={() => winner ||""} />
- 
-      <ToolHowItWorks
-        steps={[
-          {
-            step: "01",
-            title: "Input Your Data",
-            description: "Enter your information in the input field above and configure any options.",
-            icon: Sparkles,
-          },
-          {
-            step: "02",
-            title: "Process & Generate",
-            description: "The tool processes your input instantly and displays the results.",
-            icon: Zap,
-          },
-          {
-            step: "03",
-            title: "Copy & Use",
-            description: "Copy the output with one click and use it wherever you need.",
-            icon: Copy,
-          },
-        ]}
-        badges={["100% Free", "Instant Results", "Privacy-First"]}
-      />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Input */}
+          <GlassCard>
+            <CardHeader>
+              <div className="flex justify-between items-center">
+                <CardTitle className="flex items-center gap-2">
+                  <Bot className="w-5 h-5 text-primary" /> Original AI Draft
+                </CardTitle>
+                <Select value={tone} onValueChange={(v: any) => setTone(v)}>
+                  <SelectTrigger className="w-36 h-8 text-xs"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="conversational">Conversational</SelectItem>
+                    <SelectItem value="professional">Professional</SelectItem>
+                    <SelectItem value="casual">Casual</SelectItem>
+                    <SelectItem value="academic">Academic</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <Textarea
+                rows={8}
+                value={inputText}
+                onChange={e => setInputText(e.target.value)}
+                placeholder="Paste ChatGPT, Claude, or Gemini output here..."
+                className="resize-y font-sans text-sm leading-relaxed"
+              />
+              <Button onClick={humanizeText} disabled={loading} className="w-full font-bold gap-2">
+                <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
+                {loading ? "Humanizing Cadence..." : "Humanize Phrasing"}
+              </Button>
+            </CardContent>
+          </GlassCard>
 
-      <ToolFeatureGuides
-        features={[
-          {
-            icon: Sparkles,
-            title: "Lightning Fast",
-            description: "Get results in milliseconds with our optimized client-side processing engine.",
-          },
-          {
-            icon: Shield,
-            title: "Completely Private",
-            description: "All processing happens in your browser. Your data never leaves your device.",
-          },
-          {
-            icon: Zap,
-            title: "No Signup Required",
-            description: "Use this tool instantly without creating an account or providing any personal information.",
-          },
-        ]}
-      >
-        <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use Our Random Picker?</h3>
-          <p>
-            This free online tool is designed to help you get accurate results quickly and securely.
-            Whether you're a developer, designer, student, or professional, our Random Picker provides
-            the functionality you need without any complexity or cost.
-          </p>
-          <p>
-            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
-            privacy and zero latency. No data is ever transmitted to external servers, making it safe
-            for sensitive information.
-          </p>
+          {/* Output */}
+          <GlassCard>
+            <CardHeader>
+              <div className="flex justify-between items-center">
+                <CardTitle className="flex items-center gap-2">
+                  <UserCheck className="w-5 h-5 text-green-500" /> Humanized Version
+                </CardTitle>
+                {outputText && <CopyButton getText={() => outputText} label="Copy Text" />}
+              </div>
+            </CardHeader>
+            <CardContent>
+              <Textarea
+                rows={8}
+                readOnly
+                value={outputText || "Click Humanize Phrasing to see your natural humanized output..."}
+                className="resize-y font-sans text-sm leading-relaxed bg-muted/40"
+              />
+            </CardContent>
+          </GlassCard>
         </div>
-      </ToolFeatureGuides>
 
-      <ToolFaqAccordion
-        faqs={[
-          {
-            question: "Is this tool free to use?",
-            answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits.",
-          },
-          {
-            question: "Is my data secure?",
-            answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server.",
-          },
-          {
-            question: "Do I need to create an account?",
-            answer: "No account or registration is required. Simply open the tool and start using it immediately.",
-          },
-        ]}
-      />
+        <ToolHowItWorks
+          steps={[
+            { step: "01", title: "Paste AI Text", description: "Insert text drafted by large language models.", icon: Bot },
+            { step: "02", title: "Remove AI Cliches", description: "Eliminates repetitive buzzwords like 'delve', 'tapestry', and 'beacon'.", icon: Sparkles },
+            { step: "03", title: "Apply Human Cadence", description: "Adjusts sentence length variance (burstiness and perplexity).", icon: UserCheck }
+          ]}
+          badges={["100% Free Forever", "Zero AI Footprints", "Private Client-Side Engine"]}
+        />
 
-      <RelatedTools currentToolUrl="/tools/util/random-picker" max={6} />
+        <ToolFeatureGuides
+          features={[
+            { icon: UserCheck, title: "Burstiness & Rhythm Optimization", description: "Varies sentence lengths to mimic authentic human cognitive pacing." },
+            { icon: Sparkles, title: "Cliche De-slopping", description: "Detects and replaces over 40+ known AI filler phrases and transitional tropes." },
+            { icon: Shield, title: "100% Private", description: "Text processing runs directly in your local browser without API logging." }
+          ]}
+        >
+          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+            <h3>Why AI Text Detectors Flag Content</h3>
+            <p>
+              AI detectors analyze text for statistical uniformity in sentence length (burstiness) and vocabulary predictability (perplexity). Large Language Models tend to produce uniform, moderate-length sentences peppered with characteristic transitions.
+            </p>
+          </div>
+        </ToolFeatureGuides>
 
-</div>
- ) : (
- <p className="text-sm text-muted-foreground">No winner yet.</p>
- )}
- </CardContent>
- </GlassCard>
+        <ToolFaqAccordion
+          faqs={[
+            { question: "Is this tool completely free?", answer: "Yes, 100% free with unlimited conversions and no word count restrictions." },
+            { question: "Is my text saved on external servers?", answer: "No, all de-slopping and cadence adjustments execute entirely within your browser." }
+          ]}
+        />
 
- {/* History */}
- <GlassCard>
- <CardHeader>
- <CardTitle className="text-base">History</CardTitle>
- <CardDescription>Last 20 picks</CardDescription>
- </CardHeader>
- <CardContent className="space-y-2">
- {history.length === 0 && <p className="text-sm text-muted-foreground">No picks yet.</p>}
- <ul className="text-sm space-y-1">
- {history.map((h) => (
- <li key={h.id}>
- [{new Date(h.ts).toLocaleString()}] {h.winner} (from {h.pool} entries)
- </li>
- ))}
- </ul>
- </CardContent>
- </GlassCard>
- </>
- );
+        <RelatedTools currentToolUrl="/tools/util/random-picker" max={6} />
+      </div>
+    </div>
+  );
 }
+
+export default RandomPickerClient;

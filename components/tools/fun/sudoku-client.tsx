@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { cn } from "@/lib/utils";
@@ -10,7 +11,7 @@ import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Grid3x3, RotateCcw, Lightbulb, Timer, Pen, CheckCircle2, Undo2, Play, Pause } from "lucide-react";
+import { Grid3x3, RotateCcw, Lightbulb, Timer, Pen, CheckCircle2, Undo2, Play, Pause, Grid } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -190,7 +191,10 @@ export function SudokuClient() {
       toast.success("Sudoku Solved!");
     }
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Grid3x3} title="Classic Sudoku" description="The definitive 9x9 logic puzzle experience with intelligent pencil notes, real-time error checking, and dynamic puzzle generation." />
@@ -326,8 +330,9 @@ export function SudokuClient() {
         question: "Is my game saved if I close the tab?",
         answer: "The game maintains state during your active session. For long-term persistence, we recommend completing the puzzle in one sitting to maintain your flow state."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/fun/sudoku" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default SudokuClient;

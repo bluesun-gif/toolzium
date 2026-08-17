@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback, useEffect } from "react";
@@ -85,7 +86,10 @@ export function HtmlMarkdownClient() {
     setDirection(d => d === "html2md" ? "md2html" : "html2md");
     setInput(output);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={ArrowRightLeft} title="HTML â†” Markdown Converter" description="Instantly convert HTML markup to Markdown syntax and vice-versa with live visual rendering." />
@@ -198,8 +202,9 @@ export function HtmlMarkdownClient() {
         question: "Is my code processed on a server?",
         answer: "No. All parsing and transformation logic runs locally in your browser via JavaScript. Your source code is never transmitted over the network."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/dev/html-markdown" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default HtmlMarkdownClient;

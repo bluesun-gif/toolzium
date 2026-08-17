@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -13,7 +15,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { BarChart3, Calculator, PieChart, Salad, Target, User } from"lucide-react";
+import { BarChart3, Calculator, PieChart, Salad, Target, User, Activity } from "lucide-react";
 
 export function MacroCalculatorClient() {
   const [gender, setGender] = useState("male");
@@ -78,7 +80,10 @@ export function MacroCalculatorClient() {
     setGoal("maintain");
     setSplit("balanced");
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Salad} title="Macro Calculator" description="Calculate your optimal macronutrient targets for your fitness goals" actions={<ResetButton onClick={handleReset} label="Reset" />} />
@@ -293,6 +298,9 @@ export function MacroCalculatorClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default MacroCalculatorClient;

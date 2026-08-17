@@ -1,4 +1,8 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -13,7 +17,7 @@ import SwitchRow from"@/components/shared/form-fields/switch-row";
 import Stat from"@/components/shared/stat";
 import { ResetButton, ActionButton, CopyButton } from"@/components/shared/action-buttons";
 import { Button } from"@/components/ui/button";
-import { Copy, Download, FileCode, Image, Image as ImageIcon, Ruler, Upload } from"lucide-react";
+import { Copy, Download, FileCode, Image, Image as ImageIcon, Ruler, Upload, Settings } from "lucide-react";
 
 export default function SvgToPngClient() {
   const [svgInput, setSvgInput] = useState<string>("");
@@ -78,7 +82,7 @@ export default function SvgToPngClient() {
         type: "image/svg+xml;charset=utf-8"
       });
       const url = URL.createObjectURL(svgBlob);
-      const img = new Image();
+      const img = new (window as any).Image();
       img.crossOrigin = "anonymous";
       img.onload = () => {
         const canvas = document.createElement("canvas");
@@ -120,7 +124,10 @@ export default function SvgToPngClient() {
     setSvgInput("");
     setPngDataUrl(null);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="SVG to PNG Converter" description="Convert SVG code or SVG files to high-resolution PNG images. Export sharp vector graphics at 1x, 2x, 4x, or 8x HD quality with custom transparent background." icon={FileCode} />
@@ -309,6 +316,7 @@ export default function SvgToPngClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }

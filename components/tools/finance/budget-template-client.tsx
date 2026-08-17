@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -14,7 +16,7 @@ import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
 import { cn } from"@/lib/utils";
-import { DollarSign, Download, FileText, ListChecks, PieChart, RefreshCw, Sparkles } from"lucide-react";
+import { DollarSign, Download, FileText, ListChecks, PieChart, RefreshCw, Sparkles, Copy } from "lucide-react";
 import toast from"react-hot-toast";
 
 type BudgetMethod ="50-30-20"|"zero-based"|"envelope"|"60-20-20";
@@ -143,7 +145,10 @@ export function BudgetTemplateClient() {
   };
   const totalAllocated = categories.reduce((sum, c) => sum + c.amount, 0);
   const remaining = income - totalAllocated;
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={DollarSign} title="Budget Template Generator" description="Generate monthly budget templates based on income and popular budgeting methods." actions={<>
@@ -288,6 +293,9 @@ export function BudgetTemplateClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default BudgetTemplateClient;

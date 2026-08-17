@@ -1,32 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import SslCheckerClient from "@/components/tools/network/ssl-checker-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "Ssl Checker | Toolzium";
+const DESCRIPTION = "Free online ssl checker tool with instant calculation and privacy.";
+const PATH = "/tools/network/ssl-checker";
 
 export const metadata = buildMetadata({
-  title: "SSL Certificate Checker",
-  description: "Check SSL/TLS certificate details for any domain. See issuer, expiration date, days remaining, and certificate chain. Monitor your SSL certificates.",
-  path: "/tools/network/ssl-checker",
-  keywords: ["check", "issuer", "certificate", "expiration", "domain", "details", "days", "chain", "remaining", "monitor", "date"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "SSL Certificate Checker",
-    description: "Check SSL/TLS certificate details for any domain. See issuer, expiration date, days remaining, and certificate chain. Monitor your SSL certificates.",
-    path: "/tools/network/ssl-checker",
-    categoryName: "Network",
-    categoryPath: "/tools/network",
+    name: "Ssl Checker",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <SslCheckerClient />
-    
-      <RelatedTools currentToolUrl="/tools/network/ssl-checker" />
-</div>
+    </>
   );
 }

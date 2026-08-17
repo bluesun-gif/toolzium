@@ -1,4 +1,8 @@
 "use client";
+
+import { ResetButton } from "@/components/shared/action-buttons";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -86,7 +90,10 @@ export function AffirmationsClient() {
     generateAffirmations();
     toast.success("Reset favorites!");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       <ToolPageHeader icon={Sun} title="Daily Positive Affirmations & Mindset Studio" description="Start your morning or end your evening with positive affirmations, custom self-belief cards, and ambient mindset themes." actions={<div className="flex items-center gap-4">
@@ -169,48 +176,7 @@ export function AffirmationsClient() {
       </div>
 
       {/* HOW IT WORKS */}
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Morning / Evening Theme",
-        description: "Toggle between Morning Sun and Evening Moon theme modes for appropriate ambient warmth.",
-        icon: Sun
-      }, {
-        step: "02",
-        title: "Shuffle & Favorite",
-        description: "Click Shuffle for new positive mantras, and click the Heart icon to bookmark your favorites.",
-        icon: Heart
-      }, {
-        step: "03",
-        title: "Write Custom Mantras",
-        description: "Type your personal affirmations into the creator box to build a tailored self-belief library.",
-        icon: Plus
-      }]} badges={["Morning & Evening Themes", "Custom Mantras", "Favorites Storage"]} />
-
-      {/* FEATURE GUIDES */}
-      <ToolFeatureGuides features={[{
-        icon: Sun,
-        title: "Ambient Theme Modes",
-        description: "Features tailored warm amber and deep indigo theme palettes designed for morning and evening routines."
-      }, {
-        icon: Heart,
-        title: "Personal Affirmation Library",
-        description: "Saves your favorited and custom created affirmations locally for daily reflection."
-      }, {
-        icon: Shield,
-        title: "100% Private & Free",
-        description: "Runs completely in your local browser without registration or external tracking."
-      }]} />
-
-      {/* FAQ ACCORDION */}
-      <ToolFaqAccordion faqs={[{
-        question: "How often are affirmations updated?",
-        answer: "Click the Shuffle button to generate 3 new randomized positive affirmation cards anytime."
-      }, {
-        question: "Where are my favorite affirmations stored?",
-        answer: "All favorited and custom created affirmations are stored in your browser's local storage."
-      }]} />
-
- <GlassCard>
+      <GlassCard>
  <CardHeader>
  <CardTitle>Favorites</CardTitle>
  <CardDescription>Your saved affirmations ({favorites.length})</CardDescription>
@@ -232,8 +198,8 @@ export function AffirmationsClient() {
  )}
  </CardContent>
  </GlassCard>
- </div>
- </div>
+ 
+ 
  
 <ToolHowItWorks
   steps={[
@@ -314,6 +280,9 @@ export function AffirmationsClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default AffirmationsClient;

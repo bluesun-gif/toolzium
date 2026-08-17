@@ -1,4 +1,7 @@
 "use client";
+
+import { Switch } from "@/components/ui/switch";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback } from "react";
@@ -64,7 +67,10 @@ export function LiteratureSummarizerClient() {
     navigator.clipboard.writeText(summary);
     toast.success("Summary copied to clipboard!");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 p-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={BookOpen} title="Literature Summarizer" description="Transform dense research papers, journal articles, and academic passages into structured abstracts, bullet points, and critical key takeaways." />
@@ -199,8 +205,9 @@ export function LiteratureSummarizerClient() {
         question: "Is there a word count limit?",
         answer: "There is no strict character limit. However, passages between 100 and 3,000 words yield the most balanced and structured summaries."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/academic/literature-summarizer" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default LiteratureSummarizerClient;

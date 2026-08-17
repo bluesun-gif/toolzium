@@ -1,4 +1,8 @@
 "use client";
+
+import { Card } from "@/components/ui/card";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -12,7 +16,7 @@ import { Label } from"@/components/ui/label";
 import { Input } from"@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ResetButton } from"@/components/shared/action-buttons";
-import { AlertTriangle, Calendar, CreditCard, DollarSign, TrendingDown, Wallet } from"lucide-react";
+import { AlertTriangle, Calendar, CreditCard, DollarSign, TrendingDown, Wallet, Calculator } from "lucide-react";
 
 export function CreditPayoffClient() {
   const [balance, setBalance] = useState("5000");
@@ -70,7 +74,10 @@ export function CreditPayoffClient() {
     setMonthlyPayment("200");
     setTargetMonths("24");
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={CreditCard} title="Credit Card Payoff Calculator" description="Calculate time and interest required to pay off your credit card debt." actions={<ResetButton onClick={handleReset} label="Reset" />} />
@@ -250,6 +257,9 @@ export function CreditPayoffClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default CreditPayoffClient;

@@ -1,4 +1,7 @@
 "use client";
+
+import { Card } from "@/components/ui/card";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect, useCallback } from "react";
@@ -18,7 +21,7 @@ import { Label } from "@/components/ui/label";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { cn } from "@/lib/utils";
 import { createShort, getAnalytics, type AnalyticsResponse } from "@/lib/actions/shortener.action";
-import { Link2, Copy, Download, QrCode, Scissors, RefreshCcw, ExternalLink, CheckCircle2, History, BarChart3, Globe, MousePointer, Smartphone, X, Sparkles, Wand2, ShieldCheck, Zap, Trash2 } from "lucide-react";
+import { Link2, Copy, Download, QrCode, Scissors, RefreshCcw, ExternalLink, CheckCircle2, History, BarChart3, Globe, MousePointer, Smartphone, X, Sparkles, Wand2, ShieldCheck, Zap, Trash2, Type } from "lucide-react";
 import toast from "react-hot-toast";
 interface ShortenedLink {
   id: string;
@@ -181,7 +184,10 @@ export function ShortenerClient() {
     localStorage.removeItem("toolzium_shortener_history");
     toast.success("Shortener history cleared!");
   };
-  return <div className="w-full min-h-screen pb-20 relative"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
@@ -423,7 +429,8 @@ export function ShortenerClient() {
             </motion.div>
           </div>}
 
-        <ToolHowItWorks steps={[{
+        </div>
+<ToolHowItWorks steps={[{
           step: "01",
           title: "Paste Destination URL",
           description: "Input any long web page link, campaign URL, or affiliate link.",
@@ -468,9 +475,9 @@ export function ShortenerClient() {
           question: "Can I customize the alias?",
           answer: "Yes! Type any custom slug or click 'AI Smart Alias' to auto-generate a punchy link name."
         }]} />
-
-        <RelatedTools currentToolUrl="/tools/url/shortener" max={6} />
-      </div>
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default ShortenerClient;

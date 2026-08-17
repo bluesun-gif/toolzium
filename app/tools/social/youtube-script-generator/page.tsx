@@ -1,25 +1,28 @@
+import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import YoutubeScriptGeneratorClient from "@/components/tools/social/youtube-script-generator-client";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "AI YouTube Video Script & Outline Generator — Free Retention Script Writer";
+const DESCRIPTION = "Generate high-retention 5-second opening hooks, B-roll cues, step-by-step value scripts, and high-CTR calls to action using live AI.";
+const PATH = "/tools/social/youtube-script-generator";
 
 export const metadata = buildMetadata({
-  title: "AI YouTube Video Script & Outline Generator — Free Retention Script Writer",
-  description:
-    "Generate high-retention 5-second opening hooks, B-roll cues, step-by-step value scripts, and high-CTR calls to action using live AI.",
-  path: "/tools/social/youtube-script-generator",
-  keywords: [
-    "youtube script generator",
-    "ai youtube script writer",
-    "video outline generator",
-    "high retention youtube script",
-    "youtube video hook generator",
-  ],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
-export default function YoutubeScriptGeneratorPage() {
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "AI YouTube Video Script & Outline Generator",
+    description: DESCRIPTION,
+    path: PATH
+  });
+
   return (
-    <><YoutubeScriptGeneratorClient />
-      <RelatedTools currentToolUrl="/tools/social/youtube-script-generator" />
+    <>
+      <JsonLd data={jsonLd} />
+      <YoutubeScriptGeneratorClient />
     </>
   );
 }

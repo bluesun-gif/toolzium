@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
@@ -12,7 +13,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from "@/component
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ResetButton, CopyButton } from "@/components/shared/action-buttons";
-import { DollarSign, Calculator, Home, AlertTriangle, CheckCircle2, Sliders, ShieldAlert, Award } from "lucide-react";
+import { DollarSign, Calculator, Home, AlertTriangle, CheckCircle2, Sliders, ShieldAlert, Award, Copy } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { cn } from "@/lib/utils";
 export function LtvCalculatorClient() {
@@ -97,7 +98,10 @@ export function LtvCalculatorClient() {
     question: "How much cash can I cash-out refinance at 80% LTV?",
     answer: "Most conventional cash-out refinance guidelines cap maximum borrowing at 80% of your home's total appraised value minus your existing mortgage balances."
   }];
-  return <div className="relative space-y-12"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       <ToolPageHeader icon={Calculator} title="Loan-to-Value (LTV) Calculator" description="Calculate your LTV, CLTV, and available home equity for refinancing, HELOCs, or mortgage approval." actions={<>
@@ -246,7 +250,9 @@ export function LtvCalculatorClient() {
       </ToolFeatureGuides>
 
       <ToolFaqAccordion faqs={faqs} />
-
-      <RelatedTools currentToolUrl="/tools/finance/ltv-calculator" max={6} />
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default LtvCalculatorClient;

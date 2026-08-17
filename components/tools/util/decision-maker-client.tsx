@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useEffect } from "react";
@@ -139,7 +140,10 @@ export function DecisionMakerClient() {
     }]);
     setWeightedResult(null);
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={HelpCircle} title="Decision Maker" description="Help users make decisions. Two modes: Simple random choice or Weighted pros and cons." actions={<ResetButton onClick={reset} label="Reset" />} />
@@ -300,8 +304,9 @@ export function DecisionMakerClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/util/decision-maker" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default DecisionMakerClient;

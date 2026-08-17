@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -8,7 +10,7 @@ import ToolPageHeader from"@/components/shared/tool-page-header";
 import { GlassCard } from"@/components/ui/glass-card";
 import { Input } from"@/components/ui/input";
 import SelectField from"@/components/shared/form-fields/select-field";
-import { Calendar, Coins, DollarSign, LineChart, TrendingUp } from"lucide-react";
+import { Calendar, Coins, DollarSign, LineChart, TrendingUp, Calculator } from "lucide-react";
 
 const ASSETS = [
  { value:"BTC", label:"₿ Bitcoin (BTC)"},
@@ -28,7 +30,10 @@ export default function CryptoDcaClient() {
   const futureValue = monthlyRate > 0 ? monthlyInvest * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate) : totalInvested;
   const totalProfit = futureValue - totalInvested;
   const roiPercentage = totalInvested > 0 ? (totalProfit / totalInvested * 100).toFixed(1) : "0.0";
-  return <div className="relative space-y-6 max-w-4xl mx-auto px-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Coins} title="Crypto Dollar-Cost-Averaging (DCA) & Profit Calculator" description="Calculate compound returns and projected portfolio value when dollar-cost-averaging into Bitcoin, Ethereum, and Solana." />
@@ -161,6 +166,7 @@ export default function CryptoDcaClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }

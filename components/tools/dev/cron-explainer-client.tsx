@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useEffect } from "react";
@@ -10,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Clock, HelpCircle, Zap, BookOpen, Shield, Timer, Calendar, Code2, AlignLeft, Layers } from "lucide-react";
+import { Clock, HelpCircle, Zap, BookOpen, Shield, Timer, Calendar, Code2, AlignLeft, Layers, Copy } from "lucide-react";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
@@ -113,7 +114,10 @@ export function CronExplainerClient() {
     setExplanation(explainCron(expression));
     setNextRuns(getNextRuns(expression));
   }, [expression]);
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Cron Explainer" description="Translate cron expressions into human-readable text and view scheduled run times." icon={Clock} actions={<>
@@ -336,6 +340,9 @@ export function CronExplainerClient() {
         question: "Why is my cron job not running at the expected time?",
         answer: "Common causes: 1) Timezone mismatch — cron runs in the server's local timezone, which may differ from yours. 2) Month/weekday conflict — when both day-of-month and day-of-week are set, most systems run when EITHER condition is true. 3) Missed runs — if the server was down at the scheduled time, the job will not run until the next scheduled time."
       }]} />
- <RelatedTools currentToolUrl="/tools/dev/cron-explainer" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default CronExplainerClient;

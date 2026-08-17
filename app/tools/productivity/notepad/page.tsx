@@ -1,28 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
-import RelatedTools from "@/components/shared/related-tools";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
+import NotepadClient from "@/components/tools/productivity/notepad-client";
+
+const TITLE = "Notepad | Toolzium";
+const DESCRIPTION = "Free online notepad tool with instant calculation and privacy.";
+const PATH = "/tools/productivity/notepad";
 
 export const metadata = buildMetadata({
-  title: "Online Notepad",
-  description: "Free online notepad and text editor. Auto-saves to your browser with multiple tabs, dark mode, word count, and download as .txt. No signup required, works offline. Your notes never leave your device.",
-  path: "/tools/productivity/notepad",
-  keywords: ["your", "with", "notepad", "browser", "online", "free", "saves", "multiple", "auto", "text", "tabs", "editor"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Online Notepad",
-    description: "Free online notepad and text editor. Auto-saves to your browser with multiple tabs, dark mode, word count, and download as .txt. No signup required, works offline. Your notes never leave your device.",
-    path: "/tools/productivity/notepad",
-    categoryName: "Productivity",
-    categoryPath: "/tools/productivity",
+    name: "Notepad",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <NotepadClient />
-    
-      <RelatedTools currentToolUrl="/tools/productivity/notepad" />
-</>
+    </>
   );
 }

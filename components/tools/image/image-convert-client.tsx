@@ -1,7 +1,10 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
-import { ActivitySquare, CloudDownload, Crop, Eye, EyeOff, Image as ImageIcon, Images, Link2, Loader2, Palette, SlidersHorizontal, Zap, ShieldCheck, FileImage, RefreshCw, Layers } from "lucide-react";
+import { ActivitySquare, CloudDownload, Crop, Eye, EyeOff, Image as ImageIcon, Images, Link2, Loader2, Palette, SlidersHorizontal, Zap, ShieldCheck, FileImage, RefreshCw, Layers, Download, Settings, Type, Upload } from "lucide-react";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
@@ -159,7 +162,10 @@ export default function ImageConvertClient() {
     }
   }
   const lossy = fmt !== "png";
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Images} title="Image Converter" description="Convert between PNG, JPEG, WEBP, AVIF (auto-preview)." actions={<>
@@ -479,7 +485,7 @@ export default function ImageConvertClient() {
         question: "Are my images uploaded to a server?",
         answer: "No. Conversion happens entirely in your browser using the HTML5 Canvas API. Images are never uploaded or stored anywhere. This also means EXIF metadata (including GPS location) is stripped from the output — useful for privacy."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/image/convert" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

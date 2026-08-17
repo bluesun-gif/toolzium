@@ -1,4 +1,7 @@
 "use client";
+
+import { Card } from "@/components/ui/card";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useCallback, useEffect } from "react";
@@ -16,7 +19,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { cn } from "@/lib/utils";
-import { Rocket, Sparkles, Copy, CheckCircle2, Sliders, RefreshCcw, ExternalLink, Lightbulb, Globe, Building2, FileText, History, Trash2 } from "lucide-react";
+import { Rocket, Sparkles, Copy, CheckCircle2, Sliders, RefreshCcw, ExternalLink, Lightbulb, Globe, Building2, FileText, History, Trash2, Check, Type } from "lucide-react";
 import toast from "react-hot-toast";
 interface StartupIdea {
   name: string;
@@ -193,7 +196,10 @@ export function StartupNameClient() {
     navigator.clipboard.writeText(text);
     toast.success(`${label} copied to clipboard!`);
   };
-  return <div className="w-full min-h-screen pb-20 relative"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
@@ -337,7 +343,8 @@ export function StartupNameClient() {
             </div>
           </GlassCard>}
 
-        <ToolHowItWorks steps={[{
+        </div>
+<ToolHowItWorks steps={[{
           step: "01",
           title: "Enter Keywords",
           description: "Input core product keywords, niche terms, or concept idea.",
@@ -382,9 +389,9 @@ export function StartupNameClient() {
           question: "Which domain extension is best for tech startups?",
           answer: ".com remains the gold standard for global consumer brands, while .io and .ai dominate developer and artificial intelligence startups."
         }]} />
-
-        <RelatedTools currentToolUrl="/tools/ai/startup-name" max={6} />
-      </div>
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default StartupNameClient;

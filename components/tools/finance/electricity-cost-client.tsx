@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -15,7 +17,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { Calculator, DollarSign, Leaf, Plus, Trash2, Zap } from"lucide-react";
+import { Calculator, DollarSign, Leaf, Plus, Trash2, Zap, Check, Settings } from "lucide-react";
 
 interface Appliance {
   id: string;
@@ -90,7 +92,10 @@ export function ElectricityCostClient() {
     setAppliances([]);
     setRate(0.12);
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Zap} title="Electricity Cost Calculator" description="Calculate the electricity cost of your home appliances" actions={<ResetButton onClick={handleReset} label="Reset All" />} />
@@ -247,6 +252,9 @@ export function ElectricityCostClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default ElectricityCostClient;

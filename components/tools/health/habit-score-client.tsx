@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -36,7 +38,10 @@ export function HabitScoreClient() {
     setWater(4);
     setMeditation(0);
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Award} title="Habit Score Calculator" description="Rate your daily habits and get a wellness score." actions={<ResetButton onClick={reset} label="Reset" />} />
@@ -162,6 +167,9 @@ export function HabitScoreClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default HabitScoreClient;

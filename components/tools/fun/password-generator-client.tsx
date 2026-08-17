@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo } from "react";
@@ -10,7 +11,7 @@ import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CopyButton } from "@/components/shared/action-buttons";
-import { KeyRound, RefreshCw } from "lucide-react";
+import { KeyRound, RefreshCw, Copy, Settings } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -75,7 +76,10 @@ export default function PasswordGeneratorClient() {
       width: "100%"
     };
   }, [length, upper, lower, numbers, symbols]);
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={KeyRound} title="Password Generator" description="Create ultra-secure, cryptographically random passwords with custom character rules." />
@@ -195,7 +199,7 @@ export default function PasswordGeneratorClient() {
         question: "Should I include symbols?",
         answer: "Yes, mixing character types (uppercase, lowercase, numbers, symbols) exponentially increases the entropy and time required to crack a password."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/fun/password-generator" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

@@ -1,4 +1,8 @@
 "use client";
+
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { ActionButton, CopyButton, ExportTextButton, ResetButton } from "@/components/shared/action-buttons";
@@ -15,7 +19,7 @@ import { CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from 
 import { GlassCard } from "@/components/ui/glass-card";
 import { Separator } from "@/components/ui/separator";
 import { generateParagraph, mulberry32 } from "@/lib/utils/dev/lorem-ipsum";
-import { AlignLeft, BookOpen, Shield, FileText, Type, Layers, Code2, Zap, Globe } from "lucide-react";
+import { AlignLeft, BookOpen, Shield, FileText, Type, Layers, Code2, Zap, Globe, Copy, Settings, History } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 export default function LoremIpsumClient() {
@@ -68,7 +72,10 @@ export default function LoremIpsumClient() {
       chars
     };
   }, [outputText, output.length]);
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={AlignLeft} title="Lorem Ipsum Generator" description="Fast, tweakable filler text for mockups, layouts, and testing." actions={<>
@@ -276,6 +283,7 @@ export default function LoremIpsumClient() {
         question: "Can I use Lorem Ipsum in production?",
         answer: "No. Lorem ipsum is strictly for design mockups and development placeholders. Always replace it with real, meaningful content before publishing. Leaving placeholder text in production looks unprofessional and can harm SEO."
       }]} />
- <RelatedTools currentToolUrl="/tools/dev/lorem-ipsum" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

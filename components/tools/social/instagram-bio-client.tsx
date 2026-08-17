@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
@@ -15,7 +16,7 @@ import { Label } from "@/components/ui/label";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
 import { ModelSelector } from "@/components/shared/model-selector";
 import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Instagram, Sparkles, RefreshCw, PenTool, Copy, CheckCircle2, Shield, BookOpen, Layers } from "lucide-react";
+import { Instagram, Sparkles, RefreshCw, PenTool, Copy, CheckCircle2, Shield, BookOpen, Layers, Type } from "lucide-react";
 import toast from "react-hot-toast";
 const variantLabels = ["Professional", "Casual", "Witty", "Minimalist", "Emoji-heavy"];
 export default function InstagramBioClient() {
@@ -83,7 +84,10 @@ Return ONLY the 5 bios separated by ||| with no labels.`;
     setCtaLink("toolzium.com");
     setBios([]);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       <ToolPageHeader icon={Instagram} title="Instagram Bio & Aesthetic Caption Generator" description="Generate 5 high-converting, aesthetic Instagram bio variants with character counter, emoji controls, and CTA link integration." actions={<ResetButton onClick={handleReset} label="Reset" />} />
@@ -209,7 +213,7 @@ Return ONLY the 5 bios separated by ||| with no labels.`;
         question: "Should I include a call-to-action link in my Instagram bio?",
         answer: "Yes! A clear call-to-action (e.g. 'Click below for 10% off 👇') drives profile visitors directly to your website or link-in-bio."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/social/instagram-bio-generator" max={6} />
-    </div></div>;
+    </div>
+    </div>
+);
 }

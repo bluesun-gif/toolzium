@@ -1,4 +1,9 @@
 "use client";
+
+import { cn } from "@/lib/utils";
+import { Slider } from "@/components/ui/slider";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -8,7 +13,7 @@ import ToolPageHeader from"@/components/shared/tool-page-header";
 import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
-import { Brain, Headphones, Moon, Pause, Play, PlayCircle, Radio, SlidersHorizontal, Sparkles, Sun, Volume2, VolumeX, Waves, Zap } from"lucide-react";
+import { Brain, Headphones, Moon, Pause, Play, PlayCircle, Radio, SlidersHorizontal, Sparkles, Sun, Volume2, VolumeX, Waves, Zap, Layers } from "lucide-react";
 import toast from"react-hot-toast";
 
 interface SoundTrack {
@@ -161,7 +166,10 @@ export default function AmbientNoiseClient() {
     };
   }, []);
   const activeTrack = TRACKS.find(t => t.id === activeTrackId) || TRACKS[0];
-  return <div className="relative mx-auto max-w-6xl px-2 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-6 max-w-full overflow-hidden"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Ambient Focus Noise & Binaural Sound Generator Studio" description="Synthesize Brown Noise, Pink Noise, White Noise, and 40Hz Binaural Beats 100% in your browser for deep work, study, and sleep." />
@@ -322,6 +330,7 @@ export default function AmbientNoiseClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }

@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -14,7 +16,7 @@ import { Label } from"@/components/ui/label";
 import { Switch } from"@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Activity, Calculator, Compass, Flame, Gauge, Mountain, Scale, TrendingUp } from"lucide-react";
+import { Activity, Calculator, Compass, Flame, Gauge, Mountain, Scale, TrendingUp, Copy } from "lucide-react";
 import { toast } from"react-hot-toast";
 
 export function HikingCalorieClient() {
@@ -92,7 +94,10 @@ export function HikingCalorieClient() {
     const text = "Hiking Calorie Estimate:" + results.calories + "kcal\n" + "Distance:" + distance + "" + (unitSystem === "imperial" ? "miles" : "km") + "\n" + "Elevation:" + elevationGain + "" + (unitSystem === "imperial" ? "ft" : "m") + "\n" + "Estimated Time:" + results.hours + "hours\n" + "Recommended Hydration:" + results.hydration + "L";
     return text;
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Activity} title="Hiking & Elevation Gain Calorie Calculator" description="Estimate energy expenditure during hikes based on distance, elevation gain, and pack weight." actions={<>
@@ -265,6 +270,9 @@ export function HikingCalorieClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default HikingCalorieClient;

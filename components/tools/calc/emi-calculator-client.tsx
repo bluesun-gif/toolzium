@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { ActionButton, CopyButton, ExportCSVButton, ResetButton } from "@/components/shared/action-buttons";
@@ -9,7 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { GlassCard } from "@/components/ui/glass-card";
 import { Label } from "@/components/ui/label";
-import { Calculator, Calendar as CalendarIcon, Download, History, BookOpen, PieChart, TrendingDown, Shield, Zap, Globe, DollarSign, BarChart3, Info } from "lucide-react";
+import { Calculator, Calendar as CalendarIcon, Download, History, BookOpen, PieChart, TrendingDown, Shield, Zap, Globe, DollarSign, BarChart3, Info, Copy, Settings, Type } from "lucide-react";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
@@ -193,7 +196,10 @@ export default function EmiCalculatorClient() {
     const lines = schedule.map(r => [r.month, r.date, r.opening, r.interest, r.principal, r.extra, r.payment, r.closing]);
     return [Array.from(head), ...lines];
   }, [schedule]);
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  {/* Header */}
@@ -516,6 +522,7 @@ export default function EmiCalculatorClient() {
         question: "Can I use this for home, car, and personal loans?",
         answer: "Yes. The EMI formula is the same for all loan types. Simply enter the principal amount, the annual interest rate quoted by your lender, and the tenure. The calculator works for home loans, car loans, personal loans, education loans, and business loans."
       }]} />
- <RelatedTools currentToolUrl="/tools/calc/emi" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

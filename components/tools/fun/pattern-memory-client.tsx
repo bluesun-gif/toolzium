@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { cn } from "@/lib/utils";
@@ -10,7 +11,7 @@ import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { RotateCcw, Grid3X3, Play, Heart, Zap } from "lucide-react";
+import { RotateCcw, Grid3X3, Play, Heart, Zap, Grid } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -111,7 +112,10 @@ export function PatternMemoryClient() {
     if (selectedCells.includes(idx)) return "bg-yellow-500 shadow-md";
     return "bg-muted/50 hover:bg-muted border border-border/50";
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 pb-12"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Grid3X3} title="Pattern Memory" description="Memorize expanding grid patterns under pressure. Test your spatial working memory and endurance with our lives-based challenge." />
@@ -221,8 +225,9 @@ export function PatternMemoryClient() {
         question: "How many cells are in the pattern?",
         answer: "The pattern starts with 3 cells at Level 1, and adds exactly one more cell for every subsequent level."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/fun/pattern-memory" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default PatternMemoryClient;

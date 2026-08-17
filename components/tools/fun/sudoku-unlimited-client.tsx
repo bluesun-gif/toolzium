@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { cn } from "@/lib/utils";
@@ -10,7 +11,7 @@ import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Grid3x3, RotateCcw, Timer, Pen, Undo2, Trophy } from "lucide-react";
+import { Grid3x3, RotateCcw, Timer, Pen, Undo2, Trophy, Play, Grid } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -199,7 +200,10 @@ export function SudokuUnlimitedClient() {
   const symbols = Array.from({
     length: size
   }, (_, i) => i + 1);
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Grid3x3} title="Sudoku Unlimited" description="Conquer logic puzzles across multiple dimensions with 4x4 Mini, 9x9 Classic, and 16x16 Giant grids." />
@@ -331,8 +335,9 @@ export function SudokuUnlimitedClient() {
         question: "Do my stats save if I refresh?",
         answer: "Stats are maintained in local session memory. For permanent tracking, we recommend keeping the tab open during your training sessions."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/fun/sudoku-unlimited" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default SudokuUnlimitedClient;

@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo } from "react";
@@ -12,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CopyButton } from "@/components/shared/action-buttons";
 import toast from "react-hot-toast";
-import { Terminal, Trash2 } from "lucide-react";
+import { Terminal, Trash2, Copy, Type } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -71,7 +72,10 @@ export default function AsciiArtClient() {
     }
     return lines.join("\n");
   }, [input]);
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Terminal} title="ASCII Art Generator" description="Convert your text into retro block-style ASCII art instantly." />
@@ -154,7 +158,7 @@ export default function AsciiArtClient() {
         question: "Can I use special characters?",
         answer: "Currently, the tool supports A-Z, 0-9, and spaces. Special characters will be rendered as blank spaces."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/fun/ascii-art" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

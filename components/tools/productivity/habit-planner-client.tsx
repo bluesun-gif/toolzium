@@ -1,4 +1,10 @@
 "use client";
+
+import { cn } from "@/lib/utils";
+import toast from "react-hot-toast";
+import { Label } from "@/components/ui/label";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -10,7 +16,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components
 import { Input } from"@/components/ui/input";
 import { Button } from"@/components/ui/button";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { Calendar, CalendarRange, CheckCircle2, CheckSquare, Download, ListPlus, Plus, Sparkles, Trash2, TrendingUp } from"lucide-react";
+import { Calendar, CalendarRange, CheckCircle2, CheckSquare, Download, ListPlus, Plus, Sparkles, Trash2, TrendingUp, Check, Grid } from "lucide-react";
 
 interface Habit {
   id: string;
@@ -107,7 +113,10 @@ export function HabitPlannerClient() {
     const completed = days.filter(Boolean).length;
     return Math.round(completed / 7 * 100);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       <ToolPageHeader icon={Calendar} title="Weekly Habit & Routine Planner" description="Track your daily habits, build routines, and maintain your weekly streaks with contrast-optimized check-ins." actions={<ResetButton onClick={resetWeek} label="Reset Week & Increment Streak" />} />
@@ -213,48 +222,7 @@ export function HabitPlannerClient() {
       </div>
 
       {/* HOW IT WORKS */}
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Add Daily Habits",
-        description: "List habits you want to build this week (e.g. Exercise, Reading, Water Intake).",
-        icon: Calendar
-      }, {
-        step: "02",
-        title: "Check Off Daily Progress",
-        description: "Click the day buttons (Mon-Sun) as you complete habits throughout the week.",
-        icon: CheckSquare
-      }, {
-        step: "03",
-        title: "Track Weekly Streaks",
-        description: "At the end of the week, click 'Reset Week' to log your completion streak count.",
-        icon: Sparkles
-      }]} badges={["7-Day Tracker", "Completion Rates", "Auto-Saved"]} />
-
-      {/* FEATURE GUIDES */}
-      <ToolFeatureGuides features={[{
-        icon: Calendar,
-        title: "7-Day Grid View",
-        description: "Visual grid layout showing Mon-Sun completion status across all active habits."
-      }, {
-        icon: Sparkles,
-        title: "Automatic Percentage Rate",
-        description: "Calculates real-time completion percentage for every habit in your routine."
-      }, {
-        icon: Shield,
-        title: "Local Storage Data Security",
-        description: "All habits and streak numbers are saved directly in your browser's local storage."
-      }]} />
-
-      {/* FAQ ACCORDION */}
-      <ToolFaqAccordion faqs={[{
-        question: "How does the habit streak counter work?",
-        answer: "Clicking 'Reset Week & Increment Streak' clears the current week's checkboxes and adds +1 to your total weekly streak count."
-      }, {
-        question: "Are my habits stored on external servers?",
-        answer: "No, all habit data is saved locally on your device for complete privacy."
-      }]} />
-
- <GlassCard>
+      <GlassCard>
  <CardHeader>
  <CardTitle>Progress</CardTitle>
  </CardHeader>
@@ -328,8 +296,8 @@ export function HabitPlannerClient() {
  </div>
  </CardContent>
  </GlassCard>
- </div>
- </div>
+ 
+ 
  
 <ToolHowItWorks
   steps={[
@@ -410,6 +378,9 @@ export function HabitPlannerClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default HabitPlannerClient;

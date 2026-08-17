@@ -1,4 +1,8 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
@@ -9,7 +13,7 @@ import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ResetButton } from "@/components/shared/action-buttons";
-import { Plane, Clock, Sun, Moon, Bed, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { Plane, Clock, Sun, Moon, Bed, Sparkles, Shield, Zap, Copy, Calculator } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -122,7 +126,10 @@ export function JetLagClient() {
     setDepartureTz("UTC-5");
     setArrivalTz("UTC+0");
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Plane} title="Jet Lag Calculator" description="Estimate jet lag severity, timezone differences, and get personalized recovery tips based on your travel direction." actions={<ResetButton onClick={handleReset} label="Reset" />} />
@@ -290,8 +297,9 @@ export function JetLagClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/travel/jet-lag" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default JetLagClient;

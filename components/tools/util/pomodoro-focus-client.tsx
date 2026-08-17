@@ -1,7 +1,8 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
-import { BarChart3, Bell, BookOpen, Brain, Check, Clock4, Coffee, History, Pause, Play, Settings2, Shield, SkipForward, Timer, Volume2, VolumeX, Zap } from "lucide-react";
+import { BarChart3, Bell, BookOpen, Brain, Check, Clock4, Coffee, History, Pause, Play, Settings2, Shield, SkipForward, Timer, Volume2, VolumeX, Zap, Clock, Settings } from "lucide-react";
 import * as React from "react";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
@@ -247,7 +248,10 @@ export default function PomodoroFocusClient() {
     short: <Coffee className="h-5 w-5" />,
     long: <Coffee className="h-5 w-5" />
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Timer} title="Pomodoro Focus" description="Work / break cycles with sound, history, and auto-start options." actions={<>
@@ -502,6 +506,7 @@ export default function PomodoroFocusClient() {
         question: "What if I get interrupted during a Pomodoro?",
         answer: "The original technique says: if interrupted by something urgent, end the Pomodoro (it doesn't count), handle the interruption, then start fresh. For optional interruptions, use the 'inform, negotiate, schedule, call back' method: tell the person you're in a focus session, agree on a time to follow up. Over time, people learn to respect your Pomodoro time."
       }]} />
- <RelatedTools currentToolUrl="/tools/util/pomodoro" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

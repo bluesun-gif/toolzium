@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useCallback, useEffect, useMemo } from "react";
@@ -16,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { cn } from "@/lib/utils";
-import { MessageSquare, Sparkles, Send, FileText, CheckCircle2, Sliders, RefreshCcw, Bot, Eye, Code2, Table as TableIcon, Upload, Search, ZoomIn, ZoomOut, Maximize2, Copy, Trash2, Lightbulb, FileSpreadsheet, FileCode, Globe } from "lucide-react";
+import { MessageSquare, Sparkles, Send, FileText, CheckCircle2, Sliders, RefreshCcw, Bot, Eye, Code2, Table as TableIcon, Upload, Search, ZoomIn, ZoomOut, Maximize2, Copy, Trash2, Lightbulb, FileSpreadsheet, FileCode, Globe, History, Type } from "lucide-react";
 import toast from "react-hot-toast";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -167,7 +168,10 @@ Instructions:
     navigator.clipboard.writeText(pdfText);
     toast.success("Document content copied to clipboard!");
   };
-  return <div className="w-full min-h-screen pb-20 relative"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       {/* Required for Syntax Highlighting */}
@@ -341,7 +345,8 @@ Instructions:
           </div>
         </div>
 
-        <ToolHowItWorks steps={[{
+        </div>
+<ToolHowItWorks steps={[{
           step: "01",
           title: "Open Document File",
           description: "Upload PDF, Word, Markdown, or code files into the Document Reader.",
@@ -386,9 +391,9 @@ Instructions:
           question: "Is my document stored on a server?",
           answer: "No, all file reading and chat context processing occur securely in your active session."
         }]} />
-
-        <RelatedTools currentToolUrl="/tools/ai/pdf-chat" max={6} />
-      </div>
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default PdfChatClient;

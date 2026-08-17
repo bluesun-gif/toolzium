@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -49,7 +51,10 @@ export function ConsultingAgreementClient() {
     toast.success("Print dialog opened");
     window.print();
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={FileText} title="Consulting Services Agreement Generator" description="Generate formal Consulting Services & Client Engagement Contracts." actions={<div className="flex gap-2">
@@ -217,6 +222,9 @@ export function ConsultingAgreementClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default ConsultingAgreementClient;

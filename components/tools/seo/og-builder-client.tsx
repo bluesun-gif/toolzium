@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useMemo, useState } from "react";
@@ -10,7 +11,7 @@ import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { CopyButton } from "@/components/shared/action-buttons";
-import { Share2, Image as ImageIcon, Link2, Twitter } from "lucide-react";
+import { Share2, Image as ImageIcon, Link2, Twitter, Copy, Type } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -47,7 +48,10 @@ export default function OgBuilderClient() {
       return "";
     }
   }, [pageUrl]);
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Share2} title="Open Graph Tag Builder" description="Create Open Graph and Twitter Card meta tags with a live social share preview." />
@@ -205,7 +209,7 @@ export default function OgBuilderClient() {
         question: "Will this guarantee how platforms display my link?",
         answer: "No. Platforms may cache links or apply their own display rules, but proper tags significantly improve consistency."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/seo/og-builder" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

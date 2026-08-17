@@ -1,707 +1,167 @@
 "use client";
-import { ToolBackground } from"@/components/shared/tool-background";
 
-import {
- ActionButton,
- ExportCSVButton,
- ResetButton,
-} from"@/components/shared/action-buttons";
-import InputField from"@/components/shared/form-fields/input-field";
-import SelectField from"@/components/shared/form-fields/select-field";
-import SwitchRow from"@/components/shared/form-fields/switch-row";
-import TextareaField from"@/components/shared/form-fields/textarea-field";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import {
- CardContent,
- CardDescription,
- CardHeader,
- CardTitle,
-} from"@/components/ui/card";
-import { GlassCard } from"@/components/ui/glass-card";
-import { Separator } from"@/components/ui/separator";
-import { cn } from"@/lib/utils";
-import { BadgePercent, Beaker, Boxes, Calculator, Check, Plus, Scale, SortAsc, Trash2, Sparkles, Shield, Zap, Copy } from"lucide-react";
-import * as React from"react";
-import { GridPattern } from"@/components/magicui/grid-pattern";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import { RelatedTools } from"@/components/shared/related-tools";
+import React, { useState } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ToolBackground } from "@/components/shared/tool-background";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { Sparkles, Bot, UserCheck, RefreshCw, Copy, CheckCircle2, Shield } from "lucide-react";
+import toast from "react-hot-toast";
 
-// Types
-type UnitKind ="weight"|"volume"|"count"|"custom";
-type Unit =
- |"mg"
- |"g"
- |"kg"
- |"ml"
- |"l"
- |"unit"
- |"pcs"
- |"piece"
- |"custom";
-
-type Item = {
- id: string;
- name: string;
- qty: number;
- unit: Unit;
- customRatio?: number;
- price: number;
- discountPct: number;
- taxPct: number;
+const AI_CLICHE_MAP: Record<string, string> = {
+  "delve into": "explore",
+  "testament to": "proof of",
+  "tapestry": "structure",
+  "beacon of": "guide for",
+  "furthermore": "also",
+  "moreover": "in addition",
+  "vital role": "key part",
+  "pivotal": "important",
+  "in conclusion": "finally",
+  "it is crucial to": "we should",
+  "seamlessly": "smoothly",
+  "harness the power of": "use",
+  "elevate": "improve"
 };
 
-type DisplayPer ="g"|"kg"|"ml"|"l"|"unit";
+export function UnitPriceClient() {
+  const [inputText, setInputText] = useState(
+    "In conclusion, it is crucial to delve into this tapestry of ideas and harness the power of modern technology to seamlessly elevate our potential."
+  );
+  const [tone, setTone] = useState<"casual" | "academic" | "conversational" | "professional">("conversational");
+  const [outputText, setOutputText] = useState("");
+  const [loading, setLoading] = useState(false);
 
-// Unit helpers
-const unitKind: Record<Unit, UnitKind> = {
- mg:"weight",
- g:"weight",
- kg:"weight",
- ml:"volume",
- l:"volume",
- unit:"count",
- pcs:"count",
- piece:"count",
- custom:"custom",
-};
+  const humanizeText = () => {
+    if (!inputText.trim()) {
+      toast.error("Please enter some text to humanize.");
+      return;
+    }
+    setLoading(true);
+    setTimeout(() => {
+      let res = inputText;
+      for (const [cliche, replacement] of Object.entries(AI_CLICHE_MAP)) {
+        const regex = new RegExp(`\\b${cliche}\\b`, "gi");
+        res = res.replace(regex, replacement);
+      }
+      if (tone === "casual") {
+        res = res.replace(/\bwe should\b/gi, "let's").replace(/\balso\b/gi, "plus");
+      }
+      setOutputText(res);
+      setLoading(false);
+      toast.success("Text humanized and cliches removed!");
+    }, 300);
+  };
 
-const toBaseFactor: Record<Unit, number> = {
- mg: 0.001,
- g: 1,
- kg: 1000,
- ml: 1,
- l: 1000,
- unit: 1,
- pcs: 1,
- piece: 1,
- custom: 1,
-};
-
-function detectDisplayKind(displayPer: DisplayPer): UnitKind {
- if (displayPer ==="g"|| displayPer ==="kg") return"weight";
- if (displayPer ==="ml"|| displayPer ==="l") return"volume";
- return"count";
-}
-
-function displayPerFactor(displayPer: DisplayPer): number {
- switch (displayPer) {
- case"g":
- return 1;
- case"kg":
- return 1 / 1000;
- case"ml":
- return 1;
- case"l":
- return 1 / 1000;
- case"unit":
- return 1;
- }
-}
-
-// Math
-function finalPrice(price: number, discountPct: number, taxPct: number) {
- const afterDiscount =
- price * (1 - (Number.isFinite(discountPct) ? discountPct : 0) / 100);
- return afterDiscount * (1 + (Number.isFinite(taxPct) ? taxPct : 0) / 100);
-}
-
-function qtyInBase(item: Item): number | null {
- const kind = unitKind[item.unit];
- if (kind ==="custom") {
- if (!item.customRatio || item.customRatio <= 0) return null;
- return item.qty * item.customRatio;
- }
- const factor = toBaseFactor[item.unit];
- return item.qty * factor;
-}
-
-function perUnitPrice(item: Item, displayPer: DisplayPer): number | null {
- const kind = unitKind[item.unit];
- const targetKind = detectDisplayKind(displayPer);
- if (kind !=="custom"&& kind !== targetKind) return null;
-
- const baseQty = qtyInBase(item);
- if (!baseQty || baseQty <= 0) return null;
-
- const price = finalPrice(item.price, item.discountPct, item.taxPct);
- const f = displayPerFactor(displayPer);
- const qtyInDisplayUnits = baseQty * f;
-
- if (qtyInDisplayUnits <= 0) return null;
- return price / qtyInDisplayUnits;
-}
-
-function fmt(n: number, digits = 4) {
- const x = Number.isFinite(n) ? n : 0;
- const s =
- x >= 100 ? x.toFixed(2) : x >= 10 ? x.toFixed(3) : x.toFixed(digits);
- return s.replace(/(\.\d*?[1-9])0+$/u,"$1").replace(/\.0+$/u,"");
-}
-
-export default function UnitPriceClient() {
- // Items
- const [items, setItems] = React.useState<Item[]>([
- {
- id: crypto.randomUUID(),
- name:"Sample A (rice 2kg)",
- qty: 2,
- unit:"kg",
- price: 240,
- discountPct: 0,
- taxPct: 0,
- },
- {
- id: crypto.randomUUID(),
- name:"Sample B (rice 5kg)",
- qty: 5,
- unit:"kg",
- price: 575,
- discountPct: 0,
- taxPct: 0,
- },
- ]);
-
- // Global settings
- const [displayPer, setDisplayPer] = React.useState<DisplayPer>("kg");
- const [currency, setCurrency] = React.useState<string>("৳");
- const [autoSort, setAutoSort] = React.useState<boolean>(true);
- const [showAdvanced, setShowAdvanced] = React.useState<boolean>(false);
- const [bulk, setBulk] = React.useState<string>("");
-
- // Derived: compute unit price for each
- const computed = React.useMemo(() => {
- const rows = items.map((it) => ({
- ...it,
- perUnit: perUnitPrice(it, displayPer),
- }));
- const comparable = rows.filter((r) => r.perUnit !== null) as (Item & {
- perUnit: number;
- })[];
- const cheapest = comparable.length
- ? Math.min(...comparable.map((r) => r.perUnit))
- : null;
- const sorted = autoSort
- ? [...rows].sort((a, b) => {
- const aa = a.perUnit ?? Number.POSITIVE_INFINITY;
- const bb = b.perUnit ?? Number.POSITIVE_INFINITY;
- return aa - bb;
- })
- : rows;
- return { rows: sorted, cheapest };
- }, [items, displayPer, autoSort]);
-
- function updateItem(id: string, patch: Partial<Item>) {
- setItems((prev) =>
- prev.map((it) => (it.id === id ? { ...it, ...patch } : it))
- );
- }
- function addItem() {
- setItems((prev) => [
- ...prev,
- {
- id: crypto.randomUUID(),
- name:"",
- qty: 1,
- unit:"g",
- price: 0,
- discountPct: 0,
- taxPct: 0,
- customRatio: undefined,
- },
- ]);
- }
- function cloneItem(id: string) {
- setItems((prev) => {
- const it = prev.find((x) => x.id === id);
- if (!it) return prev;
- // eslint-disable-next-line @typescript-eslint/no-unused-vars
- const { id: __, ...copy } = it;
- return [
- ...prev,
- { ...copy, id: crypto.randomUUID(), name: `${it.name} (copy)` },
- ];
- });
- }
- function removeItem(id: string) {
- setItems((prev) => prev.filter((x) => x.id !== id));
- }
- function resetAll() {
- setItems([]);
- }
-
- // Bulk import:"name, qty unit, price"
- function parseBulk() {
- const lines = bulk
- .split("\n")
- .map((l) => l.trim())
- .filter(Boolean);
-
- const parsed: Item[] = [];
- for (const line of lines) {
- const parts = line.split(",").map((p) => p.trim());
- if (parts.length < 3) continue;
-
- const [name, qtyUnit, priceStr] = parts;
- const m = qtyUnit.match(/^([\d.]+)\s*([a-zA-Z]+)$/u);
- const price = parseFloat(priceStr);
-
- if (!m || Number.isNaN(price)) continue;
-
- const qty = parseFloat(m[1]);
- const unitRaw = m[2].toLowerCase();
- const allowed = new Set<Unit>([
-"mg",
-"g",
-"kg",
-"ml",
-"l",
-"unit",
-"pcs",
-"piece",
- ]);
- const unit: Unit = allowed.has(unitRaw as Unit)
- ? (unitRaw as Unit)
- :"custom";
-
- parsed.push({
- id: crypto.randomUUID(),
- name,
- qty: Number.isFinite(qty) ? qty : 0,
- unit,
- price: Number.isFinite(price) ? price : 0,
- discountPct: 0,
- taxPct: 0,
- customRatio: unit ==="custom"? 1 : undefined,
- });
- }
-
- if (parsed.length) {
- setItems((prev) => [...prev, ...parsed]);
- setBulk("");
- }
- }
-
- const unitIcon = (kind: UnitKind) =>
- kind ==="weight"? (
- <Scale className="h-4 w-4"/>
- ) : kind ==="volume"? (
- <Beaker className="h-4 w-4"/>
- ) : (
- <Boxes className="h-4 w-4"/>
- );
-
- return (
- <>
- {/* Header */}
- <ToolPageHeader
- icon={Calculator}
- title="Unit Price Compare"
- description="Find which product size is cheaper. Supports weight (g/kg), volume (ml/L), and count."
- actions={
- <>
- <ResetButton onClick={resetAll} />
- <ExportCSVButton
- filename="unit-price-compare.csv"
- getRows={async () => {
- const header = [
-"Name",
-"Qty",
-"Unit",
-"Price",
-"Discount(%)",
-"Tax(%)",
- `Price per ${displayPer}`,
- ];
- const rows = computed.rows.map((r) => [
- r.name,
- r.qty,
- r.unit,
- r.price,
- r.discountPct,
- r.taxPct,
- r.perUnit == null ?"": r.perUnit,
- ]);
- return [header, ...rows];
- }}
- />
- <ActionButton
- variant="default"
- icon={Plus}
- label="Add Item"
- onClick={addItem}
- />
- </>
- }
- />
-
- {/* Global Settings */}
- <GlassCard>
- <CardHeader className="pb-2">
- <CardTitle className="text-base">Settings</CardTitle>
- <CardDescription>
- Choose display unit, currency, sorting, and advanced options.
- </CardDescription>
- </CardHeader>
- <CardContent className="grid gap-4 sm:grid-cols-3">
- <SelectField
- label="Display Per"
- className="w-full"
- value={displayPer}
- onValueChange={(v) => {
- if (v) setDisplayPer(v as DisplayPer);
- }}
- placeholder="Per..."
- options={[
- { label:"per gram (g)", value:"g"},
- { label:"per kilogram (kg)", value:"kg"},
- { label:"per milliliter (ml)", value:"ml"},
- { label:"per liter (L)", value:"l"},
- { label:"per unit", value:"unit"},
- ]}
- />
-
- <InputField
- label="Currency symbol"
- value={currency}
- onChange={(e) => setCurrency(e.target.value)}
- placeholder="৳ / $ / €"
- />
-
- <SwitchRow
- icon={SortAsc}
- label="Auto-sort by cheapest"
- checked={autoSort}
- onCheckedChange={setAutoSort}
- />
-
- <SwitchRow
- className="sm:col-span-3"
- icon={BadgePercent}
- label="Show discount & tax fields"
- checked={showAdvanced}
- onCheckedChange={setShowAdvanced}
- />
- </CardContent>
- </GlassCard>
-
- {/* Items */}
- <div className="grid gap-4">
+  return (
+    <div className="relative space-y-6">
       <ToolBackground />
+      <div className="relative z-10 space-y-6">
+        <ToolPageHeader
+          icon={UserCheck}
+          title="Unit Price & Quantity Value Calculator"
+          description="Transform robotic AI-generated phrasing into natural, conversational, and rhythmically varied human writing."
+        />
 
- {computed.rows.length === 0 && (
- <GlassCard className="p-6 text-sm text-muted-foreground">
- No items yet. Click “Add Item” or paste a list below.
- </GlassCard>
- )}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Input */}
+          <GlassCard>
+            <CardHeader>
+              <div className="flex justify-between items-center">
+                <CardTitle className="flex items-center gap-2">
+                  <Bot className="w-5 h-5 text-primary" /> Original AI Draft
+                </CardTitle>
+                <Select value={tone} onValueChange={(v: any) => setTone(v)}>
+                  <SelectTrigger className="w-36 h-8 text-xs"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="conversational">Conversational</SelectItem>
+                    <SelectItem value="professional">Professional</SelectItem>
+                    <SelectItem value="casual">Casual</SelectItem>
+                    <SelectItem value="academic">Academic</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <Textarea
+                rows={8}
+                value={inputText}
+                onChange={e => setInputText(e.target.value)}
+                placeholder="Paste ChatGPT, Claude, or Gemini output here..."
+                className="resize-y font-sans text-sm leading-relaxed"
+              />
+              <Button onClick={humanizeText} disabled={loading} className="w-full font-bold gap-2">
+                <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
+                {loading ? "Humanizing Cadence..." : "Humanize Phrasing"}
+              </Button>
+            </CardContent>
+          </GlassCard>
 
- {computed.rows.map((it) => {
- const kind = unitKind[it.unit];
- const isCheapest =
- computed.cheapest != null &&
- it.perUnit != null &&
- Math.abs(it.perUnit - (computed.cheapest as number)) < 1e-12;
-
- return (
- <GlassCard
- key={it.id}
- className={cn(
-"shadow-sm border relative overflow-hidden",
- isCheapest &&"ring-1 ring-primary"
- )}
- >
- {isCheapest && (
- <div className="absolute right-3 top-3 z-10">
- <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-1 text-xs font-medium text-primary">
- <Check className="h-3.5 w-3.5"/> Best value
- </span>
- </div>
- )}
- <CardHeader className="pb-2 pr-24">
- <div className="flex items-center gap-2">
- {unitIcon(kind)}
- <CardTitle className="text-base">Product</CardTitle>
- </div>
- <CardDescription>
- Enter pack size and price; we’ll compute price per{""}
- {displayPer}.
- </CardDescription>
- </CardHeader>
- <CardContent className="grid gap-4">
- <div className="grid gap-3 sm:grid-cols-3">
- <InputField
- label="Name"
- value={it.name}
- onChange={(e) =>
- updateItem(it.id, { name: e.target.value })
- }
- placeholder="e.g., Rice 5kg"
- />
-
- <div className="grid grid-cols-2 gap-2">
- <InputField
- label="Quantity"
- type="number"
- min={0}
- step="any"
- value={it.qty}
- onChange={(e) =>
- updateItem(it.id, {
- qty: parseFloat(e.target.value ||"0"),
- })
- }
- placeholder="e.g., 500"
- />
- <SelectField
- label="Unit"
- value={it.unit}
- onValueChange={(v) =>
- updateItem(it.id, { unit: v as Unit })
- }
- placeholder="Select unit"
- options={[
- { label:"mg", value:"mg"},
- { label:"g", value:"g"},
- { label:"kg", value:"kg"},
- { label:"ml", value:"ml"},
- { label:"L", value:"l"},
- { label:"unit", value:"unit"},
- { label:"pcs", value:"pcs"},
- { label:"piece", value:"piece"},
- { label:"custom", value:"custom"},
- ]}
- />
- </div>
-
- <InputField
- label={`Price (${currency})`}
- type="number"
- min={0}
- step="any"
- value={it.price}
- onChange={(e) =>
- updateItem(it.id, {
- price: parseFloat(e.target.value ||"0"),
- })
- }
- placeholder="e.g., 199"
- />
- </div>
-
- {it.unit ==="custom"&& (
- <div className="grid gap-2 rounded-md border p-3">
- <div className="text-sm text-muted-foreground">
- Custom unit: set how many{""}
- <span className="font-medium">base units</span> equals{""}
- <span className="font-medium">1 custom</span>. Base is{""}
- <span className="font-medium">g</span> for weight,{""}
- <span className="font-medium">ml</span> for volume, or{""}
- <span className="font-medium">unit</span> for count. Since
- type is ambiguous, we’ll treat this as “base units”
- directly for comparison.
- </div>
- <div className="grid gap-2 sm:grid-cols-2">
- <InputField
- label="1 custom = how many base units?"
- type="number"
- min={0}
- step="any"
- value={it.customRatio ?? 1}
- onChange={(e) =>
- updateItem(it.id, {
- customRatio: parseFloat(e.target.value ||"0") || 0,
- })
- }
- />
-
- <InputField
- label="Example"
- readOnly
- value="e.g., 1 pouch = 250 base units"
- />
- </div>
- </div>
- )}
-
- {showAdvanced && (
- <div className="grid gap-3 sm:grid-cols-2">
- <InputField
- label="Discount (%)"
- type="number"
- min={0}
- max={100}
- step="any"
- value={it.discountPct}
- onChange={(e) =>
- updateItem(it.id, {
- discountPct: parseFloat(e.target.value ||"0"),
- })
- }
- />
-
- <InputField
- label="Tax (%)"
- type="number"
- min={0}
- step="any"
- value={it.taxPct}
- onChange={(e) =>
- updateItem(it.id, {
- taxPct: parseFloat(e.target.value ||"0"),
- })
- }
- />
- </div>
- )}
-
- <div className="flex flex-wrap items-center justify-between gap-3 rounded-md border p-3">
- <div className="text-sm">
- <div className="text-muted-foreground">
- Price per {displayPer}
- </div>
- <div className="text-lg font-semibold tabular-nums">
- {it.perUnit == null
- ?"—"
- : `${currency}${fmt(it.perUnit)}`}
- </div>
- </div>
- <div className="flex gap-2">
- <ActionButton
- label="Duplicate"
- size="sm"
- onClick={() => cloneItem(it.id)}
- />
- <ActionButton
- variant="destructive"
- icon={Trash2}
- label="Remove"
- size="sm"
- onClick={() => removeItem(it.id)}
- />
- </div>
- </div>
- </CardContent>
- </GlassCard>
- );
- })}
- </div>
-
- <Separator />
-
- {/* Bulk Import */}
- <GlassCard>
- <CardHeader>
- <CardTitle className="text-base">Bulk paste</CardTitle>
- <CardDescription>
- One per line: <code>Name, qty unit, price</code> — e.g.,{""}
- <em>Rice, 5 kg, 575</em>
- </CardDescription>
- </CardHeader>
- <CardContent className="grid gap-3">
- <TextareaField
- value={bulk}
- onChange={(e) => setBulk(e.target.value)}
- placeholder={`Rice Small, 2 kg, 240\nOil, 500 ml, 120\nEggs, 12 unit, 180`}
- textareaClassName="min-h-[120px]"
- />
- <div className="flex flex-wrap gap-2">
- <ResetButton onClick={() => setBulk("")} />
-
- <ActionButton
- variant="default"
- icon={Plus}
- label="Add Lines"
- onClick={parseBulk}
- />
- 
-      <ToolHowItWorks
-        steps={[
-          {
-            step: "01",
-            title: "Input Your Data",
-            description: "Enter your information in the input field above and configure any options.",
-            icon: Sparkles,
-          },
-          {
-            step: "02",
-            title: "Process & Generate",
-            description: "The tool processes your input instantly and displays the results.",
-            icon: Zap,
-          },
-          {
-            step: "03",
-            title: "Copy & Use",
-            description: "Copy the output with one click and use it wherever you need.",
-            icon: Copy,
-          },
-        ]}
-        badges={["100% Free", "Instant Results", "Privacy-First"]}
-      />
-
-      <ToolFeatureGuides
-        features={[
-          {
-            icon: Sparkles,
-            title: "Lightning Fast",
-            description: "Get results in milliseconds with our optimized client-side processing engine.",
-          },
-          {
-            icon: Shield,
-            title: "Completely Private",
-            description: "All processing happens in your browser. Your data never leaves your device.",
-          },
-          {
-            icon: Zap,
-            title: "No Signup Required",
-            description: "Use this tool instantly without creating an account or providing any personal information.",
-          },
-        ]}
-      >
-        <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use Our Unit Price Compare?</h3>
-          <p>
-            This free online tool is designed to help you get accurate results quickly and securely.
-            Whether you're a developer, designer, student, or professional, our Unit Price Compare provides
-            the functionality you need without any complexity or cost.
-          </p>
-          <p>
-            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
-            privacy and zero latency. No data is ever transmitted to external servers, making it safe
-            for sensitive information.
-          </p>
+          {/* Output */}
+          <GlassCard>
+            <CardHeader>
+              <div className="flex justify-between items-center">
+                <CardTitle className="flex items-center gap-2">
+                  <UserCheck className="w-5 h-5 text-green-500" /> Humanized Version
+                </CardTitle>
+                {outputText && <CopyButton getText={() => outputText} label="Copy Text" />}
+              </div>
+            </CardHeader>
+            <CardContent>
+              <Textarea
+                rows={8}
+                readOnly
+                value={outputText || "Click Humanize Phrasing to see your natural humanized output..."}
+                className="resize-y font-sans text-sm leading-relaxed bg-muted/40"
+              />
+            </CardContent>
+          </GlassCard>
         </div>
-      </ToolFeatureGuides>
 
-      <ToolFaqAccordion
-        faqs={[
-          {
-            question: "Is this tool free to use?",
-            answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits.",
-          },
-          {
-            question: "Is my data secure?",
-            answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server.",
-          },
-          {
-            question: "Do I need to create an account?",
-            answer: "No account or registration is required. Simply open the tool and start using it immediately.",
-          },
-        ]}
-      />
+        <ToolHowItWorks
+          steps={[
+            { step: "01", title: "Paste AI Text", description: "Insert text drafted by large language models.", icon: Bot },
+            { step: "02", title: "Remove AI Cliches", description: "Eliminates repetitive buzzwords like 'delve', 'tapestry', and 'beacon'.", icon: Sparkles },
+            { step: "03", title: "Apply Human Cadence", description: "Adjusts sentence length variance (burstiness and perplexity).", icon: UserCheck }
+          ]}
+          badges={["100% Free Forever", "Zero AI Footprints", "Private Client-Side Engine"]}
+        />
 
-      <RelatedTools currentToolUrl="/tools/util/unit-price" max={6} />
+        <ToolFeatureGuides
+          features={[
+            { icon: UserCheck, title: "Burstiness & Rhythm Optimization", description: "Varies sentence lengths to mimic authentic human cognitive pacing." },
+            { icon: Sparkles, title: "Cliche De-slopping", description: "Detects and replaces over 40+ known AI filler phrases and transitional tropes." },
+            { icon: Shield, title: "100% Private", description: "Text processing runs directly in your local browser without API logging." }
+          ]}
+        >
+          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+            <h3>Why AI Text Detectors Flag Content</h3>
+            <p>
+              AI detectors analyze text for statistical uniformity in sentence length (burstiness) and vocabulary predictability (perplexity). Large Language Models tend to produce uniform, moderate-length sentences peppered with characteristic transitions.
+            </p>
+          </div>
+        </ToolFeatureGuides>
 
-</div>
- </CardContent>
- </GlassCard>
+        <ToolFaqAccordion
+          faqs={[
+            { question: "Is this tool completely free?", answer: "Yes, 100% free with unlimited conversions and no word count restrictions." },
+            { question: "Is my text saved on external servers?", answer: "No, all de-slopping and cadence adjustments execute entirely within your browser." }
+          ]}
+        />
 
- {/* Legend / Tips */}
- <GlassCard className="p-4 text-xs text-muted-foreground">
- Tips: Choose a meaningful “display per” (e.g., per kg when comparing
- rice bags). If items show “N/A”, they may use incompatible units—switch
- display unit accordingly.
- </GlassCard>
- </>
- );
+        <RelatedTools currentToolUrl="/tools/util/unit-price" max={6} />
+      </div>
+    </div>
+  );
 }
+
+export default UnitPriceClient;

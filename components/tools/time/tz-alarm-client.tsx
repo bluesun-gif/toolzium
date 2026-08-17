@@ -1,4 +1,8 @@
 "use client";
+
+import { Plus as PlusIcon } from "lucide-react";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
@@ -16,9 +20,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/
 import { Clock, Globe, Bell, Trash2, Sparkles, Shield, Zap, Copy } from"lucide-react";
 import { toast } from"react-hot-toast";
 import { GridPattern } from"@/components/magicui/grid-pattern";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import { RelatedTools } from"@/components/shared/related-tools";
 import { cn } from"@/lib/utils";
 
@@ -215,86 +216,7 @@ export function TzAlarmClient() {
  <Button variant="outline"size="sm"onClick={() => snoozeAlarm(alarm.id)} disabled={alarm.active}>Snooze</Button>
  <Switch checked={alarm.active} onCheckedChange={(c) => toggleAlarm(alarm.id, c)}
 
-<ToolHowItWorks
-  steps={[
-  {
-    step:"01",
-    title:"Pick Zone",
-    description:"Target time zone.",
-    icon: Globe,
-  },
-  {
-    step:"02",
-    title:"Set Time",
-    description:"Alarm in that zone.",
-    icon: AlarmClock,
-  },
-  {
-    step:"03",
-    title:"Confirm",
-    description:"See your local equivalent.",
-    icon: Clock,
-  }
-  ]}
-  badges={["Free Forever","No Signup","Instant Results"]}
 />
-
-<ToolFeatureGuides
-  features={[
-  {
-    icon: Globe,
-    title:"Zone",
-    description:"Any region.",
-  },
-  {
-    icon: AlarmClock,
-    title:"Alarm",
-    description:"In target zone.",
-  },
-  {
-    icon: Clock,
-    title:"Local",
-    description:"Your equivalent.",
-  },
-  {
-    icon: Bell,
-    title:"Alert",
-    description:"Notify on time.",
-  }
-  ]}
->
-  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-  <p>A timezone alarm lets you set a wake or reminder in a different zone and shows your local equivalent, so you never miscalculate for an overseas event. The conversion is automatic. This tool sets and confirms.</p>
-  <p>Avoiding 3am wake-ups for a noon call is the whole point. The alarm removes the risk.</p>
-  <p>Use it for foreign-scheduled events. The tool's value is zone-correct alarms.</p>
-  </div>
-</ToolFeatureGuides>
-
-<ToolFaqAccordion
-  faqs={[
-  {
-    question:"What does it do?",
-    answer:"Alarms set in another zone.",
-  },
-  {
-    question:"Shows local?",
-    answer:"Yes, converts for you.",
-  },
-  {
-    question:"Free?",
-    answer:"Yes.",
-  },
-  {
-    question:"Private?",
-    answer:"Local.",
-  },
-  {
-    question:"Use case?",
-    answer:"Wake for events abroad.",
-  }
-  ]}
-/>
- />
  <Button variant="ghost"size="icon"onClick={() => removeAlarm(alarm.id)}>
  <Trash2 className="h-4 w-4 text-destructive"/>
  </Button>
@@ -305,7 +227,7 @@ export function TzAlarmClient() {
  )}
  </CardContent>
  </GlassCard>
- </div>
+ 
  
       <ToolHowItWorks
         steps={[
@@ -381,18 +303,9 @@ export function TzAlarmClient() {
           },
         ]}
       />
-
-      <RelatedTools currentToolUrl="/tools/time/tz-alarm" max={6} />
-
-</div>
- );
+    </div>
+    </div>
+);
 }
 
-function PlusIcon(props: React.SVGProps<SVGSVGElement>) {
- return (
- <svg {...props} xmlns="http://www.w3.org/2000/svg"width="24"height="24"viewBox="0 0 24 24"fill="none"stroke="currentColor"strokeWidth="2"strokeLinecap="round"strokeLinejoin="round">
- <path d="M5 12h14"/>
- <path d="M12 5v14"/>
- </svg>
- );
-}
+export default TzAlarmClient;

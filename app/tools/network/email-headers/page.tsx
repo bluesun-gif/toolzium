@@ -1,32 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import EmailHeadersClient from "@/components/tools/network/email-headers-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "Email Headers | Toolzium";
+const DESCRIPTION = "Free online email headers tool with instant calculation and privacy.";
+const PATH = "/tools/network/email-headers";
 
 export const metadata = buildMetadata({
-  title: "Email Header Analyzer",
-  description: "Analyze email headers to trace delivery path, check SPF/DKIM/DMARC authentication, and identify spam. Paste raw headers and see the full hop-by-hop route.",
-  path: "/tools/network/email-headers",
-  keywords: ["identify", "check", "dmarc", "spam", "headers", "email", "trace", "dkim", "path", "authentication", "delivery", "analyze"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Email Header Analyzer",
-    description: "Analyze email headers to trace delivery path, check SPF/DKIM/DMARC authentication, and identify spam. Paste raw headers and see the full hop-by-hop route.",
-    path: "/tools/network/email-headers",
-    categoryName: "Network",
-    categoryPath: "/tools/network",
+    name: "Email Headers",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <EmailHeadersClient />
-    
-      <RelatedTools currentToolUrl="/tools/network/email-headers" />
-</div>
+    </>
   );
 }

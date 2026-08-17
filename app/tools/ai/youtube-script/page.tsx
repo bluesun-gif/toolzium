@@ -1,45 +1,28 @@
-import { Metadata } from "next";
-import YoutubeScriptClient from "@/components/tools/ai/youtube-script-client";
-import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import JsonLd from "@/components/seo/json-ld";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
+import YoutubeScriptClient from "@/components/tools/ai/youtube-script-client";
+
 const TITLE = "AI YouTube Script Generator & Teleprompter Studio | Toolzium";
 const DESCRIPTION = "Generate viral YouTube video titles, 15-second opening retention hooks, video timestamp outlines, and teleprompter-ready scripts.";
 const PATH = "/tools/ai/youtube-script";
 
-export const metadata: Metadata = buildMetadata({
+export const metadata = buildMetadata({
   title: TITLE,
   description: DESCRIPTION,
-  path: PATH,
-  keywords: [
-    "AI YouTube script generator",
-    "YouTube hook generator",
-    "viral video title generator",
-    "teleprompter script writer",
-    "free YouTube AI tool",
-  ],
+  path: PATH
 });
 
-export default function YoutubeScriptPage() {
-  const jsonLdData = buildToolJsonLd({
-    name: "AI YouTube Script Generator",
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "AI YouTube Script Generator & Teleprompter Studio",
     description: DESCRIPTION,
-    path: PATH,
-    categoryName: "AI Tools",
-    categoryPath: "/tools/ai",
-    faqs: [
-      {
-        question: "How does the AI YouTube Script Generator work?",
-        answer: "It uses Groq AI models to generate viral titles, 15-second opening hooks, timestamp outlines, and teleprompter scripts.",
-      },
-    ],
+    path: PATH
   });
 
   return (
     <>
-      <JsonLd data={jsonLdData as any} />
+      <JsonLd data={jsonLd} />
       <YoutubeScriptClient />
-    
-      <RelatedTools currentToolUrl="/tools/ai/youtube-script" />
-</>
+    </>
   );
 }

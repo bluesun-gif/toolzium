@@ -1,4 +1,10 @@
 "use client";
+
+import { cn } from "@/lib/utils";
+import { ResetButton } from "@/components/shared/action-buttons";
+import { Label } from "@/components/ui/label";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -10,7 +16,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components
 import { Separator } from"@/components/ui/separator";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
-import { BarChart2, BarChart3, CheckCircle, CheckCircle2, Pause, Play, Settings, Square, Timer, TrendingUp } from"lucide-react";
+import { BarChart2, BarChart3, CheckCircle, CheckCircle2, Pause, Play, Settings, Square, Timer, TrendingUp, Activity, History } from "lucide-react";
 import toast from"react-hot-toast";
 
 type SessionType ="work"|"shortBreak"|"longBreak";
@@ -143,7 +149,10 @@ export function PomodoroAnalyticsClient() {
     setTimeLeft(durations.work * 60);
     toast.success("Reset Pomodoro logs & timer!");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       <ToolPageHeader icon={Timer} title="Pomodoro Focus Timer & Work Session Analytics" description="Enhance focus productivity with a customizable Pomodoro timer, audio chimes, task logging, and daily session analytics." actions={<ResetButton onClick={handleResetAll} label="Reset Logs" />} />
@@ -266,48 +275,7 @@ export function PomodoroAnalyticsClient() {
       </GlassCard>
 
       {/* HOW IT WORKS */}
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Set Focus Task",
-        description: "Enter what you are working on and select standard 25-minute Pomodoro or custom durations.",
-        icon: Timer
-      }, {
-        step: "02",
-        title: "Sprint & Audio Chime",
-        description: "Click Start. An audio chime signals when your work sprint or break session ends.",
-        icon: Play
-      }, {
-        step: "03",
-        title: "Track Daily Minutes",
-        description: "Completed sessions log automatically into your daily focus minutes analytics.",
-        icon: BarChart2
-      }]} badges={["Pomodoro Method", "Audio Chimes", "Task Logs"]} />
-
-      {/* FEATURE GUIDES */}
-      <ToolFeatureGuides features={[{
-        icon: Timer,
-        title: "Customizable Sprint Durations",
-        description: "Configure work, short break, and long break durations to match your personal focus rhythm."
-      }, {
-        icon: BarChart2,
-        title: "Daily Focus Analytics",
-        description: "Calculates total focus minutes and completed sessions logged throughout the day."
-      }, {
-        icon: Shield,
-        title: "100% Client-Side & Private",
-        description: "Saves session history locally in your browser without requiring external account logins."
-      }]} />
-
-      {/* FAQ ACCORDION */}
-      <ToolFaqAccordion faqs={[{
-        question: "What is the Pomodoro Technique?",
-        answer: "The Pomodoro Technique is a time management method that breaks work into 25-minute focus intervals separated by short 5-minute breaks."
-      }, {
-        question: "Does the timer play an alert sound when finished?",
-        answer: "Yes! A gentle Web Audio chime plays when the countdown reaches 0:00."
-      }]} />
-
- <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
  <GlassCard className="lg:col-span-2">
  <CardHeader>
  <CardTitle>Timer</CardTitle>
@@ -547,6 +515,9 @@ export function PomodoroAnalyticsClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default PomodoroAnalyticsClient;

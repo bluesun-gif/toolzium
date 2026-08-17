@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -13,7 +15,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { Switch } from"@/components/ui/switch";
-import { Activity, Calculator, Clock, Flame, Scale, Waves } from"lucide-react";
+import { Activity, Calculator, Clock, Flame, Scale, Waves, Copy } from "lucide-react";
 import toast from"react-hot-toast";
 
 type ActivityType ="freestyle_slow"|"freestyle_fast"|"breaststroke"|"backstroke"|"butterfly"|"treading"|"water_polo"|"kayaking";
@@ -62,7 +64,10 @@ export function SwimmingCalorieClient() {
   const getReport = () => {
     return "Swimming Calories Report:\nActivity:" + ACTIVITY_LABELS[activity] + "\nWeight:" + weight + (isKg ? "kg" : "lbs") + "\nDuration:" + duration + "mins\nCalories Burned:" + calories.toFixed(1) + "kcal\nFat Burned Est.:" + fatBurned.toFixed(3) + "lbs";
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Swimming & Water Sports Calorie Calculator" description="Calculate calories and fat burned during various swimming strokes and water sports." icon={Activity} actions={<ResetButton onClick={handleReset} label="Reset" />} />
@@ -224,6 +229,9 @@ export function SwimmingCalorieClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default SwimmingCalorieClient;

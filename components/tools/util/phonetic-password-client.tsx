@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useEffect } from "react";
@@ -119,7 +120,10 @@ export function PhoneticPasswordClient() {
     if (bits < 100) return "Centuries";
     return "Eons";
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Phonetic Pronunciation Password Generator" description="Generate strong, memorable passwords with NATO phonetic pronunciation guides." icon={Lock} actions={<>
@@ -252,8 +256,9 @@ export function PhoneticPasswordClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/util/phonetic-password" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default PhoneticPasswordClient;

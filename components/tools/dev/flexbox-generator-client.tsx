@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -13,7 +15,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { AlignVerticalSpaceAround, Code2, Copy, Layout, LayoutGrid, Plus, Smartphone, Trash2 } from"lucide-react";
+import { AlignVerticalSpaceAround, Code2, Copy, Layout, LayoutGrid, Plus, Smartphone, Trash2, Grid } from "lucide-react";
 import { cn } from"@/lib/utils";
 
 interface FlexItem {
@@ -96,7 +98,10 @@ export function FlexboxGeneratorClient() {
     return css;
   };
   const selectedItem = items.find(i => i.id === selectedItemId);
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Layout} title="CSS Flexbox Generator" description="Visually construct CSS flexbox layouts and generate code instantly." actions={<>
@@ -322,6 +327,9 @@ export function FlexboxGeneratorClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default FlexboxGeneratorClient;

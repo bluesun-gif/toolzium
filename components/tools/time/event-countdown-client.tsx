@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -16,9 +18,6 @@ import { ActionButton } from"@/components/shared/action-buttons";
 import { cn } from"@/lib/utils";
 import toast from"react-hot-toast";
 import { GridPattern } from"@/components/magicui/grid-pattern";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import { RelatedTools } from"@/components/shared/related-tools";
 
 interface EventItem {
@@ -253,7 +252,7 @@ export function EventCountdownClient() {
  </div>
  )}
  </div>
- </div>
+ 
  
 <ToolHowItWorks
   steps={[
@@ -334,6 +333,9 @@ export function EventCountdownClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default EventCountdownClient;

@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -59,7 +61,10 @@ export function PaceCalorieClient() {
     setRunPace(9);
     setWalkPace(20);
   };
-  return <div className={"space-y-6"}><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Activity} title={"Pace & Calorie Calculator"} description={"Compare calories burned running vs walking the same distance."} actions={<ResetButton onClick={handleReset} label={"Reset"} />} />
@@ -231,6 +236,9 @@ export function PaceCalorieClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default PaceCalorieClient;

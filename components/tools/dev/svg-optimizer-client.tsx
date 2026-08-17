@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo } from "react";
@@ -69,7 +72,7 @@ export default function SvgOptimizerClient() {
     code = code.replace(/stroke-dashoffset=/g, "strokeDashoffset=");
     code = code.replace(/stroke-opacity=/g, "strokeOpacity=");
     code = code.replace(/fill-opacity=/g, "fillOpacity=");
-    return `import React from 'react';\n\nconst SvgIcon = (props: React.SVGProps<SVGSVGElement>) => (\n ${code.replace(/<svg/, "<svg {...props}")}\n);\n\nexport default SvgIcon;`;
+    return `\n\nconst SvgIcon = (props: React.SVGProps<SVGSVGElement>) => (\n ${code.replace(/<svg/, "<svg {...props}")}\n);\n\nexport default SvgIcon;`;
   }, [optimizedSvg]);
   const dataUri = useMemo(() => {
     try {
@@ -90,7 +93,10 @@ export default function SvgOptimizerClient() {
     navigator.clipboard.writeText(getOutputContent());
     toast.success("Copied to clipboard!");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 p-4 sm:p-6 lg:p-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Scissors} title="SVG Optimizer & React Converter" description="Minify SVG code, convert to React JSX components, and generate Base64 Data URIs instantly." />
@@ -213,7 +219,7 @@ export default function SvgOptimizerClient() {
         question: "When should I use a Data URI?",
         answer: "Data URIs are perfect for small icons used as CSS background images. They prevent the browser from making an extra network request, though they increase the size of your CSS file slightly due to Base64 encoding overhead."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/dev/svg-optimizer" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -11,7 +13,7 @@ import { Separator } from"@/components/ui/separator";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
-import { CalendarClock, Copy, DollarSign, Flame, Percent, TrendingUp, Wallet } from"lucide-react";
+import { CalendarClock, Copy, DollarSign, Flame, Percent, TrendingUp, Wallet, Calculator } from "lucide-react";
 import { ResetButton, CopyButton } from"@/components/shared/action-buttons";
 
 export function FireCalcClient() {
@@ -37,7 +39,10 @@ export function FireCalcClient() {
   }
   const fireAge = currentAge + yearsToFire;
   const summaryText = "FIRE Number: $" + fireNumber.toFixed(0) + "\nYears to FIRE:" + (yearsToFire >= 0 ? yearsToFire : "Never") + "\nFIRE Age:" + (yearsToFire >= 0 ? fireAge : "N/A");
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Flame} title="FIRE Calculator" description="Calculate your Financial Independence and Retire Early (FIRE) metrics." actions={<React.Fragment>
@@ -206,6 +211,9 @@ export function FireCalcClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default FireCalcClient;

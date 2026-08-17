@@ -1,4 +1,7 @@
 "use client";
+
+import { Card } from "@/components/ui/card";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useEffect } from "react";
@@ -9,7 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
-import { CreditCard, DollarSign, Printer, Copy, Sparkles, Shield, Zap } from "lucide-react";
+import { CreditCard, DollarSign, Printer, Copy, Sparkles, Shield, Zap, Settings } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -93,7 +96,10 @@ export function CurrencyCardClient() {
     setExchangeRate("0.92");
     saveSettings("USD", "EUR", "0.92");
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={CreditCard} title="Currency Quick Reference Card" description="Printable travel currency conversion cheat card for your wallet." actions={<>
@@ -214,8 +220,9 @@ export function CurrencyCardClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/travel/currency-card" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default CurrencyCardClient;

@@ -1,4 +1,8 @@
 "use client";
+
+import { cn } from "@/lib/utils";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -55,7 +59,10 @@ export function SleepLatencyClient() {
     return results;
   };
   const times = calculateTimes();
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Sleep Latency & Sleep Onset Calculator" description="Calculate optimal bedtimes based on sleep latency and 90-minute REM sleep cycles." icon={Moon} actions={<>
@@ -196,6 +203,9 @@ export function SleepLatencyClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default SleepLatencyClient;

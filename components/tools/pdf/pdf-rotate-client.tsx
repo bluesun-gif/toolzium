@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
@@ -58,7 +59,10 @@ export default function PdfRotateClient() {
       setRotating(false);
     }
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={FileText} title="PDF Page Rotate Studio" description="Rotate PDF pages 90°, 180°, or 270° clockwise or counter-clockwise. 100% client-side." />
@@ -158,7 +162,7 @@ export default function PdfRotateClient() {
         question: "Can I use this tool completely offline?",
         answer: "Yes! Once the page has loaded, the PDF rotation works entirely in your browser using local resources. No internet connection is required to process your files."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/pdf/pdf-rotate" />
- </div></div>;
+    </div>
+    </div>
+);
 }

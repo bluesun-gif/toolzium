@@ -1,18 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import JsonToTypescriptClient from "@/components/tools/dev/json-to-typescript-client";
-export const metadata: Metadata = {
-  title: "JSON to TypeScript Type & Interface Converter Studio | Toolzium",
-  description:
-    "Convert raw JSON objects instantly into clean, nested TypeScript interfaces and type definitions.",
-};
+
+const TITLE = "Json To Typescript | Toolzium";
+const DESCRIPTION = "Free online json to typescript tool with instant calculation and privacy.";
+const PATH = "/tools/dev/json-to-typescript";
+
+export const metadata = buildMetadata({
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
+});
+
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "Json To Typescript",
+    description: DESCRIPTION,
+    path: PATH
+  });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <JsonToTypescriptClient />
-    
-      <RelatedTools currentToolUrl="/tools/dev/json-to-typescript" />
-</div>
+    </>
   );
 }

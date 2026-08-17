@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { ActionButton, CopyButton, ExportCSVButton, ResetButton } from "@/components/shared/action-buttons";
@@ -233,7 +234,10 @@ export default function SimpleInvoiceClient() {
     value: "£"
   }];
   const CSVRows: string[][] = [["Invoice No", data.invoiceNo], ["Issue Date", data.issueDate], ["Due Date", data.dueDate], ["Currency", `${data.currencyMode === "code" ? "Code" : "Symbol"}: ${data.currency}`], ["From", data.from.name], ["From Email", data.from.email || ""], ["From Phone", data.from.phone || ""], ["From Address", data.from.address || ""], ["To", data.to.name], ["To Email", data.to.email || ""], ["To Phone", data.to.phone || ""], ["To Address", data.to.address || ""], [""], ["Items:"], ["Name", "Description", "Qty", "Rate", "Amount"], ...data.items.map(it => [it.name || "", it.description || "", String(safeNum(it.qty)), String(safeNum(it.rate)), String(safeNum(it.qty) * safeNum(it.rate))]), [""], ["Subtotal", String(subTotal)], ["Discount %", String(data.discountPercent)], ["Discount Amount", String(discountAmt)], ["Shipping", String(data.shipping)], ["Tax %", String(data.taxPercent)], ["Tax Amount", String(taxAmt)], ["Grand Total", String(grandTotal)], ["Amount Paid", String(data.amountPaid)], ["Balance Due", String(balanceDue)]];
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={FileText} title="Simple Invoice" description="Create, print, and export a clean invoice fast." actions={<>
@@ -801,6 +805,7 @@ export default function SimpleInvoiceClient() {
         question: "Is my invoice data saved or stored?",
         answer: "No. All invoice generation runs in your browser. Your business details, client information, and pricing data are never sent to any server or stored in any database. Each session is completely private."
       }]} />
- <RelatedTools currentToolUrl="/tools/office/invoice" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

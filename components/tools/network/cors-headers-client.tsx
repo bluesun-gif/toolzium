@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState } from "react";
@@ -10,7 +11,7 @@ import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import { Shield, Sparkles, Zap, Copy } from "lucide-react";
+import { Shield, Sparkles, Zap, Copy, Type } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
@@ -45,7 +46,10 @@ export function CorsHeadersClient() {
   const generateExpress = () => {
     return `const cors = require('cors');\n\napp.use(cors({\n origin: '${allowOrigin}',\n methods: ['${allowMethods.split(', ').join("', '")}'],\n allowedHeaders: ['${allowHeaders.split(', ').join("', '")}'],\n maxAge: ${maxAge},\n credentials: ${allowCredentials}\n}));`;
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Shield} title="CORS Header Generator" description="Generate Cross-Origin Resource Sharing headers for various servers." actions={<ResetButton onClick={() => {
@@ -180,8 +184,9 @@ export function CorsHeadersClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/network/cors-headers" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default CorsHeadersClient;

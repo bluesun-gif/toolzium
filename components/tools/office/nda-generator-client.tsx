@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -13,7 +15,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { AlertTriangle, EyeOff, FileCheck2, FileText, Lock, ShieldCheck } from"lucide-react";
+import { AlertTriangle, EyeOff, FileCheck2, FileText, Lock, ShieldCheck, Copy, Type } from "lucide-react";
 import { cn } from"@/lib/utils";
 import toast from"react-hot-toast";
 
@@ -35,7 +37,10 @@ export function NdaGeneratorClient() {
     setPurpose("");
   };
   const ndaText = "NON-DISCLOSURE AGREEMENT\n\n" + "This" + type + "Non-Disclosure Agreement (the 'Agreement') is entered into as of" + effectiveDate + "(the 'Effective Date') by and between" + disclosingParty + "('Disclosing Party') and" + receivingParty + "('Receiving Party').\n\n" + "1. PURPOSE\nThe parties wish to explore a potential business relationship in connection with" + purpose + "(the 'Purpose').\n\n" + "2. CONFIDENTIAL INFORMATION\n'Confidential Information' means any information disclosed by either party that is designated as confidential.\n\n" + "3. TERM\nThis Agreement will remain in effect for" + duration + ".\n\n" + "4. GOVERNING LAW\nThis Agreement shall be governed by the laws of" + state + ".\n\n" + "Signatures:\n\n_______________________\nDisclosing Party\n\n_______________________\nReceiving Party";
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Lock} title="NDA Generator" description="Generate standard Non-Disclosure Agreements instantly." actions={<ResetButton onClick={reset} label="Reset" />} />
@@ -203,6 +208,9 @@ export function NdaGeneratorClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default NdaGeneratorClient;

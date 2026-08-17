@@ -1,30 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import WordCounterClient from "@/components/tools/text/word-counter-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
+
+const TITLE = "Word Counter | Toolzium";
+const DESCRIPTION = "Free online word counter tool with instant calculation and privacy.";
+const PATH = "/tools/text/word-counter";
+
 export const metadata = buildMetadata({
-  title: "Word Counter",
-  description: "Count words, characters, sentences, paragraphs, and reading time instantly. Free online word counter with character count, keyword density, and readability analysis. Perfect for writers, students, and SEO.",
-  path: "/tools/text/word-counter",
-  keywords: ["words", "time", "characters", "reading", "free", "online", "count", "instantly", "word", "paragraphs", "counter", "sentences"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
     name: "Word Counter",
-    description: "Count words, characters, sentences, paragraphs, and reading time instantly. Free online word counter with character count, keyword density, and readability analysis. Perfect for writers, students, and SEO.",
-    path: "/tools/text/word-counter",
-    categoryName: "Text",
-    categoryPath: "/tools/text",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <WordCounterClient />
-    
-      <RelatedTools currentToolUrl="/tools/text/word-counter" />
-</div>
+    </>
   );
 }

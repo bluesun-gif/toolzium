@@ -1,29 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
-import TikTokCaptionClient from "@/components/tools/social/tiktok-caption-client";
-import RelatedTools from "@/components/shared/related-tools";
+import TiktokCaptionClient from "@/components/tools/social/tiktok-caption-client";
+
+const TITLE = "TikTok Viral Caption & Hashtag Hook Studio | Toolzium";
+const DESCRIPTION = "Generate high-converting TikTok captions, viral opening hooks, storytime openers, and trending hashtag clusters.";
+const PATH = "/tools/social/tiktok-caption-generator";
 
 export const metadata = buildMetadata({
-  title: "TikTok Viral Caption & Hashtag Hook Studio | Toolzium",
-  description:
-    "Generate high-converting TikTok captions, viral opening hooks, storytime openers, and trending hashtag clusters.",
-  path: "/tools/social/tiktok-caption-generator",
-  keywords: [
-    "tiktok caption generator",
-    "tiktok caption ai",
-    "viral tiktok captions",
-    "tiktok hook generator",
-    "tiktok hashtag generator",
-    "tiktok caption maker",
-    "ai caption generator",
-    "short form video captions",
-  ],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
-export default function TikTokCaptionPage() {
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "TikTok Viral Caption & Hashtag Hook Studio",
+    description: DESCRIPTION,
+    path: PATH
+  });
+
   return (
-    <><TikTokCaptionClient />
-      <RelatedTools currentToolUrl="/tools/social/tiktok-caption-generator" />
+    <>
+      <JsonLd data={jsonLd} />
+      <TiktokCaptionClient />
     </>
   );
 }

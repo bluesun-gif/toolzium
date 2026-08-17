@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { cn } from "@/lib/utils";
@@ -12,7 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Copy, RotateCcw, Move, RotateCw, Maximize, Sliders } from "lucide-react";
+import { Copy, RotateCcw, Move, RotateCw, Maximize, Sliders, Lock, Scale } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -105,7 +106,10 @@ export function CssTransform2dClient() {
     question: "Are 2D transforms hardware accelerated?",
     answer: "Yes, modern browsers offload translate, scale, and rotate operations to the GPU compositor, ensuring buttery smooth 60fps animations without triggering expensive layout recalculations."
   }];
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Move} title="CSS Transform 2D Generator" description="Visually build CSS 2D transforms with translate, rotate, scale, and skew controls, complete with origin mapping and live preview." />
@@ -211,7 +215,9 @@ export function CssTransform2dClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={faqs} />
- <RelatedTools currentToolUrl="/tools/dev/css-transform-2d" />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default CssTransform2dClient;

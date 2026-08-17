@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useEffect } from "react";
@@ -193,7 +194,10 @@ export function CssAnimationClient() {
     question: "Can I animate properties other than transform and opacity?",
     answer: "Currently, the visual editor focuses on transform and opacity for performance reasons, but you can manually edit the generated CSS to include colors, borders, etc."
   }];
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Sparkles} title="CSS Animation Generator" description="Build complex CSS @keyframes animations visually with a live preview, timeline editor, and production-ready code export." />
@@ -298,7 +302,9 @@ export function CssAnimationClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={faqs} />
- <RelatedTools currentToolUrl="/tools/dev/css-animation" />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default CssAnimationClient;

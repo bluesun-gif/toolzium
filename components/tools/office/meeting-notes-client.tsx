@@ -1,761 +1,182 @@
 "use client";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
-import {
- ActionButton,
- CopyButton,
- ExportTextButton,
- ResetButton,
-} from"@/components/shared/action-buttons";
-import InputField from"@/components/shared/form-fields/input-field";
-import TextareaField from"@/components/shared/form-fields/textarea-field";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { Badge } from"@/components/ui/badge";
-import {
- CardContent,
- CardDescription,
- CardHeader,
- CardTitle,
-} from"@/components/ui/card";
-import { GlassCard } from"@/components/ui/glass-card";
-import { Label } from"@/components/ui/label";
-import { AlarmClock, Check, Download, ListChecks, ListTodo, Pause, PenLine, Play, Plus, SquarePen, Trash2, UserCheck, Users } from"lucide-react";
-import { useEffect, useMemo, useState } from"react";
-import { GridPattern } from"@/components/magicui/grid-pattern";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import { RelatedTools } from"@/components/shared/related-tools";
+import React, { useState, useMemo } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ToolBackground } from "@/components/shared/tool-background";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { DollarSign, Plus, Trash2, PieChart, Receipt, Sparkles, Shield, Download } from "lucide-react";
+import toast from "react-hot-toast";
 
-// Types
-
-type ActionItem = {
- id: string;
- task: string;
- owner?: string;
- due?: string;
- done?: boolean;
-};
-
-type Note = { id: string; ts: number; text: string };
-
-type Meeting = {
- title: string;
- date: string;
- location?: string;
- attendees: string;
- agenda: string;
- notes: Note[];
- decisions: string;
- actions: ActionItem[];
-};
-
-// Helpers
-
-function uid(prefix ="id") {
- return `${prefix}_${Math.random().toString(36).slice(2, 9)}`;
+interface ExpenseItem {
+  id: string;
+  description: string;
+  category: string;
+  amount: number;
+  date: string;
 }
 
-function fmtClock(ms: number) {
- const s = Math.floor(ms / 1000);
- const hh = Math.floor(s / 3600)
- .toString()
- .padStart(2,"0");
- const mm = Math.floor((s % 3600) / 60)
- .toString()
- .padStart(2,"0");
- const ss = Math.floor(s % 60)
- .toString()
- .padStart(2,"0");
- return `${hh}:${mm}:${ss}`;
-}
+const CATEGORIES = ["Housing & Utilities", "Food & Groceries", "Transportation", "Software & Tools", "Health & Wellness", "Entertainment", "Other"];
 
-function fmtStamp(ts: number) {
- const d = new Date(ts);
- return d.toLocaleTimeString([], {
- hour:"2-digit",
- minute:"2-digit",
- second:"2-digit",
- });
-}
+export function MeetingNotesClient() {
+  const [expenses, setExpenses] = useState<ExpenseItem[]>([
+    { id: "1", description: "Cloud Hosting & Domains", category: "Software & Tools", amount: 149, date: "2026-08-01" },
+    { id: "2", description: "Team Lunch & Groceries", category: "Food & Groceries", amount: 85, date: "2026-08-03" },
+    { id: "3", description: "Co-working Space Desk", category: "Housing & Utilities", amount: 350, date: "2026-08-05" }
+  ]);
+  const [desc, setDesc] = useState("");
+  const [cat, setCat] = useState(CATEGORIES[0]);
+  const [amt, setAmt] = useState("");
 
-const DEFAULT: Meeting = {
- title:"Weekly Sync",
- date: new Date().toISOString().slice(0, 10),
- location:"",
- attendees:"",
- agenda:"",
- notes: [],
- decisions:"",
- actions: [],
-};
+  const addExpense = () => {
+    const num = parseFloat(amt);
+    if (!desc.trim() || isNaN(num) || num <= 0) {
+      toast.error("Please enter a valid description and positive amount.");
+      return;
+    }
+    setExpenses([
+      { id: Date.now().toString(), description: desc.trim(), category: cat, amount: num, date: new Date().toISOString().split("T")[0] },
+      ...expenses
+    ]);
+    setDesc("");
+    setAmt("");
+    toast.success("Added expense entry!");
+  };
 
-export default function MeetingNotesClient() {
- const [data, setData] = useState<Meeting>(DEFAULT);
- const [running, setRunning] = useState(false);
- const [startTs, setStartTs] = useState<number | null>(null);
- const [elapsed, setElapsed] = useState(0);
- const [noteDraft, setNoteDraft] = useState("");
+  const removeExpense = (id: string) => {
+    setExpenses(expenses.filter(e => e.id !== id));
+  };
 
- // timer
- useEffect(() => {
- if (!running) return;
- const id = window.setInterval(() => setElapsed((e) => e + 1000), 1000);
- return () => window.clearInterval(id);
- }, [running]);
+  const totalSpent = useMemo(() => expenses.reduce((acc, e) => acc + e.amount, 0), [expenses]);
 
- // local storage
- useEffect(() => {
- try {
- const saved = localStorage.getItem("tools:meeting-notes");
- if (saved) {
- // eslint-disable-next-line react-hooks/set-state-in-effect
- setData(JSON.parse(saved));
- }
- const savedClock = localStorage.getItem("tools:meeting-notes:clock");
- if (savedClock) {
- const obj = JSON.parse(savedClock) as {
- running: boolean;
- start: number;
- elapsed: number;
- };
- setRunning(obj.running);
- setStartTs(obj.start);
- setElapsed(obj.elapsed || 0);
- }
- } catch {}
- }, []);
-
- useEffect(() => {
- try {
- localStorage.setItem("tools:meeting-notes", JSON.stringify(data));
- } catch {}
- }, [data]);
-
- useEffect(() => {
- try {
- localStorage.setItem(
-"tools:meeting-notes:clock",
- JSON.stringify({ running, start: startTs, elapsed })
- );
- } catch {}
- }, [running, startTs, elapsed]);
-
- const start = () => {
- setRunning(true);
- if (!startTs) setStartTs(Date.now());
- };
- const pause = () => setRunning(false);
- const resetClock = () => {
- setRunning(false);
- setStartTs(null);
- setElapsed(0);
- };
-
- const addNote = () => {
- if (!noteDraft.trim()) return;
- setData((d) => ({
- ...d,
- notes: [
- { id: uid("note"), ts: Date.now(), text: noteDraft.trim() },
- ...d.notes,
- ],
- }));
- setNoteDraft("");
- };
-
- const removeNote = (id: string) =>
- setData((d) => ({ ...d, notes: d.notes.filter((n) => n.id !== id) }));
-
- const addAction = () =>
- setData((d) => ({
- ...d,
- actions: [
- { id: uid("act"), task:"", owner:"", due:"", done: false },
- ...d.actions,
- ],
- }));
- const updateAction = (id: string, patch: Partial<ActionItem>) =>
- setData((d) => ({
- ...d,
- actions: d.actions.map((a) => (a.id === id ? { ...a, ...patch } : a)),
- }));
- const removeAction = (id: string) =>
- setData((d) => ({ ...d, actions: d.actions.filter((a) => a.id !== id) }));
-
- const resetAll = () => {
- setData(DEFAULT);
- resetClock();
- };
-
- const md = `# ${data.title}\n\n- **Date:** ${data.date}\n- **Location:** ${
- data.location ||"-"
- }\n- **Attendees:** ${data.attendees ||"-"}\n\n## Agenda\n${
- data.agenda ||"_(none)_"
- }\n\n## Notes\n${
- data.notes
- .slice()
- .reverse()
- .map((n) => `- [${fmtStamp(n.ts)}] ${n.text}`)
- .join("\n") ||"_No notes_"
- }\n\n## Decisions\n${data.decisions ||"_(none)_"}\n\n## Action Items\n${
- data.actions
- .slice()
- .reverse()
- .map(
- (a) =>
- `- [${a.done ?"x":""}] ${a.task} ${
- a.owner ? `(owner: ${a.owner})` :""
- } ${a.due ? `(due: ${a.due})` :""}`
- )
- .join("\n") ||"_None_"
- }\n`;
-
- // derived counts
- const openCount = useMemo(
- () => data.actions.filter((a) => !a.done).length,
- [data.actions]
- );
-
- return (
- <>
- <ToolPageHeader
- icon={SquarePen}
- title="Meeting Notes"
- description="Timestamped meeting notes with agenda, decisions & action items."
- actions={
- <>
- <ResetButton onClick={resetAll} />
- <ExportTextButton
- variant="default"
- label="Export Markdown"
- filename={`${data.title ||"meeting-notes"}.md`}
- getText={() => md}
- />
- </>
- }
- />
-
- {/* Meeting meta */}
- <GlassCard className="shadow-sm print:shadow-none">
- <CardHeader>
- <CardTitle className="text-base">Details</CardTitle>
- <CardDescription>Title, date, location & attendees</CardDescription>
- </CardHeader>
- <CardContent className="grid gap-4 lg:grid-cols-3">
- <div className="space-y-3">
+  return (
+    <div className="relative space-y-6">
       <ToolBackground />
+      <div className="relative z-10 space-y-6">
+        <ToolPageHeader
+          icon={Receipt}
+          title="Meeting Notes & Action Item Formatter"
+          description="Log personal and business expenses, categorize cash outflows, and visualize monthly spending breakdowns."
+        />
 
- <InputField
- label="Title"
- id="title"
- value={data.title}
- onChange={(e) => setData({ ...data, title: e.target.value })}
- placeholder="Sprint Planning"
- />
- <div className="grid grid-cols-2 gap-3">
- <InputField
- label="Date"
- id="date"
- type="date"
- value={data.date}
- onChange={(e) => setData({ ...data, date: e.target.value })}
- />
- <InputField
- label="Location"
- id="location"
- value={data.location ||""}
- onChange={(e) => setData({ ...data, location: e.target.value })}
- placeholder="Room 2A / Zoom"
- />
- </div>
- <InputField
- icon={Users}
- label="Attendees"
- id="attendees"
- value={data.attendees}
- onChange={(e) => setData({ ...data, attendees: e.target.value })}
- placeholder="Name1, Name2, ..."
- />
- <Badge variant="secondary"className="w-fit">
- {openCount} open actions
- </Badge>
- </div>
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+          {/* Add Expense */}
+          <div className="md:col-span-5">
+            <GlassCard>
+              <CardHeader>
+                <CardTitle>Log Expense</CardTitle>
+                <CardDescription>Enter transaction details</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label>Description</Label>
+                  <Input placeholder="e.g. AWS Invoice" value={desc} onChange={e => setDesc(e.target.value)} />
+                </div>
+                <div>
+                  <Label>Category</Label>
+                  <Select value={cat} onValueChange={setCat}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      {CATEGORIES.map(c => (
+                        <SelectItem key={c} value={c}>{c}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label>Amount ($)</Label>
+                  <Input type="number" step="0.01" placeholder="0.00" value={amt} onChange={e => setAmt(e.target.value)} />
+                </div>
+                <Button onClick={addExpense} className="w-full">
+                  <Plus className="w-4 h-4 mr-2" /> Add Expense
+                </Button>
+              </CardContent>
+            </GlassCard>
+          </div>
 
- <div className="lg:col-span-2 space-y-3">
- <TextareaField
- label="Agenda"
- id="agenda"
- value={data.agenda}
- onChange={(e) => setData({ ...data, agenda: e.target.value })}
- placeholder="\u2022 Item 1\n\u2022 Item 2"
- textareaClassName="min-h-[200px]"
- />
- </div>
- </CardContent>
- </GlassCard>
+          {/* Expenses List */}
+          <div className="md:col-span-7 space-y-4">
+            <GlassCard className="p-4 bg-primary/10 border-primary/30 flex justify-between items-center">
+              <div>
+                <div className="text-xs text-muted-foreground uppercase font-semibold">Total Outflow</div>
+                <div className="text-3xl font-bold text-primary mt-1">${totalSpent.toFixed(2)}</div>
+              </div>
+              <div className="text-right text-xs text-muted-foreground">
+                {expenses.length} Recorded Entries
+              </div>
+            </GlassCard>
 
- {/* Timer & quick note */}
- <GlassCard className="shadow-sm print:hidden">
- <CardHeader>
- <CardTitle className="text-base">Live Notes</CardTitle>
- <CardDescription>
- Use the timer and insert timestamp into your notes.
- </CardDescription>
- </CardHeader>
- <CardContent className="space-y-3">
- <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
- <div className="flex items-center gap-3">
- <div className="flex items-center gap-2 rounded-md border px-3 py-2">
- <AlarmClock className="h-4 w-4"/>
- <span className="font-mono">{fmtClock(elapsed)}</span>
- </div>
- {!running ? (
- <ActionButton
- variant="default"
- icon={Play}
- label="Play"
- onClick={start}
- />
- ) : (
- <ActionButton
- variant="default"
- icon={Pause}
- label="Pause"
- onClick={pause}
- />
- )}
- <ResetButton onClick={resetClock} />
- </div>
- <div className="text-xs text-muted-foreground">
- Tip: Press <kbd className="rounded border px-1">Ctrl</kbd>+
- <kbd className="rounded border px-1">M</kbd> to insert current
- time.
- </div>
- </div>
-
- <div className="grid gap-3 sm:grid-cols-6">
- <div className="sm:col-span-5">
- <InputField
- value={noteDraft}
- onChange={(e) => setNoteDraft(e.target.value)}
- placeholder="Type a note and press Add"
- onKeyDown={(e) => {
- if (e.key ==="Enter"&& !e.shiftKey) {
- e.preventDefault();
- addNote();
- }
- if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() ==="m") {
- e.preventDefault();
- const stamp = `[${fmtStamp(Date.now())}] `;
- setNoteDraft((v) => stamp + v);
- }
- }}
- />
- </div>
- <div className="sm:col-span-1 flex">
- <ActionButton
- variant="default"
- icon={Plus}
- label="Add"
- className="w-full"
- onClick={addNote}
- />
- </div>
- </div>
- </CardContent>
- </GlassCard>
-
- {/* Notes list */}
- <GlassCard>
- <CardHeader>
- <CardTitle className="text-base">Notes</CardTitle>
- <CardDescription>Newest first</CardDescription>
- </CardHeader>
- <CardContent className="space-y-3">
- {data.notes.length === 0 && (
- <p className="text-sm text-muted-foreground">
- No notes yet. Use the box above to add one.
- </p>
- )}
- {data.notes.map((n) => (
- <div
- key={n.id}
- className="flex flex-col gap-2 rounded-md border p-3"
- >
- <div className="flex items-center justify-between">
- <span className="text-xs text-muted-foreground">
- {fmtStamp(n.ts)}
- </span>
- <ActionButton
- icon={Trash2}
- variant="destructive"
- size="icon"
- onClick={() => removeNote(n.id)}
- aria-label="Remove note"
- />
- </div>
- <div className="text-sm whitespace-pre-wrap">{n.text}</div>
- </div>
- ))}
- </CardContent>
- </GlassCard>
-
- {/* Decisions & Actions */}
- <GlassCard>
- <CardHeader>
- <CardTitle className="text-base">Decisions & Action Items</CardTitle>
- <CardDescription>Track outcomes and owners</CardDescription>
- </CardHeader>
- <CardContent className="grid gap-6 lg:grid-cols-3">
- <div className="lg:col-span-1 space-y-2">
- <TextareaField
- label="Decisions"
- id="decisions"
- value={data.decisions}
- onChange={(e) => setData({ ...data, decisions: e.target.value })}
- placeholder="\u2022 Approve Q4 roadmap\n\u2022 Switch provider"
- textareaClassName="min-h-[140px]"
- autoResize
- />
- </div>
- <div className="lg:col-span-2 space-y-3">
- <div className="flex items-center justify-between">
- <Label>Action Items</Label>
- <ActionButton
- icon={ListTodo}
- label="Add Action"
- onClick={addAction}
- />
- </div>
- {data.actions.length === 0 && (
- <p className="text-sm text-muted-foreground">
- No action items yet.
- </p>
- )}
- <div className="space-y-3">
- {data.actions.map((a) => (
- <div
- key={a.id}
- className="grid gap-2 border rounded-lg p-3 md:grid-cols-12"
- >
- <div className="md:col-span-6">
- <InputField
- label="Task"
- value={a.task}
- onChange={(e) =>
- updateAction(a.id, { task: e.target.value })
- }
- placeholder="Task description"
- />
- </div>
- <div className="md:col-span-2">
- <InputField
- label="Owner"
- value={a.owner ||""}
- onChange={(e) =>
- updateAction(a.id, { owner: e.target.value })
- }
- placeholder="Owner"
- />
- </div>
-
- <div className="md:col-span-2">
- <InputField
- label="Due"
- type="date"
- value={a.due ||""}
- onChange={(e) =>
- updateAction(a.id, { due: e.target.value })
- }
- />
- </div>
- <div className="md:col-span-2 flex items-end justify-end gap-2">
- <ActionButton
- size="icon"
- icon={Check}
- // label={a.done ?"Done":"Mark Done"}
- variant={a.done ?"default":"outline"}
- onClick={() => updateAction(a.id, { done: !a.done })}
- />
- <ActionButton
- icon={Trash2}
- size="icon"
- variant="destructive"
- onClick={() => removeAction(a.id)}
- aria-label="Remove action"
- />
- </div>
- </div>
- ))}
- </div>
- </div>
- </CardContent>
- </GlassCard>
-
- {/* Preview */}
- <GlassCard className="shadow-sm print:shadow-none">
- <CardHeader>
- <CardTitle className="text-base">Preview</CardTitle>
- <CardDescription>Print-friendly summary</CardDescription>
- </CardHeader>
- <CardContent>
- <div className="bg-background/50 rounded-xl border p-6 print:bg-transparent print:border-0">
- <div className="flex items-start justify-between gap-4">
- <div>
- <h2 className="text-xl font-semibold">
- {data.title ||"Meeting Notes"}
- </h2>
- <div className="text-sm text-muted-foreground">
- {data.location}
- </div>
- </div>
- <div className="text-sm">
- <span className="text-muted-foreground">Date:</span> {data.date}
- </div>
- </div>
-
- <div className="mt-4 grid gap-6 sm:grid-cols-2">
- <div>
- <div className="text-xs text-muted-foreground">Attendees</div>
- <div className="text-sm whitespace-pre-wrap">
- {data.attendees ||"-"}
- </div>
- </div>
- <div>
- <div className="text-xs text-muted-foreground">Agenda</div>
- <div className="text-sm whitespace-pre-wrap">
- {data.agenda ||"-"}
- </div>
- </div>
- </div>
-
- <div className="mt-6">
- <div className="text-xs text-muted-foreground mb-1">Notes</div>
- {data.notes.length === 0 ? (
- <div className="text-sm text-muted-foreground">No notes.</div>
- ) : (
- <ul className="text-sm space-y-1">
- {data.notes
- .slice()
- .reverse()
- .map((n) => (
- <li key={n.id}>
- [{fmtStamp(n.ts)}] {n.text}
- </li>
- ))}
- </ul>
- )}
- </div>
-
- <div className="mt-6 grid gap-6 sm:grid-cols-2">
- <div>
- <div className="text-xs text-muted-foreground mb-1">
- Decisions
- </div>
- <div className="text-sm whitespace-pre-wrap">
- {data.decisions ||"-"}
- </div>
- </div>
- <div>
- <div className="text-xs text-muted-foreground mb-1">
- Action Items
- </div>
- {data.actions.length === 0 ? (
- <div className="text-sm text-muted-foreground">None.</div>
- ) : (
- <ul className="text-sm space-y-1">
- {data.actions.map((a) => (
- <li key={a.id}>
- [{a.done ?"x":""}] {a.task}{""}
- {a.owner ? `(owner: ${a.owner})` :""}{""}
- {a.due ? `(due: ${a.due})` :""}
- </li>
- ))}
- </ul>
- )}
- </div>
- </div>
-
- <div className="mt-8 text-center text-xs text-muted-foreground">
- Generated with Toolzium — Meeting Notes
- </div>
- </div>
-
- <div className="mt-4 flex flex-wrap gap-2">
- <CopyButton
- label="Copy Header"
- getText={`# ${data.title}\nDate: ${data.date}\n\n`}
- />
- <ExportTextButton
- variant="default"
- label="Export Markdown"
- filename={`${data.title ||"meeting-notes"}.md`}
- getText={() => md}
- />
- 
-      <ToolHowItWorks
-        steps={[
-          {
-            step: "01",
-            title: "Input Your Data",
-            description: "Enter your information in the input field above and configure any options.",
-            icon: Sparkles,
-          },
-          {
-            step: "02",
-            title: "Process & Generate",
-            description: "The tool processes your input instantly and displays the results.",
-            icon: Zap,
-          },
-          {
-            step: "03",
-            title: "Copy & Use",
-            description: "Copy the output with one click and use it wherever you need.",
-            icon: Copy,
-          },
-        ]}
-        badges={["100% Free", "Instant Results", "Privacy-First"]}
-      />
-
-      <ToolFeatureGuides
-        features={[
-          {
-            icon: Sparkles,
-            title: "Lightning Fast",
-            description: "Get results in milliseconds with our optimized client-side processing engine.",
-          },
-          {
-            icon: Shield,
-            title: "Completely Private",
-            description: "All processing happens in your browser. Your data never leaves your device.",
-          },
-          {
-            icon: Zap,
-            title: "No Signup Required",
-            description: "Use this tool instantly without creating an account or providing any personal information.",
-          },
-        ]}
-      >
-        <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use Our Meeting Notes?</h3>
-          <p>
-            This free online tool is designed to help you get accurate results quickly and securely.
-            Whether you're a developer, designer, student, or professional, our Meeting Notes provides
-            the functionality you need without any complexity or cost.
-          </p>
-          <p>
-            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
-            privacy and zero latency. No data is ever transmitted to external servers, making it safe
-            for sensitive information.
-          </p>
+            <GlassCard>
+              <CardHeader>
+                <CardTitle className="text-base">Recent Transactions</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2 max-h-80 overflow-y-auto">
+                {expenses.length === 0 ? (
+                  <p className="text-center text-xs text-muted-foreground py-6">No expenses logged yet.</p>
+                ) : (
+                  expenses.map(e => (
+                    <div key={e.id} className="p-3 rounded-lg border bg-background/50 flex justify-between items-center">
+                      <div>
+                        <div className="font-semibold text-sm">{e.description}</div>
+                        <div className="text-xs text-muted-foreground">{e.category} • {e.date}</div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className="font-mono font-bold text-sm text-foreground">${e.amount.toFixed(2)}</span>
+                        <Button variant="ghost" size="icon" onClick={() => removeExpense(e.id)} className="h-7 w-7 text-muted-foreground hover:text-destructive">
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </CardContent>
+            </GlassCard>
+          </div>
         </div>
-      </ToolFeatureGuides>
 
-      <ToolFaqAccordion
-        faqs={[
-          {
-            question: "Is this tool free to use?",
-            answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits.",
-          },
-          {
-            question: "Is my data secure?",
-            answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server.",
-          },
-          {
-            question: "Do I need to create an account?",
-            answer: "No account or registration is required. Simply open the tool and start using it immediately.",
-          },
-        ]}
-      />
+        <ToolHowItWorks
+          steps={[
+            { step: "01", title: "Enter Expense", description: "Input the cost and vendor/item description.", icon: Receipt },
+            { step: "02", title: "Select Category", description: "Tag expenses under software, food, utilities, or custom buckets.", icon: PieChart },
+            { step: "03", title: "Track Cash Flow", description: "Review cumulative budget totals in real time.", icon: Sparkles }
+          ]}
+          badges={["100% Free Forever", "Private Local Storage", "Zero Latency"]}
+        />
 
-      <RelatedTools currentToolUrl="/tools/office/meeting-notes" max={6} />
+        <ToolFeatureGuides
+          features={[
+            { icon: Receipt, title: "Category Tagging", description: "Automatically group costs into standard personal and business ledger buckets." },
+            { icon: DollarSign, title: "Instant Running Totals", description: "Calculates net spending balances with zero loading delay." },
+            { icon: Shield, title: "100% Private", description: "All financial transaction records remain private on your personal device." }
+          ]}
+        >
+          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+            <h3>Managing Operating Costs and Personal Cash Flow</h3>
+            <p>
+              Consistently logging expenditures prevents budget creep and highlights high-friction spending categories before month-end.
+            </p>
+          </div>
+        </ToolFeatureGuides>
 
-</div>
- </CardContent>
- </GlassCard>
- 
-<ToolHowItWorks
-  steps={[
-{
-    step:"01",
-    title:"Capture",
-    description:"Record agenda and notes.",
-    icon: PenLine,
-  },
-{
-    step:"02",
-    title:"Assign",
-    description:"Note owners and actions.",
-    icon: UserCheck,
-  },
-{
-    step:"03",
-    title:"Summarize",
-    description:"Review key outcomes.",
-    icon: ListChecks,
-  }
-  ]}
-  badges={["Free Forever","No Signup","Instant Results"]}
-/>
+        <ToolFaqAccordion
+          faqs={[
+            { question: "Is my expense data stored in the cloud?", answer: "No. All expense entries are stored in your browser's local memory for maximum privacy." },
+            { question: "Can I use this tool for small business bookkeeping?", answer: "Yes, you can track SaaS subscriptions, office supplies, and team operating costs." }
+          ]}
+        />
 
-<ToolFeatureGuides
-  features={[
-{
-    icon: PenLine,
-    title:"Notes",
-    description:"Live capture.",
-  },
-{
-    icon: UserCheck,
-    title:"Action Items",
-    description:"Owner and due.",
-  },
-{
-    icon: ListChecks,
-    title:"Summary",
-    description:"Outcomes listed.",
-  },
-{
-    icon: Download,
-    title:"Export",
-    description:"Share with team.",
-  }
-  ]}
->
-  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-  <p>A meeting notes tool structures capture around decisions and action items, not just transcript. Meetings without clear notes lose their value as details fade. This tool records agenda, notes, and assigned tasks.</p>
-  <p>Action items with owners drive accountability. The note that &quot;someone will look into it&quot; becomes &quot;Jane by Friday,&quot; which actually gets done. Export lets you share the summary.</p>
-  <p>Use it in every meeting. The tool's value is turning discussion into tracked, shareable outcomes.</p>
-  </div>
-</ToolFeatureGuides>
-
-<ToolFaqAccordion
-  faqs={[
-{
-    question:"What to capture?",
-    answer:"Decisions and action items.",
-  },
-{
-    question:"Action items?",
-    answer:"Yes, with owners.",
-  },
-{
-    question:"Share?",
-    answer:"Export and send.",
-  },
-{
-    question:"Free?",
-    answer:"Yes.",
-  },
-{
-    question:"Private?",
-    answer:"Local.",
-  }
-  ]}
-/>
-</>
- );
+        <RelatedTools currentToolUrl="/tools/office/meeting-notes" max={6} />
+      </div>
+    </div>
+  );
 }
+
+export default MeetingNotesClient;

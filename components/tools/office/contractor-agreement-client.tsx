@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -14,7 +16,7 @@ import { Label } from"@/components/ui/label";
 import { Switch } from"@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Copy, FileCheck2, FileText, Printer, Scale, ShieldCheck } from"lucide-react";
+import { Copy, FileCheck2, FileText, Printer, Scale, ShieldCheck, Type } from "lucide-react";
 import { toast } from"react-hot-toast";
 
 export function ContractorAgreementClient() {
@@ -51,7 +53,10 @@ export function ContractorAgreementClient() {
     setNonCompete(false);
     toast.success("Form reset");
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={FileText} title="Contractor Agreement Builder" description="Generate formal Independent Contractor & Freelance Agreements." actions={<div className="flex gap-2">
@@ -226,6 +231,9 @@ export function ContractorAgreementClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default ContractorAgreementClient;

@@ -1,32 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import DistanceClient from "@/components/tools/travel/distance-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "Distance | Toolzium";
+const DESCRIPTION = "Free online distance tool with instant calculation and privacy.";
+const PATH = "/tools/travel/distance";
 
 export const metadata = buildMetadata({
-  title: "Distance Calculator",
-  description: "Calculate distance and estimated travel time between cities on a map. Interactive distance calculator with driving, walking, and straight-line distance. Plan your trips and routes.",
-  path: "/tools/travel/distance",
-  keywords: ["travel", "interactive", "calculate", "estimated", "between", "with", "time", "driving", "distance", "cities", "calculator"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Distance Calculator",
-    description: "Calculate distance and estimated travel time between cities on a map. Interactive distance calculator with driving, walking, and straight-line distance. Plan your trips and routes.",
-    path: "/tools/travel/distance",
-    categoryName: "Travel",
-    categoryPath: "/tools/travel",
+    name: "Distance",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <DistanceClient />
-    
-      <RelatedTools currentToolUrl="/tools/travel/distance" />
-</div>
+    </>
   );
 }

@@ -1,4 +1,8 @@
 "use client";
+
+import { ModelSelector } from "@/components/shared/model-selector";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -9,7 +13,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { AiOutputDisplay } from"@/components/shared/ai-output-display";
-import { Building, Building2, Calculator, RefreshCw, Scale, TrendingUp } from"lucide-react";
+import { Building, Building2, Calculator, RefreshCw, Scale, TrendingUp, Type, Grid } from "lucide-react";
 import toast from"react-hot-toast";
 
 export default function CapRateCalculatorClient() {
@@ -52,7 +56,10 @@ export default function CapRateCalculatorClient() {
       setLoading(false);
     }
   };
-  return <div className="relative space-y-6 max-w-4xl mx-auto px-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Building} title="AI Real Estate Cap Rate & Cash-on-Cash Investment Auditor" description="Calculate capitalization rate (Cap Rate), Net Operating Income (NOI), and audit rental property return quality with live AI." />
@@ -202,6 +209,7 @@ export default function CapRateCalculatorClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }

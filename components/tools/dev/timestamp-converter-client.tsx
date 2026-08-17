@@ -1,7 +1,10 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
-import { CalendarClock, Clock3, RefreshCw, Timer, TimerReset, BookOpen, Shield, Clock, Globe, Calendar, Zap, Code2, AlignLeft } from "lucide-react";
+import { CalendarClock, Clock3, RefreshCw, Timer, TimerReset, BookOpen, Shield, Clock, Globe, Calendar, Zap, Code2, AlignLeft, Copy } from "lucide-react";
 import React from "react";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
@@ -147,7 +150,10 @@ export default function TimestampConverterClient() {
     setError(null);
     setDir("toDate");
   }
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Timestamp Converter" description="Convert UNIX timestamps to human-readable dates" icon={CalendarClock} actions={<>
@@ -362,6 +368,7 @@ export default function TimestampConverterClient() {
         question: "Should I store timestamps as Unix time or ISO 8601 in my database?",
         answer: "For most databases, store as UTC datetime (ISO 8601 format) in a TIMESTAMP or TIMESTAMPTZ column — this is human-readable and supported by built-in date functions. Unix integers work well for high-volume time-series data where storage size matters."
       }]} />
- <RelatedTools currentToolUrl="/tools/dev/timestamp-converter" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

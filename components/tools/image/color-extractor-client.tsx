@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -12,14 +14,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Pipette, ImageIcon, Palette, Copy, Upload, Sparkles, Shield, Zap } from "lucide-react";
-;
+import { Pipette, ImageIcon, Palette, Copy, Upload, Sparkles, Shield, Zap, Scale } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+
 type ExtractedColor = {
   hex: string;
   rgb: string;
@@ -152,7 +151,10 @@ export function ColorExtractorClient() {
     toast.success(`Copied: ${text}`);
   };
   const cssPalette = `:root {\n${colors.map((c, i) => ` --color-${i + 1}: ${c.hex};`).join("\n")}\n}`;
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Pipette} title="Image Color Extractor" description="Upload an image to extract its dominant colors and create a color palette." actions={<ResetButton onClick={() => {
@@ -232,9 +234,8 @@ export function ColorExtractorClient() {
  </div>}
  </CardContent>
  </GlassCard>
- </div>
- </div>
  
+
 <ToolHowItWorks
   steps={[
 {
@@ -315,5 +316,10 @@ export function ColorExtractorClient() {
   ]}
 />
 </div>
- );
+</div>
+</div>
+</div>
+  );
 }
+
+export default ColorExtractorClient;

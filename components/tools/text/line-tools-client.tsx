@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { ActionButton, CopyButton, ExportTextButton, ResetButton } from "@/components/shared/action-buttons";
@@ -210,7 +213,10 @@ export default function LineToolsClient() {
     label: "Trim lines",
     onClick: actionTrim
   }];
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  {/* Header */}
@@ -454,7 +460,7 @@ export default function LineToolsClient() {
         question: "Can I process very large text files?",
         answer: "Yes. The tool processes text entirely in your browser using JavaScript array operations and handles tens of thousands of lines without performance issues. For extremely large files with millions of lines, command-line tools like sort, uniq, and awk will be faster. For files over 50MB, the browser memory limit may apply."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/text/line-tools" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

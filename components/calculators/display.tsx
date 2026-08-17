@@ -1,4 +1,5 @@
 "use client";
+
 import { GlassCard } from "@/components/ui/glass-card";
 
 export function Display({ value, hint }: { value: string; hint?: string }) {

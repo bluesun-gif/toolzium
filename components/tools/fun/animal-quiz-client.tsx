@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { cn } from "@/lib/utils";
@@ -10,7 +11,7 @@ import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { PawPrint, CheckCircle2, XCircle, RotateCcw } from "lucide-react";
+import { PawPrint, CheckCircle2, XCircle, RotateCcw, Play } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -141,7 +142,10 @@ export default function AnimalQuizClient() {
     setGameOver(false);
   };
   const progress = useMemo(() => (currentQ + (showResult ? 1 : 0)) / QUESTIONS.length * 100, [currentQ, showResult]);
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={PawPrint} title="Animal Quiz" description="Test your wildlife knowledge with this fun, interactive 20+ question animal trivia game." />
@@ -241,7 +245,7 @@ export default function AnimalQuizClient() {
         question: "Can I play this quiz on my mobile phone?",
         answer: "Absolutely! The interface is fully responsive and optimized for smartphones, tablets, and desktop computers."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/fun/animal-quiz" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

@@ -1,32 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import DateDifferenceClient from "@/components/tools/calc/date-difference-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "Date Diff | Toolzium";
+const DESCRIPTION = "Free online date diff tool with instant calculation and privacy.";
+const PATH = "/tools/calc/date-diff";
 
 export const metadata = buildMetadata({
-  title: "Date Difference Calculator",
-  description: "Calculate days, weeks, months, and years between two dates. Find the exact time difference between dates with business days calculation. Free date calculator for planning and scheduling.",
-  path: "/tools/calc/date-diff",
-  keywords: ["calculate", "between", "time", "difference", "weeks", "days", "find", "exact", "years", "dates", "months"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Date Difference Calculator",
-    description: "Calculate days, weeks, months, and years between two dates. Find the exact time difference between dates with business days calculation. Free date calculator for planning and scheduling.",
-    path: "/tools/calc/date-diff",
-    categoryName: "Calc",
-    categoryPath: "/tools/calc",
+    name: "Date Diff",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <DateDifferenceClient />
-    
-      <RelatedTools currentToolUrl="/tools/calc/date-diff" />
-</div>
+    </>
   );
 }

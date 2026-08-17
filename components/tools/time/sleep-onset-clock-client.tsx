@@ -1,4 +1,8 @@
 "use client";
+
+import { Switch } from "@/components/ui/switch";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -56,7 +60,10 @@ export function SleepOnsetClockClient() {
     return results;
   };
   const cycleResults = calculateCycles();
-  return <div className={"space-y-6"}><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Clock} title="Sleep Onset Latency & Bedtime Clock" description="Calculate optimal sleep schedules based on your REM cycles and sleep onset latency." actions={<ActionButton onClick={() => setMode(mode === "wake" ? "sleep" : "wake")} icon={mode === "wake" ? Moon : Sun} label={mode === "wake" ? "Switch to Sleep Now" : "Switch to Wake Target"} />} />
@@ -195,6 +202,9 @@ export function SleepOnsetClockClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default SleepOnsetClockClient;

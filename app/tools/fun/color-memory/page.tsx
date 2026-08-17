@@ -1,30 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import ColorMemoryClient from "@/components/tools/fun/color-memory-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
+
+const TITLE = "Color Memory | Toolzium";
+const DESCRIPTION = "Free online color memory tool with instant calculation and privacy.";
+const PATH = "/tools/fun/color-memory";
+
 export const metadata = buildMetadata({
-  title: "Color Memory Game",
-  description: "Classic memory card matching game. Flip cards to find matching color pairs. Track moves and time. Easy, Medium, Hard difficulties. Best score saved.",
-  path: "/tools/fun/color-memory",
-  keywords: ["flip", "matching", "memory", "cards", "pairs", "card", "color", "track", "find", "game", "classic"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Color Memory Game",
-    description: "Classic memory card matching game. Flip cards to find matching color pairs. Track moves and time. Easy, Medium, Hard difficulties. Best score saved.",
-    path: "/tools/fun/color-memory",
-    categoryName: "Fun",
-    categoryPath: "/tools/fun",
+    name: "Color Memory",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <ColorMemoryClient />
-    
-      <RelatedTools currentToolUrl="/tools/fun/color-memory" />
-</div>
+    </>
   );
 }

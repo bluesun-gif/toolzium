@@ -1,4 +1,8 @@
 "use client";
+
+import { Button } from "@/components/ui/button";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -12,7 +16,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { CopyButton, ResetButton, ActionButton } from"@/components/shared/action-buttons";
-import { Code2, Copy, Grid, Layout, LayoutGrid, Move, Plus, Smartphone, Trash2 } from"lucide-react";
+import { Code2, Copy, Grid, Layout, LayoutGrid, Move, Plus, Smartphone, Trash2, Settings } from "lucide-react";
 import { cn } from"@/lib/utils";
 
 interface GridItem {
@@ -186,7 +190,10 @@ export function CssGridBuilderClient() {
     });
     return css;
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Layout} title="CSS Grid Builder" description="Interactive visual CSS Grid builder and playground" actions={<>
@@ -398,6 +405,9 @@ export function CssGridBuilderClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default CssGridBuilderClient;

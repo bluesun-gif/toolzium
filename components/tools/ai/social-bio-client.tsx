@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useCallback, useEffect } from "react";
@@ -16,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { cn } from "@/lib/utils";
-import { UserCheck, Sparkles, Copy, CheckCircle2, Sliders, RefreshCcw, Twitter, Linkedin, Instagram, Share2, Lightbulb, History, Trash2, Github } from "lucide-react";
+import { UserCheck, Sparkles, Copy, CheckCircle2, Sliders, RefreshCcw, Twitter, Linkedin, Instagram, Share2, Lightbulb, History, Trash2, Github, Check, Settings, Type } from "lucide-react";
 import toast from "react-hot-toast";
 interface BioVariations {
   twitter: string;
@@ -164,7 +165,10 @@ export function SocialBioClient() {
     navigator.clipboard.writeText(text);
     toast.success(`${label} copied to clipboard!`);
   };
-  return <div className="w-full min-h-screen pb-20 relative"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
@@ -332,7 +336,8 @@ export function SocialBioClient() {
             </div>
           </GlassCard>}
 
-        <ToolHowItWorks steps={[{
+        </div>
+<ToolHowItWorks steps={[{
           step: "01",
           title: "Enter Role & Skills",
           description: "Input your target title, primary skills, and persona vibe.",
@@ -377,9 +382,9 @@ export function SocialBioClient() {
           question: "Can I use emojis in LinkedIn bios?",
           answer: "Yes, subtle professional emojis (such as 💼, 📍, 💡) increase readability on desktop and mobile feeds."
         }]} />
-
-        <RelatedTools currentToolUrl="/tools/ai/social-bio" max={6} />
-      </div>
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default SocialBioClient;

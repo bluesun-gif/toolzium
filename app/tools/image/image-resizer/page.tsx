@@ -1,29 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import ImageResizerClient from "@/components/tools/image/image-resizer-client";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "Image Resizer — Resize Images Online in KB / Pixels | Toolzium";
+const DESCRIPTION = "Free online image resizer. Resize single or bulk images by pixels or percentage, maintain aspect ratio, adjust quality, and target file size in KB. Instant 100% browser-based photo resizer.";
+const PATH = "/tools/image/image-resizer";
 
 export const metadata = buildMetadata({
-  title: "Image Resizer — Resize Images Online in KB / Pixels | Toolzium",
-  description: "Free online image resizer. Resize single or bulk images by pixels or percentage, maintain aspect ratio, adjust quality, and target file size in KB. Instant 100% browser-based photo resizer.",
-  path: "/tools/image/image-resizer",
-  keywords: ["percentage", "pixels", "online", "free", "aspect", "resizer", "images", "resize", "bulk", "maintain", "image", "single"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Image Resizer — Resize Images Online in KB / Pixels",
-    description: "Free online image resizer. Resize single or bulk images by pixels or percentage, maintain aspect ratio, adjust quality, and target file size in KB. Instant 100% browser-based photo resizer.",
-    path: "/tools/image/image-resizer",
-    categoryName: "Image",
-    categoryPath: "/tools/image",
+    name: "Image Resizer",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <ImageResizerClient />
-      <RelatedTools currentToolUrl="/tools/image/image-resizer" />
-    </div>
+    </>
   );
 }

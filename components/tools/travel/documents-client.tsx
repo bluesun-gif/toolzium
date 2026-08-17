@@ -1,4 +1,7 @@
 "use client";
+
+import { Card } from "@/components/ui/card";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
@@ -11,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { CheckSquare, Plus, Copy, Plane, Sparkles, Shield, Zap } from "lucide-react";
+import { CheckSquare, Plus, Copy, Plane, Sparkles, Shield, Zap, Type } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -97,7 +100,10 @@ export function TravelDocumentsClient() {
   };
   const completedCount = items.filter(i => i.completed).length;
   const progressPercent = items.length === 0 ? 0 : Math.round(completedCount / items.length * 100);
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Travel Document Checklist" description="Never forget a crucial document again. Comprehensive checklists for any trip." icon={CheckSquare} actions={<div className="flex gap-2">
@@ -231,8 +237,9 @@ export function TravelDocumentsClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/travel/documents" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default TravelDocumentsClient;

@@ -1,4 +1,8 @@
 "use client";
+
+import { cn } from "@/lib/utils";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -10,7 +14,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components
 import { Separator } from"@/components/ui/separator";
 import { Button } from"@/components/ui/button";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { AlertTriangle, CheckCircle, Contrast, Eye, Palette, RefreshCw, ShieldCheck } from"lucide-react";
+import { AlertTriangle, CheckCircle, Contrast, Eye, Palette, RefreshCw, ShieldCheck, Check, Settings } from "lucide-react";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 
@@ -73,7 +77,10 @@ export function ColorContrastClient() {
   const largeAA = getPassStatus(3.0);
   const largeAAA = getPassStatus(4.5);
   const uiAA = getPassStatus(3.0);
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Eye} title="Color Contrast Checker" description="Ensure your color combinations meet WCAG 2.1 accessibility guidelines." actions={<>
@@ -285,6 +292,9 @@ export function ColorContrastClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default ColorContrastClient;

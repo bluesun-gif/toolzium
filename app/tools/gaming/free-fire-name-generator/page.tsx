@@ -1,19 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import FreeFireNameClient from "@/components/tools/gaming/free-fire-name-client";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "Free Fire (FF) Nickname & Boss Squad Tag Studio";
+const DESCRIPTION = "Generate cool Free Fire nicknames, Boss style symbols, V.I.P tags, and invisible space characters for Garena Free Fire.";
+const PATH = "/tools/gaming/free-fire-name-generator";
 
 export const metadata = buildMetadata({
-  title: "Free Fire (FF) Nickname & Boss Squad Tag Studio",
-  description: "Generate cool Free Fire nicknames, Boss style symbols, V.I.P tags, and invisible space characters for Garena Free Fire.",
-  path: "/tools/gaming/free-fire-name-generator",
-  keywords: ["invisible", "style", "nicknames", "generate", "space", "characters", "free", "boss", "fire", "tags", "symbols", "cool"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
-export default function FreeFireNamePage() {
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "Free Fire (FF) Nickname & Boss Squad Tag Studio",
+    description: DESCRIPTION,
+    path: PATH
+  });
+
   return (
-    <><FreeFireNameClient />
-      <RelatedTools currentToolUrl="/tools/gaming/free-fire-name-generator" />
+    <>
+      <JsonLd data={jsonLd} />
+      <FreeFireNameClient />
     </>
   );
 }

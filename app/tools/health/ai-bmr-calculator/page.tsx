@@ -1,19 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import AiBmrCalculatorClient from "@/components/tools/health/ai-bmr-calculator-client";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "AI BMR & TDEE Metabolism Calculator Studio";
+const DESCRIPTION = "Calculate Basal Metabolic Rate (BMR) and Total Daily Energy Expenditure (TDEE) with Mifflin-St Jeor equation and AI metabolic optimization.";
+const PATH = "/tools/health/ai-bmr-calculator";
 
 export const metadata = buildMetadata({
-  title: "AI BMR & TDEE Metabolism Calculator Studio",
-  description: "Calculate Basal Metabolic Rate (BMR) and Total Daily Energy Expenditure (TDEE) with Mifflin-St Jeor equation and AI metabolic optimization.",
-  path: "/tools/health/ai-bmr-calculator",
-  keywords: ["total", "calculate", "daily", "with", "rate", "energy", "mifflin", "basal", "expenditure", "metabolic", "tdee", "jeor"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
-export default function AiBmrCalculatorPage() {
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "AI BMR & TDEE Metabolism Calculator Studio",
+    description: DESCRIPTION,
+    path: PATH
+  });
+
   return (
-    <><AiBmrCalculatorClient />
-      <RelatedTools currentToolUrl="/tools/health/ai-bmr-calculator" />
+    <>
+      <JsonLd data={jsonLd} />
+      <AiBmrCalculatorClient />
     </>
   );
 }

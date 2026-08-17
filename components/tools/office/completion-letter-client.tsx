@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -12,7 +14,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { CheckCircle, CheckCircle2, Download, FileOutput, FileText, Printer, ShieldCheck } from"lucide-react";
+import { CheckCircle, CheckCircle2, Download, FileOutput, FileText, Printer, ShieldCheck, Copy } from "lucide-react";
 import { Textarea } from"@/components/ui/textarea";
 
 export function CompletionLetterClient() {
@@ -49,7 +51,10 @@ export function CompletionLetterClient() {
       printWindow.print();
     }
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={CheckCircle} title="Work Completion Letter Generator" description="Generate formal Work Completion Certificates & Project Sign-off Letters." actions={<React.Fragment>
@@ -208,6 +213,9 @@ export function CompletionLetterClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default CompletionLetterClient;

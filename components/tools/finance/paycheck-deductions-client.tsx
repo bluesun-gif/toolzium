@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -12,7 +14,7 @@ import { ResetButton, CopyButton } from"@/components/shared/action-buttons";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { Calculator, DollarSign, Eye, FileText, ListChecks, Wallet } from"lucide-react";
+import { Calculator, DollarSign, Eye, FileText, ListChecks, Wallet, Copy } from "lucide-react";
 import toast from"react-hot-toast";
 
 type PayFrequency ="weekly"|"biweekly"|"semimonthly"|"monthly";
@@ -58,7 +60,10 @@ export function PaycheckDeductionsClient() {
   const getReport = () => {
     return "Paycheck Report\nGross Pay: $" + gross.toFixed(2) + "\nPre-Tax Deductions: -$" + preTax.toFixed(2) + "\nTaxable Income: $" + taxableIncome.toFixed(2) + "\nFederal Tax: -$" + fedTax.toFixed(2) + "\nState Tax: -$" + stateTax.toFixed(2) + "\nFICA Tax: -$" + ficaTax.toFixed(2) + "\nPost-Tax Deductions: -$" + postTax.toFixed(2) + "\nNet Take-Home: $" + netPay.toFixed(2);
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Paycheck Deductions & Take-Home Calculator" description="Calculate your net paycheck take-home pay after itemized taxes and voluntary deductions." icon={Calculator} actions={<ResetButton onClick={handleReset} label="Reset" />} />
@@ -285,6 +290,9 @@ export function PaycheckDeductionsClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default PaycheckDeductionsClient;

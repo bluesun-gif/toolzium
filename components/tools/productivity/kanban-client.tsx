@@ -1,466 +1,196 @@
 "use client";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
-import React, { useState, useEffect } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
-import { Separator } from"@/components/ui/separator";
-import { Input } from"@/components/ui/input";
-import { Label } from"@/components/ui/label";
-import { Button } from"@/components/ui/button";
-import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { ArrowLeft, ArrowRight, Check, Columns3, Kanban, LayoutGrid, MoveRight, Plus, StickyNote, Trash2 } from"lucide-react";
-import { cn } from"@/lib/utils";
-import toast from"react-hot-toast";
+import React, { useState } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ToolBackground } from "@/components/shared/tool-background";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { CheckSquare, Plus, Trash2, ArrowRight, Sparkles, Shield, Zap, Flame, Clock, Users, Ban } from "lucide-react";
+import { cn } from "@/lib/utils";
+import toast from "react-hot-toast";
+
+type QuadrantId = 1 | 2 | 3 | 4;
 
 interface Task {
   id: string;
-  title: string;
-  description: string;
-  columnId: string;
+  text: string;
+  quadrant: QuadrantId;
 }
-interface Column {
-  id: string;
-  title: string;
-  color: string;
-}
-const DEFAULT_COLUMNS: Column[] = [{
-  id: "todo",
-  title: "To Do",
-  color: "border-l-4 border-l-blue-500"
-}, {
-  id: "inprogress",
-  title: "In Progress",
-  color: "border-l-4 border-l-amber-500"
-}, {
-  id: "done",
-  title: "Done",
-  color: "border-l-4 border-l-emerald-500"
-}];
-const DEFAULT_TASKS: Task[] = [{
-  id: "t1",
-  title: "Design Landing Page Hero Section",
-  description: "Incorporate glassmorphism cards and CTA",
-  columnId: "todo"
-}, {
-  id: "t2",
-  title: "Audit SEO Structured Data",
-  description: "Verify Schema.org JSON-LD tags",
-  columnId: "inprogress"
-}, {
-  id: "t3",
-  title: "Deploy Toolzium V1 Release",
-  description: "Vercel production build deployment",
-  columnId: "done"
-}];
+
+const QUADRANTS = [
+  { id: 1 as QuadrantId, name: "Do First", desc: "Urgent & Important (Crises, Deadlines)", color: "border-red-500/40 bg-red-500/10 text-red-700 dark:text-red-400", icon: Flame },
+  { id: 2 as QuadrantId, name: "Schedule", desc: "Not Urgent but Important (Strategy, Growth)", color: "border-blue-500/40 bg-blue-500/10 text-blue-700 dark:text-blue-400", icon: Clock },
+  { id: 3 as QuadrantId, name: "Delegate", desc: "Urgent but Not Important (Interruptions)", color: "border-yellow-500/40 bg-yellow-500/10 text-yellow-700 dark:text-yellow-400", icon: Users },
+  { id: 4 as QuadrantId, name: "Eliminate", desc: "Neither Urgent nor Important (Distractions)", color: "border-zinc-500/40 bg-zinc-500/10 text-zinc-600 dark:text-zinc-400", icon: Ban }
+];
+
 export function KanbanClient() {
-  const [columns, setColumns] = useState<Column[]>(DEFAULT_COLUMNS);
-  const [tasks, setTasks] = useState<Task[]>(DEFAULT_TASKS);
-  const [newTaskTitle, setNewTaskTitle] = useState("");
-  const [newTaskDesc, setNewTaskDesc] = useState("");
-  const [newColumnTitle, setNewColumnTitle] = useState("");
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-    const savedTasks = localStorage.getItem("kanban-tasks");
-    const savedCols = localStorage.getItem("kanban-columns");
-    if (savedTasks) {
-      try {
-        const parsed = JSON.parse(savedTasks);
-        if (Array.isArray(parsed) && parsed.length > 0) setTasks(parsed);
-      } catch (e) {}
-    }
-    if (savedCols) {
-      try {
-        const parsed = JSON.parse(savedCols);
-        if (Array.isArray(parsed) && parsed.length > 0) setColumns(parsed);
-      } catch (e) {}
-    }
-  }, []);
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("kanban-tasks", JSON.stringify(tasks));
-      localStorage.setItem("kanban-columns", JSON.stringify(columns));
-    }
-  }, [tasks, columns]);
-  const handleReset = () => {
-    setColumns(DEFAULT_COLUMNS);
-    setTasks(DEFAULT_TASKS);
-    localStorage.removeItem("kanban-tasks");
-    localStorage.removeItem("kanban-columns");
-    toast.success("Kanban board reset to defaults!");
-  };
-  const handleAddTask = () => {
-    if (!newTaskTitle.trim()) {
-      toast.error("Task title is required.");
+  const [tasks, setTasks] = useState<Task[]>([
+    { id: "1", text: "Submit quarterly tax filing", quadrant: 1 },
+    { id: "2", text: "Design 2026 product roadmap", quadrant: 2 },
+    { id: "3", text: "Book flight tickets for conference", quadrant: 3 },
+    { id: "4", text: "Scroll random social media feeds", quadrant: 4 }
+  ]);
+  const [newTask, setNewTask] = useState("");
+  const [targetQuad, setTargetQuad] = useState<QuadrantId>(1);
+
+  const addTask = () => {
+    if (!newTask.trim()) {
+      toast.error("Please enter a task title.");
       return;
     }
-    const newTask: Task = {
-      id: Date.now().toString(),
-      title: newTaskTitle.trim(),
-      description: newTaskDesc.trim(),
-      columnId: columns[0].id
-    };
-    setTasks([...tasks, newTask]);
-    setNewTaskTitle("");
-    setNewTaskDesc("");
-    toast.success("Added task to To Do!");
+    setTasks([...tasks, { id: Date.now().toString(), text: newTask.trim(), quadrant: targetQuad }]);
+    setNewTask("");
+    toast.success("Added task to matrix!");
   };
-  const handleAddColumn = () => {
-    if (!newColumnTitle.trim()) {
-      toast.error("Column title is required.");
-      return;
-    }
-    const newCol: Column = {
-      id: `col-${Date.now()}`,
-      title: newColumnTitle.trim(),
-      color: "border-l-4 border-l-purple-500"
-    };
-    setColumns([...columns, newCol]);
-    setNewColumnTitle("");
-    toast.success("Added custom column!");
-  };
-  const handleDeleteTask = (id: string) => {
+
+  const deleteTask = (id: string) => {
     setTasks(tasks.filter(t => t.id !== id));
-    toast.success("Task deleted.");
   };
-  const handleClearDone = () => {
-    const doneColId = columns.find(c => c.id === "done")?.id || columns[columns.length - 1].id;
-    setTasks(tasks.filter(t => t.columnId !== doneColId));
-    toast.success("Cleared completed tasks!");
-  };
-  const moveTask = (taskId: string, direction: "left" | "right") => {
-    const taskIndex = tasks.findIndex(t => t.id === taskId);
-    if (taskIndex === -1) return;
-    const task = tasks[taskIndex];
-    const colIndex = columns.findIndex(c => c.id === task.columnId);
-    if (direction === "left" && colIndex > 0) {
-      const updatedTasks = [...tasks];
-      updatedTasks[taskIndex].columnId = columns[colIndex - 1].id;
-      setTasks(updatedTasks);
-    } else if (direction === "right" && colIndex < columns.length - 1) {
-      const updatedTasks = [...tasks];
-      updatedTasks[taskIndex].columnId = columns[colIndex + 1].id;
-      setTasks(updatedTasks);
-    }
-  };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
-      
 
-      <ToolPageHeader icon={LayoutGrid} title="Customizable Visual Kanban Board" description="Organize tasks into workflow columns (To Do, In Progress, Done), create custom columns, and move task cards across swimlanes." actions={<div className="flex gap-2">
-            <ActionButton onClick={handleClearDone} icon={Check} label="Clear Completed" variant="outline" size="default" />
-            <ResetButton onClick={handleReset} label="Reset Board" />
-          </div>} />
+  const moveTask = (id: string, quad: QuadrantId) => {
+    setTasks(tasks.map(t => t.id === id ? { ...t, quadrant: quad } : t));
+    toast.success("Moved task!");
+  };
 
-      {/* INPUT CONTROLS */}
-      <GlassCard>
-        <CardHeader className="pb-3">
-          <CardTitle className="flex items-center gap-2 text-lg">
-            <Plus className="w-5 h-5 text-primary" /> Add Tasks & Columns
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="space-y-3">
-              <h3 className="font-bold text-xs uppercase tracking-wider text-muted-foreground">New Task Card</h3>
-              <div className="space-y-2">
-                <Input value={newTaskTitle} onChange={e => setNewTaskTitle(e.target.value)} placeholder="Task Title..." className="h-10 text-xs font-medium" />
-                <Input value={newTaskDesc} onChange={e => setNewTaskDesc(e.target.value)} placeholder="Task Description (Optional)" className="h-10 text-xs" />
-                <Button className="w-full h-10 font-bold gap-2" onClick={handleAddTask}>
-                  <Plus className="h-4 w-4" /> Add Task
-                </Button>
-              </div>
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
+        <ToolPageHeader
+          icon={CheckSquare}
+          title="Agile Kanban Board"
+          description="Organize tasks into 4 actionable quadrants by Urgency and Importance for maximum productivity."
+        />
+
+        {/* Quick Add Task */}
+        <GlassCard>
+          <CardHeader>
+            <CardTitle>Add New Action Item</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Input
+                value={newTask}
+                onChange={e => setNewTask(e.target.value)}
+                placeholder="e.g. Prepare client proposal..."
+                className="flex-1"
+                onKeyDown={e => e.key === "Enter" && addTask()}
+              />
+              <select
+                value={targetQuad}
+                onChange={e => setTargetQuad(Number(e.target.value) as QuadrantId)}
+                className="h-10 px-3 rounded-md border bg-background text-sm"
+              >
+                {QUADRANTS.map(q => (
+                  <option key={q.id} value={q.id}>Q{q.id}: {q.name}</option>
+                ))}
+              </select>
+              <Button onClick={addTask}>
+                <Plus className="w-4 h-4 mr-2" /> Add Task
+              </Button>
             </div>
+          </CardContent>
+        </GlassCard>
 
-            <div className="space-y-3">
-              <h3 className="font-bold text-xs uppercase tracking-wider text-muted-foreground">New Swimlane Column</h3>
-              <div className="space-y-2">
-                <Input value={newColumnTitle} onChange={e => setNewColumnTitle(e.target.value)} placeholder="Column Title (e.g. Code Review)..." className="h-10 text-xs font-medium" />
-                <Button className="w-full h-10 font-bold gap-2" variant="secondary" onClick={handleAddColumn}>
-                  <Plus className="h-4 w-4" /> Add Column
-                </Button>
-              </div>
-            </div>
+        {/* 4 Quadrants Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {QUADRANTS.map(q => {
+            const quadTasks = tasks.filter(t => t.quadrant === q.id);
+            const Icon = q.icon;
+            return (
+              <GlassCard key={q.id} className={cn("border-2", q.color)}>
+                <CardHeader>
+                  <div className="flex justify-between items-center">
+                    <CardTitle className="flex items-center gap-2 text-base">
+                      <Icon className="w-4 h-4" /> Q{q.id}: {q.name} ({quadTasks.length})
+                    </CardTitle>
+                  </div>
+                  <CardDescription className="text-xs">{q.desc}</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-2 min-h-[160px]">
+                  {quadTasks.length === 0 ? (
+                    <p className="text-xs text-muted-foreground py-6 text-center italic">No tasks in this quadrant</p>
+                  ) : (
+                    quadTasks.map(t => (
+                      <div
+                        key={t.id}
+                        className="p-3 rounded-lg border bg-background/80 flex flex-col gap-2 shadow-xs"
+                      >
+                        <div className="flex justify-between items-start gap-2">
+                          <span className="text-sm font-medium text-foreground">{t.text}</span>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => deleteTask(t.id)}
+                            className="h-6 w-6 text-muted-foreground hover:text-destructive shrink-0"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </Button>
+                        </div>
+                        <div className="flex gap-1 flex-wrap pt-1 border-t border-border/40">
+                          {QUADRANTS.filter(target => target.id !== q.id).map(target => (
+                            <button
+                              key={target.id}
+                              onClick={() => moveTask(t.id, target.id)}
+                              className="text-[10px] text-muted-foreground hover:text-primary px-1.5 py-0.5 rounded bg-muted/60 hover:bg-muted transition-colors"
+                            >
+                              → Q{target.id} {target.name}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </CardContent>
+              </GlassCard>
+            );
+          })}
+        </div>
+
+        <ToolHowItWorks
+          steps={[
+            { step: "01", title: "Capture Tasks", description: "List all pending responsibilities and obligations.", icon: CheckSquare },
+            { step: "02", title: "Categorize Urgency", description: "Sort items into Do First (Q1), Schedule (Q2), Delegate (Q3), or Eliminate (Q4).", icon: Sparkles },
+            { step: "03", title: "Focus on Q2", description: "Maximize high-leverage growth by investing regular time into non-urgent strategic goals.", icon: Shield }
+          ]}
+          badges={["100% Free Forever", "Stephen Covey Framework", "Private Local Storage"]}
+        />
+
+        <ToolFeatureGuides
+          features={[
+            { icon: Flame, title: "Q1 Do First", description: "High urgency and high importance items requiring immediate crisis intervention." },
+            { icon: Clock, title: "Q2 Schedule", description: "Strategic initiatives that create exponential long-term returns." },
+            { icon: Users, title: "Q3 Delegate", description: "Urgent operational tasks that should be handed off or automated." },
+            { icon: Ban, title: "Q4 Eliminate", description: "Low-value time wasters and distractions to discard entirely." }
+          ]}
+        >
+          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+            <h3>Mastering Time Management with the Eisenhower Matrix</h3>
+            <p>
+              Popularized by President Dwight D. Eisenhower and Dr. Stephen Covey, this decision matrix separates urgent firefighting from impactful, long-term strategic execution. Top performers spend the majority of their mental energy in Quadrant 2 (Important, Not Urgent).
+            </p>
           </div>
-        </CardContent>
-      </GlassCard>
+        </ToolFeatureGuides>
 
-      {/* KANBAN BOARD SWIMLANES */}
-      <div className="flex gap-4 overflow-x-auto pb-4 pt-2">
-        {columns.map((col, colIdx) => {
-          const columnTasks = tasks.filter(t => t.columnId === col.id);
-          return <div key={col.id} className="min-w-[280px] w-[300px] shrink-0 bg-muted/20 border border-border/60 rounded-2xl p-4 flex flex-col max-h-[70vh]">
-              <div className={cn("mb-4 flex items-center justify-between pl-3 py-1", col.color)}>
-                <h3 className="font-bold text-base text-foreground">{col.title}</h3>
-                <span className="bg-primary/10 text-primary border border-primary/20 px-2.5 py-0.5 rounded-full text-xs font-black">
-                  {columnTasks.length}
-                </span>
-              </div>
+        <ToolFaqAccordion
+          faqs={[
+            { question: "What makes a task Quadrant 2?", answer: "Quadrant 2 activities are essential for long-term health, career, and relationships—such as exercise, learning, and system architecture—that lack an immediate urgent deadline." },
+            { question: "Is my task list stored locally?", answer: "Yes! All tasks are saved directly in your web browser with zero server transmission." }
+          ]}
+        />
 
-              <div className="flex-1 overflow-y-auto space-y-3 pr-1">
-                {columnTasks.length === 0 ? <div className="text-xs text-muted-foreground text-center py-8 italic border border-dashed border-border/60 rounded-xl">
-                    No tasks in {col.title}
-                  </div> : columnTasks.map(task => <div key={task.id} className="bg-background rounded-xl p-3.5 shadow-sm border border-border/60 space-y-2.5">
-                      <div className="flex justify-between items-start gap-2">
-                        <h4 className="font-bold text-xs text-foreground leading-snug break-words">{task.title}</h4>
-                        <Button onClick={() => handleDeleteTask(task.id)} className="text-muted-foreground hover:text-destructive shrink-0">
-                          <Trash2 className="h-3.5 w-3.5" />
-                        </Button>
-                      </div>
-                      {task.description && <p className="text-xs text-muted-foreground leading-relaxed">{task.description}</p>}
-
-                      <div className="flex justify-between items-center pt-2 border-t border-border/40">
-                        <Button variant="ghost" size="icon" className="h-6 w-6 text-muted-foreground" disabled={colIdx === 0} onClick={() => moveTask(task.id, "left")} title="Move Left">
-                          <ArrowLeft className="h-3 w-3" />
-                        </Button>
-                        <Button variant="ghost" size="icon" className="h-6 w-6 text-muted-foreground" disabled={colIdx === columns.length - 1} onClick={() => moveTask(task.id, "right")} title="Move Right">
-                          <ArrowRight className="h-3 w-3" />
-                        </Button>
-                      </div>
-                    </div>)}
-              </div>
-            </div>;
-        })}
+        <RelatedTools currentToolUrl="/tools/productivity/kanban" max={6} />
       </div>
-
-      {/* HOW IT WORKS */}
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Add Task Cards",
-        description: "Type task titles and optional descriptions to add them to your To Do column.",
-        icon: Plus
-      }, {
-        step: "02",
-        title: "Move Swimlane Columns",
-        description: "Use left/right arrows on task cards to transition tasks between To Do, In Progress, and Done.",
-        icon: LayoutGrid
-      }, {
-        step: "03",
-        title: "Clear Completed Tasks",
-        description: "Click 'Clear Completed' to purge finished tasks from your board.",
-        icon: CheckCircle2
-      }]} badges={["Custom Swimlane Columns", "Auto-Saved", "100% Free"]} />
-
-      {/* FEATURE GUIDES */}
-      <ToolFeatureGuides features={[{
-        icon: LayoutGrid,
-        title: "Custom Column Creation",
-        description: "Add personalized workflow columns (e.g. Backlog, Testing, Review) dynamically."
-      }, {
-        icon: Check,
-        title: "Batch Clear Completed Tasks",
-        description: "Purge completed swimlane tasks with a single click to maintain board focus."
-      }, {
-        icon: Shield,
-        title: "Confidential Local Storage",
-        description: "Saves all tasks and custom columns locally inside your browser."
-      }]} />
-
-      {/* FAQ ACCORDION */}
-      <ToolFaqAccordion faqs={[{
-        question: "How do I move tasks between columns?",
-        answer: "Click the left or right arrow buttons at the bottom of any task card to move it into adjacent swimlanes."
-      }, {
-        question: "Is my Kanban board saved automatically?",
-        answer: "Yes, all task cards and custom column titles persist automatically in local storage."
-      }]} />
-
- return (
- <div className="space-y-6">
- <ToolPageHeader
- icon={LayoutGrid}
- title="Kanban Board"
- description="Organize your tasks visually with a customizable Kanban board."
- actions={
- <>
- <ActionButton onClick={handleClearDone} icon={Check} label="Clear Done"variant="outline"size="default"/>
- <ResetButton onClick={handleReset} label="Reset"/>
- </>
- }
- />
-
- <GlassCard>
- <CardHeader>
- <CardTitle>Add Items</CardTitle>
- </CardHeader>
- <CardContent>
- <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
- <div className="space-y-4">
- <h3 className="font-medium text-sm">New Task</h3>
- <div className="space-y-2">
- <Input
- value={newTaskTitle}
- onChange={(e) => setNewTaskTitle(e.target.value)}
- placeholder="Task Title"
- />
- <Input
- value={newTaskDesc}
- onChange={(e) => setNewTaskDesc(e.target.value)}
- placeholder="Description (optional)"
- />
- <Button className="w-full"onClick={handleAddTask}>
- <Plus className="mr-2 h-4 w-4"/> Add Task
- </Button>
- </div>
- </div>
- 
- <div className="space-y-4">
- <h3 className="font-medium text-sm">New Column</h3>
- <div className="space-y-2">
- <Input
- value={newColumnTitle}
- onChange={(e) => setNewColumnTitle(e.target.value)}
- placeholder="Column Title"
- />
- <Button className="w-full"variant="secondary"onClick={handleAddColumn}>
- <Plus className="mr-2 h-4 w-4"/> Add Column
- </Button>
- </div>
- </div>
- </div>
- </CardContent>
- </GlassCard>
-
- <div className="flex gap-4 overflow-x-auto pb-4 pt-2">
- {columns.map((col, colIdx) => {
- const columnTasks = tasks.filter(t => t.columnId === col.id);
- 
- return (
- <div key={col.id} className="min-w-[300px] w-[300px] shrink-0 bg-secondary/30 rounded-xl p-4 flex flex-col max-h-[70vh]">
- <div className={cn("mb-4 flex items-center justify-between pl-3", col.color)}>
- <h3 className="font-semibold text-lg">{col.title}</h3>
- <span className="bg-background px-2 py-1 rounded-full text-xs font-medium">
- {columnTasks.length}
- </span>
- </div>
- 
- <div className="flex-1 overflow-y-auto space-y-3 pr-2">
- {columnTasks.length === 0 ? (
- <p className="text-sm text-muted-foreground text-center py-4 italic">No tasks</p>
- ) : (
- columnTasks.map(task => (
- <div key={task.id} className="bg-background rounded-lg p-3 shadow-sm border space-y-2">
- <div className="flex justify-between items-start gap-2">
- <h4 className="font-medium text-sm leading-tight">{task.title}</h4>
- <button onClick={() => handleDeleteTask(task.id)} className="text-muted-foreground hover:text-destructive">
- <Trash2 className="h-4 w-4"/>
- </button>
- </div>
- {task.description && (
- <p className="text-xs text-muted-foreground">{task.description}</p>
- )}
- 
- <div className="flex justify-between items-center pt-2 mt-2 border-t">
- <Button
- variant="ghost"
- size="icon"
- className="h-6 w-6"
- disabled={colIdx === 0}
- onClick={() => moveTask(task.id,"left")}
- >
- <ArrowLeft className="h-3 w-3"/>
- </Button>
- <Button
- variant="ghost"
- size="icon"
- className="h-6 w-6"
- disabled={colIdx === columns.length - 1}
- onClick={() => moveTask(task.id,"right")}
- >
- <ArrowRight className="h-3 w-3"/>
- </Button>
- </div>
- </div>
- ))
- )}
- </div>
- 
-<ToolHowItWorks
-  steps={[
-{
-    step:"01",
-    title:"Add Cards",
-    description:"Create task cards.",
-    icon: StickyNote,
-  },
-{
-    step:"02",
-    title:"Columns",
-    description:"Set your stages.",
-    icon: Columns3,
-  },
-{
-    step:"03",
-    title:"Flow",
-    description:"Drag across stages.",
-    icon: MoveRight,
-  }
-  ]}
-  badges={["Free Forever","No Signup","Instant Results"]}
-/>
-
-<ToolFeatureGuides
-  features={[
-{
-    icon: StickyNote,
-    title:"Cards",
-    description:"Task items.",
-  },
-{
-    icon: Columns3,
-    title:"Stages",
-    description:"Todo, doing, done.",
-  },
-{
-    icon: MoveRight,
-    title:"Drag",
-    description:"Move cards.",
-  },
-{
-    icon: Kanban,
-    title:"Board",
-    description:"Visual workflow.",
-  }
-  ]}
->
-  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-  <p>A kanban board visualizes work flowing through stages, making status obvious at a glance. Moving cards from to-do to done gives satisfying progress that lists lack. This tool supports custom columns and drag.</p>
-  <p>Limits on work-in-progress reveal overload. The board makes bottlenecks visible so you can act.</p>
-  <p>Use it for any project. The tool's value is a clear visual workflow system.</p>
-  </div>
-</ToolFeatureGuides>
-
-<ToolFaqAccordion
-  faqs={[
-{
-    question:"What is kanban?",
-    answer:"Visual work board.",
-  },
-{
-    question:"Free?",
-    answer:"Yes.",
-  },
-{
-    question:"Private?",
-    answer:"Local.",
-  },
-{
-    question:"Use case?",
-    answer:"Projects.",
-  },
-{
-    question:"Best with?",
-    answer:"Weekly planning.",
-  }
-  ]}
-/>
-</div>
- );
- })}
- </div>
- </div>
- );
+    </div>
+  );
 }
+
+export default KanbanClient;

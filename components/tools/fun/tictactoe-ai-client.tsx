@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { cn } from "@/lib/utils";
@@ -10,7 +11,7 @@ import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Grid3x3, RotateCcw, Trophy, History, Cpu, User } from "lucide-react";
+import { Grid3x3, RotateCcw, Trophy, History, Cpu, User, Play } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -203,7 +204,10 @@ export function TictactoeAiClient() {
     setWinningLine([]);
     setIsPlayerTurn(playerSymbol === 'X');
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Grid3x3} title="Tic-Tac-Toe AI" description="Challenge an unbeatable Minimax AI or test your tactics against randomized and medium-difficulty bots." />
@@ -336,8 +340,9 @@ export function TictactoeAiClient() {
         question: "Is my score saved permanently?",
         answer: "Scores are tracked locally during your active browser session to maintain a competitive feel without requiring user accounts or databases."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/fun/tictactoe-ai" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default TictactoeAiClient;

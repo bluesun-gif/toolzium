@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -89,7 +91,10 @@ export function SymptomDiaryClient() {
     a.click();
     URL.revokeObjectURL(url);
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Activity} title="Symptom Diary" description="Track daily symptoms, monitor severity, and view trends. Note: This tool is not a substitute for professional medical advice." actions={<ResetButton onClick={clearData} label="Clear Data" />} />
@@ -253,6 +258,9 @@ export function SymptomDiaryClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default SymptomDiaryClient;

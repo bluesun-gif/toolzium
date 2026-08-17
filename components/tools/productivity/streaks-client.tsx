@@ -1,33 +1,24 @@
 "use client";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-import React, { useState, useEffect } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { Calendar, CheckCircle2, Flame, Plus, Star, TrendingUp, Trophy } from"lucide-react";
-import { GlassCard } from"@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
 
-import { Button } from"@/components/ui/button";
-import { Input } from"@/components/ui/input";
-import { Label } from"@/components/ui/label";
-import { toast } from"react-hot-toast";
-
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { Flame, Calendar, Trophy, Plus, Sparkles, Shield, Zap, Copy } from "lucide-react";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { toast } from "react-hot-toast";
-import { GridPattern } from "@/components/magicui/grid-pattern";
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { GlassCard } from "@/components/ui/glass-card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { CopyButton, ResetButton, ActionButton } from "@/components/shared/action-buttons";
 import { cn } from "@/lib/utils";
+import toast from "react-hot-toast";
+import { Calendar, CheckCircle2, Flame, Plus, Star, TrendingUp, Trophy, Check, History, Sparkles, Shield, Zap, Copy } from "lucide-react";
+
 type Habit = {
   id: string;
   name: string;
@@ -155,7 +146,10 @@ export function StreaksClient() {
     }
     return <div className="flex gap-1 mt-2 flex-wrap">{days}</div>;
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Habit Streak Counter" description="Track your daily habits and build consistent streaks" icon={Flame} actions={<Button variant="outline" onClick={() => saveHabits([])}>
@@ -221,6 +215,7 @@ export function StreaksClient() {
  </div>
  </div>
  
+
 <ToolHowItWorks
   steps={[
 {
@@ -300,6 +295,9 @@ export function StreaksClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default StreaksClient;

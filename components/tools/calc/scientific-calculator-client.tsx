@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
@@ -9,7 +12,7 @@ import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calculator } from "lucide-react";
+import { Calculator, Check } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -43,7 +46,10 @@ export default function ScientificCalculatorClient() {
     }
   };
   const buttons = ["sin(", "cos(", "tan(", "sqrt(", "C", "DEL", "log(", "ln(", "pi", "e", "(", ")", "7", "8", "9", "/", "^", "%", "4", "5", "6", "*", "1", "2", "3", "-", "0", ".", "=", "+"];
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Calculator} title="Scientific Calculator" description="Perform advanced mathematical calculations with trigonometric, logarithmic, and exponential functions." />
@@ -123,7 +129,7 @@ export default function ScientificCalculatorClient() {
         question: "What does the 'ln' button do?",
         answer: "The 'ln' button calculates the natural logarithm (base e), while 'log' calculates the common logarithm (base 10)."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/calc/scientific-calculator" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

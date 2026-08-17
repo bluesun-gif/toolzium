@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
@@ -325,7 +326,10 @@ export default function PdfSignFillClient() {
       setProcessing(false);
     }
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Pen} title="PDF Sign & Fill Studio" description="Add a real signature to any PDF. Type, draw, or upload your signature — then click or drag it anywhere on the page." />
@@ -514,7 +518,7 @@ export default function PdfSignFillClient() {
         question: "Is this tool completely free?",
         answer: "Yes, our PDF Sign & Fill tool is 100% free with no hidden fees or watermarks added to your downloaded documents."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/pdf/pdf-sign-fill" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

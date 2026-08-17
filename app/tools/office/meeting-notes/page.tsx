@@ -1,32 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import MeetingNotesClient from "@/components/tools/office/meeting-notes-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "Meeting Notes | Toolzium";
+const DESCRIPTION = "Free online meeting notes tool with instant calculation and privacy.";
+const PATH = "/tools/office/meeting-notes";
 
 export const metadata = buildMetadata({
-  title: "Meeting Notes Template",
-  description: "Take structured meeting notes with timestamps and action items. Meeting minutes template for recording discussions, decisions, and next steps. Export notes as text or PDF.",
-  path: "/tools/office/meeting-notes",
-  keywords: ["recording", "with", "items", "action", "notes", "template", "structured", "take", "meeting", "timestamps", "minutes"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Meeting Notes Template",
-    description: "Take structured meeting notes with timestamps and action items. Meeting minutes template for recording discussions, decisions, and next steps. Export notes as text or PDF.",
-    path: "/tools/office/meeting-notes",
-    categoryName: "Office",
-    categoryPath: "/tools/office",
+    name: "Meeting Notes",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <MeetingNotesClient />
-    
-      <RelatedTools currentToolUrl="/tools/office/meeting-notes" />
-</div>
+    </>
   );
 }

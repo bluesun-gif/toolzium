@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -106,7 +108,10 @@ export function MeditationTimerClient() {
     const s = seconds % 60;
     return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
   };
-  return <div className="relative space-y-6 max-w-4xl mx-auto"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Timer} title="Meditation Timer" description="A calming timer with presets and a guided breathing animation." actions={<ActionButton icon={Heart} label={`Sessions: ${sessionsCompleted}`} variant="outline" onClick={() => {}} />} />
@@ -256,6 +261,9 @@ export function MeditationTimerClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default MeditationTimerClient;

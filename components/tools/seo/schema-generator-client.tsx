@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback, useEffect } from "react";
@@ -11,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Copy, RotateCcw, Code2, Plus, Trash2, Eye } from "lucide-react";
+import { Copy, RotateCcw, Code2, Plus, Trash2, Eye, Search, Type, Unlock } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -221,7 +222,10 @@ export function SchemaGeneratorClient() {
     }]);
     toast.success("Form reset");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 p-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Code2} title="Schema Markup Generator (JSON-LD)" description="Generate valid structured data for Google Rich Snippets. Support for Articles, Products, Local Business, FAQs, and Recipes." />
@@ -353,7 +357,7 @@ export function SchemaGeneratorClient() {
       }, {
         icon: Copy,
         title: "HTML Script Tag Export",
-        description: "Instantly copy the fully formatted <script type='application/ld+json'> tag ready for immediate CMS or HTML insertion."
+        description: "Instantly copy the fully formatted &lt;script type='application/ld+json'> tag ready for immediate CMS or HTML insertion."
       }, {
         icon: Plus,
         title: "Dynamic FAQ Builder",
@@ -377,8 +381,9 @@ export function SchemaGeneratorClient() {
         question: "Is JSON-LD better than Microdata?",
         answer: "Google strongly recommends JSON-LD over Microdata or RDFa because it separates the structured data from your HTML markup, making it easier to maintain and less prone to breaking when the UI changes."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/seo/schema-generator" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default SchemaGeneratorClient;

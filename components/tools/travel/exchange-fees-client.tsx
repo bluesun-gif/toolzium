@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState } from "react";
@@ -59,7 +60,10 @@ export function ExchangeFeesClient() {
     setResult(null);
     toast.success("Reset successful");
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={DollarSign} title="Currency Exchange Fee Calculator" description="Uncover hidden exchange rate markups and total foreign transaction fees." actions={<div className="flex gap-2">
@@ -189,8 +193,9 @@ export function ExchangeFeesClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/travel/exchange-fees" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default ExchangeFeesClient;

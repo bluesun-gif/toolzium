@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -13,7 +15,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { AlertTriangle, BarChart3, Clock, Eye, Monitor, PieChart, Plus, Smartphone, Trash2 } from"lucide-react";
+import { AlertTriangle, BarChart3, Clock, Eye, Monitor, PieChart, Plus, Smartphone, Trash2, Calculator, Type } from "lucide-react";
 import { cn } from"@/lib/utils";
 import toast from"react-hot-toast";
 
@@ -79,7 +81,10 @@ export function ScreenTimeClient() {
     acc[s.category] = (acc[s.category] || 0) + s.durationMins;
     return acc;
   }, {} as Record<string, number>);
-  return <div className="relative space-y-6 max-w-4xl mx-auto"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Monitor} title="Screen Time Calculator" description="Track and analyze your daily screen time." actions={<ResetButton onClick={clearAll} label="Clear All" />} />
@@ -291,6 +296,9 @@ export function ScreenTimeClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default ScreenTimeClient;

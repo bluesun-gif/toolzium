@@ -1,4 +1,7 @@
 "use client";
+
+import { cn } from "@/lib/utils";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useEffect } from "react";
@@ -8,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, Search, Copy, Clock, ShieldCheck, AlertTriangle, ShieldX, History, Trash2, Calendar, Sparkles, Shield, Zap } from "lucide-react";
+import { Loader2, Search, Copy, Clock, ShieldCheck, AlertTriangle, ShieldX, History, Trash2, Calendar, Sparkles, Shield, Zap, Check } from "lucide-react";
 import toast from "react-hot-toast";
 import { checkSslCertificate } from "@/lib/actions/ssl-checker.action";
 import { GridPattern } from "@/components/magicui/grid-pattern";

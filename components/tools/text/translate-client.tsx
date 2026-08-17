@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback, useEffect } from "react";
@@ -11,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Languages, ArrowRightLeft, Bookmark, Volume2, Copy, Plus, Trash2, Star } from "lucide-react";
+import { Languages, ArrowRightLeft, Bookmark, Volume2, Copy, Plus, Trash2, Star, Type } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -244,7 +245,10 @@ export function TranslateClient() {
     setPhrasebook(prev => [newItem, ...prev]);
     toast.success("Saved to Phrasebook");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 p-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Languages} title="Offline Phrase Translator" description="Instantly translate common phrases and vocabulary between 10 major languages using our built-in secure dictionary engine." />
@@ -423,8 +427,9 @@ export function TranslateClient() {
         question: "Is my saved phrasebook private?",
         answer: "Yes. Your phrasebook is stored locally in your browser's memory. It is never sent to our servers."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/text/translate" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default TranslateClient;

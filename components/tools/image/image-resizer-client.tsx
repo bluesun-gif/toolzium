@@ -1,4 +1,9 @@
 "use client";
+
+import { cn } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -12,7 +17,7 @@ import SwitchRow from"@/components/shared/form-fields/switch-row";
 import Stat from"@/components/shared/stat";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
-import { CheckCircle2, Crop, Download, Image as ImageIcon, Maximize2, RefreshCw, Scaling, SlidersHorizontal, Sparkles, Trash2, Upload, Zap } from"lucide-react";
+import { CheckCircle2, Crop, Download, Image as ImageIcon, Maximize2, RefreshCw, Scaling, SlidersHorizontal, Sparkles, Trash2, Upload, Zap, Settings, Square, Grid } from "lucide-react";
 import JSZip from"jszip";
 import { drawToCanvas, canvasEncode, FitMode, formatBytes, mimeFromFormat } from"@/lib/canvas";
 import toast from"react-hot-toast";
@@ -288,7 +293,10 @@ export default function ImageResizerClient() {
     document.body.removeChild(a);
   };
   const filteredPresets = activePlatformFilter === "All" ? SOCIAL_PRESETS : SOCIAL_PRESETS.filter(p => p.platform === activePlatformFilter);
-  return <div className="relative mx-auto max-w-6xl px-4 py-8 space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Social Media Image Resizer & Aspect Ratio Tool" description="Resize images for Facebook, Instagram, LinkedIn, X, and Pinterest in 1-click. High-precision 4-corner stretch, smart crop cover, or padded fit with zero quality loss." />
@@ -554,6 +562,7 @@ export default function ImageResizerClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }

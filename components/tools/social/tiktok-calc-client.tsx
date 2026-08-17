@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
@@ -21,7 +22,10 @@ export default function TiktokCalcClient() {
   const estimatedEstFund = (views * 0.03).toFixed(2); // ~$0.02 - $0.04 per 1,000 views
   const estimatedSponsorPost = (followers * 0.01).toFixed(0); // ~$10 per 1k followers
 
-  return <div className="relative space-y-6 max-w-4xl mx-auto px-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Video} title="TikTok Engagement & Creator Fund Earnings Calculator" description="Calculate your TikTok engagement rate, estimated Creator Fund payouts, and sponsored post value." />
@@ -140,8 +144,7 @@ export default function TiktokCalcClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/social/tiktok-calc" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }

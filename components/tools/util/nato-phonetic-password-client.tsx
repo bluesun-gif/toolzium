@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
@@ -8,7 +11,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from "@/component
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { ActionButton, CopyButton } from "@/components/shared/action-buttons";
-import { Lock, Shield, RefreshCw, Sparkles, Zap, Copy } from "lucide-react";
+import { Lock, Shield, RefreshCw, Sparkles, Zap, Copy, Settings } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
@@ -78,7 +81,10 @@ export function NatoPhoneticPasswordClient() {
     if (incSymbols) pool += 32;
     return Math.round(length * Math.log2(pool));
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Lock} title="NATO Phonetic Password Generator" description="Generate secure passwords with NATO phonetic spelling soundout." actions={<React.Fragment>
@@ -193,8 +199,9 @@ export function NatoPhoneticPasswordClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/util/nato-phonetic-password" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default NatoPhoneticPasswordClient;

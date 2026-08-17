@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useEffect } from "react";
@@ -198,7 +199,10 @@ function ResultItem({
   label: string;
   value: React.ReactNode;
 }) {
-  return <div className="relative flex flex-col space-y-1 p-3 bg-muted/50 rounded-lg"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <span className="text-xs text-muted-foreground flex items-center gap-1.5">
@@ -264,8 +268,7 @@ function ResultItem({
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/network/ip-lookup" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }

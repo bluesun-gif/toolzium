@@ -1,30 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import TruthOrDareClient from "@/components/tools/fun/truth-or-dare-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
+
+const TITLE = "Truth Or Dare | Toolzium";
+const DESCRIPTION = "Free online truth or dare tool with instant calculation and privacy.";
+const PATH = "/tools/fun/truth-or-dare";
+
 export const metadata = buildMetadata({
-  title: "Truth or Dare Generator",
-  description: "Play truth or dare online! 120+ truths and dares with difficulty levels (Easy, Medium, Spicy), family-friendly and adult modes, player names, and history tracking.",
-  path: "/tools/fun/truth-or-dare",
-  keywords: ["easy", "with", "truths", "play", "levels", "online", "dares", "medium", "truth", "difficulty", "dare", "spicy"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Truth or Dare Generator",
-    description: "Play truth or dare online! 120+ truths and dares with difficulty levels (Easy, Medium, Spicy), family-friendly and adult modes, player names, and history tracking.",
-    path: "/tools/fun/truth-or-dare",
-    categoryName: "Fun",
-    categoryPath: "/tools/fun",
+    name: "Truth Or Dare",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <TruthOrDareClient />
-    
-      <RelatedTools currentToolUrl="/tools/fun/truth-or-dare" />
-</div>
+    </>
   );
 }

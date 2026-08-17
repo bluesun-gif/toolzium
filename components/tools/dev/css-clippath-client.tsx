@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { cn } from "@/lib/utils";
@@ -12,7 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Scissors, Copy, RotateCcw } from "lucide-react";
+import { Scissors, Copy, RotateCcw, Plus, Star, Heart } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -715,7 +716,10 @@ export default function CssClippathClient() {
       toast.error('Minimum 3 points required');
     }
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Scissors} title="CSS Clip-Path Maker" description="Create custom shapes with visual point editing and 25+ preset polygons" />
@@ -888,7 +892,7 @@ export default function CssClippathClient() {
         question: "Can I use this for images?",
         answer: "Absolutely! Apply the clip-path to any element - images, divs, buttons, etc. The shape will mask the element's content, creating custom-shaped images and containers."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/dev/css-clippath" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

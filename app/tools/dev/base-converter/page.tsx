@@ -1,30 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import BaseConverterClient from "@/components/tools/dev/base-converter-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
+
+const TITLE = "Base Converter | Toolzium";
+const DESCRIPTION = "Free online base converter tool with instant calculation and privacy.";
+const PATH = "/tools/dev/base-converter";
+
 export const metadata = buildMetadata({
-  title: "Number Base Converter",
-  description: "Convert numbers between binary, octal, decimal, and hexadecimal bases. Base converter with support for negative numbers and fractional values. Programmer's calculator for number systems.",
-  path: "/tools/dev/base-converter",
-  keywords: ["numbers", "decimal", "between", "with", "hexadecimal", "binary", "convert", "bases", "converter", "octal", "support", "base"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Number Base Converter",
-    description: "Convert numbers between binary, octal, decimal, and hexadecimal bases. Base converter with support for negative numbers and fractional values. Programmer's calculator for number systems.",
-    path: "/tools/dev/base-converter",
-    categoryName: "Dev",
-    categoryPath: "/tools/dev",
+    name: "Base Converter",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <BaseConverterClient />
-    
-      <RelatedTools currentToolUrl="/tools/dev/base-converter" />
-</div>
+    </>
   );
 }

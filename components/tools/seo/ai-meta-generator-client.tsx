@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback, useEffect } from "react";
@@ -12,7 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Copy, RotateCcw, Wand2, Loader2, CheckCircle2 } from "lucide-react";
+import { Copy, RotateCcw, Wand2, Loader2, CheckCircle2, Type } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -114,7 +115,10 @@ Keywords: [comma-separated list of 5-7 relevant tags]`;
     setAudience("");
     setVariations([]);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 p-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Wand2} title="AI SEO Meta Tag Generator" description="Generate highly optimized, click-worthy title tags and meta descriptions powered by advanced AI language models." />
@@ -277,8 +281,9 @@ Keywords: [comma-separated list of 5-7 relevant tags]`;
         question: "Can I use the same meta description for multiple pages?",
         answer: "It is highly discouraged. Duplicate meta descriptions confuse search engines and dilute your CTR. Every page should have a unique description that accurately summarizes its specific content."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/seo/ai-meta-generator" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default AiMetaGeneratorClient;

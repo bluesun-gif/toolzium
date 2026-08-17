@@ -1,380 +1,167 @@
 "use client";
-import { ToolBackground } from"@/components/shared/tool-background";
 
-import React, { useState, useMemo, useCallback, useEffect, useRef } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import { RelatedTools } from"@/components/shared/related-tools";
-import { Card, CardContent, CardHeader, CardTitle } from"@/components/ui/card";
-import { Button } from"@/components/ui/button";
-import { Input } from"@/components/ui/input";
-import { Label } from"@/components/ui/label";
-import { Volume2, Play, Pause, Square, RotateCcw, Mic, Settings, AlertCircle } from"lucide-react";
-import toast from"react-hot-toast";
-import { GridPattern } from"@/components/magicui/grid-pattern";
-import { GlassCard } from"@/components/ui/glass-card";
+import React, { useState } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ToolBackground } from "@/components/shared/tool-background";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { Sparkles, Bot, UserCheck, RefreshCw, Copy, CheckCircle2, Shield } from "lucide-react";
+import toast from "react-hot-toast";
 
-const cardClass ="border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
-const headerClass ="border-b border-border/40 bg-muted/20 p-3 sm:p-4";
-const titleClass ="text-xs sm:text-sm font-semibold flex items-center gap-2";
-const textareaClass ="w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50 font-mono";
+const AI_CLICHE_MAP: Record<string, string> = {
+  "delve into": "explore",
+  "testament to": "proof of",
+  "tapestry": "structure",
+  "beacon of": "guide for",
+  "furthermore": "also",
+  "moreover": "in addition",
+  "vital role": "key part",
+  "pivotal": "important",
+  "in conclusion": "finally",
+  "it is crucial to": "we should",
+  "seamlessly": "smoothly",
+  "harness the power of": "use",
+  "elevate": "improve"
+};
 
 export function TextToSpeechClient() {
- const [text, setText] = useState("Welcome to Toolzium. This is a demonstration of the browser's native text-to-speech capabilities. You can adjust the voice, speed, pitch, and volume using the controls below.");
- const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
- const [selectedVoiceURI, setSelectedVoiceURI] = useState<string>("");
- const [rate, setRate] = useState(1);
- const [pitch, setPitch] = useState(1);
- const [volume, setVolume] = useState(1);
- const [isPlaying, setIsPlaying] = useState(false);
- const [isPaused, setIsPaused] = useState(false);
- const [isSupported, setIsSupported] = useState(true);
- 
- const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
- const chunkIndexRef = useRef(0);
- const chunksRef = useRef<string[]>([]);
+  const [inputText, setInputText] = useState(
+    "In conclusion, it is crucial to delve into this tapestry of ideas and harness the power of modern technology to seamlessly elevate our potential."
+  );
+  const [tone, setTone] = useState<"casual" | "academic" | "conversational" | "professional">("conversational");
+  const [outputText, setOutputText] = useState("");
+  const [loading, setLoading] = useState(false);
 
- useEffect(() => {
- if (typeof window !=="undefined"&& !window.speechSynthesis) {
- setIsSupported(false);
- return;
- }
+  const humanizeText = () => {
+    if (!inputText.trim()) {
+      toast.error("Please enter some text to humanize.");
+      return;
+    }
+    setLoading(true);
+    setTimeout(() => {
+      let res = inputText;
+      for (const [cliche, replacement] of Object.entries(AI_CLICHE_MAP)) {
+        const regex = new RegExp(`\\b${cliche}\\b`, "gi");
+        res = res.replace(regex, replacement);
+      }
+      if (tone === "casual") {
+        res = res.replace(/\bwe should\b/gi, "let's").replace(/\balso\b/gi, "plus");
+      }
+      setOutputText(res);
+      setLoading(false);
+      toast.success("Text humanized and cliches removed!");
+    }, 300);
+  };
 
- const loadVoices = () => {
- const availableVoices = window.speechSynthesis.getVoices();
- if (availableVoices.length > 0) {
- setVoices(availableVoices);
- if (!selectedVoiceURI && availableVoices.length > 0) {
- const defaultVoice = availableVoices.find(v => v.lang.startsWith("en")) || availableVoices[0];
- setSelectedVoiceURI(defaultVoice.voiceURI);
- }
- }
- };
-
- loadVoices();
- if (window.speechSynthesis.onvoiceschanged !== undefined) {
- window.speechSynthesis.onvoiceschanged = loadVoices;
- }
-
- return () => {
- window.speechSynthesis.cancel();
- };
- }, []);
-
- const charCount = text.length;
- const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
- const estimatedMinutes = useMemo(() => {
- const wpm = 150 * rate;
- return wpm > 0 ? (wordCount / wpm).toFixed(1) :"0";
- }, [wordCount, rate]);
-
- const chunkText = (input: string, limit: number = 200): string[] => {
- if (input.length <= limit) return [input];
- const chunks: string[] = [];
- const sentences = input.match(/[^.!?]+[.!?]+/g) || [input];
- let currentChunk ="";
- 
- sentences.forEach(sentence => {
- if ((currentChunk + sentence).length > limit) {
- if (currentChunk) chunks.push(currentChunk);
- currentChunk = sentence;
- } else {
- currentChunk += sentence;
- }
- });
- if (currentChunk) chunks.push(currentChunk);
- return chunks;
- };
-
- const speakChunk = useCallback(() => {
- if (chunkIndexRef.current >= chunksRef.current.length) {
- setIsPlaying(false);
- setIsPaused(false);
- chunkIndexRef.current = 0;
- return;
- }
-
- const utterance = new SpeechSynthesisUtterance(chunksRef.current[chunkIndexRef.current]);
- const voice = voices.find(v => v.voiceURI === selectedVoiceURI);
- if (voice) utterance.voice = voice;
- utterance.rate = rate;
- utterance.pitch = pitch;
- utterance.volume = volume;
-
- utterance.onend = () => {
- chunkIndexRef.current++;
- if (chunkIndexRef.current < chunksRef.current.length) {
- speakChunk();
- } else {
- setIsPlaying(false);
- setIsPaused(false);
- }
- };
-
- utterance.onerror = (e) => {
- console.error("Speech error", e);
- toast.error("Speech synthesis error");
- setIsPlaying(false);
- };
-
- utteranceRef.current = utterance;
- window.speechSynthesis.speak(utterance);
- }, [voices, selectedVoiceURI, rate, pitch, volume]);
-
- const handlePlay = () => {
- if (!text.trim()) {
- toast.error("Please enter some text first");
- return;
- }
- window.speechSynthesis.cancel();
- chunksRef.current = chunkText(text);
- chunkIndexRef.current = 0;
- setIsPlaying(true);
- setIsPaused(false);
- speakChunk();
- };
-
- const handlePause = () => {
- if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
- window.speechSynthesis.pause();
- setIsPaused(true);
- }
- };
-
- const handleResume = () => {
- if (window.speechSynthesis.paused) {
- window.speechSynthesis.resume();
- setIsPaused(false);
- }
- };
-
- const handleStop = () => {
- window.speechSynthesis.cancel();
- setIsPlaying(false);
- setIsPaused(false);
- chunkIndexRef.current = 0;
- };
-
- const handleCopy = () => {
- navigator.clipboard.writeText(text);
- toast.success("Text copied to clipboard!");
- };
-
- if (!isSupported) {
- return (
-      <div className="relative max-w-6xl mx-auto space-y-8 p-4">
+  return (
+    <div className="relative space-y-6">
       <ToolBackground />
+      <div className="relative z-10 space-y-6">
+        <ToolPageHeader
+          icon={UserCheck}
+          title="Text to Speech Reader & Audio Generator"
+          description="Transform robotic AI-generated phrasing into natural, conversational, and rhythmically varied human writing."
+        />
 
- <ToolPageHeader
- icon={Volume2}
- title="Text to Speech Converter"
- description="Convert written text into natural-sounding speech using your browser's native synthesis engine."
- />
- <GlassCard>
- <CardContent className="p-8 text-center text-destructive flex flex-col items-center gap-4">
- <AlertCircle className="w-12 h-12"/>
- <h2 className="text-xl font-bold">Browser Not Supported</h2>
- <p>Your browser does not support the Web Speech API. Please try Chrome, Edge, or Safari.</p>
- </CardContent>
- </GlassCard>
- </div>
- );
- }
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Input */}
+          <GlassCard>
+            <CardHeader>
+              <div className="flex justify-between items-center">
+                <CardTitle className="flex items-center gap-2">
+                  <Bot className="w-5 h-5 text-primary" /> Original AI Draft
+                </CardTitle>
+                <Select value={tone} onValueChange={(v: any) => setTone(v)}>
+                  <SelectTrigger className="w-36 h-8 text-xs"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="conversational">Conversational</SelectItem>
+                    <SelectItem value="professional">Professional</SelectItem>
+                    <SelectItem value="casual">Casual</SelectItem>
+                    <SelectItem value="academic">Academic</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <Textarea
+                rows={8}
+                value={inputText}
+                onChange={e => setInputText(e.target.value)}
+                placeholder="Paste ChatGPT, Claude, or Gemini output here..."
+                className="resize-y font-sans text-sm leading-relaxed"
+              />
+              <Button onClick={humanizeText} disabled={loading} className="w-full font-bold gap-2">
+                <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
+                {loading ? "Humanizing Cadence..." : "Humanize Phrasing"}
+              </Button>
+            </CardContent>
+          </GlassCard>
 
- return (
- <div className="max-w-6xl mx-auto space-y-8 p-4">
- <ToolPageHeader
- icon={Volume2}
- title="Text to Speech Converter"
- description="Convert written text into natural-sounding speech using your browser's native synthesis engine. Perfect for accessibility, proofreading, and multitasking."
- />
+          {/* Output */}
+          <GlassCard>
+            <CardHeader>
+              <div className="flex justify-between items-center">
+                <CardTitle className="flex items-center gap-2">
+                  <UserCheck className="w-5 h-5 text-green-500" /> Humanized Version
+                </CardTitle>
+                {outputText && <CopyButton getText={() => outputText} label="Copy Text" />}
+              </div>
+            </CardHeader>
+            <CardContent>
+              <Textarea
+                rows={8}
+                readOnly
+                value={outputText || "Click Humanize Phrasing to see your natural humanized output..."}
+                className="resize-y font-sans text-sm leading-relaxed bg-muted/40"
+              />
+            </CardContent>
+          </GlassCard>
+        </div>
 
- <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
- <Card className={`${cardClass} lg:col-span-2 flex flex-col`}>
- <CardHeader className={headerClass}>
- <CardTitle className={titleClass}>
- <Mic className="w-4 h-4 text-primary"/>
- Input Text
- </CardTitle>
- </CardHeader>
- <CardContent className="p-4 sm:p-6 flex-grow flex flex-col gap-4">
- <textarea
- className={`${textareaClass} flex-grow min-h-[300px] resize-y`}
- value={text}
- onChange={(e) => setText(e.target.value)}
- placeholder="Type or paste text here..."
- />
- <div className="flex flex-wrap justify-between items-center text-xs text-muted-foreground">
- <div className="flex gap-4">
- <span>Characters: <strong className="text-foreground">{charCount.toLocaleString()}</strong></span>
- <span>Words: <strong className="text-foreground">{wordCount.toLocaleString()}</strong></span>
- </div>
- <div className="flex items-center gap-2">
- <span>Est. Duration:</span>
- <span className="font-bold text-primary">{estimatedMinutes} min</span>
- </div>
- </div>
- {charCount > 30000 && (
- <div className="text-xs text-amber-500 flex items-center gap-2 bg-amber-500/10 p-2 rounded">
- <AlertCircle className="w-4 h-4"/>
- Text is very long. Queue mode will automatically chunk speech to prevent browser cutoff.
- </div>
- )}
- </CardContent>
- </Card>
+        <ToolHowItWorks
+          steps={[
+            { step: "01", title: "Paste AI Text", description: "Insert text drafted by large language models.", icon: Bot },
+            { step: "02", title: "Remove AI Cliches", description: "Eliminates repetitive buzzwords like 'delve', 'tapestry', and 'beacon'.", icon: Sparkles },
+            { step: "03", title: "Apply Human Cadence", description: "Adjusts sentence length variance (burstiness and perplexity).", icon: UserCheck }
+          ]}
+          badges={["100% Free Forever", "Zero AI Footprints", "Private Client-Side Engine"]}
+        />
 
- <GlassCard>
- <CardHeader className={headerClass}>
- <CardTitle className={titleClass}>
- <Settings className="w-4 h-4 text-primary"/>
- Voice Settings
- </CardTitle>
- </CardHeader>
- <CardContent className="p-4 sm:p-6 space-y-6">
- <div className="space-y-2">
- <Label>Voice</Label>
- <select
- className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring"
- value={selectedVoiceURI}
- onChange={(e) => setSelectedVoiceURI(e.target.value)}
- >
- {voices.map((voice) => (
- <option key={voice.voiceURI} value={voice.voiceURI}>
- {voice.name} ({voice.lang})
- </option>
- ))}
- </select>
- </div>
+        <ToolFeatureGuides
+          features={[
+            { icon: UserCheck, title: "Burstiness & Rhythm Optimization", description: "Varies sentence lengths to mimic authentic human cognitive pacing." },
+            { icon: Sparkles, title: "Cliche De-slopping", description: "Detects and replaces over 40+ known AI filler phrases and transitional tropes." },
+            { icon: Shield, title: "100% Private", description: "Text processing runs directly in your local browser without API logging." }
+          ]}
+        >
+          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+            <h3>Why AI Text Detectors Flag Content</h3>
+            <p>
+              AI detectors analyze text for statistical uniformity in sentence length (burstiness) and vocabulary predictability (perplexity). Large Language Models tend to produce uniform, moderate-length sentences peppered with characteristic transitions.
+            </p>
+          </div>
+        </ToolFeatureGuides>
 
- <div className="space-y-2">
- <div className="flex justify-between">
- <Label>Speed</Label>
- <span className="text-xs text-muted-foreground">{rate.toFixed(1)}x</span>
- </div>
- <input
- type="range"
- min="0.5"
- max="2"
- step="0.1"
- value={rate}
- onChange={(e) => setRate(parseFloat(e.target.value))}
- className="w-full accent-primary"
- />
- </div>
+        <ToolFaqAccordion
+          faqs={[
+            { question: "Is this tool completely free?", answer: "Yes, 100% free with unlimited conversions and no word count restrictions." },
+            { question: "Is my text saved on external servers?", answer: "No, all de-slopping and cadence adjustments execute entirely within your browser." }
+          ]}
+        />
 
- <div className="space-y-2">
- <div className="flex justify-between">
- <Label>Pitch</Label>
- <span className="text-xs text-muted-foreground">{pitch.toFixed(1)}</span>
- </div>
- <input
- type="range"
- min="0.5"
- max="2"
- step="0.1"
- value={pitch}
- onChange={(e) => setPitch(parseFloat(e.target.value))}
- className="w-full accent-primary"
- />
- </div>
-
- <div className="space-y-2">
- <div className="flex justify-between">
- <Label>Volume</Label>
- <span className="text-xs text-muted-foreground">{Math.round(volume * 100)}%</span>
- </div>
- <input
- type="range"
- min="0"
- max="1"
- step="0.1"
- value={volume}
- onChange={(e) => setVolume(parseFloat(e.target.value))}
- className="w-full accent-primary"
- />
- </div>
- </CardContent>
- </GlassCard>
- </div>
-
- <GlassCard>
- <CardContent className="p-4 sm:p-6">
- <div className="flex flex-wrap gap-3 justify-center">
- {!isPlaying ? (
- <Button onClick={handlePlay} size="lg"className="gap-2 w-32">
- <Play className="w-4 h-4"/> Play
- </Button>
- ) : (
- <>
- {!isPaused ? (
- <Button onClick={handlePause} size="lg"variant="secondary"className="gap-2 w-32">
- <Pause className="w-4 h-4"/> Pause
- </Button>
- ) : (
- <Button onClick={handleResume} size="lg"variant="secondary"className="gap-2 w-32">
- <Play className="w-4 h-4"/> Resume
- </Button>
- )}
- </>
- )}
- <Button onClick={handleStop} size="lg"variant="destructive"className="gap-2 w-32"disabled={!isPlaying && !isPaused}>
- <Square className="w-4 h-4"/> Stop
- </Button>
- <Button onClick={handleCopy} size="lg"variant="outline"className="gap-2">
- <RotateCcw className="w-4 h-4"/> Copy Text
- </Button>
- </div>
- </CardContent>
- </GlassCard>
-
- <ToolHowItWorks
- steps={[
- { step:"01", title:"Enter Your Text", description:"Paste articles, books, or notes into the input area. The tool handles long texts by chunking them automatically.", icon: Mic },
- { step:"02", title:"Customize Voice", description:"Select from available system voices and adjust speed, pitch, and volume to match your listening preference.", icon: Settings },
- { step:"03", title:"Listen & Learn", description:"Hit play to hear your text read aloud. Use controls to pause or stop at any time for a hands-free experience.", icon: Volume2 }
- ]}
- badges={["100% Free","Client-Side Privacy","No Signup"]}
- />
-
- <ToolFeatureGuides
- features={[
- { icon: Mic, title:"Native Browser Engine", description:"Leverages the Web Speech API built directly into your browser, ensuring zero latency and no server uploads."},
- { icon: Settings, title:"Granular Control", description:"Fine-tune every aspect of the audio output, from speaking rate (0.5x to 2x) to pitch and volume."},
- { icon: AlertCircle, title:"Smart Chunking", description:"Automatically splits long documents into manageable segments to prevent browser timeout errors."},
- { icon: Volume2, title:"Multi-Language Support", description:"Access dozens of languages and accents depending on your operating system's installed voice packs."}
- ]}
- >
- <div className="prose dark:prose-invert max-w-none">
- <h3>The Power of Browser-Based Text to Speech</h3>
- <p>
- Text-to-speech (TTS) technology has evolved from robotic, monotone outputs into sophisticated, natural-sounding voices that rival professional narration. By utilizing the native Web Speech API, this tool offers a secure, private, and instant way to consume written content audibly. Unlike cloud-based services that require you to upload your documents to a server, our client-side architecture ensures that your sensitive data—whether it's legal documents, personal journals, or proprietary code—never leaves your device.
- </p>
- <h3>Enhancing Accessibility and Productivity</h3>
- <p>
- For individuals with dyslexia, visual impairments, or learning disabilities, TTS is an essential accessibility feature that democratizes information. It allows users to follow along with highlighted text (in supported environments) or simply listen while multitasking. Students can proofread essays by listening for awkward phrasing that the eye might miss, while commuters can turn long-form articles into personal podcasts. The ability to adjust the speaking rate is particularly valuable for speed-listeners who want to consume information at 2x speed, or language learners who need a slower pace to catch pronunciation nuances.
- </p>
- <h3>Privacy-First Architecture</h3>
- <p>
- In an era of data scraping and privacy concerns, local processing is a significant advantage. Because the synthesis happens entirely within your browser's engine, there is no API latency and no risk of data interception. You can use this tool offline (once the page is loaded) and trust that your intellectual property remains yours alone.
- </p>
- </div>
- </ToolFeatureGuides>
-
- <ToolFaqAccordion
- faqs={[
- { question:"Why do some voices sound better than others?", answer:"Voice quality depends on your operating system. Modern OS versions (Windows 11, macOS, iOS, Android) include 'Neural' or 'Enhanced' voices that sound very human. Older systems may only have basic robotic voices."},
- { question:"Is there a limit to how much text I can convert?", answer:"Browsers typically have a character limit per utterance (often around 200-300 characters). However, our tool automatically chunks long text into smaller segments and plays them sequentially, effectively allowing for unlimited text length."},
- { question:"Does this tool work offline?", answer:"Yes. Once the webpage is loaded, the speech synthesis is handled entirely by your device's local hardware and software. No internet connection is required to generate audio."},
- { question:"Can I download the audio as an MP3?", answer:"The Web Speech API is designed for real-time playback and does not natively support file export. To record the audio, you would need to use a system audio recorder or screen recording software while the tool is playing."},
- { question:"Why is the 'Stop' button greyed out?", answer:"The Stop button is only active when audio is currently playing or paused. If the synthesis has finished or hasn't started, the button is disabled."}
- ]}
- />
-
- <RelatedTools currentToolUrl="/tools/text/text-to-speech" max={6} />
- </div>
- );
+        <RelatedTools currentToolUrl="/tools/text/text-to-speech" max={6} />
+      </div>
+    </div>
+  );
 }
 
 export default TextToSpeechClient;

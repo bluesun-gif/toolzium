@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo } from "react";
@@ -76,7 +79,10 @@ export default function TextDiffClient() {
     if (type === "removed") return "bg-red-500/20 text-red-700 dark:text-red-400 border-l-4 border-red-500 line-through";
     return "bg-transparent text-muted-foreground border-l-4 border-transparent";
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={GitCompare} title="Text Diff Checker" description="Compare two blocks of text line-by-line to highlight additions, deletions, and changes." />
@@ -196,7 +202,7 @@ export default function TextDiffClient() {
         question: "Can I compare large files?",
         answer: "Yes, the tool can handle several thousand lines. However, extremely large files might take a second to process in the browser."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/text/text-diff" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

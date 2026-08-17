@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -11,7 +13,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Separator } from"@/components/ui/separator";
-import { BookOpen, Calendar, Download, PenLine, Search, ShieldCheck } from"lucide-react";
+import { BookOpen, Calendar, Download, PenLine, Search, ShieldCheck, History, Type } from "lucide-react";
 import { ActionButton } from"@/components/shared/action-buttons";
 
 interface JournalEntry {
@@ -85,7 +87,10 @@ export function JournalClient() {
     const term = searchTerm.toLowerCase();
     return Object.values(entries).filter(e => e.content.toLowerCase().includes(term) || e.tags.some(t => t.toLowerCase().includes(term))).sort((a, b) => b.date.localeCompare(a.date));
   }, [entries, searchTerm]);
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={BookOpen} title="Daily Journal" description="Write and track your daily journal entries with mood and tags." actions={<ActionButton onClick={handleExport} icon={Download} label="Export" />} />
@@ -216,6 +221,9 @@ export function JournalClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default JournalClient;

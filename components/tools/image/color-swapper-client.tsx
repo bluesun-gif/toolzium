@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -96,7 +98,10 @@ export function ColorSwapperClient() {
     setResultSrc(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Palette} title="Image Color Swapper" description="Swap specific colors in your images locally in your browser." actions={<ResetButton onClick={handleReset} label="Reset Image" />} />
@@ -258,6 +263,9 @@ export function ColorSwapperClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default ColorSwapperClient;

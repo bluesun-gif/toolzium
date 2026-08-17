@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo } from "react";
@@ -11,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Settings, Copy, Eye, EyeOff, Plus, Trash2, ArrowDownAZ, AlertTriangle, FileCode } from "lucide-react";
+import { Settings, Copy, Eye, EyeOff, Plus, Trash2, ArrowDownAZ, AlertTriangle, FileCode, Upload } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -150,7 +151,10 @@ export function EnvEditorClient() {
     }
     return "";
   }, [parsedEnv, rawEnv, exportFormat]);
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-4 py-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Settings} title="Professional .env Editor" description="Parse, validate, format, and export environment variables. Manage your .env files with secret masking and syntax validation." />
@@ -290,8 +294,9 @@ export function EnvEditorClient() {
         question: "What is the correct naming convention for env keys?",
         answer: "The industry standard is SCREAMING_SNAKE_CASE (e.g., `AWS_ACCESS_KEY_ID`). This avoids issues with case-sensitivity in different shell environments."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/dev/env-editor" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default EnvEditorClient;

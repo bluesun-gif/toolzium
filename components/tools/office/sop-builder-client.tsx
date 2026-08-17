@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -14,7 +16,7 @@ import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
 import { cn } from"@/lib/utils";
-import { AlertTriangle, Download, FileCheck2, FileText, ListOrdered, Plus, Trash2, Users, Workflow } from"lucide-react";
+import { AlertTriangle, Download, FileCheck2, FileText, ListOrdered, Plus, Trash2, Users, Workflow, Copy } from "lucide-react";
 import toast from"react-hot-toast";
 
 interface Step {
@@ -144,7 +146,10 @@ ${step.substeps && step.substeps.length > 0 ? step.substeps.map((sub, sidx) => `
     URL.revokeObjectURL(url);
     toast.success("Exported to Markdown");
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={FileText} title="SOP Template Builder" description="Create Standard Operating Procedure documents" actions={<>
@@ -328,6 +333,9 @@ ${step.substeps && step.substeps.length > 0 ? step.substeps.map((sub, sidx) => `
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default SopBuilderClient;

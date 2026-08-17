@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
@@ -16,7 +17,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
 import { ModelSelector } from "@/components/shared/model-selector";
 import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Tv, RefreshCw, Sparkles, Video, Copy, Shield, BookOpen, Layers, Zap } from "lucide-react";
+import { Tv, RefreshCw, Sparkles, Video, Copy, Shield, BookOpen, Layers, Zap, Type } from "lucide-react";
 import toast from "react-hot-toast";
 const GAME_CATEGORIES = [{
   value: "valorant",
@@ -80,7 +81,10 @@ export default function TwitchTitleClient() {
     setCustomGoal("");
     generateTwitchTitles();
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       <ToolPageHeader icon={Tv} title="Twitch Stream Title & High-CTR Hook Generator" description="Generate high-converting Twitch stream titles, viewer engagement hooks, and command tags (!rank !sens) with live AI." actions={<ResetButton onClick={handleReset} label="Reset" />} />
@@ -190,7 +194,7 @@ export default function TwitchTitleClient() {
         question: "Do stream titles affect Twitch directory ranking?",
         answer: "Yes! High-CTR titles attract more casual directory scrollers, boosting live viewer count and push placement on the Twitch browse page."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/social/twitch-title-generator" max={6} />
-    </div></div>;
+    </div>
+    </div>
+);
 }

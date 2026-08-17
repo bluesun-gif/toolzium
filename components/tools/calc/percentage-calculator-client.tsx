@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { Button } from "@/components/ui/button";
@@ -11,7 +12,7 @@ import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Percent, Copy } from "lucide-react";
+import { Percent, Copy, Calculator } from "lucide-react";
 import { CopyButton } from "@/components/shared/action-buttons";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -59,7 +60,10 @@ export default function PercentageCalculatorClient() {
     if (mode === "percent-of") return result.toFixed(2);
     return `${result.toFixed(2)}%`;
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Percent} title="Percentage Calculator" description="Calculate percentages, percentage changes, and find what percent one number is of another." />
@@ -157,7 +161,7 @@ export default function PercentageCalculatorClient() {
         question: "What if I divide by zero?",
         answer: "The calculator prevents division by zero errors and will show '—' for invalid calculations."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/calc/percentage-calculator" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

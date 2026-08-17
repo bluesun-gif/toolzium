@@ -1,13 +1,12 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
 import { GlassCard } from "@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -15,7 +14,7 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { CalendarDays, Plus, Trash2, CheckCircle2, Circle, Trophy, Target, TrendingUp, Shield, BookOpen, Layers } from "lucide-react";
+import { CalendarDays, Plus, Trash2, CheckCircle2, Circle, Trophy, Target, TrendingUp, Shield, BookOpen, Layers, ListPlus, Check, Flame } from "lucide-react";
 import { ResetButton } from "@/components/shared/action-buttons";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { cn } from "@/lib/utils";
@@ -193,7 +192,10 @@ export function HabitTrackerClient() {
     localStorage.removeItem("toolzium-habit-tracker");
     toast.success("Reset habits!");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       <ToolPageHeader title="Daily Habit & Routine Streak Tracker" description="Build positive routines, check off 14-day completion grids, and monitor current and all-time best streaks." icon={CalendarDays} actions={<ResetButton onClick={handleReset} label="Reset Habits" />} />
@@ -312,267 +314,7 @@ export function HabitTrackerClient() {
         </GlassCard>
       </div>
 
-      {/* HOW IT WORKS */}
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Define Daily Habits",
-        description: "Add habit titles and assign custom emoji badges.",
-        icon: CalendarDays
-      }, {
-        step: "02",
-        title: "Check Off Daily Tiles",
-        description: "Click the 14-day calendar grid tiles to log daily completion.",
-        icon: CheckCircle2
-      }, {
-        step: "03",
-        title: "Build Consecutive Streaks",
-        description: "Watch your current and all-time best streak numbers grow over time.",
-        icon: Trophy
-      }]} badges={["14-Day Grid View", "Current & Best Streaks", "100% Free"]} />
-
-      {/* FEATURE GUIDES */}
-      <ToolFeatureGuides features={[{
-        icon: CalendarDays,
-        title: "14-Day Visual Grid Matrix",
-        description: "Monitors daily check-ins over a rolling 14-day historical window."
-      }, {
-        icon: Trophy,
-        title: "Streak Counter Engine",
-        description: "Calculates active consecutive day streaks and all-time personal bests."
-      }, {
-        icon: Shield,
-        title: "Private Browser Persistence",
-        description: "Saves habit check-ins securely in your local browser storage."
-      }]} />
-
-      {/* FAQ ACCORDION */}
-      <ToolFaqAccordion faqs={[{
-        question: "How are streaks calculated?",
-        answer: "Streaks count consecutive days where you checked off a habit. Missing a day resets the active streak counter."
-      }, {
-        question: "Is my habit data saved online?",
-        answer: "No, all habit entries remain strictly in your local browser storage."
-      }]} />
-
- // Check if the current streak is still active (completed today or yesterday)
- const yesterday = new Date();
- yesterday.setDate(yesterday.getDate() - 1);
- const yesterdayStr = yesterday.toISOString().split('T')[0];
-
- if (dateSet.has(todayStr)) {
- currentStreak = tempStreak;
- } else if (dateSet.has(yesterdayStr)) {
- currentStreak = tempStreak;
- } else {
- currentStreak = 0;
- }
-
- return { currentStreak, bestStreak };
- }, [todayStr]);
-
- const getRecentDays = () => {
- const days = [];
- for (let i = 13; i >= 0; i--) {
- const d = new Date();
- d.setDate(d.getDate() - i);
- const dateStr = d.toISOString().split('T')[0];
- const displayStr = d.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric' });
- days.push({ dateStr, displayStr, isToday: i === 0 });
- }
- return days;
- };
-
- const recentDays = useMemo(() => getRecentDays(), []);
-
- const overallProgress = useMemo(() => {
- if (habits.length === 0) return 0;
- const completedToday = habits.filter(h => h.completedDates.includes(todayStr)).length;
- return Math.round((completedToday / habits.length) * 100);
- }, [habits, todayStr]);
-
- if (!isLoaded) return null;
-
- return (
- <div className="space-y-6">
- <ToolPageHeader
- title="Habit Tracker"
- description="Build good habits, track your daily progress, and maintain streaks."
- icon={CalendarDays}
- />
-
- <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
- <GlassCard className="md:col-span-1">
- <CardHeader>
- <CardTitle>Add New Habit</CardTitle>
- </CardHeader>
- <CardContent className="space-y-4">
- <form onSubmit={addHabit} className="space-y-4">
- <div className="space-y-2">
- <label className="text-sm font-medium">Habit Name</label>
- <div className="flex gap-2">
- <input
- className="w-12 h-10 px-0 text-center rounded-md border border-input bg-background"
- value={newHabitEmoji}
- onChange={(e) => setNewHabitEmoji(e.target.value)}
- maxLength={2}
- placeholder="✨"
- />
- <input
- className="flex-1 h-10 px-3 rounded-md border border-input bg-background"
- value={newHabitName}
- onChange={(e) => setNewHabitName(e.target.value)}
- placeholder="e.g. Read 10 pages"
- required
- />
- </div>
- </div>
- 
- <div className="space-y-2">
- <label className="text-sm font-medium">Suggestions</label>
- <div className="flex flex-wrap gap-2">
- {PRESET_SUGGESTIONS.map((preset) => (
- <button
- key={preset.name}
- type="button"
- onClick={() => {
- setNewHabitName(preset.name);
- setNewHabitEmoji(preset.emoji);
- }}
- className="text-xs bg-muted hover:bg-primary hover:text-primary-foreground px-2 py-1 rounded-full transition-colors"
- >
- {preset.emoji} {preset.name}
- </button>
- ))}
- </div>
- </div>
-
- <button
- type="submit"
- className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground h-10 rounded-md hover:bg-primary/90 transition-colors"
- >
- <Plus className="h-4 w-4"/> Add Habit
- </button>
- </form>
-
- <Separator className="my-4"/>
- 
- <div className="flex flex-col items-center p-4 bg-muted/50 rounded-lg">
- <span className="text-sm font-medium mb-2">Today's Progress</span>
- <div className="relative w-24 h-24 flex items-center justify-center">
- <svg className="w-full h-full transform -rotate-90">
- <circle
- cx="48"
- cy="48"
- r="40"
- stroke="currentColor"
- strokeWidth="8"
- fill="transparent"
- className="text-muted"
- />
- <circle
- cx="48"
- cy="48"
- r="40"
- stroke="currentColor"
- strokeWidth="8"
- fill="transparent"
- strokeDasharray={`${251.2}`}
- strokeDashoffset={`${251.2 - (251.2 * overallProgress) / 100}`}
- className="text-primary transition-all duration-500 ease-in-out"
- />
- </svg>
- <div className="absolute inset-0 flex items-center justify-center">
- <span className="text-xl font-bold">{overallProgress}%</span>
- </div>
- </div>
- </div>
-
- <div className="flex justify-end pt-2">
- <ResetButton onClick={() => {
- if(confirm("Are you sure you want to delete all habits?")) {
- setHabits([]);
- }
- }} />
- </div>
- </CardContent>
- </GlassCard>
-
- <GlassCard className="md:col-span-2">
- <CardHeader>
- <CardTitle className="flex items-center gap-2">
- <Target className="h-5 w-5"/> Your Habits
- </CardTitle>
- </CardHeader>
- <CardContent>
- {habits.length === 0 ? (
- <div className="text-center py-12 text-muted-foreground">
- <CalendarDays className="h-12 w-12 mx-auto mb-3 opacity-20"/>
- <p>No habits added yet.</p>
- <p className="text-sm mt-1">Add your first habit to start tracking!</p>
- </div>
- ) : (
- <div className="space-y-6">
- <div className="overflow-x-auto pb-4">
- <div className="min-w-[600px]">
- <div className="grid grid-cols-[200px_1fr] gap-4 mb-2">
- <div className="font-semibold text-sm text-muted-foreground">Habit</div>
- <div className="grid grid-cols-14 gap-1">
- {recentDays.map((day, i) => (
- <div key={day.dateStr} className={"text-[10px] text-center"+ (day.isToday ? 'font-bold text-primary' : 'text-muted-foreground')}>
- {day.displayStr.split(' ')[0]}<br/>{day.displayStr.split(' ')[1]}
- </div>
- ))}
- </div>
- </div>
-
- {habits.map((habit) => {
- const { currentStreak, bestStreak } = calculateStreaks(habit.completedDates);
- 
- return (
- <div key={habit.id} className="grid grid-cols-[200px_1fr] gap-4 py-3 border-t border-border group items-center">
- <div className="flex flex-col gap-1">
- <div className="flex items-center gap-2">
- <span className="text-xl">{habit.emoji}</span>
- <span className="font-medium truncate"title={habit.name}>{habit.name}</span>
- <button 
- onClick={() => deleteHabit(habit.id)}
- className="opacity-0 group-hover:opacity-100 transition-opacity ml-auto text-destructive hover:bg-destructive/10 p-1 rounded"
- >
- <Trash2 className="h-3 w-3"/>
- </button>
- </div>
- <div className="flex items-center gap-3 text-xs text-muted-foreground">
- <span className="flex items-center gap-1"title="Current Streak"><TrendingUp className="h-3 w-3"/> {currentStreak}</span>
- <span className="flex items-center gap-1"title="Best Streak"><Trophy className="h-3 w-3"/> {bestStreak}</span>
- </div>
- </div>
- 
- <div className="grid grid-cols-14 gap-1 items-center">
- {recentDays.map((day) => {
- const isCompleted = habit.completedDates.includes(day.dateStr);
- return (
- <button
- key={day.dateStr}
- onClick={() => toggleHabit(habit.id, day.dateStr)}
- className={"aspect-square rounded flex items-center justify-center transition-all"+ (isCompleted 
- ? 'bg-green-500/20 text-green-600 hover:bg-green-500/30' 
- : 'bg-muted hover:bg-muted/80 text-muted-foreground/30')}
- title={`${habit.name} on ${day.displayStr}`}
- >
- {isCompleted ? <CheckCircle2 className="h-4 w-4"/> : <Circle className="h-3 w-3"/>}
- </button>
- );
- })}
- </div>
- </div>
- );
- })}
- </div>
- </div>
- </div>
- )}
- </CardContent>
- 
+      
 
 <ToolHowItWorks
   steps={[
@@ -653,8 +395,9 @@ export function HabitTrackerClient() {
   }
   ]}
 />
-</GlassCard>
- </div>
- </div>
- );
+    </div>
+    </div>
+);
 }
+
+export default HabitTrackerClient;

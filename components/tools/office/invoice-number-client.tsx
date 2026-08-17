@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -78,7 +80,10 @@ export function InvoiceNumberClient() {
     navigator.clipboard.writeText(text);
     toast.success("Copied to clipboard");
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Invoice Number Generator" description="Generate sequential invoice numbers with custom formatting and batch creation." icon={Hash} actions={<div className="flex gap-2">
@@ -280,6 +285,9 @@ export function InvoiceNumberClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default InvoiceNumberClient;

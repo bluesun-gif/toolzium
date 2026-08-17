@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo } from "react";
@@ -11,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { LayoutGrid, Copy, Plus, Trash2, RotateCcw, Sparkles } from "lucide-react";
+import { LayoutGrid, Copy, Plus, Trash2, RotateCcw, Sparkles, Grid } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -167,7 +168,10 @@ export function CssFlexboxBuilderClient() {
     tw += `</div>`;
     return tw;
   }, [direction, wrap, justify, alignItems, alignContent, gap, items]);
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-4 py-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={LayoutGrid} title="CSS Flexbox Builder" description="Visual CSS Flexbox layout builder with live preview. Master flex-direction, alignment, and item properties with instant code generation." />
@@ -376,8 +380,9 @@ export function CssFlexboxBuilderClient() {
         question: "Why isn't my flex item shrinking?",
         answer: "By default, flex items have a minimum size based on their content (min-width: auto). To allow an item to shrink below its content size, add `min-width: 0` or `overflow: hidden` to the flex item."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/dev/css-flexbox-builder" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default CssFlexboxBuilderClient;

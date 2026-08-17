@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
@@ -11,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
 import { cn } from "@/lib/utils";
-import { Shield, Lock, Eye, EyeOff, Copy, Sparkles, Zap } from "lucide-react";
+import { Shield, Lock, Eye, EyeOff, Copy, Sparkles, Zap, Calculator, Type } from "lucide-react";
 ;
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -78,7 +79,10 @@ export function PasswordEntropyClient() {
   const timeOnline = combinations / 10;
   const timeOfflineFast = combinations / 100000000000;
   const timeSupercomputer = combinations / 100000000000000;
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Shield} title="Password Entropy Calculator" description="Analyze password security, information entropy, and estimated crack time." actions={<ResetButton onClick={() => setPassword("")} label="Reset" />} />
@@ -174,7 +178,9 @@ export function PasswordEntropyClient() {
  </GlassCard>
  </div>
  
-      <ToolHowItWorks steps={[{
+      </div>
+
+<ToolHowItWorks steps={[{
         step: "01",
         title: "Input Your Data",
         description: "Enter your information in the input field above and configure any options.",
@@ -229,8 +235,8 @@ export function PasswordEntropyClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/util/password-entropy" max={6} />
-
-    </div></div>;
+    </div>
+  );
 }
+
+export default PasswordEntropyClient;

@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState } from "react";
@@ -54,7 +55,10 @@ export default function CoinFlipClient() {
     setHistory([]);
     setRotation(0);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Flip a Coin" description="Flip a virtual coin with true randomness and track your statistics." />
@@ -249,6 +253,7 @@ export default function CoinFlipClient() {
         question: "What does 'law of large numbers' mean for coin flips?",
         answer: "The law of large numbers states that as the number of trials increases, the average result converges toward the expected probability. After 10 flips, you might have 7 heads (70%). After 1000 flips, you'll likely have 490-510 heads (49-51%). After 1 million flips, the result will be extremely close to 50.0%. The more flips, the closer to 50/50."
       }]} />
- <RelatedTools currentToolUrl="/tools/util/coin-flip" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

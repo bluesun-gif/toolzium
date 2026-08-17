@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useRef, useEffect, useCallback } from "react";
@@ -119,7 +120,10 @@ export default function StopwatchClient() {
     navigator.clipboard.writeText(text);
     toast.success("Lap times copied to clipboard.");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Stopwatch" description="A precise stopwatch with lap recording and millisecond accuracy. Features keyboard shortcuts for quick control." />
@@ -300,6 +304,7 @@ export default function StopwatchClient() {
         question: "Are there keyboard shortcuts for the stopwatch?",
         answer: "Yes: Spacebar starts/pauses the timer, L records a lap, R resets the timer. Keyboard shortcuts let you operate the stopwatch without disrupting your activity — essential when your hands are occupied during timed tasks."
       }]} />
- <RelatedTools currentToolUrl="/tools/util/stopwatch" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

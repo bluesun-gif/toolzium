@@ -1,30 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import RegexLibraryClient from "@/components/tools/dev/regex-library-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
+
+const TITLE = "Regex Library | Toolzium";
+const DESCRIPTION = "Free online regex library tool with instant calculation and privacy.";
+const PATH = "/tools/dev/regex-library";
+
 export const metadata = buildMetadata({
-  title: "Regex Library",
-  description: "Collection of useful regular expression patterns for email, URL, phone, credit card validation, and more. Ready-to-use regex patterns with explanations and test cases.",
-  path: "/tools/dev/regex-library",
-  keywords: ["expression", "useful", "credit", "validation", "card", "more", "regular", "email", "ready", "patterns", "phone", "collection"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
     name: "Regex Library",
-    description: "Collection of useful regular expression patterns for email, URL, phone, credit card validation, and more. Ready-to-use regex patterns with explanations and test cases.",
-    path: "/tools/dev/regex-library",
-    categoryName: "Dev",
-    categoryPath: "/tools/dev",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <RegexLibraryClient />
-    
-      <RelatedTools currentToolUrl="/tools/dev/regex-library" />
-</div>
+    </>
   );
 }

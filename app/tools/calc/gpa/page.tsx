@@ -1,32 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
-import GpaCalculatorClient from "@/components/tools/calc/gpa-calculator-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
-import RelatedTools from "@/components/shared/related-tools";
+import CgpaCalculatorClient from "@/components/tools/calc/cgpa-calculator-client";
+
+const TITLE = "Gpa | Toolzium";
+const DESCRIPTION = "Free online gpa tool with instant calculation and privacy.";
+const PATH = "/tools/calc/gpa";
 
 export const metadata = buildMetadata({
-  title: "GPA Calculator",
-  description: "Calculate your GPA from courses, grades, and credit hours. Supports A-F grade scale with plus/minus. Add courses dynamically, view color-coded results, and export your GPA.",
-  path: "/tools/calc/gpa",
-  keywords: ["from", "your", "calculate", "credit", "with", "grades", "plus", "hours", "scale", "grade", "courses", "supports"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "GPA Calculator",
-    description: "Calculate your GPA from courses, grades, and credit hours. Supports A-F grade scale with plus/minus. Add courses dynamically, view color-coded results, and export your GPA.",
-    path: "/tools/calc/gpa",
-    categoryName: "Calc",
-    categoryPath: "/tools/calc",
+    name: "Gpa",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
-      <GpaCalculatorClient />
-    
-      <RelatedTools currentToolUrl="/tools/calc/gpa" />
-</div>
+    <>
+      <JsonLd data={jsonLd} />
+      <CgpaCalculatorClient />
+    </>
   );
 }

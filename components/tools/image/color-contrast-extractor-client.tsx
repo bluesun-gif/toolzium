@@ -1,4 +1,9 @@
 "use client";
+
+import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -11,7 +16,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Button } from"@/components/ui/button";
 import { Separator } from"@/components/ui/separator";
-import { AlertTriangle, CheckCircle, Contrast, Copy, Eye, Pipette, ShieldCheck, Sliders, Upload } from"lucide-react";
+import { AlertTriangle, CheckCircle, Contrast, Copy, Eye, Pipette, ShieldCheck, Sliders, Upload, Check } from "lucide-react";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
 
 export function ColorContrastClient() {
@@ -69,7 +74,10 @@ export function ColorContrastClient() {
  {passed ? <CheckCircle className="w-4 h-4" /> : <AlertTriangle className="w-4 h-4" />}
  {label}
  </div>;
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Color Contrast Analyzer" description="Check WCAG contrast ratios and accessibility." icon={CheckCircle} actions={<ResetButton onClick={() => {
@@ -245,6 +253,9 @@ export function ColorContrastClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default ColorContrastClient;

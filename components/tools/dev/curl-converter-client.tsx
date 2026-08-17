@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo } from "react";
@@ -168,7 +171,10 @@ ${Object.entries(parsed.headers).map(([k, v]) => ` .header("${k}","${v}")`).join
     }
   };
   const codeOutput = generateCode();
-  return <div className="relative max-w-6xl mx-auto space-y-8 p-4 sm:p-6 lg:p-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Terminal} title="cURL to Code Converter" description="Instantly translate cURL commands into production-ready HTTP client code for JS, Python, Go, PHP, and Rust." />
@@ -293,7 +299,7 @@ ${Object.entries(parsed.headers).map(([k, v]) => ` .header("${k}","${v}")`).join
         question: "Can I convert WebSocket commands?",
         answer: "No, cURL is designed for standard HTTP/HTTPS requests. WebSocket connections require different client libraries and persistent connection handling."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/dev/curl-converter" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

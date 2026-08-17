@@ -1,32 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import WebResourcesClient from "@/components/tools/network/web-resources-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "Web Resources | Toolzium";
+const DESCRIPTION = "Free online web resources tool with instant calculation and privacy.";
+const PATH = "/tools/network/web-resources";
 
 export const metadata = buildMetadata({
-  title: "Web & Security Directory",
-  description: "Curated interactive directory of 30+ of the best search engines, threat registries, and threat databases.",
-  path: "/tools/network/web-resources",
-  keywords: ["interactive", "best", "directory", "databases", "threat", "search", "engines", "curated", "registries"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Web & Security Directory",
-    description: "Curated interactive directory of 30+ of the best search engines, threat registries, and threat databases.",
-    path: "/tools/network/web-resources",
-    categoryName: "Network",
-    categoryPath: "/tools/network",
+    name: "Web Resources",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <WebResourcesClient />
-    
-      <RelatedTools currentToolUrl="/tools/network/web-resources" />
-</div>
+    </>
   );
 }

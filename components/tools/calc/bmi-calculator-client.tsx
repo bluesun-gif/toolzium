@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo } from "react";
@@ -9,7 +10,7 @@ import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Heart, Copy } from "lucide-react";
+import { Heart, Copy, Calculator, Scale } from "lucide-react";
 import { CopyButton } from "@/components/shared/action-buttons";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -60,7 +61,10 @@ export default function BmiCalculatorClient() {
     const clamped = Math.min(Math.max(bmi, 15), 40);
     return (clamped - 15) / 25 * 100;
   }, [bmi]);
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Heart} title="BMI Calculator" description="Calculate your Body Mass Index and understand what it means for your health." />
@@ -178,7 +182,7 @@ export default function BmiCalculatorClient() {
         question: "Does BMI apply to children?",
         answer: "Children and teens use age and sex-specific BMI percentiles rather than adult categories. Consult a pediatrician for children's BMI assessment."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/calc/bmi-calculator" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

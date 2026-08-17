@@ -1,4 +1,7 @@
 "use client";
+
+import { Switch } from "@/components/ui/switch";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback, useEffect, useRef } from "react";
@@ -11,7 +14,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Copy, RotateCcw, Mic, MicOff, Trash2, CheckCircle2 } from "lucide-react";
+import { Copy, RotateCcw, Mic, MicOff, Trash2, CheckCircle2, Settings } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -106,7 +109,10 @@ export function SpeechToTextClient() {
     const sec = s % 60;
     return `${m.toString().padStart(2, "0")}:${sec.toString().padStart(2, "0")}`;
   };
-  return <div className="relative max-w-4xl mx-auto space-y-8 p-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Mic} title="Speech to Text" description="Transcribe your voice to text in real-time using your browser's speech recognition." />
@@ -236,8 +242,9 @@ export function SpeechToTextClient() {
         question: "Do I need a high-quality microphone?",
         answer: "While a good microphone helps, modern speech engines are highly optimized for standard laptop and phone microphones in normal environments."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/text/speech-to-text" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default SpeechToTextClient;

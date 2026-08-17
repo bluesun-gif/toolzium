@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState } from "react";
@@ -7,7 +10,7 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Globe, ExternalLink, AlertTriangle, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { Globe, ExternalLink, AlertTriangle, Sparkles, Shield, Zap, Copy, Check } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
@@ -71,7 +74,10 @@ export function VisaCheckClient() {
   const [passport, setPassport] = useState<string>("");
   const [destination, setDestination] = useState<string>("");
   const canSearch = passport && destination && passport !== destination;
-  return <div className="relative space-y-6 max-w-4xl mx-auto px-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Globe} title="Visa Requirements Checker" description="Find accurate, up-to-date visa requirements from official sources." />
@@ -196,9 +202,9 @@ export function VisaCheckClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/travel/visa-check" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default VisaCheckClient;

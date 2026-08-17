@@ -1,4 +1,8 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo } from "react";
@@ -11,7 +15,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CopyButton } from "@/components/shared/action-buttons";
 import toast from "react-hot-toast";
-import { Radio, ArrowRightLeft, Copy } from "lucide-react";
+import { Radio, ArrowRightLeft, Copy, Type } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -90,7 +94,10 @@ export default function MorseCodeClient() {
     setInput("");
     toast.success(`Switched to ${mode === "text-to-morse" ? "Morse to Text" : "Text to Morse"}`);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Radio} title="Morse Code Translator" description="Convert text to Morse code and decode Morse code back to readable text instantly." />
@@ -173,7 +180,7 @@ export default function MorseCodeClient() {
         question: "Does it support special characters?",
         answer: "Yes, it supports common punctuation including periods, commas, question marks, exclamation points, and more."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/text/morse-code" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

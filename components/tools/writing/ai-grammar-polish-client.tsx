@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useCallback } from "react";
@@ -71,7 +74,10 @@ export function AiGrammarPolishClient() {
     navigator.clipboard.writeText(text);
     toast.success(`${label} copied to clipboard!`);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 p-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Wand2} title="AI Grammar Checker & Prose Polish" description="Fix spelling errors, correct tense inconsistencies, and polish your writing for professional, academic, or concise clarity." />
@@ -189,8 +195,9 @@ export function AiGrammarPolishClient() {
         question: "Can I check long-form essays?",
         answer: "Yes! Simply paste your text blocks into the input field."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/writing/ai-grammar-polish" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default AiGrammarPolishClient;

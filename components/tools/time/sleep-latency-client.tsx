@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -13,7 +15,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { AlarmClock, Calculator, Clock, Heart, Moon, ShieldCheck } from"lucide-react";
+import { AlarmClock, Calculator, Clock, Heart, Moon, ShieldCheck, Settings } from "lucide-react";
 
 export function SleepLatencyClient() {
   const [bedTime, setBedTime] = useState("22:00");
@@ -57,7 +59,10 @@ export function SleepLatencyClient() {
     setLatency("15");
     setSleepDuration("7.5");
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Moon} title="Sleep Latency & Alarm Clock" description="Sleep latency & sleep efficiency analyzer with custom alarm calculator." actions={<ResetButton onClick={handleReset} label="Reset" />} />
@@ -208,6 +213,9 @@ export function SleepLatencyClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default SleepLatencyClient;

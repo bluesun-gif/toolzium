@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { Button } from "@/components/ui/button";
@@ -11,7 +14,7 @@ import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CopyButton } from "@/components/shared/action-buttons";
 import toast from "react-hot-toast";
-import { Code, RefreshCw, ArrowRight, Shield, Globe, Zap } from "lucide-react";
+import { Code, RefreshCw, ArrowRight, Shield, Globe, Zap, Copy } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -36,7 +39,10 @@ export default function HtmlEntityClient() {
     setInput(output);
     toast.success(`Switched to ${mode === "encode" ? "decode" : "encode"} mode`);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Code} title="HTML Entity Encoder & Decoder" description="Convert special characters to safe HTML entities and back. Prevent XSS and preserve formatting." />
@@ -49,7 +55,7 @@ export default function HtmlEntityClient() {
  </CardTitle>
  </CardHeader>
  <CardContent className="p-3 sm:p-4 space-y-3">
- <textarea value={input} onChange={e => setInput(e.target.value)} rows={8} className="w-full rounded-lg border border-border/70 bg-background/80 p-3 font-mono text-sm outline-none focus:ring-2 focus:ring-primary/50" placeholder={mode === "encode" ? '<script>alert("xss")</script>' : "&lt;p&gt;Hello &amp; welcome&lt;/p&gt;"} />
+ <textarea value={input} onChange={e => setInput(e.target.value)} rows={8} className="w-full rounded-lg border border-border/70 bg-background/80 p-3 font-mono text-sm outline-none focus:ring-2 focus:ring-primary/50" placeholder={mode === "encode" ? '<script>alert("xss")</script>' : "<p>Hello &amp; welcome</p>"} />
  <div className="text-xs text-muted-foreground">{input.length} characters</div>
  </CardContent>
  </GlassCard>
@@ -130,7 +136,7 @@ export default function HtmlEntityClient() {
         question: "What's the difference between &apos; and &#39;?",
         answer: "&apos; is XML/XHTML but not part of HTML4. &#39; (numeric) works universally across all HTML versions and is therefore the safer choice."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/developer/html-entity" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

@@ -1,30 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
-import { CurrencyChartClient } from "@/components/tools/finance/currency-chart-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
-import RelatedTools from "@/components/shared/related-tools";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
+import CurrencyChartClient from "@/components/tools/finance/currency-chart-client";
+
+const TITLE = "Currency Pair Chart | Toolzium";
+const DESCRIPTION = "Visual currency pair comparison tool with simulated historical charts.";
+const PATH = "/tools/finance/currency-chart";
 
 export const metadata = buildMetadata({
-  title: "Currency Pair Chart | Toolzium",
-  description: "Visual currency pair comparison tool with simulated historical charts.",
-  path: "/tools/finance/currency-chart",
-  keywords: ["currency", "exchange rate", "finance", "chart", "converter"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
-  const toolUrl = `${siteURL}/tools/finance/currency-chart`;
-  const appLd = { "@context": "https://schema.org", "@type": "WebApplication", name: "Currency Pair Chart", url: toolUrl, description: "Visual currency pair comparison tool.", applicationCategory: "FinanceApplication", operatingSystem: "All", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" } };
-  const crumbsLd = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: siteURL }, { "@type": "ListItem", position: 2, name: "Finance Tools", item: `${siteURL}/tools#cat-finance` }, { "@type": "ListItem", position: 3, name: "Currency Pair Chart", item: toolUrl }] };
-  const faqLd = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: [{ "@type": "Question", name: "Is this real financial data?", acceptedAnswer: { "@type": "Answer", text: "No, this tool uses simulated historical charts for educational purposes." } }] };
-  
+  const jsonLd = buildToolJsonLd({
+    name: "Currency Pair Chart",
+    description: DESCRIPTION,
+    path: PATH
+  });
+
   return (
-    <div className="space-y-4">
-      <JsonLd data={appLd} />
-      <JsonLd data={crumbsLd} />
-      <JsonLd data={faqLd} />
+    <>
+      <JsonLd data={jsonLd} />
       <CurrencyChartClient />
-    
-      <RelatedTools currentToolUrl="/tools/finance/currency-chart" />
-</div>
+    </>
   );
 }

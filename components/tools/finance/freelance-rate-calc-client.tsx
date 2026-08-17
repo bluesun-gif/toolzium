@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -20,7 +22,10 @@ export default function FreelanceRateCalcClient() {
   const totalAnnualBillableHours = workingWeeks * billableHoursPerWeek;
   const minHourlyRate = totalAnnualBillableHours > 0 ? (totalRequiredRevenue / totalAnnualBillableHours).toFixed(2) : "0.00";
   const dayRate = (Number(minHourlyRate) * 8).toFixed(0);
-  return <div className="relative space-y-6 max-w-4xl mx-auto px-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Briefcase} title="Freelance Hourly Rate & Project Pricing Calculator" description="Calculate your minimum required hourly rate, day rate, and project pricing based on target annual income, taxes, and overhead." />
@@ -161,6 +166,7 @@ export default function FreelanceRateCalcClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }

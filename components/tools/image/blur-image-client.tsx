@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -11,7 +13,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { Brush, Download, EyeOff, ShieldAlert, ShieldCheck, Upload, X } from"lucide-react";
+import { Brush, Download, EyeOff, ShieldAlert, ShieldCheck, Upload, X, Settings } from "lucide-react";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
 import toast from"react-hot-toast";
 
@@ -164,7 +166,10 @@ export function BlurImageClient() {
     setSelections([]);
     setImageName("");
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={ShieldAlert} title="Image Area Blur & Anonymizer" description="Hide sensitive information by blurring or pixelating regions of an image before sharing." actions={<div className="flex space-x-2">
@@ -312,6 +317,9 @@ export function BlurImageClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default BlurImageClient;

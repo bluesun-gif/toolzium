@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -15,22 +17,6 @@ import { Activity, Bike, Calculator, Clock, Flame, Scale } from"lucide-react";
 type Unit ="lbs"|"kg";
 type Intensity ="low"|"moderate"|"high"|"sprint";
 
-import React, { useState } from "react";
-import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Activity, Flame, Sparkles, Shield, Zap, Copy } from "lucide-react";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-type Unit = "lbs" | "kg";
-type Intensity = "low" | "moderate" | "high" | "sprint";
 const MET_VALUES: Record<Intensity, number> = {
   low: 4.8,
   // Very light to light effort (50-100 watts)
@@ -65,7 +51,10 @@ export function IndoorCyclingCalorieClient() {
   const getResultsText = () => {
     return "Calories Burned:" + Math.round(calories) + "kcal\n" + "Estimated Power:" + Math.round(power) + "Watts\n" + "Fat Burned:" + fatBurned.toFixed(2) + "lbs";
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Activity} title="Indoor Cycling & Spin Bike Calorie Calculator" description="Calculate calories burned during stationary spin bike and indoor cycling workouts." actions={<ResetButton onClick={handleReset} label="Reset" />} />
@@ -149,6 +138,7 @@ export function IndoorCyclingCalorieClient() {
  </GlassCard>
  </div>
  
+
 <ToolHowItWorks
   steps={[
 {
@@ -228,6 +218,9 @@ export function IndoorCyclingCalorieClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default IndoorCyclingCalorieClient;

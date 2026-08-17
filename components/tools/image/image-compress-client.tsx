@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useRef, ChangeEvent } from "react";
@@ -9,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import toast from "react-hot-toast";
-import { Upload, Download, Trash2, FileImage, SlidersHorizontal, ShieldCheck, Cpu, HardDrive, Zap } from "lucide-react";
+import { Upload, Download, Trash2, FileImage, SlidersHorizontal, ShieldCheck, Cpu, HardDrive, Zap, Settings } from "lucide-react";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
@@ -128,7 +129,10 @@ export default function ImageCompressClient() {
   const handleRemove = (id: string) => {
     setImages(images.filter(img => img.id !== id));
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-4 py-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Image Compressor" description="Compress and reduce image file size without losing quality." />
@@ -337,7 +341,7 @@ export default function ImageCompressClient() {
         question: "Are my private photos uploaded to any server?",
         answer: "No. Your images are processed entirely inside your browser. We never upload, save, or transmit your images to any server, making this tool perfectly secure for sensitive documents."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/image/compress" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

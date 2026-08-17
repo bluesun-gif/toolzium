@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -11,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Button } from"@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton } from"@/components/shared/action-buttons";
-import { Code, Copy, Eye, Layers, RefreshCw, Wand2 } from"lucide-react";
+import { Code, Copy, Eye, Layers, RefreshCw, Wand2, Star, Heart } from "lucide-react";
 import { Separator } from"@/components/ui/separator";
 
 const PRESETS = {
@@ -34,7 +36,10 @@ export function SvgPathClient() {
   const getSvgCode = () => {
     return `<svg width="200"height="200"viewBox="0 0 100 100"xmlns="http://www.w3.org/2000/svg">\n <path d="${path}"stroke="${strokeColor}"stroke-width="${strokeWidth}"fill="${fillColor}"/>\n</svg>`;
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Code} title="SVG Path Visualizer & Editor" description="Visualize and edit raw SVG path strings, explore path commands, and preview the resulting shape." actions={<CopyButton getText={getSvgCode} label="Copy SVG" />} />
@@ -213,6 +218,9 @@ export function SvgPathClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default SvgPathClient;

@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -12,7 +14,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ResetButton } from"@/components/shared/action-buttons";
-import { Activity, Calendar, Clock, Moon, ShieldCheck, Sun } from"lucide-react";
+import { Activity, Calendar, Clock, Moon, ShieldCheck, Sun, Calculator, Type } from "lucide-react";
 import { toast } from"react-hot-toast";
 
 export function ShiftCircadianClient() {
@@ -73,7 +75,10 @@ export function ShiftCircadianClient() {
     setShiftType("night");
     toast.success("Values reset");
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Moon} title="Shift Work Sleep Schedule & Circadian Calculator" description="Calculate optimal sleep & wake cycles for shift workers." actions={<ResetButton onClick={handleReset} label="Reset" />} />
@@ -241,6 +246,9 @@ export function ShiftCircadianClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default ShiftCircadianClient;

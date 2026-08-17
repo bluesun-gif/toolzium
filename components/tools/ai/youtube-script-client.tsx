@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect, useCallback } from "react";
@@ -16,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { cn } from "@/lib/utils";
-import { Youtube, Video, Sparkles, Copy, CheckCircle2, Sliders, RefreshCcw, Clock, FileText, Zap, Download, History, Trash2, Lightbulb, Eye, ListOrdered, Wand2 } from "lucide-react";
+import { Youtube, Video, Sparkles, Copy, CheckCircle2, Sliders, RefreshCcw, Clock, FileText, Zap, Download, History, Trash2, Lightbulb, Eye, ListOrdered, Wand2, Settings, Type } from "lucide-react";
 import toast from "react-hot-toast";
 interface ScriptResult {
   titles: {
@@ -255,7 +256,10 @@ export function YoutubeScriptClient() {
     a.click();
     toast.success("Downloaded SRT Teleprompter file!");
   };
-  return <div className="w-full min-h-screen pb-20 relative"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
@@ -484,7 +488,8 @@ export function YoutubeScriptClient() {
             </div>
           </GlassCard>}
 
-        <ToolHowItWorks steps={[{
+        </div>
+<ToolHowItWorks steps={[{
           step: "01",
           title: "Enter Video Topic",
           description: "Input your core topic, tutorial concept, or target keywords.",
@@ -529,9 +534,9 @@ export function YoutubeScriptClient() {
           question: "Can I use these scripts for YouTube Shorts?",
           answer: "Yes! Select 'YouTube Shorts / Reel (60 sec)' for punchy, fast-paced scripts ideal for Shorts and Reels."
         }]} />
-
-        <RelatedTools currentToolUrl="/tools/ai/youtube-script" max={6} />
-      </div>
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default YoutubeScriptClient;

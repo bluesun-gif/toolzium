@@ -1,8 +1,9 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useRef, useCallback } from "react";
-import { Merge, Upload, Trash2, ArrowUp, ArrowDown, FileText, AlertCircle, Shield, Zap, FileOutput, MousePointer2, Settings, Lock } from "lucide-react";
+import { Merge, Upload, Trash2, ArrowUp, ArrowDown, FileText, AlertCircle, Shield, Zap, FileOutput, MousePointer2, Settings, Lock, Download } from "lucide-react";
 import { PDFDocument } from "pdf-lib";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -194,7 +195,10 @@ export default function PdfMergeClient() {
     question: "What should I do if my PDF fails to merge?",
     answer: "Ensure the files are not password-protected, encrypted, or corrupted. Protected PDFs must be decrypted before they can be merged. Try uploading them again."
   }];
-  return <div className="relative max-w-4xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="PDF Merge" description="Merge multiple PDF files into one document quickly and securely in your browser." icon={Merge} />
@@ -347,7 +351,7 @@ export default function PdfMergeClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={faqs} />
- 
- <RelatedTools currentToolUrl="/tools/util/pdf-merge" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

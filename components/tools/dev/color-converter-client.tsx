@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useEffect } from "react";
@@ -11,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Palette, Copy, Droplet, Contrast, History } from "lucide-react";
+import { Palette, Copy, Droplet, Contrast, History, Check } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -184,7 +185,10 @@ export function ColorConverterClient() {
     navigator.clipboard.writeText(text);
     toast.success("Copied to clipboard!");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-4 py-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Palette} title="Universal Color Converter" description="Instantly convert colors between HEX, RGB, HSL, CMYK, and more. Includes contrast checker and color harmony generator." />
@@ -301,7 +305,9 @@ export function ColorConverterClient() {
  </CardContent>
  </GlassCard>}
 
- <ToolHowItWorks steps={[{
+ </div>
+
+<ToolHowItWorks steps={[{
         step: "01",
         title: "Input Color",
         description: "Use the visual picker or paste any HEX, RGB, or HSL value.",
@@ -354,8 +360,8 @@ export function ColorConverterClient() {
         question: "What is a good contrast ratio for accessibility?",
         answer: "WCAG guidelines require a minimum contrast ratio of 4.5:1 for normal text and 3:1 for large text to meet AA standards. For AAA standards, the requirements are 7:1 and 4.5:1 respectively."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/dev/color-converter" max={6} />
- </div></div>;
+    </div>
+  );
 }
+
 export default ColorConverterClient;

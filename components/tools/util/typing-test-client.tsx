@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useEffect, useRef, useMemo } from "react";
@@ -7,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { RotateCcw, Timer, Activity, Zap, Keyboard, ShieldCheck, Target, Cpu, Clock as ClockIcon, BookOpen, Shield, BarChart3, Award, TrendingUp } from "lucide-react";
+import { RotateCcw, Timer, Activity, Zap, Keyboard, ShieldCheck, Target, Cpu, Clock as ClockIcon, BookOpen, Shield, BarChart3, Award, TrendingUp, Type } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
@@ -107,7 +108,10 @@ export default function TypingTestClient() {
  </span>;
     });
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Typing Speed Test" description="Test and improve your typing speed and accuracy." />
@@ -319,6 +323,7 @@ export default function TypingTestClient() {
         question: "What typing speed do programming jobs require?",
         answer: "There's no strict minimum for programming, but 60+ WPM makes a meaningful difference in productivity. More importantly, programmers benefit from fast keyboard shortcut usage (IDE shortcuts, terminal commands) and accurate symbol typing (brackets, semicolons, underscores). Speed on special characters matters more for programmers than raw WPM."
       }]} />
- <RelatedTools currentToolUrl="/tools/util/typing-test" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

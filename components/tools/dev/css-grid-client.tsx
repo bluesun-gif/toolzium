@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback } from "react";
@@ -11,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { LayoutGrid, Copy, RotateCcw, ChevronDown, ChevronUp } from "lucide-react";
+import { LayoutGrid, Copy, RotateCcw, ChevronDown, ChevronUp, Grid } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -168,7 +169,10 @@ export default function CssGridClient() {
     navigator.clipboard.writeText(generatedCSS);
     toast.success('CSS copied to clipboard!');
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={LayoutGrid} title="CSS Grid Generator" description="Build complex CSS Grid layouts visually with live preview and instant code generation" />
@@ -413,7 +417,7 @@ export default function CssGridClient() {
         question: "Does it support responsive grids?",
         answer: "The generated CSS works perfectly with media queries. You can wrap the grid container in @media rules to change the template columns at different breakpoints."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/dev/css-grid" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

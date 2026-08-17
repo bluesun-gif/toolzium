@@ -1,4 +1,8 @@
 "use client";
+
+import { cn } from "@/lib/utils";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -9,7 +13,7 @@ import { Card } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Slider } from"@/components/ui/slider";
 import { Popover, PopoverContent, PopoverTrigger } from"@/components/ui/popover";
-import { Circle, Download, Eraser, Group, Minus, Palette, PenTool, Pencil, Redo2, Shapes, ShieldCheck, Square, Trash2, Undo2 } from"lucide-react";
+import { Circle, Download, Eraser, Group, Minus, Palette, PenTool, Pencil, Redo2, Shapes, ShieldCheck, Square, Trash2, Undo2, History } from "lucide-react";
 import toast from"react-hot-toast";
 
 type ToolType ="pen"|"rectangle"|"circle"|"line"|"eraser";
@@ -210,7 +214,10 @@ export default function WhiteboardClient() {
     link.click();
     toast.success("Image downloaded!");
   };
-  return <div className="relative mx-auto max-w-5xl px-4 py-8 flex flex-col h-[calc(100vh-80px)]"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Online Whiteboard" description="A simple, fast whiteboard for sketching, diagrams, and brainstorming." />
@@ -390,6 +397,7 @@ export default function WhiteboardClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }

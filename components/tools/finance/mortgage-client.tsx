@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
@@ -14,7 +15,7 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
-import { Home, Calculator, TrendingUp, DollarSign, BookOpen, Shield, PieChart, TrendingDown, BarChart3, Percent } from "lucide-react";
+import { Home, Calculator, TrendingUp, DollarSign, BookOpen, Shield, PieChart, TrendingDown, BarChart3, Percent, Type } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 export function MortgageClient() {
@@ -63,7 +64,10 @@ export function MortgageClient() {
   };
   const principalPct = totalCost > 0 ? (homePrice - downPayment) / (totalCost - downPayment) * 100 : 0;
   const interestPct = totalCost > 0 ? totalInterest / (totalCost - downPayment) * 100 : 0;
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Calculator} title="Mortgage Calculator" description="Calculate your monthly mortgage payments, total interest, and complete cost of your home loan." actions={<>
@@ -242,7 +246,7 @@ export function MortgageClient() {
  </tr>
  </thead>
  <tbody>
- {[["Principal", "P", "Repayment of the original loan amount", "No"], ["Interest", "I", "Cost of borrowing (daily rate × balance)", "No"], ["Property Tax", "T", "Annual tax ÷ 12, collected in escrow", "Escrowed"], ["Insurance", "I", "Homeowner's insurance premium ÷ 12", "Escrowed"], ["PMI", "+", "Required when down payment < 20%", "Yes, cancels at 80% LTV"], ["HOA Fees", "+", "If applicable; paid separately", "Yes"]].map(([comp, abbr, desc, opt]) => <tr key={comp} className="odd:bg-muted/20">
+ {[["Principal", "P", "Repayment of the original loan amount", "No"], ["Interest", "I", "Cost of borrowing (daily rate × balance)", "No"], ["Property Tax", "T", "Annual tax ÷ 12, collected in escrow", "Escrowed"], ["Insurance", "I", "Homeowner's insurance premium ÷ 12", "Escrowed"], ["PMI", "+", "Required when down payment &lt; 20%", "Yes, cancels at 80% LTV"], ["HOA Fees", "+", "If applicable; paid separately", "Yes"]].map(([comp, abbr, desc, opt]) => <tr key={comp} className="odd:bg-muted/20">
  <td className="border p-2 font-medium text-xs">{comp}</td>
  <td className="border p-2 font-mono text-primary text-xs">{abbr}</td>
  <td className="border p-2 text-xs">{desc}</td>
@@ -318,6 +322,9 @@ export function MortgageClient() {
         question: "Does paying extra reduce my mortgage faster?",
         answer: "Yes, significantly. Extra payments go directly to principal, reducing the balance on which future interest is calculated. On a $300,000 mortgage at 7%, paying an extra $200/month saves approximately $55,000 in interest and pays off the loan 7 years early. Even one extra payment per year creates substantial savings."
       }]} />
- <RelatedTools currentToolUrl="/tools/finance/mortgage" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default MortgageClient;

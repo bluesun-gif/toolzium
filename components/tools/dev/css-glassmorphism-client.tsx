@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { cn } from "@/lib/utils";
@@ -11,7 +12,7 @@ import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Copy, RotateCcw, Sparkles, Palette, SlidersHorizontal, Layers, Box } from "lucide-react";
+import { Copy, RotateCcw, Sparkles, Palette, SlidersHorizontal, Layers, Box, Settings } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -112,7 +113,10 @@ export function CssGlassmorphismClient() {
  </div>
  <input type="range" min={min} max={max} value={value} onChange={e => onChange(Number(e.target.value))} className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary" />
  </div>;
-  return <div className="relative max-w-6xl mx-auto space-y-8 p-4 sm:p-6 lg:p-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Sparkles} title="CSS Glassmorphism Generator" description="Create stunning frosted-glass UI effects with real-time preview and production-ready CSS code." />
@@ -245,8 +249,9 @@ export function CssGlassmorphismClient() {
         question: "How do I ensure text is readable?",
         answer: "Adjust the opacity and saturation sliders. Increasing saturation and adding a subtle dark or light tint to the glass color helps maintain high contrast ratios for accessibility."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/dev/css-glassmorphism" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default CssGlassmorphismClient;

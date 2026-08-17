@@ -1,34 +1,24 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
-import {
- ActionButton,
- CopyButton,
- ResetButton,
-} from"@/components/shared/action-buttons";
+import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
 import InputField from"@/components/shared/form-fields/input-field";
 import SwitchRow from"@/components/shared/form-fields/switch-row";
 import ToolPageHeader from"@/components/shared/tool-page-header";
 import { Badge } from"@/components/ui/badge";
-import {
- CardContent,
- CardDescription,
- CardHeader,
- CardTitle,
-} from"@/components/ui/card";
+import { CardContent, CardDescription, CardHeader, CardTitle } from"@/components/ui/card";
 import { GlassCard } from"@/components/ui/glass-card";
 import { Label } from"@/components/ui/label";
 import { Separator } from"@/components/ui/separator";
 import { cn, pad } from"@/lib/utils";
-import { BookMarked, Calendar, CalendarDays, CalendarRange, CalendarSearch, ChevronLeft, ChevronRight, Download, Globe, Hash, Info, type LucideIcon } from"lucide-react";
+import { BookMarked, Calendar, CalendarDays, CalendarRange, CalendarSearch, ChevronLeft, ChevronRight, Download, Globe, Hash, Info, type LucideIcon, Copy } from "lucide-react";
 import type * as React from"react";
 import { useEffect, useMemo, useState } from"react";
 import { GridPattern } from"@/components/magicui/grid-pattern";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import { RelatedTools } from"@/components/shared/related-tools";
 
 /* Helpers */
@@ -556,8 +546,9 @@ function Stat({
  </div>
  <Badge variant="secondary">ISO</Badge>
  </div>
- <div className="mt-1 text-2xl font-semibold tracking-tight">{value}</div>
+ <div className="mt-1 text-2xl font-semibold tracking-tight">{value}
  
+
 <ToolHowItWorks
   steps={[
 {
@@ -637,6 +628,7 @@ function Stat({
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }

@@ -1,4 +1,8 @@
 "use client";
+
+import { ModelSelector } from "@/components/shared/model-selector";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -9,7 +13,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { AiOutputDisplay } from"@/components/shared/ai-output-display";
-import { ClipboardPaste, Clock, Lock, RefreshCw, ScanSearch, ShieldCheck } from"lucide-react";
+import { ClipboardPaste, Clock, Lock, RefreshCw, ScanSearch, ShieldCheck, Check, Type } from "lucide-react";
 import toast from"react-hot-toast";
 
 const SAMPLE_JWT ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFsZXggUml2ZXJhIiwiaWF0IjoxNTE2MjM5MDIyLCJyb2xlIjoiYWRtaW4ifQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
@@ -67,7 +71,10 @@ export default function JwtInspectorClient() {
   React.useEffect(() => {
     decodeJwt();
   }, [token]);
-  return <div className="relative space-y-6 max-w-5xl mx-auto px-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={ShieldCheck} title="JWT Security Audit & Payload Inspector Studio" description="Decode JSON Web Tokens (JWT) locally and run live AI security risk audits for algorithm vulnerabilities and payload data leaks." />
@@ -208,7 +215,7 @@ export default function JwtInspectorClient() {
   }
   ]}
 />
-</div>
-</div>
- );
+    </div>
+    </div>
+);
 }

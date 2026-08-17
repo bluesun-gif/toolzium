@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo } from "react";
@@ -11,7 +14,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CopyButton } from "@/components/shared/action-buttons";
 import toast from "react-hot-toast";
-import { Type, Wand2, AlignLeft, CheckCircle2 } from "lucide-react";
+import { Type, Wand2, AlignLeft, CheckCircle2, Copy } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -60,7 +63,10 @@ export default function CaseConverterClient() {
     setOutput(result);
     toast.success(`Converted to ${type} case`);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Type} title="Case Converter" description="Instantly convert text to UPPERCASE, lowercase, Title Case, camelCase, snake_case, and more." />
@@ -148,7 +154,7 @@ export default function CaseConverterClient() {
         question: "Can I convert large documents?",
         answer: "Yes, the tool can handle large blocks of text instantly. However, for extremely large files (over 10MB), your browser might experience slight delays."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/text/case-converter" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

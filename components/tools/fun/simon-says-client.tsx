@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { cn } from "@/lib/utils";
@@ -117,7 +118,10 @@ export default function SimonSaysClient() {
     isPlayingRef.current = false;
     setIsShowing(false);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Gamepad2} title="Simon Says" description="Test your memory by repeating the increasingly fast sequence of colors and sounds." />
@@ -202,7 +206,7 @@ export default function SimonSaysClient() {
         question: "What happens if I click the wrong color?",
         answer: "The game immediately ends, and your final level is recorded. You can then restart from Level 1."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/fun/simon-says" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

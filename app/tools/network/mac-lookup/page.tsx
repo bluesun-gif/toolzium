@@ -1,32 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import MacLookupClient from "@/components/tools/network/mac-lookup-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "Mac Lookup | Toolzium";
+const DESCRIPTION = "Free online mac lookup tool with instant calculation and privacy.";
+const PATH = "/tools/network/mac-lookup";
 
 export const metadata = buildMetadata({
-  title: "MAC Address Lookup",
-  description: "Look up the manufacturer of any network device by its MAC address. Identify vendor, OUI prefix, and MAC type (unicast/multicast). Random MAC generator included.",
-  path: "/tools/network/mac-lookup",
-  keywords: ["identify", "random", "manufacturer", "unicast", "address", "network", "prefix", "device", "look", "multicast", "type", "vendor"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "MAC Address Lookup",
-    description: "Look up the manufacturer of any network device by its MAC address. Identify vendor, OUI prefix, and MAC type (unicast/multicast). Random MAC generator included.",
-    path: "/tools/network/mac-lookup",
-    categoryName: "Network",
-    categoryPath: "/tools/network",
+    name: "Mac Lookup",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <MacLookupClient />
-    
-      <RelatedTools currentToolUrl="/tools/network/mac-lookup" />
-</div>
+    </>
   );
 }

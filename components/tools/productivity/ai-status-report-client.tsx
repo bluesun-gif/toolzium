@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useCallback } from "react";
@@ -54,7 +57,10 @@ export function AiStatusReportClient() {
     navigator.clipboard.writeText(text);
     toast.success(`${label} copied to clipboard!`);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 p-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Activity} title="AI Weekly Progress & Status Report Generator" description="Generate executive Weekly Status Reports (PPP: Progress, Plans, Problems) formatted for leadership and Slack updates." />
@@ -185,8 +191,9 @@ export function AiStatusReportClient() {
         question: "Can I use this for monthly reports?",
         answer: "Yes! Simply paste monthly accomplishments and goals into the input fields."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/productivity/ai-status-report" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default AiStatusReportClient;

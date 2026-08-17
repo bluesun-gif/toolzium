@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useRef, useEffect } from "react";
@@ -11,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
 import { cn } from "@/lib/utils";
-import { Image as ImageIcon, Crop, Download, Grid, Upload, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { Image as ImageIcon, Crop, Download, Grid, Upload, Sparkles, Shield, Zap, Copy, Settings, Eye } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -170,7 +173,10 @@ export function PassportPhotoClient() {
     link.click();
     toast.success("Downloaded successfully!");
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={ImageIcon} title="Passport Photo Crop & Grid" description="Format photos for passport & visa applications. Prepare a 4x6 print sheet." actions={<ResetButton onClick={handleReset} label="Reset" />} />
@@ -326,8 +332,9 @@ export function PassportPhotoClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/travel/passport-photo" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default PassportPhotoClient;

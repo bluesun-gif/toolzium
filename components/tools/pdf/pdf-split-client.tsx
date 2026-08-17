@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
@@ -92,7 +93,10 @@ export default function PdfSplitClient() {
       setSplitting(false);
     }
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={FileText} title="PDF Split & Extract Studio" description="Extract specific pages or page ranges from any PDF document. 100% client-side, private & secure." />
@@ -178,7 +182,7 @@ export default function PdfSplitClient() {
         question: "Are my files uploaded to your servers for processing?",
         answer: "Absolutely not. The entire splitting and extraction process happens locally within your web browser using JavaScript. Your files are never uploaded, stored, or processed on our servers, ensuring complete privacy."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/pdf/pdf-split" />
- </div></div>;
+    </div>
+    </div>
+);
 }

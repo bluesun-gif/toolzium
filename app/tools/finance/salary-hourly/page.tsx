@@ -1,32 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import SalaryHourlyClient from "@/components/tools/finance/salary-hourly-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "Salary Hourly | Toolzium";
+const DESCRIPTION = "Free online salary hourly tool with instant calculation and privacy.";
+const PATH = "/tools/finance/salary-hourly";
 
 export const metadata = buildMetadata({
-  title: "Salary to Hourly Converter",
-  description: "Convert annual salary to hourly rate and vice versa. Salary calculator with work hours, overtime, and take-home pay estimation. Compare job offers and negotiate better.",
-  path: "/tools/finance/salary-hourly",
-  keywords: ["with", "rate", "salary", "convert", "hours", "annual", "calculator", "work", "vice", "versa", "hourly"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Salary to Hourly Converter",
-    description: "Convert annual salary to hourly rate and vice versa. Salary calculator with work hours, overtime, and take-home pay estimation. Compare job offers and negotiate better.",
-    path: "/tools/finance/salary-hourly",
-    categoryName: "Finance",
-    categoryPath: "/tools/finance",
+    name: "Salary Hourly",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <SalaryHourlyClient />
-    
-      <RelatedTools currentToolUrl="/tools/finance/salary-hourly" />
-</div>
+    </>
   );
 }

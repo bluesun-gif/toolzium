@@ -1,19 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import SaasPricingCalculatorClient from "@/components/tools/finance/saas-pricing-calculator-client";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "AI SaaS Pricing Strategy & Tier Matrix Calculator";
+const DESCRIPTION = "Design optimal 3-tier SaaS pricing models (Starter, Pro, Enterprise), value metric limits, and expansion revenue strategies powered by live AI.";
+const PATH = "/tools/finance/saas-pricing-calculator";
 
 export const metadata = buildMetadata({
-  title: "AI SaaS Pricing Strategy & Tier Matrix Calculator",
-  description: "Design optimal 3-tier SaaS pricing models (Starter, Pro, Enterprise), value metric limits, and expansion revenue strategies powered by live AI.",
-  path: "/tools/finance/saas-pricing-calculator",
-  keywords: ["starter", "metric", "value", "saas", "enterprise", "expansion", "models", "pricing", "optimal", "tier", "limits", "design"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
-export default function SaasPricingCalculatorPage() {
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "AI SaaS Pricing Strategy & Tier Matrix Calculator",
+    description: DESCRIPTION,
+    path: PATH
+  });
+
   return (
-    <><SaasPricingCalculatorClient />
-      <RelatedTools currentToolUrl="/tools/finance/saas-pricing-calculator" />
+    <>
+      <JsonLd data={jsonLd} />
+      <SaasPricingCalculatorClient />
     </>
   );
 }

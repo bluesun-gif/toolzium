@@ -1,4 +1,8 @@
 "use client";
+
+import { cn } from "@/lib/utils";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -11,7 +15,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Calendar, Code, Eye, Palette, Settings2 } from"lucide-react";
+import { Calendar, Code, Eye, Palette, Settings2, Copy } from "lucide-react";
 
 export function EventWidgetClient() {
   const [eventName, setEventName] = useState("My Awesome Event");
@@ -86,7 +90,10 @@ export function EventWidgetClient() {
     const widgetUrl = "https://toolzium.com/embed/countdown?name=" + encodeURIComponent(eventName) + "&date=" + encodeURIComponent(targetDate) + "&theme=" + theme + "&glow=" + glow;
     return "<iframe src=\"" + widgetUrl + "\"width=\"400\"height=\"200\"style=\"border:none;border-radius:12px;\"></iframe>";
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Calendar} title="Event Countdown Widget Creator" description="Design a custom countdown timer for your next big event." actions={<>
@@ -270,6 +277,9 @@ export function EventWidgetClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default EventWidgetClient;

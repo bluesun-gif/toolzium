@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
@@ -83,7 +84,10 @@ export function CurrencyMatrixClient() {
     });
     return text;
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Grid} title="Multi-Currency Exchange Matrix" description="Cross-rate matrix table for multi-currency travel planning." actions={<div className="flex space-x-2">
@@ -203,8 +207,9 @@ export function CurrencyMatrixClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/travel/currency-matrix" max={6} />
-
-  </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default CurrencyMatrixClient;

@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
@@ -56,7 +59,10 @@ export default function StandardCalculatorClient() {
     }
   };
   const buttons = ["C", "DEL", "+/-", "÷", "7", "8", "9", "×", "4", "5", "6", "-", "1", "2", "3", "+", "0", ".", "="];
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Calculator} title="Standard Calculator" description="A clean, simple 4-function calculator for everyday math tasks." />
@@ -133,7 +139,7 @@ export default function StandardCalculatorClient() {
         question: "Why does it say 'Error'?",
         answer: "An error occurs if you attempt to divide by zero or if the expression is mathematically invalid."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/calc/standard-calculator" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

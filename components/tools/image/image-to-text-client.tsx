@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useRef, DragEvent, ChangeEvent, useEffect } from "react";
@@ -8,7 +11,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from "@/component
 import { Button } from "@/components/ui/button";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
 import TextareaField from "@/components/shared/form-fields/textarea-field";
-import { ScanText, Upload, Image as ImageIcon, Loader2, Cpu, ShieldCheck, Zap, Layers, RefreshCw, FileText } from "lucide-react";
+import { ScanText, Upload, Image as ImageIcon, Loader2, Cpu, ShieldCheck, Zap, Layers, RefreshCw, FileText, Copy, Type } from "lucide-react";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
@@ -121,7 +124,10 @@ export default function ImageToTextClient() {
       fileInputRef.current.value = "";
     }
   };
-  return <div className="relative max-w-6xl mx-auto"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Image to Text (OCR)" description="Extract text from images using OCR. Upload PNG, JPG, or WEBP images and convert to editable text. Free online image to text converter." icon={ScanText} />
@@ -366,7 +372,7 @@ export default function ImageToTextClient() {
         question: "Why is some text extracted incorrectly?",
         answer: "OCR accuracy depends highly on image quality. Low resolution, fuzzy text, complex cursive fonts, and dark shadows can interfere with the engine's ability to map characters. Ensure your image has good lighting and high contrast for best results."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/image/image-to-text" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { Button } from "@/components/ui/button";
@@ -11,7 +12,7 @@ import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { CopyButton } from "@/components/shared/action-buttons";
-import { Maximize2, Copy } from "lucide-react";
+import { Maximize2, Copy, Calculator } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -83,7 +84,10 @@ export default function AspectRatioClient() {
     setWidth(preset.w * 100);
     setHeight(preset.h * 100);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Maximize2} title="Aspect Ratio Calculator" description="Calculate aspect ratios and find matching dimensions for any width or height." />
@@ -209,7 +213,7 @@ export default function AspectRatioClient() {
         question: "Why is my ratio showing large numbers?",
         answer: "The tool simplifies ratios automatically. If you see large numbers, try entering dimensions that share common factors, like 1920×1080 (which simplifies to 16:9)."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/calc/aspect-ratio" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

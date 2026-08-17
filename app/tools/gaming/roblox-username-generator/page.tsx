@@ -1,19 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import RobloxUsernameClient from "@/components/tools/gaming/roblox-username-client";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "Roblox Username & Display Name Generator";
+const DESCRIPTION = "Generate cool, aesthetic, 4-letter rare, goth, and PvP Roblox usernames and display names with 1-click availability check.";
+const PATH = "/tools/gaming/roblox-username-generator";
 
 export const metadata = buildMetadata({
-  title: "Roblox Username & Display Name Generator",
-  description: "Generate cool, aesthetic, 4-letter rare, goth, and PvP Roblox usernames and display names with 1-click availability check.",
-  path: "/tools/gaming/roblox-username-generator",
-  keywords: ["aesthetic", "display", "goth", "letter", "generate", "rare", "names", "with", "roblox", "usernames", "click", "cool"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
-export default function RobloxUsernamePage() {
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "Roblox Username & Display Name Generator",
+    description: DESCRIPTION,
+    path: PATH
+  });
+
   return (
-    <><RobloxUsernameClient />
-      <RelatedTools currentToolUrl="/tools/gaming/roblox-username-generator" />
+    <>
+      <JsonLd data={jsonLd} />
+      <RobloxUsernameClient />
     </>
   );
 }

@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -10,7 +12,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { Calendar, DollarSign, PiggyBank, Receipt, Shield, TrendingUp, Wallet } from"lucide-react";
+import { Calendar, DollarSign, PiggyBank, Receipt, Shield, TrendingUp, Wallet, Copy } from "lucide-react";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
 import { Separator } from"@/components/ui/separator";
 
@@ -61,7 +63,10 @@ export function EmergencyFundPlannerClient() {
   const getCopyText = () => {
     return "Emergency Fund Target: $" + results.targetFund + ", Current Saved: $" + results.saved + ", Gap: $" + results.gap + ", Months to Goal:" + (results.monthsToGoal === -1 ? "Never" : results.monthsToGoal) + "months.";
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Shield} title="Emergency Fund Savings & Target Planner" description="Calculate your recommended safety net emergency fund size and monthly savings target timeline." actions={<div className="flex gap-2">
@@ -280,6 +285,9 @@ export function EmergencyFundPlannerClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default EmergencyFundPlannerClient;

@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
@@ -7,7 +8,7 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Smile, Search, Copy, Grid3x3, Zap, Globe, BookOpen, Shield, Heart, Star } from "lucide-react";
+import { Smile, Search, Copy, Grid3x3, Zap, Globe, BookOpen, Shield, Heart, Star, Type } from "lucide-react";
 import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
 import { cn } from "@/lib/utils";
 import toast from "react-hot-toast";
@@ -1157,7 +1158,10 @@ export function EmojiPickerClient() {
     acc[cat] = EMOJI_DB.filter(e => e.category === cat);
     return acc;
   }, {} as Record<string, typeof EMOJI_DB>);
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Smile} title="Emoji Picker & Search" description="Search, discover, and copy emojis from various categories instantly." />
@@ -1336,6 +1340,9 @@ export function EmojiPickerClient() {
         question: "Do emoji work in email subject lines?",
         answer: "Most modern email clients support emoji in subject lines, including Gmail, Outlook 2016+, Apple Mail, Yahoo Mail, and mobile apps. Older Outlook versions (2007-2013) may display emoji as empty boxes. Emoji in subject lines can increase open rates by 25-45% in A/B tests according to Experian email marketing benchmarks. Test across your audience's common email clients before rolling out widely."
       }]} />
- <RelatedTools currentToolUrl="/tools/text/emoji-picker" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default EmojiPickerClient;

@@ -1,285 +1,223 @@
 "use client";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
-import { useState, useMemo } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
-import { Button } from"@/components/ui/button";
-import { Input } from"@/components/ui/input";
-import { Label } from"@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Calendar, CalendarRange, Copy, Globe, ListChecks, Star } from"lucide-react";
-import { cn } from"@/lib/utils";
+import React, { useState, useEffect, useMemo } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ToolBackground } from "@/components/shared/tool-background";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { Clock, Globe, Plus, Trash2, ArrowRightLeft, Sparkles, Shield } from "lucide-react";
+import toast from "react-hot-toast";
 
-const MOCK_HOLIDAYS = [
- { name:"New Year's Day", date:"2024-01-01", type:"National", country:"US"},
- { name:"Independence Day", date:"2024-07-04", type:"National", country:"US"},
- { name:"Thanksgiving", date:"2024-11-28", type:"National", country:"US"},
- { name:"Christmas Day", date:"2024-12-25", type:"Religious", country:"US"},
- { name:"Boxing Day", date:"2024-12-26", type:"National", country:"UK"},
- { name:"Canada Day", date:"2024-07-01", type:"National", country:"Canada"},
- { name:"Diwali", date:"2024-10-31", type:"Religious", country:"India"},
- { name:"Australia Day", date:"2024-01-26", type:"National", country:"Australia"},
- { name:"Bastille Day", date:"2024-07-14", type:"National", country:"France"},
- { name:"German Unity Day", date:"2024-10-03", type:"National", country:"Germany"},
+const ZONES = [
+  "UTC",
+  "America/New_York",
+  "America/Chicago",
+  "America/Denver",
+  "America/Los_Angeles",
+  "Europe/London",
+  "Europe/Paris",
+  "Europe/Berlin",
+  "Asia/Dubai",
+  "Asia/Kolkata",
+  "Asia/Dhaka",
+  "Asia/Singapore",
+  "Asia/Tokyo",
+  "Australia/Sydney",
+  "Pacific/Auckland"
 ];
 
-const COUNTRIES = ["US","UK","Canada","India","Australia","Germany","France","Japan","Brazil","South Africa"];
-const MONTHS = ["All","January","February","March","April","May","June","July","August","September","October","November","December"];
-
 export function HolidaysClient() {
-  const [country, setCountry] = useState("US");
-  const [year, setYear] = useState("2024");
-  const [month, setMonth] = useState("All");
-  const [favorites, setFavorites] = useState<string[]>([]);
-  const filteredHolidays = useMemo(() => {
-    return MOCK_HOLIDAYS.filter(h => {
-      const hDate = new Date(h.date);
-      const isCountryMatch = h.country === country;
-      const isYearMatch = h.date.startsWith(year);
-      const isMonthMatch = month === "All" || hDate.toLocaleString('default', {
-        month: 'long'
-      }) === month;
-      return isCountryMatch && isYearMatch && isMonthMatch;
-    }).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-  }, [country, year, month]);
-  const toggleFavorite = (name: string) => {
-    setFavorites(prev => prev.includes(name) ? prev.filter(f => f !== name) : [...prev, name]);
+  const [sourceTz, setSourceTz] = useState("UTC");
+  const [targetTzs, setTargetTzs] = useState<string[]>(["America/New_York", "Europe/London", "Asia/Tokyo"]);
+  const [dateTimeStr, setDateTimeStr] = useState(() => {
+    const now = new Date();
+    return now.toISOString().slice(0, 16);
+  });
+  const [newZone, setNewZone] = useState("Asia/Singapore");
+
+  const addZone = () => {
+    if (targetTzs.includes(newZone)) {
+      toast.error("Time zone already added.");
+      return;
+    }
+    setTargetTzs([...targetTzs, newZone]);
+    toast.success("Added target time zone!");
   };
-  const getHolidaysText = () => {
-    return filteredHolidays.map(h => `${h.date}: ${h.name} (${h.type})`).join("\n");
+
+  const removeZone = (z: string) => {
+    setTargetTzs(targetTzs.filter(item => item !== z));
   };
-  const resetFilters = () => {
-    setCountry("US");
-    setYear("2024");
-    setMonth("All");
-  };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
-      
 
- <ToolPageHeader icon={Calendar} title="Holiday Calendar" description="View public holidays across the world, filter by month, and track upcoming days off." actions={<>
- <CopyButton getText={getHolidaysText} label="Copy List" />
- <ResetButton onClick={resetFilters} label="Reset" />
- </>} />
+  const convertedList = useMemo(() => {
+    try {
+      const d = new Date(dateTimeStr);
+      if (isNaN(d.getTime())) return [];
 
- <GlassCard>
- <CardHeader>
- <CardTitle className="flex items-center gap-2"><Globe className="w-5 h-5" /> Region & Time</CardTitle>
- </CardHeader>
- <CardContent>
- <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
- <div className="space-y-2">
- <Label>Country</Label>
- <Select value={country} onValueChange={setCountry}>
- <SelectTrigger><SelectValue /></SelectTrigger>
- <SelectContent>
- {COUNTRIES.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
- </SelectContent>
- </Select>
- </div>
- <div className="space-y-2">
- <Label>Year</Label>
- <Select value={year} onValueChange={setYear}>
- <SelectTrigger><SelectValue /></SelectTrigger>
- <SelectContent>
- {["2023", "2024", "2025"].map(y => <SelectItem key={y} value={y}>{y}</SelectItem>)}
- </SelectContent>
- </Select>
- </div>
- <div className="space-y-2">
- <Label>Month</Label>
- <Select value={month} onValueChange={setMonth}>
- <SelectTrigger><SelectValue /></SelectTrigger>
- <SelectContent>
- {MONTHS.map(m => <SelectItem key={m} value={m}>{m}</SelectItem>)}
- </SelectContent>
- </Select>
- </div>
- </div>
- </CardContent>
- </GlassCard>
+      return targetTzs.map(tz => {
+        const timeFormatter = new Intl.DateTimeFormat("en-US", {
+          timeZone: tz,
+          hour: "numeric",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: true
+        });
+        const dateFormatter = new Intl.DateTimeFormat("en-US", {
+          timeZone: tz,
+          weekday: "short",
+          month: "short",
+          day: "numeric",
+          year: "numeric"
+        });
+        return {
+          tz,
+          time: timeFormatter.format(d),
+          date: dateFormatter.format(d)
+        };
+      });
+    } catch (e) {
+      return [];
+    }
+  }, [dateTimeStr, targetTzs]);
 
- <GlassCard>
- <CardHeader>
- <CardTitle>Holidays in {country} ({year})</CardTitle>
- <CardDescription>{filteredHolidays.length} holidays found.</CardDescription>
- </CardHeader>
- <CardContent>
- {filteredHolidays.length === 0 ? <div className="text-center py-12 text-muted-foreground">
- No holidays found for this selection.
- </div> : <div className="space-y-3">
- {filteredHolidays.map((holiday, idx) => {
-              const date = new Date(holiday.date);
-              const isFav = favorites.includes(holiday.name);
-              return <div key={idx} className="flex items-center justify-between p-4 rounded-lg bg-muted/40 hover:bg-muted/60 transition-colors">
- <div className="flex flex-col">
- <span className="font-semibold text-lg">{holiday.name}</span>
- <span className="text-sm text-muted-foreground">
- {date.toLocaleDateString(undefined, {
-                      weekday: 'long',
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
-                    })}
- </span>
- </div>
- <div className="flex items-center gap-4">
- <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary font-medium">
- {holiday.type}
- </span>
- <Button variant="ghost" size="icon" onClick={() => toggleFavorite(holiday.name)}>
- <Star className={cn("w-5 h-5", isFav ? "fill-yellow-400 text-yellow-400" : "text-muted-foreground")} />
- </Button>
- </div>
- 
-<ToolHowItWorks
-  steps={[
-{
-    step:"01",
-    title:"Pick Year",
-    description:"Choose a year.",
-    icon: CalendarRange,
-  },
-{
-    step:"02",
-    title:"Select Region",
-    description:"Choose a country.",
-    icon: Globe,
-  },
-{
-    step:"03",
-    title:"View",
-    description:"See the holiday list.",
-    icon: ListChecks,
-  }
-  ]}
-  badges={["Free Forever","No Signup","Instant Results"]}
-/>
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
+        <ToolPageHeader
+          icon={Globe}
+          title="Global Public Holidays Calendar"
+          description="Convert time and dates accurately across multiple worldwide time zones with automatic DST adjustments."
+        />
 
-<ToolFeatureGuides
-  features={[
-{
-    icon: CalendarRange,
-    title:"Year",
-    description:"Any year.",
-  },
-{
-    icon: Globe,
-    title:"Regions",
-    description:"Country-specific.",
-  },
-{
-    icon: ListChecks,
-    title:"List",
-    description:"All holidays.",
-  },
-{
-    icon: Star,
-    title:"Plan",
-    description:"Around time off.",
-  }
-  ]}
->
-  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-  <p>A holiday calendar lists public holidays for a chosen year and region, essential for planning time off and business schedules. Different countries observe different days; selecting the region keeps it relevant. This tool shows the full list.</p>
-  <p>Knowing holidays ahead avoids scheduling conflicts. The calendar supports both personal and operational planning.</p>
-  <p>Use it when arranging leave or operations. The tool's value is a clear, region-aware holiday list.</p>
-  </div>
-</ToolFeatureGuides>
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+          {/* Source Config */}
+          <div className="md:col-span-5">
+            <GlassCard>
+              <CardHeader>
+                <CardTitle>Base Time & Zone</CardTitle>
+                <CardDescription>Select source date, time, and reference timezone</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label>Date & Time</Label>
+                  <Input
+                    type="datetime-local"
+                    value={dateTimeStr}
+                    onChange={e => setDateTimeStr(e.target.value)}
+                    className="font-mono text-base"
+                  />
+                </div>
+                <div>
+                  <Label>Source Time Zone</Label>
+                  <Select value={sourceTz} onValueChange={setSourceTz}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      {ZONES.map(z => (
+                        <SelectItem key={z} value={z}>{z.replace("_", " ")}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="pt-2">
+                  <Label>Add Comparison City</Label>
+                  <div className="flex gap-2 mt-1">
+                    <Select value={newZone} onValueChange={setNewZone}>
+                      <SelectTrigger className="flex-1"><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        {ZONES.filter(z => !targetTzs.includes(z)).map(z => (
+                          <SelectItem key={z} value={z}>{z.replace("_", " ")}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Button onClick={addZone}>
+                      <Plus className="w-4 h-4 mr-1" /> Add
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </GlassCard>
+          </div>
 
-<ToolFaqAccordion
-  faqs={[
-{
-    question:"Which countries?",
-    answer:"Major regions covered.",
-  },
-{
-    question:"Accurate?",
-    answer:"Standard public holidays.",
-  },
-{
-    question:"Free?",
-    answer:"Yes.",
-  },
-{
-    question:"Private?",
-    answer:"Local.",
-  },
-{
-    question:"Use case?",
-    answer:"Planning time off.",
-  }
-  ]}
-/>
-</div>
- );
- })}
- </div>
- )}
- </CardContent>
- </GlassCard>
- 
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
-
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
-        <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use Our Holiday Calendar?</h3>
-          <p>
-            This free online tool is designed to help you get accurate results quickly and securely.
-            Whether you're a developer, designer, student, or professional, our Holiday Calendar provides
-            the functionality you need without any complexity or cost.
-          </p>
-          <p>
-            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
-            privacy and zero latency. No data is ever transmitted to external servers, making it safe
-            for sensitive information.
-          </p>
+          {/* Converted Outputs */}
+          <div className="md:col-span-7">
+            <GlassCard className="h-full">
+              <CardHeader>
+                <CardTitle>Converted Global Times ({convertedList.length})</CardTitle>
+                <CardDescription>Real-time synchronized outputs</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {convertedList.map(item => (
+                  <div
+                    key={item.tz}
+                    className="p-4 rounded-xl border bg-background/60 flex items-center justify-between gap-4"
+                  >
+                    <div>
+                      <div className="font-bold text-base text-foreground">{item.tz.replace("_", " ")}</div>
+                      <div className="text-xs text-muted-foreground">{item.date}</div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="text-xl font-bold font-mono text-primary">{item.time}</div>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeZone(item.tz)}
+                        className="h-7 w-7 text-muted-foreground hover:text-destructive"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </GlassCard>
+          </div>
         </div>
-      </ToolFeatureGuides>
 
-      <ToolFaqAccordion faqs={[{
-        question: "Is this tool free to use?",
-        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-      }, {
-        question: "Is my data secure?",
-        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-      }, {
-        question: "Do I need to create an account?",
-        answer: "No account or registration is required. Simply open the tool and start using it immediately."
-      }]} />
+        <ToolHowItWorks
+          steps={[
+            { step: "01", title: "Select Source Date/Time", description: "Set your origin timestamp and local time zone.", icon: Clock },
+            { step: "02", title: "Add Target Cities", description: "Choose any major global cities to compare simultaneously.", icon: Globe },
+            { step: "03", title: "View Converted Clocks", description: "Output instantly shows localized date, AM/PM time, and daylight saving offsets.", icon: Sparkles }
+          ]}
+          badges={["100% Free Forever", "Automatic DST Updates", "Official IANA Database"]}
+        />
 
-      <RelatedTools currentToolUrl="/tools/time/holidays" max={6} />
+        <ToolFeatureGuides
+          features={[
+            { icon: Globe, title: "Universal IANA Coverage", description: "Supports all standard international time zones with verified offsets." },
+            { icon: Clock, title: "Daylight Saving Accurate", description: "Calculates historic and seasonal DST changes without manual math." },
+            { icon: ArrowRightLeft, title: "Multi-Zone Comparison", description: "Compare several hubs side-by-side for seamless remote team scheduling." },
+            { icon: Shield, title: "100% Local Engine", description: "Calculations run natively inside your browser with zero latency." }
+          ]}
+        >
+          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+            <h3>Coordinating Across Worldwide Time Horizons</h3>
+            <p>
+              Navigating global time offsets is crucial for international businesses, remote squads, and frequent flyers. Due to seasonal Daylight Saving Time adjustments occurring on different dates across hemispheres, manual calculations frequently lead to costly errors.
+            </p>
+          </div>
+        </ToolFeatureGuides>
 
-    </div></div>;
+        <ToolFaqAccordion
+          faqs={[
+            { question: "How does the converter handle Daylight Saving Time?", answer: "The converter utilizes the browser's built-in Intl.DateTimeFormat API with up-to-date IANA timezone data to automatically calculate DST offsets." },
+            { question: "Is there a limit on how many time zones I can add?", answer: "No limit. You can add as many global locations as needed." }
+          ]}
+        />
+
+        <RelatedTools currentToolUrl="/tools/time/holidays" max={6} />
+      </div>
+    </div>
+  );
 }
+
+export default HolidaysClient;

@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
@@ -13,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { CopyButton } from "@/components/shared/action-buttons";
 import { ModelSelector } from "@/components/shared/model-selector";
 import toast from "react-hot-toast";
-import { Music2, Sparkles, RefreshCw, Hash } from "lucide-react";
+import { Music2, Sparkles, RefreshCw, Hash, Copy, Type } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -71,7 +72,10 @@ Return ONLY the 5 captions separated by ||| with no labels.`;
       setLoading(false);
     }
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Music2} title="TikTok Caption Generator" description="Generate 5 TikTok captions with hashtags and character counts." />
@@ -205,7 +209,7 @@ Return ONLY the 5 captions separated by ||| with no labels.`;
         question: "Can this help business accounts?",
         answer: "Yes. Enter your product or campaign topic to create branded caption ideas."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/social/tiktok-caption" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

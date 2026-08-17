@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -12,7 +14,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { Activity, Calculator, ChevronsUp, Clock, Flame, Scale, TrendingUp } from"lucide-react";
+import { Activity, Calculator, ChevronsUp, Clock, Flame, Scale, TrendingUp, Type } from "lucide-react";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
 
 // MET Values for different intensities
@@ -98,7 +100,10 @@ export function StairClimbingCalorieClient() {
     setFlights("50");
     setIntensity("moderate");
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Activity} title="Stair Climbing Calorie Calculator" description="Estimate calories burned during your step workout or stairmaster session based on intensity and duration." actions={<ResetButton onClick={handleReset} label="Reset" />} />
@@ -286,6 +291,9 @@ export function StairClimbingCalorieClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default StairClimbingCalorieClient;

@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo } from "react";
@@ -10,7 +11,7 @@ import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
-import { Grid3X3, RotateCcw } from "lucide-react";
+import { Grid3X3, RotateCcw, Play } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -87,7 +88,10 @@ export default function TicTacToeClient() {
     });
     toast.success("All stats reset!");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Grid3X3} title="Tic-Tac-Toe" description="Play the classic 3x3 grid game with a friend." />
@@ -178,7 +182,7 @@ export default function TicTacToeClient() {
         question: "Are the scores saved if I refresh?",
         answer: "No, scores are kept in temporary memory and will reset if you reload the page."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/fun/tic-tac-toe" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

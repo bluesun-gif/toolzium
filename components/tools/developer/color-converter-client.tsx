@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo } from "react";
@@ -11,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { CopyButton } from "@/components/shared/action-buttons";
 import toast from "react-hot-toast";
-import { Palette, Eye, Droplet, Zap } from "lucide-react";
+import { Palette, Eye, Droplet, Zap, Copy, Type } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -81,7 +82,10 @@ export default function ColorConverterClient() {
   const rgbString = rgb ? `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})` : "Invalid HEX";
   const hslString = hsl ? `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)` : "Invalid HEX";
   const hexDisplay = normalizedHex ?? "Invalid HEX";
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Palette} title="Color Converter" description="Convert colors between HEX, RGB, and HSL formats with a live visual preview." />
@@ -190,7 +194,7 @@ export default function ColorConverterClient() {
         question: "Does this support 8-digit HEX with alpha?",
         answer: "This converter focuses on 6-digit HEX. For alpha support, use rgba() or hsla() functions directly in CSS."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/developer/color-converter" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

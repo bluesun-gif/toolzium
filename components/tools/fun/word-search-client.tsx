@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { cn } from "@/lib/utils";
@@ -10,7 +11,7 @@ import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Search, Grid3X3, RotateCcw, CheckCircle2 } from "lucide-react";
+import { Search, Grid3X3, RotateCcw, CheckCircle2, Check, Grid } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -123,7 +124,10 @@ export default function WordSearchClient() {
       setSelectedCells(new Set());
     }
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Search} title="Word Search Generator" description="Generate custom word search puzzles and find the hidden words in the grid." />
@@ -225,7 +229,7 @@ export default function WordSearchClient() {
         question: "Can I generate a new puzzle with the same theme?",
         answer: "Yes! Simply click the 'New Grid' button to reshuffle the words and random letters for the current theme."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/fun/word-search" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

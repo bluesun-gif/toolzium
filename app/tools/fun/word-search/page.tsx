@@ -1,30 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import WordSearchClient from "@/components/tools/fun/word-search-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
+
+const TITLE = "Word Search | Toolzium";
+const DESCRIPTION = "Free online word search tool with instant calculation and privacy.";
+const PATH = "/tools/fun/word-search";
+
 export const metadata = buildMetadata({
-  title: "Word Search Puzzle Generator",
-  description: "Interactive Word Search puzzle grid generator and player. 10x10 to 15x15 grids, coding/animal/planet topics, printable PDF mode.",
-  path: "/tools/fun/word-search",
-  keywords: ["interactive", "topics", "planet", "puzzle", "generator", "coding", "search", "word", "grid", "grids", "player", "animal"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Word Search Puzzle Generator",
-    description: "Interactive Word Search puzzle grid generator and player. 10x10 to 15x15 grids, coding/animal/planet topics, printable PDF mode.",
-    path: "/tools/fun/word-search",
-    categoryName: "Fun",
-    categoryPath: "/tools/fun",
+    name: "Word Search",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <WordSearchClient />
-    
-      <RelatedTools currentToolUrl="/tools/fun/word-search" />
-</div>
+    </>
   );
 }

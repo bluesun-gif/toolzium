@@ -1,32 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import TipSplitterClient from "@/components/tools/calc/tip-splitter-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "Tip Split | Toolzium";
+const DESCRIPTION = "Free online tip split tool with instant calculation and privacy.";
+const PATH = "/tools/calc/tip-split";
 
 export const metadata = buildMetadata({
-  title: "Tip Calculator & Bill Splitter",
-  description: "Calculate tips and split bills among friends. Tip calculator with percentage options (10%, 15%, 20%, custom). Free bill splitter for restaurants and group dining.",
-  path: "/tools/calc/tip-split",
-  keywords: ["split", "calculate", "with", "options", "among", "free", "calculator", "bills", "tips", "friends", "custom", "percentage"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Tip Calculator & Bill Splitter",
-    description: "Calculate tips and split bills among friends. Tip calculator with percentage options (10%, 15%, 20%, custom). Free bill splitter for restaurants and group dining.",
-    path: "/tools/calc/tip-split",
-    categoryName: "Calc",
-    categoryPath: "/tools/calc",
+    name: "Tip Split",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <TipSplitterClient />
-    
-      <RelatedTools currentToolUrl="/tools/calc/tip-split" />
-</div>
+    </>
   );
 }

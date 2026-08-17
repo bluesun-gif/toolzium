@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
@@ -10,7 +11,7 @@ import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Heart } from "lucide-react";
+import { Heart, Calculator, History, Type, Hash } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -52,7 +53,10 @@ export default function LoveCalculatorClient() {
       s
     }, ...prev].slice(0, 5));
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Heart} title="Love Calculator" description="Find out your romantic compatibility with this highly scientific* love test." />
@@ -142,7 +146,7 @@ export default function LoveCalculatorClient() {
         question: "Does the order of names matter?",
         answer: "No, the algorithm combines both names symmetrically, so swapping Name 1 and Name 2 will yield the exact same result."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/fun/love-calculator" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

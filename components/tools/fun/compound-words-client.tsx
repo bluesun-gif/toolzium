@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { cn } from "@/lib/utils";
@@ -10,7 +11,7 @@ import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Puzzle, Timer, CheckCircle2, XCircle, RotateCcw } from "lucide-react";
+import { Puzzle, Timer, CheckCircle2, XCircle, RotateCcw, Clock, Star, Eye, Shuffle, Play } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -125,7 +126,10 @@ export default function CompoundWordsClient() {
     setTime(0);
     setIsPlaying(true);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Puzzle} title="Compound Words Game" description="Match the missing half of the compound word in this fast-paced vocabulary puzzle." />
@@ -225,7 +229,7 @@ export default function CompoundWordsClient() {
         question: "Are the options randomized?",
         answer: "Yes, every time you play or move to a new question, the four multiple-choice options are shuffled to prevent memorization of positions."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/fun/compound-words" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

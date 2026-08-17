@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
@@ -7,7 +8,7 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { AiOutputDisplay } from "@/components/shared/ai-output-display";
-import { Mic, RefreshCw, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { Mic, RefreshCw, Sparkles, Shield, Zap, Copy, Type } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -53,7 +54,10 @@ export default function PodcastScriptGeneratorClient() {
       setLoading(false);
     }
   };
-  return <div className="relative space-y-6 max-w-4xl mx-auto px-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Mic} title="AI Podcast Episode Script & Show Notes Studio" description="Generate episode intro scripts, guest interview question frameworks, sponsor reads, and publishing show notes using live AI." />
@@ -160,8 +164,7 @@ export default function PodcastScriptGeneratorClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/social/podcast-script-generator" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }

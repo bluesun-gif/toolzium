@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState } from "react";
@@ -137,7 +140,10 @@ const COUNTRY_NAMES = PASSPORT_RANKINGS.map(p => p.country);
 export function VisaIndexClient() {
   const [selectedCountry, setSelectedCountry] = useState("");
   const selectedData = PASSPORT_RANKINGS.find(p => p.country === selectedCountry);
-  return <div className="relative space-y-6 max-w-4xl mx-auto px-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Globe} title="Passport Power Index" description="See how powerful your passport is — visa-free access rankings based on the Henley Passport Index." />
@@ -277,9 +283,9 @@ export function VisaIndexClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/travel/visa-index" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default VisaIndexClient;

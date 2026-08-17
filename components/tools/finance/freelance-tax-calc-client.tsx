@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -12,7 +14,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Calculator, Calendar, DollarSign, Receipt, ShieldCheck } from"lucide-react";
+import { Calculator, Calendar, DollarSign, Receipt, ShieldCheck, Copy } from "lucide-react";
 import { toast } from"react-hot-toast";
 
 export function FreelanceTaxCalcClient() {
@@ -75,7 +77,10 @@ export function FreelanceTaxCalcClient() {
       maximumFractionDigits: 0
     });
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Calculator} title="Freelance Tax & Quarterly Estimate Calculator" description="Estimate self-employment tax, income tax, and quarterly estimated payments for your freelance business." actions={<>
@@ -254,6 +259,9 @@ export function FreelanceTaxCalcClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default FreelanceTaxCalcClient;

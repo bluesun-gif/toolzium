@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useCallback, useEffect } from "react";
@@ -92,7 +95,10 @@ export default function StringEscapeClient() {
     id: "unicode",
     label: "Unicode"
   }];
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Code} title="String Escape & Unescape Tool" description="Encode and decode strings for HTML, URL, JavaScript, JSON, CSV, SQL, Base64, and Unicode formats instantly." />
@@ -195,7 +201,7 @@ export default function StringEscapeClient() {
  String escaping and encoding are fundamental operations in software development, acting as the bridge between raw data and the specific contexts in which that data is interpreted. When data moves between environments—such as from a database to an HTML page, or from a form input to a URL parameter—characters that hold special meaning in the target environment must be"escaped"to prevent syntax errors or, worse, severe security vulnerabilities.
  </p>
  <p className="text-muted-foreground mb-4">
- The most prominent example is Cross-Site Scripting (XSS). If a user inputs <code className="text-primary">&lt;script&gt;alert(1)&lt;/script&gt;</code> into a comment field, and that string is rendered directly into HTML without escaping, the browser will execute the malicious script. By converting the angle brackets into HTML entities (<code className="text-primary">&amp;lt;</code> and <code className="text-primary">&amp;gt;</code>), the browser renders them as harmless text. Similarly, URL encoding ensures that spaces, ampersands, and slashes do not break the structure of an HTTP request.
+ The most prominent example is Cross-Site Scripting (XSS). If a user inputs <code className="text-primary"><script>alert(1)</script></code> into a comment field, and that string is rendered directly into HTML without escaping, the browser will execute the malicious script. By converting the angle brackets into HTML entities (<code className="text-primary">&amp;lt;</code> and <code className="text-primary">&amp;gt;</code>), the browser renders them as harmless text. Similarly, URL encoding ensures that spaces, ampersands, and slashes do not break the structure of an HTTP request.
  </p>
  <p className="text-muted-foreground">
  This tool provides a unified, real-time workspace for handling these transformations across eight common formats. Because all processing occurs locally within your browser's JavaScript engine, sensitive data like API keys, personal information, or proprietary code snippets never leave your machine. Whether you are formatting a SQL query to prevent injection attacks, generating Unicode escape sequences for internationalization, or simply decoding a Base64 payload, this utility ensures accuracy and security in every transformation.
@@ -213,7 +219,7 @@ export default function StringEscapeClient() {
         question: "How does the CSV escaping work?",
         answer: "CSV escaping ensures that strings containing commas, newlines, or double quotes do not break the CSV structure. It wraps the string in double quotes and escapes any internal double quotes by doubling them (e.g., \"becomes \"\"), which is the standard RFC 4180 CSV format."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/dev/string-escape" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

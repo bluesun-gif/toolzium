@@ -1,34 +1,17 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useCallback, useEffect } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
-import {
- Card,
- CardContent,
- CardHeader,
- CardTitle,
- CardDescription,
-} from"@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
 import { Button } from"@/components/ui/button";
 import { Label } from"@/components/ui/label";
 import { Slider } from"@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from"@/components/ui/tabs";
 import { ScrollArea } from"@/components/ui/scroll-area";
 import { Badge } from"@/components/ui/badge";
-import {
- Dices,
- RotateCcw,
- History,
- BarChart3,
- Trash2,
- BookOpen,
- Shield,
- Shuffle,
- Hash,
- Settings2,
- Zap,
-} from"lucide-react";
+import { Dices, RotateCcw, History, BarChart3, Trash2, BookOpen, Shield, Shuffle, Hash, Settings2, Zap, Plus } from "lucide-react";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
@@ -332,7 +315,8 @@ const DiceRollerClient = () => {
  </div>
 
  {/* SECTION 3: HOW IT WORKS */}
- <ToolHowItWorks
+ 
+<ToolHowItWorks
  steps={[
  {
  step:"01",
@@ -530,9 +514,8 @@ const DiceRollerClient = () => {
  },
  ]}
  />
- <RelatedTools currentToolUrl="/tools/util/dice-roller" max={6} />
- </div>
- );
-};
+    </div>
+  );
+}
 
 export default DiceRollerClient;

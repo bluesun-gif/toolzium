@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback, useEffect } from "react";
@@ -236,7 +237,10 @@ export default function CssShadowClient() {
     question: "Can I use inset shadows for pressed button states?",
     answer: "Absolutely. Inset shadows simulate light being blocked inside an element, creating the illusion that the surface has been pushed down. Combine a subtle dark inset shadow with a slight downward translation for a highly tactile active state."
   }];
-  return <div className="relative max-w-6xl mx-auto space-y-8 pb-12 px-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Box} title="CSS Box Shadow Generator" description="Design complex, multi-layered CSS box shadows with live preview, presets, and instant code export." />
@@ -360,6 +364,7 @@ export default function CssShadowClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={faqs} />
- <RelatedTools currentToolUrl="/tools/dev/css-box-shadow-generator" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

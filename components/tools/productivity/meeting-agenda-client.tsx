@@ -1,4 +1,8 @@
 "use client";
+
+import { cn } from "@/lib/utils";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -166,7 +170,10 @@ export function MeetingAgendaClient() {
     setItems([]);
     toast.success("Reset agenda!");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       <ToolPageHeader icon={FileText} title="Interactive Meeting Agenda Builder" description="Plan meeting topics, allocate presenter time limits, load quick templates, and copy formatted markdown notes." actions={<div className="flex gap-2">
@@ -286,182 +293,8 @@ export function MeetingAgendaClient() {
         </div>
       </div>
 
-      {/* HOW IT WORKS */}
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Set Meeting Parameters",
-        description: "Define meeting title, date, time, attendees, and target total duration.",
-        icon: Clock
-      }, {
-        step: "02",
-        title: "Structure Agenda Topics",
-        description: "Add discussion topics, assign presenters, and specify minute allocations.",
-        icon: FileText
-      }, {
-        step: "03",
-        title: "Copy & Export Notes",
-        description: "Copy clean formatted markdown agendas into calendar invites or team emails.",
-        icon: CheckCircle2
-      }]} badges={["Time Budget Calculator", "Markdown Copy", "100% Free"]} />
+      
 
-      {/* FEATURE GUIDES */}
-      <ToolFeatureGuides features={[{
-        icon: Clock,
-        title: "Time Allocation Budgeting",
-        description: "Calculates total allocated minutes and warns when agenda topics exceed target meeting duration."
-      }, {
-        icon: FileText,
-        title: "Quick-Start Team Templates",
-        description: "Includes pre-configured meeting templates for Agile Standups and Project Reviews."
-      }, {
-        icon: Shield,
-        title: "Confidential Local Storage",
-        description: "Saves draft meeting agendas securely in local storage without server retention."
-      }]} />
-
-      {/* FAQ ACCORDION */}
-      <ToolFaqAccordion faqs={[{
-        question: "What happens if my topics exceed the total duration?",
-        answer: "The allocated time indicator turns red to alert you that the sum of topic durations exceeds your target meeting length."
-      }, {
-        question: "Can I print the agenda?",
-        answer: "Yes, click the 'Print' button to generate a clean print/PDF view of your meeting agenda."
-      }]} />
-
- return (
- <div className="space-y-6">
- <ToolPageHeader 
- icon={FileText} 
- title="Meeting Agenda Builder"
- description="Plan and structure meetings effectively. Keep track of time and topics."
- actions={
- <>
- <ActionButton icon={Save} label="Save"onClick={saveAgenda} />
- <ActionButton icon={Printer} label="Print"onClick={() => window.print()} variant="outline"/>
- <CopyButton getText={getCopyText} label="Copy Agenda"/>
- <ResetButton onClick={resetAll} label="Reset"/>
- </>
- }
- />
-
- <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
- <div className="md:col-span-1 space-y-6">
- <GlassCard>
- <CardHeader>
- <CardTitle className="flex items-center gap-2">
- <Clock className="w-5 h-5"/> Meeting Details
- </CardTitle>
- </CardHeader>
- <CardContent className="space-y-4">
- <div className="space-y-2">
- <Label>Title</Label>
- <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Weekly Sync"/>
- </div>
- <div className="grid grid-cols-2 gap-4">
- <div className="space-y-2">
- <Label>Date</Label>
- <Input type="date"value={date} onChange={(e) => setDate(e.target.value)} />
- </div>
- <div className="space-y-2">
- <Label>Time</Label>
- <Input type="time"value={time} onChange={(e) => setTime(e.target.value)} />
- </div>
- </div>
- <div className="space-y-2">
- <Label>Total Duration (mins)</Label>
- <Input type="number"value={totalDuration} onChange={(e) => setTotalDuration(Number(e.target.value))} />
- </div>
- <div className="space-y-2">
- <Label>Location / Link</Label>
- <Input value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Zoom link..."/>
- </div>
- <div className="space-y-2">
- <Label>Attendees</Label>
- <Input value={attendees} onChange={(e) => setAttendees(e.target.value)} placeholder="Team members..."/>
- </div>
-
- <Separator className="my-4"/>
- 
- <div className="space-y-2">
- <Label>Quick Templates</Label>
- <div className="flex gap-2">
- <Button variant="outline"size="sm"onClick={() => loadTemplate('standup')} className="flex-1">Standup</Button>
- <Button variant="outline"size="sm"onClick={() => loadTemplate('review')} className="flex-1">Review</Button>
- </div>
- </div>
- </CardContent>
- </GlassCard>
- </div>
-
- <div className="md:col-span-2 space-y-6">
- <GlassCard>
- <CardHeader className="flex flex-row items-center justify-between">
- <div>
- <CardTitle>Agenda Items</CardTitle>
- <CardDescription>
- Time allocated: <span className={usedTime > totalDuration ?"text-red-500 font-bold":"text-green-500 font-bold"}>{usedTime}</span> / {totalDuration} mins
- </CardDescription>
- </div>
- <Button onClick={addItem} size="sm"><Plus className="w-4 h-4 mr-2"/> Add Item</Button>
- </CardHeader>
- <CardContent className="space-y-4">
- {items.length === 0 ? (
- <div className="text-center p-8 text-muted-foreground border-2 border-dashed rounded-lg">
- No agenda items yet. Add an item or use a template.
- </div>
- ) : (
- items.map((item, index) => (
- <div key={item.id} className="flex gap-4 items-start p-4 bg-secondary/30 rounded-lg border">
- <div className="flex flex-col gap-1 mt-1">
- <button onClick={() => moveItem(index, -1)} disabled={index === 0} className="p-1 hover:bg-secondary rounded disabled:opacity-30">
- <ArrowUp className="w-4 h-4"/>
- </button>
- <button onClick={() => moveItem(index, 1)} disabled={index === items.length - 1} className="p-1 hover:bg-secondary rounded disabled:opacity-30">
- <ArrowDown className="w-4 h-4"/>
- </button>
- </div>
- 
- <div className="flex-1 space-y-3">
- <Input 
- placeholder="Topic"
- value={item.topic} 
- onChange={(e) => updateItem(item.id, 'topic', e.target.value)} 
- className="font-medium"
- />
- <div className="flex gap-3">
- <div className="flex-1 flex items-center gap-2">
- <Users className="w-4 h-4 text-muted-foreground shrink-0"/>
- <Input 
- placeholder="Presenter"
- value={item.presenter} 
- onChange={(e) => updateItem(item.id, 'presenter', e.target.value)} 
- className="h-8"
- />
- </div>
- <div className="w-32 flex items-center gap-2">
- <Clock className="w-4 h-4 text-muted-foreground shrink-0"/>
- <Input 
- type="number"
- placeholder="Mins"
- value={item.duration} 
- onChange={(e) => updateItem(item.id, 'duration', Number(e.target.value))} 
- className="h-8"
- />
- </div>
- </div>
- </div>
- 
- <Button variant="ghost"size="icon"onClick={() => removeItem(item.id)} className="text-destructive hover:text-destructive hover:bg-destructive/10 mt-1">
- <Trash2 className="w-4 h-4"/>
- </Button>
- </div>
- ))
- )}
- </CardContent>
- </GlassCard>
- </div>
- </div>
- 
 <ToolHowItWorks
   steps={[
 {
@@ -541,6 +374,9 @@ export function MeetingAgendaClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default MeetingAgendaClient;

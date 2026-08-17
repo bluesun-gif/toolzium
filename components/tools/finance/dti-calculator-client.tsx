@@ -1,4 +1,8 @@
 "use client";
+
+import { Card } from "@/components/ui/card";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -11,7 +15,7 @@ import { Separator } from"@/components/ui/separator";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Calculator, CreditCard, DollarSign, Percent, Shield, ShieldCheck, Wallet } from"lucide-react";
+import { Calculator, CreditCard, DollarSign, Percent, Shield, ShieldCheck, Wallet, Copy } from "lucide-react";
 import { cn } from"@/lib/utils";
 
 export function DtiCalculatorClient() {
@@ -72,7 +76,10 @@ export function DtiCalculatorClient() {
     if (!results) return "";
     return "Front-End DTI:" + results.frontEndDti + "%\nBack-End DTI:" + results.backEndDti + "%\nStatus:" + results.status;
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Calculator} title="Debt-to-Income (DTI) Ratio Calculator" description="Calculate your DTI ratio for mortgage and loan eligibility." actions={<>
@@ -255,6 +262,9 @@ export function DtiCalculatorClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default DtiCalculatorClient;

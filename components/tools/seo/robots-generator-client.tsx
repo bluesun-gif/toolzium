@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useMemo, useState } from "react";
@@ -12,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CopyButton } from "@/components/shared/action-buttons";
 import toast from "react-hot-toast";
-import { FileText, Plus, Trash2, Download } from "lucide-react";
+import { FileText, Plus, Trash2, Download, Copy } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -78,7 +79,10 @@ export default function RobotsGeneratorClient() {
     URL.revokeObjectURL(url);
     toast.success("Downloaded robots.txt");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={FileText} title="Robots.txt Generator" description="Configure user agents, allow/disallow rules, crawl delay, and sitemap URL to generate robots.txt." />
@@ -228,7 +232,7 @@ export default function RobotsGeneratorClient() {
         question: "Is crawl-delay supported by all bots?",
         answer: "No. Some crawlers ignore it, so use it only when appropriate."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/seo/robots-generator" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

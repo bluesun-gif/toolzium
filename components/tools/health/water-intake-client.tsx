@@ -1,10 +1,16 @@
 "use client";
+
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
 import { useState, useEffect, useCallback, useMemo } from"react";
-import { Activity, AlertCircle, Bell, Clock, Droplet, Droplets, Flame, GlassWater, Info, Minus, Plus, RotateCcw, Scale, ThermometerSun } from"lucide-react";
+import { Activity, AlertCircle, Bell, Clock, Droplet, Droplets, Flame, GlassWater, Info, Minus, Plus, RotateCcw, Scale, ThermometerSun, Calculator } from "lucide-react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
 import { ResetButton } from"@/components/shared/action-buttons";
 import { CardContent, CardHeader, CardTitle } from"@/components/ui/card";
@@ -127,7 +133,10 @@ export function WaterIntakeClient() {
     setIsBreastfeeding(false);
     setIsIll(false);
   };
-  return <div className="relative w-full max-w-5xl mx-auto flex flex-col gap-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Water Intake Calculator" description="Calculate your optimal daily hydration goal and track your intake." icon={Droplet} />
@@ -403,6 +412,9 @@ export function WaterIntakeClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default WaterIntakeClient;

@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useEffect } from "react";
@@ -11,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ResetButton } from "@/components/shared/action-buttons";
-import { Scale, Briefcase, AlertTriangle, Plus, Trash2, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { Scale, Briefcase, AlertTriangle, Plus, Trash2, Sparkles, Shield, Zap, Copy, Calculator, Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -76,7 +77,10 @@ export function PackingWeightClient() {
     });
     return totals;
   }, [items, isKg]);
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Scale} title="Packing Weight Calculator" description="Estimate your luggage weight, organize items by category, and avoid overweight baggage fees." actions={<ResetButton onClick={() => {
@@ -263,8 +267,9 @@ export function PackingWeightClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/travel/packing-weight" max={6} />
-
-  </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default PackingWeightClient;

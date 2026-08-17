@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useEffect } from "react";
@@ -10,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
-import { Search, Copy, Download, History, RefreshCw, AlertTriangle, ShieldCheck, Check, ShieldAlert, Sparkles, Shield, Zap } from "lucide-react";
+import { Search, Copy, Download, History, RefreshCw, AlertTriangle, ShieldCheck, Check, ShieldAlert, Sparkles, Shield, Zap, Settings, Type } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";

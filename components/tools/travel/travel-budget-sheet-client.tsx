@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { Button } from "@/components/ui/button";
@@ -10,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
-import { DollarSign, Globe, Calculator, Plus, Trash2, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { DollarSign, Globe, Calculator, Plus, Trash2, Sparkles, Shield, Zap, Copy, Settings } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -67,7 +68,10 @@ export function TravelBudgetSheetClient() {
   };
   const totalLocal = expenses.reduce((sum, e) => sum + (Number(e.amountLocal) || 0), 0);
   const totalHome = exchangeRate > 0 ? totalLocal / exchangeRate : 0;
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Globe} title="Travel Budget Comparison Sheet" description="Multi-currency travel expense comparison and trip budgeting." actions={<ResetButton onClick={handleReset} label="Reset" />} />
@@ -207,8 +211,9 @@ export function TravelBudgetSheetClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/travel/travel-budget-sheet" max={6} />
-
-  </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default TravelBudgetSheetClient;

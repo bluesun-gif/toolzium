@@ -1,57 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
-import { DecisionMakerClient } from "@/components/tools/util/decision-maker-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
-import RelatedTools from "@/components/shared/related-tools";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
+import DecisionMakerClient from "@/components/tools/util/decision-maker-client";
+
+const TITLE = "Decision Maker | Toolzium";
+const DESCRIPTION = "Help make decisions with simple random choice or weighted criteria.";
+const PATH = "/tools/util/decision-maker";
 
 export const metadata = buildMetadata({
-  title: "Decision Maker | Toolzium",
-  description: "Help make decisions with simple random choice or weighted criteria.",
-  path: "/tools/util/decision-maker",
-  keywords: ["decision maker", "random choice generator", "weighted decision matrix"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
-  const toolUrl = `${siteURL}/tools/util/decision-maker`;
-  
-  const appLd = { 
-    "@context": "https://schema.org", 
-    "@type": "WebApplication", 
-    name: "Decision Maker", 
-    url: toolUrl, 
-    description: "Help make decisions with simple random choice or weighted criteria.", 
-    applicationCategory: "UtilitiesApplication", 
-    operatingSystem: "All", 
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" } 
-  };
-  
-  const crumbsLd = { 
-    "@context": "https://schema.org", 
-    "@type": "BreadcrumbList", 
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: siteURL }, 
-      { "@type": "ListItem", position: 2, name: "Utility Tools", item: `${siteURL}/tools#cat-util` }, 
-      { "@type": "ListItem", position: 3, name: "Decision Maker", item: toolUrl }
-    ] 
-  };
-  
-  const faqLd = { 
-    "@context": "https://schema.org", 
-    "@type": "FAQPage", 
-    mainEntity: [
-      { "@type": "Question", name: "How does the random choice work?", acceptedAnswer: { "@type": "Answer", text: "It picks one option randomly from your list." } }, 
-      { "@type": "Question", name: "What is weighted mode?", acceptedAnswer: { "@type": "Answer", text: "It calculates the best option based on the weights you assign to pros and cons." } }
-    ] 
-  };
+  const jsonLd = buildToolJsonLd({
+    name: "Decision Maker",
+    description: DESCRIPTION,
+    path: PATH
+  });
 
   return (
-    <div className="space-y-4">
-      <JsonLd data={appLd} />
-      <JsonLd data={crumbsLd} />
-      <JsonLd data={faqLd} />
+    <>
+      <JsonLd data={jsonLd} />
       <DecisionMakerClient />
-    
-      <RelatedTools currentToolUrl="/tools/util/decision-maker" />
-</div>
+    </>
   );
 }

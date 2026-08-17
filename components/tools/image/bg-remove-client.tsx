@@ -1,4 +1,7 @@
 "use client";
+
+import { Slider } from "@/components/ui/slider";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { cn } from "@/lib/utils";
@@ -14,7 +17,7 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
-import { Upload, Download, Loader2, Sparkles, RefreshCw, Image as ImageIcon, CheckCircle2, Layers, Wand2, SlidersHorizontal, Zap, Split, Palette, ArrowRight, User, ShoppingBag, Sparkle, ArrowLeft, ShieldCheck, Cpu, Eye } from "lucide-react";
+import { Upload, Download, Loader2, Sparkles, RefreshCw, Image as ImageIcon, CheckCircle2, Layers, Wand2, SlidersHorizontal, Zap, Split, Palette, ArrowRight, User, ShoppingBag, Sparkle, ArrowLeft, ShieldCheck, Cpu, Eye, Grid } from "lucide-react";
 import { removeBackground } from "@imgly/background-removal";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 const SAMPLE_IMAGES = [{
@@ -253,7 +256,10 @@ export default function BgRemoveClient() {
     setResultUrl(null);
     setIsProcessing(false);
   };
-  return <div className="relative mx-auto max-w-6xl px-4 py-6 space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="AI Background Remover Studio" description="Remove image backgrounds instantly with high-precision thresholding or HD Neural AI segmentation. Complete with interactive comparison slider and studio backdrop presets." />
@@ -640,7 +646,7 @@ export default function BgRemoveClient() {
         question: "What image sizes and formats are supported?",
         answer: "You can upload JPG, PNG, WebP, and most common image formats. There is no strict file size limit, but very large images (above 10MB) may take longer in AI Mode due to the pixel count. For best results, use images up to 4000×4000 pixels."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/image/bg-remove" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

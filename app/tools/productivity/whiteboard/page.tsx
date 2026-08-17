@@ -1,28 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
-import RelatedTools from "@/components/shared/related-tools";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
+import WhiteboardClient from "@/components/tools/productivity/whiteboard-client";
+
+const TITLE = "Whiteboard | Toolzium";
+const DESCRIPTION = "Free online whiteboard tool with instant calculation and privacy.";
+const PATH = "/tools/productivity/whiteboard";
 
 export const metadata = buildMetadata({
-  title: "Online Whiteboard",
-  description: "Free online whiteboard and drawing tool. Freehand drawing, shapes, colors, brush sizes, undo/redo, and export as PNG. Perfect for brainstorming, diagrams, and quick sketches. Works in your browser.",
-  path: "/tools/productivity/whiteboard",
-  keywords: ["sizes", "drawing", "whiteboard", "colors", "online", "free", "shapes", "freehand", "brush", "undo", "tool"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Online Whiteboard",
-    description: "Free online whiteboard and drawing tool. Freehand drawing, shapes, colors, brush sizes, undo/redo, and export as PNG. Perfect for brainstorming, diagrams, and quick sketches. Works in your browser.",
-    path: "/tools/productivity/whiteboard",
-    categoryName: "Productivity",
-    categoryPath: "/tools/productivity",
+    name: "Whiteboard",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <WhiteboardClient />
-    
-      <RelatedTools currentToolUrl="/tools/productivity/whiteboard" />
-</>
+    </>
   );
 }

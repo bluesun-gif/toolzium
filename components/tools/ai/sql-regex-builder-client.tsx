@@ -1,4 +1,7 @@
 "use client";
+
+import { Card } from "@/components/ui/card";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useCallback, useEffect } from "react";
@@ -16,7 +19,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { cn } from "@/lib/utils";
-import { Database, Code2, Copy, CheckCircle2, Sparkles, Sliders, RefreshCcw, Terminal, History, Trash2, Lightbulb } from "lucide-react";
+import { Database, Code2, Copy, CheckCircle2, Sparkles, Sliders, RefreshCcw, Terminal, History, Trash2, Lightbulb, Type } from "lucide-react";
 import toast from "react-hot-toast";
 interface SqlRegexResult {
   sqlQuery: string;
@@ -162,7 +165,10 @@ export function SqlRegexBuilderClient() {
     navigator.clipboard.writeText(text);
     toast.success(`${label} copied to clipboard!`);
   };
-  return <div className="w-full min-h-screen pb-20 relative"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
@@ -310,7 +316,8 @@ export function SqlRegexBuilderClient() {
             </div>
           </GlassCard>}
 
-        <ToolHowItWorks steps={[{
+        </div>
+<ToolHowItWorks steps={[{
           step: "01",
           title: "Describe Pattern",
           description: "Describe target strings like emails, phone numbers, or IP addresses.",
@@ -355,9 +362,9 @@ export function SqlRegexBuilderClient() {
           question: "Is REGEXP supported in SQLite?",
           answer: "SQLite supports the REGEXP operator if user-defined regular expression functions are enabled in your sqlite3 database driver."
         }]} />
-
-        <RelatedTools currentToolUrl="/tools/ai/sql-regex-builder" max={6} />
-      </div>
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default SqlRegexBuilderClient;

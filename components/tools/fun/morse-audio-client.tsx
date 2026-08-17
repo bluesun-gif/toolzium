@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useRef, useEffect, useMemo } from "react";
@@ -9,7 +12,7 @@ import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Radio, Play, Square, Copy, Volume2 } from "lucide-react";
+import { Radio, Play, Square, Copy, Volume2, Type } from "lucide-react";
 import toast from "react-hot-toast";
 import { CopyButton } from "@/components/shared/action-buttons";
 import { GridPattern } from "@/components/magicui/grid-pattern";
@@ -129,7 +132,10 @@ export default function MorseAudioClient() {
     }, totalDuration);
     timeoutsRef.current.push(endTimeout);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Radio} title="Morse Code Audio Player" description="Convert text to Morse code and listen to it with authentic Web Audio API beeps." />
@@ -220,7 +226,7 @@ export default function MorseAudioClient() {
         question: "Are spaces and numbers supported?",
         answer: "Yes! Spaces are converted to the '/' separator, and all numbers 0-9 have their standard Morse code representations."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/fun/morse-audio" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

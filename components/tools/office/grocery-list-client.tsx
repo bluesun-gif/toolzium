@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -111,7 +113,10 @@ export function GroceryListClient() {
   })).filter(g => g.items.length > 0);
   const totalCost = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const checkedCost = items.filter(i => i.checked).reduce((sum, item) => sum + item.price * item.quantity, 0);
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={ShoppingCart} title="Grocery List Manager" description="Smart grocery list with categories, quantities, and price estimation." actions={<>
@@ -334,6 +339,9 @@ export function GroceryListClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default GroceryListClient;

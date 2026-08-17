@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
@@ -12,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { CopyButton } from "@/components/shared/action-buttons";
 import { ModelSelector } from "@/components/shared/model-selector";
 import toast from "react-hot-toast";
-import { FileText, Sparkles, RefreshCw, Briefcase, Award, User } from "lucide-react";
+import { FileText, Sparkles, RefreshCw, Briefcase, Award, User, Copy, Type } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 interface ResumeSummaryResult {
@@ -85,7 +88,10 @@ Return ONLY the 3 summaries separated by ||| with no labels.`;
       setLoading(false);
     }
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={FileText} title="Resume Summary Generator" description="Generate concise, detailed, and executive resume summaries from your experience and skills." />
@@ -229,7 +235,7 @@ Return ONLY the 3 summaries separated by ||| with no labels.`;
         question: "Can this help entry-level resumes?",
         answer: "Yes. Enter your target role and relevant skills or projects instead of years of experience."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/writing/resume-summary-generator" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

@@ -1,19 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import ExifInspectorClient from "@/components/tools/image/exif-inspector-client";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "Photo EXIF Metadata Inspector & Privacy GPS Stripper | Toolzium";
+const DESCRIPTION = "Inspect camera settings, aperture, ISO, and GPS location coordinates, and strip EXIF metadata 100% locally in your browser.";
+const PATH = "/tools/image/exif-inspector";
 
 export const metadata = buildMetadata({
-  title: "Photo EXIF Metadata Inspector & Privacy GPS Stripper | Toolzium",
-  description: "Inspect camera settings, aperture, ISO, and GPS location coordinates, and strip EXIF metadata 100% locally in your browser.",
-  path: "/tools/image/exif-inspector",
-  keywords: ["exif", "strip", "your", "location", "metadata", "inspect", "browser", "settings", "aperture", "locally", "coordinates", "camera"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
-export default function ExifInspectorPage() {
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "Photo EXIF Metadata Inspector & Privacy GPS Stripper",
+    description: DESCRIPTION,
+    path: PATH
+  });
+
   return (
-    <><ExifInspectorClient />
-      <RelatedTools currentToolUrl="/tools/image/exif-inspector" />
+    <>
+      <JsonLd data={jsonLd} />
+      <ExifInspectorClient />
     </>
   );
 }

@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -10,7 +12,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components
 import TextareaField from"@/components/shared/form-fields/textarea-field";
 import { ResetButton, ActionButton, CopyButton } from"@/components/shared/action-buttons";
 import { Button } from"@/components/ui/button";
-import { Code2, Copy, Download, Image, Image as ImageIcon, Layers, Smartphone, Upload } from"lucide-react";
+import { Code2, Copy, Download, Image, Image as ImageIcon, Layers, Smartphone, Upload, Grid } from "lucide-react";
 import JSZip from"jszip";
 
 interface IconSize {
@@ -61,7 +63,7 @@ export default function FaviconGeneratorClient() {
   };
   const generateFavicons = (srcUrl: string) => {
     setIsProcessing(true);
-    const img = new Image();
+    const img = new (window as any).Image();
     img.onload = () => {
       const generated = ICON_SPECS.map(spec => {
         const canvas = document.createElement("canvas");
@@ -126,7 +128,10 @@ export default function FaviconGeneratorClient() {
 <link rel="apple-touch-icon"sizes="180x180"href="/apple-touch-icon.png">
 <link rel="icon"type="image/png"sizes="192x192"href="/android-chrome-192x192.png">
 <link rel="icon"type="image/png"sizes="512x512"href="/android-chrome-512x512.png">`;
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Favicon & App Icon Generator" description="Convert your logo or image into website favicons, Apple Touch icons, and Android PWA icons. Download complete icon zip packages with ready-to-paste HTML code." icon={Layers} />
@@ -285,6 +290,7 @@ export default function FaviconGeneratorClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }

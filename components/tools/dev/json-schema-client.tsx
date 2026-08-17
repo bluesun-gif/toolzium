@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback, useEffect } from "react";
@@ -11,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Copy, RotateCcw, FileJson, Settings, CheckCircle, XCircle, BarChart3 } from "lucide-react";
+import { Copy, RotateCcw, FileJson, Settings, CheckCircle, XCircle, BarChart3, Type } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -243,7 +244,10 @@ export function JsonSchemaClient() {
       toast.error("Invalid test JSON");
     }
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={FileJson} title="JSON Schema Generator" description="Infer strict JSON Schema (Draft 4/6/7) from sample payloads with automated format detection and validation." />
@@ -400,8 +404,9 @@ export function JsonSchemaClient() {
         question: "Is my JSON data sent to a server for parsing?",
         answer: "No. All parsing, inference, and validation logic executes entirely in your browser via JavaScript. Your data remains private and local."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/dev/json-schema" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default JsonSchemaClient;

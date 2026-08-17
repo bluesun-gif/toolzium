@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useCallback, useEffect } from "react";
@@ -10,7 +13,7 @@ import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
-import { Globe, Monitor, Smartphone, Bot, Cpu, Search, Copy } from "lucide-react";
+import { Globe, Monitor, Smartphone, Bot, Cpu, Search, Copy, Type } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -113,7 +116,10 @@ export default function UaParserClient() {
       toast.success("Copied to clipboard!");
     }
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Search} title="User Agent Parser" description="Analyze and decode any User-Agent string to identify browsers, operating systems, devices, and bots instantly." />
@@ -257,7 +263,7 @@ export default function UaParserClient() {
         question: "Can this tool detect all types of bots?",
         answer: "It detects common crawlers and bots (like Googlebot, Bingbot, and generic 'spider' keywords) via regex patterns. However, highly sophisticated bots that spoof standard browser UA strings may bypass basic detection."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/dev/ua-parser" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -237,7 +239,10 @@ export function AnnotatorClient() {
     document.body.removeChild(a);
   };
   const toolClass = (tool: DrawTool) => cn("h-10 w-10 p-0", activeTool === tool ? "bg-primary text-primary-foreground" : "bg-muted hover:bg-muted/80");
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={PenTool} title="Screenshot Annotator" description="Add shapes, arrows, text, and highlights to your images before sharing." actions={<>
@@ -328,6 +333,8 @@ export function AnnotatorClient() {
  </GlassCard>
  </div>
  
+</div>
+
 <ToolHowItWorks
   steps={[
 {
@@ -407,6 +414,8 @@ export function AnnotatorClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+  );
 }
+
+export default AnnotatorClient;

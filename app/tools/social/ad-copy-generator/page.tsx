@@ -1,29 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import AdCopyGeneratorClient from "@/components/tools/social/ad-copy-generator-client";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "AI Facebook & Instagram Ad Copy Studio | Toolzium";
+const DESCRIPTION = "Generate high-converting Meta primary text, headlines, and call-to-action variants using PAS, AIDA, and Social Proof frameworks.";
+const PATH = "/tools/social/ad-copy-generator";
 
 export const metadata = buildMetadata({
-  title: "AI Facebook & Instagram Ad Copy Studio | Toolzium",
-  description:
-    "Generate high-converting Meta primary text, headlines, and call-to-action variants using PAS, AIDA, and Social Proof frameworks.",
-  path: "/tools/social/ad-copy-generator",
-  keywords: [
-    "ad copy generator",
-    "facebook ad copy",
-    "instagram ad copy",
-    "ai ad copy writer",
-    "meta ad copy generator",
-    "copy ai",
-    "aida copywriting",
-    "pas copywriting",
-  ],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
-export default function AdCopyGeneratorPage() {
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "AI Facebook & Instagram Ad Copy Studio",
+    description: DESCRIPTION,
+    path: PATH
+  });
+
   return (
-    <><AdCopyGeneratorClient />
-      <RelatedTools currentToolUrl="/tools/social/ad-copy-generator" />
+    <>
+      <JsonLd data={jsonLd} />
+      <AdCopyGeneratorClient />
     </>
   );
 }

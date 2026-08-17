@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
@@ -100,7 +101,10 @@ export function BandwidthCalcClient() {
   const getResultText = () => {
     return `File Size: ${fileSize} ${fileUnit}\nSpeed: ${speed} ${speedUnit}\nEstimated Time: ${formatTime(resultTimeSeconds)}`;
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Calculator} title="Bandwidth Calculator" description="Calculate download and upload times for file transfers over different network speeds." actions={<>
@@ -242,8 +246,9 @@ export function BandwidthCalcClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/network/bandwidth-calc" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default BandwidthCalcClient;

@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -7,7 +9,7 @@ import React, { useState, useEffect, useRef } from"react";
 import ToolPageHeader from"@/components/shared/tool-page-header";
 import { GlassCard } from"@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
-import { BadgeCheck, Download, Image as ImageIcon, RefreshCw, ShieldCheck, Text, Upload } from"lucide-react";
+import { BadgeCheck, Download, Image as ImageIcon, RefreshCw, ShieldCheck, Text, Upload, Settings, Scale } from "lucide-react";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
@@ -196,7 +198,10 @@ export function WatermarkCreatorClient() {
     if (fileInputRef.current) fileInputRef.current.value = "";
     if (logoInputRef.current) logoInputRef.current.value = "";
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={ImageIcon} title="Image Watermark Creator" description="Protect your photos by adding custom text or image watermarks." actions={<div className="flex gap-2">
@@ -380,6 +385,9 @@ export function WatermarkCreatorClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default WatermarkCreatorClient;

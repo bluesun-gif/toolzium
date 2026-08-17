@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback, useEffect } from "react";
@@ -264,7 +265,10 @@ export function Connect4AiClient() {
   const isWinningCell = (r: number, c: number) => {
     return winningCells.some(([wr, wc]) => wr === r && wc === c);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 pb-12"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={BrainCircuit} title="Connect Four AI" description="Challenge a sophisticated Minimax AI opponent in the classic game of Connect Four. Test your strategic thinking and pattern recognition." />
@@ -377,8 +381,9 @@ export function Connect4AiClient() {
         question: "Does the AI make mistakes?",
         answer: "On Hard mode, the AI plays optimally within its search depth. However, on Easy and Medium modes, it intentionally limits its strategic vision to give human players a fair chance to win."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/fun/connect4-ai" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default Connect4AiClient;

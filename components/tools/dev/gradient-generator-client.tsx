@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo } from "react";
@@ -10,7 +11,7 @@ import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Copy, Sparkles, Palette, SlidersHorizontal, Layers, Shuffle, Plus, Trash2 } from "lucide-react";
+import { Copy, Sparkles, Palette, SlidersHorizontal, Layers, Shuffle, Plus, Trash2, Type } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -135,7 +136,10 @@ export function GradientGeneratorClient() {
     }]);
     setAngle(Math.floor(Math.random() * 360));
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 p-4 sm:p-6 lg:p-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Palette} title="CSS Gradient Generator" description="Create beautiful linear, radial, and conic gradients with multi-stop support and Tailwind CSS output." />
@@ -299,8 +303,9 @@ export function GradientGeneratorClient() {
         question: "Do gradients affect page load speed?",
         answer: "CSS gradients are rendered natively by the browser and are significantly faster and lighter than downloading equivalent PNG or JPEG images."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/dev/gradient-generator" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default GradientGeneratorClient;

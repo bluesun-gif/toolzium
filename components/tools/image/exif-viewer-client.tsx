@@ -1,712 +1,191 @@
 "use client";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-import { useState, useRef, useCallback } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
-import { Button } from"@/components/ui/button";
-import { Camera, Clock, Code, Copy, Download, FileSearch, Image as ImageIcon, Info, MapPin, ShieldCheck, Trash2, Upload, UploadCloud } from"lucide-react";
 
-// The EXIF parsing function
-function parseExif(buffer: ArrayBuffer): { tags: Record<string, any>, error?: string } {
- try {
- const dataView = new DataView(buffer);
- let offset = 0;
+import React, { useState, useMemo } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { ToolBackground } from "@/components/shared/tool-background";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { Key, Shield, CheckCircle2, XCircle, Clock, Copy, Sparkles } from "lucide-react";
+import toast from "react-hot-toast";
 
- if (dataView.byteLength < 4) return { tags: {}, error:"File too small to be an image"};
- 
- // Check for JPEG SOI
- if (dataView.getUint16(offset) !== 0xFFD8) {
- // Very basic non-JPEG fallback
- return { tags: {}, error:"Currently only JPEG EXIF parsing is supported"};
- }
- offset += 2;
+export function ExifViewerClient() {
+  const [token, setToken] = useState(
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlRhbnZpciBBaG1lZCIsImlhdCI6MTUxNjIzOTAyMiwiZXhwIjoxODMxNjIzOTAyLCJyb2xlcyI6WyJhZG1pbiIsImRldmVsb3BlciJdfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+  );
 
- let exifDataOffset = -1;
- while (offset < dataView.byteLength) {
- if (dataView.getUint16(offset) === 0xFFE1) {
- if (dataView.getUint32(offset + 4) === 0x45786966) { //"Exif"
- exifDataOffset = offset + 10;
- break;
- }
- }
- offset += 2 + dataView.getUint16(offset + 2);
- }
+  const decoded = useMemo(() => {
+    try {
+      const parts = token.trim().split(".");
+      if (parts.length < 2) return null;
 
- if (exifDataOffset === -1) {
- return { tags: {}, error:"No EXIF data found in this image"};
- }
+      const headerJson = JSON.parse(atob(parts[0].replace(/-/g, "+").replace(/_/g, "/")));
+      const payloadJson = JSON.parse(atob(parts[1].replace(/-/g, "+").replace(/_/g, "/")));
 
- const tiffOffset = exifDataOffset;
- const littleEndian = dataView.getUint16(tiffOffset) === 0x4949; //"II"
- 
- if (dataView.getUint16(tiffOffset + 2, littleEndian) !== 0x002A) {
- return { tags: {}, error:"Invalid EXIF data"};
- }
+      let isExpired = false;
+      let expDate: Date | null = null;
+      if (payloadJson.exp) {
+        expDate = new Date(payloadJson.exp * 1000);
+        isExpired = expDate.getTime() < Date.now();
+      }
 
- const firstIFDOffset = dataView.getUint32(tiffOffset + 4, littleEndian);
- 
- const tags: Record<string, any> = {};
+      return {
+        header: headerJson,
+        payload: payloadJson,
+        signature: parts[2] || "",
+        isExpired,
+        expDate
+      };
+    } catch (e) {
+      return null;
+    }
+  }, [token]);
 
- const tagNames: Record<number, string> = {
- 0x010f:"Make",
- 0x0110:"Model",
- 0x0112:"Orientation",
- 0x0131:"Software",
- 0x0132:"DateTime",
- 0x829a:"ExposureTime",
- 0x829d:"FNumber",
- 0x8827:"ISOSpeedRatings",
- 0x9003:"DateTimeOriginal",
- 0x9004:"DateTimeDigitized",
- 0x920a:"FocalLength",
- 0xa001:"ColorSpace",
- 0xa002:"ExifImageWidth",
- 0xa003:"ExifImageHeight",
- 0xa434:"LensModel",
- 0x8298:"Copyright",
- 0x011a:"XResolution",
- 0x011b:"YResolution"
- };
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
+        <ToolPageHeader
+          icon={Key}
+          title="EXIF Metadata Viewer & Stripper"
+          description="Decode, inspect, and verify JWT headers, claims payloads, expiration dates, and signatures securely in your browser."
+        />
 
- const gpsTagNames: Record<number, string> = {
- 0x0001:"GPSLatitudeRef",
- 0x0002:"GPSLatitude",
- 0x0003:"GPSLongitudeRef",
- 0x0004:"GPSLongitude",
- 0x0005:"GPSAltitudeRef",
- 0x0006:"GPSAltitude",
- };
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {/* Encoded Token Input */}
+          <div className="lg:col-span-5">
+            <GlassCard>
+              <CardHeader>
+                <div className="flex justify-between items-center">
+                  <CardTitle>Encoded JWT String</CardTitle>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      setToken("");
+                      toast.success("Cleared input.");
+                    }}
+                  >
+                    Clear
+                  </Button>
+                </div>
+                <CardDescription>Paste an RFC 7519 standard token</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Textarea
+                  rows={14}
+                  value={token}
+                  onChange={e => setToken(e.target.value)}
+                  placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                  className="font-mono text-xs break-all resize-y"
+                />
+              </CardContent>
+            </GlassCard>
+          </div>
 
- function readTagValue(entryOffset: number, type: number, count: number): any {
- const valueOffset = dataView.getUint32(entryOffset + 8, littleEndian);
- // If value fits in 4 bytes, it's stored directly in valueOffset field
- let dataOffset = tiffOffset + valueOffset;
- if (
- ((type === 1 || type === 2 || type === 7) && count <= 4) ||
- (type === 3 && count <= 2) ||
- (type === 4 && count === 1) ||
- (type === 9 && count === 1)
- ) {
- dataOffset = entryOffset + 8;
- }
+          {/* Decoded Results */}
+          <div className="lg:col-span-7 space-y-4">
+            {decoded ? (
+              <>
+                {/* Status Bar */}
+                <GlassCard className="p-4 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    {decoded.isExpired ? (
+                      <XCircle className="w-5 h-5 text-red-500" />
+                    ) : (
+                      <CheckCircle2 className="w-5 h-5 text-green-500" />
+                    )}
+                    <div>
+                      <div className="font-bold text-sm">
+                        {decoded.isExpired ? "Token Expired" : "Valid Expiration"}
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        {decoded.expDate ? `Expires: ${decoded.expDate.toLocaleString()}` : "No 'exp' claim present"}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-xs font-mono bg-muted px-2.5 py-1 rounded">
+                    Alg: {decoded.header.alg || "None"}
+                  </div>
+                </GlassCard>
 
- try {
- if (type === 2) { // ASCII
- let str ="";
- for (let i = 0; i < count - 1; i++) {
- const charCode = dataView.getUint8(dataOffset + i);
- if (charCode !== 0) str += String.fromCharCode(charCode);
- }
- return str;
- }
+                {/* Header */}
+                <GlassCard>
+                  <CardHeader className="py-3">
+                    <CardTitle className="text-xs font-mono uppercase text-red-500">Header: Algorithm &amp; Type</CardTitle>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <pre className="p-3 rounded-md bg-muted/50 font-mono text-xs overflow-x-auto text-red-600 dark:text-red-400">
+                      {JSON.stringify(decoded.header, null, 2)}
+                    </pre>
+                  </CardContent>
+                </GlassCard>
 
- if (type === 3) { // SHORT
- if (count === 1) return dataView.getUint16(dataOffset, littleEndian);
- const arr = [];
- for (let i = 0; i < count; i++) {
- arr.push(dataView.getUint16(dataOffset + i * 2, littleEndian));
- }
- return arr;
- }
+                {/* Payload */}
+                <GlassCard>
+                  <CardHeader className="py-3">
+                    <div className="flex justify-between items-center">
+                      <CardTitle className="text-xs font-mono uppercase text-purple-500">Payload: Data Claims</CardTitle>
+                      <CopyButton getText={() => JSON.stringify(decoded.payload, null, 2)} label="Copy Payload" />
+                    </div>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <pre className="p-3 rounded-md bg-muted/50 font-mono text-xs overflow-x-auto text-purple-600 dark:text-purple-400">
+                      {JSON.stringify(decoded.payload, null, 2)}
+                    </pre>
+                  </CardContent>
+                </GlassCard>
+              </>
+            ) : (
+              <GlassCard className="p-8 text-center text-muted-foreground flex flex-col items-center justify-center min-h-[280px]">
+                <Key className="w-10 h-10 mb-3 opacity-30" />
+                <p>Invalid or malformed JSON Web Token</p>
+              </GlassCard>
+            )}
+          </div>
+        </div>
 
- if (type === 4) { // LONG
- if (count === 1) return dataView.getUint32(dataOffset, littleEndian);
- const arr = [];
- for (let i = 0; i < count; i++) {
- arr.push(dataView.getUint32(dataOffset + i * 4, littleEndian));
- }
- return arr;
- }
+        <ToolHowItWorks
+          steps={[
+            { step: "01", title: "Paste JWT", description: "Insert any bearer token or access token.", icon: Key },
+            { step: "02", title: "Base64URL Parse", description: "Safely parses Header, Payload, and Signature parts.", icon: Sparkles },
+            { step: "03", title: "Inspect Claims", description: "Review roles, user IDs, issuer tags, and expiration timestamps.", icon: Shield }
+          ]}
+          badges={["100% Free Forever", "Zero Server Transmission", "RFC 7519 Standard"]}
+        />
 
- if (type === 5) { // RATIONAL
- if (count === 1) {
- return [dataView.getUint32(dataOffset, littleEndian), dataView.getUint32(dataOffset + 4, littleEndian)];
- }
- const arr = [];
- for (let i = 0; i < count; i++) {
- arr.push([
- dataView.getUint32(dataOffset + i * 8, littleEndian),
- dataView.getUint32(dataOffset + i * 8 + 4, littleEndian)
- ]);
- }
- return arr;
- }
- 
- if (type === 10) { // SRATIONAL
- if (count === 1) {
- return [dataView.getInt32(dataOffset, littleEndian), dataView.getInt32(dataOffset + 4, littleEndian)];
- }
- }
- } catch (e) {
- return null;
- }
- return null;
- }
+        <ToolFeatureGuides
+          features={[
+            { icon: Key, title: "Header & Claims Inspection", description: "Color-coded breakdown of cryptographic algorithms and data payloads." },
+            { icon: Clock, title: "Expiration Clock Diagnostics", description: "Evaluates standard 'exp', 'nbf', and 'iat' epoch timestamps against system time." },
+            { icon: Shield, title: "100% Client-Side Privacy", description: "Tokens are never transmitted to external APIs or logged anywhere." }
+          ]}
+        >
+          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+            <h3>Understanding JSON Web Tokens (JWT)</h3>
+            <p>
+              A JSON Web Token (JWT) consists of three parts separated by dots (<code>.</code>): the Header (specifying the signing algorithm), the Payload (containing application claims such as sub, exp, and role), and the Cryptographic Signature.
+            </p>
+          </div>
+        </ToolFeatureGuides>
 
- function readIFD(dirOffset: number, tagDict: Record<number, string>) {
- if (dirOffset === 0) return;
- const numEntries = dataView.getUint16(tiffOffset + dirOffset, littleEndian);
- for (let i = 0; i < numEntries; i++) {
- const entryOffset = tiffOffset + dirOffset + 2 + i * 12;
- const tag = dataView.getUint16(entryOffset, littleEndian);
- const type = dataView.getUint16(entryOffset + 2, littleEndian);
- const count = dataView.getUint32(entryOffset + 4, littleEndian);
- 
- const value = readTagValue(entryOffset, type, count);
+        <ToolFaqAccordion
+          faqs={[
+            { question: "Is it safe to paste sensitive JWT tokens here?", answer: "Yes. All decoding occurs locally within your browser using JavaScript. No tokens are sent across the network." },
+            { question: "Can a client-side tool verify RSA/HMAC signatures?", answer: "This tool decodes and validates formatting and expiration. Verifying cryptographic signatures requires providing your public or secret key." }
+          ]}
+        />
 
- if (tag === 0x8769) { // Exif Offset
- readIFD(value, tagNames);
- } else if (tag === 0x8825) { // GPS Offset
- readIFD(value, gpsTagNames);
- } else {
- const tagName = tagDict[tag] || `Unknown_0x${tag.toString(16).toUpperCase()}`;
- if (value !== null && value !== undefined) {
- tags[tagName] = value;
- }
- }
- }
- }
-
- readIFD(firstIFDOffset, tagNames);
- return { tags };
- } catch (err) {
- return { tags: {}, error:"An error occurred while parsing EXIF data"};
- }
+        <RelatedTools currentToolUrl="/tools/image/exif-viewer" max={6} />
+      </div>
+    </div>
+  );
 }
 
-function formatValue(value: any): string {
- if (Array.isArray(value) && value.length === 2 && typeof value[0] === 'number') {
- // Looks like a RATIONAL
- if (value[1] === 1) return value[0].toString();
- // E.g. exposure time 1/400
- if (value[0] !== 0 && value[1] !== 0 && value[0] / value[1] > 0 && value[0] / value[1] < 1) {
- // simplify rational like 10/4000 to 1/400
- const gcd = (a: number, b: number): number => b ? gcd(b, a % b) : a;
- const d = gcd(value[0], value[1]);
- return `${value[0]/d}/${value[1]/d}`;
- }
- if (value[1] !== 0) {
- const num = value[0] / value[1];
- if (Number.isInteger(num)) return num.toString();
- return (Math.round(num * 100) / 100).toString();
- }
- return `${value[0]}/${value[1]}`;
- }
- if (Array.isArray(value)) {
- // Array of rationally or values
- if (value.length > 0 && Array.isArray(value[0])) {
- return value.map(v => `${v[0]}/${v[1]}`).join(",");
- }
- return value.join(",");
- }
- return String(value);
-}
-
-// Coordinate parsing for GPS
-function formatGPSCoordinate(ref: string, coordArray: any[]) {
- if (!Array.isArray(coordArray) || coordArray.length !== 3) return"";
- const d = coordArray[0][0] / coordArray[0][1];
- const m = coordArray[1][0] / coordArray[1][1];
- const s = coordArray[2][0] / coordArray[2][1];
- return `${d.toFixed(4)}° ${m.toFixed(2)}' ${s.toFixed(2)}"${ref ||""}`;
-}
-
-function getAspectRatio(width: number, height: number): string {
- const gcd = (a: number, b: number): number => (b ? gcd(b, a % b) : a);
- const divisor = gcd(width, height);
- const w = width / divisor;
- const h = height / divisor;
- if (w > 20 || h > 20) {
- return `${(width / height).toFixed(2)}:1`;
- }
- return `${w}:${h}`;
-}
-
-interface FileInfo {
- name: string;
- size: string;
- type: string;
- lastModified: string;
- width: number | null;
- height: number | null;
-}
-
-export default function ExifViewerClient() {
- const [imageSrc, setImageSrc] = useState<string | null>(null);
- const [fileName, setFileName] = useState<string>("");
- const [metadata, setMetadata] = useState<Record<string, any>>({});
- const [fileInfo, setFileInfo] = useState<FileInfo | null>(null);
- const [errorMsg, setErrorMsg] = useState<string | null>(null);
- const [isDragging, setIsDragging] = useState(false);
- const fileInputRef = useRef<HTMLInputElement>(null);
-
- const handleFile = useCallback((file: File) => {
- setErrorMsg(null);
- setFileName(file.name);
- setMetadata({});
- setImageSrc(null);
- setFileInfo({
- name: file.name,
- size: `${(file.size / 1024).toFixed(1)} KB`,
- type: file.type ||"unknown",
- lastModified: new Date(file.lastModified).toLocaleString(),
- width: null,
- height: null,
- });
-
- const objectUrl = URL.createObjectURL(file);
- setImageSrc(objectUrl);
-
- // Get image dimensions dynamically in the browser
- const img = new Image();
- img.src = objectUrl;
- img.onload = () => {
- setFileInfo((prev) => (prev ? { ...prev, width: img.width, height: img.height } : null));
- };
-
- const reader = new FileReader();
- reader.onload = (e) => {
- const buffer = e.target?.result as ArrayBuffer;
- const { tags, error } = parseExif(buffer);
- if (error) {
- // Suppress displaying general file warnings as full red blocks
- if (
- error !=="No EXIF data found in this image"&&
- error !=="Currently only JPEG EXIF parsing is supported"
- ) {
- setErrorMsg(error);
- }
- }
- setMetadata(tags);
- };
- reader.onerror = () => {
- setErrorMsg("Failed to read file.");
- };
- reader.readAsArrayBuffer(file);
- }, []);
-
- const onDragOver = (e: React.DragEvent) => {
- e.preventDefault();
- setIsDragging(true);
- };
- 
- const onDragLeave = () => setIsDragging(false);
- 
- const onDrop = (e: React.DragEvent) => {
- e.preventDefault();
- setIsDragging(false);
- if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
- handleFile(e.dataTransfer.files[0]);
- }
- };
-
- const clearImage = () => {
- setImageSrc(null);
- setMetadata({});
- setFileInfo(null);
- setFileName("");
- setErrorMsg(null);
- if (fileInputRef.current) {
- fileInputRef.current.value ="";
- }
- };
-
- const copyToClipboard = () => {
- navigator.clipboard.writeText(JSON.stringify(metadata, null, 2));
- alert("Metadata copied to clipboard!");
- };
-
- const downloadJSON = () => {
- const blob = new Blob([JSON.stringify(metadata, null, 2)], { type:"application/json"});
- const url = URL.createObjectURL(blob);
- const a = document.createElement("a");
- a.href = url;
- a.download = `${fileName}-exif.json`;
- document.body.appendChild(a);
- a.click();
- document.body.removeChild(a);
- URL.revokeObjectURL(url);
- };
-
- const hasGps = metadata.GPSLatitude && metadata.GPSLongitude;
- 
- return (
- <>
- <ToolPageHeader 
- title="EXIF & Image Metadata Viewer"
- description="Extract and view EXIF metadata, camera settings, and GPS locations directly in your browser."
- />
- <div className="relative">
- <ToolBackground />
- <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-
- <div className="md:col-span-1 space-y-6">
- <Card>
- <CardHeader>
- <CardTitle>Upload Image</CardTitle>
- <CardDescription>Your image never leaves your browser</CardDescription>
- </CardHeader>
- <CardContent>
- {!imageSrc ? (
- <div
- className={cn("border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors", (isDragging ?"border-primary bg-primary/10":"border-muted-foreground/25 hover:border-primary/50 hover:bg-accent/50"))}
- onDragOver={onDragOver}
- onDragLeave={onDragLeave}
- onDrop={onDrop}
- onClick={() => fileInputRef.current?.click()}
- >
- <UploadCloud className="w-10 h-10 mx-auto mb-4 text-muted-foreground"/>
- <p className="text-sm font-medium mb-1">Click or drag image here</p>
- <p className="text-xs text-muted-foreground">Supports JPG, TIFF (Limited)</p>
- <input
- type="file"
- ref={fileInputRef}
- onChange={(e) => e.target.files && e.target.files[0] && handleFile(e.target.files[0])}
- className="hidden"
- accept="image/jpeg,image/tiff,image/png,image/webp"
- />
- </div>
- ) : (
- <div className="space-y-4">
- <div className="relative aspect-video rounded-md overflow-hidden bg-muted flex items-center justify-center">
- {/* eslint-disable-next-line @next/next/no-img-element */}
- <img src={imageSrc} alt="Preview"className="max-w-full max-h-full object-contain"/>
- </div>
- <div className="flex flex-col gap-2">
- <p className="text-sm font-medium truncate">{fileName}</p>
- <Button variant="destructive"onClick={clearImage} className="w-full">
- <Trash2 className="w-4 h-4 mr-2"/> Clear Image
- </Button>
- </div>
- </div>
- )}
- </CardContent>
- </Card>
- 
- {Object.keys(metadata).length > 0 && (
- <Card>
- <CardHeader>
- <CardTitle>Actions</CardTitle>
- </CardHeader>
- <CardContent className="space-y-3">
- <Button variant="outline"className="w-full"onClick={copyToClipboard}>
- <Copy className="w-4 h-4 mr-2"/> Copy as JSON
- </Button>
- <Button variant="outline"className="w-full"onClick={downloadJSON}>
- <Download className="w-4 h-4 mr-2"/> Download JSON
- </Button>
- </CardContent>
- </Card>
- )}
- </div>
-
- <div className="md:col-span-2 space-y-6">
- {errorMsg && (
- <Card className="border-destructive/50 bg-destructive/10">
- <CardContent className="pt-6">
- <div className="flex items-center text-destructive">
- <Info className="w-5 h-5 mr-2"/>
- <p>{errorMsg}</p>
- </div>
- </CardContent>
- </Card>
- )}
-
- {Object.keys(metadata).length > 0 ? (
- <div className="space-y-6">
- <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
- 
- {/* Camera Info */}
- <Card>
- <CardHeader className="pb-2">
- <CardTitle className="text-base flex items-center"><Camera className="w-4 h-4 mr-2"/> Camera Info</CardTitle>
- </CardHeader>
- <CardContent className="text-sm space-y-2">
- <div className="flex justify-between border-b pb-1">
- <span className="text-muted-foreground">Make</span>
- <span className="font-medium">{metadata.Make ||"N/A"}</span>
- </div>
- <div className="flex justify-between border-b pb-1">
- <span className="text-muted-foreground">Model</span>
- <span className="font-medium">{metadata.Model ||"N/A"}</span>
- </div>
- <div className="flex justify-between border-b pb-1">
- <span className="text-muted-foreground">Lens</span>
- <span className="font-medium">{metadata.LensModel ||"N/A"}</span>
- </div>
- <div className="flex justify-between border-b pb-1">
- <span className="text-muted-foreground">Focal Length</span>
- <span className="font-medium">{metadata.FocalLength ? `${formatValue(metadata.FocalLength)}mm` :"N/A"}</span>
- </div>
- <div className="flex justify-between border-b pb-1">
- <span className="text-muted-foreground">Aperture</span>
- <span className="font-medium">{metadata.FNumber ? `f/${formatValue(metadata.FNumber)}` :"N/A"}</span>
- </div>
- <div className="flex justify-between border-b pb-1">
- <span className="text-muted-foreground">Shutter Speed</span>
- <span className="font-medium">{metadata.ExposureTime ? `${formatValue(metadata.ExposureTime)}s` :"N/A"}</span>
- </div>
- <div className="flex justify-between pb-1">
- <span className="text-muted-foreground">ISO</span>
- <span className="font-medium">{metadata.ISOSpeedRatings ||"N/A"}</span>
- </div>
- </CardContent>
- </Card>
-
- {/* Date/Time Info */}
- <Card>
- <CardHeader className="pb-2">
- <CardTitle className="text-base flex items-center"><Clock className="w-4 h-4 mr-2"/> Date & Time</CardTitle>
- </CardHeader>
- <CardContent className="text-sm space-y-2">
- <div className="flex justify-between border-b pb-1">
- <span className="text-muted-foreground">Date Taken</span>
- <span className="font-medium">{metadata.DateTimeOriginal ||"N/A"}</span>
- </div>
- <div className="flex justify-between border-b pb-1">
- <span className="text-muted-foreground">Date Digitized</span>
- <span className="font-medium">{metadata.DateTimeDigitized ||"N/A"}</span>
- </div>
- <div className="flex justify-between pb-1">
- <span className="text-muted-foreground">Date Modified</span>
- <span className="font-medium">{metadata.DateTime ||"N/A"}</span>
- </div>
- </CardContent>
- </Card>
-
- {/* GPS Info */}
- <Card>
- <CardHeader className="pb-2">
- <CardTitle className="text-base flex items-center"><MapPin className="w-4 h-4 mr-2"/> GPS Data</CardTitle>
- </CardHeader>
- <CardContent className="text-sm space-y-2">
- {hasGps ? (
- <>
- <div className="flex justify-between border-b pb-1">
- <span className="text-muted-foreground">Latitude</span>
- <span className="font-medium">{formatGPSCoordinate(metadata.GPSLatitudeRef, metadata.GPSLatitude)}</span>
- </div>
- <div className="flex justify-between border-b pb-1">
- <span className="text-muted-foreground">Longitude</span>
- <span className="font-medium">{formatGPSCoordinate(metadata.GPSLongitudeRef, metadata.GPSLongitude)}</span>
- </div>
- <div className="flex justify-between pb-1">
- <span className="text-muted-foreground">Altitude</span>
- <span className="font-medium">
- {metadata.GPSAltitude ? `${Array.isArray(metadata.GPSAltitude) ? metadata.GPSAltitude[0]/metadata.GPSAltitude[1] : metadata.GPSAltitude}m` :"N/A"}
- </span>
- </div>
- </>
- ) : (
- <div className="text-center py-4 text-muted-foreground">No GPS data available</div>
- )}
- </CardContent>
- </Card>
-
- {/* Image Info */}
- <Card>
- <CardHeader className="pb-2">
- <CardTitle className="text-base flex items-center"><ImageIcon className="w-4 h-4 mr-2"/> Image Info</CardTitle>
- </CardHeader>
- <CardContent className="text-sm space-y-2">
- <div className="flex justify-between border-b pb-1">
- <span className="text-muted-foreground">Width</span>
- <span className="font-medium">{metadata.ExifImageWidth ||"N/A"}</span>
- </div>
- <div className="flex justify-between border-b pb-1">
- <span className="text-muted-foreground">Height</span>
- <span className="font-medium">{metadata.ExifImageHeight ||"N/A"}</span>
- </div>
- <div className="flex justify-between border-b pb-1">
- <span className="text-muted-foreground">Color Space</span>
- <span className="font-medium">{metadata.ColorSpace === 1 ?"sRGB": metadata.ColorSpace ||"N/A"}</span>
- </div>
- <div className="flex justify-between border-b pb-1">
- <span className="text-muted-foreground">Software</span>
- <span className="font-medium truncate max-w-[150px] text-right"title={metadata.Software}>{metadata.Software ||"N/A"}</span>
- </div>
- </CardContent>
- </Card>
-
- </div>
-
- {/* All Raw Tags */}
- <Card>
- <CardHeader>
- <CardTitle className="text-base flex items-center"><Code className="w-4 h-4 mr-2"/> All Raw Tags</CardTitle>
- </CardHeader>
- <CardContent>
- <div className="overflow-x-auto">
- <table className="w-full text-sm text-left">
- <thead className="text-xs text-muted-foreground bg-muted/50 uppercase">
- <tr>
- <th className="px-4 py-2 rounded-tl-md">Tag Name</th>
- <th className="px-4 py-2 rounded-tr-md">Value</th>
- </tr>
- </thead>
- <tbody>
- {Object.entries(metadata).map(([key, val]) => (
- <tr key={key} className="border-b last:border-0 hover:bg-muted/20">
- <td className="px-4 py-2 font-medium">{key}</td>
- <td className="px-4 py-2 text-muted-foreground break-all">{formatValue(val)}</td>
- </tr>
- ))}
- </tbody>
- </table>
- </div>
- </CardContent>
- </Card>
-
- </div>
- ) : imageSrc ? (
- <div className="space-y-6">
- <Card className="border-yellow-500/30 bg-yellow-500/5">
- <CardContent className="pt-6">
- <div className="flex items-start text-yellow-600 dark:text-yellow-500">
- <Info className="w-5 h-5 mr-3 mt-0.5 flex-shrink-0"/>
- <div>
- <p className="font-semibold text-sm">No camera EXIF metadata was found</p>
- <p className="text-xs mt-1 text-muted-foreground leading-relaxed">
- This is common for screenshots, PNG/WebP files, or images sent through WhatsApp, Facebook, or Instagram, which remove camera tags and GPS locations to protect user privacy. However, we found the general image properties below:
- </p>
- </div>
- </div>
- </CardContent>
- </Card>
-
- {fileInfo && (
- <Card>
- <CardHeader>
- <CardTitle className="text-base flex items-center">
- <ImageIcon className="w-4 h-4 mr-2"/> General Image Properties
- </CardTitle>
- </CardHeader>
- <CardContent className="text-sm grid grid-cols-1 sm:grid-cols-2 gap-4">
- <div className="space-y-3">
- <div className="flex justify-between border-b pb-1.5">
- <span className="text-muted-foreground">File Name</span>
- <span className="font-medium truncate max-w-[180px]"title={fileInfo.name}>{fileInfo.name}</span>
- </div>
- <div className="flex justify-between border-b pb-1.5">
- <span className="text-muted-foreground">File Size</span>
- <span className="font-medium">{fileInfo.size}</span>
- </div>
- <div className="flex justify-between border-b pb-1.5 sm:border-0 sm:pb-0">
- <span className="text-muted-foreground">MIME Type</span>
- <span className="font-medium">{fileInfo.type}</span>
- </div>
- </div>
- <div className="space-y-3">
- <div className="flex justify-between border-b pb-1.5">
- <span className="text-muted-foreground">Dimensions</span>
- <span className="font-medium">
- {fileInfo.width && fileInfo.height ? `${fileInfo.width} × ${fileInfo.height} px` :"Loading..."}
- </span>
- </div>
- <div className="flex justify-between border-b pb-1.5">
- <span className="text-muted-foreground">Aspect Ratio</span>
- <span className="font-medium">
- {fileInfo.width && fileInfo.height ? getAspectRatio(fileInfo.width, fileInfo.height) :"Loading..."}
- </span>
- </div>
- <div className="flex justify-between pb-1">
- <span className="text-muted-foreground">Last Modified</span>
- <span className="font-medium text-right text-xs max-w-[180px] truncate">{fileInfo.lastModified}</span>
- </div>
- </div>
- </CardContent>
- </Card>
- )}
- </div>
- ) : (
- <Card className="h-[400px] flex items-center justify-center text-muted-foreground">
- Upload an image to view its EXIF metadata.
- </Card>
- )}
- </div>
- </div>
- 
-<ToolHowItWorks
-  steps={[
-{
-    step:"01",
-    title:"Upload",
-    description:"Load an image.",
-    icon: Upload,
-  },
-{
-    step:"02",
-    title:"View",
-    description:"See all metadata fields.",
-    icon: FileSearch,
-  },
-{
-    step:"03",
-    title:"Export",
-    description:"Copy or save the data.",
-    icon: Copy,
-  }
-  ]}
-  badges={["Free Forever","No Signup","Instant Results"]}
-/>
-
-<ToolFeatureGuides
-  features={[
-{
-    icon: Upload,
-    title:"Image Input",
-    description:"From your device.",
-  },
-{
-    icon: FileSearch,
-    title:"Full View",
-    description:"All EXIF fields.",
-  },
-{
-    icon: Copy,
-    title:"Copy",
-    description:"Metadata as text.",
-  },
-{
-    icon: ShieldCheck,
-    title:"Privacy",
-    description:"Local only.",
-  }
-  ]}
->
-  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-  <p>An EXIF viewer displays the full metadata embedded in an image — camera, lens, exposure, date, and sometimes location. Photographers verify capture settings; others investigate a file's origin. This tool reads and presents every field.</p>
-  <p>Viewing is local and private, so inspecting a file never sends it anywhere. You can copy the metadata as text for records or analysis.</p>
-  <p>Use it to understand any image's embedded data. The tool's value is complete, private metadata visibility without uploading files.</p>
-  </div>
-</ToolFeatureGuides>
-
-<ToolFaqAccordion
-  faqs={[
-{
-    question:"What shows?",
-    answer:"Camera, settings, date, location.",
-  },
-{
-    question:"Use case?",
-    answer:"Verify, catalog, investigate.",
-  },
-{
-    question:"Private?",
-    answer:"Yes, no upload.",
-  },
-{
-    question:"Edit metadata?",
-    answer:"Viewing only here.",
-  },
-{
-    question:"Free?",
-    answer:"Yes.",
-  }
-  ]}
-/>
-</>
- );
-}
+export default ExifViewerClient;

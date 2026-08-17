@@ -1,30 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import UnitConverterClient from "@/components/tools/calc/unit-converter-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
+
+const TITLE = "Unit Converter | Toolzium";
+const DESCRIPTION = "Free online unit converter tool with instant calculation and privacy.";
+const PATH = "/tools/calc/unit-converter";
+
 export const metadata = buildMetadata({
-  title: "Unit Converter",
-  description: "Convert units of length, weight, temperature, volume, area, speed, time, and more. Free online unit converter with support for metric, imperial, and US customary units.",
-  path: "/tools/calc/unit-converter",
-  keywords: ["volume", "weight", "length", "convert", "temperature", "time", "online", "free", "more", "speed", "units", "area"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
     name: "Unit Converter",
-    description: "Convert units of length, weight, temperature, volume, area, speed, time, and more. Free online unit converter with support for metric, imperial, and US customary units.",
-    path: "/tools/calc/unit-converter",
-    categoryName: "Calc",
-    categoryPath: "/tools/calc",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <UnitConverterClient />
-    
-      <RelatedTools currentToolUrl="/tools/calc/unit-converter" />
-</div>
+    </>
   );
 }

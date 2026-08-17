@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
@@ -81,7 +82,10 @@ export default function CssRadiusClient() {
     navigator.clipboard.writeText(cssOutput);
     toast.success("CSS copied!");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Circle} title="CSS Border Radius Generator" description="Design complex, elliptical border-radius shapes with visual corner controls and real-time CSS code generation." />
@@ -287,7 +291,7 @@ export default function CssRadiusClient() {
         question: "Why does my 'Circle' preset look like an oval?",
         answer: "A perfect circle requires the element to have equal width and height. If your preview box is a rectangle (e.g., 300x200), applying a 50% or large radius will result in an oval or pill shape. Adjust the width and height to be equal for a true circle."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/dev/css-radius" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

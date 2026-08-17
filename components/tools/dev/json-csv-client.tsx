@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback, useEffect } from "react";
@@ -177,7 +178,10 @@ export default function JsonCsvClient() {
     question: "Is my data sent to a server?",
     answer: "Absolutely not. All parsing, transformation, and file generation happens entirely within your browser's memory using client-side JavaScript. Your sensitive data never leaves your device, ensuring complete privacy and security."
   }];
-  return <div className="relative max-w-6xl mx-auto space-y-8 pb-12 px-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={ArrowRightLeft} title="JSON to CSV Converter" description="Transform JSON arrays into flat CSV files and vice versa with nested object flattening and custom delimiters." />
@@ -257,6 +261,7 @@ export default function JsonCsvClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={faqs} />
- <RelatedTools currentToolUrl="/tools/dev/json-to-csv-converter" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

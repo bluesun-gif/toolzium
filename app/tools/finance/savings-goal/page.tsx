@@ -1,30 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import SavingsGoalClient from "@/components/tools/finance/savings-goal-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
+
+const TITLE = "Savings Goal | Toolzium";
+const DESCRIPTION = "Free online savings goal tool with instant calculation and privacy.";
+const PATH = "/tools/finance/savings-goal";
+
 export const metadata = buildMetadata({
-  title: "Savings Goal Calculator",
-  description: "Calculate how much to save monthly to reach your financial goals. Savings calculator with compound interest and target date. Plan your savings strategy effectively.",
-  path: "/tools/finance/savings-goal",
-  keywords: ["compound", "calculate", "your", "with", "financial", "reach", "savings", "calculator", "much", "save", "monthly", "goals"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Savings Goal Calculator",
-    description: "Calculate how much to save monthly to reach your financial goals. Savings calculator with compound interest and target date. Plan your savings strategy effectively.",
-    path: "/tools/finance/savings-goal",
-    categoryName: "Finance",
-    categoryPath: "/tools/finance",
+    name: "Savings Goal",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <SavingsGoalClient />
-    
-      <RelatedTools currentToolUrl="/tools/finance/savings-goal" />
-</div>
+    </>
   );
 }

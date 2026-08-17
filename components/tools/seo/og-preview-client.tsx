@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback, useEffect } from "react";
@@ -75,7 +76,10 @@ export function OgPreviewClient() {
  {children}
  </CardContent>
  </Card>;
-  return <div className="relative max-w-6xl mx-auto space-y-8 p-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Share2} title="Open Graph (OG) Meta Preview" description="Visualize how your URLs will appear when shared on Facebook, Twitter/X, LinkedIn, Discord, and Slack. Optimize for maximum click-through rates." />
@@ -213,7 +217,9 @@ export function OgPreviewClient() {
  </CardContent>
  </GlassCard>
 
- <ToolHowItWorks steps={[{
+ </div>
+
+<ToolHowItWorks steps={[{
         step: "01",
         title: "Enter Meta Details",
         description: "Input your proposed OG Title, Description, Image URL, and Page URL into the configuration panel.",
@@ -226,7 +232,7 @@ export function OgPreviewClient() {
       }, {
         step: "03",
         title: "Export HTML Tags",
-        description: "Copy the generated <meta> tags and paste them into your website's <head> section.",
+        description: "Copy the generated &lt;meta&gt; tags and paste them into your website's &lt;head&gt; section.",
         icon: Copy
       }]} badges={["Real-Time Preview", "SEO Scoring", "Multi-Platform"]} />
 
@@ -265,9 +271,8 @@ export function OgPreviewClient() {
         question: "How long until social platforms update my preview?",
         answer: "Platforms cache link previews. After updating your meta tags, use the Facebook Sharing Debugger or Twitter Card Validator to force their crawlers to clear the cache and fetch the new data."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/seo/og-preview" max={6} />
- </div></div>;
+    </div>
+  );
 }
-export { OgPreviewClient as OGPreviewClient };
+
 export default OgPreviewClient;

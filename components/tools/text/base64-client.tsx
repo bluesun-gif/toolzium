@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback, useEffect, useRef } from "react";
@@ -11,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Copy, RotateCcw, ArrowRightLeft, Upload, Image as ImageIcon, Binary } from "lucide-react";
+import { Copy, RotateCcw, ArrowRightLeft, Upload, Image as ImageIcon, Binary, Type } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -78,7 +79,10 @@ export function Base64Client() {
   const outputSize = new Blob([output]).size;
   const overhead = inputSize > 0 ? ((outputSize - inputSize) / inputSize * 100).toFixed(1) : "0.0";
   const isImage = direction === "decode" && output.startsWith("data:image");
-  return <div className="relative max-w-6xl mx-auto space-y-8 p-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Binary} title="Base64 Encoder/Decoder" description="Encode text to Base64 or decode Base64 strings securely in your browser." />
@@ -216,8 +220,9 @@ export function Base64Client() {
         question: "Can I encode large files?",
         answer: "While the tool handles large files well, extremely large files (hundreds of megabytes) might cause browser memory constraints. For typical web assets like images and documents, it works flawlessly."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/text/base64" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default Base64Client;

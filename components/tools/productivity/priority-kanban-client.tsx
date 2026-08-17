@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -10,7 +12,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components
 import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
-import { CheckSquare, ChevronLeft, ChevronRight, Download, Flag, Kanban, Layout, MoveRight, Plus, StickyNote } from"lucide-react";
+import { CheckSquare, ChevronLeft, ChevronRight, Download, Flag, Kanban, Layout, MoveRight, Plus, StickyNote, Search } from "lucide-react";
 import { toast } from"react-hot-toast";
 
 type Task = {
@@ -75,7 +77,10 @@ export function PriorityKanbanClient() {
     downloadAnchorNode.remove();
   };
   const filteredTasks = tasks.filter(t => t.title.toLowerCase().includes(search.toLowerCase()) || t.description.toLowerCase().includes(search.toLowerCase()));
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Layout} title="Priority Kanban Board" description="Organize tasks by priority with this simple kanban board." actions={<>
@@ -202,6 +207,9 @@ export function PriorityKanbanClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default PriorityKanbanClient;

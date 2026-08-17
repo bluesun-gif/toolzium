@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useRef, useEffect } from "react";
@@ -139,7 +140,10 @@ export function MorseFlashlightClient() {
   const handleSos = () => {
     setText("SOS");
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  {isFlashing && <div className="fixed inset-0 z-50 bg-background pointer-events-none transition-colors duration-75"></div>}
@@ -253,8 +257,9 @@ export function MorseFlashlightClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/util/morse-flashlight" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default MorseFlashlightClient;

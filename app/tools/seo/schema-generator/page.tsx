@@ -1,30 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import SchemaGeneratorClient from "@/components/tools/seo/schema-generator-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
+
+const TITLE = "Schema Generator | Toolzium";
+const DESCRIPTION = "Free online schema generator tool with instant calculation and privacy.";
+const PATH = "/tools/seo/schema-generator";
+
 export const metadata = buildMetadata({
-  title: "Schema Markup Generator",
-  description: "Generate JSON-LD structured data for rich snippets. Create schema markup for Articles, Products, Organizations, LocalBusiness, FAQ, and more. Improve SEO with structured data.",
-  path: "/tools/seo/schema-generator",
-  keywords: ["products", "data", "generate", "organizations", "create", "articles", "rich", "markup", "structured", "snippets", "schema", "json"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Schema Markup Generator",
-    description: "Generate JSON-LD structured data for rich snippets. Create schema markup for Articles, Products, Organizations, LocalBusiness, FAQ, and more. Improve SEO with structured data.",
-    path: "/tools/seo/schema-generator",
-    categoryName: "Seo",
-    categoryPath: "/tools/seo",
+    name: "Schema Generator",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <SchemaGeneratorClient />
-    
-      <RelatedTools currentToolUrl="/tools/seo/schema-generator" />
-</div>
+    </>
   );
 }

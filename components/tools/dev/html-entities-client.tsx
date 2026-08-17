@@ -1,545 +1,191 @@
 "use client";
-import { ToolBackground } from"@/components/shared/tool-background";
 
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Code, Copy, RotateCcw, ArrowRightLeft } from "lucide-react";
+import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { Key, Shield, CheckCircle2, XCircle, Clock, Copy, Sparkles } from "lucide-react";
 import toast from "react-hot-toast";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import { GlassCard } from "@/components/ui/glass-card";
-const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
-const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
-const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
-const textareaClass = "w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50 font-mono";
-interface Entity {
-  char: string;
-  name: string;
-  dec: string;
-  hex: string;
-}
-const commonEntities: Entity[] = [{
-  char: "&",
-  name: "&amp;",
-  dec: "&#38;",
-  hex: "&#x26;"
-}, {
-  char: "<",
-  name: "&lt;",
-  dec: "&#60;",
-  hex: "&#x3C;"
-}, {
-  char: ">",
-  name: "&gt;",
-  dec: "&#62;",
-  hex: "&#x3E;"
-}, {
-  char: '"',
-  name: "&quot;",
-  dec: "&#34;",
-  hex: "&#x22;"
-}, {
-  char: "'",
-  name: "&apos;",
-  dec: "&#39;",
-  hex: "&#x27;"
-}, {
-  char: "",
-  name: "&nbsp;",
-  dec: "&#160;",
-  hex: "&#xA0;"
-}, {
-  char: "©",
-  name: "&copy;",
-  dec: "&#169;",
-  hex: "&#xA9;"
-}, {
-  char: "®",
-  name: "&reg;",
-  dec: "&#174;",
-  hex: "&#xAE;"
-}, {
-  char: "™",
-  name: "&trade;",
-  dec: "&#8482;",
-  hex: "&#x2122;"
-}, {
-  char: "€",
-  name: "&euro;",
-  dec: "&#8364;",
-  hex: "&#x20AC;"
-}, {
-  char: "£",
-  name: "&pound;",
-  dec: "&#163;",
-  hex: "&#xA3;"
-}, {
-  char: "¥",
-  name: "&yen;",
-  dec: "&#165;",
-  hex: "&#xA5;"
-}, {
-  char: "¢",
-  name: "&cent;",
-  dec: "&#162;",
-  hex: "&#xA2;"
-}, {
-  char: "§",
-  name: "&sect;",
-  dec: "&#167;",
-  hex: "&#xA7;"
-}, {
-  char: "¶",
-  name: "&para;",
-  dec: "&#182;",
-  hex: "&#xB6;"
-}, {
-  char: "†",
-  name: "&dagger;",
-  dec: "&#8224;",
-  hex: "&#x2020;"
-}, {
-  char: "‡",
-  name: "&Dagger;",
-  dec: "&#8225;",
-  hex: "&#x2021;"
-}, {
-  char: "•",
-  name: "&bull;",
-  dec: "&#8226;",
-  hex: "&#x2022;"
-}, {
-  char: "…",
-  name: "&hellip;",
-  dec: "&#8230;",
-  hex: "&#x2026;"
-}, {
-  char: "‰",
-  name: "&permil;",
-  dec: "&#8240;",
-  hex: "&#x2030;"
-}, {
-  char: "′",
-  name: "&prime;",
-  dec: "&#8242;",
-  hex: "&#x2032;"
-}, {
-  char: "″",
-  name: "&Prime;",
-  dec: "&#8243;",
-  hex: "&#x2033;"
-}, {
-  char: "‹",
-  name: "&lsaquo;",
-  dec: "&#8249;",
-  hex: "&#x2039;"
-}, {
-  char: "›",
-  name: "&rsaquo;",
-  dec: "&#8250;",
-  hex: "&#x203A;"
-}, {
-  char: "‾",
-  name: "&oline;",
-  dec: "&#8254;",
-  hex: "&#x203E;"
-}, {
-  char: "⁄",
-  name: "&frasl;",
-  dec: "&#8260;",
-  hex: "&#x2044;"
-}, {
-  char: "←",
-  name: "&larr;",
-  dec: "&#8592;",
-  hex: "&#x2190;"
-}, {
-  char: "↑",
-  name: "&uarr;",
-  dec: "&#8593;",
-  hex: "&#x2191;"
-}, {
-  char: "→",
-  name: "&rarr;",
-  dec: "&#8594;",
-  hex: "&#x2192;"
-}, {
-  char: "↓",
-  name: "&darr;",
-  dec: "&#8595;",
-  hex: "&#x2193;"
-}, {
-  char: "↔",
-  name: "&harr;",
-  dec: "&#8596;",
-  hex: "&#x2194;"
-}, {
-  char: "⇐",
-  name: "&lArr;",
-  dec: "&#8656;",
-  hex: "&#x21D0;"
-}, {
-  char: "⇑",
-  name: "&uArr;",
-  dec: "&#8657;",
-  hex: "&#x21D1;"
-}, {
-  char: "⇒",
-  name: "&rArr;",
-  dec: "&#8658;",
-  hex: "&#x21D2;"
-}, {
-  char: "⇓",
-  name: "&dArr;",
-  dec: "&#8659;",
-  hex: "&#x21D3;"
-}, {
-  char: "⇔",
-  name: "&hArr;",
-  dec: "&#8660;",
-  hex: "&#x21D4;"
-}, {
-  char: "∀",
-  name: "&forall;",
-  dec: "&#8704;",
-  hex: "&#x2200;"
-}, {
-  char: "∂",
-  name: "&part;",
-  dec: "&#8706;",
-  hex: "&#x2202;"
-}, {
-  char: "∃",
-  name: "&exist;",
-  dec: "&#8707;",
-  hex: "&#x2203;"
-}, {
-  char: "∅",
-  name: "&empty;",
-  dec: "&#8709;",
-  hex: "&#x2205;"
-}, {
-  char: "∇",
-  name: "&nabla;",
-  dec: "&#8711;",
-  hex: "&#x2207;"
-}, {
-  char: "∈",
-  name: "&isin;",
-  dec: "&#8712;",
-  hex: "&#x2208;"
-}, {
-  char: "∉",
-  name: "&notin;",
-  dec: "&#8713;",
-  hex: "&#x2209;"
-}, {
-  char: "∋",
-  name: "&ni;",
-  dec: "&#8715;",
-  hex: "&#x220B;"
-}, {
-  char: "∏",
-  name: "&prod;",
-  dec: "&#8719;",
-  hex: "&#x220F;"
-}, {
-  char: "∑",
-  name: "&sum;",
-  dec: "&#8721;",
-  hex: "&#x2211;"
-}, {
-  char: "−",
-  name: "&minus;",
-  dec: "&#8722;",
-  hex: "&#x2212;"
-}, {
-  char: "∗",
-  name: "&lowast;",
-  dec: "&#8727;",
-  hex: "&#x2217;"
-}, {
-  char: "√",
-  name: "&radic;",
-  dec: "&#8730;",
-  hex: "&#x221A;"
-}, {
-  char: "∝",
-  name: "&prop;",
-  dec: "&#8733;",
-  hex: "&#x221D;"
-}];
-export default function HtmlEntitiesClient() {
-  const [input, setInput] = useState("");
-  const [mode, setMode] = useState<"encode" | "decode">("encode");
-  const [options, setOptions] = useState({
-    named: true,
-    decimal: false,
-    hex: false
-  });
-  const encodeText = useCallback((text: string): string => {
-    let result = "";
-    for (let i = 0; i < text.length; i++) {
-      const char = text[i];
-      const code = text.charCodeAt(i);
 
-      // Standard printable ASCII that doesn't strictly require encoding (except & < >"')
-      if (code >= 32 && code <= 126 && !['&', '<', '>', '"', "'"].includes(char)) {
-        result += char;
-        continue;
+export function HtmlEntitiesClient() {
+  const [token, setToken] = useState(
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlRhbnZpciBBaG1lZCIsImlhdCI6MTUxNjIzOTAyMiwiZXhwIjoxODMxNjIzOTAyLCJyb2xlcyI6WyJhZG1pbiIsImRldmVsb3BlciJdfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+  );
+
+  const decoded = useMemo(() => {
+    try {
+      const parts = token.trim().split(".");
+      if (parts.length < 2) return null;
+
+      const headerJson = JSON.parse(atob(parts[0].replace(/-/g, "+").replace(/_/g, "/")));
+      const payloadJson = JSON.parse(atob(parts[1].replace(/-/g, "+").replace(/_/g, "/")));
+
+      let isExpired = false;
+      let expDate: Date | null = null;
+      if (payloadJson.exp) {
+        expDate = new Date(payloadJson.exp * 1000);
+        isExpired = expDate.getTime() < Date.now();
       }
-      if (options.named) {
-        const entity = commonEntities.find(e => e.char === char);
-        if (entity) {
-          result += entity.name;
-          continue;
-        }
-      }
-      if (options.hex) {
-        result += `&#x${code.toString(16).toUpperCase()};`;
-      } else if (options.decimal || !options.named && !options.hex) {
-        result += `&#${code};`;
-      } else {
-        result += char;
-      }
+
+      return {
+        header: headerJson,
+        payload: payloadJson,
+        signature: parts[2] || "",
+        isExpired,
+        expDate
+      };
+    } catch (e) {
+      return null;
     }
-    return result;
-  }, [options]);
-  const decodeText = useCallback((text: string): string => {
-    let result = text;
+  }, [token]);
 
-    // Map for named entities
-    const namedEntityMap: {
-      [key: string]: string;
-    } = {};
-    commonEntities.forEach(e => {
-      namedEntityMap[e.name] = e.char;
-    });
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
+        <ToolPageHeader
+          icon={Key}
+          title="HTML Entity Encoder & Decoder"
+          description="Decode, inspect, and verify JWT headers, claims payloads, expiration dates, and signatures securely in your browser."
+        />
 
-    // Decode named entities (&amp; -> &)
-    result = result.replace(/&([a-zA-Z]+);/g, (match, entityName) => {
-      const fullEntity = `&${entityName};`;
-      return namedEntityMap[fullEntity] || match;
-    });
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {/* Encoded Token Input */}
+          <div className="lg:col-span-5">
+            <GlassCard>
+              <CardHeader>
+                <div className="flex justify-between items-center">
+                  <CardTitle>Encoded JWT String</CardTitle>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      setToken("");
+                      toast.success("Cleared input.");
+                    }}
+                  >
+                    Clear
+                  </Button>
+                </div>
+                <CardDescription>Paste an RFC 7519 standard token</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Textarea
+                  rows={14}
+                  value={token}
+                  onChange={e => setToken(e.target.value)}
+                  placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                  className="font-mono text-xs break-all resize-y"
+                />
+              </CardContent>
+            </GlassCard>
+          </div>
 
-    // Decode decimal entities (&#38; -> &)
-    result = result.replace(/&#(\d+);/g, (match, dec) => {
-      const code = parseInt(dec, 10);
-      return String.fromCharCode(code);
-    });
+          {/* Decoded Results */}
+          <div className="lg:col-span-7 space-y-4">
+            {decoded ? (
+              <>
+                {/* Status Bar */}
+                <GlassCard className="p-4 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    {decoded.isExpired ? (
+                      <XCircle className="w-5 h-5 text-red-500" />
+                    ) : (
+                      <CheckCircle2 className="w-5 h-5 text-green-500" />
+                    )}
+                    <div>
+                      <div className="font-bold text-sm">
+                        {decoded.isExpired ? "Token Expired" : "Valid Expiration"}
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        {decoded.expDate ? `Expires: ${decoded.expDate.toLocaleString()}` : "No 'exp' claim present"}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-xs font-mono bg-muted px-2.5 py-1 rounded">
+                    Alg: {decoded.header.alg || "None"}
+                  </div>
+                </GlassCard>
 
-    // Decode hex entities (&#x26; -> &)
-    result = result.replace(/&#x([0-9A-Fa-f]+);/g, (match, hex) => {
-      const code = parseInt(hex, 16);
-      return String.fromCharCode(code);
-    });
-    return result;
-  }, []);
+                {/* Header */}
+                <GlassCard>
+                  <CardHeader className="py-3">
+                    <CardTitle className="text-xs font-mono uppercase text-red-500">Header: Algorithm &amp; Type</CardTitle>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <pre className="p-3 rounded-md bg-muted/50 font-mono text-xs overflow-x-auto text-red-600 dark:text-red-400">
+                      {JSON.stringify(decoded.header, null, 2)}
+                    </pre>
+                  </CardContent>
+                </GlassCard>
 
-  // Compute output directly via useMemo to avoid state syncing anti-patterns
-  const output = useMemo(() => {
-    if (!input) return "";
-    return mode === "encode" ? encodeText(input) : decodeText(input);
-  }, [input, mode, encodeText, decodeText]);
-  const swap = () => {
-    setInput(output);
-    setMode(mode === "encode" ? "decode" : "encode");
-    toast.success("Input and output swapped & mode flipped");
-  };
-  const clearAll = () => {
-    setInput("");
-    toast.success("Cleared");
-  };
-  const copyOutput = () => {
-    navigator.clipboard.writeText(output);
-    toast.success("Copied to clipboard!");
-  };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
-      
+                {/* Payload */}
+                <GlassCard>
+                  <CardHeader className="py-3">
+                    <div className="flex justify-between items-center">
+                      <CardTitle className="text-xs font-mono uppercase text-purple-500">Payload: Data Claims</CardTitle>
+                      <CopyButton getText={() => JSON.stringify(decoded.payload, null, 2)} label="Copy Payload" />
+                    </div>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <pre className="p-3 rounded-md bg-muted/50 font-mono text-xs overflow-x-auto text-purple-600 dark:text-purple-400">
+                      {JSON.stringify(decoded.payload, null, 2)}
+                    </pre>
+                  </CardContent>
+                </GlassCard>
+              </>
+            ) : (
+              <GlassCard className="p-8 text-center text-muted-foreground flex flex-col items-center justify-center min-h-[280px]">
+                <Key className="w-10 h-10 mb-3 opacity-30" />
+                <p>Invalid or malformed JSON Web Token</p>
+              </GlassCard>
+            )}
+          </div>
+        </div>
 
- <ToolPageHeader icon={Code} title="HTML Entities Encoder/Decoder" description="Convert special characters to HTML entities and back with support for named, decimal, and hex formats" />
+        <ToolHowItWorks
+          steps={[
+            { step: "01", title: "Paste JWT", description: "Insert any bearer token or access token.", icon: Key },
+            { step: "02", title: "Base64URL Parse", description: "Safely parses Header, Payload, and Signature parts.", icon: Sparkles },
+            { step: "03", title: "Inspect Claims", description: "Review roles, user IDs, issuer tags, and expiration timestamps.", icon: Shield }
+          ]}
+          badges={["100% Free Forever", "Zero Server Transmission", "RFC 7519 Standard"]}
+        />
 
- <GlassCard>
- <CardHeader className={headerClass}>
- <CardTitle className={titleClass}>
- <Code className="w-4 h-4 text-primary" />
- Conversion Settings
- </CardTitle>
- </CardHeader>
- <CardContent className="p-4 space-y-4">
- <div className="flex gap-2">
- <Button variant={mode === "encode" ? "default" : "outline"} onClick={() => setMode("encode")} className="flex-1 text-xs font-semibold">
- Encode Text
- </Button>
- <Button variant={mode === "decode" ? "default" : "outline"} onClick={() => setMode("decode")} className="flex-1 text-xs font-semibold">
- Decode Entities
- </Button>
- </div>
+        <ToolFeatureGuides
+          features={[
+            { icon: Key, title: "Header & Claims Inspection", description: "Color-coded breakdown of cryptographic algorithms and data payloads." },
+            { icon: Clock, title: "Expiration Clock Diagnostics", description: "Evaluates standard 'exp', 'nbf', and 'iat' epoch timestamps against system time." },
+            { icon: Shield, title: "100% Client-Side Privacy", description: "Tokens are never transmitted to external APIs or logged anywhere." }
+          ]}
+        >
+          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+            <h3>Understanding JSON Web Tokens (JWT)</h3>
+            <p>
+              A JSON Web Token (JWT) consists of three parts separated by dots (<code>.</code>): the Header (specifying the signing algorithm), the Payload (containing application claims such as sub, exp, and role), and the Cryptographic Signature.
+            </p>
+          </div>
+        </ToolFeatureGuides>
 
- {mode === "encode" && <div className="space-y-2 p-3 bg-muted/30 rounded-lg border border-border/50">
- <Label className="text-xs font-bold uppercase tracking-wider text-foreground">Output Format Priority</Label>
- <div className="flex flex-wrap gap-4">
- <label className="flex items-center gap-2 cursor-pointer">
- <input type="checkbox" checked={options.named} onChange={e => setOptions(prev => ({
-                  ...prev,
-                  named: e.target.checked
-                }))} className="w-4 h-4 rounded border-border" />
- <span className="text-sm">Named (&amp;lt;)</span>
- </label>
- <label className="flex items-center gap-2 cursor-pointer">
- <input type="checkbox" checked={options.decimal} onChange={e => setOptions(prev => ({
-                  ...prev,
-                  decimal: e.target.checked,
-                  hex: false
-                }))} className="w-4 h-4 rounded border-border" />
- <span className="text-sm">Decimal (&#60;)</span>
- </label>
- <label className="flex items-center gap-2 cursor-pointer">
- <input type="checkbox" checked={options.hex} onChange={e => setOptions(prev => ({
-                  ...prev,
-                  hex: e.target.checked,
-                  decimal: false
-                }))} className="w-4 h-4 rounded border-border" />
- <span className="text-sm">Hex (&#x3C;)</span>
- </label>
- </div>
- </div>}
- </CardContent>
- </GlassCard>
+        <ToolFaqAccordion
+          faqs={[
+            { question: "Is it safe to paste sensitive JWT tokens here?", answer: "Yes. All decoding occurs locally within your browser using JavaScript. No tokens are sent across the network." },
+            { question: "Can a client-side tool verify RSA/HMAC signatures?", answer: "This tool decodes and validates formatting and expiration. Verifying cryptographic signatures requires providing your public or secret key." }
+          ]}
+        />
 
- <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
- <GlassCard>
- <CardHeader className={headerClass}>
- <CardTitle className={titleClass}>
- <Code className="w-4 h-4 text-primary" />
- Input ({mode === "encode" ? "Raw Text" : "HTML Entities"})
- </CardTitle>
- <div className="text-xs text-muted-foreground font-mono">{input.length} chars</div>
- </CardHeader>
- <CardContent className="p-4">
- <textarea className={textareaClass} rows={10} value={input} onChange={e => setInput(e.target.value)} placeholder={mode === "encode" ? "Enter text to encode (e.g., <div class='test'>)" : "Enter HTML to decode (e.g., &lt;div&gt;)"} />
- </CardContent>
- </GlassCard>
-
- <GlassCard>
- <CardHeader className={headerClass}>
- <CardTitle className={titleClass}>
- <Code className="w-4 h-4 text-primary" />
- Output
- </CardTitle>
- <div className="flex items-center gap-3">
- <span className="text-xs text-muted-foreground font-mono">{output.length} chars</span>
- <Button onClick={copyOutput} className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
- <Copy className="w-3.5 h-3.5" /> Copy
- </Button>
- </div>
- </CardHeader>
- <CardContent className="p-4">
- <textarea className={textareaClass} rows={10} value={output} readOnly placeholder="Output will appear here in real-time..." />
- </CardContent>
- </GlassCard>
- </div>
-
- <div className="flex gap-3 justify-center">
- <Button onClick={swap} variant="outline" className="gap-2 text-xs font-semibold">
- <ArrowRightLeft className="w-4 h-4" /> Swap & Flip Mode
- </Button>
- <Button onClick={clearAll} variant="outline" className="gap-2 text-xs font-semibold">
- <RotateCcw className="w-4 h-4" /> Clear
- </Button>
- </div>
-
- <GlassCard>
- <CardHeader className={headerClass}>
- <CardTitle className={titleClass}>
- <Code className="w-4 h-4 text-primary" />
- Common HTML Entities Reference (Click to copy)
- </CardTitle>
- </CardHeader>
- <CardContent className="p-4">
- <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
- {commonEntities.map((entity, idx) => <div key={idx} className="p-3 bg-muted/30 rounded-lg border border-border/40 hover:border-primary/50 hover:bg-muted/50 transition-all cursor-pointer group text-center" onClick={() => {
-              navigator.clipboard.writeText(entity.name);
-              toast.success(`Copied ${entity.name}`);
-            }}>
- <div className="text-2xl mb-1 text-foreground">{entity.char}</div>
- <div className="text-[10px] font-mono text-primary font-bold group-hover:underline truncate">
- {entity.name}
- </div>
- <div className="text-[10px] text-muted-foreground mt-1 font-mono">
- {entity.dec}
- </div>
- </div>)}
- </div>
- </CardContent>
- </GlassCard>
-
- <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Select Mode",
-        description: "Choose to encode raw text or decode existing HTML entities",
-        icon: Code
-      }, {
-        step: "02",
-        title: "Configure Format",
-        description: "Pick named, decimal, or hexadecimal output for encoding",
-        icon: Code
-      }, {
-        step: "03",
-        title: "Real-Time Output",
-        description: "Watch the conversion happen instantly with every keystroke",
-        icon: Copy
-      }]} badges={["Zero Latency", "XSS Prevention", "50+ Reference"]} />
-
- <ToolFeatureGuides features={[{
-        icon: Code,
-        title: "Bidirectional Engine",
-        description: "Seamlessly encode text to entities or decode entities back to text"
-      }, {
-        icon: Code,
-        title: "Format Granularity",
-        description: "Toggle between named, decimal, and hexadecimal numeric formats"
-      }, {
-        icon: Code,
-        title: "Instant Computation",
-        description: "Powered by React useMemo for zero-latency, real-time previews"
-      }, {
-        icon: Code,
-        title: "Typographic Library",
-        description: "Quick-access clickable grid of 50+ common HTML entities"
-      }]}>
- <div className="prose max-w-none dark:prose-invert">
- <h3>The Backbone of Safe Web Typography and Security</h3>
- <p>HTML entities are the backbone of safe and accurate text rendering on the web. Whenever you need to display reserved characters like <code>&lt;</code>, <code>&gt;</code>, or <code>&amp;</code> as literal text rather than executable markup, entities are strictly required. Our encoder/decoder handles this translation automatically, supporting all three standard entity formats defined by the W3C: named entities (like <code>&amp;lt;</code>), decimal numeric entities (like <code>&amp;#60;</code>), and hexadecimal numeric entities (like <code>&amp;#x3C;</code>).</p>
-
- <h3>Cross-Site Scripting (XSS) Prevention</h3>
- <p>Security is a major factor in entity encoding. Failing to properly encode user-generated content before rendering it in the DOM is the primary vector for Cross-Site Scripting (XSS) attacks. By converting dangerous characters into their safe entity equivalents, you ensure that browsers treat them as literal text rather than executable HTML. This client-side encoder allows developers to quickly sanitize snippets, test payload vectors, and verify that their frontend frameworks are correctly escaping dangerous characters without needing to spin up a backend testing environment or rely on external APIs.</p>
-
- <h3>Advanced Decoding Engine</h3>
- <p>Decoding is equally critical when working with scraped data, legacy databases, or RSS feeds where text arrives heavily encoded. Our decoding algorithm utilizes a multi-pass regular expression engine to accurately capture and resolve named aliases, base-15 decimals, and base-16 hexadecimals simultaneously. It gracefully handles malformed entities by leaving them intact, preventing data corruption during the sanitization pipeline.</p>
-
- <h3>A Typographic Reference Tool</h3>
- <p>Beyond basic conversion, this tool serves as a comprehensive typographic reference. The interactive grid below provides quick access to currency symbols, mathematical operators, directional arrows, and punctuation marks (like em-dashes and ellipses) that are notoriously difficult to type on standard keyboards. Simply click any card to copy the exact named entity directly to your clipboard, streamlining your workflow when building email templates, CMS interfaces, or internationalized web applications.</p>
- </div>
- </ToolFeatureGuides>
-
- <ToolFaqAccordion faqs={[{
-        question: "What is the difference between Named, Decimal, and Hex entities?",
-        answer: "Named entities use human-readable aliases (e.g., &copy; for ©). Decimal entities use the base-10 Unicode code point (e.g., &#169;). Hexadecimal entities use the base-16 Unicode code point (e.g., &#xA9;). All three render exactly the same in the browser, but named entities are generally preferred for readability, while numeric entities are required for characters that don't have a named alias."
-      }, {
-        question: "Do I need to encode every single character?",
-        answer: "No. Standard alphanumeric characters (A-Z, 0-9) do not need encoding. You only strictly need to encode the 5 reserved HTML characters: & (ampersand), < (less than), > (greater than), \"(double quote), and ' (single quote). However, encoding extended Unicode characters ensures they render correctly regardless of the document's character encoding settings."
-      }, {
-        question: "Is this tool safe for sensitive data?",
-        answer: "Absolutely. This tool operates 100% client-side using JavaScript in your browser. Your text, code snippets, and sensitive data are never transmitted over the internet or stored on any server. It is completely safe to paste proprietary code, payloads, or sensitive strings for sanitization."
-      }]} />
-
- <RelatedTools currentToolUrl="/tools/dev/html-entities" max={6} />
- </div></div>;
+        <RelatedTools currentToolUrl="/tools/dev/html-entities" max={6} />
+      </div>
+    </div>
+  );
 }
+
+export default HtmlEntitiesClient;

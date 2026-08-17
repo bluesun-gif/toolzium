@@ -1,21 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
-import { MeetingPlannerClient } from "@/components/tools/time/meeting-planner-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
-import RelatedTools from "@/components/shared/related-tools";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
+import MeetingPlannerClient from "@/components/tools/time/meeting-planner-client";
+
+const TITLE = "Time Zone Meeting Planner | Toolzium";
+const DESCRIPTION = "Find the best meeting time across different time zones. Compare availability and schedule international meetings easily.";
+const PATH = "/tools/time/meeting-planner";
 
 export const metadata = buildMetadata({
-  title: "Time Zone Meeting Planner | Toolzium",
-  description: "Find the best meeting time across different time zones. Compare availability and schedule international meetings easily.",
-  path: "/tools/time/meeting-planner",
-  keywords: ["time zone converter", "meeting planner", "international meeting time", "timezone scheduler"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
-  const toolUrl = `${siteURL}/tools/time/meeting-planner`;
-  const appLd = { "@context": "https://schema.org", "@type": "WebApplication", name: "Time Zone Meeting Planner", url: toolUrl, description: "Find the best meeting time across different time zones.", applicationCategory: "UtilitiesApplication", operatingSystem: "All", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" } };
-  const crumbsLd = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: siteURL }, { "@type": "ListItem", position: 2, name: "Date & Time Tools", item: `${siteURL}/tools#cat-time` }, { "@type": "ListItem", position: 3, name: "Meeting Planner", item: toolUrl }] };
-  return (<div className="space-y-4"><JsonLd data={appLd} /><JsonLd data={crumbsLd} /><MeetingPlannerClient />
-      <RelatedTools currentToolUrl="/tools/time/meeting-planner" />
-</div>);
+  const jsonLd = buildToolJsonLd({
+    name: "Time Zone Meeting Planner",
+    description: DESCRIPTION,
+    path: PATH
+  });
+
+  return (
+    <>
+      <JsonLd data={jsonLd} />
+      <MeetingPlannerClient />
+    </>
+  );
 }

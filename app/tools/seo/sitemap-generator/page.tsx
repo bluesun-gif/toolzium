@@ -1,30 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import SitemapGeneratorClient from "@/components/tools/seo/sitemap-generator-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
+
+const TITLE = "Sitemap Generator | Toolzium";
+const DESCRIPTION = "Free online sitemap generator tool with instant calculation and privacy.";
+const PATH = "/tools/seo/sitemap-generator";
+
 export const metadata = buildMetadata({
-  title: "Sitemap.xml Generator",
-  description: "Create XML sitemaps from URL lists for search engines. Generate sitemaps for Google, Bing, and other search engines. Add priority, change frequency, and last modified dates. Free sitemap builder.",
-  path: "/tools/seo/sitemap-generator",
-  keywords: ["from", "generate", "create", "other", "google", "search", "engines", "bing", "lists", "sitemaps"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Sitemap.xml Generator",
-    description: "Create XML sitemaps from URL lists for search engines. Generate sitemaps for Google, Bing, and other search engines. Add priority, change frequency, and last modified dates. Free sitemap builder.",
-    path: "/tools/seo/sitemap-generator",
-    categoryName: "Seo",
-    categoryPath: "/tools/seo",
+    name: "Sitemap Generator",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <SitemapGeneratorClient />
-    
-      <RelatedTools currentToolUrl="/tools/seo/sitemap-generator" />
-</div>
+    </>
   );
 }

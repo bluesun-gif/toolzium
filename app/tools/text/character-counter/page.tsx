@@ -1,26 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
-export const metadata: Metadata = generateSEOMetadata({
-  title: "Character Counter — Count Letters & Words Online",
-  description: "Count characters, words, sentences, paragraphs in real-time. Check social media limits for Twitter/X, Instagram, LinkedIn, TikTok. Free character counter tool.",
-  path: "/tools/text/character-counter",
-  keywords: ["character", "words", "check", "time", "characters", "social", "real", "count", "media", "paragraphs", "limits", "sentences"],
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
+import CharacterCounterClient from "@/components/tools/text/character-counter-client";
+
+const TITLE = "Character Counter — Count Letters & Words Online";
+const DESCRIPTION = "Count characters, words, sentences, paragraphs in real-time. Check social media limits for Twitter/X, Instagram, LinkedIn, TikTok. Free character counter tool.";
+const PATH = "/tools/text/character-counter";
+
+export const metadata = buildMetadata({
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
     name: "Character Counter",
-    description: "Count characters, words, sentences, and paragraphs in real-time. Check social media character limits for Twitter/X, Instagram, LinkedIn, TikTok. Free character counter with keyword density analysis.",
-    path: "/tools/text/character-counter",
-    categoryName: "Text",
-    categoryPath: "/tools/text",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
-      <ClientComponent />
-    
-      <RelatedTools currentToolUrl="/tools/text/character-counter" />
-</div>
+    <>
+      <JsonLd data={jsonLd} />
+      <CharacterCounterClient />
+    </>
   );
 }

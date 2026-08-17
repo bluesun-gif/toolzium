@@ -1,4 +1,7 @@
 "use client";
+
+import { Separator } from "@/components/ui/separator";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
@@ -16,7 +19,7 @@ import { CopyButton } from "@/components/shared/action-buttons";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { cn } from "@/lib/utils";
 import toast from "react-hot-toast";
-import { Repeat, PenTool, Settings, Copy } from "lucide-react";
+import { Repeat, PenTool, Settings, Copy, Type } from "lucide-react";
 export default function TextRepeaterClient() {
   const [text, setText] = useState("");
   const [count, setCount] = useState(10);
@@ -39,7 +42,10 @@ export default function TextRepeaterClient() {
     setOutput(result);
     toast.success(`Generated ${count} repetitions!`);
   };
-  return <div className="w-full min-h-screen pb-20 relative"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
@@ -103,7 +109,8 @@ export default function TextRepeaterClient() {
           </GlassCard>
         </div>
 
-        <ToolHowItWorks steps={[{
+        </div>
+<ToolHowItWorks steps={[{
           step: "01",
           title: "Enter Phrase",
           description: "Type the word, sentence, or emoji string you want to duplicate.",
@@ -148,8 +155,7 @@ export default function TextRepeaterClient() {
           question: "Does this work with emojis?",
           answer: "Yes! Emojis and multi-line paragraphs repeat seamlessly."
         }]} />
-
-        <RelatedTools currentToolUrl="/tools/text/text-repeater" max={6} />
-      </div>
-    </div></div>;
+    </div>
+    </div>
+);
 }

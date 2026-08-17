@@ -1,4 +1,8 @@
 "use client";
+
+import { Card } from "@/components/ui/card";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -13,7 +17,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { CreditCard, Download, Eye, Palette, Scan, Smartphone, User } from"lucide-react";
+import { CreditCard, Download, Eye, Palette, Scan, Smartphone, User, Copy } from "lucide-react";
 import { cn } from"@/lib/utils";
 import toast from"react-hot-toast";
 
@@ -66,7 +70,10 @@ export function BusinessCardClient() {
     });
   };
   const activeTheme = COLORS[design.theme];
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={CreditCard} title="Business Card Generator" description="Design and download custom digital business cards with QR codes." actions={<>
@@ -198,6 +205,8 @@ export function BusinessCardClient() {
  </div>
  </div>
  
+</div>
+
 <ToolHowItWorks
   steps={[
 {
@@ -277,6 +286,8 @@ export function BusinessCardClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+  );
 }
+
+export default BusinessCardClient;

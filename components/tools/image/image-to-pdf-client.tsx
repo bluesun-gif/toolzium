@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -13,7 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/
 import { Switch } from"@/components/ui/switch";
 import { Slider } from"@/components/ui/slider";
 import toast from"react-hot-toast";
-import { ArrowDown, ArrowUp, Download, FileText, ShieldCheck, Trash2, Upload } from"lucide-react";
+import { ArrowDown, ArrowUp, Download, FileText, ShieldCheck, Trash2, Upload, Settings } from "lucide-react";
 import jsPDF from"jspdf";
 
 interface PdfImage {
@@ -98,7 +100,10 @@ export default function ImageToPdfClient() {
       toast.error("Failed to generate PDF.");
     }
   };
-  return <div className="relative mx-auto max-w-5xl px-4 py-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Image to PDF Converter" description="Convert multiple images into a single PDF document securely in your browser." />
@@ -269,6 +274,7 @@ export default function ImageToPdfClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }

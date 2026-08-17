@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState } from "react";
@@ -10,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Plane, Clock, Globe, ArrowRight, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { Plane, Clock, Globe, ArrowRight, Sparkles, Shield, Zap, Copy, Calculator } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -115,7 +116,10 @@ export function FlightDurationClient() {
     if (!res) return "No valid calculation yet.";
     return "Flight Duration:" + res.hours + "h" + res.minutes + "m\nTime Zone Diff:" + (res.tzDiff > 0 ? "+" : "") + res.tzDiff + "hours.";
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Plane} title="Flight Duration Calculator" description="Calculate actual flight duration accounting for time zone shifts." actions={<>
@@ -262,8 +266,9 @@ export function FlightDurationClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/travel/flight-duration" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default FlightDurationClient;

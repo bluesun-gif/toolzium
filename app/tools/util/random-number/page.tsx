@@ -1,30 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import RandomNumberClient from "@/components/tools/util/random-number-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
+
+const TITLE = "Random Number | Toolzium";
+const DESCRIPTION = "Free online random number tool with instant calculation and privacy.";
+const PATH = "/tools/util/random-number";
+
 export const metadata = buildMetadata({
-  title: "Random Number Generator",
-  description: "Generate cryptographically secure random numbers with custom range. Bulk generation, no-duplicate mode, sort options, and copy to clipboard. Free random number generator.",
-  path: "/tools/util/random-number",
-  keywords: ["mode", "numbers", "random", "with", "generate", "bulk", "cryptographically", "secure", "generation", "custom", "range", "duplicate"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Random Number Generator",
-    description: "Generate cryptographically secure random numbers with custom range. Bulk generation, no-duplicate mode, sort options, and copy to clipboard. Free random number generator.",
-    path: "/tools/util/random-number",
-    categoryName: "Util",
-    categoryPath: "/tools/util",
+    name: "Random Number",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <RandomNumberClient />
-    
-      <RelatedTools currentToolUrl="/tools/util/random-number" />
-</div>
+    </>
   );
 }

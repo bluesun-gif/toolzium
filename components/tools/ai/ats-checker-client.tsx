@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useCallback, useEffect } from "react";
@@ -15,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { cn } from "@/lib/utils";
-import { FileSearch, Sparkles, CheckCircle2, Sliders, RefreshCcw, Award, FileText, History, Trash2, Lightbulb, AlertCircle, Wand2, CircleCheck, CircleX } from "lucide-react";
+import { FileSearch, Sparkles, CheckCircle2, Sliders, RefreshCcw, Award, FileText, History, Trash2, Lightbulb, AlertCircle, Wand2, CircleCheck, CircleX, Check, Copy, Type } from "lucide-react";
 import toast from "react-hot-toast";
 
 interface AtsResult {
@@ -456,7 +459,8 @@ ${resumeText.trim()}`;
             </GlassCard>
           )}
 
-          <ToolHowItWorks steps={[
+          </div>
+<ToolHowItWorks steps={[
             { step: "01", title: "Paste Resume & Job Post", description: "Input your resume text and target job description.", icon: FileText },
             { step: "02", title: "Verified ATS Match Scan", description: "We extract real keywords from the JD and measure exact match vs your resume, plus section & format checks.", icon: Sliders },
             { step: "03", title: "Optimize & Tailor", description: "See missing keywords, fix formatting, then one-click AI-tailor your resume to pass screening.", icon: CheckCircle2 },
@@ -477,11 +481,9 @@ ${resumeText.trim()}`;
             { question: "Is my resume saved or stored anywhere?", answer: "No. Your resume text is processed strictly inside your web browser and sent only to our AI endpoint when you click 'AI-Tailor'." },
             { question: "What ATS match score should I aim for?", answer: "Aim for an ATS match score of 80% or higher for top-tier job applications. Our score is computed deterministically from your resume and the job description so it reflects real alignment." },
           ]} />
-
-          <RelatedTools currentToolUrl="/tools/ai/ats-checker" max={6} />
-        </div>
-      </div>
     </div>
-  );
+    </div>
+);
 }
+
 export default AtsCheckerClient;

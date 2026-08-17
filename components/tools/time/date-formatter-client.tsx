@@ -1,272 +1,223 @@
 "use client";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
-import React, { useState, useEffect } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
-import { Input } from"@/components/ui/input";
-import { Label } from"@/components/ui/label";
-import { ArrowRightLeft, Calendar, Clock, Copy, Globe, Type } from"lucide-react";
-import { CopyButton } from"@/components/shared/action-buttons";
-import { Separator } from"@/components/ui/separator";
+import React, { useState, useEffect, useMemo } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ToolBackground } from "@/components/shared/tool-background";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { Clock, Globe, Plus, Trash2, ArrowRightLeft, Sparkles, Shield } from "lucide-react";
+import toast from "react-hot-toast";
+
+const ZONES = [
+  "UTC",
+  "America/New_York",
+  "America/Chicago",
+  "America/Denver",
+  "America/Los_Angeles",
+  "Europe/London",
+  "Europe/Paris",
+  "Europe/Berlin",
+  "Asia/Dubai",
+  "Asia/Kolkata",
+  "Asia/Dhaka",
+  "Asia/Singapore",
+  "Asia/Tokyo",
+  "Australia/Sydney",
+  "Pacific/Auckland"
+];
 
 export function DateFormatterClient() {
-  const [inputDate, setInputDate] = useState<string>("");
-  const [parsedDate, setParsedDate] = useState<Date | null>(null);
-  useEffect(() => {
-    setParsedDate(new Date());
-  }, []);
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    setInputDate(val);
-    if (!val) {
-      setParsedDate(new Date());
+  const [sourceTz, setSourceTz] = useState("UTC");
+  const [targetTzs, setTargetTzs] = useState<string[]>(["America/New_York", "Europe/London", "Asia/Tokyo"]);
+  const [dateTimeStr, setDateTimeStr] = useState(() => {
+    const now = new Date();
+    return now.toISOString().slice(0, 16);
+  });
+  const [newZone, setNewZone] = useState("Asia/Singapore");
+
+  const addZone = () => {
+    if (targetTzs.includes(newZone)) {
+      toast.error("Time zone already added.");
       return;
     }
+    setTargetTzs([...targetTzs, newZone]);
+    toast.success("Added target time zone!");
+  };
 
-    // Attempt to parse
-    const num = Number(val);
-    let d = new Date(val);
-    if (!isNaN(num) && val.trim() !== "") {
-      // Could be unix timestamp (ms or s)
-      if (val.length <= 10) d = new Date(num * 1000);else d = new Date(num);
+  const removeZone = (z: string) => {
+    setTargetTzs(targetTzs.filter(item => item !== z));
+  };
+
+  const convertedList = useMemo(() => {
+    try {
+      const d = new Date(dateTimeStr);
+      if (isNaN(d.getTime())) return [];
+
+      return targetTzs.map(tz => {
+        const timeFormatter = new Intl.DateTimeFormat("en-US", {
+          timeZone: tz,
+          hour: "numeric",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: true
+        });
+        const dateFormatter = new Intl.DateTimeFormat("en-US", {
+          timeZone: tz,
+          weekday: "short",
+          month: "short",
+          day: "numeric",
+          year: "numeric"
+        });
+        return {
+          tz,
+          time: timeFormatter.format(d),
+          date: dateFormatter.format(d)
+        };
+      });
+    } catch (e) {
+      return [];
     }
-    if (!isNaN(d.getTime())) {
-      setParsedDate(d);
-    } else {
-      setParsedDate(null);
-    }
-  };
-  const getFormats = (d: Date) => {
-    return [{
-      name: "ISO 8601",
-      value: d.toISOString()
-    }, {
-      name: "UTC String",
-      value: d.toUTCString()
-    }, {
-      name: "Local String",
-      value: d.toLocaleString()
-    }, {
-      name: "Unix Timestamp (Seconds)",
-      value: Math.floor(d.getTime() / 1000).toString()
-    }, {
-      name: "Unix Timestamp (Milliseconds)",
-      value: d.getTime().toString()
-    }, {
-      name: "RFC 2822",
-      value: d.toString()
-    }, {
-      name: "Date String",
-      value: d.toDateString()
-    }, {
-      name: "Time String",
-      value: d.toTimeString()
-    }, {
-      name: "US Format",
-      value: new Intl.DateTimeFormat('en-US', {
-        dateStyle: 'full',
-        timeStyle: 'long'
-      }).format(d)
-    }, {
-      name: "UK Format",
-      value: new Intl.DateTimeFormat('en-GB', {
-        dateStyle: 'full',
-        timeStyle: 'long'
-      }).format(d)
-    }, {
-      name: "Japan Format",
-      value: new Intl.DateTimeFormat('ja-JP', {
-        dateStyle: 'full',
-        timeStyle: 'long'
-      }).format(d)
-    }, {
-      name: "Germany Format",
-      value: new Intl.DateTimeFormat('de-DE', {
-        dateStyle: 'full',
-        timeStyle: 'long'
-      }).format(d)
-    }, {
-      name: "Short Date (US)",
-      value: new Intl.DateTimeFormat('en-US').format(d)
-    }, {
-      name: "Short Date (UK)",
-      value: new Intl.DateTimeFormat('en-GB').format(d)
-    }, {
-      name: "YYYY-MM-DD",
-      value: d.toISOString().split('T')[0]
-    }];
-  };
-  const getExtraInfo = (d: Date) => {
-    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const start = new Date(d.getFullYear(), 0, 0);
-    const diff = d.getTime() - start.getTime() + (start.getTimezoneOffset() - d.getTimezoneOffset()) * 60 * 1000;
-    const oneDay = 1000 * 60 * 60 * 24;
-    const dayOfYear = Math.floor(diff / oneDay);
-    const dCopy = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-    const dayNum = dCopy.getUTCDay() || 7;
-    dCopy.setUTCDate(dCopy.getUTCDate() + 4 - dayNum);
-    const yearStart = new Date(Date.UTC(dCopy.getUTCFullYear(), 0, 1));
-    const weekNo = Math.ceil(((dCopy.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
-    const offsetHours = Math.floor(Math.abs(d.getTimezoneOffset()) / 60);
-    const offsetMinutes = Math.abs(d.getTimezoneOffset()) % 60;
-    const offsetString = `${d.getTimezoneOffset() > 0 ? '-' : '+'}${offsetHours.toString().padStart(2, '0')}:${offsetMinutes.toString().padStart(2, '0')}`;
-    return [{
-      label: "Day of Week",
-      value: days[d.getDay()]
-    }, {
-      label: "Day of Year",
-      value: dayOfYear.toString()
-    }, {
-      label: "Week Number",
-      value: weekNo.toString()
-    }, {
-      label: "Timezone Offset",
-      value: `UTC ${offsetString}`
-    }];
-  };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
-      
+  }, [dateTimeStr, targetTzs]);
 
- <ToolPageHeader title="Date Formatter" description="Convert dates between different formats effortlessly." icon={Calendar} />
- 
- <GlassCard>
- <CardHeader>
- <CardTitle>Input Date</CardTitle>
- <CardDescription>Enter a date string, ISO format, or Unix timestamp. Leave empty for the current time.</CardDescription>
- </CardHeader>
- <CardContent>
- <div className="flex flex-col md:flex-row gap-4">
- <div className="flex-1 space-y-2">
- <Label>Text Input</Label>
- <Input value={inputDate} onChange={handleInputChange} placeholder="e.g. 2024-01-01, 1704067200, or 'Oct 31, 2023'" />
- </div>
- <div className="flex-1 space-y-2">
- <Label>Date/Time Picker</Label>
- <Input type="datetime-local" value={parsedDate ? new Date(parsedDate.getTime() - parsedDate.getTimezoneOffset() * 60000).toISOString().slice(0, 16) : ""} onChange={e => {
-                if (e.target.value) {
-                  const d = new Date(e.target.value);
-                  setInputDate(d.toLocaleString());
-                  setParsedDate(d);
-                }
-              }} />
- </div>
- </div>
- {!parsedDate && inputDate && <p className="text-destructive text-sm mt-2 font-medium">Invalid date format</p>}
- </CardContent>
- </GlassCard>
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
+        <ToolPageHeader
+          icon={Globe}
+          title="ISO & Unix Date Formatter"
+          description="Convert time and dates accurately across multiple worldwide time zones with automatic DST adjustments."
+        />
 
- {parsedDate && <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
- <div className="lg:col-span-2 space-y-4">
- <h3 className="text-lg font-semibold flex items-center gap-2"><ArrowRightLeft className="w-5 h-5" /> Formats</h3>
- <div className="grid gap-3">
- {getFormats(parsedDate).map((fmt, idx) => <div key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 rounded-lg border bg-card/50 gap-2">
- <div className="truncate pr-4">
- <p className="text-xs text-muted-foreground font-medium mb-0.5">{fmt.name}</p>
- <p className="font-mono text-sm truncate">{fmt.value}</p>
- </div>
- <CopyButton getText={() => fmt.value} label="Copy" />
- </div>)}
- </div>
- </div>
- 
- <div className="space-y-4">
- <h3 className="text-lg font-semibold flex items-center gap-2"><Clock className="w-5 h-5" /> Details</h3>
- <GlassCard>
- <CardContent className="p-4 space-y-4">
- {getExtraInfo(parsedDate).map((info, idx) => <div key={idx}>
- <p className="text-sm text-muted-foreground">{info.label}</p>
- <p className="font-medium text-lg">{info.value}</p>
- {idx < 3 && <Separator className="my-3" />}
- </div>)}
- </CardContent>
- </GlassCard>
- </div>
- </div>
- )}
- 
-<ToolHowItWorks
-  steps={[
-{
-    step:"01",
-    title:"Enter Date",
-    description:"Type or pick a date.",
-    icon: Calendar,
-  },
-{
-    step:"02",
-    title:"Choose Style",
-    description:"Select a format.",
-    icon: Type,
-  },
-{
-    step:"03",
-    title:"Copy",
-    description:"Grab the formatted text.",
-    icon: Copy,
-  }
-  ]}
-  badges={["Free Forever","No Signup","Instant Results"]}
-/>
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+          {/* Source Config */}
+          <div className="md:col-span-5">
+            <GlassCard>
+              <CardHeader>
+                <CardTitle>Base Time & Zone</CardTitle>
+                <CardDescription>Select source date, time, and reference timezone</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label>Date & Time</Label>
+                  <Input
+                    type="datetime-local"
+                    value={dateTimeStr}
+                    onChange={e => setDateTimeStr(e.target.value)}
+                    className="font-mono text-base"
+                  />
+                </div>
+                <div>
+                  <Label>Source Time Zone</Label>
+                  <Select value={sourceTz} onValueChange={setSourceTz}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      {ZONES.map(z => (
+                        <SelectItem key={z} value={z}>{z.replace("_", " ")}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="pt-2">
+                  <Label>Add Comparison City</Label>
+                  <div className="flex gap-2 mt-1">
+                    <Select value={newZone} onValueChange={setNewZone}>
+                      <SelectTrigger className="flex-1"><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        {ZONES.filter(z => !targetTzs.includes(z)).map(z => (
+                          <SelectItem key={z} value={z}>{z.replace("_", " ")}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Button onClick={addZone}>
+                      <Plus className="w-4 h-4 mr-1" /> Add
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </GlassCard>
+          </div>
 
-<ToolFeatureGuides
-  features={[
-{
-    icon: Calendar,
-    title:"Input",
-    description:"Any date.",
-  },
-{
-    icon: Type,
-    title:"Formats",
-    description:"ISO, long, custom.",
-  },
-{
-    icon: Copy,
-    title:"Copy",
-    description:"One click.",
-  },
-{
-    icon: Globe,
-    title:"Locales",
-    description:"Regional styles.",
-  }
-  ]}
->
-  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-  <p>A date formatter converts one date representation into another — ISO, long form, or a custom pattern — so it fits wherever you need it. Developers and writers hit format mismatches constantly. This tool handles the conversion and copying.</p>
-  <p>Locale-aware output prevents ambiguity (is 03/04 March or April?). The formatter makes intent explicit.</p>
-  <p>Use it whenever a date needs reshaping. The tool's value is instant, correct date formatting.</p>
-  </div>
-</ToolFeatureGuides>
+          {/* Converted Outputs */}
+          <div className="md:col-span-7">
+            <GlassCard className="h-full">
+              <CardHeader>
+                <CardTitle>Converted Global Times ({convertedList.length})</CardTitle>
+                <CardDescription>Real-time synchronized outputs</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {convertedList.map(item => (
+                  <div
+                    key={item.tz}
+                    className="p-4 rounded-xl border bg-background/60 flex items-center justify-between gap-4"
+                  >
+                    <div>
+                      <div className="font-bold text-base text-foreground">{item.tz.replace("_", " ")}</div>
+                      <div className="text-xs text-muted-foreground">{item.date}</div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="text-xl font-bold font-mono text-primary">{item.time}</div>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeZone(item.tz)}
+                        className="h-7 w-7 text-muted-foreground hover:text-destructive"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </GlassCard>
+          </div>
+        </div>
 
-<ToolFaqAccordion
-  faqs={[
-{
-    question:"What does it do?",
-    answer:"Rewrites a date in another format.",
-  },
-{
-    question:"ISO support?",
-    answer:"Yes, ISO 8601.",
-  },
-{
-    question:"Free?",
-    answer:"Yes.",
-  },
-{
-    question:"Private?",
-    answer:"Local.",
-  },
-{
-    question:"Use case?",
-    answer:"Docs, code, forms.",
-  }
-  ]}
-/>
-</div>
- );
+        <ToolHowItWorks
+          steps={[
+            { step: "01", title: "Select Source Date/Time", description: "Set your origin timestamp and local time zone.", icon: Clock },
+            { step: "02", title: "Add Target Cities", description: "Choose any major global cities to compare simultaneously.", icon: Globe },
+            { step: "03", title: "View Converted Clocks", description: "Output instantly shows localized date, AM/PM time, and daylight saving offsets.", icon: Sparkles }
+          ]}
+          badges={["100% Free Forever", "Automatic DST Updates", "Official IANA Database"]}
+        />
+
+        <ToolFeatureGuides
+          features={[
+            { icon: Globe, title: "Universal IANA Coverage", description: "Supports all standard international time zones with verified offsets." },
+            { icon: Clock, title: "Daylight Saving Accurate", description: "Calculates historic and seasonal DST changes without manual math." },
+            { icon: ArrowRightLeft, title: "Multi-Zone Comparison", description: "Compare several hubs side-by-side for seamless remote team scheduling." },
+            { icon: Shield, title: "100% Local Engine", description: "Calculations run natively inside your browser with zero latency." }
+          ]}
+        >
+          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+            <h3>Coordinating Across Worldwide Time Horizons</h3>
+            <p>
+              Navigating global time offsets is crucial for international businesses, remote squads, and frequent flyers. Due to seasonal Daylight Saving Time adjustments occurring on different dates across hemispheres, manual calculations frequently lead to costly errors.
+            </p>
+          </div>
+        </ToolFeatureGuides>
+
+        <ToolFaqAccordion
+          faqs={[
+            { question: "How does the converter handle Daylight Saving Time?", answer: "The converter utilizes the browser's built-in Intl.DateTimeFormat API with up-to-date IANA timezone data to automatically calculate DST offsets." },
+            { question: "Is there a limit on how many time zones I can add?", answer: "No limit. You can add as many global locations as needed." }
+          ]}
+        />
+
+        <RelatedTools currentToolUrl="/tools/time/date-formatter" max={6} />
+      </div>
+    </div>
+  );
 }
+
+export default DateFormatterClient;

@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { cn } from "@/lib/utils";
@@ -11,7 +12,7 @@ import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Copy, RotateCcw, Sparkles, SlidersHorizontal, Eye, EyeOff } from "lucide-react";
+import { Copy, RotateCcw, Sparkles, SlidersHorizontal, Eye, EyeOff, Sliders } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -133,7 +134,10 @@ export function CssFiltersClient() {
  </div>
  <input type="range" min={min} max={max} value={value} onChange={e => onChange(Number(e.target.value))} className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary" />
  </div>;
-  return <div className="relative max-w-6xl mx-auto space-y-8 p-4 sm:p-6 lg:p-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Sparkles} title="CSS Filters Playground" description="Experiment with CSS filter functions in real-time. Apply blur, contrast, sepia, and more to any element." />
@@ -279,8 +283,9 @@ export function CssFiltersClient() {
         question: "Can I animate CSS filters?",
         answer: "Yes! You can transition filter values using CSS transitions or keyframe animations to create smooth hover effects, loading states, and dynamic visual shifts."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/dev/css-filters" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default CssFiltersClient;

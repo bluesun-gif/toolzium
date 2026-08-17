@@ -1,28 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import PalindromeCheckerClient from "@/components/tools/text/palindrome-checker-client";
-export const metadata = {
-  title: "Palindrome Checker",
-  description: "Check if a word, phrase, or number is a palindrome. Ignores spaces and punctuation.",
-  path: "/tools/text/palindrome-checker",
-  keywords: ["check", "spaces", "phrase", "number", "palindrome", "word", "punctuation", "ignores"],
+
+const TITLE = "Palindrome Checker | Toolzium";
+const DESCRIPTION = "Free online palindrome checker tool with instant calculation and privacy.";
+const PATH = "/tools/text/palindrome-checker";
+
+export const metadata = buildMetadata({
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
     name: "Palindrome Checker",
-    description: "Check if a word, phrase, or number is a palindrome. Ignores spaces and punctuation.",
-    path: "/tools/text/palindrome-checker",
-    categoryName: "Text",
-    categoryPath: "/tools/text",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <PalindromeCheckerClient />
-    
-      <RelatedTools currentToolUrl="/tools/text/palindrome-checker" />
-</div>
+    </>
   );
 }

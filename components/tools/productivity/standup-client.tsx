@@ -1,4 +1,8 @@
 "use client";
+
+import toast from "react-hot-toast";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -85,7 +89,10 @@ export function StandupClient() {
           </Button>
         </div>)}
     </div>;
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       <ToolPageHeader icon={ListChecks} title="Agile Daily Standup Report Generator" description="Format daily team updates into bullet points, numbered lists, or Slack bullet syntax (Yesterday, Today, Blockers)." actions={<ResetButton onClick={resetAll} label="Clear All" />} />
@@ -147,134 +154,8 @@ export function StandupClient() {
         </GlassCard>
       </div>
 
-      {/* HOW IT WORKS */}
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Fill Yesterday & Today",
-        description: "List what you completed yesterday and your primary task commitments for today.",
-        icon: Users
-      }, {
-        step: "02",
-        title: "Flag Any Blockers",
-        description: "Highlight any pending dependencies or impediments needing team assistance.",
-        icon: ListChecks
-      }, {
-        step: "03",
-        title: "Copy for Slack / Teams",
-        description: "Choose bullet point or Slack formatting and copy directly into your team channel.",
-        icon: CheckCircle2
-      }]} badges={["Slack Bullet Syntax", "Markdown Ready", "Auto-Saved Name"]} />
+      
 
-      {/* FEATURE GUIDES */}
-      <ToolFeatureGuides features={[{
-        icon: ListChecks,
-        title: "Agile 3-Step Structure",
-        description: "Follows standard Agile Scrum standup structure (Yesterday, Today, Blockers)."
-      }, {
-        icon: Users,
-        title: "Multiple Output Formats",
-        description: "Formatted specifically for Slack bullet points, Discord markdown, or numbered emails."
-      }, {
-        icon: Shield,
-        title: "100% Client-Side Privacy",
-        description: "Saves your handle locally and generates reports without server network requests."
-      }]} />
-
-      {/* FAQ ACCORDION */}
-      <ToolFaqAccordion faqs={[{
-        question: "What is a Daily Standup?",
-        answer: "A daily standup is a short 15-minute Agile meeting where team members share Yesterday's progress, Today's goals, and Blockers."
-      }, {
-        question: "Does it save my name?",
-        answer: "Yes, your name is saved locally in your browser so you don't need to retype it every morning."
-      }]} />
-
- const renderSection = (title: string, arr: string[], setArr: (val: string[]) => void) => (
- <div className="space-y-2">
- <div className="flex justify-between items-center">
- <Label className="text-base font-semibold">{title}</Label>
- <Button variant="ghost"size="sm"onClick={() => addField(arr, setArr)}>
- <Plus className="w-4 h-4 mr-1"/> Add
- </Button>
- </div>
- {arr.map((item, i) => (
- <div key={i} className="flex gap-2">
- <Input
- value={item}
- onChange={(e) => updateArray(arr, setArr, i, e.target.value)}
- placeholder={`What did you do ${title.toLowerCase()}?`}
- />
- <Button variant="outline"size="icon"onClick={() => removeField(arr, setArr, i)}>
- <Trash2 className="w-4 h-4 text-red-500"/>
- </Button>
- </div>
- ))}
- </div>
- );
-
- return (
- <div className="space-y-6">
- <ToolPageHeader
- icon={ListChecks}
- title="Daily Standup Generator"
- description="Quickly generate and format your daily standup reports."
- actions={<ResetButton onClick={resetAll} />}
- />
-
- <div className="grid md:grid-cols-2 gap-6">
- <GlassCard>
- <CardHeader>
- <CardTitle>Standup Details</CardTitle>
- <CardDescription>Fill in your tasks and blockers</CardDescription>
- </CardHeader>
- <CardContent className="space-y-6">
- <div className="space-y-2">
- <Label>Name (Optional)</Label>
- <div className="flex gap-2">
- <Users className="w-5 h-5 text-muted-foreground mt-2"/>
- <Input value={name} onChange={(e) => handleNameChange(e.target.value)} placeholder="Your Name"/>
- </div>
- </div>
-
- <Separator />
-
- {renderSection("Yesterday", yesterday, setYesterday)}
- {renderSection("Today", today, setToday)}
- {renderSection("Blockers", blockers, setBlockers)}
- </CardContent>
- </GlassCard>
-
- <GlassCard>
- <CardHeader>
- <CardTitle>Formatted Report</CardTitle>
- <CardDescription>Preview and copy your standup</CardDescription>
- </CardHeader>
- <CardContent className="space-y-4">
- <div className="space-y-2">
- <Label>Format</Label>
- <Select value={format} onValueChange={(v: any) => setFormat(v)}>
- <SelectTrigger>
- <SelectValue placeholder="Select format"/>
- </SelectTrigger>
- <SelectContent>
- <SelectItem value="bullet">Bullet Points (-)</SelectItem>
- <SelectItem value="numbered">Numbered List (1.)</SelectItem>
- <SelectItem value="slack">Slack Format (•)</SelectItem>
- </SelectContent>
- </Select>
- </div>
-
- <div className="bg-muted p-4 rounded-md whitespace-pre-wrap min-h-[200px] text-sm">
- {getFormattedReport() || <span className="text-muted-foreground">Your report will appear here...</span>}
- </div>
-
- <div className="flex justify-end">
- <CopyButton getText={getFormattedReport} label="Copy Report"/>
- </div>
- </CardContent>
- </GlassCard>
- </div>
- 
 <ToolHowItWorks
   steps={[
 {
@@ -354,6 +235,9 @@ export function StandupClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default StandupClient;

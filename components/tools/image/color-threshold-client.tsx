@@ -1,4 +1,8 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -105,7 +109,10 @@ export function ColorThresholdClient() {
     a.click();
     toast.success("Image downloaded!");
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Sliders} title="Image Color Threshold & Binarizer" description="Convert images to high-contrast black & white or binary." actions={<>
@@ -248,6 +255,9 @@ export function ColorThresholdClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default ColorThresholdClient;

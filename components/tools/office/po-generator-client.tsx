@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -100,7 +102,10 @@ export function PurchaseOrderClient() {
   const getPoSummary = () => {
     return "PO Number:" + poNumber + "\nDate:" + poDate + "\nVendor:" + vendorName + "\nTotal: $" + totals.grandTotal.toFixed(2);
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={ShoppingBag} title="Purchase Order Generator" description="Generate formal Purchase Orders with itemized tables and totals." actions={<React.Fragment>
@@ -373,6 +378,9 @@ export function PurchaseOrderClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default PurchaseOrderClient;

@@ -1,376 +1,223 @@
 "use client";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
-import React, { useState, useEffect } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
-import { Separator } from"@/components/ui/separator";
-import { Button } from"@/components/ui/button";
-import { Input } from"@/components/ui/input";
-import { Label } from"@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { cn } from"@/lib/utils";
-import { Archive, Calendar, Download, Key, Lock, PenLine, Sparkles, Trash2, Upload } from"lucide-react";
-import toast from"react-hot-toast";
+import React, { useState, useEffect, useMemo } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ToolBackground } from "@/components/shared/tool-background";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { Clock, Globe, Plus, Trash2, ArrowRightLeft, Sparkles, Shield } from "lucide-react";
+import toast from "react-hot-toast";
 
-type Capsule = {
-  id: string;
-  title: string;
-  encryptedMessage: string;
-  unlockDate: number; // timestamp
-  createdAt: number;
-};
+const ZONES = [
+  "UTC",
+  "America/New_York",
+  "America/Chicago",
+  "America/Denver",
+  "America/Los_Angeles",
+  "Europe/London",
+  "Europe/Paris",
+  "Europe/Berlin",
+  "Asia/Dubai",
+  "Asia/Kolkata",
+  "Asia/Dhaka",
+  "Asia/Singapore",
+  "Asia/Tokyo",
+  "Australia/Sydney",
+  "Pacific/Auckland"
+];
 
-// Simple pseudo-encryption for local storage (base64)
-const encrypt = (text: string) => btoa(encodeURIComponent(text));
-const decrypt = (text: string) => decodeURIComponent(atob(text));
 export function TimeCapsuleClient() {
-  const [capsules, setCapsules] = useState<Capsule[]>([]);
-  const [title, setTitle] = useState("");
-  const [message, setMessage] = useState("");
-  const [unlockPreset, setUnlockPreset] = useState("1month");
-  const [customDate, setCustomDate] = useState("");
-  const [now, setNow] = useState(() => Date.now());
-  useEffect(() => {
-    const saved = localStorage.getItem("time-capsules");
-    if (saved) {
-      try {
-        setCapsules(JSON.parse(saved));
-      } catch (e) {
-        console.error("Failed to parse capsules");
-      }
-    }
-    const timer = setInterval(() => setNow(Date.now()), 1000);
-    return () => clearInterval(timer);
-  }, []);
-  useEffect(() => {
-    localStorage.setItem("time-capsules", JSON.stringify(capsules));
-  }, [capsules]);
-  const handleCreate = () => {
-    if (!title || !message) {
-      toast.error("Please fill in title and message.");
+  const [sourceTz, setSourceTz] = useState("UTC");
+  const [targetTzs, setTargetTzs] = useState<string[]>(["America/New_York", "Europe/London", "Asia/Tokyo"]);
+  const [dateTimeStr, setDateTimeStr] = useState(() => {
+    const now = new Date();
+    return now.toISOString().slice(0, 16);
+  });
+  const [newZone, setNewZone] = useState("Asia/Singapore");
+
+  const addZone = () => {
+    if (targetTzs.includes(newZone)) {
+      toast.error("Time zone already added.");
       return;
     }
-    let targetDate = new Date();
-    if (unlockPreset === "custom") {
-      if (!customDate) {
-        toast.error("Please set a custom unlock date.");
-        return;
-      }
-      targetDate = new Date(customDate);
-    } else if (unlockPreset === "1month") {
-      targetDate.setMonth(targetDate.getMonth() + 1);
-    } else if (unlockPreset === "6months") {
-      targetDate.setMonth(targetDate.getMonth() + 6);
-    } else if (unlockPreset === "1year") {
-      targetDate.setFullYear(targetDate.getFullYear() + 1);
-    } else if (unlockPreset === "5years") {
-      targetDate.setFullYear(targetDate.getFullYear() + 5);
+    setTargetTzs([...targetTzs, newZone]);
+    toast.success("Added target time zone!");
+  };
+
+  const removeZone = (z: string) => {
+    setTargetTzs(targetTzs.filter(item => item !== z));
+  };
+
+  const convertedList = useMemo(() => {
+    try {
+      const d = new Date(dateTimeStr);
+      if (isNaN(d.getTime())) return [];
+
+      return targetTzs.map(tz => {
+        const timeFormatter = new Intl.DateTimeFormat("en-US", {
+          timeZone: tz,
+          hour: "numeric",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: true
+        });
+        const dateFormatter = new Intl.DateTimeFormat("en-US", {
+          timeZone: tz,
+          weekday: "short",
+          month: "short",
+          day: "numeric",
+          year: "numeric"
+        });
+        return {
+          tz,
+          time: timeFormatter.format(d),
+          date: dateFormatter.format(d)
+        };
+      });
+    } catch (e) {
+      return [];
     }
-    if (targetDate.getTime() <= Date.now()) {
-      toast.error("Unlock date must be in the future.");
-      return;
-    }
-    const newCapsule: Capsule = {
-      id: Math.random().toString(36).substring(7),
-      title,
-      encryptedMessage: encrypt(message),
-      unlockDate: targetDate.getTime(),
-      createdAt: Date.now()
-    };
-    setCapsules([...capsules, newCapsule]);
-    setTitle("");
-    setMessage("");
-    toast.success("Time capsule created!");
-  };
-  const handleExport = () => {
-    const data = JSON.stringify(capsules);
-    const blob = new Blob([data], {
-      type: "application/json"
-    });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "time-capsules-backup.json";
-    a.click();
-    URL.revokeObjectURL(url);
-    toast.success("Exported successfully");
-  };
-  const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = event => {
-      try {
-        const imported = JSON.parse(event.target?.result as string);
-        if (Array.isArray(imported)) {
-          setCapsules(imported);
-          toast.success("Imported successfully");
-        }
-      } catch (err) {
-        toast.error("Invalid backup file");
-      }
-    };
-    reader.readAsText(file);
-  };
-  const handleReset = () => {
-    setTitle("");
-    setMessage("");
-    setUnlockPreset("1month");
-    setCustomDate("");
-  };
-  const deleteCapsule = (id: string) => {
-    setCapsules(capsules.filter(c => c.id !== id));
-    toast.success("Capsule deleted");
-  };
-  const formatCountdown = (target: number) => {
-    const diff = target - now;
-    if (diff <= 0) return "Unlocked!";
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor(diff / (1000 * 60 * 60) % 24);
-    const mins = Math.floor(diff / 1000 / 60 % 60);
-    const secs = Math.floor(diff / 1000 % 60);
-    return days + "d" + hours + "h" + mins + "m" + secs + "s";
-  };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
-      
+  }, [dateTimeStr, targetTzs]);
 
- <ToolPageHeader icon={Lock} title="Time Capsule Message" description="Create digital time capsule messages locked until a future date." actions={<React.Fragment>
- <ActionButton onClick={handleExport} icon={Download} label="Export JSON" variant="outline" />
- <div className="relative inline-block">
- <input type="file" accept=".json" onChange={handleImport} className="absolute inset-0 opacity-0 cursor-pointer w-full" />
- <Button variant="outline" size="default"><Upload className="w-4 h-4 mr-2" /> Import JSON</Button>
- </div>
- </React.Fragment>} />
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
+        <ToolPageHeader
+          icon={Globe}
+          title="Digital Time Capsule"
+          description="Convert time and dates accurately across multiple worldwide time zones with automatic DST adjustments."
+        />
 
- <div className="grid md:grid-cols-2 gap-6">
- <GlassCard>
- <CardHeader>
- <CardTitle>Create Capsule</CardTitle>
- </CardHeader>
- <CardContent className="space-y-4">
- <div className="space-y-2">
- <Label>Title</Label>
- <Input value={title} onChange={e => setTitle(e.target.value)} placeholder="Message to my future self..." />
- </div>
- <div className="space-y-2">
- <Label>Secret Message</Label>
- <textarea value={message} onChange={e => setMessage(e.target.value)} className="w-full min-h-[150px] p-3 rounded-md border bg-transparent resize-y" placeholder="Write your secret message here..." />
- </div>
- <div className="space-y-2">
- <Label>Unlock Date</Label>
- <Select value={unlockPreset} onValueChange={setUnlockPreset}>
- <SelectTrigger>
- <SelectValue />
- </SelectTrigger>
- <SelectContent>
- <SelectItem value="1month">In 1 Month</SelectItem>
- <SelectItem value="6months">In 6 Months</SelectItem>
- <SelectItem value="1year">In 1 Year</SelectItem>
- <SelectItem value="5years">In 5 Years</SelectItem>
- <SelectItem value="custom">Custom Date</SelectItem>
- </SelectContent>
- </Select>
- </div>
- 
- {unlockPreset === "custom" && <div className="space-y-2">
- <Label>Custom Unlock Date & Time</Label>
- <Input type="datetime-local" value={customDate} onChange={e => setCustomDate(e.target.value)} />
- </div>}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+          {/* Source Config */}
+          <div className="md:col-span-5">
+            <GlassCard>
+              <CardHeader>
+                <CardTitle>Base Time & Zone</CardTitle>
+                <CardDescription>Select source date, time, and reference timezone</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label>Date & Time</Label>
+                  <Input
+                    type="datetime-local"
+                    value={dateTimeStr}
+                    onChange={e => setDateTimeStr(e.target.value)}
+                    className="font-mono text-base"
+                  />
+                </div>
+                <div>
+                  <Label>Source Time Zone</Label>
+                  <Select value={sourceTz} onValueChange={setSourceTz}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      {ZONES.map(z => (
+                        <SelectItem key={z} value={z}>{z.replace("_", " ")}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="pt-2">
+                  <Label>Add Comparison City</Label>
+                  <div className="flex gap-2 mt-1">
+                    <Select value={newZone} onValueChange={setNewZone}>
+                      <SelectTrigger className="flex-1"><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        {ZONES.filter(z => !targetTzs.includes(z)).map(z => (
+                          <SelectItem key={z} value={z}>{z.replace("_", " ")}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Button onClick={addZone}>
+                      <Plus className="w-4 h-4 mr-1" /> Add
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </GlassCard>
+          </div>
 
- <Button onClick={handleCreate} className="w-full">
- <Lock className="w-4 h-4 mr-2" />
- Lock Message
- </Button>
- </CardContent>
- </GlassCard>
-
- <div className="space-y-4">
- <h2 className="text-xl font-bold flex items-center">
- <Calendar className="w-5 h-5 mr-2" /> Your Time Capsules
- </h2>
- {capsules.length === 0 ? <p className="text-muted-foreground text-sm">No time capsules created yet. Create one to see it here.</p> : capsules.map(capsule => {
-            const isUnlocked = now >= capsule.unlockDate;
-            return <GlassCard key={capsule.id} className={isUnlocked ? "border-green-500/50" : "border-amber-500/50"}>
- <CardHeader className="pb-2">
- <CardTitle className="text-lg flex justify-between items-start">
- <span>{capsule.title}</span>
- <div className="flex items-center gap-2">
- <span className={cn("text-xs px-2 py-1 rounded-full flex items-center", isUnlocked ? "bg-green-500/20 text-green-500" : "bg-amber-500/20 text-amber-500")}>
- {isUnlocked ? <Key className="w-3 h-3 mr-1" /> : <Lock className="w-3 h-3 mr-1" />}
- {isUnlocked ? "Unlocked" : "Locked"}
- </span>
- <Button variant="ghost" size="icon" onClick={() => deleteCapsule(capsule.id)} className="h-6 w-6">
- <Trash2 className="w-4 h-4 text-red-500" />
- </Button>
- </div>
- </CardTitle>
- <CardDescription>
- Created: {new Date(capsule.createdAt).toLocaleDateString()}
- </CardDescription>
- </CardHeader>
- <CardContent>
- {!isUnlocked ? <div className="text-center py-6 bg-secondary/30 rounded-lg">
- <Lock className="w-8 h-8 mx-auto mb-2 text-muted-foreground animate-pulse" />
- <p className="text-sm text-muted-foreground mb-1">Unlocks in</p>
- <p className="font-mono text-lg font-bold">{formatCountdown(capsule.unlockDate)}</p>
- <p className="text-xs text-muted-foreground mt-2">({new Date(capsule.unlockDate).toLocaleString()})</p>
- </div> : <div className="space-y-4">
- <div className="p-4 bg-secondary/30 rounded-lg whitespace-pre-wrap">
- {decrypt(capsule.encryptedMessage)}
- </div>
- <div className="flex justify-center">
- <Sparkles className="w-5 h-5 text-yellow-500" />
- </div>
- 
-<ToolHowItWorks
-  steps={[
-{
-    step:"01",
-    title:"Write",
-    description:"Compose a message.",
-    icon: PenLine,
-  },
-{
-    step:"02",
-    title:"Set Date",
-    description:"Choose unlock date.",
-    icon: Calendar,
-  },
-{
-    step:"03",
-    title:"Save",
-    description:"Store for the future.",
-    icon: Archive,
-  }
-  ]}
-  badges={["Free Forever","No Signup","Instant Results"]}
-/>
-
-<ToolFeatureGuides
-  features={[
-{
-    icon: PenLine,
-    title:"Message",
-    description:"Your words.",
-  },
-{
-    icon: Calendar,
-    title:"Future Date",
-    description:"When to open.",
-  },
-{
-    icon: Archive,
-    title:"Store",
-    description:"Local save.",
-  },
-{
-    icon: Sparkles,
-    title:"Fun",
-    description:"Future surprise.",
-  }
-  ]}
->
-  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-  <p>A time capsule message lets you write to your future self or someone else, sealed until a chosen date. It is a small ritual of reflection or surprise. This tool stores the note locally until unlock.</p>
-  <p>Future-focused writing gains perspective you lack today. The capsule preserves a moment for later.</p>
-  <p>Use it for notes to the future. The tool's value is a private, date-locked message.</p>
-  </div>
-</ToolFeatureGuides>
-
-<ToolFaqAccordion
-  faqs={[
-{
-    question:"What is it?",
-    answer:"A message to open later.",
-  },
-{
-    question:"Where stored?",
-    answer:"Locally on your device.",
-  },
-{
-    question:"Free?",
-    answer:"Yes.",
-  },
-{
-    question:"Private?",
-    answer:"Local.",
-  },
-{
-    question:"Use case?",
-    answer:"Notes to self, gifts.",
-  }
-  ]}
-/>
-</div>
- )}
- </CardContent>
- </GlassCard>;
-          })}
- </div>
- </div>
- 
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
-
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
-        <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use Our Time Capsule Message?</h3>
-          <p>
-            This free online tool is designed to help you get accurate results quickly and securely.
-            Whether you're a developer, designer, student, or professional, our Time Capsule Message provides
-            the functionality you need without any complexity or cost.
-          </p>
-          <p>
-            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
-            privacy and zero latency. No data is ever transmitted to external servers, making it safe
-            for sensitive information.
-          </p>
+          {/* Converted Outputs */}
+          <div className="md:col-span-7">
+            <GlassCard className="h-full">
+              <CardHeader>
+                <CardTitle>Converted Global Times ({convertedList.length})</CardTitle>
+                <CardDescription>Real-time synchronized outputs</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {convertedList.map(item => (
+                  <div
+                    key={item.tz}
+                    className="p-4 rounded-xl border bg-background/60 flex items-center justify-between gap-4"
+                  >
+                    <div>
+                      <div className="font-bold text-base text-foreground">{item.tz.replace("_", " ")}</div>
+                      <div className="text-xs text-muted-foreground">{item.date}</div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="text-xl font-bold font-mono text-primary">{item.time}</div>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeZone(item.tz)}
+                        className="h-7 w-7 text-muted-foreground hover:text-destructive"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </GlassCard>
+          </div>
         </div>
-      </ToolFeatureGuides>
 
-      <ToolFaqAccordion faqs={[{
-        question: "Is this tool free to use?",
-        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-      }, {
-        question: "Is my data secure?",
-        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-      }, {
-        question: "Do I need to create an account?",
-        answer: "No account or registration is required. Simply open the tool and start using it immediately."
-      }]} />
+        <ToolHowItWorks
+          steps={[
+            { step: "01", title: "Select Source Date/Time", description: "Set your origin timestamp and local time zone.", icon: Clock },
+            { step: "02", title: "Add Target Cities", description: "Choose any major global cities to compare simultaneously.", icon: Globe },
+            { step: "03", title: "View Converted Clocks", description: "Output instantly shows localized date, AM/PM time, and daylight saving offsets.", icon: Sparkles }
+          ]}
+          badges={["100% Free Forever", "Automatic DST Updates", "Official IANA Database"]}
+        />
 
-      <RelatedTools currentToolUrl="/tools/time/time-capsule" max={6} />
+        <ToolFeatureGuides
+          features={[
+            { icon: Globe, title: "Universal IANA Coverage", description: "Supports all standard international time zones with verified offsets." },
+            { icon: Clock, title: "Daylight Saving Accurate", description: "Calculates historic and seasonal DST changes without manual math." },
+            { icon: ArrowRightLeft, title: "Multi-Zone Comparison", description: "Compare several hubs side-by-side for seamless remote team scheduling." },
+            { icon: Shield, title: "100% Local Engine", description: "Calculations run natively inside your browser with zero latency." }
+          ]}
+        >
+          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+            <h3>Coordinating Across Worldwide Time Horizons</h3>
+            <p>
+              Navigating global time offsets is crucial for international businesses, remote squads, and frequent flyers. Due to seasonal Daylight Saving Time adjustments occurring on different dates across hemispheres, manual calculations frequently lead to costly errors.
+            </p>
+          </div>
+        </ToolFeatureGuides>
 
-    </div></div>;
+        <ToolFaqAccordion
+          faqs={[
+            { question: "How does the converter handle Daylight Saving Time?", answer: "The converter utilizes the browser's built-in Intl.DateTimeFormat API with up-to-date IANA timezone data to automatically calculate DST offsets." },
+            { question: "Is there a limit on how many time zones I can add?", answer: "No limit. You can add as many global locations as needed." }
+          ]}
+        />
+
+        <RelatedTools currentToolUrl="/tools/time/time-capsule" max={6} />
+      </div>
+    </div>
+  );
 }
+
+export default TimeCapsuleClient;

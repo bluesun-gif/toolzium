@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -14,7 +16,7 @@ import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, ResetButton } from"@/components/shared/action-buttons";
 import { cn } from"@/lib/utils";
-import { Download, Image as ImageIcon, Images, LayoutGrid, Palette, Upload } from"lucide-react";
+import { Download, Image as ImageIcon, Images, LayoutGrid, Palette, Upload, Settings, Square, Grid } from "lucide-react";
 import toast from"react-hot-toast";
 
 type LayoutType ="grid-2"|"grid-4"|"grid-9"|"row-3"|"col-3"|"magazine";
@@ -122,7 +124,10 @@ export function CollageLayoutClient() {
     toast.error("Export feature requires html2canvas in this setup, or simplified drawing.");
     // For this prompt, let's just show a toast since drawing complex dynamic grids on raw canvas is large code
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={LayoutGrid} title="Photo Collage Layout" description="Design photo collage layouts visually" actions={<>
@@ -310,6 +315,9 @@ export function CollageLayoutClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default CollageLayoutClient;

@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useEffect } from "react";
@@ -142,7 +143,10 @@ export default function MyIpClient() {
     question: "What is the difference between public and private IP addresses?",
     answer: "A public IP address is unique worldwide and is used to identify your device or network interface on the open internet. A private IP address (such as 10.x.x.x or 192.168.x.x) is only valid within your local network (LAN) behind a router and is hidden from the public web via NAT."
   }];
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="What is My IP Address" description="Find out your public IPv4 and IPv6 address instantly." />
@@ -337,6 +341,7 @@ export default function MyIpClient() {
 
  {/* SECTION 5: FAQ & RELATED TOOLS */}
  <ToolFaqAccordion faqs={faqs} />
- <RelatedTools currentToolUrl="/tools/network/my-ip" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

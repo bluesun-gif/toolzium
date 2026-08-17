@@ -1,56 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
-import { PaletteExtractClient } from "@/components/tools/image/palette-extract-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
-import RelatedTools from "@/components/shared/related-tools";
+import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
+import PaletteExtractClient from "@/components/tools/image/palette-extract-client";
+
+const TITLE = "Color Palette from Image | Toolzium";
+const DESCRIPTION = "Extract beautiful color palettes from any image. Get hex, RGB, and HSL values instantly for your design projects.";
+const PATH = "/tools/image/palette-extract";
 
 export const metadata = buildMetadata({
-  title: "Color Palette from Image | Toolzium",
-  description: "Extract beautiful color palettes from any image. Get hex, RGB, and HSL values instantly for your design projects.",
-  path: "/tools/image/palette-extract",
-  keywords: ["color palette generator", "extract color from image", "image color picker", "design tools"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
-  const toolUrl = `${siteURL}/tools/image/palette-extract`;
-  const appLd = { 
-    "@context": "https://schema.org", 
-    "@type": "WebApplication", 
-    name: "Color Palette from Image", 
-    url: toolUrl, 
-    description: "Extract color palettes from images.", 
-    applicationCategory: "DesignApplication", 
-    operatingSystem: "All", 
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" } 
-  };
-  const crumbsLd = { 
-    "@context": "https://schema.org", 
-    "@type": "BreadcrumbList", 
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: siteURL }, 
-      { "@type": "ListItem", position: 2, name: "Image Tools", item: `${siteURL}/tools#cat-image` }, 
-      { "@type": "ListItem", position: 3, name: "Palette Extract", item: toolUrl }
-    ] 
-  };
-  
+  const jsonLd = buildToolJsonLd({
+    name: "Color Palette from Image",
+    description: DESCRIPTION,
+    path: PATH
+  });
 
-  const faqLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      { "@type": "Question", name: "How does the Color Palette from Image work?", acceptedAnswer: { "@type": "Answer", text: "Toolzium's Color Palette from Image runs instantly in your browser. Extract dominant colors from uploaded images. Hex, RGB, HSL values. Copy palette. Download as PNG swatch strip. CSS color names. No sign-up or software installation required." } },
-      { "@type": "Question", name: "Is the Color Palette from Image 100% free to use?", acceptedAnswer: { "@type": "Answer", text: "Yes, the Color Palette from Image is 100% free with unlimited usage and no account required." } },
-      { "@type": "Question", name: "Is my data secure when using the Color Palette from Image?", acceptedAnswer: { "@type": "Answer", text: "Yes, all processing occurs locally in your browser. Your data never leaves your device." } }
-    ]
-  };
   return (
-    <div className="space-y-4">
-      <JsonLd data={appLd} />
-      <JsonLd data={crumbsLd} />
-      <JsonLd data={faqLd} />
+    <>
+      <JsonLd data={jsonLd} />
       <PaletteExtractClient />
-    
-      <RelatedTools currentToolUrl="/tools/image/palette-extract" />
-</div>
+    </>
   );
 }

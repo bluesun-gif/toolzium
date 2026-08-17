@@ -1,27 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import SpotifyPlaylistClient from "@/components/tools/social/spotify-playlist-client";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "Spotify Playlist Title & Aesthetic Description Studio | Toolzium";
+const DESCRIPTION = "Generate aesthetic Spotify playlist titles, mood descriptions, and lofi/indie/gym cover text.";
+const PATH = "/tools/social/spotify-playlist-generator";
 
 export const metadata = buildMetadata({
-  title: "Spotify Playlist Title & Aesthetic Description Studio | Toolzium",
-  description:
-    "Generate aesthetic Spotify playlist titles, mood descriptions, and lofi/indie/gym cover text.",
-  path: "/tools/social/spotify-playlist-generator",
-  keywords: [
-    "spotify playlist generator",
-    "spotify playlist name",
-    "spotify playlist title",
-    "ai playlist generator",
-    "lofi playlist name",
-    "spotify playlist description",
-  ],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
-export default function SpotifyPlaylistPage() {
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "Spotify Playlist Title & Aesthetic Description Studio",
+    description: DESCRIPTION,
+    path: PATH
+  });
+
   return (
-    <><SpotifyPlaylistClient />
-      <RelatedTools currentToolUrl="/tools/social/spotify-playlist-generator" />
+    <>
+      <JsonLd data={jsonLd} />
+      <SpotifyPlaylistClient />
     </>
   );
 }

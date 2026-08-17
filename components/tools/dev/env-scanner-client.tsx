@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback, useEffect } from "react";
@@ -174,7 +175,10 @@ export function EnvScannerClient() {
     URL.revokeObjectURL(url);
     toast.success("Report exported!");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={ShieldAlert} title="Env Scanner & Security Analyzer" description="Audit your .env files for leaked secrets, hardcoded passwords, and configuration vulnerabilities entirely client-side." />
@@ -334,8 +338,9 @@ export function EnvScannerClient() {
         question: "Can I export the audit results for my compliance team?",
         answer: "Absolutely. Use the 'Export JSON Report' button to download a structured file containing all scanned variables, identified risks, and remediation recommendations."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/dev/env-scanner" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default EnvScannerClient;

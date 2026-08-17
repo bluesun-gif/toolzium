@@ -1,4 +1,7 @@
 "use client";
+
+import { Card } from "@/components/ui/card";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useEffect, useCallback } from "react";
@@ -17,7 +20,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { cn } from "@/lib/utils";
-import { QrCode, Copy, Download, Link2, Wifi, Mail, Phone, UserCheck, Sparkles, CheckCircle2, Sliders, RefreshCcw, Wand2 } from "lucide-react";
+import { QrCode, Copy, Download, Link2, Wifi, Mail, Phone, UserCheck, Sparkles, CheckCircle2, Sliders, RefreshCcw, Wand2, Type } from "lucide-react";
 import toast from "react-hot-toast";
 type InputType = "url" | "text" | "email" | "phone" | "wifi" | "vcard";
 export function QrClient() {
@@ -155,7 +158,10 @@ export function QrClient() {
     navigator.clipboard.writeText(payload);
     toast.success("Payload copied to clipboard!");
   };
-  return <div className="w-full min-h-screen pb-20 relative"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
@@ -339,7 +345,8 @@ export function QrClient() {
           </div>
         </div>
 
-        <ToolHowItWorks steps={[{
+        </div>
+<ToolHowItWorks steps={[{
           step: "01",
           title: "Select Content Preset",
           description: "Choose between website URL, Wi-Fi network credentials, or vCard business contact.",
@@ -384,9 +391,9 @@ export function QrClient() {
           question: "Can I use SVG files for professional printing?",
           answer: "Yes! SVG vector files scale infinitely without losing quality or becoming blurry."
         }]} />
-
-        <RelatedTools currentToolUrl="/tools/url/qr" max={6} />
-      </div>
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default QrClient;

@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
@@ -12,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { CopyButton } from "@/components/shared/action-buttons";
 import { ModelSelector } from "@/components/shared/model-selector";
 import toast from "react-hot-toast";
-import { Mail, Sparkles, RefreshCw, Inbox, TrendingUp } from "lucide-react";
+import { Mail, Sparkles, RefreshCw, Inbox, TrendingUp, Copy, Type } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 interface EmailSubject {
@@ -125,7 +126,10 @@ SUBJECT | SCORE | REASONING`;
       setLoading(false);
     }
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Mail} title="Email Subject Line Generator" description="Generate 10 subject lines scored by open-rate potential with reasoning." />
@@ -251,7 +255,7 @@ SUBJECT | SCORE | REASONING`;
         question: "Should subject lines be short?",
         answer: "Usually yes, but clarity matters more than length. Aim for concise and specific."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/writing/email-subject-generator" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

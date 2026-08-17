@@ -1,323 +1,223 @@
 "use client";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
 
-import React, { useState, useEffect } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle } from"@/components/ui/card";
-import { Button } from"@/components/ui/button";
-import { Input } from"@/components/ui/input";
-import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Calendar, Clock, Copy, Globe, Plus, ShieldCheck, Users, X } from"lucide-react";
-import toast from"react-hot-toast";
+import React, { useState, useEffect, useMemo } from "react";
+import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ToolBackground } from "@/components/shared/tool-background";
+import ToolHowItWorks from "@/components/shared/tool-how-it-works";
+import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
+import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { RelatedTools } from "@/components/shared/related-tools";
+import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
+import { Clock, Globe, Plus, Trash2, ArrowRightLeft, Sparkles, Shield } from "lucide-react";
+import toast from "react-hot-toast";
 
-type City = {
-  name: string;
-  offset: number; // offset in hours from UTC
-};
-const COMMON_CITIES: City[] = [{
-  name: "UTC",
-  offset: 0
-}, {
-  name: "London",
-  offset: 1
-},
-// approximation for demo
-{
-  name: "New York",
-  offset: -4
-}, {
-  name: "San Francisco",
-  offset: -7
-}, {
-  name: "Tokyo",
-  offset: 9
-}, {
-  name: "Sydney",
-  offset: 10
-}, {
-  name: "Delhi",
-  offset: 5.5
-}];
+const ZONES = [
+  "UTC",
+  "America/New_York",
+  "America/Chicago",
+  "America/Denver",
+  "America/Los_Angeles",
+  "Europe/London",
+  "Europe/Paris",
+  "Europe/Berlin",
+  "Asia/Dubai",
+  "Asia/Kolkata",
+  "Asia/Dhaka",
+  "Asia/Singapore",
+  "Asia/Tokyo",
+  "Australia/Sydney",
+  "Pacific/Auckland"
+];
+
 export function WorldPlannerClient() {
-  const [cities, setCities] = useState<City[]>([{
-    name: "UTC",
-    offset: 0
-  }]);
-  const [selectedHourUtc, setSelectedHourUtc] = useState<number>(12); // 0-23
-  const [newCityName, setNewCityName] = useState("");
-  const [newCityOffset, setNewCityOffset] = useState("0");
-  const addCity = () => {
-    if (cities.length >= 6) {
-      toast.error("Maximum 6 cities allowed");
+  const [sourceTz, setSourceTz] = useState("UTC");
+  const [targetTzs, setTargetTzs] = useState<string[]>(["America/New_York", "Europe/London", "Asia/Tokyo"]);
+  const [dateTimeStr, setDateTimeStr] = useState(() => {
+    const now = new Date();
+    return now.toISOString().slice(0, 16);
+  });
+  const [newZone, setNewZone] = useState("Asia/Singapore");
+
+  const addZone = () => {
+    if (targetTzs.includes(newZone)) {
+      toast.error("Time zone already added.");
       return;
     }
-    if (!newCityName) return;
-    setCities([...cities, {
-      name: newCityName,
-      offset: parseFloat(newCityOffset)
-    }]);
-    setNewCityName("");
+    setTargetTzs([...targetTzs, newZone]);
+    toast.success("Added target time zone!");
   };
-  const removeCity = (index: number) => {
-    setCities(cities.filter((_, i) => i !== index));
-  };
-  const getLocalHour = (utcHour: number, offset: number) => {
-    let h = (utcHour + offset) % 24;
-    if (h < 0) h += 24;
-    return Math.floor(h);
-  };
-  const getHourColor = (hour: number) => {
-    if (hour >= 9 && hour < 17) return "bg-green-500"; // Working hours
-    if (hour >= 17 && hour < 22 || hour >= 7 && hour < 9) return "bg-yellow-500"; // Evening/Morning
-    return "bg-red-500"; // Night
-  };
-  const formatHour = (hour: number) => {
-    const ampm = hour >= 12 ? 'PM' : 'AM';
-    let h = hour % 12;
-    if (h === 0) h = 12;
-    return h + ampm;
-  };
-  const getCopyText = () => {
-    let text = "Proposed Meeting Times:\n";
-    cities.forEach(city => {
-      const lh = getLocalHour(selectedHourUtc, city.offset);
-      text += city.name + ":" + formatHour(lh) + "\n";
-    });
-    return text;
-  };
-  const resetAll = () => {
-    setCities([{
-      name: "UTC",
-      offset: 0
-    }]);
-    setSelectedHourUtc(12);
-    toast.success("Reset to default");
-  };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
-      
 
- <ToolPageHeader icon={Globe} title="World Clock & Meeting Planner" description="Compare times across multiple world cities to find ideal meeting slots." actions={<React.Fragment>
- <CopyButton getText={getCopyText} label="Copy Proposal" />
- <ResetButton onClick={resetAll} label="Reset" />
- </React.Fragment>} />
- 
- <GlassCard>
- <CardHeader>
- <CardTitle>Manage Cities (Max 6)</CardTitle>
- </CardHeader>
- <CardContent className="space-y-4">
- <div className="flex flex-wrap gap-4 items-end">
- <div className="space-y-1">
- <label className="text-sm font-medium">City Name</label>
- <Input value={newCityName} onChange={e => setNewCityName(e.target.value)} placeholder="e.g. Paris" className="w-40" />
- </div>
- <div className="space-y-1">
- <label className="text-sm font-medium">UTC Offset (hours)</label>
- <Input type="number" step="0.5" value={newCityOffset} onChange={e => setNewCityOffset(e.target.value)} className="w-32" />
- </div>
- <Button onClick={addCity}><Plus className="w-4 h-4 mr-2" /> Add</Button>
- </div>
- <div className="flex flex-wrap gap-2 pt-2">
- {COMMON_CITIES.map(c => <Button key={c.name} variant="outline" size="sm" onClick={() => {
-              if (cities.length < 6) setCities([...cities, c]);
-            }}>
- + {c.name} ({c.offset > 0 ? "+" : ""}{c.offset})
- </Button>)}
- </div>
- </CardContent>
- </GlassCard>
+  const removeZone = (z: string) => {
+    setTargetTzs(targetTzs.filter(item => item !== z));
+  };
 
- <GlassCard>
- <CardHeader>
- <CardTitle>Timeline</CardTitle>
- <p className="text-sm text-muted-foreground">Select an hour block to see local times. Green = Working Hours (9-5), Yellow = Morning/Evening, Red = Night</p>
- </CardHeader>
- <CardContent className="space-y-8 overflow-x-auto">
- {cities.map((city, idx) => <div key={idx} className="min-w-[600px]">
- <div className="flex justify-between items-center mb-2">
- <span className="font-semibold w-32 flex items-center gap-2">
- {city.name}
- <Button onClick={() => removeCity(idx)} className="text-muted-foreground hover:text-destructive">
- <X className="w-3 h-3" />
- </Button>
- </span>
- <span className="text-sm font-medium bg-secondary px-2 py-1 rounded">
- {formatHour(getLocalHour(selectedHourUtc, city.offset))}
- </span>
- </div>
- <div className="flex h-10 w-full border rounded-md overflow-hidden bg-muted relative">
- {Array.from({
-                length: 24
-              }).map((_, i) => {
-                const localH = getLocalHour(i, city.offset);
-                const isSelected = i === selectedHourUtc;
-                return <div key={i} onClick={() => setSelectedHourUtc(i)} className={cn("flex-1 cursor-pointer border-r border-background/20 relative group", getHourColor(localH), isSelected ? "ring-2 ring-primary ring-inset z-10 opacity-100" : "opacity-70 hover:opacity-90")}>
- <div className="absolute inset-0 flex items-center justify-center text-[10px] text-primary-foreground/90 font-medium">
- {localH}
- </div>
- 
-<ToolHowItWorks
-  steps={[
-{
-    step:"01",
-    title:"Add Zones",
-    description:"Pick participant cities.",
-    icon: Globe,
-  },
-{
-    step:"02",
-    title:"Set Slot",
-    description:"Choose a candidate time.",
-    icon: Clock,
-  },
-{
-    step:"03",
-    title:"Compare",
-    description:"See all local times.",
-    icon: Users,
-  }
-  ]}
-  badges={["Free Forever","No Signup","Instant Results"]}
-/>
+  const convertedList = useMemo(() => {
+    try {
+      const d = new Date(dateTimeStr);
+      if (isNaN(d.getTime())) return [];
 
-<ToolFeatureGuides
-  features={[
-{
-    icon: Globe,
-    title:"Zones",
-    description:"Multiple cities.",
-  },
-{
-    icon: Clock,
-    title:"Slot",
-    description:"Candidate time.",
-  },
-{
-    icon: Users,
-    title:"Compare",
-    description:"All local times.",
-  },
-{
-    icon: ShieldCheck,
-    title:"Fair",
-    description:"Flags odd hours.",
-  }
-  ]}
->
-  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-  <p>A world clock meeting planner combines live city times with scheduling, showing a candidate meeting slot in every participant's local zone and flagging antisocial hours. It is the meeting-planner's companion for awareness. This tool compares them at once.</p>
-  <p>Fair scheduling protects attendance and wellbeing. The planner makes global coordination painless.</p>
-  <p>Use it before cross-region calls. The tool's value is fair, visible multi-zone timing.</p>
-  </div>
-</ToolFeatureGuides>
+      return targetTzs.map(tz => {
+        const timeFormatter = new Intl.DateTimeFormat("en-US", {
+          timeZone: tz,
+          hour: "numeric",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: true
+        });
+        const dateFormatter = new Intl.DateTimeFormat("en-US", {
+          timeZone: tz,
+          weekday: "short",
+          month: "short",
+          day: "numeric",
+          year: "numeric"
+        });
+        return {
+          tz,
+          time: timeFormatter.format(d),
+          date: dateFormatter.format(d)
+        };
+      });
+    } catch (e) {
+      return [];
+    }
+  }, [dateTimeStr, targetTzs]);
 
-<ToolFaqAccordion
-  faqs={[
-{
-    question:"Clock + planner?",
-    answer:"Live times plus scheduling.",
-  },
-{
-    question:"Avoid bad hours?",
-    answer:"Yes, flagged.",
-  },
-{
-    question:"Free?",
-    answer:"Yes.",
-  },
-{
-    question:"Private?",
-    answer:"Local.",
-  },
-{
-    question:"Use case?",
-    answer:"Remote meetings.",
-  }
-  ]}
-/>
-</div>
- );
- })}
- </div>
- </div>
- ))}
- </CardContent>
- </GlassCard>
- 
- <GlassCard>
- <CardHeader>
- <CardTitle>Selected Time Summary</CardTitle>
- </CardHeader>
- <CardContent>
- <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
- {cities.map((city, idx) => <div key={idx} className="p-4 rounded-lg bg-secondary text-center space-y-1">
- <p className="font-medium text-sm text-muted-foreground">{city.name}</p>
- <p className="text-xl font-bold">{formatHour(getLocalHour(selectedHourUtc, city.offset))}</p>
- </div>)}
- </div>
- </CardContent>
- </GlassCard>
- 
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
+        <ToolPageHeader
+          icon={Globe}
+          title="World Time Meeting Planner"
+          description="Convert time and dates accurately across multiple worldwide time zones with automatic DST adjustments."
+        />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
-        <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use Our World Clock & Meeting Planner?</h3>
-          <p>
-            This free online tool is designed to help you get accurate results quickly and securely.
-            Whether you're a developer, designer, student, or professional, our World Clock & Meeting Planner provides
-            the functionality you need without any complexity or cost.
-          </p>
-          <p>
-            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
-            privacy and zero latency. No data is ever transmitted to external servers, making it safe
-            for sensitive information.
-          </p>
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+          {/* Source Config */}
+          <div className="md:col-span-5">
+            <GlassCard>
+              <CardHeader>
+                <CardTitle>Base Time & Zone</CardTitle>
+                <CardDescription>Select source date, time, and reference timezone</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label>Date & Time</Label>
+                  <Input
+                    type="datetime-local"
+                    value={dateTimeStr}
+                    onChange={e => setDateTimeStr(e.target.value)}
+                    className="font-mono text-base"
+                  />
+                </div>
+                <div>
+                  <Label>Source Time Zone</Label>
+                  <Select value={sourceTz} onValueChange={setSourceTz}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      {ZONES.map(z => (
+                        <SelectItem key={z} value={z}>{z.replace("_", " ")}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="pt-2">
+                  <Label>Add Comparison City</Label>
+                  <div className="flex gap-2 mt-1">
+                    <Select value={newZone} onValueChange={setNewZone}>
+                      <SelectTrigger className="flex-1"><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        {ZONES.filter(z => !targetTzs.includes(z)).map(z => (
+                          <SelectItem key={z} value={z}>{z.replace("_", " ")}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Button onClick={addZone}>
+                      <Plus className="w-4 h-4 mr-1" /> Add
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </GlassCard>
+          </div>
+
+          {/* Converted Outputs */}
+          <div className="md:col-span-7">
+            <GlassCard className="h-full">
+              <CardHeader>
+                <CardTitle>Converted Global Times ({convertedList.length})</CardTitle>
+                <CardDescription>Real-time synchronized outputs</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {convertedList.map(item => (
+                  <div
+                    key={item.tz}
+                    className="p-4 rounded-xl border bg-background/60 flex items-center justify-between gap-4"
+                  >
+                    <div>
+                      <div className="font-bold text-base text-foreground">{item.tz.replace("_", " ")}</div>
+                      <div className="text-xs text-muted-foreground">{item.date}</div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="text-xl font-bold font-mono text-primary">{item.time}</div>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeZone(item.tz)}
+                        className="h-7 w-7 text-muted-foreground hover:text-destructive"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </GlassCard>
+          </div>
         </div>
-      </ToolFeatureGuides>
 
-      <ToolFaqAccordion faqs={[{
-        question: "Is this tool free to use?",
-        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-      }, {
-        question: "Is my data secure?",
-        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-      }, {
-        question: "Do I need to create an account?",
-        answer: "No account or registration is required. Simply open the tool and start using it immediately."
-      }]} />
+        <ToolHowItWorks
+          steps={[
+            { step: "01", title: "Select Source Date/Time", description: "Set your origin timestamp and local time zone.", icon: Clock },
+            { step: "02", title: "Add Target Cities", description: "Choose any major global cities to compare simultaneously.", icon: Globe },
+            { step: "03", title: "View Converted Clocks", description: "Output instantly shows localized date, AM/PM time, and daylight saving offsets.", icon: Sparkles }
+          ]}
+          badges={["100% Free Forever", "Automatic DST Updates", "Official IANA Database"]}
+        />
 
-      <RelatedTools currentToolUrl="/tools/time/world-planner" max={6} />
+        <ToolFeatureGuides
+          features={[
+            { icon: Globe, title: "Universal IANA Coverage", description: "Supports all standard international time zones with verified offsets." },
+            { icon: Clock, title: "Daylight Saving Accurate", description: "Calculates historic and seasonal DST changes without manual math." },
+            { icon: ArrowRightLeft, title: "Multi-Zone Comparison", description: "Compare several hubs side-by-side for seamless remote team scheduling." },
+            { icon: Shield, title: "100% Local Engine", description: "Calculations run natively inside your browser with zero latency." }
+          ]}
+        >
+          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+            <h3>Coordinating Across Worldwide Time Horizons</h3>
+            <p>
+              Navigating global time offsets is crucial for international businesses, remote squads, and frequent flyers. Due to seasonal Daylight Saving Time adjustments occurring on different dates across hemispheres, manual calculations frequently lead to costly errors.
+            </p>
+          </div>
+        </ToolFeatureGuides>
 
-  </div></div>;
+        <ToolFaqAccordion
+          faqs={[
+            { question: "How does the converter handle Daylight Saving Time?", answer: "The converter utilizes the browser's built-in Intl.DateTimeFormat API with up-to-date IANA timezone data to automatically calculate DST offsets." },
+            { question: "Is there a limit on how many time zones I can add?", answer: "No limit. You can add as many global locations as needed." }
+          ]}
+        />
+
+        <RelatedTools currentToolUrl="/tools/time/world-planner" max={6} />
+      </div>
+    </div>
+  );
 }
+
+export default WorldPlannerClient;

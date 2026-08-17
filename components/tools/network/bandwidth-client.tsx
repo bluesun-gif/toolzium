@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
@@ -12,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
 import { cn } from "@/lib/utils";
-import { Wifi, Clock, HardDrive, Download, Trash2, Plus, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { Wifi, Clock, HardDrive, Download, Trash2, Plus, Sparkles, Shield, Zap, Copy, Calculator } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -90,7 +91,10 @@ export function BandwidthClient() {
   const dataPerHourBits = Number(bandwidthMbps) * 1_000_000 * 3600;
   const dataPerHourGB = dataPerHourBits / unitMultipliers["GB"];
   const reqBandwidth = Number(targetSize) * unitMultipliers[targetUnit] / (Number(desiredTime) * 1_000_000) || 0;
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Wifi} title="Bandwidth Calculator" description="Calculate transfer times and bandwidth requirements" actions={<ResetButton onClick={() => {
@@ -259,8 +263,9 @@ export function BandwidthClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/network/bandwidth" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default BandwidthClient;

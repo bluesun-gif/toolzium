@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect, useMemo } from "react";
@@ -61,7 +62,10 @@ export default function HangmanClient() {
     }
   };
   const displayWord = word.split("").map(letter => guessed.has(letter.toUpperCase()) ? letter : "_").join("");
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Skull} title="Hangman Game" description="Test your vocabulary with this classic word guessing game." />
@@ -157,7 +161,7 @@ export default function HangmanClient() {
         question: "Does the game save my score?",
         answer: "Scores are tracked in memory during your current browser session. Refreshing the page will reset the score."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/fun/hangman" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

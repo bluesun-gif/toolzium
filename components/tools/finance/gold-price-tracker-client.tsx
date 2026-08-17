@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -12,7 +14,7 @@ import { Button } from"@/components/ui/button";
 import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import SelectField from"@/components/shared/form-fields/select-field";
-import { Coins, DollarSign, Gem, LineChart, RefreshCw, Scale, ShieldCheck, Sparkles, TrendingUp } from"lucide-react";
+import { Coins, DollarSign, Gem, LineChart, RefreshCw, Scale, ShieldCheck, Sparkles, TrendingUp, Calculator, History } from "lucide-react";
 import toast from"react-hot-toast";
 
 interface MetalsData {
@@ -109,7 +111,10 @@ export default function GoldPriceTrackerClient() {
   const baseGram24 = data ? data.usdRates.goldGram24k * fx : 0;
   const purityFactor = karat === "24k" ? 1 : karat === "22k" ? 22 / 24 : karat === "18k" ? 18 / 24 : 14 / 24;
   const calculatedTotalValue = (weightInGrams * baseGram24 * purityFactor).toFixed(2);
-  return <div className="relative space-y-6 max-w-5xl mx-auto px-4"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="Real-Time Gold & Precious Metals Price Tracker" description="Live spot prices for 24K, 22K, and 18K Gold, Silver, and Platinum across global currencies with instant karat weight calculator." />
@@ -305,6 +310,7 @@ export default function GoldPriceTrackerClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }

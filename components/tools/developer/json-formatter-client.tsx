@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { Button } from "@/components/ui/button";
@@ -12,7 +15,7 @@ import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CopyButton } from "@/components/shared/action-buttons";
 import toast from "react-hot-toast";
-import { Braces, Check, XCircle, Sparkles, Shield, Zap, AlignLeft } from "lucide-react";
+import { Braces, Check, XCircle, Sparkles, Shield, Zap, AlignLeft, Copy } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -50,7 +53,10 @@ export default function JsonFormatterClient() {
     setInput('{"user":{"id":1,"name":"Jane","tags":["dev","admin"],"active":true},"meta":{"version":"1.0.0"}}');
     toast.success("Sample loaded");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Braces} title="JSON Formatter & Validator" description="Format, minify, and validate JSON data instantly. Perfect for debugging API responses and config files." />
@@ -165,7 +171,7 @@ export default function JsonFormatterClient() {
         question: "Is my data uploaded anywhere?",
         answer: "No. Parsing and formatting happen entirely in your browser using the native JSON API. Nothing is transmitted."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/developer/json-formatter" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

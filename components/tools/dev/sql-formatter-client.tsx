@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
@@ -11,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Database, Code, Copy, Trash2, FileCode, BookOpen, Shield, Zap, Globe, AlignLeft, Settings2, Layers, Table2, Code2 } from "lucide-react";
+import { Database, Code, Copy, Trash2, FileCode, BookOpen, Shield, Zap, Globe, AlignLeft, Settings2, Layers, Table2, Code2, Users } from "lucide-react";
 import toast from "react-hot-toast";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
@@ -68,7 +71,10 @@ export function SqlFormatterClient() {
     setFormattedSql("");
     toast.success("Cleared");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Database} title="SQL Formatter" description="Format and beautify your SQL queries." actions={<React.Fragment>
@@ -270,6 +276,9 @@ export function SqlFormatterClient() {
         question: "What is SQL minification used for?",
         answer: "SQL minification collapses formatted SQL into a single line by removing unnecessary whitespace. This is useful when embedding SQL in environment variables, configuration files, JSON API parameters, or when minimizing query payload size in logging."
       }]} />
- <RelatedTools currentToolUrl="/tools/dev/sql-formatter" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default SqlFormatterClient;

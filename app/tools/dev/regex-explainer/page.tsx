@@ -1,19 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import RegexExplainerClient from "@/components/tools/dev/regex-explainer-client";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "Regex Tester & AI Natural Language Explainer";
+const DESCRIPTION = "Test regular expressions against live sample strings and generate plain-English breakdowns of regex syntax with live AI inference.";
+const PATH = "/tools/dev/regex-explainer";
 
 export const metadata = buildMetadata({
-  title: "Regex Tester & AI Natural Language Explainer",
-  description: "Test regular expressions against live sample strings and generate plain-English breakdowns of regex syntax with live AI inference.",
-  path: "/tools/dev/regex-explainer",
-  keywords: ["against", "english", "generate", "sample", "expressions", "strings", "test", "plain", "regex", "regular", "breakdowns", "live"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
-export default function RegexExplainerPage() {
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "Regex Tester & AI Natural Language Explainer",
+    description: DESCRIPTION,
+    path: PATH
+  });
+
   return (
-    <><RegexExplainerClient />
-      <RelatedTools currentToolUrl="/tools/dev/regex-explainer" />
+    <>
+      <JsonLd data={jsonLd} />
+      <RegexExplainerClient />
     </>
   );
 }

@@ -1,32 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import PomodoroFocusClient from "@/components/tools/util/pomodoro-focus-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "Pomodoro | Toolzium";
+const DESCRIPTION = "Free online pomodoro tool with instant calculation and privacy.";
+const PATH = "/tools/util/pomodoro";
 
 export const metadata = buildMetadata({
-  title: "Pomodoro Timer",
-  description: "Pomodoro technique timer with 25-minute work sessions and 5-minute breaks. Productivity timer with sound notifications to boost focus and prevent burnout.",
-  path: "/tools/util/pomodoro",
-  keywords: ["productivity", "with", "technique", "sessions", "minute", "work", "breaks", "pomodoro", "timer"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Pomodoro Timer",
-    description: "Pomodoro technique timer with 25-minute work sessions and 5-minute breaks. Productivity timer with sound notifications to boost focus and prevent burnout.",
-    path: "/tools/util/pomodoro",
-    categoryName: "Util",
-    categoryPath: "/tools/util",
+    name: "Pomodoro",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <PomodoroFocusClient />
-    
-      <RelatedTools currentToolUrl="/tools/util/pomodoro" />
-</div>
+    </>
   );
 }

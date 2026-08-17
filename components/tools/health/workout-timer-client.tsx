@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -11,7 +13,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Button } from"@/components/ui/button";
 import { ActionButton } from"@/components/shared/action-buttons";
-import { Activity, BarChart3, Pause, Play, PlayCircle, Repeat, RotateCcw, Timer, Volume2, VolumeX } from"lucide-react";
+import { Activity, BarChart3, Pause, Play, PlayCircle, Repeat, RotateCcw, Timer, Volume2, VolumeX, Settings } from "lucide-react";
 import { cn } from"@/lib/utils";
 
 type TimerState ="idle"|"work"|"rest"|"finished";
@@ -125,7 +127,10 @@ export function WorkoutTimerClient() {
   const maxTime = state === "work" ? workSecs : restSecs;
   const progressPercent = state === "idle" ? 100 : timeLeft / maxTime * 100;
   const totalWorkoutTime = (workSecs + restSecs) * totalRounds - (restSecs > 0 ? restSecs : 0);
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Activity} title="Workout Timer" description="Interval training timer for Tabata, HIIT, and EMOM workouts." actions={<Button variant="outline" size="icon" onClick={() => setSoundEnabled(!soundEnabled)}>
@@ -281,6 +286,9 @@ export function WorkoutTimerClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default WorkoutTimerClient;

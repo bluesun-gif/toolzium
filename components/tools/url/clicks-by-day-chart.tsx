@@ -1,15 +1,9 @@
 "use client";
 
+import { ToolBackground } from "@/components/shared/tool-background";
+
 import * as React from"react";
-import {
- Area,
- AreaChart,
- CartesianGrid,
- ResponsiveContainer,
- Tooltip,
- XAxis,
- YAxis,
-} from"recharts";
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from"recharts";
 
 type Point = { date: string; clicks: number };
 

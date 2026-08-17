@@ -1,29 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import FaviconGeneratorClient from "@/components/tools/image/favicon-generator-client";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "Favicon & App Icon Generator — Convert Image to Favicon.ico | Toolzium";
+const DESCRIPTION = "Generate website favicons, Apple Touch icons, Android PWA icons, and multi-resolution favicon.ico files online. Download ready-to-use icon zip packages with HTML head code.";
+const PATH = "/tools/image/favicon-generator";
 
 export const metadata = buildMetadata({
-  title: "Favicon & App Icon Generator — Convert Image to Favicon.ico | Toolzium",
-  description: "Generate website favicons, Apple Touch icons, Android PWA icons, and multi-resolution favicon.ico files online. Download ready-to-use icon zip packages with HTML head code.",
-  path: "/tools/image/favicon-generator",
-  keywords: ["android", "website", "apple", "generate", "favicon", "files", "resolution", "touch", "favicons", "multi", "icons"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Favicon & App Icon Generator — Convert Image to Favicon.ico",
-    description: "Generate website favicons, Apple Touch icons, Android PWA icons, and multi-resolution favicon.ico files online. Download ready-to-use icon zip packages with HTML head code.",
-    path: "/tools/image/favicon-generator",
-    categoryName: "Image",
-    categoryPath: "/tools/image",
+    name: "Favicon & App Icon Generator",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <FaviconGeneratorClient />
-      <RelatedTools currentToolUrl="/tools/image/favicon-generator" />
-    </div>
+    </>
   );
 }

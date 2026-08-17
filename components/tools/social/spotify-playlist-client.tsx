@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
@@ -16,7 +17,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
 import { ModelSelector } from "@/components/shared/model-selector";
 import { GridPattern } from "@/components/magicui/grid-pattern";
-import { Music, RefreshCw, Sparkles, Disc, Heart, Copy, Share2, ListMusic, Headphones, Zap, Shield, BookOpen, Layers } from "lucide-react";
+import { Music, RefreshCw, Sparkles, Disc, Heart, Copy, Share2, ListMusic, Headphones, Zap, Shield, BookOpen, Layers, Type } from "lucide-react";
 import toast from "react-hot-toast";
 interface PlaylistIdea {
   title: string;
@@ -129,7 +130,10 @@ export default function SpotifyPlaylistClient() {
     setCustomArtist("");
     generateSpotifyPlaylists();
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       <ToolPageHeader icon={Music} title="Spotify Playlist Title & Aesthetic Description Studio" description="Generate aesthetic Spotify playlist titles, mood descriptions, cover art text, and genre hashtag tags with live AI." actions={<ResetButton onClick={handleReset} label="Reset" />} />
@@ -284,7 +288,7 @@ export default function SpotifyPlaylistClient() {
         question: "How do I make my Spotify playlist rank in search?",
         answer: "Use targeted mood keywords (e.g. 'lofi study', 'gym phonk') in both your title and description, and keep your cover art visually consistent."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/social/spotify-playlist-generator" max={6} />
-    </div></div>;
+    </div>
+    </div>
+);
 }

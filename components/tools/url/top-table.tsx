@@ -1,5 +1,7 @@
 "use client";
 
+import { ToolBackground } from "@/components/shared/tool-background";
+
 export default function TopTable({
  rows,
  labelClassName ="",

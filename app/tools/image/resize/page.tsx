@@ -1,32 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import ImageResizeClient from "@/components/tools/image/image-resize-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "Resize | Toolzium";
+const DESCRIPTION = "Free online resize tool with instant calculation and privacy.";
+const PATH = "/tools/image/resize";
 
 export const metadata = buildMetadata({
-  title: "Image Resize",
-  description: "Resize, crop, or scale images easily",
-  path: "/tools/image/resize",
-  keywords: ["easily", "crop", "scale", "images", "resize"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Image Resize",
-    description: "Resize, crop, or scale images easily",
-    path: "/tools/image/resize",
-    categoryName: "Image",
-    categoryPath: "/tools/image",
+    name: "Resize",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <ImageResizeClient />
-    
-      <RelatedTools currentToolUrl="/tools/image/resize" />
-</div>
+    </>
   );
 }

@@ -1,19 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import InstagramReelClient from "@/components/tools/social/instagram-reel-client";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "Instagram Reel Hook & Viral Caption Generator";
+const DESCRIPTION = "Generate 3-second high-curiosity opening hooks and viral captions for Instagram Reels with live AI inference.";
+const PATH = "/tools/social/instagram-reel-hooks";
 
 export const metadata = buildMetadata({
-  title: "Instagram Reel Hook & Viral Caption Generator",
-  description: "Generate 3-second high-curiosity opening hooks and viral captions for Instagram Reels with live AI inference.",
-  path: "/tools/social/instagram-reel-hooks",
-  keywords: ["hooks", "with", "generate", "opening", "second", "viral", "captions", "instagram", "reels", "live", "high", "curiosity"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
-export default function InstagramReelPage() {
+export default function Page() {
+  const jsonLd = buildToolJsonLd({
+    name: "Instagram Reel Hook & Viral Caption Generator",
+    description: DESCRIPTION,
+    path: PATH
+  });
+
   return (
-    <><InstagramReelClient />
-      <RelatedTools currentToolUrl="/tools/social/instagram-reel-hooks" />
+    <>
+      <JsonLd data={jsonLd} />
+      <InstagramReelClient />
     </>
   );
 }

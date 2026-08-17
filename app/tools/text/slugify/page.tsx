@@ -1,30 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import SlugifyClient from "@/components/tools/text/slugify-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
+
+const TITLE = "Slugify | Toolzium";
+const DESCRIPTION = "Free online slugify tool with instant calculation and privacy.";
+const PATH = "/tools/text/slugify";
+
 export const metadata = buildMetadata({
-  title: "Slugify Text",
-  description: "Convert text into SEO-friendly URL slugs. Generate clean, lowercase, hyphenated slugs from any text. Perfect for creating blog URLs, file names, and web-safe identifiers.",
-  path: "/tools/text/slugify",
-  keywords: ["from", "into", "generate", "hyphenated", "convert", "slugs", "clean", "friendly", "lowercase", "text"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Slugify Text",
-    description: "Convert text into SEO-friendly URL slugs. Generate clean, lowercase, hyphenated slugs from any text. Perfect for creating blog URLs, file names, and web-safe identifiers.",
-    path: "/tools/text/slugify",
-    categoryName: "Text",
-    categoryPath: "/tools/text",
+    name: "Slugify",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <SlugifyClient />
-    
-      <RelatedTools currentToolUrl="/tools/text/slugify" />
-</div>
+    </>
   );
 }

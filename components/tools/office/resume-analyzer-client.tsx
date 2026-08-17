@@ -1,4 +1,8 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -9,7 +13,7 @@ import { GlassCard } from"@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
 import { Label } from"@/components/ui/label";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { CheckCircle, FileText, ScanSearch, Search, Target, Wand2 } from"lucide-react";
+import { CheckCircle, FileText, ScanSearch, Search, Target, Wand2, Check, Copy } from "lucide-react";
 import toast from"react-hot-toast";
 
 const WEAK_WORDS = ["responsible for","team player","hard worker","detail-oriented","synergy","think outside the box","go-to person","results-driven"];
@@ -46,7 +50,10 @@ Word Count: ${stats.wordCount}
 Bullet Points: ${stats.bulletPoints}
 Weak Words Found: ${stats.weakWordMatches.length > 0 ? stats.weakWordMatches.join(",") : "None"}
 `;
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={FileText} title="Resume Analyzer" description="Paste your resume text for quick feedback on length, keywords, and structure." actions={<ResetButton onClick={() => setText("")} label="Reset" />} />
@@ -190,6 +197,9 @@ Weak Words Found: ${stats.weakWordMatches.length > 0 ? stats.weakWordMatches.joi
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default ResumeAnalyzerClient;

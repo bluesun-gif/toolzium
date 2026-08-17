@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -12,7 +14,7 @@ import { Label } from"@/components/ui/label";
 import { Input } from"@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Activity, Calculator, Clock, Flame, Scale } from"lucide-react";
+import { Activity, Calculator, Clock, Flame, Scale, Copy } from "lucide-react";
 
 export function RowingCalorieClient() {
   const [weight, setWeight] = useState("70");
@@ -80,7 +82,10 @@ export function RowingCalorieClient() {
   const copyResults = () => {
     return "Rowing Workout:" + duration + "mins at" + intensity + "intensity\n" + "Calories Burned:" + results.calories + "kcal\n" + "Average Split:" + results.split + "/500m";
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Activity} title="Rowing Machine & Ergometer Calorie Calculator" description="Calculate your calories burned, average split pace, and power output during an ergometer workout." actions={<ResetButton onClick={handleReset} label="Reset Fields" />} />
@@ -244,6 +249,9 @@ export function RowingCalorieClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default RowingCalorieClient;

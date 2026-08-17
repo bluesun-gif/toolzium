@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
@@ -63,7 +64,10 @@ export default function PdfProtectClient() {
       setProtecting(false);
     }
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Lock} title="Protect & Lock PDF Studio" description="Encrypt and add password protection to sensitive PDF documents. 100% client-side, private & secure." />
@@ -149,7 +153,7 @@ export default function PdfProtectClient() {
         question: "Is my password or file stored on your servers?",
         answer: "No. Everything is processed entirely within your browser locally. We never store your passwords, nor do we upload your PDF files to any servers."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/pdf/pdf-protect" />
- </div></div>;
+    </div>
+    </div>
+);
 }

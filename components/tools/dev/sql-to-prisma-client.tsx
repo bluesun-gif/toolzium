@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo, useCallback } from "react";
@@ -177,7 +178,10 @@ export function SqlToPrismaClient() {
     question: "What happens to snake_case column names?",
     answer: "If the snake_case mapping toggle is enabled, columns like 'user_id' are converted to 'userId' in Prisma, with an @map(\"user_id\") attribute added to maintain database compatibility."
   }];
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Database} title="SQL to Prisma Schema Converter" description="Translate raw SQL CREATE TABLE statements into clean, typed Prisma ORM models with automatic relation and constraint mapping." />
@@ -241,7 +245,9 @@ export function SqlToPrismaClient() {
  </ToolFeatureGuides>
 
  <ToolFaqAccordion faqs={faqs} />
- <RelatedTools currentToolUrl="/tools/dev/sql-to-prisma" />
- </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default SqlToPrismaClient;

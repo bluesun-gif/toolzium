@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { cn } from "@/lib/utils";
@@ -10,7 +11,7 @@ import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Layers, Timer, Move, RotateCcw, Trophy } from "lucide-react";
+import { Layers, Timer, Move, RotateCcw, Trophy, Play, Scale } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -107,7 +108,10 @@ export default function MemoryCardMatchClient() {
       }
     }
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Layers} title="Memory Card Match" description="Flip the cards and find the matching emoji pairs in this classic memory challenge." />
@@ -195,7 +199,7 @@ export default function MemoryCardMatchClient() {
         question: "Is there a time limit to finish the game?",
         answer: "No, there is no maximum time limit. The timer simply counts up so you can track your personal bests."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/fun/memory-card-match" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useEffect } from "react";
@@ -10,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { cn } from "@/lib/utils";
-import { Download, Youtube, Loader2, RefreshCw, ShieldCheck, FileImage, Image, History, FileText, Wand2, Sparkles, ExternalLink } from "lucide-react";
+import { Download, Youtube, Loader2, RefreshCw, ShieldCheck, FileImage, Image, History, FileText, Wand2, Sparkles, ExternalLink, Copy, Type } from "lucide-react";
 import toast from "react-hot-toast";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
@@ -129,7 +130,10 @@ export default function YoutubeThumbnailClient() {
     setThumbnails([]);
     setAiAnalysis(null);
   };
-  return <div className="w-full min-h-screen pb-20 relative"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
@@ -218,7 +222,8 @@ export default function YoutubeThumbnailClient() {
           </div>
         </div>
 
-        <ToolHowItWorks steps={[{
+        </div>
+<ToolHowItWorks steps={[{
           step: "01",
           title: "Paste Video Link",
           description: "Copy any valid YouTube watch, shorts, embed, or sharing URL and paste it in.",
@@ -263,8 +268,7 @@ export default function YoutubeThumbnailClient() {
           question: "Is it legal to download YouTube video thumbnails?",
           answer: "Yes, downloading thumbnails for personal use or design research is generally fine under Fair Use."
         }]} />
-
-        <RelatedTools currentToolUrl="/tools/url/youtube-thumbnail" max={6} />
-      </div>
-    </div></div>;
+    </div>
+    </div>
+);
 }

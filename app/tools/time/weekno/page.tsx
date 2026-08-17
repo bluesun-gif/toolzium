@@ -1,32 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import WeekNumberClient from "@/components/tools/time/week-number-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "Current Week Number Calculator | Toolzium";
+const DESCRIPTION = "Check the current ISO week number, dates, and week breakdown for any year.";
+const PATH = "/tools/time/weekno";
 
 export const metadata = buildMetadata({
-  title: "Week Number Calculator",
-  description: "Find ISO week number for any date. Week number calculator with date range display. Useful for project planning and scheduling with week-based calendars.",
-  path: "/tools/time/weekno",
-  keywords: ["useful", "with", "display", "calculator", "number", "find", "range", "week", "date"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Week Number Calculator",
-    description: "Find ISO week number for any date. Week number calculator with date range display. Useful for project planning and scheduling with week-based calendars.",
-    path: "/tools/time/weekno",
-    categoryName: "Time",
-    categoryPath: "/tools/time",
+    name: "Current Week Number Calculator",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <WeekNumberClient />
-    
-      <RelatedTools currentToolUrl="/tools/time/weekno" />
-</div>
+    </>
   );
 }

@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useEffect } from "react";
@@ -12,7 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Search, Copy, Clock, Globe, Shield, Server, AlertCircle, History, Trash2, ChevronDown, ChevronUp, ShieldCheck, Cpu, Layers, Zap, FileText } from "lucide-react";
+import { Search, Copy, Clock, Globe, Shield, Server, AlertCircle, History, Trash2, ChevronDown, ChevronUp, ShieldCheck, Cpu, Layers, Zap, FileText, Check, Type } from "lucide-react";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
@@ -151,7 +152,10 @@ DNSSEC: ${result.dnssec ? "Enabled" : "Disabled"}`;
     // Camel case to words
     return status.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader title="WHOIS Domain Lookup" description="Lookup domain registration details, registrar info, and DNS records." />
@@ -436,7 +440,7 @@ DNSSEC: ${result.dnssec ? "Enabled" : "Disabled"}`;
         question: "Why does WHOIS show different results for different TLDs?",
         answer: "Different registries enforce varying privacy rules, data formats, and query limits. For example, country-code TLDs (ccTLDs like .uk or .de) often have stricter lookup limitations and redact more data compared to generic TLDs like .com."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/network/whois" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

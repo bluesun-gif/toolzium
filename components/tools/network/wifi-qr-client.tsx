@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useRef } from "react";
@@ -10,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Wifi, QrCode, Download, Printer, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { Wifi, QrCode, Download, Printer, Sparkles, Shield, Zap, Copy, Type } from "lucide-react";
 import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
@@ -97,7 +98,10 @@ export function WifiQrClient() {
     setEncryption("WPA");
     setHidden(false);
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Wifi} title="WiFi QR Code Generator" description="Create a QR code that lets guests connect to your WiFi network by simply scanning it." />
@@ -224,8 +228,9 @@ export function WifiQrClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/network/wifi-qr" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default WifiQrClient;

@@ -1,4 +1,7 @@
 "use client";
+
+import { Card } from "@/components/ui/card";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
@@ -13,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { cn } from "@/lib/utils";
-import { Image as ImageIcon, Copy, Download, RefreshCcw, Sparkles } from "lucide-react";
+import { Image as ImageIcon, Copy, Download, RefreshCcw, Sparkles, Square } from "lucide-react";
 import toast from "react-hot-toast";
 export function PlaceholderGeneratorClient() {
   const [width, setWidth] = useState(600);
@@ -66,7 +69,10 @@ export function PlaceholderGeneratorClient() {
     navigator.clipboard.writeText(svgContent);
     toast.success("SVG code copied to clipboard!");
   };
-  return <div className="w-full min-h-screen pb-20 relative"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
@@ -169,7 +175,8 @@ export function PlaceholderGeneratorClient() {
           </GlassCard>
         </div>
 
-        <ToolHowItWorks steps={[{
+        </div>
+<ToolHowItWorks steps={[{
           step: "01",
           title: "Set Dimensions",
           description: "Input width and height in pixels or click a preset resolution.",
@@ -214,9 +221,9 @@ export function PlaceholderGeneratorClient() {
           question: "Can I use these images in commercial projects?",
           answer: "Absolutely! All generated placeholders are royalty-free and ready for production use."
         }]} />
-
-        <RelatedTools currentToolUrl="/tools/image/placeholder-generator" max={6} />
-      </div>
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default PlaceholderGeneratorClient;

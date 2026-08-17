@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -16,9 +18,6 @@ import { ArrowRight, ArrowRightLeft, Download, Filter, Grid2x2, Layout, LayoutDa
 import { ActionButton } from"@/components/shared/action-buttons";
 import { toast } from"react-hot-toast";
 import { GridPattern } from"@/components/magicui/grid-pattern";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import { RelatedTools } from"@/components/shared/related-tools";
 import { cn } from"@/lib/utils";
 
@@ -210,7 +209,7 @@ export function EisenhowerWorkspaceClient() {
  <QuadrantView id="q2"title="Schedule (Important, Not Urgent)"colorClass="text-primary"/>
  <QuadrantView id="q3"title="Delegate (Urgent, Not Important)"colorClass="text-orange-500"/>
  <QuadrantView id="q4"title="Eliminate (Not Urgent & Not Important)"colorClass="text-muted-foreground"/>
- </div>
+ 
  
 <ToolHowItWorks
   steps={[
@@ -291,6 +290,9 @@ export function EisenhowerWorkspaceClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default EisenhowerWorkspaceClient;

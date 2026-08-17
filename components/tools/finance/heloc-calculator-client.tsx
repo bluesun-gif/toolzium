@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -64,7 +66,10 @@ export function HelocCalculatorClient() {
     setTotalPayment("0");
   };
   const report = "Draw Phase Monthly (Interest-Only): $" + interestPayment + "\n" + "Repayment Phase Monthly: $" + repayPayment + "\n" + "Total Interest Paid: $" + totalInterest + "\n" + "Total Amount Paid: $" + totalPayment;
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Home} title="HELOC Payment Calculator" description="Calculate draw period and repayment period monthly payments for HELOC." actions={<ResetButton onClick={handleReset} label="Reset" />} />
@@ -234,6 +239,9 @@ export function HelocCalculatorClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default HelocCalculatorClient;

@@ -1,4 +1,8 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useMemo } from "react";
@@ -11,7 +15,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CopyButton } from "@/components/shared/action-buttons";
 import toast from "react-hot-toast";
-import { Binary, ArrowRightLeft, Copy } from "lucide-react";
+import { Binary, ArrowRightLeft, Copy, Type } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -37,7 +41,10 @@ export default function BinaryTextClient() {
     setInput("");
     toast.success(`Switched to ${mode === "text-to-binary" ? "Binary to Text" : "Text to Binary"}`);
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Binary} title="Binary Text Converter" description="Convert text to binary representation and decode binary back to readable text instantly." />
@@ -120,7 +127,7 @@ export default function BinaryTextClient() {
         question: "Is the binary output compatible with other tools?",
         answer: "Yes, the space-separated 8-bit format is widely compatible with other binary conversion tools and educational resources."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/text/binary-text" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

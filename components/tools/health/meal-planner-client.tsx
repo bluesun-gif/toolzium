@@ -1,4 +1,8 @@
 "use client";
+
+import { Button } from "@/components/ui/button";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -11,7 +15,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Apple, Calendar, CalendarDays, Download, Target, Utensils } from"lucide-react";
+import { Apple, Calendar, CalendarDays, Download, Target, Utensils, Copy, Settings, Type } from "lucide-react";
 import toast from"react-hot-toast";
 
 type Meal = {
@@ -111,7 +115,10 @@ export function MealPlannerClient() {
     summary += "\nTotal:" + getTotalCalories() + "kcal";
     return summary;
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Utensils} title="Meal Planner & Calorie Target" description="Plan weekly meals and track macronutrients." actions={<React.Fragment>
@@ -294,6 +301,9 @@ export function MealPlannerClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default MealPlannerClient;

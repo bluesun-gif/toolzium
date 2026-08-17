@@ -1,39 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import PlaceholderGeneratorClient from "@/components/tools/image/placeholder-generator-client";
+
+const TITLE = "Placeholder Generator | Toolzium";
+const DESCRIPTION = "Free online placeholder generator tool with instant calculation and privacy.";
+const PATH = "/tools/image/placeholder-generator";
+
 export const metadata = buildMetadata({
-  title: "Placeholder Image Generator",
-  description: "Generate custom placeholder images with custom dimensions, colors, text, and format (PNG, SVG, JPG, WEBP). Free online image placeholder tool for mockups.",
-  path: "/tools/image/placeholder-generator",
-  keywords: ["with", "format", "generate", "webp", "dimensions", "colors", "free", "images", "custom", "text", "placeholder"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Placeholder Image Generator",
-    description: "Generate custom placeholder images with custom dimensions, colors, text, and format (PNG, SVG, JPG, WEBP). Free online image placeholder tool for mockups.",
-    path: "/tools/image/placeholder-generator",
-    categoryName: "Image",
-    categoryPath: "/tools/image",
+    name: "Placeholder Generator",
+    description: DESCRIPTION,
+    path: PATH
   });
 
-      <JsonLd
-        data={{
-          "@context": "https://schema.org",
-          "@type": "SoftwareApplication",
-          name: "Image Placeholder Generator",
-          description: "Generate custom image placeholders in PNG or SVG format.",
-          applicationCategory: "DesignApplication",
-          operatingSystem: "Any",
-          offers: {
-            "@type": "Offer",
-            price: "0",
-            priceCurrency: "USD",
-          },
-        }}
-      />
-    
-      <RelatedTools currentToolUrl="/tools/image/placeholder-generator" />
-</>
+  return (
+    <>
+      <JsonLd data={jsonLd} />
+      <PlaceholderGeneratorClient />
+    </>
   );
 }

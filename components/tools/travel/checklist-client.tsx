@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
@@ -8,7 +9,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from "@/component
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CheckSquare, Send, Plus, Printer, Trash, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { CheckSquare, Send, Plus, Printer, Trash, Sparkles, Shield, Zap, Copy, Type } from "lucide-react";
 import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
@@ -139,7 +140,10 @@ export function TravelChecklistClient() {
   const getShareText = () => {
     return items.map(i => `[${i.checked ? 'x' : ' '}] ${i.text}`).join('\n');
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={CheckSquare} title="Travel Checklist" description="Pre-trip checklist generator. Auto-generate and manage packing items." actions={<>
@@ -268,8 +272,9 @@ export function TravelChecklistClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/travel/checklist" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default TravelChecklistClient;

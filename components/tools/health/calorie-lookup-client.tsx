@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -13,7 +15,7 @@ import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { Button } from"@/components/ui/button";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Apple, Calculator, Plus, RotateCcw, Search, Trash2, Utensils } from"lucide-react";
+import { Apple, Calculator, Plus, RotateCcw, Search, Trash2, Utensils, Copy } from "lucide-react";
 import { toast } from"react-hot-toast";
 
 type FoodItem = {
@@ -196,7 +198,10 @@ export function CalorieLookupClient() {
     text += `\nTotal: ${totals.calories.toFixed(0)} kcal | Protein: ${totals.protein.toFixed(1)}g | Carbs: ${totals.carbs.toFixed(1)}g | Fat: ${totals.fat.toFixed(1)}g`;
     return text;
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Utensils} title="Calorie Lookup & Meal Planner" description="Search common foods and build your daily meal plan to track macros." actions={<>
@@ -382,6 +387,9 @@ export function CalorieLookupClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default CalorieLookupClient;

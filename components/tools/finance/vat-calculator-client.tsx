@@ -1,8 +1,11 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 import { Button } from"@/components/ui/button";
 
-import { BookOpen, Shield, Percent, DollarSign, Calculator, Globe, Receipt, BarChart3, ArrowUpDown, Info } from "lucide-react";
+import { BookOpen, Shield, Percent, DollarSign, Calculator, Globe, Receipt, BarChart3, ArrowUpDown, Info, Copy } from "lucide-react";
 import * as React from "react";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";

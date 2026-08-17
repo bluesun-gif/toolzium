@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
@@ -9,7 +10,7 @@ import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CircleDot, RotateCcw } from "lucide-react";
+import { CircleDot, RotateCcw, History } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
@@ -37,7 +38,10 @@ export default function CoinFlipClient() {
   const tailsCount = history.filter(h => h === "Tails").length;
   const total = history.length;
   const headsPercent = total > 0 ? headsCount / total * 100 : 50;
-  return <div className="relative max-w-6xl mx-auto space-y-8 px-2 sm:px-4 py-4 sm:py-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={CircleDot} title="Coin Flip Simulator" description="Flip a virtual coin with realistic animation and track your heads vs tails statistics." />
@@ -141,7 +145,7 @@ export default function CoinFlipClient() {
         question: "Does my history save if I refresh?",
         answer: "No, the history is stored in the browser's temporary memory and will be cleared upon refreshing the page to protect your privacy."
       }]} />
-
- <RelatedTools currentToolUrl="/tools/fun/coin-flip" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

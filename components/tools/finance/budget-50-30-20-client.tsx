@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -12,7 +14,7 @@ import { Label } from"@/components/ui/label";
 import { Input } from"@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Calculator, DollarSign, Eye, PieChart, Target, Wallet } from"lucide-react";
+import { Calculator, DollarSign, Eye, PieChart, Target, Wallet, Copy } from "lucide-react";
 
 export function Budget503020Client() {
   const [income, setIncome] = useState("4000");
@@ -50,7 +52,10 @@ export function Budget503020Client() {
   const getCopyText = () => {
     return "Budget Plan (Monthly):\n" + "Total Income:" + formatCurrency(results.monthly) + "\n" + "Needs (50%):" + formatCurrency(results.needs) + "\n" + "Wants (30%):" + formatCurrency(results.wants) + "\n" + "Savings/Debt (20%):" + formatCurrency(results.savings);
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Calculator} title="50/30/20 Rule Budget Allocator" description="Calculate income allocation using the 50/30/20 budgeting rule for needs, wants, and savings." actions={<ResetButton onClick={handleReset} label="Clear Data" />} />
@@ -230,6 +235,9 @@ export function Budget503020Client() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default Budget503020Client;

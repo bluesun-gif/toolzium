@@ -1,8 +1,9 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState } from "react";
-import { Download, Link, Loader2, Music, Video, AlertCircle, CheckCircle2, ExternalLink, Youtube, Instagram, Twitter, ChevronDown, Volume2, VolumeX } from "lucide-react";
+import { Download, Link, Loader2, Music, Video, AlertCircle, CheckCircle2, ExternalLink, Youtube, Instagram, Twitter, ChevronDown, Volume2, VolumeX, Copy, Type } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -188,7 +189,10 @@ export default function VideoDownloaderClient() {
     a.click();
     document.body.removeChild(a);
   };
-  return <div className="w-full min-h-screen pb-20 relative"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
@@ -403,7 +407,8 @@ export default function VideoDownloaderClient() {
         </GlassCard>
 
         {/* HOW IT WORKS */}
-        <ToolHowItWorks steps={[{
+        </div>
+<ToolHowItWorks steps={[{
           step: "01",
           title: "Paste the Video URL",
           description: "Copy the URL of any video from YouTube, TikTok, Instagram, Twitter, Facebook, Reddit, Vimeo, or 15+ other platforms and paste it into the input field.",
@@ -495,7 +500,7 @@ export default function VideoDownloaderClient() {
           question: "Why does the download open in a new tab instead of saving?",
           answer: "Some platforms serve videos with streaming headers that cause the browser to play rather than download. In that case, right-click the opened video and select 'Save video as...' to download it manually. On mobile, tap and hold the video to see download options."
         }]} />
-        <RelatedTools currentToolUrl="/tools/social/video-downloader" max={6} />
-      </div>
-    </div></div>;
+    </div>
+    </div>
+);
 }

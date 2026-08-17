@@ -1,4 +1,6 @@
 "use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -12,7 +14,7 @@ import { Input } from"@/components/ui/input";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Calendar, Copy, DollarSign, Receipt, Shield, ShieldCheck, Target, Wallet } from"lucide-react";
+import { Calendar, Copy, DollarSign, Receipt, Shield, ShieldCheck, Target, Wallet, Calculator } from "lucide-react";
 import toast from"react-hot-toast";
 
 export function EmergencyFundClient() {
@@ -50,7 +52,10 @@ export function EmergencyFundClient() {
   const getSummary = () => {
     return "Emergency Fund Goal: $" + goal.toFixed(2) + "\n" + "Current Savings: $" + (Number(currentSavings) || 0).toFixed(2) + "\n" + "Remaining Gap: $" + gap.toFixed(2) + "\n" + "Est. Time to Goal:" + (monthsToGoal > 0 ? monthsToGoal.toFixed(1) + "months" : "N/A");
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={Shield} title="Emergency Fund Calculator" description="Calculate your required safety net and plan your savings." actions={<React.Fragment>
@@ -255,6 +260,9 @@ export function EmergencyFundClient() {
   }
   ]}
 />
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default EmergencyFundClient;

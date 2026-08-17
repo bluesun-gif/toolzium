@@ -1,7 +1,8 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
-import { Calendar, CalendarDays, CalendarRange, Info, RefreshCcw, BookOpen, Shield, Clock, Timer, Layers, Globe, Calculator, AlignLeft } from "lucide-react";
+import { Calendar, CalendarDays, CalendarRange, Info, RefreshCcw, BookOpen, Shield, Clock, Timer, Layers, Globe, Calculator, AlignLeft, Copy } from "lucide-react";
 import { useMemo, useState } from "react";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
@@ -229,7 +230,10 @@ export default function DateDifferenceClient() {
       className: "md:col-span-2"
     }];
   }, [parsed]);
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  {/* Header */}
@@ -425,6 +429,7 @@ export default function DateDifferenceClient() {
         question: "Can I calculate working days excluding weekends?",
         answer: "This tool calculates the total calendar day difference including weekends. For working day calculations (excluding weekends and holidays), use a dedicated business day calculator. Working days = Total days - (number of Saturdays + Sundays in the range) - public holidays."
       }]} />
- <RelatedTools currentToolUrl="/tools/calc/date-diff" max={6} />
- </div></div>;
+    </div>
+    </div>
+);
 }

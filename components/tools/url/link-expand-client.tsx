@@ -1,4 +1,7 @@
 "use client";
+
+import { Card } from "@/components/ui/card";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useCallback, useEffect } from "react";
@@ -15,7 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { cn } from "@/lib/utils";
-import { Copy, RotateCcw, Link2, ShieldAlert, ShieldCheck, History, Loader2, Wand2, RefreshCcw, ExternalLink } from "lucide-react";
+import { Copy, RotateCcw, Link2, ShieldAlert, ShieldCheck, History, Loader2, Wand2, RefreshCcw, ExternalLink, Check, Type } from "lucide-react";
 import toast from "react-hot-toast";
 interface ExpandedLink {
   original: string;
@@ -134,7 +137,10 @@ export function LinkExpandClient() {
     setBatchUrls("");
     setResults([]);
   };
-  return <div className="w-full min-h-screen pb-20 relative"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
@@ -255,7 +261,8 @@ export function LinkExpandClient() {
             </div>
           </GlassCard>}
 
-        <ToolHowItWorks steps={[{
+        </div>
+<ToolHowItWorks steps={[{
           step: "01",
           title: "Paste Shortened URL",
           description: "Enter any shortened link from bit.ly, t.co, TinyURL, or other providers into the input field.",
@@ -304,9 +311,9 @@ export function LinkExpandClient() {
           question: "What URL shorteners are supported?",
           answer: "We support virtually all standard 301 and 302 redirect chains, including Bitly, TinyURL, Twitter's t.co, and YouTube's youtu.be."
         }]} />
-
-        <RelatedTools currentToolUrl="/tools/url/expand" max={6} />
-      </div>
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
 export default LinkExpandClient;

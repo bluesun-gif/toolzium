@@ -1,4 +1,7 @@
 "use client";
+
+import { Input } from "@/components/ui/input";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import React, { useState, useEffect } from "react";
@@ -9,7 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { TrendingUp, DollarSign, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { TrendingUp, DollarSign, Sparkles, Shield, Zap, Copy, Settings, History } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
@@ -66,7 +69,10 @@ export function ExchangeHistoryClient() {
   const maxRate = Math.max(...(rates.length ? rates : [0]));
   const minRate = Math.min(...(rates.length ? rates : [0]));
   const avgRate = rates.length ? (rates.reduce((a, b) => a + b, 0) / rates.length).toFixed(4) : 0;
-  return <div className={"space-y-6"}><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={TrendingUp} title="Currency Exchange Rate History" description="View mock historical exchange rate trends." actions={<ResetButton onClick={handleReset} label="Reset" />} />
@@ -207,8 +213,9 @@ export function ExchangeHistoryClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/travel/exchange-history" max={6} />
-
-    </div></div>;
+    </div>
+    </div>
+);
 }
+
+export default ExchangeHistoryClient;

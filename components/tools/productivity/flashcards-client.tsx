@@ -1,4 +1,10 @@
 "use client";
+
+import { RelatedTools } from "@/components/shared/related-tools";
+import { ResetButton } from "@/components/shared/action-buttons";
+import { Card } from "@/components/ui/card";
+
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
 import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
 import ToolHowItWorks from"@/components/shared/tool-how-it-works";
@@ -12,7 +18,7 @@ import { Button } from"@/components/ui/button";
 import { Label } from"@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
 import { ActionButton } from"@/components/shared/action-buttons";
-import { BookOpen, Brain, CheckCircle2, ChevronLeft, ChevronRight, Download, Plus, Repeat, RotateCcw, Shuffle, StickyNote, Upload } from"lucide-react";
+import { BookOpen, Brain, CheckCircle2, ChevronLeft, ChevronRight, Download, Plus, Repeat, RotateCcw, Shuffle, StickyNote, Upload, Type } from "lucide-react";
 import { cn } from"@/lib/utils";
 import toast from"react-hot-toast";
 
@@ -186,7 +192,10 @@ export function FlashcardMakerClient() {
     localStorage.removeItem("flashcard-decks");
     toast.success("Reset decks to defaults!");
   };
-  return <div className="relative max-w-6xl mx-auto space-y-8"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
       <ToolPageHeader icon={BookOpen} title="Interactive Flashcard Maker & Study Studio" description="Create study decks, memorize facts with 3D flip animation cards, shuffle study modes, and export JSON backups." actions={<div className="flex gap-2">
@@ -319,331 +328,10 @@ export function FlashcardMakerClient() {
         </div>}
 
       {/* HOW IT WORKS */}
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Create Study Decks",
-        description: "Organize topics into dedicated decks (e.g. Vocabulary, Coding, Science).",
-        icon: BookOpen
-      }, {
-        step: "02",
-        title: "Add Front & Back Cards",
-        description: "Input question prompts on front and answer solutions on the back.",
-        icon: Plus
-      }, {
-        step: "03",
-        title: "Flip Card Study Mode",
-        description: "Practice active recall with interactive 3D flip animation cards.",
-        icon: RotateCcw
-      }]} badges={["3D Card Flip", "Normal & Shuffled Study", "100% Free"]} />
-
-      {/* FEATURE GUIDES */}
-      <ToolFeatureGuides features={[{
-        icon: BookOpen,
-        title: "Active Recall Study Engine",
-        description: "Interactive 3D card flips optimize memory retention and active recall."
-      }, {
-        icon: Shuffle,
-        title: "Shuffled & Sequential Modes",
-        description: "Study flashcards in original sequential order or randomize card sequence."
-      }, {
-        icon: Shield,
-        title: "Confidential Local Persistence",
-        description: "Saves flashcard decks safely in local browser storage with JSON import/export."
-      }]} />
-
-      {/* FAQ ACCORDION */}
-      <ToolFaqAccordion faqs={[{
-        question: "How do I flip a flashcard?",
-        answer: "Simply click anywhere on the card during Study Mode to trigger the 3D flip animation."
-      }, {
-        question: "Can I backup or transfer my flashcards?",
-        answer: "Yes, click 'Export JSON' to download your decks, or 'Import JSON' to restore them on another device."
-      }]} />
-
       <RelatedTools currentToolUrl="/tools/productivity/flashcards" max={6} />
-
- const prevCard = () => {
- if (currentIndex > 0) {
- setCurrentIndex(prev => prev - 1);
- setIsFlipped(false);
- }
- };
-
- const flipCard = () => {
- setIsFlipped(!isFlipped);
- };
-
- const exportDecks = () => {
- const blob = new Blob([JSON.stringify(decks, null, 2)], { type:"application/json"});
- const url = URL.createObjectURL(blob);
- const a = document.createElement("a");
- a.href = url;
- a.download ="toolzium-flashcards.json";
- a.click();
- URL.revokeObjectURL(url);
- toast.success("Decks exported");
- };
-
- const importDecks = (e: React.ChangeEvent<HTMLInputElement>) => {
- const file = e.target.files?.[0];
- if (!file) return;
- const reader = new FileReader();
- reader.onload = (event) => {
- try {
- const imported = JSON.parse(event.target?.result as string);
- if (Array.isArray(imported)) {
- setDecks(imported);
- if (imported.length > 0) setActiveDeckId(imported[0].id);
- toast.success("Decks imported successfully");
- } else {
- toast.error("Invalid format");
- }
- } catch (err) {
- toast.error("Failed to parse JSON");
- }
- };
- reader.readAsText(file);
- e.target.value ="";
- };
-
- if (!isLoaded) return null;
-
- return (
- <div className="space-y-6">
- <ToolPageHeader
- icon={BookOpen}
- title="Flashcard Maker"
- description="Create, manage, and study custom flashcards."
- actions={
- <>
- <input type="file"id="import-cards"className="hidden"accept=".json"onChange={importDecks} />
- <Button variant="outline"size="sm"onClick={() => document.getElementById("import-cards")?.click()}>
- <Upload className="h-4 w-4 mr-2"/> Import
- </Button>
- <ActionButton onClick={exportDecks} icon={Download} label="Export"variant="outline"size="sm"/>
- </>
- }
- />
-
- {mode ==="edit"? (
- <div className="space-y-6">
- <GlassCard>
- <CardHeader>
- <CardTitle>Manage Decks</CardTitle>
- </CardHeader>
- <CardContent className="space-y-4">
- <div className="flex flex-col sm:flex-row gap-4">
- <div className="flex-1 space-y-2">
- <Label>Select Deck</Label>
- <Select value={activeDeckId} onValueChange={setActiveDeckId}>
- <SelectTrigger>
- <SelectValue placeholder="Select a deck"/>
- </SelectTrigger>
- <SelectContent>
- {decks.map(d => (
- <SelectItem key={d.id} value={d.id}>{d.name} ({d.cards.length})</SelectItem>
- ))}
- </SelectContent>
- </Select>
- </div>
- <div className="flex-1 space-y-2">
- <Label>Create New Deck</Label>
- <div className="flex gap-2">
- <Input placeholder="Deck name"value={newDeckName} onChange={e => setNewDeckName(e.target.value)} />
- <Button onClick={createDeck} variant="secondary">Create</Button>
- </div>
- </div>
- </div>
-
- {activeDeck && (
- <div className="flex gap-2 pt-4">
- <Button onClick={() => startStudy(false)} disabled={activeDeck.cards.length === 0} className="flex-1">
- <BookOpen className="h-4 w-4 mr-2"/> Study Normal
- </Button>
- <Button onClick={() => startStudy(true)} disabled={activeDeck.cards.length === 0} variant="secondary"className="flex-1">
- <Shuffle className="h-4 w-4 mr-2"/> Study Shuffled
- </Button>
- </div>
- )}
- </CardContent>
- </GlassCard>
-
- {activeDeck && (
- <GlassCard>
- <CardHeader>
- <CardTitle>Cards in"{activeDeck.name}"</CardTitle>
- <CardDescription>Add new cards or manage existing ones.</CardDescription>
- </CardHeader>
- <CardContent className="space-y-6">
- <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
- <div className="space-y-2">
- <Label>Front (Question)</Label>
- <Input value={newCardFront} onChange={e => setNewCardFront(e.target.value)} placeholder="E.g., What is the capital of France?"/>
- </div>
- <div className="space-y-2">
- <Label>Back (Answer)</Label>
- <div className="flex gap-2">
- <Input value={newCardBack} onChange={e => setNewCardBack(e.target.value)} placeholder="E.g., Paris"onKeyDown={e => e.key ==="Enter"&& addCard()} />
- <Button onClick={addCard}><Plus className="h-4 w-4 mr-1"/> Add</Button>
- </div>
- </div>
- </div>
-
- <div className="space-y-2">
- {activeDeck.cards.length === 0 ? (
- <p className="text-sm text-muted-foreground italic">No cards added yet.</p>
- ) : (
- activeDeck.cards.map((c, i) => (
- <div key={c.id} className="flex items-center justify-between p-3 border rounded-md bg-card">
- <div className="flex-1 grid grid-cols-2 gap-4">
- <div className="font-medium text-sm line-clamp-2 pr-2 border-r">{c.front}</div>
- <div className="text-sm text-muted-foreground line-clamp-2 pl-2">{c.back}</div>
- </div>
- <Button variant="ghost"size="sm"className="text-destructive hover:bg-destructive/10 ml-4"onClick={() => deleteCard(c.id)}>
- Remove
- </Button>
- </div>
- ))
- )}
- </div>
- </CardContent>
- </GlassCard>
- )}
- </div>
- ) : (
- <div className="space-y-6">
- <GlassCard>
- <CardHeader className="text-center">
- <CardTitle>Studying: {activeDeck?.name}</CardTitle>
- <CardDescription>
- Card {currentIndex + 1} of {studyCards.length} (Reviewed: {reviewedCount})
- </CardDescription>
- </CardHeader>
- <CardContent className="space-y-8 pb-8">
- <div 
- className="w-full max-w-2xl mx-auto h-64 sm:h-80 perspective-1000 cursor-pointer"
- onClick={flipCard}
- >
- <div className={cn(
-"relative w-full h-full transition-transform duration-500 transform-style-3d",
- isFlipped ?"rotate-y-180":""
- )}>
- {/* Front */}
- <div className="absolute w-full h-full backface-hidden flex items-center justify-center p-8 bg-card border-2 shadow-lg rounded-xl">
- <p className="text-xl sm:text-3xl text-center font-medium">{studyCards[currentIndex]?.front}</p>
- <div className="absolute bottom-4 text-xs text-muted-foreground">Click to flip</div>
- </div>
- {/* Back */}
- <div className="absolute w-full h-full backface-hidden rotate-y-180 flex items-center justify-center p-8 bg-primary/5 border-2 border-primary/20 shadow-lg rounded-xl">
- <p className="text-xl sm:text-3xl text-center font-medium">{studyCards[currentIndex]?.back}</p>
- <div className="absolute bottom-4 text-xs text-muted-foreground">Click to flip</div>
- </div>
- </div>
- </div>
-
- <div className="flex justify-center items-center gap-4">
- <Button variant="outline"onClick={prevCard} disabled={currentIndex === 0}>
- <ChevronLeft className="h-4 w-4 mr-2"/> Previous
- </Button>
- <Button variant="outline"onClick={() => setMode("edit")}>
- End Study
- </Button>
- <Button onClick={nextCard} disabled={currentIndex === studyCards.length - 1}>
- Next <ChevronRight className="h-4 w-4 ml-2"/>
- </Button>
- </div>
- </CardContent>
- </GlassCard>
- </div>
- )}
- 
- {/* Required CSS for 3D flip animation */}
- <style dangerouslySetInnerHTML={{__html: `
- .perspective-1000 { perspective: 1000px; }
- .transform-style-3d { transform-style: preserve-3d; }
- .backface-hidden { backface-visibility: hidden; }
- .rotate-y-180 { transform: rotateY(180deg); }
- `}} />
- 
-<ToolHowItWorks
-  steps={[
-{
-    step:"01",
-    title:"Add Cards",
-    description:"Create question and answer.",
-    icon: StickyNote,
-  },
-{
-    step:"02",
-    title:"Study",
-    description:"Flip and self-test.",
-    icon: Repeat,
-  },
-{
-    step:"03",
-    title:"Track",
-    description:"Mark what you know.",
-    icon: CheckCircle2,
-  }
-  ]}
-  badges={["Free Forever","No Signup","Instant Results"]}
-/>
-
-<ToolFeatureGuides
-  features={[
-{
-    icon: StickyNote,
-    title:"Cards",
-    description:"Q and A pairs.",
-  },
-{
-    icon: Repeat,
-    title:"Flip",
-    description:"Test recall.",
-  },
-{
-    icon: CheckCircle2,
-    title:"Mastery",
-    description:"Mark known.",
-  },
-{
-    icon: Brain,
-    title:"Learning",
-    description:"Active recall.",
-  }
-  ]}
->
-  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-  <p>A flashcard maker supports active recall, one of the most effective study methods. Testing yourself beats re-reading; flip cards force retrieval. This tool lets you build Q-and-A sets and track mastery.</p>
-  <p>Marking known cards focuses effort on the weak ones. Spaced repetition of those accelerates learning. The maker structures this simply.</p>
-  <p>Use it for any material to memorize. The tool's value is a private, effective study system.</p>
-  </div>
-</ToolFeatureGuides>
-
-<ToolFaqAccordion
-  faqs={[
-{
-    question:"Why flashcards?",
-    answer:"Active recall aids memory.",
-  },
-{
-    question:"Free?",
-    answer:"Yes.",
-  },
-{
-    question:"Private?",
-    answer:"Local.",
-  },
-{
-    question:"Use case?",
-    answer:"Study and revision.",
-  },
-{
-    question:"Spaced?",
-    answer:"Review weak cards more.",
-  }
-  ]}
-/>
-</div>
- );
+    </div>
+    </div>
+);
 }
+
+export default FlashcardMakerClient;

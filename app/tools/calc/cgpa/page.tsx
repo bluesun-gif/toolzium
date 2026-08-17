@@ -1,32 +1,28 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import CgpaCalculatorClient from "@/components/tools/calc/cgpa-calculator-client";
-import { siteURL } from "@/lib/constants";
-import { buildMetadata } from "@/lib/seo";
-import RelatedTools from "@/components/shared/related-tools";
+
+const TITLE = "Cgpa | Toolzium";
+const DESCRIPTION = "Free online cgpa tool with instant calculation and privacy.";
+const PATH = "/tools/calc/cgpa";
 
 export const metadata = buildMetadata({
-  title: "CGPA Calculator",
-  description: "Calculate Cumulative GPA across multiple semesters. Add semesters with GPA and credits, get CGPA with academic classification. Free CGPA calculator for students.",
-  path: "/tools/calc/cgpa",
-  keywords: ["across", "cgpa", "credits", "calculate", "with", "cumulative", "academic", "semesters", "classification", "multiple"],
+  title: TITLE,
+  description: DESCRIPTION,
+  path: PATH
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "CGPA Calculator",
-    description: "Calculate Cumulative GPA across multiple semesters. Add semesters with GPA and credits, get CGPA with academic classification. Free CGPA calculator for students.",
-    path: "/tools/calc/cgpa",
-    categoryName: "Calc",
-    categoryPath: "/tools/calc",
+    name: "Cgpa",
+    description: DESCRIPTION,
+    path: PATH
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      <JsonLd data={jsonLd as any} />
+    <>
+      <JsonLd data={jsonLd} />
       <CgpaCalculatorClient />
-    
-      <RelatedTools currentToolUrl="/tools/calc/cgpa" />
-</div>
+    </>
   );
 }

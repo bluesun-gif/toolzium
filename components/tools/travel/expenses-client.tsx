@@ -1,4 +1,5 @@
 "use client";
+
 import { ToolBackground } from"@/components/shared/tool-background";
 
 import { useState, useEffect } from "react";
@@ -12,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
 import { cn } from "@/lib/utils";
-import { CreditCard, PieChart, Plus, Send, Trash2, ArrowLeft, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { CreditCard, PieChart, Plus, Send, Trash2, ArrowLeft, Sparkles, Shield, Zap, Copy, History } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -131,7 +132,10 @@ export function ExpensesClient() {
     };
     return colors[cat] || "#6b7280";
   };
-  return <div className="relative space-y-6"><ToolBackground /><div className="relative z-10">
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
       
 
  <ToolPageHeader icon={CreditCard} title="Travel Expense Tracker" description="Track expenses during a trip, manage budget and analyze spending by category." />
@@ -321,7 +325,9 @@ export function ExpensesClient() {
  </div>
  </div>}
  
-      <ToolHowItWorks steps={[{
+      </div>
+
+<ToolHowItWorks steps={[{
         step: "01",
         title: "Input Your Data",
         description: "Enter your information in the input field above and configure any options.",
@@ -376,8 +382,8 @@ export function ExpensesClient() {
         question: "Do I need to create an account?",
         answer: "No account or registration is required. Simply open the tool and start using it immediately."
       }]} />
-
-      <RelatedTools currentToolUrl="/tools/travel/expenses" max={6} />
-
-    </div></div>;
+    </div>
+  );
 }
+
+export default ExpensesClient;
