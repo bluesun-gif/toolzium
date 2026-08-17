@@ -23,8 +23,7 @@ export default function Page() {
     <div className="max-w-6xl mx-auto space-y-8">
       <JsonLd data={jsonLd as any} />
       <ImageResizerClient />
-    
       <RelatedTools currentToolUrl="/tools/image/image-resizer" />
-</>
+    </div>
   );
 }

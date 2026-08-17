@@ -430,5 +430,7 @@ export function BoxShadowClient() {
   ]}
 />
 </div>
+</div>
+</div>
  );
 }

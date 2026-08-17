@@ -209,5 +209,6 @@ export default function JwtInspectorClient() {
   ]}
 />
 </div>
+</div>
  );
 }

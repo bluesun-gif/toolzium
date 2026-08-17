@@ -1,6 +1,8 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import TextRepeaterClient from "@/components/tools/text/text-repeater-client";
+import RelatedTools from "@/components/shared/related-tools";
+
 export const metadata = buildMetadata({
   title: "Text Repeater",
   description: "Repeat any text or string multiple times with custom delimiters (new line, space, comma, custom). Copy or download repeated text instantly.",
@@ -17,23 +19,11 @@ export default function Page() {
     categoryPath: "/tools/text",
   });
 
-      <JsonLd
-        data={{
-          "@context": "https://schema.org",
-          "@type": "SoftwareApplication",
-          name: "Text Repeater",
-          description: "Repeat any text multiple times with custom separators.",
-          applicationCategory: "UtilitiesApplication",
-          operatingSystem: "Any",
-          offers: {
-            "@type": "Offer",
-            price: "0",
-            priceCurrency: "USD",
-          },
-        }}
-      />
-    
+  return (
+    <div className="max-w-6xl mx-auto space-y-8">
+      <JsonLd data={jsonLd as any} />
+      <TextRepeaterClient />
       <RelatedTools currentToolUrl="/tools/text/text-repeater" />
-</>
+    </div>
   );
 }
