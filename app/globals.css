@@ -307,3 +307,68 @@ span.click-ripple {
     opacity: 0;
   }
 }
+
+/* ─── Premium UI Animation Keyframes ─────────────────────────────────────── */
+
+/* BorderBeam — conic-gradient orbiting the card edge */
+@keyframes border-beam {
+  0%   { offset-distance: 0%; }
+  100% { offset-distance: 100%; }
+}
+
+/* ShimmerButton — light sweep across button */
+@keyframes shimmer-sweep {
+  0%   { transform: rotate(-45deg) translateX(-120%); }
+  100% { transform: rotate(-45deg) translateX(120%); }
+}
+
+/* TextShimmer — gradient sweep across text */
+@keyframes text-shimmer-sweep {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+/* Pulse glow — subtle ambient pulsing for active elements */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 hsl(var(--primary) / 0.3); }
+  50%       { box-shadow: 0 0 0 8px hsl(var(--primary) / 0); }
+}
+
+/* Slide-in-right — result panel entrance */
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Fade-up — gentle entrance from below */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Spin-slow — for loading indicators */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Utility classes for keyframes above */
+.animate-border-beam   { animation: border-beam linear infinite; }
+.animate-shimmer-sweep { animation: shimmer-sweep 2s ease-in-out infinite; }
+.animate-pulse-glow    { animation: pulse-glow 2s ease-in-out infinite; }
+.animate-slide-in-right{ animation: slide-in-right 0.35s ease-out both; }
+.animate-fade-up       { animation: fade-up 0.4s ease-out both; }
+.animate-spin-slow     { animation: spin-slow 3s linear infinite; }
+
+/* Reduced motion — disable all non-essential animations */
+@media (prefers-reduced-motion: reduce) {
+  .animate-border-beam,
+  .animate-shimmer-sweep,
+  .animate-pulse-glow,
+  .animate-slide-in-right,
+  .animate-fade-up,
+  .animate-spin-slow {
+    animation: none !important;
+    transition: none !important;
+  }
+}
