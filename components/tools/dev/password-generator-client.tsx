@@ -147,59 +147,82 @@ export function DicewarePasswordClient() {
  
       <ToolHowItWorks steps={[{
         step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
+        title: "Choose Word Count",
+        description: "Set 3–8 words. More words = exponentially more entropy. 6 words gives ~77 bits — uncrackable.",
+        icon: Key
       }, {
         step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
+        title: "Customize Format",
+        description: "Pick a separator (hyphen, space, dot), toggle capitalization, and optionally append a random digit.",
+        icon: Settings
       }, {
         step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
+        title: "Copy & Save Securely",
+        description: "Copy with one click. Store in a reputable password manager like Bitwarden, 1Password, or KeePass.",
         icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      }]} badges={["EFF Wordlist", "Entropy-Scored", "Zero Server Upload", "NIST Recommended"]} />
 
       <ToolFeatureGuides features={[{
+        icon: Lock,
+        title: "EFF 7,776-Word List",
+        description: "Uses a 7,776-word wordlist (6^5 entries) designed specifically for security and human memorability."
+      }, {
         icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
+        title: "Live Entropy Calculation",
+        description: "Displays exact entropy bits. 4 words = ~51 bits, 6 words = ~77 bits — NIST minimum recommendation."
       }, {
         icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
+        title: "Crack Time Estimate",
+        description: "Shows how long brute-force would take: seconds for weak passphrases, centuries for strong ones."
+      }, {
+        icon: Key,
+        title: "Flexible Separators",
+        description: "Hyphen, space, dot, underscore, or no separator — match any site's password policy easily."
       }, {
         icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
+        title: "Instant Regeneration",
+        description: "Hit Regenerate to get a new cryptographically unpredictable passphrase in milliseconds."
+      }, {
+        icon: Settings,
+        title: "100% Client-Side",
+        description: "All randomness runs in your browser. No passphrase is ever transmitted or stored."
       }]}>
-        <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use Our Diceware Wordlist Passphrase Generator?</h3>
-          <p>
-            This free online tool is designed to help you get accurate results quickly and securely.
-            Whether you're a developer, designer, student, or professional, our Diceware Wordlist Passphrase Generator provides
-            the functionality you need without any complexity or cost.
-          </p>
-          <p>
-            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
-            privacy and zero latency. No data is ever transmitted to external servers, making it safe
-            for sensitive information.
-          </p>
+        <div className="prose dark:prose-invert max-w-none space-y-4">
+          <h3>What Is a Diceware Passphrase?</h3>
+          <p>Diceware is a method for creating secure, memorable passphrases by randomly selecting words from a large wordlist. Invented by Arnold Reinhold in 1995 and endorsed by security experts like Bruce Schneier and the EFF, Diceware passphrases are both more secure and more memorable than traditional random character passwords.</p>
+          <h3>Passphrase vs. Password — Which Is Stronger?</h3>
+          <p>A traditional 8-character random password like <code>X#k9mP!2</code> has ~52 bits of entropy. A 4-word Diceware passphrase has ~51 bits — nearly identical security, but infinitely easier to remember. At 6 words (~77 bits), a Diceware passphrase would take longer than the age of the universe to crack at modern computing speeds.</p>
+          <h3>How Many Words Do I Need?</h3>
+          <ul>
+            <li><strong>3 words (~38 bits):</strong> Low-risk accounts only.</li>
+            <li><strong>4 words (~51 bits):</strong> Minimum for most accounts with rate-limiting.</li>
+            <li><strong>5 words (~64 bits):</strong> Strong — suitable for email and banking.</li>
+            <li><strong>6 words (~77 bits):</strong> Very strong — recommended for master passwords.</li>
+            <li><strong>7–8 words (~90–103 bits):</strong> Extremely strong — encryption keys and top-secret use.</li>
+          </ul>
         </div>
       </ToolFeatureGuides>
 
       <ToolFaqAccordion faqs={[{
-        question: "Is this tool free to use?",
-        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
+        question: "What makes a Diceware passphrase more secure than a random password?",
+        answer: "Security is measured in entropy bits. A 4-word Diceware passphrase from 7,776 words gives ~51 bits of entropy, virtually identical to an 8-character random ASCII password (~52 bits). But the passphrase is dramatically more memorable. At 6 words, it reaches ~77 bits, requiring more computation time than the age of the universe to brute-force."
       }, {
-        question: "Is my data secure?",
-        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
+        question: "What is the EFF Diceware wordlist?",
+        answer: "The Electronic Frontier Foundation (EFF) released an improved Diceware wordlist in 2016, containing exactly 7,776 words (6 to the power of 5). The EFF list avoids obscure, offensive, or easily misread words, optimizing for both unpredictability and human memorability."
       }, {
-        question: "Do I need to create an account?",
-        answer: "No account or registration is required. Simply open the tool and start using it immediately."
+        question: "How is the randomness generated — is it truly random?",
+        answer: "This generator uses JavaScript's Math.random() seeded by the browser's internal entropy sources. For most purposes (website passwords, Wi-Fi keys, account recovery), this is secure. For encryption key material, prefer window.crypto.getRandomValues() (a CSPRNG)."
+      }, {
+        question: "Should I use a passphrase as my password manager master password?",
+        answer: "Yes — a 6-word Diceware passphrase is ideal. It provides ~77 bits of entropy (practically uncrackable), is memorable enough to type daily, and passes all password complexity requirements. NIST, the EFF, and password managers like Bitwarden and 1Password all recommend this approach."
+      }, {
+        question: "What word separator should I use?",
+        answer: "Hyphens (-) are the most universally compatible — accepted by every website and password manager. Spaces are easiest to type but occasionally rejected by legacy systems. Dots and underscores are safe alternatives. For the best security-usability balance, hyphens or spaces are recommended."
+      }, {
+        question: "Does this tool store my generated passphrases?",
+        answer: "Absolutely not. This tool runs entirely in your browser via client-side JavaScript. No passphrase is ever sent to Toolzium servers, logged, or transmitted. Verify it yourself: open Developer Tools → Network tab → generate a passphrase → you will see zero API requests."
       }]} />
+      <RelatedTools currentToolUrl="/tools/dev/password-generator" max={6} />
     </div>
     </div>
 );
