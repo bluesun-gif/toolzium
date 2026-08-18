@@ -1,6 +1,5 @@
 "use client";
 
-import { AnimatedShinyText } from "@/components/magicui/animated-shiny-text";
 import { BlurFade } from "@/components/magicui/blur-fade";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { NumberTicker } from "@/components/magicui/number-ticker";
@@ -17,7 +16,6 @@ import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
@@ -26,22 +24,23 @@ import {
 import { CoolMode } from "@/components/ui/cool-mode";
 import { GlassCard } from "@/components/ui/glass-card";
 import { Meteors } from "@/components/ui/meteors";
-import { MorphingText } from "@/components/ui/morphing-text";
 import { Ripple } from "@/components/ui/ripple";
 import { Separator } from "@/components/ui/separator";
 import { SparklesText } from "@/components/ui/sparkles-text";
 import { TypingAnimation } from "@/components/ui/typing-animation";
 import { ToolsData, TOTAL_TOOLS_COUNT } from "@/data/tools";
-import { cn } from "@/lib/utils";
 import {
   ArrowRight,
+  BadgeCheck,
   Fingerprint,
   Github,
   Lock,
   type LucideIcon,
   MonitorSmartphone,
   Rocket,
+  Shield,
   Sparkles,
+  Zap,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -83,15 +82,6 @@ function getActiveCategories(): ToolCategory[] {
   );
 }
 
-const MORPHING_WORDS = [
-  "Developers",
-  "Designers",
-  "Marketers",
-  "Students",
-  "Creators",
-  "Professionals",
-];
-
 export default function HomePage() {
   const trending = getPopularTools(8);
   const categories = getActiveCategories();
@@ -100,164 +90,198 @@ export default function HomePage() {
     <main className="overflow-x-hidden">
       <Navbar />
 
-      {/* ─── Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative flex flex-col items-center text-center space-y-6 pt-16 pb-20 min-h-[75vh] justify-center overflow-hidden px-4">
-        {/* Background */}
-        <GridPattern className="[&>rect]:stroke-muted-foreground/8 [&>svg]:opacity-40" />
-        <Meteors number={10} minDuration={7} maxDuration={16} className="bg-primary/60" />
+      {/* ─── HERO ────────────────────────────────────────────────────────── */}
+      <section className="relative isolate flex flex-col items-center justify-center text-center px-4 pt-20 pb-24 min-h-[calc(100vh-64px)]">
 
-        {/* Ambient glows */}
-        <div className="pointer-events-none absolute -top-40 left-1/4 w-96 h-96 rounded-full bg-primary/8 blur-3xl -z-10" />
-        <div className="pointer-events-none absolute -bottom-20 right-1/4 w-80 h-80 rounded-full bg-primary/6 blur-3xl -z-10" />
+        {/* Subtle grid background */}
+        <GridPattern className="absolute inset-0 -z-10 [&>rect]:stroke-border/40 opacity-60" />
 
-        {/* Badge */}
+        {/* Soft ambient orbs */}
+        <div className="pointer-events-none absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-primary/5 blur-[100px] -z-10" />
+        <div className="pointer-events-none absolute bottom-0 right-0 w-96 h-96 rounded-full bg-primary/4 blur-3xl -z-10" />
+
+        {/* Meteors — only a few, subtle */}
+        <Meteors number={6} minDuration={8} maxDuration={18} className="bg-primary/40 shadow-none" />
+
+        {/* ── Badge ── */}
         <BlurFade delay={0.05} inView>
-          <div className="rounded-full border border-primary/20 bg-muted/60 px-4 py-1.5 shadow-sm inline-flex items-center gap-1.5">
-            <Sparkles className="h-3.5 w-3.5 text-primary" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-background/80 backdrop-blur-sm px-4 py-1.5 mb-8 shadow-sm">
+            <Sparkles className="h-3.5 w-3.5 text-primary shrink-0" />
             <AnimatedGradientText
-              className="text-sm font-semibold"
+              className="text-xs font-semibold tracking-wide"
               colorFrom="#7c3aed"
-              colorTo="#a855f7"
+              colorTo="#6366f1"
+              speed={0.6}
             >
               Fast · Free · Privacy-Friendly
             </AnimatedGradientText>
           </div>
         </BlurFade>
 
-        {/* Stats / Number row */}
-        <BlurFade delay={0.08} inView>
-          <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold leading-tight tracking-tighter text-foreground max-w-4xl">
-            <span>
-              <NumberTicker value={TOTAL_TOOLS_COUNT} className="text-primary tabular-nums" />
-              <span>+ Free Online Tools</span>
-            </span>
+        {/* ── Main headline ── */}
+        <BlurFade delay={0.1} inView>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tighter text-foreground max-w-4xl">
+            <span className="text-primary tabular-nums">
+              <NumberTicker value={TOTAL_TOOLS_COUNT} />+
+            </span>{" "}
+            Free Online Tools
           </h1>
         </BlurFade>
 
-        {/* Morphing text — who it's for */}
-        <BlurFade delay={0.12} inView>
-          <div className="text-muted-foreground text-lg sm:text-xl font-medium">
-            <span>Built for </span>
-            <MorphingText
-              texts={MORPHING_WORDS}
-              className="h-10 md:h-12 w-56 sm:w-72 inline-block align-middle text-primary text-2xl sm:text-3xl"
+        {/* ── Animated "for [audience]" cycling line ── */}
+        <BlurFade delay={0.16} inView>
+          <div className="mt-3 h-9 flex items-center justify-center">
+            <span className="text-lg sm:text-xl text-muted-foreground font-medium mr-2">
+              Built for
+            </span>
+            <TypingAnimation
+              words={["Developers", "Designers", "Marketers", "Students", "Creators", "Professionals"]}
+              loop
+              as="span"
+              duration={60}
+              deleteSpeed={30}
+              pauseDelay={1800}
+              showCursor
+              className="text-lg sm:text-xl font-bold text-primary"
             />
           </div>
         </BlurFade>
 
-        {/* Typing animation description */}
-        <BlurFade delay={0.18} inView>
-          <TypingAnimation
-            as="p"
-            className="max-w-xl text-sm md:text-base text-muted-foreground"
-            duration={16}
-            delay={800}
-            startOnView
-          >
-            URL shortener, QR codes, image converter, JSON formatter, calculators, and more. No signup required.
-          </TypingAnimation>
+        {/* ── Description ── */}
+        <BlurFade delay={0.22} inView>
+          <p className="mt-5 max-w-lg text-sm sm:text-base text-muted-foreground leading-relaxed">
+            URL shortener, QR codes, image converter, JSON formatter,
+            calculators, and more. No signup. Privacy-first.
+          </p>
         </BlurFade>
 
-        {/* CTA Buttons */}
-        <BlurFade delay={0.24} inView>
-          <div className="flex flex-wrap gap-3 z-10 justify-center">
+        {/* ── CTA Buttons ── */}
+        <BlurFade delay={0.28} inView>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <CoolMode>
-              <Link href="/tools" aria-label="Explore all tools">
-                <ShimmerButton className="h-11 px-6 text-sm font-bold rounded-xl">
-                  Explore Tools <ArrowRight className="ml-2 h-4 w-4" />
+              <Link href="/tools">
+                <ShimmerButton className="h-11 px-7 text-sm font-bold rounded-xl shadow-lg shadow-primary/20">
+                  Explore Tools
+                  <ArrowRight className="inline ml-2 h-4 w-4" />
                 </ShimmerButton>
               </Link>
             </CoolMode>
-            <Button variant="outline" asChild size="lg">
+            <Button variant="outline" asChild size="lg" className="h-11 rounded-xl">
               <Link href="/about">About</Link>
             </Button>
           </div>
         </BlurFade>
 
-        {/* Quick stats row */}
-        <BlurFade delay={0.3} inView>
-          <div className="flex flex-wrap items-center justify-center gap-8 text-center">
+        {/* ── Stats row ── */}
+        <BlurFade delay={0.34} inView>
+          <div className="mt-12 flex flex-wrap items-center justify-center gap-x-12 gap-y-6">
             {[
-              { num: TOTAL_TOOLS_COUNT, suffix: "+", label: "Free Tools" },
-              { num: 0, suffix: "", label: "Signup Required" },
-              { num: 100, suffix: "%", label: "In-Browser Processing" },
+              { icon: Zap, num: TOTAL_TOOLS_COUNT, suffix: "+", label: "Free Tools" },
+              { icon: Shield, num: 100, suffix: "%", label: "Browser-Processed" },
+              { icon: BadgeCheck, num: 0, suffix: "", label: "Signup Required" },
             ].map((s, i) => (
-              <div key={i} className="flex flex-col items-center">
-                <span className="text-2xl font-extrabold text-foreground tabular-nums">
-                  <NumberTicker value={s.num} className="text-primary" />
-                  {s.suffix}
-                </span>
-                <span className="text-xs text-muted-foreground mt-0.5">{s.label}</span>
+              <div key={i} className="flex flex-col items-center gap-1">
+                <div className="flex items-center gap-1.5">
+                  <s.icon className="h-4 w-4 text-primary/60" />
+                  <span className="text-2xl font-extrabold text-foreground tabular-nums">
+                    <NumberTicker value={s.num} className="text-primary" />
+                    {s.suffix}
+                  </span>
+                </div>
+                <span className="text-xs text-muted-foreground font-medium">{s.label}</span>
               </div>
             ))}
           </div>
         </BlurFade>
       </section>
 
-      {/* ─── Feature Cards ────────────────────────────────────────────────── */}
-      <section className="mx-auto max-w-7xl px-4 pt-8">
+      {/* ─── FEATURE CARDS ───────────────────────────────────────────────── */}
+      <section className="mx-auto max-w-6xl px-4 pb-16">
         <div className="grid gap-4 md:grid-cols-3">
           {[
-            { icon: Rocket, title: "Blazing Fast", desc: "Instant load, lightweight pages and cache-friendly. Most tools run 100% in your browser." },
-            { icon: Lock, title: "Private by Default", desc: "Browser-first processing. Server features avoid persistent storage. Your data stays yours." },
-            { icon: MonitorSmartphone, title: "Works Everywhere", desc: "Fully responsive, keyboard-friendly, WCAG-aware. Works on any device or screen size." },
+            {
+              icon: Rocket,
+              title: "Blazing Fast",
+              desc: "Instant load times, lightweight pages, and cache-friendly architecture. Most tools run 100% in your browser.",
+            },
+            {
+              icon: Lock,
+              title: "Private by Default",
+              desc: "Browser-first processing. Server features avoid persistent storage. Your data stays yours — always.",
+            },
+            {
+              icon: MonitorSmartphone,
+              title: "Works Everywhere",
+              desc: "Fully responsive, keyboard-friendly, WCAG-aware design. Seamlessly works on any device or screen size.",
+            },
           ].map((f, i) => (
-            <BlurFade key={i} delay={0.05 + i * 0.07} inView>
-              <GlassCard className="h-full p-6 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/8 hover:-translate-y-0.5 transition-all duration-300 group cursor-default">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="h-10 w-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary group-hover:bg-primary/15 group-hover:scale-110 transition-all duration-300">
-                    <f.icon className="h-5 w-5" />
-                  </div>
-                  <h3 className="font-bold text-foreground text-base">{f.title}</h3>
+            <BlurFade key={i} delay={0.06 + i * 0.08} inView>
+              <GlassCard className="h-full p-6 group hover:border-primary/30 hover:shadow-md hover:shadow-primary/5 hover:-translate-y-0.5 transition-all duration-300 cursor-default">
+                <div className="h-10 w-10 rounded-xl bg-primary/8 border border-primary/15 flex items-center justify-center text-primary mb-4 group-hover:bg-primary/12 group-hover:scale-105 transition-all duration-300">
+                  <f.icon className="h-5 w-5" />
                 </div>
-                <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
+                <h3 className="font-bold text-foreground text-sm mb-1.5">{f.title}</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">{f.desc}</p>
               </GlassCard>
             </BlurFade>
           ))}
         </div>
       </section>
 
-      {/* ─── Categories Grid ──────────────────────────────────────────────── */}
-      <section className="mx-auto max-w-7xl px-4 pt-16">
+      {/* ─── CATEGORIES ──────────────────────────────────────────────────── */}
+      <section className="mx-auto max-w-6xl px-4 pb-16">
         <BlurFade delay={0.05} inView>
-          <div className="mb-8 flex items-center justify-between">
+          <div className="flex items-center justify-between mb-6">
             <SparklesText
-              className="text-xl md:text-2xl font-bold tracking-tight"
-              sparklesCount={6}
-            >Browse by Category</SparklesText>
-            <Button variant="ghost" asChild>
-              <Link href="/tools" className="inline-flex items-center text-sm">
-                View all <ArrowRight className="ml-1 h-4 w-4" />
+              sparklesCount={5}
+              className="text-xl font-bold tracking-tight"
+            >
+              Browse by Category
+            </SparklesText>
+            <Button variant="ghost" size="sm" asChild>
+              <Link href="/tools" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
+                View all <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </Button>
           </div>
         </BlurFade>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {categories.map((c, idx) => (
-            <BlurFade key={idx} delay={0.03 + idx * 0.025} inView>
+            <BlurFade key={idx} delay={0.03 + idx * 0.02} inView>
               <Link
-                href={`/tools#cat-${c.title.toLowerCase().replace(/\s+/g, "-").replace(/&/g, "").replace(/[^a-z0-9-]/g, "").replace(/-+/g, "-").replace(/^-|-$/g, "")}`}
-                className="group focus:outline-none block h-full"
+                href={`/tools#cat-${c.title
+                  .toLowerCase()
+                  .replace(/\s+/g, "-")
+                  .replace(/&/g, "")
+                  .replace(/[^a-z0-9-]/g, "")
+                  .replace(/-+/g, "-")
+                  .replace(/^-|-$/g, "")}`}
+                className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-2xl"
               >
-                <GlassCard className="h-full hover:border-primary/40 hover:shadow-md hover:shadow-primary/8 hover:-translate-y-1 transition-all duration-300">
-                  <CardHeader className="flex flex-row items-center gap-3 pb-2">
-                    <div className="rounded-xl border border-border/60 bg-muted/60 p-2 group-hover:bg-primary/10 group-hover:border-primary/20 group-hover:text-primary transition-all duration-300">
-                      <c.icon className="h-5 w-5" />
+                <GlassCard className="h-full hover:border-primary/30 hover:shadow-sm hover:-translate-y-0.5 transition-all duration-200">
+                  <CardHeader className="flex flex-row items-center gap-2.5 pb-2 pt-4 px-4">
+                    <div className="flex-shrink-0 h-8 w-8 rounded-lg border border-border/60 bg-muted/50 flex items-center justify-center text-muted-foreground group-hover:bg-primary/8 group-hover:border-primary/20 group-hover:text-primary transition-all duration-200">
+                      <c.icon className="h-4 w-4" />
                     </div>
-                    <div>
-                      <CardTitle className="text-sm font-bold tracking-tight group-hover:text-primary transition-colors">
+                    <div className="min-w-0">
+                      <CardTitle className="text-sm font-semibold leading-tight group-hover:text-primary transition-colors truncate">
                         {c.title}
                       </CardTitle>
-                      <CardDescription className="text-xs">
-                        {c.items?.length ?? 0} tool{(c.items?.length ?? 0) === 1 ? "" : "s"}
+                      <CardDescription className="text-xs mt-0.5">
+                        {c.items?.length ?? 0} tools
                       </CardDescription>
                     </div>
                   </CardHeader>
-                  <CardContent className="pt-0">
-                    <div className="flex flex-wrap gap-1.5">
+                  <CardContent className="px-4 pb-4 pt-0">
+                    <div className="flex flex-wrap gap-1">
                       {(c.items || []).slice(0, 3).map((t) => (
-                        <Badge key={t.url} variant="secondary" className="text-xs truncate max-w-full block" title={t.title}>
+                        <Badge
+                          key={t.url}
+                          variant="secondary"
+                          className="text-[10px] px-1.5 py-0.5 truncate max-w-[120px]"
+                          title={t.title}
+                        >
                           {t.title}
                         </Badge>
                       ))}
@@ -270,36 +294,36 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ─── Popular Tools ────────────────────────────────────────────────── */}
-      <section className="mx-auto max-w-7xl px-4 pt-16">
+      {/* ─── POPULAR TOOLS ───────────────────────────────────────────────── */}
+      <section className="mx-auto max-w-6xl px-4 pb-16">
         <BlurFade delay={0.05} inView>
-          <div className="mb-8 flex items-center justify-between">
-            <SparklesText
-              className="text-xl md:text-2xl font-bold tracking-tight"
-              sparklesCount={5}
-            >Popular Tools</SparklesText>
-            <Button variant="ghost" asChild>
-              <Link href="/tools" className="inline-flex items-center text-sm">
-                Explore all <ArrowRight className="ml-1 h-4 w-4" />
+          <div className="flex items-center justify-between mb-6">
+            <SparklesText sparklesCount={4} className="text-xl font-bold tracking-tight">
+              Popular Tools
+            </SparklesText>
+            <Button variant="ghost" size="sm" asChild>
+              <Link href="/tools" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
+                Explore all <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </Button>
           </div>
         </BlurFade>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {trending.map((t, i) => (
-            <BlurFade key={t.url} delay={0.03 + i * 0.04} inView>
+            <BlurFade key={t.url} delay={0.03 + i * 0.035} inView>
               <Link
                 href={t.url}
-                className="group focus:outline-none block h-full"
-                aria-label={`${t.title}${t.description ? ` — ${t.description}` : ""}`}
+                className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-2xl"
+                aria-label={t.title}
               >
-                <GlassCard className="h-full hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1 transition-all duration-300">
-                  <CardHeader className="pb-3">
-                    <CardTitle className="text-base font-bold tracking-tight group-hover:text-primary transition-colors">
+                <GlassCard className="h-full hover:border-primary/40 hover:shadow-md hover:shadow-primary/8 hover:-translate-y-1 transition-all duration-200">
+                  <CardHeader className="pb-2 pt-4 px-4">
+                    <CardTitle className="text-sm font-semibold leading-tight group-hover:text-primary transition-colors">
                       {t.title}
                     </CardTitle>
                     {t.description && (
-                      <CardDescription className="text-xs text-muted-foreground line-clamp-2 mt-1">
+                      <CardDescription className="text-xs leading-relaxed line-clamp-2 mt-1">
                         {t.description}
                       </CardDescription>
                     )}
@@ -311,74 +335,104 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ─── Privacy Section with Ripple ──────────────────────────────────── */}
-      <section className="mx-auto max-w-7xl px-4 pt-16">
+      {/* ─── PRIVACY SECTION ─────────────────────────────────────────────── */}
+      <section className="mx-auto max-w-6xl px-4 pb-16">
         <BlurFade delay={0.05} inView>
-          <GlassCard elevated className="overflow-hidden">
-            <Ripple mainCircleSize={160} mainCircleOpacity={0.07} numCircles={5} className="opacity-50" />
-            <div className="relative z-10 grid gap-6 p-6 md:grid-cols-2 md:p-10">
-              <div className="space-y-3">
-                <div className="inline-flex items-center gap-2">
-                  <div className="h-9 w-9 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary">
-                    <Fingerprint className="h-5 w-5" />
-                  </div>
-                  <h3 className="text-xl font-bold tracking-tight">Security & Privacy First</h3>
+          <GlassCard elevated className="overflow-hidden relative">
+            {/* Subtle ripple behind content */}
+            <Ripple
+              mainCircleSize={120}
+              mainCircleOpacity={0.06}
+              numCircles={4}
+              className="opacity-40"
+            />
+            <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 p-6 md:p-8">
+              <div className="flex items-start gap-4">
+                <div className="flex-shrink-0 h-10 w-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary mt-0.5">
+                  <Fingerprint className="h-5 w-5" />
                 </div>
-                <p className="text-sm text-muted-foreground leading-relaxed max-w-sm">
-                  On-device processing for all tools. For server features, we don&apos;t persist your data. Your files never leave your browser.
-                </p>
+                <div>
+                  <h3 className="text-base font-bold tracking-tight mb-1">Security & Privacy First</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed max-w-sm">
+                    On-device processing for all tools. For server features, we don&apos;t persist your data. Your files never leave your browser.
+                  </p>
+                </div>
               </div>
-              <div className="self-center justify-self-end">
-                <Button asChild variant="outline" size="lg">
-                  <Link href="/privacy">Read our privacy policy</Link>
-                </Button>
-              </div>
+              <Button asChild variant="outline" size="sm" className="shrink-0">
+                <Link href="/privacy">Read privacy policy</Link>
+              </Button>
             </div>
           </GlassCard>
         </BlurFade>
       </section>
 
-      {/* ─── FAQ ──────────────────────────────────────────────────────────── */}
-      <section className="mx-auto max-w-7xl px-4 pt-16">
+      {/* ─── FAQ ─────────────────────────────────────────────────────────── */}
+      <section className="mx-auto max-w-6xl px-4 pb-16">
         <BlurFade delay={0.05} inView>
-          <SparklesText
-            className="mb-6 text-xl md:text-2xl font-bold tracking-tight"
-            sparklesCount={4}
-          >Frequently Asked Questions</SparklesText>
+          <SparklesText sparklesCount={4} className="text-xl font-bold tracking-tight mb-6">
+            Frequently Asked Questions
+          </SparklesText>
         </BlurFade>
+
         <BlurFade delay={0.1} inView>
-          <Accordion type="single" collapsible className="rounded-2xl border border-border/60 bg-card/40 backdrop-blur p-2">
+          <Accordion type="single" collapsible className="rounded-2xl border border-border/50 bg-card/30 backdrop-blur-sm overflow-hidden">
             {[
-              { q: "Is Toolzium free?", a: `Yes. Most tools are free to use without an account. We offer ${TOTAL_TOOLS_COUNT}+ online tools completely free with no signup required.` },
-              { q: "Do you store my data?", a: "No. Tools run in your browser where possible. Server features avoid persistent storage. We prioritize privacy and process data on-device whenever possible." },
-              { q: "How can I request a tool?", a: "You can request a new tool by using the Contact page or opening an issue on our GitHub repository. We're always looking to add tools that our users need." },
-              { q: "What types of tools are available?", a: "We offer URL tools (shortener, QR codes), text utilities (word counter, case converter), developer tools (JSON formatter, hash generator), calculators (BMI, currency, EMI), SEO tools, image tools (converter, resizer), and more." },
-              { q: "Do I need to create an account?", a: "No account is required for most tools. You can use them instantly without signing up. Some advanced features may require optional registration for saved preferences." },
+              {
+                q: "Is Toolzium free?",
+                a: `Yes. All ${TOTAL_TOOLS_COUNT}+ tools are completely free to use without any account or signup required.`,
+              },
+              {
+                q: "Do you store my data?",
+                a: "No. Tools run in your browser where possible. Server features avoid persistent storage. We prioritize privacy and process data on-device whenever possible.",
+              },
+              {
+                q: "How can I request a tool?",
+                a: "Use the Contact page or open an issue on our GitHub repository. We're always looking to add tools our users need.",
+              },
+              {
+                q: "What types of tools are available?",
+                a: "URL tools (shortener, QR codes), text utilities (word counter, case converter), developer tools (JSON formatter, hash generator), calculators, SEO tools, image tools (converter, resizer), and many more.",
+              },
+              {
+                q: "Do I need to create an account?",
+                a: "No account required for most tools. Some advanced features may require optional registration for saved preferences.",
+              },
             ].map((faq, i) => (
-              <AccordionItem key={i} value={`a${i}`} className="border-b border-border/40 last:border-0 px-2">
-                <AccordionTrigger className="text-sm font-semibold hover:text-primary hover:no-underline">{faq.q}</AccordionTrigger>
-                <AccordionContent className="text-sm text-muted-foreground leading-relaxed">{faq.a}</AccordionContent>
+              <AccordionItem
+                key={i}
+                value={`faq-${i}`}
+                className="px-4 border-b border-border/40 last:border-0"
+              >
+                <AccordionTrigger className="text-sm font-semibold py-4 hover:text-primary hover:no-underline text-left">
+                  {faq.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-sm text-muted-foreground leading-relaxed pb-4">
+                  {faq.a}
+                </AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
         </BlurFade>
       </section>
 
-      {/* ─── Support Section with Meteors ─────────────────────────────────── */}
-      <section className="mx-auto max-w-7xl px-4 py-16">
+      {/* ─── SUPPORT SECTION ─────────────────────────────────────────────── */}
+      <section className="mx-auto max-w-6xl px-4 pb-16">
         <BlurFade delay={0.05} inView>
-          <Card className="overflow-hidden border border-border/60 bg-card/50 backdrop-blur relative">
-            <Meteors number={7} minDuration={9} maxDuration={20} className="bg-primary/50" />
-            <div className="relative z-10 grid gap-6 p-6 md:grid-cols-2 md:items-center md:p-10">
-              <div className="absolute -left-20 -top-20 h-64 w-64 rounded-full bg-primary/8 blur-3xl pointer-events-none" />
-              <div className="absolute -right-20 -bottom-20 h-64 w-64 rounded-full bg-primary/8 blur-3xl pointer-events-none" />
-              <div className="relative">
-                <h3 className="text-2xl font-bold tracking-tight">Support the Project</h3>
-                <p className="mt-2 text-sm text-muted-foreground leading-relaxed max-w-prose">
+          <div className="relative overflow-hidden rounded-3xl border border-border/50 bg-card/40 backdrop-blur-sm p-8 md:p-10">
+            {/* Meteors inside the card */}
+            <Meteors number={6} minDuration={10} maxDuration={22} className="bg-primary/40" />
+
+            {/* Ambient glow behind */}
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/3 rounded-[inherit]" />
+
+            <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+              <div>
+                <h3 className="text-xl font-bold tracking-tight">Support the Project</h3>
+                <p className="mt-1.5 text-sm text-muted-foreground leading-relaxed max-w-sm">
                   Sponsor to help us ship faster and keep Toolzium free for everyone.
                 </p>
               </div>
-              <div className="relative flex flex-wrap gap-3 md:justify-end">
+              <div className="flex flex-wrap gap-3 shrink-0">
                 <CoolMode>
                   <Link href="/sponsor">
                     <ShimmerButton className="h-10 px-5 text-sm rounded-lg">
@@ -386,18 +440,18 @@ export default function HomePage() {
                     </ShimmerButton>
                   </Link>
                 </CoolMode>
-                <Button variant="outline" asChild>
+                <Button variant="outline" asChild size="sm" className="h-10">
                   <Link href="https://github.com/Toolzium" target="_blank" rel="noreferrer">
-                    <Github className="mr-2 h-4 w-4" /> GitHub
+                    <Github className="mr-1.5 h-4 w-4" /> GitHub
                   </Link>
                 </Button>
               </div>
             </div>
-          </Card>
+          </div>
         </BlurFade>
       </section>
 
-      <Separator className="mx-auto my-4 max-w-7xl" />
+      <Separator className="mx-auto max-w-6xl px-4 mb-0" />
       <Footer />
     </main>
   );
