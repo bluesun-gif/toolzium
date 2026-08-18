@@ -13,6 +13,8 @@ type BaseProps = React.ComponentProps<typeof Card> & {
   beam?: boolean;
   beamDuration?: number;
   beamSize?: number;
+  /** Elevated look with stronger shadow */
+  elevated?: boolean;
 };
 
 export function GlassCard({
@@ -22,6 +24,7 @@ export function GlassCard({
   beam = false,
   beamDuration = 10,
   beamSize = 180,
+  elevated = false,
   children,
   ...props
 }: BaseProps) {
@@ -30,23 +33,33 @@ export function GlassCard({
       {...props}
       className={cn(
         "relative overflow-hidden transition-all duration-300",
-        "bg-background/40 backdrop-blur supports-[backdrop-filter]:bg-background/30",
-        borderMuted ? "border-muted/40" : "",
+        // Glass morphism base
+        "bg-card/60 backdrop-blur-md supports-[backdrop-filter]:bg-card/50",
+        // Border
+        borderMuted ? "border border-border/50" : "border border-border",
+        // Elevated mode: stronger shadow for featured cards
+        elevated
+          ? "shadow-lg shadow-black/8 dark:shadow-black/20"
+          : "shadow-sm shadow-black/5 dark:shadow-black/15",
+        // Rounded
+        "rounded-2xl",
         className,
       )}
     >
       {sheen && (
-        <div className="pointer-events-none absolute inset-0 opacity-70">
-          {/* soft gradient bevel */}
-          <div className="absolute inset-[-1px] rounded-[inherit] bg-gradient-to-br from-white/10 via-white/5 to-transparent" />
+        <div className="pointer-events-none absolute inset-0 rounded-2xl overflow-hidden">
+          {/* Top gloss bevel — brighter in light mode, subtler in dark */}
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent dark:via-white/20" />
+          {/* Soft inner gradient */}
+          <div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] via-transparent to-transparent dark:from-white/[0.04]" />
         </div>
       )}
       {beam && (
         <BorderBeam
           size={beamSize}
           duration={beamDuration}
-          colorFrom="hsl(var(--primary))"
-          colorTo="hsl(var(--primary) / 0)"
+          colorFrom="var(--primary)"
+          colorTo="color-mix(in oklch, var(--primary) 0%, transparent)"
         />
       )}
       {children}
@@ -56,12 +69,20 @@ export function GlassCard({
 
 type MotionGlassProps = BaseProps & MotionProps;
 
-export function MotionGlassCard({ className, children, beam, beamDuration, beamSize, ...props }: MotionGlassProps) {
+export function MotionGlassCard({
+  className,
+  children,
+  beam,
+  beamDuration,
+  beamSize,
+  elevated,
+  ...props
+}: MotionGlassProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -2 }}
+      whileHover={{ y: -2, transition: { duration: 0.15 } }}
       transition={{ duration: 0.35, ease: "easeOut" }}
     >
       <GlassCard
@@ -69,6 +90,7 @@ export function MotionGlassCard({ className, children, beam, beamDuration, beamS
         beam={beam}
         beamDuration={beamDuration}
         beamSize={beamSize}
+        elevated={elevated}
         {...props}
       >
         {children}
