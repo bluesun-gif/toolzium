@@ -1,6 +1,6 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
-import PasswordGeneratorClient from "@/components/tools/dev/password-generator-client";
+import DicewarePasswordClient from "@/components/tools/dev/password-generator-client";
 
 const TITLE = "Password Generator | Toolzium";
 const DESCRIPTION = "Free online password generator tool with instant calculation and privacy.";
@@ -22,7 +22,7 @@ export default function Page() {
   return (
     <>
       <JsonLd data={jsonLd} />
-      <PasswordGeneratorClient />
+      <DicewarePasswordClient />
     </>
   );
 }

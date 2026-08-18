@@ -1,6 +1,6 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
-import RegexTesterClient from "@/components/tools/dev/regex-tester-client";
+import RegexExplainerClient from "@/components/tools/dev/regex-tester-client";
 
 const TITLE = "Regex Tester | Toolzium";
 const DESCRIPTION = "Free online regex tester tool with instant calculation and privacy.";
@@ -22,7 +22,7 @@ export default function Page() {
   return (
     <>
       <JsonLd data={jsonLd} />
-      <RegexTesterClient />
+      <RegexExplainerClient />
     </>
   );
 }

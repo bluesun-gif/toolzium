@@ -1,6 +1,6 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
-import HtmlEntitiesClient from "@/components/tools/dev/html-entities-client";
+import StringEscapeClient from "@/components/tools/dev/html-entities-client";
 
 const TITLE = "Html Entities | Toolzium";
 const DESCRIPTION = "Free online html entities tool with instant calculation and privacy.";
@@ -22,7 +22,7 @@ export default function Page() {
   return (
     <>
       <JsonLd data={jsonLd} />
-      <HtmlEntitiesClient />
+      <StringEscapeClient />
     </>
   );
 }

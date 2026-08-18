@@ -1,6 +1,6 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
-import CronGeneratorClient from "@/components/tools/dev/cron-generator-client";
+import CronExplainerClient from "@/components/tools/dev/cron-generator-client";
 
 const TITLE = "Cron Expression Generator — Free Online Tool | Toolzium";
 const DESCRIPTION = "Easily generate, parse, and explain cron expressions with our visual builder. See human-readable descriptions and next scheduled run times.";
@@ -22,7 +22,7 @@ export default function Page() {
   return (
     <>
       <JsonLd data={jsonLd} />
-      <CronGeneratorClient />
+      <CronExplainerClient />
     </>
   );
 }

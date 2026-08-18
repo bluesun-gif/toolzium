@@ -1,6 +1,6 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
-import ColorPickerClient from "@/components/tools/dev/color-picker-client";
+import ColorContrastClient from "@/components/tools/dev/color-picker-client";
 
 const TITLE = "Color Picker & Palette Generator";
 const DESCRIPTION = "Pick any color and get HEX, RGB, HSL codes instantly. Free online color picker with color name detection, complementary colors, and recent color history.";
@@ -22,7 +22,7 @@ export default function Page() {
   return (
     <>
       <JsonLd data={jsonLd} />
-      <ColorPickerClient />
+      <ColorContrastClient />
     </>
   );
 }

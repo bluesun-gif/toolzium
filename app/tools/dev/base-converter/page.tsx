@@ -1,6 +1,6 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
-import BaseConverterClient from "@/components/tools/dev/base-converter-client";
+import Base64Client from "@/components/tools/dev/base-converter-client";
 
 const TITLE = "Base Converter | Toolzium";
 const DESCRIPTION = "Free online base converter tool with instant calculation and privacy.";
@@ -22,7 +22,7 @@ export default function Page() {
   return (
     <>
       <JsonLd data={jsonLd} />
-      <BaseConverterClient />
+      <Base64Client />
     </>
   );
 }

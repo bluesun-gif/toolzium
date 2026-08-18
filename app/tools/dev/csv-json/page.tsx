@@ -1,6 +1,6 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
-import CsvJsonClient from "@/components/tools/dev/csv-json-client";
+import JsonCsvClient from "@/components/tools/dev/csv-json-client";
 
 const TITLE = "Csv Json | Toolzium";
 const DESCRIPTION = "Free online csv json tool with instant calculation and privacy.";
@@ -22,7 +22,7 @@ export default function Page() {
   return (
     <>
       <JsonLd data={jsonLd} />
-      <CsvJsonClient />
+      <JsonCsvClient />
     </>
   );
 }

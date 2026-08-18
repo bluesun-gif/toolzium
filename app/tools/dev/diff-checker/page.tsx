@@ -1,6 +1,6 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
-import DiffCheckerClient from "@/components/tools/dev/diff-checker-client";
+import TextDiffClient from "@/components/tools/dev/diff-checker-client";
 
 const TITLE = "Diff Checker | Toolzium";
 const DESCRIPTION = "Free online diff checker tool with instant calculation and privacy.";
@@ -22,7 +22,7 @@ export default function Page() {
   return (
     <>
       <JsonLd data={jsonLd} />
-      <DiffCheckerClient />
+      <TextDiffClient />
     </>
   );
 }

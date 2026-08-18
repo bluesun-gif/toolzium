@@ -1,6 +1,6 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
-import UuidNanoidClient from "@/components/tools/dev/uuid-nanoid-client";
+import IdGeneratorClient from "@/components/tools/dev/uuid-nanoid-client";
 
 const TITLE = "Uuid Nanoid | Toolzium";
 const DESCRIPTION = "Free online uuid nanoid tool with instant calculation and privacy.";
@@ -22,7 +22,7 @@ export default function Page() {
   return (
     <>
       <JsonLd data={jsonLd} />
-      <UuidNanoidClient />
+      <IdGeneratorClient />
     </>
   );
 }

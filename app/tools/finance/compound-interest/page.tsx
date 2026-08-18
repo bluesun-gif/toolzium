@@ -2,8 +2,8 @@ import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import CompoundInterestClient from "@/components/tools/finance/compound-interest-client";
 
-const TITLE = "Compound Interest | Toolzium";
-const DESCRIPTION = "Free online compound interest tool with instant calculation and privacy.";
+const TITLE = "Compound Interest Calculator — Investment Growth & Schedule | Toolzium";
+const DESCRIPTION = "Free compound interest calculator. Calculate future portfolio value with monthly contributions, compounding frequencies, inflation adjustments, and exportable year-by-year schedule tables.";
 const PATH = "/tools/finance/compound-interest";
 
 export const metadata = buildMetadata({
@@ -14,7 +14,7 @@ export const metadata = buildMetadata({
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Compound Interest",
+    name: "Compound Interest Calculator",
     description: DESCRIPTION,
     path: PATH
   });

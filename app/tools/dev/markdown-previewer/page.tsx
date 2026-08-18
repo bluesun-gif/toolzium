@@ -1,6 +1,6 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
-import MarkdownPreviewerClient from "@/components/tools/dev/markdown-previewer-client";
+import MarkdownStudioClient from "@/components/tools/dev/markdown-previewer-client";
 
 const TITLE = "Markdown Previewer | Toolzium";
 const DESCRIPTION = "Free online markdown previewer tool with instant calculation and privacy.";
@@ -22,7 +22,7 @@ export default function Page() {
   return (
     <>
       <JsonLd data={jsonLd} />
-      <MarkdownPreviewerClient />
+      <MarkdownStudioClient />
     </>
   );
 }

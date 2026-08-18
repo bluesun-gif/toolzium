@@ -1,6 +1,6 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
-import MarkdownEditorClient from "@/components/tools/dev/markdown-editor-client";
+import MarkdownStudioClient from "@/components/tools/dev/markdown-editor-client";
 
 const TITLE = "Markdown Editor";
 const DESCRIPTION = "Write and preview Markdown in real time. Free online Markdown editor with live HTML preview, toolbar, word count, and export to .md file. No signup required.";
@@ -22,7 +22,7 @@ export default function Page() {
   return (
     <>
       <JsonLd data={jsonLd} />
-      <MarkdownEditorClient />
+      <MarkdownStudioClient />
     </>
   );
 }

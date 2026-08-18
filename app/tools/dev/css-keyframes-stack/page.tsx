@@ -1,6 +1,6 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
-import CssKeyframesStackClient from "@/components/tools/dev/css-keyframes-stack-client";
+import CssAnimationClient from "@/components/tools/dev/css-keyframes-stack-client";
 
 const TITLE = "CSS Keyframe Multi-Animation Stacker | Toolzium";
 const DESCRIPTION = "Visual CSS multi-animation builder. Chain multiple @keyframes on a single element and generate the CSS snippet.";
@@ -22,7 +22,7 @@ export default function Page() {
   return (
     <>
       <JsonLd data={jsonLd} />
-      <CssKeyframesStackClient />
+      <CssAnimationClient />
     </>
   );
 }

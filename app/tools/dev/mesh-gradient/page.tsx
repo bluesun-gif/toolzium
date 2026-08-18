@@ -1,6 +1,6 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
-import MeshGradientClient from "@/components/tools/dev/mesh-gradient-client";
+import GradientGeneratorClient from "@/components/tools/dev/mesh-gradient-client";
 
 const TITLE = "Mesh Gradient | Toolzium";
 const DESCRIPTION = "Free online mesh gradient tool with instant calculation and privacy.";
@@ -22,7 +22,7 @@ export default function Page() {
   return (
     <>
       <JsonLd data={jsonLd} />
-      <MeshGradientClient />
+      <GradientGeneratorClient />
     </>
   );
 }

@@ -1,191 +1,228 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import { ToolBackground } from"@/components/shared/tool-background";
+
+import React, { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { ToolBackground } from "@/components/shared/tool-background";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
-import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Key, Shield, CheckCircle2, XCircle, Clock, Copy, Sparkles } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Copy, RotateCcw, ArrowRightLeft, Upload, Image as ImageIcon, Binary, Type } from "lucide-react";
 import toast from "react-hot-toast";
-
-export function BaseConverterClient() {
-  const [token, setToken] = useState(
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlRhbnZpciBBaG1lZCIsImlhdCI6MTUxNjIzOTAyMiwiZXhwIjoxODMxNjIzOTAyLCJyb2xlcyI6WyJhZG1pbiIsImRldmVsb3BlciJdfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-  );
-
-  const decoded = useMemo(() => {
+import { GridPattern } from "@/components/magicui/grid-pattern";
+import { GlassCard } from "@/components/ui/glass-card";
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
+const textareaClass = "w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50 font-mono";
+export function Base64Client() {
+  const [direction, setDirection] = useState<"encode" | "decode">("encode");
+  const [input, setInput] = useState("");
+  const [urlSafe, setUrlSafe] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const processBase64 = useCallback((text: string, dir: "encode" | "decode", safe: boolean): string => {
+    if (!text) return "";
     try {
-      const parts = token.trim().split(".");
-      if (parts.length < 2) return null;
-
-      const headerJson = JSON.parse(atob(parts[0].replace(/-/g, "+").replace(/_/g, "/")));
-      const payloadJson = JSON.parse(atob(parts[1].replace(/-/g, "+").replace(/_/g, "/")));
-
-      let isExpired = false;
-      let expDate: Date | null = null;
-      if (payloadJson.exp) {
-        expDate = new Date(payloadJson.exp * 1000);
-        isExpired = expDate.getTime() < Date.now();
+      if (dir === "encode") {
+        const encoded = btoa(unescape(encodeURIComponent(text)));
+        return safe ? encoded.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "") : encoded;
+      } else {
+        let str = text;
+        if (safe) {
+          str = str.replace(/-/g, "+").replace(/_/g, "/");
+          while (str.length % 4) str += "=";
+        }
+        return decodeURIComponent(escape(atob(str)));
       }
-
-      return {
-        header: headerJson,
-        payload: payloadJson,
-        signature: parts[2] || "",
-        isExpired,
-        expDate
-      };
-    } catch (e) {
-      return null;
+    } catch (e: any) {
+      return `Error: ${e.message}`;
     }
-  }, [token]);
-
+  }, []);
+  const output = useMemo(() => processBase64(input, direction, urlSafe), [input, direction, urlSafe]);
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast.success("Copied to clipboard!");
+  };
+  const handleClear = () => {
+    setInput("");
+    toast.success("Cleared!");
+  };
+  const handleSwap = () => {
+    if (output && !output.startsWith("Error")) {
+      setInput(output);
+      setDirection(direction === "encode" ? "decode" : "encode");
+      toast.success("Swapped!");
+    }
+  };
+  const handleFileUpload = (file: File) => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const result = e.target?.result as string;
+      setInput(result);
+      setDirection("encode");
+    };
+    reader.readAsDataURL(file);
+  };
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      handleFileUpload(e.dataTransfer.files[0]);
+    }
+  };
+  const handleDragOver = (e: React.DragEvent) => e.preventDefault();
+  const inputSize = new Blob([input]).size;
+  const outputSize = new Blob([output]).size;
+  const overhead = inputSize > 0 ? ((outputSize - inputSize) / inputSize * 100).toFixed(1) : "0.0";
+  const isImage = direction === "decode" && output.startsWith("data:image");
   return (
     <div className="relative space-y-6">
       <ToolBackground />
       <div className="relative z-10 space-y-6">
-        <ToolPageHeader
-          icon={Key}
-          title="Binary, Hex, Octal & Decimal Base Converter"
-          description="Decode, inspect, and verify JWT headers, claims payloads, expiration dates, and signatures securely in your browser."
-        />
+      
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Encoded Token Input */}
-          <div className="lg:col-span-5">
-            <GlassCard>
-              <CardHeader>
-                <div className="flex justify-between items-center">
-                  <CardTitle>Encoded JWT String</CardTitle>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => {
-                      setToken("");
-                      toast.success("Cleared input.");
-                    }}
-                  >
-                    Clear
-                  </Button>
-                </div>
-                <CardDescription>Paste an RFC 7519 standard token</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Textarea
-                  rows={14}
-                  value={token}
-                  onChange={e => setToken(e.target.value)}
-                  placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-                  className="font-mono text-xs break-all resize-y"
-                />
-              </CardContent>
-            </GlassCard>
-          </div>
+ <ToolPageHeader icon={Binary} title="Base64 Encoder/Decoder" description="Encode text to Base64 or decode Base64 strings securely in your browser." />
 
-          {/* Decoded Results */}
-          <div className="lg:col-span-7 space-y-4">
-            {decoded ? (
-              <>
-                {/* Status Bar */}
-                <GlassCard className="p-4 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    {decoded.isExpired ? (
-                      <XCircle className="w-5 h-5 text-red-500" />
-                    ) : (
-                      <CheckCircle2 className="w-5 h-5 text-green-500" />
-                    )}
-                    <div>
-                      <div className="font-bold text-sm">
-                        {decoded.isExpired ? "Token Expired" : "Valid Expiration"}
-                      </div>
-                      <div className="text-xs text-muted-foreground">
-                        {decoded.expDate ? `Expires: ${decoded.expDate.toLocaleString()}` : "No 'exp' claim present"}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="text-xs font-mono bg-muted px-2.5 py-1 rounded">
-                    Alg: {decoded.header.alg || "None"}
-                  </div>
-                </GlassCard>
+ <div className="grid lg:grid-cols-2 gap-6 mb-8">
+ <GlassCard>
+ <CardHeader className={headerClass}>
+ <CardTitle className={titleClass}>
+ Input
+ <span className="ml-auto text-xs font-normal text-muted-foreground">{input.length} chars</span>
+ </CardTitle>
+ </CardHeader>
+ <CardContent className="p-4 space-y-4">
+ <div className="flex gap-2">
+ <Button variant={direction === "encode" ? "default" : "outline"} onClick={() => setDirection("encode")} className="flex-1">Encode</Button>
+ <Button variant={direction === "decode" ? "default" : "outline"} onClick={() => setDirection("decode")} className="flex-1">Decode</Button>
+ </div>
+ 
+ <div className="flex items-center gap-4">
+ <div className="flex items-center space-x-2">
+ <input type="checkbox" id="urlSafe" checked={urlSafe} onChange={e => setUrlSafe(e.target.checked)} className="h-4 w-4 rounded border-border" />
+ <Label htmlFor="urlSafe" className="text-sm cursor-pointer">URL-safe Base64</Label>
+ </div>
+ <Button variant="outline" size="sm" onClick={handleSwap} className="ml-auto" disabled={!output || output.startsWith("Error")}>
+ <ArrowRightLeft className="h-4 w-4 mr-1" /> Swap
+ </Button>
+ </div>
 
-                {/* Header */}
-                <GlassCard>
-                  <CardHeader className="py-3">
-                    <CardTitle className="text-xs font-mono uppercase text-red-500">Header: Algorithm &amp; Type</CardTitle>
-                  </CardHeader>
-                  <CardContent className="pt-0">
-                    <pre className="p-3 rounded-md bg-muted/50 font-mono text-xs overflow-x-auto text-red-600 dark:text-red-400">
-                      {JSON.stringify(decoded.header, null, 2)}
-                    </pre>
-                  </CardContent>
-                </GlassCard>
+ <textarea className={textareaClass} rows={10} placeholder={direction === "encode" ? "Enter text to encode..." : "Enter Base64 string to decode..."} value={input} onChange={e => setInput(e.target.value)} />
 
-                {/* Payload */}
-                <GlassCard>
-                  <CardHeader className="py-3">
-                    <div className="flex justify-between items-center">
-                      <CardTitle className="text-xs font-mono uppercase text-purple-500">Payload: Data Claims</CardTitle>
-                      <CopyButton getText={() => JSON.stringify(decoded.payload, null, 2)} label="Copy Payload" />
-                    </div>
-                  </CardHeader>
-                  <CardContent className="pt-0">
-                    <pre className="p-3 rounded-md bg-muted/50 font-mono text-xs overflow-x-auto text-purple-600 dark:text-purple-400">
-                      {JSON.stringify(decoded.payload, null, 2)}
-                    </pre>
-                  </CardContent>
-                </GlassCard>
-              </>
-            ) : (
-              <GlassCard className="p-8 text-center text-muted-foreground flex flex-col items-center justify-center min-h-[280px]">
-                <Key className="w-10 h-10 mb-3 opacity-30" />
-                <p>Invalid or malformed JSON Web Token</p>
-              </GlassCard>
-            )}
-          </div>
-        </div>
+ <div onDrop={handleDrop} onDragOver={handleDragOver} onClick={() => fileInputRef.current?.click()} className="border-2 border-dashed border-border/60 rounded-lg p-6 text-center cursor-pointer hover:bg-muted/30 transition-colors">
+ <Upload className="h-6 w-6 mx-auto mb-2 text-muted-foreground" />
+ <p className="text-sm text-muted-foreground">Drag & drop a file here, or click to select</p>
+ <p className="text-xs text-muted-foreground mt-1">(File will be encoded to Base64)</p>
+ <input type="file" ref={fileInputRef} className="hidden" onChange={e => e.target.files?.[0] && handleFileUpload(e.target.files[0])} />
+ </div>
 
-        <ToolHowItWorks
-          steps={[
-            { step: "01", title: "Paste JWT", description: "Insert any bearer token or access token.", icon: Key },
-            { step: "02", title: "Base64URL Parse", description: "Safely parses Header, Payload, and Signature parts.", icon: Sparkles },
-            { step: "03", title: "Inspect Claims", description: "Review roles, user IDs, issuer tags, and expiration timestamps.", icon: Shield }
-          ]}
-          badges={["100% Free Forever", "Zero Server Transmission", "RFC 7519 Standard"]}
-        />
+ <div className="flex gap-2">
+ <Button variant="destructive" size="sm" onClick={handleClear} className="flex-1">
+ <RotateCcw className="h-4 w-4 mr-1" /> Clear
+ </Button>
+ </div>
+ </CardContent>
+ </GlassCard>
 
-        <ToolFeatureGuides
-          features={[
-            { icon: Key, title: "Header & Claims Inspection", description: "Color-coded breakdown of cryptographic algorithms and data payloads." },
-            { icon: Clock, title: "Expiration Clock Diagnostics", description: "Evaluates standard 'exp', 'nbf', and 'iat' epoch timestamps against system time." },
-            { icon: Shield, title: "100% Client-Side Privacy", description: "Tokens are never transmitted to external APIs or logged anywhere." }
-          ]}
-        >
-          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-            <h3>Understanding JSON Web Tokens (JWT)</h3>
-            <p>
-              A JSON Web Token (JWT) consists of three parts separated by dots (<code>.</code>): the Header (specifying the signing algorithm), the Payload (containing application claims such as sub, exp, and role), and the Cryptographic Signature.
-            </p>
-          </div>
-        </ToolFeatureGuides>
+ <GlassCard>
+ <CardHeader className={headerClass}>
+ <CardTitle className={titleClass}>
+ Output
+ <span className="ml-auto text-xs font-normal text-muted-foreground">{output.length} chars</span>
+ </CardTitle>
+ </CardHeader>
+ <CardContent className="p-4 space-y-4">
+ <textarea className={textareaClass} rows={10} readOnly value={output} placeholder="Result will appear here..." />
 
-        <ToolFaqAccordion
-          faqs={[
-            { question: "Is it safe to paste sensitive JWT tokens here?", answer: "Yes. All decoding occurs locally within your browser using JavaScript. No tokens are sent across the network." },
-            { question: "Can a client-side tool verify RSA/HMAC signatures?", answer: "This tool decodes and validates formatting and expiration. Verifying cryptographic signatures requires providing your public or secret key." }
-          ]}
-        />
+ {isImage && <div className="border rounded-lg p-2 bg-background/50">
+ <p className="text-xs text-muted-foreground mb-2">Image Preview:</p>
+ <img src={output} alt="Decoded image" className="max-h-48 mx-auto rounded" />
+ </div>}
 
-        <RelatedTools currentToolUrl="/tools/dev/base-converter" max={6} />
-      </div>
+ <div className="grid grid-cols-3 gap-4 text-center">
+ <div className="p-2 bg-muted/30 rounded-lg">
+ <p className="text-xs text-muted-foreground">Input Size</p>
+ <p className="font-semibold">{inputSize} B</p>
+ </div>
+ <div className="p-2 bg-muted/30 rounded-lg">
+ <p className="text-xs text-muted-foreground">Output Size</p>
+ <p className="font-semibold">{outputSize} B</p>
+ </div>
+ <div className="p-2 bg-muted/30 rounded-lg">
+ <p className="text-xs text-muted-foreground">Overhead</p>
+ <p className="font-semibold">{overhead}%</p>
+ </div>
+ </div>
+
+ <Button onClick={() => handleCopy(output)} className="w-full" disabled={!output || output.startsWith("Error")}>
+ <Copy className="h-4 w-4 mr-1" /> Copy Output
+ </Button>
+ </CardContent>
+ </GlassCard>
+ </div>
+
+ <ToolHowItWorks steps={[{
+        step: "01",
+        title: "Select Direction",
+        description: "Choose whether you want to encode text to Base64 or decode a Base64 string.",
+        icon: Binary
+      }, {
+        step: "02",
+        title: "Enter Input",
+        description: "Type your text, paste a Base64 string, or drag-and-drop a file to encode it.",
+        icon: Upload
+      }, {
+        step: "03",
+        title: "Get Results",
+        description: "View the converted output instantly, copy it to your clipboard, or swap inputs.",
+        icon: Copy
+      }]} />
+
+ <ToolFeatureGuides features={[{
+        icon: Upload,
+        title: "File Encoding",
+        description: "Upload images, PDFs, or any file via drag-and-drop to instantly generate its Base64 Data URI representation."
+      }, {
+        icon: ArrowRightLeft,
+        title: "URL-Safe Mode",
+        description: "Toggle URL-safe Base64 to replace '+' and '/' with '-' and '_', making the output safe for URLs and filenames."
+      }, {
+        icon: ImageIcon,
+        title: "Live Image Preview",
+        description: "When decoding Base64 strings that represent images, the tool automatically renders an inline preview of the picture."
+      }, {
+        icon: Copy,
+        title: "Size & Overhead Stats",
+        description: "Track the exact byte size of your input and output, including the calculated encoding overhead percentage."
+      }]}>
+ <div className="prose dark:prose-invert max-w-none">
+ <h2>The Ultimate Client-Side Base64 Tool</h2>
+ <p>Base64 is an encoding scheme used to represent binary data in an ASCII string format by translating it into a radix-64 representation. It is commonly used in web development to embed images, fonts, and other assets directly into CSS, HTML, or JSON files, eliminating the need for separate HTTP requests. Our Base64 Encoder/Decoder provides a secure, lightning-fast, and entirely client-side solution for handling all your Base64 transformation needs.</p>
+ <p>Unlike server-based converters, your data never leaves your browser. This is crucial when working with sensitive information, proprietary code snippets, or confidential documents. The tool processes everything locally using the browser's native <code>btoa</code> and <code>atob</code> functions, ensuring maximum privacy and zero network latency. Whether you are a frontend developer embedding SVG icons, a backend engineer debugging API payloads, or a sysadmin working with certificate files, this tool streamlines your workflow.</p>
+ <p>Advanced features like URL-safe encoding ensure your Base64 strings are safe to include in query parameters or file paths without causing routing errors. The drag-and-drop file uploader makes it trivial to convert large binaries into Data URIs, and the live image preview saves you from manually creating HTML tags to verify decoded image data. With real-time statistics on byte size and encoding overhead, you can make informed decisions about asset optimization and payload sizes in your applications.</p>
+ </div>
+ </ToolFeatureGuides>
+
+ <ToolFaqAccordion faqs={[{
+        question: "Is my data secure when using this Base64 tool?",
+        answer: "Yes. The encoding and decoding processes happen entirely within your web browser using client-side JavaScript. No data is ever sent to external servers, ensuring 100% privacy."
+      }, {
+        question: "What is URL-safe Base64?",
+        answer: "Standard Base64 uses '+' and '/' characters, which have special meanings in URLs. URL-safe Base64 replaces them with '-' and '_' respectively, preventing parsing issues in web addresses."
+      }, {
+        question: "Why does Base64 encoding increase file size?",
+        answer: "Base64 encodes every 3 bytes of binary data into 4 ASCII characters. This results in an approximate 33% increase in payload size compared to the original raw binary data."
+      }, {
+        question: "Can I encode large files?",
+        answer: "While the tool handles large files well, extremely large files (hundreds of megabytes) might cause browser memory constraints. For typical web assets like images and documents, it works flawlessly."
+      }]} />
     </div>
-  );
+    </div>
+);
 }
 
-export default BaseConverterClient;
+export default Base64Client;

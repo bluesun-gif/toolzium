@@ -222,24 +222,58 @@ export function CompoundInterestClient() {
 
         <ToolFeatureGuides
           features={[
-            { icon: TrendingUp, title: "Exponential Wealth Curves", description: "Visualize the snowball effect as earned interest generates secondary returns." },
+            { icon: TrendingUp, title: "Exponential Growth Curves", description: "Visualize the snowball effect as earned interest generates secondary returns." },
             { icon: DollarSign, title: "Recurring Contributions", description: "Simulate dollar-cost averaging with continuous monthly savings additions." },
             { icon: Download, title: "Exportable CSV Schedules", description: "Download full amortization tables for spreadsheet modeling." },
             { icon: Shield, title: "100% Client-Side Privacy", description: "Financial projections run locally without storing personal portfolio balances." }
           ]}
         >
-          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-            <h3>The Power of Compound Interest in Wealth Building</h3>
+          <div className="prose prose-sm dark:prose-invert max-w-none space-y-5">
+            <h3>The Mathematics of Compound Interest: A = P(1 + r/n)^(nt)</h3>
             <p>
-              Compound interest represents interest calculated on both the initial principal and the accumulated interest from prior periods. Over a multi-decade horizon, the compounding effect outpaces regular contributions, enabling substantial portfolio growth even with modest monthly deposits.
+              Albert Einstein famously called compound interest the &quot;eighth wonder of the world.&quot; Unlike simple interest—which only earns returns on the original principal deposit—compound interest reinvests earnings continuously. This creates an exponential growth curve where your money earns interest on previous interest.
+            </p>
+
+            <h4>The Variables Explained:</h4>
+            <ul>
+              <li><strong>$A$ (Final Amount):</strong> The total future value of the investment, including principal and accumulated interest.</li>
+              <li><strong>$P$ (Principal):</strong> The initial amount of money invested.</li>
+              <li><strong>$r$ (Annual Interest Rate):</strong> The annual nominal interest rate in decimal form (e.g., $7\% = 0.07$).</li>
+              <li><strong>$n$ (Compounding Frequency):</strong> The number of times interest is applied per year ($12$ for monthly, $365$ for daily, $1$ for annual).</li>
+              <li><strong>$t$ (Time in Years):</strong> The number of years the funds remain invested.</li>
+            </ul>
+
+            <h4>The Rule of 72: How Fast Will Your Money Double?</h4>
+            <p>
+              A quick mental math formula to estimate how many years it takes an investment to double is the <strong>Rule of 72</strong>:
+            </p>
+            <div className="p-4 rounded-xl bg-muted/30 border font-mono text-sm">
+              Years to Double ≈ 72 / Annual Interest Rate (%)
+            </div>
+            <p>
+              For example, with a historical stock market index return of $8\%$, your portfolio will double approximately every $9$ years ($72 / 8 = 9$).
             </p>
           </div>
         </ToolFeatureGuides>
 
         <ToolFaqAccordion
           faqs={[
-            { question: "What is the compound interest formula?", answer: "The formula is A = P(1 + r/n)^(nt), where A is final balance, P is principal, r is annual interest rate, n is compounding frequency per year, and t is time in years." },
-            { question: "How does monthly contribution affect compounding?", answer: "Regular monthly contributions accelerate the principal base each month, multiplying the interest earned in all subsequent periods." }
+            {
+              question: "What is the compound interest formula with regular monthly contributions?",
+              answer: "With periodic contributions (PMT), the total future value is calculated as A = P(1 + r/n)^(nt) + PMT × [((1 + r/n)^(nt) - 1) / (r/n)]. This accounts for both the initial principal growth and every recurring monthly deposit."
+            },
+            {
+              question: "How does compounding frequency (daily vs monthly vs annually) affect returns?",
+              answer: "More frequent compounding yields slightly higher effective annual returns because interest is added to the balance sooner. Daily compounding provides higher returns than monthly compounding, which in turn outperforms annual compounding."
+            },
+            {
+              question: "What is the difference between nominal return and real return?",
+              answer: "Nominal return is the raw percentage gain of your investment before adjusting for inflation. Real return is nominal return minus the inflation rate, representing actual purchasing power growth over time."
+            },
+            {
+              question: "Is Toolzium Compound Interest Calculator completely free?",
+              answer: "Yes, 100% free with unlimited calculations, instant CSV export, and zero financial data tracking or server storage."
+            }
           ]}
         />
 

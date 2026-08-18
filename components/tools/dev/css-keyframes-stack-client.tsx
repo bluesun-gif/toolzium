@@ -1,191 +1,310 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import { ToolBackground } from"@/components/shared/tool-background";
+
+import React, { useState, useMemo, useEffect } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
-import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { ToolBackground } from "@/components/shared/tool-background";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
-import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Key, Shield, CheckCircle2, XCircle, Clock, Copy, Sparkles } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Copy, RotateCcw, Play, Pause, Sparkles, Layers, Settings } from "lucide-react";
 import toast from "react-hot-toast";
-
-export function CssKeyframesStackClient() {
-  const [token, setToken] = useState(
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlRhbnZpciBBaG1lZCIsImlhdCI6MTUxNjIzOTAyMiwiZXhwIjoxODMxNjIzOTAyLCJyb2xlcyI6WyJhZG1pbiIsImRldmVsb3BlciJdfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-  );
-
-  const decoded = useMemo(() => {
-    try {
-      const parts = token.trim().split(".");
-      if (parts.length < 2) return null;
-
-      const headerJson = JSON.parse(atob(parts[0].replace(/-/g, "+").replace(/_/g, "/")));
-      const payloadJson = JSON.parse(atob(parts[1].replace(/-/g, "+").replace(/_/g, "/")));
-
-      let isExpired = false;
-      let expDate: Date | null = null;
-      if (payloadJson.exp) {
-        expDate = new Date(payloadJson.exp * 1000);
-        isExpired = expDate.getTime() < Date.now();
-      }
-
-      return {
-        header: headerJson,
-        payload: payloadJson,
-        signature: parts[2] || "",
-        isExpired,
-        expDate
-      };
-    } catch (e) {
-      return null;
+import { GridPattern } from "@/components/magicui/grid-pattern";
+import { GlassCard } from "@/components/ui/glass-card";
+const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
+const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
+const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
+const handleCopy = (text: string) => {
+  navigator.clipboard.writeText(text);
+  toast.success("Copied to clipboard!");
+};
+type Keyframe = {
+  offset: number;
+  transform: string;
+  opacity: number;
+};
+export function CssAnimationClient() {
+  const [name, setName] = useState("customBounce");
+  const [duration, setDuration] = useState(2);
+  const [timing, setTiming] = useState("ease-in-out");
+  const [delay, setDelay] = useState(0);
+  const [iteration, setIteration] = useState("infinite");
+  const [direction, setDirection] = useState("alternate");
+  const [fillMode, setFillMode] = useState("both");
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [keyframes, setKeyframes] = useState<Keyframe[]>([{
+    offset: 0,
+    transform: "translateY(0) scale(1)",
+    opacity: 1
+  }, {
+    offset: 50,
+    transform: "translateY(-30px) scale(1.1)",
+    opacity: 0.8
+  }, {
+    offset: 100,
+    transform: "translateY(0) scale(1)",
+    opacity: 1
+  }]);
+  const presets = [{
+    name: "Bounce",
+    kf: [{
+      offset: 0,
+      transform: "translateY(0)",
+      opacity: 1
+    }, {
+      offset: 50,
+      transform: "translateY(-40px)",
+      opacity: 1
+    }, {
+      offset: 100,
+      transform: "translateY(0)",
+      opacity: 1
+    }]
+  }, {
+    name: "Fade In",
+    kf: [{
+      offset: 0,
+      transform: "translateY(20px)",
+      opacity: 0
+    }, {
+      offset: 100,
+      transform: "translateY(0)",
+      opacity: 1
+    }]
+  }, {
+    name: "Pulse",
+    kf: [{
+      offset: 0,
+      transform: "scale(1)",
+      opacity: 1
+    }, {
+      offset: 50,
+      transform: "scale(1.05)",
+      opacity: 0.8
+    }, {
+      offset: 100,
+      transform: "scale(1)",
+      opacity: 1
+    }]
+  }, {
+    name: "Shake",
+    kf: [{
+      offset: 0,
+      transform: "translateX(0)",
+      opacity: 1
+    }, {
+      offset: 25,
+      transform: "translateX(-10px)",
+      opacity: 1
+    }, {
+      offset: 75,
+      transform: "translateX(10px)",
+      opacity: 1
+    }, {
+      offset: 100,
+      transform: "translateX(0)",
+      opacity: 1
+    }]
+  }, {
+    name: "Spin",
+    kf: [{
+      offset: 0,
+      transform: "rotate(0deg)",
+      opacity: 1
+    }, {
+      offset: 100,
+      transform: "rotate(360deg)",
+      opacity: 1
+    }]
+  }];
+  const cssOutput = useMemo(() => {
+    const kfString = keyframes.sort((a, b) => a.offset - b.offset).map(k => ` ${k.offset}% {\n transform: ${k.transform};\n opacity: ${k.opacity};\n }`).join("\n");
+    return `@keyframes ${name} {\n${kfString}\n}\n\n.animated-element {\n animation: ${name} ${duration}s ${timing} ${delay}s ${iteration} ${direction} ${fillMode};\n}`;
+  }, [name, duration, timing, delay, iteration, direction, fillMode, keyframes]);
+  const animationStyle = isPlaying ? {
+    animation: `${name} ${duration}s ${timing} ${delay}s ${iteration} ${direction} ${fillMode}`
+  } : {
+    animationPlayState: "paused"
+  };
+  useEffect(() => {
+    const styleId = "dynamic-keyframes";
+    let styleTag = document.getElementById(styleId) as HTMLStyleElement;
+    if (!styleTag) {
+      styleTag = document.createElement("style");
+      styleTag.id = styleId;
+      document.head.appendChild(styleTag);
     }
-  }, [token]);
-
+    styleTag.innerHTML = `@keyframes ${name} { ${keyframes.sort((a, b) => a.offset - b.offset).map(k => `${k.offset}% { transform: ${k.transform}; opacity: ${k.opacity}; }`).join("")} }`;
+  }, [name, keyframes]);
+  const applyPreset = (preset: any) => {
+    setKeyframes(preset.kf);
+    setName(preset.name.toLowerCase().replace("", ""));
+    toast.success(`Applied ${preset.name} preset`);
+  };
+  const updateKeyframe = (index: number, field: keyof Keyframe, value: any) => {
+    const newKf = [...keyframes];
+    (newKf[index] as any)[field] = value;
+    setKeyframes(newKf);
+  };
+  const howItWorksSteps = [{
+    step: "01",
+    title: "Set Animation Properties",
+    description: "Define the duration, timing function, iteration count, and direction for your CSS animation.",
+    icon: Settings
+  }, {
+    step: "02",
+    title: "Edit Keyframes",
+    description: "Add or modify keyframe percentages, applying transforms, opacity, and other CSS properties at each step.",
+    icon: Layers
+  }, {
+    step: "03",
+    title: "Preview & Export",
+    description: "Watch your animation play live in the preview pane, then copy the production-ready CSS code.",
+    icon: Sparkles
+  }];
+  const features = [{
+    icon: Play,
+    title: "Live Real-Time Preview",
+    description: "Watch your animation play instantly as you adjust keyframes and timing properties without needing to refresh."
+  }, {
+    icon: Layers,
+    title: "Visual Keyframe Editor",
+    description: "Intuitively manage keyframe percentages and their corresponding CSS transform and opacity values."
+  }, {
+    icon: Sparkles,
+    title: "One-Click Presets",
+    description: "Jumpstart your workflow with built-in presets like Bounce, Fade In, Pulse, Shake, and Spin."
+  }, {
+    icon: Settings,
+    title: "Granular Control",
+    description: "Fine-tune every aspect of the animation shorthand, including fill-mode, delay, and iteration direction."
+  }];
+  const faqs = [{
+    question: "Can I use the generated CSS in any framework?",
+    answer: "Yes, the output is standard CSS @keyframes and animation shorthand, which works natively in React, Vue, Angular, Svelte, and plain HTML."
+  }, {
+    question: "How do I pause the animation in the preview?",
+    answer: "Use the Play/Pause toggle above the preview box. This sets the animation-play-state to paused without altering the generated CSS."
+  }, {
+    question: "Can I animate properties other than transform and opacity?",
+    answer: "Currently, the visual editor focuses on transform and opacity for performance reasons, but you can manually edit the generated CSS to include colors, borders, etc."
+  }];
   return (
     <div className="relative space-y-6">
       <ToolBackground />
       <div className="relative z-10 space-y-6">
-        <ToolPageHeader
-          icon={Key}
-          title="CSS Keyframe Animation Generator"
-          description="Decode, inspect, and verify JWT headers, claims payloads, expiration dates, and signatures securely in your browser."
-        />
+      
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Encoded Token Input */}
-          <div className="lg:col-span-5">
-            <GlassCard>
-              <CardHeader>
-                <div className="flex justify-between items-center">
-                  <CardTitle>Encoded JWT String</CardTitle>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => {
-                      setToken("");
-                      toast.success("Cleared input.");
-                    }}
-                  >
-                    Clear
-                  </Button>
-                </div>
-                <CardDescription>Paste an RFC 7519 standard token</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Textarea
-                  rows={14}
-                  value={token}
-                  onChange={e => setToken(e.target.value)}
-                  placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-                  className="font-mono text-xs break-all resize-y"
-                />
-              </CardContent>
-            </GlassCard>
-          </div>
+ <ToolPageHeader icon={Sparkles} title="CSS Animation Generator" description="Build complex CSS @keyframes animations visually with a live preview, timeline editor, and production-ready code export." />
 
-          {/* Decoded Results */}
-          <div className="lg:col-span-7 space-y-4">
-            {decoded ? (
-              <>
-                {/* Status Bar */}
-                <GlassCard className="p-4 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    {decoded.isExpired ? (
-                      <XCircle className="w-5 h-5 text-red-500" />
-                    ) : (
-                      <CheckCircle2 className="w-5 h-5 text-green-500" />
-                    )}
-                    <div>
-                      <div className="font-bold text-sm">
-                        {decoded.isExpired ? "Token Expired" : "Valid Expiration"}
-                      </div>
-                      <div className="text-xs text-muted-foreground">
-                        {decoded.expDate ? `Expires: ${decoded.expDate.toLocaleString()}` : "No 'exp' claim present"}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="text-xs font-mono bg-muted px-2.5 py-1 rounded">
-                    Alg: {decoded.header.alg || "None"}
-                  </div>
-                </GlassCard>
+ <GlassCard>
+ <CardHeader className={headerClass}>
+ <div className="flex items-center justify-between w-full">
+ <CardTitle className={titleClass}><Play className="w-4 h-4" /> Live Preview</CardTitle>
+ <Button variant="ghost" size="sm" onClick={() => setIsPlaying(!isPlaying)} className="h-7 px-2 text-xs">
+ {isPlaying ? <Pause className="w-3 h-3 mr-1" /> : <Play className="w-3 h-3 mr-1" />}
+ {isPlaying ? "Pause" : "Play"}
+ </Button>
+ </div>
+ </CardHeader>
+ <CardContent className="p-8 flex items-center justify-center min-h-[200px] bg-muted/10 border-b border-border/40">
+ <div className="w-24 h-24 bg-primary rounded-xl shadow-2xl" style={animationStyle} />
+ </CardContent>
+ </GlassCard>
 
-                {/* Header */}
-                <GlassCard>
-                  <CardHeader className="py-3">
-                    <CardTitle className="text-xs font-mono uppercase text-red-500">Header: Algorithm &amp; Type</CardTitle>
-                  </CardHeader>
-                  <CardContent className="pt-0">
-                    <pre className="p-3 rounded-md bg-muted/50 font-mono text-xs overflow-x-auto text-red-600 dark:text-red-400">
-                      {JSON.stringify(decoded.header, null, 2)}
-                    </pre>
-                  </CardContent>
-                </GlassCard>
+ <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+ <GlassCard>
+ <CardHeader className={headerClass}>
+ <CardTitle className={titleClass}><Settings className="w-4 h-4" /> Controls & Keyframes</CardTitle>
+ </CardHeader>
+ <CardContent className="p-4 space-y-4">
+ <div className="grid grid-cols-2 gap-3">
+ <div className="space-y-1">
+ <Label className="text-xs">Name</Label>
+ <Input value={name} onChange={e => setName(e.target.value)} />
+ </div>
+ <div className="space-y-1">
+ <Label className="text-xs">Duration ({duration}s)</Label>
+ <Input type="range" min="0.1" max="10" step="0.1" value={duration} onChange={e => setDuration(parseFloat(e.target.value))} />
+ </div>
+ <div className="space-y-1">
+ <Label className="text-xs">Timing</Label>
+ <select className="w-full rounded border border-border/70 bg-background p-1.5 text-xs" value={timing} onChange={e => setTiming(e.target.value)}>
+ <option>ease</option><option>linear</option><option>ease-in</option><option>ease-out</option><option>ease-in-out</option>
+ </select>
+ </div>
+ <div className="space-y-1">
+ <Label className="text-xs">Iteration</Label>
+ <select className="w-full rounded border border-border/70 bg-background p-1.5 text-xs" value={iteration} onChange={e => setIteration(e.target.value)}>
+ <option>1</option><option>2</option><option>3</option><option>infinite</option>
+ </select>
+ </div>
+ </div>
 
-                {/* Payload */}
-                <GlassCard>
-                  <CardHeader className="py-3">
-                    <div className="flex justify-between items-center">
-                      <CardTitle className="text-xs font-mono uppercase text-purple-500">Payload: Data Claims</CardTitle>
-                      <CopyButton getText={() => JSON.stringify(decoded.payload, null, 2)} label="Copy Payload" />
-                    </div>
-                  </CardHeader>
-                  <CardContent className="pt-0">
-                    <pre className="p-3 rounded-md bg-muted/50 font-mono text-xs overflow-x-auto text-purple-600 dark:text-purple-400">
-                      {JSON.stringify(decoded.payload, null, 2)}
-                    </pre>
-                  </CardContent>
-                </GlassCard>
-              </>
-            ) : (
-              <GlassCard className="p-8 text-center text-muted-foreground flex flex-col items-center justify-center min-h-[280px]">
-                <Key className="w-10 h-10 mb-3 opacity-30" />
-                <p>Invalid or malformed JSON Web Token</p>
-              </GlassCard>
-            )}
-          </div>
-        </div>
+ <div className="space-y-2 pt-4 border-t border-border/40">
+ <Label className="text-xs font-bold">Keyframes</Label>
+ {keyframes.map((kf, i) => <div key={i} className="flex gap-2 items-center bg-muted/20 p-2 rounded-lg">
+ <Input type="number" className="w-16 h-7 text-xs" value={kf.offset} onChange={e => updateKeyframe(i, "offset", parseInt(e.target.value))} />
+ <Input className="flex-1 h-7 text-xs" value={kf.transform} onChange={e => updateKeyframe(i, "transform", e.target.value)} placeholder="transform" />
+ <Input type="number" className="w-16 h-7 text-xs" step="0.1" min="0" max="1" value={kf.opacity} onChange={e => updateKeyframe(i, "opacity", parseFloat(e.target.value))} />
+ </div>)}
+ <Button variant="outline" size="sm" className="w-full text-xs" onClick={() => setKeyframes([...keyframes, {
+                offset: 50,
+                transform: "none",
+                opacity: 1
+              }])}>
+ + Add Keyframe
+ </Button>
+ </div>
 
-        <ToolHowItWorks
-          steps={[
-            { step: "01", title: "Paste JWT", description: "Insert any bearer token or access token.", icon: Key },
-            { step: "02", title: "Base64URL Parse", description: "Safely parses Header, Payload, and Signature parts.", icon: Sparkles },
-            { step: "03", title: "Inspect Claims", description: "Review roles, user IDs, issuer tags, and expiration timestamps.", icon: Shield }
-          ]}
-          badges={["100% Free Forever", "Zero Server Transmission", "RFC 7519 Standard"]}
-        />
+ <div className="space-y-2 pt-4 border-t border-border/40">
+ <Label className="text-xs font-bold">Presets</Label>
+ <div className="flex flex-wrap gap-2">
+ {presets.map(p => <Button key={p.name} variant="secondary" size="sm" className="text-xs h-7" onClick={() => applyPreset(p)}>
+ {p.name}
+ </Button>)}
+ </div>
+ </div>
+ </CardContent>
+ </GlassCard>
 
-        <ToolFeatureGuides
-          features={[
-            { icon: Key, title: "Header & Claims Inspection", description: "Color-coded breakdown of cryptographic algorithms and data payloads." },
-            { icon: Clock, title: "Expiration Clock Diagnostics", description: "Evaluates standard 'exp', 'nbf', and 'iat' epoch timestamps against system time." },
-            { icon: Shield, title: "100% Client-Side Privacy", description: "Tokens are never transmitted to external APIs or logged anywhere." }
-          ]}
-        >
-          <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-            <h3>Understanding JSON Web Tokens (JWT)</h3>
-            <p>
-              A JSON Web Token (JWT) consists of three parts separated by dots (<code>.</code>): the Header (specifying the signing algorithm), the Payload (containing application claims such as sub, exp, and role), and the Cryptographic Signature.
-            </p>
-          </div>
-        </ToolFeatureGuides>
+ <GlassCard>
+ <CardHeader className={headerClass}>
+ <div className="flex items-center justify-between w-full">
+ <CardTitle className={titleClass}><Sparkles className="w-4 h-4" /> CSS Output</CardTitle>
+ <Button variant="ghost" size="sm" onClick={() => handleCopy(cssOutput)} className="h-7 px-2 text-xs">
+ <Copy className="w-3 h-3 mr-1" /> Copy
+ </Button>
+ </div>
+ </CardHeader>
+ <CardContent className="p-4">
+ <pre className="w-full rounded-lg border border-border/70 bg-background p-4 text-xs text-cyan-400 overflow-x-auto h-[500px] leading-relaxed font-mono">
+ {cssOutput}
+ </pre>
+ </CardContent>
+ </GlassCard>
+ </div>
 
-        <ToolFaqAccordion
-          faqs={[
-            { question: "Is it safe to paste sensitive JWT tokens here?", answer: "Yes. All decoding occurs locally within your browser using JavaScript. No tokens are sent across the network." },
-            { question: "Can a client-side tool verify RSA/HMAC signatures?", answer: "This tool decodes and validates formatting and expiration. Verifying cryptographic signatures requires providing your public or secret key." }
-          ]}
-        />
+ <ToolHowItWorks steps={howItWorksSteps} badges={["100% Free", "Real-Time Preview", "No Watermarks"]} />
+ 
+ <ToolFeatureGuides features={features}>
+ <div className="prose prose-invert max-w-none mt-8">
+ <h3>Mastering CSS Keyframe Animations</h3>
+ <p>CSS animations bring user interfaces to life, providing visual feedback, guiding user attention, and creating delightful micro-interactions. However, writing raw <code>@keyframes</code> syntax by hand can be tedious, especially when trying to visualize the exact timing and transformation states across multiple percentages. Our CSS Animation Generator eliminates the guesswork by providing a visual timeline editor paired with a real-time live preview pane.</p>
+ <p>Whether you are building a subtle hover effect for a call-to-action button or a complex entrance animation for a landing page hero section, this tool gives you granular control over every aspect of the CSS <code>animation</code> shorthand property. Adjust the duration, experiment with different cubic-bezier timing functions, and set iteration counts to infinite for continuous loading spinners or background elements. The visual keyframe editor allows you to define exact states at 0%, 50%, and 100%, applying transforms like translate, rotate, and scale, alongside opacity changes.</p>
+ <p>Performance is critical when animating on the web. By focusing on <code>transform</code> and <code>opacity</code>—the only two CSS properties that can be animated cheaply on the compositor thread without triggering layout recalculations or repaints—our generated code ensures your animations run at a buttery-smooth 60 frames per second, even on low-end mobile devices. Stop toggling back and forth between your code editor and the browser; design, preview, and export production-ready CSS animations all in one unified workspace.</p>
+ </div>
+ </ToolFeatureGuides>
 
-        <RelatedTools currentToolUrl="/tools/dev/css-keyframes-stack" max={6} />
-      </div>
+ <ToolFaqAccordion faqs={faqs} />
     </div>
-  );
+    </div>
+);
 }
 
-export default CssKeyframesStackClient;
+export default CssAnimationClient;

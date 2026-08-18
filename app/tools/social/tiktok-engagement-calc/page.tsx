@@ -3,7 +3,7 @@ import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import TiktokCalcClient from "@/components/tools/social/tiktok-calc-client";
 
 const TITLE = "TikTok Engagement Rate Calculator | Toolzium";
-const DESCRIPTION = "Calculate TikTok engagement rate based on views, likes, comments, and shares.";
+const DESCRIPTION = "Calculate TikTok profile and video engagement rate based on views, likes, comments, and shares.";
 const PATH = "/tools/social/tiktok-engagement-calc";
 
 export const metadata = buildMetadata({

@@ -17,7 +17,7 @@ import SwitchRow from"@/components/shared/form-fields/switch-row";
 import Stat from"@/components/shared/stat";
 import { Button } from"@/components/ui/button";
 import { Badge } from"@/components/ui/badge";
-import { CheckCircle2, Crop, Download, Image as ImageIcon, Maximize2, RefreshCw, Scaling, SlidersHorizontal, Sparkles, Trash2, Upload, Zap, Settings, Square, Grid } from "lucide-react";
+import { CheckCircle2, Crop, Download, Image as ImageIcon, Maximize2, RefreshCw, Scaling, SlidersHorizontal, Sparkles, Trash2, Upload, Zap, Settings, Square, Grid, Shield } from "lucide-react";
 import JSZip from"jszip";
 import { drawToCanvas, canvasEncode, FitMode, formatBytes, mimeFromFormat } from"@/lib/canvas";
 import toast from"react-hot-toast";
@@ -483,86 +483,131 @@ export default function ImageResizerClient() {
  </div>
  </div>
  
+
 <ToolHowItWorks
   steps={[
-{
-    step:"01",
-    title:"Upload",
-    description:"Load your image.",
-    icon: Upload,
-  },
-{
-    step:"02",
-    title:"Pick Size",
-    description:"Choose a target dimension.",
-    icon: Crop,
-  },
-{
-    step:"03",
-    title:"Export",
-    description:"Resize and download.",
-    icon: Download,
-  }
+    {
+      step: "01",
+      title: "Upload Images",
+      description: "Drag and drop single or multiple PNG, JPG, or WebP files from your device.",
+      icon: Upload,
+    },
+    {
+      step: "02",
+      title: "Configure Dimensions & Presets",
+      description: "Set exact pixel dimensions, scale by percentage, or choose 1-click social media presets.",
+      icon: Crop,
+    },
+    {
+      step: "03",
+      title: "Instant Export & ZIP Download",
+      description: "Process in-browser with hardware acceleration and download resized images individually or as a single ZIP archive.",
+      icon: Download,
+    }
   ]}
-  badges={["Free Forever","No Signup","Instant Results"]}
+  badges={["100% Free Forever", "Zero Server Uploads", "Private In-Browser Processing", "Bulk ZIP Export"]}
 />
 
 <ToolFeatureGuides
   features={[
-{
-    icon: Upload,
-    title:"Image Input",
-    description:"From your device.",
-  },
-{
-    icon: Crop,
-    title:"Presets",
-    description:"Common social sizes.",
-  },
-{
-    icon: Download,
-    title:"Export",
-    description:"Resized result.",
-  },
-{
-    icon: SlidersHorizontal,
-    title:"Quality",
-    description:"Tune output.",
-  }
+    {
+      icon: Scaling,
+      title: "Pixel & Percentage Scaling",
+      description: "Scale by exact width/height with aspect ratio lock, or downscale/upscale proportionally by percentage.",
+    },
+    {
+      icon: Crop,
+      title: "20+ Social Media Presets",
+      description: "Pre-configured pixel dimensions for Instagram, Facebook, TikTok, LinkedIn, YouTube, and X.",
+    },
+    {
+      icon: SlidersHorizontal,
+      title: "Multi-Format & Quality Tuning",
+      description: "Convert on-the-fly to modern WebP, crisp lossless PNG, or lightweight JPEG with precision quality control.",
+    },
+    {
+      icon: Shield,
+      title: "100% Private Client-Side",
+      description: "All canvas operations execute in your browser via HTML5 Canvas API and WebAssembly. No files touch external servers.",
+    }
   ]}
 >
-  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-  <p>An image resizer delivers pictures at the exact dimensions each platform expects, preventing awkward crops and blur. Supplying one photo and picking a preset yields a correctly sized export. This tool handles the resize and lets you tune quality.</p>
-  <p>Presets remove guesswork. Each network has favored shapes; pre-sizing keeps your subject framed and sharp. Quality controls balance file size against fidelity.</p>
-  <p>Use it before posting anywhere with fixed dimensions. The tool's value is correctly sized images that display as intended, every time.</p>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-5">
+    <h3>The Ultimate Guide to Image Resizing and Web Performance</h3>
+    <p>
+      Serving properly sized images is one of the most critical factors for website loading speed, Core Web Vitals (LCP - Largest Contentful Paint), and social media engagement. When you upload a 4000×3000 camera photo to a social network or website container that only displays 1080×1080, the browser wastes bandwidth downloading mega-pixel files and performs costly downsampling on the fly.
+    </p>
+
+    <h4>Optimal Social Media Dimensions Cheat Sheet (2026)</h4>
+    <div className="overflow-x-auto">
+      <table className="w-full text-xs text-left border-collapse border border-border">
+        <thead className="bg-muted/50">
+          <tr>
+            <th className="p-2.5 border border-border">Platform</th>
+            <th className="p-2.5 border border-border">Placement</th>
+            <th className="p-2.5 border border-border">Recommended Dimensions</th>
+            <th className="p-2.5 border border-border">Aspect Ratio</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td className="p-2.5 border border-border font-semibold">Instagram</td>
+            <td className="p-2.5 border border-border">Portrait Post / Feed</td>
+            <td className="p-2.5 border border-border font-mono text-primary">1080 × 1350 px</td>
+            <td className="p-2.5 border border-border">4:5</td>
+          </tr>
+          <tr>
+            <td className="p-2.5 border border-border font-semibold">Instagram / TikTok</td>
+            <td className="p-2.5 border border-border">Story / Reel</td>
+            <td className="p-2.5 border border-border font-mono text-primary">1080 × 1920 px</td>
+            <td className="p-2.5 border border-border">9:16</td>
+          </tr>
+          <tr>
+            <td className="p-2.5 border border-border font-semibold">YouTube</td>
+            <td className="p-2.5 border border-border">Video Thumbnail</td>
+            <td className="p-2.5 border border-border font-mono text-primary">1280 × 720 px</td>
+            <td className="p-2.5 border border-border">16:9</td>
+          </tr>
+          <tr>
+            <td className="p-2.5 border border-border font-semibold">LinkedIn</td>
+            <td className="p-2.5 border border-border">Company Cover Banner</td>
+            <td className="p-2.5 border border-border font-mono text-primary">1584 × 396 px</td>
+            <td className="p-2.5 border border-border">4:1</td>
+          </tr>
+          <tr>
+            <td className="p-2.5 border border-border font-semibold">X (Twitter)</td>
+            <td className="p-2.5 border border-border">In-Stream Photo Post</td>
+            <td className="p-2.5 border border-border font-mono text-primary">1200 × 675 px</td>
+            <td className="p-2.5 border border-border">16:9</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </ToolFeatureGuides>
 
 <ToolFaqAccordion
   faqs={[
-{
-    question:"Why resize?",
-    answer:"Platforms need exact dimensions.",
-  },
-{
-    question:"Presets?",
-    answer:"Instagram, X, Facebook, more.",
-  },
-{
-    question:"Quality?",
-    answer:"Minimal loss at export.",
-  },
-{
-    question:"Free?",
-    answer:"Yes.",
-  },
-{
-    question:"Private?",
-    answer:"Local.",
-  }
+    {
+      question: "How does bulk image resizing work in my browser without uploading files?",
+      answer: "Toolzium uses the HTML5 Canvas API and WebAssembly within your local browser sandbox. Images are loaded into local browser memory, transformed onto hardware-accelerated canvas buffers, and re-encoded directly on your device. No photos or metadata are ever transmitted over the internet."
+    },
+    {
+      question: "What is the best image format to choose for web performance?",
+      answer: "WebP is the recommended modern image format for websites. It provides 25% to 35% smaller file sizes compared to standard JPEG and PNG at equivalent visual quality, while supporting full transparency."
+    },
+    {
+      question: "Can I resize hundreds of images at once?",
+      answer: "Yes. You can drag and drop multiple images simultaneously. Toolzium batches the resizing tasks asynchronously and allows you to download all processed images in a single organized ZIP file with 1 click."
+    },
+    {
+      question: "Is Toolzium Bulk Image Resizer completely free to use?",
+      answer: "Yes, 100% free forever with no daily limits, no watermarks, no account registration requirements, and zero advertising interruptions."
+    }
   ]}
 />
+
     </div>
-    </div>
+  </div>
 );
 }

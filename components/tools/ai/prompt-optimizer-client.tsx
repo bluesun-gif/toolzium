@@ -512,31 +512,48 @@ export function PromptOptimizerClient() {
 
  <ToolFeatureGuides features={[{
         icon: Sparkles,
-        title: "Model-Specific Syntax",
-        description: "Automatically formats system instructions and tags (like XML for Claude) depending on your target model."
+        title: "Model-Specific Architecture",
+        description: "Optimizes prompts for GPT-4o, Claude 3.5 Sonnet (XML tags), Gemini 1.5 Pro, DeepSeek R1, and Midjourney v6."
       }, {
         icon: RefreshCcw,
-        title: "Dynamic Logic Engine",
-        description: "Sliders and toggles directly alter the prompt logic—no fake UI elements."
+        title: "Chain-of-Thought & Persona Framing",
+        description: "Injects step-by-step reasoning constraints, few-shot examples, and authoritative domain expert personas."
       }, {
-        icon: Copy,
-        title: "1-Click Copy Workspace",
-        description: "A clean workspace to review and instantly copy your generated master prompt."
+        icon: ShieldCheck,
+        title: "100% Free & Client-Side",
+        description: "Build, refine, and test your prompts without token paywalls or API subscription requirements."
       }]}>
- <div className="prose dark:prose-invert max-w-none">
- <h3>Why Optimize Your Prompts?</h3>
- <p>
- Large Language Models perform exponentially better when given structured, formatted instructions. By wrapping your intent in clear system protocols, reasoning constraints, and XML tags, you prevent hallucinations and get production-ready results.
- </p>
- </div>
- </ToolFeatureGuides>
+  <div className="prose dark:prose-invert max-w-none space-y-4">
+    <h3>The Definitive Framework for Enterprise Prompt Engineering</h3>
+    <p>
+      Large Language Models (LLMs) like GPT-4o, Claude 3.5 Sonnet, and Gemini 1.5 Pro do not respond well to ambiguous, single-line queries. To extract reliable, hallucination-free, production-grade output, professional prompt engineers use the <strong>RTCE Framework</strong>:
+    </p>
+    <ul>
+      <li><strong>Role (Who):</strong> Assigning an authoritative persona (e.g. &quot;Act as a Principal Software Architect with 15+ years of distributed systems experience&quot;) activates specific domain neural pathways.</li>
+      <li><strong>Task (What):</strong> Explicitly stating the single core objective with clear boundaries.</li>
+      <li><strong>Context (Why):</strong> Providing background parameters, audience demographics, and project goals.</li>
+      <li><strong>Execution Constraints (How):</strong> Specifying formatting rules, XML tags (<code>&lt;context&gt;</code>, <code>&lt;rules&gt;</code>, <code>&lt;output_format&gt;</code>), and negative constraints (what the AI must NOT do).</li>
+    </ul>
 
- <ToolFaqAccordion faqs={[{
-        question: "Does this work for Claude 3.5 Sonnet?",
-        answer: "Yes! If you select Claude and enable XML tags, the system will perfectly format the prompt using Anthropics recommended structural tags."
+    <h4>Why XML Tags Elevate Claude 3.5 &amp; GPT-4o Performance</h4>
+    <p>
+      Anthropic and OpenAI officially recommend using XML delimiters to separate instructions from user input. This prevents prompt injection, eliminates ambiguity in long context windows, and enables deterministic JSON or Markdown extraction.
+    </p>
+  </div>
+</ToolFeatureGuides>
+
+<ToolFaqAccordion faqs={[{
+        question: "How does the AI Prompt Optimizer improve prompt responses?",
+        answer: "The optimizer transforms basic user intents into structured meta-prompts with expert persona framing, chain-of-thought step-by-step reasoning protocols, input/output delimiters, and edge-case negative constraints."
       }, {
-        question: "How does the Detail Depth slider work?",
-        answer: "Increasing the depth slider instructs the engine to add exhaustive, multi-step execution parameters and edge-case handling to your output prompt."
+        question: "Does this optimizer support Midjourney and DALL-E image prompts?",
+        answer: "Yes. When you choose Midjourney or DALL-E, the engine injects lighting styles, camera lens specs (e.g., 35mm f/1.8), render engines (Unreal Engine 5, Octane Render), and aspect ratio parameters (e.g., --ar 16:9 --v 6.0)."
+      }, {
+        question: "What is Chain-of-Thought (CoT) prompting?",
+        answer: "Chain-of-Thought prompting directs the AI model to explain its logical reasoning step-by-step before delivering the final answer, reducing logical flaws and mathematical errors by over 60%."
+      }, {
+        question: "Is Toolzium AI Prompt Optimizer free to use?",
+        answer: "Yes, 100% free with unlimited prompt generations, local prompt history storage, and zero account requirements."
       }]} />
     </div>
     </div>

@@ -1,6 +1,6 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
-import ExifViewerClient from "@/components/tools/image/exif-viewer-client";
+import ExifInspectorClient from "@/components/tools/image/exif-viewer-client";
 
 const TITLE = "Exif Viewer | Toolzium";
 const DESCRIPTION = "Free online exif viewer tool with instant calculation and privacy.";
@@ -22,7 +22,7 @@ export default function Page() {
   return (
     <>
       <JsonLd data={jsonLd} />
-      <ExifViewerClient />
+      <ExifInspectorClient />
     </>
   );
 }
