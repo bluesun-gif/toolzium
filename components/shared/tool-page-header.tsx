@@ -1,8 +1,9 @@
 "use client";
 
 import { type LucideIcon, Sparkles } from "lucide-react";
-import { GlassCard } from "@/components/ui/glass-card";
-import { AnimatedShinyText } from "@/components/magicui/animated-shiny-text";
+import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
+import { HyperText } from "@/components/ui/hyper-text";
+import { CoolMode } from "@/components/ui/cool-mode";
 import { motion } from "framer-motion";
 import { useMotionTemplate, useMotionValue } from "framer-motion";
 import React from "react";
@@ -62,39 +63,47 @@ export default function ToolPageHeader({
         <div className="p-5 sm:px-8 sm:py-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="space-y-2 min-w-0 max-w-full">
-              {/* Animated Shiny Badge */}
+              {/* Animated Gradient Badge */}
               {badgeText && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.1, duration: 0.3 }}
-                  className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-muted/60 px-3 py-1 text-xs font-semibold text-muted-foreground shadow-sm"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-muted/60 px-3 py-1 text-xs font-semibold shadow-sm"
                 >
-                  <AnimatedShinyText className="inline-flex items-center gap-1">
-                    <span>{badgeText}</span>
-                  </AnimatedShinyText>
+                  <AnimatedGradientText
+                    className="inline-flex items-center gap-1 text-xs font-semibold"
+                    colorFrom="#a78bfa"
+                    colorTo="#38bdf8"
+                    speed={0.8}
+                  >
+                    {badgeText}
+                  </AnimatedGradientText>
                 </motion.div>
               )}
 
               <div className="flex items-center gap-3">
-                {/* Animated icon container */}
-                <motion.div
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                  className="h-10 w-10 sm:h-12 sm:w-12 rounded-2xl bg-primary/10 border border-primary/20 text-primary flex items-center justify-center shrink-0 shadow-sm"
-                >
-                  <LeftIcon className="h-5 w-5 sm:h-6 sm:w-6" />
-                </motion.div>
+                {/* Animated icon container wrapped with CoolMode for particles */}
+                <CoolMode>
+                  <motion.div
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                    className="h-10 w-10 sm:h-12 sm:w-12 rounded-2xl bg-primary/10 border border-primary/20 text-primary flex items-center justify-center shrink-0 shadow-sm cursor-pointer"
+                  >
+                    <LeftIcon className="h-5 w-5 sm:h-6 sm:w-6" />
+                  </motion.div>
+                </CoolMode>
 
-                {/* Title with fade-in */}
-                <motion.h1
-                  initial={{ opacity: 0, x: -6 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.15, duration: 0.35 }}
-                  className="text-xl sm:text-3xl font-extrabold tracking-tight text-foreground leading-tight"
+                {/* Title with HyperText scramble animation */}
+                <HyperText
+                  as="h1"
+                  startOnView
+                  animateOnHover
+                  duration={600}
+                  className="text-xl sm:text-3xl font-extrabold tracking-tight text-foreground leading-tight py-0"
                 >
                   {title}
-                </motion.h1>
+                </HyperText>
               </div>
 
               {description && (

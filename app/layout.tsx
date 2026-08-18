@@ -10,6 +10,8 @@ import AuthSessionProvider from "@/components/providers/session-provider";
 import { PremiumProvider } from "@/components/providers/premium-provider";
 import ToasterProvider from "@/components/providers/toaster-provider";
 import NavigationProgressBar from "@/components/shared/navigation-progress-bar";
+import { ScrollProgressBar } from "@/components/shared/scroll-progress-bar";
+import { CursorGlow } from "@/components/shared/cursor-glow";
 import JsonLd from "@/components/seo/json-ld";
 import { ToolsData, TOTAL_TOOLS_COUNT } from "@/data/tools";
 import { siteURL } from "@/lib/constants";
@@ -192,6 +194,8 @@ export default function RootLayout({
         <GoogleTagManager />
       </head>
       <body className="min-h-screen bg-background text-foreground antialiased overflow-x-hidden pb-16 md:pb-0">
+        <ScrollProgressBar />
+        <CursorGlow />
         <NavigationProgressBar />
         <a
           href="#main-content"
