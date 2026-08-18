@@ -1,258 +1,260 @@
-"use client";
-
-import { ToolBackground } from "@/components/shared/tool-background";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-
-import { useState } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
-import { Input } from"@/components/ui/input";
-import { Label } from"@/components/ui/label";
-import { Switch } from"@/components/ui/switch";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { CalendarRange, EyeOff, FileCheck2, FileText, Printer, ShieldCheck, Copy, Type } from "lucide-react";
-import toast from"react-hot-toast";
-
-export function NdaScopeBuilderClient() {
-  const [ndaType, setNdaType] = useState("mutual");
-  const [disclosingParty, setDisclosingParty] = useState("");
-  const [receivingParty, setReceivingParty] = useState("");
-  const [term, setTerm] = useState("3");
-  const [governingState, setGoverningState] = useState("");
-  const [scopeSourceCode, setScopeSourceCode] = useState(false);
-  const [scopeFinancials, setScopeFinancials] = useState(true);
-  const [scopeCustomerData, setScopeCustomerData] = useState(true);
-  const [scopeProductSpecs, setScopeProductSpecs] = useState(false);
-  const [scopeMarketingPlans, setScopeMarketingPlans] = useState(false);
-  const generateNdaText = () => {
-    if (!disclosingParty || !receivingParty || !governingState) {
-      return "Please fill out the Disclosing Party, Receiving Party, and Governing State to preview the agreement.";
-    }
-    const typeStr = ndaType === "mutual" ? "Mutual Non-Disclosure Agreement" : "Unilateral Non-Disclosure Agreement";
-    const dateStr = new Date().toLocaleDateString();
-    let text = "NON-DISCLOSURE AGREEMENT\n\n";
-    text += "This" + typeStr + "(the \"Agreement\") is entered into as of" + dateStr + "by and between" + disclosingParty + "and" + receivingParty + ".\n\n";
-    text += "1. CONFIDENTIAL INFORMATION.\n";
-    const scopes = [];
-    if (scopeSourceCode) scopes.push("source code and related documentation");
-    if (scopeFinancials) scopes.push("financial information and projections");
-    if (scopeCustomerData) scopes.push("customer data and lists");
-    if (scopeProductSpecs) scopes.push("product specifications and technical details");
-    if (scopeMarketingPlans) scopes.push("marketing strategies and plans");
-    let scopeText = "Confidential Information includes all non-public information disclosed by either party.";
-    if (scopes.length > 0) {
-      scopeText += "In particular, it shall include:" + scopes.join(",") + ".";
-    }
-    text += scopeText + "\n\n";
-    text += "2. EXCEPTIONS.\n";
-    text += "Confidential Information does not include information that: (a) is or becomes publicly known through no lawful act of the receiving party; (b) was already known to the receiving party; or (c) is independently developed.\n\n";
-    text += "3. TERM.\n";
-    const termStr = term === "perpetual" ? "shall survive perpetually" : "shall survive for a period of" + term + "years from the date of disclosure";
-    text += "The obligations of confidentiality under this Agreement" + termStr + ".\n\n";
-    text += "4. GOVERNING LAW.\n";
-    text += "This Agreement shall be governed by the laws of the state of" + governingState + ".\n\n";
-    return text;
-  };
-  const printDocument = () => {
-    toast.success("Opening print dialog...");
-    window.print();
-  };
-  return (
-    <div className="relative space-y-6">
-      <ToolBackground />
-      <div className="relative z-10 space-y-6">
-      
-
- <ToolPageHeader icon={ShieldCheck} title="Mutual NDA Scope & Term Builder" description="Generate Mutual and Unilateral NDAs with custom confidentiality scope clauses." actions={<>
- <CopyButton getText={generateNdaText} label="Copy NDA" />
- <ActionButton onClick={printDocument} icon={Printer} label="Print" />
- <ResetButton onClick={() => {
-          setDisclosingParty("");
-          setReceivingParty("");
-          setGoverningState("");
-        }} label="Reset Form" />
- </>} />
- 
- <div className={"grid md:grid-cols-2 gap-6"}>
- <div className={"space-y-6"}>
- <GlassCard>
- <CardHeader>
- <CardTitle>Parties & Details</CardTitle>
- </CardHeader>
- <CardContent className={"space-y-4"}>
- <div className={"space-y-2"}>
- <Label>NDA Type</Label>
- <Select value={ndaType} onValueChange={setNdaType}>
- <SelectTrigger>
- <SelectValue placeholder="Select NDA type" />
- </SelectTrigger>
- <SelectContent>
- <SelectItem value="mutual">Mutual (Both parties disclose)</SelectItem>
- <SelectItem value="unilateral">Unilateral (One party discloses)</SelectItem>
- </SelectContent>
- </Select>
- </div>
- <div className={"space-y-2"}>
- <Label>Disclosing Party (or Party A)</Label>
- <Input value={disclosingParty} onChange={e => setDisclosingParty(e.target.value)} placeholder="Company A LLC" />
- </div>
- <div className={"space-y-2"}>
- <Label>Receiving Party (or Party B)</Label>
- <Input value={receivingParty} onChange={e => setReceivingParty(e.target.value)} placeholder="Consultant Inc" />
- </div>
- <div className={"space-y-2"}>
- <Label>Governing State</Label>
- <Input value={governingState} onChange={e => setGoverningState(e.target.value)} placeholder="e.g. Delaware" />
- </div>
- <div className={"space-y-2"}>
- <Label>Term</Label>
- <Select value={term} onValueChange={setTerm}>
- <SelectTrigger>
- <SelectValue placeholder="Select term" />
- </SelectTrigger>
- <SelectContent>
- <SelectItem value="1">1 Year</SelectItem>
- <SelectItem value="2">2 Years</SelectItem>
- <SelectItem value="3">3 Years</SelectItem>
- <SelectItem value="5">5 Years</SelectItem>
- <SelectItem value="perpetual">Perpetual</SelectItem>
- </SelectContent>
- </Select>
- </div>
- </CardContent>
- </GlassCard>
-
- <GlassCard>
- <CardHeader>
- <CardTitle>Scope Categories</CardTitle>
- <CardDescription>Select specific categories to include in the definition of Confidential Information.</CardDescription>
- </CardHeader>
- <CardContent className={"space-y-4"}>
- <div className={"flex items-center justify-between"}>
- <Label className={"cursor-pointer"}>Source Code & Technical Assets</Label>
- <Switch checked={scopeSourceCode} onCheckedChange={setScopeSourceCode} />
- </div>
- <div className={"flex items-center justify-between"}>
- <Label className={"cursor-pointer"}>Financial Information</Label>
- <Switch checked={scopeFinancials} onCheckedChange={setScopeFinancials} />
- </div>
- <div className={"flex items-center justify-between"}>
- <Label className={"cursor-pointer"}>Customer Data & Lists</Label>
- <Switch checked={scopeCustomerData} onCheckedChange={setScopeCustomerData} />
- </div>
- <div className={"flex items-center justify-between"}>
- <Label className={"cursor-pointer"}>Product Specifications</Label>
- <Switch checked={scopeProductSpecs} onCheckedChange={setScopeProductSpecs} />
- </div>
- <div className={"flex items-center justify-between"}>
- <Label className={"cursor-pointer"}>Marketing Plans</Label>
- <Switch checked={scopeMarketingPlans} onCheckedChange={setScopeMarketingPlans} />
- </div>
- </CardContent>
- </GlassCard>
- </div>
-
- <GlassCard>
- <CardHeader>
- <CardTitle className={"flex items-center gap-2"}>
- <FileText className={"h-5 w-5"} />
- Document Preview
- </CardTitle>
- </CardHeader>
- <CardContent>
- <div className={"p-4 bg-muted/50 rounded-md whitespace-pre-wrap font-mono text-sm border min-h-[400px]"}>
- {generateNdaText()}
- </div>
- </CardContent>
- </GlassCard>
- </div>
- 
-<ToolHowItWorks
-  steps={[
-{
-    step:"01",
-    title:"Define Info",
-    description:"Specify what is confidential.",
-    icon: EyeOff,
-  },
-{
-    step:"02",
-    title:"Set Term",
-    description:"Choose duration and exclusions.",
-    icon: CalendarRange,
-  },
-{
-    step:"03",
-    title:"Build",
-    description:"Create the NDA.",
-    icon: FileCheck2,
-  }
-  ]}
-  badges={["Free Forever","No Signup","Instant Results"]}
-/>
-
-<ToolFeatureGuides
-  features={[
-{
-    icon: EyeOff,
-    title:"Scope",
-    description:"Precise definitions.",
-  },
-{
-    icon: CalendarRange,
-    title:"Term",
-    description:"Duration and exclusions.",
-  },
-{
-    icon: FileCheck2,
-    title:"Draft",
-    description:"Ready document.",
-  },
-{
-    icon: ShieldCheck,
-    title:"Mutual",
-    description:"Both parties protected.",
-  }
-  ]}
->
-  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-  <p>A mutual NDA scope builder focuses on the two clauses that cause the most trouble: what is confidential and for how long. Vague definitions invite disputes; precise ones protect both parties fairly. This tool forces clarity on scope and term.</p>
-  <p>Exclusions matter — publicly known information should not be covered. The builder includes standard carve-outs so the agreement is reasonable.</p>
-  <p>Review with counsel. The tool's value is a tightly scoped mutual NDA draft that balances protection and fairness.</p>
-  </div>
-</ToolFeatureGuides>
-
-<ToolFaqAccordion
-  faqs={[
-{
-    question:"What is scope?",
-    answer:"Exactly what counts as confidential.",
-  },
-{
-    question:"Term length?",
-    answer:"Commonly 1 to 5 years.",
-  },
-{
-    question:"Exclusions?",
-    answer:"Public info excluded.",
-  },
-{
-    question:"Free?",
-    answer:"Yes.",
-  },
-{
-    question:"Binding?",
-    answer:"Draft; review.",
-  }
-  ]}
-/>
-    </div>
-    </div>
-);
-}
-
-export default NdaScopeBuilderClient;
+"use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
+
+import { useState } from"react";
+import ToolPageHeader from"@/components/shared/tool-page-header";
+import { GlassCard } from"@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
+import { Input } from"@/components/ui/input";
+import { Label } from"@/components/ui/label";
+import { Switch } from"@/components/ui/switch";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
+import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
+import { CalendarRange, EyeOff, FileCheck2, FileText, Printer, ShieldCheck, Copy, Type } from "lucide-react";
+import { RelatedTools } from "@/components/shared/related-tools";
+import toast from"react-hot-toast";
+
+export function NdaScopeBuilderClient() {
+  const [ndaType, setNdaType] = useState("mutual");
+  const [disclosingParty, setDisclosingParty] = useState("");
+  const [receivingParty, setReceivingParty] = useState("");
+  const [term, setTerm] = useState("3");
+  const [governingState, setGoverningState] = useState("");
+  const [scopeSourceCode, setScopeSourceCode] = useState(false);
+  const [scopeFinancials, setScopeFinancials] = useState(true);
+  const [scopeCustomerData, setScopeCustomerData] = useState(true);
+  const [scopeProductSpecs, setScopeProductSpecs] = useState(false);
+  const [scopeMarketingPlans, setScopeMarketingPlans] = useState(false);
+  const generateNdaText = () => {
+    if (!disclosingParty || !receivingParty || !governingState) {
+      return "Please fill out the Disclosing Party, Receiving Party, and Governing State to preview the agreement.";
+    }
+    const typeStr = ndaType === "mutual" ? "Mutual Non-Disclosure Agreement" : "Unilateral Non-Disclosure Agreement";
+    const dateStr = new Date().toLocaleDateString();
+    let text = "NON-DISCLOSURE AGREEMENT\n\n";
+    text += "This" + typeStr + "(the \"Agreement\") is entered into as of" + dateStr + "by and between" + disclosingParty + "and" + receivingParty + ".\n\n";
+    text += "1. CONFIDENTIAL INFORMATION.\n";
+    const scopes = [];
+    if (scopeSourceCode) scopes.push("source code and related documentation");
+    if (scopeFinancials) scopes.push("financial information and projections");
+    if (scopeCustomerData) scopes.push("customer data and lists");
+    if (scopeProductSpecs) scopes.push("product specifications and technical details");
+    if (scopeMarketingPlans) scopes.push("marketing strategies and plans");
+    let scopeText = "Confidential Information includes all non-public information disclosed by either party.";
+    if (scopes.length > 0) {
+      scopeText += "In particular, it shall include:" + scopes.join(",") + ".";
+    }
+    text += scopeText + "\n\n";
+    text += "2. EXCEPTIONS.\n";
+    text += "Confidential Information does not include information that: (a) is or becomes publicly known through no lawful act of the receiving party; (b) was already known to the receiving party; or (c) is independently developed.\n\n";
+    text += "3. TERM.\n";
+    const termStr = term === "perpetual" ? "shall survive perpetually" : "shall survive for a period of" + term + "years from the date of disclosure";
+    text += "The obligations of confidentiality under this Agreement" + termStr + ".\n\n";
+    text += "4. GOVERNING LAW.\n";
+    text += "This Agreement shall be governed by the laws of the state of" + governingState + ".\n\n";
+    return text;
+  };
+  const printDocument = () => {
+    toast.success("Opening print dialog...");
+    window.print();
+  };
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
+      
+
+ <ToolPageHeader icon={ShieldCheck} title="Mutual NDA Scope & Term Builder" description="Generate Mutual and Unilateral NDAs with custom confidentiality scope clauses." actions={<>
+ <CopyButton getText={generateNdaText} label="Copy NDA" />
+ <ActionButton onClick={printDocument} icon={Printer} label="Print" />
+ <ResetButton onClick={() => {
+          setDisclosingParty("");
+          setReceivingParty("");
+          setGoverningState("");
+        }} label="Reset Form" />
+ </>} />
+ 
+ <div className={"grid md:grid-cols-2 gap-6"}>
+ <div className={"space-y-6"}>
+ <GlassCard>
+ <CardHeader>
+ <CardTitle>Parties & Details</CardTitle>
+ </CardHeader>
+ <CardContent className={"space-y-4"}>
+ <div className={"space-y-2"}>
+ <Label>NDA Type</Label>
+ <Select value={ndaType} onValueChange={setNdaType}>
+ <SelectTrigger>
+ <SelectValue placeholder="Select NDA type" />
+ </SelectTrigger>
+ <SelectContent>
+ <SelectItem value="mutual">Mutual (Both parties disclose)</SelectItem>
+ <SelectItem value="unilateral">Unilateral (One party discloses)</SelectItem>
+ </SelectContent>
+ </Select>
+ </div>
+ <div className={"space-y-2"}>
+ <Label>Disclosing Party (or Party A)</Label>
+ <Input value={disclosingParty} onChange={e => setDisclosingParty(e.target.value)} placeholder="Company A LLC" />
+ </div>
+ <div className={"space-y-2"}>
+ <Label>Receiving Party (or Party B)</Label>
+ <Input value={receivingParty} onChange={e => setReceivingParty(e.target.value)} placeholder="Consultant Inc" />
+ </div>
+ <div className={"space-y-2"}>
+ <Label>Governing State</Label>
+ <Input value={governingState} onChange={e => setGoverningState(e.target.value)} placeholder="e.g. Delaware" />
+ </div>
+ <div className={"space-y-2"}>
+ <Label>Term</Label>
+ <Select value={term} onValueChange={setTerm}>
+ <SelectTrigger>
+ <SelectValue placeholder="Select term" />
+ </SelectTrigger>
+ <SelectContent>
+ <SelectItem value="1">1 Year</SelectItem>
+ <SelectItem value="2">2 Years</SelectItem>
+ <SelectItem value="3">3 Years</SelectItem>
+ <SelectItem value="5">5 Years</SelectItem>
+ <SelectItem value="perpetual">Perpetual</SelectItem>
+ </SelectContent>
+ </Select>
+ </div>
+ </CardContent>
+ </GlassCard>
+
+ <GlassCard>
+ <CardHeader>
+ <CardTitle>Scope Categories</CardTitle>
+ <CardDescription>Select specific categories to include in the definition of Confidential Information.</CardDescription>
+ </CardHeader>
+ <CardContent className={"space-y-4"}>
+ <div className={"flex items-center justify-between"}>
+ <Label className={"cursor-pointer"}>Source Code & Technical Assets</Label>
+ <Switch checked={scopeSourceCode} onCheckedChange={setScopeSourceCode} />
+ </div>
+ <div className={"flex items-center justify-between"}>
+ <Label className={"cursor-pointer"}>Financial Information</Label>
+ <Switch checked={scopeFinancials} onCheckedChange={setScopeFinancials} />
+ </div>
+ <div className={"flex items-center justify-between"}>
+ <Label className={"cursor-pointer"}>Customer Data & Lists</Label>
+ <Switch checked={scopeCustomerData} onCheckedChange={setScopeCustomerData} />
+ </div>
+ <div className={"flex items-center justify-between"}>
+ <Label className={"cursor-pointer"}>Product Specifications</Label>
+ <Switch checked={scopeProductSpecs} onCheckedChange={setScopeProductSpecs} />
+ </div>
+ <div className={"flex items-center justify-between"}>
+ <Label className={"cursor-pointer"}>Marketing Plans</Label>
+ <Switch checked={scopeMarketingPlans} onCheckedChange={setScopeMarketingPlans} />
+ </div>
+ </CardContent>
+ </GlassCard>
+ </div>
+
+ <GlassCard>
+ <CardHeader>
+ <CardTitle className={"flex items-center gap-2"}>
+ <FileText className={"h-5 w-5"} />
+ Document Preview
+ </CardTitle>
+ </CardHeader>
+ <CardContent>
+ <div className={"p-4 bg-muted/50 rounded-md whitespace-pre-wrap font-mono text-sm border min-h-[400px]"}>
+ {generateNdaText()}
+ </div>
+ </CardContent>
+ </GlassCard>
+ </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Define Info",
+    description:"Specify what is confidential.",
+    icon: EyeOff,
+  },
+{
+    step:"02",
+    title:"Set Term",
+    description:"Choose duration and exclusions.",
+    icon: CalendarRange,
+  },
+{
+    step:"03",
+    title:"Build",
+    description:"Create the NDA.",
+    icon: FileCheck2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: EyeOff,
+    title:"Scope",
+    description:"Precise definitions.",
+  },
+{
+    icon: CalendarRange,
+    title:"Term",
+    description:"Duration and exclusions.",
+  },
+{
+    icon: FileCheck2,
+    title:"Draft",
+    description:"Ready document.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Mutual",
+    description:"Both parties protected.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A mutual NDA scope builder focuses on the two clauses that cause the most trouble: what is confidential and for how long. Vague definitions invite disputes; precise ones protect both parties fairly. This tool forces clarity on scope and term.</p>
+  <p>Exclusions matter — publicly known information should not be covered. The builder includes standard carve-outs so the agreement is reasonable.</p>
+  <p>Review with counsel. The tool's value is a tightly scoped mutual NDA draft that balances protection and fairness.</p>
+  </div>
+</ToolFeatureGuides>
+      <RelatedTools currentToolUrl="/tools/office/nda-scope-builder" max={6} />
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is scope?",
+    answer:"Exactly what counts as confidential.",
+  },
+{
+    question:"Term length?",
+    answer:"Commonly 1 to 5 years.",
+  },
+{
+    question:"Exclusions?",
+    answer:"Public info excluded.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Binding?",
+    answer:"Draft; review.",
+  }
+  ]}
+/>
+    </div>
+    </div>
+);
+}
+
+export default NdaScopeBuilderClient;

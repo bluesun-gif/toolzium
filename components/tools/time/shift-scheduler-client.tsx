@@ -1,293 +1,295 @@
-"use client";
-
-import { ToolBackground } from "@/components/shared/tool-background";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-
-import React, { useState, useEffect } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
-import { Separator } from"@/components/ui/separator";
-import { Button } from"@/components/ui/button";
-import { Input } from"@/components/ui/input";
-import { Label } from"@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { CopyButton, ResetButton, ActionButton } from"@/components/shared/action-buttons";
-import { AlertCircle, Calendar, CalendarRange, Clock, Copy, ListChecks, Plus, ShieldCheck, Trash2, UserCheck, Users } from"lucide-react";
-import { cn } from"@/lib/utils";
-import toast from"react-hot-toast";
-
-type ShiftType ="Morning"|"Evening"|"Night"|"Off";
-
-interface Employee {
-  id: string;
-  name: string;
-  shifts: ShiftType[];
-}
-const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-const SHIFT_HOURS = {
-  Morning: 8,
-  Evening: 8,
-  Night: 8,
-  Off: 0
-};
-const DEFAULT_EMPLOYEES: Employee[] = [{
-  id: "e1",
-  name: "Sarah Jenkins",
-  shifts: ["Morning", "Morning", "Morning", "Morning", "Morning", "Off", "Off"]
-}, {
-  id: "e2",
-  name: "Michael Chen",
-  shifts: ["Evening", "Evening", "Evening", "Evening", "Evening", "Off", "Off"]
-}, {
-  id: "e3",
-  name: "David Rodriguez",
-  shifts: ["Night", "Night", "Night", "Night", "Off", "Off", "Off"]
-}];
-export function ShiftSchedulerClient() {
-  const [employees, setEmployees] = useState<Employee[]>(DEFAULT_EMPLOYEES);
-  const [newName, setNewName] = useState("");
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-    const saved = localStorage.getItem("shift-scheduler");
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) setEmployees(parsed);
-      } catch (e) {}
-    }
-  }, []);
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("shift-scheduler", JSON.stringify(employees));
-    }
-  }, [employees]);
-  const addEmployee = () => {
-    if (!newName.trim()) {
-      toast.error("Please enter employee name.");
-      return;
-    }
-    setEmployees([...employees, {
-      id: Date.now().toString(),
-      name: newName.trim(),
-      shifts: Array(7).fill("Off")
-    }]);
-    setNewName("");
-    toast.success("Added employee to team roster!");
-  };
-  const removeEmployee = (id: string) => {
-    setEmployees(employees.filter(e => e.id !== id));
-    toast.success("Removed employee.");
-  };
-  const updateShift = (empId: string, dayIdx: number, shift: ShiftType) => {
-    setEmployees(employees.map(e => {
-      if (e.id === empId) {
-        const newShifts = [...e.shifts];
-        newShifts[dayIdx] = shift;
-        return {
-          ...e,
-          shifts: newShifts
-        };
-      }
-      return e;
-    }));
-  };
-  const reset = () => {
-    setEmployees(DEFAULT_EMPLOYEES);
-    localStorage.removeItem("shift-scheduler");
-    toast.success("Reset schedule roster to defaults!");
-  };
-  const getConflict = (shifts: ShiftType[], dayIdx: number) => {
-    if (dayIdx > 0) {
-      if (shifts[dayIdx - 1] === "Night" && shifts[dayIdx] === "Morning") return true;
-    }
-    return false;
-  };
-  const calculateHours = (shifts: ShiftType[]) => {
-    return shifts.reduce((acc, val) => acc + SHIFT_HOURS[val as keyof typeof SHIFT_HOURS], 0);
-  };
-  const generateSummaryText = () => {
-    let txt = "Weekly Team Shift Schedule\n\n";
-    employees.forEach(e => {
-      txt += `${e.name} (${calculateHours(e.shifts)}h): `;
-      txt += e.shifts.map((s, i) => `${DAYS[i]}: ${s}`).join(", ") + "\n";
-    });
-    return txt;
-  };
-  return (
-    <div className="relative space-y-6">
-      <ToolBackground />
-      <div className="relative z-10 space-y-6">
-      
-
-      <ToolPageHeader icon={Calendar} title="Employee Work Shift Scheduler" description="Schedule team shifts over a 7-day week, detect rest period conflicts (e.g. Night → Morning turnarounds), and calculate weekly hours." actions={<div className="flex gap-2">
-            <CopyButton getText={generateSummaryText} label="Copy Schedule" />
-            <ResetButton onClick={reset} label="Reset Roster" />
-          </div>} />
-
-      {/* ADD EMPLOYEE CARD */}
-      <GlassCard>
-        <CardHeader className="pb-3">
-          <CardTitle className="flex items-center gap-2 text-lg">
-            <Users className="w-5 h-5 text-primary" /> Add Staff / Team Member
-          </CardTitle>
-          <CardDescription>Add staff members to your weekly shift rotation table.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-col sm:flex-row gap-3 max-w-md">
-            <Input value={newName} onChange={e => setNewName(e.target.value)} placeholder="e.g. Sarah Jenkins..." onKeyDown={e => e.key === "Enter" && addEmployee()} className="h-11 font-medium text-foreground" />
-            <Button onClick={addEmployee} className="h-11 px-6 font-bold gap-2 shrink-0">
-              <Plus className="w-4 h-4" /> Add Member
-            </Button>
-          </div>
-        </CardContent>
-      </GlassCard>
-
-      {/* SHIFT SCHEDULE TABLE */}
-      <GlassCard>
-        <CardHeader className="pb-3 border-b border-border/60">
-          <CardTitle className="flex items-center gap-2 text-lg">
-            <Calendar className="w-5 h-5 text-primary" /> Weekly Shift Rotation Matrix
-          </CardTitle>
-          <CardDescription>Assign shifts per day (Morning 8am-4pm, Evening 4pm-12am, Night 12am-8am, Off).</CardDescription>
-        </CardHeader>
-        <CardContent className="p-0 sm:p-6 overflow-x-auto">
-          {employees.length === 0 ? <div className="text-center p-8 text-muted-foreground text-xs italic">
-              No employees on team roster. Add staff members above!
-            </div> : <div className="min-w-[800px]">
-              <table className="w-full text-xs border-collapse">
-                <thead>
-                  <tr className="border-b border-border/60 bg-muted/30 text-muted-foreground uppercase font-bold">
-                    <th className="text-left py-3 px-4">Employee</th>
-                    {DAYS.map(d => <th key={d} className="py-3 px-2 text-center w-28">{d}</th>)}
-                    <th className="py-3 px-4 text-center">Total Hours</th>
-                    <th className="py-3 px-4"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {employees.map(emp => <tr key={emp.id} className="border-b border-border/40 hover:bg-muted/10 transition-colors">
-                      <td className="py-3 px-4 font-bold text-foreground text-sm">{emp.name}</td>
-                      {emp.shifts.map((shift, i) => {
-                    const conflict = getConflict(emp.shifts, i);
-                    return <td key={i} className="py-3 px-1">
-                            <Select value={shift} onValueChange={v => updateShift(emp.id, i, v as ShiftType)}>
-                              <SelectTrigger className={cn("h-8 text-xs font-semibold shadow-xs", conflict ? "border-destructive bg-destructive/10 text-destructive" : "")}>
-                                <SelectValue />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="Morning">☀️ Morning</SelectItem>
-                                <SelectItem value="Evening">🌆 Evening</SelectItem>
-                                <SelectItem value="Night">🌙 Night</SelectItem>
-                                <SelectItem value="Off">🏖️ Off</SelectItem>
-                              </SelectContent>
-                            </Select>
-                            {conflict && <div className="text-[9px] font-bold text-destructive mt-1 flex items-center justify-center gap-0.5">
-                                <AlertCircle className="w-3 h-3" /> Quick Turn
-                              </div>}
-                          </td>;
-                  })}
-                      <td className="py-3 px-4 text-center font-black text-sm text-primary">
-                        {calculateHours(emp.shifts)}h
-                      </td>
-                      <td className="py-3 px-4 text-right">
-                        <Button variant="ghost" size="icon" onClick={() => removeEmployee(emp.id)} className="h-8 w-8 text-muted-foreground hover:text-destructive">
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </td>
-                    </tr>)}
-                </tbody>
-              </table>
-            </div>}
-        </CardContent>
-      </GlassCard>
-
-      
-
-<ToolHowItWorks
-  steps={[
-{
-    step:"01",
-    title:"Add Shifts",
-    description:"Define patterns and times.",
-    icon: CalendarRange,
-  },
-{
-    step:"02",
-    title:"Assign",
-    description:"Place on the calendar.",
-    icon: UserCheck,
-  },
-{
-    step:"03",
-    title:"Review",
-    description:"See coverage and rest.",
-    icon: ListChecks,
-  }
-  ]}
-  badges={["Free Forever","No Signup","Instant Results"]}
-/>
-
-<ToolFeatureGuides
-  features={[
-{
-    icon: CalendarRange,
-    title:"Patterns",
-    description:"Rotations, blocks.",
-  },
-{
-    icon: UserCheck,
-    title:"Assign",
-    description:"Who works when.",
-  },
-{
-    icon: ListChecks,
-    title:"Coverage",
-    description:"Gaps visible.",
-  },
-{
-    icon: ShieldCheck,
-    title:"Rest Rules",
-    description:"Avoid overload.",
-  }
-  ]}
->
-  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-  <p>A shift scheduler arranges work patterns across people and time, revealing coverage gaps and overloaded individuals before they become problems. Assigning shifts on a calendar makes rest rules enforceable. This tool shows coverage and rest.</p>
-  <p>Visibility prevents burnout and understaffing. The scheduler turns chaos into a fair, reviewable plan.</p>
-  <p>Use it for any shift team. The tool's value is balanced, gap-free scheduling.</p>
-  </div>
-</ToolFeatureGuides>
-
-<ToolFaqAccordion
-  faqs={[
-{
-    question:"What does it do?",
-    answer:"Plans and assigns shifts.",
-  },
-{
-    question:"Rotations?",
-    answer:"Yes, define patterns.",
-  },
-{
-    question:"Free?",
-    answer:"Yes.",
-  },
-{
-    question:"Private?",
-    answer:"Local.",
-  },
-{
-    question:"Use case?",
-    answer:"Teams, ops.",
-  }
-  ]}
-/>
-    </div>
-    </div>
-);
-}
-
-export default ShiftSchedulerClient;
+"use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
+import { RelatedTools } from "@/components/shared/related-tools";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
+
+import React, { useState, useEffect } from"react";
+import ToolPageHeader from"@/components/shared/tool-page-header";
+import { GlassCard } from"@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
+import { Separator } from"@/components/ui/separator";
+import { Button } from"@/components/ui/button";
+import { Input } from"@/components/ui/input";
+import { Label } from"@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
+import { CopyButton, ResetButton, ActionButton } from"@/components/shared/action-buttons";
+import { AlertCircle, Calendar, CalendarRange, Clock, Copy, ListChecks, Plus, ShieldCheck, Trash2, UserCheck, Users } from"lucide-react";
+import { cn } from"@/lib/utils";
+import toast from"react-hot-toast";
+
+type ShiftType ="Morning"|"Evening"|"Night"|"Off";
+
+interface Employee {
+  id: string;
+  name: string;
+  shifts: ShiftType[];
+}
+const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const SHIFT_HOURS = {
+  Morning: 8,
+  Evening: 8,
+  Night: 8,
+  Off: 0
+};
+const DEFAULT_EMPLOYEES: Employee[] = [{
+  id: "e1",
+  name: "Sarah Jenkins",
+  shifts: ["Morning", "Morning", "Morning", "Morning", "Morning", "Off", "Off"]
+}, {
+  id: "e2",
+  name: "Michael Chen",
+  shifts: ["Evening", "Evening", "Evening", "Evening", "Evening", "Off", "Off"]
+}, {
+  id: "e3",
+  name: "David Rodriguez",
+  shifts: ["Night", "Night", "Night", "Night", "Off", "Off", "Off"]
+}];
+export function ShiftSchedulerClient() {
+  const [employees, setEmployees] = useState<Employee[]>(DEFAULT_EMPLOYEES);
+  const [newName, setNewName] = useState("");
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+    const saved = localStorage.getItem("shift-scheduler");
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) setEmployees(parsed);
+      } catch (e) {}
+    }
+  }, []);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("shift-scheduler", JSON.stringify(employees));
+    }
+  }, [employees]);
+  const addEmployee = () => {
+    if (!newName.trim()) {
+      toast.error("Please enter employee name.");
+      return;
+    }
+    setEmployees([...employees, {
+      id: Date.now().toString(),
+      name: newName.trim(),
+      shifts: Array(7).fill("Off")
+    }]);
+    setNewName("");
+    toast.success("Added employee to team roster!");
+  };
+  const removeEmployee = (id: string) => {
+    setEmployees(employees.filter(e => e.id !== id));
+    toast.success("Removed employee.");
+  };
+  const updateShift = (empId: string, dayIdx: number, shift: ShiftType) => {
+    setEmployees(employees.map(e => {
+      if (e.id === empId) {
+        const newShifts = [...e.shifts];
+        newShifts[dayIdx] = shift;
+        return {
+          ...e,
+          shifts: newShifts
+        };
+      }
+      return e;
+    }));
+  };
+  const reset = () => {
+    setEmployees(DEFAULT_EMPLOYEES);
+    localStorage.removeItem("shift-scheduler");
+    toast.success("Reset schedule roster to defaults!");
+  };
+  const getConflict = (shifts: ShiftType[], dayIdx: number) => {
+    if (dayIdx > 0) {
+      if (shifts[dayIdx - 1] === "Night" && shifts[dayIdx] === "Morning") return true;
+    }
+    return false;
+  };
+  const calculateHours = (shifts: ShiftType[]) => {
+    return shifts.reduce((acc, val) => acc + SHIFT_HOURS[val as keyof typeof SHIFT_HOURS], 0);
+  };
+  const generateSummaryText = () => {
+    let txt = "Weekly Team Shift Schedule\n\n";
+    employees.forEach(e => {
+      txt += `${e.name} (${calculateHours(e.shifts)}h): `;
+      txt += e.shifts.map((s, i) => `${DAYS[i]}: ${s}`).join(", ") + "\n";
+    });
+    return txt;
+  };
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
+      
+
+      <ToolPageHeader icon={Calendar} title="Employee Work Shift Scheduler" description="Schedule team shifts over a 7-day week, detect rest period conflicts (e.g. Night → Morning turnarounds), and calculate weekly hours." actions={<div className="flex gap-2">
+            <CopyButton getText={generateSummaryText} label="Copy Schedule" />
+            <ResetButton onClick={reset} label="Reset Roster" />
+          </div>} />
+
+      {/* ADD EMPLOYEE CARD */}
+      <GlassCard>
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-lg">
+            <Users className="w-5 h-5 text-primary" /> Add Staff / Team Member
+          </CardTitle>
+          <CardDescription>Add staff members to your weekly shift rotation table.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-col sm:flex-row gap-3 max-w-md">
+            <Input value={newName} onChange={e => setNewName(e.target.value)} placeholder="e.g. Sarah Jenkins..." onKeyDown={e => e.key === "Enter" && addEmployee()} className="h-11 font-medium text-foreground" />
+            <Button onClick={addEmployee} className="h-11 px-6 font-bold gap-2 shrink-0">
+              <Plus className="w-4 h-4" /> Add Member
+            </Button>
+          </div>
+        </CardContent>
+      </GlassCard>
+
+      {/* SHIFT SCHEDULE TABLE */}
+      <GlassCard>
+        <CardHeader className="pb-3 border-b border-border/60">
+          <CardTitle className="flex items-center gap-2 text-lg">
+            <Calendar className="w-5 h-5 text-primary" /> Weekly Shift Rotation Matrix
+          </CardTitle>
+          <CardDescription>Assign shifts per day (Morning 8am-4pm, Evening 4pm-12am, Night 12am-8am, Off).</CardDescription>
+        </CardHeader>
+        <CardContent className="p-0 sm:p-6 overflow-x-auto">
+          {employees.length === 0 ? <div className="text-center p-8 text-muted-foreground text-xs italic">
+              No employees on team roster. Add staff members above!
+            </div> : <div className="min-w-[800px]">
+              <table className="w-full text-xs border-collapse">
+                <thead>
+                  <tr className="border-b border-border/60 bg-muted/30 text-muted-foreground uppercase font-bold">
+                    <th className="text-left py-3 px-4">Employee</th>
+                    {DAYS.map(d => <th key={d} className="py-3 px-2 text-center w-28">{d}</th>)}
+                    <th className="py-3 px-4 text-center">Total Hours</th>
+                    <th className="py-3 px-4"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {employees.map(emp => <tr key={emp.id} className="border-b border-border/40 hover:bg-muted/10 transition-colors">
+                      <td className="py-3 px-4 font-bold text-foreground text-sm">{emp.name}</td>
+                      {emp.shifts.map((shift, i) => {
+                    const conflict = getConflict(emp.shifts, i);
+                    return <td key={i} className="py-3 px-1">
+                            <Select value={shift} onValueChange={v => updateShift(emp.id, i, v as ShiftType)}>
+                              <SelectTrigger className={cn("h-8 text-xs font-semibold shadow-xs", conflict ? "border-destructive bg-destructive/10 text-destructive" : "")}>
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="Morning">☀️ Morning</SelectItem>
+                                <SelectItem value="Evening">🌆 Evening</SelectItem>
+                                <SelectItem value="Night">🌙 Night</SelectItem>
+                                <SelectItem value="Off">🏖️ Off</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            {conflict && <div className="text-[9px] font-bold text-destructive mt-1 flex items-center justify-center gap-0.5">
+                                <AlertCircle className="w-3 h-3" /> Quick Turn
+                              </div>}
+                          </td>;
+                  })}
+                      <td className="py-3 px-4 text-center font-black text-sm text-primary">
+                        {calculateHours(emp.shifts)}h
+                      </td>
+                      <td className="py-3 px-4 text-right">
+                        <Button variant="ghost" size="icon" onClick={() => removeEmployee(emp.id)} className="h-8 w-8 text-muted-foreground hover:text-destructive">
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </td>
+                    </tr>)}
+                </tbody>
+              </table>
+            </div>}
+        </CardContent>
+      </GlassCard>
+
+      
+
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Add Shifts",
+    description:"Define patterns and times.",
+    icon: CalendarRange,
+  },
+{
+    step:"02",
+    title:"Assign",
+    description:"Place on the calendar.",
+    icon: UserCheck,
+  },
+{
+    step:"03",
+    title:"Review",
+    description:"See coverage and rest.",
+    icon: ListChecks,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: CalendarRange,
+    title:"Patterns",
+    description:"Rotations, blocks.",
+  },
+{
+    icon: UserCheck,
+    title:"Assign",
+    description:"Who works when.",
+  },
+{
+    icon: ListChecks,
+    title:"Coverage",
+    description:"Gaps visible.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Rest Rules",
+    description:"Avoid overload.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A shift scheduler arranges work patterns across people and time, revealing coverage gaps and overloaded individuals before they become problems. Assigning shifts on a calendar makes rest rules enforceable. This tool shows coverage and rest.</p>
+  <p>Visibility prevents burnout and understaffing. The scheduler turns chaos into a fair, reviewable plan.</p>
+  <p>Use it for any shift team. The tool's value is balanced, gap-free scheduling.</p>
+  </div>
+</ToolFeatureGuides>
+      <RelatedTools currentToolUrl="/tools/time/shift-scheduler" max={6} />
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What does it do?",
+    answer:"Plans and assigns shifts.",
+  },
+{
+    question:"Rotations?",
+    answer:"Yes, define patterns.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Private?",
+    answer:"Local.",
+  },
+{
+    question:"Use case?",
+    answer:"Teams, ops.",
+  }
+  ]}
+/>
+    </div>
+    </div>
+);
+}
+
+export default ShiftSchedulerClient;

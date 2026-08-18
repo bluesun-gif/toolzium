@@ -1,347 +1,349 @@
-"use client";
-
-import { ToolBackground } from "@/components/shared/tool-background";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-
-import React, { useState } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
-import { Separator } from"@/components/ui/separator";
-import { Button } from"@/components/ui/button";
-import { Input } from"@/components/ui/input";
-import { Label } from"@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
-import { Copy, Download, Eye, FileText, Star, Wand2 } from"lucide-react";
-import { Textarea } from"@/components/ui/textarea";
-
-export function CoverLetterClient() {
-  const [details, setDetails] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    companyName: "",
-    jobTitle: "",
-    hiringManager: "",
-    opening: "",
-    skills: "",
-    experience: "",
-    closing: ""
-  });
-  const [template, setTemplate] = useState("formal");
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const {
-      name,
-      value
-    } = e.target;
-    setDetails(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-  const generateLetter = () => {
-    const {
-      name,
-      email,
-      phone,
-      companyName,
-      jobTitle,
-      hiringManager,
-      opening,
-      skills,
-      experience,
-      closing
-    } = details;
-    const date = new Date().toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-    const manager = hiringManager || "Hiring Manager";
-    let content = "";
-    if (template === "formal") {
-      content = `${name || "[Your Name]"}
-${email || "[Your Email]"} | ${phone || "[Your Phone]"}
-
-${date}
-
-${manager}
-${companyName || "[Company Name]"}
-
-Dear ${manager},
-
-I am writing to express my strong interest in the ${jobTitle || "[Job Title]"} position at ${companyName || "[Company Name]"}. ${opening || "[Opening paragraph explaining why you are interested in the role and company.]"}
-
-${skills || "[Paragraph highlighting your relevant skills and qualifications.]"}
-
-${experience || "[Paragraph detailing your key achievements and past experience.]"}
-
-${closing || "[Closing paragraph expressing enthusiasm for an interview.]"}
-
-Sincerely,
-
-${name || "[Your Name]"}`;
-    } else if (template === "modern") {
-      content = `${date}
-
-To: ${manager}, ${companyName || "[Company Name]"}
-From: ${name || "[Your Name]"}
-Subject: Application for ${jobTitle || "[Job Title]"}
-
-Hello ${manager},
-
-${opening || "[Opening paragraph]"}
-
-Here's what I bring to the table:
-${skills || "[Skills paragraph]"}
-
-Some of my recent wins include:
-${experience || "[Experience paragraph]"}
-
-${closing || "[Closing paragraph]"}
-
-Best,
-${name || "[Your Name]"}
-${email || "[Your Email]"} | ${phone || "[Your Phone]"}`;
-    } else if (template === "creative") {
-      content = `Hi ${manager} and the team at ${companyName || "[Company Name]"},
-
-I'm ${name || "[Your Name]"} and I'd love to be your next ${jobTitle || "[Job Title]"}.
-
-${opening || "[Opening paragraph]"}
-
-My toolbox:
-${skills || "[Skills paragraph]"}
-
-My track record:
-${experience || "[Experience paragraph]"}
-
-${closing || "[Closing paragraph]"}
-
-Cheers,
-${name || "[Your Name]"}
-Contact: ${email || "[Email]"} | ${phone || "[Phone]"}`;
-    }
-    return content;
-  };
-  const handleReset = () => {
-    setDetails({
-      name: "",
-      email: "",
-      phone: "",
-      companyName: "",
-      jobTitle: "",
-      hiringManager: "",
-      opening: "",
-      skills: "",
-      experience: "",
-      closing: ""
-    });
-    setTemplate("formal");
-  };
-  const handleDownload = () => {
-    const text = generateLetter();
-    const blob = new Blob([text], {
-      type: 'text/plain'
-    });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `Cover_Letter_${details.name ? details.name.replace(/\s+/g, '_') : 'Draft'}.txt`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
-  return (
-    <div className="relative space-y-6">
-      <ToolBackground />
-      <div className="relative z-10 space-y-6">
-      
-
- <ToolPageHeader icon={FileText} title="Cover Letter Builder" description="Build professional cover letters with customizable templates and live preview." actions={<>
- <ActionButton onClick={handleDownload} icon={Download} label="Download .txt" />
- <ResetButton onClick={handleReset} label="Reset" />
- </>} />
- 
- <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
- <GlassCard>
- <CardHeader>
- <CardTitle>Details</CardTitle>
- <CardDescription>Enter your information and letter contents.</CardDescription>
- </CardHeader>
- <CardContent className="space-y-4">
- <div className="grid grid-cols-2 gap-4">
- <div className="space-y-2">
- <Label>Your Name</Label>
- <Input name="name" value={details.name} onChange={handleInputChange} placeholder="John Doe" />
- </div>
- <div className="space-y-2">
- <Label>Email</Label>
- <Input name="email" value={details.email} onChange={handleInputChange} placeholder="john@example.com" />
- </div>
- <div className="space-y-2">
- <Label>Phone</Label>
- <Input name="phone" value={details.phone} onChange={handleInputChange} placeholder="(555) 123-4567" />
- </div>
- <div className="space-y-2">
- <Label>Template</Label>
- <Select value={template} onValueChange={setTemplate}>
- <SelectTrigger>
- <SelectValue />
- </SelectTrigger>
- <SelectContent>
- <SelectItem value="formal">Formal</SelectItem>
- <SelectItem value="modern">Modern</SelectItem>
- <SelectItem value="creative">Creative</SelectItem>
- </SelectContent>
- </Select>
- </div>
- </div>
- 
- <Separator />
- 
- <div className="grid grid-cols-2 gap-4">
- <div className="space-y-2">
- <Label>Company Name</Label>
- <Input name="companyName" value={details.companyName} onChange={handleInputChange} placeholder="Acme Corp" />
- </div>
- <div className="space-y-2">
- <Label>Job Title</Label>
- <Input name="jobTitle" value={details.jobTitle} onChange={handleInputChange} placeholder="Software Engineer" />
- </div>
- <div className="space-y-2 col-span-2">
- <Label>Hiring Manager Name (optional)</Label>
- <Input name="hiringManager" value={details.hiringManager} onChange={handleInputChange} placeholder="Jane Smith" />
- </div>
- </div>
-
- <Separator />
- 
- <div className="space-y-4">
- <div className="space-y-2">
- <Label>Opening</Label>
- <Textarea name="opening" value={details.opening} onChange={handleInputChange} placeholder="Why you are interested in this role..." rows={2} />
- </div>
- <div className="space-y-2">
- <Label>Skills</Label>
- <Textarea name="skills" value={details.skills} onChange={handleInputChange} placeholder="Your relevant skills..." rows={2} />
- </div>
- <div className="space-y-2">
- <Label>Experience & Achievements</Label>
- <Textarea name="experience" value={details.experience} onChange={handleInputChange} placeholder="Your key achievements..." rows={2} />
- </div>
- <div className="space-y-2">
- <Label>Closing</Label>
- <Textarea name="closing" value={details.closing} onChange={handleInputChange} placeholder="Concluding thoughts..." rows={2} />
- </div>
- </div>
- </CardContent>
- </GlassCard>
-
- <GlassCard>
- <CardHeader className="flex flex-row items-center justify-between">
- <div>
- <CardTitle className="flex items-center gap-2">
- <Eye className="w-5 h-5" /> Live Preview
- </CardTitle>
- <CardDescription>Preview of your generated cover letter.</CardDescription>
- </div>
- <CopyButton getText={generateLetter} label="Copy Letter" />
- </CardHeader>
- <CardContent>
- <div className="bg-muted/30 p-6 rounded-md whitespace-pre-wrap font-serif text-sm min-h-[500px] border">
- {generateLetter()}
- </div>
- </CardContent>
- </GlassCard>
- </div>
- 
-<ToolHowItWorks
-  steps={[
-{
-    step:"01",
-    title:"Enter Role",
-    description:"Add job and your background.",
-    icon: FileText,
-  },
-{
-    step:"02",
-    title:"Highlight",
-    description:"Note key achievements.",
-    icon: Star,
-  },
-{
-    step:"03",
-    title:"Generate",
-    description:"Build the letter.",
-    icon: Download,
-  }
-  ]}
-  badges={["Free Forever","No Signup","Instant Results"]}
-/>
-
-<ToolFeatureGuides
-  features={[
-{
-    icon: FileText,
-    title:"Guided",
-    description:"Structured prompts.",
-  },
-{
-    icon: Star,
-    title:"Achievements",
-    description:"Emphasize results.",
-  },
-{
-    icon: Download,
-    title:"Export",
-    description:"Ready letter.",
-  },
-{
-    icon: Wand2,
-    title:"Tone",
-    description:"Professional polish.",
-  }
-  ]}
->
-  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-  <p>A cover letter builder structures your application narrative, connecting your background to the role. A strong letter explains fit that a resume alone cannot. This tool prompts the key points and produces a polished draft.</p>
-  <p>Achievements over duties win attention. The builder emphasizes results, and tailoring per application improves response rates versus generic letters.</p>
-  <p>Use it as a starting point, then personalize. The tool's value is a clear, professional letter framework that saves time on every application.</p>
-  </div>
-</ToolFeatureGuides>
-
-<ToolFaqAccordion
-  faqs={[
-{
-    question:"What to include?",
-    answer:"Why you fit the role.",
-  },
-{
-    question:"Length?",
-    answer:"One page is standard.",
-  },
-{
-    question:"Customize?",
-    answer:"Yes, per application.",
-  },
-{
-    question:"Free?",
-    answer:"Yes.",
-  },
-{
-    question:"Tailor per job?",
-    answer:"Strongly recommended.",
-  }
-  ]}
-/>
-    </div>
-    </div>
-);
-}
-
-export default CoverLetterClient;
+"use client";
+
+import { ToolBackground } from "@/components/shared/tool-background";
+import { RelatedTools } from "@/components/shared/related-tools";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
+
+import React, { useState } from"react";
+import ToolPageHeader from"@/components/shared/tool-page-header";
+import { GlassCard } from"@/components/ui/glass-card";
+import { CardContent, CardHeader, CardTitle, CardDescription } from"@/components/ui/card";
+import { Separator } from"@/components/ui/separator";
+import { Button } from"@/components/ui/button";
+import { Input } from"@/components/ui/input";
+import { Label } from"@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
+import { ActionButton, CopyButton, ResetButton } from"@/components/shared/action-buttons";
+import { Copy, Download, Eye, FileText, Star, Wand2 } from"lucide-react";
+import { Textarea } from"@/components/ui/textarea";
+
+export function CoverLetterClient() {
+  const [details, setDetails] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    companyName: "",
+    jobTitle: "",
+    hiringManager: "",
+    opening: "",
+    skills: "",
+    experience: "",
+    closing: ""
+  });
+  const [template, setTemplate] = useState("formal");
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const {
+      name,
+      value
+    } = e.target;
+    setDetails(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+  const generateLetter = () => {
+    const {
+      name,
+      email,
+      phone,
+      companyName,
+      jobTitle,
+      hiringManager,
+      opening,
+      skills,
+      experience,
+      closing
+    } = details;
+    const date = new Date().toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+    const manager = hiringManager || "Hiring Manager";
+    let content = "";
+    if (template === "formal") {
+      content = `${name || "[Your Name]"}
+${email || "[Your Email]"} | ${phone || "[Your Phone]"}
+
+${date}
+
+${manager}
+${companyName || "[Company Name]"}
+
+Dear ${manager},
+
+I am writing to express my strong interest in the ${jobTitle || "[Job Title]"} position at ${companyName || "[Company Name]"}. ${opening || "[Opening paragraph explaining why you are interested in the role and company.]"}
+
+${skills || "[Paragraph highlighting your relevant skills and qualifications.]"}
+
+${experience || "[Paragraph detailing your key achievements and past experience.]"}
+
+${closing || "[Closing paragraph expressing enthusiasm for an interview.]"}
+
+Sincerely,
+
+${name || "[Your Name]"}`;
+    } else if (template === "modern") {
+      content = `${date}
+
+To: ${manager}, ${companyName || "[Company Name]"}
+From: ${name || "[Your Name]"}
+Subject: Application for ${jobTitle || "[Job Title]"}
+
+Hello ${manager},
+
+${opening || "[Opening paragraph]"}
+
+Here's what I bring to the table:
+${skills || "[Skills paragraph]"}
+
+Some of my recent wins include:
+${experience || "[Experience paragraph]"}
+
+${closing || "[Closing paragraph]"}
+
+Best,
+${name || "[Your Name]"}
+${email || "[Your Email]"} | ${phone || "[Your Phone]"}`;
+    } else if (template === "creative") {
+      content = `Hi ${manager} and the team at ${companyName || "[Company Name]"},
+
+I'm ${name || "[Your Name]"} and I'd love to be your next ${jobTitle || "[Job Title]"}.
+
+${opening || "[Opening paragraph]"}
+
+My toolbox:
+${skills || "[Skills paragraph]"}
+
+My track record:
+${experience || "[Experience paragraph]"}
+
+${closing || "[Closing paragraph]"}
+
+Cheers,
+${name || "[Your Name]"}
+Contact: ${email || "[Email]"} | ${phone || "[Phone]"}`;
+    }
+    return content;
+  };
+  const handleReset = () => {
+    setDetails({
+      name: "",
+      email: "",
+      phone: "",
+      companyName: "",
+      jobTitle: "",
+      hiringManager: "",
+      opening: "",
+      skills: "",
+      experience: "",
+      closing: ""
+    });
+    setTemplate("formal");
+  };
+  const handleDownload = () => {
+    const text = generateLetter();
+    const blob = new Blob([text], {
+      type: 'text/plain'
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Cover_Letter_${details.name ? details.name.replace(/\s+/g, '_') : 'Draft'}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
+      
+
+ <ToolPageHeader icon={FileText} title="Cover Letter Builder" description="Build professional cover letters with customizable templates and live preview." actions={<>
+ <ActionButton onClick={handleDownload} icon={Download} label="Download .txt" />
+ <ResetButton onClick={handleReset} label="Reset" />
+ </>} />
+ 
+ <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+ <GlassCard>
+ <CardHeader>
+ <CardTitle>Details</CardTitle>
+ <CardDescription>Enter your information and letter contents.</CardDescription>
+ </CardHeader>
+ <CardContent className="space-y-4">
+ <div className="grid grid-cols-2 gap-4">
+ <div className="space-y-2">
+ <Label>Your Name</Label>
+ <Input name="name" value={details.name} onChange={handleInputChange} placeholder="John Doe" />
+ </div>
+ <div className="space-y-2">
+ <Label>Email</Label>
+ <Input name="email" value={details.email} onChange={handleInputChange} placeholder="john@example.com" />
+ </div>
+ <div className="space-y-2">
+ <Label>Phone</Label>
+ <Input name="phone" value={details.phone} onChange={handleInputChange} placeholder="(555) 123-4567" />
+ </div>
+ <div className="space-y-2">
+ <Label>Template</Label>
+ <Select value={template} onValueChange={setTemplate}>
+ <SelectTrigger>
+ <SelectValue />
+ </SelectTrigger>
+ <SelectContent>
+ <SelectItem value="formal">Formal</SelectItem>
+ <SelectItem value="modern">Modern</SelectItem>
+ <SelectItem value="creative">Creative</SelectItem>
+ </SelectContent>
+ </Select>
+ </div>
+ </div>
+ 
+ <Separator />
+ 
+ <div className="grid grid-cols-2 gap-4">
+ <div className="space-y-2">
+ <Label>Company Name</Label>
+ <Input name="companyName" value={details.companyName} onChange={handleInputChange} placeholder="Acme Corp" />
+ </div>
+ <div className="space-y-2">
+ <Label>Job Title</Label>
+ <Input name="jobTitle" value={details.jobTitle} onChange={handleInputChange} placeholder="Software Engineer" />
+ </div>
+ <div className="space-y-2 col-span-2">
+ <Label>Hiring Manager Name (optional)</Label>
+ <Input name="hiringManager" value={details.hiringManager} onChange={handleInputChange} placeholder="Jane Smith" />
+ </div>
+ </div>
+
+ <Separator />
+ 
+ <div className="space-y-4">
+ <div className="space-y-2">
+ <Label>Opening</Label>
+ <Textarea name="opening" value={details.opening} onChange={handleInputChange} placeholder="Why you are interested in this role..." rows={2} />
+ </div>
+ <div className="space-y-2">
+ <Label>Skills</Label>
+ <Textarea name="skills" value={details.skills} onChange={handleInputChange} placeholder="Your relevant skills..." rows={2} />
+ </div>
+ <div className="space-y-2">
+ <Label>Experience & Achievements</Label>
+ <Textarea name="experience" value={details.experience} onChange={handleInputChange} placeholder="Your key achievements..." rows={2} />
+ </div>
+ <div className="space-y-2">
+ <Label>Closing</Label>
+ <Textarea name="closing" value={details.closing} onChange={handleInputChange} placeholder="Concluding thoughts..." rows={2} />
+ </div>
+ </div>
+ </CardContent>
+ </GlassCard>
+
+ <GlassCard>
+ <CardHeader className="flex flex-row items-center justify-between">
+ <div>
+ <CardTitle className="flex items-center gap-2">
+ <Eye className="w-5 h-5" /> Live Preview
+ </CardTitle>
+ <CardDescription>Preview of your generated cover letter.</CardDescription>
+ </div>
+ <CopyButton getText={generateLetter} label="Copy Letter" />
+ </CardHeader>
+ <CardContent>
+ <div className="bg-muted/30 p-6 rounded-md whitespace-pre-wrap font-serif text-sm min-h-[500px] border">
+ {generateLetter()}
+ </div>
+ </CardContent>
+ </GlassCard>
+ </div>
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"Enter Role",
+    description:"Add job and your background.",
+    icon: FileText,
+  },
+{
+    step:"02",
+    title:"Highlight",
+    description:"Note key achievements.",
+    icon: Star,
+  },
+{
+    step:"03",
+    title:"Generate",
+    description:"Build the letter.",
+    icon: Download,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: FileText,
+    title:"Guided",
+    description:"Structured prompts.",
+  },
+{
+    icon: Star,
+    title:"Achievements",
+    description:"Emphasize results.",
+  },
+{
+    icon: Download,
+    title:"Export",
+    description:"Ready letter.",
+  },
+{
+    icon: Wand2,
+    title:"Tone",
+    description:"Professional polish.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>A cover letter builder structures your application narrative, connecting your background to the role. A strong letter explains fit that a resume alone cannot. This tool prompts the key points and produces a polished draft.</p>
+  <p>Achievements over duties win attention. The builder emphasizes results, and tailoring per application improves response rates versus generic letters.</p>
+  <p>Use it as a starting point, then personalize. The tool's value is a clear, professional letter framework that saves time on every application.</p>
+  </div>
+</ToolFeatureGuides>
+      <RelatedTools currentToolUrl="/tools/office/cover-letter" max={6} />
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What to include?",
+    answer:"Why you fit the role.",
+  },
+{
+    question:"Length?",
+    answer:"One page is standard.",
+  },
+{
+    question:"Customize?",
+    answer:"Yes, per application.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Tailor per job?",
+    answer:"Strongly recommended.",
+  }
+  ]}
+/>
+    </div>
+    </div>
+);
+}
+
+export default CoverLetterClient;

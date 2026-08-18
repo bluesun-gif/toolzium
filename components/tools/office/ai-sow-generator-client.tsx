@@ -1,200 +1,202 @@
-"use client";
-
-import { ModelSelector } from "@/components/shared/model-selector";
-
-import { ToolBackground } from "@/components/shared/tool-background";
-import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
-import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
-import ToolHowItWorks from"@/components/shared/tool-how-it-works";
-
-import React, { useState } from"react";
-import ToolPageHeader from"@/components/shared/tool-page-header";
-import { GlassCard } from"@/components/ui/glass-card";
-import { Button } from"@/components/ui/button";
-import { Input } from"@/components/ui/input";
-import { Textarea } from"@/components/ui/textarea";
-import { AiOutputDisplay } from"@/components/shared/ai-output-display";
-import { CalendarRange, FileCheck2, FileText, ListChecks, RefreshCw, ShieldCheck, Type } from "lucide-react";
-import toast from"react-hot-toast";
-
-export default function AiSowGeneratorClient() {
-  const [projectTitle, setProjectTitle] = useState("E-Commerce Web Platform Overhaul");
-  const [model, setModel] = useState("gpt4o");
-  const [clientName, setClientName] = useState("Vanguard Retail Brands");
-  const [timeline, setTimeline] = useState("6 Weeks (Phased Delivery)");
-  const [scopeDetails, setScopeDetails] = useState("Redesign Next.js storefront UI, integrate Stripe Checkout, optimize mobile performance to sub-1s load times, and configure Postgres database caching.");
-  const [results, setResults] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
-  const generateSow = async () => {
-    if (!projectTitle.trim() || !scopeDetails.trim()) return;
-    setLoading(true);
-    try {
-      const prompt = `Write a Statement of Work (SOW) document: Project Title: '${projectTitle}', Client: '${clientName}', Timeline: '${timeline}', Scope: '${scopeDetails}'. Break into 4 key section cards: Section 1: Executive Summary & Objective, Section 2: Phase Breakdown & Milestone Deliverables, Section 3: Acceptance Criteria & Out-of-Scope Exclusions, Section 4: Project Assumptions & Review Sign-off. Format as 4 distinct SOW section cards. No markdown asterisks.`;
-      const res = await fetch("/api/ai/generate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          prompt,
-            model,
-          type: "cards"
-        })
-      });
-      if (!res.ok) throw new Error("AI API failed");
-      const data = await res.json();
-      if (data.results && data.results.length > 0) {
-        setResults(data.results);
-        toast.success("AI Statement of Work generated!");
-      } else {
-        throw new Error("No results");
-      }
-    } catch (err) {
-      toast.error("AI generation failed. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-  return (
-    <div className="relative space-y-6">
-      <ToolBackground />
-      <div className="relative z-10 space-y-6">
-      
-
- <ToolPageHeader icon={FileText} title="AI Statement of Work (SOW) Deliverables Generator" description="Generate professional client Statement of Work (SOW) documents with phased milestone deliverables, acceptance criteria, and out-of-scope boundaries using live AI." />
-
- <div className="mb-4">
-
-
-   <ModelSelector value={model} onChange={setModel} />
-
-
- </div>
-
-
- <GlassCard className="p-6 space-y-4">
- <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
- <div className="space-y-2">
- <label className="text-xs font-bold text-foreground block">Project Title:</label>
- <Input type="text" value={projectTitle} onChange={e => setProjectTitle(e.target.value)} placeholder="e.g. Mobile App Redesign" className="h-11 font-medium" />
- </div>
-
- <div className="space-y-2">
- <label className="text-xs font-bold text-foreground block">Client Organization:</label>
- <Input type="text" value={clientName} onChange={e => setClientName(e.target.value)} placeholder="e.g. Acme Corp" className="h-11 font-medium" />
- </div>
- </div>
-
- <div className="space-y-2">
- <label className="text-xs font-bold text-foreground block">Project Scope & Deliverable Notes:</label>
- <Textarea value={scopeDetails} onChange={e => setScopeDetails(e.target.value)} placeholder="Outline main technical goals, integrations, features..." className="min-h-[110px]" />
- </div>
-
- <div className="space-y-2">
- <label className="text-xs font-bold text-foreground block">Estimated Project Timeline:</label>
- <Input type="text" value={timeline} onChange={e => setTimeline(e.target.value)} placeholder="e.g. 4 Weeks (Sprint 1 to 4)" className="h-11" />
- </div>
-
- <div className="flex justify-end pt-2">
- <Button onClick={generateSow} disabled={loading || !projectTitle.trim() || !scopeDetails.trim()} className="gap-2 font-bold h-11 px-6 shadow-md">
- <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
- {loading ? "AI Building SOW..." : "AI Generate Statement of Work"}
- </Button>
- </div>
- </GlassCard>
-
- {/* Output */}
- {results.length > 0 && (
- <AiOutputDisplay
- title="Generated Statement of Work (SOW) Document"
- subtitle="Milestone deliverables, acceptance criteria, and out-of-scope boundaries"
- content={results}
- loading={loading}
- onRegenerate={generateSow}
- variant="cards"
- />
- )}
- 
-<ToolHowItWorks
-  steps={[
-{
-    step:"01",
-    title:"List Deliverables",
-    description:"Add what you will produce.",
-    icon: ListChecks,
-  },
-{
-    step:"02",
-    title:"Set Timeline",
-    description:"Define milestones.",
-    icon: CalendarRange,
-  },
-{
-    step:"03",
-    title:"Generate",
-    description:"Build the SOW.",
-    icon: FileCheck2,
-  }
-  ]}
-  badges={["Free Forever","No Signup","Instant Results"]}
-/>
-
-<ToolFeatureGuides
-  features={[
-{
-    icon: ListChecks,
-    title:"Deliverables",
-    description:"Itemized outputs.",
-  },
-{
-    icon: CalendarRange,
-    title:"Milestones",
-    description:"Schedule and acceptance.",
-  },
-{
-    icon: FileCheck2,
-    title:"SOW Draft",
-    description:"Ready document.",
-  },
-{
-    icon: ShieldCheck,
-    title:"Acceptance",
-    description:"Criteria included.",
-  }
-  ]}
->
-  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
-  <p>An AI SOW generator documents exactly what a project will deliver, when, and how it is accepted — the document that prevents &quot;that wasn't in scope&quot; arguments. Itemizing deliverables and milestones makes expectations concrete. This tool builds that structure.</p>
-  <p>Acceptance criteria are key. Defining how work is approved stops endless revision loops. The generator includes them so both parties know when done means done.</p>
-  <p>Use it as a draft reviewed by counsel. The tool's value is a precise, dispute-reducing SOW in minutes.</p>
-  </div>
-</ToolFeatureGuides>
-
-<ToolFaqAccordion
-  faqs={[
-{
-    question:"What is an SOW?",
-    answer:"Defines deliverables, timeline, and acceptance.",
-  },
-{
-    question:"Why use one?",
-    answer:"Prevents scope disputes.",
-  },
-{
-    question:"Binding?",
-    answer:"Draft; legal review advised.",
-  },
-{
-    question:"Free?",
-    answer:"Yes.",
-  },
-{
-    question:"Attach to contract?",
-    answer:"Usually referenced by a master agreement.",
-  }
-  ]}
-/>
-    </div>
-    </div>
-);
-}
+"use client";
+
+import { ModelSelector } from "@/components/shared/model-selector";
+
+import { ToolBackground } from "@/components/shared/tool-background";
+import ToolFaqAccordion from"@/components/shared/tool-faq-accordion";
+import ToolFeatureGuides from"@/components/shared/tool-feature-guides";
+import ToolHowItWorks from"@/components/shared/tool-how-it-works";
+
+import React, { useState } from"react";
+import ToolPageHeader from"@/components/shared/tool-page-header";
+import { GlassCard } from"@/components/ui/glass-card";
+import { Button } from"@/components/ui/button";
+import { Input } from"@/components/ui/input";
+import { Textarea } from"@/components/ui/textarea";
+import { AiOutputDisplay } from"@/components/shared/ai-output-display";
+import { CalendarRange, FileCheck2, FileText, ListChecks, RefreshCw, ShieldCheck, Type } from "lucide-react";
+import { RelatedTools } from "@/components/shared/related-tools";
+import toast from"react-hot-toast";
+
+export default function AiSowGeneratorClient() {
+  const [projectTitle, setProjectTitle] = useState("E-Commerce Web Platform Overhaul");
+  const [model, setModel] = useState("gpt4o");
+  const [clientName, setClientName] = useState("Vanguard Retail Brands");
+  const [timeline, setTimeline] = useState("6 Weeks (Phased Delivery)");
+  const [scopeDetails, setScopeDetails] = useState("Redesign Next.js storefront UI, integrate Stripe Checkout, optimize mobile performance to sub-1s load times, and configure Postgres database caching.");
+  const [results, setResults] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+  const generateSow = async () => {
+    if (!projectTitle.trim() || !scopeDetails.trim()) return;
+    setLoading(true);
+    try {
+      const prompt = `Write a Statement of Work (SOW) document: Project Title: '${projectTitle}', Client: '${clientName}', Timeline: '${timeline}', Scope: '${scopeDetails}'. Break into 4 key section cards: Section 1: Executive Summary & Objective, Section 2: Phase Breakdown & Milestone Deliverables, Section 3: Acceptance Criteria & Out-of-Scope Exclusions, Section 4: Project Assumptions & Review Sign-off. Format as 4 distinct SOW section cards. No markdown asterisks.`;
+      const res = await fetch("/api/ai/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          prompt,
+            model,
+          type: "cards"
+        })
+      });
+      if (!res.ok) throw new Error("AI API failed");
+      const data = await res.json();
+      if (data.results && data.results.length > 0) {
+        setResults(data.results);
+        toast.success("AI Statement of Work generated!");
+      } else {
+        throw new Error("No results");
+      }
+    } catch (err) {
+      toast.error("AI generation failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+  return (
+    <div className="relative space-y-6">
+      <ToolBackground />
+      <div className="relative z-10 space-y-6">
+      
+
+ <ToolPageHeader icon={FileText} title="AI Statement of Work (SOW) Deliverables Generator" description="Generate professional client Statement of Work (SOW) documents with phased milestone deliverables, acceptance criteria, and out-of-scope boundaries using live AI." />
+
+ <div className="mb-4">
+
+
+   <ModelSelector value={model} onChange={setModel} />
+
+
+ </div>
+
+
+ <GlassCard className="p-6 space-y-4">
+ <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+ <div className="space-y-2">
+ <label className="text-xs font-bold text-foreground block">Project Title:</label>
+ <Input type="text" value={projectTitle} onChange={e => setProjectTitle(e.target.value)} placeholder="e.g. Mobile App Redesign" className="h-11 font-medium" />
+ </div>
+
+ <div className="space-y-2">
+ <label className="text-xs font-bold text-foreground block">Client Organization:</label>
+ <Input type="text" value={clientName} onChange={e => setClientName(e.target.value)} placeholder="e.g. Acme Corp" className="h-11 font-medium" />
+ </div>
+ </div>
+
+ <div className="space-y-2">
+ <label className="text-xs font-bold text-foreground block">Project Scope & Deliverable Notes:</label>
+ <Textarea value={scopeDetails} onChange={e => setScopeDetails(e.target.value)} placeholder="Outline main technical goals, integrations, features..." className="min-h-[110px]" />
+ </div>
+
+ <div className="space-y-2">
+ <label className="text-xs font-bold text-foreground block">Estimated Project Timeline:</label>
+ <Input type="text" value={timeline} onChange={e => setTimeline(e.target.value)} placeholder="e.g. 4 Weeks (Sprint 1 to 4)" className="h-11" />
+ </div>
+
+ <div className="flex justify-end pt-2">
+ <Button onClick={generateSow} disabled={loading || !projectTitle.trim() || !scopeDetails.trim()} className="gap-2 font-bold h-11 px-6 shadow-md">
+ <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
+ {loading ? "AI Building SOW..." : "AI Generate Statement of Work"}
+ </Button>
+ </div>
+ </GlassCard>
+
+ {/* Output */}
+ {results.length > 0 && (
+ <AiOutputDisplay
+ title="Generated Statement of Work (SOW) Document"
+ subtitle="Milestone deliverables, acceptance criteria, and out-of-scope boundaries"
+ content={results}
+ loading={loading}
+ onRegenerate={generateSow}
+ variant="cards"
+ />
+ )}
+ 
+<ToolHowItWorks
+  steps={[
+{
+    step:"01",
+    title:"List Deliverables",
+    description:"Add what you will produce.",
+    icon: ListChecks,
+  },
+{
+    step:"02",
+    title:"Set Timeline",
+    description:"Define milestones.",
+    icon: CalendarRange,
+  },
+{
+    step:"03",
+    title:"Generate",
+    description:"Build the SOW.",
+    icon: FileCheck2,
+  }
+  ]}
+  badges={["Free Forever","No Signup","Instant Results"]}
+/>
+
+<ToolFeatureGuides
+  features={[
+{
+    icon: ListChecks,
+    title:"Deliverables",
+    description:"Itemized outputs.",
+  },
+{
+    icon: CalendarRange,
+    title:"Milestones",
+    description:"Schedule and acceptance.",
+  },
+{
+    icon: FileCheck2,
+    title:"SOW Draft",
+    description:"Ready document.",
+  },
+{
+    icon: ShieldCheck,
+    title:"Acceptance",
+    description:"Criteria included.",
+  }
+  ]}
+>
+  <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
+  <p>An AI SOW generator documents exactly what a project will deliver, when, and how it is accepted — the document that prevents &quot;that wasn't in scope&quot; arguments. Itemizing deliverables and milestones makes expectations concrete. This tool builds that structure.</p>
+  <p>Acceptance criteria are key. Defining how work is approved stops endless revision loops. The generator includes them so both parties know when done means done.</p>
+  <p>Use it as a draft reviewed by counsel. The tool's value is a precise, dispute-reducing SOW in minutes.</p>
+  </div>
+</ToolFeatureGuides>
+      <RelatedTools currentToolUrl="/tools/office/ai-sow-generator" max={6} />
+
+<ToolFaqAccordion
+  faqs={[
+{
+    question:"What is an SOW?",
+    answer:"Defines deliverables, timeline, and acceptance.",
+  },
+{
+    question:"Why use one?",
+    answer:"Prevents scope disputes.",
+  },
+{
+    question:"Binding?",
+    answer:"Draft; legal review advised.",
+  },
+{
+    question:"Free?",
+    answer:"Yes.",
+  },
+{
+    question:"Attach to contract?",
+    answer:"Usually referenced by a master agreement.",
+  }
+  ]}
+/>
+    </div>
+    </div>
+);
+}
