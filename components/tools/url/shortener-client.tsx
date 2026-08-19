@@ -216,29 +216,48 @@ export function ShortenerClient() {
 
             <div className="space-y-4 flex-1">
               {!isBatchMode ? <>
+                  {/* Long URL Input */}
                   <div className="space-y-1.5">
                     <Label className="text-xs font-semibold text-muted-foreground block">
                       Long Destination URL
                     </Label>
-                    <Input placeholder="https://example.com/very-long-url-path-name?ref=marketing" value={longUrl} onChange={e => setLongUrl(e.target.value)} className="bg-background border-border text-foreground font-sans" />
+                    <Input
+                      placeholder="https://example.com/very-long-url-path-name?ref=marketing"
+                      value={longUrl}
+                      onChange={e => setLongUrl(e.target.value)}
+                      className="bg-background border-border text-foreground font-sans"
+                    />
                   </div>
 
+                  {/* Custom Alias Input with AI Button */}
                   <div className="space-y-1.5">
-                    <div className="flex justify-between items-center">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
                       <Label className="text-xs font-semibold text-muted-foreground">
-                        Custom Alias / Back-half (Optional)
+                        Custom Alias <span className="font-normal text-muted-foreground/60">(Optional)</span>
                       </Label>
-                      <Button type="button" onClick={generateAiAlias} disabled={isGeneratingAiSlug || !longUrl.trim()} className="text-xs font-bold text-primary hover:underline flex items-center gap-1 cursor-pointer">
+                      <Button
+                        type="button"
+                        onClick={generateAiAlias}
+                        disabled={isGeneratingAiSlug || !longUrl.trim()}
+                        variant="outline"
+                        size="sm"
+                        className="h-7 text-xs font-semibold flex items-center gap-1.5 border-primary/40 text-primary hover:bg-primary/10 hover:border-primary/60 disabled:opacity-40"
+                        title="Generate a memorable short alias using AI based on your URL"
+                      >
                         {isGeneratingAiSlug ? <RefreshCcw className="w-3 h-3 animate-spin" /> : <Wand2 className="w-3 h-3" />}
-                        <span>✨ AI Smart Alias</span>
+                        {isGeneratingAiSlug ? "Generating…" : "AI Smart Alias"}
                       </Button>
                     </div>
-
                     <div className="flex items-center">
-                      <span className="text-xs font-mono bg-muted text-foreground border border-border border-r-0 px-3 py-2.5 rounded-l-xl shrink-0 font-bold">
+                      <span className="text-xs font-mono bg-muted text-foreground border border-border border-r-0 px-3 py-2.5 rounded-l-xl shrink-0 font-bold whitespace-nowrap">
                         toolzium.com/
                       </span>
-                      <Input placeholder="my-custom-link" value={customAlias} onChange={e => setCustomAlias(e.target.value)} className="bg-background border-border rounded-l-none text-foreground font-mono" />
+                      <Input
+                        placeholder="my-custom-link"
+                        value={customAlias}
+                        onChange={e => setCustomAlias(e.target.value)}
+                        className="bg-background border-border rounded-l-none text-foreground font-mono"
+                      />
                     </div>
                   </div>
                 </> : <div className="space-y-1.5">
