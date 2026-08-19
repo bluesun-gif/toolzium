@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Table as TableIcon, DollarSign, Globe, Copy, Printer, Sparkles, Shield, Zap, Settings } from "lucide-react";
+import { Copy, DollarSign, Globe, Printer, RefreshCw, Settings, Shield, Sparkles, Table as TableIcon, Type, Zap } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -144,36 +144,17 @@ export function ExchangeTableClient() {
  </GlassCard>
  </div>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Select Base Currency", description: "Choose your home currency or the currency you have.", icon: DollarSign },
+        { step: "02", title: "Enter Amount", description: "Type the amount you want to convert.", icon: Type },
+        { step: "03", title: "View All Rates", description: "See live conversion rates to 40+ currencies in a sortable table.", icon: TableIcon },
+      ]} badges={["40+ Currencies", "Live Rates", "Sortable"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: TableIcon, title: "40+ Currencies", description: "See live exchange rates to all major world currencies in one table." },
+        { icon: RefreshCw, title: "Auto-Refreshing", description: "Rates refresh automatically every 15 minutes from live forex markets." },
+        { icon: Sparkles, title: "Sortable Table", description: "Sort by currency name, rate, or change to find the best rates quickly." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Currency Exchange Comparison Table?</h3>
           <p>

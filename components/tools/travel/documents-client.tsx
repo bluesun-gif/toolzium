@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { CheckSquare, Plus, Copy, Plane, Sparkles, Shield, Zap, Type } from "lucide-react";
+import { CheckSquare, Copy, FileText, MapPin, Plane, Plus, Printer, Shield, Sparkles, Type, User, Zap } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -182,36 +182,17 @@ export function TravelDocumentsClient() {
  </GlassCard>
  </div>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Select Destination", description: "Choose your travel destination country to see required travel documents.", icon: MapPin },
+        { step: "02", title: "Add Traveler Details", description: "Enter your nationality and trip type (tourism, business, transit).", icon: User },
+        { step: "03", title: "View Checklist", description: "Get a complete list of required documents — visa, passport, insurance, and more.", icon: FileText },
+      ]} badges={["190+ Countries", "Visa Info", "Printable"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: FileText, title: "Country-Specific Lists", description: "Get exact document requirements for 190+ destination countries." },
+        { icon: Shield, title: "Visa Requirements", description: "Know if you need a visa, visa-on-arrival, or eVisa before you book." },
+        { icon: Printer, title: "Printable Checklist", description: "Download a printable document checklist for your trip." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Travel Document Checklist?</h3>
           <p>

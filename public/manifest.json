@@ -1,0 +1,68 @@
+{
+  "name": "Toolzium",
+  "short_name": "Toolzium",
+  "description": "470+ free online tools for developers, designers and professionals. No signup required.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#7c3aed",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["utilities", "productivity", "developer tools"],
+  "icons": [
+    {
+      "src": "/assets/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/assets/tools-cube.jpg",
+      "sizes": "1200x630",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "Toolzium — 470+ Free Online Tools"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "All Tools",
+      "short_name": "Tools",
+      "description": "Browse all 470+ tools",
+      "url": "/tools",
+      "icons": [{ "src": "/assets/logo.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "URL Shortener",
+      "short_name": "Shorten",
+      "description": "Shorten any URL with click analytics",
+      "url": "/tools/url/shortener",
+      "icons": [{ "src": "/assets/logo.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "QR Code Generator",
+      "short_name": "QR Code",
+      "description": "Generate free QR codes instantly",
+      "url": "/tools/url/qr",
+      "icons": [{ "src": "/assets/logo.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Password Generator",
+      "short_name": "Password",
+      "description": "Generate strong secure passwords",
+      "url": "/tools/text/password-strength",
+      "icons": [{ "src": "/assets/logo.png", "sizes": "96x96" }]
+    }
+  ],
+  "prefer_related_applications": false,
+  "related_applications": []
+}

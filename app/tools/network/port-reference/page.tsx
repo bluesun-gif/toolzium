@@ -3,7 +3,7 @@ import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import PortReferenceClient from "@/components/tools/network/port-reference-client";
 
 const TITLE = "Port Number Reference | Toolzium";
-const DESCRIPTION = "Searchable database of common network ports and their associated services.";
+const DESCRIPTION = "Look up any TCP/UDP port number or service name. Complete IANA port registry reference — HTTP, HTTPS, SSH, FTP, SMTP and 1000+ more.";
 const PATH = "/tools/network/port-reference";
 
 export const metadata = buildMetadata({

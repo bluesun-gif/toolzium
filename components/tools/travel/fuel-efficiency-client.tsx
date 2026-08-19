@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Droplets, ArrowLeftRight, Truck, Leaf, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { ArrowLeftRight, Copy, Droplets, Fuel, Gauge, Leaf, MapPin, Shield, Sparkles, Truck, Zap } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
@@ -134,36 +134,17 @@ export function FuelEfficiencyClient() {
  </div>
  </div>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Enter Fuel Used", description: "Type how many liters or gallons of fuel your vehicle used.", icon: Fuel },
+        { step: "02", title: "Enter Distance", description: "Enter how far you traveled in miles or kilometers.", icon: MapPin },
+        { step: "03", title: "See Efficiency", description: "Get your fuel efficiency in mpg, km/L, and L/100km simultaneously.", icon: Gauge },
+      ]} badges={["MPG + Metric", "Instant", "All Units"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Gauge, title: "All Efficiency Units", description: "See fuel efficiency in mpg, km/L, and L/100km — the three most common formats worldwide." },
+        { icon: Sparkles, title: "Cost per Mile/Km", description: "Calculate how much each mile or kilometer costs you in fuel." },
+        { icon: Zap, title: "Instant Calculation", description: "Results update instantly as you type — no submit button needed." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Fuel Efficiency Converter?</h3>
           <p>

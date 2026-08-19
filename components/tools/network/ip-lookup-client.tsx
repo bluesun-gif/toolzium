@@ -213,36 +213,17 @@ function ResultItem({
  {value}
  </span>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Enter IP Address", description: "Type any IPv4 or IPv6 address, or leave blank to look up your own IP.", icon: Search },
+        { step: "02", title: "Look Up", description: "Click Lookup — the tool queries live geolocation and ISP databases.", icon: Globe },
+        { step: "03", title: "View Details", description: "See country, region, city, ISP, ASN, timezone, and coordinates on a map.", icon: MapPin },
+      ]} badges={["Live Data", "IPv4 + IPv6", "No Signup"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Globe, title: "Full Geolocation", description: "Get country, city, region, ISP, ASN, and timezone for any IP address worldwide." },
+        { icon: MapPin, title: "Live Database", description: "Queries up-to-date IP geolocation databases for accurate location data." },
+        { icon: Zap, title: "Any IP Supported", description: "Works with both IPv4 and IPv6 addresses. Leave blank to look up your own IP." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our typeof value === 'string' ? value : ''?</h3>
           <p>

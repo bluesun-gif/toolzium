@@ -2,8 +2,8 @@ import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import BaggageCalcClient from "@/components/tools/travel/baggage-calc-client";
 
-const TITLE = "Airline Baggage Allowance & Fee Calculator | Toolzium";
-const DESCRIPTION = "Calculate total checked bag weight & potential excess baggage fee.";
+const TITLE = "Baggage Fee Calculator | Toolzium";
+const DESCRIPTION = "Calculate airline baggage fees and check size/weight limits for 100+ airlines. Avoid surprises at the airport. Free, instant.";
 const PATH = "/tools/travel/baggage-calc";
 
 export const metadata = buildMetadata({

@@ -12,7 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { TrendingUp, DollarSign, Sparkles, Shield, Zap, Copy, Settings, History } from "lucide-react";
+import { ArrowLeftRight, Calendar, Copy, DollarSign, Download, History, Settings, Shield, Sparkles, TrendingUp, Zap } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
@@ -158,36 +158,17 @@ export function ExchangeHistoryClient() {
  </GlassCard>
  </div>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Select Currency Pair", description: "Choose the two currencies you want to see historical rates for.", icon: ArrowLeftRight },
+        { step: "02", title: "Set Date Range", description: "Pick a date range — last 7 days, 30 days, 3 months, 1 year, or custom.", icon: Calendar },
+        { step: "03", title: "View Chart", description: "See the historical exchange rate chart and identify trends and best exchange periods.", icon: TrendingUp },
+      ]} badges={["Historical Data", "Interactive Chart", "Export CSV"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: TrendingUp, title: "Historical Charts", description: "Interactive line chart showing exchange rate history for any currency pair." },
+        { icon: Calendar, title: "Custom Date Ranges", description: "Analyze any time period from the last week to several years of historical data." },
+        { icon: Download, title: "Export Data", description: "Download the historical rate data as CSV for your own analysis." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our h.date +":"+ h.rate?</h3>
           <p>

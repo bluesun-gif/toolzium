@@ -13,6 +13,7 @@ import NavigationProgressBar from "@/components/shared/navigation-progress-bar";
 import { ScrollProgressBar } from "@/components/shared/scroll-progress-bar";
 import { CursorGlow } from "@/components/shared/cursor-glow";
 import JsonLd from "@/components/seo/json-ld";
+import { ServiceWorkerRegistrar } from "@/components/shared/service-worker-registrar";
 import { ToolsData, TOTAL_TOOLS_COUNT } from "@/data/tools";
 import { siteURL } from "@/lib/constants";
 import {
@@ -192,8 +193,15 @@ export default function RootLayout({
     >
       <head>
         <GoogleTagManager />
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Toolzium" />
+        <link rel="apple-touch-icon" href="/assets/logo.png" />
+        <meta name="mobile-web-app-capable" content="yes" />
       </head>
       <body className="min-h-screen bg-background text-foreground antialiased overflow-x-hidden pb-16 md:pb-0">
+        <ServiceWorkerRegistrar />
         <ScrollProgressBar />
         <CursorGlow />
         <NavigationProgressBar />

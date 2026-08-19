@@ -3,7 +3,7 @@ import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import MorseFlashlightClient from "@/components/tools/util/morse-flashlight-client";
 
 const TITLE = "Morse Code Flashlight | Toolzium";
-const DESCRIPTION = "Convert text to Morse code and play it visually as screen flashes or audio beeps.";
+const DESCRIPTION = "Flash Morse code messages using your screen as a visual signal. Adjustable speed, night mode. Learn or signal Morse code instantly. Free.";
 const PATH = "/tools/util/morse-flashlight";
 
 export const metadata = buildMetadata({

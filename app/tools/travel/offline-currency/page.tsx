@@ -2,8 +2,8 @@ import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import OfflineCurrencyClient from "@/components/tools/travel/offline-currency-client";
 
-const TITLE = "Offline Currency Calculator | Toolzium";
-const DESCRIPTION = "Offline-first travel currency exchange calculator.";
+const TITLE = "Offline Currency Converter | Toolzium";
+const DESCRIPTION = "Save exchange rates for offline use — perfect for travel in areas without internet. Convert currencies anywhere, anytime. Free.";
 const PATH = "/tools/travel/offline-currency";
 
 export const metadata = buildMetadata({

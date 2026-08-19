@@ -9,7 +9,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from "@/component
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { DollarSign, Globe, Calculator, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { AlertTriangle, Calculator, Clock, Copy, DollarSign, Globe, Lock, Shield, Sparkles, Zap } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
@@ -187,36 +187,17 @@ export function TravelBudgetClient() {
  </GlassCard>
  </div>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Enter Total Budget", description: "Type your total trip budget and number of travel days.", icon: DollarSign },
+        { step: "02", title: "Add Fixed Costs", description: "Enter fixed costs like flights and accommodation that don't vary per day.", icon: Lock },
+        { step: "03", title: "Get Daily Budget", description: "See your remaining flexible daily budget after fixed costs are deducted.", icon: Clock },
+      ]} badges={["Fixed + Daily", "Overspend Alert", "Daily View"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: DollarSign, title: "Fixed + Variable Split", description: "Separates fixed costs (flights, hotels) from flexible daily spending money." },
+        { icon: Clock, title: "Day-by-Day View", description: "See your daily allowance and track how it changes as you log spending." },
+        { icon: AlertTriangle, title: "Overspend Warning", description: "Get alerted when a day's spending exceeds your daily allowance." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Travel Daily Expense Budget Calculator?</h3>
           <p>

@@ -2,8 +2,8 @@ import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import PasswordEntropyClient from "@/components/tools/util/password-entropy-client";
 
-const TITLE = "Password Strength & Entropy Calculator | Toolzium";
-const DESCRIPTION = "Analyze password security, information entropy (bits), and estimated crack time.";
+const TITLE = "Password Entropy Calculator | Toolzium";
+const DESCRIPTION = "Calculate the true entropy of any password in bits. See crack time estimates and get smart suggestions to improve password strength. Free.";
 const PATH = "/tools/util/password-entropy";
 
 export const metadata = buildMetadata({

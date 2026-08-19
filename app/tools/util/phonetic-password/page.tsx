@@ -2,8 +2,8 @@ import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import PhoneticPasswordClient from "@/components/tools/util/phonetic-password-client";
 
-const TITLE = "Phonetic Pronunciation Password Generator | Toolzium";
-const DESCRIPTION = "Generate strong, memorable passwords with NATO phonetic pronunciation guides.";
+const TITLE = "Phonetic Password Generator | Toolzium";
+const DESCRIPTION = "Generate pronounceable passwords that are easy to remember and say aloud. Consonant-vowel patterns with real randomness. Free.";
 const PATH = "/tools/util/phonetic-password";
 
 export const metadata = buildMetadata({

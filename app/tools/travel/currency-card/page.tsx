@@ -2,8 +2,8 @@ import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import CurrencyCardClient from "@/components/tools/travel/currency-card-client";
 
-const TITLE = "Currency Quick Reference Card | Toolzium";
-const DESCRIPTION = "Generate a pocket-sized printable travel currency conversion cheat card.";
+const TITLE = "Currency Card | Toolzium";
+const DESCRIPTION = "Create a travel currency card with live exchange rates for up to 10 currencies. Screenshot and take it offline. Free, real-time rates.";
 const PATH = "/tools/travel/currency-card";
 
 export const metadata = buildMetadata({

@@ -12,7 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
-import { CreditCard, DollarSign, Printer, Copy, Sparkles, Shield, Zap, Settings } from "lucide-react";
+import { Copy, CreditCard, DollarSign, Printer, RefreshCw, Settings, Shield, Sparkles, Type, Zap } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -165,36 +165,17 @@ export function CurrencyCardClient() {
  </GlassCard>
  </div>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Select Currencies", description: "Choose base currency and up to 10 foreign currencies to display.", icon: DollarSign },
+        { step: "02", title: "Enter Amount", description: "Type an amount in your base currency to see live conversions.", icon: Type },
+        { step: "03", title: "View Card", description: "Your currency card shows all conversion rates in an easy-to-read format.", icon: CreditCard },
+      ]} badges={["Live Rates", "10 Currencies", "Screenshot Ready"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: RefreshCw, title: "Live Exchange Rates", description: "Real-time rates updated from live forex markets every few minutes." },
+        { icon: CreditCard, title: "Wallet Card Format", description: "See all currencies in a compact card you can screenshot and take traveling." },
+        { icon: DollarSign, title: "10 Currencies", description: "Monitor up to 10 currencies simultaneously — perfect for multi-country trips." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Currency Quick Reference Card?</h3>
           <p>

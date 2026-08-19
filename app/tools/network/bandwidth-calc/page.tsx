@@ -3,7 +3,7 @@ import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import BandwidthCalcClient from "@/components/tools/network/bandwidth-calc-client";
 
 const TITLE = "Bandwidth Calculator | Toolzium";
-const DESCRIPTION = "Calculate download and upload times based on file size and connection speed.";
+const DESCRIPTION = "Calculate file download and upload times based on connection speed. Supports all bandwidth units — Mbps, Kbps, Gbps.";
 const PATH = "/tools/network/bandwidth-calc";
 
 export const metadata = buildMetadata({

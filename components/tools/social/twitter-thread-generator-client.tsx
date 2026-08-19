@@ -8,7 +8,7 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { AiOutputDisplay } from "@/components/shared/ai-output-display";
-import { MessageSquare, RefreshCw, Sparkles, Shield, Zap, Copy, Users, Type } from "lucide-react";
+import { Copy, MessageSquare, RefreshCw, Shield, Sparkles, Twitter, Type, Users, Zap } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -103,36 +103,17 @@ export default function TwitterThreadGeneratorClient() {
  {/* Output */}
  {results.length > 0 && <AiOutputDisplay title="Generated Viral X / Twitter Thread" subtitle="Ready to copy & paste straight to X / Twitter" content={results} loading={loading} onRegenerate={generateThread} variant="cards" />}
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Enter Your Topic", description: "Describe what your Twitter/X thread should be about — topic, key insights, audience.", icon: Twitter },
+        { step: "02", title: "Generate Thread", description: "AI writes a complete viral thread — hook tweet, content tweets, and CTA ending.", icon: Sparkles },
+        { step: "03", title: "Copy & Post", description: "Copy individual tweets or the whole thread and post directly to Twitter/X.", icon: Copy },
+      ]} badges={["AI-Powered", "280 Char Limit", "Viral Formulas"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Sparkles, title: "Viral Thread Structure", description: "AI uses proven viral thread formulas — hook, value bombs, story, controversy, and CTA." },
+        { icon: Twitter, title: "Tweet-Sized Chunks", description: "Each tweet is automatically kept under 280 characters with optimal formatting." },
+        { icon: Zap, title: "Complete Threads", description: "Get 5-15 tweet threads ready to post — no editing required, just copy and paste." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our AI X / Twitter Viral Thread Generator?</h3>
           <p>

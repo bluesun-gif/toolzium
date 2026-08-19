@@ -3,7 +3,7 @@ import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import SubnetCalculatorClient from "@/components/tools/network/subnet-client";
 
 const TITLE = "Subnet Calculator | Toolzium";
-const DESCRIPTION = "Calculate subnet details from an IP address and CIDR notation.";
+const DESCRIPTION = "Calculate subnet details from any IP/CIDR — network address, broadcast, usable hosts, and IP range. Essential network planning tool.";
 const PATH = "/tools/network/subnet";
 
 export const metadata = buildMetadata({

@@ -2,8 +2,8 @@ import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import ExchangeFeesClient from "@/components/tools/travel/exchange-fees-client";
 
-const TITLE = "Currency Exchange Fee & Hidden Markup Calculator | Toolzium";
-const DESCRIPTION = "Uncover hidden exchange rate markups and total foreign transaction fees when converting currency.";
+const TITLE = "Currency Exchange Fee Calculator | Toolzium";
+const DESCRIPTION = "Calculate currency exchange fees and compare true costs including hidden markup. Find the cheapest way to exchange money for travel. Free.";
 const PATH = "/tools/travel/exchange-fees";
 
 export const metadata = buildMetadata({

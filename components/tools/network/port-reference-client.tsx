@@ -9,7 +9,7 @@ import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Search, Globe, Filter, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { Copy, Database, Filter, Globe, Info, Search, Shield, Sparkles, Zap } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -255,36 +255,17 @@ export function PortReferenceClient() {
  </CardContent>
  </GlassCard>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Search Port", description: "Enter a port number (e.g. 443) or service name (e.g. HTTPS) to look up.", icon: Search },
+        { step: "02", title: "View Details", description: "See the protocol, service name, and common use case for that port.", icon: Info },
+        { step: "03", title: "Copy or Browse", description: "Copy the port info or browse the full well-known ports reference table.", icon: Copy },
+      ]} badges={["1000+ Ports", "IANA Registry", "Search"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Database, title: "1000+ Ports", description: "Complete database of IANA registered ports including TCP, UDP, and SCTP assignments." },
+        { icon: Search, title: "Instant Search", description: "Search by port number or service name — results appear as you type." },
+        { icon: Shield, title: "Well-Known + Registered", description: "Covers ports 0-1023 (well-known), 1024-49151 (registered), and dynamic ports." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Port Number Reference?</h3>
           <p>

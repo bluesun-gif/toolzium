@@ -9,7 +9,7 @@ import ToolPageHeader from "@/components/shared/tool-page-header";
 import { GlassCard } from "@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Globe, ExternalLink, TrendingUp, Award, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { Award, Copy, ExternalLink, Flag, Globe, List, MapPin, Shield, Sparkles, TrendingUp, Zap } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
@@ -228,36 +228,17 @@ export function VisaIndexClient() {
  </div>
  </GlassCard>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Select Your Passport", description: "Choose your nationality to see your passport's global power ranking.", icon: Flag },
+        { step: "02", title: "View Access Map", description: "See a color-coded world map showing countries you can visit visa-free.", icon: Globe },
+        { step: "03", title: "Explore Destinations", description: "Browse the full list of visa-free, visa-on-arrival, and visa-required destinations.", icon: List },
+      ]} badges={["190+ Passports", "World Map", "Power Rank"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Globe, title: "Passport Power Rank", description: "See where your passport ranks globally in the Passport Index — from 1 to 199." },
+        { icon: MapPin, title: "World Map View", description: "Color-coded map showing visa-free (green), visa-on-arrival (yellow), and visa-required (red) countries." },
+        { icon: Flag, title: "190+ Passports", description: "Compare the strength of any passport and see how yours stacks up globally." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Passport Power Index?</h3>
           <p>

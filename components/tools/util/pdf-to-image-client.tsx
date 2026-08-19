@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { ResetButton, ActionButton } from "@/components/shared/action-buttons";
-import { FileImage, UploadCloud, Download, AlertCircle, FileType, Image as ImageIcon, Settings, Sparkles, Shield, Zap, Copy, Upload } from "lucide-react";
+import { AlertCircle, Copy, Download, FileImage, FileType, Image as ImageIcon, Settings, Shield, Sparkles, Upload, UploadCloud, Zap } from "lucide-react";
 import { useDropzone } from "react-dropzone";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -328,36 +328,17 @@ export default function PdfToImageClient() {
  </div>
  </div>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Upload PDF", description: "Drag and drop or click to upload your PDF file — up to 50MB supported.", icon: Upload },
+        { step: "02", title: "Select Format & Pages", description: "Choose output image format (PNG/JPEG) and select which pages to convert.", icon: Settings },
+        { step: "03", title: "Download Images", description: "Download converted page images individually or as a ZIP archive.", icon: Download },
+      ]} badges={["Client-Side", "PNG & JPEG", "ZIP Download"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Shield, title: "100% Private", description: "PDF conversion runs entirely in your browser. Your document is never uploaded to any server." },
+        { icon: ImageIcon, title: "High Quality Output", description: "Converts at 150 DPI by default — clear enough for presentations and documents." },
+        { icon: Download, title: "ZIP Download", description: "Download all converted pages as a single ZIP file for convenience." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our file.name?</h3>
           <p>

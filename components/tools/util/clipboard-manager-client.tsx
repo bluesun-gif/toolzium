@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
 import { cn } from "@/lib/utils";
-import { Clipboard, Search, Star, FolderOpen, Plus, Trash2, ArrowUp, ArrowDown, Download, Upload, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { ArrowDown, ArrowUp, Clipboard, Copy, Download, FolderOpen, History, Plus, Search, Shield, Sparkles, Star, Trash2, Upload, Zap } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -204,36 +204,17 @@ export function ClipboardManagerClient() {
  </GlassCard>
  </div>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Copy Anything", description: "Copy any text, URL, or code snippet — it automatically appears in your clipboard history.", icon: Copy },
+        { step: "02", title: "Browse History", description: "View your clipboard history of up to 50 recent copied items.", icon: History },
+        { step: "03", title: "One-Click Re-Copy", description: "Click any saved item to copy it again — no need to find the original.", icon: Zap },
+      ]} badges={["50 Items", "Searchable", "Private"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: History, title: "50-Item History", description: "Stores your last 50 copied items — never lose an important piece of text again." },
+        { icon: Search, title: "Search Clips", description: "Instantly search through your clipboard history by keyword." },
+        { icon: Shield, title: "100% Private", description: "Clipboard data stays in your browser — never uploaded or stored remotely." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Clipboard Manager?</h3>
           <p>

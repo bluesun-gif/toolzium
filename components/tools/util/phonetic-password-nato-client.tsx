@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { ActionButton, CopyButton } from "@/components/shared/action-buttons";
-import { Lock, Shield, RefreshCw, Sparkles, Zap, Copy, Settings } from "lucide-react";
+import { Copy, Lock, RefreshCw, Settings, Shield, Sparkles, Volume2, Zap } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
@@ -200,36 +200,17 @@ export function PhoneticPasswordClient() {
  </div>
  </div>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Generate Password", description: "Generate a strong random password of your chosen length and complexity.", icon: RefreshCw },
+        { step: "02", title: "Get NATO Spelling", description: "See the password automatically spelled out in NATO phonetic alphabet — ready to dictate.", icon: Volume2 },
+        { step: "03", title: "Copy & Use", description: "Copy the password and its NATO spelling for secure verbal communication.", icon: Copy },
+      ]} badges={["NATO + Password", "Verbal Ready", "Strong Random"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Lock, title: "Strong Password Generation", description: "Generates cryptographically secure random passwords with your chosen character sets." },
+        { icon: Volume2, title: "Instant NATO Spelling", description: "Every generated password is immediately shown in NATO phonetic format — no extra step." },
+        { icon: Shield, title: "Verbal Communication", description: "Share passwords verbally without ambiguity — no more 'is that a 1 or an l?'" },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Phonetic Password Generator?</h3>
           <p>

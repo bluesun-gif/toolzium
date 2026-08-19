@@ -3,7 +3,7 @@ import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import WifiQrClient from "@/components/tools/network/wifi-qr-client";
 
 const TITLE = "WiFi QR Code Generator | Toolzium";
-const DESCRIPTION = "Generate a QR code to share your WiFi network easily. Scan to connect instantly without typing passwords.";
+const DESCRIPTION = "Generate a WiFi QR code so guests can connect without typing passwords. Supports WPA/WPA2, WEP, and open networks. 100% private.";
 const PATH = "/tools/network/wifi-qr";
 
 export const metadata = buildMetadata({

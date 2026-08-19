@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Download, Clock, Wifi, Calculator, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { Calculator, Clock, Copy, Download, Gauge, HardDrive, Shield, Sparkles, Wifi, Zap } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
@@ -191,36 +191,17 @@ export function BandwidthCalcClient() {
  </GlassCard>
  </div>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Enter File Size", description: "Input the file size you want to transfer in KB, MB, or GB.", icon: HardDrive },
+        { step: "02", title: "Set Bandwidth", description: "Enter your internet connection speed in Mbps or Kbps.", icon: Wifi },
+        { step: "03", title: "See Transfer Time", description: "Get the exact download/upload time and data transfer cost instantly.", icon: Clock },
+      ]} badges={["Accurate", "Real-Time", "Free"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Clock, title: "Accurate Transfer Times", description: "Calculate exactly how long any file will take to download or upload on your connection." },
+        { icon: Gauge, title: "Multiple Speed Inputs", description: "Supports Kbps, Mbps, Gbps for both connection speed and file size." },
+        { icon: Zap, title: "Real-Time Calculation", description: "Results update instantly as you adjust file size or connection speed." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Bandwidth Calculator?</h3>
           <p>

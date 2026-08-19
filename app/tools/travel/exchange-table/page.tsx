@@ -2,8 +2,8 @@ import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import ExchangeTableClient from "@/components/tools/travel/exchange-table-client";
 
-const TITLE = "Currency Exchange Comparison Table | Toolzium";
-const DESCRIPTION = "Quick currency exchange conversion reference table for traveler pockets.";
+const TITLE = "Currency Exchange Rate Table | Toolzium";
+const DESCRIPTION = "View live exchange rates for 40+ currencies in one table. Sort, filter, and convert any amount at real-time forex rates. Free.";
 const PATH = "/tools/travel/exchange-table";
 
 export const metadata = buildMetadata({

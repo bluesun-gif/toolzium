@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
-import { Zap, PieChart, Plus, TrendingDown, Trash2, Sparkles, Shield, Copy } from "lucide-react";
+import { BarChart3, Copy, DollarSign, Lightbulb, PieChart, Plus, Shield, Sparkles, Trash2, TrendingDown, Zap } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -207,36 +207,17 @@ export function ElectricityMonitorClient() {
  </div>
  </div>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Add Appliances", description: "Enter each electrical device with its wattage and daily hours of use.", icon: Zap },
+        { step: "02", title: "Set Electricity Rate", description: "Enter your electricity price per kWh (check your electricity bill).", icon: DollarSign },
+        { step: "03", title: "See Usage & Cost", description: "View total daily, monthly, and annual electricity usage and cost.", icon: BarChart3 },
+      ]} badges={["kWh Calculator", "Cost Estimate", "Energy Saving"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: BarChart3, title: "Full Cost Breakdown", description: "See which appliances cost the most and total monthly electricity bill estimate." },
+        { icon: Zap, title: "kWh Calculator", description: "Converts device wattage × hours → kWh → cost automatically." },
+        { icon: Lightbulb, title: "Energy Saving Tips", description: "Identifies your highest-consuming devices so you know where to save energy." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Electricity Usage Monitor?</h3>
           <p>

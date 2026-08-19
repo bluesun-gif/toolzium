@@ -5,6 +5,7 @@ import { ShareTool } from "@/components/shared/share-tool";
 import { ToolsData } from "@/data/tools";
 import { Separator } from "@/components/ui/separator";
 import { AdSlot } from "@/components/shared/ad-slot";
+import { ToolErrorBoundary } from "@/components/shared/tool-error-boundary";
 
 type ToolPageWrapperProps = {
   children: React.ReactNode;
@@ -38,7 +39,9 @@ export function ToolPageWrapper({ children, title }: ToolPageWrapperProps) {
 
   return (
     <div className="w-full max-w-full overflow-hidden">
-      {children}
+      <ToolErrorBoundary toolName={detectedTitle}>
+        {children}
+      </ToolErrorBoundary>
 
       {isToolPage && (
         <div className="max-w-full overflow-hidden">

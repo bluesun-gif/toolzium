@@ -8,7 +8,7 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { AiOutputDisplay } from "@/components/shared/ai-output-display";
-import { Video, RefreshCw, Sparkles, Shield, Zap, Copy, Type } from "lucide-react";
+import { Clock, Copy, FileText, RefreshCw, Shield, Sparkles, Type, Video, Youtube, Zap } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -114,36 +114,17 @@ export default function YoutubeScriptGeneratorClient() {
  {/* Output */}
  {results.length > 0 && <AiOutputDisplay title="Generated High-Retention YouTube Video Script" subtitle="Complete with B-roll cues, hooks, and retention bridges" content={results} loading={loading} onRegenerate={generateScript} variant="cards" />}
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Enter Video Details", description: "Type your YouTube video title, topic, target audience, and video length.", icon: Youtube },
+        { step: "02", title: "Generate Script", description: "AI creates a complete video script with hook, intro, main content, and outro.", icon: FileText },
+        { step: "03", title: "Customize & Record", description: "Edit the script to match your voice, then record your video.", icon: Copy },
+      ]} badges={["Full Scripts", "Retention Hooks", "AI-Powered"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Youtube, title: "Full Video Scripts", description: "Get complete scripts from hook to outro — no more staring at a blank page." },
+        { icon: Sparkles, title: "Retention Optimized", description: "Scripts use YouTube retention hooks, pattern interrupts, and re-engagement techniques." },
+        { icon: Clock, title: "Length Optimized", description: "Scripts are calibrated for your target video duration — 5, 10, 15, or 20+ minutes." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our AI YouTube Video Script & Outline Generator?</h3>
           <p>

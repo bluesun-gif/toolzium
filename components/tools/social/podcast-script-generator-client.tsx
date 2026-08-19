@@ -8,7 +8,7 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { AiOutputDisplay } from "@/components/shared/ai-output-display";
-import { Mic, RefreshCw, Sparkles, Shield, Zap, Copy, Type } from "lucide-react";
+import { Clock, Copy, FileText, Mic, RefreshCw, Shield, Sparkles, Type, Zap } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -109,36 +109,17 @@ export default function PodcastScriptGeneratorClient() {
  {/* Output */}
  {results.length > 0 && <AiOutputDisplay title="Generated Podcast Script & Show Notes" subtitle="Intro monologue, guest questions, and publication show notes" content={results} loading={loading} onRegenerate={generatePodcastOutline} variant="cards" />}
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Enter Topic & Details", description: "Type your podcast episode topic, key points to cover, and target audience.", icon: Mic },
+        { step: "02", title: "Generate Script", description: "AI writes a complete podcast script with intro, segments, transitions, and outro.", icon: FileText },
+        { step: "03", title: "Edit & Record", description: "Copy the script, customize it in your own voice, and record your episode.", icon: Copy },
+      ]} badges={["Full Scripts", "Natural Tone", "AI-Powered"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Mic, title: "Full Episode Scripts", description: "Get complete scripts with intro hooks, main content sections, transitions, and outro CTAs." },
+        { icon: Sparkles, title: "Natural Tone", description: "AI writes conversational scripts that sound natural when spoken aloud." },
+        { icon: Clock, title: "Time Estimates", description: "Each script includes approximate speaking time so you can plan episode length." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our AI Podcast Episode Script & Show Notes Studio?</h3>
           <p>

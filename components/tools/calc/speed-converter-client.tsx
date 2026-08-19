@@ -10,7 +10,7 @@ import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Gauge, Type } from "lucide-react";
+import { Gauge, Settings, Shield, Type, Zap } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
 const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";

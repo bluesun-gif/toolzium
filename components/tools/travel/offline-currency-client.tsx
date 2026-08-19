@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Calculator, Globe, Table as TableIcon, Save, ArrowRightLeft, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { ArrowRightLeft, Calculator, Copy, DollarSign, Download, Globe, RefreshCw, Save, Shield, Sparkles, Table as TableIcon, WifiOff, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
@@ -147,36 +147,17 @@ export function OfflineCurrencyClient() {
  </GlassCard>
  </div>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Save Rates", description: "Load and save live exchange rates to your device for offline use.", icon: Download },
+        { step: "02", title: "Go Offline", description: "Access your saved rates without internet — perfect for areas with no connectivity.", icon: WifiOff },
+        { step: "03", title: "Convert Anywhere", description: "Convert amounts using your saved rates from airports, markets, or remote areas.", icon: DollarSign },
+      ]} badges={["Offline Mode", "40+ Currencies", "No Internet Needed"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: WifiOff, title: "Works Offline", description: "Rates are saved locally so you can convert currencies without any internet connection." },
+        { icon: RefreshCw, title: "Refresh When Online", description: "One-tap refresh when connected to update all rates to current values." },
+        { icon: DollarSign, title: "40+ Currencies", description: "Save rates for up to 40 currencies for your specific trip countries." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Offline Currency Calculator?</h3>
           <p>

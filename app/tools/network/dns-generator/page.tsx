@@ -3,7 +3,7 @@ import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import DnsGeneratorClient from "@/components/tools/network/dns-generator-client";
 
 const TITLE = "DNS Record Generator | Toolzium";
-const DESCRIPTION = "Generate standard DNS records for web and email setups.";
+const DESCRIPTION = "Generate properly formatted DNS records (A, MX, CNAME, TXT, SPF, DMARC) for any domain. Copy and paste directly into your DNS provider.";
 const PATH = "/tools/network/dns-generator";
 
 export const metadata = buildMetadata({

@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Globe, FileText, Plus, Trash2, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { CheckCircle2, Copy, FileText, Globe, Plus, Settings, Shield, Sparkles, Trash2, Zap } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -195,36 +195,17 @@ export function DnsGeneratorClient() {
  </GlassCard>
  </div>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Enter Domain", description: "Type the domain name you want to generate DNS records for.", icon: Globe },
+        { step: "02", title: "Select Record Type", description: "Choose from A, AAAA, CNAME, MX, TXT, NS, or SPF record types.", icon: Settings },
+        { step: "03", title: "Copy Records", description: "Get properly formatted DNS records ready to paste into your DNS provider.", icon: Copy },
+      ]} badges={["All Record Types", "Correct Syntax", "Free"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Globe, title: "All Record Types", description: "Generate A, AAAA, CNAME, MX, TXT, NS, SPF, DKIM, and DMARC records." },
+        { icon: CheckCircle2, title: "Correct Syntax", description: "Records are generated with proper formatting for all major DNS providers." },
+        { icon: Zap, title: "Instant Generation", description: "No waiting — DNS records generated immediately in your browser." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our DNS Record Generator?</h3>
           <p>

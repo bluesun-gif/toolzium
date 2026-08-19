@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ResetButton } from "@/components/shared/action-buttons";
-import { DollarSign, AlertTriangle, Scale, Calculator, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { AlertTriangle, ArrowLeftRight, Calculator, Copy, DollarSign, Scale, Shield, Sparkles, Table, Zap } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -138,36 +138,17 @@ export function ExchangeFeesClient() {
  </GlassCard>}
  </div>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Enter Amount", description: "Type the amount you want to exchange or send internationally.", icon: DollarSign },
+        { step: "02", title: "Select Currencies", description: "Choose the source and target currencies.", icon: ArrowLeftRight },
+        { step: "03", title: "Compare Fees", description: "See the total fee and net amount for different exchange methods side by side.", icon: Table },
+      ]} badges={["True Cost", "Hidden Fees", "Compare Methods"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: DollarSign, title: "True Cost Comparison", description: "See the real cost of currency exchange including hidden markup fees." },
+        { icon: Table, title: "Method Comparison", description: "Compare bank transfers, currency exchanges, credit cards, and money transfer services." },
+        { icon: AlertTriangle, title: "Hidden Fee Alert", description: "Identifies when a quoted rate includes hidden markup above mid-market rate." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Currency Exchange Fee Calculator?</h3>
           <p>

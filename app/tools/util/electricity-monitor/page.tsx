@@ -3,7 +3,7 @@ import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import ElectricityMonitorClient from "@/components/tools/util/electricity-monitor-client";
 
 const TITLE = "Electricity Usage Monitor | Toolzium";
-const DESCRIPTION = "Track your home electricity consumption and estimate monthly costs. Add appliances and calculate total kWh usage.";
+const DESCRIPTION = "Calculate electricity costs for all your home appliances. See monthly bill estimate and identify energy-hungry devices. Enter your rate. Free.";
 const PATH = "/tools/util/electricity-monitor";
 
 export const metadata = buildMetadata({

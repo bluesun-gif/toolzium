@@ -278,19 +278,11 @@ export function DailyBudgetClient() {
         icon: Copy
       }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: DollarSign, title: "Daily Allowance", description: "Automatically splits your total budget into a daily spending limit." },
+        { icon: Sparkles, title: "Remaining Balance", description: "See exactly how much budget remains as days pass and spending is logged." },
+        { icon: Sparkles, title: "Over-Budget Alerts", description: "Get warned when a day's spending exceeds your daily allowance." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Daily Travel Budget Planner?</h3>
           <p>

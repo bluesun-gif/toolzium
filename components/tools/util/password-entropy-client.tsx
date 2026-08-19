@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
 import { cn } from "@/lib/utils";
-import { Shield, Lock, Eye, EyeOff, Copy, Sparkles, Zap, Calculator, Type } from "lucide-react";
+import { Calculator, Clock, Copy, Eye, EyeOff, Lightbulb, Lock, Shield, Sparkles, Type, Zap } from "lucide-react";
 ;
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -197,19 +197,11 @@ export function PasswordEntropyClient() {
         icon: Copy
       }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Shield, title: "Entropy Calculation", description: "Calculates exact bits of entropy — the true measure of password strength beyond simple rules." },
+        { icon: Clock, title: "Crack Time Estimate", description: "Shows estimated time to crack at different attack speeds (online, offline, GPU)." },
+        { icon: Lightbulb, title: "Smart Suggestions", description: "Get specific actionable advice to increase entropy without making passwords harder to remember." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Password Entropy Calculator?</h3>
           <p>

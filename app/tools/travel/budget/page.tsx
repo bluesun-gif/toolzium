@@ -3,7 +3,7 @@ import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import TravelBudgetClient from "@/components/tools/travel/budget-client";
 
 const TITLE = "Travel Budget Planner | Toolzium";
-const DESCRIPTION = "Plan travel budget with expense categories and daily cost breakdown.";
+const DESCRIPTION = "Plan and track your travel budget by category — accommodation, food, transport, and activities. Daily budget tracker for any trip. Free.";
 const PATH = "/tools/travel/budget";
 
 export const metadata = buildMetadata({

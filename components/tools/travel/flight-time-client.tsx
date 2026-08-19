@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { ResetButton, ActionButton } from "@/components/shared/action-buttons";
-import { Send, Clock, Navigation, ArrowLeftRight, Sparkles, Shield, Zap, Copy, Calculator } from "lucide-react";
+import { ArrowLeftRight, Calculator, Calendar, Clock, Copy, Globe, Navigation, Plane, Send, Shield, Sparkles, Zap } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -275,36 +275,17 @@ export function FlightTimeClient() {
  </GlassCard>
  </div>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Enter Route", description: "Type departure city/airport and destination city/airport.", icon: Plane },
+        { step: "02", title: "Add Departure Time", description: "Enter your departure date and local time.", icon: Clock },
+        { step: "03", title: "Get Arrival Time", description: "See the local arrival time at your destination accounting for timezones.", icon: Globe },
+      ]} badges={["Exact Arrival", "Date Line Aware", "Timezone Math"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Clock, title: "Exact Arrival Time", description: "Calculate the local clock time you'll land, accounting for flight duration and timezone shift." },
+        { icon: Globe, title: "Timezone Conversion", description: "Handles crossing the international date line and multiple timezone changes." },
+        { icon: Calendar, title: "Date Aware", description: "Shows if you land the same day, next day, or arrive before you left (due to timezones)." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Flight Time Calculator?</h3>
           <p>

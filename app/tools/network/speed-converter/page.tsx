@@ -2,8 +2,8 @@ import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import SpeedConverterClient from "@/components/tools/network/speed-converter-client";
 
-const TITLE = "Network Speed Converter | Toolzium";
-const DESCRIPTION = "Convert network speeds between bits and bytes (Mbps, MBps, Gbps) and calculate file download times.";
+const TITLE = "Speed Converter | Toolzium";
+const DESCRIPTION = "Convert speed units instantly — mph to km/h, m/s, knots, Mach number and more. Real-time speed conversion with precise values.";
 const PATH = "/tools/network/speed-converter";
 
 export const metadata = buildMetadata({

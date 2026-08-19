@@ -9,7 +9,7 @@ import { CardContent, CardHeader, CardTitle, CardDescription } from "@/component
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CheckSquare, Send, Plus, Printer, Trash, Sparkles, Shield, Zap, Copy, Type } from "lucide-react";
+import { CheckSquare, Copy, Download, Edit, Plus, Printer, Send, Shield, Sparkles, Trash, Type, Zap } from "lucide-react";
 import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
@@ -217,36 +217,17 @@ export function TravelChecklistClient() {
  </CardContent>
  </GlassCard>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Select Trip Type", description: "Choose your trip type — beach, city break, business travel, backpacking, or custom.", icon: Sparkles },
+        { step: "02", title: "Customize List", description: "Add or remove items to match your specific destination and trip duration.", icon: Edit },
+        { step: "03", title: "Pack & Check Off", description: "Check items as you pack — never forget a passport, charger, or medication again.", icon: CheckSquare },
+      ]} badges={["Smart Lists", "Print Ready", "Offline"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: CheckSquare, title: "Smart Checklists", description: "Pre-built packing lists for different trip types — beach, business, winter, and more." },
+        { icon: Download, title: "Save & Print", description: "Save your list or print it as a PDF to take offline." },
+        { icon: Sparkles, title: "Mobile Friendly", description: "Use on your phone while packing — designed for one-handed checklist use." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Travel Checklist?</h3>
           <p>

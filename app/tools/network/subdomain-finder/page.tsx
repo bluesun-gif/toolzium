@@ -3,7 +3,7 @@ import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import SubdomainFinderClient from "@/components/tools/network/subdomain-finder-client";
 
 const TITLE = "Subdomain Finder | Toolzium";
-const DESCRIPTION = "Free online subdomain finder tool with instant calculation and privacy.";
+const DESCRIPTION = "Discover all subdomains for any domain using certificate transparency logs and DNS enumeration. Free subdomain scanner for security research.";
 const PATH = "/tools/network/subdomain-finder";
 
 export const metadata = buildMetadata({

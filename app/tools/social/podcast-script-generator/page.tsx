@@ -2,8 +2,8 @@ import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import PodcastScriptGeneratorClient from "@/components/tools/social/podcast-script-generator-client";
 
-const TITLE = "AI Podcast Episode Script & Show Notes Studio | Toolzium";
-const DESCRIPTION = "Generate episode intro scripts, guest interview question frameworks, sponsor reads, and publishing show notes using live AI.";
+const TITLE = "Podcast Script Generator | Toolzium";
+const DESCRIPTION = "Generate complete podcast episode scripts using AI. Get structured scripts with intro, segments, and outro for any topic. Free, instant.";
 const PATH = "/tools/social/podcast-script-generator";
 
 export const metadata = buildMetadata({

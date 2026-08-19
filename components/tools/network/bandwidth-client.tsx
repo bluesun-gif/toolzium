@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
 import { cn } from "@/lib/utils";
-import { Wifi, Clock, HardDrive, Download, Trash2, Plus, Sparkles, Shield, Zap, Copy, Calculator } from "lucide-react";
+import { Calculator, Clock, Copy, Download, Gauge, HardDrive, Plus, Shield, Sparkles, Trash2, Type, Wifi, Zap } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -208,36 +208,17 @@ export function BandwidthClient() {
  </div>
  </div>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Select Unit", description: "Choose your bandwidth unit — Mbps, Kbps, GB/s, or any other measurement.", icon: Gauge },
+        { step: "02", title: "Enter Value", description: "Type your bandwidth value or data transfer amount into the input field.", icon: Type },
+        { step: "03", title: "Get Conversion", description: "Instantly see the converted result across all bandwidth units simultaneously.", icon: Zap },
+      ]} badges={["All Units", "Real-Time", "No Signup"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Gauge, title: "All Units Covered", description: "Convert between Mbps, Kbps, Gbps, MB/s, KB/s, GB/s and more in one step." },
+        { icon: Zap, title: "Instant Results", description: "Conversions update in real-time as you type — no submit button needed." },
+        { icon: Shield, title: "Client-Side Only", description: "All calculations run in your browser. No data ever leaves your device." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Bandwidth Calculator?</h3>
           <p>

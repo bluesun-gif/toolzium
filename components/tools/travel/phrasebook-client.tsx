@@ -9,7 +9,7 @@ import { CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { CopyButton } from "@/components/shared/action-buttons";
-import { Globe, Volume2, Star, AlertTriangle, Search, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { AlertTriangle, Copy, Globe, Search, Shield, Sparkles, Star, Volume2, WifiOff, Zap } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { GridPattern } from "@/components/magicui/grid-pattern";
@@ -199,36 +199,17 @@ export function PhrasebookClient() {
  </GlassCard>)}
  </div>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Select Language", description: "Choose your destination country language from 50+ supported languages.", icon: Globe },
+        { step: "02", title: "Browse or Search", description: "Browse by category (greetings, food, transport) or search for any phrase.", icon: Search },
+        { step: "03", title: "Listen & Copy", description: "Tap the speaker icon to hear pronunciation, or copy the phrase to show locals.", icon: Volume2 },
+      ]} badges={["50+ Languages", "Audio", "Offline"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Globe, title: "50+ Languages", description: "Essential phrases in 50+ languages covering all major travel destinations." },
+        { icon: Volume2, title: "Audio Pronunciation", description: "Hear the correct pronunciation of every phrase — never mispronounce again." },
+        { icon: WifiOff, title: "Offline Access", description: "Download your phrasebook for offline use — no internet needed at the destination." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Travel Phrasebook?</h3>
           <p>

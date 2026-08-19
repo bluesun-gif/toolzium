@@ -2,8 +2,8 @@ import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import VisaIndexClient from "@/components/tools/travel/visa-index-client";
 
-const TITLE = "Travel Visa Requirements Index | Toolzium";
-const DESCRIPTION = "Check visa requirements and travel restrictions based on your passport.";
+const TITLE = "Passport Visa Index | Toolzium";
+const DESCRIPTION = "Check your passport's global power and see which countries you can visit visa-free. Interactive world map with 190+ passport rankings. Free.";
 const PATH = "/tools/travel/visa-index";
 
 export const metadata = buildMetadata({

@@ -3,7 +3,7 @@ import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import WorldClockClient from "@/components/tools/time/world-clock-client";
 
 const TITLE = "World Clock | Toolzium";
-const DESCRIPTION = "Display current time in multiple timezones simultaneously. Live updating world clock.";
+const DESCRIPTION = "View the current time in multiple cities and timezones simultaneously. Add any city — live, DST-aware world clock. Free, no signup.";
 const PATH = "/tools/time/world-clock";
 
 export const metadata = buildMetadata({

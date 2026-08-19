@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
 import { cn } from "@/lib/utils";
-import { CreditCard, PieChart, Plus, Send, Trash2, ArrowLeft, Sparkles, Shield, Zap, Copy, History } from "lucide-react";
+import { ArrowLeft, Copy, CreditCard, DollarSign, Download, History, PieChart, Plus, Receipt, Send, Shield, Sparkles, Trash2, Zap } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -344,19 +344,11 @@ export function ExpensesClient() {
         icon: Copy
       }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Receipt, title: "Multi-Currency Logging", description: "Log expenses in any currency — auto-converted to your home currency." },
+        { icon: PieChart, title: "Category Breakdown", description: "Visual breakdown of spending by food, transport, accommodation, and activities." },
+        { icon: Download, title: "Export to CSV", description: "Download a complete expense report for reimbursement or tax records." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Travel Expense Tracker?</h3>
           <p>

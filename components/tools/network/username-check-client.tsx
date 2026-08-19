@@ -14,7 +14,7 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
-import { Github, Twitter, Instagram, Youtube, Linkedin, Twitch, Facebook, Search, ExternalLink, Copy, CheckCircle2, Gamepad2, Music, Video, BookOpen, MessageCircle, Sparkles, Shield, Zap, Check } from "lucide-react";
+import { BookOpen, Check, CheckCircle2, Copy, ExternalLink, Facebook, Gamepad2, Github, Instagram, Linkedin, List, MessageCircle, Music, Search, Shield, Sparkles, Twitch, Twitter, User, Video, Youtube, Zap } from "lucide-react";
 type Platform = {
   id: string;
   name: string;
@@ -217,36 +217,17 @@ export default function UsernameCheckClient() {
  </AlertDescription>
  </Alert>}
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Enter Username", description: "Type the username or handle you want to check availability for.", icon: User },
+        { step: "02", title: "Select Platforms", description: "Choose which social platforms to check — or check all at once.", icon: List },
+        { step: "03", title: "View Results", description: "See which platforms have that username taken or available.", icon: CheckCircle2 },
+      ]} badges={["30+ Platforms", "Instant", "Brand Check"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Search, title: "30+ Platforms", description: "Check username availability across Twitter, Instagram, GitHub, TikTok, Reddit, and 25+ more." },
+        { icon: Zap, title: "Simultaneous Check", description: "All platforms checked in parallel — results in seconds, not minutes." },
+        { icon: User, title: "Brand Protection", description: "Secure your brand name across all platforms before someone else does." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our url?</h3>
           <p>

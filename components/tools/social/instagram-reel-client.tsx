@@ -8,7 +8,7 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { AiOutputDisplay } from "@/components/shared/ai-output-display";
-import { Instagram, RefreshCw, Sparkles, Shield, Zap, Copy, Type } from "lucide-react";
+import { Copy, Film, Instagram, RefreshCw, Shield, Sparkles, TrendingUp, Type, Zap } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -89,36 +89,17 @@ export default function InstagramReelClient() {
  {/* Premium AI Output Display */}
  <AiOutputDisplay title="AI Generated Instagram Reel Hooks & Captions" subtitle="3-Second Retention Hooks & Call to Actions" content={hooks} loading={loading} onRegenerate={generateReelHooks} variant="prose" />
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Describe Your Video", description: "Tell the AI what your Instagram Reel is about — topic, niche, target audience.", icon: Film },
+        { step: "02", title: "Generate Hooks", description: "Click Generate — AI writes 10 scroll-stopping opening hooks for your Reel.", icon: Sparkles },
+        { step: "03", title: "Copy & Record", description: "Pick your favorite hook, copy it, and use it as the first 3 seconds of your Reel.", icon: Copy },
+      ]} badges={["AI-Powered", "10 Hooks", "Viral Formulas"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Sparkles, title: "AI-Powered Hooks", description: "Uses advanced AI to write hooks proven to stop the scroll in the first 3 seconds." },
+        { icon: TrendingUp, title: "Trend-Aware", description: "Hooks are crafted using viral Instagram Reel patterns and engagement psychology." },
+        { icon: Zap, title: "10 Hooks Instantly", description: "Get 10 different hook variations — curiosity, shock, question, story, and more styles." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Instagram Reel Hook & Viral Caption Generator?</h3>
           <p>

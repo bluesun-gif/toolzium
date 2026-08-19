@@ -2,8 +2,8 @@ import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import TwitterThreadGeneratorClient from "@/components/tools/social/twitter-thread-generator-client";
 
-const TITLE = "AI X / Twitter Viral Thread Generator";
-const DESCRIPTION = "Generate high-converting 1st-tweet opening hooks, actionable storytelling tweets, and viral CTA tweets powered by live AI.";
+const TITLE = "Twitter Thread Generator | Toolzium";
+const DESCRIPTION = "Generate viral Twitter/X threads using AI. Get complete threads with hook, content tweets, and CTA — all under 280 characters. Free.";
 const PATH = "/tools/social/twitter-thread-generator";
 
 export const metadata = buildMetadata({

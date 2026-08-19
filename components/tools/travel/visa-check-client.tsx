@@ -10,7 +10,7 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Globe, ExternalLink, AlertTriangle, Sparkles, Shield, Zap, Copy, Check } from "lucide-react";
+import { AlertTriangle, Check, Copy, ExternalLink, FileText, Flag, Globe, MapPin, RefreshCw, Shield, Sparkles, Zap } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
@@ -147,36 +147,17 @@ export function VisaCheckClient() {
  </CardContent>
  </GlassCard>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Enter Your Nationality", description: "Select your passport country from the dropdown.", icon: Flag },
+        { step: "02", title: "Select Destination", description: "Choose the country you want to travel to.", icon: MapPin },
+        { step: "03", title: "View Visa Requirements", description: "See if you need a visa, can get visa-on-arrival, or enter visa-free.", icon: FileText },
+      ]} badges={["190+ Countries", "Transit Visas", "Updated"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Flag, title: "190+ Passport Types", description: "Check visa requirements for any nationality traveling to any country." },
+        { icon: FileText, title: "Application Details", description: "See required documents, fees, processing time, and where to apply." },
+        { icon: RefreshCw, title: "Updated Regularly", description: "Visa requirements updated regularly as policies change." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Visa Requirements Checker?</h3>
           <p>

@@ -8,7 +8,7 @@ import { GlassCard } from "@/components/ui/glass-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { AiOutputDisplay } from "@/components/shared/ai-output-display";
-import { Youtube, RefreshCw, Sparkles, Shield, Zap, Copy, Type } from "lucide-react";
+import { Copy, RefreshCw, Shield, Sparkles, Tag, TrendingUp, Type, Youtube, Zap } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -84,36 +84,17 @@ export default function YoutubeTagClient() {
  {/* Premium AI Output Display */}
  <AiOutputDisplay title="AI Generated YouTube Video Tags" subtitle="Formatted for YouTube Studio Tag Box" content={tags} loading={loading} onRegenerate={generateTags} variant="cards" />
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Enter Video Title", description: "Type your YouTube video title or describe the video topic.", icon: Youtube },
+        { step: "02", title: "Generate Tags", description: "AI generates 20-30 high-ranking YouTube tags optimized for your video.", icon: Tag },
+        { step: "03", title: "Copy All Tags", description: "Copy all tags with one click and paste directly into your YouTube Studio.", icon: Copy },
+      ]} badges={["30 Tags", "SEO Optimized", "One-Click Copy"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Tag, title: "SEO-Optimized Tags", description: "Tags are selected for search volume and competition using YouTube ranking signals." },
+        { icon: Zap, title: "30 Tags Instantly", description: "Get a full set of broad, medium, and long-tail tags in seconds." },
+        { icon: TrendingUp, title: "Ranking Focused", description: "Mix of high-volume and niche tags to maximize discovery for both large and small channels." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our YouTube Video Tag & High-SEO Keyword Extractor?</h3>
           <p>

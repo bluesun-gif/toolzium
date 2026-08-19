@@ -3,7 +3,7 @@ import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import PackingWeightClient from "@/components/tools/travel/packing-weight-client";
 
 const TITLE = "Packing Weight Calculator | Toolzium";
-const DESCRIPTION = "Calculate your luggage weight before traveling to avoid overweight baggage fees.";
+const DESCRIPTION = "Calculate total luggage weight before you travel. Avoid overweight baggage fees — track individual item weights against airline limits. Free.";
 const PATH = "/tools/travel/packing-weight";
 
 export const metadata = buildMetadata({

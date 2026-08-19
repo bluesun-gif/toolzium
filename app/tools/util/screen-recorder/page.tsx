@@ -3,7 +3,7 @@ import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import ScreenRecorderClient from "@/components/tools/util/screen-recorder-client";
 
 const TITLE = "Screen Recorder | Toolzium";
-const DESCRIPTION = "Free online screen recorder tool with instant calculation and privacy.";
+const DESCRIPTION = "Record your screen, window, or browser tab with optional microphone audio. No extension or software needed — download instantly as WebM. Free.";
 const PATH = "/tools/util/screen-recorder";
 
 export const metadata = buildMetadata({

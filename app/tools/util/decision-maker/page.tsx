@@ -2,8 +2,8 @@ import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import DecisionMakerClient from "@/components/tools/util/decision-maker-client";
 
-const TITLE = "Decision Maker | Toolzium";
-const DESCRIPTION = "Help make decisions with simple random choice or weighted criteria.";
+const TITLE = "Decision Maker Tool | Toolzium";
+const DESCRIPTION = "Make better decisions with weighted criteria analysis and AI suggestions. Compare options, score priorities, and find the best choice. Free.";
 const PATH = "/tools/util/decision-maker";
 
 export const metadata = buildMetadata({

@@ -3,7 +3,7 @@ import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import FlightTimeClient from "@/components/tools/travel/flight-time-client";
 
 const TITLE = "Flight Time Calculator | Toolzium";
-const DESCRIPTION = "Estimate flight duration and distances between major global cities.";
+const DESCRIPTION = "Calculate exact local arrival time for any flight route. Accounts for timezones, date changes, and international date line crossings. Free.";
 const PATH = "/tools/travel/flight-time";
 
 export const metadata = buildMetadata({

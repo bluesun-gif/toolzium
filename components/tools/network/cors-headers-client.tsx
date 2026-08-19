@@ -11,7 +11,7 @@ import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import { Shield, Sparkles, Zap, Copy, Type } from "lucide-react";
+import { AlertTriangle, Copy, Link2, Send, Shield, ShieldCheck, Sparkles, Type, Zap } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
@@ -129,36 +129,17 @@ export function CorsHeadersClient() {
  </GlassCard>
  </div>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Enter API URL", description: "Paste your API endpoint or server URL into the input field above.", icon: Link2 },
+        { step: "02", title: "Send Request", description: "Click Check — the tool sends a preflight OPTIONS request to inspect CORS headers.", icon: Send },
+        { step: "03", title: "Review Headers", description: "See all Access-Control headers returned, and whether CORS is properly configured.", icon: ShieldCheck },
+      ]} badges={["Live Check", "CORS Debug", "Developer Tool"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: ShieldCheck, title: "Full CORS Inspection", description: "Reads all Access-Control-Allow-Origin, Methods, Headers, and Max-Age values." },
+        { icon: Zap, title: "Live Preflight Check", description: "Sends a real OPTIONS request to test actual server CORS configuration." },
+        { icon: AlertTriangle, title: "Issue Detection", description: "Flags missing headers and misconfigurations that would block browser requests." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our CORS Header Generator?</h3>
           <p>

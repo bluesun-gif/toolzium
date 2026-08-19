@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
-import { Luggage, Scale, AlertTriangle, Calculator, Briefcase, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { AlertTriangle, Briefcase, Calculator, Copy, DollarSign, Luggage, Plane, Scale, Shield, Sparkles, Zap } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
@@ -186,36 +186,17 @@ export function BaggageCalcClient() {
  </div>
  </div>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Select Airline", description: "Choose your airline from the dropdown to load its baggage fee schedule.", icon: Plane },
+        { step: "02", title: "Enter Bag Details", description: "Input your bag dimensions and weight to check if it meets carry-on or checked limits.", icon: Luggage },
+        { step: "03", title: "See Fees", description: "Get the exact baggage fee for your trip — domestic, international, and oversize.", icon: DollarSign },
+      ]} badges={["100+ Airlines", "Fee Calculator", "Size Checker"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Plane, title: "100+ Airlines", description: "Baggage rules and fees for all major airlines — updated regularly." },
+        { icon: DollarSign, title: "Fee Calculator", description: "Calculate exact baggage fees including overweight and oversized surcharges." },
+        { icon: Luggage, title: "Size & Weight Check", description: "Check if your bag fits carry-on limits before you get to the airport." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Airline Baggage Allowance & Fee Calculator?</h3>
           <p>

@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ResetButton } from "@/components/shared/action-buttons";
-import { Scale, Briefcase, AlertTriangle, Plus, Trash2, Sparkles, Shield, Zap, Copy, Calculator, Settings } from "lucide-react";
+import { AlertTriangle, Briefcase, Calculator, Copy, Download, Luggage, Plus, Scale, Settings, Shield, Sparkles, Trash2, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -212,36 +212,17 @@ export function PackingWeightClient() {
  </div>
  </div>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Add Items", description: "Enter each item you plan to pack with its estimated weight in grams or ounces.", icon: Luggage },
+        { step: "02", title: "Set Weight Limit", description: "Enter your airline's checked baggage weight limit (usually 20 or 23 kg).", icon: Scale },
+        { step: "03", title: "See Total Weight", description: "View total bag weight and get warnings if you're close to or over the limit.", icon: AlertTriangle },
+      ]} badges={["Weight Alerts", "Mixed Units", "Save List"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Scale, title: "Weight Limit Tracker", description: "Set your airline's weight limit and see a visual indicator of how close you are." },
+        { icon: AlertTriangle, title: "Over-Limit Warning", description: "Get alerted before you reach the airport and face overweight baggage fees." },
+        { icon: Download, title: "Save Packing List", description: "Save your weighted packing list for future reference or the same trip." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Packing Weight Calculator?</h3>
           <p>

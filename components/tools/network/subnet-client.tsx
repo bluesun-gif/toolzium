@@ -10,7 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Network, Calculator, Hash, Table as TableIcon, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { Calculator, Copy, Gauge, Hash, Network, Shield, Sparkles, Table, Table as TableIcon, Zap } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
@@ -144,36 +144,17 @@ export function SubnetCalculatorClient() {
  </GlassCard>
  </div>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Enter IP & CIDR", description: "Type your IP address and CIDR prefix (e.g. 192.168.1.0/24).", icon: Network },
+        { step: "02", title: "Calculate", description: "Click Calculate — the tool computes all subnet details instantly.", icon: Zap },
+        { step: "03", title: "View Results", description: "See network address, broadcast, gateway, usable hosts, and host range.", icon: Table },
+      ]} badges={["IPv4 Support", "CIDR Notation", "Network Planning"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Network, title: "Full Subnet Details", description: "Get network address, subnet mask, broadcast address, and usable IP range." },
+        { icon: Gauge, title: "Host Count", description: "See exactly how many usable host addresses your subnet provides." },
+        { icon: Zap, title: "Instant Calculation", description: "Results appear immediately — great for network planning and troubleshooting." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Subnet Calculator?</h3>
           <p>

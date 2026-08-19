@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
 import { cn } from "@/lib/utils";
-import { Image as ImageIcon, Crop, Download, Grid, Upload, Sparkles, Shield, Zap, Copy, Settings, Eye } from "lucide-react";
+import { Camera, Copy, Crop, Download, Eye, Flag, Grid, Image as ImageIcon, Printer, Settings, Shield, Sparkles, Upload, Zap } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -277,36 +277,17 @@ export function PassportPhotoClient() {
  </GlassCard>
  </div>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Upload Your Photo", description: "Take or upload a clear portrait photo with a plain background.", icon: Camera },
+        { step: "02", title: "Select Country", description: "Choose the destination country to apply the correct passport photo specifications.", icon: Flag },
+        { step: "03", title: "Download Photo", description: "Get a properly sized, print-ready passport photo meeting official requirements.", icon: Download },
+      ]} badges={["190+ Countries", "Print Ready", "Official Specs"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Flag, title: "190+ Country Specs", description: "Correct dimensions and requirements for passport photos from 190+ countries." },
+        { icon: Camera, title: "Auto-Crop & Resize", description: "Automatically crops and resizes your photo to official specifications." },
+        { icon: Printer, title: "Print Ready", description: "Download 4×6 inch print sheets with 4-6 copies arranged for printing." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Passport Photo Crop & Grid?</h3>
           <p>

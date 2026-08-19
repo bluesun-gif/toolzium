@@ -1,6 +1,6 @@
 "use client";
 
-import { Plus as PlusIcon } from "lucide-react";
+import { Bell, Clock, Copy, Globe, Plus as PlusIcon, Shield, Sparkles, Trash2, Type, Volume2, Zap } from "lucide-react";
 
 import { ToolBackground } from "@/components/shared/tool-background";
 
@@ -30,8 +30,6 @@ import { Label } from"@/components/ui/label";
 import { Switch } from"@/components/ui/switch";
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from"@/components/ui/select";
-
-import { Clock, Globe, Bell, Trash2, Sparkles, Shield, Zap, Copy } from"lucide-react";
 
 import { toast } from"react-hot-toast";
 

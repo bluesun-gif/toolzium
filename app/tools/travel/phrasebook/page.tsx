@@ -3,7 +3,7 @@ import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import PhrasebookClient from "@/components/tools/travel/phrasebook-client";
 
 const TITLE = "Travel Phrasebook | Toolzium";
-const DESCRIPTION = "Essential travel phrases in multiple languages with pronunciation and audio playback.";
+const DESCRIPTION = "Essential travel phrases in 50+ languages with audio pronunciation. Browse offline — perfect for travel without internet access. Free.";
 const PATH = "/tools/travel/phrasebook";
 
 export const metadata = buildMetadata({

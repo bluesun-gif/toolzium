@@ -7,7 +7,7 @@ import ToolPageHeader from "@/components/shared/tool-page-header";
 import { GlassCard } from "@/components/ui/glass-card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Video, Calculator, DollarSign, Heart, Eye, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { Award, Calculator, Copy, DollarSign, Eye, Gauge, Heart, Shield, Sparkles, TrendingUp, Video, Zap } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
@@ -89,36 +89,17 @@ export default function TiktokCalcClient() {
  </GlassCard>
  </div>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Enter Your Stats", description: "Input your TikTok followers, average views, likes, comments, and shares.", icon: TrendingUp },
+        { step: "02", title: "Calculate", description: "Click Calculate — the tool computes your engagement rate and performance metrics.", icon: Gauge },
+        { step: "03", title: "Benchmark", description: "Compare your engagement rate against TikTok creator benchmarks to see how you rank.", icon: Award },
+      ]} badges={["Engagement Rate", "Benchmarks", "Creator Analytics"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: TrendingUp, title: "Engagement Rate", description: "Calculate your exact TikTok engagement rate — the key metric brands use for sponsorships." },
+        { icon: Award, title: "Creator Benchmarks", description: "See if your engagement is below average, average, good, or viral compared to creators." },
+        { icon: DollarSign, title: "Sponsorship Value", description: "Estimate your per-post sponsorship value based on followers and engagement." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our TikTok Engagement & Creator Fund Earnings Calculator?</h3>
           <p>

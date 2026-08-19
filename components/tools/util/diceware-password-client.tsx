@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ActionButton, CopyButton } from "@/components/shared/action-buttons";
-import { Lock, RefreshCw, Key, Sparkles, Shield, Zap, Copy, Settings } from "lucide-react";
+import { Brain, Copy, Hash, Key, Lock, RefreshCw, Settings, Shield, Sparkles, Zap } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -145,36 +145,17 @@ export function DicewarePasswordClient() {
  </GlassCard>
  </div>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Choose Word Count", description: "Select how many words (5-8 recommended) for your Diceware passphrase.", icon: Hash },
+        { step: "02", title: "Generate Passphrase", description: "Click Generate — cryptographically secure random dice rolls select words from the wordlist.", icon: RefreshCw },
+        { step: "03", title: "Copy & Use", description: "Copy your passphrase and use it as a master password — easy to remember, hard to crack.", icon: Copy },
+      ]} badges={["EFF Wordlist", "Cryptographic", "Memorable"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Shield, title: "Cryptographically Secure", description: "Uses the EFF Diceware wordlist with true random generation — not pseudo-random." },
+        { icon: Brain, title: "Memorizable", description: "5-word passphrases are easy to remember yet offer ~65 bits of entropy." },
+        { icon: Lock, title: "Extremely Strong", description: "A 6-word Diceware passphrase would take billions of years to crack by brute force." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Diceware Wordlist Passphrase Generator?</h3>
           <p>

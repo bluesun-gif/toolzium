@@ -2,8 +2,8 @@ import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import TripBudgetMatrixClient from "@/components/tools/travel/trip-budget-matrix-client";
 
-const TITLE = "Currency Trip Budget & Spending Matrix | Toolzium";
-const DESCRIPTION = "Comprehensive multi-destination travel budget converter matrix.";
+const TITLE = "Trip Budget Comparison Matrix | Toolzium";
+const DESCRIPTION = "Compare multiple trip options by cost, value, and your personal priorities. Make the best travel decision with a weighted budget matrix. Free.";
 const PATH = "/tools/travel/trip-budget-matrix";
 
 export const metadata = buildMetadata({

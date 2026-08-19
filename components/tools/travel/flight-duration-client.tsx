@@ -211,36 +211,17 @@ export function FlightDurationClient() {
  </div>
  </div>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Enter Airports", description: "Type your departure and arrival airport codes or city names.", icon: Plane },
+        { step: "02", title: "Calculate", description: "Click Calculate — the tool computes flight duration, distance, and timezone change.", icon: Clock },
+        { step: "03", title: "View Details", description: "See flight time, distance in km/miles, local arrival time, and time zone difference.", icon: Globe },
+      ]} badges={["Accurate Distance", "Timezone Aware", "Local Time"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Plane, title: "Accurate Flight Time", description: "Calculate realistic flight durations based on great circle distance and typical cruise speed." },
+        { icon: Clock, title: "Local Arrival Time", description: "Shows local arrival time at destination accounting for timezone differences." },
+        { icon: Globe, title: "Time Zone Change", description: "See exactly how many hours you gain or lose crossing timezones." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Flight Duration Calculator?</h3>
           <p>

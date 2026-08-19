@@ -3,7 +3,7 @@ import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import FuelCostClient from "@/components/tools/travel/fuel-cost-client";
 
 const TITLE = "Fuel Cost Calculator | Toolzium";
-const DESCRIPTION = "Calculate and compare fuel costs for your trips across multiple vehicles. Supports metric and imperial units.";
+const DESCRIPTION = "Calculate road trip fuel costs based on distance, fuel efficiency, and current fuel price. Supports mpg and L/100km. Free.";
 const PATH = "/tools/travel/fuel-cost";
 
 export const metadata = buildMetadata({

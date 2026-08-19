@@ -9,7 +9,7 @@ import ToolPageHeader from "@/components/shared/tool-page-header";
 import { GlassCard } from "@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { TrendingUp, DollarSign, Globe, Copy, Sparkles, Shield, Zap } from "lucide-react";
+import { AlertTriangle, BarChart3, Calendar, Copy, DollarSign, Globe, Shield, Sparkles, TrendingUp, Zap } from "lucide-react";
 import { ResetButton } from "@/components/shared/action-buttons";
 import { toast } from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
@@ -240,36 +240,17 @@ export function ExchangeTrendClient() {
  </CardContent>
  </GlassCard>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Pick Currency Pair", description: "Select the two currencies you want to track the trend for.", icon: TrendingUp },
+        { step: "02", title: "Choose Period", description: "Select the trend period — week, month, quarter, or year.", icon: Calendar },
+        { step: "03", title: "Analyze Trend", description: "See the trend direction, percentage change, high/low, and key trend signals.", icon: BarChart3 },
+      ]} badges={["Trend Analysis", "Visual Chart", "Rate Signals"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: TrendingUp, title: "Trend Analysis", description: "Visual trend line with percentage change, volatility, and momentum indicators." },
+        { icon: BarChart3, title: "Price Range", description: "See the high and low rates for your selected period at a glance." },
+        { icon: AlertTriangle, title: "Trend Signals", description: "Identifies bullish, bearish, or sideways trends to help time your exchange." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Currency Rate Trend Comparison Table?</h3>
           <p>

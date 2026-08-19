@@ -2,8 +2,8 @@ import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import CurrencyMatrixClient from "@/components/tools/travel/currency-matrix-client";
 
-const TITLE = "Multi-Currency Exchange Matrix | Toolzium";
-const DESCRIPTION = "View cross-rate exchange matrix for multiple currencies simultaneously. Great for multi-country travel planning.";
+const TITLE = "Currency Comparison Matrix | Toolzium";
+const DESCRIPTION = "Compare exchange rates across 40+ currencies in a matrix grid. All pairs shown simultaneously with live rates. Export to CSV. Free.";
 const PATH = "/tools/travel/currency-matrix";
 
 export const metadata = buildMetadata({

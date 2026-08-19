@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ResetButton, ActionButton } from "@/components/shared/action-buttons";
 import { cn } from "@/lib/utils";
-import { DollarSign, Globe, Calculator, Copy, Sparkles, Shield, Zap } from "lucide-react";
+import { Calculator, Copy, DollarSign, Globe, MapPin, Shield, Sliders, Sparkles, Table, Zap } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -165,36 +165,17 @@ export function TripBudgetMatrixClient() {
  </CardContent>
  </GlassCard>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Add Trip Options", description: "Enter 2-5 different trip options you're considering with estimated costs.", icon: MapPin },
+        { step: "02", title: "Set Priorities", description: "Weight what matters most — cost, duration, activities, or accommodation quality.", icon: Sliders },
+        { step: "03", title: "Compare Matrix", description: "View a weighted matrix showing which trip offers the best value for your priorities.", icon: Table },
+      ]} badges={["Weighted Compare", "Value Score", "Decision Tool"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Table, title: "Weighted Comparison", description: "Score each trip option against your priorities to find the best overall choice." },
+        { icon: Sliders, title: "Custom Weights", description: "Adjust the importance of cost, activities, comfort, and other factors." },
+        { icon: DollarSign, title: "Value Score", description: "Each trip gets a value score — cost per benefit — so you can compare objectively." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Trip Budget Matrix?</h3>
           <p>

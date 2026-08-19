@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { ActionButton, ResetButton } from "@/components/shared/action-buttons";
-import { HelpCircle, Scale, Shuffle, CheckCircle2, Plus, Trash, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { CheckCircle2, Copy, HelpCircle, List, Plus, Scale, Shield, Shuffle, Sliders, Sparkles, Trash, Zap } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -249,36 +249,17 @@ export function DecisionMakerClient() {
  </CardContent>
  </GlassCard>}
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Enter Your Options", description: "Type the options you're deciding between — as many as you need.", icon: List },
+        { step: "02", title: "Add Weights (Optional)", description: "Assign importance scores to criteria that matter most to you.", icon: Sliders },
+        { step: "03", title: "Get Decision", description: "The tool analyzes your options and suggests the best choice with reasoning.", icon: Sparkles },
+      ]} badges={["Weighted Criteria", "AI Analysis", "Random Pick"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Sparkles, title: "AI-Assisted Choice", description: "Uses weighted scoring and decision frameworks to recommend the best option." },
+        { icon: Sparkles, title: "Random Picker", description: "Can't decide? Use the random mode to let the tool pick for you." },
+        { icon: Sliders, title: "Weighted Criteria", description: "Add and weight multiple decision criteria — cost, quality, convenience, and more." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Decision Maker?</h3>
           <p>

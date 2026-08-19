@@ -3,7 +3,7 @@ import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import ExpensesClient from "@/components/tools/travel/expenses-client";
 
 const TITLE = "Travel Expense Tracker | Toolzium";
-const DESCRIPTION = "Track expenses during a trip, manage budget and analyze spending by category.";
+const DESCRIPTION = "Track travel expenses in multiple currencies. Log spending by category, auto-convert to home currency, and export reports. Free.";
 const PATH = "/tools/travel/expenses";
 
 export const metadata = buildMetadata({

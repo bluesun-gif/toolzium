@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
-import { Search, Copy, Download, History, RefreshCw, AlertTriangle, ShieldCheck, Check, ShieldAlert, Sparkles, Shield, Zap, Settings, Type } from "lucide-react";
+import { AlertTriangle, Check, Copy, Download, Globe, History, List, RefreshCw, Search, Settings, Shield, ShieldAlert, ShieldCheck, Sparkles, Type, Zap } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -263,36 +263,17 @@ export default function SubdomainFinderClient() {
  </Card>}
  </div>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Enter Domain", description: "Type the root domain you want to enumerate subdomains for (e.g. example.com).", icon: Globe },
+        { step: "02", title: "Start Scan", description: "Click Find — the tool queries DNS records and certificate transparency logs.", icon: Search },
+        { step: "03", title: "View Subdomains", description: "See all discovered subdomains with their IP addresses and status.", icon: List },
+      ]} badges={["CT Logs", "DNS Check", "Security"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Globe, title: "CT Log Scanning", description: "Queries certificate transparency logs to find all SSL-certified subdomains." },
+        { icon: Search, title: "DNS Enumeration", description: "Cross-references DNS records to verify active subdomains." },
+        { icon: Shield, title: "Security Research", description: "Identify forgotten or exposed subdomains that could be security risks." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Subdomain Finder?</h3>
           <p>

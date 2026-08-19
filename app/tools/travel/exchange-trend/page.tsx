@@ -2,8 +2,8 @@ import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import ExchangeTrendClient from "@/components/tools/travel/exchange-trend-client";
 
-const TITLE = "Currency Rate Trend Comparison Table | Toolzium";
-const DESCRIPTION = "Compare travel currency exchange rates and historical trend rates for top travel destinations.";
+const TITLE = "Currency Exchange Trend | Toolzium";
+const DESCRIPTION = "Analyze currency exchange rate trends over time. See weekly, monthly, and yearly trends with bullish/bearish signals. Free.";
 const PATH = "/tools/travel/exchange-trend";
 
 export const metadata = buildMetadata({

@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { DollarSign, Globe, Calculator, Plus, Trash, Sparkles, Shield, Zap, Copy } from "lucide-react";
+import { Calculator, Copy, DollarSign, Download, Globe, Plus, RefreshCw, Shield, Sparkles, Table, Trash, Zap } from "lucide-react";
 import toast from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -247,36 +247,17 @@ export function MultiCountryBudgetSheetClient() {
  </div>
  </div>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Add Countries", description: "Enter each country you're visiting on your multi-country trip.", icon: Globe },
+        { step: "02", title: "Set Daily Budget", description: "Allocate a daily budget for each country in local currency.", icon: DollarSign },
+        { step: "03", title: "View Total", description: "See your total trip cost converted to your home currency with live rates.", icon: Table },
+      ]} badges={["Multi-Country", "Live Rates", "Export"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Globe, title: "Multi-Country Support", description: "Budget for unlimited countries in one spreadsheet view." },
+        { icon: RefreshCw, title: "Live Conversion", description: "All local currency amounts convert to your home currency using live rates." },
+        { icon: Download, title: "Export Sheet", description: "Download your multi-country budget as an Excel-compatible spreadsheet." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Multi-Country Budget Sheet?</h3>
           <p>

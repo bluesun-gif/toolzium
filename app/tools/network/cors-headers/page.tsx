@@ -2,8 +2,8 @@ import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import CorsHeadersClient from "@/components/tools/network/cors-headers-client";
 
-const TITLE = "CORS Header Generator | Toolzium";
-const DESCRIPTION = "Generate CORS headers for your server or application.";
+const TITLE = "CORS Headers Checker | Toolzium";
+const DESCRIPTION = "Test and debug CORS headers on any API endpoint. See Access-Control headers and identify cross-origin request issues instantly.";
 const PATH = "/tools/network/cors-headers";
 
 export const metadata = buildMetadata({

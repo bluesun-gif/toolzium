@@ -2,8 +2,8 @@ import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import NatoPhoneticPasswordClient from "@/components/tools/util/nato-phonetic-password-client";
 
-const TITLE = "NATO Phonetic Password Generator | Toolzium";
-const DESCRIPTION = "Generate secure passwords with NATO phonetic spelling soundout.";
+const TITLE = "NATO Phonetic Alphabet Converter | Toolzium";
+const DESCRIPTION = "Convert any text to NATO phonetic alphabet — Alpha, Bravo, Charlie. Perfect for verbally communicating passwords, codes, and serial numbers. Free.";
 const PATH = "/tools/util/nato-phonetic-password";
 
 export const metadata = buildMetadata({

@@ -3,7 +3,7 @@ import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import VisaCheckClient from "@/components/tools/travel/visa-check-client";
 
 const TITLE = "Visa Requirements Checker | Toolzium";
-const DESCRIPTION = "Check visa requirements and travel rules between countries.";
+const DESCRIPTION = "Check visa requirements for any passport and destination country — visa-free, visa-on-arrival, or visa required. Application details included. Free.";
 const PATH = "/tools/travel/visa-check";
 
 export const metadata = buildMetadata({

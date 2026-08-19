@@ -173,36 +173,17 @@ export function WifiQrClient() {
  </GlassCard>
  </div>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Enter WiFi Details", description: "Type your network name (SSID), password, and select security type (WPA/WEP/None).", icon: Wifi },
+        { step: "02", title: "Generate QR Code", description: "The tool instantly generates a WiFi QR code with your credentials encoded.", icon: Sparkles },
+        { step: "03", title: "Download & Share", description: "Download the QR code image and print it or share it digitally for easy WiFi access.", icon: Download },
+      ]} badges={["Privacy-First", "Print Ready", "iOS & Android"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Wifi, title: "One-Scan Connect", description: "Guests scan the QR code with their phone camera — no password typing needed." },
+        { icon: Shield, title: "Secure & Private", description: "WiFi credentials are encoded locally in your browser — never sent to any server." },
+        { icon: Download, title: "Print Ready", description: "Download as high-quality PNG — perfect for printing and framing." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our WiFi QR Code Generator?</h3>
           <p>

@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ActionButton, CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { DollarSign, Globe, Calculator, Copy, Save, Sparkles, Shield, Zap } from "lucide-react";
+import { Calculator, Copy, DollarSign, Globe, MapPin, Save, Shield, Sparkles, Table, TrendingUp, Zap } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -193,36 +193,17 @@ export function TravelBudgetMatrixClient() {
  </div>
  </div>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Set Budget Range", description: "Enter your minimum and maximum total trip budget.", icon: DollarSign },
+        { step: "02", title: "Select Destinations", description: "Add multiple destination options to compare.", icon: MapPin },
+        { step: "03", title: "View Cost Matrix", description: "See which destinations fit your budget and how costs compare.", icon: Table },
+      ]} badges={["Destination Compare", "Budget Match", "Matrix View"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Table, title: "Destination Comparison", description: "Compare trip costs across multiple destinations to find the best value." },
+        { icon: DollarSign, title: "Budget Fit Check", description: "Instantly see which destinations are within your budget range." },
+        { icon: TrendingUp, title: "Cost Breakdown", description: "See how each destination scores on accommodation, food, transport, and activities cost." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our Travel Budget Currency Comparison Matrix?</h3>
           <p>

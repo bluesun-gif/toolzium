@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { ActionButton, CopyButton } from "@/components/shared/action-buttons";
-import { Lock, Shield, RefreshCw, Sparkles, Zap, Copy, Settings } from "lucide-react";
+import { Copy, Lock, Mic, RefreshCw, Settings, Shield, Sparkles, Type, Volume2, Zap } from "lucide-react";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
@@ -173,36 +173,17 @@ export function NatoPasswordReaderClient() {
  </GlassCard>
  </div>
  
-      <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Input Your Data",
-        description: "Enter your information in the input field above and configure any options.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "Process & Generate",
-        description: "The tool processes your input instantly and displays the results.",
-        icon: Zap
-      }, {
-        step: "03",
-        title: "Copy & Use",
-        description: "Copy the output with one click and use it wherever you need.",
-        icon: Copy
-      }]} badges={["100% Free", "Instant Results", "Privacy-First"]} />
+      <ToolHowItWorks steps={[
+        { step: "01", title: "Enter Password or Code", description: "Type any password, code, or sensitive string you need to communicate verbally.", icon: Type },
+        { step: "02", title: "Get NATO Spelling", description: "The tool converts each character to its NATO phonetic alphabet equivalent instantly.", icon: Volume2 },
+        { step: "03", title: "Read Aloud", description: "Read the NATO words aloud to clearly communicate your password without confusion.", icon: Mic },
+      ]} badges={["NATO Standard", "All Characters", "Error-Free"]} />
 
-      <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "Lightning Fast",
-        description: "Get results in milliseconds with our optimized client-side processing engine."
-      }, {
-        icon: Shield,
-        title: "Completely Private",
-        description: "All processing happens in your browser. Your data never leaves your device."
-      }, {
-        icon: Zap,
-        title: "No Signup Required",
-        description: "Use this tool instantly without creating an account or providing any personal information."
-      }]}>
+      <ToolFeatureGuides features={[
+        { icon: Volume2, title: "Full NATO Alphabet", description: "Converts every letter, number, and symbol to NATO phonetic spelling — Alpha, Bravo, Charlie, etc." },
+        { icon: Zap, title: "Instant Conversion", description: "Character-by-character conversion updates in real time as you type." },
+        { icon: Shield, title: "Prevent Errors", description: "NATO spelling eliminates confusion between similar-sounding letters — B/D, M/N, P/T." },
+      ]}>
         <div className="prose dark:prose-invert max-w-none">
           <h3>Why Use Our NATO Password Generator?</h3>
           <p>
