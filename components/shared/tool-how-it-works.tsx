@@ -33,7 +33,7 @@ export default function ToolHowItWorks({
   className = "",
 }: ToolHowItWorksProps) {
   return (
-    <section className={`mt-14 space-y-8 ${className}`}>
+    <section className={`col-span-full mt-14 space-y-8 ${className}`} style={{ gridColumn: "1 / -1" }}>
       {/* Section header with blur-fade entrance */}
       <BlurFade delay={0} inView>
         <div className="text-center space-y-2">

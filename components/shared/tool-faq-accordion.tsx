@@ -33,7 +33,7 @@ export default function ToolFaqAccordion({
   if (!faqs || faqs.length === 0) return null;
 
   return (
-    <section className={`mt-16 space-y-8 ${className}`}>
+    <section className={`col-span-full mt-16 space-y-8 ${className}`} style={{ gridColumn: "1 / -1" }}>
       {/* Section header */}
       <BlurFade delay={0} inView>
         <div className="space-y-2 text-center md:text-left">

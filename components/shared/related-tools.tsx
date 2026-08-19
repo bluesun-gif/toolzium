@@ -50,7 +50,7 @@ export function RelatedTools({ currentToolUrl, max = 6 }: RelatedToolsProps) {
   if (!displayedTools || displayedTools.length === 0) return null;
 
   return (
-    <section className="mt-16 pt-8 border-t border-border/60" aria-label="Related Tools">
+    <section className="col-span-full mt-16 pt-8 border-t border-border/60" style={{ gridColumn: "1 / -1" }} aria-label="Related Tools">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
         <h2 className="text-2xl font-bold flex items-center gap-3 text-foreground">
           <div className="p-2 bg-primary/10 rounded-xl">

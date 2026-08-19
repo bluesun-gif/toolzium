@@ -29,7 +29,7 @@ export default function ToolFeatureGuides({
   className = "",
 }: ToolFeatureGuidesProps) {
   return (
-    <section className={cn("mt-16 space-y-10", className)}>
+    <section className={cn("col-span-full mt-16 space-y-10", className)} style={{ gridColumn: "1 / -1" }}>
       {features && features.length > 0 && (
         <div className="space-y-8">
           {/* Section header */}
