@@ -180,3 +180,95 @@ export function buildToolJsonLd(opts: {
 
   return schemas;
 }
+
+export function buildCategoryJsonLd(opts: {
+  name: string;
+  description: string;
+  path: string;
+  tools: { title: string; description: string; url: string }[];
+  faqs?: FAQItem[];
+}) {
+  const url = `${SITE_URL}${opts.path}`;
+
+  const schemas: Record<string, unknown>[] = [
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: `${opts.name} — ${SITE_NAME}`,
+      url,
+      description: opts.description,
+      inLanguage: "en",
+      mainEntity: {
+        "@type": "ItemList",
+        name: opts.name,
+        description: opts.description,
+        numberOfItems: opts.tools.length,
+        itemListElement: opts.tools.map((t, idx) => ({
+          "@type": "ListItem",
+          position: idx + 1,
+          name: t.title,
+          description: t.description,
+          url: `${SITE_URL}${t.url}`,
+        })),
+      },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: SITE_URL,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Tools",
+          item: `${SITE_URL}/tools`,
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: opts.name,
+          item: url,
+        },
+      ],
+    },
+  ];
+
+  const faqsToRender =
+    opts.faqs && opts.faqs.length > 0
+      ? opts.faqs
+      : [
+          {
+            question: `What free ${opts.name} are available on Toolzium?`,
+            answer: `Toolzium provides ${opts.tools.length}+ free online tools in the ${opts.name} suite. Every tool works instantly in your browser without registration or software downloads.`,
+          },
+          {
+            question: `Are these ${opts.name} completely free to use?`,
+            answer: `Yes, all tools in this category are 100% free with unlimited daily usage and no subscription required.`,
+          },
+          {
+            question: `Is my data safe and private when using ${opts.name}?`,
+            answer: `Yes. All tool operations run client-side in your web browser. Your inputs, files, and documents are never uploaded to any remote server or stored.`,
+          },
+        ];
+
+  schemas.push({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqsToRender.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  });
+
+  return schemas;
+}
+

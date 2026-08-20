@@ -21,16 +21,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: route === "" ? 1 : 0.6,
   }));
 
+  const categoryEntries: MetadataRoute.Sitemap = ToolsData.filter(
+    (section) => section.url && section.url !== "/tools" && !staticRoutes.includes(section.url)
+  ).map((section) => ({
+    url: new URL(section.url, site).toString(),
+    lastModified: new Date(),
+    changeFrequency: "daily" as const,
+    priority: 0.85,
+  }));
+
   const toolEntries: MetadataRoute.Sitemap = ToolsData.flatMap((section) =>
     section.items
-      .filter((item) => !staticRoutes.includes(item.url))
+      .filter((item) => !staticRoutes.includes(item.url) && item.url !== section.url)
       .map((item) => ({
         url: new URL(item.url, site).toString(),
         lastModified: new Date(),
         changeFrequency: "daily" as const,
-        priority: item.popular ? 0.9 : 0.6,
+        priority: item.popular ? 0.9 : 0.7,
       }))
   );
 
-  return [...staticEntries, ...toolEntries];
+  return [...staticEntries, ...categoryEntries, ...toolEntries];
 }
