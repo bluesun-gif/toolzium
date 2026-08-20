@@ -22,6 +22,8 @@ import { GridPattern } from "@/components/magicui/grid-pattern";
 import { cn } from "@/lib/utils";
 import { QrCode, Copy, Download, Link2, Wifi, Mail, Phone, UserCheck, Sparkles, CheckCircle2, Sliders, RefreshCcw, Wand2, Type } from "lucide-react";
 import toast from "react-hot-toast";
+import { ShareResultButton } from "@/components/shared/share-result-modal";
+import { EmbedButton } from "@/components/shared/embed-modal";
 type InputType = "url" | "text" | "email" | "phone" | "wifi" | "vcard";
 export function QrClient() {
   const [inputType, setInputType] = useState<InputType>("url");
@@ -322,14 +324,30 @@ export function QrClient() {
                   <div className="p-5 rounded-2xl bg-white shadow-xl border border-slate-200 inline-block shadow-black/20">
                     <img src={qrDataUrl} alt="Scannable QR Code" className="w-56 h-56 rounded-lg" />
                   </div>
-
-                  <div className="flex flex-wrap gap-2 justify-center">
-                    <Button onClick={handleDownloadPNG} size="sm" className="gap-1.5 text-xs bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-xl h-10 px-4">
-                      <Download className="w-3.5 h-3.5" /> Download PNG
+                  <div className="flex flex-wrap gap-2 justify-center w-full max-w-sm pt-2">
+                    <Button onClick={handleDownloadPNG} className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-10 px-5 rounded-xl shadow-md shadow-primary/20 gap-1.5 text-xs">
+                      <Download className="w-4 h-4" /> Download PNG
                     </Button>
                     <Button onClick={handleDownloadSVG} variant="outline" size="sm" className="gap-1.5 text-xs border-border font-semibold rounded-xl h-10 px-4">
                       <Download className="w-3.5 h-3.5" /> Download SVG
                     </Button>
+                    <ShareResultButton
+                      toolTitle="QR Code Studio"
+                      resultTitle={`Custom QR Code (${inputType.toUpperCase()})`}
+                      resultSummary={`Scannable QR code generated for ${payload.slice(0, 40)}...`}
+                      resultMetrics={[
+                        { label: "Type", value: inputType.toUpperCase() },
+                        { label: "Dimensions", value: `${size}x${size} px` },
+                        { label: "Quality", value: "High Contrast" },
+                      ]}
+                      variant="secondary"
+                      className="h-10 px-4"
+                    />
+                    <EmbedButton
+                      toolPath="/tools/url/qr"
+                      toolTitle="QR Code Studio"
+                      className="h-10 px-4"
+                    />
                     <Button onClick={handleCopyPayload} variant="ghost" size="sm" className="gap-1.5 text-xs text-foreground hover:text-primary hover:bg-muted/50 font-semibold rounded-xl h-10">
                       <Copy className="w-3.5 h-3.5" /> Copy Payload
                     </Button>

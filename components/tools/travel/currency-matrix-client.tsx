@@ -18,6 +18,8 @@ import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
+import { ShareResultButton } from "@/components/shared/share-result-modal";
+import { EmbedButton } from "@/components/shared/embed-modal";
 const ALL_CURRENCIES = ["USD", "EUR", "GBP", "JPY", "CAD", "AUD", "BDT", "INR"];
 
 // Mock exchange rates relative to USD
@@ -90,10 +92,34 @@ export function CurrencyMatrixClient() {
       <div className="relative z-10 space-y-6">
       
 
- <ToolPageHeader icon={Grid} title="Multi-Currency Exchange Matrix" description="Cross-rate matrix table for multi-currency travel planning." actions={<div className="flex space-x-2">
- <CopyButton getText={getMatrixText} label="Copy Matrix" />
- <ResetButton onClick={handleReset} label="Reset" />
- </div>} />
+ <ToolPageHeader
+   icon={Grid}
+   title="Multi-Currency Exchange Matrix"
+   description="Cross-rate matrix table for multi-currency travel planning."
+   actions={
+     <div className="flex flex-wrap items-center gap-2">
+       <CopyButton getText={getMatrixText} label="Copy Matrix" />
+       <ShareResultButton
+         toolTitle="Currency Matrix"
+         resultTitle={`Cross-Rates for ${currencies.join(", ")}`}
+         resultSummary="Live multi-currency comparison matrix for travelers and forex traders."
+         resultMetrics={[
+           { label: "Currencies", value: currencies.length },
+           { label: "Base Rate", value: "USD 1.00" },
+           { label: "Matrix Pairs", value: `${currencies.length * currencies.length} Pairs` },
+         ]}
+         variant="secondary"
+         size="sm"
+       />
+       <EmbedButton
+         toolPath="/tools/travel/currency-matrix"
+         toolTitle="Currency Matrix"
+         size="sm"
+       />
+       <ResetButton onClick={handleReset} label="Reset" />
+     </div>
+   }
+ />
  
  <GlassCard>
  <CardHeader>

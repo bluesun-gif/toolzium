@@ -26,6 +26,8 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import toast from "react-hot-toast";
+import { ShareResultButton } from "@/components/shared/share-result-modal";
+import { EmbedButton } from "@/components/shared/embed-modal";
 
 const MINOR_WORDS = new Set([
   "a", "an", "and", "as", "at", "but", "by", "en", "for", "if", "in", "of", "on", "or", "the", "to", "v", "via", "vs"
@@ -245,13 +247,33 @@ export function CaseConverterClient() {
               <h3 className="font-semibold text-base">Text Editor &amp; Formatter</h3>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <Button variant="outline" size="sm" onClick={copyToClipboard} className="h-8 gap-1.5 text-xs font-semibold">
                 <Copy className="w-3.5 h-3.5" /> Copy
               </Button>
               <Button variant="outline" size="sm" onClick={downloadText} className="h-8 gap-1.5 text-xs font-semibold">
                 <Download className="w-3.5 h-3.5" /> Download .TXT
               </Button>
+              <ShareResultButton
+                toolTitle="Case Converter"
+                resultTitle={`${stats.words} Words Converted to ${lastAction}`}
+                resultSummary={`Formatted text: "${text.slice(0, 50)}..."`}
+                resultMetrics={[
+                  { label: "Transformation", value: lastAction },
+                  { label: "Words", value: stats.words },
+                  { label: "Characters", value: stats.chars },
+                  { label: "Lines", value: stats.lines },
+                ]}
+                variant="secondary"
+                size="sm"
+                className="h-8"
+              />
+              <EmbedButton
+                toolPath="/tools/text/case-converter"
+                toolTitle="Case Converter"
+                size="sm"
+                className="h-8"
+              />
               <Button
                 variant="ghost"
                 size="sm"

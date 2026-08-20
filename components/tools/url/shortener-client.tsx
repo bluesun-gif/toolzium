@@ -23,6 +23,8 @@ import { cn } from "@/lib/utils";
 import { createShort, getAnalytics, type AnalyticsResponse } from "@/lib/actions/shortener.action";
 import { Link2, Copy, Download, QrCode, Scissors, RefreshCcw, ExternalLink, CheckCircle2, History, BarChart3, Globe, MousePointer, Smartphone, X, Sparkles, Wand2, ShieldCheck, Zap, Trash2, Type } from "lucide-react";
 import toast from "react-hot-toast";
+import { ShareResultButton } from "@/components/shared/share-result-modal";
+import { EmbedButton } from "@/components/shared/embed-modal";
 interface ShortenedLink {
   id: string;
   original: string;
@@ -294,10 +296,24 @@ export function ShortenerClient() {
                           {item.shortUrl} <ExternalLink className="w-4 h-4" />
                         </a>
 
-                        <div className="flex items-center gap-1.5">
+                        <div className="flex flex-wrap items-center gap-1.5">
                           <Button variant="outline" size="sm" onClick={() => handleCopy(item.shortUrl, "Short URL")} className="h-8 text-xs gap-1 border-border font-semibold">
                             <Copy className="w-3.5 h-3.5" /> Copy
                           </Button>
+
+                          <ShareResultButton
+                            toolTitle="URL Shortener"
+                            resultTitle={item.shortUrl}
+                            resultSummary={`Short trackable link pointing to ${item.original.slice(0, 50)}...`}
+                            resultMetrics={[
+                              { label: "Short Link", value: item.shortUrl.replace("https://", "") },
+                              { label: "Analytics", value: "Enabled" },
+                              { label: "QR Code", value: "Generated" },
+                            ]}
+                            variant="secondary"
+                            size="sm"
+                            className="h-8"
+                          />
 
                           <Button variant="outline" size="sm" onClick={() => fetchAnalytics(item.slug)} className="h-8 text-xs gap-1 border-primary/30 text-primary bg-primary/10 font-semibold">
                             <BarChart3 className="w-3.5 h-3.5" /> Stats

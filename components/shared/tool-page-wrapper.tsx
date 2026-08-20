@@ -6,6 +6,7 @@ import { ToolsData } from "@/data/tools";
 import { Separator } from "@/components/ui/separator";
 import { AdSlot } from "@/components/shared/ad-slot";
 import { ToolErrorBoundary } from "@/components/shared/tool-error-boundary";
+import { EmbedButton } from "@/components/shared/embed-modal";
 
 type ToolPageWrapperProps = {
   children: React.ReactNode;
@@ -51,7 +52,12 @@ export function ToolPageWrapper({ children, title }: ToolPageWrapperProps) {
             {/* Ad Slot — auto-hidden for premium users */}
             <AdSlot />
 
-            <ShareTool title={detectedTitle} url={fullUrl} />
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-4 rounded-2xl bg-card/60 border border-border/70">
+              <ShareTool title={detectedTitle} url={fullUrl} />
+              <div className="flex items-center gap-2">
+                <EmbedButton toolPath={pathname} toolTitle={detectedTitle} />
+              </div>
+            </div>
           </div>
         </div>
       )}
