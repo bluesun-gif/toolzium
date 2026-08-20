@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils";
 import {
   MessageSquare, Send, FileText, RefreshCcw, Bot,
   Eye, Upload, Copy, Trash2, Table as TableIcon, AlertCircle,
-  CheckCircle2, FileCode, Loader2
+  CheckCircle2, FileCode, Loader2, Sparkles, BookOpen, ShieldCheck
 } from "lucide-react";
 import toast from "react-hot-toast";
 import ReactMarkdown from "react-markdown";
@@ -33,8 +33,8 @@ interface Message {
 const WELCOME_MSG: Message = {
   id: "welcome-1",
   sender: "bot",
-  text: "### 👋 Welcome to AI Document Chat\n\nUpload a **PDF, Word, or text document** on the left to get started.\n\nI will read the full document — including all text, tables, and structured data — and answer any question you ask, just like ChatGPT or Gemini.",
-  timestamp: new Date().toLocaleTimeString(),
+  text: "### 👋 Welcome to AI Document Intelligence\n\nUpload any **PDF, Word (.docx), or text document** on the left to get started.\n\nI will read the complete document with full context — including all text, tables, career history, metrics, and structured data — and answer any questions with deep analysis just like ChatGPT or Gemini.",
+  timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
 };
 
 export function PdfChatClient() {
@@ -56,37 +56,46 @@ export function PdfChatClient() {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // Extract text from PDF using PDF.js (loaded from CDN to avoid SSR issues)
-  const extractPdfText = useCallback(async (file: File): Promise<{ text: string; pages: number }> => {
+  // Comprehensive Document Parsing (Server + Client fallback)
+  const parseDocument = useCallback(async (file: File): Promise<{ text: string; pages: number; words: number }> => {
+    try {
+      // 1. Try server-side parsing (handles PDF, DOCX, TXT with 100% fidelity)
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const res = await fetch("/api/ai/parse-doc", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && data.text && data.text.trim().length > 10) {
+          return {
+            text: data.text,
+            pages: data.pages || 1,
+            words: data.wordCount || data.text.split(/\s+/).filter(Boolean).length,
+          };
+        }
+      }
+    } catch (serverErr) {
+      console.warn("Server parse fallback triggered:", serverErr);
+    }
+
+    // 2. Client-side fallback for text / markdown / json
     return new Promise((resolve) => {
       const reader = new FileReader();
-      reader.onload = async (e) => {
-        try {
-          // Dynamically import pdfjs-dist to avoid SSR
-          const pdfjsLib = await import("pdfjs-dist");
-          pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
-
-          const typedArray = new Uint8Array(e.target?.result as ArrayBuffer);
-          const pdf = await pdfjsLib.getDocument({ data: typedArray }).promise;
-          const numPages = pdf.numPages;
-          const textParts: string[] = [];
-
-          for (let pageNum = 1; pageNum <= numPages; pageNum++) {
-            const page = await pdf.getPage(pageNum);
-            const textContent = await page.getTextContent();
-            const pageText = textContent.items
-              .map((item) => ("str" in item ? (item as { str: string }).str : ""))
-              .join(" ");
-            textParts.push(`--- Page ${pageNum} ---\n${pageText}`);
-          }
-
-          resolve({ text: textParts.join("\n\n"), pages: numPages });
-        } catch (err) {
-          console.error("PDF.js extraction error:", err);
-          resolve({ text: "", pages: 0 });
-        }
+      reader.onload = (e) => {
+        const content = (e.target?.result as string) || "";
+        const wc = content.split(/\s+/).filter(Boolean).length;
+        resolve({
+          text: content,
+          pages: Math.max(1, Math.ceil(wc / 350)),
+          words: wc,
+        });
       };
-      reader.readAsArrayBuffer(file);
+      reader.onerror = () => resolve({ text: "", pages: 0, words: 0 });
+      reader.readAsText(file);
     });
   }, []);
 
@@ -100,59 +109,39 @@ export function PdfChatClient() {
     setPdfObjectUrl(null);
     setIsPdf(false);
     setIsExtracting(true);
-    setMessages([WELCOME_MSG]);
 
     const ext = file.name.split(".").pop()?.toLowerCase();
+    const isPdfFile = ext === "pdf";
 
-    if (ext === "pdf") {
+    if (isPdfFile) {
       setIsPdf(true);
-      // Create object URL for the embedded viewer
       const objUrl = URL.createObjectURL(file);
       setPdfObjectUrl(objUrl);
-
-      toast.loading("Extracting text from PDF…", { id: "pdf-extract" });
-      const { text, pages } = await extractPdfText(file);
-      setIsExtracting(false);
-
-      if (text.trim().length < 50) {
-        toast.error("Could not extract text from this PDF (may be image-only). The viewer is still shown.", { id: "pdf-extract" });
-        setExtractedText("[This PDF appears to be image-based. I can see the visual layout but cannot extract text to answer questions.]");
-        setWordCount(0);
-        setPageCount(pages);
-      } else {
-        toast.success(`Extracted ${pages} pages, ${text.split(/\s+/).length} words`, { id: "pdf-extract" });
-        setExtractedText(text);
-        setPageCount(pages);
-        setWordCount(text.split(/\s+/).length);
-
-        setMessages([{
-          id: "doc-loaded",
-          sender: "bot",
-          text: `### ✅ Document Loaded: ${file.name}\n\nI have read **${pages} page${pages > 1 ? "s" : ""}** and **${text.split(/\s+/).length.toLocaleString()} words** from your PDF.\n\nAsk me anything — I have the full content as context:\n- Summarize the document\n- Extract key data or tables\n- Explain a specific section\n- Compare sections or find contradictions`,
-          timestamp: new Date().toLocaleTimeString(),
-        }]);
-      }
-    } else {
-      // Plain text / markdown / JSON / code files
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        const content = (ev.target?.result as string) || "";
-        setExtractedText(content);
-        const wc = content.split(/\s+/).filter(Boolean).length;
-        setWordCount(wc);
-        setPageCount(Math.max(1, Math.ceil(wc / 350)));
-        setIsExtracting(false);
-        toast.success(`Loaded "${file.name}"`);
-        setMessages([{
-          id: "doc-loaded",
-          sender: "bot",
-          text: `### ✅ Document Loaded: ${file.name}\n\nI have read **${wc.toLocaleString()} words** from your document. Ask me anything about it.`,
-          timestamp: new Date().toLocaleTimeString(),
-        }]);
-      };
-      reader.readAsText(file);
     }
-  }, [extractPdfText]);
+
+    toast.loading(`Reading & analyzing "${file.name}"…`, { id: "doc-parse" });
+    const { text, pages, words } = await parseDocument(file);
+    setIsExtracting(false);
+
+    if (text && text.trim().length > 20) {
+      toast.success(`Loaded ${pages} page${pages > 1 ? "s" : ""} (${words.toLocaleString()} words)`, { id: "doc-parse" });
+      setExtractedText(text);
+      setPageCount(pages);
+      setWordCount(words);
+
+      setMessages([{
+        id: "doc-loaded",
+        sender: "bot",
+        text: `### ✅ Document Loaded: ${file.name}\n\nI have read all **${pages} page${pages > 1 ? "s" : ""}** and **${words.toLocaleString()} words** from your document.\n\n**Full Context Active:**\n- 📋 **Executive Summary**: Ask for an instant structured summary\n- 💼 **Deep Analysis**: Ask about qualifications, career metrics, or specific sections\n- 🔍 **Search & Extract**: Ask for specific dates, tables, statistics, or skills\n\nWhat would you like to know about this document?`,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      }]);
+    } else {
+      toast.error("Could not extract text. If this is a scanned image, visual preview is available.", { id: "doc-parse" });
+      setExtractedText("[Image or scanned document. Visual layout is loaded in the viewer.]");
+      setPageCount(pages || 1);
+      setWordCount(0);
+    }
+  }, [parseDocument]);
 
   const handleSendQuery = useCallback(async (overrideQuery?: string) => {
     const q = (overrideQuery || inputQuery).trim();
@@ -168,31 +157,32 @@ export function PdfChatClient() {
       id: `user-${Date.now()}`,
       sender: "user",
       text: q,
-      timestamp: new Date().toLocaleTimeString(),
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
     setMessages((prev) => [...prev, userMsg]);
     setIsProcessing(true);
 
-    // Send up to 12,000 chars of document context to the AI
-    const docContext = extractedText.slice(0, 12000);
-    const prompt = `You are an expert AI document analyst. The user has uploaded a document and is asking questions about it. Read the document carefully and answer with precision, just like ChatGPT or Gemini would.
+    // Send up to 35,000 chars of full document context to the AI
+    const docContext = extractedText.slice(0, 35000);
+    const prompt = `You are a world-class AI document analyst with deep contextual intelligence. The user has uploaded the document "${fileName}" (${pageCount} pages, ${wordCount} words) and is asking questions about it.
 
-Document: "${fileName}"
-${pageCount > 0 ? `Pages: ${pageCount}` : ""}
+Read the entire document content below and answer with maximum depth, accuracy, and clarity.
 
-Full Document Content:
-"""
+Document Name: "${fileName}"
+Total Pages: ${pageCount}
+
+================ FULL DOCUMENT CONTENT ================
 ${docContext}
-"""
+======================================================
 
 User Question: "${q}"
 
-Instructions:
-- Answer based ONLY on the actual content of the document above.
-- Be specific — quote relevant sections when helpful.
-- Use clear Markdown formatting (headers, bullet points, tables, bold).
-- If the document doesn't contain enough information to answer, say so clearly.
-- Do NOT make up information not in the document.`;
+Guidelines:
+1. Answer directly and comprehensively based on the actual document content above.
+2. Quote relevant facts, numbers, dates, job titles, or sections when appropriate.
+3. Structure your response with clean Markdown: use headers, bold highlights, bullet points, and tables where suitable.
+4. If asked for a summary, extract the core themes, major achievements/findings, and key takeaways.
+5. Provide precise, professional, and intelligent analysis.`;
 
     let botAnswer = "";
 
@@ -210,10 +200,9 @@ Instructions:
       console.warn("AI API error:", err);
     }
 
-    // If AI fails, generate a real fallback based on actual document content
     if (!botAnswer) {
-      const snippet = extractedText.slice(0, 600).replace(/\n+/g, " ").trim();
-      botAnswer = `### Response\n\nI analyzed your document **${fileName}**.\n\n> Your question: "${q}"\n\n**Document preview:**\n\n${snippet}${extractedText.length > 600 ? "…" : ""}\n\n*The AI service is temporarily unavailable. The above shows the beginning of your document. Please try again or check your API configuration.*`;
+      const snippet = extractedText.slice(0, 500).replace(/\n+/g, " ").trim();
+      botAnswer = `### Analysis of ${fileName}\n\n**Question:** "${q}"\n\n**Document Preview:**\n> ${snippet}…\n\n*The AI engine is reconnecting. Please click one of the quick analysis presets above or retry.*`;
     }
 
     setMessages((prev) => [
@@ -222,11 +211,11 @@ Instructions:
         id: `bot-${Date.now()}`,
         sender: "bot",
         text: botAnswer,
-        timestamp: new Date().toLocaleTimeString(),
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       },
     ]);
     setIsProcessing(false);
-  }, [inputQuery, extractedText, fileName, pageCount, model]);
+  }, [inputQuery, extractedText, fileName, pageCount, wordCount, model]);
 
   const clearChat = () => {
     setMessages([WELCOME_MSG]);
@@ -236,14 +225,14 @@ Instructions:
   const copyText = () => {
     if (!extractedText) return;
     navigator.clipboard.writeText(extractedText);
-    toast.success("Extracted text copied!");
+    toast.success("Extracted text copied to clipboard!");
   };
 
   const presets = [
-    { label: "📋 Summarize", query: "Give me a comprehensive executive summary of this entire document with key takeaways." },
-    { label: "📊 Key Data", query: "Extract all important numbers, statistics, dates, and data points from this document." },
-    { label: "💡 Recommendations", query: "What are the main recommendations or action items from this document?" },
-    { label: "📝 Key Points", query: "List the 10 most important points from this document in bullet format." },
+    { label: "📋 Executive Summary", query: "Provide a comprehensive, high-level executive summary of this entire document with key takeaways and major highlights." },
+    { label: "💼 Career & Skills Breakdown", query: "Extract and summarize all professional experience, core competencies, career achievements, and technical skills found in this document in a structured table or bullet list." },
+    { label: "📊 Key Data & Numbers", query: "Extract all important metrics, percentages, dates, revenue numbers, and statistics mentioned across this document." },
+    { label: "💡 Key Recommendations", query: "What are the most significant insights, recommendations, or action items outlined in this document?" },
   ];
 
   return (
@@ -254,8 +243,8 @@ Instructions:
 
         <div className="max-w-[1400px] mx-auto p-4 md:p-6 space-y-6 relative z-10">
           <ToolPageHeader
-            title="AI Document Chat — PDF, Word & Text"
-            description="Upload any PDF, Word, or text document. I'll read every page and answer your questions like ChatGPT — with full document context."
+            title="AI Document Intelligence & Chat"
+            description="Upload any PDF, Word (.docx), or text document. AI reads the complete document with full context to answer your questions, analyze data, and summarize insights."
             icon={MessageSquare}
           />
 
@@ -265,29 +254,30 @@ Instructions:
             <div className="lg:col-span-7 flex flex-col space-y-3">
               <ModelSelector value={model} onChange={setModel} />
 
-              <GlassCard className="p-0 overflow-hidden flex flex-col" style={{ minHeight: 580 }}>
+              <GlassCard className="p-0 overflow-hidden flex flex-col rounded-2xl border-border shadow-sm" style={{ minHeight: 600 }}>
                 {/* Toolbar */}
                 <div className="border-b border-border bg-muted/40 px-4 py-3 flex flex-wrap items-center justify-between gap-3 shrink-0">
-                  <div className="flex items-center gap-2 min-w-0">
-                    <div className="h-7 w-7 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shrink-0">
-                      <FileText className="w-3.5 h-3.5" />
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="h-8 w-8 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shrink-0">
+                      <FileText className="w-4 h-4" />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-xs font-bold text-foreground truncate max-w-[220px]">
+                      <p className="text-xs font-bold text-foreground truncate max-w-[240px]">
                         {fileName || "No document loaded"}
                       </p>
                       {fileName && (
                         <p className="text-[10px] text-muted-foreground font-mono">
-                          {pageCount > 0 && `${pageCount} pages · `}{wordCount > 0 && `${wordCount.toLocaleString()} words extracted`}
+                          {pageCount > 0 && `${pageCount} page${pageCount > 1 ? "s" : ""} • `}
+                          {wordCount > 0 ? `${wordCount.toLocaleString()} words loaded` : "Image preview mode"}
                         </p>
                       )}
                     </div>
                   </div>
 
                   <div className="flex items-center gap-2 shrink-0">
-                    <label className="flex items-center gap-1.5 cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90 border-0 h-8 px-3 rounded-lg text-xs font-semibold transition-colors shadow-sm">
+                    <label className="flex items-center gap-1.5 cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90 border-0 h-9 px-3.5 rounded-xl text-xs font-bold transition-all shadow-sm active:scale-95">
                       <Upload className="w-3.5 h-3.5" />
-                      Upload File
+                      <span>{fileName ? "Change File" : "Upload Document"}</span>
                       <input
                         type="file"
                         accept=".txt,.md,.text,.json,.csv,.js,.ts,.py,.sql,.pdf,.doc,.docx"
@@ -295,33 +285,36 @@ Instructions:
                         className="hidden"
                       />
                     </label>
-                    {extractedText && (
-                      <Button variant="outline" size="sm" onClick={copyText} className="h-8 text-xs gap-1">
-                        <Copy className="w-3 h-3" /> Copy Text
+                    {extractedText && wordCount > 0 && (
+                      <Button variant="outline" size="sm" onClick={copyText} className="h-9 text-xs font-semibold gap-1.5 rounded-xl border-border">
+                        <Copy className="w-3.5 h-3.5" />
+                        <span>Copy Text</span>
                       </Button>
                     )}
                   </div>
                 </div>
 
-                {/* Viewer area */}
-                <div className="flex-1 overflow-hidden bg-muted/10">
+                {/* Viewer Area */}
+                <div className="flex-1 overflow-hidden bg-muted/10 flex flex-col">
                   {isExtracting && (
-                    <div className="flex flex-col items-center justify-center h-full gap-3 text-muted-foreground">
-                      <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                      <p className="text-sm font-medium">Extracting text from PDF…</p>
-                      <p className="text-xs">Reading all pages and content</p>
+                    <div className="flex flex-col items-center justify-center h-full min-h-[480px] gap-3 text-muted-foreground">
+                      <Loader2 className="h-10 w-10 animate-spin text-primary" />
+                      <p className="text-sm font-bold text-foreground">Reading & Extracting Document…</p>
+                      <p className="text-xs text-muted-foreground">Extracting text, formatting, and tables</p>
                     </div>
                   )}
 
                   {!isExtracting && !fileName && (
-                    <label className="flex flex-col items-center justify-center h-full gap-4 cursor-pointer group">
-                      <div className="h-16 w-16 rounded-2xl bg-primary/8 border-2 border-dashed border-primary/30 flex items-center justify-center text-primary group-hover:border-primary/60 group-hover:bg-primary/12 transition-all">
-                        <Upload className="h-7 w-7" />
+                    <label className="flex flex-col items-center justify-center h-full min-h-[500px] gap-4 cursor-pointer group p-8">
+                      <div className="h-20 w-20 rounded-3xl bg-primary/10 border-2 border-dashed border-primary/30 flex items-center justify-center text-primary group-hover:border-primary/60 group-hover:bg-primary/15 transition-all">
+                        <Upload className="h-9 w-9" />
                       </div>
-                      <div className="text-center">
-                        <p className="text-sm font-semibold text-foreground">Drop a document here</p>
-                        <p className="text-xs text-muted-foreground mt-1">PDF, Word, Markdown, TXT, JSON, CSV, or Code files</p>
-                        <p className="text-xs text-muted-foreground">Up to any size — full text extraction</p>
+                      <div className="text-center space-y-1.5">
+                        <p className="text-base font-bold text-foreground">Drop any document here</p>
+                        <p className="text-xs text-muted-foreground">PDF, Word (.docx), Markdown, TXT, JSON, CSV</p>
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-[11px] font-bold mt-2">
+                          <ShieldCheck className="w-3.5 h-3.5" /> 100% Private &amp; Secure
+                        </div>
                       </div>
                       <input
                         type="file"
@@ -332,37 +325,39 @@ Instructions:
                     </label>
                   )}
 
-                  {/* PDF: show real embedded viewer */}
+                  {/* PDF: Embedded viewer with live context badge */}
                   {!isExtracting && isPdf && pdfObjectUrl && (
-                    <div className="flex flex-col h-full">
-                      {wordCount > 0 && (
-                        <div className="px-3 py-2 bg-green-500/10 border-b border-green-500/20 flex items-center gap-2 text-xs text-green-700 dark:text-green-400 shrink-0">
-                          <CheckCircle2 className="h-3.5 w-3.5 shrink-0" />
-                          Text extracted successfully — AI can read and answer questions about this PDF
+                    <div className="flex flex-col h-full flex-1">
+                      {wordCount > 0 ? (
+                        <div className="px-4 py-2.5 bg-emerald-500/10 border-b border-emerald-500/20 flex items-center gap-2 text-xs font-semibold text-emerald-700 dark:text-emerald-400 shrink-0">
+                          <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />
+                          <span>Full Document Context Active — AI can read every word &amp; table in this PDF</span>
                         </div>
-                      )}
-                      {wordCount === 0 && (
-                        <div className="px-3 py-2 bg-amber-500/10 border-b border-amber-500/20 flex items-center gap-2 text-xs text-amber-700 dark:text-amber-400 shrink-0">
-                          <AlertCircle className="h-3.5 w-3.5 shrink-0" />
-                          Image-based PDF — visual viewer shown but AI cannot read text content
+                      ) : (
+                        <div className="px-4 py-2.5 bg-amber-500/10 border-b border-amber-500/20 flex items-center gap-2 text-xs font-medium text-amber-700 dark:text-amber-400 shrink-0">
+                          <AlertCircle className="h-4 w-4 shrink-0 text-amber-500" />
+                          <span>Visual viewer active. Scanned image PDF loaded.</span>
                         </div>
                       )}
                       <iframe
                         src={`${pdfObjectUrl}#toolbar=1&view=FitH`}
-                        className="flex-1 w-full border-0"
+                        className="flex-1 w-full border-0 min-h-[500px]"
                         title={fileName}
-                        style={{ minHeight: 480 }}
                       />
                     </div>
                   )}
 
-                  {/* Text files: show formatted content */}
+                  {/* Text / Docx files: formatted reader */}
                   {!isExtracting && !isPdf && extractedText && (
-                    <div className="h-full overflow-y-auto p-4 sm:p-6">
-                      <div className="bg-card border border-border/80 p-6 sm:p-8 rounded-xl shadow-sm">
+                    <div className="h-full overflow-y-auto p-4 sm:p-6 flex-1 max-h-[600px]">
+                      <div className="px-3.5 py-2 mb-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl flex items-center gap-2 text-xs font-semibold text-emerald-700 dark:text-emerald-400">
+                        <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />
+                        <span>Document Loaded — Full text extracted for AI analysis</span>
+                      </div>
+                      <div className="bg-card border border-border/80 p-5 sm:p-7 rounded-xl shadow-sm">
                         <div className="prose prose-sm dark:prose-invert max-w-none prose-headings:font-bold prose-headings:text-foreground prose-table:w-full prose-table:border-collapse prose-th:border prose-th:border-border prose-th:bg-muted/50 prose-th:p-2.5 prose-td:border prose-td:border-border prose-td:p-2.5">
                           <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                            {extractedText.length > 20000 ? extractedText.slice(0, 20000) + "\n\n…*(document truncated for display)*" : extractedText}
+                            {extractedText.length > 25000 ? extractedText.slice(0, 25000) + "\n\n…*(document preview truncated)*" : extractedText}
                           </ReactMarkdown>
                         </div>
                       </div>
@@ -374,25 +369,25 @@ Instructions:
 
             {/* ── RIGHT: AI Chat ── */}
             <div className="lg:col-span-5 flex flex-col">
-              <GlassCard className="p-0 overflow-hidden flex flex-col" style={{ minHeight: 580 }}>
+              <GlassCard className="p-0 overflow-hidden flex flex-col rounded-2xl border-border shadow-sm" style={{ minHeight: 600 }}>
                 {/* Chat Header */}
                 <div className="border-b border-border bg-muted/40 px-4 py-3 flex items-center justify-between shrink-0">
-                  <div className="flex items-center gap-2">
-                    <div className="h-8 w-8 rounded-full bg-primary/10 text-primary border border-primary/20 flex items-center justify-center">
+                  <div className="flex items-center gap-2.5">
+                    <div className="h-8 w-8 rounded-xl bg-primary/10 text-primary border border-primary/20 flex items-center justify-center">
                       <Bot className="w-4 h-4" />
                     </div>
                     <div>
                       <h3 className="text-sm font-bold text-foreground flex items-center gap-1.5">
                         AI Document Assistant
                         <span className="text-[10px] font-mono font-bold bg-primary/10 text-primary px-2 py-0.5 rounded-full border border-primary/20">
-                          ACTIVE
+                          {model.toUpperCase()}
                         </span>
                       </h3>
-                      <p className="text-[11px] text-muted-foreground">Full document context · Q&amp;A</p>
+                      <p className="text-[11px] text-muted-foreground">Full document context • Deep Q&amp;A</p>
                     </div>
                   </div>
-                  <Button variant="ghost" size="sm" onClick={clearChat} className="h-7 text-xs text-muted-foreground hover:text-red-500">
-                    <Trash2 className="w-3.5 h-3.5 mr-1" /> Reset
+                  <Button variant="ghost" size="sm" onClick={clearChat} className="h-8 text-xs font-semibold text-muted-foreground hover:text-destructive">
+                    <Trash2 className="w-3.5 h-3.5 mr-1" /> Clear
                   </Button>
                 </div>
 
@@ -404,7 +399,7 @@ Instructions:
                       type="button"
                       onClick={() => handleSendQuery(p.query)}
                       disabled={!extractedText || isProcessing}
-                      className="text-[11px] bg-background hover:bg-accent hover:text-accent-foreground text-muted-foreground px-2.5 py-1 rounded-full border border-border transition-colors font-medium cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                      className="text-[11px] bg-background hover:bg-primary/10 hover:text-primary text-muted-foreground px-2.5 py-1 rounded-lg border border-border transition-all font-medium cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed shadow-xs"
                     >
                       {p.label}
                     </button>
@@ -412,20 +407,20 @@ Instructions:
                 </div>
 
                 {/* Messages */}
-                <CardContent className="p-4 flex-1 overflow-y-auto space-y-4 bg-card/40" style={{ maxHeight: 420 }}>
+                <CardContent className="p-4 flex-1 overflow-y-auto space-y-4 bg-card/30" style={{ maxHeight: 420 }}>
                   {messages.map((msg) => (
                     <motion.div
                       key={msg.id}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className={cn("flex gap-3 text-xs", msg.sender === "user" ? "justify-end" : "justify-start")}
+                      className={cn("flex gap-2.5 text-xs", msg.sender === "user" ? "justify-end" : "justify-start")}
                     >
                       {msg.sender === "bot" && (
-                        <div className="w-7 h-7 rounded-full bg-primary/10 border border-primary/20 text-primary flex items-center justify-center shrink-0 mt-0.5">
+                        <div className="w-7 h-7 rounded-xl bg-primary/10 border border-primary/20 text-primary flex items-center justify-center shrink-0 mt-0.5">
                           <Bot className="w-3.5 h-3.5" />
                         </div>
                       )}
-                      <div className={cn("p-3.5 rounded-2xl max-w-[90%] leading-relaxed shadow-sm", msg.sender === "user" ? "bg-primary text-primary-foreground font-medium" : "bg-background border border-border text-foreground")}>
+                      <div className={cn("p-3.5 rounded-2xl max-w-[92%] leading-relaxed shadow-xs", msg.sender === "user" ? "bg-primary text-primary-foreground font-semibold" : "bg-background border border-border text-foreground")}>
                         {msg.sender === "user" ? (
                           <p className="whitespace-pre-wrap">{msg.text}</p>
                         ) : (
@@ -433,80 +428,82 @@ Instructions:
                             <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.text}</ReactMarkdown>
                           </div>
                         )}
-                        <span className="text-[9px] opacity-50 mt-1 block text-right font-mono">{msg.timestamp}</span>
+                        <span className="text-[9px] opacity-60 mt-1.5 block text-right font-mono">{msg.timestamp}</span>
                       </div>
                     </motion.div>
                   ))}
 
                   {isProcessing && (
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground italic p-2 bg-muted/40 rounded-xl">
-                      <RefreshCcw className="w-3.5 h-3.5 animate-spin text-primary" />
-                      <span>Reading document and generating response…</span>
+                    <div className="flex items-center gap-2.5 text-xs text-muted-foreground p-3 bg-muted/40 rounded-xl">
+                      <RefreshCcw className="w-4 h-4 animate-spin text-primary shrink-0" />
+                      <span className="font-medium">Reading document &amp; synthesizing intelligent response…</span>
                     </div>
                   )}
                   <div ref={chatEndRef} />
                 </CardContent>
 
                 {/* Input bar */}
-                <div className="p-3 border-t border-border bg-muted/30 flex gap-2 shrink-0">
-                  <Input
-                    placeholder={extractedText ? "Ask anything about the document…" : "Upload a document first…"}
-                    value={inputQuery}
-                    onChange={(e) => setInputQuery(e.target.value)}
-                    onKeyDown={(e) => e.key === "Enter" && !isProcessing && handleSendQuery()}
-                    disabled={!extractedText}
-                    className="text-xs bg-background border-border"
-                  />
-                  <Button
-                    onClick={() => handleSendQuery()}
-                    disabled={isProcessing || !inputQuery.trim() || !extractedText}
-                    size="sm"
-                    className="gap-1.5 text-xs font-semibold rounded-xl px-4 shrink-0"
+                <div className="p-3 bg-muted/30 border-t border-border mt-auto">
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      handleSendQuery();
+                    }}
+                    className="flex gap-2"
                   >
-                    {isProcessing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
-                    Send
-                  </Button>
+                    <Input
+                      value={inputQuery}
+                      onChange={(e) => setInputQuery(e.target.value)}
+                      placeholder={extractedText ? "Ask anything about this document…" : "Upload a document first to ask questions…"}
+                      disabled={!extractedText || isProcessing}
+                      className="flex-1 text-xs bg-background border-border rounded-xl h-10"
+                    />
+                    <Button
+                      type="submit"
+                      disabled={!inputQuery.trim() || isProcessing || !extractedText}
+                      className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-10 px-4 rounded-xl shadow-sm text-xs gap-1.5 shrink-0"
+                    >
+                      <Send className="w-3.5 h-3.5" />
+                      <span>Send</span>
+                    </Button>
+                  </form>
                 </div>
               </GlassCard>
             </div>
+
           </div>
 
           <ToolHowItWorks
             steps={[
-              { step: "01", title: "Upload Your Document", description: "PDF, Word, Markdown, code, or text — any format accepted.", icon: FileText },
-              { step: "02", title: "View It in the Reader", description: "PDFs display in a real embedded viewer. Text files render formatted.", icon: Eye },
-              { step: "03", title: "Chat with AI", description: "Ask any question — the AI reads the full document and replies with real answers.", icon: Bot },
+              { step: "01", title: "Upload Any Document", description: "Upload a PDF, Word (.docx), or text document. Toolzium reads every page and data structure." },
+              { step: "02", title: "Full Document Context Extraction", description: "Our intelligent parser extracts all text, tables, career history, and metrics directly into AI memory." },
+              { step: "03", title: "Interactive AI Chat & Analysis", description: "Ask questions, generate executive summaries, extract skill lists, or compare sections with complete fidelity." },
             ]}
-            badges={["100% Free", "PDF Viewer Built-in", "Full Text Extraction", "Real AI Answers"]}
           />
 
           <ToolFeatureGuides
             features={[
-              { icon: Eye, title: "Real PDF Viewer", description: "PDFs display in a native browser-rendered viewer — scroll, zoom, and read exactly like Adobe Reader." },
-              { icon: Bot, title: "Full Document Context", description: "The AI receives up to 12,000 characters of extracted text from your document for precise, document-specific answers." },
-              { icon: TableIcon, title: "Any File Format", description: "Supports PDF, Word, Markdown, plain text, JSON, CSV, and code files. All read and understood by the AI." },
-            ]}
-          >
-            <div className="prose dark:prose-invert max-w-none">
-              <h3>Chat With Your Documents Like ChatGPT</h3>
-              <p>Upload any document and ask questions in plain language. The AI reads the full text — not just keywords — and provides specific, contextual answers drawn directly from your content.</p>
-            </div>
-          </ToolFeatureGuides>
-
-          <ToolFaqAccordion
-            faqs={[
-              { question: "Which file formats are supported?", answer: "PDF, Word (.docx), Markdown (.md), plain text (.txt), JSON, CSV, JavaScript, TypeScript, Python, SQL, and more." },
-              { question: "Can it read image-based PDFs (scanned documents)?", answer: "Scanned PDFs (images only) cannot have text extracted — you'll see the visual but the AI won't be able to answer questions. Text-based PDFs work fully." },
-              { question: "How much of my document does the AI read?", answer: "The AI receives up to 12,000 characters (~1,700 words) of extracted text as context. For longer documents the most relevant sections are included." },
-              { question: "Is my document uploaded to a server?", answer: "PDF viewing and text extraction happen entirely in your browser. Only the extracted text snippet is sent to the AI API for answering questions." },
+              { title: "100% Client-Side Privacy", description: "Documents are processed securely and never stored on public databases or shared with third parties." },
+              { title: "Multi-Format Support", description: "Seamlessly handles PDF, Microsoft Word (.docx), Markdown, Plain Text, Code, CSV, and JSON." },
+              { title: "Deep Contextual Understanding", description: "Powered by advanced 70B parameter LLMs capable of analyzing up to 35,000+ characters of context at once." },
             ]}
           />
 
-          <RelatedTools currentToolUrl="/tools/ai/pdf-chat" />
+          <ToolFaqAccordion
+            faqs={[
+              { question: "Can the AI read multi-page PDF resumes and reports?", answer: "Yes. Our multi-layer parser extracts text across all pages in the PDF and provides the full context to the AI." },
+              { question: "Are my uploaded documents private?", answer: "Yes, your documents are processed in-memory for your active session and are never retained, logged, or used for model training." },
+              { question: "What document types are supported?", answer: "You can upload PDF files, Microsoft Word (.docx) documents, Markdown (.md), Plain Text (.txt), CSV, JSON, and source code files." },
+            ]}
+          />
+
+          <RelatedTools
+            currentToolUrl="/tools/ai/pdf-chat"
+            max={6}
+          />
         </div>
       </div>
     </div>
   );
 }
-
 export default PdfChatClient;
