@@ -181,9 +181,20 @@ export function QrClient() {
                 <QrCode className="w-5 h-5 text-primary" />
                 Configure QR Content
               </Label>
-              <Button type="button" onClick={generateAiPayload} disabled={isGeneratingAi} className="text-xs font-bold text-primary hover:underline flex items-center gap-1 cursor-pointer">
-                {isGeneratingAi ? <RefreshCcw className="w-3.5 h-3.5 animate-spin" /> : <Wand2 className="w-3.5 h-3.5" />}
-                <span>✨ AI Smart vCard</span>
+              <Button
+                variant="outline"
+                size="sm"
+                type="button"
+                onClick={generateAiPayload}
+                disabled={isGeneratingAi}
+                className="text-xs font-semibold text-primary border-primary/30 hover:bg-primary/10 gap-1.5 rounded-xl h-8"
+              >
+                {isGeneratingAi ? (
+                  <RefreshCcw className="w-3.5 h-3.5 animate-spin" />
+                ) : (
+                  <Wand2 className="w-3.5 h-3.5" />
+                )}
+                <span>AI Smart Contact</span>
               </Button>
             </div>
 

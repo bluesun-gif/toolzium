@@ -214,19 +214,48 @@ export function UTMBuilderClient() {
 
         <GlassCard className="p-0 bg-background border-border shadow-sm rounded-2xl">
           <CardHeader className="border-b border-border bg-muted/40 p-4">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div className="flex gap-2">
-                <Button variant={activeTab === "single" ? "default" : "outline"} size="sm" onClick={() => setActiveTab("single")} className={cn("rounded-xl font-bold text-xs h-9 px-4", activeTab === "single" ? "bg-primary text-primary-foreground" : "border-border text-muted-foreground")}>
-                  Single URL Builder
-                </Button>
-                <Button variant={activeTab === "bulk" ? "default" : "outline"} size="sm" onClick={() => setActiveTab("bulk")} className={cn("rounded-xl font-bold text-xs h-9 px-4", activeTab === "bulk" ? "bg-primary text-primary-foreground" : "border-border text-muted-foreground")}>
-                  Bulk Batch Generator
-                </Button>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+              <div className="grid grid-cols-2 gap-1.5 bg-muted/60 p-1 rounded-xl border border-border/80 w-full sm:w-auto">
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("single")}
+                  className={cn(
+                    "py-2 px-3 rounded-lg font-semibold text-xs transition-all text-center",
+                    activeTab === "single"
+                      ? "bg-primary text-primary-foreground shadow-sm"
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  Single URL
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("bulk")}
+                  className={cn(
+                    "py-2 px-3 rounded-lg font-semibold text-xs transition-all text-center",
+                    activeTab === "bulk"
+                      ? "bg-primary text-primary-foreground shadow-sm"
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  Bulk Batch
+                </button>
               </div>
 
-              <Button type="button" onClick={generateAiUtm} disabled={isGeneratingAi || !baseUrl.trim()} className="text-xs font-bold text-primary hover:underline flex items-center gap-1.5 cursor-pointer">
-                {isGeneratingAi ? <RefreshCcw className="w-3.5 h-3.5 animate-spin" /> : <Wand2 className="w-3.5 h-3.5" />}
-                <span>✨ AI Campaign Assistant</span>
+              <Button
+                variant="outline"
+                size="sm"
+                type="button"
+                onClick={generateAiUtm}
+                disabled={isGeneratingAi || !baseUrl.trim()}
+                className="text-xs font-semibold text-primary border-primary/30 hover:bg-primary/10 gap-1.5 rounded-xl h-9 self-start sm:self-auto"
+              >
+                {isGeneratingAi ? (
+                  <RefreshCcw className="w-3.5 h-3.5 animate-spin" />
+                ) : (
+                  <Wand2 className="w-3.5 h-3.5" />
+                )}
+                <span>AI Auto-Suggest Tags</span>
               </Button>
             </div>
           </CardHeader>

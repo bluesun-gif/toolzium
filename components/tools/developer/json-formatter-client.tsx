@@ -71,7 +71,7 @@ export default function JsonFormatterClient() {
  <CardContent className="p-3 sm:p-4 space-y-3">
  <textarea value={input} onChange={e => setInput(e.target.value)} rows={12} className="w-full rounded-lg border border-border/70 bg-background/80 p-3 font-mono text-sm outline-none focus:ring-2 focus:ring-primary/50" placeholder='Paste JSON here, e.g. {"key":"value"}' />
  <div className="flex items-center justify-between text-xs">
- <Button onClick={handleSample} className="text-primary hover:underline">Load sample</Button>
+ <Button variant="ghost" size="sm" onClick={handleSample} className="h-7 text-xs font-semibold text-primary hover:bg-primary/10">Load Sample JSON</Button>
  <span className="text-muted-foreground">{input.length} chars</span>
  </div>
  </CardContent>

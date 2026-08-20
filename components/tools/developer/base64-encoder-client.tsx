@@ -64,7 +64,7 @@ export default function Base64EncoderClient() {
  <textarea value={input} onChange={e => setInput(e.target.value)} rows={10} className="w-full rounded-lg border border-border/70 bg-background/80 p-3 font-mono text-sm outline-none focus:ring-2 focus:ring-primary/50" placeholder={mode === "encode" ? "Paste plain text to encode..." : "Paste Base64 string to decode..."} />
  <div className="flex items-center justify-between text-xs text-muted-foreground">
  <span>{input.length} characters</span>
- <Button onClick={handleClear} className="hover:text-primary">Clear</Button>
+ <Button variant="ghost" size="sm" onClick={handleClear} className="h-7 text-xs text-muted-foreground hover:text-destructive">Clear</Button>
  </div>
  </CardContent>
  </GlassCard>
