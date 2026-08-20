@@ -1,7 +1,7 @@
 "use client";
 
 import { ToolBackground } from "@/components/shared/tool-background";
-import React, { useState, useCallback, useEffect, useRef } from "react";
+import React, { useState, useCallback, useEffect, useRef, useMemo } from "react";
 import { motion } from "framer-motion";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
@@ -228,12 +228,135 @@ Guidelines:
     toast.success("Extracted text copied to clipboard!");
   };
 
-  const presets = [
-    { label: "📋 Executive Summary", query: "Provide a comprehensive, high-level executive summary of this entire document with key takeaways and major highlights." },
-    { label: "💼 Career & Skills Breakdown", query: "Extract and summarize all professional experience, core competencies, career achievements, and technical skills found in this document in a structured table or bullet list." },
-    { label: "📊 Key Data & Numbers", query: "Extract all important metrics, percentages, dates, revenue numbers, and statistics mentioned across this document." },
-    { label: "💡 Key Recommendations", query: "What are the most significant insights, recommendations, or action items outlined in this document?" },
-  ];
+  // Dynamic Document Intelligence: Detect document type and tailor 1-click presets
+  const { presets, docCategory } = useMemo(() => {
+    if (!extractedText || extractedText.trim().length < 20) {
+      return {
+        docCategory: "Document Assistant",
+        presets: [
+          { label: "📋 Executive Summary", query: "Provide a comprehensive, high-level executive summary of this entire document with key takeaways and major highlights." },
+          { label: "🔑 Key Points & Insights", query: "Extract the 10 most critical arguments, facts, and conclusions outlined across this document." },
+          { label: "📊 Data & Statistics", query: "Extract all important metrics, percentages, dates, numbers, and tabular data mentioned in this document." },
+          { label: "💡 Action Items & Next Steps", query: "What are the actionable recommendations, decisions, or follow-up tasks indicated in this document?" },
+        ],
+      };
+    }
+
+    const lower = (extractedText + " " + fileName).toLowerCase();
+
+    // 1. Resume / CV
+    if (
+      lower.includes("curriculum vitae") ||
+      lower.includes("resume") ||
+      lower.includes("cv") ||
+      (lower.includes("experience") && (lower.includes("education") || lower.includes("skills") || lower.includes("competencies"))) ||
+      lower.includes("work history") ||
+      lower.includes("career summary")
+    ) {
+      return {
+        docCategory: "Resume / CV",
+        presets: [
+          { label: "💼 Career & Skills Matrix", query: "Extract all work experience, leadership achievements, core competencies, and technical skills from this CV into structured tables." },
+          { label: "⭐ Top Quantified Achievements", query: "What are the most impressive measurable achievements, revenue impacts, and cost savings in this candidate's history?" },
+          { label: "🎓 Education & Certifications", query: "List all degrees, educational institutions, professional certifications, and awards mentioned in this CV." },
+          { label: "📋 Executive Bio Summary", query: "Write a high-impact professional executive bio summarizing this person's background, senior leadership scope, and core strengths." },
+        ],
+      };
+    }
+
+    // 2. Financial Report / Invoice / P&L
+    if (
+      lower.includes("invoice") ||
+      lower.includes("balance sheet") ||
+      lower.includes("revenue") ||
+      lower.includes("profit") ||
+      lower.includes("financial statement") ||
+      lower.includes("ebitda") ||
+      lower.includes("fiscal year") ||
+      lower.includes("cash flow") ||
+      lower.includes("tax invoice")
+    ) {
+      return {
+        docCategory: "Financial Document",
+        presets: [
+          { label: "📊 Revenue & P&L Breakdown", query: "Provide a comprehensive breakdown of total revenues, expenses, gross margin, and net profit from this financial document." },
+          { label: "💰 Key Metrics Table", query: "Extract all financial numbers, percentages, dates, and account totals into a clean Markdown table." },
+          { label: "📈 Growth & Trend Analysis", query: "What are the primary growth drivers, quarter-over-quarter trends, and financial forecasts mentioned?" },
+          { label: "⚠️ Liabilities & Financial Risks", query: "Identify any debts, pending obligations, cost overruns, or risk factors highlighted in this statement." },
+        ],
+      };
+    }
+
+    // 3. Legal / Contract / Agreement / NDA
+    if (
+      lower.includes("agreement") ||
+      lower.includes("contract") ||
+      lower.includes("terms and conditions") ||
+      lower.includes("confidentiality") ||
+      lower.includes("governing law") ||
+      lower.includes("indemnification") ||
+      lower.includes("party of the first part") ||
+      lower.includes("clause")
+    ) {
+      return {
+        docCategory: "Legal Contract",
+        presets: [
+          { label: "⚖️ Key Obligations & Rights", query: "Summarize the primary legal obligations, rights, and duties of all parties defined in this agreement." },
+          { label: "⚠️ Liability & Risk Clauses", query: "Highlight all liability caps, indemnification requirements, dispute resolution mechanisms, and legal risks." },
+          { label: "📅 Termination & Key Dates", query: "What are the effective dates, notice periods, breach conditions, and termination clauses?" },
+          { label: "📝 Plain-English Digest", query: "Translate each major clause of this contract into clear, easy-to-understand plain English bullet points." },
+        ],
+      };
+    }
+
+    // 4. Academic / Research Paper
+    if (
+      lower.includes("abstract") &&
+      (lower.includes("methodology") || lower.includes("conclusion") || lower.includes("doi") || lower.includes("references") || lower.includes("dataset"))
+    ) {
+      return {
+        docCategory: "Research Paper",
+        presets: [
+          { label: "🔬 Methodology & Setup", query: "Explain the research hypothesis, methodology, dataset, experimental setup, and sample sizes used in this study." },
+          { label: "📊 Key Findings & Results", query: "Summarize the primary experimental discoveries, benchmarks, statistical significance, and data outcomes." },
+          { label: "💡 Scientific Impact & Conclusions", query: "What are the main scientific takeaways, practical applications, and future research directions proposed?" },
+          { label: "⚠️ Study Limitations", query: "What limitations, potential biases, or unaddressed questions are noted by the researchers?" },
+        ],
+      };
+    }
+
+    // 5. Technical Spec / Architecture / Manual
+    if (
+      lower.includes("api reference") ||
+      lower.includes("architecture") ||
+      lower.includes("endpoints") ||
+      lower.includes("system design") ||
+      lower.includes("installation") ||
+      lower.includes("database schema") ||
+      lower.includes("configuration")
+    ) {
+      return {
+        docCategory: "Technical Document",
+        presets: [
+          { label: "⚙️ System Architecture", query: "Explain the system architecture, component dependencies, and design patterns described in this document." },
+          { label: "🔧 API & Setup Guide", query: "Extract all installation commands, API endpoints, payload parameters, and environment requirements." },
+          { label: "⚠️ Troubleshooting & Errors", query: "What common failure modes, error codes, limits, and debugging recommendations are documented?" },
+          { label: "📋 Technical Summary", query: "Provide a concise executive overview of this technical specification for engineers." },
+        ],
+      };
+    }
+
+    // 6. General Document (Default)
+    return {
+      docCategory: "General Document",
+      presets: [
+        { label: "📋 Executive Summary", query: "Provide a comprehensive, high-level executive summary of this entire document with key takeaways and major highlights." },
+        { label: "🔑 Key Points & Insights", query: "Extract the 10 most critical arguments, facts, and conclusions outlined across this document." },
+        { label: "📊 Data & Statistics", query: "Extract all important metrics, percentages, dates, numbers, and tabular data mentioned in this document." },
+        { label: "💡 Action Items & Next Steps", query: "What are the actionable recommendations, decisions, or follow-up tasks indicated in this document?" },
+      ],
+    };
+  }, [extractedText, fileName]);
 
   return (
     <div className="relative space-y-6">
@@ -391,19 +514,28 @@ Guidelines:
                   </Button>
                 </div>
 
-                {/* Quick preset buttons */}
-                <div className="p-3 bg-muted/20 border-b border-border/60 flex flex-wrap gap-1.5 shrink-0">
-                  {presets.map((p, idx) => (
-                    <button
-                      key={idx}
-                      type="button"
-                      onClick={() => handleSendQuery(p.query)}
-                      disabled={!extractedText || isProcessing}
-                      className="text-[11px] bg-background hover:bg-primary/10 hover:text-primary text-muted-foreground px-2.5 py-1 rounded-lg border border-border transition-all font-medium cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed shadow-xs"
-                    >
-                      {p.label}
-                    </button>
-                  ))}
+                {/* Quick dynamic preset buttons */}
+                <div className="p-3 bg-muted/20 border-b border-border/60 flex flex-col gap-2 shrink-0">
+                  <div className="flex items-center justify-between text-[11px] text-muted-foreground font-semibold">
+                    <span className="flex items-center gap-1">
+                      <Sparkles className="w-3 h-3 text-primary" />
+                      <span>Tailored for: <strong className="text-foreground">{docCategory}</strong></span>
+                    </span>
+                    {wordCount > 0 && <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-mono font-bold">100% Context Loaded</span>}
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {presets.map((p, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => handleSendQuery(p.query)}
+                        disabled={!extractedText || isProcessing}
+                        className="text-[11px] bg-background hover:bg-primary/10 hover:text-primary text-muted-foreground px-2.5 py-1 rounded-lg border border-border transition-all font-medium cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed shadow-xs"
+                      >
+                        {p.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Messages */}
