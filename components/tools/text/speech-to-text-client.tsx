@@ -1,250 +1,586 @@
 "use client";
 
-import { Switch } from "@/components/ui/switch";
-
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useMemo, useCallback, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
+import { GlassCard } from "@/components/ui/glass-card";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { ToolBackground } from "@/components/shared/tool-background";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Copy, RotateCcw, Mic, MicOff, Trash2, CheckCircle2, Settings } from "lucide-react";
+import { ShareResultButton } from "@/components/shared/share-result-modal";
+import { EmbedButton } from "@/components/shared/embed-modal";
+import { cn } from "@/lib/utils";
+import {
+  Mic, MicOff, Copy, Check, Trash2, Download, Upload, FileAudio,
+  Sparkles, Languages, Clock, ShieldCheck, AudioLines, Loader2,
+  Settings, RefreshCw, ChevronDown
+} from "lucide-react";
 import toast from "react-hot-toast";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
-const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
-const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
-const textareaClass = "w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50 font-mono";
-const SpeechRecognition = typeof window !== "undefined" ? (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition : null;
-export function SpeechToTextClient() {
-  const [isRecording, setIsRecording] = useState(false);
-  const [finalText, setFinalText] = useState("");
-  const [interimText, setInterimText] = useState("");
-  const [language, setLanguage] = useState("en-US");
-  const [continuous, setContinuous] = useState(true);
-  const [isSupported, setIsSupported] = useState(true);
-  const [duration, setDuration] = useState(0);
+
+const LANGUAGES = [
+  { code: "en-US", name: "English (US)" },
+  { code: "en-GB", name: "English (UK)" },
+  { code: "en-IN", name: "English (India)" },
+  { code: "en-AU", name: "English (Australia)" },
+  { code: "es-ES", name: "Spanish (Spain)" },
+  { code: "es-MX", name: "Spanish (Mexico)" },
+  { code: "fr-FR", name: "French (France)" },
+  { code: "de-DE", name: "German (Germany)" },
+  { code: "it-IT", name: "Italian (Italy)" },
+  { code: "pt-BR", name: "Portuguese (Brazil)" },
+  { code: "hi-IN", name: "Hindi (India)" },
+  { code: "bn-BD", name: "Bengali (Bangladesh)" },
+  { code: "ar-SA", name: "Arabic (Saudi Arabia)" },
+  { code: "zh-CN", name: "Chinese (Mandarin)" },
+  { code: "ja-JP", name: "Japanese" },
+  { code: "ko-KR", name: "Korean" },
+  { code: "ru-RU", name: "Russian" },
+];
+
+export default function SpeechToTextClient() {
+  const [activeTab, setActiveTab] = useState<"live" | "upload">("live");
+  const [isRecording, setIsRecording] = useState<boolean>(false);
+  const [language, setLanguage] = useState<string>("en-US");
+  const [continuous, setContinuous] = useState<boolean>(true);
+  const [transcript, setTranscript] = useState<string>("");
+  const [interimText, setInterimText] = useState<string>("");
+  const [duration, setDuration] = useState<number>(0);
+  const [copied, setCopied] = useState<boolean>(false);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
+  const [micSupported, setMicSupported] = useState<boolean>(true);
+
   const recognitionRef = useRef<any>(null);
   const timerRef = useRef<any>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Check Web Speech API support safely on client mount
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      const SpeechRecognition =
+        (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        setMicSupported(false);
+      }
+    }
+  }, []);
+
+  const formatDuration = (s: number) => {
+    const mins = Math.floor(s / 60);
+    const secs = s % 60;
+    return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+  };
+
+  const wordCount = useMemo(() => {
+    const combined = `${transcript} ${interimText}`.trim();
+    return combined ? combined.split(/\s+/).length : 0;
+  }, [transcript, interimText]);
+
+  const charCount = useMemo(() => {
+    return `${transcript} ${interimText}`.trim().length;
+  }, [transcript, interimText]);
+
+  const startLiveRecognition = async () => {
+    if (typeof window === "undefined") return;
+
+    const SpeechRecognition =
+      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+
     if (!SpeechRecognition) {
-      setIsSupported(false);
+      toast.error("Web Speech API is not supported in this browser. Please use Chrome, Edge, or upload an audio file below.");
       return;
     }
-    const recognition = new SpeechRecognition();
-    recognition.continuous = continuous;
-    recognition.interimResults = true;
-    recognition.lang = language;
-    recognition.onresult = (event: any) => {
-      let interimTranscript = "";
-      let finalTranscript = "";
-      for (let i = event.resultIndex; i < event.results.length; ++i) {
-        if (event.results[i].isFinal) {
-          finalTranscript += event.results[i][0].transcript + "";
-        } else {
-          interimTranscript += event.results[i][0].transcript;
-        }
+
+    try {
+      // First explicitly request microphone access to trigger browser prompt
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        await navigator.mediaDevices.getUserMedia({ audio: true });
       }
-      if (finalTranscript) {
-        setFinalText(prev => prev + finalTranscript);
-      }
-      setInterimText(interimTranscript);
-    };
-    recognition.onerror = (event: any) => {
-      console.error("Speech recognition error", event.error);
-      setIsRecording(false);
-      clearInterval(timerRef.current);
-    };
-    recognition.onend = () => {
-      setIsRecording(false);
-      clearInterval(timerRef.current);
-    };
-    recognitionRef.current = recognition;
-    return () => {
+
       if (recognitionRef.current) {
         try {
           recognitionRef.current.abort();
         } catch (e) {}
       }
-      clearInterval(timerRef.current);
-    };
-  }, [language, continuous]);
-  const toggleRecording = () => {
-    if (!recognitionRef.current) return;
-    if (isRecording) {
-      recognitionRef.current.stop();
-      setIsRecording(false);
-      clearInterval(timerRef.current);
-    } else {
-      try {
-        recognitionRef.current.start();
+
+      const recognition = new SpeechRecognition();
+      recognition.continuous = continuous;
+      recognition.interimResults = true;
+      recognition.lang = language;
+      recognition.maxAlternatives = 1;
+
+      recognition.onstart = () => {
         setIsRecording(true);
+        setDuration(0);
         timerRef.current = setInterval(() => {
-          setDuration(prev => prev + 1);
+          setDuration((prev) => prev + 1);
         }, 1000);
-      } catch (e) {
-        toast.error("Could not start recording.");
-      }
+        toast.success("Microphone active. Start speaking!");
+      };
+
+      recognition.onresult = (event: any) => {
+        let currentInterim = "";
+        let finalChunk = "";
+
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          const res = event.results[i];
+          if (res.isFinal) {
+            finalChunk += res[0].transcript + " ";
+          } else {
+            currentInterim += res[0].transcript;
+          }
+        }
+
+        if (finalChunk) {
+          setTranscript((prev) => (prev ? `${prev.trim()} ${finalChunk.trim()} ` : `${finalChunk.trim()} `));
+          setInterimText("");
+        } else {
+          setInterimText(currentInterim);
+        }
+      };
+
+      recognition.onerror = (event: any) => {
+        console.warn("Speech recognition notice:", event.error);
+        if (event.error === "not-allowed") {
+          toast.error("Microphone permission denied. Please allow microphone access in your browser settings.");
+          stopLiveRecognition();
+        } else if (event.error === "no-speech") {
+          // No speech detected, keep listening if continuous
+          if (!continuous) stopLiveRecognition();
+        }
+      };
+
+      recognition.onend = () => {
+        // If continuous is active and user didn't explicitly hit stop, restart
+        if (isRecording && continuous) {
+          try {
+            recognition.start();
+          } catch (e) {
+            stopLiveRecognition();
+          }
+        } else {
+          stopLiveRecognition();
+        }
+      };
+
+      recognitionRef.current = recognition;
+      recognition.start();
+    } catch (err: any) {
+      console.error("Mic start error:", err);
+      toast.error(err.message || "Could not access microphone. Please check permissions.");
+      stopLiveRecognition();
     }
   };
-  const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text);
-    toast.success("Copied to clipboard!");
+
+  const stopLiveRecognition = () => {
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.stop();
+      } catch (e) {}
+    }
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+    setIsRecording(false);
+    setInterimText("");
   };
+
+  const toggleRecording = () => {
+    if (isRecording) {
+      stopLiveRecognition();
+      toast("Recording paused.");
+    } else {
+      startLiveRecognition();
+    }
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate size (max 25MB)
+    if (file.size > 25 * 1024 * 1024) {
+      toast.error("Audio file size must be under 25MB.");
+      return;
+    }
+
+    setIsUploading(true);
+    const toastId = toast.loading(`Transcribing "${file.name}" with AI Whisper...`);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("language", language);
+
+      const res = await fetch("/api/ai/transcribe", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to transcribe audio file.");
+      }
+
+      const transcribed = data.text || "";
+      setTranscript((prev) => (prev ? `${prev}\n\n${transcribed}` : transcribed));
+      toast.success("Transcription complete!", { id: toastId });
+    } catch (err: any) {
+      console.error("Upload transcription error:", err);
+      toast.error(err.message || "Failed to transcribe audio file.", { id: toastId });
+    } finally {
+      setIsUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
+
+  const handleCopy = () => {
+    const full = `${transcript} ${interimText}`.trim();
+    if (!full) return;
+    navigator.clipboard.writeText(full);
+    setCopied(true);
+    toast.success("Transcript copied to clipboard!");
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleDownload = () => {
+    const full = `${transcript} ${interimText}`.trim();
+    if (!full) {
+      toast.error("No transcript to download.");
+      return;
+    }
+    const blob = new Blob([full], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `transcript-${new Date().toISOString().slice(0, 10)}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success("Downloaded transcript as .txt!");
+  };
+
   const handleClear = () => {
-    setFinalText("");
+    stopLiveRecognition();
+    setTranscript("");
     setInterimText("");
     setDuration(0);
     toast.success("Transcript cleared!");
   };
-  const wordCount = finalText.trim() ? finalText.trim().split(/\s+/).length : 0;
-  const formatTime = (s: number) => {
-    const m = Math.floor(s / 60);
-    const sec = s % 60;
-    return `${m.toString().padStart(2, "0")}:${sec.toString().padStart(2, "0")}`;
-  };
+
   return (
-    <div className="relative space-y-6">
+    <div className="min-h-screen relative pb-20">
       <ToolBackground />
-      <div className="relative z-10 space-y-6">
-      
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-6 sm:pt-8 space-y-8">
+        
+        {/* Page Header */}
+        <ToolPageHeader
+          title="Speech to Text Transcriber & Audio Dictation"
+          description="Transcribe live microphone dictation in real-time or upload audio recordings (MP3, WAV, M4A) with high-accuracy AI Whisper transcription."
+          icon={Mic}
+          badgeText="🎙️ Live Voice Dictation & AI Whisper"
+        />
 
- <ToolPageHeader icon={Mic} title="Speech to Text" description="Transcribe your voice to text in real-time using your browser's speech recognition." />
+        {/* Mode Selector Tabs */}
+        <div className="flex items-center gap-2 p-1.5 bg-muted/40 rounded-2xl border border-border/60 max-w-md mx-auto">
+          <button
+            type="button"
+            onClick={() => {
+              stopLiveRecognition();
+              setActiveTab("live");
+            }}
+            className={cn(
+              "flex-1 py-2.5 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer",
+              activeTab === "live"
+                ? "bg-primary text-primary-foreground shadow-sm"
+                : "text-muted-foreground hover:text-foreground hover:bg-background/60"
+            )}
+          >
+            <Mic className="w-4 h-4" />
+            <span>Live Microphone</span>
+          </button>
 
- {!isSupported && <Card className="border-destructive bg-destructive/10 mb-6">
- <CardContent className="p-4 flex items-center gap-3">
- <MicOff className="h-6 w-6 text-destructive" />
- <p className="text-destructive font-medium">Your browser does not support the Web Speech API. Please use Chrome or Edge.</p>
- </CardContent>
- </Card>}
+          <button
+            type="button"
+            onClick={() => {
+              stopLiveRecognition();
+              setActiveTab("upload");
+            }}
+            className={cn(
+              "flex-1 py-2.5 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer",
+              activeTab === "upload"
+                ? "bg-primary text-primary-foreground shadow-sm"
+                : "text-muted-foreground hover:text-foreground hover:bg-background/60"
+            )}
+          >
+            <FileAudio className="w-4 h-4" />
+            <span>Upload Audio File</span>
+          </button>
+        </div>
 
- <div className="flex flex-col items-center mb-8 py-8">
- <div className="relative mb-6">
- <div className={`absolute inset-0 rounded-full transition-all duration-500 ${isRecording ? "bg-red-500/20 scale-150 animate-ping" : "scale-0"}`}></div>
- <Button onClick={toggleRecording} size="icon" variant={isRecording ? "destructive" : "default"} className="relative h-24 w-24 rounded-full shadow-xl" disabled={!isSupported}>
- {isRecording ? <MicOff className="h-10 w-10" /> : <Mic className="h-10 w-10" />}
- </Button>
- </div>
- <p className="text-lg font-semibold mb-2">{isRecording ? "Recording..." : "Click to start speaking"}</p>
- <p className="text-sm text-muted-foreground">{formatTime(duration)}</p>
- </div>
+        {/* Main Interactive Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          
+          {/* Left Column: Recording Controls / File Uploader (5 cols) */}
+          <div className="lg:col-span-5 space-y-6">
+            <GlassCard className="p-5 sm:p-6 space-y-5">
+              
+              {activeTab === "live" ? (
+                <>
+                  <div className="flex items-center justify-between border-b border-border/60 pb-3">
+                    <Label className="text-sm font-bold text-foreground flex items-center gap-2">
+                      <Mic className="w-4 h-4 text-primary" /> Live Voice Dictation
+                    </Label>
+                    <span className="text-[11px] font-mono text-muted-foreground">
+                      {formatDuration(duration)}
+                    </span>
+                  </div>
 
- <div className="grid sm:grid-cols-2 gap-4 mb-6">
- <div className="space-y-2">
- <Label>Language</Label>
- <select value={language} onChange={e => setLanguage(e.target.value)} className="w-full border rounded px-3 py-2 bg-background text-sm">
- <option value="en-US">English (US)</option>
- <option value="en-GB">English (UK)</option>
- <option value="es-ES">Spanish</option>
- <option value="fr-FR">French</option>
- <option value="de-DE">German</option>
- <option value="hi-IN">Hindi</option>
- <option value="ar-SA">Arabic</option>
- <option value="zh-CN">Chinese (Mandarin)</option>
- <option value="ja-JP">Japanese</option>
- <option value="ko-KR">Korean</option>
- </select>
- </div>
- <div className="flex items-end">
- <div className="flex items-center space-x-2 pb-2">
- <input type="checkbox" id="continuous" checked={continuous} onChange={e => setContinuous(e.target.checked)} className="h-4 w-4 rounded border-border" />
- <Label htmlFor="continuous" className="cursor-pointer">Continuous Mode (Keep recording)</Label>
- </div>
- </div>
- </div>
+                  {/* Pulsing Mic Button */}
+                  <div className="flex flex-col items-center justify-center py-6 space-y-4">
+                    <div className="relative">
+                      {isRecording && (
+                        <div className="absolute -inset-3 rounded-full bg-red-500/20 animate-ping" />
+                      )}
+                      <Button
+                        type="button"
+                        onClick={toggleRecording}
+                        size="icon"
+                        className={cn(
+                          "relative h-24 w-24 rounded-full shadow-xl transition-all duration-300 cursor-pointer",
+                          isRecording
+                            ? "bg-red-600 hover:bg-red-700 text-white scale-105 shadow-red-500/30"
+                            : "bg-primary hover:bg-primary/90 text-primary-foreground shadow-primary/30"
+                        )}
+                      >
+                        {isRecording ? (
+                          <MicOff className="w-10 h-10 animate-pulse" />
+                        ) : (
+                          <Mic className="w-10 h-10" />
+                        )}
+                      </Button>
+                    </div>
 
- <Card className={`${cardClass} mb-8`}>
- <CardHeader className={headerClass}>
- <CardTitle className={titleClass}>Transcript</CardTitle>
- </CardHeader>
- <CardContent className="p-4">
- <div className="min-h-[200px] p-4 border rounded-lg bg-background/50 whitespace-pre-wrap font-mono text-sm">
- <span>{finalText}</span>
- <span className="text-muted-foreground italic">{interimText}</span>
- {!finalText && !interimText && <span className="text-muted-foreground">Your transcribed text will appear here...</span>}
- </div>
- 
- <div className="flex justify-between items-center mt-4">
- <div className="flex gap-4 text-sm text-muted-foreground">
- <span>{wordCount} words</span>
- <span className="flex items-center gap-1"><CheckCircle2 className="h-4 w-4" /> {duration}s duration</span>
- </div>
- <div className="flex gap-2">
- <Button variant="outline" size="sm" onClick={() => handleCopy(finalText)} disabled={!finalText}>
- <Copy className="h-4 w-4 mr-1" /> Copy
- </Button>
- <Button variant="destructive" size="sm" onClick={handleClear}>
- <Trash2 className="h-4 w-4 mr-1" /> Clear
- </Button>
- </div>
- </div>
- </CardContent>
- </Card>
+                    <div className="text-center space-y-1">
+                      <div className="text-sm font-bold text-foreground">
+                        {isRecording ? "Listening... Speak into microphone" : "Click to Start Speaking"}
+                      </div>
+                      <p className="text-[11px] text-muted-foreground">
+                        {isRecording ? "Click again to pause or finish" : "Ensure microphone permissions are enabled"}
+                      </p>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="flex items-center justify-between border-b border-border/60 pb-3">
+                    <Label className="text-sm font-bold text-foreground flex items-center gap-2">
+                      <FileAudio className="w-4 h-4 text-primary" /> AI Whisper Audio File Transcriber
+                    </Label>
+                    <span className="text-[10px] uppercase font-mono text-primary font-bold">Whisper-v3</span>
+                  </div>
 
- <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Select Settings",
-        description: "Choose your spoken language and toggle continuous mode based on your needs.",
-        icon: Mic
-      }, {
-        step: "02",
-        title: "Start Recording",
-        description: "Click the large microphone button and grant browser permission to access your audio.",
-        icon: CheckCircle2
-      }, {
-        step: "03",
-        title: "Read & Export",
-        description: "Watch your words appear in real-time. Copy the final transcript or clear it to start over.",
-        icon: Copy
-      }]} />
+                  {/* Audio File Dropzone */}
+                  <div
+                    onClick={() => fileInputRef.current?.click()}
+                    className="p-8 border-2 border-dashed border-border/80 hover:border-primary/50 bg-muted/20 hover:bg-muted/40 rounded-2xl text-center cursor-pointer transition-all space-y-3"
+                  >
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="audio/*,.mp3,.wav,.m4a,.ogg,.webm,.aac,.flac"
+                      onChange={handleFileUpload}
+                      className="hidden"
+                      disabled={isUploading}
+                    />
 
- <ToolFeatureGuides features={[{
-        icon: Mic,
-        title: "Real-time Transcription",
-        description: "See interim results in gray as you speak, which solidify into final text the moment you pause."
-      }, {
-        icon: CheckCircle2,
-        title: "Multi-language Support",
-        description: "Switch between English, Spanish, French, German, and several other major languages instantly."
-      }, {
-        icon: MicOff,
-        title: "Continuous Mode",
-        description: "Keep the microphone active for long-form dictation, or disable it to stop automatically after you finish speaking."
-      }, {
-        icon: Copy,
-        title: "Local Processing",
-        description: "Leveraging the browser's native Web Speech API, your audio is processed locally by your device's engine without external servers."
-      }]}>
- <div className="prose dark:prose-invert max-w-none">
- <h2>Dictate at the Speed of Thought</h2>
- <p>Typing is often the bottleneck between your brain and your document. Voice-to-text technology allows you to bypass the keyboard entirely, capturing your thoughts, meeting notes, or creative ideas exactly as you speak them. Our Speech to Text tool brings this powerful capability directly to your browser with zero setup required.</p>
- <p>Built on the Web Speech API, this tool utilizes your browser's native speech recognition engine. This means there are no external API calls, no file uploads, and no privacy concerns regarding your voice data. Whether you are dictating an email, writing a blog post, or transcribing a quick voice memo, the real-time interim feedback ensures you know the engine is capturing your words accurately.</p>
- <p>With support for over a dozen languages and adjustable continuous listening modes, the tool adapts to your workflow. Continuous mode is perfect for stream-of-consciousness writing or lengthy lectures, while standard mode works flawlessly for quick commands and short messages. Combined with one-click copying and automatic word counting, this tool transforms your browser into a powerful, privacy-first dictation studio.</p>
- </div>
- </ToolFeatureGuides>
+                    <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary mx-auto flex items-center justify-center">
+                      {isUploading ? (
+                        <Loader2 className="w-6 h-6 animate-spin" />
+                      ) : (
+                        <Upload className="w-6 h-6" />
+                      )}
+                    </div>
 
- <ToolFaqAccordion faqs={[{
-        question: "Why is the microphone button disabled?",
-        answer: "Your browser does not support the Web Speech API. Please switch to Google Chrome or Microsoft Edge for full functionality."
-      }, {
-        question: "Is my voice recorded and sent to a server?",
-        answer: "No. The speech recognition is handled entirely by your browser's local engine. Your audio never leaves your device."
-      }, {
-        question: "What is the difference between interim and final results?",
-        answer: "Interim results are the engine's best guess while you are still speaking. Once you pause, the engine finalizes the sentence and it becomes permanent text."
-      }, {
-        question: "Do I need a high-quality microphone?",
-        answer: "While a good microphone helps, modern speech engines are highly optimized for standard laptop and phone microphones in normal environments."
-      }]} />
+                    <div className="space-y-1">
+                      <div className="text-xs font-bold text-foreground">
+                        {isUploading ? "Transcribing Audio with Whisper AI..." : "Click or Drag Audio File Here"}
+                      </div>
+                      <p className="text-[10px] text-muted-foreground">
+                        Supports MP3, M4A, WAV, WebM, OGG, FLAC up to 25MB
+                      </p>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {/* Language Selector & Continuous Checkbox */}
+              <div className="space-y-3 pt-3 border-t border-border/60">
+                <div className="space-y-1.5">
+                  <Label className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
+                    <Languages className="w-3.5 h-3.5 text-primary" /> Recognition Language
+                  </Label>
+                  <div className="relative">
+                    <select
+                      value={language}
+                      onChange={(e) => setLanguage(e.target.value)}
+                      className="w-full bg-background border border-border text-foreground font-semibold text-xs rounded-xl h-11 px-3.5 appearance-none pr-10 focus:ring-2 focus:ring-primary/50 outline-none cursor-pointer"
+                    >
+                      {LANGUAGES.map((l) => (
+                        <option key={l.code} value={l.code}>
+                          {l.name}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown className="absolute right-3.5 top-3.5 w-4 h-4 text-muted-foreground pointer-events-none" />
+                  </div>
+                </div>
+
+                {activeTab === "live" && (
+                  <label className="flex items-center gap-2 text-xs font-medium text-muted-foreground cursor-pointer pt-1">
+                    <input
+                      type="checkbox"
+                      checked={continuous}
+                      onChange={(e) => setContinuous(e.target.checked)}
+                      className="rounded border-border accent-primary h-4 w-4"
+                    />
+                    <span>Continuous Dictation Mode (Keep listening through pauses)</span>
+                  </label>
+                )}
+              </div>
+
+            </GlassCard>
+          </div>
+
+          {/* Right Column: Live Transcript Area & Action Toolbar (7 cols) */}
+          <div className="lg:col-span-7 space-y-6">
+            <GlassCard className="p-5 sm:p-6 space-y-4">
+              
+              <div className="flex items-center justify-between border-b border-border/60 pb-3">
+                <Label className="text-sm font-bold text-foreground flex items-center gap-2">
+                  <AudioLines className="w-4 h-4 text-primary" /> Transcribed Text
+                </Label>
+                
+                <div className="flex items-center gap-3 text-xs font-mono text-muted-foreground">
+                  <span>{wordCount} words</span>
+                  <span>•</span>
+                  <span>{charCount} chars</span>
+                </div>
+              </div>
+
+              {/* Editable Transcript Text Area */}
+              <div className="relative">
+                <textarea
+                  value={transcript}
+                  onChange={(e) => setTranscript(e.target.value)}
+                  placeholder={
+                    isRecording
+                      ? "Listening... Your words will appear here in real-time."
+                      : "Transcribed speech will appear here. You can also edit, format, or type directly..."
+                  }
+                  rows={10}
+                  className="w-full rounded-2xl border border-border bg-background/80 p-4 text-sm sm:text-base outline-none focus:ring-2 focus:ring-primary/40 text-foreground font-sans leading-relaxed resize-y min-h-[260px]"
+                />
+
+                {/* Interim Live Stream text overlay */}
+                {interimText && (
+                  <div className="p-2.5 bg-primary/10 rounded-xl border border-primary/20 text-xs font-medium text-primary mt-2 flex items-center gap-2 animate-pulse">
+                    <Sparkles className="w-3.5 h-3.5 shrink-0" />
+                    <span>Streaming: &ldquo;{interimText}&rdquo;</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Action Toolbar */}
+              <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-border/60">
+                <div className="flex items-center gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={handleCopy}
+                    disabled={!transcript && !interimText}
+                    className="rounded-xl text-xs font-semibold gap-1.5 h-9"
+                  >
+                    {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+                    <span>{copied ? "Copied!" : "Copy Text"}</span>
+                  </Button>
+
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={handleDownload}
+                    disabled={!transcript && !interimText}
+                    className="rounded-xl text-xs font-semibold gap-1.5 h-9"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    <span>Save .TXT</span>
+                  </Button>
+
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleClear}
+                    disabled={!transcript && !interimText}
+                    className="rounded-xl text-xs font-semibold text-muted-foreground hover:text-destructive gap-1.5 h-9"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span>Clear</span>
+                  </Button>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <ShareResultButton
+                    toolTitle="Speech to Text Transcriber"
+                    resultTitle="Voice Transcript"
+                    resultSummary={`Transcribed ${wordCount} words using Speech to Text Studio.`}
+                    resultMetrics={[
+                      { label: "Words", value: wordCount },
+                      { label: "Characters", value: charCount },
+                      { label: "Language", value: language },
+                    ]}
+                  />
+                  <EmbedButton toolPath="/tools/text/speech-to-text" toolTitle="Speech to Text Transcriber" />
+                </div>
+              </div>
+
+            </GlassCard>
+          </div>
+
+        </div>
+
+        {/* How It Works & Guides */}
+        <ToolHowItWorks
+          steps={[
+            { step: "1", title: "Allow Microphone or Upload Audio", description: "Click the microphone button to dictate live or upload any recorded audio file (MP3, WAV, M4A)." },
+            { step: "2", title: "Choose Language", description: "Select from over 17 supported regional languages and accents for maximum recognition precision." },
+            { step: "3", title: "Instant Accurate Transcript", description: "Your spoken words stream into editable text in real-time, ready for 1-click copy or .TXT download." }
+          ]}
+        />
+
+        <ToolFeatureGuides
+          features={[
+            { title: "Dual Voice & Whisper AI Engine", description: "Seamlessly switch between instant zero-latency browser dictation and deep AI Whisper file transcription." },
+            { title: "Continuous Dictation Mode", description: "Keep transcribing lectures, podcasts, or long meetings without stopping during conversational pauses." },
+            { title: "100% Privacy & Security", description: "Live dictation processes in-browser. Uploaded audio files are transcribed transiently with zero permanent storage." }
+          ]}
+        />
+
+        <ToolFaqAccordion
+          faqs={[
+            { question: "Why is my microphone not recording?", answer: "Ensure that your browser has permission to access your microphone. Click the lock/tune icon in your browser's address bar to verify that Microphone is set to 'Allow'." },
+            { question: "Can I upload long audio files for transcription?", answer: "Yes! You can upload audio files up to 25MB (MP3, WAV, M4A, OGG) to be transcribed by our AI Whisper engine." },
+            { question: "Does this transcribe punctuation marks?", answer: "Yes. When dictating, simply speak words like 'comma', 'period', 'question mark', or 'new line' and the speech engine will insert punctuation automatically." }
+          ]}
+        />
+
+        <RelatedTools currentToolUrl="/tools/text/speech-to-text" />
+
+      </div>
     </div>
-    </div>
-);
+  );
 }
-
-export default SpeechToTextClient;
