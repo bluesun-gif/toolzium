@@ -12,6 +12,7 @@ import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
 import { ModelSelector } from "@/components/shared/model-selector";
 import { GlassCard } from "@/components/ui/glass-card";
+import { ShareResultButton } from "@/components/shared/share-result-modal";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -339,13 +340,37 @@ export function UTMBuilderClient() {
                     {renderMiniQR(generatedUrl)}
                   </div>
 
-                  <div className="flex gap-2">
-                    <Button className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-11 rounded-xl shadow-md shadow-primary/20" onClick={() => handleCopy(generatedUrl)} disabled={generatedUrl === "Invalid Base URL"}>
-                      <Copy className="w-4 h-4 mr-2" /> Copy Tagged URL
+                  <div className="flex flex-col sm:flex-row gap-2 w-full">
+                    <Button
+                      className="w-full sm:flex-1 bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-11 rounded-xl shadow-md shadow-primary/20 text-xs sm:text-sm gap-1.5"
+                      onClick={() => handleCopy(generatedUrl)}
+                      disabled={generatedUrl === "Invalid Base URL"}
+                    >
+                      <Copy className="w-4 h-4 shrink-0" />
+                      <span>Copy Tagged URL</span>
                     </Button>
-                    <Button variant="outline" onClick={saveToHistory} className="h-11 rounded-xl border-border font-bold text-xs">
-                      <History className="w-4 h-4 mr-1.5" /> Save
-                    </Button>
+                    <div className="flex gap-2 w-full sm:w-auto">
+                      <Button
+                        variant="outline"
+                        onClick={saveToHistory}
+                        className="flex-1 sm:flex-none h-11 rounded-xl border-border font-semibold text-xs gap-1.5"
+                      >
+                        <History className="w-4 h-4 shrink-0" />
+                        <span>Save</span>
+                      </Button>
+                      <ShareResultButton
+                        toolTitle="UTM Campaign Builder"
+                        resultTitle={generatedUrl}
+                        resultSummary={`Campaign: ${campaign || "default"} • Source: ${source || "custom"}`}
+                        resultMetrics={[
+                          { label: "Source", value: source || "none" },
+                          { label: "Medium", value: medium || "none" },
+                          { label: "Campaign", value: campaign || "none" },
+                        ]}
+                        variant="secondary"
+                        className="flex-1 sm:flex-none h-11"
+                      />
+                    </div>
                   </div>
                 </div>
               </div> : <div className="space-y-4">

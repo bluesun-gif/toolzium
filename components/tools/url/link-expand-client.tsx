@@ -183,7 +183,7 @@ export function LinkExpandClient() {
                 <textarea className="w-full rounded-xl border border-border bg-background p-3.5 text-xs font-mono outline-none focus:ring-2 focus:ring-primary/50 text-foreground min-h-[140px]" value={batchUrls} onChange={e => setBatchUrls(e.target.value)} placeholder={"https://bit.ly/1\nhttps://t.co/2\nhttps://tinyurl.com/3"} />
               </div>}
 
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-2 w-full">
               <Button onClick={handleExpand} disabled={loading} className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-12 rounded-xl shadow-lg shadow-primary/20">
                 {loading ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : <Link2 className="w-5 h-5 mr-2" />}
                 {loading ? "Unshortening..." : `Expand ${isBatch ? "All Links" : "Short URL"}`}

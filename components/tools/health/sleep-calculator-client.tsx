@@ -70,7 +70,7 @@ export function SleepCalculatorClient() {
                 <CardTitle>Sleep Cycle Mode</CardTitle>
                 <CardDescription>Choose whether you want to calculate when to wake up or when to fall asleep.</CardDescription>
               </div>
-              <div className="flex gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full">
                 <Button
                   variant={mode === "wake" ? "default" : "outline"}
                   size="sm"

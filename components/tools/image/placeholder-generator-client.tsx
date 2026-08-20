@@ -151,7 +151,7 @@ export function PlaceholderGeneratorClient() {
                 </div>
               </div>
 
-              <div className="flex gap-2 pt-2">
+              <div className="flex flex-col sm:flex-row gap-2 pt-2 w-full">
                 <Button onClick={handleDownload} className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-12 rounded-xl shadow-lg shadow-primary/20 gap-2">
                   <Download className="w-4 h-4" /> Download {format.toUpperCase()}
                 </Button>

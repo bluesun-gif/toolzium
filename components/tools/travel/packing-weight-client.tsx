@@ -174,7 +174,7 @@ export function PackingWeightClient() {
  <div className="space-y-2">
  <Label>Baggage Weight Limit ({isKg ? 'kg' : 'lb'})</Label>
  <Input type="number" value={limit} onChange={e => setLimit(parseFloat(e.target.value) || 0)} />
- <div className="flex gap-2 mt-2">
+ <div className="grid grid-cols-2 gap-2 mt-2 w-full">
  <Button variant="outline" size="sm" onClick={() => setLimit(isKg ? 23 : 50)} className="flex-1 text-xs">Checked (23kg/50lb)</Button>
  <Button variant="outline" size="sm" onClick={() => setLimit(isKg ? 7 : 15)} className="flex-1 text-xs">Carry-on (7kg/15lb)</Button>
  </div>

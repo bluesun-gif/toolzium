@@ -240,7 +240,7 @@ export function FlashcardMakerClient() {
                 </div>
               </div>
 
-              {activeDeck && <div className="flex gap-3 pt-2">
+              {activeDeck && <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2 w-full">
                   <Button onClick={() => startStudy(false)} disabled={activeDeck.cards.length === 0} className="flex-1 h-11 font-bold gap-2">
                     <BookOpen className="h-4 w-4" /> Study Normal Mode
                   </Button>
