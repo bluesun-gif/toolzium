@@ -75,12 +75,12 @@ ${toolRegistryEntries.map(e => {
   if (e.isNamed) {
     return `  "${e.key}": dynamic(
     () => import("${e.importPath}").then((mod) => mod.${e.cleanName}),
-    { loading: LoadingSpinner, ssr: false }
+    { loading: LoadingSpinner }
   ),`;
   } else {
     return `  "${e.key}": dynamic(
     () => import("${e.importPath}"),
-    { loading: LoadingSpinner, ssr: false }
+    { loading: LoadingSpinner }
   ),`;
   }
 }).join('\n')}
