@@ -147,7 +147,7 @@ export default function EmojiPickerClient() {
               </div>
 
               {/* Category Pills Bar */}
-              <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar text-xs">
+              <div className="flex flex-wrap items-center gap-1.5 text-xs">
                 {EMOJI_CATEGORIES.map((cat) => (
                   <button
                     key={cat}
@@ -157,7 +157,7 @@ export default function EmojiPickerClient() {
                       setSearch("");
                     }}
                     className={cn(
-                      "px-3 py-1.5 rounded-xl font-bold whitespace-nowrap transition-all cursor-pointer border",
+                      "px-3 py-1.5 rounded-xl font-bold whitespace-nowrap flex-shrink-0 transition-all cursor-pointer border text-xs",
                       selectedCategory === cat && !search
                         ? "bg-primary text-primary-foreground border-primary shadow-sm"
                         : "bg-muted/40 text-muted-foreground border-border/60 hover:bg-background hover:text-foreground"
