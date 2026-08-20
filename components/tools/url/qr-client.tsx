@@ -209,8 +209,8 @@ export function QrClient() {
               </div>
 
               {inputType === "url" && <div className="space-y-1.5">
-                  <Label className="text-xs font-semibold text-muted-foreground">Destination URL</Label>
-                  <Input placeholder="https://example.com" value={urlInput} onChange={e => setUrlInput(e.target.value)} className="bg-background border-border" />
+                  <Label htmlFor="qr-url-input" className="text-xs font-semibold text-muted-foreground">Destination URL</Label>
+                  <Input id="qr-url-input" type="text" placeholder="https://example.com" value={urlInput} onChange={e => setUrlInput(e.target.value)} className="bg-background border-border" />
                 </div>}
 
               {inputType === "text" && <div className="space-y-1.5">
