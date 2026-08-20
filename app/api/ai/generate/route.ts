@@ -60,30 +60,50 @@ function cleanAiOutput(text: string): string[] {
     .filter((line) => line.length > 0 && !line.toLowerCase().includes("here is") && !line.toLowerCase().includes("here are"));
 }
 
+const GROQ_MODELS = [
+  "openai/gpt-oss-120b",
+  "qwen/qwen3.6-27b",
+  "groq/compound",
+  "openai/gpt-oss-20b",
+];
+
 async function callGroq(prompt: string, key: string, system: string, type: string = "text") {
   const sys = type === "text" || type === "json" ? system : `${system}\nReturn only the generated list of items, one per line. Do not include introductory text.`;
-  const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${key}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model: "llama-3.3-70b-versatile",
-      messages: [
-        { role: "system", content: sys },
-        { role: "user", content: prompt },
-      ],
-      temperature: 0.7,
-      max_tokens: 2500,
-    }),
-  });
-  if (!res.ok) {
-    const errText = await res.text();
-    throw new Error(`Groq HTTP ${res.status}: ${errText}`);
+  
+  let lastErr: any = null;
+  for (const modelId of GROQ_MODELS) {
+    try {
+      const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${key}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: modelId,
+          messages: [
+            { role: "system", content: sys },
+            { role: "user", content: prompt },
+          ],
+          temperature: 0.7,
+          max_tokens: 3500,
+        }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        const content = data.choices?.[0]?.message?.content;
+        if (content) return content;
+      } else {
+        const errText = await res.text();
+        lastErr = new Error(`Groq ${modelId} HTTP ${res.status}: ${errText}`);
+      }
+    } catch (e: any) {
+      lastErr = e;
+    }
   }
-  const data = await res.json();
-  return data.choices?.[0]?.message?.content || "";
+
+  throw lastErr || new Error("All Groq models failed.");
 }
 
 export async function POST(req: Request) {
