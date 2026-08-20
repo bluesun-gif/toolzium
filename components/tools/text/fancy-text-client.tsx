@@ -1,153 +1,288 @@
 "use client";
 
-import { ToolBackground } from"@/components/shared/tool-background";
-
 import React, { useState, useMemo } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { CopyButton } from "@/components/shared/action-buttons";
-import { Sparkles, Copy, Type } from "lucide-react";
-import { GridPattern } from "@/components/magicui/grid-pattern";
 import { GlassCard } from "@/components/ui/glass-card";
-const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
-const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
-const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
-const NORMAL = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-const DOUBLE_STRUCK = "𝕒𝕓𝕔𝕕𝕖𝕗𝕘𝕙𝕚𝕛𝕜𝕝𝕞𝕟𝕠𝕡𝕢𝕣𝕤𝕥𝕦𝕧𝕨𝕩𝕪𝕫𝔸𝔹ℂ𝔻𝔼𝔽𝔾ℍ𝕀𝕁𝕂𝕃𝕄ℕ𝕆ℙℚℝ𝕊𝕋𝕌𝕍𝕎𝕏𝕐ℤ𝟘𝟙𝟚𝟛𝟜𝟝𝟞𝟟𝟠𝟡";
-const BOLD = "𝐚𝐛𝐜𝐝𝐞𝐟𝐠𝐡𝐢𝐣𝐤𝐥𝐦𝐧𝐨𝐩𝐪𝐫𝐬𝐭𝐮𝐯𝐰𝐱𝐲𝐳𝐀𝐁𝐂𝐃𝐄𝐅𝐆𝐇𝐈𝐉𝐊𝐋𝐌𝐍𝐎𝐏𝐐𝐑𝐒𝐓𝐔𝐕𝐖𝐗𝐘𝐙𝟎𝟏𝟐𝟑𝟒𝟓𝟔𝟕𝟖𝟗";
-const ITALIC = "𝑎𝑏𝑐𝑑𝑒𝑓𝑔ℎ𝑖𝑗𝑘𝑙𝑚𝑛𝑜𝑝𝑞𝑟𝑠𝑡𝑢𝑣𝑤𝑥𝑦𝑧𝐴𝐵𝐶𝐷𝐸𝐹𝐺𝐻𝐼𝐽𝐾𝐿𝑀𝑁𝑂𝑃𝑄𝑅𝑆𝑇𝑈𝑉𝑊𝑋𝑌𝑍0123456789";
-const TINY_CAPS = "ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘǫʀꜱᴛᴜᴠᴡxʏᴢABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-const SMALL_CAPS = "ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘǫʀsᴛᴜᴠᴡxʏᴢABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-const UPSIDE_DOWN = "ɐqɔpǝɟƃɥᴉɾʞlɯuodbɹsʇnʌʍxʎz∀qƆpƎℲפHIſʞ˥WNOԀQɹS┴∩ΛMX⅄Z0ƖᄅƐㄣϛ9ㄥ86";
-const STRIKETHROUGH = "a̶b̶c̶d̶e̶f̶g̶h̶i̶j̶k̶l̶m̶n̶o̶p̶q̶r̶s̶t̶u̶v̶w̶x̶y̶z̶A̶B̶C̶D̶E̶F̶G̶H̶I̶J̶K̶L̶M̶N̶O̶P̶Q̶R̶S̶T̶U̶V̶W̶X̶Y̶Z̶0̶1̶2̶3̶4̶5̶6̶7̶8̶9̶";
-const STYLES = [{
-  name: "Double-Struck",
-  map: DOUBLE_STRUCK
-}, {
-  name: "Bold",
-  map: BOLD
-}, {
-  name: "Italic",
-  map: ITALIC
-}, {
-  name: "Tiny Caps",
-  map: TINY_CAPS
-}, {
-  name: "Small Caps",
-  map: SMALL_CAPS
-}, {
-  name: "Upside-Down",
-  map: UPSIDE_DOWN
-}, {
-  name: "Strikethrough",
-  map: STRIKETHROUGH
-}];
-function convertText(text: string, map: string): string {
-  return text.split("").map(char => {
-    const index = NORMAL.indexOf(char);
-    return index !== -1 ? map[index] : char;
-  }).join("");
-}
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ToolBackground } from "@/components/shared/tool-background";
+import { ShareResultButton } from "@/components/shared/share-result-modal";
+import { EmbedButton } from "@/components/shared/embed-modal";
+import { cn } from "@/lib/utils";
+import {
+  Sparkles, Copy, Check, Search, Type, Wand2, RefreshCw, Flame,
+  Crown, Swords, Zap, Heart, Filter
+} from "lucide-react";
+import toast from "react-hot-toast";
+import { ALL_FANCY_STYLES, FancyCategory, FancyStyle } from "@/lib/utils/text/fancy-text-styles";
+
+const CATEGORIES: { id: "all" | FancyCategory; label: string; icon: any }[] = [
+  { id: "all", label: `All Styles (${ALL_FANCY_STYLES.length})`, icon: Sparkles },
+  { id: "popular", label: "🔥 Popular", icon: Flame },
+  { id: "fonts", label: "🔤 Typography & Modifiers", icon: Type },
+  { id: "aesthetic", label: "🌸 Soft Aesthetic & Bios", icon: Heart },
+  { id: "gaming", label: "⚔️ Gaming & Clan Tags", icon: Swords },
+  { id: "glitch", label: "🌀 Glitch & Zalgo", icon: Zap },
+  { id: "decorative", label: "✨ Decorative Frames", icon: Crown },
+];
+
+const PRESET_PHRASES = [
+  "Hello World",
+  "Stay Creative",
+  "Gamer Pro 2026",
+  "aesthetic vibes",
+  "Digital Creator",
+  "VIP Champion",
+];
+
 export default function FancyTextClient() {
   const [input, setInput] = useState("Hello World");
-  const styledTexts = useMemo(() => {
-    return STYLES.map(style => ({
-      name: style.name,
-      text: convertText(input, style.map)
-    }));
-  }, [input]);
+  const [activeCategory, setActiveCategory] = useState<"all" | FancyCategory>("all");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  // Filter styles by category and search term
+  const filteredStyles = useMemo(() => {
+    return ALL_FANCY_STYLES.filter((style) => {
+      const matchesCategory = activeCategory === "all" || style.category === activeCategory;
+      const matchesSearch =
+        searchQuery.trim() === "" ||
+        style.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        style.id.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesCategory && matchesSearch;
+    });
+  }, [activeCategory, searchQuery]);
+
+  const handleCopy = (id: string, text: string) => {
+    if (!text) return;
+    navigator.clipboard.writeText(text);
+    setCopiedId(id);
+    toast.success("Copied to clipboard!");
+    setTimeout(() => {
+      setCopiedId((curr) => (curr === id ? null : curr));
+    }, 2000);
+  };
+
   return (
-    <div className="relative space-y-6">
+    <div className="min-h-screen relative pb-20">
       <ToolBackground />
-      <div className="relative z-10 space-y-6">
-      
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-6 sm:pt-8 space-y-8">
+        
+        {/* Page Header */}
+        <ToolPageHeader
+          title="100+ Fancy Text Generator & Font Styler"
+          description="Convert normal text into 100+ stylish Unicode fonts, aesthetic cursive, bold serif, gaming clan tags, zalgo glitch, and decorative social media frames."
+          icon={Sparkles}
+          badgeText="✨ 105+ Unicode Styles • 100% Free & Fast"
+        />
 
- <ToolPageHeader icon={Sparkles} title="Fancy Text Generator" description="Transform your text into stylish Unicode characters for social media, bios, and messages." />
+        {/* Input & Controls Glass Card */}
+        <GlassCard className="p-5 sm:p-6 space-y-5">
+          
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <Label className="text-sm font-bold text-foreground flex items-center gap-2">
+              <Type className="w-4 h-4 text-primary" /> Enter Your Text
+            </Label>
+            
+            {/* Quick Sample Presets */}
+            <div className="flex flex-wrap items-center gap-1.5">
+              <span className="text-[11px] text-muted-foreground font-semibold">Try sample:</span>
+              {PRESET_PHRASES.map((phrase, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => setInput(phrase)}
+                  className="text-[11px] bg-muted/50 hover:bg-primary/10 hover:text-primary text-muted-foreground px-2 py-0.5 rounded-md border border-border/60 transition-all cursor-pointer"
+                >
+                  {phrase}
+                </button>
+              ))}
+            </div>
+          </div>
 
- <GlassCard>
- <CardHeader className={headerClass}>
- <CardTitle className={titleClass}>
- <Sparkles className="w-4 h-4 text-primary" /> Input Text
- </CardTitle>
- </CardHeader>
- <CardContent className="p-3 sm:p-4">
- <Input value={input} onChange={e => setInput(e.target.value)} placeholder="Type your text here..." />
- </CardContent>
- </GlassCard>
+          {/* Main Large Text Input */}
+          <div className="relative">
+            <Input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Type your text to generate 100+ styles instantly..."
+              className="h-14 text-base sm:text-lg px-4 font-semibold rounded-2xl border-border bg-background/80 focus:ring-2 focus:ring-primary/40 shadow-inner"
+            />
+            {input && (
+              <button
+                type="button"
+                onClick={() => setInput("")}
+                className="absolute right-3.5 top-3.5 text-xs text-muted-foreground hover:text-foreground bg-muted/60 hover:bg-muted p-1.5 rounded-lg transition-all"
+              >
+                Clear
+              </button>
+            )}
+          </div>
 
- <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
- {styledTexts.map(style => <Card key={style.name} className={cardClass}>
- <CardHeader className={headerClass}>
- <CardTitle className={titleClass}>
- <Copy className="w-4 h-4 text-primary" /> {style.name}
- </CardTitle>
- </CardHeader>
- <CardContent className="p-3 sm:p-4 space-y-3">
- <div className="p-3 bg-muted/40 rounded-lg text-lg break-all">
- {style.text || "Your styled text will appear here..."}
- </div>
- <CopyButton getText={() => style.text} label="Copy" />
- </CardContent>
- </Card>)}
- </div>
+          {/* Search & Category Tabs */}
+          <div className="space-y-3 pt-2 border-t border-border/60">
+            
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+              {/* Category Pills */}
+              <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
+                {CATEGORIES.map((cat) => {
+                  const Icon = cat.icon;
+                  const isActive = activeCategory === cat.id;
+                  return (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      onClick={() => setActiveCategory(cat.id)}
+                      className={cn(
+                        "whitespace-nowrap px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shrink-0",
+                        isActive
+                          ? "bg-primary text-primary-foreground shadow-sm"
+                          : "bg-muted/40 hover:bg-muted/80 text-muted-foreground hover:text-foreground border border-border/40"
+                      )}
+                    >
+                      <Icon className="w-3.5 h-3.5" />
+                      <span>{cat.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
 
- <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Enter Your Text",
-        description: "Type or paste the text you want to style in the input field.",
-        icon: Sparkles
-      }, {
-        step: "02",
-        title: "View Styled Variants",
-        description: "See your text instantly transformed into multiple Unicode styles.",
-        icon: Copy
-      }, {
-        step: "03",
-        title: "Copy Your Favorite",
-        description: "Click the copy button on any style to use it anywhere.",
-        icon: Copy
-      }]} badges={["100% Free", "Client-Side", "No Signup"]} />
+              {/* Search Filter */}
+              <div className="relative w-full sm:w-64 shrink-0">
+                <Search className="absolute left-3 top-2.5 w-4 h-4 text-muted-foreground pointer-events-none" />
+                <Input
+                  type="text"
+                  placeholder="Filter 100+ styles..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="h-9 pl-9 text-xs rounded-xl bg-background border-border"
+                />
+              </div>
+            </div>
 
- <ToolFeatureGuides features={[{
-        icon: Sparkles,
-        title: "7 Unique Styles",
-        description: "Choose from double-struck, bold, italic, tiny caps, small caps, upside-down, and strikethrough."
-      }, {
-        icon: Copy,
-        title: "Unicode Characters",
-        description: "Uses real Unicode characters that work across most platforms and applications."
-      }, {
-        icon: Sparkles,
-        title: "Real-Time Preview",
-        description: "See all style variations update instantly as you type."
-      }, {
-        icon: Copy,
-        title: "One-Click Copy",
-        description: "Copy any styled text with a single click for immediate use."
-      }]}>
- <div className="prose prose-sm dark:prose-invert max-w-none space-y-4">
- <p>Fancy text generators use Unicode characters to create stylish text variations that work across social media platforms, messaging apps, and most modern applications. Unlike traditional font changes that require special software, Unicode characters are built into the text itself and display consistently across devices.</p>
- <p>Each style in this tool maps standard ASCII characters to their Unicode equivalents. For example, double-struck characters (𝕒, 𝕓, 𝕔) are mathematical alphanumeric symbols, while bold and italic variants come from mathematical bold and italic Unicode blocks. These characters are part of the Unicode standard and are supported by most modern fonts and operating systems.</p>
- <p>Popular use cases include Instagram and Twitter bios, Discord usernames, gaming profiles, creative messaging, and standing out in crowded comment sections. However, be aware that screen readers may pronounce these characters differently, and some older systems or applications might not display all Unicode characters correctly. Use fancy text for visual flair, but keep accessibility in mind for important information.</p>
- </div>
- </ToolFeatureGuides>
+          </div>
 
- <ToolFaqAccordion faqs={[{
-        question: "Will these styles work on all social media platforms?",
-        answer: "Most modern platforms support these Unicode characters, but some older systems or specific apps might display them as boxes or question marks."
-      }, {
-        question: "Are these actual fonts?",
-        answer: "No, these are Unicode characters that look like different fonts but are actually distinct characters built into the Unicode standard."
-      }, {
-        question: "Can screen readers read fancy text correctly?",
-        answer: "Screen readers may pronounce Unicode characters differently than standard text. For accessibility, use standard text for important information."
-      }]} />
+        </GlassCard>
+
+        {/* Results Counter & Actions Bar */}
+        <div className="flex items-center justify-between px-1">
+          <div className="text-xs font-bold text-muted-foreground">
+            Showing <span className="text-foreground">{filteredStyles.length}</span> styles for &ldquo;{input || "Empty"}&rdquo;
+          </div>
+          <div className="flex items-center gap-2">
+            <ShareResultButton
+              toolTitle="100+ Fancy Text Generator"
+              resultTitle="Generated 100+ Fancy Unicode Text Styles"
+              resultSummary={`Stylized "${input}" into 100+ aesthetic fonts, gaming tags, and decorated frames.`}
+              resultMetrics={[
+                { label: "Total Styles", value: ALL_FANCY_STYLES.length },
+                { label: "Active View", value: `${filteredStyles.length} styles` },
+              ]}
+            />
+            <EmbedButton toolPath="/tools/text/fancy-text" toolTitle="100+ Fancy Text Generator" />
+          </div>
+        </div>
+
+        {/* 100+ Styles Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+          {filteredStyles.map((style) => {
+            const transformed = input ? style.transform(input) : style.name;
+            const isCopied = copiedId === style.id;
+
+            return (
+              <div
+                key={style.id}
+                className="group relative rounded-2xl border border-border/70 bg-card/60 hover:bg-card/95 hover:border-primary/40 backdrop-blur-md p-4 transition-all duration-200 shadow-sm hover:shadow-md flex flex-col justify-between gap-3"
+              >
+                {/* Header */}
+                <div className="flex items-center justify-between text-xs text-muted-foreground">
+                  <span className="font-semibold text-muted-foreground group-hover:text-foreground transition-colors">
+                    {style.name}
+                  </span>
+                  <span className="text-[10px] uppercase font-mono tracking-wider opacity-60 bg-muted px-1.5 py-0.5 rounded">
+                    {style.category}
+                  </span>
+                </div>
+
+                {/* Styled Text Output Display */}
+                <div className="py-2 px-3 rounded-xl bg-muted/30 border border-border/40 min-h-[56px] flex items-center text-foreground text-sm sm:text-base font-normal break-all select-all">
+                  {transformed}
+                </div>
+
+                {/* Copy Action Button */}
+                <Button
+                  type="button"
+                  variant={isCopied ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => handleCopy(style.id, transformed)}
+                  className={cn(
+                    "w-full h-9 rounded-xl font-bold text-xs gap-1.5 transition-all cursor-pointer",
+                    isCopied
+                      ? "bg-emerald-600 hover:bg-emerald-600 text-white border-emerald-600"
+                      : "hover:bg-primary/10 hover:text-primary hover:border-primary/40"
+                  )}
+                >
+                  {isCopied ? (
+                    <>
+                      <Check className="w-3.5 h-3.5" />
+                      <span>Copied to Clipboard!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5" />
+                      <span>Copy Style</span>
+                    </>
+                  )}
+                </Button>
+              </div>
+            );
+          })}
+        </div>
+
+        {filteredStyles.length === 0 && (
+          <div className="p-12 text-center bg-muted/20 border border-border rounded-2xl space-y-3">
+            <Sparkles className="w-8 h-8 text-muted-foreground mx-auto" />
+            <p className="text-sm font-semibold text-foreground">No styles matched your search &ldquo;{searchQuery}&rdquo;</p>
+            <Button variant="outline" size="sm" onClick={() => { setSearchQuery(""); setActiveCategory("all"); }}>
+              Reset Filters
+            </Button>
+          </div>
+        )}
+
+        {/* How It Works & Guides */}
+        <ToolHowItWorks
+          steps={[
+            { step: "1", title: "Enter Your Text", description: "Type any word, gamer name, social bio, or message in the input box." },
+            { step: "2", title: "Instant 100+ Conversions", description: "Our engine maps characters into full UTF-8 Unicode fonts, diacritic modifiers, and aesthetic frames in real-time." },
+            { step: "3", title: "1-Click Copy & Paste", description: "Click Copy on any card to paste directly into Instagram, TikTok, Discord, X (Twitter), Facebook, or WhatsApp." }
+          ]}
+        />
+
+        <ToolFeatureGuides
+          features={[
+            { title: "105+ Unique Font Styles", description: "From clean mathematical bold sans to aesthetic cursive, medieval gothic, and gaming clan tags." },
+            { title: "100% Social Media Compatible", description: "All styles use standard universal Unicode symbols supported on iOS, Android, macOS, and Windows." },
+            { title: "Instant Search & Filtering", description: "Quickly filter by category (Gaming, Aesthetic, Glitch, Decorative) or search by style name." }
+          ]}
+        />
+
+        <ToolFaqAccordion
+          faqs={[
+            { question: "Where can I use these fancy text fonts?", answer: "You can copy and paste them everywhere Unicode is supported, including Instagram bios, TikTok captions, Discord nicknames, Twitter/X tweets, WhatsApp status, and YouTube comments." },
+            { question: "Why do some fonts look different on different devices?", answer: "Unicode symbols are rendered by your device's native system fonts (Apple San Francisco, Google Roboto, Windows Segoe UI). While the characters are universally identical, minor visual styling varies slightly per operating system." },
+            { question: "Are these characters safe for gaming usernames?", answer: "Yes! Most online games (Steam, Roblox, PUBG, Free Fire, Valorant) support Unicode characters and symbols for clan tags and gamertags." }
+          ]}
+        />
+
+        <RelatedTools currentToolUrl="/tools/text/fancy-text" />
+
+      </div>
     </div>
-    </div>
-);
+  );
 }
