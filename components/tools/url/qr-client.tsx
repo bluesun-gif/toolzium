@@ -20,11 +20,21 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { GridPattern } from "@/components/magicui/grid-pattern";
 import { cn } from "@/lib/utils";
-import { QrCode, Copy, Download, Link2, Wifi, Mail, Phone, UserCheck, Sparkles, CheckCircle2, Sliders, RefreshCcw, Wand2, Type } from "lucide-react";
+import { QrCode, Copy, Download, Link2, Wifi, Mail, Phone, UserCheck, Sparkles, CheckCircle2, Sliders, RefreshCcw, Wand2, Type, ChevronDown } from "lucide-react";
 import toast from "react-hot-toast";
 import { ShareResultButton } from "@/components/shared/share-result-modal";
 import { EmbedButton } from "@/components/shared/embed-modal";
+
 type InputType = "url" | "text" | "email" | "phone" | "wifi" | "vcard";
+
+const QR_TYPES: { id: InputType; label: string; icon: any }[] = [
+  { id: "url", label: "URL", icon: Link2 },
+  { id: "text", label: "Text", icon: Sparkles },
+  { id: "wifi", label: "Wi-Fi", icon: Wifi },
+  { id: "vcard", label: "vCard", icon: UserCheck },
+  { id: "email", label: "Email", icon: Mail },
+  { id: "phone", label: "Phone", icon: Phone },
+];
 export function QrClient() {
   const [inputType, setInputType] = useState<InputType>("url");
   const [model, setModel] = useState("gpt4o");
@@ -199,26 +209,47 @@ export function QrClient() {
             </div>
 
             <div className="space-y-4 flex-1">
-              {/* Type Selectors */}
-              <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5 bg-muted/40 p-1.5 rounded-xl border border-border text-xs">
-                <Button type="button" onClick={() => setInputType("url")} className={cn(cn("py-2 px-2 rounded-lg flex flex-col items-center gap-1 transition-all font-semibold", inputType === "url" ? "bg-primary text-primary-foreground shadow-sm" : "text-foreground hover:text-primary hover:bg-muted/50"))}>
-                  <Link2 className="w-3.5 h-3.5" /> URL
-                </Button>
-                <Button type="button" onClick={() => setInputType("text")} className={cn(cn("py-2 px-2 rounded-lg flex flex-col items-center gap-1 transition-all font-semibold", inputType === "text" ? "bg-primary text-primary-foreground shadow-sm" : "text-foreground hover:text-primary hover:bg-muted/50"))}>
-                  <Sparkles className="w-3.5 h-3.5" /> Text
-                </Button>
-                <Button type="button" onClick={() => setInputType("wifi")} className={cn(cn("py-2 px-2 rounded-lg flex flex-col items-center gap-1 transition-all font-semibold", inputType === "wifi" ? "bg-primary text-primary-foreground shadow-sm" : "text-foreground hover:text-primary hover:bg-muted/50"))}>
-                  <Wifi className="w-3.5 h-3.5" /> Wi-Fi
-                </Button>
-                <Button type="button" onClick={() => setInputType("vcard")} className={cn(cn("py-2 px-2 rounded-lg flex flex-col items-center gap-1 transition-all font-semibold", inputType === "vcard" ? "bg-primary text-primary-foreground shadow-sm" : "text-foreground hover:text-primary hover:bg-muted/50"))}>
-                  <UserCheck className="w-3.5 h-3.5" /> vCard
-                </Button>
-                <Button type="button" onClick={() => setInputType("email")} className={cn(cn("py-2 px-2 rounded-lg flex flex-col items-center gap-1 transition-all font-semibold", inputType === "email" ? "bg-primary text-primary-foreground shadow-sm" : "text-foreground hover:text-primary hover:bg-muted/50"))}>
-                  <Mail className="w-3.5 h-3.5" /> Email
-                </Button>
-                <Button type="button" onClick={() => setInputType("phone")} className={cn(cn("py-2 px-2 rounded-lg flex flex-col items-center gap-1 transition-all font-semibold", inputType === "phone" ? "bg-primary text-primary-foreground shadow-sm" : "text-foreground hover:text-primary hover:bg-muted/50"))}>
-                  <Phone className="w-3.5 h-3.5" /> Phone
-                </Button>
+              {/* Responsive Type Selectors: Dropdown on mobile, clean segmented bar on tablet/desktop */}
+              <div className="space-y-1.5 sm:hidden">
+                <Label className="text-xs font-semibold text-muted-foreground">Select QR Code Type</Label>
+                <div className="relative">
+                  <select
+                    value={inputType}
+                    onChange={(e) => setInputType(e.target.value as InputType)}
+                    className="w-full bg-background border border-border text-foreground font-semibold text-xs rounded-xl h-11 px-3.5 appearance-none pr-10 focus:ring-2 focus:ring-primary/50 outline-none cursor-pointer"
+                  >
+                    <option value="url">🔗 Website URL</option>
+                    <option value="text">📝 Plain Text Message</option>
+                    <option value="wifi">📶 Wi-Fi Network Login</option>
+                    <option value="vcard">📇 Digital vCard Contact</option>
+                    <option value="email">✉️ Send Email</option>
+                    <option value="phone">📞 Phone Number</option>
+                  </select>
+                  <ChevronDown className="absolute right-3.5 top-3.5 w-4 h-4 text-muted-foreground pointer-events-none" />
+                </div>
+              </div>
+
+              <div className="hidden sm:grid sm:grid-cols-6 gap-1.5 bg-muted/60 p-1.5 rounded-xl border border-border">
+                {QR_TYPES.map((t) => {
+                  const Icon = t.icon;
+                  const isActive = inputType === t.id;
+                  return (
+                    <button
+                      key={t.id}
+                      type="button"
+                      onClick={() => setInputType(t.id)}
+                      className={cn(
+                        "py-2.5 px-2 rounded-lg flex flex-col items-center justify-center gap-1 text-xs font-bold transition-all cursor-pointer",
+                        isActive
+                          ? "bg-primary text-primary-foreground shadow-sm"
+                          : "text-muted-foreground hover:text-foreground hover:bg-background/80"
+                      )}
+                    >
+                      <Icon className="w-4 h-4 shrink-0" />
+                      <span>{t.label}</span>
+                    </button>
+                  );
+                })}
               </div>
 
               {inputType === "url" && <div className="space-y-1.5">

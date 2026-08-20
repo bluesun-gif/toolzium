@@ -94,16 +94,10 @@ export default function ToolPageHeader({
                   </motion.div>
                 </CoolMode>
 
-                {/* Title with HyperText scramble animation */}
-                <HyperText
-                  as="h1"
-                  startOnView
-                  animateOnHover
-                  duration={600}
-                  className="text-xl sm:text-3xl font-extrabold tracking-tight text-foreground leading-tight py-0"
-                >
+                {/* Title */}
+                <h1 className="text-xl sm:text-3xl font-extrabold tracking-tight text-foreground leading-tight py-0">
                   {title}
-                </HyperText>
+                </h1>
               </div>
 
               {description && (
