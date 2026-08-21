@@ -488,6 +488,12 @@ export const ToolsData = [
     isActive: true,
     items: [
       {
+        title: "Universal Batch Image Converter Studio",
+        url: "/tools/image/universal-converter",
+        description: "Convert images between PNG, JPG, WebP, BMP, and ICO in batch with quality controls and ZIP downloads.",
+        popular: true,
+      },
+      {
         title: "Image Convert",
         url: "/tools/image/convert",
         description: "Convert between JPG, PNG, WebP, AVIF",
@@ -1527,10 +1533,10 @@ export const ToolsData = [
           "Calculate interest-only draw period and principal + interest repayment period monthly payments for Home Equity Lines of Credit.",
         popular: true,
       },      {
-        title: "Percentage Calculator",
+        title: "Percentage Calculator & Discount Suite",
         url: "/tools/calc/percentage-calculator",
         description: "Free online percentage calculator. Calculate percentage of a number, percentage difference between numbers, percentage increase/decrease, and discount values with step-by-step formulas.",
-        popular: false,
+        popular: true,
       },
 ],
   },

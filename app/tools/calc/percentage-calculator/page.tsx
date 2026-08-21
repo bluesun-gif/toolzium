@@ -2,21 +2,33 @@ import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
 import PercentageCalculatorClient from "@/components/tools/calc/percentage-calculator-client";
 
-const TITLE = "Percentage Calculator — Calculate Percent, Increase & Difference | Toolzium";
-const DESCRIPTION = "Free online percentage calculator. Calculate percentage of a number, percentage difference between numbers, percentage increase/decrease, and discount values with step-by-step formulas.";
+const TITLE = "Free Online Percentage Calculator - Calculate %, Increase & Discounts";
+const DESCRIPTION =
+  "Free percentage calculator. Calculate X% of Y, percent change, percentage increase and decrease, and sales discounts with step-by-step math formulas.";
 const PATH = "/tools/calc/percentage-calculator";
 
 export const metadata = buildMetadata({
   title: TITLE,
   description: DESCRIPTION,
-  path: PATH
+  path: PATH,
+  keywords: [
+    "percentage calculator",
+    "percent calculator",
+    "calculate percentage",
+    "percent increase calculator",
+    "percent decrease",
+    "discount calculator",
+    "what percent of",
+    "percentage change",
+    "free math calculator",
+  ],
 });
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Percentage Calculator",
+    name: "Free Online Percentage Calculator & Discount Suite",
     description: DESCRIPTION,
-    path: PATH
+    path: PATH,
   });
 
   return (
