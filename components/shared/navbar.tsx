@@ -95,7 +95,7 @@ export function Navbar() {
                 </div>
 
                 <div className="pt-6 border-t space-y-3">
-                  <div className="flex items-center gap-2">
+                  <div className="grid grid-cols-2 gap-2 w-full">
                     <SheetClose asChild>
                       <Button asChild variant="outline" className="w-full justify-center">
                         <Link href="/sign-in">Sign In</Link>
