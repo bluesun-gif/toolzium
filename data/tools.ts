@@ -66,6 +66,12 @@ export const ToolsData = [
         popular: true,
       },
       {
+        title: "AI Universal Code Translator & Polyglot Engine",
+        url: "/tools/dev/code-translator",
+        description: "Translate, convert, and infer type definitions across Python, JavaScript, TypeScript, Go, Rust, Java, C++, Zod, and Pydantic.",
+        popular: true,
+      },
+      {
         title: "AI Code Explainer & Converter",
         url: "/tools/ai/code-explainer",
         description: "Understand complex code snippets with plain-English breakdowns and translate code across Python, TypeScript, Rust, Go, and C++.",
