@@ -28,6 +28,7 @@ import { Separator } from "@/components/ui/separator";
 import { SparklesText } from "@/components/ui/sparkles-text";
 import { TypingAnimation } from "@/components/ui/typing-animation";
 import { ToolsData, TOTAL_TOOLS_COUNT } from "@/data/tools";
+import { useTranslation } from "@/lib/i18n/i18n-context";
 import {
   ArrowRight,
   Fingerprint,
@@ -79,6 +80,7 @@ function getActiveCategories(): ToolCategory[] {
 }
 
 export default function HomePage() {
+  const { t } = useTranslation();
   const trending = getPopularTools(8);
   const categories = getActiveCategories();
 
@@ -87,7 +89,7 @@ export default function HomePage() {
       <Navbar />
 
       {/* ─── HERO ────────────────────────────────────────────────────────── */}
-      <section className="relative isolate flex flex-col items-center justify-center text-center px-4 pt-20 pb-24 min-h-[calc(100vh-64px)]">
+      <section className="relative isolate flex flex-col items-center justify-center text-center px-4 pt-16 sm:pt-20 pb-20 sm:pb-24 min-h-[calc(100vh-64px)]">
         {/* Grid background */}
         <GridPattern className="absolute inset-0 -z-10 [&>rect]:stroke-border/40 opacity-60" />
         {/* Ambient glow */}
@@ -95,29 +97,29 @@ export default function HomePage() {
         {/* Subtle shooting stars */}
         <Meteors number={5} minDuration={8} maxDuration={18} className="bg-primary/40 shadow-none" />
 
-        {/* Badge — uses AnimatedShinyText from original theme styling */}
+        {/* Badge */}
         <BlurFade delay={0.05} inView>
-          <div className="inline-flex items-center gap-2 rounded-full border border-black/5 bg-neutral-100 dark:border-white/5 dark:bg-neutral-900 px-4 py-1.5 mb-8">
+          <div className="inline-flex items-center gap-2 rounded-full border border-black/5 bg-neutral-100 dark:border-white/5 dark:bg-neutral-900 px-4 py-1.5 mb-6 sm:mb-8 shadow-xs">
             <Sparkles className="h-3.5 w-3.5 text-primary shrink-0" />
-            <span className="text-xs font-medium text-neutral-600 dark:text-neutral-400">
-              Fast · Free · Privacy-Friendly
+            <span className="text-xs font-semibold text-neutral-700 dark:text-neutral-300">
+              {t("hero_badge", "✨ Fast • Free • Privacy-Friendly")}
             </span>
           </div>
         </BlurFade>
 
         {/* Main headline */}
         <BlurFade delay={0.1} inView>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight text-foreground max-w-4xl">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight tracking-tight text-foreground max-w-4xl">
             <span className="text-primary tabular-nums">
               <NumberTicker value={TOTAL_TOOLS_COUNT} />+
             </span>{" "}
-            Free Online Tools
+            {t("hero_title_free", "Free Online")} {t("hero_title_tools", "Tools")}
           </h1>
         </BlurFade>
 
         {/* Cycling audience line */}
         <BlurFade delay={0.16} inView>
-          <div className="mt-4 flex items-center justify-center gap-2 text-lg sm:text-xl">
+          <div className="mt-4 flex items-center justify-center gap-2 text-base sm:text-xl">
             <span className="text-muted-foreground font-medium">Built for</span>
             <TypingAnimation
               words={["Developers", "Designers", "Marketers", "Students", "Creators", "Professionals"]}
@@ -134,48 +136,47 @@ export default function HomePage() {
 
         {/* Description */}
         <BlurFade delay={0.22} inView>
-          <p className="mt-5 max-w-lg text-base text-muted-foreground leading-relaxed text-pretty">
-            URL shortener, QR codes, image converter, JSON formatter,
-            calculators, and more. No signup required. Privacy-first.
+          <p className="mt-4 sm:mt-5 max-w-lg text-sm sm:text-base text-muted-foreground leading-relaxed text-pretty">
+            {t("hero_subtitle", "URL shortener, QR codes, image converter, JSON formatter, calculators, and more. No signup required. Privacy-first.")}
           </p>
         </BlurFade>
 
-        {/* CTA Buttons — use original themed Button, not ShimmerButton */}
+        {/* CTA Buttons */}
         <BlurFade delay={0.28} inView>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <div className="mt-6 sm:mt-8 flex flex-wrap items-center justify-center gap-3">
             <CoolMode>
               <Button asChild size="lg" className="h-11 px-7 rounded-xl font-semibold shadow-sm">
                 <Link href="/tools">
-                  Explore Tools <ArrowRight className="ml-2 h-4 w-4" />
+                  {t("explore_tools", "Explore Tools")} <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
             </CoolMode>
             <Button variant="outline" asChild size="lg" className="h-11 rounded-xl font-semibold">
-              <Link href="/about">About</Link>
+              <Link href="/about">{t("about", "About")}</Link>
             </Button>
           </div>
         </BlurFade>
 
-        {/* Stats — clean, no icons, just numbers + labels */}
+        {/* Stats */}
         <BlurFade delay={0.34} inView>
-          <div className="mt-12 flex flex-wrap items-center justify-center gap-x-12 gap-y-6 text-center">
+          <div className="mt-10 sm:mt-12 flex flex-wrap items-center justify-center gap-x-8 sm:gap-x-12 gap-y-6 text-center">
             <div>
-              <div className="text-2xl font-bold text-foreground tabular-nums">
+              <div className="text-2xl font-extrabold text-foreground tabular-nums">
                 <NumberTicker value={TOTAL_TOOLS_COUNT} className="text-primary" />+
               </div>
-              <div className="text-xs text-muted-foreground mt-0.5">Free Tools</div>
+              <div className="text-xs text-muted-foreground font-medium mt-0.5">{t("stat_free_tools", "Free Tools")}</div>
             </div>
             <div>
-              <div className="text-2xl font-bold text-foreground tabular-nums">
+              <div className="text-2xl font-extrabold text-foreground tabular-nums">
                 <NumberTicker value={100} className="text-primary" />%
               </div>
-              <div className="text-xs text-muted-foreground mt-0.5">In-Browser Processing</div>
+              <div className="text-xs text-muted-foreground font-medium mt-0.5">{t("stat_browser", "In-Browser Processing")}</div>
             </div>
             <div>
-              <div className="text-2xl font-bold text-foreground tabular-nums">
-                No
+              <div className="text-2xl font-extrabold text-foreground tabular-nums">
+                100%
               </div>
-              <div className="text-xs text-muted-foreground mt-0.5">Signup Required</div>
+              <div className="text-xs text-muted-foreground font-medium mt-0.5">{t("stat_privacy", "Zero Data Stored")}</div>
             </div>
           </div>
         </BlurFade>
@@ -219,11 +220,11 @@ export default function HomePage() {
         <BlurFade delay={0.05} inView>
           <div className="flex items-center justify-between mb-6">
             <SparklesText sparklesCount={5} className="text-xl font-bold tracking-tight">
-              Browse by Category
+              {t("explore_categories", "Browse by Category")}
             </SparklesText>
             <Button variant="ghost" size="sm" asChild>
               <Link href="/tools" className="inline-flex items-center gap-1 text-sm">
-                View all <ArrowRight className="h-3.5 w-3.5" />
+                {t("view_all_tools", "View all")} <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </Button>
           </div>
@@ -281,11 +282,11 @@ export default function HomePage() {
         <BlurFade delay={0.05} inView>
           <div className="flex items-center justify-between mb-6">
             <SparklesText sparklesCount={4} className="text-xl font-bold tracking-tight">
-              Popular Tools
+              {t("popular_tools", "Popular Tools")}
             </SparklesText>
             <Button variant="ghost" size="sm" asChild>
               <Link href="/tools" className="inline-flex items-center gap-1 text-sm">
-                Explore all <ArrowRight className="h-3.5 w-3.5" />
+                {t("view_all_tools", "Explore all")} <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </Button>
           </div>
@@ -346,18 +347,16 @@ export default function HomePage() {
       <section className="mx-auto max-w-6xl px-4 pb-16">
         <BlurFade delay={0.05} inView>
           <SparklesText sparklesCount={4} className="text-xl font-bold tracking-tight mb-6">
-            Frequently Asked Questions
+            {t("frequently_asked_questions", "Frequently Asked Questions")}
           </SparklesText>
         </BlurFade>
 
         <BlurFade delay={0.1} inView>
           <Accordion type="single" collapsible className="rounded-2xl border border-border/50 bg-card/30 backdrop-blur-sm overflow-hidden">
             {[
-              { q: "Is Toolzium free?", a: `Yes. All ${TOTAL_TOOLS_COUNT}+ tools are completely free with no account or signup required.` },
-              { q: "Do you store my data?", a: "No. Tools run in your browser where possible. Server features avoid persistent storage. We process data on-device whenever possible." },
-              { q: "How can I request a tool?", a: "Use the Contact page or open an issue on our GitHub repository. We're always adding tools our users need." },
-              { q: "What types of tools are available?", a: "URL tools, text utilities, developer tools (JSON formatter, hash generator), calculators, SEO tools, image tools, and many more." },
-              { q: "Do I need to create an account?", a: "No account required. Use any tool instantly without signing up." },
+              { q: t("faq_q1", "Is Toolzium free?"), a: t("faq_a1", `Yes. All ${TOTAL_TOOLS_COUNT}+ tools are completely free with no account or signup required.`) },
+              { q: t("faq_q2", "Do you store my data?"), a: t("faq_a2", "No. Tools run in your browser where possible. Server features avoid persistent storage. We process data on-device whenever possible.") },
+              { q: t("faq_q3", "Can I install Toolzium on mobile and desktop?"), a: t("faq_a3", "Yes! Toolzium is a full Progressive Web App (PWA) optimized for smartphones, tablets, and desktop alike.") },
             ].map((faq, i) => (
               <AccordionItem key={i} value={`faq-${i}`} className="px-4 border-b border-border/40 last:border-0">
                 <AccordionTrigger className="text-sm font-semibold py-4 hover:text-primary hover:no-underline text-left">

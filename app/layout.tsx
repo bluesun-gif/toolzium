@@ -13,6 +13,7 @@ import NavigationProgressBar from "@/components/shared/navigation-progress-bar";
 import { ScrollProgressBar } from "@/components/shared/scroll-progress-bar";
 import { CursorGlow } from "@/components/shared/cursor-glow";
 import { I18nProvider } from "@/lib/i18n/i18n-context";
+import { GoogleTranslateScript } from "@/components/shared/google-translate-script";
 import JsonLd from "@/components/seo/json-ld";
 import { ServiceWorkerRegistrar } from "@/components/shared/service-worker-registrar";
 import { ToolsData, TOTAL_TOOLS_COUNT } from "@/data/tools";
@@ -215,6 +216,7 @@ export default function RootLayout({
         <GoogleTagManagerNoScript />
 
         <I18nProvider>
+          <GoogleTranslateScript />
           <AuthSessionProvider>
             <PremiumProvider>
               <div id="main-content" className="overflow-x-hidden w-full max-w-full">{children}</div>
