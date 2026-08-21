@@ -41,22 +41,27 @@ export function ToolFavoriteButton({
       onClick={handleClick}
       aria-label={active ? `Remove ${tool.title} from favorites` : `Star ${tool.title} to favorites`}
       className={cn(
-        "transition-all duration-200 gap-1.5 h-8.5 px-3 rounded-xl border-border/80",
+        "transition-all duration-200",
+        size === "icon"
+          ? "h-8 w-8 p-0 rounded-xl shrink-0"
+          : "gap-1.5 h-8.5 px-3 rounded-xl",
         active
-          ? "bg-amber-500/10 border-amber-500/30 text-amber-500 hover:bg-amber-500/20 hover:text-amber-400 dark:text-amber-400"
-          : "hover:border-primary/50 text-muted-foreground hover:text-foreground",
+          ? "bg-amber-500/10 border border-amber-500/30 text-amber-500 hover:bg-amber-500/20 hover:text-amber-400 dark:text-amber-400"
+          : "border border-border/70 bg-background/60 hover:border-primary/50 text-muted-foreground hover:text-foreground shadow-xs",
         className
       )}
     >
       <Star
         className={cn(
           "w-4 h-4 transition-transform duration-200",
-          active ? "fill-amber-400 text-amber-400 scale-110" : ""
+          active ? "fill-amber-400 text-amber-400 scale-110" : "text-muted-foreground/80 hover:text-foreground"
         )}
       />
-      <span className="text-xs font-semibold hidden sm:inline">
-        {active ? "Starred" : "Star"}
-      </span>
+      {size !== "icon" && (
+        <span className="text-xs font-semibold hidden sm:inline">
+          {active ? "Starred" : "Star"}
+        </span>
+      )}
     </Button>
   );
 }

@@ -252,9 +252,7 @@ export function CategoryHubClient({
                 <div className="absolute top-4 right-4 z-20">
                   <ToolFavoriteButton
                     tool={{ title: tool.title, url: tool.url, description: tool.description }}
-                    variant="ghost"
                     size="icon"
-                    className="h-8 w-8 rounded-lg bg-background/50 hover:bg-background/80"
                   />
                 </div>
               </div>

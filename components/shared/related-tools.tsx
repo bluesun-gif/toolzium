@@ -168,9 +168,7 @@ export function RelatedTools({ currentToolUrl, max = 6 }: RelatedToolsProps) {
               <div className="absolute top-3.5 right-3.5 z-20">
                 <ToolFavoriteButton
                   tool={{ title: tool.title, url: tool.url, description: tool.description }}
-                  variant="ghost"
                   size="icon"
-                  className="h-7 w-7 rounded-lg bg-background/50 hover:bg-background/80"
                 />
               </div>
             </div>
