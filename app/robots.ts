@@ -1,7 +1,7 @@
 import { env } from "@/lib/env";
 import type { MetadataRoute } from "next";
 
-const siteUrl = env.app.siteUrl;
+const siteUrl = env.app.siteUrl || "https://toolzium.com";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -11,7 +11,26 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
         disallow: ["/api/", "/dashboard/"],
       },
+      {
+        userAgent: [
+          "Googlebot",
+          "Bingbot",
+          "Applebot",
+          "DuckDuckBot",
+          "YandexBot",
+          "Baiduspider",
+          "GPTBot",
+          "PerplexityBot",
+          "ClaudeBot",
+          "anthropic-ai",
+          "Bytespider",
+          "CCBot",
+        ],
+        allow: "/",
+        disallow: ["/api/", "/dashboard/"],
+      },
     ],
     sitemap: `${siteUrl}/sitemap.xml`,
+    host: siteUrl,
   };
 }

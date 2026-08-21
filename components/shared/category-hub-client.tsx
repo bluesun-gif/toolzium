@@ -95,26 +95,26 @@ export function CategoryHubClient({
       <ToolBackground />
 
       {/* Breadcrumbs */}
-      <nav aria-label="Breadcrumb" className="relative z-10 flex items-center gap-1.5 text-xs text-muted-foreground">
-        <Link href="/" className="hover:text-foreground transition-colors">
+      <nav aria-label="Breadcrumb" className="relative z-10 flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground pt-1">
+        <Link href="/" className="hover:text-foreground transition-colors shrink-0">
           Home
         </Link>
-        <ChevronRight className="h-3.5 w-3.5" />
-        <Link href="/tools" className="hover:text-foreground transition-colors">
+        <ChevronRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground/60" />
+        <Link href="/tools" className="hover:text-foreground transition-colors shrink-0">
           Tools
         </Link>
-        <ChevronRight className="h-3.5 w-3.5" />
-        <span className="font-medium text-foreground">{title}</span>
+        <ChevronRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground/60" />
+        <span className="font-medium text-foreground truncate">{title}</span>
       </nav>
 
       {/* Hero Header */}
-      <header className="relative z-10 space-y-4">
-        <div className="flex flex-wrap items-center gap-2.5">
-          <Badge variant="secondary" className="px-3 py-1 text-xs font-semibold bg-primary/10 text-primary border-primary/20 flex items-center gap-1.5">
+      <header className="relative z-10 space-y-4 pt-1">
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge variant="secondary" className="px-3 py-1 text-xs font-semibold bg-primary/10 text-primary border-primary/20 flex items-center gap-1.5 shrink-0">
             <Sparkles className="h-3.5 w-3.5" />
             {tools.length} Free Online Tools
           </Badge>
-          <Badge variant="outline" className="px-2.5 py-0.5 text-xs text-muted-foreground">
+          <Badge variant="outline" className="px-2.5 py-1 text-xs text-muted-foreground shrink-0">
             100% Client-Side Private
           </Badge>
         </div>
