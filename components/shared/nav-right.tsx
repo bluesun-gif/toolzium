@@ -29,6 +29,7 @@ import { UserNav } from "./user-nav";
 import { ThemeToggle } from "./theme-toggle";
 import { PwaInstallButton } from "./pwa-install-button";
 import { LanguageSwitcher } from "./language-switcher";
+import { useFavorites } from "@/lib/hooks/use-favorites";
 
 // Types
 type ToolItem = {
@@ -89,6 +90,7 @@ function getRecent(): FlatItem[] {
 export default function NavRight() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
+  const { favorites } = useFavorites();
 
   const [recent, setRecent] = useState<FlatItem[]>([]);
   const [query, setQuery] = useState("");
@@ -111,8 +113,16 @@ export default function NavRight() {
         }
       }
     }
+
+    const handleOpenSearch = () => setOpen(true);
+
     window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    window.addEventListener("toolzium:open_search", handleOpenSearch);
+
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("toolzium:open_search", handleOpenSearch);
+    };
   }, []);
 
   useEffect(() => {
@@ -216,6 +226,39 @@ export default function NavRight() {
         />
         <CommandList>
           <CommandEmpty>No tools found.</CommandEmpty>
+
+          {/* Starred Favorites */}
+          {!query && favorites.length > 0 && (
+            <>
+              <CommandGroup heading="⭐ Starred Favorites">
+                {favorites.map((item) => (
+                  <CommandItem
+                    key={`fav:${item.url}`}
+                    value={`${item.title} ${item.description ?? ""} ${item.url}`}
+                    onSelect={() => {
+                      setOpen(false);
+                      router.push(item.url);
+                    }}
+                  >
+                    <Star className="mr-2 h-4 w-4 fill-amber-400 text-amber-400" />
+                    <div className="flex min-w-0 flex-col">
+                      <span className="truncate font-semibold">{item.title}</span>
+                      {item.description && (
+                        <span className="truncate text-xs text-muted-foreground">
+                          {item.description}
+                        </span>
+                      )}
+                    </div>
+                    <Badge className="ml-auto bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20" variant="outline">
+                      Starred
+                    </Badge>
+                    <ArrowRight className="ml-2 h-4 w-4 opacity-60" />
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+              <CommandSeparator />
+            </>
+          )}
 
           {/* Recent */}
           {!query && recent.length > 0 && (

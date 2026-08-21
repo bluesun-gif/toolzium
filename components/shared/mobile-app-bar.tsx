@@ -7,15 +7,20 @@ import { Home, Wrench, Search, User } from "lucide-react";
 import { useSession } from "@/lib/auth-client";
 import { useTranslation } from "@/lib/i18n/i18n-context";
 
-export default function MobileAppBar({ onOpenSearch }: { onOpenSearch: () => void }) {
+export default function MobileAppBar({ onOpenSearch }: { onOpenSearch?: () => void }) {
   const pathname = usePathname();
   const { data: session } = useSession();
   const { t } = useTranslation();
 
+  const handleSearchClick = () => {
+    window.dispatchEvent(new Event("toolzium:open_search"));
+    if (onOpenSearch) onOpenSearch();
+  };
+
   const navItems = [
     { label: t("home", "Home"), href: "/", icon: Home },
     { label: t("all_tools", "All Tools"), href: "/tools", icon: Wrench },
-    { label: t("search", "Search"), action: onOpenSearch, icon: Search },
+    { label: t("search", "Search"), action: handleSearchClick, icon: Search },
     {
       label: session?.user ? t("dashboard", "Account") : t("sign_in", "Sign In"),
       href: session?.user ? "/dashboard" : "/sign-in",
