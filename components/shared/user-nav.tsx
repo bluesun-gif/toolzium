@@ -28,7 +28,7 @@ export function UserNav() {
             Sign In
           </Link>
         </Button>
-        <Button asChild size="sm" variant="default" className="gap-1.5 font-semibold bg-primary text-primary-foreground shadow-xs hover:opacity-90">
+        <Button asChild size="sm" variant="default" className="hidden sm:inline-flex gap-1.5 font-semibold bg-primary text-primary-foreground shadow-xs hover:opacity-90">
           <Link href="/sign-up">
             <LogIn className="h-4 w-4" />
             Sign Up

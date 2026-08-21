@@ -60,7 +60,7 @@ export default function ToolPageHeader({
         <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-primary/15 blur-3xl -z-10" />
         <div className="pointer-events-none absolute -left-8 -bottom-8 h-32 w-32 rounded-full bg-primary/8 blur-2xl -z-10" />
 
-        <div className="p-5 sm:px-8 sm:py-6">
+        <div className="p-4 sm:px-8 sm:py-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="space-y-2 min-w-0 max-w-full">
               {/* Animated Gradient Badge */}
@@ -69,10 +69,10 @@ export default function ToolPageHeader({
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.1, duration: 0.3 }}
-                  className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-muted/60 px-3 py-1 text-xs font-semibold shadow-sm"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-muted/60 px-2.5 py-0.5 sm:px-3 sm:py-1 text-[11px] sm:text-xs font-semibold shadow-sm max-w-full"
                 >
                   <AnimatedGradientText
-                    className="inline-flex items-center gap-1 text-xs font-semibold"
+                    className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-semibold break-words"
                     colorFrom="#a78bfa"
                     colorTo="#38bdf8"
                     speed={0.8}
@@ -82,20 +82,20 @@ export default function ToolPageHeader({
                 </motion.div>
               )}
 
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2.5 sm:gap-3">
                 {/* Animated icon container wrapped with CoolMode for particles */}
                 <CoolMode>
                   <motion.div
                     whileHover={{ scale: 1.1, rotate: 5 }}
                     transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                    className="h-10 w-10 sm:h-12 sm:w-12 rounded-2xl bg-primary/10 border border-primary/20 text-primary flex items-center justify-center shrink-0 shadow-sm cursor-pointer"
+                    className="h-9 w-9 sm:h-12 sm:w-12 rounded-xl sm:rounded-2xl bg-primary/10 border border-primary/20 text-primary flex items-center justify-center shrink-0 shadow-sm cursor-pointer"
                   >
-                    <LeftIcon className="h-5 w-5 sm:h-6 sm:w-6" />
+                    <LeftIcon className="h-4.5 w-4.5 sm:h-6 sm:w-6" />
                   </motion.div>
                 </CoolMode>
 
                 {/* Title */}
-                <h1 className="text-xl sm:text-3xl font-extrabold tracking-tight text-foreground leading-tight py-0">
+                <h1 className="text-lg sm:text-2xl md:text-3xl font-extrabold tracking-tight text-foreground leading-tight py-0 break-words">
                   {title}
                 </h1>
               </div>

@@ -24,8 +24,8 @@ export function Navbar() {
     <>
       <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
         <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-3">
-          <div className="flex items-center gap-3">
-            <Link href="/" className="inline-flex items-center gap-2 font-bold tracking-tight">
+          <div className="flex items-center gap-3 shrink-0">
+            <Link href="/" className="inline-flex items-center gap-2 font-bold tracking-tight shrink-0">
               <Image
                 src="/assets/logo.png"
                 height={36}
@@ -33,7 +33,7 @@ export function Navbar() {
                 alt="Toolzium Logo"
                 className="rounded-lg shadow-xs"
               />
-              <span className="text-base font-bold bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text">
+              <span className="text-base font-bold bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text whitespace-nowrap">
                 Toolzium
               </span>
             </Link>

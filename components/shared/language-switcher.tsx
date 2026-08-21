@@ -28,14 +28,14 @@ export function LanguageSwitcher() {
         variant="outline"
         size="sm"
         onClick={() => setIsOpen(!isOpen)}
-        className="h-9 px-2.5 rounded-xl border-border/80 bg-background/50 hover:bg-background/80 text-xs font-semibold flex items-center gap-1.5 shadow-sm transition-all"
+        className="h-9 w-9 p-0 sm:w-auto sm:px-2.5 rounded-xl border-border/80 bg-background/50 hover:bg-background/80 text-xs font-semibold flex items-center justify-center gap-1.5 shadow-sm transition-all"
         aria-label="Change Language"
       >
         <span className="text-sm leading-none">{currentLanguage.flag}</span>
-        <span className="hidden lg:inline text-xs font-bold text-foreground">
+        <span className="hidden sm:inline text-xs font-bold text-foreground">
           {currentLanguage.code.toUpperCase()}
         </span>
-        <ChevronDown className="w-3 h-3 opacity-60 ml-0.5" />
+        <ChevronDown className="hidden sm:inline w-3 h-3 opacity-60 ml-0.5" />
       </Button>
 
       {isOpen && (

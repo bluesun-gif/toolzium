@@ -94,9 +94,9 @@ export default function PercentageCalculatorClient() {
   };
 
   return (
-    <div className="min-h-screen relative pb-20">
+    <div className="relative pb-8 sm:pb-12">
       <ToolBackground />
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-6 sm:pt-8 space-y-8">
+      <div className="max-w-6xl mx-auto px-3 sm:px-6 pt-2 sm:pt-4 space-y-6 sm:space-y-8">
         
         {/* Header */}
         <ToolPageHeader
@@ -107,35 +107,34 @@ export default function PercentageCalculatorClient() {
         />
 
         {/* 4 Interactive Calculator Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           
           {/* 1. What is X% of Y? */}
-          <GlassCard className="p-5 sm:p-6 space-y-4">
+          <GlassCard className="p-4 sm:p-6 space-y-4">
             <div className="flex items-center gap-2 border-b border-border/60 pb-2">
               <Calculator className="w-4 h-4 text-primary" />
               <h3 className="text-sm font-bold text-foreground">1. What is X% of Y?</h3>
             </div>
 
-            <div className="flex items-center gap-2">
-              <div className="flex-1 space-y-1">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end">
+              <div className="space-y-1">
                 <Label className="text-[11px] text-muted-foreground uppercase font-bold">Percentage (%)</Label>
                 <Input
                   type="number"
                   value={val1A}
                   onChange={(e) => setVal1A(e.target.value)}
                   placeholder="15"
-                  className="font-mono text-sm font-bold"
+                  className="font-mono text-base sm:text-sm font-bold h-11 sm:h-10"
                 />
               </div>
-              <span className="text-muted-foreground font-bold pt-5">% of</span>
-              <div className="flex-1 space-y-1">
+              <div className="space-y-1">
                 <Label className="text-[11px] text-muted-foreground uppercase font-bold">Number (Y)</Label>
                 <Input
                   type="number"
                   value={val1B}
                   onChange={(e) => setVal1B(e.target.value)}
                   placeholder="240"
-                  className="font-mono text-sm font-bold"
+                  className="font-mono text-base sm:text-sm font-bold h-11 sm:h-10"
                 />
               </div>
             </div>
@@ -161,32 +160,31 @@ export default function PercentageCalculatorClient() {
           </GlassCard>
 
           {/* 2. X is what % of Y? */}
-          <GlassCard className="p-5 sm:p-6 space-y-4">
+          <GlassCard className="p-4 sm:p-6 space-y-4">
             <div className="flex items-center gap-2 border-b border-border/60 pb-2">
               <Percent className="w-4 h-4 text-primary" />
               <h3 className="text-sm font-bold text-foreground">2. X is what % of Y?</h3>
             </div>
 
-            <div className="flex items-center gap-2">
-              <div className="flex-1 space-y-1">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end">
+              <div className="space-y-1">
                 <Label className="text-[11px] text-muted-foreground uppercase font-bold">Part (X)</Label>
                 <Input
                   type="number"
                   value={val2A}
                   onChange={(e) => setVal2A(e.target.value)}
                   placeholder="45"
-                  className="font-mono text-sm font-bold"
+                  className="font-mono text-base sm:text-sm font-bold h-11 sm:h-10"
                 />
               </div>
-              <span className="text-muted-foreground font-bold pt-5">is what % of</span>
-              <div className="flex-1 space-y-1">
+              <div className="space-y-1">
                 <Label className="text-[11px] text-muted-foreground uppercase font-bold">Whole (Y)</Label>
                 <Input
                   type="number"
                   value={val2B}
                   onChange={(e) => setVal2B(e.target.value)}
                   placeholder="180"
-                  className="font-mono text-sm font-bold"
+                  className="font-mono text-base sm:text-sm font-bold h-11 sm:h-10"
                 />
               </div>
             </div>
@@ -203,7 +201,7 @@ export default function PercentageCalculatorClient() {
                   variant="outline"
                   size="sm"
                   onClick={() => copyVal(`${res2.result}%`, "Percentage")}
-                  className="text-xs font-semibold gap-1"
+                  className="text-xs font-semibold gap-1 min-h-[36px]"
                 >
                   <Copy className="w-3.5 h-3.5" /> Copy
                 </Button>
@@ -212,32 +210,31 @@ export default function PercentageCalculatorClient() {
           </GlassCard>
 
           {/* 3. Percentage Increase / Decrease */}
-          <GlassCard className="p-5 sm:p-6 space-y-4">
+          <GlassCard className="p-4 sm:p-6 space-y-4">
             <div className="flex items-center gap-2 border-b border-border/60 pb-2">
               <TrendingUp className="w-4 h-4 text-primary" />
               <h3 className="text-sm font-bold text-foreground">3. Percentage Increase / Decrease</h3>
             </div>
 
-            <div className="flex items-center gap-2">
-              <div className="flex-1 space-y-1">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end">
+              <div className="space-y-1">
                 <Label className="text-[11px] text-muted-foreground uppercase font-bold">Initial Value</Label>
                 <Input
                   type="number"
                   value={val3A}
                   onChange={(e) => setVal3A(e.target.value)}
                   placeholder="50"
-                  className="font-mono text-sm font-bold"
+                  className="font-mono text-base sm:text-sm font-bold h-11 sm:h-10"
                 />
               </div>
-              <span className="text-muted-foreground font-bold pt-5">➔</span>
-              <div className="flex-1 space-y-1">
+              <div className="space-y-1">
                 <Label className="text-[11px] text-muted-foreground uppercase font-bold">Final Value</Label>
                 <Input
                   type="number"
                   value={val3B}
                   onChange={(e) => setVal3B(e.target.value)}
                   placeholder="75"
-                  className="font-mono text-sm font-bold"
+                  className="font-mono text-base sm:text-sm font-bold h-11 sm:h-10"
                 />
               </div>
             </div>
@@ -266,7 +263,7 @@ export default function PercentageCalculatorClient() {
                   variant="outline"
                   size="sm"
                   onClick={() => copyVal(`${res3.isIncrease ? "+" : "-"}${res3.percentChange}%`, "Percent change")}
-                  className="text-xs font-semibold gap-1"
+                  className="text-xs font-semibold gap-1 min-h-[36px]"
                 >
                   <Copy className="w-3.5 h-3.5" /> Copy
                 </Button>
@@ -275,32 +272,31 @@ export default function PercentageCalculatorClient() {
           </GlassCard>
 
           {/* 4. Discount & Sale Price Calculator */}
-          <GlassCard className="p-5 sm:p-6 space-y-4">
+          <GlassCard className="p-4 sm:p-6 space-y-4">
             <div className="flex items-center gap-2 border-b border-border/60 pb-2">
               <Tag className="w-4 h-4 text-primary" />
               <h3 className="text-sm font-bold text-foreground">4. Sale Discount Calculator</h3>
             </div>
 
-            <div className="flex items-center gap-2">
-              <div className="flex-1 space-y-1">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end">
+              <div className="space-y-1">
                 <Label className="text-[11px] text-muted-foreground uppercase font-bold">Original Price ($)</Label>
                 <Input
                   type="number"
                   value={val4Price}
                   onChange={(e) => setVal4Price(e.target.value)}
                   placeholder="120"
-                  className="font-mono text-sm font-bold"
+                  className="font-mono text-base sm:text-sm font-bold h-11 sm:h-10"
                 />
               </div>
-              <span className="text-muted-foreground font-bold pt-5">-</span>
-              <div className="flex-1 space-y-1">
+              <div className="space-y-1">
                 <Label className="text-[11px] text-muted-foreground uppercase font-bold">Discount (%)</Label>
                 <Input
                   type="number"
                   value={val4Discount}
                   onChange={(e) => setVal4Discount(e.target.value)}
                   placeholder="25"
-                  className="font-mono text-sm font-bold"
+                  className="font-mono text-base sm:text-sm font-bold h-11 sm:h-10"
                 />
               </div>
             </div>

@@ -201,7 +201,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/assets/logo.png" />
         <meta name="mobile-web-app-capable" content="yes" />
       </head>
-      <body className="min-h-screen bg-background text-foreground antialiased overflow-x-hidden pb-16 md:pb-0">
+      <body className="min-h-screen bg-background text-foreground antialiased overflow-x-hidden pb-[calc(4.5rem+env(safe-area-inset-bottom))] md:pb-0">
         <ServiceWorkerRegistrar />
         <ScrollProgressBar />
         <CursorGlow />
