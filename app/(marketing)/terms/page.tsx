@@ -54,7 +54,7 @@ export default function TermsPage() {
             <p>• Toolzium is MIT licensed</p>
             <p>• You can fork, modify, and distribute the code</p>
             <p>• See LICENSE file for full terms</p>
-            <p>• GitHub: github.com/Toolzium/tools-cube</p>
+            <p>• GitHub: github.com/Toolzium/toolzium</p>
           </CardContent>
         </Card>
 

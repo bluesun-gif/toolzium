@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 const SITE_URL = env.app.siteUrl || "https://toolzium.com";
 const SITE_NAME = "Toolzium";
 const SITE_TWITTER = "@toolzium";
-const DEFAULT_IMAGE = `${SITE_URL}/assets/tools-cube.jpg`;
+const DEFAULT_IMAGE = `${SITE_URL}/assets/toolzium-preview.png`;
 
 type BuildMetaInput = {
   title: string;

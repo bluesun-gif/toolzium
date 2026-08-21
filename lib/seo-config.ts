@@ -4,9 +4,9 @@ import { siteURL } from "./constants";
 export const siteConfig = {
   name: "Toolzium",
   description:
-    "70+ free online tools for developers and professionals. URL shortener, QR code generator, JSON formatter, image converter, calculators, and more. No signup required, privacy-first.",
+    "570+ free online tools for developers, designers and professionals. URL shortener, QR code generator, JSON formatter, image converter, calculators, and more. No signup required, privacy-first.",
   url: siteURL,
-  ogImage: `${siteURL}/og/tools-cube-og.png`,
+  ogImage: `${siteURL}/assets/toolzium-preview.png`,
   twitter: "@toolzium",
   keywords: [
     "online tools",

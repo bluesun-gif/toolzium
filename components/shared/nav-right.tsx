@@ -44,7 +44,7 @@ type FlatItem = ToolItem & {
   icon?: unknown;
 };
 
-const RECENT_KEY = "tools-cube:recent-items-v1";
+const RECENT_KEY = "toolzium:recent-items-v1";
 const MAX_RECENT = 8;
 
 function asIcon(maybe: unknown): LucideIcon {

@@ -22,7 +22,7 @@ interface SubdomainItem {
   name: string;
   isWildcard: boolean;
 }
-const HISTORY_KEY = "tools-cube:subdomain-history";
+const HISTORY_KEY = "toolzium:subdomain-history";
 const MAX_HISTORY = 10;
 export default function SubdomainFinderClient() {
   const [domain, setDomain] = useState("");

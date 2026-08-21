@@ -1,7 +1,7 @@
 {
   "name": "Toolzium",
   "short_name": "Toolzium",
-  "description": "470+ free online tools for developers, designers and professionals. No signup required.",
+  "description": "570+ free online tools for developers, designers and professionals. No signup required.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -26,18 +26,18 @@
   ],
   "screenshots": [
     {
-      "src": "/assets/tools-cube.jpg",
+      "src": "/assets/toolzium-preview.png",
       "sizes": "1200x630",
-      "type": "image/jpeg",
+      "type": "image/png",
       "form_factor": "wide",
-      "label": "Toolzium — 470+ Free Online Tools"
+      "label": "Toolzium — 570+ Free Online Tools"
     }
   ],
   "shortcuts": [
     {
       "name": "All Tools",
       "short_name": "Tools",
-      "description": "Browse all 470+ tools",
+      "description": "Browse all 570+ tools",
       "url": "/tools",
       "icons": [{ "src": "/assets/logo.png", "sizes": "96x96" }]
     },

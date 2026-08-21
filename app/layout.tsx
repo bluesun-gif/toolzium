@@ -100,7 +100,7 @@ export const metadata: Metadata = {
     alternateLocale: ["bn_BD"],
     images: [
       {
-        url: `${siteURL}/assets/tools-cube.jpg`,
+        url: `${siteURL}/assets/toolzium-preview.png`,
         width: 1200,
         height: 630,
         alt: "Toolzium",
@@ -114,7 +114,7 @@ export const metadata: Metadata = {
     title: `Toolzium — ${TOTAL_TOOLS_COUNT}+ Free Online Tools`,
     description:
       `URL shortener, QR codes, JSON formatter, image converter, calculators, and more. ${TOTAL_TOOLS_COUNT}+ utilities. Free, no signup required, privacy-first.`,
-    images: [`${siteURL}/assets/tools-cube.jpg`],
+    images: [`${siteURL}/assets/toolzium-preview.png`],
   },
   robots: {
     index: true,
