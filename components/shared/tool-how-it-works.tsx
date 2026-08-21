@@ -5,6 +5,8 @@ import { CheckCircle2, ShieldCheck, type LucideIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import { BlurFade } from "@/components/magicui/blur-fade";
 
+import { useTranslation } from "@/lib/i18n/i18n-context";
+
 type Step = {
   step: string;
   title: string;
@@ -21,8 +23,8 @@ type ToolHowItWorksProps = {
 };
 
 export default function ToolHowItWorks({
-  title = "How It Works",
-  subtitle = "Simple, fast, and 100% secure in 3 steps.",
+  title,
+  subtitle,
   steps,
   badges = [
     "100% Free Forever",
@@ -32,16 +34,19 @@ export default function ToolHowItWorks({
   ],
   className = "",
 }: ToolHowItWorksProps) {
+  const { t } = useTranslation();
+  const displayTitle = title || t("how_it_works", "How It Works");
+  const displaySubtitle = subtitle || t("how_it_works_subtitle", "Simple, fast, and 100% secure in 3 steps.");
   return (
     <section className={`col-span-full mt-14 space-y-8 ${className}`} style={{ gridColumn: "1 / -1" }}>
       {/* Section header with blur-fade entrance */}
       <BlurFade delay={0} inView>
         <div className="text-center space-y-2">
           <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-foreground">
-            {title}
+            {displayTitle}
           </h2>
           <p className="text-xs md:text-sm text-muted-foreground max-w-2xl mx-auto">
-            {subtitle}
+            {displaySubtitle}
           </p>
         </div>
       </BlurFade>

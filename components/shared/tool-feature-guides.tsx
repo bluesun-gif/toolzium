@@ -7,6 +7,8 @@ import { motion } from "framer-motion";
 import React from "react";
 import { cn } from "@/lib/utils";
 
+import { useTranslation } from "@/lib/i18n/i18n-context";
+
 type FeatureCard = {
   title: string;
   description: string;
@@ -22,12 +24,16 @@ type ToolFeatureGuidesProps = {
 };
 
 export default function ToolFeatureGuides({
-  title = "Key Features & Capabilities",
-  subtitle = "Designed for accuracy, privacy, and maximum efficiency.",
+  title,
+  subtitle,
   features,
   children,
   className = "",
 }: ToolFeatureGuidesProps) {
+  const { t } = useTranslation();
+  const displayTitle = title || t("key_features", "Key Features & Capabilities");
+  const displaySubtitle = subtitle || t("key_features_subtitle", "Designed for accuracy, privacy, and maximum efficiency.");
+
   return (
     <section className={cn("col-span-full mt-16 space-y-10", className)} style={{ gridColumn: "1 / -1" }}>
       {features && features.length > 0 && (
@@ -39,11 +45,11 @@ export default function ToolFeatureGuides({
                 <div className="p-2.5 bg-primary/10 border border-primary/20 rounded-2xl text-primary shrink-0 shadow-sm">
                   <Sparkles className="h-6 w-6" />
                 </div>
-                <span>{title}</span>
+                <span>{displayTitle}</span>
               </h2>
-              {subtitle && (
+              {displaySubtitle && (
                 <p className="text-sm md:text-base text-muted-foreground max-w-2xl leading-relaxed">
-                  {subtitle}
+                  {displaySubtitle}
                 </p>
               )}
             </div>

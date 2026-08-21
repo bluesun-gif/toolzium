@@ -5,6 +5,7 @@ import { ToolsData } from "@/data/tools";
 import { GlassCard } from "@/components/ui/glass-card";
 import { ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
+import { useTranslation } from "@/lib/i18n/i18n-context";
 
 type RelatedToolsProps = {
   /** Current tool's URL path, e.g. "/tools/text/morse-code" */
@@ -18,6 +19,8 @@ type RelatedToolsProps = {
  * Deterministic and safe against React hydration errors.
  */
 export function RelatedTools({ currentToolUrl, max = 6 }: RelatedToolsProps) {
+  const { t } = useTranslation();
+
   const displayedTools = useMemo(() => {
     // Find which category the current tool belongs to
     const currentCategory = ToolsData.find((cat) =>
@@ -50,19 +53,27 @@ export function RelatedTools({ currentToolUrl, max = 6 }: RelatedToolsProps) {
   if (!displayedTools || displayedTools.length === 0) return null;
 
   return (
-    <section className="col-span-full mt-16 pt-8 border-t border-border/60" style={{ gridColumn: "1 / -1" }} aria-label="Related Tools">
+    <section
+      className="col-span-full mt-16 pt-8 border-t border-border/60"
+      style={{ gridColumn: "1 / -1" }}
+      aria-label="Related Tools"
+    >
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
         <h2 className="text-2xl font-bold flex items-center gap-3 text-foreground">
           <div className="p-2 bg-primary/10 rounded-xl">
             <Sparkles className="h-5 w-5 text-primary" />
           </div>
-          Related Tools You Might Like
+          {t("related_tools", "Related Tools You Might Like")}
         </h2>
-        <Link href="/tools" className="text-sm font-semibold text-primary hover:text-primary flex items-center gap-1 group transition-colors">
-          View all tools
+        <Link
+          href="/tools"
+          className="text-sm font-semibold text-primary hover:text-primary flex items-center gap-1 group transition-colors"
+        >
+          {t("view_all_tools", "View all tools")}
           <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
         </Link>
       </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {displayedTools.map((tool) => (
           <Link key={tool.url} href={tool.url} className="group outline-none">

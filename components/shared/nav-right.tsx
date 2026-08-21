@@ -28,6 +28,7 @@ import { socialIcons } from "./icons";
 import { UserNav } from "./user-nav";
 import { ThemeToggle } from "./theme-toggle";
 import { PwaInstallButton } from "./pwa-install-button";
+import { LanguageSwitcher } from "./language-switcher";
 
 // Types
 type ToolItem = {
@@ -178,6 +179,9 @@ export default function NavRight() {
 
         {/* PWA 1-Click Install Button */}
         <PwaInstallButton />
+
+        {/* Global Multi-Language Switcher */}
+        <LanguageSwitcher />
 
         <ThemeToggle />
 

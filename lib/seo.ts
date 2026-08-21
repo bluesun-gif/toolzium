@@ -37,7 +37,20 @@ export function buildMetadata(input: BuildMetaInput): Metadata {
     ],
     category: "Utilities",
 
-    alternates: { canonical: url },
+    alternates: {
+      canonical: url,
+      languages: {
+        en: url,
+        es: `${url}?lang=es`,
+        pt: `${url}?lang=pt`,
+        de: `${url}?lang=de`,
+        fr: `${url}?lang=fr`,
+        hi: `${url}?lang=hi`,
+        ja: `${url}?lang=ja`,
+        ar: `${url}?lang=ar`,
+        "x-default": url,
+      },
+    },
 
     robots: {
       index: true,

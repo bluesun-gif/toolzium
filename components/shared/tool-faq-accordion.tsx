@@ -6,6 +6,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { BlurFade } from "@/components/magicui/blur-fade";
 import * as React from "react";
 
+import { useTranslation } from "@/lib/i18n/i18n-context";
+
 type FaqItem = {
   question: string;
   answer: string;
@@ -19,11 +21,14 @@ type ToolFaqAccordionProps = {
 };
 
 export default function ToolFaqAccordion({
-  title = "Frequently Asked Questions",
-  subtitle = "Everything you need to know about using this tool.",
+  title,
+  subtitle,
   faqs,
   className = "",
 }: ToolFaqAccordionProps) {
+  const { t } = useTranslation();
+  const displayTitle = title || t("frequently_asked_questions", "Frequently Asked Questions");
+  const displaySubtitle = subtitle || t("faq_subtitle", "Everything you need to know about using this tool.");
   const [openIdx, setOpenIdx] = React.useState<number | null>(0);
 
   const toggle = (idx: number) => {
@@ -45,11 +50,11 @@ export default function ToolFaqAccordion({
             >
               <HelpCircle className="h-6 w-6" />
             </motion.div>
-            <span>{title}</span>
+            <span>{displayTitle}</span>
           </h2>
-          {subtitle && (
+          {displaySubtitle && (
             <p className="text-sm md:text-base text-muted-foreground max-w-2xl">
-              {subtitle}
+              {displaySubtitle}
             </p>
           )}
         </div>
