@@ -14,9 +14,20 @@ type BuildMetaInput = {
   image?: string;
 };
 
+function getOgImageUrl(title: string, desc: string, path: string): string {
+  const parts = path.split("/").filter(Boolean);
+  const cat = parts[1] ? parts[1].toUpperCase() : "FREE ONLINE TOOL";
+  const params = new URLSearchParams({
+    title: title.slice(0, 70),
+    desc: desc.slice(0, 140),
+    cat,
+  });
+  return `${SITE_URL}/api/og?${params.toString()}`;
+}
+
 export function buildMetadata(input: BuildMetaInput): Metadata {
   const url = new URL(input.path, SITE_URL).toString();
-  const image = input.image ?? DEFAULT_IMAGE;
+  const image = input.image ?? getOgImageUrl(input.title, input.description, input.path);
 
   return {
     title: {

@@ -7,6 +7,7 @@ import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
 import React, { useEffect } from "react";
 import { ToolFavoriteButton } from "./tool-favorite-button";
 import { ToolShareButton } from "./tool-share-button";
+import { ToolEmbedButton } from "./tool-embed-button";
 
 type ToolPageHeaderProps = {
   title: string;
@@ -135,12 +136,13 @@ export default function ToolPageHeader({
               )}
             </div>
 
-            {/* Actions: Builtin Favorites + Share + Custom Actions */}
+            {/* Actions: Builtin Favorites + Share + Embed + Custom Actions */}
             <div className="flex flex-wrap items-center gap-2 pt-2 sm:pt-0 shrink-0">
               {showBuiltinActions && (
                 <>
                   <ToolFavoriteButton tool={toolData} />
                   <ToolShareButton toolTitle={title} />
+                  <ToolEmbedButton toolTitle={title} toolUrl={toolData.url} />
                 </>
               )}
               {actions}

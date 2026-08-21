@@ -13,6 +13,7 @@ import {
 } from "@/lib/seo-tools";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { RecentlyUsedStrip } from "@/components/shared/recently-used-strip";
 
 const STATIC_KEYWORDS = [
   "online tools",
@@ -125,6 +126,9 @@ export default function ToolsIndexPage() {
           calculations.
         </p>
       </header>
+
+      {/* Recently Used Quick Strip */}
+      <RecentlyUsedStrip />
 
       {/* Category tiles */}
       <section className="grid gap-3 grid-cols-2 lg:grid-cols-4">

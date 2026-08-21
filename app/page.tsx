@@ -5,6 +5,7 @@ import { GridPattern } from "@/components/magicui/grid-pattern";
 import { NumberTicker } from "@/components/magicui/number-ticker";
 import Footer from "@/components/shared/footer";
 import { Navbar } from "@/components/shared/navbar";
+import { RecentlyUsedStrip } from "@/components/shared/recently-used-strip";
 import {
   Accordion,
   AccordionContent,
@@ -181,6 +182,9 @@ export default function HomePage() {
           </div>
         </BlurFade>
       </section>
+
+      {/* ─── RECENTLY USED STRIP ────────────────────────────────────────── */}
+      <RecentlyUsedStrip />
 
       {/* ─── FEATURE CARDS ───────────────────────────────────────────────── */}
       <section className="mx-auto max-w-6xl px-4 pb-16">
