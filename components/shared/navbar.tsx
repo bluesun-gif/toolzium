@@ -54,37 +54,62 @@ export function Navbar() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="md:hidden h-9 w-9"
+                  className="md:hidden h-9 w-9 rounded-xl border border-border/60 bg-background/50 hover:bg-background/80"
                   aria-label="Open menu"
                 >
-                  <Menu className="h-5 w-5" />
+                  <Menu className="h-4.5 w-4.5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-[88vw] sm:w-96 p-6">
-                <SheetHeader className="pb-4 border-b">
-                  <div className="flex items-center justify-between">
-                    <Link
-                      href="/"
-                      className="inline-flex items-center gap-2 font-bold text-base"
-                    >
-                      <Image src="/assets/logo.png" height={32} width={32} alt="Logo" />
-                      <span>Toolzium App</span>
-                    </Link>
+              <SheetContent side="right" className="w-[88vw] sm:w-96 p-6 flex flex-col justify-between">
+                <div className="space-y-6">
+                  <SheetHeader className="pb-4 border-b">
+                    <div className="flex items-center justify-between">
+                      <Link
+                        href="/"
+                        className="inline-flex items-center gap-2.5 font-bold text-base"
+                      >
+                        <Image src="/assets/logo.png" height={32} width={32} alt="Logo" className="rounded-lg" />
+                        <span className="font-extrabold tracking-tight">Toolzium</span>
+                      </Link>
+                    </div>
+                  </SheetHeader>
+
+                  {/* Navigation Links */}
+                  <div className="grid gap-2 text-sm font-medium">
+                    <SheetClose asChild>
+                      <Link href="/tools" className="rounded-xl p-3 bg-primary/10 text-primary hover:bg-primary/15 flex items-center justify-between font-semibold">
+                        <span className="flex items-center gap-2.5">
+                          <Wrench className="h-4 w-4" />
+                          Explore All 570+ Tools
+                        </span>
+                        <span className="text-xs bg-primary/20 text-primary px-2 py-0.5 rounded-full font-mono">570+</span>
+                      </Link>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <Link href="/dashboard" className="rounded-xl p-3 hover:bg-muted flex items-center gap-2.5">
+                        <User className="h-4 w-4 text-muted-foreground" />
+                        My Account / Dashboard
+                      </Link>
+                    </SheetClose>
                   </div>
-                </SheetHeader>
-                <div className="grid gap-2 py-4 text-sm font-medium">
-                  <SheetClose asChild>
-                    <Link href="/tools" className="rounded-xl p-3 hover:bg-muted flex items-center gap-2">
-                      <Wrench className="h-4 w-4 text-primary" />
-                      Explore All 470+ Tools
-                    </Link>
-                  </SheetClose>
-                  <SheetClose asChild>
-                    <Link href="/dashboard" className="rounded-xl p-3 hover:bg-muted flex items-center gap-2">
-                      <User className="h-4 w-4 text-primary" />
-                      My Account Dashboard
-                    </Link>
-                  </SheetClose>
+                </div>
+
+                <div className="pt-6 border-t space-y-3">
+                  <div className="flex items-center gap-2">
+                    <SheetClose asChild>
+                      <Button asChild variant="outline" className="w-full justify-center">
+                        <Link href="/sign-in">Sign In</Link>
+                      </Button>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <Button asChild variant="default" className="w-full justify-center">
+                        <Link href="/sign-up">Sign Up</Link>
+                      </Button>
+                    </SheetClose>
+                  </div>
+                  <p className="text-[11px] text-center text-muted-foreground">
+                    100% Free • Private In-Browser Execution
+                  </p>
                 </div>
               </SheetContent>
             </Sheet>

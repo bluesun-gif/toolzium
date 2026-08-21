@@ -166,17 +166,6 @@ export default function NavRight() {
           </Tooltip>
         </TooltipProvider>
 
-        {/* Mobile Search Icon Button */}
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={() => setOpen(true)}
-          className="flex sm:hidden h-9 w-9 active:scale-95 transition-transform"
-          aria-label="Search tools"
-        >
-          <Search className="size-4" />
-        </Button>
-
         {/* PWA 1-Click Install Button */}
         <PwaInstallButton />
 
