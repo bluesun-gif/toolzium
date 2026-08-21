@@ -18,23 +18,11 @@ const I18nContext = createContext<I18nContextType>({
 
 const STORAGE_KEY = "toolzium_preferred_language";
 
-function setGoogleTranslateCookie(code: string) {
-  if (typeof document === "undefined") return;
-  const val = code === "en" ? "/en/en" : `/en/${code}`;
-  
-  // Set cookies for current domain and root
-  document.cookie = `googtrans=${val}; path=/;`;
-  const host = window.location.hostname;
-  if (host.includes(".")) {
-    document.cookie = `googtrans=${val}; path=/; domain=.${host};`;
-  }
-}
-
 export function I18nProvider({ children }: { children: ReactNode }) {
   const [langCode, setLangCode] = useState<string>(DEFAULT_LANGUAGE);
 
   useEffect(() => {
-    // Check URL search parameter ?lang= or stored preference
+    // Read URL search parameter ?lang= or stored user preference
     const params = new URLSearchParams(window.location.search);
     const urlLang = params.get("lang");
     const storedLang = localStorage.getItem(STORAGE_KEY);
@@ -54,22 +42,13 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     const matched = SUPPORTED_LANGUAGES.find((l) => l.code === code);
     if (matched) {
       setLangCode(matched.code);
-      localStorage.setItem(STORAGE_KEY, matched.code);
+      try {
+        localStorage.setItem(STORAGE_KEY, matched.code);
+      } catch {}
 
       if (typeof document !== "undefined") {
         document.documentElement.dir = matched.dir || "ltr";
         document.documentElement.lang = matched.code;
-        setGoogleTranslateCookie(matched.code);
-
-        // If Google Translate select box is present in DOM, trigger its change event
-        const select = document.querySelector(".goog-te-combo") as HTMLSelectElement | null;
-        if (select) {
-          select.value = matched.code;
-          select.dispatchEvent(new Event("change"));
-        } else if (matched.code !== "en") {
-          // If switching language and cookie changed, reload smoothly if needed
-          window.location.reload();
-        }
       }
     }
   };
