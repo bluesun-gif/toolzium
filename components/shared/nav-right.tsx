@@ -23,7 +23,6 @@ import {
 import { ToolsData } from "@/data/tools";
 import type { LucideIcon } from "lucide-react";
 import { ArrowRight, Link2, Linkedin, Search, Star, Zap } from "lucide-react";
-import { GitHubStars } from "./github-stars";
 import { socialIcons } from "./icons";
 import { UserNav } from "./user-nav";
 import { ThemeToggle } from "./theme-toggle";
@@ -179,27 +178,11 @@ export default function NavRight() {
         <LanguageSwitcher />
         <PwaInstallButton />
         <ThemeToggle />
-        <GitHubStars />
         <Button
           variant="outline"
           asChild
           size="icon"
-          className="hidden sm:flex h-9 w-9"
-        >
-          <Link
-            href="https://www.linkedin.com/in/tanvirahmadsohan/"
-            rel="noopener noreferrer"
-            target="_blank"
-            aria-label="Connect on LinkedIn"
-          >
-            <Linkedin className="size-4" />
-          </Link>
-        </Button>
-        <Button
-          variant="outline"
-          asChild
-          size="icon"
-          className="hidden sm:flex h-9 w-9"
+          className="hidden sm:flex h-9 w-9 rounded-xl border-border/80 text-muted-foreground hover:text-foreground"
         >
           <Link
             href="https://github.com/bluesun-gif"
@@ -208,6 +191,21 @@ export default function NavRight() {
             aria-label="GitHub Profile"
           >
             {socialIcons.find((icon) => icon.name === "Github")?.svg}
+          </Link>
+        </Button>
+        <Button
+          variant="outline"
+          asChild
+          size="icon"
+          className="hidden sm:flex h-9 w-9 rounded-xl border-border/80 text-muted-foreground hover:text-foreground"
+        >
+          <Link
+            href="https://www.linkedin.com/in/tanvirahmadsohan/"
+            rel="noopener noreferrer"
+            target="_blank"
+            aria-label="Connect on LinkedIn"
+          >
+            <Linkedin className="size-4" />
           </Link>
         </Button>
         <UserNav />
