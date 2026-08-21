@@ -1,5 +1,8 @@
 "use client";
 
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,14 +23,11 @@ import {
 import { ToolsData } from "@/data/tools";
 import type { LucideIcon } from "lucide-react";
 import { ArrowRight, Link2, Linkedin, Search, Star } from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
 import { GitHubStars } from "./github-stars";
 import { socialIcons } from "./icons";
 import { UserNav } from "./user-nav";
 import { ThemeToggle } from "./theme-toggle";
-
+import { PwaInstallButton } from "./pwa-install-button";
 
 // Types
 type ToolItem = {
@@ -95,7 +95,6 @@ export default function NavRight() {
   const popular = useMemo(() => all.filter((i) => i.popular), [all]);
   const inputProxyRef = useRef<HTMLButtonElement | null>(null);
 
-
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
@@ -114,8 +113,6 @@ export default function NavRight() {
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, []);
-
-
 
   useEffect(() => {
     if (open) {
@@ -179,9 +176,10 @@ export default function NavRight() {
           <Search className="size-4" />
         </Button>
 
+        {/* PWA 1-Click Install Button */}
+        <PwaInstallButton />
+
         <ThemeToggle />
-
-
 
         <Button
           variant="outline"
@@ -316,8 +314,6 @@ export default function NavRight() {
           ))}
         </CommandList>
       </CommandDialog>
-
-
     </>
   );
 }
