@@ -1,10 +1,11 @@
 "use client";
 
-import { LayoutGrid, Menu, Search, Wrench, Sparkles, User, UserCircle } from "lucide-react";
+import { LayoutGrid, Menu, Search, Wrench, Sparkles, User, UserCircle, Star, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { Button } from "../ui/button";
+import { Badge } from "../ui/badge";
 import {
   Sheet,
   SheetClose,
@@ -16,9 +17,11 @@ import { ActionButton } from "./action-buttons";
 import NavRight from "./nav-right";
 import { ThemeToggle } from "./theme-toggle";
 import MobileAppBar from "./mobile-app-bar";
+import { useFavorites } from "@/lib/hooks/use-favorites";
 
 export function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
+  const { favorites } = useFavorites();
 
   return (
     <>
@@ -92,6 +95,34 @@ export function Navbar() {
                       </Link>
                     </SheetClose>
                   </div>
+
+                  {/* Starred Favorite Tools */}
+                  {favorites.length > 0 && (
+                    <div className="space-y-2 pt-2">
+                      <div className="flex items-center justify-between text-xs font-bold text-muted-foreground uppercase tracking-wider px-1">
+                        <span className="flex items-center gap-1.5 text-amber-500">
+                          <Star className="h-3.5 w-3.5 fill-amber-400" />
+                          Favorite Tools
+                        </span>
+                        <Badge variant="secondary" className="text-[10px] px-1.5 py-0">
+                          {favorites.length}
+                        </Badge>
+                      </div>
+                      <div className="grid gap-1.5 max-h-44 overflow-y-auto pr-1">
+                        {favorites.slice(0, 8).map((fav) => (
+                          <SheetClose key={fav.url} asChild>
+                            <Link
+                              href={fav.url}
+                              className="p-2 rounded-xl bg-card border border-border/60 hover:border-primary/40 flex items-center justify-between text-xs font-semibold text-foreground group"
+                            >
+                              <span className="truncate group-hover:text-primary transition-colors">{fav.title}</span>
+                              <ArrowRight className="h-3 w-3 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0 ml-2" />
+                            </Link>
+                          </SheetClose>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="pt-6 border-t space-y-3">

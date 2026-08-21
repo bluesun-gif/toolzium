@@ -2,11 +2,11 @@
 
 import { type LucideIcon, Sparkles } from "lucide-react";
 import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
-import { HyperText } from "@/components/ui/hyper-text";
 import { CoolMode } from "@/components/ui/cool-mode";
-import { motion } from "framer-motion";
-import { useMotionTemplate, useMotionValue } from "framer-motion";
-import React from "react";
+import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
+import React, { useEffect } from "react";
+import { ToolFavoriteButton } from "./tool-favorite-button";
+import { ToolShareButton } from "./tool-share-button";
 
 type ToolPageHeaderProps = {
   title: string;
@@ -15,6 +15,7 @@ type ToolPageHeaderProps = {
   actions?: React.ReactNode;
   badgeText?: string;
   className?: string;
+  showBuiltinActions?: boolean;
 };
 
 export default function ToolPageHeader({
@@ -24,8 +25,24 @@ export default function ToolPageHeader({
   actions,
   badgeText = "✨ Fast • Free • Privacy-Friendly",
   className = "",
+  showBuiltinActions = true,
 }: ToolPageHeaderProps) {
   const LeftIcon: LucideIcon = Icon ?? Sparkles;
+
+  // Track recently used tool in localStorage
+  useEffect(() => {
+    if (typeof window === "undefined" || !title) return;
+    try {
+      const url = window.location.pathname;
+      if (!url.startsWith("/tools/") || url === "/tools") return;
+
+      const stored = localStorage.getItem("toolzium:recent-items-v1");
+      let list = stored ? JSON.parse(stored) : [];
+      list = list.filter((item: { url: string }) => item.url !== url);
+      list.unshift({ title, url, description, timestamp: Date.now() });
+      localStorage.setItem("toolzium:recent-items-v1", JSON.stringify(list.slice(0, 12)));
+    } catch {}
+  }, [title, description]);
 
   // Spotlight mouse tracking
   const mouseX = useMotionValue(0);
@@ -38,6 +55,12 @@ export default function ToolPageHeader({
   }
 
   const spotlight = useMotionTemplate`radial-gradient(280px circle at ${mouseX}px ${mouseY}px, hsl(var(--primary) / 0.07), transparent 80%)`;
+
+  const toolData = {
+    title,
+    url: typeof window !== "undefined" ? window.location.pathname : "",
+    description,
+  };
 
   return (
     <motion.div
@@ -83,7 +106,7 @@ export default function ToolPageHeader({
               )}
 
               <div className="flex items-center gap-2.5 sm:gap-3">
-                {/* Animated icon container wrapped with CoolMode for particles */}
+                {/* Animated icon container with particles */}
                 <CoolMode>
                   <motion.div
                     whileHover={{ scale: 1.1, rotate: 5 }}
@@ -112,11 +135,16 @@ export default function ToolPageHeader({
               )}
             </div>
 
-            {actions && (
-              <div className="flex flex-wrap items-center gap-2 pt-2 sm:pt-0 shrink-0">
-                {actions}
-              </div>
-            )}
+            {/* Actions: Builtin Favorites + Share + Custom Actions */}
+            <div className="flex flex-wrap items-center gap-2 pt-2 sm:pt-0 shrink-0">
+              {showBuiltinActions && (
+                <>
+                  <ToolFavoriteButton tool={toolData} />
+                  <ToolShareButton toolTitle={title} />
+                </>
+              )}
+              {actions}
+            </div>
           </div>
         </div>
       </div>

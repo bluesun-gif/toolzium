@@ -12,6 +12,7 @@ import {
   Layers,
   ChevronRight,
   HelpCircle,
+  Star,
   LucideIcon,
 } from "lucide-react";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -22,6 +23,8 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ToolBackground } from "@/components/shared/tool-background";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
+import { useFavorites } from "@/lib/hooks/use-favorites";
+import { ToolFavoriteButton } from "@/components/shared/tool-favorite-button";
 
 export interface ToolItem {
   title: string;
@@ -54,29 +57,38 @@ export function CategoryHubClient({
   faqs = [],
 }: CategoryHubProps) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [filterMode, setFilterMode] = useState<"all" | "popular">("all");
+  const [filterMode, setFilterMode] = useState<"all" | "popular" | "favorites">("all");
+  const { isFavorite, favorites } = useFavorites();
+
+  const favoriteCount = useMemo(() => {
+    return tools.filter((t) => isFavorite(t.url)).length;
+  }, [tools, isFavorite]);
+
+  const popularCount = useMemo(() => tools.filter((t) => t.popular).length, [tools]);
 
   const filteredTools = useMemo(() => {
     return tools.filter((tool) => {
       const matchesSearch =
         tool.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         tool.description.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesFilter = filterMode === "all" || (filterMode === "popular" && tool.popular);
+      
+      let matchesFilter = true;
+      if (filterMode === "popular") {
+        matchesFilter = !!tool.popular;
+      } else if (filterMode === "favorites") {
+        matchesFilter = isFavorite(tool.url);
+      }
+
       return matchesSearch && matchesFilter;
     });
-  }, [tools, searchQuery, filterMode]);
+  }, [tools, searchQuery, filterMode, isFavorite]);
 
-  const popularCount = useMemo(() => tools.filter((t) => t.popular).length, [tools]);
-
-  const defaultFaqs = useMemo(() => {
+  // Default SEO FAQs if none provided
+  const categoryFaqs = useMemo(() => {
     if (faqs && faqs.length > 0) return faqs;
     return [
       {
-        question: `What tools are included in the ${title} category?`,
-        answer: `Toolzium's ${title} suite includes ${tools.length}+ specialized tools designed to streamline your workflow. You can convert, analyze, calculate, and process data directly in your browser.`,
-      },
-      {
-        question: `Are these ${title} free to use?`,
+        question: `Are all ${title} tools on Toolzium completely free?`,
         answer: `Yes, 100% free with no hidden paywalls, no credits system, and no account creation required.`,
       },
       {
@@ -88,7 +100,7 @@ export function CategoryHubClient({
         answer: `Yes! All Toolzium tools are fully responsive and optimized for mobile screens, tablets, and desktops. You can also install Toolzium as a Progressive Web App (PWA).`,
       },
     ];
-  }, [faqs, title, tools.length]);
+  }, [faqs, title]);
 
   return (
     <div className="relative space-y-10 pb-16">
@@ -158,22 +170,15 @@ export function CategoryHubClient({
             placeholder={`Search all ${tools.length} ${title.toLowerCase()}...`}
             className="pl-9 bg-card/80 border-border/70 focus-visible:ring-primary/50 text-sm h-10 rounded-xl"
           />
-          {searchQuery && (
-            <button
-              onClick={() => setSearchQuery("")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground hover:text-foreground"
-            >
-              Clear
-            </button>
-          )}
         </div>
 
-        <div className="flex items-center gap-2">
+        {/* Filter Tabs */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
           <Button
             size="sm"
             variant={filterMode === "all" ? "default" : "outline"}
             onClick={() => setFilterMode("all")}
-            className="rounded-lg text-xs gap-1.5 h-9"
+            className="rounded-lg text-xs h-9"
           >
             All ({tools.length})
           </Button>
@@ -188,6 +193,17 @@ export function CategoryHubClient({
               Popular ({popularCount})
             </Button>
           )}
+          {favoriteCount > 0 && (
+            <Button
+              size="sm"
+              variant={filterMode === "favorites" ? "default" : "outline"}
+              onClick={() => setFilterMode("favorites")}
+              className="rounded-lg text-xs gap-1.5 h-9 bg-amber-500/10 border-amber-500/30 text-amber-500 hover:bg-amber-500/20"
+            >
+              <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+              Starred ({favoriteCount})
+            </Button>
+          )}
         </div>
       </div>
 
@@ -196,93 +212,102 @@ export function CategoryHubClient({
         {filteredTools.length > 0 ? (
           <div className="grid gap-4 sm:gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {filteredTools.map((tool) => (
-              <Link
-                key={tool.url}
-                href={tool.url}
-                className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-2xl"
-              >
-                <GlassCard className="h-full transition-all duration-200 group-hover:border-primary/50 group-hover:shadow-lg group-hover:shadow-primary/5 flex flex-col justify-between p-5">
-                  <div className="space-y-3">
-                    <div className="flex items-start justify-between gap-2">
-                      <h2 className="font-semibold text-foreground group-hover:text-primary transition-colors text-base leading-snug line-clamp-2">
-                        {tool.title}
-                      </h2>
-                      {tool.popular && (
-                        <Badge
-                          variant="secondary"
-                          className="shrink-0 text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20"
-                        >
-                          Popular
-                        </Badge>
-                      )}
+              <div key={tool.url} className="relative group">
+                <Link
+                  href={tool.url}
+                  className="block h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-2xl"
+                >
+                  <GlassCard className="h-full transition-all duration-200 group-hover:border-primary/50 group-hover:shadow-lg group-hover:shadow-primary/5 flex flex-col justify-between p-5">
+                    <div className="space-y-3">
+                      <div className="flex items-start justify-between gap-2 pr-8">
+                        <h2 className="font-semibold text-foreground group-hover:text-primary transition-colors text-base leading-snug line-clamp-2">
+                          {tool.title}
+                        </h2>
+                        {tool.popular && (
+                          <Badge
+                            variant="secondary"
+                            className="shrink-0 text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20"
+                          >
+                            Popular
+                          </Badge>
+                        )}
+                      </div>
+                      <p className="text-xs text-muted-foreground leading-relaxed line-clamp-3">
+                        {tool.description}
+                      </p>
                     </div>
-                    <p className="text-xs text-muted-foreground leading-relaxed line-clamp-3">
-                      {tool.description}
-                    </p>
-                  </div>
 
-                  <div className="pt-4 mt-auto flex items-center justify-between text-xs font-medium text-primary">
-                    <span className="opacity-0 group-hover:opacity-100 transition-opacity">
-                      Open Tool
-                    </span>
-                    <div className="h-7 w-7 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-colors ml-auto">
-                      <ArrowRight className="h-3.5 w-3.5" />
+                    <div className="pt-4 mt-auto flex items-center justify-between text-xs font-medium text-primary">
+                      <span className="opacity-0 group-hover:opacity-100 transition-opacity">
+                        Open Tool
+                      </span>
+                      <div className="h-7 w-7 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-colors ml-auto">
+                        <ArrowRight className="h-3.5 w-3.5" />
+                      </div>
                     </div>
-                  </div>
-                </GlassCard>
-              </Link>
+                  </GlassCard>
+                </Link>
+
+                {/* Floating Star Button */}
+                <div className="absolute top-4 right-4 z-20">
+                  <ToolFavoriteButton
+                    tool={{ title: tool.title, url: tool.url, description: tool.description }}
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 rounded-lg bg-background/50 hover:bg-background/80"
+                  />
+                </div>
+              </div>
             ))}
           </div>
         ) : (
           <div className="text-center py-16 px-4 rounded-2xl border border-dashed border-border/80 bg-card/40 space-y-3">
             <Search className="h-8 w-8 text-muted-foreground mx-auto" />
-            <h3 className="font-medium text-foreground text-sm">No tools found matching &quot;{searchQuery}&quot;</h3>
+            <h3 className="font-medium text-foreground text-sm">
+              {filterMode === "favorites"
+                ? "No starred tools in this category yet"
+                : `No tools found matching "${searchQuery}"`}
+            </h3>
             <p className="text-xs text-muted-foreground max-w-sm mx-auto">
-              Try searching with different keywords or switch back to view all tools.
+              {filterMode === "favorites"
+                ? "Click the star icon on any tool card to add it to your favorites."
+                : "Try searching with different keywords or switch back to view all tools."}
             </p>
             <Button size="sm" variant="outline" onClick={() => { setSearchQuery(""); setFilterMode("all"); }}>
-              Reset Search
+              Reset Filters
             </Button>
           </div>
         )}
       </section>
 
       {/* Category FAQs */}
-      <div className="relative z-10 pt-6">
-        <ToolFaqAccordion
-          faqs={defaultFaqs}
-          title={`Frequently Asked Questions about ${title}`}
-          subtitle={`Everything you need to know about using our free online ${title.toLowerCase()}.`}
-        />
-      </div>
+      {categoryFaqs.length > 0 && (
+        <section aria-label={`${title} Frequently Asked Questions`} className="relative z-10 pt-4">
+          <ToolFaqAccordion faqs={categoryFaqs} title={`${title} FAQ`} />
+        </section>
+      )}
 
-      {/* Related Categories */}
+      {/* Related Categories Grid */}
       {relatedCategories.length > 0 && (
-        <section className="relative z-10 pt-4 space-y-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
-              <Layers className="h-4 w-4 text-primary" />
-              Explore Other Tool Suites
-            </h3>
-            <Link href="/tools" className="text-xs text-primary hover:underline flex items-center gap-1 font-medium">
-              View All Tools <ArrowRight className="h-3 w-3" />
-            </Link>
+        <section aria-label="Related Tool Categories" className="relative z-10 pt-4 space-y-4">
+          <div className="flex items-center gap-2">
+            <Layers className="h-4 w-4 text-primary" />
+            <h2 className="text-lg font-bold text-foreground">Explore More Tool Suites</h2>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
             {relatedCategories.map((cat) => (
-              <Link
-                key={cat.url}
-                href={cat.url}
-                className="group p-3.5 rounded-xl border border-border/60 bg-card/60 hover:bg-card hover:border-primary/40 transition-all block"
-              >
-                <div className="font-medium text-xs sm:text-sm text-foreground group-hover:text-primary transition-colors flex items-center justify-between">
-                  <span>{cat.title}</span>
-                  <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity text-primary" />
-                </div>
-                <div className="text-[11px] text-muted-foreground mt-1">
-                  {cat.count} tools
-                </div>
+              <Link key={cat.url} href={cat.url} className="group">
+                <GlassCard className="p-3.5 transition-all duration-200 group-hover:border-primary/40 group-hover:bg-card/80">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-semibold text-foreground group-hover:text-primary transition-colors">
+                      {cat.title}
+                    </span>
+                    <Badge variant="secondary" className="text-[10px] px-1.5 py-0">
+                      {cat.count}
+                    </Badge>
+                  </div>
+                </GlassCard>
               </Link>
             ))}
           </div>
