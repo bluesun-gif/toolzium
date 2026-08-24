@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect, useCallback } from "react";
 import { ToolBackground } from "@/components/shared/tool-background";
 import { RelatedTools } from "@/components/shared/related-tools";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
@@ -14,7 +14,6 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
 import { ResetButton } from "@/components/shared/action-buttons";
 import {
@@ -23,13 +22,15 @@ import {
   Flame,
   Zap,
   Heart,
-  Timer,
-  TrendingUp,
   Download,
   Copy,
   Sparkles,
-  Scale,
-  Gauge
+  Gauge,
+  Wand2,
+  Apple,
+  Droplets,
+  Loader2,
+  TrendingUp
 } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -40,9 +41,9 @@ type IntensityLevel = "recovery" | "moderate" | "tempo" | "hiit" | "sprint";
 interface IntensityConfig {
   name: string;
   met: number;
-  wattsEstimate: number; // watts per kg
+  wattsEstimate: number;
   hrZone: string;
-  fatPercent: number; // percentage of calories from fat
+  fatPercent: number;
 }
 
 const INTENSITY_CONFIG: Record<IntensityLevel, IntensityConfig> = {
@@ -83,6 +84,13 @@ const INTENSITY_CONFIG: Record<IntensityLevel, IntensityConfig> = {
   }
 };
 
+interface AiCoachFeedback {
+  coachingTip?: string;
+  postRideNutrition?: string;
+  fatBurnInsight?: string;
+  weeklyProgression?: string;
+}
+
 export function IndoorCyclingCalorieClient() {
   const [mode, setMode] = useState<WorkoutMode>("indoor");
   const [weight, setWeight] = useState<string>("160");
@@ -91,6 +99,10 @@ export function IndoorCyclingCalorieClient() {
   const [intensity, setIntensity] = useState<IntensityLevel>("moderate");
   const [cadenceRpm, setCadenceRpm] = useState<number>(85);
   const [distanceKm, setDistanceKm] = useState<string>("15");
+
+  // Groq AI Coach State
+  const [aiCoach, setAiCoach] = useState<AiCoachFeedback | null>(null);
+  const [isAiLoading, setIsAiLoading] = useState<boolean>(false);
 
   // Calculations
   const weightKg = useMemo(() => {
@@ -101,26 +113,19 @@ export function IndoorCyclingCalorieClient() {
   const metrics = useMemo(() => {
     const config = INTENSITY_CONFIG[intensity];
     const hours = durationMins / 60;
-    
-    // Total Calories burned formula: (MET * 3.5 * weightKg / 200) * minutes
+
+    // MET Formula: (MET * 3.5 * weightKg / 200) * minutes
     const caloriesTotal = (config.met * 3.5 * weightKg / 200) * durationMins;
-    
-    // Estimated average mechanical power in Watts
     const avgWatts = Math.round(config.wattsEstimate * weightKg * (cadenceRpm / 80));
-    
-    // Total mechanical work in kilojoules (kJ = Watts * seconds / 1000)
     const totalKilojoules = Math.round((avgWatts * (durationMins * 60)) / 1000);
-    
-    // Macronutrient substrate utilization
+
     const fatCalories = caloriesTotal * config.fatPercent;
     const carbCalories = caloriesTotal * (1 - config.fatPercent);
     const fatGrams = Math.round(fatCalories / 9);
     const carbGrams = Math.round(carbCalories / 4);
-    
-    // Equivalent food energy
+
     const pizzaSlices = (caloriesTotal / 285).toFixed(1);
     const bananas = (caloriesTotal / 105).toFixed(1);
-    const espressoShots = (caloriesTotal / 5).toFixed(0);
 
     return {
       caloriesTotal: Math.round(caloriesTotal),
@@ -135,9 +140,50 @@ export function IndoorCyclingCalorieClient() {
     };
   }, [weightKg, durationMins, intensity, cadenceRpm]);
 
-  const setDurationPreset = (mins: number) => {
+  // Fetch Groq AI Sports Physiologist Analysis
+  const fetchAiCoach = useCallback(async () => {
+    setIsAiLoading(true);
+    try {
+      const res = await fetch("/api/ai/cycling-coach", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          durationMins,
+          intensity,
+          weightKg: Math.round(weightKg),
+          caloriesTotal: metrics.caloriesTotal,
+          avgWatts: metrics.avgWatts,
+          cadenceRpm,
+          mode,
+          distanceKm: parseFloat(distanceKm) || 15
+        })
+      });
+      const data = await res.json();
+      if (data.success && data.data) {
+        setAiCoach(data.data);
+      }
+    } catch (err) {
+      console.error("AI Coach Error:", err);
+    } finally {
+      setIsAiLoading(false);
+    }
+  }, [durationMins, intensity, weightKg, metrics.caloriesTotal, metrics.avgWatts, cadenceRpm, mode, distanceKm]);
+
+  // Trigger initial AI Coach once metrics are computed
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetchAiCoach();
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [durationMins, intensity, weightUnit, weight, fetchAiCoach]);
+
+  // Query Match Presets
+  const applyPreset = (mins: number, inten: IntensityLevel, dist: string, rpm: number) => {
     setDurationMins(mins);
-    toast.success(`Duration set to ${mins} mins`);
+    setIntensity(inten);
+    setDistanceKm(dist);
+    setCadenceRpm(rpm);
+    toast.success(`Preset Applied: ${mins}m ${inten.toUpperCase()}`);
   };
 
   const handleReset = () => {
@@ -152,12 +198,13 @@ export function IndoorCyclingCalorieClient() {
   };
 
   const copySummary = () => {
-    const text = `🚴 Toolzium Cycling Workout Summary:\n` +
-      `• Duration: ${durationMins} minutes\n` +
+    const text =
+      `🚴 Toolzium Cycling Workout Summary:\n` +
+      `• Duration: ${durationMins} minutes (${mode.toUpperCase()})\n` +
       `• Intensity: ${INTENSITY_CONFIG[intensity].name}\n` +
       `• Total Calories Burned: ${metrics.caloriesTotal} kcal (${metrics.caloriesPerHour} kcal/hr)\n` +
-      `• Avg Power Output: ~${metrics.avgWatts} Watts (${metrics.totalKilojoules} kJ)\n` +
-      `• Fat Burned: ${metrics.fatGrams}g | Carbs Burned: ${metrics.carbGrams}g\n` +
+      `• Avg Power Output: ~${metrics.avgWatts} Watts (${metrics.totalKilojoules} kJ work)\n` +
+      `• Substrate Burn: ${metrics.fatGrams}g Fat | ${metrics.carbGrams}g Carbs\n` +
       `• Target Heart Rate: ${metrics.hrZone}\n` +
       `• Calculated via Toolzium: https://toolzium.com/tools/health/indoor-cycling-calorie`;
     navigator.clipboard.writeText(text);
@@ -165,7 +212,9 @@ export function IndoorCyclingCalorieClient() {
   };
 
   const exportCSV = () => {
-    const csvContent = "Metric,Value\n" +
+    const csvContent =
+      "Metric,Value\n" +
+      `Workout Mode,${mode}\n` +
       `Duration (mins),${durationMins}\n` +
       `Intensity Level,${intensity}\n` +
       `Cadence (RPM),${cadenceRpm}\n` +
@@ -195,64 +244,120 @@ export function IndoorCyclingCalorieClient() {
         <ToolPageHeader
           icon={Bike}
           title="Indoor Cycling, Spin Bike & Outdoor Calorie Calculator"
-          description="Calculate exact calories burned, average mechanical watts, fat oxidation grams, and heart rate training zones for 10-min, 15-min, 1-hour, or distance-based bike rides."
+          description="Calculate exact calories burned, average mechanical watts, fat oxidation grams, and heart rate training zones for 10-min, 15-min, 1-hour, or distance-based bike rides with Groq AI coaching."
           actions={
-            <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
-              <Button variant="outline" size="sm" onClick={copySummary} className="h-9 px-3 rounded-xl text-xs gap-1.5 cursor-pointer flex-1 sm:flex-initial">
-                <Copy className="h-3.5 w-3.5" /> Copy Summary
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={copySummary}
+                className="h-10 sm:h-9 px-3.5 rounded-xl text-xs font-semibold gap-1.5 cursor-pointer w-full sm:w-auto justify-center"
+              >
+                <Copy className="h-4 w-4 shrink-0" />
+                <span>Copy Summary</span>
               </Button>
-              <Button size="sm" onClick={exportCSV} className="h-9 px-3.5 rounded-xl text-xs font-bold bg-primary text-primary-foreground gap-1.5 cursor-pointer flex-1 sm:flex-initial">
-                <Download className="h-3.5 w-3.5" /> Export CSV
+              <Button
+                size="sm"
+                onClick={exportCSV}
+                className="h-10 sm:h-9 px-4 rounded-xl text-xs font-bold bg-primary text-primary-foreground gap-1.5 cursor-pointer w-full sm:w-auto justify-center shadow-md hover:shadow-primary/25"
+              >
+                <Download className="h-4 w-4 shrink-0" />
+                <span>Export CSV</span>
               </Button>
               <ResetButton onClick={handleReset} label="Reset" />
             </div>
           }
         />
 
-        {/* Mode Toggle & Presets */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div className="grid grid-cols-2 gap-1.5 bg-muted/40 p-1 rounded-2xl border border-border/60 w-full sm:w-auto">
-            <button
-              onClick={() => setMode("indoor")}
-              className={`px-3 py-2 rounded-xl text-xs font-bold text-center transition-all cursor-pointer ${
-                mode === "indoor" ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              🏋️ Stationary Spin
-            </button>
-            <button
-              onClick={() => setMode("outdoor")}
-              className={`px-3 py-2 rounded-xl text-xs font-bold text-center transition-all cursor-pointer ${
-                mode === "outdoor" ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              🛣️ Outdoor Road
-            </button>
-          </div>
+        {/* Search Query Target Presets Card */}
+        <GlassCard className="p-4 sm:p-5 rounded-3xl border-border/80 space-y-3 shadow-sm">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+            <div className="flex items-center gap-2">
+              <Sparkles className="h-4 w-4 text-primary" />
+              <span className="text-xs font-bold text-foreground uppercase tracking-wider">
+                Popular Search Benchmarks (One-Click):
+              </span>
+            </div>
 
-          {/* Quick Duration Buttons (Targeting high-volume queries) */}
-          <div className="flex items-center gap-1.5 flex-wrap">
-            <span className="text-[11px] font-semibold text-muted-foreground mr-1">Presets:</span>
-            {[10, 15, 30, 45, 60, 90].map((mins) => (
+            {/* Mode Toggle */}
+            <div className="grid grid-cols-2 gap-1.5 bg-muted/40 p-1 rounded-2xl border border-border/60 w-full sm:w-auto">
               <button
-                key={mins}
-                onClick={() => setDurationPreset(mins)}
-                className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold border transition-colors cursor-pointer ${
-                  durationMins === mins
-                    ? "bg-primary/15 text-primary border-primary/40"
-                    : "bg-card border-border/60 text-muted-foreground hover:text-foreground"
+                onClick={() => setMode("indoor")}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold text-center transition-all cursor-pointer ${
+                  mode === "indoor" ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground hover:text-foreground"
                 }`}
               >
-                {mins === 60 ? "1 Hour" : `${mins}m`}
+                🏋️ Stationary Spin
               </button>
-            ))}
+              <button
+                onClick={() => setMode("outdoor")}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold text-center transition-all cursor-pointer ${
+                  mode === "outdoor" ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                🛣️ Outdoor Road
+              </button>
+            </div>
           </div>
-        </div>
+
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar pt-1">
+            <button
+              onClick={() => applyPreset(10, "hiit", "4", 95)}
+              className={`shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer border ${
+                durationMins === 10 && intensity === "hiit"
+                  ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                  : "bg-background/80 border-border hover:border-primary/50 text-foreground"
+              }`}
+            >
+              ⚡ 10-Min Quick HIIT (~110 kcal)
+            </button>
+            <button
+              onClick={() => applyPreset(15, "tempo", "6", 90)}
+              className={`shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer border ${
+                durationMins === 15 && intensity === "tempo"
+                  ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                  : "bg-background/80 border-border hover:border-primary/50 text-foreground"
+              }`}
+            >
+              ⏱️ 15-Min Power Spin (~165 kcal)
+            </button>
+            <button
+              onClick={() => applyPreset(40, "moderate", "15", 85)}
+              className={`shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer border ${
+                durationMins === 40 && distanceKm === "15"
+                  ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                  : "bg-background/80 border-border hover:border-primary/50 text-foreground"
+              }`}
+            >
+              🗺️ 15 km Distance Ride (~380 kcal)
+            </button>
+            <button
+              onClick={() => applyPreset(60, "moderate", "25", 85)}
+              className={`shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer border ${
+                durationMins === 60 && intensity === "moderate"
+                  ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                  : "bg-background/80 border-border hover:border-primary/50 text-foreground"
+              }`}
+            >
+              🏆 1-Hour Endurance Spin (~620 kcal)
+            </button>
+            <button
+              onClick={() => applyPreset(60, "hiit", "28", 95)}
+              className={`shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer border ${
+                durationMins === 60 && intensity === "hiit"
+                  ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                  : "bg-background/80 border-border hover:border-primary/50 text-foreground"
+              }`}
+            >
+              🔥 1-Hour Pro Spin Class (~850 kcal)
+            </button>
+          </div>
+        </GlassCard>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Controls Form */}
           <div className="lg:col-span-6 space-y-5">
-            <GlassCard className="p-6 rounded-3xl border-border/80 space-y-5">
+            <GlassCard className="p-5 sm:p-6 rounded-3xl border-border/80 space-y-5 shadow-sm">
               <CardHeader className="p-0">
                 <CardTitle className="text-base font-bold flex items-center gap-2">
                   <Gauge className="h-4 w-4 text-primary" /> Workout Parameters
@@ -271,11 +376,11 @@ export function IndoorCyclingCalorieClient() {
                       type="number"
                       value={weight}
                       onChange={(e) => setWeight(e.target.value)}
-                      className="h-10 rounded-xl font-mono text-sm font-bold flex-1"
+                      className="h-11 rounded-xl font-mono text-sm font-bold flex-1 bg-background/80 border-border"
                       placeholder="160"
                     />
                     <Select value={weightUnit} onValueChange={(val: WeightUnit) => setWeightUnit(val)}>
-                      <SelectTrigger className="w-24 h-10 rounded-xl font-bold">
+                      <SelectTrigger className="w-24 h-11 rounded-xl font-bold bg-background/80 border-border">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -306,7 +411,7 @@ export function IndoorCyclingCalorieClient() {
                 <div className="space-y-1.5">
                   <Label className="text-xs font-semibold">Intensity & Resistance Level</Label>
                   <Select value={intensity} onValueChange={(val: IntensityLevel) => setIntensity(val)}>
-                    <SelectTrigger className="h-10 rounded-xl text-xs font-semibold">
+                    <SelectTrigger className="h-11 rounded-xl text-xs font-semibold bg-background/80 border-border">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -344,9 +449,11 @@ export function IndoorCyclingCalorieClient() {
           {/* Results Dashboard */}
           <div className="lg:col-span-6 space-y-4">
             {/* Primary Calorie Hero Card */}
-            <GlassCard className="p-6 rounded-3xl border-primary/30 bg-primary/5 space-y-4">
+            <GlassCard className="p-5 sm:p-6 rounded-3xl border-primary/30 bg-primary/5 space-y-4 shadow-sm">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Total Energy Expenditure</span>
+                <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
+                  Total Energy Expenditure
+                </span>
                 <Badge variant="outline" className="text-[11px] font-mono text-primary border-primary/40">
                   {metrics.caloriesPerHour} kcal / hr
                 </Badge>
@@ -387,7 +494,7 @@ export function IndoorCyclingCalorieClient() {
             </GlassCard>
 
             {/* Physiological Training Zone Card */}
-            <GlassCard className="p-5 rounded-3xl border-border/80 space-y-3">
+            <GlassCard className="p-5 rounded-3xl border-border/80 space-y-3 shadow-sm">
               <div className="flex items-center gap-2 text-xs font-bold text-foreground">
                 <Heart className="h-4 w-4 text-rose-500" /> Heart Rate Training Target
               </div>
@@ -395,15 +502,74 @@ export function IndoorCyclingCalorieClient() {
                 {metrics.hrZone}
               </div>
 
-              {/* Fun Energy Equivalent Strip */}
-              <div className="flex items-center justify-between text-xs text-muted-foreground pt-1">
+              {/* Energy Equivalent Strip */}
+              <div className="flex items-center justify-between text-xs text-muted-foreground pt-1 flex-wrap gap-2">
                 <span>🍕 ~{metrics.pizzaSlices} Pizza Slices</span>
                 <span>🍌 ~{metrics.bananas} Bananas</span>
-                <span>⚡ {metrics.totalKilojoules} kJ Pure Mechanical Output</span>
+                <span>⚡ {metrics.totalKilojoules} kJ Mechanical Work</span>
               </div>
             </GlassCard>
           </div>
         </div>
+
+        {/* 🤖 Groq AI Sports Physiologist & Recovery Coach */}
+        <GlassCard className="p-5 sm:p-6 rounded-3xl border-purple-500/30 bg-gradient-to-r from-purple-500/5 via-card/90 to-primary/5 space-y-4 shadow-sm">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+            <div className="space-y-1">
+              <h4 className="text-sm font-bold flex items-center gap-2 text-foreground tracking-tight">
+                <Wand2 className="h-4 w-4 text-purple-400" /> Groq AI Sports Physiologist & Recovery Coach
+              </h4>
+              <p className="text-xs text-muted-foreground">
+                Clinical post-ride recovery window, hydration target, and power-to-weight coaching.
+              </p>
+            </div>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={fetchAiCoach}
+              disabled={isAiLoading}
+              className="text-xs h-8 px-3 rounded-xl gap-1.5 border-purple-400/40 text-purple-400"
+            >
+              {isAiLoading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Sparkles className="h-3.5 w-3.5" />}
+              Re-analyze Session
+            </Button>
+          </div>
+
+          {aiCoach ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 pt-1">
+              <div className="p-4 rounded-2xl bg-card/80 border border-border/70 space-y-1.5">
+                <span className="text-[10px] font-bold text-primary uppercase tracking-wider flex items-center gap-1">
+                  <TrendingUp className="h-3 w-3" /> Power & Cadence Coaching
+                </span>
+                <p className="text-xs text-foreground/90 leading-relaxed font-medium">
+                  {aiCoach.coachingTip}
+                </p>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-card/80 border border-border/70 space-y-1.5">
+                <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1">
+                  <Apple className="h-3 w-3" /> Post-Ride Recovery Fuel
+                </span>
+                <p className="text-xs text-foreground/90 leading-relaxed font-medium">
+                  {aiCoach.postRideNutrition}
+                </p>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-card/80 border border-border/70 space-y-1.5">
+                <span className="text-[10px] font-bold text-purple-400 uppercase tracking-wider flex items-center gap-1">
+                  <Zap className="h-3 w-3" /> Next Ride Progression
+                </span>
+                <p className="text-xs text-foreground/90 leading-relaxed font-medium">
+                  {aiCoach.weeklyProgression}
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div className="p-6 rounded-2xl bg-muted/20 border border-border/40 animate-pulse text-center text-xs text-muted-foreground">
+              Synthesizing sports physiology recovery metrics...
+            </div>
+          )}
+        </GlassCard>
 
         {/* Structured How It Works, Features & SEO Target FAQs */}
         <ToolHowItWorks
@@ -437,8 +603,8 @@ export function IndoorCyclingCalorieClient() {
               description: "Computes direct flywheel resistance power output and total mechanical work in kilojoules (kJ)."
             },
             {
-              title: "Fat vs Carbohydrate Substrate Ratios",
-              description: "Accurately calculates lipid fat oxidation grams vs glycogen utilization depending on aerobic heart rate intensity."
+              title: "Groq AI Sports Physiologist",
+              description: "Automated analysis of carbohydrate/protein recovery grams, electrolyte hydration volume, and power progression."
             }
           ]}
         />
