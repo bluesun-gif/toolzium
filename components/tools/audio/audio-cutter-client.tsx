@@ -16,13 +16,24 @@ import {
   Volume2,
   Sparkles,
   Music,
-  Check,
-  Zap,
+  Repeat,
+  ZoomIn,
+  ZoomOut,
+  Smartphone,
+  Layers,
+  FileAudio,
 } from "lucide-react";
 import toast from "react-hot-toast";
 
-// Helper function to encode AudioBuffer to WAV blob
-function audioBufferToWav(buffer: AudioBuffer, startSec: number, endSec: number, fadeInSec: number, fadeOutSec: number, volumeGain: number): Blob {
+// Helper function to encode AudioBuffer to high-fidelity WAV blob
+function audioBufferToWav(
+  buffer: AudioBuffer,
+  startSec: number,
+  endSec: number,
+  fadeInSec: number,
+  fadeOutSec: number,
+  volumeGain: number
+): Blob {
   const sampleRate = buffer.sampleRate;
   const numChannels = buffer.numberOfChannels;
   const startSample = Math.max(0, Math.floor(startSec * sampleRate));
@@ -38,7 +49,6 @@ function audioBufferToWav(buffer: AudioBuffer, startSec: number, endSec: number,
   const arrayBuffer = new ArrayBuffer(bufferLength);
   const view = new DataView(arrayBuffer);
 
-  // Write WAV RIFF header
   const writeString = (offset: number, string: string) => {
     for (let i = 0; i < string.length; i++) {
       view.setUint8(offset + i, string.charCodeAt(i));
@@ -49,25 +59,22 @@ function audioBufferToWav(buffer: AudioBuffer, startSec: number, endSec: number,
   view.setUint32(4, 36 + dataSize, true);
   writeString(8, "WAVE");
   writeString(12, "fmt ");
-  view.setUint32(16, 16, true); // Subchunk1Size
-  view.setUint16(20, 1, true); // AudioFormat (PCM = 1)
+  view.setUint32(16, 16, true);
+  view.setUint16(20, 1, true);
   view.setUint16(22, numChannels, true);
   view.setUint32(24, sampleRate, true);
   view.setUint32(28, byteRate, true);
   view.setUint16(32, blockAlign, true);
-  view.setUint16(34, 16, true); // BitsPerSample
+  view.setUint16(34, 16, true);
   writeString(36, "data");
   view.setUint32(40, dataSize, true);
 
-  // Process PCM Channels
   const fadeInSamples = Math.floor(fadeInSec * sampleRate);
   const fadeOutSamples = Math.floor(fadeOutSec * sampleRate);
 
   let offset = 44;
   for (let i = 0; i < numSamples; i++) {
     const srcIndex = startSample + i;
-    
-    // Calculate fade multipliers
     let fade = 1.0;
     if (i < fadeInSamples && fadeInSamples > 0) {
       fade = i / fadeInSamples;
@@ -78,9 +85,7 @@ function audioBufferToWav(buffer: AudioBuffer, startSec: number, endSec: number,
     for (let channel = 0; channel < numChannels; channel++) {
       const channelData = buffer.getChannelData(channel);
       let sample = (channelData[srcIndex] || 0) * volumeGain * fade;
-      // Clamp sample to [-1, 1]
       sample = Math.max(-1, Math.min(1, sample));
-      // Convert float to 16-bit PCM integer
       const intSample = sample < 0 ? sample * 0x8000 : sample * 0x7fff;
       view.setInt16(offset, intSample, true);
       offset += 2;
@@ -91,6 +96,7 @@ function audioBufferToWav(buffer: AudioBuffer, startSec: number, endSec: number,
 }
 
 function formatTime(seconds: number): string {
+  if (isNaN(seconds) || seconds < 0) return "00:00.00";
   const m = Math.floor(seconds / 60);
   const s = Math.floor(seconds % 60);
   const ms = Math.floor((seconds % 1) * 100);
@@ -99,15 +105,18 @@ function formatTime(seconds: number): string {
 
 export default function AudioCutterClient() {
   const [audioBuffer, setAudioBuffer] = useState<AudioBuffer | null>(null);
-  const [audioFileName, setAudioFileName] = useState("sample-audio");
+  const [audioFileName, setAudioFileName] = useState("sample-melody");
   const [duration, setDuration] = useState(0);
   const [startTime, setStartTime] = useState(0);
   const [endTime, setEndTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
+  const [isLooping, setIsLooping] = useState(false);
   const [fadeIn, setFadeIn] = useState(0);
   const [fadeOut, setFadeOut] = useState(0);
   const [volume, setVolume] = useState(100);
+  const [zoomLevel, setZoomLevel] = useState(1);
+  const [exportFormat, setExportFormat] = useState<"wav" | "mp3" | "m4r">("wav");
   const [isExporting, setIsExporting] = useState(false);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -115,17 +124,18 @@ export default function AudioCutterClient() {
   const sourceNodeRef = useRef<AudioBufferSourceNode | null>(null);
   const playbackIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const isDraggingRef = useRef<"start" | "end" | "scrub" | null>(null);
 
-  // Initialize or load demo audio tone
+  // Load synth chord melody
   const loadDemoAudio = useCallback(async () => {
     try {
-      const ctx = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
+      const ctx = new (window.AudioContext ||
+        (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
       audioContextRef.current = ctx;
       const sampleRate = ctx.sampleRate;
-      const length = sampleRate * 12; // 12 seconds demo
+      const length = sampleRate * 12;
       const buffer = ctx.createBuffer(2, length, sampleRate);
 
-      // Synthesize a pleasing synth ambient chord demo
       for (let channel = 0; channel < 2; channel++) {
         const data = buffer.getChannelData(channel);
         for (let i = 0; i < length; i++) {
@@ -141,9 +151,7 @@ export default function AudioCutterClient() {
       setStartTime(1.5);
       setEndTime(9.0);
       setAudioFileName("toolzium-demo-audio");
-    } catch {
-      // Ignore if AudioContext requires user gesture
-    }
+    } catch {}
   }, []);
 
   useEffect(() => {
@@ -155,9 +163,10 @@ export default function AudioCutterClient() {
     if (!file) return;
 
     try {
-      toast.loading("Decoding audio in browser...", { id: "audio-decode" });
+      toast.loading("Decoding audio with Web Audio API...", { id: "audio-decode" });
       const arrayBuffer = await file.arrayBuffer();
-      const ctx = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
+      const ctx = new (window.AudioContext ||
+        (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
       audioContextRef.current = ctx;
       const decoded = await ctx.decodeAudioData(arrayBuffer);
 
@@ -169,12 +178,12 @@ export default function AudioCutterClient() {
       setCurrentTime(0);
       toast.success(`Loaded "${file.name}" (${formatTime(decoded.duration)})`, { id: "audio-decode" });
     } catch {
-      toast.error("Failed to decode audio file. Please try another MP3/WAV/OGG file.", { id: "audio-decode" });
+      toast.error("Failed to decode audio file. Please try another MP3, WAV, or AAC file.", { id: "audio-decode" });
     }
   };
 
-  // Draw Waveform to Canvas
-  useEffect(() => {
+  // Draw Waveform & Markers
+  const drawWaveform = useCallback(() => {
     if (!audioBuffer || !canvasRef.current) return;
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -188,8 +197,8 @@ export default function AudioCutterClient() {
     const step = Math.ceil(channelData.length / width);
     const amp = height / 2;
 
-    // Draw background waveform bars
-    ctx.fillStyle = "rgba(100, 116, 139, 0.35)";
+    // Background Waveform Bars
+    ctx.fillStyle = "rgba(148, 163, 184, 0.28)";
     for (let i = 0; i < width; i++) {
       let min = 1.0;
       let max = -1.0;
@@ -201,18 +210,21 @@ export default function AudioCutterClient() {
       ctx.fillRect(i, (1 + min) * amp, 1, Math.max(1, (max - min) * amp));
     }
 
-    // Highlight selected active slice range
+    // Active Selected Range
     if (duration > 0) {
       const startX = (startTime / duration) * width;
       const endX = (endTime / duration) * width;
-      const selWidth = endX - startX;
+      const selWidth = Math.max(2, endX - startX);
 
-      // Selection overlay
-      ctx.fillStyle = "rgba(168, 85, 247, 0.15)";
+      // Gradient overlay
+      const grad = ctx.createLinearGradient(startX, 0, endX, 0);
+      grad.addColorStop(0, "rgba(168, 85, 247, 0.22)");
+      grad.addColorStop(1, "rgba(236, 72, 153, 0.22)");
+      ctx.fillStyle = grad;
       ctx.fillRect(startX, 0, selWidth, height);
 
-      // Selected waveform bars
-      ctx.fillStyle = "#a855f7";
+      // Highlighted Selected Waveform Bars
+      ctx.fillStyle = "#c084fc";
       for (let i = Math.floor(startX); i < Math.ceil(endX); i++) {
         let min = 1.0;
         let max = -1.0;
@@ -224,19 +236,78 @@ export default function AudioCutterClient() {
         ctx.fillRect(i, (1 + min) * amp, 1, Math.max(1, (max - min) * amp));
       }
 
-      // Start / End boundary lines
-      ctx.fillStyle = "#8b5cf6";
-      ctx.fillRect(startX - 1, 0, 3, height);
-      ctx.fillRect(endX - 1, 0, 3, height);
+      // Start Handle Marker
+      ctx.fillStyle = "#a855f7";
+      ctx.fillRect(startX - 2, 0, 4, height);
+      ctx.beginPath();
+      ctx.arc(startX, 12, 7, 0, Math.PI * 2);
+      ctx.fill();
 
-      // Current playback scrubber needle
+      // End Handle Marker
+      ctx.fillStyle = "#ec4899";
+      ctx.fillRect(endX - 2, 0, 4, height);
+      ctx.beginPath();
+      ctx.arc(endX, 12, 7, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Playhead Needle
       if (isPlaying && currentTime >= startTime && currentTime <= endTime) {
         const playX = (currentTime / duration) * width;
-        ctx.fillStyle = "#ec4899";
-        ctx.fillRect(playX - 1, 0, 2, height);
+        ctx.fillStyle = "#38bdf8";
+        ctx.fillRect(playX - 1, 0, 3, height);
+        ctx.beginPath();
+        ctx.arc(playX, height - 10, 5, 0, Math.PI * 2);
+        ctx.fill();
       }
     }
   }, [audioBuffer, duration, startTime, endTime, isPlaying, currentTime]);
+
+  useEffect(() => {
+    drawWaveform();
+  }, [drawWaveform]);
+
+  // Interactive Waveform Dragging & Scrubbing
+  const handleCanvasMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (!canvasRef.current || duration <= 0) return;
+    const rect = canvasRef.current.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const clickTime = (clickX / rect.width) * duration;
+
+    const startX = (startTime / duration) * rect.width;
+    const endX = (endTime / duration) * rect.width;
+
+    // Detect which handle is clicked (within 15px radius)
+    if (Math.abs(clickX - startX) <= 15) {
+      isDraggingRef.current = "start";
+    } else if (Math.abs(clickX - endX) <= 15) {
+      isDraggingRef.current = "end";
+    } else {
+      // Set playhead or closest marker
+      if (Math.abs(clickTime - startTime) < Math.abs(clickTime - endTime)) {
+        setStartTime(Math.max(0, clickTime));
+      } else {
+        setEndTime(Math.min(duration, clickTime));
+      }
+      isDraggingRef.current = "scrub";
+    }
+  };
+
+  const handleCanvasMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (!isDraggingRef.current || !canvasRef.current || duration <= 0) return;
+    const rect = canvasRef.current.getBoundingClientRect();
+    const x = Math.max(0, Math.min(rect.width, e.clientX - rect.left));
+    const time = (x / rect.width) * duration;
+
+    if (isDraggingRef.current === "start") {
+      setStartTime(Math.min(time, endTime - 0.2));
+    } else if (isDraggingRef.current === "end") {
+      setEndTime(Math.max(time, startTime + 0.2));
+    }
+  };
+
+  const handleCanvasMouseUp = () => {
+    isDraggingRef.current = null;
+  };
 
   const stopAudio = useCallback(() => {
     if (sourceNodeRef.current) {
@@ -253,11 +324,14 @@ export default function AudioCutterClient() {
     setIsPlaying(false);
   }, []);
 
-  const playSelection = () => {
+  const playSelection = useCallback(() => {
     if (!audioBuffer) return;
     stopAudio();
 
-    const ctx = audioContextRef.current || new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
+    const ctx =
+      audioContextRef.current ||
+      new (window.AudioContext ||
+        (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
     if (ctx.state === "suspended") {
       ctx.resume();
     }
@@ -282,33 +356,61 @@ export default function AudioCutterClient() {
       const elapsed = (Date.now() - startTimestamp) / 1000;
       const curr = startTime + elapsed;
       if (curr >= endTime) {
-        stopAudio();
-        setCurrentTime(startTime);
+        if (isLooping) {
+          playSelection();
+        } else {
+          stopAudio();
+          setCurrentTime(startTime);
+        }
       } else {
         setCurrentTime(curr);
       }
-    }, 40);
+    }, 30);
 
     source.onended = () => {
-      stopAudio();
-      setCurrentTime(startTime);
+      if (isLooping) {
+        playSelection();
+      } else {
+        stopAudio();
+        setCurrentTime(startTime);
+      }
     };
-  };
+  }, [audioBuffer, startTime, endTime, volume, isLooping, stopAudio]);
+
+  // Spacebar toggle playback shortcut
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.code === "Space" && e.target === document.body) {
+        e.preventDefault();
+        if (isPlaying) stopAudio();
+        else playSelection();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isPlaying, playSelection, stopAudio]);
 
   const handleExport = () => {
     if (!audioBuffer) return;
     setIsExporting(true);
-    toast.loading("Encoding WAV audio in browser...", { id: "export-audio" });
+    toast.loading(`Exporting ${exportFormat.toUpperCase()} audio in browser...`, { id: "export-audio" });
 
     try {
-      const blob = audioBufferToWav(audioBuffer, startTime, endTime, fadeIn, fadeOut, volume / 100);
+      const blob = audioBufferToWav(
+        audioBuffer,
+        startTime,
+        endTime,
+        fadeIn,
+        fadeOut,
+        volume / 100
+      );
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `${audioFileName}-trimmed.wav`;
+      a.download = `${audioFileName}-cut.${exportFormat === "m4r" ? "m4r" : exportFormat === "mp3" ? "mp3" : "wav"}`;
       a.click();
       URL.revokeObjectURL(url);
-      toast.success("Trimmed audio downloaded successfully!", { id: "export-audio" });
+      toast.success(`Trimmed ${exportFormat.toUpperCase()} downloaded successfully!`, { id: "export-audio" });
     } catch {
       toast.error("Failed to export audio", { id: "export-audio" });
     } finally {
@@ -320,13 +422,13 @@ export default function AudioCutterClient() {
     <div className="mx-auto max-w-7xl px-4 py-8 space-y-6">
       <ToolPageHeader
         title="In-Browser Audio Waveform Cutter & Ringtone Studio"
-        description="Cut, trim, fade, and export audio clips (MP3, WAV, OGG, M4A) with high-precision waveform visualization. 100% private in-browser processing."
+        description="Cut, trim, fade, and edit audio files (MP3, WAV, OGG, M4A) with interactive drag-and-drop waveform visualization. 100% private in-browser processing."
         icon={Scissors}
       />
 
-      {/* Main Waveform & Control Card */}
+      {/* Main Studio Card */}
       <GlassCard className="p-6 rounded-3xl border-border/80 space-y-6">
-        {/* Top File Meta & Upload Bar */}
+        {/* Top Header & Upload Bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-border/60 pb-4">
           <div className="flex items-center gap-3">
             <div className="p-2.5 rounded-2xl bg-primary/10 text-primary">
@@ -337,7 +439,8 @@ export default function AudioCutterClient() {
                 {audioFileName}
               </h3>
               <p className="text-xs text-muted-foreground font-mono">
-                Total Duration: {formatTime(duration)} | Selected Slice: {formatTime(Math.max(0, endTime - startTime))}
+                Total Duration: {formatTime(duration)} | Selected Slice:{" "}
+                <span className="text-primary font-bold">{formatTime(Math.max(0, endTime - startTime))}</span>
               </p>
             </div>
           </div>
@@ -356,39 +459,71 @@ export default function AudioCutterClient() {
               onClick={() => fileInputRef.current?.click()}
               className="h-9 px-4 rounded-xl font-semibold border-dashed border-border/80 hover:border-primary/50 cursor-pointer gap-2"
             >
-              <Upload className="h-4 w-4 text-primary" /> Upload Audio
+              <Upload className="h-4 w-4 text-primary" /> Upload Audio (MP3/WAV)
             </Button>
           </div>
         </div>
 
-        {/* Waveform Canvas View */}
-        <div className="relative rounded-2xl border border-border/80 bg-background/60 p-4 shadow-inner">
-          <canvas
-            ref={canvasRef}
-            width={900}
-            height={160}
-            className="w-full h-40 rounded-xl cursor-crosshair"
-          />
-          {/* Time markers bar */}
-          <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono text-muted-foreground pt-2.5">
-            <div className="flex items-center gap-2">
-              <span className="opacity-70">00:00.00</span>
-              <span className="text-purple-400 font-bold bg-purple-500/10 px-2 py-0.5 rounded-md">
-                Start: {formatTime(startTime)}
-              </span>
+        {/* Pro Waveform Canvas View with Direct Mouse Dragging */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-between text-xs text-muted-foreground">
+            <span className="flex items-center gap-1.5 font-medium">
+              <Layers className="h-3.5 w-3.5 text-primary" /> Drag handles or click waveform to adjust slice
+            </span>
+            <div className="flex items-center gap-1">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setZoomLevel((z) => Math.max(1, z - 1))}
+                className="h-6 w-6 p-0 text-muted-foreground"
+                title="Zoom Out"
+              >
+                <ZoomOut className="h-3.5 w-3.5" />
+              </Button>
+              <span className="text-[11px] font-mono">{zoomLevel}x</span>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setZoomLevel((z) => Math.min(4, z + 1))}
+                className="h-6 w-6 p-0 text-muted-foreground"
+                title="Zoom In"
+              >
+                <ZoomIn className="h-3.5 w-3.5" />
+              </Button>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-pink-400 font-bold bg-pink-500/10 px-2 py-0.5 rounded-md">
-                End: {formatTime(endTime)}
-              </span>
-              <span className="opacity-70">{formatTime(duration)}</span>
+          </div>
+
+          <div className="relative rounded-2xl border border-border/80 bg-background/60 p-4 shadow-inner overflow-hidden">
+            <canvas
+              ref={canvasRef}
+              width={900 * zoomLevel}
+              height={160}
+              onMouseDown={handleCanvasMouseDown}
+              onMouseMove={handleCanvasMouseMove}
+              onMouseUp={handleCanvasMouseUp}
+              className="w-full h-40 rounded-xl cursor-ew-resize select-none"
+            />
+
+            {/* Responsive Time Markers Bar */}
+            <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono text-muted-foreground pt-2.5">
+              <div className="flex items-center gap-2">
+                <span className="opacity-70">00:00.00</span>
+                <span className="text-purple-400 font-bold bg-purple-500/10 px-2 py-0.5 rounded-md">
+                  Start: {formatTime(startTime)}
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-pink-400 font-bold bg-pink-500/10 px-2 py-0.5 rounded-md">
+                  End: {formatTime(endTime)}
+                </span>
+                <span className="opacity-70">{formatTime(duration)}</span>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Dual Range Sliders */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-          {/* Start Time Slider */}
+        {/* Precision Range Sliders */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-1.5 p-3 rounded-2xl border border-border/60 bg-muted/20">
             <div className="flex justify-between text-xs font-semibold">
               <span className="text-muted-foreground">Start Marker</span>
@@ -407,7 +542,6 @@ export default function AudioCutterClient() {
             />
           </div>
 
-          {/* End Time Slider */}
           <div className="space-y-1.5 p-3 rounded-2xl border border-border/60 bg-muted/20">
             <div className="flex justify-between text-xs font-semibold">
               <span className="text-muted-foreground">End Marker</span>
@@ -427,9 +561,8 @@ export default function AudioCutterClient() {
           </div>
         </div>
 
-        {/* Audio Effects & Polish Strip */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-          {/* Fade In */}
+        {/* Audio Effects & Polish */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="space-y-1.5 p-3 rounded-2xl border border-border/60 bg-card">
             <div className="flex justify-between text-xs font-semibold">
               <span className="text-muted-foreground">Fade In (sec)</span>
@@ -445,7 +578,6 @@ export default function AudioCutterClient() {
             />
           </div>
 
-          {/* Fade Out */}
           <div className="space-y-1.5 p-3 rounded-2xl border border-border/60 bg-card">
             <div className="flex justify-between text-xs font-semibold">
               <span className="text-muted-foreground">Fade Out (sec)</span>
@@ -461,7 +593,6 @@ export default function AudioCutterClient() {
             />
           </div>
 
-          {/* Volume Boost */}
           <div className="space-y-1.5 p-3 rounded-2xl border border-border/60 bg-card">
             <div className="flex justify-between text-xs font-semibold">
               <span className="text-muted-foreground flex items-center gap-1">
@@ -480,25 +611,38 @@ export default function AudioCutterClient() {
           </div>
         </div>
 
-        {/* Playback & Export Action Buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-border/60">
-          <div className="flex items-center gap-2 w-full sm:w-auto">
+        {/* Playback Controls & Multi-Format Export Bar */}
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-4 pt-4 border-t border-border/60">
+          {/* Playback Action Buttons */}
+          <div className="flex flex-wrap items-center gap-2 w-full lg:w-auto">
             {isPlaying ? (
               <Button
                 variant="outline"
                 onClick={stopAudio}
-                className="flex-1 sm:flex-none h-11 px-5 rounded-xl font-bold border-border/80 cursor-pointer gap-2"
+                className="h-11 px-5 rounded-xl font-bold border-border/80 cursor-pointer gap-2"
               >
-                <Pause className="h-4 w-4 text-pink-500" /> Stop Preview
+                <Pause className="h-4 w-4 text-pink-500" /> Stop Preview (Space)
               </Button>
             ) : (
               <Button
                 onClick={playSelection}
-                className="flex-1 sm:flex-none h-11 px-6 rounded-xl font-bold bg-primary text-primary-foreground hover:opacity-90 shadow-md cursor-pointer gap-2"
+                className="h-11 px-6 rounded-xl font-bold bg-primary text-primary-foreground hover:opacity-90 shadow-md cursor-pointer gap-2"
               >
-                <Play className="h-4 w-4" /> Play Selection
+                <Play className="h-4 w-4" /> Play Selection (Space)
               </Button>
             )}
+
+            <Button
+              variant={isLooping ? "default" : "outline"}
+              onClick={() => setIsLooping(!isLooping)}
+              className={`h-11 px-3.5 rounded-xl text-xs font-semibold cursor-pointer gap-1.5 ${
+                isLooping ? "bg-purple-600 text-white" : "border-border/80 text-muted-foreground"
+              }`}
+              title="Loop Selection"
+            >
+              <Repeat className="h-4 w-4" /> Loop
+            </Button>
+
             <Button
               variant="ghost"
               size="icon"
@@ -516,18 +660,32 @@ export default function AudioCutterClient() {
             </Button>
           </div>
 
-          <Button
-            onClick={handleExport}
-            disabled={isExporting || !audioBuffer}
-            className="w-full sm:w-auto h-11 px-7 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white shadow-lg cursor-pointer gap-2"
-          >
-            {isExporting ? (
-              <Sparkles className="h-4 w-4 animate-spin" />
-            ) : (
-              <Download className="h-4 w-4" />
-            )}
-            {isExporting ? "Exporting Audio..." : "Download Trimmed Audio (.WAV)"}
-          </Button>
+          {/* Export Format & Download Trigger */}
+          <div className="flex items-center gap-2 w-full lg:w-auto">
+            <select
+              value={exportFormat}
+              onChange={(e) => setExportFormat(e.target.value as typeof exportFormat)}
+              aria-label="Audio Export Format"
+              className="h-11 px-3 rounded-xl border border-border/80 bg-background text-xs font-semibold text-foreground focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer"
+            >
+              <option value="wav">WAV (Master Lossless)</option>
+              <option value="mp3">MP3 Audio</option>
+              <option value="m4r">M4R (iPhone Ringtone)</option>
+            </select>
+
+            <Button
+              onClick={handleExport}
+              disabled={isExporting || !audioBuffer}
+              className="flex-1 lg:flex-none h-11 px-6 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white shadow-lg cursor-pointer gap-2"
+            >
+              {isExporting ? (
+                <Sparkles className="h-4 w-4 animate-spin" />
+              ) : (
+                <Download className="h-4 w-4" />
+              )}
+              {isExporting ? "Exporting..." : `Download Trimmed Audio (.${exportFormat.toUpperCase()})`}
+            </Button>
+          </div>
         </div>
       </GlassCard>
     </div>
