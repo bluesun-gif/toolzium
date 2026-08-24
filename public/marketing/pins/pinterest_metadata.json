@@ -1,0 +1,26 @@
+[
+  {
+    "imagePath": "public/marketing/pins/gold-price-infographic.png",
+    "title": "Live Gold & Silver Price Tracker | 24K, 22K & 18K Melt Value Calculator",
+    "description": "Calculate exact real-time live spot gold and bullion scrap values for 24K, 22K jewelry, and 18K luxury gold per gram, ounce, and tola. Powered by live feeds and AI bullion intelligence on Toolzium. 100% Free & No Signups.",
+    "destinationUrl": "https://toolzium.com/tools/finance/gold-price-tracker",
+    "board": "Personal Finance & Gold Investment",
+    "tags": ["#goldprice", "#bullion", "#goldjewelry", "#preciousmetals", "#scrapcalc", "#investing"]
+  },
+  {
+    "imagePath": "public/marketing/pins/cycling-calorie-infographic.png",
+    "title": "Stationary Spin Bike Calorie & Watts Calculator Guide",
+    "description": "Accurately calculate indoor cycling calorie burn, mechanical watts (W/kg), and fat oxidation based on cadence (RPM) and resistance. Includes post-ride nutrition and rehydration fuel benchmarks. 100% Free on Toolzium.",
+    "destinationUrl": "https://toolzium.com/tools/health/indoor-cycling-calorie",
+    "board": "Cycling Workout & Fitness Guides",
+    "tags": ["#indoorcycling", "#spinclass", "#cyclingcalories", "#fitnessmotivation", "#peloton", "#fatburn"]
+  },
+  {
+    "imagePath": "public/marketing/pins/baby-names-infographic.png",
+    "title": "Top Royal & Timeless Baby Names with Meanings",
+    "description": "Discover authentic royal, noble, and cultural baby boy and girl names with origins, pronunciations, and verified meanings. Generated dynamically with AI on Toolzium with zero repetitive suggestions.",
+    "destinationUrl": "https://toolzium.com/tools/fun/name-generator",
+    "board": "Baby Names & Parenting Ideas",
+    "tags": ["#babynames", "#royalnames", "#babyboynames", "#babygirlnames", "#nameideas", "#parenting"]
+  }
+]
