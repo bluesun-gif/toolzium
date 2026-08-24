@@ -12,6 +12,7 @@ import {
   LayoutDashboard,
   LinkIcon,
   Map as MapIcon,
+  Music,
   Settings2,
   Shield,
   Sparkles,
@@ -430,6 +431,20 @@ export const ToolsData = [
         popular: false,
       },
 ],
+  },
+  {
+    title: "Audio",
+    url: "/tools/audio",
+    icon: Music,
+    isActive: true,
+    items: [
+      {
+        title: "In-Browser Audio Waveform Cutter & Ringtone Studio",
+        url: "/tools/audio/cutter",
+        description: "Cut, trim, fade, and edit audio files (MP3, WAV, OGG, M4A) with live waveform visualization and instant export.",
+        popular: true,
+      },
+    ],
   },
   {
     title: "PDF",
