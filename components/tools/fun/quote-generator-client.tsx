@@ -403,16 +403,16 @@ export default function QuoteGeneratorClient() {
 
             {/* Big Quote Typography */}
             <div className="space-y-4 pt-2">
-              <p className="text-2xl sm:text-4xl md:text-5xl font-serif italic leading-relaxed text-foreground tracking-tight">
+              <p className="text-2xl sm:text-4xl md:text-5xl font-serif italic leading-relaxed text-white tracking-tight drop-shadow-md">
                 "{currentQuote.text}"
               </p>
-              <div className="flex items-center justify-between pt-4 border-t border-border/40">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-white/20">
                 <div>
-                  <p className="text-lg sm:text-xl font-bold font-sans text-foreground">
+                  <p className="text-lg sm:text-xl font-bold font-sans text-white">
                     — {currentQuote.author}
                   </p>
                   {currentQuote.source && (
-                    <p className="text-xs text-muted-foreground mt-0.5">
+                    <p className="text-xs text-zinc-300 mt-0.5">
                       From: {currentQuote.source}
                     </p>
                   )}
@@ -421,7 +421,7 @@ export default function QuoteGeneratorClient() {
                 <Button
                   onClick={getNextQuote}
                   size="lg"
-                  className="h-12 px-6 rounded-2xl font-bold gap-2 text-sm bg-primary text-primary-foreground shadow-lg hover:shadow-primary/25 cursor-pointer"
+                  className="h-12 px-6 rounded-2xl font-bold gap-2 text-sm bg-white text-zinc-950 hover:bg-zinc-100 shadow-xl cursor-pointer"
                 >
                   <Shuffle className="h-4 w-4" /> Next Quote (No-Repeat)
                 </Button>
