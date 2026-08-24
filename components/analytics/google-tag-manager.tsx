@@ -5,7 +5,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, Suspense } from "react";
 
 const GTM_ID = "GTM-KRV3TG75";
-const GA_MEASUREMENT_ID = "G-52F5EMG6BC";
+const GA_MEASUREMENT_ID = "G-1R1QGX9XS1";
 
 function PageViewTracker() {
   const pathname = usePathname();
