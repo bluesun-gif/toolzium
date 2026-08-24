@@ -56,8 +56,8 @@ export function TravelBudgetPlannerClient() {
       <div className="relative z-10 space-y-6">
         <ToolPageHeader
           icon={Navigation}
-          title="Vacation & Travel Budget Planner"
-          description="Calculate exact coordinates, nautical miles, kilometer distances, and estimated flight duration between global destinations."
+          title="Flight Distance, Great Circle Route & Duration Calculator"
+          description="Calculate exact geodesic coordinates, nautical miles, kilometer flight distances, and estimated flight duration between global destinations."
         />
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
