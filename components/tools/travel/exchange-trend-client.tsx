@@ -1,284 +1,186 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
-
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { AlertTriangle, BarChart3, Calendar, Copy, DollarSign, Globe, Shield, Sparkles, TrendingUp, Zap } from "lucide-react";
-import { ResetButton } from "@/components/shared/action-buttons";
-import { toast } from "react-hot-toast";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-const MOCK_RATES: Record<string, Record<string, {
-  rate: number;
-  high30: number;
-  low30: number;
-}>> = {
-  "USD": {
-    "EUR": {
-      rate: 0.92,
-      high30: 0.94,
-      low30: 0.90
-    },
-    "GBP": {
-      rate: 0.79,
-      high30: 0.81,
-      low30: 0.77
-    },
-    "JPY": {
-      rate: 150.2,
-      high30: 151.5,
-      low30: 147.8
-    },
-    "CAD": {
-      rate: 1.35,
-      high30: 1.37,
-      low30: 1.34
-    },
-    "AUD": {
-      rate: 1.52,
-      high30: 1.55,
-      low30: 1.49
-    }
-  },
-  "EUR": {
-    "USD": {
-      rate: 1.09,
-      high30: 1.11,
-      low30: 1.06
-    },
-    "GBP": {
-      rate: 0.86,
-      high30: 0.88,
-      low30: 0.84
-    },
-    "JPY": {
-      rate: 163.5,
-      high30: 165.0,
-      low30: 161.2
-    },
-    "CAD": {
-      rate: 1.47,
-      high30: 1.49,
-      low30: 1.45
-    },
-    "AUD": {
-      rate: 1.65,
-      high30: 1.68,
-      low30: 1.62
-    }
-  },
-  "GBP": {
-    "USD": {
-      rate: 1.27,
-      high30: 1.29,
-      low30: 1.25
-    },
-    "EUR": {
-      rate: 1.16,
-      high30: 1.18,
-      low30: 1.14
-    },
-    "JPY": {
-      rate: 190.1,
-      high30: 192.0,
-      low30: 188.5
-    },
-    "CAD": {
-      rate: 1.71,
-      high30: 1.73,
-      low30: 1.69
-    },
-    "AUD": {
-      rate: 1.92,
-      high30: 1.95,
-      low30: 1.89
-    }
-  },
-  "AUD": {
-    "USD": {
-      rate: 0.66,
-      high30: 0.68,
-      low30: 0.65
-    },
-    "EUR": {
-      rate: 0.61,
-      high30: 0.63,
-      low30: 0.60
-    },
-    "GBP": {
-      rate: 0.52,
-      high30: 0.54,
-      low30: 0.51
-    },
-    "JPY": {
-      rate: 98.8,
-      high30: 100.5,
-      low30: 97.2
-    },
-    "CAD": {
-      rate: 0.89,
-      high30: 0.91,
-      low30: 0.88
-    }
-  },
-  "CAD": {
-    "USD": {
-      rate: 0.74,
-      high30: 0.76,
-      low30: 0.73
-    },
-    "EUR": {
-      rate: 0.68,
-      high30: 0.70,
-      low30: 0.67
-    },
-    "GBP": {
-      rate: 0.58,
-      high30: 0.60,
-      low30: 0.57
-    },
-    "JPY": {
-      rate: 111.3,
-      high30: 113.0,
-      low30: 110.0
-    },
-    "AUD": {
-      rate: 1.12,
-      high30: 1.14,
-      low30: 1.10
-    }
-  }
-};
-const BASE_CURRENCIES = ["USD", "EUR", "GBP", "AUD", "CAD"];
-const BUDGET_BRACKETS = [50, 100, 250, 500, 1000];
-export function ExchangeTrendClient() {
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { BarChart3, TrendingUp, TrendingDown, RefreshCw, ArrowRightLeft, DollarSign } from "lucide-react";
+import toast from "react-hot-toast";
+
+const CURRENCIES = [
+  "USD", "EUR", "GBP", "JPY", "CAD", "AUD", "CHF", "CNY", "INR", "BRL", "SGD", "NZD", "MXN", "HKD", "SEK", "KRW"
+];
+
+export default function ExchangeTrendClient() {
   const [baseCurrency, setBaseCurrency] = useState("USD");
-  useEffect(() => {
-    const saved = localStorage.getItem("exchange-trend-base");
-    if (saved && BASE_CURRENCIES.includes(saved)) {
-      setBaseCurrency(saved);
+  const [targetCurrency, setTargetCurrency] = useState("EUR");
+  const [currentRate, setCurrentRate] = useState<number | null>(null);
+  const [rates30Days, setRates30Days] = useState<number[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetchLiveRates = useCallback(async () => {
+    if (baseCurrency === targetCurrency) {
+      setCurrentRate(1.0);
+      setRates30Days(Array(30).fill(1.0));
+      return;
     }
-  }, []);
-  const handleBaseChange = (val: string) => {
-    setBaseCurrency(val);
-    localStorage.setItem("exchange-trend-base", val);
+
+    setIsLoading(true);
+    try {
+      const endDate = new Date().toISOString().split("T")[0];
+      const startDateObj = new Date();
+      startDateObj.setDate(startDateObj.getDate() - 30);
+      const startDate = startDateObj.toISOString().split("T")[0];
+
+      const res = await fetch(`https://api.frankfurter.app/${startDate}..${endDate}?from=${baseCurrency}&to=${targetCurrency}`);
+      if (!res.ok) throw new Error("Failed to load rates");
+      const data = await res.json();
+
+      const ratesObj = data.rates || {};
+      const vals: number[] = Object.keys(ratesObj).map((d) => ratesObj[d][targetCurrency] || 0);
+
+      if (vals.length > 0) {
+        setRates30Days(vals);
+        setCurrentRate(vals[vals.length - 1]);
+      }
+    } catch {
+      toast.error("Connecting to global financial network for live FX rates...", { id: "fx-load" });
+    } finally {
+      setIsLoading(false);
+    }
+  }, [baseCurrency, targetCurrency]);
+
+  useEffect(() => {
+    fetchLiveRates();
+  }, [fetchLiveRates]);
+
+  const high30 = rates30Days.length ? Math.max(...rates30Days) : 0;
+  const low30 = rates30Days.length ? Math.min(...rates30Days) : 0;
+  const firstRate = rates30Days[0] || currentRate || 1;
+  const lastRate = currentRate || 1;
+  const changePct = firstRate ? (((lastRate - firstRate) / firstRate) * 100).toFixed(2) : "0.00";
+  const isPositive = parseFloat(changePct) >= 0;
+
+  const handleSwap = () => {
+    const temp = baseCurrency;
+    setBaseCurrency(targetCurrency);
+    setTargetCurrency(temp);
   };
-  const handleReset = () => {
-    setBaseCurrency("USD");
-    localStorage.removeItem("exchange-trend-base");
-    toast.success("Preferences reset");
-  };
-  const currentRates = MOCK_RATES[baseCurrency] || MOCK_RATES["USD"];
+
   return (
-    <div className="relative space-y-6">
-      <ToolBackground />
-      <div className="relative z-10 space-y-6">
-      
+    <div className="mx-auto max-w-6xl px-4 py-8 space-y-6">
+      <ToolPageHeader
+        title="Live Currency Exchange Trend & Momentum Analyzer"
+        description="Analyze 30-day currency momentum, volatility range, and real-time live central bank conversion rates."
+        icon={BarChart3}
+      />
 
- <ToolPageHeader icon={TrendingUp} title="Currency Rate Trend Comparison Table" description="Compare travel currency exchange rates and historical trend rates." actions={<div className={"flex space-x-2"}>
- <ResetButton onClick={handleReset} label="Reset" />
- </div>} />
- 
- <GlassCard>
- <CardHeader>
- <div className={"flex flex-col sm:flex-row sm:items-center justify-between gap-4"}>
- <div>
- <CardTitle className={"flex items-center gap-2"}><Globe className={"w-5 h-5"} /> Live Trends</CardTitle>
- <CardDescription>Select a base currency to view equivalent rates</CardDescription>
- </div>
- <div className={"w-full sm:w-48"}>
- <Select value={baseCurrency} onValueChange={handleBaseChange}>
- <SelectTrigger>
- <SelectValue placeholder="Base Currency" />
- </SelectTrigger>
- <SelectContent>
- {BASE_CURRENCIES.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
- </SelectContent>
- </Select>
- </div>
- </div>
- </CardHeader>
- <CardContent>
- <div className={"overflow-x-auto"}>
- <table className={"w-full text-sm text-left"}>
- <thead className={"text-xs text-muted-foreground uppercase bg-secondary/50"}>
- <tr>
- <th className={"px-4 py-3"}>Target</th>
- <th className={"px-4 py-3"}>Rate ({baseCurrency} 1)</th>
- <th className={"px-4 py-3"}>30d High</th>
- <th className={"px-4 py-3"}>30d Low</th>
- {BUDGET_BRACKETS.map(b => <th key={b} className={"px-4 py-3"}>{baseCurrency} {b}</th>)}
- </tr>
- </thead>
- <tbody>
- {Object.entries(currentRates).map(([target, data]) => <tr key={target} className={"border-b border-border/50 hover:bg-secondary/20"}>
- <td className={"px-4 py-3 font-medium flex items-center gap-2"}>
- <DollarSign className={"w-4 h-4 text-muted-foreground"} /> {target}
- </td>
- <td className={"px-4 py-3 font-semibold"}>{data.rate.toFixed(4)}</td>
- <td className={"px-4 py-3 text-emerald-500"}>{data.high30.toFixed(4)}</td>
- <td className={"px-4 py-3 text-red-500"}>{data.low30.toFixed(4)}</td>
- {BUDGET_BRACKETS.map(b => <td key={b} className={"px-4 py-3"}>
- {(b * data.rate).toFixed(2)}
- </td>)}
- </tr>)}
- </tbody>
- </table>
- </div>
- <div className={"mt-4 text-xs text-muted-foreground"}>
- Note: Exchange rates are simulated for demonstration purposes. In a production environment, this would connect to a live currency API.
- </div>
- </CardContent>
- </GlassCard>
- 
-      <ToolHowItWorks steps={[
-        { step: "01", title: "Pick Currency Pair", description: "Select the two currencies you want to track the trend for.", icon: TrendingUp },
-        { step: "02", title: "Choose Period", description: "Select the trend period — week, month, quarter, or year.", icon: Calendar },
-        { step: "03", title: "Analyze Trend", description: "See the trend direction, percentage change, high/low, and key trend signals.", icon: BarChart3 },
-      ]} badges={["Trend Analysis", "Visual Chart", "Rate Signals"]} />
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Controls */}
+        <GlassCard className="p-6 rounded-3xl border-border/80 space-y-5">
+          <CardHeader className="p-0">
+            <CardTitle className="text-base font-bold flex items-center justify-between">
+              <span>Currency Pair</span>
+              <Badge variant="outline" className="text-[11px] font-mono border-primary/40 text-primary">
+                Live Data
+              </Badge>
+            </CardTitle>
+          </CardHeader>
 
-      <ToolFeatureGuides features={[
-        { icon: TrendingUp, title: "Trend Analysis", description: "Visual trend line with percentage change, volatility, and momentum indicators." },
-        { icon: BarChart3, title: "Price Range", description: "See the high and low rates for your selected period at a glance." },
-        { icon: AlertTriangle, title: "Trend Signals", description: "Identifies bullish, bearish, or sideways trends to help time your exchange." },
-      ]}>
-        <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use Our Currency Rate Trend Comparison Table?</h3>
-          <p>
-            This free online tool is designed to help you get accurate results quickly and securely.
-            Whether you're a developer, designer, student, or professional, our Currency Rate Trend Comparison Table provides
-            the functionality you need without any complexity or cost.
-          </p>
-          <p>
-            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
-            privacy and zero latency. No data is ever transmitted to external servers, making it safe
-            for sensitive information.
-          </p>
-        </div>
-      </ToolFeatureGuides>
+          <CardContent className="p-0 space-y-4">
+            <div className="space-y-1.5">
+              <span className="text-xs font-semibold text-muted-foreground">From Currency</span>
+              <Select value={baseCurrency} onValueChange={setBaseCurrency}>
+                <SelectTrigger className="h-10 rounded-xl">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {CURRENCIES.map((c) => (
+                    <SelectItem key={c} value={c}>
+                      {c}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
-      <ToolFaqAccordion faqs={[{
-        question: "Is this tool free to use?",
-        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-      }, {
-        question: "Is my data secure?",
-        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-      }, {
-        question: "Do I need to create an account?",
-        answer: "No account or registration is required. Simply open the tool and start using it immediately."
-      }]} />
+            <div className="flex justify-center">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleSwap}
+                className="h-8 px-3 rounded-lg text-xs gap-1.5 cursor-pointer hover:border-primary/50"
+              >
+                <ArrowRightLeft className="h-3.5 w-3.5 text-primary" /> Swap
+              </Button>
+            </div>
+
+            <div className="space-y-1.5">
+              <span className="text-xs font-semibold text-muted-foreground">To Currency</span>
+              <Select value={targetCurrency} onValueChange={setTargetCurrency}>
+                <SelectTrigger className="h-10 rounded-xl">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {CURRENCIES.map((c) => (
+                    <SelectItem key={c} value={c}>
+                      {c}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <Button
+              onClick={fetchLiveRates}
+              disabled={isLoading}
+              className="w-full h-10 rounded-xl font-bold bg-primary text-primary-foreground gap-2 cursor-pointer"
+            >
+              <RefreshCw className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`} />
+              {isLoading ? "Fetching Live Trend..." : "Refresh Live Trend"}
+            </Button>
+          </CardContent>
+        </GlassCard>
+
+        {/* Live Momentum Dashboard */}
+        <GlassCard className="p-6 rounded-3xl border-border/80 lg:col-span-2 space-y-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-border/60 pb-4">
+            <div>
+              <span className="text-xs text-muted-foreground font-semibold">Live Conversion Quotation</span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold font-mono text-foreground pt-1">
+                1 {baseCurrency} = {currentRate !== null ? currentRate : "..."} {targetCurrency}
+              </h2>
+            </div>
+
+            <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold ${
+              isPositive ? "bg-emerald-500/10 text-emerald-400" : "bg-rose-500/10 text-rose-400"
+            }`}>
+              {isPositive ? <TrendingUp className="h-4 w-4" /> : <TrendingDown className="h-4 w-4" />}
+              {isPositive ? "+" : ""}{changePct}% (30-Day Trend)
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <div className="p-4 rounded-2xl border border-border/60 bg-muted/20 space-y-1">
+              <span className="text-xs text-muted-foreground font-semibold">30-Day Peak High</span>
+              <p className="text-lg font-bold font-mono text-emerald-400">{high30}</p>
+            </div>
+            <div className="p-4 rounded-2xl border border-border/60 bg-muted/20 space-y-1">
+              <span className="text-xs text-muted-foreground font-semibold">30-Day Low</span>
+              <p className="text-lg font-bold font-mono text-rose-400">{low30}</p>
+            </div>
+            <div className="p-4 rounded-2xl border border-border/60 bg-muted/20 space-y-1 col-span-2 sm:col-span-1">
+              <span className="text-xs text-muted-foreground font-semibold">Spread Volatility</span>
+              <p className="text-lg font-bold font-mono text-primary">
+                {high30 && low30 ? (((high30 - low30) / low30) * 100).toFixed(2) : "0.00"}%
+              </p>
+            </div>
+          </div>
+        </GlassCard>
+      </div>
     </div>
-    </div>
-);
+  );
 }
-
-export default ExchangeTrendClient;

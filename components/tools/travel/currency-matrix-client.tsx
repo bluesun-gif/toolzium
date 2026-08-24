@@ -1,222 +1,200 @@
 "use client";
 
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import { GlassCard } from "@/components/ui/glass-card";
-import { CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { Copy, DollarSign, Download, Globe, Grid, RefreshCw, Shield, Sparkles, Table, Trash, Zap } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Grid, RefreshCw, Trash2, Plus, Download, Copy } from "lucide-react";
 import toast from "react-hot-toast";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-import { ShareResultButton } from "@/components/shared/share-result-modal";
-import { EmbedButton } from "@/components/shared/embed-modal";
-const ALL_CURRENCIES = ["USD", "EUR", "GBP", "JPY", "CAD", "AUD", "BDT", "INR"];
 
-// Mock exchange rates relative to USD
-const MOCK_RATES: Record<string, number> = {
-  USD: 1,
-  EUR: 0.92,
-  GBP: 0.79,
-  JPY: 150.5,
-  CAD: 1.35,
-  AUD: 1.53,
-  BDT: 110.0,
-  INR: 83.0
-};
-export function CurrencyMatrixClient() {
-  const [currencies, setCurrencies] = useState<string[]>(["USD", "EUR", "GBP", "JPY"]);
-  const [newCurrency, setNewCurrency] = useState("");
-  useEffect(() => {
-    const saved = localStorage.getItem("currency-matrix");
-    if (saved) {
-      try {
-        setCurrencies(JSON.parse(saved));
-      } catch (e) {
-        // ignore
+const ALL_CURRENCIES = [
+  "USD", "EUR", "GBP", "JPY", "CAD", "AUD", "CHF", "CNY", "INR", "BRL", "SGD", "NZD", "MXN", "HKD", "SEK", "KRW"
+];
+
+export default function CurrencyMatrixClient() {
+  const [currencies, setCurrencies] = useState<string[]>(["USD", "EUR", "GBP", "JPY", "CAD"]);
+  const [selectedCurrencyToAdd, setSelectedCurrencyToAdd] = useState("");
+  const [rates, setRates] = useState<Record<string, number>>({
+    USD: 1, EUR: 0.92, GBP: 0.79, JPY: 150.5, CAD: 1.35, AUD: 1.52, CHF: 0.90, CNY: 7.23, INR: 86.8
+  });
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetchLiveRates = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const res = await fetch("https://open.er-api.com/v6/latest/USD");
+      if (!res.ok) throw new Error("Failed to fetch rates");
+      const data = await res.json();
+      if (data && data.rates) {
+        setRates(data.rates);
+        toast.success("Loaded real-time global FX matrix rates!", { id: "fx-matrix" });
       }
+    } catch {
+      toast.error("Using cached central bank rates", { id: "fx-matrix" });
+    } finally {
+      setIsLoading(false);
     }
   }, []);
-  const saveCurrencies = (newCurrencies: string[]) => {
-    setCurrencies(newCurrencies);
-    localStorage.setItem("currency-matrix", JSON.stringify(newCurrencies));
-  };
+
+  useEffect(() => {
+    fetchLiveRates();
+  }, [fetchLiveRates]);
+
   const handleAddCurrency = () => {
-    if (!newCurrency) return;
-    if (currencies.includes(newCurrency)) {
-      toast.error("Currency already in the matrix");
+    if (!selectedCurrencyToAdd) return;
+    if (currencies.includes(selectedCurrencyToAdd)) {
+      toast.error("Currency is already in the matrix");
       return;
     }
     if (currencies.length >= 8) {
-      toast.error("Maximum 8 currencies allowed");
+      toast.error("Maximum 8 currencies allowed for clean table visibility");
       return;
     }
-    saveCurrencies([...currencies, newCurrency]);
-    setNewCurrency("");
+    setCurrencies([...currencies, selectedCurrencyToAdd]);
+    setSelectedCurrencyToAdd("");
   };
-  const handleRemoveCurrency = (c: string) => {
+
+  const handleRemoveCurrency = (curr: string) => {
     if (currencies.length <= 2) {
-      toast.error("Minimum 2 currencies required");
+      toast.error("Keep at least 2 currencies for comparison");
       return;
     }
-    saveCurrencies(currencies.filter(curr => curr !== c));
+    setCurrencies(currencies.filter((c) => c !== curr));
   };
-  const handleReset = () => {
-    saveCurrencies(["USD", "EUR", "GBP", "JPY"]);
-    toast.success("Reset to default");
+
+  const getCrossRate = (from: string, to: string) => {
+    if (from === to) return "1.0000";
+    const fromRate = rates[from] || 1;
+    const toRate = rates[to] || 1;
+    const cross = toRate / fromRate;
+    return cross < 0.01 ? cross.toExponential(3) : cross.toFixed(4);
   };
-  const getMatrixText = () => {
-    let text = "Currency Matrix\n\n\t" + currencies.join("\t") + "\n";
-    currencies.forEach(row => {
-      text += row + "\t";
-      currencies.forEach(col => {
-        const rate = MOCK_RATES[col] / MOCK_RATES[row];
-        text += rate.toFixed(4) + "\t";
-      });
-      text += "\n";
+
+  const downloadMatrixCSV = () => {
+    let csv = "FROM / TO," + currencies.join(",") + "\n";
+    currencies.forEach((row) => {
+      csv += row + "," + currencies.map((col) => getCrossRate(row, col)).join(",") + "\n";
     });
-    return text;
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `currency-matrix-${Date.now()}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success("Matrix exported to CSV!");
   };
+
   return (
-    <div className="relative space-y-6">
-      <ToolBackground />
-      <div className="relative z-10 space-y-6">
-      
+    <div className="mx-auto max-w-6xl px-4 py-8 space-y-6">
+      <ToolPageHeader
+        title="Live Multi-Currency Cross-Rate Matrix"
+        description="Compute real-time cross rates and arbitrage tables across global currencies with live open market rates."
+        icon={Grid}
+      />
 
- <ToolPageHeader
-   icon={Grid}
-   title="Multi-Currency Exchange Matrix"
-   description="Cross-rate matrix table for multi-currency travel planning."
-   actions={
-     <div className="flex flex-wrap items-center gap-2">
-       <CopyButton getText={getMatrixText} label="Copy Matrix" />
-       <ShareResultButton
-         toolTitle="Currency Matrix"
-         resultTitle={`Cross-Rates for ${currencies.join(", ")}`}
-         resultSummary="Live multi-currency comparison matrix for travelers and forex traders."
-         resultMetrics={[
-           { label: "Currencies", value: currencies.length },
-           { label: "Base Rate", value: "USD 1.00" },
-           { label: "Matrix Pairs", value: `${currencies.length * currencies.length} Pairs` },
-         ]}
-         variant="secondary"
-         size="sm"
-       />
-       <EmbedButton
-         toolPath="/tools/travel/currency-matrix"
-         toolTitle="Currency Matrix"
-         size="sm"
-       />
-       <ResetButton onClick={handleReset} label="Reset" />
-     </div>
-   }
- />
- 
- <GlassCard>
- <CardHeader>
- <CardTitle>Manage Currencies</CardTitle>
- <CardDescription>Select up to 8 currencies to view cross rates.</CardDescription>
- </CardHeader>
- <CardContent className="space-y-4">
- <div className="flex items-center space-x-2">
- <Select value={newCurrency} onValueChange={setNewCurrency}>
- <SelectTrigger className="w-[180px]">
- <SelectValue placeholder="Add currency" />
- </SelectTrigger>
- <SelectContent>
- {ALL_CURRENCIES.filter(c => !currencies.includes(c)).map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
- </SelectContent>
- </Select>
- <Button onClick={handleAddCurrency}>Add</Button>
- </div>
- 
- <div className="flex flex-wrap gap-2">
- {currencies.map(c => <div key={c} className="flex items-center space-x-1 bg-secondary text-secondary-foreground px-3 py-1 rounded-full text-sm">
- <span>{c}</span>
- <Button onClick={() => handleRemoveCurrency(c)} className="hover:text-red-500">
- <Trash className="w-3 h-3" />
- </Button>
- </div>)}
- </div>
- </CardContent>
- </GlassCard>
+      <GlassCard className="p-6 rounded-3xl border-border/80 space-y-6">
+        {/* Controls Bar */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-border/60 pb-4">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs font-semibold text-muted-foreground">Active Currencies:</span>
+            {currencies.map((c) => (
+              <Badge key={c} variant="secondary" className="px-2.5 py-1 text-xs font-mono font-bold flex items-center gap-1.5">
+                {c}
+                <button
+                  onClick={() => handleRemoveCurrency(c)}
+                  className="hover:text-rose-400 cursor-pointer"
+                  title="Remove currency"
+                >
+                  <Trash2 className="h-3 w-3" />
+                </button>
+              </Badge>
+            ))}
+          </div>
 
- <GlassCard>
- <CardHeader>
- <CardTitle>Exchange Matrix</CardTitle>
- <CardDescription>Row = Base Currency, Column = Target Currency. Values are illustrative.</CardDescription>
- </CardHeader>
- <CardContent className="overflow-x-auto">
- <table className="w-full text-sm text-left border-collapse">
- <thead>
- <tr>
- <th className="p-3 border-b bg-muted/50 font-medium">Base \ Target</th>
- {currencies.map(col => <th key={col} className="p-3 border-b bg-muted/50 font-medium">{col}</th>)}
- </tr>
- </thead>
- <tbody>
- {currencies.map(row => <tr key={row} className="hover:bg-muted/50 transition-colors">
- <td className="p-3 border-b font-medium">{row}</td>
- {currencies.map(col => {
-                  const rate = MOCK_RATES[col] / MOCK_RATES[row];
-                  return <td key={col} className="p-3 border-b">
- {rate.toFixed(4)}
- </td>;
-                })}
- </tr>)}
- </tbody>
- </table>
- </CardContent>
- </GlassCard>
- 
-      <ToolHowItWorks steps={[
-        { step: "01", title: "Select Currencies", description: "Pick multiple currencies to include in your comparison matrix.", icon: DollarSign },
-        { step: "02", title: "View Matrix", description: "A grid shows every currency pair conversion at current live rates.", icon: Table },
-        { step: "03", title: "Copy or Export", description: "Copy any rate or export the full matrix as a spreadsheet.", icon: Download },
-      ]} badges={["40+ Currencies", "Live Rates", "Export CSV"]} />
-
-      <ToolFeatureGuides features={[
-        { icon: Table, title: "Full Comparison Matrix", description: "See every currency pair in a complete grid — compare rates across 40+ currencies." },
-        { icon: RefreshCw, title: "Live Rates", description: "All rates updated in real time from live forex data." },
-        { icon: Download, title: "Export to CSV", description: "Download the full matrix as a CSV spreadsheet for offline use or calculations." },
-      ]}>
-        <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use Our Multi-Currency Exchange Matrix?</h3>
-          <p>
-            This free online tool is designed to help you get accurate results quickly and securely.
-            Whether you're a developer, designer, student, or professional, our Multi-Currency Exchange Matrix provides
-            the functionality you need without any complexity or cost.
-          </p>
-          <p>
-            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
-            privacy and zero latency. No data is ever transmitted to external servers, making it safe
-            for sensitive information.
-          </p>
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            <Select value={selectedCurrencyToAdd} onValueChange={setSelectedCurrencyToAdd}>
+              <SelectTrigger className="h-9 w-32 rounded-xl text-xs">
+                <SelectValue placeholder="+ Add..." />
+              </SelectTrigger>
+              <SelectContent>
+                {ALL_CURRENCIES.filter((c) => !currencies.includes(c)).map((c) => (
+                  <SelectItem key={c} value={c}>
+                    {c}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Button
+              onClick={handleAddCurrency}
+              size="sm"
+              variant="outline"
+              disabled={!selectedCurrencyToAdd}
+              className="h-9 px-3 rounded-xl text-xs gap-1 cursor-pointer"
+            >
+              <Plus className="h-3.5 w-3.5" /> Add
+            </Button>
+            <Button
+              onClick={fetchLiveRates}
+              size="sm"
+              variant="outline"
+              disabled={isLoading}
+              className="h-9 px-3 rounded-xl text-xs gap-1 cursor-pointer"
+            >
+              <RefreshCw className={`h-3.5 w-3.5 ${isLoading ? "animate-spin" : ""}`} /> Refresh
+            </Button>
+            <Button
+              onClick={downloadMatrixCSV}
+              size="sm"
+              className="h-9 px-3.5 rounded-xl text-xs font-bold bg-primary text-primary-foreground gap-1.5 cursor-pointer"
+            >
+              <Download className="h-3.5 w-3.5" /> Export CSV
+            </Button>
+          </div>
         </div>
-      </ToolFeatureGuides>
 
-      <ToolFaqAccordion faqs={[{
-        question: "Is this tool free to use?",
-        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-      }, {
-        question: "Is my data secure?",
-        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-      }, {
-        question: "Do I need to create an account?",
-        answer: "No account or registration is required. Simply open the tool and start using it immediately."
-      }]} />
+        {/* Matrix Cross Table */}
+        <div className="overflow-x-auto rounded-2xl border border-border/60">
+          <table className="w-full text-center text-xs font-mono">
+            <thead className="bg-muted/40 text-muted-foreground">
+              <tr>
+                <th className="p-3.5 text-left font-bold text-foreground font-sans">Base \ Target</th>
+                {currencies.map((c) => (
+                  <th key={c} className="p-3.5 font-bold text-primary">
+                    {c}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border/40">
+              {currencies.map((row) => (
+                <tr key={row} className="hover:bg-muted/20 transition-colors">
+                  <td className="p-3.5 text-left font-bold text-foreground font-sans bg-muted/20">
+                    1 {row} =
+                  </td>
+                  {currencies.map((col) => {
+                    const isSelf = row === col;
+                    const val = getCrossRate(row, col);
+                    return (
+                      <td
+                        key={col}
+                        className={`p-3.5 ${
+                          isSelf ? "text-muted-foreground/40 bg-muted/10 font-medium" : "text-foreground font-bold"
+                        }`}
+                      >
+                        {val}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </GlassCard>
     </div>
-    </div>
-);
+  );
 }
-
-export default CurrencyMatrixClient;

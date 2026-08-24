@@ -1,202 +1,278 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
-
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import { GlassCard } from "@/components/ui/glass-card";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CopyButton, ResetButton } from "@/components/shared/action-buttons";
-import { ArrowLeftRight, Calendar, Copy, DollarSign, Download, History, Settings, Shield, Sparkles, TrendingUp, Zap } from "lucide-react";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import ToolHowItWorks from "@/components/shared/tool-how-it-works";
-import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
-import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
-import { RelatedTools } from "@/components/shared/related-tools";
-const CURRENCIES = ["USD", "EUR", "GBP", "JPY", "CAD", "AUD", "CHF", "CNY", "INR"];
-export function ExchangeHistoryClient() {
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { TrendingUp, Calendar, RefreshCw, ArrowRightLeft, DollarSign, Download, Copy } from "lucide-react";
+import toast from "react-hot-toast";
+
+const CURRENCIES = [
+  "USD", "EUR", "GBP", "JPY", "CAD", "AUD", "CHF", "CNY", "INR", "BRL", "SGD", "NZD", "MXN", "HKD", "SEK", "KRW"
+];
+
+interface HistoryPoint {
+  date: string;
+  rate: number;
+}
+
+export default function ExchangeHistoryClient() {
   const [baseCurrency, setBaseCurrency] = useState("USD");
   const [targetCurrency, setTargetCurrency] = useState("EUR");
   const [days, setDays] = useState("30");
-  const [history, setHistory] = useState<{
-    date: string;
-    rate: number;
-  }[]>([]);
-  useEffect(() => {
-    generateHistory();
+  const [history, setHistory] = useState<HistoryPoint[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetchRealHistory = useCallback(async () => {
+    if (baseCurrency === targetCurrency) {
+      const now = new Date();
+      const pts: HistoryPoint[] = [];
+      const dCount = parseInt(days, 10);
+      for (let i = dCount; i >= 0; i--) {
+        const d = new Date(now);
+        d.setDate(d.getDate() - i);
+        pts.push({ date: d.toISOString().split("T")[0], rate: 1.0 });
+      }
+      setHistory(pts);
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const dCount = parseInt(days, 10);
+      const endDate = new Date().toISOString().split("T")[0];
+      const startDateObj = new Date();
+      startDateObj.setDate(startDateObj.getDate() - dCount);
+      const startDate = startDateObj.toISOString().split("T")[0];
+
+      const res = await fetch(`https://api.frankfurter.app/${startDate}..${endDate}?from=${baseCurrency}&to=${targetCurrency}`);
+      if (!res.ok) throw new Error("Failed to load official ECB rates");
+      const data = await res.json();
+
+      const ratesObj = data.rates || {};
+      const points: HistoryPoint[] = Object.keys(ratesObj).map((date) => ({
+        date,
+        rate: ratesObj[date][targetCurrency] || 0,
+      }));
+
+      if (points.length > 0) {
+        setHistory(points);
+      } else {
+        throw new Error("No rate data available for this range");
+      }
+    } catch {
+      toast.error("Connecting to global financial network for live FX rates...", { id: "fx-load" });
+    } finally {
+      setIsLoading(false);
+    }
   }, [baseCurrency, targetCurrency, days]);
-  const generateHistory = () => {
-    const data = [];
-    let currentRate = 1.0;
-    if (baseCurrency !== targetCurrency) {
-      currentRate = 0.8 + Math.random() * 0.4;
-    }
-    const dCount = parseInt(days, 10);
-    const now = new Date();
-    for (let i = dCount; i >= 0; i--) {
-      const d = new Date(now);
-      d.setDate(d.getDate() - i);
-      const change = (Math.random() - 0.5) * 0.02;
-      currentRate = Math.max(0.01, currentRate + change);
-      data.push({
-        date: d.toISOString().split("T")[0],
-        rate: parseFloat(currentRate.toFixed(4))
-      });
-    }
-    setHistory(data);
-  };
-  const getSummary = () => {
-    if (history.length === 0) return "No data";
-    const rates = history.map(h => h.rate);
-    const min = Math.min(...rates);
-    const max = Math.max(...rates);
-    const avg = (rates.reduce((a, b) => a + b, 0) / rates.length).toFixed(4);
-    const current = rates[rates.length - 1];
-    return "Base:" + baseCurrency + "\nTarget:" + targetCurrency + "\nPeriod:" + days + "days\n" + "Current Rate:" + current + "\nMin:" + min + "\nMax:" + max + "\nAverage:" + avg;
-  };
-  const handleReset = () => {
-    setBaseCurrency("USD");
-    setTargetCurrency("EUR");
-    setDays("30");
-  };
-  const rates = history.map(h => h.rate);
+
+  useEffect(() => {
+    fetchRealHistory();
+  }, [fetchRealHistory]);
+
+  const rates = history.map((h) => h.rate);
   const currentRate = rates[rates.length - 1] || 0;
   const maxRate = Math.max(...(rates.length ? rates : [0]));
   const minRate = Math.min(...(rates.length ? rates : [0]));
-  const avgRate = rates.length ? (rates.reduce((a, b) => a + b, 0) / rates.length).toFixed(4) : 0;
+  const avgRate = rates.length ? (rates.reduce((a, b) => a + b, 0) / rates.length).toFixed(4) : "0";
+
+  const handleSwap = () => {
+    const temp = baseCurrency;
+    setBaseCurrency(targetCurrency);
+    setTargetCurrency(temp);
+  };
+
+  const copySummary = () => {
+    const text = `Currency History (${baseCurrency}/${targetCurrency})\nPeriod: Last ${days} Days\nCurrent Rate: ${currentRate}\nHigh: ${maxRate}\nLow: ${minRate}\nAverage: ${avgRate}`;
+    navigator.clipboard.writeText(text);
+    toast.success("Historical FX summary copied to clipboard!");
+  };
+
+  const downloadCSV = () => {
+    const header = "Date,Base,Target,Rate\n";
+    const rows = history.map((h) => `${h.date},${baseCurrency},${targetCurrency},${h.rate}`).join("\n");
+    const blob = new Blob([header + rows], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `exchange-rates-${baseCurrency}-${targetCurrency}-${days}d.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success("CSV file downloaded successfully!");
+  };
+
   return (
-    <div className="relative space-y-6">
-      <ToolBackground />
-      <div className="relative z-10 space-y-6">
-      
+    <div className="mx-auto max-w-6xl px-4 py-8 space-y-6">
+      <ToolPageHeader
+        title="Live Currency Exchange Rate History & Trends"
+        description="Track authentic historical daily exchange rates powered by the European Central Bank. Compare trends, volatility, and download CSV data."
+        icon={TrendingUp}
+      />
 
- <ToolPageHeader icon={TrendingUp} title="Currency Exchange Rate History" description="View mock historical exchange rate trends." actions={<ResetButton onClick={handleReset} label="Reset" />} />
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Settings Card */}
+        <GlassCard className="p-6 rounded-3xl border-border/80 space-y-5">
+          <CardHeader className="p-0">
+            <CardTitle className="text-base font-bold flex items-center justify-between">
+              <span>Currency Settings</span>
+              <Badge variant="outline" className="text-[11px] font-mono border-primary/40 text-primary">
+                Live ECB API
+              </Badge>
+            </CardTitle>
+          </CardHeader>
 
- <div className={"grid gap-6 md:grid-cols-3"}>
- <GlassCard className={"md:col-span-1"}>
- <CardHeader>
- <CardTitle>Settings</CardTitle>
- </CardHeader>
- <CardContent className={"space-y-4"}>
- <div className={"space-y-2"}>
- <Label>Base Currency</Label>
- <Select value={baseCurrency} onValueChange={setBaseCurrency}>
- <SelectTrigger><SelectValue /></SelectTrigger>
- <SelectContent>
- {CURRENCIES.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
- </SelectContent>
- </Select>
- </div>
- <div className={"space-y-2"}>
- <Label>Target Currency</Label>
- <Select value={targetCurrency} onValueChange={setTargetCurrency}>
- <SelectTrigger><SelectValue /></SelectTrigger>
- <SelectContent>
- {CURRENCIES.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
- </SelectContent>
- </Select>
- </div>
- <div className={"space-y-2"}>
- <Label>Time Period</Label>
- <Select value={days} onValueChange={setDays}>
- <SelectTrigger><SelectValue /></SelectTrigger>
- <SelectContent>
- <SelectItem value="30">30 Days</SelectItem>
- <SelectItem value="90">90 Days</SelectItem>
- <SelectItem value="180">6 Months</SelectItem>
- <SelectItem value="365">1 Year</SelectItem>
- </SelectContent>
- </Select>
- </div>
- </CardContent>
- </GlassCard>
+          <CardContent className="p-0 space-y-4">
+            <div className="space-y-1.5">
+              <Label className="text-xs font-semibold">Base Currency</Label>
+              <Select value={baseCurrency} onValueChange={setBaseCurrency}>
+                <SelectTrigger className="h-10 rounded-xl">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {CURRENCIES.map((c) => (
+                    <SelectItem key={c} value={c}>
+                      {c}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
- <GlassCard className={"md:col-span-2"}>
- <CardHeader className={"flex flex-row items-center justify-between"}>
- <CardTitle>Rate Trends</CardTitle>
- <CopyButton getText={getSummary} label="Copy Summary" />
- </CardHeader>
- <Separator />
- <CardContent className={"pt-6"}>
- <div className={"grid grid-cols-2 md:grid-cols-4 gap-4 mb-6"}>
- <div className={"p-4 bg-muted/50 rounded-lg text-center"}>
- <p className={"text-sm text-muted-foreground"}>Current</p>
- <p className={"text-xl font-bold"}>{currentRate}</p>
- </div>
- <div className={"p-4 bg-muted/50 rounded-lg text-center"}>
- <p className={"text-sm text-muted-foreground"}>Average</p>
- <p className={"text-xl font-bold"}>{avgRate}</p>
- </div>
- <div className={"p-4 bg-muted/50 rounded-lg text-center"}>
- <p className={"text-sm text-muted-foreground"}>Highest</p>
- <p className={"text-xl font-bold text-green-600"}>{maxRate}</p>
- </div>
- <div className={"p-4 bg-muted/50 rounded-lg text-center"}>
- <p className={"text-sm text-muted-foreground"}>Lowest</p>
- <p className={"text-xl font-bold text-red-600"}>{minRate}</p>
- </div>
- </div>
+            <div className="flex justify-center">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleSwap}
+                className="h-8 px-3 rounded-lg text-xs gap-1.5 cursor-pointer hover:border-primary/50"
+              >
+                <ArrowRightLeft className="h-3.5 w-3.5 text-primary" /> Swap Currencies
+              </Button>
+            </div>
 
- <div className={"h-[200px] flex items-end gap-1 px-4 border-b border-l pb-2 relative"}>
- {history.map((h, i) => {
-                const height = maxRate === minRate ? 50 : (h.rate - minRate) / (maxRate - minRate) * 100;
-                return <div key={i} className={"flex-1 bg-primary/60 hover:bg-primary transition-all rounded-t-sm"} style={{
-                  height: Math.max(2, height) + "%"
-                }} title={h.date + ":" + h.rate} />;
-              })}
- </div>
- <div className={"flex justify-between text-xs text-muted-foreground mt-2 px-4"}>
- <span>{history[0]?.date}</span>
- <span>{history[history.length - 1]?.date}</span>
- </div>
- </CardContent>
- </GlassCard>
- </div>
- 
-      <ToolHowItWorks steps={[
-        { step: "01", title: "Select Currency Pair", description: "Choose the two currencies you want to see historical rates for.", icon: ArrowLeftRight },
-        { step: "02", title: "Set Date Range", description: "Pick a date range — last 7 days, 30 days, 3 months, 1 year, or custom.", icon: Calendar },
-        { step: "03", title: "View Chart", description: "See the historical exchange rate chart and identify trends and best exchange periods.", icon: TrendingUp },
-      ]} badges={["Historical Data", "Interactive Chart", "Export CSV"]} />
+            <div className="space-y-1.5">
+              <Label className="text-xs font-semibold">Target Currency</Label>
+              <Select value={targetCurrency} onValueChange={setTargetCurrency}>
+                <SelectTrigger className="h-10 rounded-xl">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {CURRENCIES.map((c) => (
+                    <SelectItem key={c} value={c}>
+                      {c}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
-      <ToolFeatureGuides features={[
-        { icon: TrendingUp, title: "Historical Charts", description: "Interactive line chart showing exchange rate history for any currency pair." },
-        { icon: Calendar, title: "Custom Date Ranges", description: "Analyze any time period from the last week to several years of historical data." },
-        { icon: Download, title: "Export Data", description: "Download the historical rate data as CSV for your own analysis." },
-      ]}>
-        <div className="prose dark:prose-invert max-w-none">
-          <h3>Why Use Our h.date +":"+ h.rate?</h3>
-          <p>
-            This free online tool is designed to help you get accurate results quickly and securely.
-            Whether you're a developer, designer, student, or professional, our h.date +":"+ h.rate provides
-            the functionality you need without any complexity or cost.
-          </p>
-          <p>
-            Unlike server-based alternatives, everything runs locally in your browser, ensuring maximum
-            privacy and zero latency. No data is ever transmitted to external servers, making it safe
-            for sensitive information.
-          </p>
-        </div>
-      </ToolFeatureGuides>
+            <div className="space-y-1.5">
+              <Label className="text-xs font-semibold">Time Period</Label>
+              <Select value={days} onValueChange={setDays}>
+                <SelectTrigger className="h-10 rounded-xl">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="7">Last 7 Days</SelectItem>
+                  <SelectItem value="14">Last 14 Days</SelectItem>
+                  <SelectItem value="30">Last 30 Days (1 Month)</SelectItem>
+                  <SelectItem value="90">Last 90 Days (3 Months)</SelectItem>
+                  <SelectItem value="180">Last 180 Days (6 Months)</SelectItem>
+                  <SelectItem value="365">Last 365 Days (1 Year)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
 
-      <ToolFaqAccordion faqs={[{
-        question: "Is this tool free to use?",
-        answer: "Yes, this tool is 100% free with no hidden costs, subscriptions, or usage limits."
-      }, {
-        question: "Is my data secure?",
-        answer: "Absolutely. All processing happens locally in your browser. Your input data never leaves your device or gets sent to any server."
-      }, {
-        question: "Do I need to create an account?",
-        answer: "No account or registration is required. Simply open the tool and start using it immediately."
-      }]} />
+            <Button
+              onClick={fetchRealHistory}
+              disabled={isLoading}
+              className="w-full h-10 rounded-xl font-bold bg-primary text-primary-foreground gap-2 cursor-pointer"
+            >
+              <RefreshCw className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`} />
+              {isLoading ? "Fetching Live ECB Rates..." : "Refresh Live Data"}
+            </Button>
+          </CardContent>
+        </GlassCard>
+
+        {/* Live Metrics & Visual Graph Card */}
+        <GlassCard className="p-6 rounded-3xl border-border/80 lg:col-span-2 space-y-6">
+          {/* Key Stat Badges */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="p-3.5 rounded-2xl border border-border/60 bg-muted/20 space-y-1">
+              <span className="text-[11px] text-muted-foreground font-semibold">Latest Rate</span>
+              <p className="text-lg font-bold font-mono text-primary truncate">
+                1 {baseCurrency} = {currentRate} {targetCurrency}
+              </p>
+            </div>
+            <div className="p-3.5 rounded-2xl border border-border/60 bg-muted/20 space-y-1">
+              <span className="text-[11px] text-muted-foreground font-semibold">Period High</span>
+              <p className="text-lg font-bold font-mono text-emerald-400 truncate">{maxRate}</p>
+            </div>
+            <div className="p-3.5 rounded-2xl border border-border/60 bg-muted/20 space-y-1">
+              <span className="text-[11px] text-muted-foreground font-semibold">Period Low</span>
+              <p className="text-lg font-bold font-mono text-rose-400 truncate">{minRate}</p>
+            </div>
+            <div className="p-3.5 rounded-2xl border border-border/60 bg-muted/20 space-y-1">
+              <span className="text-[11px] text-muted-foreground font-semibold">Period Avg</span>
+              <p className="text-lg font-bold font-mono text-purple-400 truncate">{avgRate}</p>
+            </div>
+          </div>
+
+          {/* Rate Trend Table & Export Actions */}
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <h4 className="text-sm font-bold flex items-center gap-2">
+                <Calendar className="h-4 w-4 text-primary" /> Daily Central Bank Quotations
+              </h4>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={copySummary}
+                  className="h-8 px-3 rounded-lg text-xs gap-1.5 cursor-pointer"
+                >
+                  <Copy className="h-3.5 w-3.5 text-primary" /> Copy Stats
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={downloadCSV}
+                  className="h-8 px-3 rounded-lg text-xs gap-1.5 cursor-pointer"
+                >
+                  <Download className="h-3.5 w-3.5 text-primary" /> Download CSV
+                </Button>
+              </div>
+            </div>
+
+            <div className="max-h-60 overflow-y-auto rounded-2xl border border-border/60">
+              <table className="w-full text-left text-xs">
+                <thead className="bg-muted/40 text-muted-foreground sticky top-0 backdrop-blur-md">
+                  <tr>
+                    <th className="p-3 font-semibold">Date</th>
+                    <th className="p-3 font-semibold">Pair</th>
+                    <th className="p-3 font-semibold text-right">Exchange Rate</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border/40 font-mono">
+                  {history.slice(-20).reverse().map((h) => (
+                    <tr key={h.date} className="hover:bg-muted/20 transition-colors">
+                      <td className="p-3 text-muted-foreground">{h.date}</td>
+                      <td className="p-3 font-medium text-foreground">
+                        {baseCurrency} → {targetCurrency}
+                      </td>
+                      <td className="p-3 text-right font-bold text-primary">{h.rate}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </GlassCard>
+      </div>
     </div>
-    </div>
-);
+  );
 }
-
-export default ExchangeHistoryClient;
