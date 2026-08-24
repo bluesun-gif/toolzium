@@ -4,7 +4,7 @@ export const runtime = "nodejs";
 
 const GROQ_KEYS = (process.env.GROQ_API_KEYS || process.env.GROQ_API_KEY || "")
   .split(",")
-  .map((k) => k.trim())
+  .map((k) => k.trim().replace(/^["']|["']$/g, ""))
   .filter(Boolean);
 
 let groqIndex = 0;
@@ -27,61 +27,80 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: false, fallback: true, message: "No API key configured" });
     }
 
-    const systemPrompt = `You are a world-class onomastics expert and multicultural linguist specializing in baby names, historical etymology, and phonetics.
-Generate EXACTLY ${count} authentic, meaningful names matching the user's criteria.
+    const genderDesc = gender === "boy" ? "boys/male" : gender === "girl" ? "girls/female" : "boys and girls";
+    const originDesc = origin === "all" ? "multicultural global cultures" : `${origin} culture`;
+    const themeDesc = theme === "all" ? "meaningful and profound" : `${theme} meaning/vibe`;
 
-Return STRICTLY a JSON array of objects with NO markdown formatting, NO backticks, NO text before or after.
-Each object must have:
-- name: string (e.g. "Harun", "Amira", "Idris")
-- gender: "boy" | "girl" | "unisex"
-- origin: string (e.g. "arabic", "celtic", "norse", "sanskrit", "japanese", "latin", "greek", "hebrew")
-- meaning: string (rich authentic etymology, e.g. "Exalted warrior and noble prophet of eloquent speech")
-- pronunciation: string (e.g. "hah-ROON")
-- syllables: number (e.g. 2)
-- theme: "Light & Sun" | "Strength" | "Nature & Earth" | "Wisdom" | "Royalty" | "Love & Grace" | "Peace"
-- vibe: string (e.g. "Regal Islamic Classic", "Mystical & Radiant")`;
+    const userPrompt = `You are a world-class onomastics linguist. Generate EXACTLY ${count} unique, authentic, culturally accurate names for ${genderDesc} in ${originDesc} with ${themeDesc}.
+${searchQuery ? `Must connect to search term: "${searchQuery}".` : ""}
+${customPrompt ? `User customization: "${customPrompt}".` : ""}
+Keep each meaning concise (under 12 words).
 
-    const userPrompt = `Generate ${count} names with these criteria:
-- Gender Preference: ${gender}
-- Culture/Origin: ${origin}
-- Meaning/Theme: ${theme}
-- Search Filter/Keywords: ${searchQuery || "None"}
-- Custom User Guidance: ${customPrompt || "None"}
+Return STRICTLY a JSON array of ${count} objects with fields:
+name (string), gender ("boy"|"girl"|"unisex"), origin (string), meaning (string), pronunciation (string), syllables (number), theme (string), vibe (string).
+No markdown formatting, no code fences, no text before or after.`;
 
-Ensure every name has 100% accurate historical/linguistic etymology. Return ONLY JSON array.`;
+    const modelsToTry = ["openai/gpt-oss-120b", "openai/gpt-oss-20b", "qwen/qwen3.6-27b"];
+    let parsedNames: any[] = [];
 
-    const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${groqKey}`
-      },
-      body: JSON.stringify({
-        model: "llama-3.3-70b-versatile",
-        messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: userPrompt }
-        ],
-        temperature: 0.7,
-        max_tokens: 1500
-      })
-    });
+    for (const model of modelsToTry) {
+      try {
+        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${groqKey}`
+          },
+          body: JSON.stringify({
+            model,
+            messages: [{ role: "user", content: userPrompt }],
+            temperature: 0.75,
+            max_tokens: 3000
+          })
+        });
 
-    if (!res.ok) {
-      return NextResponse.json({ success: false, fallback: true });
+        if (res.ok) {
+          const data = await res.json();
+          const raw = data.choices?.[0]?.message?.content || "";
+          const cleaned = raw
+            .replace(/```json/g, "")
+            .replace(/```/g, "")
+            .replace(/<think>[\s\S]*?<\/think>/g, "")
+            .trim();
+
+          const jsonStart = cleaned.indexOf("[");
+          const jsonEnd = cleaned.lastIndexOf("]");
+          if (jsonStart !== -1 && jsonEnd !== -1) {
+            const jsonSubstring = cleaned.substring(jsonStart, jsonEnd + 1);
+            const parsed = JSON.parse(jsonSubstring);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              parsedNames = parsed;
+              break;
+            }
+          }
+        }
+      } catch (err) {
+        console.error(`Error with model ${model}:`, err);
+      }
     }
 
-    const data = await res.json();
-    const rawContent = data.choices?.[0]?.message?.content || "";
-    
-    // Clean JSON formatting
-    const cleaned = rawContent
-      .replace(/```json/g, "")
-      .replace(/```/g, "")
-      .trim();
+    if (parsedNames.length > 0) {
+      const sanitized = parsedNames.map((item: any) => ({
+        name: String(item.name || "").trim(),
+        gender: String(item.gender || "unisex").toLowerCase().includes("boy") || String(item.gender || "").toLowerCase().includes("male") ? "boy" : String(item.gender || "").toLowerCase().includes("girl") || String(item.gender || "").toLowerCase().includes("female") ? "girl" : "unisex",
+        origin: String(item.origin || origin || "global").toLowerCase(),
+        meaning: String(item.meaning || "Eminent name of distinct honor and grace"),
+        pronunciation: String(item.pronunciation || item.name || "").replace(/^\/+|\/+$/g, ""),
+        syllables: Number(item.syllables) || 2,
+        theme: String(item.theme || theme || "Royalty"),
+        vibe: String(item.vibe || "Noble & Timeless"),
+        isAiGenerated: true
+      })).filter((n) => n.name.length > 1);
 
-    const parsedNames = JSON.parse(cleaned);
-    return NextResponse.json({ success: true, names: parsedNames });
+      return NextResponse.json({ success: true, names: sanitized });
+    }
+
+    return NextResponse.json({ success: false, fallback: true });
   } catch (err: any) {
     return NextResponse.json({ success: false, fallback: true, error: err.message });
   }
