@@ -7,22 +7,18 @@ import { useEffect, Suspense } from "react";
 const GTM_ID = "GTM-KRV3TG75";
 const GA_MEASUREMENT_ID = "G-52F5EMG6BC";
 
-declare global {
-  interface Window {
-    gtag?: (...args: unknown[]) => void;
-    dataLayer?: unknown[];
-  }
-}
-
 function PageViewTracker() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    if (!pathname || typeof window === "undefined" || !window.gtag) return;
+    if (!pathname || typeof window === "undefined") return;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const win = window as any;
+    if (typeof win.gtag !== "function") return;
     const search = searchParams?.toString();
     const url = pathname + (search ? `?${search}` : "");
-    window.gtag("config", GA_MEASUREMENT_ID, {
+    win.gtag("config", GA_MEASUREMENT_ID, {
       page_path: url,
       page_title: document.title,
     });

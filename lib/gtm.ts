@@ -3,15 +3,13 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type DataLayerEvent = Record<string, any>;
 
-declare global {
-  interface Window {
-    dataLayer: DataLayerEvent[];
-  }
-}
-
 export function gtmPush(data: DataLayerEvent) {
-  if (typeof window !== "undefined" && window.dataLayer) {
-    window.dataLayer.push(data);
+  if (typeof window !== "undefined") {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const dl = (window as any).dataLayer;
+    if (Array.isArray(dl)) {
+      dl.push(data);
+    }
   }
 }
 
