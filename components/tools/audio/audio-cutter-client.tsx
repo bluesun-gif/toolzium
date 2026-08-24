@@ -370,11 +370,19 @@ export default function AudioCutterClient() {
             className="w-full h-40 rounded-xl cursor-crosshair"
           />
           {/* Time markers bar */}
-          <div className="flex justify-between text-[11px] font-mono text-muted-foreground pt-2">
-            <span>00:00.00</span>
-            <span className="text-purple-400 font-bold">Start: {formatTime(startTime)}</span>
-            <span className="text-pink-400 font-bold">End: {formatTime(endTime)}</span>
-            <span>{formatTime(duration)}</span>
+          <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono text-muted-foreground pt-2.5">
+            <div className="flex items-center gap-2">
+              <span className="opacity-70">00:00.00</span>
+              <span className="text-purple-400 font-bold bg-purple-500/10 px-2 py-0.5 rounded-md">
+                Start: {formatTime(startTime)}
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-pink-400 font-bold bg-pink-500/10 px-2 py-0.5 rounded-md">
+                End: {formatTime(endTime)}
+              </span>
+              <span className="opacity-70">{formatTime(duration)}</span>
+            </div>
           </div>
         </div>
 
