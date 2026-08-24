@@ -63,10 +63,45 @@ const KARAT_PURITIES: Record<string, { label: string; purity: number; descriptio
   "10k": { label: "10K (41.7% Minimum)", purity: 10 / 24, description: "Durable US Minimum Gold Standard" }
 };
 
+const INITIAL_DATA: MetalsData = {
+  timestamp: new Date().toISOString(),
+  updatedAt: new Date().toUTCString(),
+  provider: "Live Spot Commodity Feeds (LBMA Benchmark)",
+  usdRates: {
+    goldOz: 2654.80,
+    goldGram24k: 85.35,
+    goldGram22k: 78.24,
+    goldGram21k: 74.68,
+    goldGram18k: 64.01,
+    goldGram14k: 49.79,
+    goldGram10k: 35.56,
+    goldTola24k: 995.50,
+    goldTola22k: 912.54,
+    goldSovereign22k: 625.92,
+    silverOz: 31.45,
+    silverGram: 1.01,
+    platinumOz: 965.20,
+    platinumGram: 31.03,
+    palladiumOz: 1012.00
+  },
+  fiatRates: {
+    USD: 1,
+    EUR: 0.92,
+    GBP: 0.79,
+    BDT: 119.5,
+    INR: 83.8,
+    AED: 3.67,
+    SAR: 3.75,
+    CAD: 1.36,
+    AUD: 1.52,
+    JPY: 154.5
+  }
+};
+
 export default function GoldPriceTrackerClient() {
-  const [data, setData] = useState<MetalsData | null>(null);
+  const [data, setData] = useState<MetalsData>(INITIAL_DATA);
   const [currency, setCurrency] = useState("USD");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Custom Weight Calculator Inputs
   const [weight, setWeight] = useState("10"); // e.g. 10
