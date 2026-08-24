@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Code, Copy, Check, ExternalLink } from "lucide-react";
+import { Code, Copy, Check, ExternalLink, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -21,29 +21,26 @@ interface ToolEmbedButtonProps {
 
 export function ToolEmbedButton({ toolTitle, toolUrl }: ToolEmbedButtonProps) {
   const [copied, setCopied] = useState(false);
-  const [height, setHeight] = useState("600");
+  const [height, setHeight] = useState("650");
 
-  const path = typeof window !== "undefined" ? window.location.pathname : toolUrl || "";
+  const path = typeof window !== "undefined" ? (toolUrl || window.location.pathname) : (toolUrl || "");
   const embedPath = path.replace(/^\/tools\//, "/embed/tools/");
   const origin = typeof window !== "undefined" ? window.location.origin : "https://toolzium.com";
   const embedUrl = `${origin}${embedPath}`;
+  const toolPageUrl = `${origin}${path}`;
 
-  const iframeSnippet = `<iframe src="${embedUrl}" width="100%" height="${height}" frameborder="0" style="border-radius: 16px; border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 4px 20px rgba(0,0,0,0.05);" title="${toolTitle} — Toolzium"></iframe>`;
+  const iframeSnippet = `<div style="max-width: 100%; margin: 16px auto; font-family: system-ui, sans-serif;">
+  <iframe src="${embedUrl}" width="100%" height="${height}" frameborder="0" style="border-radius: 20px; border: 1px solid rgba(0,0,0,0.12); box-shadow: 0 10px 30px rgba(0,0,0,0.06); display: block;" title="${toolTitle} — Toolzium"></iframe>
+  <div style="text-align: right; padding: 6px 8px; font-size: 12px; color: #64748b;">
+    Free <a href="${toolPageUrl}" target="_blank" rel="noopener" style="color: #6366f1; font-weight: 600; text-decoration: none;">${toolTitle}</a> by <a href="https://toolzium.com" target="_blank" rel="noopener" style="color: #6366f1; font-weight: 700; text-decoration: none;">Toolzium</a>
+  </div>
+</div>`;
 
   const copyEmbedCode = async () => {
     try {
       await navigator.clipboard.writeText(iframeSnippet);
       setCopied(true);
-      toast.success("Embed HTML code copied to clipboard!", {
-        icon: "📋",
-        style: {
-          borderRadius: "12px",
-          background: "#18181b",
-          color: "#fff",
-          fontSize: "13px",
-          fontWeight: "600",
-        },
-      });
+      toast.success("Embed HTML code copied to clipboard!");
       setTimeout(() => setCopied(false), 2000);
     } catch {
       toast.error("Failed to copy embed code");
@@ -56,34 +53,34 @@ export function ToolEmbedButton({ toolTitle, toolUrl }: ToolEmbedButtonProps) {
         <Button
           variant="outline"
           size="sm"
-          className="h-8 sm:h-9 px-2.5 sm:px-3 rounded-xl border-border/80 bg-background/50 hover:bg-background/80 text-muted-foreground hover:text-foreground text-xs font-semibold gap-1.5 cursor-pointer shadow-xs transition active:scale-95"
+          className="h-8.5 px-3 rounded-xl border-border/80 bg-background/50 hover:bg-background/80 text-muted-foreground hover:text-foreground text-xs font-semibold gap-1.5 cursor-pointer shadow-xs transition"
         >
-          <Code className="h-3.5 w-3.5 text-primary shrink-0" />
-          <span>Embed</span>
+          <Code className="h-4 w-4 text-primary shrink-0" />
+          <span className="hidden sm:inline">Embed</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-lg rounded-2xl p-6">
+      <DialogContent className="sm:max-w-lg rounded-3xl p-6">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-lg font-bold">
             <Code className="h-5 w-5 text-primary" />
             Embed {toolTitle} on Your Website
           </DialogTitle>
           <DialogDescription className="text-xs text-muted-foreground">
-            Copy and paste this lightweight, responsive widget code into your blog, documentation, or CMS.
+            Copy and paste this free, responsive widget into your blog, documentation, or WordPress site.
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 pt-2">
           {/* Height Config */}
           <div className="flex items-center justify-between text-xs">
-            <span className="font-semibold text-foreground">Widget Height (px):</span>
+            <span className="font-semibold text-foreground">Widget Height:</span>
             <div className="flex items-center gap-2">
-              {["500", "600", "750"].map((h) => (
+              {["550", "650", "800"].map((h) => (
                 <button
                   key={h}
                   type="button"
                   onClick={() => setHeight(h)}
-                  className={`px-2.5 py-1 rounded-lg border text-xs font-mono font-medium transition cursor-pointer ${
+                  className={`px-3 py-1 rounded-xl border text-xs font-mono font-bold transition cursor-pointer ${
                     height === h
                       ? "bg-primary text-primary-foreground border-primary"
                       : "bg-muted text-muted-foreground hover:text-foreground border-border/60"
@@ -96,35 +93,27 @@ export function ToolEmbedButton({ toolTitle, toolUrl }: ToolEmbedButtonProps) {
           </div>
 
           {/* HTML Code Box */}
-          <div className="relative rounded-xl border border-border/80 bg-muted/50 p-3">
-            <pre className="text-[11px] font-mono text-muted-foreground overflow-x-auto whitespace-pre-wrap break-all select-all max-h-32">
+          <div className="relative rounded-2xl border border-border/80 bg-muted/40 p-3.5">
+            <pre className="text-[11px] font-mono text-muted-foreground overflow-x-auto whitespace-pre-wrap break-all select-all max-h-36">
               {iframeSnippet}
             </pre>
-          </div>
-
-          {/* Action Row */}
-          <div className="flex items-center gap-2 pt-1">
             <Button
+              size="sm"
               onClick={copyEmbedCode}
-              className="flex-1 gap-2 rounded-xl font-bold bg-primary text-primary-foreground hover:opacity-90 shadow-md h-10 cursor-pointer"
+              className="mt-3 w-full h-10 rounded-xl text-xs font-bold gap-1.5 bg-primary text-primary-foreground cursor-pointer"
             >
               {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-              {copied ? "Copied HTML Code!" : "Copy Embed Code"}
-            </Button>
-            <Button
-              variant="outline"
-              asChild
-              className="rounded-xl h-10 px-3 border-border/80"
-            >
-              <a href={embedUrl} target="_blank" rel="noopener noreferrer" title="Preview Widget in New Tab">
-                <ExternalLink className="h-4 w-4" />
-              </a>
+              <span>{copied ? "Embed Code Copied!" : "Copy Embed HTML Code"}</span>
             </Button>
           </div>
 
-          <p className="text-[11px] text-center text-muted-foreground">
-            ⚡ 100% Free • Powered by Toolzium • Client-Side Execution
-          </p>
+          {/* Preview Note */}
+          <div className="rounded-2xl border border-border/60 bg-primary/5 p-3 text-[11px] text-muted-foreground leading-relaxed flex items-center gap-2">
+            <Sparkles className="h-4 w-4 text-primary shrink-0" />
+            <span>
+              Fully responsive, auto-scales on mobile and desktop, zero performance impact on host sites.
+            </span>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
