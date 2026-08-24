@@ -197,11 +197,11 @@ export function IndoorCyclingCalorieClient() {
           title="Indoor Cycling, Spin Bike & Outdoor Calorie Calculator"
           description="Calculate exact calories burned, average mechanical watts, fat oxidation grams, and heart rate training zones for 10-min, 15-min, 1-hour, or distance-based bike rides."
           actions={
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm" onClick={copySummary} className="h-9 px-3 rounded-xl text-xs gap-1.5 cursor-pointer">
+            <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+              <Button variant="outline" size="sm" onClick={copySummary} className="h-9 px-3 rounded-xl text-xs gap-1.5 cursor-pointer flex-1 sm:flex-initial">
                 <Copy className="h-3.5 w-3.5" /> Copy Summary
               </Button>
-              <Button size="sm" onClick={exportCSV} className="h-9 px-3.5 rounded-xl text-xs font-bold bg-primary text-primary-foreground gap-1.5 cursor-pointer">
+              <Button size="sm" onClick={exportCSV} className="h-9 px-3.5 rounded-xl text-xs font-bold bg-primary text-primary-foreground gap-1.5 cursor-pointer flex-1 sm:flex-initial">
                 <Download className="h-3.5 w-3.5" /> Export CSV
               </Button>
               <ResetButton onClick={handleReset} label="Reset" />
@@ -210,29 +210,29 @@ export function IndoorCyclingCalorieClient() {
         />
 
         {/* Mode Toggle & Presets */}
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-1.5 bg-muted/40 p-1 rounded-2xl border border-border/60">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="grid grid-cols-2 gap-1.5 bg-muted/40 p-1 rounded-2xl border border-border/60 w-full sm:w-auto">
             <button
               onClick={() => setMode("indoor")}
-              className={`px-4 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+              className={`px-3 py-2 rounded-xl text-xs font-bold text-center transition-all cursor-pointer ${
                 mode === "indoor" ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground hover:text-foreground"
               }`}
             >
-              🏋️ Stationary Spin Bike
+              🏋️ Stationary Spin
             </button>
             <button
               onClick={() => setMode("outdoor")}
-              className={`px-4 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+              className={`px-3 py-2 rounded-xl text-xs font-bold text-center transition-all cursor-pointer ${
                 mode === "outdoor" ? "bg-primary text-primary-foreground shadow-xs" : "text-muted-foreground hover:text-foreground"
               }`}
             >
-              🛣️ Outdoor Road Bike
+              🛣️ Outdoor Road
             </button>
           </div>
 
           {/* Quick Duration Buttons (Targeting high-volume queries) */}
           <div className="flex items-center gap-1.5 flex-wrap">
-            <span className="text-[11px] font-semibold text-muted-foreground mr-1">Quick Presets:</span>
+            <span className="text-[11px] font-semibold text-muted-foreground mr-1">Presets:</span>
             {[10, 15, 30, 45, 60, 90].map((mins) => (
               <button
                 key={mins}

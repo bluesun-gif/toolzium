@@ -137,15 +137,19 @@ export default function ToolPageHeader({
             </div>
 
             {/* Actions: Builtin Favorites + Share + Embed + Custom Actions */}
-            <div className="flex flex-wrap items-center gap-2 pt-2 sm:pt-0 shrink-0">
+            <div className="w-full sm:w-auto flex flex-wrap items-center gap-2 pt-3 sm:pt-0">
               {showBuiltinActions && (
-                <>
+                <div className="flex items-center gap-1.5 flex-wrap">
                   <ToolFavoriteButton tool={toolData} />
                   <ToolShareButton toolTitle={title} />
                   <ToolEmbedButton toolTitle={title} toolUrl={toolData.url} />
-                </>
+                </div>
               )}
-              {actions}
+              {actions && (
+                <div className="flex items-center gap-1.5 flex-wrap w-full sm:w-auto">
+                  {actions}
+                </div>
+              )}
             </div>
           </div>
         </div>
