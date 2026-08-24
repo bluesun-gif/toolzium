@@ -152,7 +152,7 @@ export function CodeExplainerClient() {
       {/* Required for Syntax Highlighting */}
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
 
-      <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
+      <div className="max-w-full max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader title="AI Code Explainer & Multi-Language Converter Studio" description="Decode complex algorithms, convert languages, generate unit tests, and audit Big-O complexity with high-speed AI models." icon={Code2} />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">

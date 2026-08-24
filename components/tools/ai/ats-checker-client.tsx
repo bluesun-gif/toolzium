@@ -268,7 +268,7 @@ ${resumeText.trim()}`;
     <div className="w-full min-h-screen pb-20 relative">
       <ToolBackground />
       <div className="relative z-10">
-        <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
+        <div className="max-w-full max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
           <ToolPageHeader title="AI ATS Resume Keyword & Format Scanner" description="Get a true ATS match score against any job posting — verified keyword matching, section & formatting checks, and a one-click AI rewrite that beats screening algorithms." icon={FileSearch} />
 
           <div className="space-y-6 relative z-10">

@@ -110,7 +110,7 @@ export function ProformaInvoiceClient() {
       <div className="relative z-10 space-y-6">
       
 
- <ToolPageHeader icon={FileText} title="Proforma Invoice Generator" description="Generate preliminary Proforma Invoices for trade proposals with itemized tables." actions={<div className="flex gap-2">
+ <ToolPageHeader icon={FileText} title="Proforma Invoice Generator" description="Generate preliminary Proforma Invoices for trade proposals with itemized tables." actions={<div className="flex flex-wrap items-center gap-2">
  <ResetButton onClick={handleReset} label="Reset" />
  </div>} />
  

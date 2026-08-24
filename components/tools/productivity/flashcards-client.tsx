@@ -198,7 +198,7 @@ export function FlashcardMakerClient() {
       <div className="relative z-10 space-y-6">
       
 
-      <ToolPageHeader icon={BookOpen} title="Interactive Flashcard Maker & Study Studio" description="Create study decks, memorize facts with 3D flip animation cards, shuffle study modes, and export JSON backups." actions={<div className="flex gap-2">
+      <ToolPageHeader icon={BookOpen} title="Interactive Flashcard Maker & Study Studio" description="Create study decks, memorize facts with 3D flip animation cards, shuffle study modes, and export JSON backups." actions={<div className="flex flex-wrap items-center gap-2">
             <input type="file" id="import-cards" className="hidden" accept=".json" onChange={importDecks} />
             <Button variant="outline" size="sm" onClick={() => document.getElementById("import-cards")?.click()} className="font-bold gap-2">
               <Upload className="h-4 w-4" /> Import JSON

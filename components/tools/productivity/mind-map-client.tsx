@@ -238,7 +238,7 @@ export function MindMapClient() {
       <div className="relative z-10 space-y-6">
       
 
-      <ToolPageHeader icon={Network} title="Interactive Mind Map Builder Studio" description="Visualize ideas, brain-storm business structures, and map out project nodes in a canvas interface." actions={<div className="flex gap-2">
+      <ToolPageHeader icon={Network} title="Interactive Mind Map Builder Studio" description="Visualize ideas, brain-storm business structures, and map out project nodes in a canvas interface." actions={<div className="flex flex-wrap items-center gap-2">
             <ActionButton onClick={exportJson} icon={Download} label="Export JSON" variant="outline" />
             <ResetButton onClick={() => saveToLocal(DEFAULT_MAP)} label="Clear All" />
           </div>} />

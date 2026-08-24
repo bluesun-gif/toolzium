@@ -101,8 +101,7 @@ export function SitemapGeneratorClient() {
           icon={FileCode}
           title="XML Sitemap Generator"
           description="Build search-engine ready sitemap.xml files with custom priorities, change frequencies, and instant XML validation."
-          actions={
-            <div className="flex gap-2">
+          actions={<div className="flex flex-wrap items-center gap-2">
               <CopyButton getText={generateXml} label="Copy XML" />
               <Button variant="default" onClick={downloadXml}>
                 <Download className="w-4 h-4 mr-2" /> Download XML

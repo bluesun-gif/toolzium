@@ -155,7 +155,7 @@ export function NotepadClient() {
       <div className="relative z-10 space-y-6">
       
 
-      <ToolPageHeader icon={FileText} title="Online Notepad & Multi-Tab Text Editor Studio" description="Free, secure online text editor with multi-tab support, real-time auto-save, monospace code view, and instant TXT file downloads." actions={<div className="flex gap-2">
+      <ToolPageHeader icon={FileText} title="Online Notepad & Multi-Tab Text Editor Studio" description="Free, secure online text editor with multi-tab support, real-time auto-save, monospace code view, and instant TXT file downloads." actions={<div className="flex flex-wrap items-center gap-2">
             <Button variant="outline" size="sm" onClick={handleDownload} className="font-bold gap-1.5">
               <Download className="h-4 w-4" /> Download .txt
             </Button>

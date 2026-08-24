@@ -170,7 +170,7 @@ export function ProductDescriptionClient() {
       <div className="relative z-10 space-y-6">
       
 
-      <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
+      <div className="max-w-full max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader title="AI E-Commerce Product Description Generator" description="Generate high-converting e-commerce product listings, bullet points, SEO meta tags, and social captions for Shopify and Amazon." icon={ShoppingBag} />
 
         <div className="space-y-6 relative z-10">

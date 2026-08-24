@@ -173,7 +173,7 @@ export function BlurImageClient() {
       <div className="relative z-10 space-y-6">
       
 
- <ToolPageHeader icon={ShieldAlert} title="Image Area Blur & Anonymizer" description="Hide sensitive information by blurring or pixelating regions of an image before sharing." actions={<div className="flex space-x-2">
+ <ToolPageHeader icon={ShieldAlert} title="Image Area Blur & Anonymizer" description="Hide sensitive information by blurring or pixelating regions of an image before sharing." actions={<div className="flex flex-wrap items-center gap-2">
  {image && <ResetButton onClick={() => setSelections([])} label="Clear Selections" />}
  {image && <ActionButton onClick={downloadImage} icon={Download} label="Download" />}
  </div>} />

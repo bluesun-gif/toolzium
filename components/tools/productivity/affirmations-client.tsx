@@ -97,7 +97,7 @@ export function AffirmationsClient() {
       <div className="relative z-10 space-y-6">
       
 
-      <ToolPageHeader icon={Sun} title="Daily Positive Affirmations & Mindset Studio" description="Start your morning or end your evening with positive affirmations, custom self-belief cards, and ambient mindset themes." actions={<div className="flex items-center gap-4">
+      <ToolPageHeader icon={Sun} title="Daily Positive Affirmations & Mindset Studio" description="Start your morning or end your evening with positive affirmations, custom self-belief cards, and ambient mindset themes." actions={<div className="flex flex-wrap items-center gap-4">
             <div className="flex items-center gap-2 p-1.5 rounded-xl bg-muted/60 border border-border/60">
               <Sun className={cn("w-4 h-4", isMorningMode ? "text-amber-500" : "text-muted-foreground")} />
               <Switch checked={!isMorningMode} onCheckedChange={c => setIsMorningMode(!c)} />

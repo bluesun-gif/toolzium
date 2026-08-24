@@ -70,7 +70,7 @@ export function EmergencyFundPlannerClient() {
       <div className="relative z-10 space-y-6">
       
 
- <ToolPageHeader icon={Shield} title="Emergency Fund Savings & Target Planner" description="Calculate your recommended safety net emergency fund size and monthly savings target timeline." actions={<div className="flex gap-2">
+ <ToolPageHeader icon={Shield} title="Emergency Fund Savings & Target Planner" description="Calculate your recommended safety net emergency fund size and monthly savings target timeline." actions={<div className="flex flex-wrap items-center gap-2">
  <ResetButton onClick={handleReset} label="Reset" />
  <CopyButton getText={getCopyText} label="Copy Results" />
  </div>} />

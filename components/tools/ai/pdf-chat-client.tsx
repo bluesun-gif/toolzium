@@ -364,7 +364,7 @@ Guidelines:
       <div className="relative z-10 space-y-6">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
 
-        <div className="max-w-[1400px] mx-auto p-4 md:p-6 space-y-6 relative z-10">
+        <div className="max-w-full max-w-[1400px] mx-auto p-4 md:p-6 space-y-6 relative z-10">
           <ToolPageHeader
             title="AI Document Intelligence & Chat"
             description="Upload any PDF, Word (.docx), or text document. AI reads the complete document with full context to answer your questions, analyze data, and summarize insights."

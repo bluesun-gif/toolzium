@@ -208,8 +208,7 @@ export default function GoldPriceTrackerClient() {
           icon={Coins}
           title="Live Gold Price Tracker & Scrap Melt Calculator"
           description="Real-time 24K, 22K, 21K, 18K, 14K, and 10K live gold spot rates per gram, troy ounce, tola, and sovereign across 160+ global currencies."
-          actions={
-            <div className="flex gap-2">
+          actions={<div className="flex flex-wrap items-center gap-2">
               <Button variant="outline" size="sm" onClick={fetchLiveMetals} disabled={isLoading} className="h-9 px-3 rounded-xl text-xs gap-1.5 cursor-pointer">
                 <RefreshCw className={`h-3.5 w-3.5 ${isLoading ? "animate-spin" : ""}`} /> Refresh Rates
               </Button>

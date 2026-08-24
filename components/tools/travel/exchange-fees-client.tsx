@@ -66,7 +66,7 @@ export function ExchangeFeesClient() {
       <div className="relative z-10 space-y-6">
       
 
- <ToolPageHeader icon={DollarSign} title="Currency Exchange Fee Calculator" description="Uncover hidden exchange rate markups and total foreign transaction fees." actions={<div className="flex gap-2">
+ <ToolPageHeader icon={DollarSign} title="Currency Exchange Fee Calculator" description="Uncover hidden exchange rate markups and total foreign transaction fees." actions={<div className="flex flex-wrap items-center gap-2">
  <ResetButton onClick={handleReset} label="Reset" />
  </div>} />
  

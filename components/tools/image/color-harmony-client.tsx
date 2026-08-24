@@ -169,8 +169,7 @@ export function ColorHarmonyClient() {
           icon={Palette}
           title="Color Palette Harmonizer & Generator"
           description="Generate authentic mathematical color wheel harmonies (Complementary, Triadic, Analogous, Tetradic, Monochromatic)."
-          actions={
-            <div className="flex gap-2">
+          actions={<div className="flex flex-wrap items-center gap-2">
               <Button variant="outline" size="sm" onClick={copyAllHex} className="h-9 px-3 rounded-xl text-xs gap-1.5 cursor-pointer">
                 <Copy className="h-3.5 w-3.5" /> Copy Hex
               </Button>

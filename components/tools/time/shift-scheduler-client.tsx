@@ -124,7 +124,7 @@ export function ShiftSchedulerClient() {
       <div className="relative z-10 space-y-6">
       
 
-      <ToolPageHeader icon={Calendar} title="Employee Work Shift Scheduler" description="Schedule team shifts over a 7-day week, detect rest period conflicts (e.g. Night → Morning turnarounds), and calculate weekly hours." actions={<div className="flex gap-2">
+      <ToolPageHeader icon={Calendar} title="Employee Work Shift Scheduler" description="Schedule team shifts over a 7-day week, detect rest period conflicts (e.g. Night → Morning turnarounds), and calculate weekly hours." actions={<div className="flex flex-wrap items-center gap-2">
             <CopyButton getText={generateSummaryText} label="Copy Schedule" />
             <ResetButton onClick={reset} label="Reset Roster" />
           </div>} />

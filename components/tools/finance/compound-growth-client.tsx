@@ -67,7 +67,7 @@ export function CompoundGrowthClient() {
       <div className="relative z-10 space-y-6">
       
 
- <ToolPageHeader title="Investment Compound Growth Visualizer" description="Calculate how your investments could grow over time." icon={TrendingUp} actions={<div className="flex gap-2">
+ <ToolPageHeader title="Investment Compound Growth Visualizer" description="Calculate how your investments could grow over time." icon={TrendingUp} actions={<div className="flex flex-wrap items-center gap-2">
  <ResetButton onClick={handleReset} label="Reset" />
  </div>} />
  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

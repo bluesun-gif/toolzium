@@ -115,7 +115,7 @@ export function ContractorSowBuilderClient() {
       <div className="relative z-10 space-y-6">
       
 
- <ToolPageHeader icon={FileText} title="Contractor SOW Builder" description="Generate formal Statement of Work documents for freelance and independent contractor projects." actions={<div className="flex gap-2">
+ <ToolPageHeader icon={FileText} title="Contractor SOW Builder" description="Generate formal Statement of Work documents for freelance and independent contractor projects." actions={<div className="flex flex-wrap items-center gap-2">
  <CopyButton getText={getDocumentText} label="Copy SOW" />
  <ActionButton onClick={handlePrint} icon={Printer} label="Print" />
  <ResetButton onClick={resetForm} label="Reset" />

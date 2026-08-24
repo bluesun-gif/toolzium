@@ -205,7 +205,7 @@ export function WatermarkCreatorClient() {
       <div className="relative z-10 space-y-6">
       
 
- <ToolPageHeader icon={ImageIcon} title="Image Watermark Creator" description="Protect your photos by adding custom text or image watermarks." actions={<div className="flex gap-2">
+ <ToolPageHeader icon={ImageIcon} title="Image Watermark Creator" description="Protect your photos by adding custom text or image watermarks." actions={<div className="flex flex-wrap items-center gap-2">
  <ResetButton onClick={resetAll} label="Reset All" />
  <ActionButton onClick={downloadImage} icon={Download} label="Download" variant="default" size="default" />
  </div>} />

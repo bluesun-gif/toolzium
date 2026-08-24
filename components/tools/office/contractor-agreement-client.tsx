@@ -60,7 +60,7 @@ export function ContractorAgreementClient() {
       <div className="relative z-10 space-y-6">
       
 
- <ToolPageHeader icon={FileText} title="Contractor Agreement Builder" description="Generate formal Independent Contractor & Freelance Agreements." actions={<div className="flex gap-2">
+ <ToolPageHeader icon={FileText} title="Contractor Agreement Builder" description="Generate formal Independent Contractor & Freelance Agreements." actions={<div className="flex flex-wrap items-center gap-2">
  <ActionButton onClick={handlePrint} icon={Printer} label="Print" variant="outline" />
  <ResetButton onClick={resetForm} label="Reset" />
  </div>} />

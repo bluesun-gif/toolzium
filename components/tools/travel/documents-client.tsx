@@ -106,7 +106,7 @@ export function TravelDocumentsClient() {
       <div className="relative z-10 space-y-6">
       
 
- <ToolPageHeader title="Travel Document Checklist" description="Never forget a crucial document again. Comprehensive checklists for any trip." icon={CheckSquare} actions={<div className="flex gap-2">
+ <ToolPageHeader title="Travel Document Checklist" description="Never forget a crucial document again. Comprehensive checklists for any trip." icon={CheckSquare} actions={<div className="flex flex-wrap items-center gap-2">
  <CopyButton getText={getChecklistText} label="Copy List" />
  <ActionButton onClick={handlePrint} icon={Plane} label="Print" variant="outline" />
  <ResetButton onClick={() => loadPreset(tripType)} label="Reset Preset" />

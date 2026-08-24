@@ -157,7 +157,7 @@ export function EisenhowerPlannerClient() {
       <div className="relative z-10 space-y-6">
       
 
- <ToolPageHeader icon={Grid} title="Eisenhower Matrix Planner" description="Organize your tasks by urgency and importance to maximize your productivity." actions={<div className="flex gap-2">
+ <ToolPageHeader icon={Grid} title="Eisenhower Matrix Planner" description="Organize your tasks by urgency and importance to maximize your productivity." actions={<div className="flex flex-wrap items-center gap-2">
  <ActionButton onClick={clearCompleted} icon={CheckSquare} label="Clear Done" variant="outline" size="default" />
  <ActionButton onClick={exportTasks} icon={Download} label="Export" variant="outline" size="default" />
  <ResetButton onClick={() => setTasks([])} label="Clear All" />

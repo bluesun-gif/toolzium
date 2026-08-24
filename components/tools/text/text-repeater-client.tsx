@@ -48,7 +48,7 @@ export default function TextRepeaterClient() {
       <div className="relative z-10 space-y-6">
       
 
-      <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
+      <div className="max-w-full max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader icon={Repeat} title="Text Repeater & String Multiplier Studio" description="Repeat any word, phrase, or paragraph multiple times with custom separators, newlines, and instant copy." />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">

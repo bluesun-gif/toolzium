@@ -69,7 +69,7 @@ export function LetterTemplateClient() {
       <div className="relative z-10 space-y-6">
       
 
- <ToolPageHeader title="Letter Template Generator" description="Generate and format formal letters quickly and easily." icon={FileText} actions={<div className="flex gap-2">
+ <ToolPageHeader title="Letter Template Generator" description="Generate and format formal letters quickly and easily." icon={FileText} actions={<div className="flex flex-wrap items-center gap-2">
  <CopyButton getText={getLetterText} label="Copy Letter" />
  <ActionButton onClick={handlePrint} icon={Printer} label="Print" variant="outline" />
  <ResetButton onClick={resetForm} label="Reset" />

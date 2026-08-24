@@ -262,7 +262,7 @@ export function YoutubeScriptClient() {
       <div className="relative z-10 space-y-6">
       
 
-      <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
+      <div className="max-w-full max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader icon={Youtube} title="AI YouTube Script & Teleprompter Generator Studio" description="Craft viral YouTube titles, 15-second opening retention hooks, timestamp outlines, teleprompter-ready scripts, and YouTube SEO packages." />
 
         <div className="space-y-6 relative z-10">

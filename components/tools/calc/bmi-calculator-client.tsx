@@ -110,7 +110,7 @@ export default function BmiCalculatorClient() {
   return (
     <div className="relative space-y-6">
       <ToolBackground />
-      <div className="relative z-10 space-y-6 max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8">
+      <div className="relative z-10 space-y-6 max-w-full max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8">
 
         <ToolPageHeader
           icon={Heart}

@@ -95,7 +95,7 @@ export function NatoPasswordReaderClient() {
       <div className="relative z-10 space-y-6">
       
 
- <ToolPageHeader icon={Lock} title="NATO Password Generator" description="Generate secure passwords with phonetic spelling guides." actions={<div className="flex gap-2">
+ <ToolPageHeader icon={Lock} title="NATO Password Generator" description="Generate secure passwords with phonetic spelling guides." actions={<div className="flex flex-wrap items-center gap-2">
  <CopyButton getText={getCopyText} label="Copy All" />
  <ActionButton onClick={generatePassword} icon={RefreshCw} label="Regenerate" />
  </div>} />

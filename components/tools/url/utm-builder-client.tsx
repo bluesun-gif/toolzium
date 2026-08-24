@@ -201,7 +201,7 @@ export function UTMBuilderClient() {
       <div className="relative z-10 space-y-6">
       
 
-      <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
+      <div className="max-w-full max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader icon={Link2} title="UTM Campaign Builder & Link Tagging Studio" description="Build, track, and manage marketing campaign URLs with precise UTM parameters, AI tag suggestions, and bulk generation." />
 
         <div className="mb-4">

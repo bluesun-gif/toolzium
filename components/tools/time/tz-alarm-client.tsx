@@ -271,9 +271,7 @@ export function TzAlarmClient() {
 
  icon={Clock}
 
- actions={
-
- <div className="flex gap-2">
+ actions={<div className="flex flex-wrap items-center gap-2">
 
  <Button variant="outline"onClick={() => setAlarms([])}>Clear All</Button>
 

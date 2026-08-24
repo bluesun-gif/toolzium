@@ -181,7 +181,7 @@ export function OkrPlannerClient() {
       <div className="relative z-10 space-y-6">
       
 
-      <ToolPageHeader icon={Target} title="OKR (Objectives & Key Results) Strategic Planner" description="Structured OKR goal setting framework to align team milestones, measure key metrics, and monitor quarter progress." actions={<div className="flex gap-2">
+      <ToolPageHeader icon={Target} title="OKR (Objectives & Key Results) Strategic Planner" description="Structured OKR goal setting framework to align team milestones, measure key metrics, and monitor quarter progress." actions={<div className="flex flex-wrap items-center gap-2">
             <ActionButton onClick={exportData} icon={Download} label="Export JSON" variant="outline" />
             <ResetButton onClick={resetOkrs} label="Reset OKRs" />
           </div>} />

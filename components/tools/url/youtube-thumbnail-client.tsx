@@ -136,7 +136,7 @@ export default function YoutubeThumbnailClient() {
       <div className="relative z-10 space-y-6">
       
 
-      <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
+      <div className="max-w-full max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader title="YouTube HD Thumbnail Downloader & CTR Studio" description="Free online utility to grab, preview, and download YouTube video thumbnails in all available resolutions instantly." icon={Youtube} />
 
         <div className="grid gap-6 md:grid-cols-3">

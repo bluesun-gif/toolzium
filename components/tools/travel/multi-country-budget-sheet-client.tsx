@@ -138,7 +138,7 @@ export function MultiCountryBudgetSheetClient() {
       <div className="relative z-10 space-y-6">
       
 
- <ToolPageHeader icon={Globe} title="Multi-Country Budget Sheet" description="Plan your travel expenses across multiple destinations with built-in currency conversion." actions={<div className="flex gap-2">
+ <ToolPageHeader icon={Globe} title="Multi-Country Budget Sheet" description="Plan your travel expenses across multiple destinations with built-in currency conversion." actions={<div className="flex flex-wrap items-center gap-2">
  <ActionButton onClick={saveToLocal} icon={Calculator} label="Save" />
  <CopyButton getText={getExportText} label="Copy Summary" />
  <ResetButton onClick={resetForm} label="Reset" />

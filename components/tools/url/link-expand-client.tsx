@@ -143,7 +143,7 @@ export function LinkExpandClient() {
       <div className="relative z-10 space-y-6">
       
 
-      <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
+      <div className="max-w-full max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader icon={Link2} title="Link Expander & URL Unshortener Studio" description="Reveal the final destination of shortened URLs from bit.ly, t.co, tinyurl, and custom short domains with real-time AI security audits." />
 
         <div className="mb-4">

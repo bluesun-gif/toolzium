@@ -177,7 +177,7 @@ export function MeetingAgendaClient() {
       <div className="relative z-10 space-y-6">
       
 
-      <ToolPageHeader icon={FileText} title="Interactive Meeting Agenda Builder" description="Plan meeting topics, allocate presenter time limits, load quick templates, and copy formatted markdown notes." actions={<div className="flex gap-2">
+      <ToolPageHeader icon={FileText} title="Interactive Meeting Agenda Builder" description="Plan meeting topics, allocate presenter time limits, load quick templates, and copy formatted markdown notes." actions={<div className="flex flex-wrap items-center gap-2">
             <ActionButton icon={Save} label="Save" onClick={saveAgenda} />
             <ActionButton icon={Printer} label="Print" onClick={() => window.print()} variant="outline" />
             <CopyButton getText={getCopyText} label="Copy Agenda" />

@@ -71,7 +71,7 @@ export function SunCalculatorClient() {
       <div className="relative z-10 space-y-6">
       
 
- <ToolPageHeader icon={Sun} title="Sunrise & Sunset Calculator" description="Calculate sunrise, sunset, dawn, dusk, golden hour, and day length." actions={<div className="flex space-x-2">
+ <ToolPageHeader icon={Sun} title="Sunrise & Sunset Calculator" description="Calculate sunrise, sunset, dawn, dusk, golden hour, and day length." actions={<div className="flex flex-wrap items-center gap-2">
  <CopyButton getText={getResultsText} label="Copy Results" />
  <ResetButton onClick={handleReset} label="Reset" />
  </div>} />

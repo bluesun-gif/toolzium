@@ -171,7 +171,7 @@ export function SocialBioClient() {
       <div className="relative z-10 space-y-6">
       
 
-      <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
+      <div className="max-w-full max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader title="AI Social Media Bio & Creator Profile Generator" description="Craft high-converting, platform-tailored bios for X (Twitter), LinkedIn, Instagram, TikTok, and GitHub." icon={UserCheck} />
 
         <div className="space-y-6 relative z-10">

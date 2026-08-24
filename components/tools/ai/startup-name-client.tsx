@@ -202,7 +202,7 @@ export function StartupNameClient() {
       <div className="relative z-10 space-y-6">
       
 
-      <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
+      <div className="max-w-full max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader title="AI Startup Name & Brand Generator Studio" description="Generate viral, brandable startup names, taglines, domain suggestions, and elevator pitches powered by AI." icon={Rocket} />
 
         <div className="space-y-6 relative z-10">

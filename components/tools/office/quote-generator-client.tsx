@@ -85,7 +85,7 @@ export function QuoteGeneratorClient() {
       <div className="relative z-10 space-y-6">
       
 
- <ToolPageHeader icon={FileText} title="Price Quotation Generator" description="Create formal business estimates and quotes" actions={<div className="flex space-x-2">
+ <ToolPageHeader icon={FileText} title="Price Quotation Generator" description="Create formal business estimates and quotes" actions={<div className="flex flex-wrap items-center gap-2">
  <CopyButton getText={getQuoteText} label="Copy Quote" />
  <ResetButton onClick={handleReset} label="Reset" />
  </div>} />

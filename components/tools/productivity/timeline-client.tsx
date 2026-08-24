@@ -159,7 +159,7 @@ export function TimelineClient() {
       <div className="relative z-10 space-y-6">
       
 
-      <ToolPageHeader icon={BarChart3} title="Project Timeline & Gantt Chart Studio" description="Visualize and manage your project tasks in an interactive Gantt-style timeline with progress tracking." actions={<div className="flex gap-2">
+      <ToolPageHeader icon={BarChart3} title="Project Timeline & Gantt Chart Studio" description="Visualize and manage your project tasks in an interactive Gantt-style timeline with progress tracking." actions={<div className="flex flex-wrap items-center gap-2">
             <CopyButton getText={getSummaryText} label="Copy Summary" />
             <ResetButton onClick={handleReset} label="Reset Timeline" />
           </div>} />

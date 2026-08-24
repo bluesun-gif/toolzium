@@ -273,7 +273,7 @@ export function PromptOptimizerClient() {
       <ToolBackground />
       <div className="relative z-10 space-y-6">
  
- <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
+ <div className="max-w-full max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
  
  {/* Header */}
  <ToolPageHeader title="AI Prompt Optimizer & Meta-Prompt Builder" description="Transform draft prompts into structured, high-yield system instructions for ChatGPT, Claude 3.5, Midjourney v6, and DeepSeek." icon={Sparkles} />

@@ -75,7 +75,7 @@ export function PlaceholderGeneratorClient() {
       <div className="relative z-10 space-y-6">
       
 
-      <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
+      <div className="max-w-full max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader icon={ImageIcon} title="Image Placeholder Generator Studio" description="Generate clean, custom image placeholders in PNG or SVG format. Custom dimensions, vibrant colors, custom labels, and instant download." />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">

@@ -192,7 +192,7 @@ export function ShortenerClient() {
       <div className="relative z-10 space-y-6">
       
 
-      <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
+      <div className="max-w-full max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader icon={Scissors} title="URL Shortener & Click Analytics Manager Studio" description="Transform long URLs into short, trackable links with real QR code generation, AI alias suggestions, custom slugs, and audience click analytics." />
 
         <div className="space-y-6 relative z-10">

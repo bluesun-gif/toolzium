@@ -176,7 +176,7 @@ export function QrClient() {
       <div className="relative z-10 space-y-6">
       
 
-      <div className="max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
+      <div className="max-w-full max-w-[1400px] mx-auto p-4 md:p-6 lg:p-8 space-y-8 relative z-10">
         <ToolPageHeader icon={QrCode} title="High-Resolution QR Code Studio" description="Create scannable, high-contrast QR codes for website URLs, Wi-Fi credentials, digital vCard contact cards, emails, and phone numbers." />
 
         <div className="space-y-6 relative z-10">

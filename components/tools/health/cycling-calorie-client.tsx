@@ -89,7 +89,7 @@ export function CyclingCalorieClient() {
       <div className="relative z-10 space-y-6">
       
 
- <ToolPageHeader icon={Activity} title="Cycling & Biking Calorie & Power Calculator" description="Calculate calories burned and estimated mechanical power output during your cycling sessions." actions={<div className="flex gap-2">
+ <ToolPageHeader icon={Activity} title="Cycling & Biking Calorie & Power Calculator" description="Calculate calories burned and estimated mechanical power output during your cycling sessions." actions={<div className="flex flex-wrap items-center gap-2">
  <ResetButton onClick={handleReset} label="Reset" />
  <CopyButton getText={getCopyText} label="Copy Results" />
  </div>} />
