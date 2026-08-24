@@ -1,13 +1,42 @@
 "use client";
 
 import Script from "next/script";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useEffect, Suspense } from "react";
 
 const GTM_ID = "GTM-KRV3TG75";
 const GA_MEASUREMENT_ID = "G-52F5EMG6BC";
 
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+    dataLayer?: unknown[];
+  }
+}
+
+function PageViewTracker() {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (!pathname || typeof window === "undefined" || !window.gtag) return;
+    const search = searchParams?.toString();
+    const url = pathname + (search ? `?${search}` : "");
+    window.gtag("config", GA_MEASUREMENT_ID, {
+      page_path: url,
+      page_title: document.title,
+    });
+  }, [pathname, searchParams]);
+
+  return null;
+}
+
 export function GoogleTagManager() {
   return (
     <>
+      <Suspense fallback={null}>
+        <PageViewTracker />
+      </Suspense>
       {/* Google Analytics 4 (GA4) */}
       <Script
         id="google-analytics"
@@ -24,6 +53,7 @@ export function GoogleTagManager() {
             gtag('js', new Date());
             gtag('config', '${GA_MEASUREMENT_ID}', {
               page_title: document.title,
+              page_path: window.location.pathname + window.location.search,
               send_page_view: true
             });
           `,
