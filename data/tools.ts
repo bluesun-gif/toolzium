@@ -494,6 +494,12 @@ export const ToolsData = [
     isActive: true,
     items: [
       {
+        title: "Multi-Platform App Icon & Favicon Studio Generator",
+        url: "/tools/image/app-icon-generator",
+        description: "Generate complete, production-ready app icon asset packs for iOS (Xcode), Android (Google Play), Web (Favicons & PWA), and macOS in 1 click.",
+        popular: true,
+      },
+      {
         title: "Universal Batch Image Converter Studio",
         url: "/tools/image/universal-converter",
         description: "Convert images between PNG, JPG, WebP, BMP, and ICO in batch with quality controls and ZIP downloads.",
