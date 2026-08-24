@@ -74,7 +74,7 @@ export interface NameEntry {
   isAiGenerated?: boolean;
 }
 
-// Initial Curated Seed Pool across high-traffic categories
+// Initial Curated Seed Pool
 const INITIAL_SEEDS: NameEntry[] = [
   // Arabic Boys
   { name: "Amir", gender: "boy", origin: "arabic", meaning: "Prince, commander, high-born leader", pronunciation: "ah-MEER", syllables: 2, theme: "Royalty", vibe: "Noble Classic" },
@@ -117,7 +117,7 @@ export default function NameGeneratorClient() {
   const [genderFilter, setGenderFilter] = useState<Gender>("all");
   const [originFilter, setOriginFilter] = useState<Origin>("all");
   const [themeFilter, setThemeFilter] = useState<Theme>("all");
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>("" );
   const [customPrompt, setCustomPrompt] = useState<string>("");
 
   const [namesList, setNamesList] = useState<NameEntry[]>(INITIAL_SEEDS);
@@ -278,95 +278,101 @@ export default function NameGeneratorClient() {
         <ToolPageHeader
           icon={Baby}
           title="Universal Baby & Character Name Generator Studio"
-          description="Powered by Groq AI — generate millions of authentic multicultural baby names with verified linguistic etymologies, Islamic and global heritage, and speech pronunciations."
+          description="Powered by Groq AI — generate millions of authentic multicultural baby names with verified linguistic roots, Islamic and global heritage, and audio speech pronunciations."
           actions={
-            <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={exportShortlistCSV}
-                className="h-9 px-3 rounded-xl text-xs gap-1.5 cursor-pointer flex-1 sm:flex-initial"
+                className="h-10 sm:h-9 px-3.5 rounded-xl text-xs font-semibold gap-1.5 cursor-pointer w-full sm:w-auto justify-center"
               >
-                <Download className="h-3.5 w-3.5" /> Export Shortlist ({shortlist.length})
+                <Download className="h-4 w-4 shrink-0" />
+                <span>Shortlist ({shortlist.length})</span>
               </Button>
               <Button
                 size="sm"
                 onClick={() => fetchAiNames(false)}
                 disabled={isAiLoading}
-                className="h-9 px-3.5 rounded-xl text-xs font-bold bg-primary text-primary-foreground gap-1.5 cursor-pointer flex-1 sm:flex-initial shadow-lg hover:shadow-primary/25"
+                className="h-10 sm:h-9 px-4 rounded-xl text-xs font-bold bg-primary text-primary-foreground gap-1.5 cursor-pointer w-full sm:w-auto justify-center shadow-md hover:shadow-primary/25"
               >
-                {isAiLoading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Sparkles className="h-3.5 w-3.5" />}
-                Generate Fresh AI Names
+                {isAiLoading ? <Loader2 className="h-4 w-4 animate-spin shrink-0" /> : <Sparkles className="h-4 w-4 shrink-0" />}
+                <span>Generate AI Names</span>
               </Button>
             </div>
           }
         />
 
-        {/* Quick Cultural Presets */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
-          <span className="text-[11px] font-bold text-muted-foreground uppercase whitespace-nowrap">
-            Popular Presets:
-          </span>
-          <button
-            onClick={() => applyPreset("boy", "arabic", "Royalty")}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer border ${
-              genderFilter === "boy" && originFilter === "arabic" && themeFilter === "Royalty"
-                ? "bg-primary text-primary-foreground border-primary"
-                : "bg-card/80 border-border/70 hover:border-primary/40 text-foreground"
-            }`}
-          >
-            🌙 Royal Islamic Boys
-          </button>
-          <button
-            onClick={() => applyPreset("girl", "arabic", "Royalty")}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer border ${
-              genderFilter === "girl" && originFilter === "arabic" && themeFilter === "Royalty"
-                ? "bg-primary text-primary-foreground border-primary"
-                : "bg-card/80 border-border/70 hover:border-primary/40 text-foreground"
-            }`}
-          >
-            👑 Royal Islamic Girls
-          </button>
-          <button
-            onClick={() => applyPreset("boy", "arabic", "Wisdom")}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer border ${
-              genderFilter === "boy" && originFilter === "arabic" && themeFilter === "Wisdom"
-                ? "bg-primary text-primary-foreground border-primary"
-                : "bg-card/80 border-border/70 hover:border-primary/40 text-foreground"
-            }`}
-          >
-            🦉 Wise Arabic Scholars
-          </button>
-          <button
-            onClick={() => applyPreset("all", "celtic", "Nature & Earth")}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer border ${
-              originFilter === "celtic" && themeFilter === "Nature & Earth"
-                ? "bg-primary text-primary-foreground border-primary"
-                : "bg-card/80 border-border/70 hover:border-primary/40 text-foreground"
-            }`}
-          >
-            ☘️ Celtic & Earthy
-          </button>
-          <button
-            onClick={() => applyPreset("all", "norse", "Strength")}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer border ${
-              originFilter === "norse" && themeFilter === "Strength"
-                ? "bg-primary text-primary-foreground border-primary"
-                : "bg-card/80 border-border/70 hover:border-primary/40 text-foreground"
-            }`}
-          >
-            ⚔️ Norse Warriors
-          </button>
+        {/* Quick Cultural Presets Container */}
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-card/70 border border-border/80 backdrop-blur-md space-y-2.5 shadow-sm">
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
+              <Sparkles className="h-3.5 w-3.5 text-primary" /> Popular One-Click Presets:
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar pt-0.5">
+            <button
+              onClick={() => applyPreset("boy", "arabic", "Royalty")}
+              className={`shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer border ${
+                genderFilter === "boy" && originFilter === "arabic" && themeFilter === "Royalty"
+                  ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                  : "bg-background/80 border-border hover:border-primary/50 text-foreground"
+              }`}
+            >
+              🌙 Royal Islamic Boys
+            </button>
+            <button
+              onClick={() => applyPreset("girl", "arabic", "Royalty")}
+              className={`shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer border ${
+                genderFilter === "girl" && originFilter === "arabic" && themeFilter === "Royalty"
+                  ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                  : "bg-background/80 border-border hover:border-primary/50 text-foreground"
+              }`}
+            >
+              👑 Royal Islamic Girls
+            </button>
+            <button
+              onClick={() => applyPreset("boy", "arabic", "Wisdom")}
+              className={`shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer border ${
+                genderFilter === "boy" && originFilter === "arabic" && themeFilter === "Wisdom"
+                  ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                  : "bg-background/80 border-border hover:border-primary/50 text-foreground"
+              }`}
+            >
+              🦉 Wise Arabic Scholars
+            </button>
+            <button
+              onClick={() => applyPreset("all", "celtic", "Nature & Earth")}
+              className={`shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer border ${
+                originFilter === "celtic" && themeFilter === "Nature & Earth"
+                  ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                  : "bg-background/80 border-border hover:border-primary/50 text-foreground"
+              }`}
+            >
+              ☘️ Celtic & Earthy
+            </button>
+            <button
+              onClick={() => applyPreset("all", "norse", "Strength")}
+              className={`shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer border ${
+                originFilter === "norse" && themeFilter === "Strength"
+                  ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                  : "bg-background/80 border-border hover:border-primary/50 text-foreground"
+              }`}
+            >
+              ⚔️ Norse Warriors
+            </button>
+          </div>
         </div>
 
         {/* Filter Controls Bar */}
-        <GlassCard className="p-5 rounded-3xl border-border/80 space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <GlassCard className="p-4 sm:p-6 rounded-3xl border-border/80 space-y-4 shadow-sm">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
             {/* Gender Select */}
             <div className="space-y-1.5">
-              <span className="text-[11px] font-bold text-muted-foreground uppercase">Gender:</span>
+              <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wide">Gender:</span>
               <Select value={genderFilter} onValueChange={(val: Gender) => setGenderFilter(val)}>
-                <SelectTrigger className="h-10 rounded-xl font-bold text-xs">
+                <SelectTrigger className="h-11 rounded-xl font-bold text-xs bg-background/80 border-border">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -380,9 +386,9 @@ export default function NameGeneratorClient() {
 
             {/* Origin Select */}
             <div className="space-y-1.5">
-              <span className="text-[11px] font-bold text-muted-foreground uppercase">Culture / Origin:</span>
+              <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wide">Culture / Origin:</span>
               <Select value={originFilter} onValueChange={(val: Origin) => setOriginFilter(val)}>
-                <SelectTrigger className="h-10 rounded-xl font-bold text-xs">
+                <SelectTrigger className="h-11 rounded-xl font-bold text-xs bg-background/80 border-border">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -402,9 +408,9 @@ export default function NameGeneratorClient() {
 
             {/* Meaning / Theme Select */}
             <div className="space-y-1.5">
-              <span className="text-[11px] font-bold text-muted-foreground uppercase">Meaning / Vibe:</span>
+              <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wide">Meaning / Vibe:</span>
               <Select value={themeFilter} onValueChange={(val: Theme) => setThemeFilter(val)}>
-                <SelectTrigger className="h-10 rounded-xl font-bold text-xs">
+                <SelectTrigger className="h-11 rounded-xl font-bold text-xs bg-background/80 border-border">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -422,32 +428,30 @@ export default function NameGeneratorClient() {
 
             {/* Keyword Search */}
             <div className="space-y-1.5">
-              <span className="text-[11px] font-bold text-muted-foreground uppercase">Search Keyword:</span>
+              <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wide">Search Keyword:</span>
               <div className="relative">
                 <Input
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="e.g. prince, star, ocean..."
-                  className="h-10 rounded-xl pl-9 text-xs font-semibold"
+                  placeholder="e.g. prince, king, star..."
+                  className="h-11 rounded-xl pl-9 text-xs font-semibold bg-background/80 border-border"
                   onKeyDown={(e) => e.key === "Enter" && fetchAiNames(false)}
                 />
-                <Search className="h-3.5 w-3.5 text-muted-foreground absolute left-3 top-3.5" />
+                <Search className="h-4 w-4 text-muted-foreground absolute left-3 top-3.5" />
               </div>
             </div>
           </div>
         </GlassCard>
 
         {/* AI Custom Prompt Co-Pilot */}
-        <GlassCard className="p-5 rounded-3xl border-border/80 space-y-3 bg-gradient-to-r from-primary/5 via-card/80 to-purple-500/5">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
-            <div>
-              <h4 className="text-xs font-bold flex items-center gap-1.5 text-foreground uppercase tracking-wider">
-                <Wand2 className="h-3.5 w-3.5 text-purple-400" /> Groq AI Intelligent Name Co-Pilot
-              </h4>
-              <p className="text-[11px] text-muted-foreground">
-                Type natural language requirements like sibling matches, family surnames, or rare Quranic/Biblical aesthetics.
-              </p>
-            </div>
+        <GlassCard className="p-4 sm:p-6 rounded-3xl border-border/80 space-y-3.5 bg-gradient-to-r from-primary/5 via-card/80 to-purple-500/5 shadow-sm">
+          <div className="space-y-1">
+            <h4 className="text-xs font-bold flex items-center gap-1.5 text-foreground uppercase tracking-wider">
+              <Wand2 className="h-4 w-4 text-purple-400 shrink-0" /> Groq AI Intelligent Name Co-Pilot
+            </h4>
+            <p className="text-[11px] sm:text-xs text-muted-foreground leading-relaxed">
+              Type custom requirements like matching sibling names, family surnames, or rare Quranic/Biblical aesthetics.
+            </p>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-2.5">
@@ -455,25 +459,25 @@ export default function NameGeneratorClient() {
               value={customPrompt}
               onChange={(e) => setCustomPrompt(e.target.value)}
               placeholder="e.g. Rare royal Islamic boy names starting with Z matching sister Zara..."
-              className="h-10 rounded-xl text-xs flex-1 font-medium bg-background/80"
+              className="h-11 rounded-xl text-xs flex-1 font-medium bg-background/80 border-border"
               onKeyDown={(e) => e.key === "Enter" && fetchAiNames(false)}
             />
             <Button
               onClick={() => fetchAiNames(false)}
               disabled={isAiLoading}
-              className="h-10 px-5 rounded-xl font-bold text-xs gap-1.5 bg-primary text-primary-foreground cursor-pointer"
+              className="h-11 px-5 rounded-xl font-bold text-xs gap-1.5 bg-primary text-primary-foreground cursor-pointer shrink-0 w-full sm:w-auto justify-center"
             >
-              {isAiLoading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Sparkles className="h-3.5 w-3.5" />}
-              Generate Custom AI Names
+              {isAiLoading ? <Loader2 className="h-4 w-4 animate-spin shrink-0" /> : <Sparkles className="h-4 w-4 shrink-0" />}
+              <span>Generate Custom AI Names</span>
             </Button>
           </div>
         </GlassCard>
 
         {/* Results Banner & Status */}
-        <div className="flex items-center justify-between px-1">
-          <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center justify-between gap-3 px-1">
+          <div className="flex items-center gap-2 flex-wrap">
             <p className="text-xs font-bold text-muted-foreground">
-              Showing <span className="text-foreground font-mono">{displayedList.length}</span> unique names
+              Showing <span className="text-foreground font-mono font-black">{displayedList.length}</span> unique names
             </p>
             {isAiLoading && (
               <Badge variant="outline" className="text-[10px] font-mono animate-pulse text-purple-400 border-purple-400/40">
@@ -487,9 +491,9 @@ export default function NameGeneratorClient() {
             variant="outline"
             onClick={() => fetchAiNames(true)}
             disabled={isAiLoading}
-            className="text-xs h-8 px-3 rounded-xl font-bold gap-1 cursor-pointer"
+            className="text-xs h-9 px-3.5 rounded-xl font-bold gap-1.5 cursor-pointer w-full sm:w-auto justify-center"
           >
-            <Plus className="h-3 w-3" /> Load 8 More AI Names
+            <Plus className="h-3.5 w-3.5" /> Load 8 More AI Names
           </Button>
         </div>
 
@@ -513,19 +517,19 @@ export default function NameGeneratorClient() {
             return (
               <GlassCard
                 key={`${entry.name}-${entry.origin}-${entry.gender}`}
-                className="p-5 rounded-3xl border-border/80 hover:border-primary/50 transition-all space-y-4 group relative overflow-hidden"
+                className="p-5 rounded-3xl border-border/80 hover:border-primary/50 transition-all space-y-4 group relative overflow-hidden shadow-sm"
               >
                 {entry.isAiGenerated && (
                   <div className="absolute top-0 right-0">
-                    <span className="bg-primary/20 text-primary text-[9px] font-mono font-bold px-2 py-0.5 rounded-bl-xl border-l border-b border-primary/30">
+                    <span className="bg-primary/20 text-primary text-[9px] font-mono font-bold px-2.5 py-1 rounded-bl-xl border-l border-b border-primary/30">
                       Groq AI
                     </span>
                   </div>
                 )}
 
-                <div className="flex items-start justify-between">
+                <div className="flex items-start justify-between gap-2">
                   <div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <h3 className="text-2xl font-black font-serif text-foreground tracking-tight">
                         {entry.name}
                       </h3>
@@ -544,7 +548,7 @@ export default function NameGeneratorClient() {
 
                   <button
                     onClick={() => toggleShortlist(entry)}
-                    className={`p-2 rounded-xl border transition-all cursor-pointer ${
+                    className={`p-2.5 rounded-xl border transition-all cursor-pointer shrink-0 ${
                       isShortlisted
                         ? "bg-rose-500/10 border-rose-500/40 text-rose-500"
                         : "bg-card border-border/60 text-muted-foreground hover:text-foreground"
@@ -581,7 +585,7 @@ export default function NameGeneratorClient() {
 
         {/* Shortlist Section */}
         {shortlist.length > 0 && (
-          <GlassCard className="p-6 rounded-3xl border-border/80 space-y-4">
+          <GlassCard className="p-5 sm:p-6 rounded-3xl border-border/80 space-y-4 shadow-sm">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
                 Your Saved Shortlist ({shortlist.length})
@@ -594,7 +598,7 @@ export default function NameGeneratorClient() {
                   localStorage.removeItem("toolzium_baby_names_shortlist");
                   toast.success("Shortlist cleared");
                 }}
-                className="text-xs text-muted-foreground hover:text-rose-400"
+                className="text-xs text-muted-foreground hover:text-rose-400 cursor-pointer"
               >
                 Clear Shortlist
               </Button>
@@ -604,13 +608,13 @@ export default function NameGeneratorClient() {
               {shortlist.map((item) => (
                 <div
                   key={item.name}
-                  className="px-3 py-1.5 rounded-xl bg-card border border-border/60 flex items-center gap-2 text-xs font-bold"
+                  className="px-3 py-1.5 rounded-xl bg-card border border-border/60 flex items-center gap-2 text-xs font-bold shadow-sm"
                 >
                   <span>{item.name}</span>
                   <span className="text-[10px] text-muted-foreground">({item.origin})</span>
                   <button
                     onClick={() => toggleShortlist(item)}
-                    className="text-muted-foreground hover:text-rose-400 cursor-pointer"
+                    className="text-muted-foreground hover:text-rose-400 cursor-pointer text-sm"
                   >
                     ×
                   </button>
