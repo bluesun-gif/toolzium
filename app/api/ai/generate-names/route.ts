@@ -1,13 +1,7 @@
 import { NextResponse } from "next/server";
+import { executeAiCompletion, parseJsonContent } from "@/lib/ai-gateway";
 
 export const runtime = "nodejs";
-
-const GROQ_KEYS = (process.env.GROQ_API_KEYS || process.env.GROQ_API_KEY || "")
-  .split(",")
-  .map((k) => k.trim().replace(/^["']|["']$/g, ""))
-  .filter(Boolean);
-
-let groqIndex = 0;
 
 export async function POST(req: Request) {
   try {
@@ -20,88 +14,61 @@ export async function POST(req: Request) {
       count = 8
     } = await req.json();
 
-    const groqKey = GROQ_KEYS.length > 0 ? GROQ_KEYS[groqIndex % GROQ_KEYS.length] : null;
-    if (GROQ_KEYS.length > 0) groqIndex++;
-
-    if (!groqKey) {
-      return NextResponse.json({ success: false, fallback: true, message: "No API key configured" });
-    }
-
     const genderDesc = gender === "boy" ? "boys/male" : gender === "girl" ? "girls/female" : "boys and girls";
     const originDesc = origin === "all" ? "multicultural global cultures" : `${origin} culture`;
     const themeDesc = theme === "all" ? "meaningful and profound" : `${theme} meaning/vibe`;
 
-    const userPrompt = `You are a world-class onomastics linguist. Generate EXACTLY ${count} unique, authentic, culturally accurate names for ${genderDesc} in ${originDesc} with ${themeDesc}.
+    const systemPrompt = `You are a world-class onomastics linguist and cultural naming authority.
+Always return strictly a valid JSON array of objects with fields:
+- name (string)
+- gender ("boy" | "girl" | "unisex")
+- origin (string)
+- meaning (concise string under 12 words)
+- pronunciation (string)
+- syllables (number)
+- theme (string)
+- vibe (string)
+Do not output markdown codeblocks, text before, or text after.`;
+
+    const userPrompt = `Generate EXACTLY ${count} unique, authentic, culturally accurate names for ${genderDesc} in ${originDesc} with ${themeDesc}.
 ${searchQuery ? `Must connect to search term: "${searchQuery}".` : ""}
 ${customPrompt ? `User customization: "${customPrompt}".` : ""}
-Keep each meaning concise (under 12 words).
+Ensure zero repetitions, authentic meanings, and phonetics.`;
 
-Return STRICTLY a JSON array of ${count} objects with fields:
-name (string), gender ("boy"|"girl"|"unisex"), origin (string), meaning (string), pronunciation (string), syllables (number), theme (string), vibe (string).
-No markdown formatting, no code fences, no text before or after.`;
+    const aiRes = await executeAiCompletion({
+      systemPrompt,
+      userPrompt,
+      temperature: 0.75,
+      maxTokens: 2500,
+      responseFormat: "json"
+    });
 
-    const modelsToTry = ["openai/gpt-oss-120b", "openai/gpt-oss-20b", "qwen/qwen3.6-27b"];
-    let parsedNames: any[] = [];
+    if (aiRes.success && aiRes.content) {
+      const parsed = parseJsonContent<any[]>(aiRes.content, []);
 
-    for (const model of modelsToTry) {
-      try {
-        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${groqKey}`
-          },
-          body: JSON.stringify({
-            model,
-            messages: [{ role: "user", content: userPrompt }],
-            temperature: 0.75,
-            max_tokens: 3000
-          })
-        });
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        const sanitized = parsed.map((item: any) => ({
+          name: String(item.name || "").trim(),
+          gender: String(item.gender || "unisex").toLowerCase().includes("boy") || String(item.gender || "").toLowerCase().includes("male") ? "boy" : String(item.gender || "").toLowerCase().includes("girl") || String(item.gender || "").toLowerCase().includes("female") ? "girl" : "unisex",
+          origin: String(item.origin || origin || "global").toLowerCase(),
+          meaning: String(item.meaning || "Eminent name of distinct honor and grace"),
+          pronunciation: String(item.pronunciation || item.name || "").replace(/^\/+|\/+$/g, ""),
+          syllables: Number(item.syllables) || 2,
+          theme: String(item.theme || theme || "Royalty"),
+          vibe: String(item.vibe || "Noble & Timeless"),
+          isAiGenerated: true,
+          provider: aiRes.provider
+        })).filter((n) => n.name.length > 1);
 
-        if (res.ok) {
-          const data = await res.json();
-          const raw = data.choices?.[0]?.message?.content || "";
-          const cleaned = raw
-            .replace(/```json/g, "")
-            .replace(/```/g, "")
-            .replace(/<think>[\s\S]*?<\/think>/g, "")
-            .trim();
-
-          const jsonStart = cleaned.indexOf("[");
-          const jsonEnd = cleaned.lastIndexOf("]");
-          if (jsonStart !== -1 && jsonEnd !== -1) {
-            const jsonSubstring = cleaned.substring(jsonStart, jsonEnd + 1);
-            const parsed = JSON.parse(jsonSubstring);
-            if (Array.isArray(parsed) && parsed.length > 0) {
-              parsedNames = parsed;
-              break;
-            }
-          }
+        if (sanitized.length > 0) {
+          return NextResponse.json({ success: true, names: sanitized, provider: aiRes.provider });
         }
-      } catch (err) {
-        console.error(`Error with model ${model}:`, err);
       }
     }
 
-    if (parsedNames.length > 0) {
-      const sanitized = parsedNames.map((item: any) => ({
-        name: String(item.name || "").trim(),
-        gender: String(item.gender || "unisex").toLowerCase().includes("boy") || String(item.gender || "").toLowerCase().includes("male") ? "boy" : String(item.gender || "").toLowerCase().includes("girl") || String(item.gender || "").toLowerCase().includes("female") ? "girl" : "unisex",
-        origin: String(item.origin || origin || "global").toLowerCase(),
-        meaning: String(item.meaning || "Eminent name of distinct honor and grace"),
-        pronunciation: String(item.pronunciation || item.name || "").replace(/^\/+|\/+$/g, ""),
-        syllables: Number(item.syllables) || 2,
-        theme: String(item.theme || theme || "Royalty"),
-        vibe: String(item.vibe || "Noble & Timeless"),
-        isAiGenerated: true
-      })).filter((n) => n.name.length > 1);
-
-      return NextResponse.json({ success: true, names: sanitized });
-    }
-
-    return NextResponse.json({ success: false, fallback: true });
+    return NextResponse.json({ success: false, fallback: true, message: "AI generated empty response" });
   } catch (err: any) {
-    return NextResponse.json({ success: false, fallback: true, error: err.message });
+    console.error("[generate-names error]:", err);
+    return NextResponse.json({ success: false, error: err?.message || "Internal server error" }, { status: 500 });
   }
 }

@@ -1,54 +1,7 @@
 import { NextResponse } from "next/server";
+import { executeAiCompletion, parseJsonContent } from "@/lib/ai-gateway";
 
 export const dynamic = "force-dynamic";
-
-const GROQ_API_KEYS = (process.env.GROQ_API_KEYS || process.env.GROQ_API_KEY || "")
-  .split(",")
-  .map((k) => k.trim())
-  .filter(Boolean);
-
-const GROQ_MODELS = [
-  "openai/gpt-oss-120b",
-  "openai/gpt-oss-20b",
-  "qwen/qwen3.6-27b",
-  "allam-2-7b"
-];
-
-async function callGroqChat(messages: any[], systemPrompt: string): Promise<string> {
-  const apiKey = GROQ_API_KEYS[Math.floor(Math.random() * GROQ_API_KEYS.length)];
-  if (!apiKey) throw new Error("No GROQ_API_KEY configured");
-
-  for (const model of GROQ_MODELS) {
-    try {
-      const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          model,
-          messages: [
-            { role: "system", content: systemPrompt },
-            ...messages,
-          ],
-          temperature: 0.6,
-          max_tokens: 800,
-        }),
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        const content = data.choices?.[0]?.message?.content || "";
-        if (content) return content;
-      }
-    } catch (err) {
-      console.warn(`[Groq Cycling Coach] Model ${model} failed, trying next`, err);
-    }
-  }
-
-  throw new Error("All Groq models failed");
-}
 
 export async function POST(req: Request) {
   try {
@@ -81,44 +34,50 @@ Return STRICT RAW JSON ONLY with keys:
   "postRideNutrition": "Exact recovery carb/protein grams and water rehydration amount needed for this specific calorie expenditure.",
   "fatBurnInsight": "Brief analysis of aerobic fat oxidation vs glycogen utilization.",
   "weeklyProgression": "1 actionable suggestion for next ride to increase VO2 max or endurance."
-}
-DO NOT wrap in markdown \`\`\`json code fences. Raw JSON only.`;
+}`;
 
-    const rawResponse = await callGroqChat(
-      [{ role: "user", content: `Analyze my ${durationMins}-minute ${intensity} cycling session burning ${caloriesTotal} kcal.` }],
-      systemPrompt
-    );
+    const userPrompt = `Analyze my ${durationMins}-minute ${intensity} cycling session burning ${caloriesTotal} kcal at ${avgWatts}W and ${cadenceRpm} RPM.`;
 
-    let parsed: any;
-    try {
-      const cleanJson = rawResponse
-        .replace(/<think>[\s\S]*?<\/think>/gi, "")
-        .replace(/```json/gi, "")
-        .replace(/```/g, "")
-        .trim();
-      const firstBrace = cleanJson.indexOf("{");
-      const lastBrace = cleanJson.lastIndexOf("}");
-      if (firstBrace !== -1 && lastBrace !== -1) {
-        parsed = JSON.parse(cleanJson.slice(firstBrace, lastBrace + 1));
-      } else {
-        parsed = JSON.parse(cleanJson);
-      }
-    } catch {
-      parsed = {
-        coachingTip: `Maintaining ${cadenceRpm} RPM at ~${avgWatts}W (${(avgWatts / weightKg).toFixed(1)} W/kg) optimizes neuromuscular efficiency and maximizes cardiovascular endurance.`,
-        postRideNutrition: `Consume ~${Math.round(caloriesTotal * 0.12)}g carbohydrates and ${Math.round(weightKg * 0.3)}g lean protein within 45 minutes, plus ${Math.round(durationMins * 12)}ml fluids for full electrolyte replenishment.`,
-        fatBurnInsight: `In this ${intensity} training zone, your body oxidized approximately ${Math.round(caloriesTotal * 0.45 / 9)}g of lipid stores alongside muscle glycogen.`,
-        weeklyProgression: `Add 5 minutes of high-resistance interval surges (90+ RPM) in your next session to elevate your Functional Threshold Power (FTP).`
-      };
+    const aiRes = await executeAiCompletion({
+      systemPrompt,
+      userPrompt,
+      temperature: 0.6,
+      maxTokens: 800,
+      responseFormat: "json"
+    });
+
+    const fallback = {
+      coachingTip: `Maintaining ${cadenceRpm} RPM produces optimal cardiovascular efficiency, generating approximately ${(avgWatts / (weightKg || 70)).toFixed(2)} W/kg with prolonged post-exercise oxygen consumption (EPOC).`,
+      postRideNutrition: `Consume ${(caloriesTotal * 0.08).toFixed(0)}g fast carbs + 25g whey/plant protein within 45 minutes, plus ${((caloriesTotal / 500) * 0.6).toFixed(1)}L of electrolyte water.`,
+      fatBurnInsight: `At this ${intensity} intensity zone, ~${intensity === "light" ? "65%" : intensity === "moderate" ? "48%" : "25%"} of energy was derived directly from intramuscular lipid fat oxidation.`,
+      weeklyProgression: `Add 5 minutes of high-cadence spin (95-100 RPM) intervals on your next ride to elevate your functional threshold power (FTP).`
+    };
+
+    if (aiRes.success && aiRes.content) {
+      const parsed = parseJsonContent(aiRes.content, fallback);
+      return NextResponse.json({
+        success: true,
+        data: {
+          coachingTip: parsed.coachingTip || fallback.coachingTip,
+          postRideNutrition: parsed.postRideNutrition || fallback.postRideNutrition,
+          fatBurnInsight: parsed.fatBurnInsight || fallback.fatBurnInsight,
+          weeklyProgression: parsed.weeklyProgression || fallback.weeklyProgression,
+        },
+        provider: aiRes.provider,
+        timestamp: new Date().toISOString()
+      });
     }
 
     return NextResponse.json({
       success: true,
-      data: parsed
+      data: fallback,
+      provider: "procedural",
+      timestamp: new Date().toISOString()
     });
   } catch (err: any) {
+    console.error("[Cycling Coach API] Error:", err);
     return NextResponse.json(
-      { success: false, error: err.message },
+      { error: "Failed to generate coaching insights", details: err?.message },
       { status: 500 }
     );
   }
