@@ -6,83 +6,90 @@ type ToolCategory = {
   items: ToolItem[];
 };
 
-const BASE_KEYWORDS = [
-  "online tools",
-  "free tools",
-  "privacy friendly",
-  "fast tools",
-  "productivity tools",
-  "all-in-one toolkit",
-  "Bangladesh",
-  "Toolzium",
-];
-
-const GENERIC_INTENTS = [
-  "convert",
-  "compress",
-  "optimize",
-  "generate",
-  "validate",
-  "preview",
-  "analyze",
-  "calculate",
-  "build",
-  "format",
-  "shorten",
-  "expand",
-  "compare",
-];
+const STOPWORDS = new Set([
+  "a", "an", "and", "are", "as", "at", "be", "by", "for", "from", "has", "he",
+  "in", "is", "it", "its", "of", "on", "that", "the", "to", "was", "were",
+  "will", "with", "all", "tools", "tool", "free", "online", "search", "available",
+  "create", "meta", "tags", "product", "feature", "emotional", "benefit", "category",
+  "build", "compare", "convert", "compress", "optimize", "generate", "validate",
+  "preview", "analyze", "calculate", "format", "shorten", "expand", "bangladesh",
+  "all tools"
+]);
 
 function normalize(word: string) {
-  return word.toLowerCase().replace(/\s+/g, " ").trim();
+  return word
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
-export function buildDynamicKeywords(tools: ToolCategory[]) {
-  const bag = new Set<string>();
+function isValidKeyword(kw: string): boolean {
+  const norm = normalize(kw);
+  if (!norm || norm.length < 4 || norm.length > 35) return false;
+  if (STOPWORDS.has(norm)) return false;
+  if (norm === "tools tools" || norm === "ai tools tools" || norm === "all tools") return false;
+  if (!norm.includes(" ") && norm.length < 4) return false;
+  return true;
+}
 
-  BASE_KEYWORDS.map((k) => bag.add(normalize(k)));
-  GENERIC_INTENTS.map((k) => bag.add(normalize(k)));
+export function buildDynamicKeywords(tools: ToolCategory[]): string[] {
+  const keywords: string[] = [];
 
   for (const cat of tools) {
-    if (!cat?.items?.length) continue;
-    bag.add(normalize(cat.title));
-    bag.add(normalize(`${cat.title} tools`));
+    if (!cat?.items?.length || cat.title.toLowerCase() === "tools") continue;
+
     for (const item of cat.items) {
-      bag.add(normalize(item.title));
-      bag.add(normalize(`${item.title} online`));
-      bag.add(normalize(`${item.title} free`));
-
-      item.title
-        .split(/[/,&-]+/g)
-        .map((s) => s.trim())
-        .filter(Boolean)
-        .map((piece) => bag.add(normalize(piece)));
-
-      if (item.description) {
-        item.description
-          .split(/[^\w%+]+/g)
-          .map((s) => s.trim())
-          .filter((s) => s.length > 2)
-          .map((tok) => bag.add(normalize(tok)));
+      if (item.popular && item.title) {
+        const cleanTitle = normalize(item.title)
+          .replace(/^in-browser\s+/i, "")
+          .replace(/\s+studio$/i, "")
+          .replace(/\s+engine$/i, "")
+          .replace(/\s+calculator$/i, " calc");
+        if (isValidKeyword(cleanTitle)) {
+          keywords.push(cleanTitle);
+        }
       }
     }
   }
 
-  return Array.from(bag).slice(0, 200);
+  return keywords;
 }
 
-export function mergeKeywords(staticKeywords: string[], dynamicKeywords: string[]) {
-  const bag = new Set<string>();
-  staticKeywords.map((k) => bag.add(normalize(k)));
-  dynamicKeywords.map((k) => bag.add(normalize(k)));
-  return Array.from(bag);
+export function mergeKeywords(
+  staticKeywords: string[],
+  dynamicKeywords: string[],
+  maxCount = 20
+): string[] {
+  const seen = new Set<string>();
+  const result: string[] = [];
+
+  const add = (k: string) => {
+    const norm = normalize(k);
+    if (isValidKeyword(norm) && !seen.has(norm)) {
+      seen.add(norm);
+      result.push(norm);
+    }
+  };
+
+  for (const k of staticKeywords) {
+    add(k);
+  }
+
+  for (const k of dynamicKeywords) {
+    if (result.length >= maxCount) break;
+    add(k);
+  }
+
+  return result.slice(0, maxCount);
 }
 
 export function siteDescriptionFallback(tools: ToolCategory[]) {
   const total = tools.reduce((n, c) => n + (c.items?.length || 0), 0);
   const cats = tools
     .map((c) => c.title)
-    .slice(0, 6)
+    .filter((t) => t.toLowerCase() !== "tools")
+    .slice(0, 5)
     .join(", ");
-  return `Fast, free, privacy-friendly online tools across ${cats}${tools.length > 6 ? ", and more" : ""}. Explore ${total}+ handy utilities in one place.`;
+  return `Fast, free, privacy-friendly online tools across ${cats}${tools.length > 5 ? ", and more" : ""}. Explore ${total}+ handy utilities in one place.`;
 }

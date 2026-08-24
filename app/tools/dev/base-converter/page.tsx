@@ -1,9 +1,9 @@
 import JsonLd from "@/components/seo/json-ld";
 import { buildMetadata, buildToolJsonLd } from "@/lib/seo";
-import Base64Client from "@/components/tools/dev/base-converter-client";
+import BaseConverterClient from "@/components/tools/dev/base-converter-client";
 
-const TITLE = "Base Converter | Toolzium";
-const DESCRIPTION = "Free online base converter tool with instant calculation and privacy.";
+const TITLE = "Universal Number Base Converter | Toolzium";
+const DESCRIPTION = "Convert numbers across Binary, Octal, Decimal, Hexadecimal, ASCII, and Custom Radix (2 to 36) with arbitrary precision.";
 const PATH = "/tools/dev/base-converter";
 
 export const metadata = buildMetadata({
@@ -14,7 +14,7 @@ export const metadata = buildMetadata({
 
 export default function Page() {
   const jsonLd = buildToolJsonLd({
-    name: "Base Converter",
+    name: "Universal Number Base & Radix Converter",
     description: DESCRIPTION,
     path: PATH
   });
@@ -22,7 +22,7 @@ export default function Page() {
   return (
     <>
       <JsonLd data={jsonLd} />
-      <Base64Client />
+      <BaseConverterClient />
     </>
   );
 }
