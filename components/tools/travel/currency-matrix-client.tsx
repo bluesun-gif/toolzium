@@ -25,7 +25,7 @@ export default function CurrencyMatrixClient() {
   const fetchLiveRates = useCallback(async () => {
     setIsLoading(true);
     try {
-      const res = await fetch("https://open.er-api.com/v6/latest/USD");
+      const res = await fetch("/api/fx/latest?base=USD");
       if (!res.ok) throw new Error("Failed to fetch rates");
       const data = await res.json();
       if (data && data.rates) {

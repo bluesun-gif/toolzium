@@ -30,19 +30,12 @@ export default function ExchangeTrendClient() {
 
     setIsLoading(true);
     try {
-      const endDate = new Date().toISOString().split("T")[0];
-      const startDateObj = new Date();
-      startDateObj.setDate(startDateObj.getDate() - 30);
-      const startDate = startDateObj.toISOString().split("T")[0];
-
-      const res = await fetch(`https://api.frankfurter.app/${startDate}..${endDate}?from=${baseCurrency}&to=${targetCurrency}`);
+      const res = await fetch(`/api/fx/history?base=${baseCurrency}&target=${targetCurrency}&days=30`);
       if (!res.ok) throw new Error("Failed to load rates");
       const data = await res.json();
 
-      const ratesObj = data.rates || {};
-      const vals: number[] = Object.keys(ratesObj).map((d) => ratesObj[d][targetCurrency] || 0);
-
-      if (vals.length > 0) {
+      if (data.success && Array.isArray(data.points) && data.points.length > 0) {
+        const vals: number[] = data.points.map((p: { rate: number }) => p.rate);
         setRates30Days(vals);
         setCurrentRate(vals[vals.length - 1]);
       }

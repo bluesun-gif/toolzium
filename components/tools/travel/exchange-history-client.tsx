@@ -43,24 +43,12 @@ export default function ExchangeHistoryClient() {
 
     setIsLoading(true);
     try {
-      const dCount = parseInt(days, 10);
-      const endDate = new Date().toISOString().split("T")[0];
-      const startDateObj = new Date();
-      startDateObj.setDate(startDateObj.getDate() - dCount);
-      const startDate = startDateObj.toISOString().split("T")[0];
-
-      const res = await fetch(`https://api.frankfurter.app/${startDate}..${endDate}?from=${baseCurrency}&to=${targetCurrency}`);
+      const res = await fetch(`/api/fx/history?base=${baseCurrency}&target=${targetCurrency}&days=${days}`);
       if (!res.ok) throw new Error("Failed to load official ECB rates");
       const data = await res.json();
 
-      const ratesObj = data.rates || {};
-      const points: HistoryPoint[] = Object.keys(ratesObj).map((date) => ({
-        date,
-        rate: ratesObj[date][targetCurrency] || 0,
-      }));
-
-      if (points.length > 0) {
-        setHistory(points);
+      if (data.success && Array.isArray(data.points) && data.points.length > 0) {
+        setHistory(data.points);
       } else {
         throw new Error("No rate data available for this range");
       }
