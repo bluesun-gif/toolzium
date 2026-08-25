@@ -612,21 +612,21 @@ export default function AudioCutterClient() {
         </div>
 
         {/* Playback Controls & Multi-Format Export Bar */}
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-4 pt-4 border-t border-border/60">
+        <div className="flex flex-col gap-4 pt-4 border-t border-border/60">
           {/* Playback Action Buttons */}
-          <div className="flex flex-wrap items-center gap-2 w-full lg:w-auto">
+          <div className="flex flex-wrap items-center gap-2 w-full">
             {isPlaying ? (
               <Button
                 variant="outline"
                 onClick={stopAudio}
-                className="h-11 px-5 rounded-xl font-bold border-border/80 cursor-pointer gap-2"
+                className="flex-1 sm:flex-initial h-11 px-5 rounded-xl font-bold border-border/80 cursor-pointer gap-2"
               >
                 <Pause className="h-4 w-4 text-pink-500" /> Stop Preview (Space)
               </Button>
             ) : (
               <Button
                 onClick={playSelection}
-                className="h-11 px-6 rounded-xl font-bold bg-primary text-primary-foreground hover:opacity-90 shadow-md cursor-pointer gap-2"
+                className="flex-1 sm:flex-initial h-11 px-6 rounded-xl font-bold bg-primary text-primary-foreground hover:opacity-90 shadow-md cursor-pointer gap-2"
               >
                 <Play className="h-4 w-4" /> Play Selection (Space)
               </Button>
@@ -654,19 +654,19 @@ export default function AudioCutterClient() {
                 setVolume(100);
               }}
               title="Reset Markers"
-              className="h-11 w-11 rounded-xl text-muted-foreground hover:text-foreground"
+              className="h-11 w-11 rounded-xl text-muted-foreground hover:text-foreground shrink-0"
             >
               <RotateCcw className="h-4 w-4" />
             </Button>
           </div>
 
           {/* Export Format & Download Trigger */}
-          <div className="flex items-center gap-2 w-full lg:w-auto">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full">
             <select
               value={exportFormat}
               onChange={(e) => setExportFormat(e.target.value as typeof exportFormat)}
               aria-label="Audio Export Format"
-              className="h-11 px-3 rounded-xl border border-border/80 bg-background text-xs font-semibold text-foreground focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer"
+              className="w-full sm:w-auto h-11 px-3.5 rounded-xl border border-border/80 bg-background text-xs font-bold text-foreground focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer shrink-0"
             >
               <option value="wav">WAV (Master Lossless)</option>
               <option value="mp3">MP3 Audio</option>
@@ -676,14 +676,14 @@ export default function AudioCutterClient() {
             <Button
               onClick={handleExport}
               disabled={isExporting || !audioBuffer}
-              className="flex-1 lg:flex-none h-11 px-6 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white shadow-lg cursor-pointer gap-2"
+              className="w-full sm:flex-1 h-11 px-6 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white shadow-lg cursor-pointer gap-2 justify-center text-xs sm:text-sm"
             >
               {isExporting ? (
                 <Sparkles className="h-4 w-4 animate-spin" />
               ) : (
                 <Download className="h-4 w-4" />
               )}
-              {isExporting ? "Exporting..." : `Download Trimmed Audio (.${exportFormat.toUpperCase()})`}
+              <span>{isExporting ? "Exporting..." : `Download Trimmed Audio (.${exportFormat.toUpperCase()})`}</span>
             </Button>
           </div>
         </div>

@@ -333,7 +333,7 @@ export default function GoldPriceTrackerClient() {
             </span>
           </div>
 
-          <div className="flex items-center gap-2 w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
             <DollarSign className="h-4 w-4 text-primary shrink-0" />
             <span className="text-xs font-bold text-foreground whitespace-nowrap">Currency:</span>
             <Select value={currency} onValueChange={setCurrency}>

@@ -299,7 +299,7 @@ export function CitationGeneratorClient() {
               <h3 className="text-sm font-bold text-foreground">Formatted Bibliography Entry</h3>
             </div>
 
-            <div className="flex items-center gap-2 w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
               <Button
                 size="sm"
                 variant="outline"
