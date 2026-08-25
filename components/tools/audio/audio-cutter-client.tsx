@@ -427,7 +427,7 @@ export default function AudioCutterClient() {
       />
 
       {/* Main Studio Card */}
-      <GlassCard className="p-6 rounded-3xl border-border/80 space-y-6">
+      <GlassCard className="p-4 sm:p-6 rounded-3xl border-border/80 space-y-6">
         {/* Top Header & Upload Bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-border/60 pb-4">
           <div className="flex items-center gap-3">
@@ -614,55 +614,57 @@ export default function AudioCutterClient() {
         {/* Playback Controls & Multi-Format Export Bar */}
         <div className="flex flex-col gap-4 pt-4 border-t border-border/60">
           {/* Playback Action Buttons */}
-          <div className="flex items-center gap-2 w-full">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full">
             {isPlaying ? (
               <Button
                 variant="outline"
                 onClick={stopAudio}
-                className="flex-1 h-11 px-4 sm:px-6 rounded-xl font-bold border-border/80 cursor-pointer gap-2 text-xs sm:text-sm"
+                className="w-full sm:flex-1 h-12 px-4 rounded-2xl font-bold border-border/80 cursor-pointer gap-2 text-sm justify-center shadow-sm"
               >
                 <Pause className="h-4 w-4 text-pink-500 shrink-0" />
                 <span>Stop Preview</span>
-                <span className="hidden sm:inline opacity-60 text-xs">(Space)</span>
+                <span className="hidden md:inline opacity-60 text-xs">(Space)</span>
               </Button>
             ) : (
               <Button
                 onClick={playSelection}
-                className="flex-1 h-11 px-4 sm:px-6 rounded-xl font-bold bg-primary text-primary-foreground hover:opacity-90 shadow-md cursor-pointer gap-2 text-xs sm:text-sm"
+                className="w-full sm:flex-1 h-12 px-4 rounded-2xl font-bold bg-primary text-primary-foreground hover:opacity-90 shadow-md cursor-pointer gap-2 text-sm justify-center"
               >
                 <Play className="h-4 w-4 shrink-0" />
                 <span>Play Selection</span>
-                <span className="hidden sm:inline opacity-60 text-xs">(Space)</span>
+                <span className="hidden md:inline opacity-60 text-xs">(Space)</span>
               </Button>
             )}
 
-            <Button
-              variant={isLooping ? "default" : "outline"}
-              onClick={() => setIsLooping(!isLooping)}
-              className={`h-11 px-3.5 rounded-xl text-xs font-semibold cursor-pointer gap-1.5 shrink-0 ${
-                isLooping ? "bg-purple-600 text-white" : "border-border/80 text-muted-foreground"
-              }`}
-              title="Loop Selection"
-            >
-              <Repeat className="h-4 w-4" />
-              <span>Loop</span>
-            </Button>
+            <div className="flex items-center gap-2 w-full sm:w-auto">
+              <Button
+                variant={isLooping ? "default" : "outline"}
+                onClick={() => setIsLooping(!isLooping)}
+                className={`flex-1 sm:flex-initial h-12 px-4 rounded-2xl text-xs sm:text-sm font-semibold cursor-pointer gap-2 ${
+                  isLooping ? "bg-purple-600 text-white" : "border-border/80 text-muted-foreground"
+                }`}
+                title="Loop Selection"
+              >
+                <Repeat className="h-4 w-4 shrink-0" />
+                <span>Loop</span>
+              </Button>
 
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => {
-                setStartTime(0);
-                setEndTime(duration);
-                setFadeIn(0);
-                setFadeOut(0);
-                setVolume(100);
-              }}
-              title="Reset Markers"
-              className="h-11 w-11 rounded-xl text-muted-foreground hover:text-foreground shrink-0 border border-border/60"
-            >
-              <RotateCcw className="h-4 w-4" />
-            </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => {
+                  setStartTime(0);
+                  setEndTime(duration);
+                  setFadeIn(0);
+                  setFadeOut(0);
+                  setVolume(100);
+                }}
+                title="Reset Markers"
+                className="h-12 w-12 rounded-2xl text-muted-foreground hover:text-foreground shrink-0 border-border/80 cursor-pointer"
+              >
+                <RotateCcw className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
 
           {/* Export Format & Download Trigger */}
@@ -671,7 +673,7 @@ export default function AudioCutterClient() {
               value={exportFormat}
               onChange={(e) => setExportFormat(e.target.value as typeof exportFormat)}
               aria-label="Audio Export Format"
-              className="w-full sm:w-auto h-12 px-4 rounded-xl border border-border/80 bg-background text-xs sm:text-sm font-bold text-foreground focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer shrink-0"
+              className="w-full sm:w-auto h-12 px-4 rounded-2xl border border-border/80 bg-background text-xs sm:text-sm font-bold text-foreground focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer shrink-0"
             >
               <option value="wav">WAV (Master Lossless)</option>
               <option value="mp3">MP3 Audio</option>
@@ -681,7 +683,7 @@ export default function AudioCutterClient() {
             <Button
               onClick={handleExport}
               disabled={isExporting || !audioBuffer}
-              className="w-full sm:flex-1 h-12 px-6 rounded-xl font-bold bg-gradient-to-r from-purple-600 via-indigo-600 to-primary hover:opacity-90 text-white shadow-lg cursor-pointer gap-2 justify-center text-xs sm:text-sm"
+              className="w-full sm:flex-1 h-12 px-6 rounded-2xl font-bold bg-gradient-to-r from-purple-600 via-indigo-600 to-primary hover:opacity-90 text-white shadow-lg cursor-pointer gap-2 justify-center text-xs sm:text-sm"
             >
               {isExporting ? (
                 <Sparkles className="h-4 w-4 animate-spin shrink-0" />
