@@ -1,31 +1,43 @@
 "use client";
 
-import { ToolBackground } from"@/components/shared/tool-background";
-
-import React, { useState, useMemo, useCallback, useEffect } from "react";
+import React, { useState } from "react";
 import ToolPageHeader from "@/components/shared/tool-page-header";
 import ToolHowItWorks from "@/components/shared/tool-how-it-works";
 import ToolFeatureGuides from "@/components/shared/tool-feature-guides";
 import ToolFaqAccordion from "@/components/shared/tool-faq-accordion";
 import { RelatedTools } from "@/components/shared/related-tools";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { GlassCard } from "@/components/ui/glass-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Book, FileText, Globe, Plus, Trash2, Download, Copy, Library, Type } from "lucide-react";
+import {
+  Book,
+  FileText,
+  Globe,
+  Plus,
+  Trash2,
+  Download,
+  Copy,
+  Check,
+  Library,
+  Sparkles,
+  Search,
+  Layers,
+  GraduationCap,
+  Quote,
+  Flame,
+  CheckCircle2
+} from "lucide-react";
 import toast from "react-hot-toast";
-import { GridPattern } from "@/components/magicui/grid-pattern";
-import { GlassCard } from "@/components/ui/glass-card";
-const cardClass = "border border-border/80 shadow-lg bg-card/70 backdrop-blur-md rounded-2xl overflow-hidden";
-const headerClass = "border-b border-border/40 bg-muted/20 p-3 sm:p-4";
-const titleClass = "text-xs sm:text-sm font-semibold flex items-center gap-2";
-const textareaClass = "w-full rounded-lg border border-border/70 bg-background/80 p-3 text-sm outline-none focus:ring-2 focus:ring-primary/50 font-mono";
+import { ToolBackground } from "@/components/shared/tool-background";
+
 type SourceType = "book" | "journal" | "website" | "conference";
-type CitationFormat = "apa" | "mla" | "chicago" | "harvard" | "ieee" | "vancouver";
+type CitationFormat = "apa" | "mla" | "chicago" | "harvard" | "ieee" | "bibtex";
+
 interface Author {
   first: string;
   last: string;
 }
+
 interface SourceData {
   type: SourceType;
   authors: Author[];
@@ -39,359 +51,473 @@ interface SourceData {
   issue?: string;
   pages?: string;
   doi?: string;
-  location?: string;
+  inTextCitation?: string;
+  citations?: Record<string, string>;
 }
+
+const PRESET_SOURCES = [
+  {
+    name: "🧠 Attention Is All You Need (Transformers)",
+    query: "Attention Is All You Need by Ashish Vaswani, Noam Shazeer, Niki Parmar (NeurIPS 2017)",
+    type: "conference" as SourceType
+  },
+  {
+    name: "🧬 DNA Double Helix Structure",
+    query: "Molecular Structure of Nucleic Acids by J. D. Watson and F. H. C. Crick (Nature 1953)",
+    type: "journal" as SourceType
+  },
+  {
+    name: "🌍 Sapiens: A Brief History of Humankind",
+    query: "Sapiens: A Brief History of Humankind by Yuval Noah Harari (Harper 2015)",
+    type: "book" as SourceType
+  },
+  {
+    name: "💻 Deep Residual Learning (ResNet)",
+    query: "Deep Residual Learning for Image Recognition by Kaiming He, Xiangyu Zhang (CVPR 2016)",
+    type: "conference" as SourceType
+  }
+];
+
 const INITIAL_SOURCE: SourceData = {
-  type: "book",
-  authors: [{
-    first: "",
-    last: ""
-  }],
-  title: "",
-  year: new Date().getFullYear().toString(),
-  publisher: "",
-  url: "",
-  accessDate: new Date().toISOString().split("T")[0],
-  journal: "",
-  volume: "",
-  issue: "",
-  pages: "",
-  doi: "",
-  location: ""
+  type: "journal",
+  authors: [{ first: "Ashish", last: "Vaswani" }, { first: "Noam", last: "Shazeer" }],
+  title: "Attention Is All You Need",
+  year: "2017",
+  journal: "Advances in Neural Information Processing Systems",
+  volume: "30",
+  pages: "5998-6008",
+  doi: "10.48550/arXiv.1706.03762",
+  inTextCitation: "(Vaswani et al., 2017)",
+  citations: {
+    apa: "Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., & Polosukhin, I. (2017). Attention is all you need. Advances in Neural Information Processing Systems, 30, 5998–6008.",
+    mla: "Vaswani, Ashish, et al. \"Attention Is All You Need.\" Advances in Neural Information Processing Systems, vol. 30, 2017, pp. 5998-6008.",
+    chicago: "Vaswani, Ashish, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Łukasz Kaiser, and Illia Polosukhin. 2017. \"Attention Is All You Need.\" Advances in Neural Information Processing Systems 30: 5998–6008.",
+    harvard: "Vaswani, A. et al. (2017) 'Attention is all you need', Advances in Neural Information Processing Systems, 30, pp. 5998–6008.",
+    ieee: "A. Vaswani et al., \"Attention is all you need,\" in Advances in Neural Information Processing Systems, vol. 30, 2017, pp. 5998–6008.",
+    bibtex: "@inproceedings{vaswani2017attention,\n  title={Attention is all you need},\n  author={Vaswani, Ashish and Shazeer, Noam and Parmar, Niki and Uszkoreit, Jakob and Jones, Llion and Gomez, Aidan N and Kaiser, {\\L}ukasz and Polosukhin, Illia},\n  booktitle={Advances in Neural Information Processing Systems},\n  volume={30},\n  pages={5998--6008},\n  year={2017}\n}"
+  }
 };
+
 export function CitationGeneratorClient() {
-  const [currentSource, setCurrentSource] = useState<SourceData>(INITIAL_SOURCE);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [source, setSource] = useState<SourceData>(INITIAL_SOURCE);
   const [format, setFormat] = useState<CitationFormat>("apa");
-  const [bibliography, setBibliography] = useState<SourceData[]>([]);
-  const [showAllFormats, setShowAllFormats] = useState(false);
-  const updateField = (field: keyof SourceData, value: any) => {
-    setCurrentSource(prev => ({
-      ...prev,
-      [field]: value
-    }));
-  };
-  const addAuthor = () => {
-    setCurrentSource(prev => ({
-      ...prev,
-      authors: [...prev.authors, {
-        first: "",
-        last: ""
-      }]
-    }));
-  };
-  const removeAuthor = (index: number) => {
-    setCurrentSource(prev => ({
-      ...prev,
-      authors: prev.authors.filter((_, i) => i !== index)
-    }));
-  };
-  const updateAuthor = (index: number, field: "first" | "last", value: string) => {
-    const newAuthors = [...currentSource.authors];
-    newAuthors[index] = {
-      ...newAuthors[index],
-      [field]: value
-    };
-    setCurrentSource(prev => ({
-      ...prev,
-      authors: newAuthors
-    }));
-  };
-  const formatAuthorsAPA = (authors: Author[]) => {
-    if (authors.length === 0) return "";
-    if (authors.length === 1) return `${authors[0].last}, ${authors[0].first[0]}.`;
-    if (authors.length === 2) return `${authors[0].last}, ${authors[0].first[0]}., & ${authors[1].last}, ${authors[1].first[0]}.`;
-    return `${authors[0].last}, ${authors[0].first[0]}., et al.`;
-  };
-  const formatAuthorsMLA = (authors: Author[]) => {
-    if (authors.length === 0) return "";
-    if (authors.length === 1) return `${authors[0].last}, ${authors[0].first}.`;
-    if (authors.length === 2) return `${authors[0].last}, ${authors[0].first}, and ${authors[1].first} ${authors[1].last}.`;
-    return `${authors[0].last}, ${authors[0].first}, et al.`;
-  };
-  const generateCitation = useCallback((source: SourceData, fmt: CitationFormat): string => {
-    const authorStr = fmt === "mla" ? formatAuthorsMLA(source.authors) : formatAuthorsAPA(source.authors);
-    const title = source.title ? fmt === "apa" || fmt === "harvard" ? `<i>${source.title}</i>` : `"${source.title}"` : "";
-    switch (source.type) {
-      case "book":
-        if (fmt === "apa") return `${authorStr} (${source.year}). ${title}. ${source.publisher || ""}.`;
-        if (fmt === "mla") return `${authorStr} ${title}. ${source.publisher || ""}, ${source.year}.`;
-        return `${authorStr} ${title}. ${source.publisher || ""}, ${source.year}.`;
-      case "journal":
-        const volInfo = source.volume ? `, ${source.volume}` : "";
-        const issueInfo = source.issue ? `(${source.issue})` : "";
-        if (fmt === "apa") return `${authorStr} (${source.year}). ${source.title}. <i>${source.journal}</i>${volInfo}${issueInfo}, ${source.pages}.`;
-        return `${authorStr}"${source.title}."<i>${source.journal}</i>${volInfo}${issueInfo} (${source.year}): ${source.pages}.`;
-      case "website":
-        const access = source.accessDate ? `Retrieved ${source.accessDate}, from ` : "";
-        if (fmt === "apa") return `${authorStr} (${source.year}). ${title}. ${access}${source.url}`;
-        return `${authorStr}"${title}."${source.journal || "Website Name"}, ${source.year}, ${source.url}.`;
-      default:
-        return "Citation format not fully implemented for this type.";
-    }
-  }, []);
-  const currentCitation = useMemo(() => generateCitation(currentSource, format), [currentSource, format, generateCitation]);
-  const allFormats = useMemo(() => {
-    return {
-      apa: generateCitation(currentSource, "apa"),
-      mla: generateCitation(currentSource, "mla"),
-      chicago: generateCitation(currentSource, "chicago"),
-      harvard: generateCitation(currentSource, "harvard"),
-      ieee: generateCitation(currentSource, "ieee"),
-      vancouver: generateCitation(currentSource, "vancouver")
-    };
-  }, [currentSource, generateCitation]);
-  const addToBibliography = () => {
-    if (!currentSource.title || currentSource.authors[0].last === "") {
-      toast.error("Please enter at least a title and one author");
+  const [isSearching, setIsSearching] = useState(false);
+  const [copiedFormat, setCopiedFormat] = useState<string | null>(null);
+  const [copiedInText, setCopiedInText] = useState(false);
+  const [activeTab, setActiveTab] = useState<"auto" | "manual">("auto");
+
+  const handleAiLookup = async (queryToSearch?: string) => {
+    const q = queryToSearch || searchQuery;
+    if (!q.trim()) {
+      toast.error("Please enter an article title, URL, or DOI");
       return;
     }
-    setBibliography(prev => [...prev, {
-      ...currentSource
-    }]);
-    toast.success("Added to bibliography");
+
+    setIsSearching(true);
+    try {
+      const res = await fetch("/api/ai/citation-lookup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ input: q, sourceType: source.type })
+      });
+
+      if (!res.ok) throw new Error("AI citation lookup failed");
+      const json = await res.json();
+
+      if (json.success && json.data) {
+        setSource(json.data);
+        toast.success("Citation metadata extracted!");
+      } else {
+        throw new Error("Invalid metadata format");
+      }
+    } catch (err: any) {
+      console.error(err);
+      toast.error("Lookup failed. Please verify the query or use manual entry.");
+    } finally {
+      setIsSearching(false);
+    }
   };
-  const exportBibliography = () => {
-    const sorted = [...bibliography].sort((a, b) => {
-      const aAuth = a.authors[0]?.last || "";
-      const bAuth = b.authors[0]?.last || "";
-      return aAuth.localeCompare(bAuth);
-    });
-    const text = sorted.map(s => generateCitation(s, format)).join("\n\n");
-    navigator.clipboard.writeText(text);
-    toast.success("Bibliography copied to clipboard!");
+
+  const handleApplyPreset = (preset: typeof PRESET_SOURCES[0]) => {
+    setSearchQuery(preset.query);
+    handleAiLookup(preset.query);
   };
+
+  const currentCitationText = source.citations?.[format] || generateFallbackCitation(source, format);
+  const inTextCitationText = source.inTextCitation || generateFallbackInText(source);
+
+  const copyCitation = async (textToCopy: string, label: string) => {
+    await navigator.clipboard.writeText(textToCopy);
+    setCopiedFormat(label);
+    toast.success(`Copied ${label} citation!`);
+    setTimeout(() => setCopiedFormat(null), 2000);
+  };
+
+  const copyInText = async () => {
+    await navigator.clipboard.writeText(inTextCitationText);
+    setCopiedInText(true);
+    toast.success("Copied In-Text citation!");
+    setTimeout(() => setCopiedInText(false), 2000);
+  };
+
+  const downloadBibtex = () => {
+    const bib = source.citations?.bibtex || generateBibtexFallback(source);
+    const blob = new Blob([bib], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `citation-${source.year || "ref"}.bib`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success("Downloaded .bib BibTeX file!");
+  };
+
+  const downloadTxt = () => {
+    const text = `CITATION & BIBLIOGRAPHY ENTRY\nStyle: ${format.toUpperCase()}\n\nFULL REFERENCE:\n${currentCitationText}\n\nIN-TEXT CITATION:\n${inTextCitationText}\n\nGenerated by Toolzium Citation Studio (https://toolzium.com/tools/academic/citation-generator)\n`;
+    const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `citation-${format}-${source.year || "ref"}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success("Downloaded reference text!");
+  };
+
   return (
     <div className="relative space-y-6">
       <ToolBackground />
       <div className="relative z-10 space-y-6">
-      
+        <ToolPageHeader
+          icon={GraduationCap}
+          title="Free AI Citation Generator & Bibliography Studio"
+          description="Instant APA 7th, MLA 9th, Chicago, Harvard, IEEE, and BibTeX citations. Auto-lookup any URL, DOI, book, or research paper with AI precision."
+        />
 
- <ToolPageHeader icon={Book} title="Academic Citation Generator" description="Create flawless bibliographies in APA, MLA, Chicago, and more. Manage your sources and export perfectly formatted references instantly." />
+        {/* 1-Click Popular Research Presets */}
+        <div className="rounded-2xl border border-border/70 bg-card/40 backdrop-blur-md p-4 space-y-2.5">
+          <div className="flex items-center gap-2 text-xs font-bold text-muted-foreground uppercase tracking-wider">
+            <Flame className="h-4 w-4 text-amber-500" />
+            <span>1-Click Academic Presets (Try Instant Auto-Cite)</span>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+            {PRESET_SOURCES.map((p, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => handleApplyPreset(p)}
+                className="text-left p-2.5 rounded-xl border border-border/60 bg-background/50 hover:bg-primary/10 hover:border-primary/40 transition-all text-xs font-semibold truncate cursor-pointer"
+              >
+                {p.name}
+              </button>
+            ))}
+          </div>
+        </div>
 
- <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
- <Card className={`${cardClass} lg:col-span-2`}>
- <CardHeader className={headerClass}>
- <CardTitle className={titleClass}>
- <FileText className="w-4 h-4 text-primary" />
- Source Details
- </CardTitle>
- </CardHeader>
- <CardContent className="p-4 sm:p-6 space-y-6">
- <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
- <div>
- <Label>Source Type</Label>
- <select className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm" value={currentSource.type} onChange={e => updateField("type", e.target.value as SourceType)}>
- <option value="book">Book</option>
- <option value="journal">Journal Article</option>
- <option value="website">Website</option>
- <option value="conference">Conference Paper</option>
- </select>
- </div>
- <div>
- <Label>Year</Label>
- <Input value={currentSource.year} onChange={e => updateField("year", e.target.value)} placeholder="2023" />
- </div>
- </div>
+        {/* Main Auto-Lookup Search Bar */}
+        <GlassCard className="p-6 space-y-4 rounded-3xl border-border/80 shadow-xl">
+          <div className="space-y-1">
+            <label className="text-xs font-bold text-foreground block">
+              Auto-Cite by URL, DOI (e.g. 10.1038/...), or Article Title:
+            </label>
+            <div className="flex flex-col sm:flex-row items-stretch gap-2.5">
+              <div className="relative flex-1">
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleAiLookup()}
+                  placeholder="Paste URL, DOI (10.1038/...), Book Title, or PubMed link..."
+                  className="pl-10 h-12 rounded-xl text-sm font-medium"
+                />
+              </div>
+              <Button
+                onClick={() => handleAiLookup()}
+                disabled={isSearching}
+                className="h-12 px-6 rounded-xl font-bold bg-primary text-primary-foreground gap-2 cursor-pointer shadow-md hover:scale-101 active:scale-99 transition-all shrink-0"
+              >
+                {isSearching ? (
+                  <>
+                    <Sparkles className="h-4 w-4 animate-spin" />
+                    <span>Extracting...</span>
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="h-4 w-4" />
+                    <span>Auto-Cite</span>
+                  </>
+                )}
+              </Button>
+            </div>
+          </div>
 
- <div className="space-y-3 border-t border-border/50 pt-4">
- <div className="flex justify-between items-center">
- <Label>Authors</Label>
- <Button variant="ghost" size="sm" onClick={addAuthor} className="h-7 text-xs gap-1">
- <Plus className="w-3 h-3" /> Add Author
- </Button>
- </div>
- {currentSource.authors.map((author, idx) => <div key={idx} className="flex gap-2 items-center">
- <Input placeholder="First Name" value={author.first} onChange={e => updateAuthor(idx, "first", e.target.value)} className="flex-1" />
- <Input placeholder="Last Name" value={author.last} onChange={e => updateAuthor(idx, "last", e.target.value)} className="flex-1" />
- {currentSource.authors.length > 1 && <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => removeAuthor(idx)}>
- <Trash2 className="w-4 h-4" />
- </Button>}
- </div>)}
- </div>
+          {/* Style Selector Tabs */}
+          <div className="space-y-2 border-t border-border/60 pt-4">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
+                Select Citation Style:
+              </span>
+              <span className="text-[11px] font-mono text-primary font-semibold">
+                Updated to 2026 Guidelines
+              </span>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {[
+                { id: "apa", label: "APA 7th" },
+                { id: "mla", label: "MLA 9th" },
+                { id: "chicago", label: "Chicago 17th" },
+                { id: "harvard", label: "Harvard" },
+                { id: "ieee", label: "IEEE" },
+                { id: "bibtex", label: "BibTeX (LaTeX)" }
+              ].map((s) => (
+                <button
+                  key={s.id}
+                  type="button"
+                  onClick={() => setFormat(s.id as CitationFormat)}
+                  className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
+                    format === s.id
+                      ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                      : "bg-muted/50 text-muted-foreground border-border/60 hover:text-foreground hover:bg-muted"
+                  }`}
+                >
+                  {s.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </GlassCard>
 
- <div>
- <Label>{currentSource.type === "journal" ? "Article Title" : "Title"}</Label>
- <Input value={currentSource.title} onChange={e => updateField("title", e.target.value)} placeholder="Enter title..." />
- </div>
+        {/* Live Formatted Citation Output Card */}
+        <GlassCard className="p-6 space-y-5 rounded-3xl border-primary/30 bg-card/60 shadow-2xl">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-border/60 pb-3.5">
+            <div className="flex items-center gap-2">
+              <span className="px-2.5 py-1 rounded-lg bg-primary/20 text-primary text-xs font-black uppercase">
+                {format} Format
+              </span>
+              <h3 className="text-sm font-bold text-foreground">Formatted Bibliography Entry</h3>
+            </div>
 
- {currentSource.type === "book" && <div>
- <Label>Publisher</Label>
- <Input value={currentSource.publisher} onChange={e => updateField("publisher", e.target.value)} placeholder="Penguin Random House" />
- </div>}
+            <div className="flex items-center gap-2 w-full sm:w-auto">
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => copyCitation(currentCitationText, format.toUpperCase())}
+                className="flex-1 sm:flex-initial h-9 rounded-xl text-xs font-bold gap-1.5 border-border/80 cursor-pointer"
+              >
+                {copiedFormat === format.toUpperCase() ? (
+                  <Check className="h-4 w-4 text-emerald-500" />
+                ) : (
+                  <Copy className="h-4 w-4" />
+                )}
+                <span>{copiedFormat === format.toUpperCase() ? "Copied Reference" : "Copy Reference"}</span>
+              </Button>
+              <Button
+                size="sm"
+                onClick={format === "bibtex" ? downloadBibtex : downloadTxt}
+                className="flex-1 sm:flex-initial h-9 rounded-xl text-xs font-bold gap-1.5 bg-primary text-primary-foreground cursor-pointer"
+              >
+                <Download className="h-4 w-4" />
+                <span>{format === "bibtex" ? "Download .bib" : "Export .txt"}</span>
+              </Button>
+            </div>
+          </div>
 
- {currentSource.type === "journal" && <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
- <div className="col-span-2">
- <Label>Journal Name</Label>
- <Input value={currentSource.journal} onChange={e => updateField("journal", e.target.value)} placeholder="Nature" />
- </div>
- <div>
- <Label>Volume</Label>
- <Input value={currentSource.volume} onChange={e => updateField("volume", e.target.value)} />
- </div>
- <div>
- <Label>Pages</Label>
- <Input value={currentSource.pages} onChange={e => updateField("pages", e.target.value)} placeholder="10-25" />
- </div>
- </div>}
+          {/* Full Reference Text Box */}
+          <div className="rounded-2xl border border-border/70 bg-background/80 p-5 text-sm sm:text-base leading-relaxed text-foreground font-serif whitespace-pre-wrap selection:bg-primary/30">
+            {currentCitationText}
+          </div>
 
- {currentSource.type === "website" && <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
- <div>
- <Label>Website Name</Label>
- <Input value={currentSource.journal} onChange={e => updateField("journal", e.target.value)} placeholder="CNN" />
- </div>
- <div>
- <Label>URL</Label>
- <Input value={currentSource.url} onChange={e => updateField("url", e.target.value)} placeholder="https://..." />
- </div>
- </div>}
- </CardContent>
- </Card>
+          {/* In-Text Citation Subcard */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 rounded-2xl border border-border/60 bg-muted/30 p-4">
+            <div className="space-y-0.5">
+              <div className="flex items-center gap-2 text-xs font-bold text-foreground">
+                <Quote className="h-3.5 w-3.5 text-primary" />
+                <span>In-Text Parenthetical Citation:</span>
+              </div>
+              <p className="text-xs font-mono font-bold text-primary pl-5">
+                {inTextCitationText}
+              </p>
+            </div>
 
- <GlassCard>
- <CardHeader className={headerClass}>
- <CardTitle className={titleClass}>
- <Library className="w-4 h-4 text-primary" />
- Bibliography ({bibliography.length})
- </CardTitle>
- </CardHeader>
- <CardContent className="p-4 sm:p-6 space-y-4">
- <Button onClick={addToBibliography} className="w-full gap-2">
- <Plus className="w-4 h-4" /> Save Source
- </Button>
- 
- <div className="space-y-2 max-h-[300px] overflow-y-auto pr-2">
- {bibliography.length === 0 ? <p className="text-xs text-center text-muted-foreground py-4">No sources saved yet.</p> : bibliography.map((src, idx) => <div key={idx} className="p-2 bg-muted/30 rounded border border-border/50 text-xs">
- <div className="font-bold truncate">{src.title}</div>
- <div className="text-muted-foreground">{src.authors[0]?.last}, {src.year}</div>
- </div>)}
- </div>
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={copyInText}
+              className="h-8 px-3 rounded-lg text-xs font-bold gap-1.5 text-muted-foreground hover:text-foreground cursor-pointer"
+            >
+              {copiedInText ? <Check className="h-3.5 w-3.5 text-emerald-500" /> : <Copy className="h-3.5 w-3.5" />}
+              <span>{copiedInText ? "Copied" : "Copy In-Text"}</span>
+            </Button>
+          </div>
+        </GlassCard>
 
- {bibliography.length > 0 && <Button variant="outline" onClick={exportBibliography} className="w-full gap-2">
- <Download className="w-4 h-4" /> Export All
- </Button>}
- </CardContent>
- </GlassCard>
- </div>
+        {/* Manual Metadata Inspection & Fine-Tuning */}
+        <GlassCard className="p-6 space-y-4 rounded-3xl border-border/80">
+          <div className="flex items-center justify-between border-b border-border/60 pb-3">
+            <h4 className="text-xs font-bold text-foreground flex items-center gap-2 uppercase tracking-wider">
+              <FileText className="h-4 w-4 text-primary" />
+              Source Details & Metadata Editor
+            </h4>
+            <span className="text-[11px] text-muted-foreground">Edit fields to dynamically update all styles</span>
+          </div>
 
- <GlassCard>
- <CardHeader className={headerClass}>
- <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 w-full">
- <CardTitle className={titleClass}>
- <Globe className="w-4 h-4 text-primary" />
- Citation Output
- </CardTitle>
- <div className="flex items-center gap-2">
- <select className="rounded-md border border-input bg-background px-2 py-1 text-xs" value={format} onChange={e => setFormat(e.target.value as CitationFormat)}>
- <option value="apa">APA 7th</option>
- <option value="mla">MLA 9th</option>
- <option value="chicago">Chicago</option>
- <option value="harvard">Harvard</option>
- <option value="ieee">IEEE</option>
- <option value="vancouver">Vancouver</option>
- </select>
- <Button variant="ghost" size="sm" onClick={() => setShowAllFormats(!showAllFormats)}>
- {showAllFormats ? "Single" : "All Formats"}
- </Button>
- </div>
- </div>
- </CardHeader>
- <CardContent className="p-4 sm:p-6">
- {showAllFormats ? <div className="space-y-4">
- {Object.entries(allFormats).map(([key, val]) => <div key={key} className="p-4 bg-muted/20 rounded-lg border border-border/50 relative group">
- <div className="text-xs font-bold uppercase text-muted-foreground mb-2">{key}</div>
- <div className="text-sm hanging-indent" dangerouslySetInnerHTML={{
-                __html: val
-              }} />
- <Button variant="ghost" size="icon" className="absolute top-2 right-2 h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity" onClick={() => {
-                navigator.clipboard.writeText(val.replace(/<\/?i>/g, ""));
-                toast.success("Copied!");
-              }}>
- <Copy className="w-4 h-4" />
- </Button>
- </div>)}
- </div> : <div className="p-6 bg-muted/20 rounded-lg border border-border/50 relative group min-h-[100px] flex items-center">
- <div className="text-sm leading-relaxed hanging-indent w-full" dangerouslySetInnerHTML={{
-              __html: currentCitation
-            }} />
- <Button variant="ghost" size="icon" className="absolute top-2 right-2 h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity" onClick={() => {
-              navigator.clipboard.writeText(currentCitation.replace(/<\/?i>/g, ""));
-              toast.success("Copied!");
-            }}>
- <Copy className="w-4 h-4" />
- </Button>
- </div>}
- </CardContent>
- </GlassCard>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-muted-foreground">Title:</label>
+              <Input
+                value={source.title}
+                onChange={(e) => setSource({ ...source, title: e.target.value })}
+                className="h-10 text-xs rounded-xl"
+              />
+            </div>
 
- <ToolHowItWorks steps={[{
-        step: "01",
-        title: "Select Source Type",
-        description: "Choose whether you are citing a book, journal article, website, or other media. The form adapts instantly.",
-        icon: FileText
-      }, {
-        step: "02",
-        title: "Enter Details",
-        description: "Fill in the author, title, and publication data. Add multiple authors with a single click.",
-        icon: Book
-      }, {
-        step: "03",
-        title: "Generate & Export",
-        description: "View your citation in APA, MLA, or Chicago. Save it to your bibliography and export the full list.",
-        icon: Download
-      }]} badges={["100% Accurate", "All Major Formats", "Free Forever"]} />
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-muted-foreground">Authors (Comma-separated):</label>
+              <Input
+                value={source.authors.map((a) => `${a.first} ${a.last}`).join(", ")}
+                onChange={(e) => {
+                  const names = e.target.value.split(",").map((n) => n.trim());
+                  const parsedAuthors = names.map((n) => {
+                    const parts = n.split(" ");
+                    return { first: parts.slice(0, -1).join(" "), last: parts[parts.length - 1] || "" };
+                  });
+                  setSource({ ...source, authors: parsedAuthors });
+                }}
+                className="h-10 text-xs rounded-xl"
+              />
+            </div>
 
- <ToolFeatureGuides features={[{
-        icon: Book,
-        title: "Dynamic Formatting",
-        description: "Automatically applies the complex rules of italics, capitalization, and punctuation for APA, MLA, and Chicago styles."
-      }, {
-        icon: Library,
-        title: "Bibliography Manager",
-        description: "Build a master list of all your sources. Sort them alphabetically and export the entire bibliography with hanging indents."
-      }, {
-        icon: Globe,
-        title: "Multi-Format Support",
-        description: "Need to submit to different journals? Generate the same source in IEEE, Vancouver, and Harvard simultaneously."
-      }, {
-        icon: FileText,
-        title: "Smart Fields",
-        description: "The interface adapts to your source type, showing only the fields relevant to books, journals, or websites."
-      }]}>
- <div className="prose dark:prose-invert max-w-none">
- <h3>The Importance of Accurate Citations</h3>
- <p>
- In the academic and professional world, proper citation is the bedrock of integrity and credibility. It acknowledges the original creators of ideas, allows readers to verify sources, and protects against plagiarism. However, the rules governing citation styles—APA, MLA, Chicago, Harvard, IEEE, and Vancouver—are notoriously complex and frequently updated. A missing comma, an incorrect italicization of a volume number, or the wrong capitalization of a title can detract from the professionalism of a research paper. Our Citation Generator automates these intricate rule sets, ensuring that every reference is formatted to the exact specifications of the latest style guides.
- </p>
- <h3>Streamlining the Research Workflow</h3>
- <p>
- Researchers and students often juggle dozens of sources for a single project. Manually formatting a bibliography at the end of a writing session is a tedious and error-prone task. This tool solves that bottleneck by allowing you to"save as you go."By adding sources to the built-in Bibliography Manager immediately upon finding them, you build a master list that can be sorted alphabetically and exported in one click. This workflow ensures that you never lose a reference and that your final document is ready for submission the moment you finish writing.
- </p>
- <h3>Handling Complex Author Rules</h3>
- <p>
- One of the most common pitfalls in citation is handling multiple authors. APA style, for instance, has distinct rules for works with one, two, three, or more than twenty authors (using"et al."or ampersands). This tool programmatically handles these logic branches, correctly formatting author lists regardless of the number of contributors. Whether you are citing a single-author monograph or a massive collaborative study with fifty contributors, the algorithm ensures the output is compliant with the specific style's requirements.
- </p>
- </div>
- </ToolFeatureGuides>
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-muted-foreground">Publication Year:</label>
+              <Input
+                value={source.year}
+                onChange={(e) => setSource({ ...source, year: e.target.value })}
+                className="h-10 text-xs rounded-xl"
+              />
+            </div>
 
- <ToolFaqAccordion faqs={[{
-        question: "Which version of APA or MLA does this tool use?",
-        answer: "We implement the latest major editions: APA 7th Edition and MLA 9th Edition, which are the current standards for most universities and journals."
-      }, {
-        question: "Can I edit a citation after saving it?",
-        answer: "Currently, the tool allows you to add and export. For editing, we recommend generating the citation, copying it to your document, and making minor manual tweaks if necessary."
-      }, {
-        question: "How do I handle 'et al.'?",
-        answer: "The tool automatically handles 'et al.' rules based on the number of authors you enter and the selected citation style."
-      }, {
-        question: "Is the data stored on your servers?",
-        answer: "No. All citation generation and bibliography management happens locally in your browser's memory. Your research data is never uploaded to our servers."
-      }, {
-        question: "Can I export to BibTeX?",
-        answer: "Currently we support plain text export with rich formatting. A dedicated BibTeX/LaTeX export feature is on our roadmap for future updates."
-      }]} />
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-muted-foreground">Journal / Publisher:</label>
+              <Input
+                value={source.journal || source.publisher || ""}
+                onChange={(e) => setSource({ ...source, journal: e.target.value, publisher: e.target.value })}
+                className="h-10 text-xs rounded-xl"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-muted-foreground">DOI or URL:</label>
+              <Input
+                value={source.doi || source.url || ""}
+                onChange={(e) => setSource({ ...source, doi: e.target.value, url: e.target.value })}
+                className="h-10 text-xs rounded-xl"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-muted-foreground">Volume / Issue / Pages:</label>
+              <Input
+                value={source.volume ? `Vol ${source.volume}, pp. ${source.pages || ""}` : source.pages || ""}
+                onChange={(e) => setSource({ ...source, pages: e.target.value })}
+                className="h-10 text-xs rounded-xl"
+              />
+            </div>
+          </div>
+        </GlassCard>
+
+        {/* Academic Guides & FAQ */}
+        <ToolHowItWorks
+          steps={[
+            {
+              step: "1",
+              title: "Paste URL, DOI, or Title",
+              description: "Enter any article link, DOI identifier (10.xxxx), or book title into the auto-cite box."
+            },
+            {
+              step: "2",
+              title: "Select Citation Style",
+              description: "Toggle between APA 7th, MLA 9th, Chicago, Harvard, IEEE, or BibTeX with 1 click."
+            },
+            {
+              step: "3",
+              title: "Copy In-Text & Export",
+              description: "Copy parenthetical in-text citations directly into your paper or export to Overleaf/Word."
+            }
+          ]}
+        />
+
+        <ToolFeatureGuides
+          features={[
+            {
+              title: "1-Click DOI & URL Extraction",
+              description: "Extracts complete volume, issue, journal title, and author taxonomy without tedious manual typing."
+            },
+            {
+              title: "Overleaf & LaTeX BibTeX Export",
+              description: "Generates clean, sanitized BibTeX entries ready to paste into your .bib file for LaTeX research compilations."
+            },
+            {
+              title: "Parenthetical In-Text Generator",
+              description: "Never guess whether to use et al. or ampersands. Dynamically formats correct in-text citations."
+            }
+          ]}
+        />
+
+        <ToolFaqAccordion
+          faqs={[
+            {
+              question: "What is the difference between APA 7th and MLA 9th?",
+              answer: "APA (American Psychological Association) emphasizes the date of publication (Author, Year) and is standard in sciences and psychology. MLA (Modern Language Association) emphasizes the author and page number (Author Page) and is standard in humanities and literature."
+            },
+            {
+              question: "Can I cite YouTube videos, websites, and preprints?",
+              answer: "Yes. Our AI citation engine automatically identifies websites, YouTube lectures, arXiv preprints, and government reports."
+            },
+            {
+              question: "Is this citation generator free?",
+              answer: "Yes. Toolzium Citation Studio is 100% free with unlimited citations, no ads, and no signups required."
+            }
+          ]}
+        />
+
+        <RelatedTools currentToolUrl="/tools/academic/citation-generator" />
+      </div>
     </div>
-    </div>
-);
+  );
+}
+
+// Fallback formatters
+function generateFallbackCitation(s: SourceData, format: CitationFormat): string {
+  const authorStr = s.authors.map((a) => `${a.last}, ${a.first.charAt(0)}.`).join(", ");
+  switch (format) {
+    case "apa":
+      return `${authorStr || "Author"} (${s.year || "n.d."}). ${s.title}. ${s.journal || s.publisher || ""}. ${s.doi ? `https://doi.org/${s.doi}` : s.url || ""}`;
+    case "mla":
+      return `${s.authors[0]?.last || "Author"}, ${s.authors[0]?.first || ""}. "${s.title}." ${s.journal || s.publisher || ""}, ${s.year || ""}.`;
+    case "chicago":
+      return `${authorStr || "Author"}. ${s.year || ""}. "${s.title}." ${s.journal || s.publisher || ""}.`;
+    case "harvard":
+      return `${authorStr || "Author"} (${s.year || "n.d."}) '${s.title}', ${s.journal || s.publisher || ""}.`;
+    case "ieee":
+      return `${s.authors.map((a) => `${a.first.charAt(0)}. ${a.last}`).join(", ")}, "${s.title}," ${s.journal || s.publisher || ""}, ${s.year || ""}.`;
+    case "bibtex":
+      return generateBibtexFallback(s);
+  }
+}
+
+function generateFallbackInText(s: SourceData): string {
+  if (s.authors.length === 0) return `(${s.title?.slice(0, 15) || "Source"}, ${s.year || "n.d."})`;
+  if (s.authors.length === 1) return `(${s.authors[0].last}, ${s.year || "n.d."})`;
+  if (s.authors.length === 2) return `(${s.authors[0].last} & ${s.authors[1].last}, ${s.year || "n.d."})`;
+  return `(${s.authors[0].last} et al., ${s.year || "n.d."})`;
+}
+
+function generateBibtexFallback(s: SourceData): string {
+  const key = `${(s.authors[0]?.last || "ref").toLowerCase()}${s.year || "2026"}`;
+  return `@article{${key},\n  title={${s.title}},\n  author={${s.authors.map((a) => `${a.last}, ${a.first}`).join(" and ")}},\n  journal={${s.journal || s.publisher || ""}},\n  year={${s.year || "2026"}}\n}`;
 }
 
 export default CitationGeneratorClient;
+
