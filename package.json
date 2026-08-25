@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "lint:fix": "eslint --fix"
+    "lint:fix": "eslint --fix",
+    "generate:pins": "npx tsx scripts/generate_pins.ts",
+    "generate:image": "npx tsx scripts/google_labs_automator.ts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.0",
