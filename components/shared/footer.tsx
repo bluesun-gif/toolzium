@@ -28,34 +28,51 @@ function Footer() {
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Top: Logo + Category Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-          {/* Brand */}
+          {/* Brand & Socials (Grouped by Proximity) */}
           <div className="flex flex-col items-center md:items-start">
-            <div className="flex items-center gap-2 mb-3">
+            <div className="flex items-center gap-2.5 mb-3">
               <Image
                 src="/assets/logo.png"
-                height={40}
-                width={40}
+                height={36}
+                width={36}
                 alt="Toolzium Logo"
+                className="rounded-xl"
               />
-              <h2 className="text-xl font-semibold">Toolzium</h2>
+              <span className="text-xl font-bold tracking-tight text-foreground">Toolzium</span>
             </div>
-            <p className="text-sm text-muted-foreground text-center md:text-left max-w-xs">
+            <p className="text-sm text-muted-foreground text-center md:text-left max-w-xs leading-relaxed">
               {TOTAL_TOOLS_COUNT}+ free online tools for developers, designers, marketers, and
               everyone. No signup required.
             </p>
+
+            {/* Social Icons - Positioned directly with brand */}
+            <div className="flex items-center gap-3 mt-4">
+              {socialIcons.map((icon) => (
+                <a
+                  key={icon.name}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={icon.name}
+                  className="h-9 w-9 rounded-xl border border-border/60 bg-muted/40 hover:bg-primary/10 hover:border-primary/30 flex items-center justify-center text-muted-foreground hover:text-primary transition-all duration-200"
+                  href={icon.href}
+                >
+                  {icon.svg}
+                </a>
+              ))}
+            </div>
           </div>
 
           {/* Tool Categories */}
           <div className="flex flex-col items-center md:items-start">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-foreground/80 mb-3.5">
               Tool Categories
             </h3>
-            <ul className="grid grid-cols-2 gap-x-6 gap-y-1.5">
+            <ul className="grid grid-cols-2 gap-x-6 gap-y-2">
               {toolCategories.map((cat) => (
                 <li key={cat.name}>
                   <Link
                     href={cat.href}
-                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors"
+                    className="text-xs sm:text-sm text-muted-foreground hover:text-primary transition-colors font-medium"
                   >
                     {cat.name}
                   </Link>
@@ -66,15 +83,15 @@ function Footer() {
 
           {/* Quick Links */}
           <div className="flex flex-col items-center md:items-start">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-foreground/80 mb-3.5">
               Quick Links
             </h3>
-            <ul className="space-y-1.5">
+            <ul className="space-y-2">
               {navLinks.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors"
+                    className="text-xs sm:text-sm text-muted-foreground hover:text-primary transition-colors font-medium"
                   >
                     {link.name}
                   </Link>
@@ -84,28 +101,15 @@ function Footer() {
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="border-t border-border/40 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          {/* Social */}
-          <div className="flex gap-4">
-            {socialIcons.map((icon) => (
-              <a
-                key={icon.name}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={icon.name}
-                className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors duration-300"
-                href={icon.href}
-              >
-                {icon.svg}
-              </a>
-            ))}
-          </div>
-
-          {/* Copyright */}
-          <p className="text-xs text-gray-500 dark:text-gray-500">
-            &copy; {new Date().getFullYear()} Toolzium. All rights reserved.
+        {/* Bottom Bar: Copyright */}
+        <div className="border-t border-border/40 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
+          <p>
+            &copy; {new Date().getFullYear()} Toolzium. All rights reserved. Built for speed and privacy.
           </p>
+          <div className="flex items-center gap-4 text-xs">
+            <Link href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-primary transition-colors">Terms of Service</Link>
+          </div>
         </div>
       </div>
     </footer>
