@@ -412,10 +412,10 @@ export const ToolsData = [
           "Remove extra spaces, leading/trailing whitespace, duplicate blank lines, and tab characters from text online. Clean up formatting instantly.",
         popular: true,
       },
-          {
-        title: "Lorem Ipsum Generator",
+      {
+        title: "Placeholder & Dummy Text Studio",
         url: "/tools/text/lorem-ipsum",
-        description: "Generate custom Lorem Ipsum placeholder text by paragraphs, words, sentences, or lists. Includes HTML markup tag options, copy to clipboard, and instant preview. 100% free.",
+        description: "Generate custom dummy placeholder copy by paragraphs, words, sentences, or lists. Includes HTML markup tag options, copy to clipboard, and instant preview. 100% free.",
         popular: false,
       },
       {

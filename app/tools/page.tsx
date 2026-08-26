@@ -1,9 +1,5 @@
 import JsonLd from "@/components/seo/json-ld";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { GlassCard } from "@/components/ui/glass-card";
-import { Separator } from "@/components/ui/separator";
+import { ToolsDirectoryClient } from "@/components/tools/tools-directory-client";
 import { ToolsData, TOTAL_TOOLS_COUNT } from "@/data/tools";
 import { siteURL } from "@/lib/constants";
 import {
@@ -12,8 +8,6 @@ import {
   siteDescriptionFallback,
 } from "@/lib/seo-tools";
 import type { Metadata } from "next";
-import Link from "next/link";
-import { RecentlyUsedStrip } from "@/components/shared/recently-used-strip";
 
 const STATIC_KEYWORDS = [
   "online tools",
@@ -49,11 +43,11 @@ const description =
 const smartDescription = description || siteDescriptionFallback(ToolsData);
 
 export const metadata: Metadata = {
-  title: "Tools",
+  title: "All Free Online Tools — Fast, Private, In-Browser Utilities",
   description: smartDescription,
   keywords: KEYWORDS,
   openGraph: {
-    title: "Tools — Toolzium",
+    title: "All Free Online Tools — Toolzium",
     description: smartDescription,
     url: `${siteURL}/tools`,
     type: "website",
@@ -71,7 +65,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@Toolzium",
     creator: "@Toolzium",
-    title: "Tools — Toolzium",
+    title: "All Free Online Tools — Toolzium",
     description: smartDescription,
     images: [`${siteURL}/assets/toolzium-preview.png`],
   },
@@ -113,93 +107,12 @@ export default function ToolsIndexPage() {
   };
 
   return (
-    <main className="scroll-smooth">
+    <main className="scroll-smooth py-2 sm:py-4">
       <JsonLd data={navLd} />
-
-      {/* Hero */}
-      <header className="space-y-2 mb-6">
-        <h1 className="text-balance text-2xl font-semibold leading-tight tracking-tight md:text-3xl">
-          All Tools
-        </h1>
-        <p className="max-w-2xl text-pretty text-muted-foreground">
-          Utilities for links, text, PDF, images, development, SEO, and quick
-          calculations.
-        </p>
-      </header>
-
-      {/* Recently Used Quick Strip */}
-      <RecentlyUsedStrip />
-
-      {/* Category tiles */}
-      <section className="grid gap-3 grid-cols-2 lg:grid-cols-4">
-        {categories.map((c) => (
-          <Link
-            key={c.key}
-            href={`#cat-${c.key}`}
-            className="group focus:outline-none"
-          >
-            <GlassCard>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-base flex items-center gap-2">
-                  {c.icon && (
-                    <c.icon className="h-4 w-4 text-muted-foreground" />
-                  )}
-                  {c.label}
-                </CardTitle>
-                <CardDescription className="text-sm text-muted-foreground">
-                  {c.items.length} tools
-                </CardDescription>
-              </CardHeader>
-            </GlassCard>
-          </Link>
-        ))}
-      </section>
-
-      <Separator className="mt-8" />
-
-      {/* Grouped lists */}
-      <section>
-        {categories.map((c) => (
-          <div key={c.key} id={`cat-${c.key}`} className="py-4 first:pt-8">
-            <div className="mb-3 flex items-center gap-3">
-              <h2 className="text-xl font-semibold flex items-center gap-2">
-                {c.icon && <c.icon className="h-5 w-5 text-muted-foreground" />}
-                {c.label}
-              </h2>
-              <Badge variant="secondary">{c.items.length}</Badge>
-            </div>
-            <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {c.items.map((t) => (
-                <Link
-                  key={t.url}
-                  href={t.url}
-                  className="group focus:outline-none"
-                  aria-label={t.title}
-                >
-                  <GlassCard className="h-full">
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-base">{t.title}</CardTitle>
-                      <CardDescription className="text-sm text-muted-foreground">
-                        {t.description}
-                      </CardDescription>
-                    </CardHeader>
-                  </GlassCard>
-                </Link>
-              ))}
-            </div>
-          </div>
-        ))}
-      </section>
-
-      <Separator className="my-8" />
-
-      {/* Footer CTA */}
-      <footer className="flex flex-wrap items-center justify-between gap-3 text-sm text-muted-foreground">
-        <div>Didn’t find a tool? Request a new one.</div>
-        <Button asChild variant="outline">
-          <a href="mailto:contact@toolzium.com">Request a tool</a>
-        </Button>
-      </footer>
+      <ToolsDirectoryClient
+        categories={categories}
+        totalCount={TOTAL_TOOLS_COUNT}
+      />
     </main>
   );
 }
