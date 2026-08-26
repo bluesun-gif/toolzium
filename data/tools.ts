@@ -102,6 +102,12 @@ export const ToolsData = [
         description: "Curated, battle-tested system prompts and templates for ChatGPT, Claude, and Midjourney.",
         popular: true,
       },
+      {
+        title: "Live Growth & Traffic Analytics",
+        url: "/tools/analytics/growth",
+        description: "Real-time daily impressions, tool execution rankings, day-over-day momentum, and growth ladder.",
+        popular: true,
+      },
     ],
   },
   {

@@ -25,6 +25,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/security/ssl",
     "/alternatives",
     "/prompts",
+    "/tools/analytics/growth",
   ];
 
   const staticEntries: MetadataRoute.Sitemap = staticRoutes.map((route) => ({
