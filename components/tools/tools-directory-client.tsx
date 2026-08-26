@@ -4,50 +4,41 @@ import * as React from "react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { CardDescription, CardTitle } from "@/components/ui/card";
 import { GlassCard } from "@/components/ui/glass-card";
 import { Separator } from "@/components/ui/separator";
 import { RecentlyUsedStrip } from "@/components/shared/recently-used-strip";
-import { SparklesText } from "@/components/ui/sparkles-text";
+import { ToolsData, TOTAL_TOOLS_COUNT } from "@/data/tools";
 import {
   ArrowRight,
-  Check,
-  Compass,
-  CornerDownLeft,
   Filter,
   Layers,
   Search,
-  SlidersHorizontal,
   Sparkles,
   Wand2,
   X,
-  type LucideIcon,
 } from "lucide-react";
 
-type ToolItem = {
-  title: string;
-  url: string;
-  description: string;
-  popular?: boolean;
-};
-
-type Category = {
-  key: string;
-  label: string;
-  icon?: LucideIcon;
-  items: ToolItem[];
-};
-
-export function ToolsDirectoryClient({
-  categories,
-  totalCount,
-}: {
-  categories: Category[];
-  totalCount: number;
-}) {
+export function ToolsDirectoryClient() {
   const [searchQuery, setSearchQuery] = React.useState("");
   const [selectedCategory, setSelectedCategory] = React.useState<string>("all");
   const searchInputRef = React.useRef<HTMLInputElement>(null);
+
+  // Derive categories safely on the client
+  const categories = React.useMemo(() => {
+    return ToolsData.filter((cat) => cat.title !== "Tools").map((cat) => ({
+      key: cat.title
+        .toLowerCase()
+        .replace(/\s+/g, "-")
+        .replace(/&/g, "")
+        .replace(/[^a-z0-9-]/g, "")
+        .replace(/-+/g, "-")
+        .replace(/^-|-$/g, ""),
+      label: cat.title,
+      icon: cat.icon,
+      items: cat.items || [],
+    }));
+  }, []);
 
   // Keyboard shortcut ⌘K or / to focus search
   React.useEffect(() => {
@@ -84,7 +75,7 @@ export function ToolsDirectoryClient({
         const filteredItems = cat.items.filter(
           (item) =>
             item.title.toLowerCase().includes(query) ||
-            item.description.toLowerCase().includes(query)
+            (item.description && item.description.toLowerCase().includes(query))
         );
 
         return {
@@ -101,11 +92,11 @@ export function ToolsDirectoryClient({
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto">
-      {/* ─── DIRECTORY HERO & PROMINENT SEARCH ───────────────────────────── */}
+      {/* ─── DIRECTORY HERO & PROMINENT SEARCH (Issue #5) ────────────────── */}
       <div className="text-center space-y-4 pt-2 pb-4">
         <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/8 px-4 py-1 text-xs font-semibold text-primary">
           <Sparkles className="h-3.5 w-3.5" />
-          <span>{totalCount}+ Privacy-First Browser Tools</span>
+          <span>{TOTAL_TOOLS_COUNT}+ Privacy-First Browser Tools</span>
         </div>
 
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-foreground">
@@ -169,7 +160,7 @@ export function ToolsDirectoryClient({
             className="rounded-xl h-9 text-xs font-semibold px-3.5 shadow-xs"
           >
             <Layers className="mr-1.5 h-3.5 w-3.5" />
-            All Tools ({totalCount})
+            All Tools ({TOTAL_TOOLS_COUNT})
           </Button>
 
           {categories.map((c) => {

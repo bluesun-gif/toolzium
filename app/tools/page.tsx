@@ -78,21 +78,6 @@ export const metadata: Metadata = {
   },
 };
 
-const categories = ToolsData.filter((cat) => cat.title !== "Tools").map(
-  (cat) => ({
-    key: cat.title
-      .toLowerCase()
-      .replace(/\s+/g, "-")
-      .replace(/&/g, "")
-      .replace(/[^a-z0-9-]/g, "")
-      .replace(/-+/g, "-")
-      .replace(/^-|-$/g, ""),
-    label: cat.title,
-    icon: cat.icon,
-    items: cat.items,
-  })
-);
-
 export default function ToolsIndexPage() {
   const navLd = {
     "@context": "https://schema.org",
@@ -109,10 +94,7 @@ export default function ToolsIndexPage() {
   return (
     <main className="scroll-smooth py-2 sm:py-4">
       <JsonLd data={navLd} />
-      <ToolsDirectoryClient
-        categories={categories}
-        totalCount={TOTAL_TOOLS_COUNT}
-      />
+      <ToolsDirectoryClient />
     </main>
   );
 }
