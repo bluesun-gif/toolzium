@@ -161,6 +161,29 @@ export default async function PhoneProgrammaticPage({ params }: PageProps) {
           </CardHeader>
 
           <CardContent className="p-6 sm:p-8 space-y-6">
+            {/* Caller Identity Card (if detected or verified) */}
+            {data.callerName && (
+              <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-emerald-500/10 via-primary/5 to-transparent border border-emerald-500/30 flex items-center justify-between gap-4 flex-wrap">
+                <div className="flex items-center gap-3">
+                  <div className="h-11 w-11 rounded-xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+                    <ShieldCheck className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Registered Identity / Caller ID</span>
+                      <Badge className="bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border-0 text-[10px] font-bold">
+                        {data.callerType || "Verified Entity"}
+                      </Badge>
+                    </div>
+                    <p className="text-lg font-extrabold text-foreground mt-0.5">{data.callerName}</p>
+                  </div>
+                </div>
+                <Badge variant="outline" className="text-xs font-mono text-muted-foreground border-border/80">
+                  Source: {data.lookupSource === "truecaller_live" ? "Truecaller Database" : "Telecom Registry"}
+                </Badge>
+              </div>
+            )}
+
             {/* Metrics Breakdown */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
               <div className="p-4 rounded-2xl bg-muted/40 border border-border/60">

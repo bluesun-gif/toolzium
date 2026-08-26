@@ -9,13 +9,16 @@ export interface PhoneLookupResult {
   countryIso: string; // e.g. US
   carrier: string; // e.g. Verizon Wireless, AT&T, Bandwidth.com VoIP
   lineType: "Mobile" | "Landline" | "VoIP / Virtual" | "Toll-Free" | "Unknown";
+  callerName?: string; // e.g. "Apple Support", "Amazon Customer Service", or registered owner
+  callerType?: "Verified Entity" | "Government / Official" | "Individual / Registry" | "Automated System" | "Unknown";
+  isVerifiedIdentity?: boolean;
   riskScore: number; // 0 (Safe) to 100 (High Risk Scam)
   spamLevel: "SAFE" | "NEUTRAL" | "SUSPICIOUS" | "DANGEROUS SCAM";
   safeToAnswer: boolean;
   totalReports: number;
   complaintCategories: { name: string; count: number }[];
   recentNotes: { category: string; note: string; date: string }[];
-  lookupSource: "skipcalls_live" | "community_db" | "algorithmic_pattern";
+  lookupSource: "truecaller_live" | "skipcalls_live" | "verified_directory" | "community_db" | "algorithmic_pattern";
 }
 
 // Clean and normalize phone number to E.164 standard
@@ -277,6 +280,36 @@ function inferCarrierAndType(e164: string): { carrier: string; lineType: PhoneLo
   };
 }
 
+// Authoritative verified entities (Customer support, official institutions, tech, banking)
+const KNOWN_CALLER_IDENTITIES: Record<string, { name: string; type: PhoneLookupResult["callerType"]; verified: boolean }> = {
+  // Apple
+  "8002752273": { name: "Apple Support (Official)", type: "Verified Entity", verified: true },
+  // Amazon
+  "8882804331": { name: "Amazon Customer Service", type: "Verified Entity", verified: true },
+  // IRS Official
+  "8008291040": { name: "Internal Revenue Service (IRS Individual Help)", type: "Government / Official", verified: true },
+  "8008294933": { name: "IRS Business & Specialty Tax", type: "Government / Official", verified: true },
+  // Medicare
+  "8006334227": { name: "Medicare Hotline (Centers for Medicare & Medicaid)", type: "Government / Official", verified: true },
+  // Social Security
+  "8007721213": { name: "Social Security Administration (SSA)", type: "Government / Official", verified: true },
+  // Google
+  "6502530000": { name: "Google LLC Headquarters (Mountain View)", type: "Verified Entity", verified: true },
+  // Microsoft
+  "8006427676": { name: "Microsoft Support Line", type: "Verified Entity", verified: true },
+  // Banking
+  "8009359935": { name: "Chase Bank Customer Service", type: "Verified Entity", verified: true },
+  "8004321000": { name: "Bank of America Customer Service", type: "Verified Entity", verified: true },
+  "8008693557": { name: "Wells Fargo Customer Service", type: "Verified Entity", verified: true },
+  // Shipping
+  "8004633339": { name: "FedEx Customer Support", type: "Verified Entity", verified: true },
+  "8007425877": { name: "UPS (United Parcel Service)", type: "Verified Entity", verified: true },
+  "8002758777": { name: "USPS (United States Postal Service)", type: "Government / Official", verified: true },
+  // Streaming & Tech
+  "8665797172": { name: "Netflix Customer Service", type: "Verified Entity", verified: true },
+  "8882211161": { name: "PayPal Customer Support", type: "Verified Entity", verified: true },
+};
+
 export async function lookupPhone(
   rawInput: string,
   country = "US"
@@ -285,13 +318,58 @@ export async function lookupPhone(
   const pretty = formatE164Pretty(norm.e164);
   const { carrier, lineType } = inferCarrierAndType(norm.e164);
 
-  // 1. Fetch community reports from our storage engine
+  // 1. Check verified identities and caller name
+  let callerName: string | undefined = undefined;
+  let callerType: PhoneLookupResult["callerType"] = "Unknown";
+  let isVerifiedIdentity = false;
+
+  if (KNOWN_CALLER_IDENTITIES[norm.national]) {
+    const known = KNOWN_CALLER_IDENTITIES[norm.national];
+    callerName = known.name;
+    callerType = known.type;
+    isVerifiedIdentity = known.verified;
+  }
+
+  // 2. Fetch community reports from our storage engine
   const communityReports = getCommunityReports(norm.e164, "phone");
   let externalReportsCount = 0;
   let externalRisk = 0;
-  let lookupSource: PhoneLookupResult["lookupSource"] = "algorithmic_pattern";
+  let lookupSource: PhoneLookupResult["lookupSource"] = isVerifiedIdentity
+    ? "verified_directory"
+    : "algorithmic_pattern";
 
-  // 2. Try SkipCalls free public endpoint (no key required)
+  // 3. Try Truecaller API if TRUECALLER_AUTH_KEY is configured in .env
+  const truecallerKey = process.env.TRUECALLER_AUTH_KEY;
+  if (truecallerKey && !callerName) {
+    try {
+      const tcController = new AbortController();
+      const tcTimeout = setTimeout(() => tcController.abort(), 2000);
+      const tcRes = await fetch(
+        `https://search5-noneu.truecaller.com/v2/search?q=${encodeURIComponent(norm.e164)}&countryCode=${encodeURIComponent(norm.countryIso.toLowerCase())}`,
+        {
+          headers: {
+            Authorization: `Bearer ${truecallerKey}`,
+            "User-Agent": "Truecaller/13.37.5 (Android;13)",
+          },
+          signal: tcController.signal,
+        }
+      );
+      clearTimeout(tcTimeout);
+
+      if (tcRes.ok) {
+        const tcData = await tcRes.json();
+        if (tcData?.data?.[0]?.name) {
+          callerName = tcData.data[0].name;
+          callerType = tcData.data[0].phones?.[0]?.carrier ? "Individual / Registry" : "Unknown";
+          lookupSource = "truecaller_live";
+        }
+      }
+    } catch {
+      // Graceful fallback if Truecaller rate-limits or times out
+    }
+  }
+
+  // 4. Try SkipCalls free public endpoint (no key required)
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 2500);
@@ -307,12 +385,16 @@ export async function lookupPhone(
       if (data && typeof data.score !== "undefined") {
         externalRisk = Math.min(100, Math.max(0, Number(data.score) || 0));
         externalReportsCount = Number(data.reports) || 0;
-        lookupSource = "skipcalls_live";
+        if (lookupSource !== "truecaller_live" && lookupSource !== "verified_directory") {
+          lookupSource = "skipcalls_live";
+        }
       }
     }
   } catch {
     // Graceful fallback to community database
-    lookupSource = communityReports.length > 0 ? "community_db" : "algorithmic_pattern";
+    if (lookupSource !== "truecaller_live" && lookupSource !== "verified_directory") {
+      lookupSource = communityReports.length > 0 ? "community_db" : "algorithmic_pattern";
+    }
   }
 
   // 3. Compute consolidated risk score
@@ -354,6 +436,9 @@ export async function lookupPhone(
     countryIso: norm.countryIso,
     carrier,
     lineType,
+    callerName,
+    callerType,
+    isVerifiedIdentity,
     riskScore,
     spamLevel,
     safeToAnswer: riskScore < 40,
