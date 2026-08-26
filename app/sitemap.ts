@@ -1,8 +1,11 @@
 import { ToolsData } from "@/data/tools";
 import { env } from "@/lib/env";
+import { getAllSoftwareSlugs } from "@/lib/data/adapters/alternatives-adapter";
+import { getAllPromptSlugs } from "@/lib/data/adapters/prompts-adapter";
+import { getGeneratedPages, type GeneratedPageRecord } from "@/lib/storage/expansion-db";
 import type { MetadataRoute } from "next";
 
-const site = env.app.siteUrl;
+const site = env.app.siteUrl || "https://www.toolzium.com";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes = [
@@ -12,15 +15,51 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/privacy",
     "/terms",
     "/sponsor",
+    "/lookup/phone",
+    "/lookup/ip",
+    "/lookup/whois",
+    "/lookup/username",
+    "/security/password",
+    "/security/breach",
+    "/security/email",
+    "/security/ssl",
+    "/alternatives",
+    "/prompts",
   ];
 
   const staticEntries: MetadataRoute.Sitemap = staticRoutes.map((route) => ({
     url: new URL(route, site).toString(),
     lastModified: new Date(),
-    changeFrequency: "weekly",
-    priority: route === "" ? 1 : 0.6,
+    changeFrequency: "daily",
+    priority: route === "" ? 1 : 0.8,
   }));
 
+  // Software Alternatives Entries
+  const alternativeEntries: MetadataRoute.Sitemap = getAllSoftwareSlugs().map((slug) => ({
+    url: new URL(`/alternatives/${slug}`, site).toString(),
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.85,
+  }));
+
+  // Prompt Templates Entries
+  const promptEntries: MetadataRoute.Sitemap = getAllPromptSlugs().map((slug) => ({
+    url: new URL(`/prompts/${slug}`, site).toString(),
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.85,
+  }));
+
+  // Dynamically Generated Entity Pages (Phones, IPs, WHOIS, Usernames)
+  const dynamicGeneratedPages: GeneratedPageRecord[] = getGeneratedPages();
+  const programmaticEntries: MetadataRoute.Sitemap = dynamicGeneratedPages.map((page: GeneratedPageRecord) => ({
+    url: new URL(page.path, site).toString(),
+    lastModified: new Date(page.updatedAt || new Date()),
+    changeFrequency: "weekly" as const,
+    priority: 0.75,
+  }));
+
+  // Core Tools Directory & Tool Pages
   const categoryEntries: MetadataRoute.Sitemap = ToolsData.filter(
     (section) => section.url && section.url !== "/tools" && !staticRoutes.includes(section.url)
   ).map((section) => ({
@@ -41,5 +80,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       }))
   );
 
-  return [...staticEntries, ...categoryEntries, ...toolEntries];
+  return [
+    ...staticEntries,
+    ...alternativeEntries,
+    ...promptEntries,
+    ...programmaticEntries,
+    ...categoryEntries,
+    ...toolEntries,
+  ];
 }
