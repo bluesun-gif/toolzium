@@ -1,9 +1,46 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getGrowthAnalytics } from "@/lib/storage/expansion-db";
+import { auth } from "@/lib/auth";
+import { headers as nextHeaders } from "next/headers";
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
+// --- Admin guard helper ---
+async function isAuthorized(req: NextRequest): Promise<boolean> {
+  // 1. Allow Hermes / server-to-server requests via secret header
+  const secret = req.headers.get("x-analytics-secret");
+  if (secret && secret === process.env.ANALYTICS_ADMIN_SECRET) {
+    return true;
+  }
+
+  // 2. Allow the site owner signed in via session
+  const adminEmail = process.env.ADMIN_EMAIL;
+  if (!adminEmail) return false;
+
+  try {
+    const session = await auth.api.getSession({
+      headers: await nextHeaders(),
+    });
+    if (session?.user?.email === adminEmail) {
+      return true;
+    }
+  } catch {
+    // session fetch failure → deny
+  }
+
+  return false;
+}
+
+export async function GET(req: NextRequest) {
+  // ── Security Gate ──────────────────────────────────────────────────
+  if (!(await isAuthorized(req))) {
+    return NextResponse.json(
+      { success: false, error: "Unauthorized. This dashboard is private." },
+      { status: 401 }
+    );
+  }
+  // ────────────────────────────────────────────────────────────────────
+
   try {
     const data = getGrowthAnalytics(14);
 
