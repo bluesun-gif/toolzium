@@ -4,11 +4,12 @@ const nextConfig: any = {
   typescript: { ignoreBuildErrors: true },
   serverExternalPackages: ["pino", "pino-pretty"],
   compress: true,
+  poweredByHeader: false,
   images: {
     formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    minimumCacheTTL: 86400, // 24 hours — was 60s
+    minimumCacheTTL: 31536000, // 1 year
   },
   experimental: {
     optimizePackageImports: ["lucide-react", "@radix-ui/react-icons"],
@@ -80,6 +81,27 @@ const nextConfig: any = {
         { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
         { key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains" },
         { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+      ],
+    },
+    {
+      // Cache static tool pages aggressively
+      source: "/tools/(.*)",
+      headers: [
+        { key: "Cache-Control", value: "public, max-age=3600, stale-while-revalidate=86400" },
+      ],
+    },
+    {
+      // Cache programmatic lookup pages
+      source: "/(phone|ip|whois|username)/(.*)",
+      headers: [
+        { key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" },
+      ],
+    },
+    {
+      // Never cache API routes (except analytics which is protected)
+      source: "/api/(.*)",
+      headers: [
+        { key: "Cache-Control", value: "no-store, must-revalidate" },
       ],
     },
   ],

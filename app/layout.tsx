@@ -24,14 +24,18 @@ import {
 } from "@/lib/seo-tools";
 import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap", preload: true });
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-space-grotesk",
+  display: "swap",
+  preload: true,
 });
 const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-jetbrains",
+  display: "swap",
+  preload: true,
 });
 
 const STATIC_KEYWORDS = [

@@ -19,6 +19,7 @@ export interface PhoneLookupResult {
   complaintCategories: { name: string; count: number }[];
   recentNotes: { category: string; note: string; date: string }[];
   lookupSource: "truecaller_live" | "skipcalls_live" | "verified_directory" | "community_db" | "algorithmic_pattern";
+  locationRegion?: string; // e.g. "New York, NY" — populated from real API data when available
 }
 
 // Clean and normalize phone number to E.164 standard
@@ -318,6 +319,12 @@ export async function lookupPhone(
   const pretty = formatE164Pretty(norm.e164);
   const { carrier, lineType } = inferCarrierAndType(norm.e164);
 
+  // Mutable enrichment variables — overridden by real API data when available
+  let realCarrier = carrier;
+  let realLineType: PhoneLookupResult["lineType"] = lineType;
+  let realLocation = inferCarrierAndType(norm.e164).regionName || "";
+
+
   // 1. Check verified identities and caller name
   let callerName: string | undefined = undefined;
   let callerType: PhoneLookupResult["callerType"] = "Unknown";
@@ -369,7 +376,77 @@ export async function lookupPhone(
     }
   }
 
-  // 4. Try SkipCalls free public endpoint (no key required)
+  // 4. Try AbstractAPI Phone Validation (real carrier data, free tier – 250 req/month)
+  const abstractKey = process.env.ABSTRACT_PHONE_API_KEY;
+  if (abstractKey && !callerName) {
+    try {
+      const abstractController = new AbortController();
+      const abstractTimeout = setTimeout(() => abstractController.abort(), 3000);
+      const abstractRes = await fetch(
+        `https://phonevalidation.abstractapi.com/v1/?api_key=${abstractKey}&phone=${encodeURIComponent(norm.e164)}`,
+        { signal: abstractController.signal }
+      );
+      clearTimeout(abstractTimeout);
+      if (abstractRes.ok) {
+        const abstractData = await abstractRes.json();
+        if (abstractData?.valid && abstractData?.carrier) {
+          // Override static carrier with real data
+          realCarrier = abstractData.carrier || realCarrier;
+          realLineType =
+            abstractData.type === "mobile"
+              ? "Mobile"
+              : abstractData.type === "landline"
+              ? "Landline"
+              : abstractData.type === "voip"
+              ? "VoIP / Virtual"
+              : realLineType;
+          realLocation = abstractData.location || realLocation;
+          if (lookupSource !== "truecaller_live" && lookupSource !== "verified_directory") {
+            lookupSource = "skipcalls_live"; // mark as enriched with real data
+          }
+        }
+      }
+    } catch {
+      /* graceful fallback — static values remain */
+    }
+  }
+
+  // 5. Try NumLookupAPI (1000 free req/day, real carrier data)
+  const numLookupKey = process.env.NUMLOOKUP_API_KEY;
+  if (numLookupKey && !callerName) {
+    try {
+      const nlController = new AbortController();
+      const nlTimeout = setTimeout(() => nlController.abort(), 3000);
+      const nlRes = await fetch(
+        `https://api.numlookupapi.com/v1/validate/${encodeURIComponent(norm.e164)}?apikey=${numLookupKey}`,
+        { signal: nlController.signal }
+      );
+      clearTimeout(nlTimeout);
+      if (nlRes.ok) {
+        const nlData = await nlRes.json();
+        if (nlData?.valid && nlData?.carrier) {
+          realCarrier = nlData.carrier || realCarrier;
+          realLineType =
+            nlData.line_type === "mobile"
+              ? "Mobile"
+              : nlData.line_type === "landline"
+              ? "Landline"
+              : nlData.line_type === "voip"
+              ? "VoIP / Virtual"
+              : realLineType;
+          realLocation = nlData.location || realLocation;
+          if (lookupSource !== "truecaller_live" && lookupSource !== "verified_directory") {
+            lookupSource = "skipcalls_live";
+          }
+        }
+      }
+    } catch {
+      /* graceful fallback — previous values remain */
+    }
+  }
+
+  // 6. Try SkipCalls free public endpoint (no key required)
+
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 2500);
@@ -434,8 +511,8 @@ export async function lookupPhone(
     countryCode: norm.countryCode,
     countryName: norm.countryName,
     countryIso: norm.countryIso,
-    carrier,
-    lineType,
+    carrier: realCarrier,
+    lineType: realLineType,
     callerName,
     callerType,
     isVerifiedIdentity,
@@ -446,5 +523,7 @@ export async function lookupPhone(
     complaintCategories,
     recentNotes,
     lookupSource,
+    locationRegion: realLocation || undefined,
   };
+
 }

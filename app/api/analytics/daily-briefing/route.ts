@@ -81,6 +81,8 @@ ${data.topToolsRanking
       success: true,
       data,
       briefingMarkdown,
+    }, {
+      headers: { "Cache-Control": "private, max-age=60" },
     });
   } catch (error) {
     return NextResponse.json(
