@@ -1,3 +1,1 @@
-# Google AdSense (App Ads)
-# Replace pub-PLACEHOLDER with your real Google AdSense publisher ID
-google.com, pub-PLACEHOLDER, DIRECT, f08c47fec0942fa0
+google.com, pub-9922851280224099, DIRECT, f08c47fec0942fa0

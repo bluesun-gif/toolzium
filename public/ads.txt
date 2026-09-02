@@ -1,4 +1,1 @@
-# Google AdSense
-# Replace pub-PLACEHOLDER with your real Google AdSense publisher ID (from AdSense dashboard → Account → Publisher ID)
-# Example: google.com, pub-1234567890123456, DIRECT, f08c47fec0942fa0
-google.com, pub-PLACEHOLDER, DIRECT, f08c47fec0942fa0
+google.com, pub-9922851280224099, DIRECT, f08c47fec0942fa0

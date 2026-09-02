@@ -227,10 +227,10 @@ export default function RootLayout({
           </AuthSessionProvider>
           <ToasterProvider />
         </I18nProvider>
-        {/* Google AdSense — Replace ca-pub-PLACEHOLDER with your real publisher ID after AdSense approval */}
+        {/* Google AdSense — Publisher ID: ca-pub-9922851280224099 */}
         <Script
           async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-PLACEHOLDER"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9922851280224099"
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
