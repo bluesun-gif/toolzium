@@ -1,5 +1,6 @@
 import "leaflet/dist/leaflet.css";
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import "./globals.css";
 
 import {
@@ -226,6 +227,13 @@ export default function RootLayout({
           </AuthSessionProvider>
           <ToasterProvider />
         </I18nProvider>
+        {/* Google AdSense — Replace ca-pub-PLACEHOLDER with your real publisher ID after AdSense approval */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-PLACEHOLDER"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
