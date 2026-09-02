@@ -30,13 +30,13 @@ export function AdSlot({
       data-ad-slot={slotId}
       data-ad-format={format}
     >
-      <div className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground/60 mb-1">
+      <div className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground/80 mb-1">
         <span>{title}</span>
       </div>
 
       {/* Auto-Ads / Ezoic / AdSense Injection Container */}
-      <div className="w-full flex-1 flex items-center justify-center text-xs text-muted-foreground/50">
-        <span className="font-mono text-[11px] opacity-75">
+      <div className="w-full flex-1 flex items-center justify-center text-xs text-muted-foreground">
+        <span className="font-mono text-xs text-muted-foreground/80">
           Ezoic / AdSense Responsive Container • Slot: {slotId}
         </span>
       </div>

@@ -52,9 +52,9 @@ export function ToolPageWrapper({ children, title }: ToolPageWrapperProps) {
             {/* Ad Slot — auto-hidden for premium users */}
             <AdSlot />
 
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-4 rounded-2xl bg-card/60 border border-border/70">
+            <div className="w-full max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-xl bg-card/60 border border-border/70 shadow-xs">
               <ShareTool title={detectedTitle} url={fullUrl} />
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 shrink-0">
                 <EmbedButton toolPath={pathname} toolTitle={detectedTitle} />
               </div>
             </div>

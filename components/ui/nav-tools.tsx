@@ -98,14 +98,18 @@ export function NavMain({
                   </SidebarMenuButton>
                 </CollapsibleTrigger>
                 <CollapsibleContent>
-                  <SidebarMenuSub className="my-1 border-l-2 border-primary/20 ml-3.5 pl-2 space-y-0.5">
+                  <SidebarMenuSub className="my-1 border-l-2 border-primary/20 ml-3.5 pl-2 space-y-1">
                     {item.items?.map((subItem) => {
                       const active = isActiveItems(subItem.url);
                       return (
                         <SidebarMenuSubItem key={subItem.title}>
-                          <SidebarMenuSubButton asChild isActive={active} className="rounded-lg h-7 text-xs">
+                          <SidebarMenuSubButton
+                            asChild
+                            isActive={active}
+                            className="rounded-lg h-auto min-h-[34px] py-1.5 px-2 text-xs leading-snug"
+                          >
                             <Link href={subItem.url} className="w-full min-w-0 flex items-center">
-                              <span className="truncate w-full min-w-0 block">{subItem.title}</span>
+                              <span className="truncate w-full min-w-0 block text-xs font-medium">{subItem.title}</span>
                             </Link>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
