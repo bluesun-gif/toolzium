@@ -1,16 +1,5 @@
-﻿{
-  "headers": [
-    {
-      "source": "/phone/(.*)",
-      "headers": [{"key": "Cache-Control", "value": "public, s-maxage=86400, stale-while-revalidate=604800"}]
-    },
-    {
-      "source": "/ip/(.*)",
-      "headers": [{"key": "Cache-Control", "value": "public, s-maxage=86400, stale-while-revalidate=604800"}]
-    },
-    {
-      "source": "/whois/(.*)",
-      "headers": [{"key": "Cache-Control", "value": "public, s-maxage=86400, stale-while-revalidate=604800"}]
-    }
-  ]
+{
+  "buildCommand": "next build",
+  "framework": "nextjs",
+  "outputDirectory": ".next"
 }
