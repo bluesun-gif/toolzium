@@ -59,28 +59,50 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.75,
   }));
 
-  // Pre-seeded high-traffic phone number pages for immediate SEO indexing
-  const preSeededPhoneNumbers = [
-    "+18002752273", "+18884280232", "+18008290922", "+18009220204", "+18005221222",
-    "+18004321000", "+18009359935", "+18008693557", "+18006427676", "+18002244177",
-    "+18003759900", "+18005281000", "+18007742678", "+18003800366", "+14152900946",
-    "+18004639776", "+18886802426", "+18005711000", "+18006423790", "+18443432100",
-    "+18005267955", "+18887807234", "+18008015856", "+18006500020", "+18009009248",
-    "+12025551234", "+13105551234", "+12125551234", "+14085551234", "+16505550123",
-    "+18005550199", "+18776453279", "+18772327871", "+12135551234", "+13125551234",
-    "+17035551234", "+14045551234", "+17135551234", "+12025550177", "+18009220204",
-    "+18008284322", "+18887462453", "+16178570900", "+19292005765", "+17147810800",
-    "+18554800648", "+18887467726", "+12124561000", "+18004668411", "+14153851000",
+  // Pre-seeded 1000 phone number lookup pages (top 50 US area codes × 20 patterns)
+  const TOP_US_AREA_CODES = [
+    "212","213","214","215","216","312","313","314","317","323",
+    "347","404","407","408","410","412","415","424","469","470",
+    "503","512","513","516","517","518","561","571","602","612",
+    "614","615","617","619","630","646","678","702","703","704",
+    "713","714","718","720","737","770","786","801","813","817",
   ];
-  const preSeededPhoneEntries: MetadataRoute.Sitemap = preSeededPhoneNumbers.map((number) => {
-    const encoded = number.replace("+", "%2B");
-    return {
-      url: new URL(`/phone/${encoded}`, site).toString(),
-      lastModified: new Date(),
-      changeFrequency: "weekly" as const,
-      priority: 0.75,
-    };
-  });
+  // 20 common 7-digit suffixes (exchange + subscriber number, valid E.164 after area code)
+  const PHONE_7DIGIT = [
+    "5550100","5550200","5550300","5550400","5550500",
+    "5551000","5551100","5551200","5551300","5551400",
+    "5552000","5552100","5552200","5552300","5552400",
+    "5553000","5553100","5553200","5553300","5554000",
+  ];
+  const preSeededPhoneNumbers: string[] = TOP_US_AREA_CODES.flatMap((area) =>
+    PHONE_7DIGIT.map((suffix) => `+1${area}${suffix}`)
+  );
+  const preSeededPhoneEntries: MetadataRoute.Sitemap = preSeededPhoneNumbers.map((phone) => ({
+    url: new URL(`/phone/${encodeURIComponent(phone)}`, site).toString(),
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.8,
+  }));
+
+  // Toll-free numbers (extremely high search volume)
+  const TOLL_FREE_NUMBERS = [
+    "+18002752273","+18884280232","+18008290922","+18009220204","+18005221222",
+    "+18004321000","+18009359935","+18008693557","+18006427676","+18002244177",
+    "+18003759900","+18005281000","+18007742678","+18003800366","+18004639776",
+    "+18886802426","+18005711000","+18006423790","+18443432100","+18005267955",
+    "+18887807234","+18008015856","+18006500020","+18009009248","+18008284322",
+    "+18887462453","+18554800648","+18887746726","+18002253227","+18003062273",
+    "+18774232453","+18779008055","+18884742673","+18554802273","+18669710100",
+    "+18003316000","+18773732677","+18882807717","+18662394253","+18445429872",
+    "+18005551234","+18004448888","+18003334444","+18002221111","+18885559999",
+    "+18774448888","+18662223333","+18553334444","+18445556666","+18337778888",
+  ];
+  const tollFreeEntries: MetadataRoute.Sitemap = TOLL_FREE_NUMBERS.map((phone) => ({
+    url: new URL(`/phone/${encodeURIComponent(phone)}`, site).toString(),
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.85,
+  }));
 
   // Pre-seeded high-traffic IP lookup pages for immediate SEO indexing
   const preSeededIPs = [
@@ -162,6 +184,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...promptEntries,
     ...programmaticEntries,
     ...preSeededPhoneEntries,
+    ...tollFreeEntries,
     ...preSeededIPEntries,
     ...preSeededWhoisEntries,
     ...preSeededUsernameEntries,
