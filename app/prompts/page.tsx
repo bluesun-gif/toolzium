@@ -23,7 +23,7 @@ export default function PromptsHub() {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState<string>("ALL");
 
-  const categories = ["ALL", "Coding & Dev", "Writing & SEO", "Midjourney & Art", "Defensive & Logic"];
+  const categories = ["ALL", "Coding & Dev", "Writing & SEO", "Business & Marketing", "System Prompts", "Midjourney & Art", "Defensive & Logic"];
 
   const filtered = PROMPTS_DATABASE.filter((p) => {
     const matchesCat = activeCategory === "ALL" || p.category === activeCategory;
