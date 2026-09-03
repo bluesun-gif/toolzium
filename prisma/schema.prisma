@@ -92,3 +92,18 @@ model Click {
   uaHash   String?
   ipHash   String?
 }
+
+model DailyContent {
+  id               Int      @id @default(autoincrement())
+  date             String   @unique // ISO date: "2026-09-03"
+  stories          Json     // [{title, summary, source, category, emoji}]
+  toolSpotlight    Json     // {name, url, description, whyToday}
+  aiTip            String   @db.Text
+  dailyFact        String   @db.Text
+  trendingSearches String[]
+  heroEmoji        String   @default("📰")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("daily_content")
+}

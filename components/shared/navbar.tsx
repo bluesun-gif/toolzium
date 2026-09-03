@@ -1,6 +1,6 @@
 "use client";
 
-import { LayoutGrid, Menu, Search, Wrench, Sparkles, User, UserCircle, Star, ArrowRight } from "lucide-react";
+import { LayoutGrid, Menu, Search, Wrench, Sparkles, User, UserCircle, Star, ArrowRight, Newspaper } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -43,6 +43,9 @@ export function Navbar() {
             <nav className="ml-4 hidden items-center gap-4 text-sm md:flex">
               <Link href="/tools" className="hover:opacity-80">
                 <ActionButton icon={Wrench} label="All Tools" variant="ghost" />
+              </Link>
+              <Link href="/daily" className="hover:opacity-80">
+                <ActionButton icon={Newspaper} label="Daily" variant="ghost" />
               </Link>
             </nav>
           </div>
@@ -92,6 +95,12 @@ export function Navbar() {
                       <Link href="/dashboard" className="rounded-xl p-3 hover:bg-muted flex items-center gap-2.5">
                         <User className="h-4 w-4 text-muted-foreground" />
                         My Account / Dashboard
+                      </Link>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <Link href="/daily" className="rounded-xl p-3 hover:bg-muted flex items-center gap-2.5">
+                        <Newspaper className="h-4 w-4 text-muted-foreground" />
+                        Daily Digest
                       </Link>
                     </SheetClose>
                   </div>

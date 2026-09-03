@@ -25,6 +25,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/security/ssl",
     "/alternatives",
     "/prompts",
+    "/daily",
   ];
 
   const staticEntries: MetadataRoute.Sitemap = staticRoutes.map((route) => ({
@@ -49,6 +50,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: "weekly" as const,
     priority: 0.85,
   }));
+
+  // Daily Digest Archive Pages (1 new SEO page per day — auto-grows forever)
+  let dailyEntries: MetadataRoute.Sitemap = [];
+  try {
+    const { prisma } = await import("@/lib/prisma");
+    const dates = await prisma.dailyContent.findMany({
+      select: { date: true },
+      orderBy: { date: "desc" },
+    });
+    dailyEntries = dates.map(({ date }) => ({
+      url: new URL(`/daily/${date}`, site).toString(),
+      lastModified: new Date(),
+      changeFrequency: "never" as const,
+      priority: 0.75,
+    }));
+  } catch {
+    dailyEntries = [];
+  }
+
 
   // Dynamically Generated Entity Pages (Phones, IPs, WHOIS, Usernames)
   const dynamicGeneratedPages: GeneratedPageRecord[] = getGeneratedPages();
@@ -187,10 +207,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   );
 
 
+
   return [
     ...staticEntries,
     ...alternativeEntries,
     ...promptEntries,
+    ...dailyEntries,
     ...programmaticEntries,
     ...preSeededPhoneEntries,
     ...tollFreeEntries,
