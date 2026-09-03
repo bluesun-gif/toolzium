@@ -167,9 +167,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.85,
   }));
 
+  // Private/admin routes that must never appear in sitemap
+  const PRIVATE_ROUTES = new Set(["/tools/analytics/growth"]);
+
   const toolEntries: MetadataRoute.Sitemap = ToolsData.flatMap((section) =>
     section.items
-      .filter((item) => !staticRoutes.includes(item.url) && item.url !== section.url)
+      .filter(
+        (item) =>
+          !staticRoutes.includes(item.url) &&
+          item.url !== section.url &&
+          !PRIVATE_ROUTES.has(item.url)
+      )
       .map((item) => ({
         url: new URL(item.url, site).toString(),
         lastModified: new Date(),
@@ -177,6 +185,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: item.popular ? 0.9 : 0.7,
       }))
   );
+
 
   return [
     ...staticEntries,
