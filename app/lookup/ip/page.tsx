@@ -24,6 +24,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import type { IpLookupResult } from "@/lib/data/adapters/ip-adapter";
+import { TrustBadgeStrip } from "@/components/tool-page-header";
 
 const SAMPLE_IPS = [
   { label: "Google Public DNS", ip: "8.8.8.8" },
@@ -129,6 +130,8 @@ export default function IpLookupHub() {
       ]}
     >
       <div className="space-y-6">
+      <TrustBadgeStrip badges={["free", "no-signup", "instant"]} usageCount={128} />
+
         {/* Search Header */}
         <Card className="rounded-3xl border-2 border-primary/20 bg-gradient-to-b from-card to-background shadow-xl overflow-hidden">
           <CardContent className="p-6 sm:p-10 space-y-6">

@@ -24,6 +24,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import type { PhoneLookupResult } from "@/lib/data/adapters/phone-adapter";
+import { TrustBadgeStrip } from "@/components/tool-page-header";
 
 const POPULAR_PHONE_SAMPLES = [
   { label: "IRS Impersonation Scam", number: "+1 (800) 829-1040" },
@@ -131,6 +132,8 @@ export default function PhoneLookupHub() {
       ]}
     >
       <div className="space-y-6">
+      <TrustBadgeStrip badges={["free", "no-signup", "anonymous", "instant"]} usageCount={184} showSecurityNote />
+
         {/* Hero Card */}
         <Card className="rounded-3xl border-2 border-primary/20 bg-gradient-to-b from-card to-background shadow-xl overflow-hidden">
           <CardContent className="p-6 sm:p-10 space-y-6">

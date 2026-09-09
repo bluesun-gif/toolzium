@@ -20,6 +20,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import type { PasswordPwnedResult } from "@/lib/data/adapters/breach-adapter";
+import { TrustBadgeStrip } from "@/components/tool-page-header";
 
 export default function PasswordBreachHub() {
   const [password, setPassword] = useState("");
@@ -112,6 +113,8 @@ export default function PasswordBreachHub() {
       ]}
     >
       <div className="space-y-6">
+      <TrustBadgeStrip badges={["free", "anonymous", "secure", "instant"]} usageCount={118} showSecurityNote />
+
         <Card className="rounded-3xl border-2 border-primary/20 bg-gradient-to-b from-card to-background shadow-xl overflow-hidden">
           <CardContent className="p-6 sm:p-10 space-y-6">
             <div className="text-center space-y-3 max-w-2xl mx-auto">
