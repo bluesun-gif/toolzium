@@ -19,6 +19,7 @@ const nextConfig: any = {
   },
     async redirects() {
     return [
+      { source: "/hermes", destination: "/ai-brain", permanent: true },
       { source: "/tools/ai/prompt optimizer", destination: "/tools/ai/prompt-optimizer", permanent: true },
       { source: "/tools/ai/prompt_optimizer", destination: "/tools/ai/prompt-optimizer", permanent: true },
       { source: "/tools/ai/promptoptimizer", destination: "/tools/ai/prompt-optimizer", permanent: true },

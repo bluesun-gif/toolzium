@@ -419,7 +419,7 @@ export default function WeekNumberClient() {
 
  params.set("sys", showUS ?"iso,us":"iso");
 
- const link = `${window.location.href}?${params.toString()}`;
+ const link = typeof window !== "undefined" ? `${window.location.href}?${params.toString()}` : "";
 
  const summaryLines = [
 

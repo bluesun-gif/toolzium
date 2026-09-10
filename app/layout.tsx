@@ -198,6 +198,11 @@ export default function RootLayout({
       className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrains.variable} scroll-smooth overflow-x-hidden`}
     >
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `if(typeof window!=='undefined'&&location.hostname.startsWith('www.')){location.replace(location.href.replace('www.',''));}`,
+          }}
+        />
         <GoogleTagManager />
         <link rel="manifest" href="/manifest.json" />
         <meta name="apple-mobile-web-app-capable" content="yes" />

@@ -243,7 +243,41 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ─── DAILY DIGEST PROMO ───────────────────────────────────────────── */}
+      <section className="mx-auto max-w-6xl px-4 pb-16">
+        <BlurFade delay={0.08} inView>
+          <Link href="/daily" className="group block">
+            <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-gradient-to-r from-primary/5 via-background to-purple-500/5 p-6 md:p-8 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300">
+              {/* Background glow */}
+              <div className="pointer-events-none absolute -right-20 -top-20 h-60 w-60 rounded-full bg-primary/10 blur-3xl" />
+              <div className="relative flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div className="flex items-start gap-4">
+                  <div className="text-4xl flex-shrink-0">📰</div>
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-xs font-semibold bg-primary/10 text-primary px-2 py-0.5 rounded-full">NEW · Updated Daily</span>
+                    </div>
+                    <h2 className="text-xl font-bold text-foreground mb-1.5 group-hover:text-primary transition-colors">
+                      Toolzium Daily — AI Tech Digest
+                    </h2>
+                    <p className="text-sm text-muted-foreground max-w-lg">
+                      Top AI &amp; tech stories, tool of the day, tips, and trending searches — curated automatically every morning at 6am by Hermes AI. No subscription needed.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex-shrink-0">
+                  <span className="inline-flex items-center gap-1.5 bg-primary text-primary-foreground text-sm font-semibold px-5 py-2.5 rounded-xl group-hover:bg-primary/90 transition-colors">
+                    Read Today&apos;s Digest <ArrowRight className="h-4 w-4" />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </Link>
+        </BlurFade>
+      </section>
+
       {/* ─── CATEGORIES ──────────────────────────────────────────────────── */}
+
       <section className="mx-auto max-w-6xl px-4 pb-16" aria-labelledby="categories-heading">
         <BlurFade delay={0.05} inView>
           <div className="flex items-center justify-between mb-6">
