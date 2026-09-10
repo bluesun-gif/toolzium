@@ -55,7 +55,7 @@ export default async function DailyPage() {
         <div className="text-center space-y-4">
           <div className="text-6xl">⏳</div>
           <h1 className="text-2xl font-bold">Content Loading...</h1>
-          <p className="text-muted-foreground">Hermes is preparing today&apos;s digest. Check back in a few minutes.</p>
+          <p className="text-muted-foreground">The Toolzium AI Brain is preparing today&apos;s digest. Check back in a few minutes.</p>
           <Link href="/tools" className="text-primary hover:underline">Browse tools while you wait →</Link>
         </div>
       </div>
@@ -84,7 +84,7 @@ export default async function DailyPage() {
         <div className="max-w-5xl mx-auto px-4 py-10">
           <div className="flex items-center gap-2 text-muted-foreground text-sm mb-3">
             <Bot className="w-4 h-4" />
-            <span>AI-curated by Hermes</span>
+            <span>AI-curated by the Toolzium AI Brain</span>
             <span className="mx-2">·</span>
             <Calendar className="w-4 h-4" />
             <time dateTime={dateStr}>{today}</time>
@@ -219,7 +219,7 @@ export default async function DailyPage() {
         <div className="border-t pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <RefreshCw className="w-4 h-4" />
-            <span>Content updated daily at 6:00 AM by Hermes AI</span>
+            <span>Content updated daily at 6:00 AM by the Toolzium AI Brain</span>
           </div>
           <div className="flex gap-3">
             <Link href="/tools" className="text-sm text-primary hover:underline">

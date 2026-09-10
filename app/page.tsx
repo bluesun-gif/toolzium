@@ -261,7 +261,7 @@ export default function HomePage() {
                       Toolzium Daily — AI Tech Digest
                     </h2>
                     <p className="text-sm text-muted-foreground max-w-lg">
-                      Top AI &amp; tech stories, tool of the day, tips, and trending searches — curated automatically every morning at 6am by Hermes AI. No subscription needed.
+                      Top AI &amp; tech stories, tool of the day, tips, and trending searches — curated automatically every morning at 6am by the Toolzium AI Brain. No subscription needed.
                     </p>
                   </div>
                 </div>

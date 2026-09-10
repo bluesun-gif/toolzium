@@ -18,7 +18,7 @@ export async function GET() {
 
     if (!content) {
       return NextResponse.json(
-        { error: "No daily content yet. Hermes publishes every morning at 6am!" },
+        { error: "No daily content yet. The AI Brain publishes every morning at 6am!" },
         { status: 404 }
       );
     }

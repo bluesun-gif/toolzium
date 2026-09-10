@@ -17,7 +17,7 @@ export async function generateMetadata(
   });
   return {
     title: `Daily Digest — ${formatted} | Toolzium`,
-    description: `AI & tech news digest for ${formatted}. Curated by Hermes AI.`,
+    description: `AI & tech news digest for ${formatted}. Curated by the Toolzium AI Brain.`,
     alternates: { canonical: `https://toolzium.com/daily/${date}` },
   };
 }
@@ -57,7 +57,7 @@ export default async function DailyArchivePage(
 
       <div className="mb-8">
         <div className="flex items-center gap-2 text-muted-foreground text-sm mb-2">
-          <Bot className="w-4 h-4" /><span>Hermes Daily Archive</span>
+          <Bot className="w-4 h-4" /><span>Toolzium Daily Archive</span>
           <span>·</span>
           <Calendar className="w-4 h-4" /><time dateTime={date}>{formatted}</time>
         </div>
